@@ -38,6 +38,12 @@
 
   <packaging>pom</packaging>
 
+  <scm>
+    <connection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</connection>
+    <url>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</url>
+    <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
+  </scm>
+
   <repositories>
     <!-- Bamboo is here to retrieve the coin-master pom -->
     <repository>
