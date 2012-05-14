@@ -1,0 +1,64 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* table + paginator combo */
+
+.table-above-pagination {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.pagination-below-table {
+    background-color: #d8dadc;
+    border: 1px solid #bfbfbf;
+    border-top: 0;
+}
+
+/* icons */
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-size: 16px;
+    color: #0381a4;
+}
+
+[class="icon-ok"]:before {
+	color: #008000;
+}
+
+[class="icon-ban-circle"]:before {
+    color: #B22222;
+}
+
+.btn [class^="icon-"]:before {
+    font-size: 13px;
+    color: inherit;
+}
+
+a:hover [class^="icon-"]:before,
+a:hover [class*=" icon-"]:before {
+    color:#005580;
+}
+
+a[rel="tooltip"]:hover {
+    text-decoration: none;
+}
+
+/* Overwrite for the datepicker + dropdown combo width (otherwise 100%) */
+
+.datepicker.dropdown-menu {
+    width: auto;
+}

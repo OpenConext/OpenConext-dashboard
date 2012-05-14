@@ -1,0 +1,57 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* pagination (inherited from bootstrap) */
+
+.pagination {
+    margin: 0;
+    height: auto;
+    padding-top: 4px;
+}
+
+.pagination ul li a,
+.pagination ul li:first-child a,
+.pagination ul li:last-child a {
+    line-height: 24px;
+    padding: 0 8px;
+    border-radius: 5px;
+    border: none;
+}
+
+.pagination ul {
+    margin-left: 8px;
+    box-shadow: none;
+}
+
+.pagination li:first-child a,
+.pagination li:last-child a {
+    background-color: #0381a4;
+    color: #FFF;
+}
+
+.pagination ul li.disabled a {
+    background-color: #f1f1f1;
+    color: #a8a8a9;
+}
+
+.pagination ul li.disabled a:hover {
+    background-color: #f1f1f1;
+}
+
+.pagination .active a {
+    color: #2b2c2c;
+    background-color: inherit;
+}

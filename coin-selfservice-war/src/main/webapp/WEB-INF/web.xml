@@ -64,6 +64,11 @@
     <url-pattern>/js/coin-selfservice.js</url-pattern>
   </servlet-mapping>
 
+  <servlet-mapping>
+    <servlet-name>coin-selfservice</servlet-name>
+    <url-pattern>/css/coin-selfservice.css</url-pattern>
+  </servlet-mapping>
+
 
   <session-config>
     <session-timeout>60</session-timeout>

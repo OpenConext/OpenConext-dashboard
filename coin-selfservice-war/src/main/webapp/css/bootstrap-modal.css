@@ -1,0 +1,58 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.modal-header {
+    background-color: #4fb3cf;
+    color: #FFF;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+}
+
+.modal-body [class*="icon-"]:before  {
+    font-size: 50px;
+    float: left;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+.modal-body .icon-remove-sign:before {
+    color: #B94A48;
+}
+
+.modal-body .icon-ok-sign:before {
+    color: green;
+}
+
+.modal-body .icon-exclamation-sign:before {
+    color: #C09853;
+}
+
+.modal-body p {
+    margin-left: 60px;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.modal-relative {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin: 80px auto;
+}

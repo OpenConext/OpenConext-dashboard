@@ -1,0 +1,107 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* Forms + form-like sections */
+
+.form {
+    background-color: #FFF;
+    border: 1px solid #BFBFBF;
+    max-width: 600px;
+}
+
+.form .message {
+    background-color: #cae8f0;
+    padding: 0.4em 40px;
+    margin-bottom: 1em;
+}
+
+.form .message h3,
+.form .message p {
+    margin-bottom: 0;
+}
+
+.form:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.form > p {
+    margin: 0 0 1em 3em;
+}
+
+/* Inline form-like elements without table underneath (empty result sets) */
+
+.form-inline {
+    margin-bottom: 1em;
+}
+
+/* Default forms */
+
+.form-horizontal {
+    padding-top: 1.5em;
+}
+
+.form-horizontal .control-label {
+    width: 200px;
+}
+
+.form-horizontal .controls {
+    margin-left: 220px;
+}
+
+.form-horizontal output {
+    display: inline-block;
+    padding-top: 5px;
+    margin-bottom: 5px;
+}
+
+.input-date {
+    width: 188px;
+}
+
+.input-time {
+    width: 219px;
+}
+
+.input-date-with-time {
+    width: 77px;
+}
+
+.input-time-with-date {
+    width: 45px;
+}
+
+.add-on {
+    color: #666;
+}
+
+input[disabled] + .add-on {
+    color: #CCC;
+}
+
+select.input-xlarge {
+    width: 280px;
+}
+
+.checkbox.inline + .radio.inline,
+.radio.inline + .checkbox.inline {
+    margin-left: 10px;
+}
+
+.form-horizontal .controls {
+    *margin-left: 0; /* IE7-only hack */
+}

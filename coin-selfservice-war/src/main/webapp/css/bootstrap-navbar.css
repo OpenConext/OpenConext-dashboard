@@ -1,0 +1,68 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* navbar (inherited from bootstrap) */
+
+.navbar {
+    font-size: 15px;
+}
+
+.navbar-inner {
+    background-image: none;
+    filter: none;
+    padding-left: 0;
+    box-shadow: none;
+    border-radius: 8px;
+}
+
+.navbar .nav > li > a {
+    color: #002f3c;
+    text-shadow: none;
+    padding: 18px 20px;
+    position: relative;
+    letter-spacing: 0.4px;
+}
+
+.navbar .nav > li > a:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.navbar-inner,
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover {
+    background-color: #4fb3cf;
+}
+
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover,
+.navbar .nav > li > a:hover {
+    color: #FFF;
+}
+
+.navbar .nav .active > a:after,
+.navbar .nav .active > a:hover:after,
+.navbar .nav > li > a:hover:after {
+    content: "";
+    position: absolute;
+    left: 41%;
+    bottom:0;
+    width:0;
+    height:0;
+    border-color: #FFF transparent;
+    border-style: solid;
+    border-width: 0 12px 12px;
+}

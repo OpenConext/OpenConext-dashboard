@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control;
+.btn-primary {
+	color: #fff;
+	text-shadow: none;
+	background-color: #0381a4;
+    background-image: -webkit-linear-gradient(top, #4FB3CF, #0381a4);
+    background-image: -moz-linear-gradient(top, #4FB3CF, #0381a4);
+    background-image: -ms-linear-gradient(top, #4FB3CF, #0381a4);
+    background-image: -o-linear-gradient(top, #4FB3CF, #0381a4);
+    background-image: linear-gradient(top, #4FB3CF, #0381a4);
+}
 
-import org.junit.Test;
+.btn-primary:hover {
+	color: #fff;
+	background-color: #0381a4;
+}
 
-import static junit.framework.Assert.assertEquals;
-
-/**
- * Test for {@link JsController}
- */
-public class JsControllerTest {
-
-  @Test
-  public void testJs() throws Exception {
-    JsController controller = new JsController();
-    String view = controller.js();
-    assertEquals("js", view);
-  }
+.btn:hover [class^="icon-"]:before,
+.btn:hover [class*=" icon-"]:before {
+    color: inherit;
 }

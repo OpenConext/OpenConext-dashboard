@@ -14,20 +14,38 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control;
+var app = {};
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+app.modules = [];
 
-/**
-Handles Javascript
- */
-@Controller
-public class JsController {
+app.register = function(module) {
 
-  @RequestMapping("/js/coin-selfservice.js")
-  public String js() {
-    return "js";
-  }
+    app.modules[app.modules.length] = module;
 
 }
+
+app.bootstrap = function() {
+
+    $.each(app.modules, function(i, module) {
+        if(typeof module.init === 'function') {
+            module.init.call(module);
+        }
+    })
+
+}
+
+app.loadPlugin = function(condition, url, callback) {
+
+    if(condition) {
+
+        $.getScript(url, callback);
+
+    } else {
+
+        callback.call();
+
+    }
+
+}
+
+$(app.bootstrap);

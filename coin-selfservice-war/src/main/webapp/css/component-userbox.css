@@ -1,0 +1,100 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* user-box (top right user selection dropdown) */
+
+.user-box {
+    font-size: 11px;
+    border-radius: 8px;
+}
+
+.user-box .logout {
+    float: right;
+    text-decoration: none;
+}
+
+.user-box .icon-signout:before {
+    font-size: 11px;
+}
+
+.user-box .user {
+    padding-left: 40px;
+    background: url("../images/icons-users.png");
+    background-repeat: no-repeat;
+}
+
+.user-box .dropdown ul {
+    margin: 0;
+    list-style: none;
+}
+
+.user-box .dropdown li {
+    clear:left;
+    cursor: pointer;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    border-bottom: 1px solid #EEE;
+}
+
+.user-box .dropdown li:last-child {
+    border-bottom: none;
+}
+
+.user-box .dropdown li:hover {
+    background-color: #EBEBEB;
+}
+
+.user-box .dropdown .user {
+    display: table-cell;
+    vertical-align: middle;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.user-box .dropdown .user,
+.user-box .dropdown-toggle {
+    height: 3.273em; /* 36/11px ~ 3.273em */
+}
+
+.user-box .user-role-default > .user {
+    background-position: 3px -105px;
+}
+
+.user-box .user-role-manager > .user {
+    background-position: 3px 6px;
+}
+
+.user-box .user-role-user > .user {
+    background-position: 3px -68px;
+}
+.user-box .user-role-noc > .user {
+    background-position: 3px -31px;
+}
+
+/* dev menu (only visible if dev is enabled) */
+.dev-nav {
+    display: inline;
+    list-style-type: none;
+}
+.dev-nav li {
+    display: inline;
+}
+.dev-nav li:first-child:before,
+.dev-nav li:after {
+    content: "|";
+}
