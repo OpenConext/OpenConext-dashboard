@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2012 SURFnet bv, The Netherlands
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+  <mvc:annotation-driven/>
+
+  <context:component-scan base-package="nl.surfnet.coin.selfservice"/>
+
+  <bean id="log4jInitialization"
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
+    <property name="targetMethod" value="initLogging"/>
+    <property name="arguments">
+      <list>
+        <value>classpath:log4j.xml</value>
+        <value>5000</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+    <!-- Set the default Locale to English -->
+    <property name="defaultLocale" value="en_EN"/>
+  </bean>
+
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close">
+    <property name="driverClass" value="${coin-api.jdbc.driver}"/>
+    <property name="jdbcUrl" value="${coin-api.jdbc.url}"/>
+    <property name="user" value="${coin-api.jdbc.user}"/>
+    <property name="password" value="${coin-api.jdbc.password}"/>
+    <property name="initialPoolSize" value="1"/>
+    <property name="maxPoolSize" value="20"/>
+    <property name="minPoolSize" value="1"/>
+    <property name="acquireIncrement" value="2"/>
+    <property name="acquireRetryAttempts" value="15"/>
+    <property name="idleConnectionTestPeriod"
+              value="${coin-api.database.idleConnectionTestPeriod}"/>
+    <property name="maxIdleTime" value="${coin-api.database.maxIdleTime}"/>
+  </bean>
+
+  <bean id="logService" class="nl.surfnet.coin.shared.log.ApiCallLogServiceImpl">
+    <constructor-arg ref="dataSource"/>
+  </bean>
+
+  <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
+    <property name="baseDir" value="${coin-api.db.migrations.folder}"/>
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+</beans>

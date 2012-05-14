@@ -1,0 +1,224 @@
+<!--
+  Copyright 2012 SURFnet bv, The Netherlands
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>coin-selfservice-parent</artifactId>
+    <groupId>org.surfnet.coin</groupId>
+    <version>2.6.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.surfnet.coin</groupId>
+  <artifactId>coin-selfservice-war</artifactId>
+  <packaging>war</packaging>
+  <name>OpenConext : coin-selfservice-war</name>
+
+  <properties>
+    <coin-shared.version>2.6.0-SNAPSHOT</coin-shared.version>
+    <coin-test.version>2.3.0</coin-test.version>
+    <coin-master.test-dependencies.version>2.6.0-SNAPSHOT</coin-master.test-dependencies.version>
+    <flyway.version>1.6.1</flyway.version>
+    <c3p0.version>0.9.1.2</c3p0.version>
+    <hsqldb.version>2.2.8</hsqldb.version>
+    <jackson.version>[1.9.7,2.0)</jackson.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.googlecode.flyway</groupId>
+        <artifactId>flyway-core</artifactId>
+        <version>${flyway.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>c3p0</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>${c3p0.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-c3p0</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>${hsqldb.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.surfnet.coin</groupId>
+      <artifactId>coin-shared</artifactId>
+      <version>${coin-shared.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+    </dependency>
+    <!-- Hibernate c3p0 connection pool -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-c3p0</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.flyway</groupId>
+      <artifactId>flyway-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!-- The next two slf4j dependencies are the ones we want to use. Other
+ will be excluded. -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+
+    <!-- test local -->
+    <dependency>
+      <groupId>org.surfnet.coin</groupId>
+      <artifactId>coin-test</artifactId>
+      <version>${coin-test.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.surfnet.coin</groupId>
+      <artifactId>coin-master-test-dependencies</artifactId>
+      <version>${coin-master.test-dependencies.version}</version>
+      <type>pom</type>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>hsqldb</groupId>
+          <artifactId>hsqldb</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.googlecode.flyway</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <configuration>
+          <user>foo</user>
+          <password>bar</password>
+          <url>jdbc:hsqldb:file:${project.build.directory}/db/coin_api;shutdown=true</url>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <configuration>
+          <webAppConfig>
+            <contextPath>/selfservice</contextPath>
+            <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
+            <defaultsDescriptor>${basedir}/src/test/resources/jettywebdefault.xml</defaultsDescriptor>
+          </webAppConfig>
+          <connectors>
+            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+              <port>8280</port>
+              <host>0.0.0.0</host>
+            </connector>
+          </connectors>
+          <stopKey>stopselfservice</stopKey>
+          <stopPort>9280</stopPort>
+          <scanIntervalSeconds>3</scanIntervalSeconds>
+          <useTestClasspath>true</useTestClasspath>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.surfnet.coin</groupId>
+            <artifactId>coin-master-test-dependencies</artifactId>
+            <version>${coin-master.test-dependencies.version}</version>
+            <type>pom</type>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>${maven.plugin.eclipse.version}</version>
+        <configuration>
+          <ajdtVersion>none</ajdtVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>${maven.plugin.antrun.version}</version>
+        <executions>
+          <execution>
+            <id>replace-version</id>
+            <phase>test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="coin-selfservice-version" value="${project.version}"/>
+                <ant target="build" inheritRefs="true"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
