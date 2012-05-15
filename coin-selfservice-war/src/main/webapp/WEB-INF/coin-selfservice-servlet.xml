@@ -45,6 +45,20 @@
     <property name="basename" value="messages"/>
   </bean>
 
+  <bean id="annotationMapper"
+        class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+    <property name="interceptors">
+      <list>
+        <ref bean="featureInterceptor"/>
+      </list>
+    </property>
+    <property name="alwaysUseFullPath" value="true"/>
+  </bean>
+
+
+  <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
+    <property name="dev" value="${mode.dev}"/>
+  </bean>
 
   <bean id="messageAdapter"
         class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

@@ -39,7 +39,8 @@ coin-errormail-to=surfconext-beheer@surfnet.nl
 ## The following properties are used to enable/disable features
 ##
 ####################################################################
-
+# Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
+mode.dev=false
 
 ##########################################################################
 # The following properties are the responsibility of development. The    #

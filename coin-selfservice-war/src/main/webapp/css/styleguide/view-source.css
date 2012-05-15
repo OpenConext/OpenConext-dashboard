@@ -1,0 +1,69 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.view-source-button {
+    position: absolute;
+    bottom: 0;
+    right: 3px;
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+#source-code {
+    z-index: 7000;
+    display: none;
+    text-align: left;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+}
+#source-code:target {
+    display:block;
+}
+#source-code pre {
+    padding: 20px;
+    font: 14px/1.6 Monaco,Courier,MonoSpace;
+    margin: 50px auto;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    width: 80%;
+    height: 80%;
+    overflow: auto
+}
+#source-code pre a, #source-code pre a span {
+    text-decoration :none;
+    color: #0cf !important
+}
+#x {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+}
+
+.str{color:#61ff74}
+.kwd{color:white}
+.com{color:white}
+.typ{color:#f1915d}
+.lit{color:white}
+.pun{color:white}
+.pln{color:#ffef97}
+.tag{color:#ffab58}
+.atn{color:#fabb4e}
+.atv{color:#ffd996}
+.dec{color:red}
