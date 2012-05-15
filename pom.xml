@@ -21,6 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
   <modules>
     <module>coin-selfservice-war</module>
+    <module>coin-selfservice-dist</module>
   </modules>
 
   <parent>
