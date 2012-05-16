@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2012 SURFnet bv, The Netherlands
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.surffederatie.nl/namespaces/fedcfg"
+    xmlns:fedcfg="http://www.surffederatie.nl/namespaces/fedcfg">
+    <xs:element name="Config" type="fedcfg:ConfigType">
+        <xs:annotation>
+            <xs:documentation>Identity Provider (IdP) and Service Provider (SP) configuration of the SURFfederatie gateway.</xs:documentation>
+        </xs:annotation>
+        <xs:key name="IdPIDKey">
+            <xs:annotation>
+                <xs:documentation>IdP ID is unique</xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="fedcfg:IdP"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+        <xs:key name="SPIDKey">
+            <xs:annotation>
+                <xs:documentation>SP Id is unique</xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="fedcfg:SP"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+        <xs:keyref name="IdPIDKeyref" refer="fedcfg:IdPIDKey">
+            <xs:annotation>
+                <xs:documentation>IdPRef must contain an existing IdP ID</xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="fedcfg:SP/fedcfg:ACL/fedcfg:IdPRef"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+    </xs:element>
+    <xs:complexType name="ConfigType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="IdP" type="fedcfg:IdPType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="SP" type="fedcfg:SPType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="IdPType">
+        <xs:sequence>
+            <xs:element maxOccurs="1" minOccurs="1" name="InstitutionID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of the institution that is responsible for the IdP as known in the SURFnet instellingen diensten database (IDD)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Friendly name of the IdP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="HomeURL" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>Homepage of the IdP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="LogoURL" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>Homepage of the IdP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="MetadataURL" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>URL to the Metadata published by the SP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="SSOLocation" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>Single-sign-on location</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="SLOLocation" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>Single-logout-location</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="ContactPerson"
+                type="fedcfg:ContactPersonType">
+                <xs:annotation>
+                    <xs:documentation>Contact persons at the IdP. Typically a technical and an administrative contact is supplied.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Unique ID of the IdP. This is the SAML EntityID or A-Select OrganizationID by which the IdP is known to the gateway.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute default="true" name="display" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation>When set to false the IdP is not shown in the WAYF displayed by the gateway</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type">
+            <xs:annotation>
+                <xs:documentation>Protocol used between the gateway and the IdP</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="saml20"/>
+                    <xs:enumeration value="aselect"/>
+                    <xs:enumeration value="wsfed1x"/>
+                    <xs:enumeration value="proxy"/>
+                    <xs:enumeration value="radius"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="SPType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Friendly name of the SP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="HomeURL" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>Homepage of the SP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="LogoURL" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>URL to the logo of the SP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="MetadataURL" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>URL to the Metadata published by the SP</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="ContactPerson"
+                type="fedcfg:ContactPersonType">
+                <xs:annotation>
+                    <xs:documentation>Contact persons at the SP. Typically a technical and an administrative contact is supplied.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="ACL" type="fedcfg:ACLType">
+                <xs:annotation>
+                    <xs:documentation>When present access to the SP is restricted to the IdPs listed here. When not present any IdP is allowed access.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="ARP" type="fedcfg:ARPType">
+                <xs:annotation>
+                    <xs:documentation>The Attribute Release Policy specifies the attributes that may be released (passed from IdP to SP). It acts as a filter. Only the attributes present in the ARP are passed on.
+When the ARP element is not present no ARP applies and all attributes received from the IdP are passed on.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Unique ID of the SP. This is the SAML EntityID or A-Select OrganizationID by which the SP is known to the gateway.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type">
+            <xs:annotation>
+                <xs:documentation>Protocol used between the gateway and the SP</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="saml20"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="ContactPersonType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="EmailAddress" type="xs:string"/>
+            <xs:element minOccurs="0" name="TelephoneNumber" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="contactType">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="technical">
+                        <xs:annotation>
+                            <xs:documentation>Technical contact</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="administrative">
+                        <xs:annotation>
+                            <xs:documentation>Administrative contact</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="help">
+                        <xs:annotation>
+                            <xs:documentation>End-user helpdesk contact</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="ACLType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="IdPRef" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ARPType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="Attribute" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Specifies an urn of a SAML attribute</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="idpid" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>When not present the ARP applies to all IdPs. 
+When present the ARP further restricts the ARP for the specified IdP. </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>
