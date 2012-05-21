@@ -23,7 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
   @RequestMapping("/home.shtml")
-  public String start() {
+  public String home() {
     return "home";
   }
+
+  @RequestMapping("/styleguide.shtml")
+  public String styleguide() {
+    return "styleguide";
+  }
+
 }
