@@ -19,6 +19,10 @@
 # values depend on the environment and are unknown to the developers     #
 ##########################################################################
 
+janus.user=??
+janus.secret=??
+janus.uri=https://serviceregistry.acc.surfconext.nl/simplesaml/module.php/janus/services/rest/
+
 # "own" database, for storing oauth tokens etc.
 coin-api.jdbc.url=jdbc:mysql://db.acc.surfconext.nl:3306/api
 coin-api.jdbc.user=??
