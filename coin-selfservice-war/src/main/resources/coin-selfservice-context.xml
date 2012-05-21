@@ -68,7 +68,9 @@
   <bean id="providerService" class="nl.surfnet.coin.selfservice.service.impl.CompositeProviderService">
     <property name="providerServices">
       <list>
+        <!--
         <bean class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService" />
+        -->
         <bean class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService" />
       </list>
     </property>
@@ -80,4 +82,14 @@
     <property name="secret" value="${janus.secret}" />
   </bean>
 
+<!--
+  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <property name="cacheManager" ref="ehcache" />
+  </bean>
+
+  <bean id="ehcache"
+        class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <property name="configLocation" value="classpath:selfservice-ehcache.xml" />
+  </bean>
+-->
 </beans>

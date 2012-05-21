@@ -19,6 +19,8 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.service.ProviderService;
 
@@ -33,8 +35,12 @@ public class CompositeProviderService implements ProviderService {
   public List<Provider> getProviders(String idpId) {
     List<Provider> ret = new ArrayList<Provider>();
     for (ProviderService p : providerServices) {
-      ret.addAll(p.getProviders(idpId));
+      final List<Provider> providers = p.getProviders(idpId);
+      if (CollectionUtils.isNotEmpty(providers)) {
+        ret.addAll(providers);
+      }
     }
+
     return ret;
   }
 

@@ -22,6 +22,9 @@ import java.util.List;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  * Abstract class for either ServiceProvider or IdentityProvider
  */
@@ -102,4 +105,11 @@ public abstract class Provider {
     this.contactPersons.add(contactPerson);
   }
 
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("name", name)
+        .append("type", type)
+        .append("id", getId())
+        .toString();
+  }
 }

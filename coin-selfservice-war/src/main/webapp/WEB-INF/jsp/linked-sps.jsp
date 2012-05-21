@@ -26,7 +26,11 @@
 
     This is a list of Service Providers that have been linked to your Identity Provider:
 
-
+    <div class="modal modal-relative">
+      <div class="modal-body">
+      ${sps}
+      </div>
+    </div>
 
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>

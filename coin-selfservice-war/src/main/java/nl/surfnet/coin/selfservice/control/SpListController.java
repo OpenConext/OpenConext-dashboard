@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.service.ProviderService;
@@ -30,13 +31,13 @@ import nl.surfnet.coin.selfservice.service.ProviderService;
 @Controller
 public class SpListController {
 
-  private final static String idpId = "myidpid"; // TODO: get from context?
 
   @Resource(name="providerService")
   private ProviderService providerService;
 
   @RequestMapping(value="/linked-sps.shtml")
-  public ModelAndView listAllSps() {
+  // TODO: replace idp parameter with security-context-provided one.
+  public ModelAndView listAllSps(@RequestParam(value="idp", defaultValue="idpentity1") String idpId) {
     Map<String, Object> m = new HashMap<String, Object>();
 
     m.put("sps", providerService.getProviders(idpId));

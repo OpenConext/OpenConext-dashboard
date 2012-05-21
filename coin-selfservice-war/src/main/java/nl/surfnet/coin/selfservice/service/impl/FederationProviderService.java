@@ -16,14 +16,50 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import nl.surfnet.coin.selfservice.domain.Provider;
-import nl.surfnet.coin.selfservice.service.ProviderService;
+import com.thoughtworks.xstream.XStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+import nl.surfnet.coin.selfservice.domain.FederatieConfig;
+import nl.surfnet.coin.selfservice.domain.Provider;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.ProviderService;
+import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
+
+/**
+ * Provider Service seeded with xml config from federation.
+ */
 public class FederationProviderService implements ProviderService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(FederationProviderService.class);
+  private FederatieConfig federatieConfig;
+
+  public FederationProviderService() {
+    final XStream xStream = XStreamFedConfigBuilder.getXStreamForFedConfig(true);
+    Resource resource = new ClassPathResource("fedcfg.xml");
+    try {
+      federatieConfig = (FederatieConfig) xStream.fromXML(resource.getInputStream());
+    } catch (IOException e) {
+      LOG.error("While reading fedcfg.xml", e);
+    }
+  }
+
   @Override
+//  @Cacheable(value = { "sps-federation" })
   public List<Provider> getProviders(String idpId) {
-    return null;
+    List<Provider> providers = new ArrayList<Provider>();
+    for (ServiceProvider sp : federatieConfig.getSps()) {
+      if (sp.getAcl() != null && sp.getAcl().getIdpRefs() != null && sp.getAcl().getIdpRefs().contains(idpId)) {
+        providers.add(sp);
+      }
+    }
+    return providers;
   }
 }

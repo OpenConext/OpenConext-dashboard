@@ -19,7 +19,30 @@
             xsi:schemaLocation="http://www.surffederatie.nl/namespaces/fedcfg fedcfg.xsd">
   <fed:IdPs>
     <!--Zero or more repetitions:-->
-    <fed:IdP id="string" display="true" type="proxy">
+    <fed:IdP id="idpidentity1" display="true" type="proxy">
+      <fed:InstitutionID>string</fed:InstitutionID>
+      <fed:Name>string</fed:Name>
+      <!--Optional:-->
+      <fed:HomeURL>http://www.company.org/sonoras/aeoliam</fed:HomeURL>
+      <!--Optional:-->
+      <fed:LogoURL>http://www.any.com/verrantque/temperat</fed:LogoURL>
+      <!--Optional:-->
+      <fed:MetadataURL>http://www.any.com/circum/regemque</fed:MetadataURL>
+      <!--Optional:-->
+      <fed:SSOLocation>http://www.test.com/foedere/ferant</fed:SSOLocation>
+      <!--Optional:-->
+      <fed:SLOLocation>http://www.corp.org/et/turbine</fed:SLOLocation>
+      <fed:ContactPersons>
+        <!--Zero or more repetitions:-->
+        <fed:ContactPerson contactType="help">
+          <fed:Name>string</fed:Name>
+          <fed:EmailAddress>string</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+        </fed:ContactPerson>
+      </fed:ContactPersons>
+    </fed:IdP>
+    <fed:IdP id="idpidentity2" display="true" type="proxy">
       <fed:InstitutionID>string</fed:InstitutionID>
       <fed:Name>string</fed:Name>
       <!--Optional:-->
@@ -65,7 +88,34 @@
       <!--Optional:-->
       <fed:ACL>
         <!--Zero or more repetitions:-->
-        <fed:IdPRef>string</fed:IdPRef>
+        <fed:IdPRef>idpentity1</fed:IdPRef>
+      </fed:ACL>
+      <!--Zero or more repetitions:-->
+      <fed:ARP idpid="string">
+        <!--Zero or more repetitions:-->
+        <fed:Attribute>string</fed:Attribute>
+      </fed:ARP>
+    </fed:SP>
+    <fed:SP id="string2" type="radius">
+      <fed:Name>string 2</fed:Name>
+      <!--Optional:-->
+      <fed:HomeURL>http://www.sample.com/bella/nubibus</fed:HomeURL>
+      <!--Optional:-->
+      <fed:LogoURL>http://www.corp.gov/hoc/rapidum</fed:LogoURL>
+      <!--Optional:-->
+      <fed:MetadataURL>http://www.any.gov/speluncis/circum</fed:MetadataURL>
+      <fed:ContactPersons>
+        <!--Zero or more repetitions:-->
+        <fed:ContactPerson contactType="technical">
+          <fed:Name>string</fed:Name>
+          <fed:EmailAddress>string</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+        </fed:ContactPerson>
+      </fed:ContactPersons>
+      <!--Optional:-->
+      <fed:ACL>
+        <!--Zero or more repetitions:-->
       </fed:ACL>
       <!--Zero or more repetitions:-->
       <fed:ARP idpid="string">

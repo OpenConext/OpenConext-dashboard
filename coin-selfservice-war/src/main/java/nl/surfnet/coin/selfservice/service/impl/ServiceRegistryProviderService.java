@@ -32,6 +32,7 @@ public class ServiceRegistryProviderService implements ProviderService {
   private Janus janusClient;
 
   @Override
+//  @Cacheable(value = { "sps-janus" })
   public List<Provider> getProviders(String idpId) {
     final List<String> sps = janusClient.getAllowedSps(idpId);
     List<Provider> spList = new ArrayList<Provider>();
