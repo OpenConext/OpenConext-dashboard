@@ -15,7 +15,13 @@
   --%>
 
 <jsp:include page="header.jsp">
-    <jsp:param name="activeSection" value="home" />
+  <jsp:param name="activeSection" value="home"/>
 </jsp:include>
-Foobar.
-<jsp:include page="footer.jsp" />
+<section>
+  <div class="content">
+
+    <h3>Home</h3>
+    Welcome to the Idp Self Service Station.
+  </div>
+</section>
+<jsp:include page="footer.jsp"/>

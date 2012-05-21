@@ -27,29 +27,6 @@
     This is a list of Service Providers that have been linked to your Identity Provider:
 
 
-    <!-- filter -->
-<!--
-    <form method="POST" class="form-inline" action="#">
-      <label>Filter</label>
-      <input type="text" class="input-small">
-      <select class="input-small">
-        <option>Allocated</option>
-        <option>Unallocated</option>
-      </select>
-      <button class="btn" type="submit">Filter</button>
-      <label class="radio inline">
-        <input type="radio" value="used" name="show"> Show used
-      </label>
-      <label class="radio inline">
-        <input type="radio" value="used" name="show"> Show all
-      </label>
-      <label class="checkbox inline">
-        <input type="checkbox" value="toggle"> Toggle
-      </label>
-    </form>
--->
-
-    <!-- b:table b:table-bordered b:table-striped -->
 
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
@@ -57,7 +34,9 @@
         <th>Id</th>
         <th>Description</th>
         <th>Since</th>
+        <th class="cw55 center">Enabled</th>
         <th class="cw55 center">Active</th>
+        <th class="cw55 small center">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -66,6 +45,10 @@
         <td>Google apps for Education</td>
         <td>05/21/2012</td>
         <td class="center"><i class="icon-ok"></i></td>
+        <td class="center"><i class="icon-ok"></i></td>
+        <td class="center">
+          <a href="#" rel="tooltip" data-type="info" title="Edit"><i class="icon-pencil"></i></a>
+        </td>
       </tr>
       </tbody>
     </table>

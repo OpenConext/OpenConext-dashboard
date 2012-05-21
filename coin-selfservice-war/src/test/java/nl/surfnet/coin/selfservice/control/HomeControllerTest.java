@@ -35,7 +35,7 @@ public class HomeControllerTest {
 
   @Test
   public void testStart() throws Exception {
-    final String view = controller.start();
+    final String view = controller.home();
     assertEquals("home", view);
   }
 }
