@@ -32,10 +32,4 @@ public class HomeController {
     return "styleguide";
   }
 
-
-  @RequestMapping("/linked-sps.shtml")
-  public String linkedSps() {
-    return "linked-sps";
-  }
-
 }

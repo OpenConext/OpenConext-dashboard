@@ -23,7 +23,7 @@ import nl.surfnet.coin.selfservice.service.ProviderService;
 
 public class FederationProviderService implements ProviderService {
   @Override
-  public List<Provider> getProviders() {
+  public List<Provider> getProviders(String idpId) {
     return null;
   }
 }

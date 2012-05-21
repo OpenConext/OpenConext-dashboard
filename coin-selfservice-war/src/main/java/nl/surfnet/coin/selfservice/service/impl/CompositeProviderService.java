@@ -19,27 +19,27 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.selfservice.domain.Provider;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ProviderService;
 
-public class ServiceRegistryProviderService implements ProviderService {
+/**
+ * Provider Service that can query multiple ProviderServices and will combine the results.
+ */
+public class CompositeProviderService implements ProviderService {
 
-  @Resource(name="janusClient")
-  private Janus janusClient;
+  private List<ProviderService> providerServices;
 
   @Override
   public List<Provider> getProviders(String idpId) {
-    final List<String> sps = janusClient.getAllowedSps(idpId);
-    List<Provider> spList = new ArrayList<Provider>();
-    for (String spname : sps) {
-      // TODO: enrich the sp
-      ServiceProvider sp = new ServiceProvider(spname, spname);
-      spList.add(sp);
+    List<Provider> ret = new ArrayList<Provider>();
+    for (ProviderService p : providerServices) {
+      ret.addAll(p.getProviders(idpId));
     }
-    return spList;
+    return ret;
   }
+
+  public void setProviderServices(List<ProviderService> providerServices) {
+    this.providerServices = providerServices;
+  }
+
 }

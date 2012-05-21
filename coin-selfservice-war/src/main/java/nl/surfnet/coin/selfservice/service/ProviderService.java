@@ -22,6 +22,6 @@ import nl.surfnet.coin.selfservice.domain.Provider;
 
 public interface ProviderService {
 
-  List<Provider> getProviders();
+  List<Provider> getProviders(String idpId);
 
 }

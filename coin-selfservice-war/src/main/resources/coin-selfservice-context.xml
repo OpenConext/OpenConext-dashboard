@@ -65,9 +65,19 @@
     <property name="dataSource" ref="dataSource"/>
   </bean>
 
+  <bean id="providerService" class="nl.surfnet.coin.selfservice.service.impl.CompositeProviderService">
+    <property name="providerServices">
+      <list>
+        <bean class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService" />
+        <bean class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService" />
+      </list>
+    </property>
+  </bean>
+
   <bean id="janusClient" class="nl.surfnet.coin.janus.JanusRestClient">
     <property name="janusUri" value="${janus.uri}" />
     <property name="user" value="${janus.user}" />
     <property name="secret" value="${janus.secret}" />
   </bean>
+
 </beans>
