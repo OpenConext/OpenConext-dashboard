@@ -1,0 +1,77 @@
+<!--
+  Copyright 2012 SURFnet bv, The Netherlands
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<fed:Config xmlns:fed="http://www.surffederatie.nl/namespaces/fedcfg"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.surffederatie.nl/namespaces/fedcfg fedcfg.xsd">
+  <fed:IdPs>
+    <!--Zero or more repetitions:-->
+    <fed:IdP id="string" display="true" type="proxy">
+      <fed:InstitutionID>string</fed:InstitutionID>
+      <fed:Name>string</fed:Name>
+      <!--Optional:-->
+      <fed:HomeURL>http://www.company.org/sonoras/aeoliam</fed:HomeURL>
+      <!--Optional:-->
+      <fed:LogoURL>http://www.any.com/verrantque/temperat</fed:LogoURL>
+      <!--Optional:-->
+      <fed:MetadataURL>http://www.any.com/circum/regemque</fed:MetadataURL>
+      <!--Optional:-->
+      <fed:SSOLocation>http://www.test.com/foedere/ferant</fed:SSOLocation>
+      <!--Optional:-->
+      <fed:SLOLocation>http://www.corp.org/et/turbine</fed:SLOLocation>
+      <fed:ContactPersons>
+        <!--Zero or more repetitions:-->
+        <fed:ContactPerson contactType="help">
+          <fed:Name>string</fed:Name>
+          <fed:EmailAddress>string</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+        </fed:ContactPerson>
+      </fed:ContactPersons>
+    </fed:IdP>
+  </fed:IdPs>
+  <fed:SPs>
+    <!--Zero or more repetitions:-->
+    <fed:SP id="string" type="radius">
+      <fed:Name>string</fed:Name>
+      <!--Optional:-->
+      <fed:HomeURL>http://www.sample.com/bella/nubibus</fed:HomeURL>
+      <!--Optional:-->
+      <fed:LogoURL>http://www.corp.gov/hoc/rapidum</fed:LogoURL>
+      <!--Optional:-->
+      <fed:MetadataURL>http://www.any.gov/speluncis/circum</fed:MetadataURL>
+      <fed:ContactPersons>
+        <!--Zero or more repetitions:-->
+        <fed:ContactPerson contactType="technical">
+          <fed:Name>string</fed:Name>
+          <fed:EmailAddress>string</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+        </fed:ContactPerson>
+      </fed:ContactPersons>
+      <!--Optional:-->
+      <fed:ACL>
+        <!--Zero or more repetitions:-->
+        <fed:IdPRef>string</fed:IdPRef>
+      </fed:ACL>
+      <!--Zero or more repetitions:-->
+      <fed:ARP idpid="string">
+        <!--Zero or more repetitions:-->
+        <fed:Attribute>string</fed:Attribute>
+      </fed:ARP>
+    </fed:SP>
+  </fed:SPs>
+</fed:Config>

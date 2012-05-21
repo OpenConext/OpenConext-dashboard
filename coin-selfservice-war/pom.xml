@@ -36,6 +36,7 @@
     <c3p0.version>0.9.1.2</c3p0.version>
     <hsqldb.version>2.2.8</hsqldb.version>
     <jackson.version>[1.9.7,2.0)</jackson.version>
+    <xstream.version>1.4.2</xstream.version>
   </properties>
 
   <dependencyManagement>
@@ -60,6 +61,11 @@
         <artifactId>hsqldb</artifactId>
         <version>${hsqldb.version}</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.thoughtworks.xstream</groupId>
+          <artifactId>xstream</artifactId>
+          <version>${xstream.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -112,6 +118,11 @@
       <version>${jackson.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+    </dependency>
+
     <!-- The next two slf4j dependencies are the ones we want to use. Other
  will be excluded. -->
     <dependency>
@@ -148,6 +159,12 @@
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.java.dev.stax-utils</groupId>
+      <artifactId>stax-utils</artifactId>
+      <version>20060502</version>
     </dependency>
   </dependencies>
 
