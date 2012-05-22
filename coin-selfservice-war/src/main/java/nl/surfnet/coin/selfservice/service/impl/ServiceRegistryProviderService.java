@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -30,19 +31,45 @@ import nl.surfnet.coin.selfservice.service.ProviderService;
 
 public class ServiceRegistryProviderService implements ProviderService {
 
+  private static final Janus.Metadata[] metadataToGet = new Janus.Metadata[] {
+    Janus.Metadata.OAUTH_APPICON,
+    Janus.Metadata.OAUTH_APPTITLE,
+    Janus.Metadata.ORGANIZATION_NAME,
+    Janus.Metadata.ORGANIZATION_URL,
+    Janus.Metadata.LOGO_URL,
+
+    /* Included because it's one of the properties that all
+      entries have in Janus. This works around getting
+      a 404 if none of the other properties are set.
+    */
+    Janus.Metadata.NAMEIDFORMAT
+  };
+
   @Resource(name="janusClient")
   private Janus janusClient;
 
   @Override
   @Cacheable(value = { "sps-janus" })
-  public List<Provider> getProviders(String idpId) {
+  public List<Provider> getLinkedServiceProviders(String idpId) {
     final List<String> sps = janusClient.getAllowedSps(idpId);
     List<Provider> spList = new ArrayList<Provider>();
-    for (String spname : sps) {
-      // TODO: enrich the sp
-      ServiceProvider sp = new ServiceProvider(spname, spname);
-      spList.add(sp);
+    for (String spEntityId : sps) {
+      spList.add(getServiceProvider(spEntityId));
     }
     return spList;
+  }
+
+  @Override
+  @Cacheable(value = { "sps-janus" })
+  public ServiceProvider getServiceProvider(String spEntityId) {
+      final Map<String,String> metadata = janusClient.getMetadataByEntityId(spEntityId, metadataToGet);
+    return buildServiceProviderByMetadata(metadata);
+  }
+
+  public static ServiceProvider buildServiceProviderByMetadata(Map<String, String> metadata) {
+    ServiceProvider sp = new ServiceProvider(metadata.get(Janus.Metadata.ENTITY_ID.val()),
+        metadata.get(Janus.Metadata.OAUTH_APPTITLE.val()));
+    sp.setHomeUrl(metadata.get(Janus.Metadata.LOGO_URL.val()));
+    return sp;
   }
 }

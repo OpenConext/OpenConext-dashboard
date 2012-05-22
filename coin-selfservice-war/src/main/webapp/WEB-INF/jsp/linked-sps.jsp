@@ -1,18 +1,19 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/xml_rt" %>
 <%--
-  ~ Copyright 2012 SURFnet bv, The Netherlands
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  --%>
+~ Copyright 2012 SURFnet bv, The Netherlands
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~      http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+--%>
 
 <jsp:include page="header.jsp">
     <jsp:param name="activeSection" value="linked-sps" />
@@ -44,16 +45,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>gapps</td>
-        <td>Google apps for Education</td>
-        <td>05/21/2012</td>
-        <td class="center"><i class="icon-ok"></i></td>
-        <td class="center"><i class="icon-ok"></i></td>
-        <td class="center">
-          <a href="#" rel="tooltip" data-type="info" title="Edit"><i class="icon-pencil"></i></a>
-        </td>
-      </tr>
+      <c:forEach select="${sps}" var="sp">
+        <tr>
+          <td>${sp.name}</td>
+          <td>${sp.description}</td>
+          <td>05/21/2012</td>
+          <td><img src="${sp.homeUrl}" alt="${sp.name}" /></td>
+          <td class="center"><i class="icon-ok"></i></td>
+          <td class="center"><i class="icon-ok"></i></td>
+          <td class="center">
+            <a href="/sp/${sp.id}" rel="tooltip" data-type="info" title="Edit"><i class="icon-pencil"></i></a>
+          </td>
+        </tr>
+      </c:forEach>
+
       </tbody>
     </table>
 

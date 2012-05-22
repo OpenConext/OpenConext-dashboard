@@ -60,7 +60,7 @@ public class FederationProviderService implements ProviderService {
 
   @Override
   @Cacheable(value = { "sps-federation" })
-  public List<Provider> getProviders(String idpId) {
+  public List<Provider> getLinkedServiceProviders(String idpId) {
     List<Provider> providers = new ArrayList<Provider>();
     for (ServiceProvider sp : federatieConfig.getSps()) {
       if (sp.getAcl() != null && sp.getAcl().getIdpRefs() != null && sp.getAcl().getIdpRefs().contains(idpId)) {
@@ -68,5 +68,16 @@ public class FederationProviderService implements ProviderService {
       }
     }
     return providers;
+  }
+
+  @Override
+  @Cacheable(value = { "sps-federation" })
+  public ServiceProvider getServiceProvider(String spEntityId) {
+    for (ServiceProvider sp : federatieConfig.getSps()) {
+      if (sp.getId().equals(spEntityId)) {
+        return sp;
+      }
+    }
+    return null;
   }
 }
