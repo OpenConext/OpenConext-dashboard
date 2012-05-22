@@ -18,10 +18,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
 
   <context:component-scan base-package="nl.surfnet.coin.selfservice"/>
+  <cache:annotation-driven key-generator="methodNameAwareCacheKeyGenerator" />
 
   <bean id="log4jInitialization"
         class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -69,9 +73,7 @@
   <bean id="providerService" class="nl.surfnet.coin.selfservice.service.impl.CompositeProviderService">
     <property name="providerServices">
       <list>
-        <!--
         <bean class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService" />
-        -->
         <bean class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
           <constructor-arg value="fedcfg.xml" />
         </bean>
@@ -85,7 +87,6 @@
     <property name="secret" value="${janus.secret}" />
   </bean>
 
-<!--
   <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
     <property name="cacheManager" ref="ehcache" />
   </bean>
@@ -94,5 +95,6 @@
         class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
     <property name="configLocation" value="classpath:selfservice-ehcache.xml" />
   </bean>
--->
+  <bean id="methodNameAwareCacheKeyGenerator" class="nl.surfnet.coin.shared.cache.MethodNameAwareCacheKeyGenerator" />
+
 </beans>

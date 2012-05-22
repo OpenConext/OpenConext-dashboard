@@ -38,7 +38,7 @@
   <category name="org.eclipse.jetty">
     <priority value="WARN"/>
   </category>
-  <category name="nl.surfnet.coin.selfservice">
+  <category name="nl.surfnet.coin">
     <priority value="DEBUG"/>
   </category>
   <root>

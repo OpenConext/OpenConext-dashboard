@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,9 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 @XStreamAlias("ARP")
-public class ARP {
+public class ARP implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   @XStreamAlias("idpid")
   @XStreamAsAttribute

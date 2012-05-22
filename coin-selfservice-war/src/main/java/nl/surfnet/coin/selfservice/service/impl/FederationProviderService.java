@@ -24,6 +24,7 @@ import com.thoughtworks.xstream.XStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -58,7 +59,7 @@ public class FederationProviderService implements ProviderService {
   }
 
   @Override
-//  @Cacheable(value = { "sps-federation" })
+  @Cacheable(value = { "sps-federation" })
   public List<Provider> getProviders(String idpId) {
     List<Provider> providers = new ArrayList<Provider>();
     for (ServiceProvider sp : federatieConfig.getSps()) {

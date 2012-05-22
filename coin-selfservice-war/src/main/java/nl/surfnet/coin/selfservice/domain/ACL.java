@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 @XStreamAlias("ACL")
-public class ACL {
+public class ACL implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   @XStreamImplicit(itemFieldName = "IdPRef")
   private List<String> idpRefs = new ArrayList<String>();

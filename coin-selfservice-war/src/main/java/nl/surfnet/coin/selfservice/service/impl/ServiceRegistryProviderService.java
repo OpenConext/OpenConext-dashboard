@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -32,7 +34,7 @@ public class ServiceRegistryProviderService implements ProviderService {
   private Janus janusClient;
 
   @Override
-//  @Cacheable(value = { "sps-janus" })
+  @Cacheable(value = { "sps-janus" })
   public List<Provider> getProviders(String idpId) {
     final List<String> sps = janusClient.getAllowedSps(idpId);
     List<Provider> spList = new ArrayList<Provider>();

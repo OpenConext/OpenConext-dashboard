@@ -40,7 +40,42 @@ POST /sp/1234.json -> rest, to enable/disable for example
 
 wget -O - --header="Accept: application/json" http://localhost:8280/selfservice/linked-sps.json
 
-"sps":[{"type":"radius","name":"string","homeUrl":"http://www.sample.com/bella/nubibus","logoUrl":"http://www.corp.gov/hoc/rapidum","metadataURL":"http://www.any.gov/speluncis/circum","contactPersons":[{"name":"string","emailAddress":"string","telephoneNumber":"string","contactPersonType":"technical
+{
+
+    "sps": [
+        {
+            "type": "radius",
+            "name": "string",
+            "homeUrl": "http://www.sample.com/bella/nubibus",
+            "logoUrl": "http://www.corp.gov/hoc/rapidum",
+            "metadataURL": "http://www.any.gov/speluncis/circum",
+            "contactPersons": [
+                {
+                    "name": "string",
+                    "emailAddress": "string",
+                    "telephoneNumber": "string",
+                    "contactPersonType": "technical"
+                }
+            ],
+            "id": "string",
+            "arps": [
+                {
+                    "idpId": "string",
+                    "attributes": [
+                        "string"
+                    ]
+                }
+            ],
+            "acl": {
+                "idpRefs": [
+                    "idpentity1"
+                ]
+            }
+        }
+    ],
+    "dev": true
+
+}
 
  */
 @Controller
