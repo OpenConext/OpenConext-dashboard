@@ -28,6 +28,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.service.ProviderService;
 
+/*
+
+Ideas about url structure:
+GET /home.shtml
+GET /sp/list.shtml -> browser
+GET /sp/list.json -> rest
+GET /sp/1234.json -> rest
+GET /sp/1234.shtml -> browser
+POST /sp/1234.json -> rest, to enable/disable for example
+
+wget -O - --header="Accept: application/json" http://localhost:8280/selfservice/linked-sps.json
+
+"sps":[{"type":"radius","name":"string","homeUrl":"http://www.sample.com/bella/nubibus","logoUrl":"http://www.corp.gov/hoc/rapidum","metadataURL":"http://www.any.gov/speluncis/circum","contactPersons":[{"name":"string","emailAddress":"string","telephoneNumber":"string","contactPersonType":"technical
+
+ */
 @Controller
 public class SpListController {
 
@@ -35,7 +50,7 @@ public class SpListController {
   @Resource(name="providerService")
   private ProviderService providerService;
 
-  @RequestMapping(value="/linked-sps.shtml")
+  @RequestMapping(value="/linked-sps")
   // TODO: replace idp parameter with security-context-provided one.
   public ModelAndView listAllSps(@RequestParam(value="idp", defaultValue="idpentity1") String idpId) {
     Map<String, Object> m = new HashMap<String, Object>();

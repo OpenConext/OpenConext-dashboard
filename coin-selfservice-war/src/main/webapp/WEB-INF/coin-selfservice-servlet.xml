@@ -32,12 +32,23 @@
     <property name="location" value="classpath:coin-selfservice.properties"/>
   </bean>
 
-  <bean id="jspViewResolver"
-        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    <property name="viewClass"
-              value="org.springframework.web.servlet.view.JstlView"/>
-    <property name="prefix" value="/WEB-INF/jsp/"/>
-    <property name="suffix" value=".jsp"/>
+  <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <property name="defaultViews">
+      <list>
+        <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+      </list>
+    </property>
+    <property name="viewResolvers">
+      <list>
+        <bean id="jspViewResolver"
+              class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+          <property name="viewClass"
+                    value="org.springframework.web.servlet.view.JstlView"/>
+          <property name="prefix" value="/WEB-INF/jsp/"/>
+          <property name="suffix" value=".jsp"/>
+        </bean>
+      </list>
+    </property>
   </bean>
 
   <bean id="messageSource"

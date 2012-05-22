@@ -14,10 +14,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  version="2.5"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
   <display-name>coin-selfservice</display-name>
 
@@ -56,6 +55,7 @@
   <servlet-mapping>
     <servlet-name>coin-selfservice</servlet-name>
     <url-pattern>*.shtml</url-pattern>
+    <url-pattern>*.json</url-pattern>
   </servlet-mapping>
 
   <session-config>
