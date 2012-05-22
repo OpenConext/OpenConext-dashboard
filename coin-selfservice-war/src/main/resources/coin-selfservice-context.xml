@@ -71,7 +71,9 @@
         <!--
         <bean class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService" />
         -->
-        <bean class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService" />
+        <bean class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
+          <constructor-arg value="fedcfg.xml" />
+        </bean>
       </list>
     </property>
   </bean>

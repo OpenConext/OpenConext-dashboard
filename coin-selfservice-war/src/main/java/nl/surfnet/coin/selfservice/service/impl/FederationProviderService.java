@@ -41,13 +41,19 @@ public class FederationProviderService implements ProviderService {
   private static final Logger LOG = LoggerFactory.getLogger(FederationProviderService.class);
   private FederatieConfig federatieConfig;
 
-  public FederationProviderService() {
+  /**
+   * Constructor
+   * @param configurationFilename Filename on classpath that contains federation configuration to parse and use.
+   *
+   */
+
+  public FederationProviderService(String configurationFilename) {
     final XStream xStream = XStreamFedConfigBuilder.getXStreamForFedConfig(true);
-    Resource resource = new ClassPathResource("fedcfg.xml");
+    Resource resource = new ClassPathResource(configurationFilename);
     try {
       federatieConfig = (FederatieConfig) xStream.fromXML(resource.getInputStream());
     } catch (IOException e) {
-      LOG.error("While reading fedcfg.xml", e);
+      LOG.error("While reading file '" + configurationFilename + "'", e);
     }
   }
 
