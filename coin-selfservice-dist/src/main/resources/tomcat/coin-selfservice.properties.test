@@ -38,6 +38,10 @@ systemEmail=SURFconext <no-reply@surfconext.nl>
 # Email address that recieves error notifications
 coin-errormail-to=
 
+wayf.url.metadata=https://engine.test.surfconext.nl/authentication/idp/metadata
+wayf.url.sso=https://engine.test.surfconext.nl/authentication/idp/single-sign-on
+wayf.certificate=??
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features

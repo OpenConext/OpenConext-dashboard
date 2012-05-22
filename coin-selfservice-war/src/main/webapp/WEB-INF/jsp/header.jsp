@@ -1,3 +1,19 @@
+<%--
+  Copyright 2012 SURFnet bv, The Netherlands
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  --%>
+
 <!doctype html>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
@@ -17,6 +33,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -63,7 +80,9 @@
 </header>
 
 <section class="user-box content-dense">
-  <span class="user-name">ReneS</span>
+  <span class="user-name">
+    <sec:authentication property="principal.displayName" scope="request" htmlEscape="true"/>
+  </span>
   <a href="#" class="logout">Logout <i class="icon-signout"></i></a>
 
   <!-- b:dropdown -->
@@ -72,13 +91,13 @@
 
     <div class="dropdown-toggle user-role-noc" data-toggle="dropdown">
       <div class="user">
-        NOC Engineer<br>
-        Institute A
+        <sec:authentication property="principal.idp" scope="request" htmlEscape="true"/>
+
         <b class="caret"></b>
       </div>
     </div>
 
-    <form action="#" method="POST" class="dropdown-menu">
+    <%--<form action="#" method="POST" class="dropdown-menu">
       <ul>
         <li class="user-role-default" data-roleId="default">
           <div class="user">
@@ -103,7 +122,7 @@
           </div>
         </li>
       </ul>
-    </form>
+    </form>--%>
 
   </div>
 

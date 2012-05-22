@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -19,12 +18,11 @@
 <jsp:include page="header.jsp">
   <jsp:param name="activeSection" value="home"/>
 </jsp:include>
-<sec:authentication property="principal.displayName" var="displayName" scope="request"/>
 <section>
   <div class="content">
 
     <h3>Home</h3>
-    Welcome '<c:out value="${displayName}"/>' to the Idp Self Service Station.
+    Welcome to the Idp Self Service Station.
   </div>
 </section>
 <jsp:include page="footer.jsp"/>
