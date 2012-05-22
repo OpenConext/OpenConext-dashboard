@@ -25,7 +25,7 @@ import nl.surfnet.spring.security.opensaml.Provisioner;
 /**
  * implementation to return UserDetails from a SAML Assertion
  */
-public class SamlProvisioner implements Provisioner {
+public class SAMLProvisioner implements Provisioner {
 
   @Override
   public UserDetails provisionUser(Assertion assertion) {
