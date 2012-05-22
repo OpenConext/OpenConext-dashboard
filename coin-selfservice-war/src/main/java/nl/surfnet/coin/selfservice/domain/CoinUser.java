@@ -28,6 +28,12 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class CoinUser implements UserDetails{
 
+  private String uid;
+  private String displayName;
+  private String schacHomeOrganization;
+  private String idp;
+  private String email;
+
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -44,12 +50,12 @@ public class CoinUser implements UserDetails{
 
   @Override
   public String getPassword() {
-    return "secret";
+    throw new SecurityException("Self service interface does not contain passwords");
   }
 
   @Override
   public String getUsername() {
-    return "Username";
+    return uid;
   }
 
   @Override
@@ -70,5 +76,45 @@ public class CoinUser implements UserDetails{
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public String getUid() {
+    return uid;
+  }
+
+  public void setUid(String uid) {
+    this.uid = uid;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
+
+  public String getSchacHomeOrganization() {
+    return schacHomeOrganization;
+  }
+
+  public void setSchacHomeOrganization(String schacHomeOrganization) {
+    this.schacHomeOrganization = schacHomeOrganization;
+  }
+
+  public String getIdp() {
+    return idp;
+  }
+
+  public void setIdp(String idp) {
+    this.idp = idp;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 }
