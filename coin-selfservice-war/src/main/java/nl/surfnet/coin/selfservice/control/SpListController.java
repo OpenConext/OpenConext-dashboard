@@ -40,6 +40,9 @@ GET /sp/1234.json -> rest
 GET /sp/1234.shtml -> browser
 POST /sp/1234.json -> rest, to enable/disable for example
 
+TODO (JJ): a lot of entity id's are URLs, so we need a different structure, otherwise we get
+GET /sp/http://example.com/mysp.shtml
+
 wget -O - --header="Accept: application/json" http://localhost:8280/selfservice/linked-sps.json
 
 {

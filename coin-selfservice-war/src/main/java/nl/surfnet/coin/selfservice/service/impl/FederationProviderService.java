@@ -29,7 +29,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import nl.surfnet.coin.selfservice.domain.FederatieConfig;
-import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ProviderService;
 import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
@@ -60,8 +59,8 @@ public class FederationProviderService implements ProviderService {
 
   @Override
   @Cacheable(value = { "sps-federation" })
-  public List<Provider> getLinkedServiceProviders(String idpId) {
-    List<Provider> providers = new ArrayList<Provider>();
+  public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
+    List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
     for (ServiceProvider sp : federatieConfig.getSps()) {
       if (sp.getAcl() != null && sp.getAcl().getIdpRefs() != null && sp.getAcl().getIdpRefs().contains(idpId)) {
         providers.add(sp);

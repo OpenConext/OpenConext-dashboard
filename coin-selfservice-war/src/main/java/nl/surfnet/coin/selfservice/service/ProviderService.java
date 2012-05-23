@@ -18,12 +18,11 @@ package nl.surfnet.coin.selfservice.service;
 
 import java.util.List;
 
-import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 public interface ProviderService {
 
-  List<Provider> getLinkedServiceProviders(String idpId);
+  List<ServiceProvider> getLinkedServiceProviders(String idpId);
 
   ServiceProvider getServiceProvider(String spEntityId);
 }

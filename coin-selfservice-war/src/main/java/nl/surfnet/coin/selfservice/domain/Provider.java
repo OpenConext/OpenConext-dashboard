@@ -49,6 +49,8 @@ public abstract class Provider {
   @XStreamAlias("ContactPersons")
   private List<ContactPerson> contactPersons = new ArrayList<ContactPerson>();
 
+  private String description;
+
   public abstract String getId();
 
   public abstract void setId(String id);
@@ -91,6 +93,14 @@ public abstract class Provider {
 
   public void setMetadataURL(String metadataURL) {
     this.metadataURL = metadataURL;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public List<ContactPerson> getContactPersons() {

@@ -69,7 +69,7 @@
   <fed:SPs>
     <!--Zero or more repetitions:-->
     <fed:SP id="string" type="radius">
-      <fed:Name>string</fed:Name>
+      <fed:Name>Dummy SURFfederatie Service Provider</fed:Name>
       <!--Optional:-->
       <fed:HomeURL>http://www.sample.com/bella/nubibus</fed:HomeURL>
       <!--Optional:-->
@@ -97,7 +97,7 @@
       </fed:ARP>
     </fed:SP>
     <fed:SP id="string2" type="radius">
-      <fed:Name>string 2</fed:Name>
+      <fed:Name>Dummy SURFfederatie Service Provider 2</fed:Name>
       <!--Optional:-->
       <fed:HomeURL>http://www.sample.com/bella/nubibus</fed:HomeURL>
       <!--Optional:-->

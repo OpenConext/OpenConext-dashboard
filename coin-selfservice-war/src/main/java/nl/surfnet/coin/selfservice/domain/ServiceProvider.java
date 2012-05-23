@@ -100,4 +100,16 @@ public class ServiceProvider extends Provider implements Serializable {
   public int hashCode() {
     return id.hashCode();
   }
+
+  @Override
+  public String toString() {
+    final StringBuffer sb = new StringBuffer();
+    sb.append("ServiceProvider");
+    sb.append("{id='").append(id).append('\'');
+    sb.append(", arps=").append(arps);
+    sb.append(", acl=").append(acl);
+    sb.append(' ').append(super.toString());
+    sb.append('}');
+    return sb.toString();
+  }
 }

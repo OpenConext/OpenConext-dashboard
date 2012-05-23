@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ProviderService;
 
@@ -33,10 +32,10 @@ public class CompositeProviderService implements ProviderService {
   private List<ProviderService> providerServices;
 
   @Override
-  public List<Provider> getLinkedServiceProviders(String idpId) {
-    List<Provider> ret = new ArrayList<Provider>();
+  public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
+    List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
     for (ProviderService p : providerServices) {
-      final List<Provider> providers = p.getLinkedServiceProviders(idpId);
+      final List<ServiceProvider> providers = p.getLinkedServiceProviders(idpId);
       if (CollectionUtils.isNotEmpty(providers)) {
         ret.addAll(providers);
       }

@@ -22,53 +22,72 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.client.RestClientException;
 
 import nl.surfnet.coin.janus.Janus;
-import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ProviderService;
 
 public class ServiceRegistryProviderService implements ProviderService {
 
-  private static final Janus.Metadata[] metadataToGet = new Janus.Metadata[] {
-    Janus.Metadata.OAUTH_APPICON,
-    Janus.Metadata.OAUTH_APPTITLE,
-    Janus.Metadata.ORGANIZATION_NAME,
-    Janus.Metadata.ORGANIZATION_URL,
-    Janus.Metadata.LOGO_URL,
+  private static final Logger log = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
 
-    /* Included because it's one of the properties that all
-      entries have in Janus. This works around getting
-      a 404 if none of the other properties are set.
-    */
-    Janus.Metadata.NAMEIDFORMAT
+  private static final Janus.Metadata[] metadataToGet = new Janus.Metadata[]{
+      Janus.Metadata.OAUTH_APPICON,
+      Janus.Metadata.OAUTH_APPTITLE,
+      Janus.Metadata.ORGANIZATION_NAME,
+      Janus.Metadata.ORGANIZATION_URL,
+      Janus.Metadata.LOGO_URL,
+      Janus.Metadata.DISPLAYNAME,
+      Janus.Metadata.NAME,
+      Janus.Metadata.DESCRIPTION,
+
+      /* Included because it's one of the properties that all
+        entries have in Janus. This works around getting
+        a 404 if none of the other properties are set.
+      */
+      Janus.Metadata.NAMEIDFORMAT
   };
 
-  @Resource(name="janusClient")
+  @Resource(name = "janusClient")
   private Janus janusClient;
 
   @Override
-  @Cacheable(value = { "sps-janus" })
-  public List<Provider> getLinkedServiceProviders(String idpId) {
-    final List<String> sps = janusClient.getAllowedSps(idpId);
-    List<Provider> spList = new ArrayList<Provider>();
-    for (String spEntityId : sps) {
-      spList.add(getServiceProvider(spEntityId));
+  @Cacheable(value = {"sps-janus"})
+  public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
+    List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
+    try {
+      final List<String> sps = janusClient.getAllowedSps(idpId);
+      for (String spEntityId : sps) {
+        final ServiceProvider serviceProvider = getServiceProvider(spEntityId);
+        if (serviceProvider != null) {
+          spList.add(serviceProvider);
+        }
+      }
+    } catch (RestClientException e) {
+      log.warn("Could not retrieve allowed SPs from Janus client", e.getMessage());
     }
     return spList;
   }
 
   @Override
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable(value = {"sps-janus"})
   public ServiceProvider getServiceProvider(String spEntityId) {
-      final Map<String,String> metadata = janusClient.getMetadataByEntityId(spEntityId, metadataToGet);
-    return buildServiceProviderByMetadata(metadata);
+    try {
+      Map<String, String> metadata = janusClient.getMetadataByEntityId(spEntityId, metadataToGet);
+      return buildServiceProviderByMetadata(metadata);
+    } catch (RestClientException e) {
+      log.warn("Could not retrieve metadata from Janus client", e.getMessage());
+    }
+    return null;
   }
 
   public static ServiceProvider buildServiceProviderByMetadata(Map<String, String> metadata) {
     ServiceProvider sp = new ServiceProvider(metadata.get(Janus.Metadata.ENTITY_ID.val()),
-        metadata.get(Janus.Metadata.OAUTH_APPTITLE.val()));
+        metadata.get(Janus.Metadata.DISPLAYNAME.val()));
     sp.setHomeUrl(metadata.get(Janus.Metadata.LOGO_URL.val()));
     return sp;
   }
