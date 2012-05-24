@@ -1,5 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
-<%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml_rt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -17,8 +17,6 @@
   --%>
 
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 
 <jsp:include page="header.jsp">
     <jsp:param name="activeSection" value="linked-sps" />
@@ -31,12 +29,6 @@
   <div class="content">
 
     This is a list of Service Providers that have been linked to your Identity Provider:
-
-    <div class="modal modal-relative">
-      <div class="modal-body">
-      ${sps}
-      </div>
-    </div>
 
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
