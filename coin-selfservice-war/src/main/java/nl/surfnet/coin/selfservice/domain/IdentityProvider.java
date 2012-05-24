@@ -92,7 +92,7 @@ public class IdentityProvider extends Provider {
 
     IdentityProvider that = (IdentityProvider) o;
 
-    if (!id.equals(that.id)) {
+    if (id != null ? !id.equals(that.id) : that.id != null) {
       return false;
     }
 
@@ -101,6 +101,6 @@ public class IdentityProvider extends Provider {
 
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return (id == null) ? 0 : id.hashCode();
   }
 }
