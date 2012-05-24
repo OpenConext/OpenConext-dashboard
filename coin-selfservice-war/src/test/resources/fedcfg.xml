@@ -42,6 +42,21 @@
         </fed:ContactPerson>
       </fed:ContactPersons>
     </fed:IdP>
+    <fed:IdP id="SURFnetGuests" display="true" type="saml20">
+      <fed:InstitutionID>SURFnet</fed:InstitutionID>
+      <fed:Name>SURFguest</fed:Name>
+      <!--Optional:-->
+      <fed:HomeURL>http://www.surfguest.nl</fed:HomeURL>
+      <!--Optional:-->
+      <fed:LogoURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:LogoURL>
+      <fed:ContactPersons>
+        <!--Zero or more repetitions:-->
+        <fed:ContactPerson contactType="help">
+          <fed:Name>B.E. Heerder</fed:Name>
+          <fed:EmailAddress>b.e.heerder@example.com</fed:EmailAddress>
+        </fed:ContactPerson>
+      </fed:ContactPersons>
+    </fed:IdP>
     <fed:IdP id="idpidentity2" display="true" type="proxy">
       <fed:InstitutionID>string</fed:InstitutionID>
       <fed:Name>string</fed:Name>
@@ -71,7 +86,7 @@
     <fed:SP id="string" type="radius">
       <fed:Name>Dummy SURFfederatie Service Provider</fed:Name>
       <!--Optional:-->
-      <fed:HomeURL>http://www.sample.com/bella/nubibus</fed:HomeURL>
+      <fed:HomeURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:HomeURL>
       <!--Optional:-->
       <fed:LogoURL>http://www.corp.gov/hoc/rapidum</fed:LogoURL>
       <!--Optional:-->
@@ -89,6 +104,7 @@
       <fed:ACL>
         <!--Zero or more repetitions:-->
         <fed:IdPRef>idpentity1</fed:IdPRef>
+        <fed:IdPRef>SURFnetGuests</fed:IdPRef>
       </fed:ACL>
       <!--Zero or more repetitions:-->
       <fed:ARP idpid="string">
@@ -99,7 +115,7 @@
     <fed:SP id="string2" type="radius">
       <fed:Name>Dummy SURFfederatie Service Provider 2</fed:Name>
       <!--Optional:-->
-      <fed:HomeURL>http://www.sample.com/bella/nubibus</fed:HomeURL>
+      <fed:HomeURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:HomeURL>
       <!--Optional:-->
       <fed:LogoURL>http://www.corp.gov/hoc/rapidum</fed:LogoURL>
       <!--Optional:-->
