@@ -43,7 +43,7 @@ public class SpListController {
 
     m.put("sps", providerService.getLinkedServiceProviders(idpId));
 
-    return new ModelAndView("linked-sps", m);
+    return new ModelAndView("sp-overview", m);
   }
 
   @RequestMapping(value="/sp/detail.shtml")
