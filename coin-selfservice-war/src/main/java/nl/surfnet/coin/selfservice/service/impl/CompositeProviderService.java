@@ -54,6 +54,7 @@ public class CompositeProviderService implements ProviderService {
         ret.addAll(providers);
       }
     }
+    Collections.sort(ret);
     return ret;
   }
 
