@@ -86,9 +86,9 @@
     <fed:SP id="http://example.com/sp-entity-id" type="radius">
       <fed:Name>Dummy SURFfederatie Service Provider</fed:Name>
       <!--Optional:-->
-      <fed:HomeURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:HomeURL>
+      <fed:HomeURL>http://www.corp.gov/hoc/rapidum</fed:HomeURL>
       <!--Optional:-->
-      <fed:LogoURL>http://www.corp.gov/hoc/rapidum</fed:LogoURL>
+      <fed:LogoURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:LogoURL>
       <!--Optional:-->
       <fed:MetadataURL>http://www.any.gov/speluncis/circum</fed:MetadataURL>
       <fed:ContactPersons>

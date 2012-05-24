@@ -88,7 +88,10 @@ public class ServiceRegistryProviderService implements ProviderService {
   public static ServiceProvider buildServiceProviderByMetadata(Map<String, String> metadata) {
     ServiceProvider sp = new ServiceProvider(metadata.get(Janus.Metadata.ENTITY_ID.val()),
         metadata.get(Janus.Metadata.DISPLAYNAME.val()));
-    sp.setHomeUrl(metadata.get(Janus.Metadata.LOGO_URL.val()));
+    sp.setLogoUrl(metadata.get(Janus.Metadata.LOGO_URL.val()));
+    sp.setHomeUrl(metadata.get(Janus.Metadata.ORGANIZATION_URL.val()));
+    sp.setDescription(metadata.get(Janus.Metadata.DESCRIPTION.val()));
+
     return sp;
   }
 }

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -35,7 +36,6 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
-        <%--<th>Since</th>--%>
         <th></th>
         <th class="cw55 center">Enabled</th>
         <th class="cw55 center">Active</th>
@@ -49,9 +49,12 @@
             <td>
               <c:out default="${sp.id}" value="${sp.name}"/>
             </td>
-            <td><c:out value="${sp.description}"/></td>
-            <%--<td>05/21/2012</td>--%>
-            <td><c:if test="${not empty sp.homeUrl}"><img src="${sp.homeUrl}" alt="<c:out value="${sp.name}"/>"/></c:if></td>
+            <td class="text-overflow"><c:out value="${fn:substring(sp.description, 0, 40)}"/></td>
+            <td>
+              <c:if test="${not empty sp.homeUrl}">
+                <img src="${sp.logoUrl}" alt="<c:out value="${sp.name}"/>"/>
+              </c:if>
+            </td>
             <td class="center"><i class="icon-ok"></i></td>
             <td class="center"><i class="icon-ok"></i></td>
             <td class="center">

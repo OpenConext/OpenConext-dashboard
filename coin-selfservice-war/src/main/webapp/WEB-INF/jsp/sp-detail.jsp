@@ -15,22 +15,45 @@
   limitations under the License.
   --%>
 
-<%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
+<%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
 <jsp:include page="header.jsp">
-  <jsp:param name="activeSection" value="linked-sps" />
+  <jsp:param name="activeSection" value="linked-sps"/>
 </jsp:include>
 
 <section>
 
-  <h2>Service Provider details</h2>
+  <h2>${sp.name}</h2>
 
-  <div class="content">
-
-    Details of ${sp.name}.
-
+  <div class="row">
+  <div class="span2">
+    <div class="content">
+      <p>
+        <img alt="${sp.name}" style="float:left" src="${sp.logoUrl}"/>
+      </p>
+    </div>
   </div>
+  <div class="span6">
+    <div class="content">
+      <p>
+        ${sp.description}
+      </p>
+    </div>
+  </div>
+    <div class="span4">
+      <div class="content">
+        <ul class="unstyled">
+          <li>
+            <a href="${sp.homeUrl}">More information</a> <i class="icon-external-link"></i>
+      </li>
+          <li>
+            <a href="${sp.homeUrl}">Website</a> <i class="icon-external-link"></i>
+      </li>
+    </ul>
+    </div>
+  </div>
+</div>
 </section>
 
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="footer.jsp"/>
