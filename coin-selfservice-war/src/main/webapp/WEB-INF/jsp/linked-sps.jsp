@@ -47,14 +47,7 @@
         <c:if test="${not empty sp.id}">
           <tr>
             <td>
-              <c:choose>
-                <c:when test="${not empty sp.name}">
-                  <c:out value="${sp.name}"/>
-                </c:when>
-                <c:otherwise>
-                  <c:out value="${sp.id}"/>
-                </c:otherwise>
-              </c:choose>
+              <c:out default="${sp.id}" value="${sp.name}"/>
             </td>
             <td><c:out value="${sp.description}"/></td>
             <%--<td>05/21/2012</td>--%>
@@ -62,7 +55,11 @@
             <td class="center"><i class="icon-ok"></i></td>
             <td class="center"><i class="icon-ok"></i></td>
             <td class="center">
-              <a href="<c:url value="/sp/${sp.id}"/>" rel="tooltip" data-type="info" title="Detail"><i class="icon-info-sign"></i></a>
+              <a href="<c:url value="/sp/detail.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"
+                 rel="tooltip" data-type="info"
+                 title="Detail"><i class="icon-info-sign"></i></a>
             </td>
           </tr>
         </c:if>

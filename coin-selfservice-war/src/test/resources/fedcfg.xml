@@ -83,7 +83,7 @@
   </fed:IdPs>
   <fed:SPs>
     <!--Zero or more repetitions:-->
-    <fed:SP id="string" type="radius">
+    <fed:SP id="http://example.com/sp-entity-id" type="radius">
       <fed:Name>Dummy SURFfederatie Service Provider</fed:Name>
       <!--Optional:-->
       <fed:HomeURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:HomeURL>

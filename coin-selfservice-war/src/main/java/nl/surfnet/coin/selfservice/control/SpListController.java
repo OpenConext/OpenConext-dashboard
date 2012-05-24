@@ -22,7 +22,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,59 +29,6 @@ import org.springframework.web.servlet.ModelAndView;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ProviderService;
 
-/*
-
-Ideas about url structure:
-GET /home.shtml
-GET /sp/list.shtml -> browser
-GET /sp/list.json -> rest
-GET /sp/1234.json -> rest
-GET /sp/1234.shtml -> browser
-POST /sp/1234.json -> rest, to enable/disable for example
-
-TODO (JJ): a lot of entity id's are URLs, so we need a different structure, otherwise we get
-GET /sp/http://example.com/mysp.shtml
-
-wget -O - --header="Accept: application/json" http://localhost:8280/selfservice/linked-sps.json
-
-{
-
-    "sps": [
-        {
-            "type": "radius",
-            "name": "string",
-            "homeUrl": "http://www.sample.com/bella/nubibus",
-            "logoUrl": "http://www.corp.gov/hoc/rapidum",
-            "metadataURL": "http://www.any.gov/speluncis/circum",
-            "contactPersons": [
-                {
-                    "name": "string",
-                    "emailAddress": "string",
-                    "telephoneNumber": "string",
-                    "contactPersonType": "technical"
-                }
-            ],
-            "id": "string",
-            "arps": [
-                {
-                    "idpId": "string",
-                    "attributes": [
-                        "string"
-                    ]
-                }
-            ],
-            "acl": {
-                "idpRefs": [
-                    "idpentity1"
-                ]
-            }
-        }
-    ],
-    "dev": true
-
-}
-
- */
 @Controller
 public class SpListController {
 
@@ -100,11 +46,11 @@ public class SpListController {
     return new ModelAndView("linked-sps", m);
   }
 
-  @RequestMapping(value="/sp/{spEntityId}")
-  public ModelAndView spDetail(@PathVariable String spEntityId) {
+  @RequestMapping(value="/sp/detail.shtml")
+  public ModelAndView spDetail(@RequestParam String spEntityId) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId);
     m.put("sp", sp);
-    return new ModelAndView("sp", m);
+    return new ModelAndView("sp-detail", m);
   }
 }

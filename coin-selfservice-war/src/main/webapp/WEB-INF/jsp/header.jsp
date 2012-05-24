@@ -135,11 +135,11 @@
     <div class="container">
       <ul class="nav">
         <li <c:if test="${param.activeSection == 'home'}">class="active"
-        </c:if>><a href="home.shtml">Home</a></li>
+        </c:if>><a href="<c:url value="/home.shtml"/>">Home</a></li>
         <li <c:if test="${param.activeSection == 'linked-sps'}">class="active"
-        </c:if>><a href="linked-sps.shtml">Service Providers</a></li>
+        </c:if>><a href="<c:url value="/linked-sps.shtml"/>">Service Providers</a></li>
         <li <c:if test="${param.activeSection == 'styleguide'}">class="active"
-        </c:if>><a href="styleguide.shtml">Styleguide</a></li>
+        </c:if>><a href="<c:url value="/styleguide.shtml"/>">Styleguide</a></li>
       </ul>
     </div>
   </div>
