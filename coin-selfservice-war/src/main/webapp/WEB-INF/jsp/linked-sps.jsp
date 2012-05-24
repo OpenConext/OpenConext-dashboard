@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml_rt" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
