@@ -20,9 +20,31 @@ import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
+/**
+ * Interface of services that returns information about Service Providers (SPs).
+ *
+ */
 public interface ProviderService {
 
+  /**
+   * Get a list of all Service Providers that have an ACL for the given idpId.
+   * @param idpId the IDP entity ID to filter on
+   * @return list of {@link ServiceProvider}
+   */
   List<ServiceProvider> getLinkedServiceProviders(String idpId);
 
+  /**
+   * Get a list of all available Service Providers for the given idpId.
+   *
+   * @param idpId the IDP entity ID to filter on
+   * @return list of {@link ServiceProvider}
+   */
+  List<ServiceProvider> getAllServiceProviders(String idpId);
+
+  /**
+   * Get a {@link ServiceProvider} by its entity ID.
+   * @param spEntityId the entity id
+   * @return the {@link ServiceProvider} object.
+   */
   ServiceProvider getServiceProvider(String spEntityId);
 }

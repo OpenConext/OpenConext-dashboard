@@ -75,6 +75,26 @@ public class ServiceRegistryProviderService implements ProviderService {
 
   @Override
   @Cacheable(value = {"sps-janus"})
+  public List<ServiceProvider> getAllServiceProviders(String idpId) {
+    List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
+    try {
+      final Map<String, Map<String, String>> sps = janusClient.getSpList(metadataToGet);
+      for (String spEntityId : sps.keySet()) {
+        Map<String, String> metadata = sps.get(spEntityId);
+        buildServiceProviderByMetadata(metadata);
+        final ServiceProvider serviceProvider = getServiceProvider(spEntityId);
+        if (serviceProvider != null) {
+          spList.add(serviceProvider);
+        }
+      }
+    } catch (RestClientException e) {
+      log.warn("Could not retrieve allowed SPs from Janus client", e.getMessage());
+    }
+    return spList;
+  }
+
+  @Override
+  @Cacheable(value = {"sps-janus"})
   public ServiceProvider getServiceProvider(String spEntityId) {
     try {
       Map<String, String> metadata = janusClient.getMetadataByEntityId(spEntityId, metadataToGet);
@@ -85,12 +105,17 @@ public class ServiceRegistryProviderService implements ProviderService {
     return null;
   }
 
+  /**
+   * Create a ServiceProvider and inflate it with the given metadata attributes.
+   * @param metadata Janus metadata
+   * @return {@link ServiceProvider}
+   */
   public static ServiceProvider buildServiceProviderByMetadata(Map<String, String> metadata) {
-    ServiceProvider sp = new ServiceProvider(metadata.get(Janus.Metadata.ENTITY_ID.val()),
-        metadata.get(Janus.Metadata.DISPLAYNAME.val()));
-    sp.setLogoUrl(metadata.get(Janus.Metadata.LOGO_URL.val()));
-    sp.setHomeUrl(metadata.get(Janus.Metadata.ORGANIZATION_URL.val()));
-    sp.setDescription(metadata.get(Janus.Metadata.DESCRIPTION.val()));
+    ServiceProvider sp = new ServiceProvider((String) metadata.get(Janus.Metadata.ENTITY_ID.val()),
+        (String) metadata.get(Janus.Metadata.DISPLAYNAME.val()));
+    sp.setLogoUrl((String) metadata.get(Janus.Metadata.LOGO_URL.val()));
+    sp.setHomeUrl((String) metadata.get(Janus.Metadata.ORGANIZATION_URL.val()));
+    sp.setDescription((String) metadata.get(Janus.Metadata.DESCRIPTION.val()));
 
     return sp;
   }

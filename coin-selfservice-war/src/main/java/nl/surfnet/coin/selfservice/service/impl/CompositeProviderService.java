@@ -45,6 +45,18 @@ public class CompositeProviderService implements ProviderService {
     return ret;
   }
 
+  @Override
+  public List<ServiceProvider> getAllServiceProviders(String idpId) {
+    List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
+    for (ProviderService p : providerServices) {
+      final List<ServiceProvider> providers = p.getAllServiceProviders(idpId);
+      if (CollectionUtils.isNotEmpty(providers)) {
+        ret.addAll(providers);
+      }
+    }
+    return ret;
+  }
+
   /**
    * Returns the first SP found or null if none found.
    *

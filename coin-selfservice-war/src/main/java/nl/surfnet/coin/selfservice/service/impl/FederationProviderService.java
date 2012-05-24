@@ -71,6 +71,16 @@ public class FederationProviderService implements ProviderService {
 
   @Override
   @Cacheable(value = { "sps-federation" })
+  public List<ServiceProvider> getAllServiceProviders(String idpId) {
+    List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
+    for (ServiceProvider sp : federatieConfig.getSps()) {
+      providers.add(sp);
+    }
+    return providers;
+  }
+
+  @Override
+  @Cacheable(value = { "sps-federation" })
   public ServiceProvider getServiceProvider(String spEntityId) {
     for (ServiceProvider sp : federatieConfig.getSps()) {
       if (sp.getId().equals(spEntityId)) {
