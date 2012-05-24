@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -56,7 +58,11 @@ public class SAMLProvisioner implements Provisioner {
       final List<AuthenticatingAuthority> authorities = as.getAuthnContext().getAuthenticatingAuthorities();
       for (AuthenticatingAuthority aa : authorities) {
         if (StringUtils.isNotBlank(aa.getURI())) {
-          return aa.getURI();
+          try {
+            return URLDecoder.decode(aa.getURI(), "UTF-8");
+          } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Machine does not support UTF-8", e);
+          }
         }
       }
     }
