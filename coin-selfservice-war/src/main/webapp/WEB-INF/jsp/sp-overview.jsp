@@ -19,18 +19,14 @@
 
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
 
-<jsp:include page="header.jsp">
-    <jsp:param name="activeSection" value="linked-sps" />
-</jsp:include>
+<jsp:include page="header.jsp" />
 
 <section>
 
-  <h2>Linked Service Providers</h2>
+  <h2>Service Providers</h2>
 
   <div class="content">
-
-    This is a list of Service Providers that have been linked to your Identity Provider:
-
+    <c:out value="${fn:length(sps)}" /> results.
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
       <tr>

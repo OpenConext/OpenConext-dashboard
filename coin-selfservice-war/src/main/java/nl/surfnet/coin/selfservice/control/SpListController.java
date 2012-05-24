@@ -21,11 +21,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ProviderService;
 
@@ -37,20 +40,52 @@ public class SpListController {
   private ProviderService providerService;
 
   @RequestMapping(value="/linked-sps")
-  // TODO: replace idp parameter with security-context-provided one.
-  public ModelAndView listAllSps(@RequestParam(value="idp", defaultValue="idpentity1") String idpId) {
+  public ModelAndView listLinkedSps() {
     Map<String, Object> m = new HashMap<String, Object>();
 
-    m.put("sps", providerService.getLinkedServiceProviders(idpId));
+    m.put("sps", providerService.getLinkedServiceProviders(getIdpEntityId()));
+    m.put("activeSection", "linked-sps");
+    return new ModelAndView("sp-overview", m);
+  }
+
+  @RequestMapping(value="/all-sps")
+  public ModelAndView listAllSps() {
+    Map<String, Object> m = new HashMap<String, Object>();
+
+
+    m.put("sps", providerService.getAllServiceProviders(getIdpEntityId()));
+    m.put("activeSection", "all-sps");
 
     return new ModelAndView("sp-overview", m);
   }
 
+  /**
+   * Controller for detail page.
+   * @param spEntityId
+   * @return
+   */
   @RequestMapping(value="/sp/detail.shtml")
   public ModelAndView spDetail(@RequestParam String spEntityId) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId);
     m.put("sp", sp);
     return new ModelAndView("sp-detail", m);
+  }
+
+  /**
+   * Get the IDP Entity Id from the security context.
+   * @return String
+   * @throws SecurityException in case no principal is found.
+   */
+  private static String getIdpEntityId() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null) {
+      throw new SecurityException("No suitable security context.");
+    }
+    Object principal = auth.getPrincipal();
+    if (principal != null && principal instanceof CoinUser) {
+      return ((CoinUser) principal).getIdp();
+    }
+    throw new SecurityException("No suitable security context.");
   }
 }
