@@ -59,8 +59,10 @@
                                access="hasAnyRole(ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER)"/>
 
     <security:intercept-url pattern="/css/**" access="permitAll"/>
+    <security:intercept-url pattern="/font/**" access="permitAll"/>
     <security:intercept-url pattern="/images/**" access="permitAll"/>
-    <security:intercept-url pattern="/script/**" access="permitAll"/>
+    <security:intercept-url pattern="/js/**" access="permitAll"/>
+    <security:intercept-url pattern="/favicon.ico" access="permitAll"/>
     <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
 
     <security:form-login login-page="/OpenSAML.sso/Login?target=${wayf.url.sso}" default-target-url="/" />
