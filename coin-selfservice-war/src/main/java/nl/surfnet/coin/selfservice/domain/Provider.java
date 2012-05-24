@@ -28,7 +28,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * Abstract class for either ServiceProvider or IdentityProvider
  */
-public abstract class Provider {
+public abstract class Provider implements Comparable<Provider> {
 
   @XStreamAlias("type")
   @XStreamAsAttribute
@@ -121,5 +121,34 @@ public abstract class Provider {
         .append("type", type)
         .append("id", getId())
         .toString();
+  }
+
+  @Override
+  public int compareTo(Provider that) {
+    final int EQUAL = 0;
+
+    if (this == that) {
+      return EQUAL;
+    }
+    final String thisName = this.getName();
+    final String thatName = that.getName();
+    final String thisId = this.getId();
+    final String thatId = that.getId();
+
+    if (thisName != null && thatName != null) {
+      return thisName.compareToIgnoreCase(thatName);
+    } else if (thisName != null && thatId != null) {
+      return thisName.compareToIgnoreCase(thatId);
+    } else if (thisId != null && thatName != null) {
+      return thisId.compareToIgnoreCase(thatName);
+    } else if (thisId != null && thatId != null) {
+      return thisId.compareToIgnoreCase(thatId);
+    }
+
+    //all comparisons have yielded equality
+    //verify that compareTo is consistent with equals (optional)
+    assert this.equals(that) : "compareTo inconsistent with equals.";
+
+    return EQUAL;
   }
 }

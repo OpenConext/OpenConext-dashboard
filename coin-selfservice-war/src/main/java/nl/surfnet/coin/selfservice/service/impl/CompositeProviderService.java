@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -40,7 +41,7 @@ public class CompositeProviderService implements ProviderService {
         ret.addAll(providers);
       }
     }
-
+    Collections.sort(ret);
     return ret;
   }
 
