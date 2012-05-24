@@ -29,7 +29,7 @@ coin-api.jdbc.user=??
 coin-api.jdbc.password=??
 
 # SMTP server settings for notifications
-coin-mailserver=s01.dev.coin.surf.net
+coin-mailserver=localhost
 coin-mailserver-port=25
 
 # Email address that is the sender of invitations/requests
@@ -41,6 +41,22 @@ coin-errormail-to=coin-logs@list.surfnet.nl
 wayf.url.metadata=https://engine.acc.surfconext.nl/authentication/idp/metadata
 wayf.url.sso=https://engine.acc.surfconext.nl/authentication/idp/single-sign-on
 wayf.certificate=??
+
+## Properties for opensaml
+ISSUING_ENTITY_ID=https://selfservice.acc.surfconext.nl
+
+WEB_APPLICATION_CHANNEL=https
+WEB_APPLICATION_HOST_AND_PORT=selfservice.acc.surfconext.nl
+WEB_APPLICATION_CONTEXT_PATH=
+
+ASSERTION_CONSUMER_URI=/AssertionConsumerService
+ASSERTION_CONSUMER_URL=${WEB_APPLICATION_CHANNEL}://${WEB_APPLICATION_HOST_AND_PORT}${WEB_APPLICATION_CONTEXT_PATH}${ASSERTION_CONSUMER_URI}
+
+MAX_PARSER_POOL_SIZE=2
+
+REPLAY_CACHE_LIFE_IN_MILLIS=14400000
+ISSUE_INSTANT_CHECK_CLOCK_SKEW_IN_SECONDS=90
+ISSUE_INSTANT_CHECK_VALIDITY_TIME_IN_SECONDS=300
 
 ####################################################################
 ##

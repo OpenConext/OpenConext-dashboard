@@ -42,6 +42,22 @@ wayf.url.metadata=https://engine.test.surfconext.nl/authentication/idp/metadata
 wayf.url.sso=https://engine.test.surfconext.nl/authentication/idp/single-sign-on
 wayf.certificate=??
 
+## Properties for opensaml
+ISSUING_ENTITY_ID=https://selfservice.test.surfconext.nl
+
+WEB_APPLICATION_CHANNEL=https
+WEB_APPLICATION_HOST_AND_PORT=selfservice.test.surfconext.nl
+WEB_APPLICATION_CONTEXT_PATH=
+
+ASSERTION_CONSUMER_URI=/AssertionConsumerService
+ASSERTION_CONSUMER_URL=${WEB_APPLICATION_CHANNEL}://${WEB_APPLICATION_HOST_AND_PORT}${WEB_APPLICATION_CONTEXT_PATH}${ASSERTION_CONSUMER_URI}
+
+MAX_PARSER_POOL_SIZE=2
+
+REPLAY_CACHE_LIFE_IN_MILLIS=14400000
+ISSUE_INSTANT_CHECK_CLOCK_SKEW_IN_SECONDS=90
+ISSUE_INSTANT_CHECK_VALIDITY_TIME_IN_SECONDS=300
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features
