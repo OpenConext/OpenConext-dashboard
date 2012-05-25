@@ -115,14 +115,6 @@ public abstract class Provider implements Comparable<Provider> {
     this.contactPersons.add(contactPerson);
   }
 
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("name", name)
-        .append("type", type)
-        .append("id", getId())
-        .toString();
-  }
-
   @Override
   public int compareTo(Provider that) {
     final int EQUAL = 0;
@@ -150,5 +142,14 @@ public abstract class Provider implements Comparable<Provider> {
     assert this.equals(that) : "compareTo inconsistent with equals.";
 
     return EQUAL;
+  }
+
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("name", name)
+        .append("type", type)
+        .append("id", getId())
+        .append("contactPersons", getContactPersons())
+        .toString();
   }
 }

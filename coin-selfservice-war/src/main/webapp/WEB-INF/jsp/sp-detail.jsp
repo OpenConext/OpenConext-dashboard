@@ -45,13 +45,29 @@
         <ul class="unstyled">
           <li>
             <a href="${sp.homeUrl}">More information</a> <i class="icon-external-link"></i>
-      </li>
+          </li>
           <li>
             <a href="${sp.homeUrl}">Website</a> <i class="icon-external-link"></i>
-      </li>
-    </ul>
+          </li>
+          <c:forEach items="${sp.contactPersons}" var="cp">
+            <li>
+              <ul class="unstyled">
+                <li>${cp.name}</li>
+                <c:if test="${not empty cp.contactPersonType}">
+                  <li><em>(${cp.contactPersonType})</em></li>
+                </c:if>
+                <c:if test="${not empty cp.emailAddress}">
+                  <li><a href="mailto:${cp.emailAddress}">${cp.emailAddress}</a> <i class="icon-external-link"></i></li>
+                </c:if>
+                <c:if test="${not empty cp.telephoneNumber}">
+                  <li>${cp.telephoneNumber}</li>
+                </c:if>
+              </ul>
+            </li>
+          </c:forEach>
+        </ul>
+      </div>
     </div>
-  </div>
 </div>
 </section>
 

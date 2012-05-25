@@ -22,16 +22,19 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.client.RestClientException;
 
 import nl.surfnet.coin.janus.Janus;
+import nl.surfnet.coin.selfservice.domain.ContactPerson;
+import nl.surfnet.coin.selfservice.domain.ContactPersonType;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.ProviderService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
-public class ServiceRegistryProviderService implements ProviderService {
+public class ServiceRegistryProviderService implements ServiceProviderService {
 
   private static final Logger log = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
 
@@ -44,6 +47,14 @@ public class ServiceRegistryProviderService implements ProviderService {
       Janus.Metadata.DISPLAYNAME,
       Janus.Metadata.NAME,
       Janus.Metadata.DESCRIPTION,
+      Janus.Metadata.CONTACTS_0_TYPE,
+      Janus.Metadata.CONTACTS_0_EMAIL,
+      Janus.Metadata.CONTACTS_0_GIVENNAME,
+      Janus.Metadata.CONTACTS_0_SURNAME,
+      Janus.Metadata.CONTACTS_1_TYPE,
+      Janus.Metadata.CONTACTS_1_EMAIL,
+      Janus.Metadata.CONTACTS_1_GIVENNAME,
+      Janus.Metadata.CONTACTS_1_SURNAME,
 
       /* Included because it's one of the properties that all
         entries have in Janus. This works around getting
@@ -117,6 +128,48 @@ public class ServiceRegistryProviderService implements ProviderService {
     sp.setHomeUrl((String) metadata.get(Janus.Metadata.ORGANIZATION_URL.val()));
     sp.setDescription((String) metadata.get(Janus.Metadata.DESCRIPTION.val()));
 
+    if (!StringUtils.isBlank(metadata.get(Janus.Metadata.CONTACTS_0_TYPE.val()))) {
+      String name = StringUtils.join(new String[] {metadata.get(Janus.Metadata.CONTACTS_0_GIVENNAME.val()),
+          metadata.get(Janus.Metadata.CONTACTS_0_SURNAME.val())}, " ");
+      final ContactPerson contactPerson = new ContactPerson(name, metadata.get(Janus.Metadata.CONTACTS_0_EMAIL.val()));
+      contactPerson.setContactPersonType(contactPersonTypeByJanusContactType(metadata.get(
+          Janus.Metadata.CONTACTS_0_TYPE.val())));
+      sp.addContactPerson(contactPerson);
+    }
+    if (!StringUtils.isBlank(metadata.get(Janus.Metadata.CONTACTS_1_TYPE.val()))) {
+      String name = StringUtils.join(new String[] {metadata.get(Janus.Metadata.CONTACTS_1_GIVENNAME.val()),
+          metadata.get(Janus.Metadata.CONTACTS_1_SURNAME.val())}, " ");
+      final ContactPerson contactPerson = new ContactPerson(name, metadata.get(Janus.Metadata.CONTACTS_1_EMAIL.val()));
+      contactPerson.setContactPersonType(contactPersonTypeByJanusContactType(metadata.get(
+          Janus.Metadata.CONTACTS_1_TYPE.val())));
+      sp.addContactPerson(contactPerson);
+    }
     return sp;
+  }
+
+  /**
+   * Convert a Janus contact type to a ServiceProvider's ContactPersonType.
+   *
+   * @param contactType the Janus type
+   * @return the {@link ContactPersonType}
+   * @throws IllegalArgumentException in case no match can be made.
+   */
+  public static ContactPersonType contactPersonTypeByJanusContactType(String contactType) {
+    ContactPersonType t = null;
+    if (contactType.equalsIgnoreCase("technical")) {
+      t = ContactPersonType.technical;
+    } else if (contactType.equalsIgnoreCase("support")) {
+      t = ContactPersonType.help;
+    } else if (contactType.equalsIgnoreCase("administrative")) {
+      t = ContactPersonType.administrative;
+    } else if (contactType.equalsIgnoreCase("billing")) {
+      t = ContactPersonType.administrative;
+    } else if (contactType.equalsIgnoreCase("other")) {
+      t = ContactPersonType.administrative;
+    }
+    if (t == null) {
+      throw new IllegalArgumentException("Unknown Janus-contactType: " + contactType);
+    }
+    return t;
   }
 }

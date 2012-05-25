@@ -30,13 +30,13 @@ import org.springframework.core.io.Resource;
 
 import nl.surfnet.coin.selfservice.domain.FederatieConfig;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.ProviderService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
 
 /**
  * Provider Service seeded with xml config from federation.
  */
-public class FederationProviderService implements ProviderService {
+public class FederationProviderService implements ServiceProviderService {
 
   private static final Logger LOG = LoggerFactory.getLogger(FederationProviderService.class);
   private FederatieConfig federatieConfig;

@@ -70,8 +70,8 @@
     <property name="dataSource" ref="dataSource"/>
   </bean>
 
-  <bean id="providerService" class="nl.surfnet.coin.selfservice.service.impl.CompositeProviderService">
-    <property name="providerServices">
+  <bean id="providerService" class="nl.surfnet.coin.selfservice.service.impl.CompositeServiceProviderService">
+    <property name="serviceProviderServices">
       <list>
         <bean class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService" />
         <bean class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">

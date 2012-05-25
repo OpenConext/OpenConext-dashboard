@@ -23,19 +23,19 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.ProviderService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 /**
- * Provider Service that can query multiple ProviderServices and will combine the results.
+ * Service Provider Service that can query multiple ServiceProviderServices and will combine the results.
  */
-public class CompositeProviderService implements ProviderService {
+public class CompositeServiceProviderService implements ServiceProviderService {
 
-  private List<ProviderService> providerServices;
+  private List<ServiceProviderService> serviceProviderServices;
 
   @Override
   public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
     List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
-    for (ProviderService p : providerServices) {
+    for (ServiceProviderService p : serviceProviderServices) {
       final List<ServiceProvider> providers = p.getLinkedServiceProviders(idpId);
       if (CollectionUtils.isNotEmpty(providers)) {
         ret.addAll(providers);
@@ -48,7 +48,7 @@ public class CompositeProviderService implements ProviderService {
   @Override
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
-    for (ProviderService p : providerServices) {
+    for (ServiceProviderService p : serviceProviderServices) {
       final List<ServiceProvider> providers = p.getAllServiceProviders(idpId);
       if (CollectionUtils.isNotEmpty(providers)) {
         ret.addAll(providers);
@@ -66,7 +66,7 @@ public class CompositeProviderService implements ProviderService {
    */
   @Override
   public ServiceProvider getServiceProvider(String spEntityId) {
-    for (ProviderService p : providerServices) {
+    for (ServiceProviderService p : serviceProviderServices) {
       final ServiceProvider sp = p.getServiceProvider(spEntityId);
       if (sp != null) {
         return sp;
@@ -75,8 +75,8 @@ public class CompositeProviderService implements ProviderService {
     return null;
   }
 
-  public void setProviderServices(List<ProviderService> providerServices) {
-    this.providerServices = providerServices;
+  public void setServiceProviderServices(List<ServiceProviderService> serviceProviderServices) {
+    this.serviceProviderServices = serviceProviderServices;
   }
 
 }

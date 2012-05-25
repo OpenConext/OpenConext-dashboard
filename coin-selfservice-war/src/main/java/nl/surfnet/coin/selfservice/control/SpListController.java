@@ -30,14 +30,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.ProviderService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 @Controller
 public class SpListController {
 
 
   @Resource(name="providerService")
-  private ProviderService providerService;
+  private ServiceProviderService providerService;
 
   @RequestMapping(value="/linked-sps")
   public ModelAndView listLinkedSps() {
