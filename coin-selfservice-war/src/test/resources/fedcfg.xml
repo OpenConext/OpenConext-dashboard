@@ -21,7 +21,7 @@
     <!--Zero or more repetitions:-->
     <fed:IdP id="idpidentity1" display="true" type="proxy">
       <fed:InstitutionID>string</fed:InstitutionID>
-      <fed:Name>string</fed:Name>
+      <fed:Name>IdP Number one</fed:Name>
       <!--Optional:-->
       <fed:HomeURL>http://www.company.org/sonoras/aeoliam</fed:HomeURL>
       <!--Optional:-->
@@ -35,10 +35,16 @@
       <fed:ContactPersons>
         <!--Zero or more repetitions:-->
         <fed:ContactPerson contactType="help">
-          <fed:Name>string</fed:Name>
-          <fed:EmailAddress>string</fed:EmailAddress>
+          <fed:Name>Mr Contact Person</fed:Name>
+          <fed:EmailAddress>help@example.com</fed:EmailAddress>
           <!--Optional:-->
-          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+          <fed:TelephoneNumber>+31123456789</fed:TelephoneNumber>
+        </fed:ContactPerson>
+        <fed:ContactPerson contactType="administrative">
+          <fed:Name>Mr Contact Person</fed:Name>
+          <fed:EmailAddress>admin@example.com</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>+31123456789</fed:TelephoneNumber>
         </fed:ContactPerson>
       </fed:ContactPersons>
     </fed:IdP>
@@ -59,7 +65,7 @@
     </fed:IdP>
     <fed:IdP id="idpidentity2" display="true" type="proxy">
       <fed:InstitutionID>string</fed:InstitutionID>
-      <fed:Name>string</fed:Name>
+      <fed:Name>IdP Number Two</fed:Name>
       <!--Optional:-->
       <fed:HomeURL>http://www.company.org/sonoras/aeoliam</fed:HomeURL>
       <!--Optional:-->
@@ -73,10 +79,10 @@
       <fed:ContactPersons>
         <!--Zero or more repetitions:-->
         <fed:ContactPerson contactType="help">
-          <fed:Name>string</fed:Name>
-          <fed:EmailAddress>string</fed:EmailAddress>
+          <fed:Name>Contact Person</fed:Name>
+          <fed:EmailAddress>contact@example.com</fed:EmailAddress>
           <!--Optional:-->
-          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+          <fed:TelephoneNumber>+3112121212</fed:TelephoneNumber>
         </fed:ContactPerson>
       </fed:ContactPersons>
     </fed:IdP>
@@ -94,10 +100,10 @@
       <fed:ContactPersons>
         <!--Zero or more repetitions:-->
         <fed:ContactPerson contactType="technical">
-          <fed:Name>string</fed:Name>
-          <fed:EmailAddress>string</fed:EmailAddress>
+          <fed:Name>John Üñîçø∂é</fed:Name>
+          <fed:EmailAddress>techsupport@example.com</fed:EmailAddress>
           <!--Optional:-->
-          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+          <fed:TelephoneNumber>+31123456123</fed:TelephoneNumber>
         </fed:ContactPerson>
       </fed:ContactPersons>
       <!--Optional:-->
@@ -107,9 +113,10 @@
         <fed:IdPRef>SURFnetGuests</fed:IdPRef>
       </fed:ACL>
       <!--Zero or more repetitions:-->
-      <fed:ARP idpid="string">
+      <fed:ARP>
         <!--Zero or more repetitions:-->
-        <fed:Attribute>string</fed:Attribute>
+        <fed:Attribute>uuid</fed:Attribute>
+        <fed:Attribute>displayName</fed:Attribute>
       </fed:ARP>
     </fed:SP>
     <fed:SP id="string2" type="radius">
@@ -123,10 +130,10 @@
       <fed:ContactPersons>
         <!--Zero or more repetitions:-->
         <fed:ContactPerson contactType="technical">
-          <fed:Name>string</fed:Name>
-          <fed:EmailAddress>string</fed:EmailAddress>
+          <fed:Name>John Üñîçø∂é</fed:Name>
+          <fed:EmailAddress>techsupport@example.com</fed:EmailAddress>
           <!--Optional:-->
-          <fed:TelephoneNumber>string</fed:TelephoneNumber>
+          <fed:TelephoneNumber>+31123456123</fed:TelephoneNumber>
         </fed:ContactPerson>
       </fed:ContactPersons>
       <!--Optional:-->
@@ -134,9 +141,9 @@
         <!--Zero or more repetitions:-->
       </fed:ACL>
       <!--Zero or more repetitions:-->
-      <fed:ARP idpid="string">
+      <fed:ARP idpid="idpidentity1">
         <!--Zero or more repetitions:-->
-        <fed:Attribute>string</fed:Attribute>
+        <fed:Attribute>mailaddress</fed:Attribute>
       </fed:ARP>
     </fed:SP>
   </fed:SPs>
