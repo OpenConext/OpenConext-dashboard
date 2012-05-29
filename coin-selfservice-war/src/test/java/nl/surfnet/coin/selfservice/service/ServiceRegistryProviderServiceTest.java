@@ -16,9 +16,8 @@
 
 package nl.surfnet.coin.selfservice.service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -28,6 +27,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import nl.surfnet.coin.janus.Janus;
+import nl.surfnet.coin.janus.domain.EntityMetadata;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService;
 
@@ -52,10 +52,11 @@ public class ServiceRegistryProviderServiceTest {
   @Test
   @Ignore("janus mock doesn't work")
   public void getAllServiceProviders() {
-    final Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
-    data.put("entityid", new HashMap<String, String>());
-    data.get("entityid").put("key", "value");
-    when(janus.getSpList((Janus.Metadata[]) anyObject())).thenReturn(data);
+    List<EntityMetadata> ems = new ArrayList<EntityMetadata>();
+    final EntityMetadata e = new EntityMetadata();
+    e.setAppEntityId("entityid");
+    ems.add(e);
+    when(janus.getSpList((Janus.Metadata[]) anyObject())).thenReturn(ems);
 
     final List<ServiceProvider> allServiceProviders = serviceRegistryProviderService.getAllServiceProviders("anyid");
     System.out.println(allServiceProviders);

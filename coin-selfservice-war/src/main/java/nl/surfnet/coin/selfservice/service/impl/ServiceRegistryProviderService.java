@@ -18,7 +18,6 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -29,6 +28,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.client.RestClientException;
 
 import nl.surfnet.coin.janus.Janus;
+import nl.surfnet.coin.janus.domain.Contact;
+import nl.surfnet.coin.janus.domain.EntityMetadata;
 import nl.surfnet.coin.selfservice.domain.ContactPerson;
 import nl.surfnet.coin.selfservice.domain.ContactPersonType;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -89,11 +90,10 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     try {
-      final Map<String, Map<String, String>> sps = janusClient.getSpList(metadataToGet);
-      for (String spEntityId : sps.keySet()) {
-        Map<String, String> metadata = sps.get(spEntityId);
+      final List<EntityMetadata> sps = janusClient.getSpList(metadataToGet);
+      for (EntityMetadata metadata : sps) {
         buildServiceProviderByMetadata(metadata);
-        final ServiceProvider serviceProvider = getServiceProvider(spEntityId);
+        final ServiceProvider serviceProvider = getServiceProvider(metadata.getAppEntityId());
         if (serviceProvider != null) {
           spList.add(serviceProvider);
         }
@@ -108,7 +108,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   @Cacheable(value = {"sps-janus"})
   public ServiceProvider getServiceProvider(String spEntityId) {
     try {
-      Map<String, String> metadata = janusClient.getMetadataByEntityId(spEntityId, metadataToGet);
+      EntityMetadata metadata= janusClient.getMetadataByEntityId(spEntityId, metadataToGet);
       return buildServiceProviderByMetadata(metadata);
     } catch (RestClientException e) {
       log.warn("Could not retrieve metadata from Janus client", e.getMessage());
@@ -121,28 +121,17 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
    * @param metadata Janus metadata
    * @return {@link ServiceProvider}
    */
-  public static ServiceProvider buildServiceProviderByMetadata(Map<String, String> metadata) {
-    ServiceProvider sp = new ServiceProvider((String) metadata.get(Janus.Metadata.ENTITY_ID.val()),
-        (String) metadata.get(Janus.Metadata.DISPLAYNAME.val()));
-    sp.setLogoUrl((String) metadata.get(Janus.Metadata.LOGO_URL.val()));
-    sp.setHomeUrl((String) metadata.get(Janus.Metadata.ORGANIZATION_URL.val()));
-    sp.setDescription((String) metadata.get(Janus.Metadata.DESCRIPTION.val()));
+  public static ServiceProvider buildServiceProviderByMetadata(EntityMetadata metadata) {
+    ServiceProvider sp = new ServiceProvider(metadata.getAppEntityId(), metadata.getAppTitle());
+    sp.setLogoUrl(metadata.getAppLogoUrl());
+    sp.setHomeUrl(metadata.getAppHomeUrl());
+    sp.setDescription(metadata.getAppDescription());
 
-    if (!StringUtils.isBlank(metadata.get(Janus.Metadata.CONTACTS_0_TYPE.val()))) {
-      String name = StringUtils.join(new String[] {metadata.get(Janus.Metadata.CONTACTS_0_GIVENNAME.val()),
-          metadata.get(Janus.Metadata.CONTACTS_0_SURNAME.val())}, " ");
-      final ContactPerson contactPerson = new ContactPerson(name, metadata.get(Janus.Metadata.CONTACTS_0_EMAIL.val()));
-      contactPerson.setContactPersonType(contactPersonTypeByJanusContactType(metadata.get(
-          Janus.Metadata.CONTACTS_0_TYPE.val())));
-      sp.addContactPerson(contactPerson);
-    }
-    if (!StringUtils.isBlank(metadata.get(Janus.Metadata.CONTACTS_1_TYPE.val()))) {
-      String name = StringUtils.join(new String[] {metadata.get(Janus.Metadata.CONTACTS_1_GIVENNAME.val()),
-          metadata.get(Janus.Metadata.CONTACTS_1_SURNAME.val())}, " ");
-      final ContactPerson contactPerson = new ContactPerson(name, metadata.get(Janus.Metadata.CONTACTS_1_EMAIL.val()));
-      contactPerson.setContactPersonType(contactPersonTypeByJanusContactType(metadata.get(
-          Janus.Metadata.CONTACTS_1_TYPE.val())));
-      sp.addContactPerson(contactPerson);
+    for (Contact c : metadata.getContacts()) {
+      ContactPerson p = new ContactPerson(StringUtils.join(new Object[]{c.getGivenName(), c.getSurName()}, " "),
+          c.getEmailAddress());
+      p.setContactPersonType(contactPersonTypeByJanusContactType(c.getType()));
+      sp.addContactPerson(p);
     }
     return sp;
   }
@@ -154,17 +143,17 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
    * @return the {@link ContactPersonType}
    * @throws IllegalArgumentException in case no match can be made.
    */
-  public static ContactPersonType contactPersonTypeByJanusContactType(String contactType) {
+  public static ContactPersonType contactPersonTypeByJanusContactType(Contact.Type contactType) {
     ContactPersonType t = null;
-    if (contactType.equalsIgnoreCase("technical")) {
+    if (contactType == Contact.Type.technical) {
       t = ContactPersonType.technical;
-    } else if (contactType.equalsIgnoreCase("support")) {
+    } else if (contactType == Contact.Type.support) {
       t = ContactPersonType.help;
-    } else if (contactType.equalsIgnoreCase("administrative")) {
+    } else if (contactType == Contact.Type.administrative) {
       t = ContactPersonType.administrative;
-    } else if (contactType.equalsIgnoreCase("billing")) {
+    } else if (contactType == Contact.Type.billing) {
       t = ContactPersonType.administrative;
-    } else if (contactType.equalsIgnoreCase("other")) {
+    } else if (contactType == Contact.Type.other) {
       t = ContactPersonType.administrative;
     }
     if (t == null) {
