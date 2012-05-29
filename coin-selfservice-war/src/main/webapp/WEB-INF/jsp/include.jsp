@@ -1,4 +1,3 @@
-<%@ include file="include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -15,15 +14,8 @@
   limitations under the License.
   --%>
 
-<jsp:include page="header.jsp">
-  <jsp:param name="activeSection" value="home"/>
-  <jsp:param name="title" value="Home"/>
-</jsp:include>
-<section>
-  <div class="content">
-
-    <h3>Home</h3>
-    Welcome to the Idp Self Service Station.
-  </div>
-</section>
-<jsp:include page="footer.jsp"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>

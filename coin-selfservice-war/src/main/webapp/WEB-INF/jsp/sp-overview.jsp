@@ -1,6 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -19,7 +17,9 @@
 
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="header.jsp">
+  <jsp:param name="title" value="Service providers"/>
+</jsp:include>
 
 <section>
 

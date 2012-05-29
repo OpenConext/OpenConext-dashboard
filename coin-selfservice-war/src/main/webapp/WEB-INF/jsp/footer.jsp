@@ -1,11 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ include file="include.jsp" %>
+
+<%--
+  Copyright 2012 SURFnet bv, The Netherlands
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  --%>
 
 <footer>
   <div class="content-some-dense">
-    SURFnet bv | Postbus 190-35, 3501 DA Utrecht | T +31 302 305 305 | F +31 302 305 329 | <a
-      href="mailto:admin@surfnet.nl">Admin@SURFnet.nl</a>
+    <spring:message code="jsp.general.footertext" htmlEscape="false"/>
   </div>
 </footer>
 </div>
@@ -42,5 +56,5 @@
     }
     </script>
 
-    </body>
-    </html>
+</body>
+</html>

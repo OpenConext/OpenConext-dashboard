@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -19,48 +19,53 @@
 
 <jsp:include page="header.jsp">
   <jsp:param name="activeSection" value="linked-sps"/>
+  <jsp:param name="title" value="${sp.name}"/>
 </jsp:include>
 
 <section>
 
-  <h2>${sp.name}</h2>
+  <h2><c:out value="${sp.name}"/></h2>
 
   <div class="row">
-  <div class="span2">
-    <div class="content">
-      <p>
-        <img alt="${sp.name}" style="float:left" src="${sp.logoUrl}"/>
-      </p>
-    </div>
-  </div>
-  <div class="span6">
-    <div class="content">
-      <p>
-        ${sp.description}
-      </p>
-    </div>
-  </div>
+    <c:if test="${not empty sp.logoUrl}">
+      <div class="span2">
+        <div class="content">
+          <p>
+            <img alt="" style="float:left" src="<c:out value="${sp.logoUrl}"/>"/>
+          </p>
+        </div>
+      </div>
+    </c:if>
+      <div class="span6">
+        <div class="content">
+          <c:if test="${not empty sp.description}">
+          <p>
+            <c:out value="${sp.description}"/>
+          </p>
+          </c:if>
+        </div>
+      </div>
     <div class="span4">
       <div class="content">
         <ul class="unstyled">
           <li>
-            <a href="${sp.homeUrl}">More information</a> <i class="icon-external-link"></i>
+            <a href="<c:out value="${sp.homeUrl}"/>">More information</a> <i class="icon-external-link"></i>
           </li>
           <li>
-            <a href="${sp.homeUrl}">Website</a> <i class="icon-external-link"></i>
+            <a href="<c:out value="${sp.homeUrl}"/>">Website</a> <i class="icon-external-link"></i>
           </li>
           <c:forEach items="${sp.contactPersons}" var="cp">
             <li>
               <ul class="unstyled">
-                <li>${cp.name}</li>
+                <li><c:out value="${cp.name}"/></li>
                 <c:if test="${not empty cp.contactPersonType}">
-                  <li><em>(${cp.contactPersonType})</em></li>
+                  <li><em>(<c:out value="${cp.contactPersonType}"/>)</em></li>
                 </c:if>
                 <c:if test="${not empty cp.emailAddress}">
-                  <li><a href="mailto:${cp.emailAddress}">${cp.emailAddress}</a> <i class="icon-external-link"></i></li>
+                  <li><a href="mailto:<c:out value="${cp.emailAddress}"/>"><c:out value="${cp.emailAddress}"/></a> <i class="icon-external-link"></i></li>
                 </c:if>
                 <c:if test="${not empty cp.telephoneNumber}">
-                  <li>${cp.telephoneNumber}</li>
+                  <li><c:out value="${cp.telephoneNumber}"/></li>
                 </c:if>
               </ul>
             </li>
@@ -68,7 +73,7 @@
         </ul>
       </div>
     </div>
-</div>
+  </div>
 </section>
 
 
