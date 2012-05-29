@@ -39,30 +39,6 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
 
   private static final Logger log = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
 
-  private static final Janus.Metadata[] metadataToGet = new Janus.Metadata[]{
-      Janus.Metadata.OAUTH_APPICON,
-      Janus.Metadata.OAUTH_APPTITLE,
-      Janus.Metadata.ORGANIZATION_NAME,
-      Janus.Metadata.ORGANIZATION_URL,
-      Janus.Metadata.LOGO_URL,
-      Janus.Metadata.DISPLAYNAME,
-      Janus.Metadata.NAME,
-      Janus.Metadata.DESCRIPTION,
-      Janus.Metadata.CONTACTS_0_TYPE,
-      Janus.Metadata.CONTACTS_0_EMAIL,
-      Janus.Metadata.CONTACTS_0_GIVENNAME,
-      Janus.Metadata.CONTACTS_0_SURNAME,
-      Janus.Metadata.CONTACTS_1_TYPE,
-      Janus.Metadata.CONTACTS_1_EMAIL,
-      Janus.Metadata.CONTACTS_1_GIVENNAME,
-      Janus.Metadata.CONTACTS_1_SURNAME,
-
-      /* Included because it's one of the properties that all
-        entries have in Janus. This works around getting
-        a 404 if none of the other properties are set.
-      */
-      Janus.Metadata.NAMEIDFORMAT
-  };
 
   @Resource(name = "janusClient")
   private Janus janusClient;
@@ -90,7 +66,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     try {
-      final List<EntityMetadata> sps = janusClient.getSpList(metadataToGet);
+      final List<EntityMetadata> sps = janusClient.getSpList();
       for (EntityMetadata metadata : sps) {
         buildServiceProviderByMetadata(metadata);
         final ServiceProvider serviceProvider = getServiceProvider(metadata.getAppEntityId());
@@ -108,7 +84,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   @Cacheable(value = {"sps-janus"})
   public ServiceProvider getServiceProvider(String spEntityId) {
     try {
-      EntityMetadata metadata= janusClient.getMetadataByEntityId(spEntityId, metadataToGet);
+      EntityMetadata metadata= janusClient.getMetadataByEntityId(spEntityId);
       return buildServiceProviderByMetadata(metadata);
     } catch (RestClientException e) {
       log.warn("Could not retrieve metadata from Janus client", e.getMessage());

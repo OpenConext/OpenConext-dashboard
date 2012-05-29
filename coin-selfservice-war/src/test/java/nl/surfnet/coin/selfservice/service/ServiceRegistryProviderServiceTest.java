@@ -33,7 +33,6 @@ import nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
 
 public class ServiceRegistryProviderServiceTest {
@@ -56,7 +55,7 @@ public class ServiceRegistryProviderServiceTest {
     final EntityMetadata e = new EntityMetadata();
     e.setAppEntityId("entityid");
     ems.add(e);
-    when(janus.getSpList((Janus.Metadata[]) anyObject())).thenReturn(ems);
+    when(janus.getSpList()).thenReturn(ems);
 
     final List<ServiceProvider> allServiceProviders = serviceRegistryProviderService.getAllServiceProviders("anyid");
     System.out.println(allServiceProviders);
