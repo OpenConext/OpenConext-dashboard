@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 
 import nl.surfnet.coin.janus.Janus;
@@ -64,6 +65,26 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   @Override
   @Cacheable(value = {"sps-janus"})
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
+    List<ServiceProvider> allSPs = getAllServiceProvidersUnfiltered();
+
+    List<ServiceProvider> myLinkedSPs = getLinkedServiceProviders(idpId);
+
+    List<ServiceProvider> filteredList = new ArrayList<ServiceProvider>();
+    for (ServiceProvider sp : allSPs) {
+      if (myLinkedSPs.contains(sp)) {
+        // an already linked SP is visible
+        sp.setLinked(true);
+        filteredList.add(sp);
+      } else if (!sp.isIdpVisibleOnly()) {
+        // Not-linked sps are only visible if 'idp visible only' is not true.
+        filteredList.add(sp);
+      }
+    }
+    return filteredList;
+  }
+
+  @Cacheable(value = {"sps-janus"})
+  private List<ServiceProvider> getAllServiceProvidersUnfiltered() {
     List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     try {
       final List<EntityMetadata> sps = janusClient.getSpList();
@@ -98,11 +119,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
    * @return {@link ServiceProvider}
    */
   public static ServiceProvider buildServiceProviderByMetadata(EntityMetadata metadata) {
+    Assert.notNull(metadata, "metadata cannot be null");
     ServiceProvider sp = new ServiceProvider(metadata.getAppEntityId(), metadata.getAppTitle());
     sp.setLogoUrl(metadata.getAppLogoUrl());
     sp.setHomeUrl(metadata.getAppHomeUrl());
     sp.setDescription(metadata.getAppDescription());
-
+    sp.setIdpVisibleOnly(metadata.isIdpVisibleOnly());
     for (Contact c : metadata.getContacts()) {
       ContactPerson p = new ContactPerson(StringUtils.join(new Object[]{c.getGivenName(), c.getSurName()}, " "),
           c.getEmailAddress());

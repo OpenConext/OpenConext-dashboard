@@ -45,6 +45,9 @@ public class ServiceProvider extends Provider implements Serializable {
   @XStreamAlias("ACL")
   private ACL acl;
 
+
+  private boolean idpVisibleOnly;
+
   public ServiceProvider(String id, String name) {
     this.id = id;
     setName(name);
@@ -76,6 +79,14 @@ public class ServiceProvider extends Provider implements Serializable {
 
   public void addArp(ARP arp) {
     this.arps.add(arp);
+  }
+
+  public boolean isIdpVisibleOnly() {
+    return idpVisibleOnly;
+  }
+
+  public void setIdpVisibleOnly(boolean idpVisibleOnly) {
+    this.idpVisibleOnly = idpVisibleOnly;
   }
 
   @Override

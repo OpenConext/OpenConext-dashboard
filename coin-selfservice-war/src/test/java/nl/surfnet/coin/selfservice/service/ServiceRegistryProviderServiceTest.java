@@ -17,10 +17,10 @@
 package nl.surfnet.coin.selfservice.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,6 +33,7 @@ import nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class ServiceRegistryProviderServiceTest {
@@ -48,17 +49,58 @@ public class ServiceRegistryProviderServiceTest {
     serviceRegistryProviderService = new ServiceRegistryProviderService();
     MockitoAnnotations.initMocks(this);
   }
+
   @Test
-  @Ignore("janus mock doesn't work")
   public void getAllServiceProviders() {
     List<EntityMetadata> ems = new ArrayList<EntityMetadata>();
     final EntityMetadata e = new EntityMetadata();
     e.setAppEntityId("entityid");
     ems.add(e);
+    when(janus.getMetadataByEntityId("entityid")).thenReturn(e);
+    when(janus.getAllowedSps(anyString())).thenReturn(Arrays.asList("entityid"));
     when(janus.getSpList()).thenReturn(ems);
-
     final List<ServiceProvider> allServiceProviders = serviceRegistryProviderService.getAllServiceProviders("anyid");
     System.out.println(allServiceProviders);
     assertThat(allServiceProviders.get(0).getId(), is("entityid"));
+  }
+
+  @Test
+  public void filteredList() {
+    List<EntityMetadata> ems = new ArrayList<EntityMetadata>();
+
+    final EntityMetadata linkedEntity = new EntityMetadata();
+    linkedEntity.setAppEntityId("linkedEntity-idpVisibleOnly");
+    linkedEntity.setIdpVisibleOnly(true);
+    ems.add(linkedEntity);
+
+    final EntityMetadata linkedEntity2 = new EntityMetadata();
+    linkedEntity2.setAppEntityId("linkedEntity-not-idpVisibleOnly");
+    linkedEntity2.setIdpVisibleOnly(false);
+    ems.add(linkedEntity2);
+
+    final EntityMetadata entity = new EntityMetadata();
+    entity.setAppEntityId("entity-idpVisibleOnly");
+    entity.setIdpVisibleOnly(true);
+    ems.add(entity);
+
+
+    final EntityMetadata entity2 = new EntityMetadata();
+    entity2.setAppEntityId("entity-not-idpVisibleOnly");
+    entity2.setIdpVisibleOnly(false);
+    ems.add(entity2);
+
+    when(janus.getMetadataByEntityId("linkedEntity-idpVisibleOnly")).thenReturn(linkedEntity);
+    when(janus.getMetadataByEntityId("linkedEntity-not-idpVisibleOnly")).thenReturn(linkedEntity2);
+    when(janus.getMetadataByEntityId("entity-idpVisibleOnly")).thenReturn(entity);
+    when(janus.getMetadataByEntityId("entity-not-idpVisibleOnly")).thenReturn(entity2);
+
+    when(janus.getAllowedSps(anyString())).thenReturn(
+        Arrays.asList("linkedEntity-idpVisibleOnly", "linkedEntity-not-idpVisibleOnly"));
+
+    when(janus.getSpList()).thenReturn(ems);
+
+    final List<ServiceProvider> filteredList = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
+    System.out.println(filteredList);
+    assertThat(filteredList.size(), is(3));
   }
 }

@@ -51,6 +51,16 @@ public abstract class Provider implements Comparable<Provider> {
 
   private String description;
 
+  private boolean linked;
+
+  public boolean isLinked() {
+    return linked;
+  }
+
+  public void setLinked(boolean linked) {
+    this.linked = linked;
+  }
+
   public abstract String getId();
 
   public abstract void setId(String id);
