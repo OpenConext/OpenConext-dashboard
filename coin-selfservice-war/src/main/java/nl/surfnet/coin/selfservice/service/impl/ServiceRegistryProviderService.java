@@ -53,6 +53,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
       for (String spEntityId : sps) {
         final ServiceProvider serviceProvider = getServiceProvider(spEntityId);
         if (serviceProvider != null) {
+          serviceProvider.setLinked(true);
           spList.add(serviceProvider);
         }
       }

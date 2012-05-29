@@ -33,7 +33,6 @@
         <th>Name</th>
         <th>Description</th>
         <th></th>
-        <th class="cw55 center">Enabled</th>
         <th class="cw55 center">Active</th>
         <th class="cw55 small center">Actions</th>
       </tr>
@@ -51,8 +50,16 @@
                 <img src="${sp.logoUrl}" alt="<c:out value="${sp.name}"/>"/>
               </c:if>
             </td>
-            <td class="center"><i class="icon-ok"></i></td>
-            <td class="center"><i class="icon-ok"></i></td>
+            <td class="center">
+            <c:choose>
+              <c:when test="${sp.linked}">
+              <i class="icon-ok"></i>
+              </c:when>
+              <c:otherwise>
+                <i class="icon-ban-circle"></i>
+              </c:otherwise>
+            </c:choose>
+            </td>
             <td class="center">
               <a href="<c:url value="/sp/detail.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
