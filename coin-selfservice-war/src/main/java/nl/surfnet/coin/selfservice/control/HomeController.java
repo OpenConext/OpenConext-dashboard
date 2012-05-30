@@ -32,4 +32,9 @@ public class HomeController {
     return "styleguide";
   }
 
+  @RequestMapping("/form.shtml")
+  public String styleguideForm() {
+    return "styleguide-form";
+  }
+
 }

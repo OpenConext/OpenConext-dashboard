@@ -1,3 +1,4 @@
+<%@ include file="include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -45,12 +46,12 @@
   <h2>Links that do a form post</h2>
 
   <div class="content">
-    <a href="form.html?id=12&type=new" class="btn btn-primary" data-form="true">Post request</a>
-    <a href="form.html" class="btn btn-primary" data-form="true" data-confirm="Are you sure?">Post request with a
+    <a href="/form.shtml?id=12&type=new" class="btn btn-primary" data-form="true">Post request</a>
+    <a href="/form.shtml" class="btn btn-primary" data-form="true" data-confirm="Are you sure?">Post request with a
       confirm</a>
-    <a href="form.html" class="btn btn-primary" data-form="true" data-success="The post request was successfull">Post
+    <a href="/form.shtml" class="btn btn-primary" data-form="true" data-success="The post request was successfull">Post
       request with a succes message</a>
-    <a href="form.html" data-form="true" data-confirm="Just press ok and see the message!"
+    <a href="/form.shtml" data-form="true" data-confirm="Just press ok and see the message!"
        data-success="Yes we did it again!!">Post with confirm and success message</a>
   </div>
 
@@ -64,7 +65,7 @@
     <p>Paragraph, with unordered list:</p>
     <ul>
       <li>
-        <a href="form.html">Form</a>
+        <a href="<c:url value="/form.shtml"/>">Form</a>
       </li>
       <li>
         <a href="reservation.html">Reservation table</a>
