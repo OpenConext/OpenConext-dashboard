@@ -126,10 +126,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     sp.setHomeUrl(metadata.getAppHomeUrl());
     sp.setDescription(metadata.getAppDescription());
     sp.setIdpVisibleOnly(metadata.isIdpVisibleOnly());
+    sp.setEulaURL(metadata.getEula());
     for (Contact c : metadata.getContacts()) {
       ContactPerson p = new ContactPerson(StringUtils.join(new Object[]{c.getGivenName(), c.getSurName()}, " "),
           c.getEmailAddress());
       p.setContactPersonType(contactPersonTypeByJanusContactType(c.getType()));
+      p.setTelephoneNumber(c.getTelephoneNumber());
       sp.addContactPerson(p);
     }
     return sp;

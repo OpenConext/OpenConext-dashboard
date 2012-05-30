@@ -44,7 +44,7 @@ public abstract class Provider implements Comparable<Provider> {
   private String logoUrl;
 
   @XStreamAlias("MetadataURL")
-  private String metadataURL;
+  private String metadataUrl;
 
   @XStreamAlias("ContactPersons")
   private List<ContactPerson> contactPersons = new ArrayList<ContactPerson>();
@@ -97,12 +97,12 @@ public abstract class Provider implements Comparable<Provider> {
     this.logoUrl = logoUrl;
   }
 
-  public String getMetadataURL() {
-    return metadataURL;
+  public String getMetadataUrl() {
+    return metadataUrl;
   }
 
-  public void setMetadataURL(String metadataURL) {
-    this.metadataURL = metadataURL;
+  public void setMetadataUrl(String metadataUrl) {
+    this.metadataUrl = metadataUrl;
   }
 
   public String getDescription() {

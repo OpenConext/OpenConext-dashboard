@@ -45,6 +45,7 @@ public class ServiceProvider extends Provider implements Serializable {
   @XStreamAlias("ACL")
   private ACL acl;
 
+  private String eulaURL;
 
   private boolean idpVisibleOnly;
 
@@ -87,6 +88,14 @@ public class ServiceProvider extends Provider implements Serializable {
 
   public void setIdpVisibleOnly(boolean idpVisibleOnly) {
     this.idpVisibleOnly = idpVisibleOnly;
+  }
+
+  public String getEulaURL() {
+    return eulaURL;
+  }
+
+  public void setEulaURL(String eulaURL) {
+    this.eulaURL = eulaURL;
   }
 
   @Override
