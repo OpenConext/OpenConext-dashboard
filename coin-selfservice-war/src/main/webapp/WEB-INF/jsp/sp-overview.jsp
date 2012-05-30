@@ -17,24 +17,33 @@
 
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
 
+<c:choose>
+  <c:when test="${activeSection eq 'linked-sps'}">
+    <spring:message var="title" code="jsp.mysp.title"/>
+  </c:when>
+  <c:otherwise>
+    <spring:message var="title" code="jsp.allsp.title"/>
+  </c:otherwise>
+</c:choose>
+
 <jsp:include page="header.jsp">
-  <jsp:param name="title" value="Service providers"/>
+  <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
 <section>
 
-  <h2>Service Providers</h2>
+  <h2>${title}</h2>
 
   <div class="content">
-    <c:out value="${fn:length(sps)}" /> results.
+    <spring:message code="jsp.sp_overview.n_results" arguments="${fn:length(sps)}"/>
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
       <tr>
-        <th>Name</th>
-        <th>Description</th>
+        <th><spring:message code="jsp.sp_overview.name"/></th>
+        <th><spring:message code="jsp.sp_overview.description"/></th>
         <th></th>
-        <th class="cw55 center">Active</th>
-        <th class="cw55 small center">Actions</th>
+        <th class="cw55 center"><spring:message code="jsp.sp_overview.active"/></th>
+        <th class="cw55 small center"><spring:message code="jsp.sp_overview.actions"/></th>
       </tr>
       </thead>
       <tbody>
@@ -61,11 +70,12 @@
             </c:choose>
             </td>
             <td class="center">
+              <spring:message var="detailTitle" code="jsp.sp_overview.detail"/>
               <a href="<c:url value="/sp/detail.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
                  rel="tooltip" data-type="info"
-                 title="Detail"><i class="icon-info-sign"></i></a>
+                 title="${detailTitle}"><i class="icon-info-sign"></i></a>
             </td>
           </tr>
         </c:if>

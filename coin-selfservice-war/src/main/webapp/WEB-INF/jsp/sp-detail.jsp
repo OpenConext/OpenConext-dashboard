@@ -36,23 +36,24 @@
         </div>
       </div>
     </c:if>
-      <div class="span6">
-        <div class="content">
-          <c:if test="${not empty sp.description}">
+    <%-- bit ugly: if this span does not exist, the right column is pushed to the left --%>
+    <div class="span6">
+      <div class="content">
+        <c:if test="${not empty sp.description}">
           <p>
             <c:out value="${sp.description}"/>
           </p>
-          </c:if>
-        </div>
+        </c:if>
       </div>
+    </div>
     <div class="span4">
       <div class="content">
         <ul class="unstyled">
           <li>
-            <a href="<c:out value="${sp.homeUrl}"/>">More information</a> <i class="icon-external-link"></i>
+            <a href="<c:out value="${sp.homeUrl}"/>"><spring:message code="jsp.sp_detail.moreinfo"/></a> <i class="icon-external-link"></i>
           </li>
           <li>
-            <a href="<c:out value="${sp.homeUrl}"/>">Website</a> <i class="icon-external-link"></i>
+            <a href="<c:out value="${sp.homeUrl}"/>"><spring:message code="jsp.sp_detail.website"/></a> <i class="icon-external-link"></i>
           </li>
           <c:forEach items="${sp.contactPersons}" var="cp">
             <li>

@@ -14,15 +14,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   --%>
-
+<spring:message var="title" code="jsp.home.title"/>
 <jsp:include page="header.jsp">
   <jsp:param name="activeSection" value="home"/>
-  <jsp:param name="title" value="Home"/>
+  <jsp:param name="title" value="${title}"/>
 </jsp:include>
 <section>
   <div class="content">
 
-    <h3>Home</h3>
+    <h3>${title}</h3>
     Welcome to the Idp Self Service Station.
   </div>
 </section>

@@ -74,16 +74,16 @@
 <div class="wrapper">
 
 <header>
-  <a href="<c:url value="/"/>">Home</a>
+  <a href="<c:url value="/"/>"><spring:message code="jsp.header.home"/></a>
 
-  <h1>SURFconext Self service</h1>
+  <h1><spring:message code="jsp.header.title"/></h1>
 </header>
 
 <section class="user-box content-dense">
   <span class="user-name">
     <sec:authentication property="principal.displayName" scope="request" htmlEscape="true"/>
   </span>
-  <a href="#" class="logout">Logout <i class="icon-signout"></i></a>
+  <a href="#" class="logout">_Logout <i class="icon-signout"></i></a>
 
   <!-- b:dropdown -->
 
@@ -135,13 +135,15 @@
     <div class="container">
       <ul class="nav">
         <li <c:if test="${param.activeSection == 'home'}">class="active"
-        </c:if>><a href="<c:url value="/home.shtml"/>">Home</a></li>
+        </c:if>><a href="<c:url value="/home.shtml"/>"><spring:message code="jsp.home.title"/></a></li>
         <li <c:if test="${activeSection == 'linked-sps'}">class="active"
-        </c:if>><a href="<c:url value="/linked-sps.shtml"/>">My Service Providers</a></li>
+        </c:if>><a href="<c:url value="/linked-sps.shtml"/>"><spring:message code="jsp.mysp.title"/></a></li>
         <li <c:if test="${activeSection == 'all-sps'}">class="active"
-        </c:if>><a href="<c:url value="/all-sps.shtml"/>">All Service Providers</a></li>
+        </c:if>><a href="<c:url value="/all-sps.shtml"/>"><spring:message code="jsp.allsp.title"/></a></li>
+<%--
         <li <c:if test="${param.activeSection == 'styleguide'}">class="active"
-        </c:if>><a href="<c:url value="/styleguide.shtml"/>">Styleguide</a></li>
+        </c:if>><a href="<c:url value="/styleguide.shtml"/>">_Styleguide</a></li>
+--%>
       </ul>
     </div>
   </div>
