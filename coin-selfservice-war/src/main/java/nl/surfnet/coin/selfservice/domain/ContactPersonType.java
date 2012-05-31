@@ -16,13 +16,6 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
-/**
- * Created with IntelliJ IDEA.
- * User: jashaj
- * Date: 16-05-12
- * Time: 13:10
- * To change this template use File | Settings | File Templates.
- */
 public enum ContactPersonType {
   technical, administrative, help
 }
