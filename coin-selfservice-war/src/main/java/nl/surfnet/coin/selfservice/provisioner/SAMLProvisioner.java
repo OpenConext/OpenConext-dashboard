@@ -26,6 +26,8 @@ import org.opensaml.saml2.core.Attribute;
 import org.opensaml.saml2.core.AttributeStatement;
 import org.opensaml.saml2.core.AuthenticatingAuthority;
 import org.opensaml.saml2.core.AuthnStatement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
@@ -40,6 +42,7 @@ public class SAMLProvisioner implements Provisioner {
   private static final String EMAIL = "urn:mace:dir:attribute-def:mail";
   private static final String SCHAC_HOME = "urn:mace:terena.org:attribute-def:schacHomeOrganization";
   private static final String UID = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
+  private static final Logger LOG = LoggerFactory.getLogger(SAMLProvisioner.class);
 
   @Override
   public UserDetails provisionUser(Assertion assertion) {
