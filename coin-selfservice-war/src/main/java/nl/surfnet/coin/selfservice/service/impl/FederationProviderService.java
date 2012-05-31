@@ -22,6 +22,7 @@ import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,14 +30,16 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import nl.surfnet.coin.selfservice.domain.FederatieConfig;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
 
 /**
  * Provider Service seeded with xml config from federation.
  */
-public class FederationProviderService implements ServiceProviderService {
+public class FederationProviderService implements ServiceProviderService, IdentityProviderService {
 
   private static final Logger LOG = LoggerFactory.getLogger(FederationProviderService.class);
   private FederatieConfig federatieConfig;
@@ -89,4 +92,33 @@ public class FederationProviderService implements ServiceProviderService {
     }
     return null;
   }
+
+  @Override
+  @Cacheable(value = { "sps-federation" })
+  public IdentityProvider getIdentityProvider(String idpEntityId) {
+    for (IdentityProvider idp : federatieConfig.getIdPs()) {
+      if (idp.getId().equals(idpEntityId)) {
+        return idp;
+      }
+    }
+    return null;
+  }
+
+
+
+  @Override
+  @Cacheable(value = { "sps-federation" })
+  public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
+
+    List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
+
+    for (IdentityProvider idp : federatieConfig.getIdPs()) {
+      if (!StringUtils.isBlank(instituteId) && idp.getInstitutionId().equals(instituteId)) {
+        idps.add(idp);
+      }
+    }
+    return idps;
+  }
+
+
 }

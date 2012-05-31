@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import java.io.Serializable;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -23,7 +25,9 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * Identity provider
  */
 @XStreamAlias("IdP")
-public class IdentityProvider extends Provider {
+public class IdentityProvider extends Provider implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   @XStreamAlias("id")
   @XStreamAsAttribute

@@ -16,8 +16,11 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -43,7 +46,12 @@ public class SpListController {
   public ModelAndView listLinkedSps() {
     Map<String, Object> m = new HashMap<String, Object>();
 
-    m.put("sps", providerService.getLinkedServiceProviders(getIdpEntityId()));
+    // Add SP's for all idps; put in a Set to filter out duplicates
+    Set<ServiceProvider> sps = new HashSet<ServiceProvider>();
+    for (String idpId : getCurrentUser().getInstitutionIdps()) {
+      sps.addAll(providerService.getLinkedServiceProviders(idpId));
+    }
+    m.put("sps", new ArrayList<ServiceProvider>(sps));
     m.put("activeSection", "linked-sps");
     return new ModelAndView("sp-overview", m);
   }
@@ -52,8 +60,14 @@ public class SpListController {
   public ModelAndView listAllSps() {
     Map<String, Object> m = new HashMap<String, Object>();
 
+    // Add SP's for all idps; put in a Set to filter out duplicates
+    Set<ServiceProvider> sps = new HashSet<ServiceProvider>();
+    for (String idpId : getCurrentUser().getInstitutionIdps()) {
+      sps.addAll(providerService.getAllServiceProviders(idpId));
+    }
+    m.put("sps", new ArrayList<ServiceProvider>(sps));
 
-    m.put("sps", providerService.getAllServiceProviders(getIdpEntityId()));
+
     m.put("activeSection", "all-sps");
 
     return new ModelAndView("sp-overview", m);
@@ -77,14 +91,14 @@ public class SpListController {
    * @return String
    * @throws SecurityException in case no principal is found.
    */
-  private static String getIdpEntityId() {
+  private static CoinUser getCurrentUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth == null) {
       throw new SecurityException("No suitable security context.");
     }
     Object principal = auth.getPrincipal();
     if (principal != null && principal instanceof CoinUser) {
-      return ((CoinUser) principal).getIdp();
+      return (CoinUser) principal;
     }
     throw new SecurityException("No suitable security context.");
   }

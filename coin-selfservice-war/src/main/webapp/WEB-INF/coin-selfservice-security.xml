@@ -26,7 +26,9 @@
        http://www.surfnet.nl/schema/security/opensaml
        http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd">
 
-  <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner"/>
+  <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner">
+    <property name="identityProviderService" ref="federationProviderService" />
+  </bean>
 
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.CertificateStoreImpl">
     <property name="certificates">

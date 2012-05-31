@@ -32,6 +32,8 @@ public class CoinUser implements UserDetails{
   private String displayName;
   private String schacHomeOrganization;
   private String idp;
+  private List<String> institutionIdps = new ArrayList<String>();
+  private String institutionId;
   private String email;
 
 
@@ -102,19 +104,35 @@ public class CoinUser implements UserDetails{
     this.schacHomeOrganization = schacHomeOrganization;
   }
 
-  public String getIdp() {
-    return idp;
-  }
-
-  public void setIdp(String idp) {
-    this.idp = idp;
-  }
-
   public String getEmail() {
     return email;
   }
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public List<String> getInstitutionIdps() {
+    return institutionIdps;
+  }
+
+  public void addInstitutionIdp(String idp) {
+    this.institutionIdps.add(idp);
+  }
+
+  public String getInstitutionId() {
+    return institutionId;
+  }
+
+  public void setInstitutionId(String institutionId) {
+    this.institutionId = institutionId;
+  }
+
+  public String getIdp() {
+    return idp;
+  }
+
+  public void setIdp(String idp) {
+    this.idp = idp;
   }
 }

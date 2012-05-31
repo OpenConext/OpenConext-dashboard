@@ -56,6 +56,7 @@ public class SpListControllerTest {
   public void before() {
     spListController = new SpListController();
     MockitoAnnotations.initMocks(this);
+    when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList("idpId"));
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
 
@@ -69,8 +70,8 @@ public class SpListControllerTest {
 
   @Test
   public void mySPs() {
-    when(serviceProviderService.getLinkedServiceProviders(anyString())).thenReturn(Arrays.asList(new ServiceProvider
-        ("", "")));
+    when(serviceProviderService.getLinkedServiceProviders(anyString())).thenReturn(
+        Arrays.asList(new ServiceProvider("", "")));
     final ModelAndView mav = spListController.listLinkedSps();
     List<ServiceProvider> sps = (List<ServiceProvider>) mav.getModelMap().get("sps");
     assertThat(sps.get(0), notNullValue());
@@ -79,6 +80,25 @@ public class SpListControllerTest {
   @Test
   public void allSPs() {
     spListController.listAllSps();
+  }
+
+  @Test
+  public void multipleIdpsPerInstitute() {
+    when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList("idp1", "idp2"));
+    ServiceProvider sp1 = new ServiceProvider("sp1", "");
+    ServiceProvider sp2 = new ServiceProvider("sp2", "");
+    ServiceProvider sp3 = new ServiceProvider("sp3", "");
+
+    when(serviceProviderService.getAllServiceProviders("idp1")).thenReturn(Arrays.asList(sp1, sp2));
+    when(serviceProviderService.getAllServiceProviders("idp2")).thenReturn(Arrays.asList(sp2, sp3));
+
+    final ModelAndView mav = spListController.listAllSps();
+
+    List<ServiceProvider> sps = (List<ServiceProvider>) mav.getModelMap().get("sps");
+    assertThat(sps.size(), is(3));
+    assertThat(sps.contains(sp1), is(true));
+    assertThat(sps.contains(sp2), is(true));
+    assertThat(sps.contains(sp3), is(true));
   }
 
   @Test

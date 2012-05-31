@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.spring.security.opensaml.Provisioner;
 
 /**
@@ -44,15 +46,38 @@ public class SAMLProvisioner implements Provisioner {
   private static final String UID = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
   private static final Logger LOG = LoggerFactory.getLogger(SAMLProvisioner.class);
 
+
+  private IdentityProviderService federationProviderService;
+
   @Override
   public UserDetails provisionUser(Assertion assertion) {
+
     CoinUser coinUser = new CoinUser();
-    coinUser.setIdp(getAuthenticatingAuthority(assertion));
+
+    final String idpId = getAuthenticatingAuthority(assertion);
+    coinUser.setInstitutionId(getInstitutionId(idpId));
+
+    coinUser.setIdp(idpId);
+    for (IdentityProvider idp : federationProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId())) {
+      coinUser.addInstitutionIdp(idp.getId());
+    }
+
     coinUser.setUid(getValueFromAttributeStatements(assertion, UID));
     coinUser.setDisplayName(getValueFromAttributeStatements(assertion, DISPLAY_NAME));
     coinUser.setEmail(getValueFromAttributeStatements(assertion, EMAIL));
     coinUser.setSchacHomeOrganization(getValueFromAttributeStatements(assertion, SCHAC_HOME));
     return coinUser;
+  }
+
+  private String getInstitutionId(String idpId) {
+    final IdentityProvider identityProvider = federationProviderService.getIdentityProvider(idpId);
+    if (identityProvider != null) {
+      final String institutionId = identityProvider.getInstitutionId();
+      if (!StringUtils.isBlank(institutionId)) {
+        return institutionId;
+      }
+    }
+    return null;
   }
 
   private String getAuthenticatingAuthority(final Assertion assertion) {
@@ -83,5 +108,9 @@ public class SAMLProvisioner implements Provisioner {
       }
     }
     return "";
+  }
+
+  public void setIdentityProviderService(IdentityProviderService federationProviderService) {
+    this.federationProviderService = federationProviderService;
   }
 }

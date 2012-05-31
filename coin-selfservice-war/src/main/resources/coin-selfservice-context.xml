@@ -20,9 +20,10 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
 
   <context:component-scan base-package="nl.surfnet.coin.selfservice"/>
   <cache:annotation-driven key-generator="methodNameAwareCacheKeyGenerator" />
@@ -70,13 +71,16 @@
     <property name="dataSource" ref="dataSource"/>
   </bean>
 
+  <bean id="federationProviderService"  class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
+    <constructor-arg value="fedcfg.xml" />
+  </bean>
+
+
   <bean id="providerService" class="nl.surfnet.coin.selfservice.service.impl.CompositeServiceProviderService">
     <property name="serviceProviderServices">
       <list>
         <bean class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService" />
-        <bean class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
-          <constructor-arg value="fedcfg.xml" />
-        </bean>
+        <ref bean="federationProviderService" />
       </list>
     </property>
   </bean>
