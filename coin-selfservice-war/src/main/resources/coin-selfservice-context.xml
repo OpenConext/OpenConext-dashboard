@@ -46,6 +46,7 @@
     <property name="defaultLocale" value="en_EN"/>
   </bean>
 
+  <!--
   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
         destroy-method="close">
     <property name="driverClass" value="${coin-api.jdbc.driver}"/>
@@ -61,15 +62,15 @@
               value="${coin-api.database.idleConnectionTestPeriod}"/>
     <property name="maxIdleTime" value="${coin-api.database.maxIdleTime}"/>
   </bean>
-
   <bean id="logService" class="nl.surfnet.coin.shared.log.ApiCallLogServiceImpl">
-    <constructor-arg ref="dataSource"/>
-  </bean>
+  <constructor-arg ref="dataSource"/>
+</bean>
 
   <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
-    <property name="baseDir" value="${coin-api.db.migrations.folder}"/>
-    <property name="dataSource" ref="dataSource"/>
-  </bean>
+  <property name="baseDir" value="${coin-api.db.migrations.folder}"/>
+  <property name="dataSource" ref="dataSource"/>
+</bean>
+  -->
 
   <bean id="federationProviderService"  class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
     <constructor-arg value="fedcfg.xml" />
