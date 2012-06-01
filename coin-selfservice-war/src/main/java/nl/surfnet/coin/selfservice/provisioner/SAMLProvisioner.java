@@ -61,6 +61,10 @@ public class SAMLProvisioner implements Provisioner {
     for (IdentityProvider idp : federationProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId())) {
       coinUser.addInstitutionIdp(idp.getId());
     }
+    // Add the one the user is currently identified by if it's not in the list already.
+    if (!coinUser.getInstitutionIdps().contains(idpId)) {
+      coinUser.addInstitutionIdp(idpId);
+    }
 
     coinUser.setUid(getValueFromAttributeStatements(assertion, UID));
     coinUser.setDisplayName(getValueFromAttributeStatements(assertion, DISPLAY_NAME));
