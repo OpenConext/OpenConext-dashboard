@@ -288,10 +288,10 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="coin-selfservice-version" value="${project.version}"/>
                 <ant target="build" inheritRefs="true"/>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
