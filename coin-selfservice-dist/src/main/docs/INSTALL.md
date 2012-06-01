@@ -41,14 +41,15 @@ the application on. e.g. extract the tarball in /tmp
 This installation document only provides documentation for the Tomcat application server.
 
 If you already have deployed a previous version of the COIN selfservice application
-you must follow step 2.2 to undeploy the previous version
+you must follow step 2.2a to undeploy the previous version.
+
+If you have not deployed a previous version yet, follow 2.2b instead.
 
 ### 2.1 Stop Tomcat
 
 Stop the tomcat application server
 
-### 2.2 Undeploy a previous version (optional)
-
+### 2.2a Undeploy a previous version (optional)
 Navigate to the `<<CATALINA_HOME>>/wars/`
 (e.g. /opt/tomcat/wars/)
 delete the `coin-selfservice-war-<<VERION>>.war` file.
@@ -56,6 +57,13 @@ delete the `coin-selfservice-war-<<VERION>>.war` file.
 
 Navigate to `<<CATALINA_HOME>>/work/selfservice.{dev,test,acc}.surfconext.nl/`
 Delete the entire selfservice directory listed there.
+
+### 2.2b Prepare Tomcat for first time deployment
+Create a webapps holder directory:
+`<<CATALINA_HOME>>/webapps/selfservice.{dev,test,acc}.surfconext.nl/`
+and give ownership to tomcat:
+`chown tomcat:tomcat <<CATALINA_HOME>>/webapps/selfservice.{dev,test,acc}.surfconext.nl/`
+
 
 ### 2.3 Copy / edit property files
 
