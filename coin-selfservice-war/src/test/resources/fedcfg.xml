@@ -86,7 +86,38 @@
         </fed:ContactPerson>
       </fed:ContactPersons>
     </fed:IdP>
+
+    <fed:IdP id="idpidentity3" display="true" type="proxy">
+      <fed:InstitutionID>SURFnet</fed:InstitutionID>
+      <fed:Name>IdP Number three</fed:Name>
+      <!--Optional:-->
+      <fed:HomeURL>http://www.company.org/sonoras/aeoliam</fed:HomeURL>
+      <!--Optional:-->
+      <fed:LogoURL>http://www.any.com/verrantque/temperat</fed:LogoURL>
+      <!--Optional:-->
+      <fed:MetadataURL>http://www.any.com/circum/regemque</fed:MetadataURL>
+      <!--Optional:-->
+      <fed:SSOLocation>http://www.test.com/foedere/ferant</fed:SSOLocation>
+      <!--Optional:-->
+      <fed:SLOLocation>http://www.corp.org/et/turbine</fed:SLOLocation>
+      <fed:ContactPersons>
+        <!--Zero or more repetitions:-->
+        <fed:ContactPerson contactType="help">
+          <fed:Name>Mr Contact Person</fed:Name>
+          <fed:EmailAddress>help@example.com</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>+31123456789</fed:TelephoneNumber>
+        </fed:ContactPerson>
+        <fed:ContactPerson contactType="administrative">
+          <fed:Name>Mr Contact Person</fed:Name>
+          <fed:EmailAddress>admin@example.com</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>+31123456789</fed:TelephoneNumber>
+        </fed:ContactPerson>
+      </fed:ContactPersons>
+    </fed:IdP>
   </fed:IdPs>
+
   <fed:SPs>
     <!--Zero or more repetitions:-->
     <fed:SP id="http://example.com/sp-entity-id" type="radius">
@@ -146,5 +177,36 @@
         <fed:Attribute>mailaddress</fed:Attribute>
       </fed:ARP>
     </fed:SP>
+
+    <fed:SP id="sp3" type="radius">
+      <fed:Name>Dummy SURFfederatie Service Provider 3</fed:Name>
+      <!--Optional:-->
+      <fed:HomeURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:HomeURL>
+      <!--Optional:-->
+      <fed:LogoURL>http://www.corp.gov/hoc/rapidum</fed:LogoURL>
+      <!--Optional:-->
+      <fed:MetadataURL>http://www.any.gov/speluncis/circum</fed:MetadataURL>
+      <fed:ContactPersons>
+        <!--Zero or more repetitions:-->
+        <fed:ContactPerson contactType="technical">
+          <fed:Name>John Üñîçø∂é</fed:Name>
+          <fed:EmailAddress>techsupport@example.com</fed:EmailAddress>
+          <!--Optional:-->
+          <fed:TelephoneNumber>+31123456123</fed:TelephoneNumber>
+        </fed:ContactPerson>
+      </fed:ContactPersons>
+      <!--Optional:-->
+      <fed:ACL>
+        <fed:IdPRef>idpidentity3</fed:IdPRef>
+        <!--Zero or more repetitions:-->
+      </fed:ACL>
+      <!--Zero or more repetitions:-->
+      <fed:ARP idpid="idpidentity3">
+        <!--Zero or more repetitions:-->
+        <fed:Attribute>mailaddress</fed:Attribute>
+      </fed:ARP>
+    </fed:SP>
+
   </fed:SPs>
+
 </fed:Config>
