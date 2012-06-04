@@ -108,6 +108,15 @@ private IdentityProvider idp;
     assertThat(sps.contains(sp3), is(false));
   }
 
+  @Test
+  public void details() {
+    IdentityProvider idp1 = new IdentityProvider();
+    idp1.setId("idp1");
+    final ModelAndView mav = spListController.spDetail("foobar", idp1);
+    assertTrue(mav.hasView());
+    assertThat(mav.getViewName(), is("sp-detail"));
+  }
+
   private Authentication getAuthentication() {
     return new TestingAuthenticationToken(coinUser, "");
   }

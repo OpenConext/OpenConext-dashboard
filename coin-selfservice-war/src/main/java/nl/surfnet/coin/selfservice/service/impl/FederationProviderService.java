@@ -82,9 +82,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
     for (ServiceProvider sp : federatieConfig.getSps()) {
-      if (isLinked(idpId, sp)) {
-        sp.setLinked(true);
-      }
+      sp.setLinked(isLinked(idpId, sp));
       providers.add(sp);
     }
     return providers;
@@ -92,9 +90,10 @@ public class FederationProviderService implements ServiceProviderService, Identi
 
   @Override
   @Cacheable(value = { "sps-federation" })
-  public ServiceProvider getServiceProvider(String spEntityId) {
+  public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     for (ServiceProvider sp : federatieConfig.getSps()) {
       if (sp.getId().equals(spEntityId)) {
+        sp.setLinked(isLinked(idpEntityId, sp));
         return sp;
       }
     }

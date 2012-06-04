@@ -88,6 +88,10 @@
             </ul>
           </c:forEach>
         </c:if>
+
+        <c:if test="${sp.linked eq false}">
+          <p><a class="btn btn-primary"><spring:message code="jsp.sp_detail_connect_service"/></a></p>
+        </c:if>
       </div>
     </div>
     <div class="span4">

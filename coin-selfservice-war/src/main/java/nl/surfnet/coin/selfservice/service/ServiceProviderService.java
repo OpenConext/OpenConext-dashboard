@@ -43,8 +43,10 @@ public interface ServiceProviderService {
 
   /**
    * Get a {@link ServiceProvider} by its entity ID.
-   * @param spEntityId the entity id
+   *
+   * @param spEntityId the entity id of the ServiceProvider
+   * @param idpEntityId the entity id of the Identity Provider.
    * @return the {@link ServiceProvider} object.
    */
-  ServiceProvider getServiceProvider(String spEntityId);
+  ServiceProvider getServiceProvider(String spEntityId, String idpEntityId);
 }

@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -60,4 +61,19 @@ public class SpListController extends BaseController {
     m.put("activeSection", "all-sps");
     return new ModelAndView("sp-overview", m);
   }
+
+  /**
+   * Controller for detail page.
+   * @param spEntityId
+   * @return
+   */
+  @RequestMapping(value="/sp/detail.shtml")
+  public ModelAndView spDetail(@RequestParam String spEntityId,
+                               @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+    Map<String, Object> m = new HashMap<String, Object>();
+    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
+    m.put("sp", sp);
+    return new ModelAndView("sp-detail", m);
+  }
+
 }

@@ -52,7 +52,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     try {
       final List<String> sps = janusClient.getAllowedSps(idpId);
       for (String spEntityId : sps) {
-        final ServiceProvider serviceProvider = getServiceProvider(spEntityId);
+        final ServiceProvider serviceProvider = getServiceProvider(spEntityId, idpId);
         if (serviceProvider != null) {
           serviceProvider.setLinked(true);
           spList.add(serviceProvider);
@@ -92,7 +92,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
       final List<EntityMetadata> sps = janusClient.getSpList();
       for (EntityMetadata metadata : sps) {
         buildServiceProviderByMetadata(metadata);
-        final ServiceProvider serviceProvider = getServiceProvider(metadata.getAppEntityId());
+        final ServiceProvider serviceProvider = getServiceProvider(metadata.getAppEntityId(), null);
         if (serviceProvider != null) {
           spList.add(serviceProvider);
         }
@@ -105,13 +105,18 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
 
   @Override
   @Cacheable(value = {"sps-janus"})
-  public ServiceProvider getServiceProvider(String spEntityId) {
+  public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     try {
       EntityMetadata metadata= janusClient.getMetadataByEntityId(spEntityId);
       final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
 
       final ARP arp = getArp(spEntityId);
       serviceProvider.addArp(arp);
+
+      if (idpEntityId != null) {
+        final boolean linked = janusClient.isConnectionAllowed(spEntityId, idpEntityId);
+        serviceProvider.setLinked(linked);
+      }
 
       return serviceProvider;
     } catch (RestClientException e) {
