@@ -108,6 +108,7 @@ public class SpDetailController {
         final String issueKey = jiraService.create(task);
         // TODO: log action
         m.put("issueKey", issueKey);
+//        m.put("question", question);
         return new ModelAndView("sp-question-thanks", m);
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view",

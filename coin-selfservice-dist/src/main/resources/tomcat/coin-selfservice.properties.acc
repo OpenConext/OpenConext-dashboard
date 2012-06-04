@@ -58,6 +58,11 @@ REPLAY_CACHE_LIFE_IN_MILLIS=14400000
 ISSUE_INSTANT_CHECK_CLOCK_SKEW_IN_SECONDS=90
 ISSUE_INSTANT_CHECK_VALIDITY_TIME_IN_SECONDS=300
 
+jiraBaseUrl=https://issues.surfnet.nl
+jiraUsername=??
+jiraPassword=??
+jiraProjectKey=TEST
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features
@@ -79,3 +84,8 @@ coin-api.database.maxIdleTime=900
 
 coin-api.db.migrations.folder=db/migration/mysql
 
+# can be either
+# nl.surfnet.coin.selfservice.service.impl.JiraServiceMock
+# or
+# nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
+jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl

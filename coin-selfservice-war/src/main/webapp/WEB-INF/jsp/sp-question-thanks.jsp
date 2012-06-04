@@ -36,6 +36,7 @@
       <div class="content">
         <p>
           <spring:message code="jsp.sp_question.thankstext" arguments="${issueKey}"/>
+          ${question}
         </p>
       </div>
     </div>

@@ -95,4 +95,19 @@ public class JiraServiceMock implements JiraService {
     return tasks;
   }
 
+  @Override
+  public void setBaseUrl(String baseUrl) {
+  }
+
+  @Override
+  public void setUsername(String username) {
+  }
+
+  @Override
+  public void setPassword(String password) {
+  }
+
+  @Override
+  public void setProjectKey(String projectKey) {
+  }
 }

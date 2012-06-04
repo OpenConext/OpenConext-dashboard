@@ -102,7 +102,11 @@
   </bean>
   <bean id="methodNameAwareCacheKeyGenerator" class="nl.surfnet.coin.shared.cache.MethodNameAwareCacheKeyGenerator" />
 
-  <bean id="jiraService" class="nl.surfnet.coin.selfservice.service.impl.JiraServiceMock">
+  <bean id="jiraService" class="${jiraServiceClass}">
+    <property name="baseUrl" value="${jiraBaseUrl}" />
+    <property name="username" value="${jiraUsername}" />
+    <property name="password" value="${jiraPassword}" />
+    <property name="projectKey" value="${jiraProjectKey}" />
   </bean>
 
 </beans>

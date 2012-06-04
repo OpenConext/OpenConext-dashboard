@@ -91,7 +91,7 @@ public class BaseControllerTest {
     assertEquals(idp2, identityProvider);
   }
 
-  private Authentication getAuthentication() {
+  protected Authentication getAuthentication() {
     return new TestingAuthenticationToken(coinUser, "");
   }
 
