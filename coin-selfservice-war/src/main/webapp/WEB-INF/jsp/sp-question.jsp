@@ -36,6 +36,12 @@
 
       <div class="content">
 
+        <c:if test="${not empty jiraError}">
+          <div class="alert alert-error">
+            <spring:message code="jsp.sp_question.jiraError" arguments="${jiraError}" />
+          </div>
+        </c:if>
+
         <form:form cssClass="form form-horizontal" commandName="question">
           <fieldset>
 

@@ -27,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -115,12 +114,11 @@ public class SpDetailController {
         final String issueKey = jiraService.create(task);
         // TODO: log action
         m.put("issueKey", issueKey);
-//        m.put("question", question);
         return new ModelAndView("sp-question-thanks", m);
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view",
             e);
-        result.addError(new ObjectError("jira", e.getMessage()));
+        m.put("jiraError", e.getMessage());
         return new ModelAndView("sp-question", m);
       }
     }
@@ -148,8 +146,10 @@ public class SpDetailController {
   @RequestMapping(value="/linkrequest.shtml", method= RequestMethod.POST)
   public ModelAndView spRequestSubmit(@RequestParam String spEntityId,
                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
-                                      BindingResult result) {
+                                       @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
+                                       BindingResult result,
+                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp
+  ) {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
@@ -176,7 +176,7 @@ public class SpDetailController {
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view",
             e);
-        result.addError(new ObjectError("jira", e.getMessage()));
+        m.put("jiraError", e.getMessage());
         return new ModelAndView("sp-linkrequest", m);
       }
     }

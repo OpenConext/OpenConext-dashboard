@@ -36,10 +36,14 @@
 
       <div class="content">
 
+        <c:if test="${not empty jiraError}">
+          <div class="alert alert-error">
+            <spring:message code="jsp.sp_linkrequest.jiraError" arguments="${jiraError}" />
+          </div>
+        </c:if>
+
         <form:form cssClass="form form-horizontal" commandName="linkrequest">
           <fieldset>
-
-
             <div class="control-group <form:errors path="emailAddress">error</form:errors>">
             <label class="control-label"><spring:message code="jsp.sp_linkrequest.emailaddressfield"/></label>
 
