@@ -145,7 +145,6 @@ public class SpDetailController {
 
   @RequestMapping(value="/linkrequest.shtml", method= RequestMethod.POST)
   public ModelAndView spRequestSubmit(@RequestParam String spEntityId,
-                                      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                        @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
                                        BindingResult result,
                                        @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp
