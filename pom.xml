@@ -58,6 +58,10 @@
       <name>COIN Repository</name>
       <url>http://bamboo-dev.coin.surfnetlabs.nl</url>
     </repository>
+    <repository>
+      <id>atlassian-contrib</id>
+      <url>https://maven.atlassian.com/contrib/</url>
+    </repository>
   </repositories>
 
 </project>

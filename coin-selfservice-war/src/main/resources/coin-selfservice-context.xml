@@ -102,4 +102,7 @@
   </bean>
   <bean id="methodNameAwareCacheKeyGenerator" class="nl.surfnet.coin.shared.cache.MethodNameAwareCacheKeyGenerator" />
 
+  <bean id="jiraService" class="nl.surfnet.coin.selfservice.service.impl.JiraServiceMock">
+  </bean>
+
 </beans>
