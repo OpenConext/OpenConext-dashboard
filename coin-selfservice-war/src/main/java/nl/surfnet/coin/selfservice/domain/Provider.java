@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * Abstract class for either ServiceProvider or IdentityProvider
  */
-public abstract class Provider implements Comparable<Provider> {
+public abstract class Provider implements Comparable<Provider>, Serializable {
 
   @XStreamAlias("type")
   @XStreamAsAttribute

@@ -32,7 +32,7 @@ public class CoinUser implements UserDetails{
   private String displayName;
   private String schacHomeOrganization;
   private String idp;
-  private List<String> institutionIdps = new ArrayList<String>();
+  private List<IdentityProvider> institutionIdps = new ArrayList<IdentityProvider>();
   private String institutionId;
   private String email;
 
@@ -112,11 +112,11 @@ public class CoinUser implements UserDetails{
     this.email = email;
   }
 
-  public List<String> getInstitutionIdps() {
+  public List<IdentityProvider> getInstitutionIdps() {
     return institutionIdps;
   }
 
-  public void addInstitutionIdp(String idp) {
+  public void addInstitutionIdp(IdentityProvider idp) {
     this.institutionIdps.add(idp);
   }
 

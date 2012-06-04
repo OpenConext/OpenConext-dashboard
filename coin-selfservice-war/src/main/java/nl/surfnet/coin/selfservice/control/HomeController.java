@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 
   @RequestMapping("/home.shtml")
   public String home() {

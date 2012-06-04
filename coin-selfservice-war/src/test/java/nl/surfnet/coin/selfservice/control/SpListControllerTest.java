@@ -31,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -51,19 +52,21 @@ public class SpListControllerTest {
 
   @Mock
   private ServiceProviderService serviceProviderService;
-
+private IdentityProvider idp;
   @Before
   public void before() {
     spListController = new SpListController();
     MockitoAnnotations.initMocks(this);
-    when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList("idpId"));
+    idp = new IdentityProvider();
+    idp.setId("idpId");
+    when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp));
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
 
   @Test
   public void mySPsEmpty() {
     when(serviceProviderService.getLinkedServiceProviders(anyString())).thenReturn(Collections.<ServiceProvider>emptyList());
-    final ModelAndView mav = spListController.listLinkedSps();
+    final ModelAndView mav = spListController.listLinkedSps(idp);
     assertThat(mav, notNullValue());
     assertTrue(mav.hasView());
   }
@@ -72,19 +75,23 @@ public class SpListControllerTest {
   public void mySPs() {
     when(serviceProviderService.getLinkedServiceProviders(anyString())).thenReturn(
         Arrays.asList(new ServiceProvider("", "")));
-    final ModelAndView mav = spListController.listLinkedSps();
+    final ModelAndView mav = spListController.listLinkedSps(idp);
     List<ServiceProvider> sps = (List<ServiceProvider>) mav.getModelMap().get("sps");
     assertThat(sps.get(0), notNullValue());
   }
 
   @Test
   public void allSPs() {
-    spListController.listAllSps();
+    spListController.listAllSps(idp);
   }
 
   @Test
   public void multipleIdpsPerInstitute() {
-    when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList("idp1", "idp2"));
+    IdentityProvider idp1 = new IdentityProvider();
+    idp1.setId("idp1");
+    IdentityProvider idp2 = new IdentityProvider();
+    idp2.setId("idp2");
+    when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp1, idp2));
     ServiceProvider sp1 = new ServiceProvider("sp1", "");
     ServiceProvider sp2 = new ServiceProvider("sp2", "");
     ServiceProvider sp3 = new ServiceProvider("sp3", "");
@@ -92,13 +99,13 @@ public class SpListControllerTest {
     when(serviceProviderService.getAllServiceProviders("idp1")).thenReturn(Arrays.asList(sp1, sp2));
     when(serviceProviderService.getAllServiceProviders("idp2")).thenReturn(Arrays.asList(sp2, sp3));
 
-    final ModelAndView mav = spListController.listAllSps();
+    final ModelAndView mav = spListController.listAllSps(idp1);
 
     List<ServiceProvider> sps = (List<ServiceProvider>) mav.getModelMap().get("sps");
-    assertThat(sps.size(), is(3));
+    assertThat(sps.size(), is(2));
     assertThat(sps.contains(sp1), is(true));
     assertThat(sps.contains(sp2), is(true));
-    assertThat(sps.contains(sp3), is(true));
+    assertThat(sps.contains(sp3), is(false));
   }
 
   @Test

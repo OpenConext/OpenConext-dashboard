@@ -59,11 +59,16 @@ public class SAMLProvisioner implements Provisioner {
 
     coinUser.setIdp(idpId);
     for (IdentityProvider idp : federationProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId())) {
-      coinUser.addInstitutionIdp(idp.getId());
+      coinUser.addInstitutionIdp(idp);
     }
     // Add the one the user is currently identified by if it's not in the list already.
-    if (!coinUser.getInstitutionIdps().contains(idpId)) {
-      coinUser.addInstitutionIdp(idpId);
+    if (coinUser.getInstitutionIdps().isEmpty()) {
+      IdentityProvider idp = federationProviderService.getIdentityProvider(idpId);
+      if (idp == null) {
+        // there are a few IdP's in SURFconext that don't exist in SURFfederatie like SURFguest
+        idp = new IdentityProvider(idpId, null, idpId);
+      }
+      coinUser.addInstitutionIdp(idp);
     }
 
     coinUser.setUid(getValueFromAttributeStatements(assertion, UID));

@@ -13,23 +13,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   --%>
-
 <!doctype html>
-<%--
-  Copyright 2012 SURFnet bv, The Netherlands
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-  --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="include.jsp" %>
 <html lang="en">
@@ -71,10 +56,14 @@
   <![endif]-->
 </head>
 <body>
+<spring:url value="/home.shtml" var="homeUrl" htmlEscape="true">
+  <spring:param name="idpId" value="${selectedidp.id}"/>
+</spring:url>
+
 <div class="wrapper">
 
 <header>
-  <a href="<c:url value="/"/>"><spring:message code="jsp.header.home"/></a>
+  <a href="${homeUrl}"><spring:message code="jsp.header.home"/></a>
 
   <h1><spring:message code="jsp.header.title"/></h1>
 </header>
@@ -89,40 +78,32 @@
 
   <div class="dropdown">
 
-    <div class="dropdown-toggle user-role-noc" data-toggle="dropdown">
+    <div class="dropdown-toggle user-role-manager" data-toggle="dropdown">
       <div class="user">
-        <sec:authentication property="principal.idp" scope="request" htmlEscape="true"/>
-
-        <b class="caret"></b>
+        <c:out value="${selectedidp.name}"/>
+        <c:if test="${fn:length(idps) gt 1}">
+          <b class="caret"></b>
+        </c:if>
       </div>
     </div>
 
-    <%--<form action="#" method="POST" class="dropdown-menu">
-      <ul>
-        <li class="user-role-default" data-roleId="default">
-          <div class="user">
-            Default/New User
-          </div>
-        </li>
-        <li class="user-role-manager" data-roleId="manager">
-          <div class="user">
-            Manager/Admin<br>
-            Institute C
-          </div>
-        </li>
-        <li class="user-role-user" data-roleId="user">
-          <div class="user">
-            BoD User<br>
-            Some institute with a very long and uncommon name
-          </div>
-        </li>
-        <li class="user-role-noc" data-roleId="noc">
-          <div class="user">
-            NOC Engineer
-          </div>
-        </li>
+    <%--@elvariable id="idps" type="java.util.List<nl.surfnet.coin.selfservice.domain.IdentityProvider>"--%>
+    <c:if test="${fn:length(idps) gt 1}">
+      <ul class="dropdown-menu">
+        <c:forEach items="${idps}" var="idp">
+          <li class="user-role-manager" data-roleId="${idp.id}">
+            <spring:url var="toggleLink" value="/linked-sps.shtml" htmlEscape="true">
+              <spring:param name="idpId" value="${idp.id}"/>
+            </spring:url>
+            <a href="${toggleLink}">
+              <div class="user">
+                <c:out value="${idp.name}"/>
+              </div>
+            </a>
+          </li>
+        </c:forEach>
       </ul>
-    </form>--%>
+    </c:if>
 
   </div>
 
@@ -135,15 +116,19 @@
     <div class="container">
       <ul class="nav">
         <li <c:if test="${param.activeSection == 'home'}">class="active"
-        </c:if>><a href="<c:url value="/home.shtml"/>"><spring:message code="jsp.home.title"/></a></li>
+        </c:if>><a href="${homeUrl}"><spring:message code="jsp.home.title"/></a></li>
+
+        <spring:url value="/linked-sps.shtml" var="linkedSpsUrl" htmlEscape="true">
+          <spring:param name="idpId" value="${selectedidp.id}"/>
+        </spring:url>
         <li <c:if test="${activeSection == 'linked-sps'}">class="active"
-        </c:if>><a href="<c:url value="/linked-sps.shtml"/>"><spring:message code="jsp.mysp.title"/></a></li>
+        </c:if>><a href="${linkedSpsUrl}"><spring:message code="jsp.mysp.title"/></a></li>
+
+        <spring:url value="/all-sps.shtml" var="allSpsUrl" htmlEscape="true">
+          <spring:param name="idpId" value="${selectedidp.id}"/>
+        </spring:url>
         <li <c:if test="${activeSection == 'all-sps'}">class="active"
-        </c:if>><a href="<c:url value="/all-sps.shtml"/>"><spring:message code="jsp.allsp.title"/></a></li>
-<%--
-        <li <c:if test="${param.activeSection == 'styleguide'}">class="active"
-        </c:if>><a href="<c:url value="/styleguide.shtml"/>">_Styleguide</a></li>
---%>
+        </c:if>><a href="${allSpsUrl}"><spring:message code="jsp.allsp.title"/></a></li>
       </ul>
     </div>
   </div>

@@ -65,11 +65,16 @@ public class FederationProviderService implements ServiceProviderService, Identi
   public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
     List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
     for (ServiceProvider sp : federatieConfig.getSps()) {
-      if (sp.getAcl() != null && sp.getAcl().getIdpRefs() != null && sp.getAcl().getIdpRefs().contains(idpId)) {
+      if (isLinked(idpId, sp)) {
+        sp.setLinked(true);
         providers.add(sp);
       }
     }
     return providers;
+  }
+
+  private boolean isLinked(String idpId, ServiceProvider sp) {
+    return sp.getAcl() != null && sp.getAcl().getIdpRefs() != null && sp.getAcl().getIdpRefs().contains(idpId);
   }
 
   @Override
@@ -77,6 +82,9 @@ public class FederationProviderService implements ServiceProviderService, Identi
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
     for (ServiceProvider sp : federatieConfig.getSps()) {
+      if (isLinked(idpId, sp)) {
+        sp.setLinked(true);
+      }
       providers.add(sp);
     }
     return providers;

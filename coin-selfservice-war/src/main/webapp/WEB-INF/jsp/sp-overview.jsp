@@ -71,10 +71,11 @@
             </td>
             <td class="center">
               <spring:message var="detailTitle" code="jsp.sp_overview.detail"/>
-              <a href="<c:url value="/sp/detail.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>"
-                 rel="tooltip" data-type="info"
+              <spring:url value="/sp/detail.shtml" var="detailUrl" htmlEscape="true">
+                <spring:param name="spEntityId" value="${sp.id}" />
+                <spring:param name="idpId" value="${selectedidp.id}"/>
+              </spring:url>
+              <a href="${detailUrl}" rel="tooltip" data-type="info"
                  title="${detailTitle}"><i class="icon-info-sign"></i></a>
             </td>
           </tr>

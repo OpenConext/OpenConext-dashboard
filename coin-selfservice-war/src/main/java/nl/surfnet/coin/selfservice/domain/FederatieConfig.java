@@ -21,6 +21,8 @@ import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.apache.commons.lang.SerializationUtils;
+
 /**
  * Root element of the SURFfederatie config file
  */
@@ -32,8 +34,21 @@ public class FederatieConfig {
   @XStreamAlias(value = "IdPs")
   private List<IdentityProvider> idPs = new ArrayList<IdentityProvider>();
 
+  /**
+   * Returns a List of cloned {@link ServiceProvider} objects. The clone is needed to manipulate the individual Service
+   * Providers while the original list stays cached for all users.
+   *
+   * @return List of cloned {@link ServiceProvider} objects
+   */
   public List<ServiceProvider> getSps() {
-    return sps;
+    List<ServiceProvider> spList = new ArrayList<ServiceProvider>(sps.size());
+    for (ServiceProvider sp : sps) {
+      // not the fastest way, but this list should be relatively small
+      // if we run into performance issues: write own clone() method in ServiceProvider class
+      final Object clone = SerializationUtils.clone(sp);
+      spList.add((ServiceProvider) clone);
+    }
+    return spList;
   }
 
   public void setSps(List<ServiceProvider> sps) {
