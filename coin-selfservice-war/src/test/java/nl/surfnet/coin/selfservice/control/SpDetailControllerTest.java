@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -66,13 +67,13 @@ public class SpDetailControllerTest {
 
   @Test
   public void details() {
-    final ModelAndView mav = spDetailController.spDetail("foobar");
+    final ModelAndView mav = spDetailController.spDetail("foobar", getIdp());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("sp-detail"));
   }
   @Test
   public void questionGET() {
-    final ModelAndView mav = spDetailController.spQuestion("foobar");
+    final ModelAndView mav = spDetailController.spQuestion("foobar", getIdp());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("sp-question"));
     assertTrue(mav.getModel().containsKey("question"));
@@ -82,7 +83,7 @@ public class SpDetailControllerTest {
   public void questionPostHappy() {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
-    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", question, result);
+    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("sp-question-thanks"));
   }
@@ -91,9 +92,13 @@ public class SpDetailControllerTest {
   public void questionPostWithValidationError() {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
-    result.addError(new ObjectError("question", "foo 123 is requiredt"));
-    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", question, result);
+    result.addError(new ObjectError("question", "foo 123 is required"));
+    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("sp-question"));
+  }
+
+  private static IdentityProvider getIdp() {
+    return new IdentityProvider("idp", null, "idp");
   }
 }

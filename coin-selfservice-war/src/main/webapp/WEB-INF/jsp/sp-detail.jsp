@@ -88,10 +88,6 @@
             </ul>
           </c:forEach>
         </c:if>
-
-        <c:if test="${sp.linked eq false}">
-          <p><a class="btn btn-primary"><spring:message code="jsp.sp_detail_connect_service"/></a></p>
-        </c:if>
       </div>
     </div>
     <div class="span4">
@@ -138,14 +134,16 @@
                rel="tooltip" data-type="question"
                title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/><i class="icon-question-sign"></i></a>
           </li>
-          <li>
-            <a href="<c:url value="/sp/requestlink.shtml">
+          <c:if test="${sp.linked eq false}">
+            <li>
+              <a href="<c:url value="/sp/requestlink.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
-               rel="tooltip" data-type="plus"
-               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
-              <i class="icon-plus-sign"></i></a>
-          </li>
+                 rel="tooltip" data-type="plus"
+                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+                <i class="icon-plus-sign"></i></a>
+            </li>
+          </c:if>
         </ul>
       </div>
     </div>

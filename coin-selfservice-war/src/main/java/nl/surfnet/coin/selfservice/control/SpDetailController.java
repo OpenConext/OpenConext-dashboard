@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.Question;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.JiraService;
@@ -47,48 +48,53 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 @RequestMapping("/sp")
 public class SpDetailController {
 
-  @Resource(name="providerService")
+  @Resource(name = "providerService")
   private ServiceProviderService providerService;
 
 
-  @Resource(name="jiraService")
+  @Resource(name = "jiraService")
   private JiraService jiraService;
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
 
 
   /**
    * Controller for detail page.
+   *
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value="/detail.shtml")
-  public ModelAndView spDetail(@RequestParam String spEntityId) {
+  @RequestMapping(value = "/detail.shtml")
+  public ModelAndView spDetail(@RequestParam String spEntityId,
+                               @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId);
+    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
     return new ModelAndView("sp-detail", m);
   }
 
   /**
    * Controller for question form page.
+   *
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value="/question.shtml", method= RequestMethod.GET)
-  public ModelAndView spQuestion(@RequestParam String spEntityId) {
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
+  public ModelAndView spQuestion(@RequestParam String spEntityId,
+                                 @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId);
+    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("question", new Question());
     m.put("sp", sp);
     return new ModelAndView("sp-question", m);
   }
 
-  @RequestMapping(value="/question.shtml", method= RequestMethod.POST)
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
   public ModelAndView spQuestionSubmit(@RequestParam String spEntityId,
+                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                        @Valid @ModelAttribute("question") Question question, BindingResult result) {
 
     Map<String, Object> m = new HashMap<String, Object>();
-    m.put("sp", providerService.getServiceProvider(spEntityId));
+    m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
@@ -122,13 +128,15 @@ public class SpDetailController {
 
   /**
    * Controller for request form page.
+   *
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value="/requestlink.shtml", method= RequestMethod.GET)
-  public ModelAndView spRequest(@RequestParam String spEntityId) {
+  @RequestMapping(value = "/requestlink.shtml", method = RequestMethod.GET)
+  public ModelAndView spRequest(@RequestParam String spEntityId,
+                                @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId);
+    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
     return new ModelAndView("sp-request", m);
   }
