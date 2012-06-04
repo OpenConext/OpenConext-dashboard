@@ -20,3 +20,4 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="selfservice" uri="http://www.surfnet.org/jsp/coin-selfservice/1.0" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>

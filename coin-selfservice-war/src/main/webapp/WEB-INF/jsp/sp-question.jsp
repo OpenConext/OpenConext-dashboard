@@ -29,54 +29,65 @@
 
 
 <div class="row">
-<div class="span8">
-<section>
+  <div class="span8">
+    <section>
 
-<h2><spring:message code="jsp.sp_question.pagetitle" /></h2>
+      <h2><spring:message code="jsp.sp_question.pagetitle"/></h2>
 
-<div class="content">
+      <div class="content">
 
-<form class="form form-horizontal" method="post" action="<c:url value="/sp/question.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>">
-
-<fieldset>
+        <form:form cssClass="form form-horizontal" commandName="question">
+          <fieldset>
 
 
-<div class="control-group">
-  <label class="control-label"><spring:message code="jsp.sp_question.questionfield" /></label>
+            <div class="control-group <form:errors path="subject">error</form:errors>">
+              <label class="control-label"><spring:message code="jsp.sp_question.subjectfield"/></label>
 
-  <div class="controls">
-    <textarea class="input-xlarge" rows="10"></textarea>
+              <div class="controls">
+                <form:input path="subject" cssClass="input-xlarge"/>
+                <form:errors path="subject">
+                  <p class="help-block"><form:errors path="subject"/></p>
+                </form:errors>
+              </div>
+            </div>
+            <div class="control-group <form:errors path="body">error</form:errors>">
+              <label class="control-label"><spring:message code="jsp.sp_question.bodyfield"/></label>
+
+              <div class="controls">
+                <form:textarea path="body" cssClass="input-xlarge" rows="10"/>
+                <form:errors path="body">
+                  <p class="help-block"><form:errors path="body"/></p>
+                </form:errors>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary"><spring:message
+                  code="jsp.sp_question.buttonsubmit"/></button>
+              <a href="#"><spring:message code="jsp.sp_question.buttoncancel"/></a>
+            </div>
+
+          </fieldset>
+
+        </form:form>
+
+      </div>
+
+    </section>
   </div>
-</div>
 
-<div class="actions">
-  <button type="submit" class="btn btn-primary"><spring:message code="jsp.sp_question.buttonsubmit" /></button>
-  <a href="#"><spring:message code="jsp.sp_question.buttoncancel" /></a>
-</div>
+  <div class="span4">
 
-</fieldset>
+    <section>
+      <h2><spring:message code="jsp.sp_question.helptitle"/></h2>
 
-</form>
+      <div class="content">
+        <p><spring:message code="jsp.sp_question.helpparagraph"/></p>
 
-</div>
+      </div>
+    </section>
 
-</section>
-</div>
-
-<div class="span4">
-
-  <section>
-    <h2><spring:message code="jsp.sp_question.helptitle" /></h2>
-
-    <div class="content">
-      <p><spring:message code="jsp.sp_question.helpparagraph" /></p>
-
-    </div>
-  </section>
-
-</div>
+  </div>
 </div>
 
 <jsp:include page="footer.jsp"/>

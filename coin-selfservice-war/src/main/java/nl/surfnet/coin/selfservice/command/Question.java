@@ -16,6 +16,32 @@
 
 package nl.surfnet.coin.selfservice.command;
 
+import javax.persistence.Entity;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+@Entity
 public class Question {
-  private String questionBody;
+
+  @NotEmpty(message = "question_subject_required")
+  private String subject;
+
+  @NotEmpty(message = "question_body_required")
+  private String body;
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
 }
