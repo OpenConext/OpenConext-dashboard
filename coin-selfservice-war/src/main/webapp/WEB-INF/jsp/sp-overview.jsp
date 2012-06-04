@@ -73,7 +73,6 @@
               <spring:message var="detailTitle" code="jsp.sp_overview.detail"/>
               <spring:url value="/sp/detail.shtml" var="detailUrl" htmlEscape="true">
                 <spring:param name="spEntityId" value="${sp.id}" />
-                <spring:param name="idpId" value="${selectedidp.id}"/>
               </spring:url>
               <a href="${detailUrl}" rel="tooltip" data-type="info"
                  title="${detailTitle}"><i class="icon-info-sign"></i></a>

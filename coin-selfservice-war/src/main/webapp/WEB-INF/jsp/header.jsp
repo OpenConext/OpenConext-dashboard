@@ -56,9 +56,7 @@
   <![endif]-->
 </head>
 <body>
-<spring:url value="/home.shtml" var="homeUrl" htmlEscape="true">
-  <spring:param name="idpId" value="${selectedidp.id}"/>
-</spring:url>
+<spring:url value="/home.shtml" var="homeUrl" htmlEscape="true"/>
 
 <div class="wrapper">
 
@@ -118,15 +116,11 @@
         <li <c:if test="${param.activeSection == 'home'}">class="active"
         </c:if>><a href="${homeUrl}"><spring:message code="jsp.home.title"/></a></li>
 
-        <spring:url value="/linked-sps.shtml" var="linkedSpsUrl" htmlEscape="true">
-          <spring:param name="idpId" value="${selectedidp.id}"/>
-        </spring:url>
+        <spring:url value="/linked-sps.shtml" var="linkedSpsUrl" htmlEscape="true"/>
         <li <c:if test="${activeSection == 'linked-sps'}">class="active"
         </c:if>><a href="${linkedSpsUrl}"><spring:message code="jsp.mysp.title"/></a></li>
 
-        <spring:url value="/all-sps.shtml" var="allSpsUrl" htmlEscape="true">
-          <spring:param name="idpId" value="${selectedidp.id}"/>
-        </spring:url>
+        <spring:url value="/all-sps.shtml" var="allSpsUrl" htmlEscape="true"/>
         <li <c:if test="${activeSection == 'all-sps'}">class="active"
         </c:if>><a href="${allSpsUrl}"><spring:message code="jsp.allsp.title"/></a></li>
       </ul>

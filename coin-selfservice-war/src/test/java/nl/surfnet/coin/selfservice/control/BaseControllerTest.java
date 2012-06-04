@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,13 +68,26 @@ public class BaseControllerTest {
 
   @Test
   public void testSelectedIdP() throws Exception {
+    MockHttpServletRequest request = new MockHttpServletRequest();
+
     IdentityProvider idp1 = new IdentityProvider();
     idp1.setId("idpId_1");
     IdentityProvider idp2 = new IdentityProvider();
     idp2.setId("idpId_2");
     when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp1, idp2));
 
-    final IdentityProvider identityProvider = baseController.getRequestedIdp("idpId_2");
+    final IdentityProvider identityProvider = baseController.getRequestedIdp("idpId_2", request);
+    assertEquals(idp2, identityProvider);
+  }
+
+  @Test
+  public void testSelectedIdP_alreadySet() throws Exception {
+    IdentityProvider idp2 = new IdentityProvider();
+    idp2.setId("idpId_2");
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.getSession().setAttribute("selectedidp", idp2);
+
+    final IdentityProvider identityProvider = baseController.getRequestedIdp(null, request);
     assertEquals(idp2, identityProvider);
   }
 

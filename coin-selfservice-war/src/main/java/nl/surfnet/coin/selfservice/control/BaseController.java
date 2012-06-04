@@ -18,6 +18,8 @@ package nl.surfnet.coin.selfservice.control;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,12 +46,17 @@ public abstract class BaseController {
   }
 
   @ModelAttribute(value = "selectedidp")
-  public IdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId) {
+  public IdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+    final Object selectedidp = request.getSession().getAttribute("selectedidp");
+    if (idpId == null && selectedidp != null) {
+      return (IdentityProvider) selectedidp;
+    }
     if (idpId == null) {
       idpId = getCurrentUser().getIdp();
     }
     for (IdentityProvider idp : getCurrentUser().getInstitutionIdps()) {
       if (idp.getId().equals(idpId)) {
+        request.getSession().setAttribute("selectedidp", idp);
         return idp;
       }
     }
