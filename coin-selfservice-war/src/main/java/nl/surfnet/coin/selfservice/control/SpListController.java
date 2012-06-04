@@ -60,18 +60,4 @@ public class SpListController extends BaseController {
     m.put("activeSection", "all-sps");
     return new ModelAndView("sp-overview", m);
   }
-
-  /**
-   * Controller for detail page.
-   * @param spEntityId
-   * @return
-   */
-  @RequestMapping(value="/sp/detail.shtml")
-  public ModelAndView spDetail(@RequestParam String spEntityId) {
-    Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId);
-    m.put("sp", sp);
-    return new ModelAndView("sp-detail", m);
-  }
-
 }
