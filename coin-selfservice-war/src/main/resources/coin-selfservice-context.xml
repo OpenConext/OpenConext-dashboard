@@ -28,6 +28,21 @@
   <context:component-scan base-package="nl.surfnet.coin.selfservice"/>
   <cache:annotation-driven key-generator="methodNameAwareCacheKeyGenerator" />
 
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    <property name="driverClass" value="${coin-api.jdbc.driver}" />
+    <property name="jdbcUrl" value="${coin-api.jdbc.url}" />
+    <property name="user" value="${coin-api.jdbc.user}" />
+    <property name="password" value="${coin-api.jdbc.password}" />
+    <property name="initialPoolSize" value="1" />
+    <property name="maxPoolSize" value="20" />
+    <property name="minPoolSize" value="1" />
+    <property name="acquireIncrement" value="2" />
+    <property name="acquireRetryAttempts" value="15" />
+    <property name="idleConnectionTestPeriod"
+              value="${coin-api.database.idleConnectionTestPeriod}" />
+    <property name="maxIdleTime" value="${coin-api.database.maxIdleTime}" />
+  </bean>
+
   <bean id="log4jInitialization"
         class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
@@ -46,36 +61,14 @@
     <property name="defaultLocale" value="en_EN"/>
   </bean>
 
-  <!--
-  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-        destroy-method="close">
-    <property name="driverClass" value="${coin-api.jdbc.driver}"/>
-    <property name="jdbcUrl" value="${coin-api.jdbc.url}"/>
-    <property name="user" value="${coin-api.jdbc.user}"/>
-    <property name="password" value="${coin-api.jdbc.password}"/>
-    <property name="initialPoolSize" value="1"/>
-    <property name="maxPoolSize" value="20"/>
-    <property name="minPoolSize" value="1"/>
-    <property name="acquireIncrement" value="2"/>
-    <property name="acquireRetryAttempts" value="15"/>
-    <property name="idleConnectionTestPeriod"
-              value="${coin-api.database.idleConnectionTestPeriod}"/>
-    <property name="maxIdleTime" value="${coin-api.database.maxIdleTime}"/>
-  </bean>
-  <bean id="logService" class="nl.surfnet.coin.shared.log.ApiCallLogServiceImpl">
-  <constructor-arg ref="dataSource"/>
-</bean>
-
   <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
-  <property name="baseDir" value="${coin-api.db.migrations.folder}"/>
-  <property name="dataSource" ref="dataSource"/>
-</bean>
-  -->
+    <property name="baseDir" value="${coin-api.db.migrations.folder}"/>
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
 
   <bean id="federationProviderService"  class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
     <constructor-arg value="fedcfg.xml" />
   </bean>
-
 
   <bean id="providerService" class="nl.surfnet.coin.selfservice.service.impl.CompositeServiceProviderService">
     <property name="serviceProviderServices">

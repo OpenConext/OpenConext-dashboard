@@ -123,6 +123,14 @@
         <spring:url value="/all-sps.shtml" var="allSpsUrl" htmlEscape="true"/>
         <li <c:if test="${activeSection == 'all-sps'}">class="active"
         </c:if>><a href="${allSpsUrl}"><spring:message code="jsp.allsp.title"/></a></li>
+
+        <li <c:if test="${activeSection == 'actions'}">class="active"
+        </c:if>><a href="<c:url value="/actions.shtml"/>"><spring:message code="jsp.actions.title"/></a></li>
+<%--
+        <li <c:if test="${param.activeSection == 'styleguide'}">class="active"
+        </c:if>><a href="<c:url value="/styleguide.shtml"/>">_Styleguide</a></li>
+--%>
+
       </ul>
     </div>
   </div>
