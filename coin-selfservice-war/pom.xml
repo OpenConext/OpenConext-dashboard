@@ -236,7 +236,7 @@
       <artifactId>guava</artifactId>
       <version>11.0.1</version>
     </dependency>
-<<<<<<< HEAD
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
@@ -247,6 +247,7 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>4.2.0.Final</version>
+    </dependency>
 
     <dependency>
       <groupId>c3p0</groupId>
