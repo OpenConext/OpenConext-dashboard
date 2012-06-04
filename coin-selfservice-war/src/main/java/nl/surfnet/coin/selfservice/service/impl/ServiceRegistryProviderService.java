@@ -132,7 +132,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
    */
   public static ServiceProvider buildServiceProviderByMetadata(EntityMetadata metadata) {
     Assert.notNull(metadata, "metadata cannot be null");
-    ServiceProvider sp = new ServiceProvider(metadata.getAppEntityId(), metadata.getAppTitle());
+    final String appEntityId = metadata.getAppEntityId();
+    String name = metadata.getName();
+    if (StringUtils.isBlank(name)) {
+      name = appEntityId;
+    }
+    ServiceProvider sp = new ServiceProvider(appEntityId, name);
     sp.setLogoUrl(metadata.getAppLogoUrl());
     sp.setHomeUrl(metadata.getAppHomeUrl());
     sp.setDescription(metadata.getAppDescription());
