@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
@@ -48,11 +49,11 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 @RequestMapping("/sp")
 public class SpDetailController {
 
-  @Resource(name = "providerService")
+  @Resource(name="providerService")
   private ServiceProviderService providerService;
 
 
-  @Resource(name = "jiraService")
+  @Resource(name="jiraService")
   private JiraService jiraService;
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
 
@@ -63,7 +64,7 @@ public class SpDetailController {
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value = "/detail.shtml")
+  @RequestMapping(value="/detail.shtml")
   public ModelAndView spDetail(@RequestParam String spEntityId,
                                @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
@@ -78,7 +79,7 @@ public class SpDetailController {
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
+  @RequestMapping(value="/question.shtml", method= RequestMethod.GET)
   public ModelAndView spQuestion(@RequestParam String spEntityId,
                                  @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
@@ -88,7 +89,7 @@ public class SpDetailController {
     return new ModelAndView("sp-question", m);
   }
 
-  @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
+  @RequestMapping(value="/question.shtml", method= RequestMethod.POST)
   public ModelAndView spQuestionSubmit(@RequestParam String spEntityId,
                                        @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                        @Valid @ModelAttribute("question") Question question, BindingResult result) {
@@ -132,12 +133,53 @@ public class SpDetailController {
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value = "/requestlink.shtml", method = RequestMethod.GET)
+  @RequestMapping(value="/linkrequest.shtml", method= RequestMethod.GET)
   public ModelAndView spRequest(@RequestParam String spEntityId,
                                 @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
-    return new ModelAndView("sp-request", m);
+    m.put("linkrequest", new LinkRequest());
+    return new ModelAndView("sp-linkrequest", m);
   }
+
+
+
+  @RequestMapping(value="/linkrequest.shtml", method= RequestMethod.POST)
+  public ModelAndView spRequestSubmit(@RequestParam String spEntityId,
+                                       @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
+                                       BindingResult result) {
+
+    Map<String, Object> m = new HashMap<String, Object>();
+    m.put("sp", providerService.getServiceProvider(spEntityId));
+
+    if (result.hasErrors()) {
+      LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
+      return new ModelAndView("sp-linkrequest", m);
+    } else {
+      final JiraTask task = new JiraTask.Builder()
+          .body(linkrequest.getEmailAddress() + ("\n\n" + linkrequest.getEmailAddress()))
+              // TODO: add a separate field 'subject' in JiraTask?
+
+          .identityProvider(SpListController.getCurrentUser().getIdp())
+          .serviceProvider(spEntityId)
+          .institution(SpListController.getCurrentUser().getInstitutionId())
+          .issueType(JiraTask.Type.REQUEST)
+          .status(JiraTask.Status.OPEN)
+          .build();
+      try {
+        final String issueKey = jiraService.create(task);
+        // TODO: log action
+        m.put("issueKey", issueKey);
+        return new ModelAndView("sp-linkrequest-thanks", m);
+      } catch (IOException e) {
+        LOG.debug("Error while trying to create Jira issue. Will return to form view",
+            e);
+        result.addError(new ObjectError("jira", e.getMessage()));
+        return new ModelAndView("sp-linkrequest", m);
+      }
+    }
+  }
+
+
 }

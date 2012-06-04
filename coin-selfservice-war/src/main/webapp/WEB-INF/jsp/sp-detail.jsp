@@ -135,14 +135,14 @@
                title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/><i class="icon-question-sign"></i></a>
           </li>
           <c:if test="${sp.linked eq false}">
-            <li>
-              <a href="<c:url value="/sp/requestlink.shtml">
+          <li>
+            <a href="<c:url value="/sp/linkrequest.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
-                 rel="tooltip" data-type="plus"
-                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
-                <i class="icon-plus-sign"></i></a>
-            </li>
+               rel="tooltip" data-type="plus"
+               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+              <i class="icon-plus-sign"></i></a>
+          </li>
           </c:if>
         </ul>
       </div>

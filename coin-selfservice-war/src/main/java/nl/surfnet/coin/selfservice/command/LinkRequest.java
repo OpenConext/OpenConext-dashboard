@@ -18,27 +18,26 @@ package nl.surfnet.coin.selfservice.command;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Question {
+public class LinkRequest {
+
+  private String notes;
 
   @NotEmpty
-  private String subject;
+  private String emailAddress;
 
-  @NotEmpty
-  private String body;
-
-  public String getSubject() {
-    return subject;
+  public String getNotes() {
+    return notes;
   }
 
-  public void setSubject(String subject) {
-    this.subject = subject;
+  public void setNotes(String notes) {
+    this.notes = notes;
   }
 
-  public String getBody() {
-    return body;
+  public String getEmailAddress() {
+    return emailAddress;
   }
 
-  public void setBody(String body) {
-    this.body = body;
+  public void setEmailAddress(String emailAddress) {
+    this.emailAddress = emailAddress;
   }
 }

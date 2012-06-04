@@ -14,8 +14,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
-
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
+<%--@elvariable id="issueKey" type="java.lang.String"--%>
 
 <c:choose>
   <c:when test="${empty sp.name}"><c:set var="spname" value="${sp.id}"/></c:when>
@@ -36,7 +36,6 @@
       <div class="content">
         <p>
           <spring:message code="jsp.sp_question.thankstext" arguments="${issueKey}"/>
-          ${question}
         </p>
       </div>
     </div>
