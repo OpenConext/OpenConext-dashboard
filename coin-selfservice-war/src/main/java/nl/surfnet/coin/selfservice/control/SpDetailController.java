@@ -147,11 +147,12 @@ public class SpDetailController {
 
   @RequestMapping(value="/linkrequest.shtml", method= RequestMethod.POST)
   public ModelAndView spRequestSubmit(@RequestParam String spEntityId,
-                                       @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
-                                       BindingResult result) {
+                                      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
+                                      BindingResult result) {
 
     Map<String, Object> m = new HashMap<String, Object>();
-    m.put("sp", providerService.getServiceProvider(spEntityId));
+    m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
