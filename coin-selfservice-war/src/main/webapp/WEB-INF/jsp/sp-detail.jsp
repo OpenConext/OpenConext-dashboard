@@ -126,6 +126,23 @@
             </li>
           </c:if>
         </ul>
+        <ul class="unstyled">
+          <li>
+            <a href="<c:url value="/sp/question.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"
+               rel="tooltip" data-type="question"
+               title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/><i class="icon-question-sign"></i></a>
+          </li>
+          <li>
+            <a href="<c:url value="/sp/requestlink.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"
+               rel="tooltip" data-type="plus"
+               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+              <i class="icon-plus-sign"></i></a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
