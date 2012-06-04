@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -36,6 +37,8 @@ import nl.surfnet.coin.selfservice.domain.ProviderType;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
 
+import static junit.framework.Assert.assertEquals;
+
 /**
  * Tests the loading of SURFfederatie XML
  */
@@ -48,7 +51,10 @@ public class FedConfigLoaderTest {
     final XStream xStream = XStreamFedConfigBuilder.getXStreamForFedConfig(true);
     Resource resource = new ClassPathResource("fedcfg.xml");
     final FederatieConfig config = (FederatieConfig) xStream.fromXML(resource.getInputStream());
-    log.debug(xStream.toXML(config));
+    log.trace(xStream.toXML(config));
+    final List<ServiceProvider> sps = config.getSps();
+    final ServiceProvider serviceProvider = sps.get(0);
+    assertEquals("http://example.com/sp-entity-id", serviceProvider.getId());
   }
 
   @Test
@@ -85,10 +91,10 @@ public class FedConfigLoaderTest {
     serviceProvider.setType(ProviderType.saml20);
 
     ARP arp = new ARP();
-    arp.addAttribute("urn:mace:dir:attribute-def:uid");
-    arp.addAttribute("urn:mace:dir:attribute-def:cn");
-    arp.addAttribute("urn:mace:dir:attribute-def:mail");
-    arp.addAttribute("urn:mace:dir:attribute-def:eduPersonAffiliation");
+    arp.addAttributeName("urn:mace:dir:attribute-def:uid");
+    arp.addAttributeName("urn:mace:dir:attribute-def:cn");
+    arp.addAttributeName("urn:mace:dir:attribute-def:mail");
+    arp.addAttributeName("urn:mace:dir:attribute-def:eduPersonAffiliation");
     serviceProvider.addArp(arp);
 
 

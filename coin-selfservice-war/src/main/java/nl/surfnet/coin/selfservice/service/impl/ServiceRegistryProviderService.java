@@ -31,6 +31,7 @@ import org.springframework.web.client.RestClientException;
 import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.janus.domain.Contact;
 import nl.surfnet.coin.janus.domain.EntityMetadata;
+import nl.surfnet.coin.selfservice.domain.ARP;
 import nl.surfnet.coin.selfservice.domain.ContactPerson;
 import nl.surfnet.coin.selfservice.domain.ContactPersonType;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -107,7 +108,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   public ServiceProvider getServiceProvider(String spEntityId) {
     try {
       EntityMetadata metadata= janusClient.getMetadataByEntityId(spEntityId);
-      return buildServiceProviderByMetadata(metadata);
+      final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
+
+      final ARP arp = getArp(spEntityId);
+      serviceProvider.addArp(arp);
+
+      return serviceProvider;
     } catch (RestClientException e) {
       log.warn("Could not retrieve metadata from Janus client", e.getMessage());
     }
@@ -135,6 +141,16 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
       sp.addContactPerson(p);
     }
     return sp;
+  }
+
+  /**
+   * Gets the {@link nl.surfnet.coin.janus.domain.ARP} from the Janus client and returns {@link ARP}
+   * @param spEntityId identifier of the Service Provider
+   * @return {@link ARP} or {@literal null} if Janus did not return {@link nl.surfnet.coin.janus.domain.ARP}
+   */
+  private ARP getArp(String spEntityId) {
+    final nl.surfnet.coin.janus.domain.ARP janusClientArp = janusClient.getArp(spEntityId);
+    return janusClientArp == null ? null : new ARP(janusClientArp);
   }
 
   /**

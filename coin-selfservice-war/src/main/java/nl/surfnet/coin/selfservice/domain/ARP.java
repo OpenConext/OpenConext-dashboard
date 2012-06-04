@@ -18,34 +18,55 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * Attribute release policy.
+ * <p/>
+ * Note that there is a difference in the ARP between the federatie and conext.
+ * <p/>
+ * Federatie: an ARP can be linked to an IdP, otherwise the default ARP is applied.
+ * If an attribute is released, all values are allowed.
+ * <p/>
+ * Conext: an ARP applies to all IdP's, but whether the value of an attribute is passed,
+ * may depend on the allowed value. By default all values are allowed [*].
+ */
 @XStreamAlias("ARP")
 public class ARP implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Only available for the SURFfederatie ARP
+   */
   @XStreamAlias("idpid")
   @XStreamAsAttribute
   private String idpId;
 
+  /**
+   * List of SURFfederatie ARP attributes. Contains the names of the allowed attributes
+   */
   @XStreamImplicit(itemFieldName = "Attribute")
-  private List<String> attributes = new ArrayList<String>();
+  private List<String> fedAttributes = new ArrayList<String>();
 
-  public List<String> getAttributes() {
-    return attributes;
+  /**
+   * Maps of SURFconext ARP attributes. The key is the attribute name, the values are the allowed values
+   */
+  @XStreamOmitField
+  private Map<String, List<Object>> conextAttributes = new LinkedHashMap<String, List<Object>>();
+
+  public ARP() {
   }
 
-  public void setAttributes(List<String> attributes) {
-    this.attributes = attributes;
-  }
-
-  public void addAttribute(String attribute) {
-    this.attributes.add(attribute);
+  public ARP(nl.surfnet.coin.janus.domain.ARP janusARP) {
+    this.conextAttributes = janusARP.getAttributes();
   }
 
   public String getIdpId() {
@@ -54,5 +75,31 @@ public class ARP implements Serializable {
 
   public void setIdpId(String idpId) {
     this.idpId = idpId;
+  }
+
+  public List<String> getFedAttributes() {
+    return fedAttributes;
+  }
+
+  public void setFedAttributes(List<String> fedAttributes) {
+    this.fedAttributes = fedAttributes;
+  }
+
+  public void addAttributeName(String attributeName) {
+    this.fedAttributes.add(attributeName);
+  }
+
+  public Map<String, List<Object>> getConextAttributes() {
+    return conextAttributes;
+  }
+
+  public void setConextAttributes(Map<String, List<Object>> conextAttributes) {
+    this.conextAttributes = conextAttributes;
+  }
+
+  private static List<Object> allValues() {
+    List<Object> allValues = new ArrayList<Object>(1);
+    allValues.add("*");
+    return allValues;
   }
 }

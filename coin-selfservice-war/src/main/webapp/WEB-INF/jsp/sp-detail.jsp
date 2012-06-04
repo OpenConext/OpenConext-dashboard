@@ -56,14 +56,38 @@
             <c:out value="${sp.description}"/>
           </p>
         </c:if>
-        <%--<c:if test="${fn:length(sp.arps) gt 0}">
-          <h3>_ARP</h3>
-          <ul>
-            <c:forEach items="${sp.arps}" var="arp">
-              <li>${arp}</li>
-            </c:forEach>
-          </ul>
-        </c:if>--%>
+        <%-- TODO: change IdP discovery when user can manage multiple IdP's for 1 institution --%>
+        <sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
+        <selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
+        <c:if test="${fn:length(arps) gt 0}">
+          <h3><spring:message code="jsp.sp_detail.arp"/></h3>
+          <p><spring:message code="jsp.sp_detail.arp.intro"/></p>
+          <c:forEach items="${arps}" var="arp">
+            <p><spring:message code="jsp.sp_detail.arp.policy"/></p>
+            <ul>
+              <c:if test="${empty arp.fedAttributes and empty arp.conextAttributes}">
+                <li><spring:message code="jsp.sp_detail.arp.nopolicy"/></li>
+              </c:if>
+              <c:forEach items="${arp.fedAttributes}" var="att">
+                <li><c:out value="${att}"/></li>
+              </c:forEach>
+              <c:forEach items="${arp.conextAttributes}" var="att">
+                <li><c:out value="${att.key}"/>
+                    <%-- In ServiceRegistry the ARP can also contain an array of values to filter.
+                    By default it is ['*'] --%>
+                  <c:if test="${not(fn:length(att.value) eq 1 and att.value[0] eq '*')}">
+                    <br/><spring:message code="jsp.sp_detail.arp.specific_values"/>
+                    <ul>
+                      <c:forEach items="${att.value}" var="value">
+                        <li><c:out value="${value}"/></li>
+                      </c:forEach>
+                    </ul>
+                  </c:if>
+                </li>
+              </c:forEach>
+            </ul>
+          </c:forEach>
+        </c:if>
       </div>
     </div>
     <div class="span4">
