@@ -163,7 +163,7 @@ public class SpDetailController {
       return new ModelAndView("sp-linkrequest", m);
     } else {
       final JiraTask task = new JiraTask.Builder()
-          .body(linkrequest.getEmailAddress() + ("\n\n" + linkrequest.getEmailAddress()))
+          .body(linkrequest.getEmailAddress() + ("\n\n" + linkrequest.getNotes()))
               // TODO: add a separate field 'subject' in JiraTask?
 
           .identityProvider(SpListController.getCurrentUser().getIdp())

@@ -87,6 +87,24 @@
             </ul>
           </c:forEach>
         </c:if>
+
+        <div>
+          <a class="btn btn-primary" href="<c:url value="/sp/question.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"
+             title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
+          </a>
+          <c:if test="${sp.linked eq false}">
+            <a class="btn btn-primary" href="<c:url value="/sp/linkrequest.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"
+               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+            </a>
+          </c:if>
+
+        </div>
+
+
       </div>
     </div>
     <div class="span4">
@@ -123,25 +141,6 @@
               <a href="<c:out value="${sp.eulaURL}"/>" target="_blank"><spring:message code="jsp.sp_detail.eula"/></a>
               <i class="icon-external-link"></i>
             </li>
-          </c:if>
-        </ul>
-        <ul class="unstyled">
-          <li>
-            <a href="<c:url value="/sp/question.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>"
-               rel="tooltip" data-type="question"
-               title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/><i class="icon-question-sign"></i></a>
-          </li>
-          <c:if test="${sp.linked eq false}">
-          <li>
-            <a href="<c:url value="/sp/linkrequest.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>"
-               rel="tooltip" data-type="plus"
-               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
-              <i class="icon-plus-sign"></i></a>
-          </li>
           </c:if>
         </ul>
       </div>
