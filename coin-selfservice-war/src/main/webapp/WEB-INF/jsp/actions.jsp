@@ -26,6 +26,23 @@
 
     Actions!
 
+    <table>
+      <c:forEach items="${actionList}" var="action">
+        <tr>
+          <%--@elvariable id="action" type="nl.surfnet.coin.selfservice.domain.Action"--%>
+          <td>${action.jiraKey}</td>
+          <td>${action.idp}</td>
+          <td>${action.sp}</td>
+          <td>${action.institutionId}</td>
+          <td>${action.userId}</td>
+          <td>${action.userName}</td>
+          <td>${action.status}</td>
+          <td>${action.type}</td>
+        </tr>
+      </c:forEach>
+    </table>
+
+
   </div>
 </section>
 <jsp:include page="footer.jsp"/>
