@@ -56,7 +56,6 @@
             <c:out value="${sp.description}"/>
           </p>
         </c:if>
-        <%-- TODO: change IdP discovery when user can manage multiple IdP's for 1 institution --%>
         <sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
         <selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
         <c:if test="${fn:length(arps) gt 0}">
