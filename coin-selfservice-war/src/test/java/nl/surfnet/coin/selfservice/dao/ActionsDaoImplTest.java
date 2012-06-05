@@ -63,27 +63,27 @@ public class ActionsDaoImplTest extends AbstractInMemoryDatabaseTest {
   }
 
   @Test
-  public void findByInstitute() {
+  public void findByIdP() {
     for (int i = 0; i < 3; i++) {
       Action a = new Action("key"+i, "userid", "username", Action.Type.QUESTION, Action.Status.OPEN, "body", "idp",
           "sp", "foobar", new Date());
       actionsDao.saveAction(a);
     }
 
-    final List<Action> actions = actionsDao.findActionsByInstitute("foobar");
+    final List<Action> actions = actionsDao.findActionsByIdP("idp");
     assertThat(actions.size(), is(3));
-    final List<Action> actions2 = actionsDao.findActionsByInstitute("another-institute");
+    final List<Action> actions2 = actionsDao.findActionsByIdP("another-idp");
     assertThat(actions2.size(), is(0));
   }
 
   @Test
   public void getJiraKeys() {
-    final String institute = "institute";
+    final String idp = "idp123";
     String[] keys = {"TEST-1", "TEST-2", "TEST-3", "TEST-4"};
     for (String key : keys) {
-      actionsDao.saveAction(new Action(key, "userid", "username", Action.Type.QUESTION, Action.Status.OPEN, "body", "idp", "sp", institute, new Date()));
+      actionsDao.saveAction(new Action(key, "userid", "username", Action.Type.QUESTION, Action.Status.OPEN, "body", idp, "sp", "institute-123", new Date()));
     }
-    final List<String> fetchedKeys = actionsDao.getKeys(institute);
+    final List<String> fetchedKeys = actionsDao.getKeys(idp);
     assertThat(fetchedKeys, hasItems(keys));
   }
 

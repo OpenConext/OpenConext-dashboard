@@ -26,11 +26,11 @@ import nl.surfnet.coin.selfservice.domain.Action;
 public interface ActionsDao {
 
   /**
-   * Get a list of all actions by institution id
-   * @param institutionId the id of the institution.
+   * Get a list of all actions by identity provider
+   * @param identityProvider the identity provider.
    * @return list of Action (or an empty list in case none found)
    */
-  List<Action> findActionsByInstitute(String institutionId);
+  List<Action> findActionsByIdP(String identityProvider);
 
   /**
    * persist the given action
@@ -47,12 +47,12 @@ public interface ActionsDao {
   Action findAction(long id);
 
   /**
-   * Find the Jira Keys for an institution
+   * Find the Jira Keys for an identity provider
    *
-   * @param institutionId the id of the institution.
+   * @param identityProvider provider the id of the institution.
    * @return a list of jira keys
    */
-  List<String> getKeys(String institutionId);
+  List<String> getKeys(String identityProvider);
 
   /**
    * Close an action.

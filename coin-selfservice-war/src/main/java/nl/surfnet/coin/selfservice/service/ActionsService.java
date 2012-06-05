@@ -28,13 +28,13 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 public interface ActionsService {
 
   /**
-   * Get a list of all actions of a certain institution
+   * Get a list of all actions of a certain identity provider
    *
    *
-   * @param institutionId the institutionid
+   * @param identityProvider the identity provider
    * @return list of actions
    */
-  List<Action> getActions(String institutionId);
+  List<Action> getActions(String identityProvider);
 
   /**
    * Register the creation of a JIRA issue.
@@ -44,10 +44,10 @@ public interface ActionsService {
   void registerJiraIssueCreation(String issueKey, JiraTask task);
 
   /**
-   * Close local actions that are closed in Jira for a given institution.
+   * Close local actions that are closed in Jira for a given identity provider.
    *
-   * @param institutionId the institutionid
+   * @param identityProvider the identity provider
    * @throws IOException
    */
-  void synchronizeWithJira(String institutionId) throws IOException;
+  void synchronizeWithJira(String identityProvider) throws IOException;
 }

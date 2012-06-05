@@ -40,8 +40,8 @@ public class ActionsServiceImpl implements ActionsService {
   private JiraService jiraService;
 
   @Override
-  public List<Action> getActions(String institutionId) {
-    return actionsDao.findActionsByInstitute(institutionId);
+  public List<Action> getActions(String identityProvider) {
+    return actionsDao.findActionsByIdP(identityProvider);
   }
 
   @Override
@@ -53,8 +53,8 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   @Override
-  public void synchronizeWithJira(String institutionId) throws IOException {
-    List<String> openTasks = actionsDao.getKeys(institutionId);
+  public void synchronizeWithJira(String identityProvider) throws IOException {
+    List<String> openTasks = actionsDao.getKeys(identityProvider);
     final List<JiraTask> tasks = jiraService.getTasks(openTasks);
     for (JiraTask task : tasks) {
       if (task.getStatus() == JiraTask.Status.CLOSED) {

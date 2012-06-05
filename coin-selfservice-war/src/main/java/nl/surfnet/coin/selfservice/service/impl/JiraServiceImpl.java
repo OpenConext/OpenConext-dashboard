@@ -123,6 +123,9 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   }
 
   public List<JiraTask> getTasks(final List<String> keys) throws IOException {
+    if (keys == null || keys.size() == 0) {
+      return Collections.emptyList();
+    }
     List<JiraTask> jiraTasks = new ArrayList<JiraTask>();
     StringBuilder query = new StringBuilder("project = ");
     query.append(projectKey);

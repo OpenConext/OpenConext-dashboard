@@ -65,10 +65,10 @@ public class ActionsDaoImpl implements ActionsDao {
   }
 
   @Override
-  public List<Action> findActionsByInstitute(String institutionId) {
+  public List<Action> findActionsByIdP(String identityProvider) {
     return jdbcTemplate.query("SELECT id, jiraKey, userId, userName, actionType, actionStatus, body, idp, " +
-        "sp, institutionId, requestDate FROM ss_actions WHERE institutionId = ?", new ActionRowMapper(),
-        institutionId);
+        "sp, institutionId, requestDate FROM ss_actions WHERE idp = ?", new ActionRowMapper(),
+            identityProvider);
   }
 
   @Override
@@ -78,7 +78,7 @@ public class ActionsDaoImpl implements ActionsDao {
             "requestDate) VALUES(" +
             "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         action.getJiraKey(), action.getUserId(), action.getUserName(), action.getIdp(),
-        action.getSp(), action.getInstitutionId(), action.getType(), action.getStatus(), action.getBody(),
+        action.getSp(), action.getInstitutionId(), action.getType().name(), action.getStatus().name(), action.getBody(),
         action.getRequestDate());
   }
 
@@ -97,12 +97,12 @@ public class ActionsDaoImpl implements ActionsDao {
   }
 
   @Override
-  public List<String> getKeys(String institutionId) {
-    return jdbcTemplate.query("SELECT jiraKey FROM ss_actions WHERE actionStatus = 'OPEN' AND institutionId = ?", new RowMapper<String>() {
+  public List<String> getKeys(String identityProvider) {
+    return jdbcTemplate.query("SELECT jiraKey FROM ss_actions WHERE actionStatus = 'OPEN' AND idp = ?", new RowMapper<String>() {
       @Override
       public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
         return resultSet.getString("jiraKey");
       }
-    }, institutionId);
+    }, identityProvider);
   }
 }

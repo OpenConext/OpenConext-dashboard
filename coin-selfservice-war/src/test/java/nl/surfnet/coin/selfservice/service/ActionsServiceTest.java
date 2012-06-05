@@ -47,12 +47,12 @@ public class ActionsServiceTest {
   @Test
   public void synchronization() throws IOException {
 
-    final String institution = "institution12";
+    final String idp = "https://mock-idp";
 
     JiraTask task = new JiraTask.Builder()
             .serviceProvider("https://mock-sp")
-            .identityProvider("https://mock-idp")
-            .institution(institution)
+            .identityProvider(idp)
+            .institution("institution-123")
             .issueType(JiraTask.Type.REQUEST)
             .build();
 
@@ -62,15 +62,15 @@ public class ActionsServiceTest {
 
     //actionsService.synchronizeWithJira(institution);
 
-    final List<Action> before = actionsService.getActions(institution);
+    final List<Action> before = actionsService.getActions(idp);
 
     assertThat(before.size(), is(1));
     assertThat(before.get(0).getStatus(), is(Action.Status.OPEN));
 
     jiraService.doAction(key, JiraTask.Action.CLOSE);
-    actionsService.synchronizeWithJira(institution);
+    actionsService.synchronizeWithJira(idp);
 
-    final List<Action> after = actionsService.getActions(institution);
+    final List<Action> after = actionsService.getActions(idp);
 
     assertThat(after.size(), is(1));
     assertThat(after.get(0).getStatus(), is(Action.Status.CLOSED));

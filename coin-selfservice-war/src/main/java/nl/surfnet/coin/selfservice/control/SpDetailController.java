@@ -117,6 +117,7 @@ public class SpDetailController {
           .build();
       try {
         final String issueKey = jiraService.create(task);
+
         actionsService.registerJiraIssueCreation(issueKey, task);
         m.put("issueKey", issueKey);
         return new ModelAndView("sp-question-thanks", m);
