@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -50,6 +51,9 @@ public class SpDetailControllerTest {
 
   @Mock
   private ServiceProviderService sps;
+
+  @Mock
+  private ActionsService actionsService;
 
   @Mock
   private CoinUser coinUser;

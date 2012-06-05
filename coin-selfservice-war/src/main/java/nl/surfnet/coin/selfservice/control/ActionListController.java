@@ -1,17 +1,29 @@
+/*
+ * Copyright 2012 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package nl.surfnet.coin.selfservice.control;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,7 +34,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
-import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.JiraService;
@@ -46,23 +57,8 @@ public class ActionListController {
 
         CoinUser coinUser = getCurrentUser();
 
-        final List<Action> actionList = jdbcTemplate.query("SELECT jiraKey, userId, userName, actionType, body, idp, sp FROM ss_actions WHERE institutionId = ?", new RowMapper<Action>() {
-            @Override
-            public Action mapRow(final ResultSet resultSet, final int i) throws SQLException {
-                return new Action(
-                        resultSet.getString("jiraKey"),
-                        resultSet.getString("userId"),
-                        resultSet.getString("userName"),
-                        Action.Type.valueOf(resultSet.getString("actionType")),
-                        Action.Status.valueOf(resultSet.getString("actionStatus")),
-                        resultSet.getString("body"),
-                        resultSet.getString("idp"),
-                        resultSet.getString("sp"),
-                        resultSet.getDate("requestDate"));
-            }
-        }, coinUser.getInstitutionId());
 
-        model.put("actionList", actionList);
+//        model.put("actionList", actionList);
 
         return new ModelAndView("actions", model);
     }
