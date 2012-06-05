@@ -65,49 +65,51 @@
 
   <h1><spring:message code="jsp.header.title"/></h1>
 </header>
+<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+  <section class="user-box content-dense">
+    <span class="user-name">
+      <sec:authentication property="principal.displayName" scope="request" htmlEscape="true"/>
+    </span>
+    <a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />" class="logout">
+      <spring:message code="jsp.general.logout"/> <i class="icon-signout"></i></a>
 
-<section class="user-box content-dense">
-  <span class="user-name">
-    <sec:authentication property="principal.displayName" scope="request" htmlEscape="true"/>
-  </span>
-  <a href="#" class="logout">_Logout <i class="icon-signout"></i></a>
+    <%-- b:dropdown --%>
 
-  <!-- b:dropdown -->
+    <div class="dropdown">
 
-  <div class="dropdown">
-
-    <div class="dropdown-toggle user-role-manager" data-toggle="dropdown">
-      <div class="user">
-        <c:out value="${selectedidp.name}"/>
-        <c:if test="${fn:length(idps) gt 1}">
-          <b class="caret"></b>
-        </c:if>
+      <div class="dropdown-toggle user-role-manager" data-toggle="dropdown">
+        <div class="user">
+          <c:out value="${selectedidp.name}"/>
+          <c:if test="${fn:length(idps) gt 1}">
+            <b class="caret"></b>
+          </c:if>
+        </div>
       </div>
+
+      <%--@elvariable id="idps" type="java.util.List<nl.surfnet.coin.selfservice.domain.IdentityProvider>"--%>
+      <c:if test="${fn:length(idps) gt 1}">
+        <ul class="dropdown-menu">
+          <c:forEach items="${idps}" var="idp">
+            <li class="user-role-manager" data-roleId="${idp.id}">
+              <spring:url var="toggleLink" value="/linked-sps.shtml" htmlEscape="true">
+                <spring:param name="idpId" value="${idp.id}"/>
+              </spring:url>
+              <a href="${toggleLink}">
+                <div class="user">
+                  <c:out value="${idp.name}"/>
+                </div>
+              </a>
+            </li>
+          </c:forEach>
+        </ul>
+      </c:if>
+
     </div>
 
-    <%--@elvariable id="idps" type="java.util.List<nl.surfnet.coin.selfservice.domain.IdentityProvider>"--%>
-    <c:if test="${fn:length(idps) gt 1}">
-      <ul class="dropdown-menu">
-        <c:forEach items="${idps}" var="idp">
-          <li class="user-role-manager" data-roleId="${idp.id}">
-            <spring:url var="toggleLink" value="/linked-sps.shtml" htmlEscape="true">
-              <spring:param name="idpId" value="${idp.id}"/>
-            </spring:url>
-            <a href="${toggleLink}">
-              <div class="user">
-                <c:out value="${idp.name}"/>
-              </div>
-            </a>
-          </li>
-        </c:forEach>
-      </ul>
-    </c:if>
+  </section>
+</sec:authorize>
 
-  </div>
-
-</section>
-
-<!-- b:navbar -->
+<%-- b:navbar --%>
 
 <nav class="navbar">
   <div class="navbar-inner">
@@ -126,11 +128,6 @@
 
         <li <c:if test="${activeSection == 'actions'}">class="active"
         </c:if>><a href="<c:url value="/actions.shtml"/>"><spring:message code="jsp.actions.title"/></a></li>
-<%--
-        <li <c:if test="${param.activeSection == 'styleguide'}">class="active"
-        </c:if>><a href="<c:url value="/styleguide.shtml"/>">_Styleguide</a></li>
---%>
-
       </ul>
     </div>
   </div>

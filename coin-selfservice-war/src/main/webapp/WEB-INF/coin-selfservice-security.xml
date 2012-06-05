@@ -57,6 +57,7 @@
 
     <security:custom-filter position="PRE_AUTH_FILTER" ref="samlPreAuthFilter"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
+    <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
     <security:intercept-url pattern="${ASSERTION_CONSUMER_URI}"
                                access="hasAnyRole(ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER)"/>
 
@@ -69,7 +70,7 @@
 
     <security:form-login login-page="/OpenSAML.sso/Login?target=${wayf.url.sso}" default-target-url="/" />
     <security:anonymous/>
-    <security:logout/>
+    <security:logout logout-success-url="/logout.shtml" invalidate-session="true" delete-cookies="true"/>
   </security:http>
 
   <security:authentication-manager alias="authenticationManager">
