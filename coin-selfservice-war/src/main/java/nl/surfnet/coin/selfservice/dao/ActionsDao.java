@@ -45,4 +45,19 @@ public interface ActionsDao {
    * @return Action or null if not found.
    */
   Action findAction(long id);
+
+  /**
+   * Find the Jira Keys for an institution
+   *
+   * @param institutionId the id of the institution.
+   * @return a list of jira keys
+   */
+  List<String> getKeys(String institutionId);
+
+  /**
+   * Close an action.
+   *
+   * @param jiraKey the key in jira
+   */
+  void close(String jiraKey);
 }

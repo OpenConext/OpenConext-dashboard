@@ -17,15 +17,18 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,17 +37,22 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
+import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 
 @Controller
-public class ActionListController {
+public class ActionListController extends BaseController {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
+    @Resource(name="jiraService")
     JiraService jiraService;
+
+    @Resource(name="actionsService")
+    private ActionsService actionsService;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -52,13 +60,16 @@ public class ActionListController {
     }
 
     @RequestMapping(value="actions")
-    public ModelAndView listActions() {
+    public ModelAndView listActions() throws IOException {
         Map<String, Object> model = new HashMap<String, Object>();
 
         CoinUser coinUser = getCurrentUser();
 
+        final String institutionId = coinUser.getInstitutionId();
 
-//        model.put("actionList", actionList);
+        actionsService.synchronizeWithJira(institutionId);
+        final List<Action> actions = actionsService.getActions(institutionId);
+        model.put("actionList", actions);
 
         return new ModelAndView("actions", model);
     }
@@ -97,23 +108,6 @@ public class ActionListController {
                 "INSERT INTO ss_actions(jiraKey, userId, userName, institutionId, actionType, actionStatus, body, idp, sp) VALUES(?, ?, ?, ?, ?, 'REQUEST', 'OPEN', ?, ?, ?)",
                 jiraKey, coinUser.getUid(), coinUser.getDisplayName(), coinUser.getInstitutionId(), body, sp, idp);
         return new RedirectView("actions.shtml");
-    }
-
-    /**
-     * Get the IDP Entity Id from the security context.
-     * @return String
-     * @throws SecurityException in case no principal is found.
-     */
-    private static CoinUser getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) {
-            throw new SecurityException("No suitable security context.");
-        }
-        Object principal = auth.getPrincipal();
-        if (principal != null && principal instanceof CoinUser) {
-            return (CoinUser) principal;
-        }
-        throw new SecurityException("No suitable security context.");
     }
 
 

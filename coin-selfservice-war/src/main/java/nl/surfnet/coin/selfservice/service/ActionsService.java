@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.Action;
@@ -41,4 +42,12 @@ public interface ActionsService {
    * @param task details of the issue
    */
   void registerJiraIssueCreation(String issueKey, JiraTask task);
+
+  /**
+   * Close local actions that are closed in Jira for a given institution.
+   *
+   * @param institutionId the institutionid
+   * @throws IOException
+   */
+  void synchronizeWithJira(String institutionId) throws IOException;
 }

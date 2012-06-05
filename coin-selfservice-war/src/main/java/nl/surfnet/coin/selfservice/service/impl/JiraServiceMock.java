@@ -42,7 +42,15 @@ public class JiraServiceMock implements JiraService {
   @Override
   public String create(final JiraTask task) throws IOException {
     String key = generateKey();
-    repository.put(key, task);
+    repository.put(key, new JiraTask.Builder()
+            .key(key)
+            .identityProvider(task.getIdentityProvider())
+            .serviceProvider(task.getServiceProvider())
+            .institution(task.getInstitution())
+            .issueType(task.getIssueType())
+            .body(task.getBody())
+            .status(JiraTask.Status.OPEN)
+            .build());
     LOG.debug("Added task (key '{}') to repository: {}", key, task);
     return key;
   }
@@ -63,6 +71,7 @@ public class JiraServiceMock implements JiraService {
     switch (action) {
       case CLOSE:
         newTask = new JiraTask.Builder()
+            .key(jiraTask.getKey())
             .identityProvider(jiraTask.getIdentityProvider())
             .serviceProvider(jiraTask.getServiceProvider())
             .institution(jiraTask.getInstitution())
@@ -74,6 +83,7 @@ public class JiraServiceMock implements JiraService {
       case REOPEN:
       default:
         newTask = new JiraTask.Builder()
+            .key(jiraTask.getKey())
             .identityProvider(jiraTask.getIdentityProvider())
             .serviceProvider(jiraTask.getServiceProvider())
             .institution(jiraTask.getInstitution())
@@ -83,6 +93,7 @@ public class JiraServiceMock implements JiraService {
             .build();
         break;
     }
+    repository.remove(key);
     repository.put(key, newTask);
   }
 

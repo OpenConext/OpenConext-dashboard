@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.domain;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 
 public class JiraTask {
 
@@ -33,6 +34,7 @@ public class JiraTask {
         REQUEST, QUESTION
     }
 
+    private String key;
     private String serviceProvider;
     private String identityProvider;
     private String institution;
@@ -44,12 +46,18 @@ public class JiraTask {
 
     public static class Builder {
 
+        private String key = "";
         private String serviceProvider = "";
         private String identityProvider = "";
         private String institution = "";
         private Status status = Status.OPEN;
         private Type issueType = Type.QUESTION;
         private String body = "";
+
+        public Builder key(final String key) {
+           this.key = key;
+           return this;
+        }
 
         public Builder serviceProvider(final String name) {
             this.serviceProvider = name;
@@ -83,6 +91,7 @@ public class JiraTask {
 
         public JiraTask build() {
             JiraTask task = new JiraTask();
+            task.key = key;
             task.serviceProvider = serviceProvider;
             task.identityProvider = identityProvider;
             task.institution = institution;
@@ -115,6 +124,10 @@ public class JiraTask {
 
     public String getBody() {
         return body;
+    }
+
+    public String getKey() {
+        return key;
     }
 
   public String toString() {

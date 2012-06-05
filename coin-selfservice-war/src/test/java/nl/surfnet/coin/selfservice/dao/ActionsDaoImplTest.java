@@ -30,6 +30,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItems;
 
 public class ActionsDaoImplTest extends AbstractInMemoryDatabaseTest {
 
@@ -73,6 +74,33 @@ public class ActionsDaoImplTest extends AbstractInMemoryDatabaseTest {
     assertThat(actions.size(), is(3));
     final List<Action> actions2 = actionsDao.findActionsByInstitute("another-institute");
     assertThat(actions2.size(), is(0));
+  }
+
+  @Test
+  public void getJiraKeys() {
+    final String institute = "institute";
+    String[] keys = {"TEST-1", "TEST-2", "TEST-3", "TEST-4"};
+    for (String key : keys) {
+      actionsDao.saveAction(new Action(key, "userid", "username", Action.Type.QUESTION, Action.Status.OPEN, "body", "idp", "sp", institute, new Date()));
+    }
+    final List<String> fetchedKeys = actionsDao.getKeys(institute);
+    assertThat(fetchedKeys, hasItems(keys));
+  }
+
+  @Test
+  public void close() {
+    final String jiraKey = "TEST-1346";
+    Action a = new Action(jiraKey, "userid", "username", Action.Type.QUESTION, Action.Status.OPEN, "body", "idp", "sp",
+            "institute", new Date());
+    actionsDao.saveAction(a);
+
+    final Action before = actionsDao.findAction(1L);
+    assertThat(before.getStatus(), is(Action.Status.OPEN));
+
+    actionsDao.close(jiraKey);
+
+    final Action after = actionsDao.findAction(1L);
+    assertThat(after.getStatus(), is(Action.Status.CLOSED));
   }
 
 

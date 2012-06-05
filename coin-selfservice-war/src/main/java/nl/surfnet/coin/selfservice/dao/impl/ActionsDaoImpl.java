@@ -90,4 +90,19 @@ public class ActionsDaoImpl implements ActionsDao {
       return null;
     }
   }
+
+  @Override
+  public void close(final String jiraKey) {
+    jdbcTemplate.update("UPDATE ss_actions SET actionStatus = 'CLOSED' WHERE jiraKey = ?", jiraKey);
+  }
+
+  @Override
+  public List<String> getKeys(String institutionId) {
+    return jdbcTemplate.query("SELECT jiraKey FROM ss_actions WHERE actionStatus = 'OPEN' AND institutionId = ?", new RowMapper<String>() {
+      @Override
+      public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
+        return resultSet.getString("jiraKey");
+      }
+    }, institutionId);
+  }
 }

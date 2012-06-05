@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import nl.surfnet.coin.selfservice.dao.impl.ActionsDaoImpl;
 import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
+import nl.surfnet.coin.selfservice.service.JiraService;
 
 @Service(value = "actionsService")
 public class ActionsServiceImpl implements ActionsService {
@@ -34,18 +36,30 @@ public class ActionsServiceImpl implements ActionsService {
   @Resource(name="actionsDao")
   private ActionsDaoImpl actionsDao;
 
+  @Resource(name="jiraService")
+  private JiraService jiraService;
 
   @Override
-    public List<Action> getActions(String institutionId) {
-        return actionsDao.findActionsByInstitute(institutionId);
-    }
+  public List<Action> getActions(String institutionId) {
+    return actionsDao.findActionsByInstitute(institutionId);
+  }
 
   @Override
   public void registerJiraIssueCreation(String issueKey, JiraTask task) {
     Action a = new Action(issueKey, "TODO", "TODO", Action.Type.byJiraIssueType(task.getIssueType()),
         Action.Status.byJiraIssueStatus(task.getStatus()), task.getBody(),
         task.getIdentityProvider(), task.getServiceProvider(), task.getInstitution(), new Date());
-
     actionsDao.saveAction(a);
+  }
+
+  @Override
+  public void synchronizeWithJira(String institutionId) throws IOException {
+    List<String> openTasks = actionsDao.getKeys(institutionId);
+    final List<JiraTask> tasks = jiraService.getTasks(openTasks);
+    for (JiraTask task : tasks) {
+      if (task.getStatus() == JiraTask.Status.CLOSED) {
+        actionsDao.close(task.getKey());
+      }
+    }
   }
 }

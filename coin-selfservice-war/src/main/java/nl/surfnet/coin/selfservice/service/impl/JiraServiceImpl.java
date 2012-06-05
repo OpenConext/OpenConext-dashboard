@@ -132,6 +132,7 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
       String identityProvider = fetchValue(IDP_CUSTOM_FIELD, remoteIssue.getCustomFieldValues());
       String serviceProvider = fetchValue(SP_CUSTOM_FIELD, remoteIssue.getCustomFieldValues());
       final JiraTask jiraTask = new JiraTask.Builder()
+          .key(remoteIssue.getKey())
           .identityProvider(identityProvider)
           .serviceProvider(serviceProvider)
           .institution("???")
