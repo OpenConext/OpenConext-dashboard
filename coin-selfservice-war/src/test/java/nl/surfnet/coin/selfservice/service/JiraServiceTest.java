@@ -16,6 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import nl.surfnet.coin.selfservice.domain.JiraTask;
+
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -38,6 +40,7 @@ public class JiraServiceTest {
                 .identityProvider("https://mock-idp")
                 .institution("Mujina")
                 .issueType(JiraTask.Type.REQUEST)
+                .body("thebody")
                 .build();
         assertThat(jiraService, NotNull.NOT_NULL);
         String key = jiraService.create(task);
@@ -52,6 +55,7 @@ public class JiraServiceTest {
         assertThat(jiraTask.getStatus(), IsEqual.equalTo(JiraTask.Status.OPEN));
         assertThat(jiraTask.getIdentityProvider(), IsEqual.equalTo("https://mock-idp"));
         assertThat(jiraTask.getServiceProvider(), IsEqual.equalTo("https://mock-sp"));
+      assertThat(jiraTask.getBody(), is("thebody"));
 
         jiraService.delete(key);
     }

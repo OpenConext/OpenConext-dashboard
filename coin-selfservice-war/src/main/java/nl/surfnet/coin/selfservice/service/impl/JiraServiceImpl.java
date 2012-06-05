@@ -48,6 +48,7 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   public static final String SP_CUSTOM_FIELD = "customfield_10100";
   public static final String IDP_CUSTOM_FIELD = "customfield_10101";
   public static final String TYPE_SP_CONNECTION = "13";
+  public static final String TYPE_QUESTION = "TODO"; // TODO
   public static final String PRIORITY_MEDIUM = "3";
   public static final String CLOSE_ACTION_IDENTIFIER = "2";
   public static final String REOPEN_ACTION_IDENTIFIER = "3";
@@ -92,6 +93,7 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
         .append(" to SP ").append(task.getServiceProvider()).toString());
     remoteIssue.setProject(projectKey);
     remoteIssue.setPriority(PRIORITY_MEDIUM);
+    remoteIssue.setDescription(task.getBody());
     final List<RemoteCustomFieldValue> customFieldValues = new ArrayList<RemoteCustomFieldValue>();
     final List<String> spValue = Collections.singletonList(task.getServiceProvider());
     final List<String> idpValue = Collections.singletonList(task.getIdentityProvider());
@@ -137,6 +139,7 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
           .serviceProvider(serviceProvider)
           .institution("???")
           .status(fetchStatus(remoteIssue))
+          .body(remoteIssue.getDescription())
           .build();
       jiraTasks.add(jiraTask);
     }
@@ -173,6 +176,14 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
       setMaintainSession(true);
     }};
     jiraSoapService = jiraSoapServiceGetter.getJirasoapserviceV2();
+  }
+
+  /**
+   * meant to override the default impl (for instance to mock for unit tests)
+   * @param jiraSoapService the soap service
+   */
+  protected void setJiraSoapService(JiraSoapService jiraSoapService) {
+    this.jiraSoapService = jiraSoapService;
   }
 
   @Override
