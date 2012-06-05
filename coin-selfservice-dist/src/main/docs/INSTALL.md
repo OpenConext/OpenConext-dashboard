@@ -70,17 +70,17 @@ and give ownership to tomcat:
 Out-of-the-box the tarball comes with a number of different property files.
 A number of property files are delivered:
 
-- coin-selfservice.properties.acc
-- coin-selfservice.properties.prod
-- coin-selfservice.properties.test
-- coin-selfservice.properties.dev
+- coin-selfservice.properties.<<ENV>>
+- selfservice-ehcache.xml.<<ENV>>
 
 
 For different environments different property files are delivered. Pick the
 appropriate property file for your environment from the following directory:
 `<<EXTRACTED_TAR_BALL_PATH>>/tomcat/conf/classpath_properties`
 
-Copy the chosen property files to `<<CATALINA_HOME>>/conf/classpath_properties/coin-selfservice.properties`
+Copy the chosen property files to:
+`<<CATALINA_HOME>>/conf/classpath_properties/coin-selfservice.properties`
+`<<CATALINA_HOME>>/conf/classpath_properties/selfservice-ehcache.xml`
 
 Edit the values of the property files according to your environment.
 
