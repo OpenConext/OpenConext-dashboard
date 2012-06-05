@@ -40,8 +40,9 @@ public interface ActionsDao {
 
   /**
    * Find a unique Action by its id
+   *
    * @param id the id
    * @return Action or null if not found.
    */
-  Action findAction(int id);
+  Action findAction(long id);
 }

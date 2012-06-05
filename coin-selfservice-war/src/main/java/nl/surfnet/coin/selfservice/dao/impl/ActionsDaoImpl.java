@@ -23,6 +23,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -36,7 +38,7 @@ import nl.surfnet.coin.selfservice.domain.Action;
 @Repository("actionsDao")
 public class ActionsDaoImpl implements ActionsDao {
 
-  private JdbcTemplate jdbcTemplate;
+  private JdbcOperations jdbcTemplate;
 
   @Resource(name = "selfserviceDataSource")
   public void setDataSource(DataSource dataSource) {
@@ -46,7 +48,7 @@ public class ActionsDaoImpl implements ActionsDao {
   private static class ActionRowMapper implements RowMapper<Action> {
     @Override
     public Action mapRow(final ResultSet resultSet, final int i) throws SQLException {
-      return new Action(
+      final Action action = new Action(
           resultSet.getString("jiraKey"),
           resultSet.getString("userId"),
           resultSet.getString("userName"),
@@ -55,25 +57,37 @@ public class ActionsDaoImpl implements ActionsDao {
           resultSet.getString("body"),
           resultSet.getString("idp"),
           resultSet.getString("sp"),
+          resultSet.getString("institutionId"),
           resultSet.getDate("requestDate"));
+      action.setId(resultSet.getLong("id"));
+      return action;
     }
   }
 
   @Override
   public List<Action> findActionsByInstitute(String institutionId) {
-    return jdbcTemplate.query("SELECT jiraKey, userId, userName, actionType, actionStatus, body, idp, " +
-        "sp FROM ss_actions WHERE institutionId = ?", new ActionRowMapper(), institutionId);
+    return jdbcTemplate.query("SELECT id, jiraKey, userId, userName, actionType, actionStatus, body, idp, " +
+        "sp, institutionId, requestDate FROM ss_actions WHERE institutionId = ?", new ActionRowMapper(),
+        institutionId);
   }
 
   @Override
   public void saveAction(Action action) {
     jdbcTemplate.update(
-        "INSERT INTO ss_actions(jiraKey, userId, userName, institutionId, actionType, actionStatus, body) VALUES(?, ?, ?, ?, ?, 'QUESTION', 'OPEN', ?)",
-        action.getJiraKey(), action.getUserId(), action.getUserName(), action.getJiraKey());
+        "INSERT INTO ss_actions (jiraKey, userId, userName, idp, sp, institutionId, actionType, actionStatus, body, " +
+            "requestDate) VALUES(" +
+            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        action.getJiraKey(), action.getUserId(), action.getUserName(), action.getIdp(),
+        action.getSp(), action.getInstitutionId(), action.getType(), action.getStatus(), action.getBody(),
+        action.getRequestDate());
   }
 
   @Override
-  public Action findAction(int id) {
-    return jdbcTemplate.queryForObject("select * from ss_actions where actionId = ?", new ActionRowMapper(), id);
+  public Action findAction(long id) {
+    try {
+      return jdbcTemplate.queryForObject("select * from ss_actions where id = ?", new ActionRowMapper(), id);
+    } catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 }

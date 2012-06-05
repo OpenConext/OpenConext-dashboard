@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -32,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
@@ -39,6 +42,11 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class SpDetailControllerTest {
 
@@ -84,12 +92,25 @@ public class SpDetailControllerTest {
   }
 
   @Test
-  public void questionPostHappy() {
+  public void questionPostHappy() throws IOException {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
+    verify(jiraService).create((JiraTask) anyObject());
+    verify(actionsService).registerJiraIssueCreation(anyString(), (JiraTask) anyObject());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("sp-question-thanks"));
+  }
+
+  @Test
+  public void questionThrowsJiraError() throws IOException {
+    Question question = new Question();
+    BindingResult result = new BeanPropertyBindingResult(question, "question");
+    when(jiraService.create((JiraTask) anyObject())).thenThrow(new IOException("An IOException on purpose"));
+    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
+    verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject());
+    assertTrue(mav.hasView());
+    assertThat("in case of error the form view should be returned", mav.getViewName(), is("sp-question"));
   }
 
   @Test

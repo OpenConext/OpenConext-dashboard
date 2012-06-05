@@ -9,6 +9,7 @@ create table ss_actions (
   body varchar(4096),
   idp varchar(255),
   sp varchar(255),
+  institutionId varchar(255),
   requestDate timestamp default 'now',
   primary key (id)
 );

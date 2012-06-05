@@ -17,7 +17,6 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.command.Question;
-import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -176,9 +174,6 @@ public class SpDetailController {
           .build();
       try {
         final String issueKey = jiraService.create(task);
-        Action a = new Action(issueKey, SpListController.getCurrentUser().getUsername(),
-            SpListController.getCurrentUser().getUsername(), Action.Type.REQUEST, Action.Status.OPEN,
-            task.getBody(), task.getIdentityProvider(), task.getServiceProvider(), new Date());
         actionsService.registerJiraIssueCreation(issueKey, task);
         m.put("issueKey", issueKey);
         return new ModelAndView("sp-linkrequest-thanks", m);

@@ -44,7 +44,7 @@ public class ActionsServiceImpl implements ActionsService {
   public void registerJiraIssueCreation(String issueKey, JiraTask task) {
     Action a = new Action(issueKey, "TODO", "TODO", Action.Type.byJiraIssueType(task.getIssueType()),
         Action.Status.byJiraIssueStatus(task.getStatus()), task.getBody(),
-        task.getIdentityProvider(), task.getServiceProvider(), new Date());
+        task.getIdentityProvider(), task.getServiceProvider(), task.getInstitution(), new Date());
 
     actionsDao.saveAction(a);
   }

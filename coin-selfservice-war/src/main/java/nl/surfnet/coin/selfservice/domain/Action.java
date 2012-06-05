@@ -20,6 +20,7 @@ import java.util.Date;
 
 public class Action {
 
+
   public enum Type {
     QUESTION, REQUEST;
 
@@ -50,6 +51,7 @@ public class Action {
     }
   }
 
+  private long id;
   private String jiraKey;
   private String userId;
   private String userName;
@@ -59,8 +61,10 @@ public class Action {
   private Date requestDate;
   private Type type;
   private Status status;
+  private String institutionId;
 
-  public Action(String jiraKey, String userId, String userName, Type type, Status status, String body, String idp, String sp, Date requestDate) {
+  public Action(String jiraKey, String userId, String userName, Type type, Status status, String body, String idp,
+                String sp, String institutionId, Date requestDate) {
     this.userId = userId;
     this.jiraKey = jiraKey;
     this.userName = userName;
@@ -70,6 +74,7 @@ public class Action {
     this.requestDate = requestDate;
     this.type = type;
     this.status = status;
+    this.institutionId = institutionId;
   }
 
   public String getJiraKey() {
@@ -107,4 +112,17 @@ public class Action {
   public Status getStatus() {
     return status;
   }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+  public String getInstitutionId() {
+    return institutionId;
+  }
+
+
 }
