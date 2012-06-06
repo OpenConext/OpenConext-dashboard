@@ -28,6 +28,9 @@ coin-selfservice.jdbc.url=jdbc:mysql://db.surfconext.nl:3306/api
 coin-selfservice.jdbc.user=??
 coin-selfservice.jdbc.password=??
 
+coin-eb-db-url=jdbc:mysql://db.surfconext.nl:3306/eb
+coin-eb-db-username=ebrw
+coin-eb-db-password=??
 
 # SMTP server settings for notifications
 coin-mailserver=localhost
@@ -79,6 +82,7 @@ mode.dev=false
 ##########################################################################
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
+coin-eb-db-driver=com.mysql.jdbc.Driver
 
 # global configuration of database properties, used for all data sources
 coin-selfservice.database.idleConnectionTestPeriod=900
