@@ -115,7 +115,7 @@
   <div class="navbar-inner">
     <div class="container">
       <ul class="nav">
-        <li <c:if test="${param.activeSection == 'home'}">class="active"
+        <li <c:if test="${activeSection == 'home'}">class="active"
         </c:if>><a href="${homeUrl}"><spring:message code="jsp.home.title"/></a></li>
 
         <spring:url value="/linked-sps.shtml" var="linkedSpsUrl" htmlEscape="true"/>

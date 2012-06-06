@@ -16,15 +16,21 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController extends BaseController {
 
   @RequestMapping("/home.shtml")
-  public String home() {
-    return "home";
+  public ModelAndView home() {
+    Map<String, Object> model = new HashMap<String, Object>();
+    model.put("activeSection", "home");
+    return new ModelAndView("home", model);
   }
 
   @RequestMapping("/styleguide.shtml")

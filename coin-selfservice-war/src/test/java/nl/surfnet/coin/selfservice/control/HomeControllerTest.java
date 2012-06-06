@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.control;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.web.servlet.ModelAndView;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -35,7 +36,7 @@ public class HomeControllerTest {
 
   @Test
   public void testStart() throws Exception {
-    final String view = controller.home();
-    assertEquals("home", view);
+    final ModelAndView view = controller.home();
+    assertEquals("home", view.getViewName());
   }
 }

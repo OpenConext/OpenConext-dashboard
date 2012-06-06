@@ -50,6 +50,8 @@ public class ActionListController extends BaseController {
         final List<Action> actions = actionsService.getActions(selectedidp.getId());
         model.put("actionList", actions);
 
+        model.put("activeSection", "actions");
+
         return new ModelAndView("actions", model);
     }
 
