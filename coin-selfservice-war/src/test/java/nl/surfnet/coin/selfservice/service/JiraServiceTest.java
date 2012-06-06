@@ -26,7 +26,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
         "/coin-selfservice-context.xml",
-        "/coin-selfservice-properties-context.xml"})
+        "/coin-selfservice-properties-context.xml",
+        "classpath:coin-shared-context.xml"})
 public class JiraServiceTest {
     private static final Logger log = LoggerFactory.getLogger(JiraServiceTest.class);
 
