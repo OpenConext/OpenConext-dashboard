@@ -124,8 +124,12 @@ public class SpDetailController extends BaseController {
 
         final String emailTo = "coin-beheer@surfnet.nl";
         final String emailFrom = getCurrentUser().getEmail();
-        StringBuilder subject = new StringBuilder(issueKey);
+
+        StringBuilder subject = new StringBuilder("(");
+        subject.append(issueKey);
+        subject.append(") ");
         subject.append(question.getSubject());
+
         StringBuilder content = new StringBuilder("Question was posted using self service portal\n\n");
         content.append(question.getBody());
 
