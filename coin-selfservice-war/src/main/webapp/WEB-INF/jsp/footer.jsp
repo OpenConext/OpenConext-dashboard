@@ -96,10 +96,6 @@
             renderTo:'chart',
             type:'spline'
           },
-
-          credits:{
-            enabled:false
-          },
           legend:{
             enabled:false,
             layout:"vertical",
