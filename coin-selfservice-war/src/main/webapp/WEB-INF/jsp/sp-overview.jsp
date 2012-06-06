@@ -35,6 +35,12 @@
   <h2>${title}</h2>
 
   <div class="content">
+
+    <c:if test="${activeSection eq 'linked-sps'}">
+      <div id="chart">
+      </div>
+    </c:if>
+
     <spring:message code="jsp.sp_overview.n_results" arguments="${fn:length(sps)}"/>
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
@@ -89,4 +95,6 @@
 </section>
 
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="footer.jsp" >
+  <jsp:param name="chart" value="${activeSection eq 'linked-sps'}"/>
+</jsp:include>

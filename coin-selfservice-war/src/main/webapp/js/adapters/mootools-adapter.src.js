@@ -1,5 +1,5 @@
 /**
- * @license Highcharts JS v2.2.4 (2012-05-31)
+ * @license Highstock JS v1.1.5 (2012-03-15)
  * MooTools adapter
  *
  * (c) 2010-2011 Torstein Hønsi
@@ -67,19 +67,6 @@ win.HighchartsAdapter = {
 			}
 		};
 		/*jslint unparam: false*/
-	},
-	
-	/**
-	 * Run a general method on the framework, following jQuery syntax
-	 * @param {Object} el The HTML element
-	 * @param {String} method Which method to run on the wrapped element
-	 */
-	adapterRun: function (el, method) {
-		
-		// This currently works for getting inner width and height. If adding
-		// more methods later, we need a conditional implementation for each.
-		return $(el).getStyle(method).toInt();
-		
 	},
 
 	/**
@@ -257,7 +244,6 @@ win.HighchartsAdapter = {
 			// el.removeEvents below apperantly calls this method again. Do not quite understand why, so for now just bail out.
 			return;
 		}
-		
 		win.HighchartsAdapter.extendWithEvents(el);
 		if (type) {
 			if (type === 'unload') { // Moo self destructs before custom unload events
@@ -266,7 +252,7 @@ win.HighchartsAdapter = {
 
 			if (fn) {
 				el.removeEvent(type, fn);
-			} else if (el.removeEvents) { // #958
+			} else {
 				el.removeEvents(type);
 			}
 		} else {
@@ -297,15 +283,6 @@ win.HighchartsAdapter = {
 		if (defaultFunction) {
 			defaultFunction(event);
 		}
-	},
-	
-	/**
-	 * Set back e.pageX and e.pageY that MooTools has abstracted away
-	 */
-	washMouseEvent: function (e) {
-		e.pageX = e.page.x;
-		e.pageY = e.page.y;
-		return e;
 	},
 
 	/**

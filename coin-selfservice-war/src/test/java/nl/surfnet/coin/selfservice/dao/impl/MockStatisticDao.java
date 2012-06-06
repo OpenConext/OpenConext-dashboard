@@ -22,6 +22,7 @@ import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.StatResult;
 
 /**
  * Mock implementation for {@link nl.surfnet.coin.selfservice.dao.StatisticDao}
@@ -53,5 +54,10 @@ public class MockStatisticDao implements StatisticDao {
     surfTeams.setPointStart(cal.getTime());
 
     return Arrays.asList(mujina, testSp, surfTeams);
+  }
+
+  @Override
+  public List<StatResult> getLoginsPerDay(String idpEntityId) {
+    throw new UnsupportedOperationException("TODO implement this");
   }
 }

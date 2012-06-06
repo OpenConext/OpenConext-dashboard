@@ -51,6 +51,12 @@ public class StatisticDaoImpl implements StatisticDao {
 
   @Override
   public List<ChartSerie> getLoginsPerSP(String idpEntityId) {
+    final List<StatResult> statResults = getLoginsPerDay(idpEntityId);
+    return convertStatResultsToChartSeries(statResults);
+  }
+
+  @Override
+  public List<StatResult> getLoginsPerDay(String idpEntityId) {
     List<StatResult> statResults;
     Object[] args = {idpEntityId};
     try {
@@ -74,7 +80,7 @@ public class StatisticDaoImpl implements StatisticDao {
     } catch (EmptyResultDataAccessException e) {
       statResults = new ArrayList<StatResult>();
     }
-    return convertStatResultsToChartSeries(statResults);
+    return statResults;
   }
 
   /**

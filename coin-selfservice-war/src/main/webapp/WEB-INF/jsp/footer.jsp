@@ -37,62 +37,105 @@
   </c:when>
   <c:otherwise>
     <script src="<c:url value="/js/script.min.js"/>"></script>
-    </c:otherwise>
-        </c:choose>
+  </c:otherwise>
+</c:choose>
 
-    <spring:url var="url_plugin_socket" value="/js/jquery/jquery-socket-1.0a.js"/>
-        <spring:url var="url_plugin_autoSuggest" value="/js/jquery/jquery-autoSuggest.js"/>
-        <spring:url var="url_plugin_datepicker" value="/js/datepicker/bootstrap-datepicker.js"/>
-        <spring:url var="url_plugin_dropdownReload" value="/js/jquery/dropdown-reload.js"/>
+<spring:url var="url_plugin_socket" value="/js/jquery/jquery-socket-1.0a.js"/>
+<spring:url var="url_plugin_autoSuggest" value="/js/jquery/jquery-autoSuggest.js"/>
+<spring:url var="url_plugin_datepicker" value="/js/datepicker/bootstrap-datepicker.js"/>
+<spring:url var="url_plugin_dropdownReload" value="/js/jquery/dropdown-reload.js"/>
 
-        <script>
-        app.plugins = {
-      jquery:{
-        socket:'<c:out value="${url_plugin_socket}"/>',
-        autoSuggest:'<c:out value="${url_plugin_autoSuggest}"/>',
-        datepicker:'<c:out value="${url_plugin_datepicker}"/>',
-        dropdownReload:'<c:out value="${url_plugin_dropdownReload}"/>'
-      }
+<script>
+  app.plugins = {
+    jquery:{
+      socket:'<c:out value="${url_plugin_socket}"/>',
+      autoSuggest:'<c:out value="${url_plugin_autoSuggest}"/>',
+      datepicker:'<c:out value="${url_plugin_datepicker}"/>',
+      dropdownReload:'<c:out value="${url_plugin_dropdownReload}"/>'
     }
-    </script>
+  }
+</script>
 
 <c:if test="${param.chart eq true}">
-  <script src="<c:url value="/js/highcharts.js"/>" type="text/javascript"></script>
-
+  <script src="<c:url value="/js/highstock.js"/>"></script>
+  <script src="<c:url value="/js/modules/exporting.js"/>"></script>
   <script>
+    $(function () {
+      var seriesOptions = []
+      var name, logins, day;
 
-    $(document).ready(function () {
       $.ajax({
-        url:'<spring:url value="/splogins.json" htmlEscape="true"/>',
+        url:'<spring:url value="/loginsperspperday.json" htmlEscape="true"/>',
         success:function (result) {
-          chart1 = new Highcharts.Chart({
-            chart:{
-              renderTo:'chart',
-              type:'line'
+          $.each(result, function (key, val) {
+            name = key;
+            logins = [];
+            for (var i = 0, maxLen = val.length; i < maxLen; i++) {
+              day = [val[i].date, val[i].logins];
+              logins.push(day);
+            }
+            seriesOptions.push({
+              name:name,
+              data:logins
+            })
 
-            },
-            title:{
-              text:'Logins per day'
-            },
-            xAxis:{
-              title:{
-                text:'Date'
-              }, type:'datetime'
-            },
-            yAxis:{
-              title:{
-                text:'Logins'
-              }, min:0
-            }, series:result
           });
+
+          if (seriesOptions.length > 0) {
+            createChart();
+            $(chart.renderTo).setAttribute("style", "width:100%;height:400px;");
+          }
         },
         cache:false
       });
 
+      // create the chart when all data is loaded
+      function createChart() {
+        chart = new Highcharts.StockChart({
+          chart:{
+            renderTo:'chart',
+            type:'spline'
+          },
 
+          credits:{
+            enabled:false
+          },
+          legend:{
+            enabled:false,
+            layout:"vertical",
+            shadow:true
+          },
+          plotOptions:{
+            connectNulls:true,
+            series:{
+              pointInterval:24 * 3600 * 1000,
+            }
+          },
+          rangeSelector:{
+            selected:4
+          },
+          series:seriesOptions,
+          title:{
+            text:"<spring:message code="graph.title.dailylogins" javaScriptEscape="true"/>"
+          },
+          tooltip:{
+            pointFormat:'<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+            valueDecimals:0
+          },
+          yAxis:{
+            min:0,
+            plotLines:[
+              {
+                value:0,
+                width:2,
+                color:'silver'
+              }
+            ]
+          }
+
+        });
+      }
     });
-
-
   </script>
 </c:if>
 </body>

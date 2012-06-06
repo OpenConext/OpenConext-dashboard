@@ -1,5 +1,5 @@
 /**
- * @license Highcharts JS v2.2.4 (2012-05-31)
+ * @license Highstock JS v1.1.5 (2012-03-15)
  * Prototype adapter
  *
  * @author Michael Nelson, Torstein Hønsi.
@@ -99,19 +99,6 @@ return {
 				}
 			});
 		}
-	},
-	
-	/**
-	 * Run a general method on the framework, following jQuery syntax
-	 * @param {Object} el The HTML element
-	 * @param {String} method Which method to run on the wrapped element
-	 */
-	adapterRun: function (el, method) {
-		
-		// This currently works for getting inner width and height. If adding
-		// more methods later, we need a conditional implementation for each.
-		return parseInt($(el).getStyle(method), 10);
-		
 	},
 
 	/**
@@ -241,10 +228,6 @@ return {
 			HighchartsAdapter._extend(el);
 			el._highcharts_stop_observing(event, handler);
 		}
-	},
-	
-	washMouseEvent: function (e) {
-		return e;
 	},
 
 	// um, grep
