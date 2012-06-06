@@ -24,7 +24,7 @@ janus.secret=??
 janus.uri=https://serviceregistry.surfconext.nl/simplesaml/module.php/janus/services/rest/
 
 # "own" database
-coin-selfservice.jdbc.url=jdbc:mysql://db.surfconext.nl:3306/selfservice
+coin-selfservice.jdbc.url=jdbc:mysql://db.surfconext.nl:3306/api
 coin-selfservice.jdbc.user=??
 coin-selfservice.jdbc.password=??
 
