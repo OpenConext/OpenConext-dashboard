@@ -106,7 +106,7 @@ public class ActionsDaoImplTest extends AbstractInMemoryDatabaseTest {
 
   @Override
   public String getMockDataContentFilename() {
-    return "db/migration/hsqldb/V0.0.0__initial.sql";
+    return "db/migration/hsqldb/S0.0.0__initial.sql";
   }
 
   @Override

@@ -64,6 +64,7 @@
   <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
     <property name="baseDir" value="${coin-selfservice.db.migrations.folder}"/>
     <property name="dataSource" ref="selfserviceDataSource"/>
+    <property name="sqlMigrationPrefix" value="S" />
   </bean>
 
   <bean id="federationProviderService"  class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
