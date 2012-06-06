@@ -22,13 +22,14 @@
 <section>
   <div class="content">
 
-    <h3>${title}</h3>
+    <h3>My Actions</h3>
 
     Your action history.
 
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
-        <th>Issue #</th>
+        <th class="cw55 small center">Issue #</th>
+        <th class="cw75 small center">Date</th>
         <th>Service provider</th>
         <th class="cw55 small center">Status</th>
       </thead>
@@ -36,7 +37,8 @@
       <c:forEach items="${actionList}" var="action">
         <tr class="rowdetails">
           <%--@elvariable id="action" type="nl.surfnet.coin.selfservice.domain.Action"--%>
-          <td>${action.jiraKey}</td>
+          <td class="center">${action.jiraKey}</td>
+          <td class="center">${action.requestDate}</td>
           <td>${action.sp}</td>
           <td class="center">
             <c:if test="${action.status eq 'CLOSED'}">
@@ -47,7 +49,6 @@
       </c:forEach>
       </tbody>
     </table>
-
 
   </div>
 </section>

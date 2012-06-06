@@ -52,6 +52,7 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   public static final String PRIORITY_MEDIUM = "3";
   public static final String CLOSE_ACTION_IDENTIFIER = "2";
   public static final String REOPEN_ACTION_IDENTIFIER = "3";
+  private static final String TYPE_QUESTION_CONNECTION = "16";
 
   private String baseUrl;
   private String username;
@@ -82,7 +83,15 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   }
 
   private RemoteIssue createQuestion(final JiraTask task) {
-    throw new UnsupportedOperationException("TODO"); // TODO
+    RemoteIssue remoteIssue = new RemoteIssue();
+    remoteIssue.setType(TYPE_QUESTION_CONNECTION);
+    remoteIssue.setSummary(new StringBuilder()
+            .append("Question about ").append(task.getServiceProvider()).toString());
+    remoteIssue.setProject(projectKey);
+    remoteIssue.setPriority(PRIORITY_MEDIUM);
+    remoteIssue.setDescription(task.getBody());
+    appendSpAndIdp(task, remoteIssue);
+    return remoteIssue;
   }
 
   private RemoteIssue createRequest(final JiraTask task) {
@@ -94,13 +103,17 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
     remoteIssue.setProject(projectKey);
     remoteIssue.setPriority(PRIORITY_MEDIUM);
     remoteIssue.setDescription(task.getBody());
+    appendSpAndIdp(task, remoteIssue);
+    return remoteIssue;
+  }
+
+  private void appendSpAndIdp(final JiraTask task, final RemoteIssue remoteIssue) {
     final List<RemoteCustomFieldValue> customFieldValues = new ArrayList<RemoteCustomFieldValue>();
     final List<String> spValue = Collections.singletonList(task.getServiceProvider());
     final List<String> idpValue = Collections.singletonList(task.getIdentityProvider());
     customFieldValues.add(new RemoteCustomFieldValue(SP_CUSTOM_FIELD, null, spValue.toArray(EMPTY_STRINGS)));
     customFieldValues.add(new RemoteCustomFieldValue(IDP_CUSTOM_FIELD, null, idpValue.toArray(EMPTY_STRINGS)));
     remoteIssue.setCustomFieldValues(customFieldValues.toArray(EMPTY_REMOTE_CUSTOM_FIELD_VALUES));
-    return remoteIssue;
   }
 
   public void delete(final String key) throws IOException {

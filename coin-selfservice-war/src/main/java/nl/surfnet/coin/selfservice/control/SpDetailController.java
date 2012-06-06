@@ -21,10 +21,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,13 +51,14 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.shared.service.MailService;
 
 /**
  * Controller for SP detail pages
  */
 @Controller
 @RequestMapping("/sp")
-public class SpDetailController {
+public class SpDetailController extends BaseController {
 
   @Resource(name="providerService")
   private ServiceProviderService providerService;
@@ -60,6 +71,9 @@ public class SpDetailController {
   private ActionsService actionsService;
 
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
+
+  @Autowired
+  private MailService mailService;
 
 
   /**
@@ -118,7 +132,21 @@ public class SpDetailController {
       try {
         final String issueKey = jiraService.create(task);
 
-        actionsService.registerJiraIssueCreation(issueKey, task);
+        final String emailTo = "coin-beheer@surfnet.nl";
+        final String emailFrom = getCurrentUser().getEmail();
+        StringBuilder subject = new StringBuilder(issueKey);
+        subject.append(question.getSubject());
+        StringBuilder content = new StringBuilder("Question was posted using self service portal\n\n");
+        content.append(question.getBody());
+
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom(emailFrom);
+        simpleMailMessage.setTo(emailTo);
+        simpleMailMessage.setSubject(subject.toString());
+        simpleMailMessage.setText(content.toString());
+
+        mailService.sendAsync(simpleMailMessage);
+
         m.put("issueKey", issueKey);
         return new ModelAndView("sp-question-thanks", m);
       } catch (IOException e) {
@@ -127,9 +155,9 @@ public class SpDetailController {
         m.put("jiraError", e.getMessage());
         return new ModelAndView("sp-question", m);
       }
+
     }
   }
-
 
   /**
    * Controller for request form page.
