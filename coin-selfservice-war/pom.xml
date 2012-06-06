@@ -39,7 +39,7 @@
     <flyway.version>1.5</flyway.version>
     <jackson.version>[1.9.7,2.0)</jackson.version>
     <xstream.version>1.4.2</xstream.version>
-    <commons.dbcp.version>1.4</commons.dbcp.version>
+    <bonecp.version>0.7.1.RELEASE</bonecp.version>
   </properties>
 
   <dependencyManagement>
@@ -93,11 +93,10 @@
       </dependency>
 
       <dependency>
-        <groupId>commons-dbcp</groupId>
-        <artifactId>commons-dbcp</artifactId>
-        <version>${commons.dbcp.version}</version>
+        <groupId>com.jolbox</groupId>
+        <artifactId>bonecp</artifactId>
+        <version>${bonecp.version}</version>
       </dependency>
-
 
     </dependencies>
   </dependencyManagement>
@@ -259,6 +258,11 @@
       <groupId>c3p0</groupId>
       <artifactId>c3p0</artifactId>
       <version>0.9.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jolbox</groupId>
+      <artifactId>bonecp</artifactId>
     </dependency>
   </dependencies>
 

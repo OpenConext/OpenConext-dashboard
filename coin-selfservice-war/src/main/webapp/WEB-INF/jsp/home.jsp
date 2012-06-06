@@ -24,6 +24,12 @@
 
     <h3>${title}</h3>
     Welcome to the Idp Self Service Station.
+
+    <div id="chart" style="width: 100%; height: 400px">
+
+    </div>
   </div>
 </section>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="footer.jsp">
+  <jsp:param name="chart" value="true"/>
+</jsp:include>

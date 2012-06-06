@@ -43,6 +43,25 @@
     <property name="maxIdleTime" value="${coin-selfservice.database.maxIdleTime}" />
   </bean>
 
+  <bean id="ebDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+    <property name="driverClass" value="${coin-eb-db-driver}"/>
+    <property name="jdbcUrl" value="${coin-eb-db-url}"/>
+    <property name="username" value="${coin-eb-db-username}"/>
+    <property name="password" value="${coin-eb-db-password}"/>
+    <property name="idleConnectionTestPeriodInMinutes" value="60"/>
+    <property name="idleMaxAgeInMinutes" value="240"/>
+    <property name="maxConnectionsPerPartition" value="20"/>
+    <property name="minConnectionsPerPartition" value="2"/>
+    <property name="partitionCount" value="3"/>
+    <property name="acquireIncrement" value="2"/>
+    <property name="statementsCacheSize" value="100"/>
+    <property name="releaseHelperThreads" value="3"/>
+  </bean>
+
+  <bean id="ebJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <constructor-arg ref="ebDataSource"/>
+  </bean>
+
   <bean id="log4jInitialization"
         class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>

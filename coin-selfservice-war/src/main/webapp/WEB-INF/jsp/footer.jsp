@@ -56,5 +56,44 @@
     }
     </script>
 
+<c:if test="${param.chart eq true}">
+  <script src="<c:url value="/js/highcharts.js"/>" type="text/javascript"></script>
+
+  <script>
+
+    $(document).ready(function () {
+      $.ajax({
+        url:'<spring:url value="/splogins.json" htmlEscape="true"/>',
+        success:function (result) {
+          chart1 = new Highcharts.Chart({
+            chart:{
+              renderTo:'chart',
+              type:'line'
+
+            },
+            title:{
+              text:'Logins per day'
+            },
+            xAxis:{
+              title:{
+                text:'Date'
+              }, type:'datetime'
+            },
+            yAxis:{
+              title:{
+                text:'Logins'
+              }, min:0
+            }, series:result
+          });
+        },
+        cache:false
+      });
+
+
+    });
+
+
+  </script>
+</c:if>
 </body>
 </html>
