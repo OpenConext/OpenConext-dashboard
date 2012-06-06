@@ -63,7 +63,6 @@ public class SpDetailController extends BaseController {
   @Resource(name="providerService")
   private ServiceProviderService providerService;
 
-
   @Resource(name="jiraService")
   private JiraService jiraService;
 
@@ -72,7 +71,7 @@ public class SpDetailController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
 
-  @Autowired
+  @Resource(name="mailService")
   private MailService mailService;
 
 

@@ -21,8 +21,10 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,10 +40,12 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.shared.service.MailService;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
@@ -65,6 +69,9 @@ public class SpDetailControllerTest {
 
   @Mock
   private CoinUser coinUser;
+
+  @Mock
+  private MailService mailService;
 
   @Before
   public void before() {
@@ -93,11 +100,12 @@ public class SpDetailControllerTest {
 
   @Test
   public void questionPostHappy() throws IOException {
+    when(jiraService.create(Matchers.<JiraTask>any())).thenReturn("TEST-001");
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
     verify(jiraService).create((JiraTask) anyObject());
-    verify(actionsService).registerJiraIssueCreation(anyString(), (JiraTask) anyObject());
+    verify(mailService).sendAsync((SimpleMailMessage) anyObject());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("sp-question-thanks"));
   }
