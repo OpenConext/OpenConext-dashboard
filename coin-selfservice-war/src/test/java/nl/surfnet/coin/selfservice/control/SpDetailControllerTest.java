@@ -100,11 +100,11 @@ public class SpDetailControllerTest {
 
   @Test
   public void questionPostHappy() throws IOException {
-    when(jiraService.create(Matchers.<JiraTask>any())).thenReturn("TEST-001");
+    when(jiraService.create(Matchers.<JiraTask>any(), Matchers.<CoinUser>any())).thenReturn("TEST-001");
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
-    verify(jiraService).create((JiraTask) anyObject());
+    verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
     verify(mailService).sendAsync((SimpleMailMessage) anyObject());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("sp-question-thanks"));
@@ -114,7 +114,7 @@ public class SpDetailControllerTest {
   public void questionThrowsJiraError() throws IOException {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
-    when(jiraService.create((JiraTask) anyObject())).thenThrow(new IOException("An IOException on purpose"));
+    when(jiraService.create((JiraTask) anyObject(), Matchers.<CoinUser>any())).thenThrow(new IOException("An IOException on purpose"));
     final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
     verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject());
     assertTrue(mav.hasView());

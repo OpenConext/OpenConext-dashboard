@@ -31,11 +31,13 @@ import org.mockito.MockitoAnnotations;
 import org.swift.common.soap.jira.JiraSoapService;
 import org.swift.common.soap.jira.RemoteIssue;
 
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.internal.matchers.StringContains.containsString;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -66,11 +68,11 @@ public class JiraServiceImplTest {
         .serviceProvider("sp")
         .issueType(JiraTask.Type.REQUEST)
         .build();
-    jiraService.create(task);
+    jiraService.create(task, new CoinUser());
     verify(jss).createIssue(anyString(), captor.capture());
 
     assertThat("Given body should be set as the issue's Description field",
-        captor.getValue().getDescription(), IsEqual.equalTo(task.getBody()));
+        captor.getValue().getDescription(), containsString("thebody"));
 
     assertThat(captor.getValue().getType(), IsEqual.equalTo(JiraServiceImpl.TYPE_SP_CONNECTION));
   }
@@ -86,7 +88,7 @@ public class JiraServiceImplTest {
         .serviceProvider("sp")
         .issueType(JiraTask.Type.QUESTION)
         .build();
-    jiraService.create(task);
+    jiraService.create(task, new CoinUser());
     verify(jss).createIssue(anyString(), captor.capture());
 
     assertThat(captor.getValue().getType(), IsEqual.equalTo(JiraServiceImpl.TYPE_QUESTION));
@@ -103,7 +105,7 @@ public class JiraServiceImplTest {
 
     when(jss.createIssue(anyString(), (RemoteIssue) anyObject()))
         .thenThrow(new org.swift.common.soap.jira.RemoteException());
-    jiraService.create(task);
+    jiraService.create(task, new CoinUser());
   }
 
   @Test

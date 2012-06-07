@@ -25,6 +25,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.JiraService;
 
@@ -40,7 +41,7 @@ public class JiraServiceMock implements JiraService {
   }
 
   @Override
-  public String create(final JiraTask task) throws IOException {
+  public String create(final JiraTask task, CoinUser user) throws IOException {
     String key = generateKey();
     repository.put(key, new JiraTask.Builder()
             .key(key)

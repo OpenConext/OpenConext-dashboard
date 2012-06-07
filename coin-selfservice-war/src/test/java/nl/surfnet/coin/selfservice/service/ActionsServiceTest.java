@@ -28,6 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import nl.surfnet.coin.selfservice.domain.Action;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -57,7 +58,9 @@ public class ActionsServiceTest {
             .issueType(JiraTask.Type.REQUEST)
             .build();
 
-    final String key = jiraService.create(task);
+    CoinUser user = new CoinUser();
+
+    final String key = jiraService.create(task, user);
 
     actionsService.registerJiraIssueCreation(key, task);
 

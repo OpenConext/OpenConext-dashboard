@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 
 import static org.hamcrest.core.Is.is;
@@ -44,7 +45,7 @@ public class JiraServiceTest {
                 .body("thebody")
                 .build();
         assertThat(jiraService, NotNull.NOT_NULL);
-        String key = jiraService.create(task);
+        String key = jiraService.create(task, new CoinUser());
         assertThat(key, NotNull.NOT_NULL);
         assertThat(key.length(), IsNot.not(0));
 
@@ -56,7 +57,7 @@ public class JiraServiceTest {
         assertThat(jiraTask.getStatus(), IsEqual.equalTo(JiraTask.Status.OPEN));
         assertThat(jiraTask.getIdentityProvider(), IsEqual.equalTo("https://mock-idp"));
         assertThat(jiraTask.getServiceProvider(), IsEqual.equalTo("https://mock-sp"));
-      assertThat(jiraTask.getBody(), is("thebody"));
+        assertThat(jiraTask.getBody(), is("thebody"));
 
         jiraService.delete(key);
     }
@@ -70,7 +71,7 @@ public class JiraServiceTest {
                 .issueType(JiraTask.Type.REQUEST)
                 .build();
         assertThat(jiraService, NotNull.NOT_NULL);
-        String key = jiraService.create(task);
+        String key = jiraService.create(task, new CoinUser());
         assertThat(key, NotNull.NOT_NULL);
         assertThat(key.length(), IsNot.not(0));
 

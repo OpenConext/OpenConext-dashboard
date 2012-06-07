@@ -19,6 +19,7 @@ package nl.surfnet.coin.selfservice.service;
 import java.io.IOException;
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 
 public interface JiraService {
@@ -27,10 +28,11 @@ public interface JiraService {
    * Create a new task in Jira.
    *
    * @param task the task you want to create
+   * @param user the user which issued the request
    * @return the new task key
    * @throws IOException when communicating with jira fails
    */
-  String create(final JiraTask task) throws IOException;
+  String create(final JiraTask task, CoinUser user) throws IOException;
 
   /**
    * Delete a task from Jira.

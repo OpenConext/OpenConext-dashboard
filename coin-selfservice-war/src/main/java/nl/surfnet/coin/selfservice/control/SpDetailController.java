@@ -25,6 +25,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -62,6 +63,9 @@ public class SpDetailController extends BaseController {
 
   @Resource(name = "actionsService")
   private ActionsService actionsService;
+
+  @Value("${coin-administrative-email}")
+  private String administrativeEmail;
 
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
 
@@ -123,9 +127,9 @@ public class SpDetailController extends BaseController {
           .status(JiraTask.Status.OPEN)
           .build();
       try {
-        final String issueKey = jiraService.create(task);
+        final String issueKey = jiraService.create(task, getCurrentUser());
 
-        final String emailTo = "coin-beheer@surfnet.nl";
+        final String emailTo = administrativeEmail;
         final String emailFrom = getCurrentUser().getEmail();
 
         StringBuilder subject = new StringBuilder("(");
@@ -214,7 +218,7 @@ public class SpDetailController extends BaseController {
           .status(JiraTask.Status.OPEN)
           .build();
       try {
-        final String issueKey = jiraService.create(task);
+        final String issueKey = jiraService.create(task, getCurrentUser());
         actionsService.registerJiraIssueCreation(issueKey, task);
         m.put("issueKey", issueKey);
         sessionStatus.setComplete();

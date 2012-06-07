@@ -17,8 +17,10 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.base.Joiner;
@@ -33,6 +35,7 @@ import org.swift.common.soap.jira.RemoteCustomFieldValue;
 import org.swift.common.soap.jira.RemoteFieldValue;
 import org.swift.common.soap.jira.RemoteIssue;
 
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.JiraService;
 
@@ -65,14 +68,14 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
 
   }
 
-  public String create(final JiraTask task) throws IOException {
+  public String create(final JiraTask task, CoinUser user) throws IOException {
     RemoteIssue remoteIssue;
     switch (task.getIssueType()) {
       case REQUEST:
-        remoteIssue = createRequest(task);
+        remoteIssue = createRequest(task, user);
         break;
       default:
-        remoteIssue = createQuestion(task);
+        remoteIssue = createQuestion(task, user);
         break;
     }
     final RemoteIssue createdIssue = jiraSoapService.createIssue(getToken(), remoteIssue);
@@ -82,19 +85,27 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
     return createdIssue.getKey();
   }
 
-  private RemoteIssue createQuestion(final JiraTask task) {
+  private RemoteIssue createQuestion(final JiraTask task, CoinUser user) {
     RemoteIssue remoteIssue = new RemoteIssue();
     remoteIssue.setType(TYPE_QUESTION_CONNECTION);
     remoteIssue.setSummary(new StringBuilder()
             .append("Question about ").append(task.getServiceProvider()).toString());
     remoteIssue.setProject(projectKey);
     remoteIssue.setPriority(PRIORITY_MEDIUM);
-    remoteIssue.setDescription(task.getBody());
+    StringBuilder description = new StringBuilder();
+    description.append("Applicant name: ").append(user.getDisplayName()).append("\n");
+    description.append("Applicant email: ").append(user.getEmail()).append("\n");
+    description.append("Identity Provider: ").append(task.getIdentityProvider()).append("\n");
+    description.append("Service Provider: ").append(task.getServiceProvider()).append("\n");
+    description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
+    description.append("Service Provider: ").append(task.getServiceProvider()).append("\n");
+    description.append("Request: ").append(task.getBody()).append("\n");
+    remoteIssue.setDescription(description.toString());
     appendSpAndIdp(task, remoteIssue);
     return remoteIssue;
   }
 
-  private RemoteIssue createRequest(final JiraTask task) {
+  private RemoteIssue createRequest(final JiraTask task, CoinUser user) {
     RemoteIssue remoteIssue = new RemoteIssue();
     remoteIssue.setType(TYPE_SP_CONNECTION);
     remoteIssue.setSummary(new StringBuilder()
@@ -102,7 +113,16 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
         .append(" to SP ").append(task.getServiceProvider()).toString());
     remoteIssue.setProject(projectKey);
     remoteIssue.setPriority(PRIORITY_MEDIUM);
-    remoteIssue.setDescription(task.getBody());
+    StringBuilder description = new StringBuilder();
+    description.append("Request: Create a new connection").append("\n");
+    description.append("Applicant name: ").append(user.getDisplayName()).append("\n");
+    description.append("Applicant email: ").append(user.getEmail()).append("\n");
+    description.append("Identity Provider: ").append(task.getIdentityProvider()).append("\n");
+    description.append("Service Provider: ").append(task.getServiceProvider()).append("\n");
+    description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
+    description.append("Service Provider: ").append(task.getServiceProvider()).append("\n");
+    description.append("Remark from user: ").append(task.getBody()).append("\n");
+    remoteIssue.setDescription(description.toString());
     appendSpAndIdp(task, remoteIssue);
     return remoteIssue;
   }
