@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.LinkRequest;
@@ -49,20 +51,21 @@ import nl.surfnet.coin.shared.service.MailService;
  */
 @Controller
 @RequestMapping("/sp")
+@SessionAttributes(value = "linkrequest")
 public class SpDetailController extends BaseController {
 
-  @Resource(name="providerService")
+  @Resource(name = "providerService")
   private ServiceProviderService providerService;
 
-  @Resource(name="jiraService")
+  @Resource(name = "jiraService")
   private JiraService jiraService;
 
-  @Resource(name="actionsService")
+  @Resource(name = "actionsService")
   private ActionsService actionsService;
 
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
 
-  @Resource(name="mailService")
+  @Resource(name = "mailService")
   private MailService mailService;
 
 
@@ -72,7 +75,7 @@ public class SpDetailController extends BaseController {
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value="/detail.shtml")
+  @RequestMapping(value = "/detail.shtml")
   public ModelAndView spDetail(@RequestParam String spEntityId,
                                @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
@@ -87,7 +90,7 @@ public class SpDetailController extends BaseController {
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value="/question.shtml", method= RequestMethod.GET)
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
   public ModelAndView spQuestion(@RequestParam String spEntityId,
                                  @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
@@ -97,7 +100,7 @@ public class SpDetailController extends BaseController {
     return new ModelAndView("sp-question", m);
   }
 
-  @RequestMapping(value="/question.shtml", method= RequestMethod.POST)
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
   public ModelAndView spQuestionSubmit(@RequestParam String spEntityId,
                                        @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                        @Valid @ModelAttribute("question") Question question, BindingResult result) {
@@ -159,7 +162,7 @@ public class SpDetailController extends BaseController {
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value="/linkrequest.shtml", method= RequestMethod.GET)
+  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
   public ModelAndView spRequest(@RequestParam String spEntityId,
                                 @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
@@ -169,26 +172,41 @@ public class SpDetailController extends BaseController {
     return new ModelAndView("sp-linkrequest", m);
   }
 
+  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
+  public ModelAndView spRequestPost(@RequestParam String spEntityId,
+                                    @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                    @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
+                                    BindingResult result) {
+    Map<String, Object> m = new HashMap<String, Object>();
+    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
+    m.put("sp", sp);
+
+    if (result.hasErrors()) {
+      LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
+      return new ModelAndView("sp-linkrequest", m);
+    } else {
+      return new ModelAndView("sp-linkrequest-confirm", m);
+    }
+  }
 
 
-  @RequestMapping(value="/linkrequest.shtml", method= RequestMethod.POST)
-  public ModelAndView spRequestSubmit(@RequestParam String spEntityId,
-                                       @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
-                                       BindingResult result,
-                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp
-  ) {
+  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST, params="confirmed=true")
+  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId,
+                                             @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
+                                             BindingResult result,
+                                             @RequestParam(value = "confirmed") boolean confirmed,
+                                             @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                             SessionStatus sessionStatus) {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("sp-linkrequest", m);
+      return new ModelAndView("sp-linkrequest-confirm", m);
     } else {
       final JiraTask task = new JiraTask.Builder()
-          .body(linkrequest.getEmailAddress() + ("\n\n" + linkrequest.getNotes()))
-              // TODO: add a separate field 'subject' in JiraTask?
-
+          .body(getCurrentUser().getEmail() + ("\n\n" + linkrequest.getNotes()))
           .identityProvider(SpListController.getCurrentUser().getIdp())
           .serviceProvider(spEntityId)
           .institution(SpListController.getCurrentUser().getInstitutionId())
@@ -199,12 +217,13 @@ public class SpDetailController extends BaseController {
         final String issueKey = jiraService.create(task);
         actionsService.registerJiraIssueCreation(issueKey, task);
         m.put("issueKey", issueKey);
+        sessionStatus.setComplete();
         return new ModelAndView("sp-linkrequest-thanks", m);
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view",
             e);
         m.put("jiraError", e.getMessage());
-        return new ModelAndView("sp-linkrequest", m);
+        return new ModelAndView("sp-linkrequest-confirm", m);
       }
     }
   }

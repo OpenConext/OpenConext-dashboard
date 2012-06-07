@@ -16,14 +16,14 @@
 
 package nl.surfnet.coin.selfservice.command;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.AssertTrue;
 
 public class LinkRequest {
 
   private String notes;
 
-  @NotEmpty
-  private String emailAddress;
+  @AssertTrue
+  private boolean agree;
 
   public String getNotes() {
     return notes;
@@ -33,11 +33,11 @@ public class LinkRequest {
     this.notes = notes;
   }
 
-  public String getEmailAddress() {
-    return emailAddress;
+  public boolean isAgree() {
+    return agree;
   }
 
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
+  public void setAgree(boolean agree) {
+    this.agree = agree;
   }
 }

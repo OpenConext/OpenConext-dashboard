@@ -27,71 +27,84 @@
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
 
+<sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
 
 <div class="row">
   <div class="span8">
     <section>
 
-      <h2><spring:message code="jsp.sp_linkrequest.pagetitle"/></h2>
+      <h2><spring:message code="jsp.sp_linkrequest.pagetitle" arguments="${sp.name}"/></h2>
 
       <div class="content">
 
         <c:if test="${not empty jiraError}">
           <div class="alert alert-error">
-            <spring:message code="jsp.sp_linkrequest.jiraError" arguments="${jiraError}" />
+            <spring:message code="jsp.sp_linkrequest.jiraError" arguments="${jiraError}"/>
           </div>
         </c:if>
 
+
+        <c:set var="sp" value="${sp}" scope="request" />
+        <jsp:include page="arp.jsp" />
+
+
+        <spring:message code="jsp.sp_linkrequest.termsintro" />
+        <ul>
+          <li><spring:message code="jsp.sp_linkrequest.terms1" arguments="${sp.name}"/></li>
+          <li><spring:message code="jsp.sp_linkrequest.terms2" arguments="${sp.name}"/></li>
+          <li><spring:message code="jsp.sp_linkrequest.terms3" arguments="${sp.name}"/></li>
+        </ul>
+
         <form:form cssClass="form form-horizontal" commandName="linkrequest">
           <fieldset>
-            <div class="control-group <form:errors path="emailAddress">error</form:errors>">
-            <label class="control-label"><spring:message code="jsp.sp_linkrequest.emailaddressfield"/></label>
 
-            <div class="controls">
-              <form:input path="emailAddress" cssClass="input-xlarge"/>
-              <form:errors path="emailAddress">
-                <p class="help-block"><form:errors path="emailAddress"/></p>
-              </form:errors>
+            <div class="control-group <form:errors path="agree">error</form:errors>">
+                &nbsp;<form:checkbox path="agree" /> <spring:message code="jsp.sp_linkrequest.agreefield"/>
+                <form:errors path="agree">
+                  <p class="help-block"><form:errors path="agree"/></p>
+                </form:errors>
             </div>
-      </div>
-      <div class="control-group <form:errors path="notes">error</form:errors>">
-      <label class="control-label"><spring:message code="jsp.sp_linkrequest.notesfield"/></label>
 
-      <div class="controls">
-        <form:textarea path="notes" cssClass="input-xlarge" rows="10"/>
-        <form:errors path="notes">
-          <p class="help-block"><form:errors path="notes"/></p>
-        </form:errors>
+            <div class="control-group <form:errors path="notes">error</form:errors>">
+              <label class="control-label"><spring:message code="jsp.sp_linkrequest.notesfield"/></label>
+
+              <div class="controls">
+                <form:textarea path="notes" cssClass="input-xlarge" rows="3"/>
+                <form:errors path="notes">
+                  <p class="help-block"><form:errors path="notes"/></p>
+                </form:errors>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary"><spring:message
+                  code="jsp.sp_linkrequest.buttonsubmit"/></button>
+              <a href="<c:url value="/sp/detail.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"><spring:message code="jsp.sp_linkrequest.buttoncancel"/></a>
+            </div>
+
+          </fieldset>
+
+        </form:form>
+
       </div>
+
+    </section>
   </div>
 
-  <div class="actions">
-    <button type="submit" class="btn btn-primary"><spring:message
-        code="jsp.sp_linkrequest.buttonsubmit"/></button>
-    <a href="#"><spring:message code="jsp.sp_linkrequest.buttoncancel"/></a>
+  <div class="span4">
+
+    <section>
+      <h2><spring:message code="jsp.sp_linkrequest.helptitle"/></h2>
+
+      <div class="content">
+        <p><spring:message code="jsp.sp_linkrequest.helpparagraph"/></p>
+
+      </div>
+    </section>
+
   </div>
-
-  </fieldset>
-
-  </form:form>
-
-</div>
-
-</section>
-</div>
-
-<div class="span4">
-
-  <section>
-    <h2><spring:message code="jsp.sp_linkrequest.helptitle"/></h2>
-
-    <div class="content">
-      <p><spring:message code="jsp.sp_linkrequest.helpparagraph"/></p>
-
-    </div>
-  </section>
-
-</div>
 </div>
 
 <jsp:include page="footer.jsp"/>
