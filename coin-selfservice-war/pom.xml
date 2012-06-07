@@ -33,7 +33,7 @@
     <coin-shared.version>2.7.0-SNAPSHOT</coin-shared.version>
     <coin-test.version>2.3.0</coin-test.version>
     <coin-master.test-dependencies.version>2.7.0-SNAPSHOT</coin-master.test-dependencies.version>
-    <coin-api-serviceregistry.version>2.7.2-SNAPSHOT</coin-api-serviceregistry.version>
+    <coin-api-serviceregistry.version>2.7.3-SNAPSHOT</coin-api-serviceregistry.version>
     <spring-security-opensaml.version>2.6.0-SNAPSHOT</spring-security-opensaml.version>
     <spring-security.version>3.1.0.RELEASE</spring-security.version>
     <flyway.version>1.5</flyway.version>

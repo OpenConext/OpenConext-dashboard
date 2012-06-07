@@ -140,7 +140,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     ServiceProvider sp = new ServiceProvider(appEntityId, name);
     sp.setLogoUrl(metadata.getAppLogoUrl());
     sp.setHomeUrl(metadata.getAppHomeUrl());
-    sp.setDescription(metadata.getAppDescription());
+    sp.setDescription(metadata.getDescription());
     sp.setIdpVisibleOnly(metadata.isIdpVisibleOnly());
     sp.setEulaURL(metadata.getEula());
     for (Contact c : metadata.getContacts()) {
