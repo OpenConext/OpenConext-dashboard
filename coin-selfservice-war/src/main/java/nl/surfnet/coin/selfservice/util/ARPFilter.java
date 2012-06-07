@@ -39,6 +39,10 @@ public class ARPFilter extends TagSupport {
   public int doEndTag() throws JspException {
     List<ARP> filteredList = new ArrayList<ARP>();
 
+    if (arpList == null) {
+      return EVAL_PAGE;
+    }
+
     for (ARP arp : arpList) {
       if (idpId.equals(arp.getIdpId())) {
         filteredList.add(arp);
