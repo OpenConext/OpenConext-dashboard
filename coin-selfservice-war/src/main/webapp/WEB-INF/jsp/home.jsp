@@ -23,7 +23,8 @@
   <div class="content">
 
     <h3>${title}</h3>
-    Welcome to the Idp Self Service Station.
+    <p><spring:message code="jsp.home.intro"/></p>
+
   </div>
 </section>
 <jsp:include page="footer.jsp"/>
