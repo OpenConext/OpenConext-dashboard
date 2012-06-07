@@ -27,24 +27,40 @@
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
 
+<sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
 
 <div class="row">
   <div class="span8">
     <section>
 
-      <h2><spring:message code="jsp.sp_question.pagetitle"/></h2>
+      <h2><spring:message code="jsp.sp_question.pagetitle" arguments="${sp.name}"/></h2>
 
       <div class="content">
 
         <c:if test="${not empty jiraError}">
           <div class="alert alert-error">
-            <spring:message code="jsp.sp_question.jiraError" arguments="${jiraError}" />
+            <spring:message code="jsp.sp_question.jiraError" arguments="${jiraError}"/>
           </div>
         </c:if>
 
         <form:form cssClass="form form-horizontal" commandName="question">
           <fieldset>
 
+            <div class="control-group">
+              <label class="control-label"><spring:message code="jsp.sp_question.applicantname"/></label>
+
+              <div class="controls">
+                <output>${principal.displayName}</output>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label"><spring:message code="jsp.sp_question.idp"/></label>
+
+              <div class="controls">
+                <output>${selectedidp.name}</output>
+              </div>
+            </div>
 
             <div class="control-group <form:errors path="subject">error</form:errors>">
               <label class="control-label"><spring:message code="jsp.sp_question.subjectfield"/></label>
@@ -70,7 +86,9 @@
             <div class="actions">
               <button type="submit" class="btn btn-primary"><spring:message
                   code="jsp.sp_question.buttonsubmit"/></button>
-              <a href="#"><spring:message code="jsp.sp_question.buttoncancel"/></a>
+              <a href="<c:url value="/sp/detail.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"><spring:message code="jsp.sp_question.buttoncancel"/></a>
             </div>
 
           </fieldset>
