@@ -16,22 +16,22 @@
   --%>
 <spring:message var="title" code="jsp.home.title"/>
 <jsp:include page="header.jsp">
-  <jsp:param name="activeSection" value="home"/>
+  <jsp:param name="activeSection" value="actions"/>
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 <section>
   <div class="content">
 
-    <h3>My Actions</h3>
+    <h3><spring:message code="jsp.actions.title"/></h3>
 
-    Your action history.
+    <spring:message code="jsp.actions.intro"/>
 
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
-        <th class="cw55 small center">Issue #</th>
-        <th class="cw75 small center">Date</th>
-        <th>Service provider</th>
-        <th class="cw55 small center">Status</th>
+        <th class="cw55 small center"><spring:message code="jsp.actions.issue"/></th>
+        <th class="cw75 small center"><spring:message code="jsp.actions.date"/></th>
+        <th><spring:message code="jsp.actions.sp"/></th>
+        <th class="cw55 small center"><spring:message code="jsp.actions.status"/></th>
       </thead>
       <tbody>
       <c:forEach items="${actionList}" var="action">
