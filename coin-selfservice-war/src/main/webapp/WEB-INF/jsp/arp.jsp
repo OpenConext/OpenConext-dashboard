@@ -19,7 +19,7 @@
 <selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
 <c:if test="${fn:length(arps) gt 0}">
   <h3><spring:message code="jsp.sp_detail.arp"/></h3>
-  <p><spring:message code="jsp.sp_detail.arp.intro"/></p>
+  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${sp.name}"/></p>
   <c:forEach items="${arps}" var="arp">
     <p><spring:message code="jsp.sp_detail.arp.policy"/></p>
     <ul>

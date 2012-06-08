@@ -48,8 +48,7 @@
         <th><spring:message code="jsp.sp_overview.name"/></th>
         <th><spring:message code="jsp.sp_overview.description"/></th>
         <th></th>
-        <th class="cw55 center"><spring:message code="jsp.sp_overview.status"/></th>
-        <th class="cw55 small center"><spring:message code="jsp.sp_overview.actions"/></th>
+        <th class="center"><spring:message code="jsp.sp_overview.status"/></th>
       </tr>
       </thead>
       <tbody>
@@ -68,19 +67,16 @@
               </c:if>
             </td>
             <td class="center">
+              <a href="${detailUrl}" class="btn btn-primary btn-small cw65">
             <c:choose>
               <c:when test="${sp.linked}">
-              <i class="icon-ok"></i>
+              <i class="icon-ok"></i> <spring:message code="jsp.sp_overview.action-linked" />
               </c:when>
               <c:otherwise>
-                <i class="icon-ban-circle"></i>
+                <i class="icon-plus"></i> <spring:message code="jsp.sp_overview.action-dolink" />
               </c:otherwise>
             </c:choose>
-            </td>
-            <td class="center">
-              <spring:message var="detailTitle" code="jsp.sp_overview.detail"/>
-              <a href="${detailUrl}" rel="tooltip" data-type="info"
-                 title="${detailTitle}"><i class="icon-info-sign"></i></a>
+                </a>
             </td>
           </tr>
         </c:if>
