@@ -70,6 +70,9 @@
     <span class="user-name">
       <sec:authentication property="principal.displayName" scope="request" htmlEscape="true"/>
     </span>
+    <span class="user-name">
+    <a href="?lang=nl">NL</a>|<a href="?lang=en">EN</a>
+    </span>
     <a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />" class="logout">
       <spring:message code="jsp.general.logout"/> <i class="icon-signout"></i></a>
 
@@ -117,17 +120,18 @@
       <ul class="nav">
         <li <c:if test="${activeSection == 'home'}">class="active"
         </c:if>><a href="${homeUrl}"><spring:message code="jsp.home.title"/></a></li>
-
+<!--
         <spring:url value="/linked-sps.shtml" var="linkedSpsUrl" htmlEscape="true"/>
         <li <c:if test="${activeSection == 'linked-sps'}">class="active"
         </c:if>><a href="${linkedSpsUrl}"><spring:message code="jsp.mysp.title"/></a></li>
-
+-->
         <spring:url value="/all-sps.shtml" var="allSpsUrl" htmlEscape="true"/>
         <li <c:if test="${activeSection == 'all-sps'}">class="active"
         </c:if>><a href="${allSpsUrl}"><spring:message code="jsp.allsp.title"/></a></li>
 
         <li <c:if test="${activeSection == 'actions'}">class="active"
-        </c:if>><a href="<c:url value="/actions.shtml"/>"><spring:message code="jsp.actions.title"/></a></li>
+        </c:if>><a href="<c:url value="/actions.shtml"/>"><spring:message code="jsp.actions.title"/></a>
+        </li>
       </ul>
     </div>
   </div>

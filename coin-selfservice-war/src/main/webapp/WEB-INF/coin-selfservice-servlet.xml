@@ -54,8 +54,9 @@
   </bean>
 
   <bean id="messageSource"
-        class="org.springframework.context.support.ResourceBundleMessageSource">
-    <property name="basename" value="messages"/>
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename" value="classpath:messages"/>
+    <property name="defaultEncoding" value="UTF-8"/>
   </bean>
 
   <!--Also use the messageSource as basis for JSR-303 validation messages -->
@@ -64,9 +65,18 @@
     <property name="validationMessageSource" ref="messageSource" />
   </bean>
 
+  <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+    <property name="paramName" value="lang" />
+  </bean>
+
+  <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+    <property name="defaultLocale" value="en"/>
+  </bean>
+
   <mvc:annotation-driven />
   <mvc:interceptors>
     <ref bean="featureInterceptor" />
+    <ref bean="localeChangeInterceptor" />
   </mvc:interceptors>
 
   <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">

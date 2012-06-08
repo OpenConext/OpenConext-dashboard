@@ -48,16 +48,18 @@
         <th><spring:message code="jsp.sp_overview.name"/></th>
         <th><spring:message code="jsp.sp_overview.description"/></th>
         <th></th>
-        <th class="cw55 center"><spring:message code="jsp.sp_overview.active"/></th>
+        <th class="cw55 center"><spring:message code="jsp.sp_overview.status"/></th>
         <th class="cw55 small center"><spring:message code="jsp.sp_overview.actions"/></th>
       </tr>
       </thead>
       <tbody>
       <c:forEach items="${sps}" var="sp">
         <c:if test="${not empty sp.id}">
+          <spring:url value="/sp/detail.shtml" var="detailUrl" htmlEscape="true">
+            <spring:param name="spEntityId" value="${sp.id}" />
+          </spring:url>
           <tr>
-            <td>
-              <c:out default="${sp.id}" value="${sp.name}"/>
+            <td><a href="${detailUrl}"><c:out default="${sp.id}" value="${sp.name}"/></a>
             </td>
             <td class="text-overflow"><c:out value="${fn:substring(sp.description, 0, 40)}"/></td>
             <td>
@@ -77,9 +79,6 @@
             </td>
             <td class="center">
               <spring:message var="detailTitle" code="jsp.sp_overview.detail"/>
-              <spring:url value="/sp/detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="spEntityId" value="${sp.id}" />
-              </spring:url>
               <a href="${detailUrl}" rel="tooltip" data-type="info"
                  title="${detailTitle}"><i class="icon-info-sign"></i></a>
             </td>
