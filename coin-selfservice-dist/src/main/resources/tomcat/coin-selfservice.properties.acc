@@ -41,6 +41,7 @@ systemEmail=SURFconext <no-reply@surfconext.nl>
 
 # Email address that recieves error notifications
 coin-errormail-to=coin-logs@list.surfnet.nl
+coin-administrative-email=coin-logs@list.surfnet.nl
 
 wayf.url.metadata=https://engine.acc.surfconext.nl/authentication/idp/metadata
 wayf.url.sso=https://engine.acc.surfconext.nl/authentication/idp/single-sign-on
