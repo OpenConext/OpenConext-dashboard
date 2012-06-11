@@ -122,4 +122,8 @@
     <property name="projectKey" value="${jiraProjectKey}" />
   </bean>
 
+  <bean id="notificationService" class="nl.surfnet.coin.selfservice.service.impl.NotificationServiceImpl">
+    <property name="administrativeEmail" value="${coin-administrative-email}"/>
+  </bean>
+
 </beans>

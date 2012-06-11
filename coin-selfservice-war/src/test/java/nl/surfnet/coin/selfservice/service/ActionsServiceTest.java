@@ -64,8 +64,6 @@ public class ActionsServiceTest {
 
     actionsService.registerJiraIssueCreation(key, task);
 
-    //actionsService.synchronizeWithJira(institution);
-
     final List<Action> before = actionsService.getActions(idp);
 
     assertThat(before.size(), is(1));

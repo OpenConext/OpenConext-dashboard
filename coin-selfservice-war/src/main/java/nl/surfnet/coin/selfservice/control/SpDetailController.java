@@ -44,6 +44,7 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
+import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.shared.service.MailService;
 
@@ -64,13 +65,10 @@ public class SpDetailController extends BaseController {
   @Resource(name = "actionsService")
   private ActionsService actionsService;
 
-  @Value("${coin-administrative-email}")
-  private String administrativeEmail;
+  @Resource(name = "notificationService")
+  NotificationService notificationService;
 
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
-
-  @Resource(name = "mailService")
-  private MailService mailService;
 
 
   /**
@@ -129,24 +127,9 @@ public class SpDetailController extends BaseController {
       try {
         final String issueKey = jiraService.create(task, getCurrentUser());
 
-        final String emailTo = administrativeEmail;
         final String emailFrom = getCurrentUser().getEmail();
 
-        StringBuilder subject = new StringBuilder("(");
-        subject.append(issueKey);
-        subject.append(") ");
-        subject.append(question.getSubject());
-
-        StringBuilder content = new StringBuilder("Question was posted using self service portal\n\n");
-        content.append(question.getBody());
-
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom(emailFrom);
-        simpleMailMessage.setTo(emailTo);
-        simpleMailMessage.setSubject(subject.toString());
-        simpleMailMessage.setText(content.toString());
-
-        mailService.sendAsync(simpleMailMessage);
+        notificationService.sendMail(issueKey, emailFrom, question.getSubject(), question.getBody());
 
         m.put("issueKey", issueKey);
         return new ModelAndView("sp-question-thanks", m);
