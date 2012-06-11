@@ -17,14 +17,7 @@
 
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
 
-<c:choose>
-  <c:when test="${activeSection eq 'linked-sps'}">
-    <spring:message var="title" code="jsp.mysp.title"/>
-  </c:when>
-  <c:otherwise>
-    <spring:message var="title" code="jsp.allsp.title"/>
-  </c:otherwise>
-</c:choose>
+<spring:message var="title" code="jsp.allsp.title"/>
 
 <jsp:include page="header.jsp">
   <jsp:param name="title" value="${title}"/>
@@ -35,11 +28,6 @@
   <h2>${title}</h2>
 
   <div class="content">
-
-    <c:if test="${activeSection eq 'linked-sps'}">
-      <div id="chart">
-      </div>
-    </c:if>
 
     <spring:message code="jsp.sp_overview.n_results" arguments="${fn:length(sps)}"/>
     <table class="table table-bordered table-striped table-above-pagination">
@@ -90,6 +78,4 @@
 </section>
 
 
-<jsp:include page="footer.jsp" >
-  <jsp:param name="chart" value="${activeSection eq 'linked-sps'}"/>
-</jsp:include>
+<jsp:include page="footer.jsp"/>
