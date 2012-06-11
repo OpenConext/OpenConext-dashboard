@@ -117,7 +117,16 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="span12">
+      <div class="content">
+        <div id="chart"></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="footer.jsp">
+  <jsp:param name="chart" value="${sp.linked eq true}"/>
+</jsp:include>

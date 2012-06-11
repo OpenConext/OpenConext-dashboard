@@ -1,3 +1,4 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="include.jsp" %>
 
@@ -57,82 +58,7 @@
 </script>
 
 <c:if test="${param.chart eq true}">
-  <script src="<c:url value="/js/highstock.js"/>"></script>
-  <script src="<c:url value="/js/modules/exporting.js"/>"></script>
-  <script>
-    $(function () {
-      var seriesOptions = []
-      var name, logins, day;
-
-      $.ajax({
-        url:'<spring:url value="/loginsperspperday.json" htmlEscape="true"/>',
-        success:function (result) {
-          $.each(result, function (key, val) {
-            name = key;
-            logins = [];
-            for (var i = 0, maxLen = val.length; i < maxLen; i++) {
-              day = [val[i].date, val[i].logins];
-              logins.push(day);
-            }
-            seriesOptions.push({
-              name:name,
-              data:logins
-            })
-
-          });
-
-          if (seriesOptions.length > 0) {
-            createChart();
-            $(chart.renderTo).setAttribute("style", "width:100%;height:400px;");
-          }
-        },
-        cache:false
-      });
-
-      // create the chart when all data is loaded
-      function createChart() {
-        chart = new Highcharts.StockChart({
-          chart:{
-            renderTo:'chart',
-            type:'spline'
-          },
-          legend:{
-            enabled:false,
-            layout:"vertical",
-            shadow:true
-          },
-          plotOptions:{
-            connectNulls:true,
-            series:{
-              pointInterval:24 * 3600 * 1000,
-            }
-          },
-          rangeSelector:{
-            selected:4
-          },
-          series:seriesOptions,
-          title:{
-            text:"<spring:message code="graph.title.dailylogins" javaScriptEscape="true"/>"
-          },
-          tooltip:{
-            pointFormat:'<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-            valueDecimals:0
-          },
-          yAxis:{
-            min:0,
-            plotLines:[
-              {
-                value:0,
-                width:2,
-                color:'silver'
-              }
-            ]
-          }
-
-        });
-      }
-    });
-  </script>
+<tags:sp_renderchart/>
 </c:if>
 </body>
 </html>

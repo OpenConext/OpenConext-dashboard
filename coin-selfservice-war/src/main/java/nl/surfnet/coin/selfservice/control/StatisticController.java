@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
@@ -51,10 +52,11 @@ public class StatisticController extends BaseController {
   @RequestMapping("/loginsperspperday.json")
   public
   @ResponseBody
-  Map<String, List<StatResult>> getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  Map<String, List<StatResult>> getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                               @RequestParam(value = "spentityid", required = false) String spentityid) {
     Map<String, List<StatResult>> m = new HashMap<String, List<StatResult>>();
 
-    final List<StatResult> loginsPerDay = statisticDao.getLoginsPerDay(selectedidp.getId());
+    final List<StatResult> loginsPerDay = statisticDao.getLoginsPerSpPerDay(selectedidp.getId(), spentityid);
     for (StatResult s : loginsPerDay) {
       String spEntityId = s.getSpEntityId();
       if (m.containsKey(spEntityId)) {

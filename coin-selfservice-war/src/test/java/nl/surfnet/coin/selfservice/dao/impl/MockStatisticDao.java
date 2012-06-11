@@ -60,4 +60,9 @@ public class MockStatisticDao implements StatisticDao {
   public List<StatResult> getLoginsPerDay(String idpEntityId) {
     throw new UnsupportedOperationException("TODO implement this");
   }
+
+  @Override
+  public List<StatResult> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
+    throw new UnsupportedOperationException("TODO implement this");
+  }
 }

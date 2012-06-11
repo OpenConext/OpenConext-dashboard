@@ -57,30 +57,46 @@ public class StatisticDaoImpl implements StatisticDao {
 
   @Override
   public List<StatResult> getLoginsPerDay(String idpEntityId) {
+    return this.getLoginsPerSpPerDay(idpEntityId, null);
+  }
+
+  @Override
+  public List<StatResult> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
     List<StatResult> statResults;
-    Object[] args = {idpEntityId};
+    Object[] args = spEntityId == null ? new Object[]{idpEntityId} : new Object[]{idpEntityId, spEntityId};
+
     try {
+      final StringBuilder sql = new StringBuilder("select count(*), spentityid, date(loginstamp) ");
+      sql.append("from log_logins where idpentityid = ? ");
+      if (spEntityId != null) {
+        sql.append("and spentityid = ? ");
+      }
+      sql.append("group by day(loginstamp), spentityid ");
+      sql.append("order by spentityid, loginstamp");
+
       statResults = this.ebJdbcTemplate.query(
-          "select count(*), spentityid, date(loginstamp) " +
-              "from log_logins where idpentityid = ? group by day(loginstamp),spentityid " +
-              "order by spentityid, loginstamp ",
-          args, new RowMapper<StatResult>() {
-        @Override
-        public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
-          int logins = rs.getInt("count(*)");
-          String spentitiy = rs.getString("spentityid");
-          String mySqlDate = rs.getString("date(loginstamp)");
-          StatResult statResult = new StatResult();
-          statResult.setSpEntityId(spentitiy);
-          statResult.setDate(convertFromMySqlString(mySqlDate));
-          statResult.setLogins(logins);
-          return statResult;
-        }
-      });
+          sql.toString(),
+          args, mapRowsToStatResult());
     } catch (EmptyResultDataAccessException e) {
       statResults = new ArrayList<StatResult>();
     }
     return statResults;
+  }
+
+  private RowMapper<StatResult> mapRowsToStatResult() {
+    return new RowMapper<StatResult>() {
+      @Override
+      public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
+        int logins = rs.getInt("count(*)");
+        String spentitiy = rs.getString("spentityid");
+        String mySqlDate = rs.getString("date(loginstamp)");
+        StatResult statResult = new StatResult();
+        statResult.setSpEntityId(spentitiy);
+        statResult.setDate(convertFromMySqlString(mySqlDate));
+        statResult.setLogins(logins);
+        return statResult;
+      }
+    };
   }
 
   /**
