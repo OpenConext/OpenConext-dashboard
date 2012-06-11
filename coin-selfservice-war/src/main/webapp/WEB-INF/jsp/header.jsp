@@ -65,13 +65,23 @@
 
   <h1><spring:message code="jsp.header.title"/></h1>
 </header>
+
+<spring:url value="/sp/detail.shtml" var="langNL" htmlEscape="true">
+  <spring:param name="spEntityId" value="${sp.id}" />
+  <spring:param name="lang" value="nl" />
+</spring:url>
+<spring:url value="/sp/detail.shtml" var="langEN" htmlEscape="true">
+  <spring:param name="spEntityId" value="${sp.id}" />
+  <spring:param name="lang" value="en" />
+</spring:url>
+
 <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
   <section class="user-box content-dense">
     <span class="user-name">
       <sec:authentication property="principal.displayName" scope="request" htmlEscape="true"/>
     </span>
     <span class="user-name">
-    <a href="?lang=nl">NL</a>|<a href="?lang=en">EN</a>
+    <a href="${langNL}">NL</a>|<a href="${langEN}">EN</a>
     </span>
     <a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />" class="logout">
       <spring:message code="jsp.general.logout"/> <i class="icon-signout"></i></a>
