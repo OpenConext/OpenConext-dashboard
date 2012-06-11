@@ -60,7 +60,6 @@ public class ServiceRegistryProviderServiceTest {
     when(janus.getAllowedSps(anyString())).thenReturn(Arrays.asList("entityid"));
     when(janus.getSpList()).thenReturn(ems);
     final List<ServiceProvider> allServiceProviders = serviceRegistryProviderService.getAllServiceProviders("anyid");
-    System.out.println(allServiceProviders);
     assertThat(allServiceProviders.get(0).getId(), is("entityid"));
   }
 
@@ -100,7 +99,6 @@ public class ServiceRegistryProviderServiceTest {
     when(janus.getSpList()).thenReturn(ems);
 
     final List<ServiceProvider> filteredList = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
-    System.out.println(filteredList);
     assertThat(filteredList.size(), is(3));
   }
 }
