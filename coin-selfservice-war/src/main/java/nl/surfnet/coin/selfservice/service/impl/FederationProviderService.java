@@ -49,7 +49,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
    * @param configurationFilename Filename on classpath that contains federation configuration to parse and use.
    *
    */
-
+  // TODO: http://static.springsource.org/spring/docs/3.1.1.RELEASE/spring-framework-reference/html/scheduling.html
   public FederationProviderService(String configurationFilename) {
     final XStream xStream = XStreamFedConfigBuilder.getXStreamForFedConfig(true);
     Resource resource = new ClassPathResource(configurationFilename);
