@@ -37,13 +37,6 @@
 
       <div class="content">
 
-        <c:if test="${not empty jiraError}">
-          <div class="alert alert-error">
-            <spring:message code="jsp.sp_linkrequest.jiraError" arguments="${jiraError}"/>
-          </div>
-        </c:if>
-
-
         <c:set var="sp" value="${sp}" scope="request" />
         <jsp:include page="arp.jsp" />
 

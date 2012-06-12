@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.hamcrest.core.IsEqual;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -66,7 +65,7 @@ public class JiraServiceImplTest {
         .body("thebody")
         .identityProvider("idp")
         .serviceProvider("sp")
-        .issueType(JiraTask.Type.REQUEST)
+        .issueType(JiraTask.Type.UNLINKREQUEST)
         .build();
     jiraService.create(task, new CoinUser());
     verify(jss).createIssue(anyString(), captor.capture());
@@ -74,11 +73,10 @@ public class JiraServiceImplTest {
     assertThat("Given body should be set as the issue's Description field",
         captor.getValue().getDescription(), containsString("thebody"));
 
-    assertThat(captor.getValue().getType(), IsEqual.equalTo(JiraServiceImpl.TYPE_SP_CONNECTION));
+    assertThat(captor.getValue().getType(), IsEqual.equalTo(JiraServiceImpl.TYPE_UNLINKREQUEST));
   }
 
   @Test
-  @Ignore("Creating questions is not implemented yet")
   public void createQuestion() throws IOException {
     ArgumentCaptor<RemoteIssue> captor = ArgumentCaptor.forClass(RemoteIssue.class);
 
@@ -100,7 +98,7 @@ public class JiraServiceImplTest {
         .body("thebody")
         .identityProvider("idp")
         .serviceProvider("sp")
-        .issueType(JiraTask.Type.REQUEST)
+        .issueType(JiraTask.Type.LINKREQUEST)
         .build();
 
     when(jss.createIssue(anyString(), (RemoteIssue) anyObject()))

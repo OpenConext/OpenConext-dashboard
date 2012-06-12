@@ -34,11 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
@@ -55,7 +53,7 @@ import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonI
  */
 @Controller
 @RequestMapping("/sp")
-@SessionAttributes(value = "linkrequest")
+@SessionAttributes(value = {"linkrequest", "unlinkrequest"})
 public class SpDetailController extends BaseController {
 
   @Resource(name = "providerService")
@@ -161,78 +159,5 @@ public class SpDetailController extends BaseController {
 
     }
   }
-
-  /**
-   * Controller for request form page.
-   *
-   * @param spEntityId the entity id
-   * @return ModelAndView
-   */
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spRequest(@RequestParam String spEntityId,
-                                @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
-    m.put("sp", sp);
-    m.put("linkrequest", new LinkRequest());
-    return new ModelAndView("sp-linkrequest", m);
-  }
-
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spRequestPost(@RequestParam String spEntityId,
-                                    @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                    @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
-                                    BindingResult result) {
-    Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
-    m.put("sp", sp);
-
-    if (result.hasErrors()) {
-      LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("sp-linkrequest", m);
-    } else {
-      return new ModelAndView("sp-linkrequest-confirm", m);
-    }
-  }
-
-
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST, params="confirmed=true")
-  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId,
-                                             @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
-                                             BindingResult result,
-                                             @RequestParam(value = "confirmed") boolean confirmed,
-                                             @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                             SessionStatus sessionStatus) {
-
-    Map<String, Object> m = new HashMap<String, Object>();
-    m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
-
-    if (result.hasErrors()) {
-      LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("sp-linkrequest-confirm", m);
-    } else {
-      final JiraTask task = new JiraTask.Builder()
-          .body(getCurrentUser().getEmail() + ("\n\n" + linkrequest.getNotes()))
-          .identityProvider(SpListController.getCurrentUser().getIdp())
-          .serviceProvider(spEntityId)
-          .institution(SpListController.getCurrentUser().getInstitutionId())
-          .issueType(JiraTask.Type.REQUEST)
-          .status(JiraTask.Status.OPEN)
-          .build();
-      try {
-        final String issueKey = jiraService.create(task, getCurrentUser());
-        actionsService.registerJiraIssueCreation(issueKey, task);
-        m.put("issueKey", issueKey);
-        sessionStatus.setComplete();
-        return new ModelAndView("sp-linkrequest-thanks", m);
-      } catch (IOException e) {
-        LOG.debug("Error while trying to create Jira issue. Will return to form view",
-            e);
-        m.put("jiraError", e.getMessage());
-        return new ModelAndView("sp-linkrequest-confirm", m);
-      }
-    }
-  }
-
 
 }

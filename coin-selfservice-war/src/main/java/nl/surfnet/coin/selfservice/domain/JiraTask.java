@@ -18,7 +18,6 @@ package nl.surfnet.coin.selfservice.domain;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 
 public class JiraTask {
 
@@ -31,7 +30,9 @@ public class JiraTask {
     }
 
     public enum Type {
-        REQUEST, QUESTION
+      LINKREQUEST,
+      UNLINKREQUEST,
+      QUESTION
     }
 
     private String key;

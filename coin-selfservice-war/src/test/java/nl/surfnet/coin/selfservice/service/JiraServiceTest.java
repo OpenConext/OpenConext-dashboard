@@ -41,7 +41,7 @@ public class JiraServiceTest {
                 .serviceProvider("https://mock-sp")
                 .identityProvider("https://mock-idp")
                 .institution("Mujina")
-                .issueType(JiraTask.Type.REQUEST)
+                .issueType(JiraTask.Type.LINKREQUEST)
                 .body("thebody")
                 .build();
         assertThat(jiraService, NotNull.NOT_NULL);
@@ -68,7 +68,7 @@ public class JiraServiceTest {
                 .serviceProvider("https://mock-sp")
                 .identityProvider("https://mock-idp")
                 .institution("Mujina")
-                .issueType(JiraTask.Type.REQUEST)
+                .issueType(JiraTask.Type.LINKREQUEST)
                 .build();
         assertThat(jiraService, NotNull.NOT_NULL);
         String key = jiraService.create(task, new CoinUser());

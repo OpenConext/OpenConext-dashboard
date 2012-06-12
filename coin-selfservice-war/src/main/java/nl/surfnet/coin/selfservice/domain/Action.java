@@ -28,7 +28,7 @@ public class Action {
       switch (type) {
         case QUESTION:
           return QUESTION;
-        case REQUEST:
+        case LINKREQUEST:
           return REQUEST;
         default:
           throw new IllegalStateException("Unknown jira issue type: " + type);

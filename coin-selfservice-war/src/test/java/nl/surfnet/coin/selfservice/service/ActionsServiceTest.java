@@ -55,7 +55,7 @@ public class ActionsServiceTest {
             .serviceProvider("https://mock-sp")
             .identityProvider(idp)
             .institution("institution-123")
-            .issueType(JiraTask.Type.REQUEST)
+            .issueType(JiraTask.Type.LINKREQUEST)
             .build();
 
     CoinUser user = new CoinUser();

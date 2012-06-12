@@ -65,13 +65,23 @@
               </c:url>"
              title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
           </a>
-          <c:if test="${sp.linked eq false}">
-            <a class="btn btn-primary" href="<c:url value="/sp/linkrequest.shtml">
+          <c:choose>
+            <c:when test="${not sp.linked}">
+              <a class="btn btn-primary" href="<c:url value="/sp/linkrequest.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
-               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
-            </a>
-          </c:if>
+                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+              </a>
+            </c:when>
+            <c:when test="${sp.linked}">
+              <a class="btn btn-primary" href="<c:url value="/sp/unlinkrequest.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"
+                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
+                  code="jsp.sp_detail.requestunlink"/>
+              </a>
+            </c:when>
+          </c:choose>
 
         </div>
 

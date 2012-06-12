@@ -50,12 +50,14 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   public static final RemoteCustomFieldValue[] EMPTY_REMOTE_CUSTOM_FIELD_VALUES = new RemoteCustomFieldValue[0];
   public static final String SP_CUSTOM_FIELD = "customfield_10100";
   public static final String IDP_CUSTOM_FIELD = "customfield_10101";
-  public static final String TYPE_SP_CONNECTION = "13";
-  public static final String TYPE_QUESTION = "TODO"; // TODO
+
+  public static final String TYPE_LINKREQUEST = "13";
+  public static final String TYPE_UNLINKREQUEST = "TODO"; // TODO: get from jira
+  public static final String TYPE_QUESTION = "16";
+
   public static final String PRIORITY_MEDIUM = "3";
   public static final String CLOSE_ACTION_IDENTIFIER = "2";
   public static final String REOPEN_ACTION_IDENTIFIER = "3";
-  private static final String TYPE_QUESTION_CONNECTION = "16";
 
   private String baseUrl;
   private String username;
@@ -71,7 +73,8 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   public String create(final JiraTask task, CoinUser user) throws IOException {
     RemoteIssue remoteIssue;
     switch (task.getIssueType()) {
-      case REQUEST:
+      case LINKREQUEST:
+      case UNLINKREQUEST:
         remoteIssue = createRequest(task, user);
         break;
       default:
@@ -87,7 +90,7 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
 
   private RemoteIssue createQuestion(final JiraTask task, CoinUser user) {
     RemoteIssue remoteIssue = new RemoteIssue();
-    remoteIssue.setType(TYPE_QUESTION_CONNECTION);
+    remoteIssue.setType(TYPE_QUESTION);
     remoteIssue.setSummary(new StringBuilder()
             .append("Question about ").append(task.getServiceProvider()).toString());
     remoteIssue.setProject(projectKey);
@@ -105,16 +108,34 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
     return remoteIssue;
   }
 
+  private String getIssueTypeByJiraTaskType(JiraTask.Type t) {
+    switch (t) {
+      case QUESTION:
+        return TYPE_QUESTION;
+      case LINKREQUEST:
+        return TYPE_LINKREQUEST;
+      case UNLINKREQUEST:
+        return TYPE_UNLINKREQUEST;
+      default:
+        throw new IllegalStateException("Unknown type: " + t);
+    }
+  }
+
   private RemoteIssue createRequest(final JiraTask task, CoinUser user) {
     RemoteIssue remoteIssue = new RemoteIssue();
-    remoteIssue.setType(TYPE_SP_CONNECTION);
+    remoteIssue.setType(getIssueTypeByJiraTaskType(task.getIssueType()));
     remoteIssue.setSummary(new StringBuilder()
         .append("New connection for IdP ").append(task.getIdentityProvider())
         .append(" to SP ").append(task.getServiceProvider()).toString());
     remoteIssue.setProject(projectKey);
     remoteIssue.setPriority(PRIORITY_MEDIUM);
     StringBuilder description = new StringBuilder();
-    description.append("Request: Create a new connection").append("\n");
+    if (task.getIssueType() == JiraTask.Type.LINKREQUEST) {
+      description.append("Request: Create a new connection").append("\n");
+    } else {
+      description.append("Request: terminate a connection").append("\n");
+    }
+
     description.append("Applicant name: ").append(user.getDisplayName()).append("\n");
     description.append("Applicant email: ").append(user.getEmail()).append("\n");
     description.append("Identity Provider: ").append(task.getIdentityProvider()).append("\n");
