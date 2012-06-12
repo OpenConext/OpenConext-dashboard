@@ -58,31 +58,9 @@ public class ProviderTest {
   }
 
   @Test
-  public void testCompareById() {
+  public void testIgnoreId() {
     a.setId("A");
     b.setId("B");
-    assertEquals(-1, a.compareTo(b));
-  }
-
-  @Test
-  public void testCompareByNameOrId() {
-    a.setName("A");
-    b.setId("B");
-    assertEquals(-1, a.compareTo(b));
-  }
-
-  @Test
-  public void testCompareByIdOrName() {
-    a.setId("A");
-    b.setName("B");
-    assertEquals(-1, a.compareTo(b));
-  }
-
-  @Test
-  public void testEqualsById() {
-    a.setId("A");
-    b.setId("A");
-    assertEquals(a,b);
     assertEquals(0, a.compareTo(b));
   }
 }

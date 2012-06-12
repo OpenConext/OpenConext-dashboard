@@ -18,11 +18,14 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -126,33 +129,23 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     this.contactPersons.add(contactPerson);
   }
 
+  public static Comparator<Provider> firstStatusThenName() {
+    return new Comparator<Provider>() {
+      @Override
+      public int compare(Provider o1, Provider o2) {
+        return new CompareToBuilder()
+            .append(!o1.isLinked(), !o2.isLinked())
+            .append(o1.getName(), o2.getName())
+            .toComparison();
+      }
+    };
+  }
+
   @Override
   public int compareTo(Provider that) {
-    final int EQUAL = 0;
-
-    if (this == that) {
-      return EQUAL;
-    }
-    final String thisName = this.getName();
-    final String thatName = that.getName();
-    final String thisId = this.getId();
-    final String thatId = that.getId();
-
-    if (thisName != null && thatName != null) {
-      return thisName.compareToIgnoreCase(thatName);
-    } else if (thisName != null && thatId != null) {
-      return thisName.compareToIgnoreCase(thatId);
-    } else if (thisId != null && thatName != null) {
-      return thisId.compareToIgnoreCase(thatName);
-    } else if (thisId != null && thatId != null) {
-      return thisId.compareToIgnoreCase(thatId);
-    }
-
-    //all comparisons have yielded equality
-    //verify that compareTo is consistent with equals (optional)
-    assert this.equals(that) : "compareTo inconsistent with equals.";
-
-    return EQUAL;
+    return new CompareToBuilder()
+        .append(StringUtils.lowerCase(this.name), StringUtils.lowerCase(that.name))
+        .toComparison();
   }
 
   public String toString() {

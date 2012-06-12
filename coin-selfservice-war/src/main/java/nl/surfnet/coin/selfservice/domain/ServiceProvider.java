@@ -106,7 +106,6 @@ public class ServiceProvider extends Provider implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
     ServiceProvider that = (ServiceProvider) o;
 
     if (id != null ? !id.equals(that.id) : that.id != null) {

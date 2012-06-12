@@ -325,8 +325,8 @@
             </goals>
             <configuration>
               <target>
-                <property name="coin-selfservice-version" value="${project.version}" />
-                <ant target="build" inheritRefs="true" />
+                <property name="coin-selfservice-version" value="${project.version}"/>
+                <ant target="build" inheritRefs="true"/>
               </target>
             </configuration>
           </execution>

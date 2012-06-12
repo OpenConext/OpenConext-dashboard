@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -54,7 +55,7 @@ public class CompositeServiceProviderService implements ServiceProviderService {
         ret.addAll(providers);
       }
     }
-    Collections.sort(ret);
+    Collections.sort(ret, Provider.firstStatusThenName());
     return ret;
   }
 

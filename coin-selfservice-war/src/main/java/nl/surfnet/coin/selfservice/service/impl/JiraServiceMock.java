@@ -102,7 +102,10 @@ public class JiraServiceMock implements JiraService {
   public List<JiraTask> getTasks(final List<String> keys) throws IOException {
     List<JiraTask> tasks = new ArrayList<JiraTask>();
     for (String key : keys) {
-      tasks.add(repository.get(key));
+      final JiraTask task = repository.get(key);
+      if (task != null ) {
+        tasks.add(task);
+      }
     }
     return tasks;
   }
