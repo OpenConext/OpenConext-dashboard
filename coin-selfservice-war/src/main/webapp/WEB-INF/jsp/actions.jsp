@@ -38,7 +38,7 @@
         <tr class="rowdetails">
           <%--@elvariable id="action" type="nl.surfnet.coin.selfservice.domain.Action"--%>
           <td class="center">${action.jiraKey}</td>
-          <td class="center">${action.requestDate}</td>
+          <td class="center"><fmt:formatDate value="${action.requestDate}" pattern="yyyy-MM-dd"/></td>
           <td>${action.sp}</td>
           <td class="center">
             <c:if test="${action.status eq 'CLOSED'}">

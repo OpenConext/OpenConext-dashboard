@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class ActionListController extends BaseController {
 
         actionsService.synchronizeWithJira(selectedidp.getId());
         final List<Action> actions = actionsService.getActions(selectedidp.getId());
+        Collections.sort(actions, Collections.reverseOrder(Action.sortByDateAsc()));
         model.put("actionList", actions);
 
         model.put("activeSection", "actions");

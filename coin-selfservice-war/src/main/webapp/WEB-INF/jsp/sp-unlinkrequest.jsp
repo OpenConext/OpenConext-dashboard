@@ -45,16 +45,17 @@
           <fieldset>
 
             <div class="control-group <form:errors path="agree">error</form:errors>">
-                &nbsp;<form:checkbox path="agree" /> <spring:message code="jsp.sp_unlinkrequest.agreefield"
-                                                                     arguments="${sp.name}"/>
+               <form:label path="agree" cssClass="checkbox">
+                 <form:checkbox path="agree" id="agree"/>
+                 <spring:message code="jsp.sp_unlinkrequest.agreefield" arguments="${sp.name}"/></form:label>
                 <form:errors path="agree">
                   <p class="help-block"><form:errors path="agree"/></p>
                 </form:errors>
             </div>
 
             <div class="control-group <form:errors path="notes">error</form:errors>">
-              <label class="control-label"><spring:message code="jsp.sp_unlinkrequest.notesfield"/></label>
-
+              <form:label path="notes" cssClass="control-label"><spring:message
+                  code="jsp.sp_unlinkrequest.notesfield"/></form:label>
               <div class="controls">
                 <form:textarea path="notes" cssClass="input-xlarge" rows="3"/>
                 <form:errors path="notes">

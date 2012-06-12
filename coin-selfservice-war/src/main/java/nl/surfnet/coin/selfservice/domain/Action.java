@@ -16,10 +16,12 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import java.util.Comparator;
 import java.util.Date;
 
-public class Action {
+import org.apache.commons.lang.builder.CompareToBuilder;
 
+public class Action {
 
   public enum Type {
     QUESTION, LINKREQUEST, UNLINKREQUEST;
@@ -127,4 +129,18 @@ public class Action {
   }
 
 
+  /**
+   * get a Comparator that sorts by date ascending: newest first
+   * @return
+   */
+  public static Comparator<? super Action> sortByDateAsc() {
+    return new Comparator<Action>() {
+      @Override
+      public int compare(Action a1, Action a2) {
+        return new CompareToBuilder()
+            .append(a1.getRequestDate(), a2.getRequestDate())
+            .toComparison();
+      }
+    };
+  }
 }

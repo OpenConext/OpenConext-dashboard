@@ -58,7 +58,7 @@ public class ActionsDaoImpl implements ActionsDao {
           resultSet.getString("idp"),
           resultSet.getString("sp"),
           resultSet.getString("institutionId"),
-          resultSet.getDate("requestDate"));
+          resultSet.getTimestamp("requestDate"));
       action.setId(resultSet.getLong("id"));
       return action;
     }
