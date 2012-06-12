@@ -52,7 +52,7 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   public static final String IDP_CUSTOM_FIELD = "customfield_10101";
 
   public static final String TYPE_LINKREQUEST = "13";
-  public static final String TYPE_UNLINKREQUEST = "TODO"; // TODO: get from jira
+  public static final String TYPE_UNLINKREQUEST = "17";
   public static final String TYPE_QUESTION = "16";
 
   public static final String PRIORITY_MEDIUM = "3";

@@ -22,14 +22,16 @@ public class Action {
 
 
   public enum Type {
-    QUESTION, REQUEST;
+    QUESTION, LINKREQUEST, UNLINKREQUEST;
 
     public static Type byJiraIssueType(JiraTask.Type type) {
       switch (type) {
         case QUESTION:
           return QUESTION;
         case LINKREQUEST:
-          return REQUEST;
+          return LINKREQUEST;
+        case UNLINKREQUEST:
+          return UNLINKREQUEST;
         default:
           throw new IllegalStateException("Unknown jira issue type: " + type);
       }

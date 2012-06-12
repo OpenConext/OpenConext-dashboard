@@ -133,8 +133,6 @@ public class SpDetailController extends BaseController {
     } else {
       final JiraTask task = new JiraTask.Builder()
           .body(question.getSubject() + ("\n\n" + question.getBody()))
-              // TODO: add a separate field 'subject' in JiraTask?
-
           .identityProvider(SpListController.getCurrentUser().getIdp())
           .serviceProvider(spEntityId)
           .institution(SpListController.getCurrentUser().getInstitutionId())
