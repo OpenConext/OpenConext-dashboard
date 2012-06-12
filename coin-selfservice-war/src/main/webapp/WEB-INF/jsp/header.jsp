@@ -66,11 +66,11 @@
   <h1><spring:message code="jsp.header.title"/></h1>
 </header>
 
-<spring:url value="/sp/detail.shtml" var="langNL" htmlEscape="true">
+<spring:url value="" var="langNL" htmlEscape="true">
   <spring:param name="spEntityId" value="${sp.id}" />
   <spring:param name="lang" value="nl" />
 </spring:url>
-<spring:url value="/sp/detail.shtml" var="langEN" htmlEscape="true">
+<spring:url value="" var="langEN" htmlEscape="true">
   <spring:param name="spEntityId" value="${sp.id}" />
   <spring:param name="lang" value="en" />
 </spring:url>
