@@ -126,4 +126,8 @@
     <property name="administrativeEmail" value="${coin-administrative-email}"/>
   </bean>
 
+  <bean id="personAttributeLabelService" class="nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl">
+    <constructor-arg name="attributeJsonFile" value="${personAttributesLabels.location}"/>
+  </bean>
+
 </beans>

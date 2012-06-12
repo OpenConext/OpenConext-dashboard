@@ -1,3 +1,4 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ include file="include.jsp" %>
 <%--
   ~ Copyright 2012 SURFnet bv, The Netherlands
@@ -27,10 +28,12 @@
         <li><spring:message code="jsp.sp_detail.arp.nopolicy"/></li>
       </c:if>
       <c:forEach items="${arp.fedAttributes}" var="att">
-        <li><c:out value="${att}"/></li>
+        <li>
+          <tags:arp-attribute-info attributeKey="${att}"/>
+        </li>
       </c:forEach>
       <c:forEach items="${arp.conextAttributes}" var="att">
-        <li><c:out value="${att.key}"/>
+        <li><tags:arp-attribute-info attributeKey="${att.key}"/>
           <%-- In ServiceRegistry the ARP can also contain an array of values to filter.
      By default it is ['*'] --%>
           <c:if test="${not(fn:length(att.value) eq 1 and att.value[0] eq '*')}">

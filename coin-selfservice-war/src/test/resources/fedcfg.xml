@@ -118,8 +118,8 @@
         <fed:IdPRef>SURFnetGuests</fed:IdPRef>
       </fed:ACL>
       <fed:ARP>
-        <fed:Attribute>uuid</fed:Attribute>
-        <fed:Attribute>displayName</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:uid</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:displayName</fed:Attribute>
       </fed:ARP>
     </fed:SP>
     <fed:SP id="string2" type="radius">
@@ -138,13 +138,13 @@
         <fed:IdPRef>SURFnetGuests</fed:IdPRef>
       </fed:ACL>
       <fed:ARP>
-        <fed:Attribute>uuid</fed:Attribute>
-        <fed:Attribute>mailaddress</fed:Attribute>
-        <fed:Attribute>displayname</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:uid</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:mail</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:displayName</fed:Attribute>
       </fed:ARP>
       <fed:ARP idpid="SURFnetGuests">
-        <fed:Attribute>uuid</fed:Attribute>
-        <fed:Attribute>mailaddress</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:uid</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:mail</fed:Attribute>
       </fed:ARP>
     </fed:SP>
 
@@ -171,9 +171,10 @@
         <!--Zero or more repetitions:-->
       </fed:ACL>
       <!--Zero or more repetitions:-->
-      <fed:ARP idpid="idpidentity3">
+      <fed:ARP>
         <!--Zero or more repetitions:-->
-        <fed:Attribute>mailaddress</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:uid</fed:Attribute>
+        <fed:Attribute>urn:mace:dir:attribute-def:mail</fed:Attribute>
       </fed:ARP>
     </fed:SP>
 

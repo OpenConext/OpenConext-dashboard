@@ -24,13 +24,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.Question;
@@ -40,13 +40,12 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-import nl.surfnet.coin.shared.service.MailService;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -74,6 +73,12 @@ public class SpDetailControllerTest {
 
   @Mock
   private NotificationService notificationService;
+
+  @Mock
+  private LocaleResolver localeResolver;
+
+  @Mock
+  private PersonAttributeLabelService labelService;
 
   @Before
   public void before() {

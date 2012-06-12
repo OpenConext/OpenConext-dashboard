@@ -69,6 +69,9 @@ jiraPassword=??
 jiraProjectKey=TEST
 
 
+# Location of the json file that contains the labels for the ARP attributes
+personAttributesLabels.location=classpath\:person_attributes.json
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features

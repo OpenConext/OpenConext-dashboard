@@ -18,15 +18,15 @@ package nl.surfnet.coin.selfservice.control;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,18 +35,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-import nl.surfnet.coin.shared.service.MailService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 /**
  * Controller for SP detail pages
@@ -66,13 +68,30 @@ public class SpDetailController extends BaseController {
   private ActionsService actionsService;
 
   @Resource(name = "notificationService")
-  NotificationService notificationService;
+  private NotificationService notificationService;
+
+  @Resource(name = "personAttributeLabelService")
+  private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
+
+  @Resource(name = "localeResolver")
+  private LocaleResolver localeResolver;
 
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
 
+  @ModelAttribute(value = "locale")
+  public Locale getLocale(HttpServletRequest request) {
+    return localeResolver.resolveLocale(request);
+  }
+
+  @ModelAttribute(value = "personAttributeLabels")
+  public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
+    return personAttributeLabelService.getAttributeLabelMap();
+  }
 
   /**
    * Controller for detail page.
+   *
+   *
    *
    * @param spEntityId the entity id
    * @return ModelAndView
