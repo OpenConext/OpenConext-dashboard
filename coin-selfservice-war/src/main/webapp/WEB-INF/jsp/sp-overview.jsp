@@ -16,7 +16,6 @@
   --%>
 
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
-
 <spring:message var="title" code="jsp.allsp.title"/>
 
 <jsp:include page="header.jsp">
@@ -29,14 +28,13 @@
 
   <div class="content">
 
-    <spring:message code="jsp.sp_overview.n_results" arguments="${fn:length(sps)}"/>
-    <table class="table table-bordered table-striped table-above-pagination">
+    <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination">
       <thead>
       <tr>
         <th><spring:message code="jsp.sp_overview.name"/></th>
         <th><spring:message code="jsp.sp_overview.description"/></th>
-        <th></th>
-        <th class="center"><spring:message code="jsp.sp_overview.status"/></th>
+        <%--<th></th>--%>
+        <th class="center" data-filtertype="select"><spring:message code="jsp.sp_overview.status"/></th>
       </tr>
       </thead>
       <tbody>
@@ -49,11 +47,11 @@
             <td><a href="${detailUrl}"><c:out default="${sp.id}" value="${sp.name}"/></a>
             </td>
             <td class="text-overflow"><c:out value="${fn:substring(sp.description, 0, 40)}"/></td>
-            <td>
-              <c:if test="${not empty sp.homeUrl}">
+            <%--<td>
+              <c:if test="${not empty sp.logoUrl}">
                 <img src="${sp.logoUrl}" alt="<c:out value="${sp.name}"/>"/>
               </c:if>
-            </td>
+            </td>--%>
             <td class="center">
               <a href="${detailUrl}" class="btn btn-primary btn-small cw65">
             <c:choose>
@@ -78,4 +76,6 @@
 </section>
 
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="footer.jsp">
+  <jsp:param name="datatables" value="true"/>
+</jsp:include>

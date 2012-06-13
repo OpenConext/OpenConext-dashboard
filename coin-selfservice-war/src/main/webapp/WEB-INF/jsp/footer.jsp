@@ -60,5 +60,44 @@
 <c:if test="${param.chart eq true}">
 <tags:sp_renderchart/>
 </c:if>
+
+<c:if test="${param.datatables eq true}">
+<script src="<c:url value="/js/jquery/jquery.datatables.1.9.1.min.js"/>"></script>
+<script src="<c:url value="/js/jquery/jquery.datatables.columnfilter.1.4.7.js"/>"></script>
+<script>
+
+  $(document).ready(function () {
+    var oTable = $('#sp_overview_table').dataTable({
+      "bPaginate":false,
+      "bLengthChange":false,
+      "bSort":false,
+      "oLanguage":{
+        "sSearch":"<spring:message code="datatables.sSearch"/>",
+        "sZeroRecords":"<spring:message code="datatables.sZeroRecords"/>",
+        "sInfo":"<spring:message code="datatables.sInfo"/>",
+        "sInfoEmpty":"<spring:message code="datatables.sInfoEmpty"/>",
+        "sInfoFiltered":"<spring:message code="datatables.sInfoFiltered"/>"
+      }
+    });
+
+    <spring:message code="jsp.sp_overview.action-linked" var="linked"/>
+    <spring:message code="jsp.sp_overview.action-dolink" var="dolink"/>
+    $('#sp_overview_table').dataTable().columnFilter({
+      sPlaceHolder:"head:after",
+      aoColumns:[
+        null,
+        null, { type:"select", bRegex:true,
+          values:[
+            { value:'${linked}', label:'${linked}'},
+            { value:'${dolink}', label:'${dolink}'}
+          ]
+        }
+      ]
+    });
+
+  });
+
+</script>
+</c:if>
 </body>
 </html>

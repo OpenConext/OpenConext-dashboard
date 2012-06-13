@@ -45,6 +45,7 @@
       <link rel="stylesheet" href="<c:url value="/css/generic.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/component-userbox.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/component-autoSuggest.css"/>"/>
+      <link rel="stylesheet" href="<c:url value="/css/component-datatables.css"/>"/>
     </c:when>
     <c:otherwise>
       <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>"/>
@@ -67,11 +68,11 @@
 </header>
 
 <spring:url value="" var="langNL" htmlEscape="true">
-  <spring:param name="spEntityId" value="${sp.id}" />
+  <c:if test="${not empty sp}"><spring:param name="spEntityId" value="${sp.id}" /></c:if>
   <spring:param name="lang" value="nl" />
 </spring:url>
 <spring:url value="" var="langEN" htmlEscape="true">
-  <spring:param name="spEntityId" value="${sp.id}" />
+  <c:if test="${not empty sp}"><spring:param name="spEntityId" value="${sp.id}" /></c:if>
   <spring:param name="lang" value="en" />
 </spring:url>
 
