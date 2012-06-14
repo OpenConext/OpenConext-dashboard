@@ -23,6 +23,7 @@ import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,17 +68,21 @@ public class FederationProviderService implements ServiceProviderService, Identi
     try {
       resource = getConfigurationFileAsResource(configurationLocation);
     } catch (MalformedURLException e) {
-      LOG.error("URL for SURFfederatie metadata '" + configurationLocation + "' is malformed", e);
+      LOG.error("URL for SURFfederatie metadata '" + configurationLocation +
+          "' is malformed. Fix it in coin-selfservice.properties", e);
       return;
     }
     final XStream xStream = XStreamFedConfigBuilder.getXStreamForFedConfig(true);
     try {
       final FederatieConfig config = (FederatieConfig) xStream.fromXML(resource.getInputStream());
+      writeUpdateReport(config);
       if (config != null) {
         federatieConfig = config;
+        LOG.debug("Updated SURFfederatie config with content from {}", configurationLocation);
       }
     } catch (IOException e) {
-      LOG.error("Could not retrieve metadata from location '" + configurationLocation + "'", e.getMessage());
+      LOG.error("Could not retrieve SURFfederatie metadata from location '" + configurationLocation + "'",
+          e.getMessage());
     }
   }
 
@@ -89,6 +94,18 @@ public class FederationProviderService implements ServiceProviderService, Identi
       resource = new ClassPathResource(configurationFilename);
     }
     return resource;
+  }
+
+  private void writeUpdateReport(FederatieConfig config) {
+    if (LOG.isDebugEnabled() == false) {
+      return;
+    }
+    if (config == null) {
+      LOG.debug("Got empty SURFfederatie config file, will not update the existing configuration");
+    } else {
+      Object[] logValues = {CollectionUtils.isNotEmpty(config.getIdPs()), CollectionUtils.isNotEmpty(config.getSps())};
+      LOG.debug("Parsed SURFfederatie config. List of IdP's contains items: {}, list of SP's contains items: {}", logValues);
+    }
   }
 
   private boolean isLinked(String idpId, ServiceProvider sp) {
