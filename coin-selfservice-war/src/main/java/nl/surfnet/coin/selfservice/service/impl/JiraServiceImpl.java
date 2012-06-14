@@ -124,9 +124,15 @@ public class JiraServiceImpl implements JiraService, InitializingBean {
   private RemoteIssue createRequest(final JiraTask task, CoinUser user) {
     RemoteIssue remoteIssue = new RemoteIssue();
     remoteIssue.setType(getIssueTypeByJiraTaskType(task.getIssueType()));
-    remoteIssue.setSummary(new StringBuilder()
-        .append("New connection for IdP ").append(task.getIdentityProvider())
-        .append(" to SP ").append(task.getServiceProvider()).toString());
+    if (remoteIssue.getType().equals(TYPE_LINKREQUEST)) {
+      remoteIssue.setSummary("New connection for IdP " + task.getIdentityProvider() + " to SP " + task.getServiceProvider());
+    } else if (remoteIssue.getType().equals(TYPE_UNLINKREQUEST)) {
+      remoteIssue.setSummary("Disconnect IdP " + task.getIdentityProvider() + " and SP " + task
+          .getServiceProvider());
+    } else {
+      throw new IllegalStateException("Unknown type: " + remoteIssue.getType());
+    }
+
     remoteIssue.setProject(projectKey);
     remoteIssue.setPriority(PRIORITY_MEDIUM);
     StringBuilder description = new StringBuilder();

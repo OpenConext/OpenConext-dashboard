@@ -29,6 +29,7 @@ import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 @Service(value = "actionsService")
 public class ActionsServiceImpl implements ActionsService {
@@ -39,9 +40,18 @@ public class ActionsServiceImpl implements ActionsService {
   @Resource(name="jiraService")
   private JiraService jiraService;
 
+
+  @Resource(name="providerService")
+  private ServiceProviderService providerService;
+
   @Override
   public List<Action> getActions(String identityProvider) {
-    return actionsDao.findActionsByIdP(identityProvider);
+    final List<Action> actions = actionsDao.findActionsByIdP(identityProvider);
+    // Enrich the actions with actual SP information, not only the id.
+    for (Action a : actions) {
+      a.setSp(providerService.getServiceProvider(a.getSpId(), identityProvider));
+    }
+    return actions;
   }
 
   @Override

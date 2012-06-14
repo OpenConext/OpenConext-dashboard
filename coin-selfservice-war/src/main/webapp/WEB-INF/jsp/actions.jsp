@@ -29,20 +29,29 @@
 
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
-      <th class="cw55 small center"><spring:message code="jsp.actions.issue"/></th>
-        <th class="cw75 small center"><spring:message code="jsp.actions.date"/></th>
-        <th class="center"><spring:message code="jsp.actions.by"/></th>
+      <th class="cw55 small"><spring:message code="jsp.actions.issue"/></th>
+      <th class="cw55 small"><spring:message code="jsp.actions.type"/></th>
+        <th class="cw75 small"><spring:message code="jsp.actions.date"/></th>
+        <th class="small"><spring:message code="jsp.actions.by"/></th>
         <th><spring:message code="jsp.actions.sp"/></th>
         <th class="cw55 small center"><spring:message code="jsp.actions.status"/></th>
       </thead>
       <tbody>
       <c:forEach items="${actionList}" var="action">
+        <c:set var="actionType">
+          <c:choose>
+            <c:when test="${action.type == 'LINKREQUEST'}"><spring:message code="jsp.actions.typeLinkrequest"/></c:when>
+            <c:when
+                test="${action.type == 'UNLINKREQUEST'}"><spring:message code="jsp.actions.typeUnlinkrequest"/></c:when>
+          </c:choose>
+        </c:set>
         <tr class="rowdetails">
           <%--@elvariable id="action" type="nl.surfnet.coin.selfservice.domain.Action"--%>
-          <td class="center">${action.jiraKey}</td>
-          <td class="center"><fmt:formatDate value="${action.requestDate}" pattern="yyyy-MM-dd"/></td>
-          <td class="center">${action.userName}</td>
-          <td>${action.sp}</td>
+          <td>${action.jiraKey}</td>
+          <td>${actionType}</td>
+          <td><fmt:formatDate value="${action.requestDate}" pattern="yyyy-MM-dd"/></td>
+          <td>${action.userName}</td>
+          <td>${action.sp.name}</td>
           <td class="center">
             <c:if test="${action.status eq 'CLOSED'}">
               <i class="icon-ok"></i>

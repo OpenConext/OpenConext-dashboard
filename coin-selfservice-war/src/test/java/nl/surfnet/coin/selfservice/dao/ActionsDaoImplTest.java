@@ -57,7 +57,7 @@ public class ActionsDaoImplTest extends AbstractInMemoryDatabaseTest {
     assertThat(savedA.getBody(), is("body"));
     assertThat(savedA.getJiraKey(), is("key"));
     assertThat(savedA.getUserName(), is("username"));
-    assertThat(savedA.getSp(), is("sp"));
+    assertThat(savedA.getSpId(), is("sp"));
     assertThat(savedA.getStatus(), is(Action.Status.OPEN));
     assertThat(savedA.getType(), is(Action.Type.QUESTION));
   }

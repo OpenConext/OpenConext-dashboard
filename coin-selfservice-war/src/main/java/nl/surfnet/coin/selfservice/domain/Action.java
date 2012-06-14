@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 
 public class Action {
 
+
   public enum Type {
     QUESTION, LINKREQUEST, UNLINKREQUEST;
 
@@ -60,21 +61,22 @@ public class Action {
   private String userId;
   private String userName;
   private String body;
-  private String idp;
-  private String sp;
+  private String idpId;
+  private String spId;
   private Date requestDate;
   private Type type;
   private Status status;
   private String institutionId;
+  private ServiceProvider sp;
 
-  public Action(String jiraKey, String userId, String userName, Type type, Status status, String body, String idp,
-                String sp, String institutionId, Date requestDate) {
+  public Action(String jiraKey, String userId, String userName, Type type, Status status, String body, String idpId,
+                String spId, String institutionId, Date requestDate) {
     this.userId = userId;
     this.jiraKey = jiraKey;
     this.userName = userName;
     this.body = body;
-    this.idp = idp;
-    this.sp = sp;
+    this.idpId = idpId;
+    this.spId = spId;
     this.requestDate = requestDate;
     this.type = type;
     this.status = status;
@@ -97,12 +99,12 @@ public class Action {
     return body;
   }
 
-  public String getIdp() {
-    return idp;
+  public String getIdpId() {
+    return idpId;
   }
 
-  public String getSp() {
-    return sp;
+  public String getSpId() {
+    return spId;
   }
 
   public Date getRequestDate() {
@@ -143,4 +145,23 @@ public class Action {
       }
     };
   }
+
+  /**
+   * Get the SP this action is about.
+   * This is a transient field, derived from the spId and filled only when needed.
+   * @return ServiceProvider
+   */
+  public ServiceProvider getSp() {
+    return sp;
+  }
+
+  /**
+   * {@see #getSp()}
+   * @param sp
+   */
+  public void setSp(ServiceProvider sp) {
+    this.sp = sp;
+  }
+
+
 }

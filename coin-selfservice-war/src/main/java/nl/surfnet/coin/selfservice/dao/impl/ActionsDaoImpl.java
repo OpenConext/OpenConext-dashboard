@@ -77,8 +77,8 @@ public class ActionsDaoImpl implements ActionsDao {
         "INSERT INTO ss_actions (jiraKey, userId, userName, idp, sp, institutionId, actionType, actionStatus, body, " +
             "requestDate) VALUES(" +
             "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        action.getJiraKey(), action.getUserId(), action.getUserName(), action.getIdp(),
-        action.getSp(), action.getInstitutionId(), action.getType().name(), action.getStatus().name(), action.getBody(),
+        action.getJiraKey(), action.getUserId(), action.getUserName(), action.getIdpId(),
+        action.getSpId(), action.getInstitutionId(), action.getType().name(), action.getStatus().name(), action.getBody(),
         action.getRequestDate());
   }
 
