@@ -45,8 +45,8 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   @Override
-  public void registerJiraIssueCreation(String issueKey, JiraTask task) {
-    Action a = new Action(issueKey, "TODO", "TODO", Action.Type.byJiraIssueType(task.getIssueType()),
+  public void registerJiraIssueCreation(String issueKey, JiraTask task, String userId, String userName) {
+    Action a = new Action(issueKey, userId, userName, Action.Type.byJiraIssueType(task.getIssueType()),
         Action.Status.byJiraIssueStatus(task.getStatus()), task.getBody(),
         task.getIdentityProvider(), task.getServiceProvider(), task.getInstitution(), new Date());
     actionsDao.saveAction(a);

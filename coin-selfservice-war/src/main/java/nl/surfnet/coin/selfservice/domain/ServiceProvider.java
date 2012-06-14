@@ -29,7 +29,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  */
 
 @XStreamAlias("SP")
-public class ServiceProvider extends Provider implements Serializable {
+public class  ServiceProvider extends Provider implements Serializable {
 
   private static final long serialVersionUID = 1L;
 

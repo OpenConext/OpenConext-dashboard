@@ -14,6 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   --%>
+<jsp:useBean id="actionList" scope="request" type="java.util.List"/>
 <spring:message var="title" code="jsp.home.title"/>
 <jsp:include page="header.jsp">
   <jsp:param name="activeSection" value="actions"/>
@@ -28,8 +29,9 @@
 
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
-        <th class="cw55 small center"><spring:message code="jsp.actions.issue"/></th>
+      <th class="cw55 small center"><spring:message code="jsp.actions.issue"/></th>
         <th class="cw75 small center"><spring:message code="jsp.actions.date"/></th>
+        <th class="center"><spring:message code="jsp.actions.by"/></th>
         <th><spring:message code="jsp.actions.sp"/></th>
         <th class="cw55 small center"><spring:message code="jsp.actions.status"/></th>
       </thead>
@@ -39,6 +41,7 @@
           <%--@elvariable id="action" type="nl.surfnet.coin.selfservice.domain.Action"--%>
           <td class="center">${action.jiraKey}</td>
           <td class="center"><fmt:formatDate value="${action.requestDate}" pattern="yyyy-MM-dd"/></td>
+          <td class="center">${action.userName}</td>
           <td>${action.sp}</td>
           <td class="center">
             <c:if test="${action.status eq 'CLOSED'}">

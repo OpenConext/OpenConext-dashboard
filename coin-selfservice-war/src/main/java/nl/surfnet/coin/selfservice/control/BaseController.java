@@ -45,6 +45,12 @@ public abstract class BaseController {
     return getCurrentUser().getInstitutionIdps();
   }
 
+  /**
+   * Exposes the requested IdP for use in RequestMapping methods.
+   * @param idpId the idp selected in the view
+   * @param request HttpServletRequest, for storing/retrieving the selected idp in the http session.
+   * @return the IdentityProvider selected, or null in case of unknown/invalid idpId
+   */
   @ModelAttribute(value = "selectedidp")
   public IdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId, HttpServletRequest request) {
     final Object selectedidp = request.getSession().getAttribute("selectedidp");

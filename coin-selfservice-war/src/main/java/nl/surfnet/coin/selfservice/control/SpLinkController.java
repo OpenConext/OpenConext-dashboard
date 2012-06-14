@@ -114,7 +114,7 @@ public class SpLinkController extends BaseController {
     } else {
       final JiraTask task = new JiraTask.Builder()
           .body(getCurrentUser().getEmail() + ("\n\n" + linkrequest.getNotes()))
-          .identityProvider(SpListController.getCurrentUser().getIdp())
+          .identityProvider(getCurrentUser().getIdp())
           .serviceProvider(spEntityId)
           .institution(SpListController.getCurrentUser().getInstitutionId())
           .issueType(JiraTask.Type.LINKREQUEST)
@@ -122,7 +122,7 @@ public class SpLinkController extends BaseController {
           .build();
       try {
         final String issueKey = jiraService.create(task, getCurrentUser());
-        actionsService.registerJiraIssueCreation(issueKey, task);
+        actionsService.registerJiraIssueCreation(issueKey, task, getCurrentUser().getUid(), getCurrentUser().getDisplayName());
         m.put("issueKey", issueKey);
         sessionStatus.setComplete();
         return new ModelAndView("sp-linkrequest-thanks", m);

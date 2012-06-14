@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -62,7 +64,7 @@ public class ActionsServiceTest {
 
     final String key = jiraService.create(task, user);
 
-    actionsService.registerJiraIssueCreation(key, task);
+    actionsService.registerJiraIssueCreation(key, task, "foo", "bar");
 
     final List<Action> before = actionsService.getActions(idp);
 
@@ -76,6 +78,7 @@ public class ActionsServiceTest {
 
     assertThat(after.size(), is(1));
     assertThat(after.get(0).getStatus(), is(Action.Status.CLOSED));
+    assertThat(after.get(0).getUserName(), IsEqual.equalTo("bar"));
   }
 
 }

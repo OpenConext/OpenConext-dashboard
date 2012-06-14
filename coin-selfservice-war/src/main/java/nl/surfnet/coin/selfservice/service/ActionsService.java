@@ -40,8 +40,10 @@ public interface ActionsService {
    * Register the creation of a JIRA issue.
    * @param issueKey the created jira issue key
    * @param task details of the issue
+   * @param userId the id of the user that created the request
+   * @param userName the user's name
    */
-  void registerJiraIssueCreation(String issueKey, JiraTask task);
+  void registerJiraIssueCreation(String issueKey, JiraTask task, String userId, String userName);
 
   /**
    * Close local actions that are closed in Jira for a given identity provider.

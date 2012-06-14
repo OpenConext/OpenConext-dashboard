@@ -124,7 +124,8 @@ public class SpDetailControllerTest {
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     when(jiraService.create((JiraTask) anyObject(), Matchers.<CoinUser>any())).thenThrow(new IOException("An IOException on purpose"));
     final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
-    verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject());
+    verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject(), anyString(),
+        anyString());
     assertTrue(mav.hasView());
     assertThat("in case of error the form view should be returned", mav.getViewName(), is("sp-question"));
   }

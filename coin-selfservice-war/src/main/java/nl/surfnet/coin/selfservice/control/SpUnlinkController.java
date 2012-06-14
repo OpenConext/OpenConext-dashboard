@@ -115,15 +115,15 @@ public class SpUnlinkController extends BaseController {
     } else {
       final JiraTask task = new JiraTask.Builder()
           .body(getCurrentUser().getEmail() + ("\n\n" + unlinkrequest.getNotes()))
-          .identityProvider(SpListController.getCurrentUser().getIdp())
+          .identityProvider(getCurrentUser().getIdp())
           .serviceProvider(spEntityId)
-          .institution(SpListController.getCurrentUser().getInstitutionId())
+          .institution(getCurrentUser().getInstitutionId())
           .issueType(JiraTask.Type.UNLINKREQUEST)
           .status(JiraTask.Status.OPEN)
           .build();
       try {
         final String issueKey = jiraService.create(task, getCurrentUser());
-        actionsService.registerJiraIssueCreation(issueKey, task);
+        actionsService.registerJiraIssueCreation(issueKey, task, getCurrentUser().getUid(), getCurrentUser().getDisplayName());
         m.put("issueKey", issueKey);
         sessionStatus.setComplete();
         return new ModelAndView("sp-unlinkrequest-thanks", m);
