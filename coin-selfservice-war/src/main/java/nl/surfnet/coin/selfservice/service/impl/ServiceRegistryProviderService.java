@@ -45,35 +45,17 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   @Resource(name = "janusClient")
   private Janus janusClient;
 
-  @Override
-  @Cacheable(value = {"sps-janus"})
-  public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
-    List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
-    try {
-      final List<String> sps = janusClient.getAllowedSps(idpId);
-      for (String spEntityId : sps) {
-        final ServiceProvider serviceProvider = getServiceProvider(spEntityId, idpId);
-        if (serviceProvider != null) {
-          serviceProvider.setLinked(true);
-          spList.add(serviceProvider);
-        }
-      }
-    } catch (RestClientException e) {
-      log.warn("Could not retrieve allowed SPs from Janus client", e.getMessage());
-    }
-    return spList;
-  }
 
   @Override
   @Cacheable(value = {"sps-janus"})
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> allSPs = getAllServiceProvidersUnfiltered();
 
-    List<ServiceProvider> myLinkedSPs = getLinkedServiceProviders(idpId);
+    List<String> myLinkedSPs = getLinkedServiceProviderIDs(idpId);
 
     List<ServiceProvider> filteredList = new ArrayList<ServiceProvider>();
     for (ServiceProvider sp : allSPs) {
-      if (myLinkedSPs.contains(sp)) {
+      if (myLinkedSPs.contains(sp.getId())) {
         // an already linked SP is visible
         sp.setLinked(true);
         filteredList.add(sp);
@@ -86,13 +68,24 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   }
 
   @Cacheable(value = {"sps-janus"})
+  public List<String> getLinkedServiceProviderIDs(String idpId) {
+    List<String> spList = new ArrayList<String>();
+    try {
+      final List<String> sps = janusClient.getAllowedSps(idpId);
+      spList = sps;
+    } catch (RestClientException e) {
+      log.warn("Could not retrieve allowed SPs from Janus client", e.getMessage());
+    }
+    return spList;
+  }
+
+  @Cacheable(value = {"sps-janus"})
   private List<ServiceProvider> getAllServiceProvidersUnfiltered() {
     List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     try {
       final List<EntityMetadata> sps = janusClient.getSpList();
       for (EntityMetadata metadata : sps) {
-        buildServiceProviderByMetadata(metadata);
-        final ServiceProvider serviceProvider = getServiceProvider(metadata.getAppEntityId(), null);
+        final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
         if (serviceProvider != null) {
           spList.add(serviceProvider);
         }

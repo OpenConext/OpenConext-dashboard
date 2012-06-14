@@ -27,13 +27,6 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 public interface ServiceProviderService {
 
   /**
-   * Get a list of all Service Providers that have an ACL for the given idpId.
-   * @param idpId the IDP entity ID to filter on
-   * @return list of {@link ServiceProvider}
-   */
-  List<ServiceProvider> getLinkedServiceProviders(String idpId);
-
-  /**
    * Get a list of all available Service Providers for the given idpId.
    *
    * @param idpId the IDP entity ID to filter on
