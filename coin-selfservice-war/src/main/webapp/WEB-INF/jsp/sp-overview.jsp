@@ -53,7 +53,7 @@
               </c:if>
             </td>--%>
             <td class="center">
-              <a href="${detailUrl}" class="btn btn-primary btn-small cw65">
+              <a href="${detailUrl}" class="btn btn-primary btn-small cw75">
             <c:choose>
               <c:when test="${sp.linked}">
               <i class="icon-ok"></i> <spring:message code="jsp.sp_overview.action-linked" />
