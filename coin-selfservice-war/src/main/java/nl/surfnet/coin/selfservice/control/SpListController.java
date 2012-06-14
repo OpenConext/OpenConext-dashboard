@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,17 +37,6 @@ public class SpListController extends BaseController {
 
   @Resource(name="providerService")
   private ServiceProviderService providerService;
-
-  @RequestMapping(value="/linked-sps")
-  public ModelAndView listLinkedSps(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = new HashMap<String, Object>();
-
-    // Add SP's for all idps; put in a Set to filter out duplicates
-    List<ServiceProvider> sps = providerService.getLinkedServiceProviders(selectedidp.getId());
-    m.put("sps", new ArrayList<ServiceProvider>(sps));
-    m.put("activeSection", "linked-sps");
-    return new ModelAndView("sp-overview", m);
-  }
 
   @RequestMapping(value="/all-sps")
   public ModelAndView listAllSps(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {

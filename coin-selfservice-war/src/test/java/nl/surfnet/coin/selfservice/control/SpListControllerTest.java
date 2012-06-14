@@ -17,7 +17,6 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -36,10 +35,7 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class SpListControllerTest {
@@ -52,7 +48,8 @@ public class SpListControllerTest {
 
   @Mock
   private ServiceProviderService serviceProviderService;
-private IdentityProvider idp;
+  private IdentityProvider idp;
+
   @Before
   public void before() {
     spListController = new SpListController();
@@ -61,23 +58,6 @@ private IdentityProvider idp;
     idp.setId("idpId");
     when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp));
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
-  }
-
-  @Test
-  public void mySPsEmpty() {
-    when(serviceProviderService.getLinkedServiceProviders(anyString())).thenReturn(Collections.<ServiceProvider>emptyList());
-    final ModelAndView mav = spListController.listLinkedSps(idp);
-    assertThat(mav, notNullValue());
-    assertTrue(mav.hasView());
-  }
-
-  @Test
-  public void mySPs() {
-    when(serviceProviderService.getLinkedServiceProviders(anyString())).thenReturn(
-        Arrays.asList(new ServiceProvider("", "")));
-    final ModelAndView mav = spListController.listLinkedSps(idp);
-    List<ServiceProvider> sps = (List<ServiceProvider>) mav.getModelMap().get("sps");
-    assertThat(sps.get(0), notNullValue());
   }
 
   @Test
