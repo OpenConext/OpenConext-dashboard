@@ -53,9 +53,15 @@
           <td>${action.userName}</td>
           <td>${action.sp.name}</td>
           <td class="center">
-            <c:if test="${action.status eq 'CLOSED'}">
-              <i class="icon-ok"></i>
-            </c:if>
+            <c:choose>
+              <c:when test="${action.status eq 'CLOSED'}">
+                <i class="icon-ok" rel="tooltip"
+                   data-original-title="<spring:message code="jsp.actions.tooltip-closed" />" data-type="info"></i>
+              </c:when>
+              <c:when test="${action.status eq 'OPEN'}">
+                <i class="icon-time" rel="tooltip" data-original-title="<spring:message code="jsp.actions.tooltip-open"/>" data-type="info"></i>
+              </c:when>
+            </c:choose>
           </td>
         </tr>
       </c:forEach>
