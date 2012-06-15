@@ -16,13 +16,12 @@
 
 package nl.surfnet.coin.selfservice.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
-import nl.surfnet.coin.selfservice.domain.StatResult;
 
 /**
  * Mock implementation for {@link nl.surfnet.coin.selfservice.dao.StatisticDao}
@@ -30,39 +29,11 @@ import nl.surfnet.coin.selfservice.domain.StatResult;
 public class MockStatisticDao implements StatisticDao {
 
   @Override
-  public List<ChartSerie> getLoginsPerSP(String idpEntityId) {
-    ChartSerie mujina = new ChartSerie();
-    mujina.setName("Mujina");
-    List<Integer> integers = Arrays.asList(Integer.valueOf(5), Integer.valueOf(7), Integer.valueOf(3), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
-    mujina.setData(integers);
-    Calendar cal = Calendar.getInstance();
-    cal.set(2012, Calendar.JANUARY, 2);
-    mujina.setPointStart(cal.getTime());
-
-    ChartSerie testSp = new ChartSerie();
-    testSp.setName("TestSp");
-    integers = Arrays.asList(Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(4));
-    testSp.setData(integers);
-    cal.set(2012, Calendar.JANUARY, 1);
-    testSp.setPointStart(cal.getTime());
-
-    ChartSerie surfTeams = new ChartSerie();
-    surfTeams.setName("SURFteams");
-    integers = Arrays.asList(Integer.valueOf(3), Integer.valueOf(2), Integer.valueOf(3));
-    surfTeams.setData(integers);
-    cal.set(2011, Calendar.DECEMBER, 31);
-    surfTeams.setPointStart(cal.getTime());
-
-    return Arrays.asList(mujina, testSp, surfTeams);
-  }
-
-  @Override
-  public List<StatResult> getLoginsPerDay(String idpEntityId) {
-    throw new UnsupportedOperationException("TODO implement this");
-  }
-
-  @Override
-  public List<StatResult> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
-    throw new UnsupportedOperationException("TODO implement this");
+  public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
+    List<ChartSerie> result = new ArrayList<ChartSerie>();
+    final ChartSerie e = new ChartSerie();
+    e.setData(Arrays.asList(1, 2, 1, 2,3123, 13, 123, 123, 123));
+    result.add(e);
+    return result;
   }
 }

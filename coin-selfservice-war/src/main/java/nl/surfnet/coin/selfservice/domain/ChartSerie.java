@@ -25,7 +25,7 @@ import java.util.List;
  * <pre>{
  * name:'Mujina',
  * data:[5, 7, 3, 0, 0, 0],
- * pointStart: Date.UTC(2010, 0, 1),
+ * pointStart: 123123123123,
  * pointInterval: 24 * 3600 * 1000 // one day
  * }</pre>
  */
@@ -33,7 +33,7 @@ public class ChartSerie {
 
   private String name;
   private List<Integer> data = new ArrayList<Integer>();
-  private Date pointStart;
+  private long pointStart;
   private long pointInterval = 24L * 3600L * 1000L; // one day
 
   public String getName() {
@@ -56,12 +56,12 @@ public class ChartSerie {
     this.data.add(number);
   }
 
-  public Date getPointStart() {
+  public long getPointStart() {
     return pointStart;
   }
 
   public void setPointStart(Date pointStart) {
-    this.pointStart = pointStart;
+    this.pointStart = pointStart.getTime();
   }
 
   public long getPointInterval() {

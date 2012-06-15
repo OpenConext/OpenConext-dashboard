@@ -16,10 +16,7 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.StatResult;
 
 /**
  * Controller for statistics
@@ -42,32 +38,18 @@ public class StatisticController extends BaseController {
   @Autowired
   private StatisticDao statisticDao;
 
-  @RequestMapping("/splogins.json")
-  public
-  @ResponseBody
-  List<ChartSerie> getSPLogins(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    return statisticDao.getLoginsPerSP(selectedidp.getId());
-  }
-
   @RequestMapping("/loginsperspperday.json")
   public
   @ResponseBody
-  Map<String, List<StatResult>> getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+  ChartSerie getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                                @RequestParam(value = "spentityid", required = false) String spentityid) {
-    Map<String, List<StatResult>> m = new HashMap<String, List<StatResult>>();
 
-    final List<StatResult> loginsPerDay = statisticDao.getLoginsPerSpPerDay(selectedidp.getId(), spentityid);
-    for (StatResult s : loginsPerDay) {
-      String spEntityId = s.getSpEntityId();
-      if (m.containsKey(spEntityId)) {
-        m.get(spEntityId).add(s);
-      } else {
-        List<StatResult> statResults = new ArrayList<StatResult>();
-        statResults.add(s);
-        m.put(spEntityId, statResults);
-      }
+    final List<ChartSerie> loginsPerDay = statisticDao.getLoginsPerSpPerDay(selectedidp.getId(), spentityid);
+    if (loginsPerDay.size() > 0) {
+      return loginsPerDay.get(0);
+    } else {
+      return null;
     }
-    return m;
   }
 
   void setStatisticDao(StatisticDao statisticDao) {

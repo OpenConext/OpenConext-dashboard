@@ -20,31 +20,14 @@
   <script src="<c:url value="/js/modules/exporting.js"/>"></script>
   <script>
     $(function () {
-      var seriesOptions = [];
-      var name, logins, day;
-
       $.ajax({
         <spring:url value="/loginsperspperday.json" htmlEscape="true" var="jsonUrl">
           <spring:param name="spentityid" value="${sp.id}"/>
         </spring:url>
         url:'${jsonUrl}',
         success:function (result) {
-          $.each(result, function (key, val) {
-            name = key;
-            logins = [];
-            for (var i = 0, maxLen = val.length; i < maxLen; i++) {
-              day = [val[i].date, val[i].logins];
-              logins.push(day);
-            }
-            seriesOptions.push({
-              name:name,
-              data:logins
-            })
-
-          });
-
-          if (seriesOptions.length > 0) {
-            createChart();
+          if (result.data.length > 0) {
+            var chart = createChart(result.data, result.pointStart, result.pointInterval);
             $(chart.renderTo).setAttribute("style", "width:96%;height:400px;");
           }
         },
@@ -52,8 +35,8 @@
       });
 
       // create the chart when all data is loaded
-      function createChart() {
-        chart = new Highcharts.StockChart({
+      function createChart(data, pointStart, pointInterval) {
+        return new Highcharts.StockChart({
           chart:{
             renderTo:'chart',
             type:'column'
@@ -75,7 +58,11 @@
           rangeSelector:{
             selected:4
           },
-          series:seriesOptions,
+          series:[{
+            data: data,
+            pointStart: pointStart + 2*3600000,
+            pointInterval: pointInterval
+          }],
           title:{
             text:"<spring:message code="graph.title.numberoflogins" javaScriptEscape="true" arguments="${selectedidp.name}"/>"
           },

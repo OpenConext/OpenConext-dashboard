@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -50,29 +52,18 @@ public class StatisticDaoImpl implements StatisticDao {
   private JdbcTemplate ebJdbcTemplate;
 
   @Override
-  public List<ChartSerie> getLoginsPerSP(String idpEntityId) {
-    final List<StatResult> statResults = getLoginsPerDay(idpEntityId);
-    return convertStatResultsToChartSeries(statResults);
-  }
-
-  @Override
-  public List<StatResult> getLoginsPerDay(String idpEntityId) {
-    return this.getLoginsPerSpPerDay(idpEntityId, null);
-  }
-
-  @Override
-  public List<StatResult> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
+  public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
     List<StatResult> statResults;
     Object[] args = spEntityId == null ? new Object[]{idpEntityId} : new Object[]{idpEntityId, spEntityId};
 
     try {
-      final StringBuilder sql = new StringBuilder("select count(*), spentityid, date(loginstamp) ");
+      final StringBuilder sql = new StringBuilder("select count(*), spentityid, date(loginstamp) as logindate ");
       sql.append("from log_logins where idpentityid = ? ");
       if (spEntityId != null) {
         sql.append("and spentityid = ? ");
       }
       sql.append("group by day(loginstamp), spentityid ");
-      sql.append("order by spentityid, loginstamp");
+      sql.append("order by spentityid, loginstamp asc");
 
       statResults = this.ebJdbcTemplate.query(
           sql.toString(),
@@ -80,19 +71,24 @@ public class StatisticDaoImpl implements StatisticDao {
     } catch (EmptyResultDataAccessException e) {
       statResults = new ArrayList<StatResult>();
     }
-    return statResults;
+    return convertStatResultsToChartSeries(statResults);
   }
 
-  private RowMapper<StatResult> mapRowsToStatResult() {
+  private static final Logger LOG = LoggerFactory.getLogger(StatisticDaoImpl.class);
+
+  public RowMapper<StatResult> mapRowsToStatResult() {
     return new RowMapper<StatResult>() {
       @Override
       public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
         int logins = rs.getInt("count(*)");
         String spentitiy = rs.getString("spentityid");
-        String mySqlDate = rs.getString("date(loginstamp)");
         StatResult statResult = new StatResult();
         statResult.setSpEntityId(spentitiy);
-        statResult.setDate(convertFromMySqlString(mySqlDate));
+        Date logindate = rs.getDate("logindate");
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(logindate);
+        convertToGmt(cal);
+        statResult.setDate(convertToGmt(cal).getTime());
         statResult.setLogins(logins);
         return statResult;
       }
@@ -138,25 +134,32 @@ public class StatisticDaoImpl implements StatisticDao {
     return chartSeries;
   }
 
-  /**
-   * Creates a {@link Date} that maps with the date string value returned by MySQL
-   * <p/>
-   * MySQL returns date as yyyy-MM-dd, but the Month offset is 1 (0 is reserved for the case the month is unknown)
-   * So Jan 1, 2011 is 2011-01-01.
-   * We need to substract 1 from the month to get the proper Java month. Then we need to set the TimeZone to GMT
-   * so that the UTC value of the Date is not influenced by the current machine's timezone.
-   *
-   * @param mySqlDate String representation of a date
-   */
-  public static Date convertFromMySqlString(String mySqlDate) {
-    Calendar calendar = Calendar.getInstance();
-    String[] dateFields = mySqlDate.split("-");
-    int year = Integer.parseInt(dateFields[0]);
-    int month = Integer.parseInt(dateFields[1]) - 1;
-    int day = Integer.parseInt(dateFields[2]);
-    calendar.set(year, month, day, 0, 0, 0);
-    calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
-    return calendar.getTime();
-  }
 
+  /**
+   * Get a converted Calendar in which the timezone difference has been added.<br /><br />
+   *
+   * Input: 0:00:00 CEST<br />
+   * Output: 2:00:00 CEST
+   * @param cal the original
+   * @return converted calendar
+   */
+  public static Calendar convertToGmt(Calendar cal) {
+
+    Date date = cal.getTime();
+    TimeZone tz = cal.getTimeZone();
+
+
+    //Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
+    long msFromEpochGmt = date.getTime();
+
+    //gives you the current offset in ms from GMT at the current date
+    int offsetFromUTC = tz.getOffset(msFromEpochGmt);
+
+    //create a new calendar in GMT timezone, set to this date and add the offset
+    Calendar gmtCal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+    gmtCal.setTime(date);
+    gmtCal.add(Calendar.MILLISECOND, offsetFromUTC);
+
+    return gmtCal;
+  }
 }

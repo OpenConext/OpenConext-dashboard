@@ -16,8 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,8 +40,8 @@ public class StatisticControllerTest {
   @Test
   public void testChartData() throws Exception {
     IdentityProvider idp = new IdentityProvider("mock-123", null, "Mock 123");
-    final List<ChartSerie> chartData = controller.getSPLogins(idp);
-    assertFalse(chartData.isEmpty());
+    ChartSerie chartData = controller.getLoginsPerSP(idp, "spentityid");
+    assertFalse(chartData.getData().isEmpty());
   }
 
 }

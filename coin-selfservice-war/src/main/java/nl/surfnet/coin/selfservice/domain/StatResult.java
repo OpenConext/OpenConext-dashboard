@@ -27,6 +27,16 @@ public class StatResult implements Comparable<StatResult> {
   private Date date;
   private Integer logins;
 
+  public StatResult() {
+
+  }
+
+  public StatResult(String spEntityId, Date date, Integer logins) {
+    this.spEntityId = spEntityId;
+    this.date = date;
+    this.logins = logins;
+  }
+
   public String getSpEntityId() {
     return spEntityId;
   }
