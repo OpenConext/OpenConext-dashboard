@@ -29,11 +29,11 @@
   <name>OpenConext : coin-selfservice-war</name>
 
   <properties>
-    <coin-shared.version>2.7.0</coin-shared.version>
-    <coin-test.version>2.3.0</coin-test.version>
-    <coin-master.test-dependencies.version>2.7.0</coin-master.test-dependencies.version>
-    <coin-api-serviceregistry.version>2.7.5-SNAPSHOT</coin-api-serviceregistry.version>
-    <spring-security-opensaml.version>2.7.0</spring-security-opensaml.version>
+    <coin-shared.version>2.8.0</coin-shared.version>
+    <coin-test.version>2.8.0</coin-test.version>
+    <coin-master.test-dependencies.version>2.8.1</coin-master.test-dependencies.version>
+    <coin-api-serviceregistry.version>2.8.2</coin-api-serviceregistry.version>
+    <spring-security-opensaml.version>2.8.0</spring-security-opensaml.version>
     <spring-security.version>3.1.0.RELEASE</spring-security.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>[1.9.7,2.0)</jackson.version>
