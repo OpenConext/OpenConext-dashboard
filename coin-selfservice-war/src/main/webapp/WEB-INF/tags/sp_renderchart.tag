@@ -17,7 +17,6 @@
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 <c:if test="${not empty sp}">
 <script src="<c:url value="/js/highstock.js"/>"></script>
-  <script src="<c:url value="/js/modules/exporting.js"/>"></script>
   <script>
     $(function () {
       $.ajax({
