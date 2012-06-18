@@ -34,7 +34,6 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.Question;
-import nl.surfnet.coin.selfservice.control.idpadmin.SpDetailController;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
@@ -96,13 +95,13 @@ public class SpDetailControllerTest {
   public void details() {
     final ModelAndView mav = spDetailController.spDetail("foobar", getIdp());
     assertTrue(mav.hasView());
-    assertThat(mav.getViewName(), is("sp-detail"));
+    assertThat(mav.getViewName(), is("idpadmin/sp-detail"));
   }
   @Test
   public void questionGET() {
     final ModelAndView mav = spDetailController.spQuestion("foobar", getIdp());
     assertTrue(mav.hasView());
-    assertThat(mav.getViewName(), is("sp-question"));
+    assertThat(mav.getViewName(), is("idpadmin/sp-question"));
     assertTrue(mav.getModel().containsKey("question"));
   }
 
@@ -116,7 +115,7 @@ public class SpDetailControllerTest {
     verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
     verify(notificationService).sendMail(eq(issueKey), (String) anyObject(), (String) anyObject(), (String) anyObject());
     assertTrue(mav.hasView());
-    assertThat(mav.getViewName(), is("sp-question-thanks"));
+    assertThat(mav.getViewName(), is("idpadmin/sp-question-thanks"));
   }
 
   @Test
@@ -128,7 +127,7 @@ public class SpDetailControllerTest {
     verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject(), anyString(),
         anyString());
     assertTrue(mav.hasView());
-    assertThat("in case of error the form view should be returned", mav.getViewName(), is("sp-question"));
+    assertThat("in case of error the form view should be returned", mav.getViewName(), is("idpadmin/sp-question"));
   }
 
   @Test
@@ -138,7 +137,7 @@ public class SpDetailControllerTest {
     result.addError(new ObjectError("question", "foo 123 is required"));
     final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
     assertTrue(mav.hasView());
-    assertThat(mav.getViewName(), is("sp-question"));
+    assertThat(mav.getViewName(), is("idpadmin/sp-question"));
   }
 
   private static IdentityProvider getIdp() {

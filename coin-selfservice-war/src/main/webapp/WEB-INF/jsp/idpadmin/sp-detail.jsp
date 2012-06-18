@@ -1,4 +1,4 @@
-<%@ include file="include.jsp" %>
+<%@ include file="../include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -22,7 +22,7 @@
   <c:otherwise><c:set var="spname" value="${sp.name}"/></c:otherwise>
 </c:choose>
 
-<jsp:include page="header.jsp">
+<jsp:include page="../header.jsp">
   <jsp:param name="activeSection" value="linked-sps"/>
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
@@ -57,7 +57,7 @@
           </p>
         </c:if>
         <c:set var="sp" value="${sp}" scope="request" />
-        <jsp:include page="arp.jsp" />
+        <jsp:include page="../arp.jsp" />
 
         <div>
           <a class="btn btn-primary" href="<c:url value="/idpadmin/sp/question.shtml">
@@ -137,6 +137,6 @@
 </section>
 
 
-<jsp:include page="footer.jsp">
+<jsp:include page="../footer.jsp">
   <jsp:param name="chart" value="${sp.linked eq true}"/>
 </jsp:include>

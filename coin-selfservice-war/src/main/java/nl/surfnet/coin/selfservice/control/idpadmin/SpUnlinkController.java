@@ -77,7 +77,7 @@ public class SpUnlinkController extends BaseController {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
     m.put("unlinkrequest", new UnlinkRequest());
-    return new ModelAndView("sp-unlinkrequest", m);
+    return new ModelAndView("idpadmin/sp-unlinkrequest", m);
   }
 
 
@@ -92,9 +92,9 @@ public class SpUnlinkController extends BaseController {
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("sp-unlinkrequest", m);
+      return new ModelAndView("idpadmin/sp-unlinkrequest", m);
     } else {
-      return new ModelAndView("sp-unlinkrequest-confirm", m);
+      return new ModelAndView("idpadmin/sp-unlinkrequest-confirm", m);
     }
   }
 
@@ -112,7 +112,7 @@ public class SpUnlinkController extends BaseController {
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("sp-linkrequest-confirm", m);
+      return new ModelAndView("idpadmin/sp-linkrequest-confirm", m);
     } else {
       final JiraTask task = new JiraTask.Builder()
           .body(getCurrentUser().getEmail() + ("\n\n" + unlinkrequest.getNotes()))
@@ -127,12 +127,12 @@ public class SpUnlinkController extends BaseController {
         actionsService.registerJiraIssueCreation(issueKey, task, getCurrentUser().getUid(), getCurrentUser().getDisplayName());
         m.put("issueKey", issueKey);
         sessionStatus.setComplete();
-        return new ModelAndView("sp-unlinkrequest-thanks", m);
+        return new ModelAndView("idpadmin/sp-unlinkrequest-thanks", m);
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view",
             e);
         m.put("jiraError", e.getMessage());
-        return new ModelAndView("sp-unlinkrequest-confirm", m);
+        return new ModelAndView("idpadmin/sp-unlinkrequest-confirm", m);
       }
     }
   }

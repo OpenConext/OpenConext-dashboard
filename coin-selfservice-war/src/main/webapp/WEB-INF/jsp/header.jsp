@@ -105,7 +105,7 @@
         <ul class="dropdown-menu">
           <c:forEach items="${idps}" var="idp">
             <li class="user-role-manager" data-roleId="${idp.id}">
-              <spring:url var="toggleLink" value="/idpadmin/linked-sps.shtml" htmlEscape="true">
+              <spring:url var="toggleLink" value="/idpadmin/all-sps.shtml" htmlEscape="true">
                 <spring:param name="idpId" value="${idp.id}"/>
               </spring:url>
               <a href="${toggleLink}">

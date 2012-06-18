@@ -1,4 +1,4 @@
-<%@ include file="include.jsp" %>
+<%@ include file="../include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -18,7 +18,7 @@
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
 <spring:message var="title" code="jsp.allsp.title"/>
 
-<jsp:include page="header.jsp">
+<jsp:include page="../header.jsp">
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
@@ -76,6 +76,6 @@
 </section>
 
 
-<jsp:include page="footer.jsp">
+<jsp:include page="../footer.jsp">
   <jsp:param name="datatables" value="true"/>
 </jsp:include>

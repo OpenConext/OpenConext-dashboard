@@ -48,7 +48,7 @@ public class SpListController extends BaseController {
     List<ServiceProvider> sps = providerService.getAllServiceProviders(selectedidp.getId());
     m.put("sps", sps);
     m.put("activeSection", "all-sps");
-    return new ModelAndView("sp-overview", m);
+    return new ModelAndView("idpadmin/sp-overview", m);
   }
 
 }

@@ -1,4 +1,4 @@
-<%@ include file="include.jsp" %>
+<%@ include file="../include.jsp" %>
 <%--
   ~ Copyright 2012 SURFnet bv, The Netherlands
   ~
@@ -23,7 +23,7 @@
   <c:otherwise><c:set var="spname" value="${sp.name}"/></c:otherwise>
 </c:choose>
 
-<jsp:include page="header.jsp">
+<jsp:include page="../header.jsp">
   <jsp:param name="activeSection" value="linked-sps"/>
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
@@ -36,7 +36,7 @@
     <div class="span12">
       <div class="content">
         <p>
-          <spring:message code="jsp.sp_linkrequest.thankstext" arguments="${issueKey}"/>
+          <spring:message code="jsp.sp_unlinkrequest.thankstext" arguments="${issueKey}"/>
         </p>
       </div>
     </div>
@@ -44,4 +44,4 @@
 </section>
 
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="../footer.jsp"/>

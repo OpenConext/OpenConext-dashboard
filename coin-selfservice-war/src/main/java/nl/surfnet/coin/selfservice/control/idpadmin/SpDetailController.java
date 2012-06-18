@@ -101,7 +101,7 @@ public class SpDetailController extends BaseController {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
-    return new ModelAndView("sp-detail", m);
+    return new ModelAndView("idpadmin/sp-detail", m);
   }
 
   /**
@@ -117,7 +117,7 @@ public class SpDetailController extends BaseController {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("question", new Question());
     m.put("sp", sp);
-    return new ModelAndView("sp-question", m);
+    return new ModelAndView("idpadmin/sp-question", m);
   }
 
   @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
@@ -130,7 +130,7 @@ public class SpDetailController extends BaseController {
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("sp-question", m);
+      return new ModelAndView("idpadmin/sp-question", m);
     } else {
       final JiraTask task = new JiraTask.Builder()
           .body(question.getSubject() + ("\n\n" + question.getBody()))
@@ -148,12 +148,12 @@ public class SpDetailController extends BaseController {
         notificationService.sendMail(issueKey, emailFrom, question.getSubject(), question.getBody());
 
         m.put("issueKey", issueKey);
-        return new ModelAndView("sp-question-thanks", m);
+        return new ModelAndView("idpadmin/sp-question-thanks", m);
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view",
             e);
         m.put("jiraError", e.getMessage());
-        return new ModelAndView("sp-question", m);
+        return new ModelAndView("idpadmin/sp-question", m);
       }
 
     }

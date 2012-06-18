@@ -56,7 +56,7 @@ public class ActionListController extends BaseController {
 
         model.put("activeSection", "actions");
 
-        return new ModelAndView("actions", model);
+        return new ModelAndView("idpadmin/actions", model);
     }
 
 }
