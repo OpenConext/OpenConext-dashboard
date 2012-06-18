@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
@@ -75,6 +76,11 @@ public class SAMLProvisioner implements Provisioner {
     coinUser.setDisplayName(getValueFromAttributeStatements(assertion, DISPLAY_NAME));
     coinUser.setEmail(getValueFromAttributeStatements(assertion, EMAIL));
     coinUser.setSchacHomeOrganization(getValueFromAttributeStatements(assertion, SCHAC_HOME));
+
+    coinUser.addAuthority(new CoinAuthority("ROLE_USER"));
+    // TODO base admin role on group membership
+    coinUser.addAuthority(new CoinAuthority("ROLE_ADMIN"));
+
     return coinUser;
   }
 

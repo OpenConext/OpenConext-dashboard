@@ -105,7 +105,7 @@
         <ul class="dropdown-menu">
           <c:forEach items="${idps}" var="idp">
             <li class="user-role-manager" data-roleId="${idp.id}">
-              <spring:url var="toggleLink" value="/linked-sps.shtml" htmlEscape="true">
+              <spring:url var="toggleLink" value="/idpadmin/linked-sps.shtml" htmlEscape="true">
                 <spring:param name="idpId" value="${idp.id}"/>
               </spring:url>
               <a href="${toggleLink}">
@@ -131,12 +131,12 @@
       <ul class="nav">
         <li <c:if test="${activeSection == 'home'}">class="active"
         </c:if>><a href="${homeUrl}"><spring:message code="jsp.home.title"/></a></li>
-        <spring:url value="/all-sps.shtml" var="allSpsUrl" htmlEscape="true"/>
+        <spring:url value="/idpadmin/all-sps.shtml" var="allSpsUrl" htmlEscape="true"/>
         <li <c:if test="${activeSection == 'all-sps'}">class="active"
         </c:if>><a href="${allSpsUrl}"><spring:message code="jsp.allsp.title"/></a></li>
 
         <li <c:if test="${activeSection == 'actions'}">class="active"
-        </c:if>><a href="<c:url value="/actions.shtml"/>"><spring:message code="jsp.actions.title"/></a>
+        </c:if>><a href="<c:url value="/idpadmin/actions.shtml"/>"><spring:message code="jsp.actions.title"/></a>
         </li>
       </ul>
     </div>

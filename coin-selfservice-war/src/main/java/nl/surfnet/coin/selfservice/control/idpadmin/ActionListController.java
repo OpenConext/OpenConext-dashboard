@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control;
+package nl.surfnet.coin.selfservice.control.idpadmin;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -29,12 +29,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 
 @Controller
+@RequestMapping(value = "/idpadmin/*")
 public class ActionListController extends BaseController {
 
     @Resource(name="jiraService")

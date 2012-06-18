@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control;
+package nl.surfnet.coin.selfservice.control.idpadmin;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +27,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 @Controller
+@RequestMapping(value = "/idpadmin/*")
 public class SpListController extends BaseController {
 
 

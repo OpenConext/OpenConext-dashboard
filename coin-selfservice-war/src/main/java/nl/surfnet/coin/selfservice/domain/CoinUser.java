@@ -35,19 +35,19 @@ public class CoinUser implements UserDetails{
   private List<IdentityProvider> institutionIdps = new ArrayList<IdentityProvider>();
   private String institutionId;
   private String email;
-
+  private List<CoinAuthority> grantedAuthorities = new ArrayList<CoinAuthority>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    GrantedAuthority ga = new GrantedAuthority() {
-      @Override
-      public String getAuthority() {
-        return "ROLE_USER";
-      }
-    };
-    List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-    grantedAuthorities.add(ga);
     return grantedAuthorities;
+  }
+
+  public void addAuthorities(List<CoinAuthority> grantedAuthorities) {
+    this.grantedAuthorities = grantedAuthorities;
+  }
+
+  public void addAuthority(CoinAuthority grantedAuthority) {
+    this.grantedAuthorities.add(grantedAuthority);
   }
 
   @Override

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control;
+package nl.surfnet.coin.selfservice.control.idpadmin;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,6 +38,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.Question;
+import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
@@ -52,7 +53,7 @@ import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonI
  * Controller for SP detail pages
  */
 @Controller
-@RequestMapping("/sp")
+@RequestMapping("/idpadmin/sp")
 @SessionAttributes(value = {"linkrequest", "unlinkrequest"})
 public class SpDetailController extends BaseController {
 

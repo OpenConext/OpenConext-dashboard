@@ -40,7 +40,7 @@
       <tbody>
       <c:forEach items="${sps}" var="sp">
         <c:if test="${not empty sp.id}">
-          <spring:url value="/sp/detail.shtml" var="detailUrl" htmlEscape="true">
+          <spring:url value="/idpadmin/sp/detail.shtml" var="detailUrl" htmlEscape="true">
             <spring:param name="spEntityId" value="${sp.id}" />
           </spring:url>
           <tr>

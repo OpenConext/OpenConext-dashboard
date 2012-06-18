@@ -60,21 +60,21 @@
         <jsp:include page="arp.jsp" />
 
         <div>
-          <a class="btn btn-primary" href="<c:url value="/sp/question.shtml">
+          <a class="btn btn-primary" href="<c:url value="/idpadmin/sp/question.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
              title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
           </a>
           <c:choose>
             <c:when test="${not sp.linked}">
-              <a class="btn btn-primary" href="<c:url value="/sp/linkrequest.shtml">
+              <a class="btn btn-primary" href="<c:url value="/idpadmin/sp/linkrequest.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
               </a>
             </c:when>
             <c:when test="${sp.linked}">
-              <a class="btn btn-primary" href="<c:url value="/sp/unlinkrequest.shtml">
+              <a class="btn btn-primary" href="<c:url value="/idpadmin/sp/unlinkrequest.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message

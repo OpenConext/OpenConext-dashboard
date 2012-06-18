@@ -20,7 +20,7 @@
   <script>
     $(function () {
       $.ajax({
-        <spring:url value="/loginsperspperday.json" htmlEscape="true" var="jsonUrl">
+        <spring:url value="/idpadmin/loginsperspperday.json" htmlEscape="true" var="jsonUrl">
           <spring:param name="spentityid" value="${sp.id}"/>
         </spring:url>
         url:'${jsonUrl}',

@@ -52,7 +52,7 @@
             <div class="actions">
               <button type="submit" class="btn btn-primary"><spring:message
                   code="jsp.sp_linkrequestconfirm.buttonsubmit"/></button>
-              <a href="<c:url value="/sp/detail.shtml">
+              <a href="<c:url value="/idpadmin/sp/detail.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"><spring:message code="jsp.sp_linkrequestconfirm.buttoncancel"/></a>
             </div>

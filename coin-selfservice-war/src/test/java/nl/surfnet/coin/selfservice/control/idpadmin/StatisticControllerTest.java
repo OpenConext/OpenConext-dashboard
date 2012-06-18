@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control;
+package nl.surfnet.coin.selfservice.control.idpadmin;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.surfnet.coin.selfservice.control.idpadmin.StatisticController;
 import nl.surfnet.coin.selfservice.dao.impl.MockStatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -26,7 +27,7 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import static junit.framework.Assert.assertFalse;
 
 /**
-Test class for {@link StatisticController}
+Test class for {@link nl.surfnet.coin.selfservice.control.idpadmin.StatisticController}
  */
 public class StatisticControllerTest {
 
