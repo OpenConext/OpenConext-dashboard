@@ -34,35 +34,36 @@
         <th><spring:message code="jsp.sp_overview.name"/></th>
         <th><spring:message code="jsp.sp_overview.description"/></th>
         <%--<th></th>--%>
-        <th class="center" data-filtertype="select"><spring:message code="jsp.sp_overview.status"/></th>
+        <th class="center"></th>
       </tr>
       </thead>
       <tbody>
       <c:forEach items="${sps}" var="sp">
         <c:if test="${not empty sp.id}">
-          <spring:url value="/idpadmin/sp/detail.shtml" var="detailUrl" htmlEscape="true">
+          <spring:url value="/user/service/detail.shtml" var="detailUrl" htmlEscape="true">
             <spring:param name="spEntityId" value="${sp.id}" />
           </spring:url>
           <tr>
             <td><a href="${detailUrl}"><c:out default="${sp.id}" value="${sp.name}"/></a>
             </td>
             <td class="text-overflow"><c:out value="${fn:substring(sp.description, 0, 40)}"/></td>
+            <%-- TODO wait for redesign with the logo --%>
             <%--<td>
               <c:if test="${not empty sp.logoUrl}">
                 <img src="${sp.logoUrl}" alt="<c:out value="${sp.name}"/>"/>
               </c:if>
             </td>--%>
             <td class="center">
-              <a href="${detailUrl}" class="btn btn-primary btn-small cw75">
-            <c:choose>
-              <c:when test="${sp.linked}">
-              <i class="icon-ok"></i> <spring:message code="jsp.sp_overview.action-linked" />
-              </c:when>
-              <c:otherwise>
-                <i class="icon-plus"></i> <spring:message code="jsp.sp_overview.action-dolink" />
-              </c:otherwise>
-            </c:choose>
+              <%-- TODO We don't have a proper field for the actual Service URL --%>
+              <%--<c:if test="${not empty sp.homeUrl}">
+                <a href="<c:out value="${sp.homeUrl}"/>" class="btn btn-primary btn-small cw75 mb10">
+                  <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.website"/>
                 </a>
+                <br />
+              </c:if>--%>
+              <a href="${detailUrl}" class="btn btn-info btn-small cw75">
+                <i class="icon-info-sign"></i> <spring:message code="jsp.sp_overview.detail"/>
+              </a>
             </td>
           </tr>
         </c:if>
@@ -75,25 +76,7 @@
   </div>
 </section>
 
-<spring:message code="jsp.sp_overview.action-linked" var="linked"/>
-<spring:message code="jsp.sp_overview.action-dolink" var="dolink"/>
-
-<c:set var="datatables_columnFilter">
-  {
-        sPlaceHolder:"head:after",
-        aoColumns:[
-          null,
-          null, { type:"select", bRegex:true,
-            values:[
-              { value:'${linked}', label:'${linked}'},
-              { value:'${dolink}', label:'${dolink}'}
-            ]
-          }
-        ]
-      }
-</c:set>
 
 <jsp:include page="../footer.jsp">
   <jsp:param name="datatables" value="true"/>
-  <jsp:param name="columnFilter" value="${datatables_columnFilter}"/>
 </jsp:include>

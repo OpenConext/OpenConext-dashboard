@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,28 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
       }
     }
     return filteredList;
+  }
+
+  /**
+   * It's "cheaper" to get all SPs from ServiceRegistry and iterate over them than to retrieve the list of
+   * all linked entity id's and then get their individual metadata.
+   *
+   * {@inheritDoc}
+   */
+  @Override
+  public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
+    List<ServiceProvider> linked = new ArrayList<ServiceProvider>();
+    final List<ServiceProvider> allServiceProviders = getAllServiceProviders(idpId);
+    if (CollectionUtils.isEmpty(allServiceProviders)) {
+      return linked;
+    }
+
+    for (ServiceProvider sp : allServiceProviders) {
+      if (sp.isLinked()) {
+        linked.add(sp);
+      }
+    }
+    return linked;
   }
 
   @Cacheable(value = {"sps-janus"})

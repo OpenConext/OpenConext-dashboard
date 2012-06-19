@@ -35,6 +35,14 @@ public interface ServiceProviderService {
   List<ServiceProvider> getAllServiceProviders(String idpId);
 
   /**
+   * Get a list of all Service Providers that are linked to the given idpIdp
+   *
+   * @param idpId the entity id of the IdentityProvider
+   * @return list of {@link ServiceProvider}'s
+   */
+  List<ServiceProvider> getLinkedServiceProviders(String idpId);
+
+  /**
    * Get a {@link ServiceProvider} by its entity ID.
    *
    * @param spEntityId the entity id of the ServiceProvider

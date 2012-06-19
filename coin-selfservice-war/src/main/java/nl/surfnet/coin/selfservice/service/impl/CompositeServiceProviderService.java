@@ -46,6 +46,19 @@ public class CompositeServiceProviderService implements ServiceProviderService {
     return ret;
   }
 
+  @Override
+  public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
+    List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
+    for (ServiceProviderService p : serviceProviderServices) {
+      final List<ServiceProvider> providers = p.getLinkedServiceProviders(idpId);
+      if (CollectionUtils.isNotEmpty(providers)) {
+        ret.addAll(providers);
+      }
+    }
+    Collections.sort(ret, Provider.firstStatusThenName());
+    return ret;
+  }
+
   /**
    * Returns the first SP found or null if none found.
    *

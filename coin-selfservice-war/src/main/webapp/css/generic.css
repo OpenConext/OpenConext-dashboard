@@ -141,3 +141,7 @@ section h2 {
 .actions .btn + a {
     margin-left: 15px;
 }
+
+.mb10 {
+  margin-bottom: 10px;
+}

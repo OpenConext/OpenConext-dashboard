@@ -128,6 +128,22 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
+  public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
+    List<ServiceProvider> linked = new ArrayList<ServiceProvider>();
+    final List<ServiceProvider> allServiceProviders = getAllServiceProviders(idpId);
+    if (CollectionUtils.isEmpty(allServiceProviders)) {
+      return linked;
+    }
+
+    for (ServiceProvider sp : allServiceProviders) {
+      if (sp.isLinked()) {
+        linked.add(sp);
+      }
+    }
+    return linked;
+  }
+
+  @Override
   @Cacheable(value = {"sps-federation"})
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     if (federatieConfig.getSps() == null) {
