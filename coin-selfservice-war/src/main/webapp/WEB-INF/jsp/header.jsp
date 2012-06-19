@@ -88,31 +88,64 @@
       <spring:message code="jsp.general.logout"/> <i class="icon-signout"></i></a>
 
     <%-- b:dropdown --%>
+    <sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
 
     <div class="dropdown">
-
-      <div class="dropdown-toggle user-role-manager" data-toggle="dropdown">
+      <c:set var="userclass">
+        <c:choose>
+          <c:when test="${currentrole eq 'ROLE_USER'}">user-role-user</c:when>
+          <c:when test="${currentrole eq 'ROLE_ADMIN'}">user-role-manager</c:when>
+        </c:choose>
+      </c:set>
+      <div class="dropdown-toggle ${userclass}" data-toggle="dropdown">
         <div class="user">
           <c:out value="${selectedidp.name}"/>
-          <c:if test="${fn:length(idps) gt 1}">
+          <c:if test="${isAdmin eq true}">
             <b class="caret"></b>
           </c:if>
         </div>
       </div>
 
       <%--@elvariable id="idps" type="java.util.List<nl.surfnet.coin.selfservice.domain.IdentityProvider>"--%>
-      <c:if test="${fn:length(idps) gt 1}">
+      <c:if test="${isAdmin eq true}">
+        <sec:authentication property="principal.idp" var="ownIdp" scope="request"/>
         <ul class="dropdown-menu">
           <c:forEach items="${idps}" var="idp">
-            <li class="user-role-manager" data-roleId="${idp.id}">
-              <spring:url var="toggleLink" value="/idpadmin/all-sps.shtml" htmlEscape="true">
-                <spring:param name="idpId" value="${idp.id}"/>
-              </spring:url>
-              <a href="${toggleLink}">
+            <c:choose>
+              <c:when test="${currentrole eq 'ROLE_ADMIN' and idp.id eq ownIdp}">
+                <c:set var="userclass">user-role-user</c:set>
+                <c:set var="newrole">ROLE_USER</c:set>
+              </c:when>
+              <c:otherwise>
+                <c:set var="userclass">user-role-manager</c:set>
+                <c:set var="newrole">ROLE_ADMIN</c:set>
+              </c:otherwise>
+            </c:choose>
+            <c:if test="${newrole eq 'ROLE_USER' and selectedidp.id ne ownIdp}">
+              <%-- Corner case: admin can control multiple IdPs of his institution and controls currently a different
+                  IdP than his home organisation. --%>
+              <li class="user-role-manager" data-roleId="${idp.id}">
+                <spring:url var="toggleLink" value="/home.shtml" htmlEscape="true">
+                  <spring:param name="idpId" value="${idp.id}"/>
+                  <spring:param name="role" value="ROLE_ADMIN"/>
+                </spring:url>
                 <div class="user">
-                  <c:out value="${idp.name}"/>
+                  <a href="${toggleLink}">
+                    <c:out value="${idp.name}"/>
+                  </a>
                 </div>
-              </a>
+              </li>
+            </c:if>
+            <li class="${userclass}" data-roleId="${idp.id}">
+              <spring:url var="toggleLink" value="/home.shtml" htmlEscape="true">
+                <spring:param name="idpId" value="${idp.id}"/>
+                <spring:param name="role" value="${newrole}"/>
+              </spring:url>
+              <div class="user">
+                <a href="${toggleLink}">
+                  <c:out value="${idp.name}"/>
+                </a>
+              </div>
             </li>
           </c:forEach>
         </ul>
@@ -128,17 +161,17 @@
 <nav class="navbar">
   <div class="navbar-inner">
     <div class="container">
-      <ul class="nav">
-        <li <c:if test="${activeSection == 'home'}">class="active"
-        </c:if>><a href="${homeUrl}"><spring:message code="jsp.home.title"/></a></li>
-        <spring:url value="/idpadmin/all-sps.shtml" var="allSpsUrl" htmlEscape="true"/>
-        <li <c:if test="${activeSection == 'all-sps'}">class="active"
-        </c:if>><a href="${allSpsUrl}"><spring:message code="jsp.allsp.title"/></a></li>
-
-        <li <c:if test="${activeSection == 'actions'}">class="active"
-        </c:if>><a href="<c:url value="/idpadmin/actions.shtml"/>"><spring:message code="jsp.actions.title"/></a>
-        </li>
-      </ul>
+      <%--@elvariable id="menu" type="nl.surfnet.coin.selfservice.domain.Menu"--%>
+      <c:if test="${not empty menu}">
+        <ul class="nav">
+          <c:forEach items="${menu.menuItems}" var="menuItem">
+            <li<c:if test="${menuItem.selected}"> class="active"</c:if>>
+              <spring:url value="${menuItem.url}" htmlEscape="true" var="url"/>
+              <a href="${url}"><spring:message code="${menuItem.label}"/></a>
+            </li>
+          </c:forEach>
+        </ul>
+      </c:if>
     </div>
   </div>
 </nav>

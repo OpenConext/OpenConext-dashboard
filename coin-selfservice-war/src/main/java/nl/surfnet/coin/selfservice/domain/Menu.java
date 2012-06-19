@@ -14,29 +14,38 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control;
+package nl.surfnet.coin.selfservice.domain;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.web.servlet.ModelAndView;
-
-import static junit.framework.Assert.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Test for {@link HomeController}
+ * Menu
  */
-public class HomeControllerTest {
+public class Menu {
+  private final String id;
+  private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-  private HomeController controller;
-
-  @Before
-  public void setUp() throws Exception {
-    controller = new HomeController();
+  public Menu(String id) {
+    this.id = id;
   }
 
-  @Test
-  public void testStart() throws Exception {
-    final ModelAndView view = controller.home("ROLE_USER");
-    assertEquals("home", view.getViewName());
+  /**
+   * @return identifier of the menu
+   */
+  public String getId() {
+    return id;
+  }
+
+  public List<MenuItem> getMenuItems() {
+    return menuItems;
+  }
+
+  public void setMenuItems(List<MenuItem> menuItems) {
+    this.menuItems = menuItems;
+  }
+
+  public void addMenuItem(MenuItem menuItem) {
+    this.menuItems.add(menuItem);
   }
 }

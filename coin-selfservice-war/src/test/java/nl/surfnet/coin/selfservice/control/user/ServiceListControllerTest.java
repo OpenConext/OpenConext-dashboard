@@ -30,8 +30,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -72,7 +74,8 @@ public class ServiceListControllerTest {
     assertEquals("user/service-overview", mav.getViewName());
     final ModelMap modelMap = mav.getModelMap();
     assertTrue(modelMap.containsKey("sps"));
-    assertEquals("linked-services", modelMap.get("activeSection"));
+    final Menu menu = (Menu) modelMap.get("menu");
+    assertEquals(BaseController.MenuType.USER.toString(), menu.getId());
   }
 
 

@@ -101,6 +101,7 @@ public class SpDetailController extends BaseController {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
+    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
     return new ModelAndView("idpadmin/sp-detail", m);
   }
 
@@ -117,6 +118,7 @@ public class SpDetailController extends BaseController {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("question", new Question());
     m.put("sp", sp);
+    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
     return new ModelAndView("idpadmin/sp-question", m);
   }
 
@@ -127,6 +129,7 @@ public class SpDetailController extends BaseController {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
+    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
@@ -150,8 +153,7 @@ public class SpDetailController extends BaseController {
         m.put("issueKey", issueKey);
         return new ModelAndView("idpadmin/sp-question-thanks", m);
       } catch (IOException e) {
-        LOG.debug("Error while trying to create Jira issue. Will return to form view",
-            e);
+        LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
         m.put("jiraError", e.getMessage());
         return new ModelAndView("idpadmin/sp-question", m);
       }

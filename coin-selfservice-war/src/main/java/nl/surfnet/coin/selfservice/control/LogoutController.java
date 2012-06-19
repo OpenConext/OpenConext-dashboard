@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -30,7 +31,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class LogoutController {
 
   @RequestMapping("/logout.shtml")
-  public ModelAndView logout() {
+  public ModelAndView logout(SessionStatus status) {
+    status.setComplete();
     Map<String, Object> m = new HashMap<String, Object>();
     return new ModelAndView("logout", m);
   }

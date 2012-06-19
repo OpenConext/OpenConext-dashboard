@@ -39,24 +39,24 @@ import nl.surfnet.coin.selfservice.service.JiraService;
 @RequestMapping(value = "/idpadmin/*")
 public class ActionListController extends BaseController {
 
-    @Resource(name="jiraService")
-    JiraService jiraService;
+  @Resource(name = "jiraService")
+  private JiraService jiraService;
 
-    @Resource(name="actionsService")
-    private ActionsService actionsService;
+  @Resource(name = "actionsService")
+  private ActionsService actionsService;
 
-    @RequestMapping(value="actions")
-    public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) throws IOException {
-        Map<String, Object> model = new HashMap<String, Object>();
+  @RequestMapping(value = "actions")
+  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp)
+      throws IOException {
+    Map<String, Object> model = new HashMap<String, Object>();
 
-        actionsService.synchronizeWithJira(selectedidp.getId());
-        final List<Action> actions = actionsService.getActions(selectedidp.getId());
-        Collections.sort(actions, Collections.reverseOrder(Action.sortByDateAsc()));
-        model.put("actionList", actions);
+    actionsService.synchronizeWithJira(selectedidp.getId());
+    final List<Action> actions = actionsService.getActions(selectedidp.getId());
+    Collections.sort(actions, Collections.reverseOrder(Action.sortByDateAsc()));
+    model.put("actionList", actions);
+    model.put("menu", buildMenu(MenuType.IDPADMIN, "actions"));
 
-        model.put("activeSection", "actions");
-
-        return new ModelAndView("idpadmin/actions", model);
-    }
+    return new ModelAndView("idpadmin/actions", model);
+  }
 
 }

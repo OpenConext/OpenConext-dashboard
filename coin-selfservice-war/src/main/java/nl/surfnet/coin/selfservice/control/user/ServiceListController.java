@@ -47,7 +47,7 @@ public class ServiceListController extends BaseController {
     Map<String, Object> m = new HashMap<String, Object>();
     final List<ServiceProvider> providers = providerService.getLinkedServiceProviders(selectedidp.getId());
     m.put("sps", providers);
-    m.put("activeSection", "linked-services");
+    m.put("menu", buildMenu(MenuType.USER, "linked-services"));
     return new ModelAndView("user/service-overview", m);
   }
 }

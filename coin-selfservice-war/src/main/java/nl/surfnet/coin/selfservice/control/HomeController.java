@@ -20,27 +20,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import nl.surfnet.coin.selfservice.domain.Menu;
 
 @Controller
 public class HomeController extends BaseController {
 
   @RequestMapping("/home.shtml")
-  public ModelAndView home() {
+  public ModelAndView home(@ModelAttribute("currentrole") String currentRole) {
     Map<String, Object> model = new HashMap<String, Object>();
-    model.put("activeSection", "home");
+
+    Menu menu;
+    if ("ROLE_ADMIN".equals(currentRole)) {
+      menu = buildMenu(MenuType.IDPADMIN, "home");
+    } else {
+      menu = buildMenu(MenuType.USER, "home");
+    }
+    model.put("menu", menu);
     return new ModelAndView("home", model);
   }
 
   @RequestMapping("/styleguide.shtml")
-  public String styleguide() {
-    return "styleguide";
+  public ModelAndView styleguide() {
+    Map<String, Object> model = new HashMap<String, Object>();
+    model.put("menu", buildMenu(MenuType.USER, "styleguide"));
+    return new ModelAndView("styleguide", model);
   }
 
   @RequestMapping("/form.shtml")
-  public String styleguideForm() {
-    return "styleguide-form";
+  public ModelAndView styleguideForm() {
+    Map<String, Object> model = new HashMap<String, Object>();
+    model.put("menu", buildMenu(MenuType.USER, "styleguide"));
+    return new ModelAndView("styleguide-form", model);
   }
 
 }
