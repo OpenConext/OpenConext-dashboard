@@ -18,6 +18,8 @@ package nl.surfnet.coin.selfservice.control;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.support.SimpleSessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import static junit.framework.Assert.assertEquals;
@@ -36,7 +38,8 @@ public class LogoutControllerTest {
 
   @Test
   public void testLogout() throws Exception {
-    final ModelAndView modelAndView = controller.logout();
+    SessionStatus status = new SimpleSessionStatus();
+    final ModelAndView modelAndView = controller.logout(status);
     assertEquals("logout", modelAndView.getViewName());
     assertTrue(modelAndView.getModelMap().isEmpty());
   }
