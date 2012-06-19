@@ -40,6 +40,7 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 public class ServiceRegistryProviderService implements ServiceProviderService {
 
   private static final Logger log = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
+  private static final String IN_PRODUCTION = "prodaccepted";
 
 
   @Resource(name = "janusClient")
@@ -85,9 +86,8 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     try {
       final List<EntityMetadata> sps = janusClient.getSpList();
       for (EntityMetadata metadata : sps) {
-        final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
-        if (serviceProvider != null) {
-          spList.add(serviceProvider);
+        if (StringUtils.equals(metadata.getWorkflowState(), IN_PRODUCTION)) {
+          spList.add(buildServiceProviderByMetadata(metadata));
         }
       }
     } catch (RestClientException e) {
@@ -101,17 +101,20 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     try {
       EntityMetadata metadata= janusClient.getMetadataByEntityId(spEntityId);
-      final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
+      if (StringUtils.equals(metadata.getWorkflowState(), IN_PRODUCTION)) {
+        final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
 
-      final ARP arp = getArp(spEntityId);
-      serviceProvider.addArp(arp);
+        final ARP arp = getArp(spEntityId);
+        serviceProvider.addArp(arp);
 
-      if (idpEntityId != null) {
-        final boolean linked = janusClient.isConnectionAllowed(spEntityId, idpEntityId);
-        serviceProvider.setLinked(linked);
+        if (idpEntityId != null) {
+          final boolean linked = janusClient.isConnectionAllowed(spEntityId, idpEntityId);
+          serviceProvider.setLinked(linked);
+        }
+        return serviceProvider;
+      } else {
+        return null;
       }
-
-      return serviceProvider;
     } catch (RestClientException e) {
       log.warn("Could not retrieve metadata from Janus client", e.getMessage());
     }

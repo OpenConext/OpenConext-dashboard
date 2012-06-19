@@ -55,6 +55,7 @@ public class ServiceRegistryProviderServiceTest {
     List<EntityMetadata> ems = new ArrayList<EntityMetadata>();
     final EntityMetadata e = new EntityMetadata();
     e.setAppEntityId("entityid");
+    e.setWorkflowState("prodaccepted");
     ems.add(e);
     when(janus.getMetadataByEntityId("entityid")).thenReturn(e);
     when(janus.getAllowedSps(anyString())).thenReturn(Arrays.asList("entityid"));
@@ -68,22 +69,26 @@ public class ServiceRegistryProviderServiceTest {
     List<EntityMetadata> ems = new ArrayList<EntityMetadata>();
 
     final EntityMetadata linkedEntity = new EntityMetadata();
+    linkedEntity.setWorkflowState("prodaccepted");
     linkedEntity.setAppEntityId("linkedEntity-idpVisibleOnly");
     linkedEntity.setIdpVisibleOnly(true);
     ems.add(linkedEntity);
 
     final EntityMetadata linkedEntity2 = new EntityMetadata();
+    linkedEntity2.setWorkflowState("prodaccepted");
     linkedEntity2.setAppEntityId("linkedEntity-not-idpVisibleOnly");
     linkedEntity2.setIdpVisibleOnly(false);
     ems.add(linkedEntity2);
 
     final EntityMetadata entity = new EntityMetadata();
+    entity.setWorkflowState("prodaccepted");
     entity.setAppEntityId("entity-idpVisibleOnly");
     entity.setIdpVisibleOnly(true);
     ems.add(entity);
 
 
     final EntityMetadata entity2 = new EntityMetadata();
+    entity2.setWorkflowState("prodaccepted");
     entity2.setAppEntityId("entity-not-idpVisibleOnly");
     entity2.setIdpVisibleOnly(false);
     ems.add(entity2);
@@ -100,5 +105,27 @@ public class ServiceRegistryProviderServiceTest {
 
     final List<ServiceProvider> filteredList = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
     assertThat(filteredList.size(), is(3));
+  }
+
+  /**
+   * Let getSpList() return a few sps, one of which is not 'in production'. The list returned by
+   * getAllServiceProviders() should not include this sp.
+   */
+  @Test
+  public void testFilterWorkflowstate() {
+
+    List<EntityMetadata> ems = new ArrayList<EntityMetadata>();
+    EntityMetadata e = new EntityMetadata();
+    e.setWorkflowState("prodaccepted");
+    e.setAppEntityId("e1");
+    ems.add(e);
+
+    e = new EntityMetadata();
+    e.setWorkflowState("notprodaccepted");
+    e.setAppEntityId("e2");
+    ems.add(e);
+    when(janus.getSpList()).thenReturn(ems);
+    final List<ServiceProvider> sps = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
+    assertThat("nr of sps that have workflow state 'prodaccepted'", sps.size(), is(1));
   }
 }
