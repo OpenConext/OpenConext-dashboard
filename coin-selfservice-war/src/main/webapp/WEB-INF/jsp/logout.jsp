@@ -18,7 +18,6 @@
 <spring:message code="jsp.logout.title" var="title"/>
 
 <jsp:include page="header.jsp">
-  <jsp:param name="activeSection" value="linked-sps"/>
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 

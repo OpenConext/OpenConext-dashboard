@@ -16,7 +16,6 @@
   --%>
 <spring:message var="title" code="jsp.home.title"/>
 <jsp:include page="header.jsp">
-  <jsp:param name="activeSection" value="home"/>
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 <section>

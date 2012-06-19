@@ -23,7 +23,6 @@
 </c:choose>
 
 <jsp:include page="../header.jsp">
-  <jsp:param name="activeSection" value="linked-sps"/>
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
 

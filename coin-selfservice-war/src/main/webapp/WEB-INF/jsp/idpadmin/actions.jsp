@@ -17,7 +17,6 @@
 <jsp:useBean id="actionList" scope="request" type="java.util.List"/>
 <spring:message var="title" code="jsp.home.title"/>
 <jsp:include page="../header.jsp">
-  <jsp:param name="activeSection" value="actions"/>
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 <section>

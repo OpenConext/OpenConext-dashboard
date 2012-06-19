@@ -17,7 +17,6 @@
 
 
 <jsp:include page="header.jsp">
-  <jsp:param name="activeSection" value="styleguide" />
   <jsp:param name="title" value="Style guide"/>
 </jsp:include>
 <div id="alerts">
