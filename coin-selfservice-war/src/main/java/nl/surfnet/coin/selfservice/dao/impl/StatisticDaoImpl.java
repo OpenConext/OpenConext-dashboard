@@ -54,7 +54,10 @@ public class StatisticDaoImpl implements StatisticDao {
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
     List<StatResult> statResults;
-    Object[] args = spEntityId == null ? new Object[]{idpEntityId} : new Object[]{idpEntityId, spEntityId};
+    // because we also want to show statistics for the IdP with id SURFnet%20BV
+    // URLEncoder#encode replaces a space with +, but in the database we have %20
+    String encodedIdp = idpEntityId.replaceAll(" ", "%20");
+    Object[] args = spEntityId == null ? new Object[]{encodedIdp} : new Object[]{encodedIdp, spEntityId};
 
     try {
       final StringBuilder sql = new StringBuilder("select count(*), spentityid, date(loginstamp) as logindate ");

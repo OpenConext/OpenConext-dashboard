@@ -122,6 +122,4 @@
 </section>
 
 
-<jsp:include page="../footer.jsp">
-  <jsp:param name="chart" value="${sp.linked eq true}"/>
-</jsp:include>
+<jsp:include page="../footer.jsp"/>
