@@ -24,3 +24,6 @@ The following properties were added. You can find their values in the property f
     # Amount of miliseconds between reloading the SURFfederatie config file (900000 = 15 minutes)
     federationconfig.reload.interval=
 
+### Remove file
+
+Delete file `/opt/tomcat/conf/classpath_properties/fedcfg.xml`
