@@ -28,19 +28,20 @@
   <context:component-scan base-package="nl.surfnet.coin.selfservice"/>
   <cache:annotation-driven key-generator="methodNameAwareCacheKeyGenerator" />
 
-  <bean id="selfserviceDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+  <bean id="selfserviceDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
     <property name="driverClass" value="${coin-selfservice.jdbc.driver}" />
     <property name="jdbcUrl" value="${coin-selfservice.jdbc.url}" />
-    <property name="user" value="${coin-selfservice.jdbc.user}" />
+    <property name="username" value="${coin-selfservice.jdbc.user}" />
     <property name="password" value="${coin-selfservice.jdbc.password}" />
-    <property name="initialPoolSize" value="1" />
-    <property name="maxPoolSize" value="20" />
-    <property name="minPoolSize" value="1" />
-    <property name="acquireIncrement" value="2" />
+    <property name="idleConnectionTestPeriodInSeconds" value="${coin-selfservice.database.idleConnectionTestPeriod}"/>
+    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}"/>
+    <property name="maxConnectionsPerPartition" value="20"/>
+    <property name="minConnectionsPerPartition" value="2"/>
+    <property name="partitionCount" value="3"/>
+    <property name="acquireIncrement" value="2"/>
+    <property name="statementsCacheSize" value="100"/>
+    <property name="releaseHelperThreads" value="3"/>
     <property name="acquireRetryAttempts" value="15" />
-    <property name="idleConnectionTestPeriod"
-              value="${coin-selfservice.database.idleConnectionTestPeriod}" />
-    <property name="maxIdleTime" value="${coin-selfservice.database.maxIdleTime}" />
   </bean>
 
   <bean id="ebDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
@@ -48,14 +49,15 @@
     <property name="jdbcUrl" value="${coin-eb-db-url}"/>
     <property name="username" value="${coin-eb-db-username}"/>
     <property name="password" value="${coin-eb-db-password}"/>
-    <property name="idleConnectionTestPeriodInMinutes" value="5"/>
-    <property name="idleMaxAgeInMinutes" value="5"/>
+    <property name="idleConnectionTestPeriodInSeconds" value="${coin-selfservice.database.idleConnectionTestPeriod}"/>
+    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}"/>
     <property name="maxConnectionsPerPartition" value="20"/>
     <property name="minConnectionsPerPartition" value="2"/>
     <property name="partitionCount" value="3"/>
     <property name="acquireIncrement" value="2"/>
     <property name="statementsCacheSize" value="100"/>
     <property name="releaseHelperThreads" value="3"/>
+    <property name="acquireRetryAttempts" value="15" />
   </bean>
 
   <bean id="ebJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
