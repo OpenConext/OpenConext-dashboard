@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -46,6 +48,9 @@ public class ServiceDetailController extends BaseController {
 
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
+
+  @Autowired
+  private ConsentDao consentDao;
 
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
@@ -78,6 +83,10 @@ public class ServiceDetailController extends BaseController {
       m.put("sp", sp);
     }
     m.put("menu", buildMenu(MenuType.USER, "linked-services"));
+
+    final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(getCurrentUser().getUid(), spEntityId);
+    m.put("mayHaveGivenConsent", mayHaveGivenConsent);
+
     return new ModelAndView("user/service-detail", m);
   }
 }

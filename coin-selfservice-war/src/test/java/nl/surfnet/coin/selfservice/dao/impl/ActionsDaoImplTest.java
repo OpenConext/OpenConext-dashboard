@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.dao;
+package nl.surfnet.coin.selfservice.dao.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.surfnet.coin.db.AbstractInMemoryDatabaseTest;
-import nl.surfnet.coin.selfservice.dao.impl.ActionsDaoImpl;
 import nl.surfnet.coin.selfservice.domain.Action;
 
 import static org.hamcrest.core.Is.is;

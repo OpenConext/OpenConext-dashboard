@@ -1,3 +1,4 @@
+<%--@elvariable id="mayHaveGivenConsent" type="java.lang.Boolean"--%>
 <%@ include file="../include.jsp" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%--
@@ -57,6 +58,10 @@
           </p>
         </c:if>
         <h3><spring:message code="jsp.service_detail.arp_header"/></h3>
+        <c:if test="${mayHaveGivenConsent ne true}">
+          <p><spring:message code="jsp.service_detail.arp_firsttime"/></p>
+        </c:if>
+
         <sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
         <sec:authentication property="principal.attributeMap" scope="request" var="attributeMap"/>
         <selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
