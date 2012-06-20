@@ -17,7 +17,9 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.util.List;
+import java.util.Locale;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.LocaleResolver;
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -43,9 +46,17 @@ public abstract class BaseController {
   @Autowired
   private IdentityProviderService idpService;
 
+  @Resource(name = "localeResolver")
+  protected LocaleResolver localeResolver;
+
   @ModelAttribute(value = "idps")
   public List<IdentityProvider> getMyInstitutionIdps() {
     return getCurrentUser().getInstitutionIdps();
+  }
+
+  @ModelAttribute(value = "locale")
+  public Locale getLocale(HttpServletRequest request) {
+    return localeResolver.resolveLocale(request);
   }
 
   /**

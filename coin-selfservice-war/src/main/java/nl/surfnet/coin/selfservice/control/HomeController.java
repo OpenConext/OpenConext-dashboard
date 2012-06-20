@@ -19,15 +19,22 @@ package nl.surfnet.coin.selfservice.control;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.domain.Menu;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 @Controller
 public class HomeController extends BaseController {
+
+  @Resource(name = "personAttributeLabelService")
+  private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
   @RequestMapping("/home.shtml")
   public ModelAndView home(@ModelAttribute("currentrole") String currentRole) {
@@ -40,6 +47,10 @@ public class HomeController extends BaseController {
       menu = buildMenu(MenuType.USER, "home");
     }
     model.put("menu", menu);
+
+    final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
+    model.put("personAttributeLabels", attributeLabelMap);
+
     return new ModelAndView("home", model);
   }
 

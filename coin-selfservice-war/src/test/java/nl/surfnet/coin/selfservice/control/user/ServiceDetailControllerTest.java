@@ -27,10 +27,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -53,6 +55,12 @@ public class ServiceDetailControllerTest {
   @Mock
   private ServiceProviderService providerService;
 
+  @Mock
+  private ConsentDao consentDao;
+
+  @Mock
+  private PersonAttributeLabelServiceJsonImpl labelService;
+
   @Before
   public void setUp() throws Exception {
     controller = new ServiceDetailController();
@@ -65,6 +73,7 @@ public class ServiceDetailControllerTest {
     ServiceProvider sp = new ServiceProvider("mockSP", "Mock Service");
     sp.setLinked(true);
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
+    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
     final ModelAndView modelAndView = controller.serviceDetail("mockSP", idp);
@@ -77,6 +86,7 @@ public class ServiceDetailControllerTest {
     ServiceProvider sp = new ServiceProvider("mockSP", "Mock Service");
     sp.setLinked(false);
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
+    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
     final ModelAndView modelAndView = controller.serviceDetail("mockSP", idp);

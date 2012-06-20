@@ -16,27 +16,49 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for {@link HomeController}
  */
 public class HomeControllerTest {
 
+  @InjectMocks
   private HomeController controller;
+
+  @Mock
+  private PersonAttributeLabelServiceJsonImpl labelService;
 
   @Before
   public void setUp() throws Exception {
     controller = new HomeController();
+    MockitoAnnotations.initMocks(this);
+    when(labelService.getAttributeLabelMap()).thenReturn(new HashMap<String, PersonAttributeLabel>());
   }
 
   @Test
   public void testStart() throws Exception {
-    final ModelAndView view = controller.home("ROLE_USER");
-    assertEquals("home", view.getViewName());
+
+    final ModelAndView mav = controller.home("ROLE_USER");
+    assertEquals("home", mav.getViewName());
+
+    final ModelMap modelMap = mav.getModelMap();
+    assertTrue(modelMap.containsKey("menu"));
+    assertTrue(modelMap.containsKey("personAttributeLabels"));
   }
 }

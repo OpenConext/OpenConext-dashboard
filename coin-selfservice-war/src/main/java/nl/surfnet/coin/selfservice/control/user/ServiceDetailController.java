@@ -17,18 +17,15 @@
 package nl.surfnet.coin.selfservice.control.user;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -55,19 +52,6 @@ public class ServiceDetailController extends BaseController {
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
-  @Resource(name = "localeResolver")
-  private LocaleResolver localeResolver;
-
-  @ModelAttribute(value = "locale")
-  public Locale getLocale(HttpServletRequest request) {
-    return localeResolver.resolveLocale(request);
-  }
-
-  @ModelAttribute(value = "personAttributeLabels")
-  public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
-    return personAttributeLabelService.getAttributeLabelMap();
-  }
-
   /**
    * Controller for detail page.
    *
@@ -86,6 +70,9 @@ public class ServiceDetailController extends BaseController {
 
     final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(getCurrentUser().getUid(), spEntityId);
     m.put("mayHaveGivenConsent", mayHaveGivenConsent);
+
+    final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
+    m.put("personAttributeLabels", attributeLabelMap);
 
     return new ModelAndView("user/service-detail", m);
   }

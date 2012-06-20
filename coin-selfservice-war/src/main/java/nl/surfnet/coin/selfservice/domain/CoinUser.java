@@ -38,7 +38,7 @@ public class CoinUser implements UserDetails {
   private String institutionId;
   private String email;
   private List<CoinAuthority> grantedAuthorities = new ArrayList<CoinAuthority>();
-  private Map<String, Object> attributeMap = new HashMap<String, Object>();
+  private Map<String, List<String>> attributeMap = new HashMap<String, List<String>>();
 
   /**
    * It is not allowed to call this method
@@ -190,15 +190,15 @@ public class CoinUser implements UserDetails {
    *
    * @return Map of user attributes
    */
-  public Map<String, Object> getAttributeMap() {
+  public Map<String, List<String>> getAttributeMap() {
     return attributeMap;
   }
 
-  public void setAttributeMap(Map<String, Object> attributeMap) {
+  public void setAttributeMap(Map<String, List<String>> attributeMap) {
     this.attributeMap = attributeMap;
   }
 
-  public void addAttribute(String key, Object value) {
+  public void addAttribute(String key, List<String> value) {
     this.attributeMap.put(key, value);
   }
 }

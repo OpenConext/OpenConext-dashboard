@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.Attribute;
 import org.opensaml.saml2.core.AttributeStatement;
+import org.opensaml.xml.XMLObject;
 
 /**
  * Util class for person Attributes
@@ -36,8 +38,14 @@ public final class PersonAttributeUtil {
 
   }
 
-  public static Map<String, Object> getAttributesAsMap(Assertion assertion) {
-    Map<String, Object> m = new HashMap<String, Object>();
+  /**
+   * Takes the SAML assertion and returns the user attributes as a Map
+   *
+   * @param assertion SAML {@link Assertion}
+   * @return {@link Map} with the attribute name as key and a List of String values as value
+   */
+  public static Map<String, List<String>> getAttributesAsMap(Assertion assertion) {
+    Map<String, List<String>> m = new HashMap<String, List<String>>();
     final List<AttributeStatement> attributeStatements = assertion.getAttributeStatements();
     for (AttributeStatement attributeStatement : attributeStatements) {
       final List<Attribute> attributes = attributeStatement.getAttributes();
@@ -45,8 +53,15 @@ public final class PersonAttributeUtil {
         if (ATTRIBUTE_FILTER.contains(attribute.getName())) {
           continue;
         }
-        final String textContent = attribute.getAttributeValues().get(0).getDOM().getTextContent();
-        m.put(attribute.getName(), textContent);
+        final List<XMLObject> attributeValues = attribute.getAttributeValues();
+        if (attributeValues.isEmpty()) {
+          continue;
+        }
+        List<String> values = new ArrayList<String>(attributeValues.size());
+        for (XMLObject value : attributeValues) {
+          values.add(value.getDOM().getTextContent());
+        }
+        m.put(attribute.getName(), values);
       }
     }
     return m;

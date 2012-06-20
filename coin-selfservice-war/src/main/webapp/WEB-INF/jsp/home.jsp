@@ -1,4 +1,5 @@
 <%@ include file="include.jsp" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -22,7 +23,40 @@
   <div class="content">
 
     <h3>${title}</h3>
+
     <p><spring:message code="jsp.home.intro"/></p>
+
+    <sec:authentication property="principal.attributeMap" scope="request" var="attributeMap"/>
+    <table class="table table-bordered table-striped table-above-pagination">
+      <thead>
+      <tr>
+        <th><spring:message code="jsp.person.attributes.key"/></th>
+        <th><spring:message code="jsp.person.attributes.value"/></th>
+      </tr>
+      </thead>
+      <tbody>
+      <c:forEach items="${attributeMap}" var="attribute">
+        <tr>
+          <td><tags:arp-attribute-info attributeKey="${attribute.key}"/></td>
+          <td>
+            <c:choose>
+              <c:when test="${fn:length(attribute.value) gt 1}">
+                <ul>
+                  <c:forEach items="${attribute.value}" var="value">
+                    <li><c:out value="${value}"/></li>
+                  </c:forEach>
+                </ul>
+              </c:when>
+              <c:otherwise>
+                <c:out value="${attribute.value[0]}"/>
+              </c:otherwise>
+            </c:choose>
+          </td>
+        </tr>
+
+      </c:forEach>
+      </tbody>
+    </table>
 
   </div>
 </section>

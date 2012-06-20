@@ -18,11 +18,9 @@ package nl.surfnet.coin.selfservice.control.idpadmin;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -34,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.Question;
@@ -72,15 +69,7 @@ public class SpDetailController extends BaseController {
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
-  @Resource(name = "localeResolver")
-  private LocaleResolver localeResolver;
-
   private static final Logger LOG = LoggerFactory.getLogger(SpDetailController.class);
-
-  @ModelAttribute(value = "locale")
-  public Locale getLocale(HttpServletRequest request) {
-    return localeResolver.resolveLocale(request);
-  }
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
