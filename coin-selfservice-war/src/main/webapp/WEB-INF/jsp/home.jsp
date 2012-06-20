@@ -24,9 +24,13 @@
 
     <h3>${title}</h3>
 
-    <p><spring:message code="jsp.home.intro"/></p>
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+      <p><spring:message code="jsp.home.adminintro"/></p>
+    </sec:authorize>
 
     <sec:authentication property="principal.attributeMap" scope="request" var="attributeMap"/>
+
+    <p><spring:message code="jsp.home.attributes.header"/><p>
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
       <tr>
