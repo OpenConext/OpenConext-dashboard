@@ -38,7 +38,7 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 /**
-Controller for the detail view(s) of a service (provider)
+ * Controller for the detail view(s) of a service (provider)
  */
 @Controller
 @RequestMapping("/user/service/*")
@@ -65,8 +65,6 @@ public class ServiceDetailController extends BaseController {
 
   /**
    * Controller for detail page.
-   *
-   *
    *
    * @param spEntityId the entity id
    * @return ModelAndView

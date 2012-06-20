@@ -56,12 +56,12 @@
           </p>
         </c:if>
         <c:set var="sp" value="${sp}" scope="request" />
-        <jsp:include page="../arp.jsp" />
+        <jsp:include page="arp.jsp" />
 
         <div>
-          <a class="btn btn-primary" href="<c:url value="/idpadmin/sp/question.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>"
+          <a class="btn btn-primary" href="<spring:url value="/idpadmin/sp/question.shtml">
+                <spring:param name="spEntityId" value="${sp.id}" />
+              </spring:url>"
              title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
           </a>
           <c:choose>

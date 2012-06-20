@@ -1,4 +1,5 @@
 <%@ include file="../include.jsp" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -55,8 +56,34 @@
             <c:out value="${sp.description}"/>
           </p>
         </c:if>
-        <c:set var="sp" value="${sp}" scope="request" />
-        <jsp:include page="../arp.jsp" />
+        <h3><spring:message code="jsp.service_detail.arp_header"/></h3>
+        <sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
+        <sec:authentication property="principal.attributeMap" scope="request" var="attributeMap"/>
+        <selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
+        <c:if test="${fn:length(arps) eq 0}">
+          <ul>
+            <c:forEach items="${attributeMap}" var="attribute">
+              <li><tags:arp-attribute-info attributeKey="${attribute.key}"/></li>
+            </c:forEach>
+          </ul>
+        </c:if>
+        <c:forEach items="${arps}" var="arp">
+          <ul>
+            <c:if test="${empty arp.fedAttributes and empty arp.conextAttributes}">
+              <c:forEach items="${attributeMap}" var="attribute">
+                <li><tags:arp-attribute-info attributeKey="${attribute.key}"/></li>
+              </c:forEach>
+            </c:if>
+            <c:forEach items="${arp.fedAttributes}" var="att">
+              <li>
+                <tags:arp-attribute-info attributeKey="${att}"/>
+              </li>
+            </c:forEach>
+            <c:forEach items="${arp.conextAttributes}" var="att">
+              <li><tags:arp-attribute-info attributeKey="${att.key}"/></li>
+            </c:forEach>
+          </ul>
+        </c:forEach>
       </div>
     </div>
     <div class="span4">

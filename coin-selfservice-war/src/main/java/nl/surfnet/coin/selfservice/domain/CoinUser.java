@@ -18,7 +18,9 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * Simple conext user
  */
-public class CoinUser implements UserDetails{
+public class CoinUser implements UserDetails {
 
   private String uid;
   private String displayName;
@@ -36,25 +38,22 @@ public class CoinUser implements UserDetails{
   private String institutionId;
   private String email;
   private List<CoinAuthority> grantedAuthorities = new ArrayList<CoinAuthority>();
+  private Map<String, Object> attributeMap = new HashMap<String, Object>();
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return grantedAuthorities;
-  }
-
-  public void addAuthorities(List<CoinAuthority> grantedAuthorities) {
-    this.grantedAuthorities = grantedAuthorities;
-  }
-
-  public void addAuthority(CoinAuthority grantedAuthority) {
-    this.grantedAuthorities.add(grantedAuthority);
-  }
-
+  /**
+   * It is not allowed to call this method
+   * {@inheritDoc}
+   */
   @Override
   public String getPassword() {
     throw new SecurityException("Self service interface does not contain passwords");
   }
 
+  /**
+   * Same value as {@link #getUid()}
+   * <p/>
+   * {@inheritDoc}
+   */
   @Override
   public String getUsername() {
     return uid;
@@ -80,6 +79,11 @@ public class CoinUser implements UserDetails{
     return true;
   }
 
+  /**
+   * Unique identifier of the user, e.g. urn:collab:person:org.example:john.doe
+   *
+   * @return unique identifier of the user
+   */
   public String getUid() {
     return uid;
   }
@@ -88,6 +92,11 @@ public class CoinUser implements UserDetails{
     this.uid = uid;
   }
 
+  /**
+   * Display name, e.g. 'John S. Doe Jr'
+   *
+   * @return display name of the user
+   */
   public String getDisplayName() {
     return displayName;
   }
@@ -96,6 +105,9 @@ public class CoinUser implements UserDetails{
     this.displayName = displayName;
   }
 
+  /**
+   * @return schac home organization of the user
+   */
   public String getSchacHomeOrganization() {
     return schacHomeOrganization;
   }
@@ -104,6 +116,9 @@ public class CoinUser implements UserDetails{
     this.schacHomeOrganization = schacHomeOrganization;
   }
 
+  /**
+   * @return email address of the user
+   */
   public String getEmail() {
     return email;
   }
@@ -112,6 +127,30 @@ public class CoinUser implements UserDetails{
     this.email = email;
   }
 
+  /**
+   * Returns a collection that will contain {@link CoinAuthority}'s
+   *
+   * {@inheritDoc}
+   */
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return grantedAuthorities;
+  }
+
+  public void setAuthorities(List<CoinAuthority> grantedAuthorities) {
+    this.grantedAuthorities = grantedAuthorities;
+  }
+
+  public void addAuthority(CoinAuthority grantedAuthority) {
+    this.grantedAuthorities.add(grantedAuthority);
+  }
+
+  /**
+   * List of {@link IdentityProvider}'s of the institution for this users. Usually contains only the IdP the user logs
+   * in with.
+   *
+   * @return List of {@link IdentityProvider}'s
+   */
   public List<IdentityProvider> getInstitutionIdps() {
     return institutionIdps;
   }
@@ -120,6 +159,11 @@ public class CoinUser implements UserDetails{
     this.institutionIdps.add(idp);
   }
 
+  /**
+   * Identifier of the institution the IdentityProvider of the user belongs to. Can be empty.
+   *
+   * @return Identifier of the institution the IdentityProvider of the user belongs to
+   */
   public String getInstitutionId() {
     return institutionId;
   }
@@ -128,11 +172,33 @@ public class CoinUser implements UserDetails{
     this.institutionId = institutionId;
   }
 
+  /**
+   * Identifier of the IdentityProvider the user has logged in with
+   *
+   * @return Identifier of the IdentityProvider the user has logged in with
+   */
   public String getIdp() {
     return idp;
   }
 
   public void setIdp(String idp) {
     this.idp = idp;
+  }
+
+  /**
+   * Map of user attributes, key as String, value Object
+   *
+   * @return Map of user attributes
+   */
+  public Map<String, Object> getAttributeMap() {
+    return attributeMap;
+  }
+
+  public void setAttributeMap(Map<String, Object> attributeMap) {
+    this.attributeMap = attributeMap;
+  }
+
+  public void addAttribute(String key, Object value) {
+    this.attributeMap.put(key, value);
   }
 }

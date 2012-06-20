@@ -34,6 +34,7 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.util.PersonAttributeUtil;
 import nl.surfnet.spring.security.opensaml.Provisioner;
 
 /**
@@ -64,11 +65,7 @@ public class SAMLProvisioner implements Provisioner {
     }
     // Add the one the user is currently identified by if it's not in the list already.
     if (coinUser.getInstitutionIdps().isEmpty()) {
-      IdentityProvider idp = federationProviderService.getIdentityProvider(idpId);
-      if (idp == null) {
-        // there are a few IdP's in SURFconext that don't exist in SURFfederatie like SURFguest
-        idp = new IdentityProvider(idpId, null, idpId);
-      }
+      IdentityProvider idp = getInstitutionIdP(idpId);
       coinUser.addInstitutionIdp(idp);
     }
 
@@ -80,6 +77,7 @@ public class SAMLProvisioner implements Provisioner {
     coinUser.addAuthority(new CoinAuthority("ROLE_USER"));
     // TODO base admin role on group membership
     coinUser.addAuthority(new CoinAuthority("ROLE_ADMIN"));
+    coinUser.setAttributeMap(PersonAttributeUtil.getAttributesAsMap(assertion));
 
     return coinUser;
   }
@@ -93,6 +91,15 @@ public class SAMLProvisioner implements Provisioner {
       }
     }
     return null;
+  }
+
+  private IdentityProvider getInstitutionIdP(String idpId) {
+    IdentityProvider idp = federationProviderService.getIdentityProvider(idpId);
+    if (idp == null) {
+      // there are a few IdP's in SURFconext that don't exist in SURFfederatie like SURFguest
+      idp = new IdentityProvider(idpId, null, idpId);
+    }
+    return idp;
   }
 
   private String getAuthenticatingAuthority(final Assertion assertion) {
@@ -111,6 +118,7 @@ public class SAMLProvisioner implements Provisioner {
     }
     return null;
   }
+
 
   private String getValueFromAttributeStatements(final Assertion assertion, final String name) {
     final List<AttributeStatement> attributeStatements = assertion.getAttributeStatements();

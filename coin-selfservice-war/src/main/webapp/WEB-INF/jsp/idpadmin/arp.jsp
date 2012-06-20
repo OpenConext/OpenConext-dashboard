@@ -1,5 +1,5 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ include file="include.jsp" %>
+<%@ include file="../include.jsp" %>
 <%--
   ~ Copyright 2012 SURFnet bv, The Netherlands
   ~

@@ -32,6 +32,7 @@ import org.springframework.web.client.RestClientException;
 import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.janus.domain.Contact;
 import nl.surfnet.coin.janus.domain.EntityMetadata;
+import nl.surfnet.coin.janus.domain.JanusEntity;
 import nl.surfnet.coin.selfservice.domain.ARP;
 import nl.surfnet.coin.selfservice.domain.ContactPerson;
 import nl.surfnet.coin.selfservice.domain.ContactPersonType;
@@ -123,21 +124,26 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   @Cacheable(value = {"sps-janus"})
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     try {
-      EntityMetadata metadata= janusClient.getMetadataByEntityId(spEntityId);
-      if (StringUtils.equals(metadata.getWorkflowState(), IN_PRODUCTION)) {
-        final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
-
-        final ARP arp = getArp(spEntityId);
-        serviceProvider.addArp(arp);
-
-        if (idpEntityId != null) {
-          final boolean linked = janusClient.isConnectionAllowed(spEntityId, idpEntityId);
-          serviceProvider.setLinked(linked);
-        }
-        return serviceProvider;
-      } else {
+      // first get JanusEntity. This holds the information about the workflow
+      // only allow production status
+      final JanusEntity entity = janusClient.getEntity(spEntityId);
+      if (entity == null || !(IN_PRODUCTION.equals(entity.getWorkflowStatus()))) {
         return null;
       }
+      // Get the metadata and build a ServiceProvider with this metadata
+      EntityMetadata metadata = janusClient.getMetadataByEntityId(spEntityId);
+      final ServiceProvider serviceProvider = buildServiceProviderByMetadata(metadata);
+
+      // Get the ARP (if there is any)
+      final ARP arp = getArp(spEntityId);
+      serviceProvider.addArp(arp);
+
+      // Check if the IdP can connect to this service
+      if (idpEntityId != null) {
+        final boolean linked = janusClient.isConnectionAllowed(spEntityId, idpEntityId);
+        serviceProvider.setLinked(linked);
+      }
+      return serviceProvider;
     } catch (RestClientException e) {
       log.warn("Could not retrieve metadata from Janus client", e.getMessage());
     }
