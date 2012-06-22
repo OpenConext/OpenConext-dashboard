@@ -37,12 +37,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 @Controller
 @RequestMapping("/idpadmin/sp")
@@ -116,17 +118,18 @@ public class SpLinkController extends BaseController {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("idpadmin/sp-linkrequest-confirm", m);
     } else {
+      final CoinUser currentUser = SpringSecurity.getCurrentUser();
       final JiraTask task = new JiraTask.Builder()
-          .body(getCurrentUser().getEmail() + ("\n\n" + linkrequest.getNotes()))
-          .identityProvider(getCurrentUser().getIdp())
+          .body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
+          .identityProvider(currentUser.getIdp())
           .serviceProvider(spEntityId)
-          .institution(SpListController.getCurrentUser().getInstitutionId())
+          .institution(currentUser.getInstitutionId())
           .issueType(JiraTask.Type.LINKREQUEST)
           .status(JiraTask.Status.OPEN)
           .build();
       try {
-        final String issueKey = jiraService.create(task, getCurrentUser());
-        actionsService.registerJiraIssueCreation(issueKey, task, getCurrentUser().getUid(), getCurrentUser().getDisplayName());
+        final String issueKey = jiraService.create(task, currentUser);
+        actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
         m.put("issueKey", issueKey);
         sessionStatus.setComplete();
         return new ModelAndView("idpadmin/sp-linkrequest-thanks", m);

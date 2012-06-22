@@ -75,8 +75,6 @@ public class SAMLProvisioner implements Provisioner {
     coinUser.setSchacHomeOrganization(getValueFromAttributeStatements(assertion, SCHAC_HOME));
 
     coinUser.addAuthority(new CoinAuthority("ROLE_USER"));
-    // TODO base admin role on group membership
-    coinUser.addAuthority(new CoinAuthority("ROLE_ADMIN"));
     coinUser.setAttributeMap(PersonAttributeUtil.getAttributesAsMap(assertion));
 
     return coinUser;

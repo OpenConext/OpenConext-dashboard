@@ -23,19 +23,17 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
 
-import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.MenuItem;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 /**
  * Abstract controller used to set model attributes to the request
@@ -51,7 +49,7 @@ public abstract class BaseController {
 
   @ModelAttribute(value = "idps")
   public List<IdentityProvider> getMyInstitutionIdps() {
-    return getCurrentUser().getInstitutionIdps();
+    return SpringSecurity.getCurrentUser().getInstitutionIdps();
   }
 
   @ModelAttribute(value = "locale")
@@ -73,9 +71,9 @@ public abstract class BaseController {
       return (IdentityProvider) selectedidp;
     }
     if (idpId == null) {
-      idpId = getCurrentUser().getIdp();
+      idpId = SpringSecurity.getCurrentUser().getIdp();
     }
-    for (IdentityProvider idp : getCurrentUser().getInstitutionIdps()) {
+    for (IdentityProvider idp : SpringSecurity.getCurrentUser().getInstitutionIdps()) {
       if (idp.getId().equals(idpId)) {
         request.getSession().setAttribute("selectedidp", idp);
         return idp;
@@ -100,31 +98,13 @@ public abstract class BaseController {
     if (role == null) {
       role = "ROLE_USER";
     }
-    for (GrantedAuthority ga : getCurrentUser().getAuthorities()) {
+    for (GrantedAuthority ga : SpringSecurity.getCurrentUser().getAuthorities()) {
       if (role.equals(ga.getAuthority())) {
         request.getSession().setAttribute("currentrole", role);
         return role;
       }
     }
     return null;
-  }
-
-  /**
-   * Get the IDP Entity Id from the security context.
-   *
-   * @return String
-   * @throws SecurityException in case no principal is found.
-   */
-  protected static CoinUser getCurrentUser() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if (auth == null) {
-      throw new SecurityException("No suitable security context.");
-    }
-    Object principal = auth.getPrincipal();
-    if (principal != null && principal instanceof CoinUser) {
-      return (CoinUser) principal;
-    }
-    throw new SecurityException("No suitable security context.");
   }
 
   /**

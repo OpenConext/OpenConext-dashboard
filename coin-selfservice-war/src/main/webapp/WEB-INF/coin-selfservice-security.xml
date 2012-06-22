@@ -30,6 +30,18 @@
     <property name="identityProviderService" ref="federationProviderService" />
   </bean>
 
+  <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
+    <property name="adminTeam" value="${admin.teamname}" />
+    <property name="apiService" ref="openConextApiService" />
+  </bean>
+
+  <bean id="openConextApiService" init-method="init" class="nl.surfnet.coin.api.client.OpenConextApiService">
+    <property name="endpointBaseUrl" value="${api-baseurl}" />
+    <property name="oauthConsumerKey" value="${api-consumerkey}" />
+    <property name="oauthConsumerSecret" value="${api-consumersecret}" />
+    <property name="version" value="v2" />
+  </bean>
+
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.CertificateStoreImpl">
     <property name="certificates">
       <map>

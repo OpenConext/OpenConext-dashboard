@@ -35,6 +35,7 @@ import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 /**
  * Controller for the detail view(s) of a service (provider)
@@ -68,7 +69,7 @@ public class ServiceDetailController extends BaseController {
     }
     m.put("menu", buildMenu(MenuType.USER, "linked-services"));
 
-    final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(getCurrentUser().getUid(), spEntityId);
+    final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(), spEntityId);
     m.put("mayHaveGivenConsent", mayHaveGivenConsent);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();

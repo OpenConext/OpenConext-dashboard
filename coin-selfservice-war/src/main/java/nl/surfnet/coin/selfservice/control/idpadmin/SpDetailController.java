@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
@@ -45,6 +46,7 @@ import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 /**
  * Controller for SP detail pages
@@ -124,18 +126,19 @@ public class SpDetailController extends BaseController {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("idpadmin/sp-question", m);
     } else {
+      final CoinUser currentUser = SpringSecurity.getCurrentUser();
       final JiraTask task = new JiraTask.Builder()
           .body(question.getSubject() + ("\n\n" + question.getBody()))
-          .identityProvider(SpListController.getCurrentUser().getIdp())
+          .identityProvider(currentUser.getIdp())
           .serviceProvider(spEntityId)
-          .institution(SpListController.getCurrentUser().getInstitutionId())
+          .institution(currentUser.getInstitutionId())
           .issueType(JiraTask.Type.QUESTION)
           .status(JiraTask.Status.OPEN)
           .build();
       try {
-        final String issueKey = jiraService.create(task, getCurrentUser());
+        final String issueKey = jiraService.create(task, currentUser);
 
-        final String emailFrom = getCurrentUser().getEmail();
+        final String emailFrom = currentUser.getEmail();
 
         notificationService.sendMail(issueKey, emailFrom, question.getSubject(), question.getBody());
 

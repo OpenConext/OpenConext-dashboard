@@ -33,6 +33,7 @@
     <coin-test.version>2.8.0</coin-test.version>
     <coin-master.test-dependencies.version>2.8.1</coin-master.test-dependencies.version>
     <coin-api-serviceregistry.version>2.8.4-SNAPSHOT</coin-api-serviceregistry.version>
+    <coin-api-client.version>2.8.4-SNAPSHOT</coin-api-client.version>
     <spring-security-opensaml.version>2.8.0</spring-security-opensaml.version>
     <spring-security.version>3.1.0.RELEASE</spring-security.version>
     <flyway.version>1.5</flyway.version>
@@ -173,6 +174,12 @@
       <groupId>org.surfnet.coin</groupId>
       <artifactId>coin-api-serviceregistry-client</artifactId>
       <version>${coin-api-serviceregistry.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.surfnet.coin</groupId>
+      <artifactId>coin-api-client</artifactId>
+      <version>${coin-api-client.version}</version>
     </dependency>
 
     <!-- The next two slf4j dependencies are the ones we want to use. Other
