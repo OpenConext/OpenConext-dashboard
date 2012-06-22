@@ -68,9 +68,7 @@
   </filter>
   <filter-mapping>
     <filter-name>apiOauthFilter</filter-name>
-    <url-pattern>*.shtml</url-pattern>
-    <url-pattern>/</url-pattern>
-    <url-pattern>*.json</url-pattern>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
 
   <servlet>

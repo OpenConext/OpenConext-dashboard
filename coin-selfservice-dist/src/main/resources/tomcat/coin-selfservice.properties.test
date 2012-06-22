@@ -81,6 +81,10 @@ federationconfig.reload.interval=900000
 # Only members of the following team are admins
 admin.teamname=nl\:surfnet\:diensten\:contactpersonen_idps
 
+api-baseurl=https\://api.test.surfconext.nl/v1/
+api-consumerkey=test-selfservice
+api-consumersecret=??
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features
