@@ -84,6 +84,7 @@ admin.teamname=nl\:surfnet\:diensten\:contactpersonen_idps
 api-baseurl=https\://api.test.surfconext.nl/v1/
 api-consumerkey=test-selfservice
 api-consumersecret=??
+api-callbackuri=https\://selfservice.test.surfconext.nl/apiOauthCallback?apiOauthCallback=true
 
 ####################################################################
 ##

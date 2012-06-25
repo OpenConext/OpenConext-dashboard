@@ -37,18 +37,11 @@
   </bean>
 
   <bean id="openConextApiClient" class="nl.surfnet.coin.api.client.OpenConextOAuthClientImpl">
-    <constructor-arg index="0">
-      <bean class="nl.surfnet.coin.api.client.OAuthEnvironment">
-        <property name="callbackUrl" value="${api-callbackuri}" />
-        <property name="endpointBaseUrl" value="${api-baseurl}" />
-        <property name="oauthKey" value="${api-consumerkey}"/>
-        <property name="oauthSecret" value="${api-consumersecret}" />
-        <property name="version" value="v2" />
-      </bean>
-    </constructor-arg>
-    <constructor-arg index="1">
-      <bean class="nl.surfnet.coin.api.client.InMemoryOAuthRepositoryImpl" />
-    </constructor-arg>
+    <property name="callbackUrl" value="${api-callbackuri}" />
+    <property name="endpointBaseUrl" value="${api-baseurl}" />
+    <property name="consumerKey" value="${api-consumerkey}"/>
+    <property name="consumerSecret" value="${api-consumersecret}" />
+    <property name="version" value="v2" />
   </bean>
 
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.CertificateStoreImpl">
