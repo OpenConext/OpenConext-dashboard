@@ -17,7 +17,6 @@
 package nl.surfnet.coin.selfservice.filter;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -33,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.Assert;
 
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
@@ -121,19 +119,16 @@ public class ApiOAuthFilter implements Filter {
    * @return boolean
    */
   private boolean isMemberOfAdminTeam(CoinUser user) {
-    final List<Group20> groups = apiClient.getGroups20(user.getUid(), user.getUid());
-    Assert.notNull(groups, "Groups returned from api.surfconext should not be null");
+    final Group20 group = apiClient.getGroup20(user.getUid(), adminTeam, user.getUid());
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("User {} is member of these groups: {}", user.getUid(), groups);
+      LOG.debug("Membership of adminTeam '{}' for user '{}': {}", new Object[]{adminTeam, user.getUid(), group});
     }
-    for (Group20 group : groups) {
-      if (group.getId().equals(adminTeam)) {
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("User {} is member of admin team '{}'", user.getUid(), group.getId());
-        }
-        return true;
+    if (group != null) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("User {} is member of admin team '{}'", user.getUid(), group.getId());
       }
+      return true;
     }
     return false;
   }
