@@ -17,6 +17,8 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="include.jsp" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -99,7 +101,7 @@
       </c:set>
       <div class="dropdown-toggle ${userclass}" data-toggle="dropdown">
         <div class="user">
-          <c:out value="${selectedidp.name}"/>
+          <tags:providername provider="${selectedidp}"/>
           <c:if test="${isAdmin eq true}">
             <b class="caret"></b>
           </c:if>
@@ -131,7 +133,7 @@
                 </spring:url>
                 <div class="user">
                   <a href="${toggleLink}">
-                    <c:out value="${idp.name}"/>
+                    <tags:providername provider="${idp}"/>
                   </a>
                 </div>
               </li>
@@ -143,7 +145,7 @@
               </spring:url>
               <div class="user">
                 <a href="${toggleLink}">
-                  <c:out value="${idp.name}"/>
+                  <tags:providername provider="${idp}"/>
                 </a>
               </div>
             </li>

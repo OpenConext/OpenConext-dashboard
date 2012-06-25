@@ -19,10 +19,7 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:choose>
-  <c:when test="${empty sp.name}"><c:set var="spname" value="${sp.id}"/></c:when>
-  <c:otherwise><c:set var="spname" value="${sp.name}"/></c:otherwise>
-</c:choose>
+<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
 
 <jsp:include page="../header.jsp">
   <jsp:param name="title" value="${spname}"/>
@@ -52,9 +49,9 @@
     <%-- bit ugly: if this span does not exist, the right column is pushed to the left --%>
     <div class="span6">
       <div class="content">
-        <c:if test="${not empty sp.description}">
+        <c:if test="${not empty sp.descriptions[locale.language]}">
           <p>
-            <c:out value="${sp.description}"/>
+            <c:out value="${sp.descriptions[locale.language]}"/>
           </p>
         </c:if>
         <h3><spring:message code="jsp.service_detail.arp_header"/></h3>
@@ -89,6 +86,13 @@
             </c:forEach>
           </ul>
         </c:forEach>
+        <c:if test="${not empty sp.urls[locale.language]}">
+          <p>
+            <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw75 mb10" target="_blank">
+              <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.website"/>
+            </a>
+          </p>
+        </c:if>
       </div>
     </div>
     <div class="span4">

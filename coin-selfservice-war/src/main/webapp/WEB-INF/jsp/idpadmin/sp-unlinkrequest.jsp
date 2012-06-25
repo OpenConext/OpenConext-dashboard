@@ -1,3 +1,4 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ include file="../include.jsp" %>
 <%--
   ~ Copyright 2012 SURFnet bv, The Netherlands
@@ -17,10 +18,7 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:choose>
-  <c:when test="${empty sp.name}"><c:set var="spname" value="${sp.id}"/></c:when>
-  <c:otherwise><c:set var="spname" value="${sp.name}"/></c:otherwise>
-</c:choose>
+<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
 
 <jsp:include page="../header.jsp">
   <jsp:param name="title" value="${spname}"/>
@@ -32,13 +30,13 @@
   <div class="span8">
     <section>
 
-      <h2><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${sp.name}"/></h2>
+      <h2><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${spname}"/></h2>
 
       <div class="content">
 
         <c:set var="sp" value="${sp}" scope="request" />
 
-        <spring:message code="jsp.sp_unlinkrequest.intro" arguments="${sp.name}"/>
+        <spring:message code="jsp.sp_unlinkrequest.intro" arguments="${spname}"/>
 
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
@@ -46,7 +44,7 @@
             <div class="control-group <form:errors path="agree">error</form:errors>">
                <form:label path="agree" cssClass="checkbox">
                  <form:checkbox path="agree" id="agree"/>
-                 <spring:message code="jsp.sp_unlinkrequest.agreefield" arguments="${sp.name}"/></form:label>
+                 <spring:message code="jsp.sp_unlinkrequest.agreefield" arguments="${spname}"/></form:label>
                 <form:errors path="agree">
                   <p class="help-block"><form:errors path="agree"/></p>
                 </form:errors>

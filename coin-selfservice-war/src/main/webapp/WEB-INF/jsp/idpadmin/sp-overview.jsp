@@ -1,3 +1,4 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ include file="../include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
@@ -44,12 +45,11 @@
             <spring:param name="spEntityId" value="${sp.id}" />
           </spring:url>
           <tr>
-            <td><a href="${detailUrl}"><c:out default="${sp.id}" value="${sp.name}"/></a>
-            </td>
-            <td class="text-overflow"><c:out value="${fn:substring(sp.description, 0, 40)}"/></td>
+            <td><a href="${detailUrl}"><tags:providername provider="${sp}"/></a></td>
+            <td class="text-overflow"><c:out value="${fn:substring(sp.descriptions[locale.language], 0, 40)}"/></td>
             <%--<td>
               <c:if test="${not empty sp.logoUrl}">
-                <img src="${sp.logoUrl}" alt="<c:out value="${sp.name}"/>"/>
+                <img src="${sp.logoUrl}" alt=""/>
               </c:if>
             </td>--%>
             <td class="center">

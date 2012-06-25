@@ -136,7 +136,9 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
 
       // Get the ARP (if there is any)
       final ARP arp = getArp(spEntityId);
-      serviceProvider.addArp(arp);
+      if (arp != null) {
+        serviceProvider.addArp(arp);
+      }
 
       // Check if the IdP can connect to this service
       if (idpEntityId != null) {
@@ -162,12 +164,15 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     if (StringUtils.isBlank(name)) {
       name = appEntityId;
     }
-    ServiceProvider sp = new ServiceProvider(appEntityId, name);
+    ServiceProvider sp = new ServiceProvider(appEntityId);
+    sp.setName(name); // TODO remove this when the frontend uses getNames
+    sp.setNames(metadata.getNames());
     sp.setLogoUrl(metadata.getAppLogoUrl());
-    sp.setHomeUrl(metadata.getAppHomeUrl());
-    sp.setDescription(metadata.getDescription());
+    sp.setHomeUrls(metadata.getAppHomeUrls());
+    sp.setDescriptions(metadata.getDescriptions());
     sp.setIdpVisibleOnly(metadata.isIdpVisibleOnly());
     sp.setEulaURL(metadata.getEula());
+    sp.setUrls(metadata.getUrls());
     for (Contact c : metadata.getContacts()) {
       ContactPerson p = new ContactPerson(StringUtils.join(new Object[]{c.getGivenName(), c.getSurName()}, " "),
           c.getEmailAddress());

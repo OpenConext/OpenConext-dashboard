@@ -70,7 +70,7 @@ public class ServiceDetailControllerTest {
 
   @Test
   public void testSpDetail() throws Exception {
-    ServiceProvider sp = new ServiceProvider("mockSP", "Mock Service");
+    ServiceProvider sp = new ServiceProvider("mockSP");
     sp.setLinked(true);
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
@@ -83,7 +83,7 @@ public class ServiceDetailControllerTest {
 
   @Test
   public void testSpDetail_notLinked() throws Exception {
-    ServiceProvider sp = new ServiceProvider("mockSP", "Mock Service");
+    ServiceProvider sp = new ServiceProvider("mockSP");
     sp.setLinked(false);
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);

@@ -29,7 +29,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
-import nl.surfnet.coin.selfservice.control.idpadmin.SpListController;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -73,9 +72,9 @@ public class SpListControllerTest {
     IdentityProvider idp2 = new IdentityProvider();
     idp2.setId("idp2");
     when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp1, idp2));
-    ServiceProvider sp1 = new ServiceProvider("sp1", "");
-    ServiceProvider sp2 = new ServiceProvider("sp2", "");
-    ServiceProvider sp3 = new ServiceProvider("sp3", "");
+    ServiceProvider sp1 = new ServiceProvider("sp1");
+    ServiceProvider sp2 = new ServiceProvider("sp2");
+    ServiceProvider sp3 = new ServiceProvider("sp3");
 
     when(serviceProviderService.getAllServiceProviders("idp1")).thenReturn(Arrays.asList(sp1, sp2));
     when(serviceProviderService.getAllServiceProviders("idp2")).thenReturn(Arrays.asList(sp2, sp3));

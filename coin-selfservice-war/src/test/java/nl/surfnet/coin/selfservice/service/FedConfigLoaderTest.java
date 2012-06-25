@@ -83,8 +83,7 @@ public class FedConfigLoaderTest {
     config.addIdP(idp);
 
     String spId = "urn:federation:testsp";
-    String spName = "Test sp";
-    ServiceProvider serviceProvider = new ServiceProvider(spId, spName);
+    ServiceProvider serviceProvider = new ServiceProvider(spId);
     serviceProvider.addContactPerson(adminContact);
     serviceProvider.setHomeUrl("http://example.com/testsp");
     serviceProvider.setLogoUrl("http://example.com/logo.png");

@@ -1,4 +1,5 @@
 <%@ include file="../include.jsp" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -44,23 +45,22 @@
             <spring:param name="spEntityId" value="${sp.id}" />
           </spring:url>
           <tr>
-            <td><a href="${detailUrl}"><c:out default="${sp.id}" value="${sp.name}"/></a>
+            <td><a href="${detailUrl}"><tags:providername provider="${sp}"/></a>
             </td>
-            <td class="text-overflow"><c:out value="${fn:substring(sp.description, 0, 40)}"/></td>
+            <td class="text-overflow"><c:out value="${fn:substring(sp.descriptions[locale.language], 0, 40)}"/></td>
             <%-- TODO wait for redesign with the logo --%>
             <%--<td>
               <c:if test="${not empty sp.logoUrl}">
-                <img src="${sp.logoUrl}" alt="<c:out value="${sp.name}"/>"/>
+                <img src="${sp.logoUrl}" alt="<c:out value=""/>"/>
               </c:if>
             </td>--%>
             <td class="center">
-              <%-- TODO We don't have a proper field for the actual Service URL --%>
-              <%--<c:if test="${not empty sp.homeUrl}">
-                <a href="<c:out value="${sp.homeUrl}"/>" class="btn btn-primary btn-small cw75 mb10">
+              <c:if test="${not empty sp.urls[locale.language]}">
+                <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw75 mb10" target="_blank">
                   <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.website"/>
                 </a>
                 <br />
-              </c:if>--%>
+              </c:if>
               <a href="${detailUrl}" class="btn btn-info btn-small cw75">
                 <i class="icon-info-sign"></i> <spring:message code="jsp.sp_overview.detail"/>
               </a>

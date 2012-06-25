@@ -19,7 +19,9 @@ package nl.surfnet.coin.selfservice.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -34,15 +36,23 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public abstract class Provider implements Comparable<Provider>, Serializable {
 
+  private static final String LANG_EN = "en";
+
   @XStreamAlias("type")
   @XStreamAsAttribute
   private ProviderType type;
 
+  // TODO use a clean solution for this issue with SURFfederatie & SURFconext
   @XStreamAlias("Name")
   private String name;
 
+  private Map<String, String> names = new HashMap<String, String>();
+
+  // TODO use a clean solution for this issue with SURFfederatie & SURFconext
   @XStreamAlias("HomeURL")
   private String homeUrl;
+
+  private Map<String, String> homeUrls = new HashMap<String, String>();
 
   @XStreamAlias("LogoURL")
   private String logoUrl;
@@ -53,7 +63,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   @XStreamAlias("ContactPersons")
   private List<ContactPerson> contactPersons = new ArrayList<ContactPerson>();
 
-  private String description;
+  private Map<String, String> descriptions = new HashMap<String, String>();
 
   private boolean linked;
 
@@ -93,6 +103,18 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     this.homeUrl = homeUrl;
   }
 
+  public Map<String, String> getHomeUrls() {
+    return homeUrls;
+  }
+
+  public void setHomeUrls(Map<String, String> homeUrls) {
+    this.homeUrls = homeUrls;
+  }
+
+  public void addHomeUrl(String language, String homeUrl) {
+    this.homeUrls.put(language, homeUrl);
+  }
+
   public String getLogoUrl() {
     return logoUrl;
   }
@@ -109,12 +131,18 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     this.metadataUrl = metadataUrl;
   }
 
+  /**
+   * @deprecated use #getDescriptions with the language code as key
+   */
   public String getDescription() {
-    return description;
+    return this.descriptions.get(LANG_EN);
   }
 
+  /**
+   * @deprecated use #addDescriptions with the language code as key
+   */
   public void setDescription(String description) {
-    this.description = description;
+    addDescription(LANG_EN, description);
   }
 
   public List<ContactPerson> getContactPersons() {
@@ -127,6 +155,30 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   public void addContactPerson(ContactPerson contactPerson) {
     this.contactPersons.add(contactPerson);
+  }
+
+  public Map<String, String> getNames() {
+    return names;
+  }
+
+  public void setNames(Map<String, String> names) {
+    this.names = names;
+  }
+
+  public void addName(String language, String name) {
+    this.names.put(language, name);
+  }
+
+  public Map<String, String> getDescriptions() {
+    return descriptions;
+  }
+
+  public void setDescriptions(Map<String, String> descriptions) {
+    this.descriptions = descriptions;
+  }
+
+  public void addDescription(String language, String description) {
+    this.descriptions.put(language, description);
   }
 
   public static Comparator<Provider> firstStatusThenName() {
@@ -151,9 +203,11 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
         .append("name", name)
+        .append("names", names)
         .append("type", type)
         .append("id", getId())
         .append("contactPersons", getContactPersons())
+        .append("descriptions", descriptions)
         .toString();
   }
 }

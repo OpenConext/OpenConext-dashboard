@@ -19,6 +19,7 @@ package nl.surfnet.coin.selfservice.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -31,7 +32,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("SP")
 public class  ServiceProvider extends Provider implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = -5860975443072010741L;
 
   @XStreamAlias("id")
   @XStreamAsAttribute
@@ -47,8 +48,17 @@ public class  ServiceProvider extends Provider implements Serializable {
 
   private String eulaURL;
 
+  private Map<String, String> urls;
+
   private boolean idpVisibleOnly;
 
+  public ServiceProvider(String id) {
+    this.id = id;
+  }
+
+  /**
+   * @deprecated name is not a single value String anymore
+   */
   public ServiceProvider(String id, String name) {
     this.id = id;
     setName(name);
@@ -96,6 +106,14 @@ public class  ServiceProvider extends Provider implements Serializable {
 
   public void setEulaURL(String eulaURL) {
     this.eulaURL = eulaURL;
+  }
+
+  public Map<String, String> getUrls() {
+    return urls;
+  }
+
+  public void setUrls(Map<String, String> urls) {
+    this.urls = urls;
   }
 
   @Override

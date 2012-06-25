@@ -1,4 +1,5 @@
 <%@ include file="../include.jsp" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -46,11 +47,11 @@
         </c:set>
         <tr class="rowdetails">
           <%--@elvariable id="action" type="nl.surfnet.coin.selfservice.domain.Action"--%>
-          <td>${action.jiraKey}</td>
-          <td>${actionType}</td>
+          <td><c:out value="${action.jiraKey}"/></td>
+          <td><c:out value="${actionType}"/></td>
           <td><fmt:formatDate value="${action.requestDate}" pattern="yyyy-MM-dd"/></td>
-          <td>${action.userName}</td>
-          <td>${action.sp.name}</td>
+          <td><c:out value="${action.userName}"/></td>
+          <td><tags:providername provider="${action.sp}"/></td>
           <td class="center">
             <c:choose>
               <c:when test="${action.status eq 'CLOSED'}">

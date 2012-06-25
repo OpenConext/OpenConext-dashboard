@@ -1,3 +1,4 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ include file="../include.jsp" %>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
@@ -17,10 +18,7 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:choose>
-  <c:when test="${empty sp.name}"><c:set var="spname" value="${sp.id}"/></c:when>
-  <c:otherwise><c:set var="spname" value="${sp.name}"/></c:otherwise>
-</c:choose>
+<c:set var="spname"><tags:providername provider="${sp}" /></c:set>
 
 <jsp:include page="../header.jsp">
   <jsp:param name="title" value="${spname}"/>
@@ -50,9 +48,9 @@
     <%-- bit ugly: if this span does not exist, the right column is pushed to the left --%>
     <div class="span6">
       <div class="content">
-        <c:if test="${not empty sp.description}">
+        <c:if test="${not empty sp.descriptions[locale.language]}">
           <p>
-            <c:out value="${sp.description}"/>
+            <c:out value="${sp.descriptions[locale.language]}"/>
           </p>
         </c:if>
         <c:set var="sp" value="${sp}" scope="request" />

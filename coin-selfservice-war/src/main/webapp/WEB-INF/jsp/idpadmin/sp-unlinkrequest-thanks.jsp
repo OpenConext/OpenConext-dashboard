@@ -1,3 +1,4 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ include file="../include.jsp" %>
 <%--
   ~ Copyright 2012 SURFnet bv, The Netherlands
@@ -18,10 +19,7 @@
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 <%--@elvariable id="issueKey" type="java.lang.String"--%>
 
-<c:choose>
-  <c:when test="${empty sp.name}"><c:set var="spname" value="${sp.id}"/></c:when>
-  <c:otherwise><c:set var="spname" value="${sp.name}"/></c:otherwise>
-</c:choose>
+<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
 
 <jsp:include page="../header.jsp">
   <jsp:param name="title" value="${spname}"/>
