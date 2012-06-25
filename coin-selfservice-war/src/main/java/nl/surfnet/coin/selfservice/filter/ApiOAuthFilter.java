@@ -40,18 +40,29 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
+/**
+ * Servlet filter that performs Oauth 2.0 (authorization code) against api.surfconext.nl and gets group information
+ * of the 'admin team'. Based on this information, an additional role is set on the users' Authentication object (or
+ * not).
+ *
+ */
 public class ApiOAuthFilter implements Filter {
 
   Logger LOG = LoggerFactory.getLogger(ApiOAuthFilter.class);
 
   private OpenConextOAuthClient apiClient;
 
-  private static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
-  private static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" +
+  protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
+  protected static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" +
       ".ORIGINAL_REQUEST_URL";
   private String adminTeam;
-  private String callbackFlagParameter;
+  private String callbackFlagParameter = "oauthCallback";
 
+  /**
+   * No initialization needed.
+   * @param filterConfig the configuration
+   * @throws ServletException
+   */
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
   }
@@ -116,6 +127,11 @@ public class ApiOAuthFilter implements Filter {
   }
 
 
+  /**
+   * Assign an 'ROLE_ADMIN' role to the given user, if he is member of the admin team.
+   * @param coinUser the CoinUser representing the currently logged in user.
+   *
+   */
   public void elevateUserIfApplicable(CoinUser coinUser) {
     if (isMemberOfAdminTeam(coinUser)) {
       coinUser.addAuthority(new CoinAuthority("ROLE_ADMIN"));
