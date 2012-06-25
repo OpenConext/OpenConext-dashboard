@@ -83,8 +83,7 @@
         </div>
         <div class="modal-body">
           <i class="icon-remove-sign"></i>
-
-          <p>      An error occurred. The world has come to an end.</p>
+          <p>An error occurred. Please try to reload the page or go to the <a href="<c:url value="/"/>">homepage</a>.</p>
         </div>
       </div>
 
@@ -96,8 +95,7 @@
 
   <footer>
     <div class="content-some-dense">
-      SURFnet bv | Postbus 190-35, 3501 DA Utrecht | T +31 302 305 305 | F +31 302 305 329 | <a
-        href="mailto:admin@surfnet.nl">Admin@SURFnet.nl</a>
+      SURFnet | T +31 302 305 305 | <a href="mailto:surfconext-beheer@surfnet.nl">surfconext-beheer@surfnet.nl</a>
     </div>
   </footer>
 </div>

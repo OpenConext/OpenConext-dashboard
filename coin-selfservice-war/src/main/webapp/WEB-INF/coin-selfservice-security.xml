@@ -67,7 +67,7 @@
     <property name="entityID" value="${ISSUING_ENTITY_ID}"/>
   </bean>
 
-  <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
+  <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true" access-denied-page="/error.jsp">
 
     <security:custom-filter position="PRE_AUTH_FILTER" ref="samlPreAuthFilter"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
