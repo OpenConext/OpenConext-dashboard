@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -200,5 +202,16 @@ public class CoinUser implements UserDetails {
 
   public void addAttribute(String key, List<String> value) {
     this.attributeMap.put(key, value);
+  }
+
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("uid", uid)
+        .append("displayName", displayName)
+        .append("idp", idp)
+        .append("schacHomeOrganization", schacHomeOrganization)
+        .append("authorities", getAuthorities())
+        .append("attributes", attributeMap)
+        .toString();
   }
 }

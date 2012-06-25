@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -32,5 +34,11 @@ public class CoinAuthority implements GrantedAuthority {
   @Override
   public String getAuthority() {
     return authority;
+  }
+
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("authority", authority)
+        .toString();
   }
 }

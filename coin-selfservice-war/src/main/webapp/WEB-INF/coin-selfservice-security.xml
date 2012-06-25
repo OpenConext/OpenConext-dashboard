@@ -32,14 +32,23 @@
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
     <property name="adminTeam" value="${admin.teamname}" />
-    <property name="apiService" ref="openConextApiService" />
+    <property name="apiClient" ref="openConextApiClient" />
+    <property name="callbackFlagParameter" value="apiOauthCallback" />
   </bean>
 
-  <bean id="openConextApiService" init-method="init" class="nl.surfnet.coin.api.client.OpenConextApiService">
-    <property name="endpointBaseUrl" value="${api-baseurl}" />
-    <property name="oauthConsumerKey" value="${api-consumerkey}" />
-    <property name="oauthConsumerSecret" value="${api-consumersecret}" />
-    <property name="version" value="v2" />
+  <bean id="openConextApiClient" class="nl.surfnet.coin.api.client.OpenConextOAuthClientImpl">
+    <constructor-arg index="0">
+      <bean class="nl.surfnet.coin.api.client.OAuthEnvironment">
+        <property name="callbackUrl" value="${api-callbackuri}" />
+        <property name="endpointBaseUrl" value="${api-baseurl}" />
+        <property name="oauthKey" value="${api-consumerkey}"/>
+        <property name="oauthSecret" value="${api-consumersecret}" />
+        <property name="version" value="v2" />
+      </bean>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <bean class="nl.surfnet.coin.api.client.InMemoryOAuthRepositoryImpl" />
+    </constructor-arg>
   </bean>
 
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.CertificateStoreImpl">

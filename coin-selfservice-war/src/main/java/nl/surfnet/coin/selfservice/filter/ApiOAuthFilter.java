@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 
-import nl.surfnet.coin.api.client.OpenConextApiService;
+import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
@@ -46,15 +46,13 @@ public class ApiOAuthFilter implements Filter {
 
   Logger LOG = LoggerFactory.getLogger(ApiOAuthFilter.class);
 
-  public void setApiService(OpenConextApiService apiService) {
-    this.apiService = apiService;
-  }
-
-  private OpenConextApiService apiService;
+  private OpenConextOAuthClient apiClient;
 
   private static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
-  private static final String CALLBACK_URI = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.CALLBACK_URI";
+  private static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" +
+      ".ORIGINAL_REQUEST_URL";
   private String adminTeam;
+  private String callbackFlagParameter;
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -67,38 +65,43 @@ public class ApiOAuthFilter implements Filter {
     if (SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
       CoinUser user = SpringSecurity.getCurrentUser();
 
-      if (apiService.isAuthorized(user.getUid())) {
+      if (apiClient.isAccessTokenGranted(user.getUid())) {
         // already authorized before (we have a token)
         elevateUserIfApplicable(user);
         session.setAttribute(PROCESSED, "true");
-      } else if (StringUtils.equals(httpRequest.getParameter("oauthCallback"), "true")) {
+        LOG.debug("Access token was already granted, processed elevation. Will fall through filter. " +
+            "User is now: {}.", user);
+      } else if (httpRequest.getParameter(callbackFlagParameter) != null) {
         // callback from OAuth dance, elevate immediately afterwards
-        apiService.setCallbackUrl((String) session.getAttribute(CALLBACK_URI));
-        apiService.oauthCallback(httpRequest, user.getUid());
+
+        apiClient.oauthCallback(httpRequest, user.getUid());
+
         elevateUserIfApplicable(user);
         session.setAttribute(PROCESSED, "true");
+        LOG.debug("Processed elevation after callback. Will redirect to originally requested location. User is now: " +
+            "{}.", user);
+        ((HttpServletResponse) response).sendRedirect((String) session.getAttribute(ORIGINAL_REQUEST_URL));
+        return;
       } else {
         // No authorization yet, start the OAuth dance
-        final String callbackUrl = getCallbackUrl(httpRequest);
-        session.setAttribute(CALLBACK_URI, callbackUrl);
-        apiService.setCallbackUrl(callbackUrl);
-        ((HttpServletResponse) response).sendRedirect(apiService.getAuthorizationUrl());
+        final String currentRequestUrl = getCurrentRequestUrl(httpRequest);
+        session.setAttribute(ORIGINAL_REQUEST_URL, currentRequestUrl);
+        LOG.debug("No auth yet, redirecting to auth url: {}", apiClient.getAuthorizationUrl());
+        ((HttpServletResponse) response).sendRedirect(apiClient.getAuthorizationUrl());
         return;
       }
     }
     chain.doFilter(request, response);
   }
 
-  private String getCallbackUrl(HttpServletRequest request) {
+  private String getCurrentRequestUrl(HttpServletRequest request) {
     StringBuilder sb = new StringBuilder()
-        .append(request.getRequestURL())
-        .append("?");
+        .append(request.getRequestURL());
     if (!StringUtils.isBlank(request.getQueryString())) {
       sb
-          .append(request.getQueryString())
-          .append("&");
+        .append("?")
+        .append(request.getQueryString());
     }
-    sb.append("oauthCallback=true");
     return sb.toString();
   }
 
@@ -118,7 +121,7 @@ public class ApiOAuthFilter implements Filter {
    * @return boolean
    */
   private boolean isMemberOfAdminTeam(CoinUser user) {
-    final List<Group20> groups = apiService.getGroups20(user.getUid(), user.getUid());
+    final List<Group20> groups = apiClient.getGroups20(user.getUid(), user.getUid());
     Assert.notNull(groups, "Groups returned from api.surfconext should not be null");
 
     if (LOG.isDebugEnabled()) {
@@ -141,5 +144,13 @@ public class ApiOAuthFilter implements Filter {
 
   @Override
   public void destroy() {
+  }
+
+  public void setApiClient(OpenConextOAuthClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  public void setCallbackFlagParameter(String callbackFlagParameter) {
+    this.callbackFlagParameter = callbackFlagParameter;
   }
 }
