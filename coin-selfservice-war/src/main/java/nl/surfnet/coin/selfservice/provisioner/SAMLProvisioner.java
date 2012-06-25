@@ -20,6 +20,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.Attribute;
@@ -30,6 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import nl.surfnet.coin.janus.Janus;
+import nl.surfnet.coin.janus.domain.JanusEntity;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -50,6 +54,10 @@ public class SAMLProvisioner implements Provisioner {
 
 
   private IdentityProviderService federationProviderService;
+
+  @Resource(name = "janusClient")
+  private Janus janusClient;
+
 
   @Override
   public UserDetails provisionUser(Assertion assertion) {
@@ -94,8 +102,12 @@ public class SAMLProvisioner implements Provisioner {
   private IdentityProvider getInstitutionIdP(String idpId) {
     IdentityProvider idp = federationProviderService.getIdentityProvider(idpId);
     if (idp == null) {
-      // there are a few IdP's in SURFconext that don't exist in SURFfederatie like SURFguest
-      idp = new IdentityProvider(idpId, null, idpId);
+      final JanusEntity entity = janusClient.getEntity(idpId);
+      if (entity == null) {
+        idp = new IdentityProvider(idpId, null, idpId);
+      } else {
+        idp = new IdentityProvider(entity.getEntityId(), null, entity.getPrettyName());
+      }
     }
     return idp;
   }

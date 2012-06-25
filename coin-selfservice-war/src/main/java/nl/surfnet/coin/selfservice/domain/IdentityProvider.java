@@ -21,6 +21,8 @@ import java.io.Serializable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Identity provider
  */
@@ -50,7 +52,11 @@ public class IdentityProvider extends Provider implements Serializable {
   public IdentityProvider(String id, String institutionId, String name) {
     this.id = id;
     this.institutionId = institutionId;
-    setName(name);
+    if (StringUtils.isNotBlank(name)) {
+      setName(name);
+      addName("en", name);
+      addName("nl", name);
+    }
   }
 
   public String getId() {

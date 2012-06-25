@@ -42,13 +42,18 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   @XStreamAsAttribute
   private ProviderType type;
 
-  // TODO use a clean solution for this issue with SURFfederatie & SURFconext
+  /**
+   * Name of the Provider. SURFfederatie knows only 1 value, SURFconext supports a value per language.
+   * This name field can be used for sorting
+   */
   @XStreamAlias("Name")
   private String name;
 
+  /**
+   * Map of translated names for a Provider
+   */
   private Map<String, String> names = new HashMap<String, String>();
 
-  // TODO use a clean solution for this issue with SURFfederatie & SURFconext
   @XStreamAlias("HomeURL")
   private String homeUrl;
 

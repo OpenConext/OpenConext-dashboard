@@ -160,12 +160,13 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   public static ServiceProvider buildServiceProviderByMetadata(EntityMetadata metadata) {
     Assert.notNull(metadata, "metadata cannot be null");
     final String appEntityId = metadata.getAppEntityId();
-    String name = metadata.getName();
+    String name = metadata.getNames().get("en");
     if (StringUtils.isBlank(name)) {
       name = appEntityId;
     }
     ServiceProvider sp = new ServiceProvider(appEntityId);
-    sp.setName(name); // TODO remove this when the frontend uses getNames
+    // this is needed for sorting
+    sp.setName(name);
     sp.setNames(metadata.getNames());
     sp.setLogoUrl(metadata.getAppLogoUrl());
     sp.setHomeUrls(metadata.getAppHomeUrls());

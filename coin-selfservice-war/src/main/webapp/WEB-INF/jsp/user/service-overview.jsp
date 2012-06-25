@@ -57,7 +57,7 @@
             <td class="center">
               <c:if test="${not empty sp.urls[locale.language]}">
                 <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw75 mb10" target="_blank">
-                  <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.website"/>
+                  <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.serviceurl"/>
                 </a>
                 <br />
               </c:if>

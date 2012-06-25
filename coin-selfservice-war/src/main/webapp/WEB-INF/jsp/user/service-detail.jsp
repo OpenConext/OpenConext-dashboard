@@ -34,14 +34,7 @@
       <div class="span2">
         <div class="content">
           <p>
-            <c:set var="logo"><img alt="" style="float:left" src="<c:out value="${sp.logoUrl}"/>"/>
-            </c:set>
-            <c:choose>
-              <c:when test="${not empty sp.homeUrl}">
-                <a href="<c:out value="${sp.homeUrl}"/>" target="_blank">${logo}</a>
-              </c:when>
-              <c:otherwise>${logo}</c:otherwise>
-            </c:choose>
+            <img alt="" style="float:left" src="<c:out value="${sp.logoUrl}"/>"/>
           </p>
         </div>
       </div>
@@ -89,7 +82,7 @@
         <c:if test="${not empty sp.urls[locale.language]}">
           <p>
             <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw75 mb10" target="_blank">
-              <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.website"/>
+              <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.serviceurl"/>
             </a>
           </p>
         </c:if>
@@ -100,12 +93,6 @@
 
         <h3><spring:message code="jsp.sp_detail.moreinfo"/></h3>
         <ul class="unstyled">
-          <c:if test="${not empty sp.homeUrl}">
-            <li>
-              <a href="<c:out value="${sp.homeUrl}"/>" target="_blank"><spring:message
-                  code="jsp.sp_detail.website"/></a> <i class="icon-external-link"></i>
-            </li>
-          </c:if>
           <c:if test="${not empty sp.eulaURL}">
             <li>
               <a href="<c:out value="${sp.eulaURL}"/>" target="_blank"><spring:message code="jsp.sp_detail.eula"/></a>

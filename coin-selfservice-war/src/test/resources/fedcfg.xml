@@ -42,7 +42,7 @@
     </fed:IdP>
     <fed:IdP id="SURFnetGuests" display="true" type="saml20">
       <fed:InstitutionID>SURFnet</fed:InstitutionID>
-      <fed:Name>SURFguest</fed:Name>
+      <fed:Name>SURFguest (TEST)</fed:Name>
       <fed:HomeURL>http://www.surfguest.nl</fed:HomeURL>
       <fed:LogoURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:LogoURL>
       <fed:ContactPersons>
