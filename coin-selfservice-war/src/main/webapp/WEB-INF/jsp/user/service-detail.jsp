@@ -55,33 +55,48 @@
         <sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
         <sec:authentication property="principal.attributeMap" scope="request" var="attributeMap"/>
         <selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
-        <c:if test="${fn:length(arps) eq 0}">
-          <ul>
+        <ul>
+          <c:if test="${fn:length(arps) eq 0}">
             <c:forEach items="${attributeMap}" var="attribute">
               <li><tags:arp-attribute-info attributeKey="${attribute.key}"/></li>
             </c:forEach>
-          </ul>
-        </c:if>
-        <c:forEach items="${arps}" var="arp">
-          <ul>
+          </c:if>
+          <c:forEach items="${arps}" var="arp">
             <c:if test="${empty arp.fedAttributes and empty arp.conextAttributes}">
               <c:forEach items="${attributeMap}" var="attribute">
                 <li><tags:arp-attribute-info attributeKey="${attribute.key}"/></li>
               </c:forEach>
             </c:if>
             <c:forEach items="${arp.fedAttributes}" var="att">
-              <li>
-                <tags:arp-attribute-info attributeKey="${att}"/>
-              </li>
+              <li><tags:arp-attribute-info attributeKey="${att}"/></li>
             </c:forEach>
             <c:forEach items="${arp.conextAttributes}" var="att">
               <li><tags:arp-attribute-info attributeKey="${att.key}"/></li>
             </c:forEach>
-          </ul>
-        </c:forEach>
+          </c:forEach>
+
+          <%--@elvariable id="oAuthTokens" type="java.util.List<nl.surfnet.coin.selfservice.domain.OAuthTokenInfo>"--%>
+          <c:if test="${fn:length(oAuthTokens) gt 0}">
+            <spring:url value="/user/service/revokekeys.shtml" htmlEscape="true" var="revokeUrl">
+              <spring:param name="spEntityId" value="${sp.id}"/>
+            </spring:url>
+            <li><spring:message code="jsp.service_detail.oauth_present"/> (<a href="${revokeUrl}"><spring:message
+                code="jsp.service_detail.oauth_revoke"/></a>)
+            </li>
+          </c:if>
+        </ul>
+
+        <c:if test="${revoked eq 'true' and fn:length(oAuthTokens) eq 0}">
+          <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">&times;</a>
+            <spring:message code="jsp.service_detail.oauth_revoke.success"/>
+          </div>
+        </c:if>
+
         <c:if test="${not empty sp.urls[locale.language]}">
           <p>
-            <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw75 mb10" target="_blank">
+            <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw75 mb10"
+               target="_blank">
               <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.serviceurl"/>
             </a>
           </p>

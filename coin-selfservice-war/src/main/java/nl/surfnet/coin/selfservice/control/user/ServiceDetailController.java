@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.control.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -27,12 +28,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -46,6 +50,9 @@ public class ServiceDetailController extends BaseController {
 
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
+
+  @Resource(name = "oAuthTokenService")
+  private OAuthTokenService oAuthTokenService;
 
   @Autowired
   private ConsentDao consentDao;
@@ -61,6 +68,7 @@ public class ServiceDetailController extends BaseController {
    */
   @RequestMapping(value = "detail.shtml")
   public ModelAndView serviceDetail(@RequestParam String spEntityId,
+                                    @RequestParam(required = false) String revoked,
                                     @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
@@ -75,6 +83,19 @@ public class ServiceDetailController extends BaseController {
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     m.put("personAttributeLabels", attributeLabelMap);
 
+    final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser().getUid(), sp);
+    m.put("oAuthTokens", oAuthTokens);
+
+    m.put("revoked", revoked);
+
     return new ModelAndView("user/service-detail", m);
+  }
+
+  @RequestMapping(value = "revokekeys.shtml")
+  public RedirectView revokeKeys(@RequestParam String spEntityId,
+                                 @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
+    oAuthTokenService.revokeOAuthTokens(SpringSecurity.getCurrentUser().getUid(), sp);
+    return new RedirectView("detail.shtml?revoked=true&spEntityId=" + spEntityId);
   }
 }

@@ -50,6 +50,8 @@ public class  ServiceProvider extends Provider implements Serializable {
 
   private Map<String, String> urls;
 
+  private String gadgetBaseUrl;
+
   private boolean idpVisibleOnly;
 
   public ServiceProvider(String id) {
@@ -116,6 +118,14 @@ public class  ServiceProvider extends Provider implements Serializable {
     this.urls = urls;
   }
 
+  public String getGadgetBaseUrl() {
+    return gadgetBaseUrl;
+  }
+
+  public void setGadgetBaseUrl(String gadgetBaseUrl) {
+    this.gadgetBaseUrl = gadgetBaseUrl;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -145,6 +155,9 @@ public class  ServiceProvider extends Provider implements Serializable {
     sb.append("{id='").append(id).append('\'');
     sb.append(", arps=").append(arps);
     sb.append(", acl=").append(acl);
+    sb.append(", eulaUrl='").append(eulaURL).append('\'');
+    sb.append(", gadgetBaseUrl='").append(gadgetBaseUrl).append('\'');
+    sb.append(", idpVisibleOnly=").append(idpVisibleOnly);
     sb.append(' ').append(super.toString());
     sb.append('}');
     return sb.toString();

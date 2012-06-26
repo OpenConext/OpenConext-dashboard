@@ -16,6 +16,10 @@
 
 package nl.surfnet.coin.selfservice.control.user;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -26,16 +30,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -56,6 +66,9 @@ public class ServiceDetailControllerTest {
   private ServiceProviderService providerService;
 
   @Mock
+  private OAuthTokenService oAuthTokenService;
+
+  @Mock
   private ConsentDao consentDao;
 
   @Mock
@@ -65,6 +78,7 @@ public class ServiceDetailControllerTest {
   public void setUp() throws Exception {
     controller = new ServiceDetailController();
     MockitoAnnotations.initMocks(this);
+    when(coinUser.getUid()).thenReturn("urn:collab:person:example.edu:john.doe");
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
 
@@ -73,12 +87,21 @@ public class ServiceDetailControllerTest {
     ServiceProvider sp = new ServiceProvider("mockSP");
     sp.setLinked(true);
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
+
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
+
+    OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
+    info.setUserId(coinUser.getUid());
+    List<OAuthTokenInfo> infos = Arrays.asList(info);
+    when(oAuthTokenService.getOAuthTokenInfoList(coinUser.getUid(), sp)).thenReturn(infos);
+
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
-    final ModelAndView modelAndView = controller.serviceDetail("mockSP", idp);
+    final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
     assertEquals("user/service-detail", modelAndView.getViewName());
     assertEquals(sp, modelAndView.getModelMap().get("sp"));
+    assertTrue(modelAndView.getModelMap().containsKey("revoked"));
+    assertNull(modelAndView.getModelMap().get("revoked"));
   }
 
   @Test
@@ -86,12 +109,28 @@ public class ServiceDetailControllerTest {
     ServiceProvider sp = new ServiceProvider("mockSP");
     sp.setLinked(false);
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
+    when(oAuthTokenService.getOAuthTokenInfoList(coinUser.getUid(), sp)).thenReturn(Collections.<OAuthTokenInfo>emptyList());
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
-    final ModelAndView modelAndView = controller.serviceDetail("mockSP", idp);
+    final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
     assertEquals("user/service-detail", modelAndView.getViewName());
     assertFalse(modelAndView.getModelMap().containsKey("sp"));
+  }
+
+  @Test
+  public void revokeAccessTokens() {
+    IdentityProvider idp = new IdentityProvider();
+    idp.setId("mockIdP");
+
+    ServiceProvider sp = new ServiceProvider("mockSp");
+    sp.setLinked(true);
+
+    when(providerService.getServiceProvider("mockSp", "mockIdP")).thenReturn(sp);
+
+    final RedirectView view = controller.revokeKeys("mockSp", idp);
+    verify(oAuthTokenService).revokeOAuthTokens(coinUser.getUid(), sp);
+    assertEquals("detail.shtml?revoked=true&spEntityId=mockSp", view.getUrl());
   }
 
   private Authentication getAuthentication() {

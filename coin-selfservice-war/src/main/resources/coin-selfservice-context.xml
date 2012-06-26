@@ -28,6 +28,7 @@
   <context:component-scan base-package="nl.surfnet.coin.selfservice"/>
   <cache:annotation-driven key-generator="methodNameAwareCacheKeyGenerator" />
 
+  <!-- Our "own" database for tracking connect/disconnect requests -->
   <bean id="selfserviceDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
     <property name="driverClass" value="${coin-selfservice.jdbc.driver}" />
     <property name="jdbcUrl" value="${coin-selfservice.jdbc.url}" />
@@ -44,6 +45,7 @@
     <property name="acquireRetryAttempts" value="15" />
   </bean>
 
+  <!-- We go to EB for statistics and consent checks -->
   <bean id="ebDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
     <property name="driverClass" value="${coin-eb-db-driver}"/>
     <property name="jdbcUrl" value="${coin-eb-db-url}"/>
@@ -62,6 +64,27 @@
 
   <bean id="ebJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
     <constructor-arg ref="ebDataSource"/>
+  </bean>
+
+  <!-- shindigDataStore is to fetch OAuth keys for SPs that use os.surfconext.nl -->
+  <bean id="shindigDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+    <property name="driverClass" value="${coin-shindig-db-driver}"/>
+    <property name="jdbcUrl" value="${coin-shindig-db-url}"/>
+    <property name="username" value="${coin-shindig-db-username}"/>
+    <property name="password" value="${coin-shindig-db-password}"/>
+    <property name="idleConnectionTestPeriodInSeconds" value="${coin-selfservice.database.idleConnectionTestPeriod}"/>
+    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}"/>
+    <property name="maxConnectionsPerPartition" value="20"/>
+    <property name="minConnectionsPerPartition" value="2"/>
+    <property name="partitionCount" value="3"/>
+    <property name="acquireIncrement" value="2"/>
+    <property name="statementsCacheSize" value="100"/>
+    <property name="releaseHelperThreads" value="3"/>
+    <property name="acquireRetryAttempts" value="15" />
+  </bean>
+
+  <bean id="shindigJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <constructor-arg ref="shindigDataSource"/>
   </bean>
 
   <bean id="log4jInitialization"
@@ -130,6 +153,16 @@
 
   <bean id="personAttributeLabelService" class="nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl">
     <constructor-arg name="attributeJsonFile" value="${personAttributesLabels.location}"/>
+  </bean>
+
+  <bean id="oAuthTokenService" class="nl.surfnet.coin.selfservice.service.impl.OAuthTokenServiceImpl">
+    <property name="oAuthTokenDaos">
+      <list>
+        <bean class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoShindigImpl">
+          <constructor-arg ref="shindigJdbcTemplate"/>
+        </bean>
+      </list>
+    </property>
   </bean>
 
 </beans>
