@@ -166,6 +166,9 @@
         <bean class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoShindigImpl">
           <constructor-arg ref="shindigJdbcTemplate"/>
         </bean>
+        <bean class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoAPIv10aImpl">
+          <constructor-arg ref="apiJdbcTemplate"/>
+        </bean>
         <bean class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoAPIv2Impl">
           <constructor-arg ref="apiJdbcTemplate"/>
         </bean>

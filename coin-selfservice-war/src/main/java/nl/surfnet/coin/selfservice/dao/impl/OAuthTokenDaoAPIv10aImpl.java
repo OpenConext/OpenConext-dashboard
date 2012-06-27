@@ -29,20 +29,17 @@ import nl.surfnet.coin.selfservice.dao.OAuthTokenDao;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 
 /**
- * Implementation for OAuth v2 access keys from api.surfconext
+ * OAuth 1.0a tokens in api.surfconext
  */
-public class OAuthTokenDaoAPIv2Impl implements OAuthTokenDao {
+public class OAuthTokenDaoAPIv10aImpl implements OAuthTokenDao {
 
-  public static final String SOURCE = "api.surfconext.oauth2";
-
+  public static final String SOURCE = "api.surfconext.oauth10a";
 
   private final JdbcTemplate apiJdbcTemplate;
 
-
-  public OAuthTokenDaoAPIv2Impl(JdbcTemplate apiJdbcTemplate) {
+  public OAuthTokenDaoAPIv10aImpl(JdbcTemplate apiJdbcTemplate) {
     this.apiJdbcTemplate = apiJdbcTemplate;
   }
-
 
   @Override
   public List<OAuthTokenInfo> getOAuthTokens(final String userId, final String spEntityId) {
@@ -50,12 +47,12 @@ public class OAuthTokenDaoAPIv2Impl implements OAuthTokenDao {
     List<OAuthTokenInfo> tokenInfoList;
     try {
       tokenInfoList = this.apiJdbcTemplate.query(
-          "SELECT token_id, client_id FROM oauth_access_token WHERE user_name = ? AND client_entity_id = ?",
+          "SELECT token, consumerKey FROM oauth1_tokens WHERE userId = ? AND consumerKey = ?",
           args, new RowMapper<OAuthTokenInfo>() {
         @Override
         public OAuthTokenInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-          final String token_id = rs.getString("token_id");
-          final String client_id = rs.getString("client_id");
+          final String token_id = rs.getString("token");
+          final String client_id = rs.getString("consumerKey");
           OAuthTokenInfo info = new OAuthTokenInfo(token_id, SOURCE);
           info.setConsumerKey(client_id);
           info.setUserId(userId);
@@ -71,9 +68,9 @@ public class OAuthTokenDaoAPIv2Impl implements OAuthTokenDao {
 
   @Override
   public void revokeOAuthToken(OAuthTokenInfo oAuthTokenInfo) {
-    if (SOURCE.equals(oAuthTokenInfo.getSource())) {
+    if(SOURCE.equals(oAuthTokenInfo.getSource())) {
       Object[] args = {oAuthTokenInfo.getUserId(), oAuthTokenInfo.getConsumerKey()};
-      this.apiJdbcTemplate.update("DELETE FROM oauth_access_token WHERE user_name = ? AND client_id = ?", args);
+      this.apiJdbcTemplate.update("DELETE FROM oauth1_tokens WHERE userId = ? AND consumerKey = ?", args);
     }
   }
 }
