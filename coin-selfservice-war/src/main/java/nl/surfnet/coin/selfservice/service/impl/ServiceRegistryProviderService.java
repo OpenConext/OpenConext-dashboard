@@ -115,7 +115,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
         }
       }
     } catch (RestClientException e) {
-      log.warn("Could not retrieve allowed SPs from Janus client", e.getMessage());
+      log.warn("Could not retrieve 'all SPs' from Janus client", e.getMessage());
     }
     return spList;
   }

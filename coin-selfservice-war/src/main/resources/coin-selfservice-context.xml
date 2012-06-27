@@ -45,6 +45,11 @@
     <property name="acquireRetryAttempts" value="15" />
   </bean>
 
+  <!-- API and selfservice share the same datasource -->
+  <bean id="apiJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <constructor-arg ref="selfserviceDataSource"/>
+  </bean>
+
   <!-- We go to EB for statistics and consent checks -->
   <bean id="ebDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
     <property name="driverClass" value="${coin-eb-db-driver}"/>
@@ -160,6 +165,9 @@
       <list>
         <bean class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoShindigImpl">
           <constructor-arg ref="shindigJdbcTemplate"/>
+        </bean>
+        <bean class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoAPIv2Impl">
+          <constructor-arg ref="apiJdbcTemplate"/>
         </bean>
       </list>
     </property>
