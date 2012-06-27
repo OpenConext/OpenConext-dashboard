@@ -32,6 +32,10 @@ coin-eb-db-url=jdbc:mysql://db.dev.surfconext.nl:3306/eb
 coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
+coin-shindig-db-url=jdbc:mysql://db.dev.surfconext.nl:3306/shindig
+coin-shindig-db-username=shindigrw
+coin-shindig-db-password=??
+
 # SMTP server settings for notifications
 coin-mailserver=s01.dev.coin.surf.net
 coin-mailserver-port=25
@@ -101,6 +105,7 @@ mode.dev=false
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-eb-db-driver=com.mysql.jdbc.Driver
+coin-shindig-db-driver=com.mysql.jdbc.Driver
 
 # global configuration of database properties, used for all data sources
 coin-selfservice.database.idleConnectionTestPeriod=900

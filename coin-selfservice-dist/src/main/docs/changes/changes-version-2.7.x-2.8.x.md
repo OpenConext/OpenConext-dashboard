@@ -14,6 +14,12 @@ The properties below are configured in
 
 The following properties were added. You can find their values in the property file for the specific environment.
 
+    # Connection to Shindig database
+    coin-shindig-db-driver=
+    coin-shindig-db-url=
+    coin-shindig-db-username=
+    coin-shindig-db-password=
+
     # Location of the json file that contains the labels for the ARP attributes
     personAttributesLabels.location=
 
