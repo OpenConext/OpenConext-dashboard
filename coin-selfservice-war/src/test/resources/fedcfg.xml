@@ -133,6 +133,16 @@
           <fed:EmailAddress>techsupport@example.com</fed:EmailAddress>
           <fed:TelephoneNumber>+31123456123</fed:TelephoneNumber>
         </fed:ContactPerson>
+        <fed:ContactPerson contactType="administrative">
+          <fed:Name>John Üñîçø∂é</fed:Name>
+          <fed:EmailAddress>administrator@example.com</fed:EmailAddress>
+          <fed:TelephoneNumber>+31123456123</fed:TelephoneNumber>
+        </fed:ContactPerson>
+        <fed:ContactPerson contactType="help">
+          <fed:Name>John Üñîçø∂é</fed:Name>
+          <fed:EmailAddress>help@example.com</fed:EmailAddress>
+          <fed:TelephoneNumber>+31123456123</fed:TelephoneNumber>
+        </fed:ContactPerson>
       </fed:ContactPersons>
       <fed:ACL>
         <fed:IdPRef>SURFnetGuests</fed:IdPRef>

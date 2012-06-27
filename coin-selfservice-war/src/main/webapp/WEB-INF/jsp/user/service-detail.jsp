@@ -105,7 +105,28 @@
     </div>
     <div class="span4">
       <div class="content">
-
+        <c:if test="${fn:length(sp.contactPersons) gt 0}">
+          <c:forEach items="${sp.contactPersons}" var="cp">
+            <c:if test="${cp.contactPersonType eq 'help'}">
+              <%-- Only show help for end users --%>
+              <h3><spring:message code="jsp.sp_detail.contact"/></h3>
+              <ul class="unstyled">
+                <li><c:out value="${cp.name}"/>
+                  <c:if test="${not empty cp.contactPersonType}">
+                    <em>(<c:out value="${cp.contactPersonType}"/>)</em>
+                  </c:if>
+                </li>
+                <c:if test="${not empty cp.emailAddress}">
+                  <li><a href="mailto:<c:out value="${cp.emailAddress}"/>"><c:out value="${cp.emailAddress}"/></a> <i
+                      class="icon-envelope"></i></li>
+                </c:if>
+                <c:if test="${not empty cp.telephoneNumber}">
+                  <li><c:out value="${cp.telephoneNumber}"/></li>
+                </c:if>
+              </ul>
+            </c:if>
+          </c:forEach>
+        </c:if>
         <h3><spring:message code="jsp.sp_detail.moreinfo"/></h3>
         <ul class="unstyled">
           <c:if test="${not empty sp.eulaURL}">
