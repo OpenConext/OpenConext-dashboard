@@ -36,3 +36,21 @@ The following properties were added. You can find their values in the property f
 ### Remove file
 
 Delete file `/opt/tomcat/conf/classpath_properties/fedcfg.xml`
+
+## Instructions for SURFconext admins
+
+### Add metadata in Janus module (Service Registry)
+
+
+    coin:gadgetbaseurl = same value as api-consumerkey in coin-selfservice.properties for the environment
+    coin:oauth:secret = same value as api-consumersecret in coin-selfservice.properties for the environment
+    coin:no_consent_required = √
+    coin:oauth:app_title = SURFconext | Self service | SURFnet (app title)
+    coin:oauth:consent_not_required = √
+
+### Add ACL to let Selfservice retrieve group information
+
+  * Go to Manage.surfconext
+  * Group providers
+  * For grouper click on ACL
+  * Allow selfservice.surfconext to retrieve group information from SURFconext grouper
