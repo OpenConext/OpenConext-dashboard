@@ -35,7 +35,8 @@
         <th><spring:message code="jsp.sp_overview.name"/></th>
         <th><spring:message code="jsp.sp_overview.description"/></th>
         <%--<th></th>--%>
-        <th class="center"></th>
+        <th></th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -55,15 +56,16 @@
               </c:if>
             </td>--%>
             <td class="center">
-              <c:if test="${not empty sp.urls[locale.language]}">
-                <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw75 mb10" target="_blank">
-                  <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.serviceurl"/>
-                </a>
-                <br />
-              </c:if>
               <a href="${detailUrl}" class="btn btn-info btn-small cw75">
                 <i class="icon-info-sign"></i> <spring:message code="jsp.sp_overview.detail"/>
               </a>
+            </td>
+            <td class="center">
+              <c:if test="${not empty sp.urls[locale.language]}">
+                <a href="<c:out value="${sp.urls[locale.language]}"/>" class="btn btn-primary btn-small cw85" target="_blank">
+                  <i class="icon-external-link"></i> <spring:message code="jsp.sp_detail.serviceurl"/>
+                </a>
+              </c:if>
             </td>
           </tr>
         </c:if>
