@@ -83,7 +83,7 @@ federationconfig.location=https://knikker.surfnet.nl/fedcfg/config-selfservice-t
 federationconfig.reload.interval=900000
 
 # Only members of the following team are admins
-admin.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
+admin.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:selfservice_idp_contactpersonen
 
 api-baseurl=https\://api.dev.surfconext.nl/v1/
 api-consumerkey=dev-selfservice
