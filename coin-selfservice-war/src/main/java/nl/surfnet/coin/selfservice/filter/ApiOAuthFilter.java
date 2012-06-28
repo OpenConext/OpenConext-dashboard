@@ -65,8 +65,7 @@ public class ApiOAuthFilter implements Filter {
 
       if (apiClient.isAccessTokenGranted(user.getUid())) {
         // already authorized before (we have a token)
-        elevateUserIfApplicable(user);
-        session.setAttribute(PROCESSED, "true");
+        safelyElevateUser(session, user);
         LOG.debug("Access token was already granted, processed elevation. Will fall through filter. " +
             "User is now: {}.", user);
       } else if (httpRequest.getParameter(callbackFlagParameter) != null) {
@@ -74,8 +73,7 @@ public class ApiOAuthFilter implements Filter {
 
         apiClient.oauthCallback(httpRequest, user.getUid());
 
-        elevateUserIfApplicable(user);
-        session.setAttribute(PROCESSED, "true");
+        safelyElevateUser(session, user);
         LOG.debug("Processed elevation after callback. Will redirect to originally requested location. User is now: " +
             "{}.", user);
         ((HttpServletResponse) response).sendRedirect((String) session.getAttribute(ORIGINAL_REQUEST_URL));
@@ -90,6 +88,20 @@ public class ApiOAuthFilter implements Filter {
       }
     }
     chain.doFilter(request, response);
+  }
+
+  private void safelyElevateUser(HttpSession session, CoinUser user) {
+    try {
+      elevateUserIfApplicable(user);
+      session.setAttribute(PROCESSED, "true");
+    } catch (RuntimeException e) {
+      // If API receives an error code, it throws a RuntimeException
+      if (LOG.isDebugEnabled()) {
+        LOG.error("Failed to check user membership elevation", e);
+      } else {
+        LOG.error("Failed to check user membership elevation", e.getMessage());
+      }
+    }
   }
 
   private String getCurrentRequestUrl(HttpServletRequest request) {
