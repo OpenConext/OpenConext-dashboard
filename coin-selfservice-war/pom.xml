@@ -33,7 +33,7 @@
     <coin-test.version>2.8.0</coin-test.version>
     <coin-master.test-dependencies.version>2.8.1</coin-master.test-dependencies.version>
     <coin-api-serviceregistry.version>2.8.5</coin-api-serviceregistry.version>
-    <coin-api-client.version>2.8.5</coin-api-client.version>
+    <coin-api-client.version>2.8.8-SNAPSHOT</coin-api-client.version>
     <spring-security-opensaml.version>2.8.0</spring-security-opensaml.version>
     <spring-security.version>3.1.0.RELEASE</spring-security.version>
     <flyway.version>1.5</flyway.version>

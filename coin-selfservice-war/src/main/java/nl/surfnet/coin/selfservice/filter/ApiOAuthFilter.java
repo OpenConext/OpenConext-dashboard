@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import nl.surfnet.coin.api.client.InvalidTokenException;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
@@ -69,52 +70,81 @@ public class ApiOAuthFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
     HttpServletRequest httpRequest = (HttpServletRequest) request;
+    HttpServletResponse httpResponse = (HttpServletResponse) response;
     final HttpSession session = httpRequest.getSession(true);
+
     if (SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
       CoinUser user = SpringSecurity.getCurrentUser();
 
       if (apiClient.isAccessTokenGranted(user.getUid())) {
         // already authorized before (we have a token)
-        safelyElevateUser(session, user);
-        LOG.debug("Access token was already granted, processed elevation. Will fall through filter. " +
-            "User is now: {}.", user);
+        LOG.debug("Access token was already granted.");
+        try {
+          elevateUserIfApplicable(user);
+          LOG.debug("Processed elevation. User is now: {}.", user);
+          session.setAttribute(PROCESSED, "true");
+        } catch (InvalidTokenException e) {
+          initiateOauthAuthorization(httpRequest, httpResponse, session);
+          return;
+        } catch (RuntimeException e) {
+          if (LOG.isDebugEnabled()) {
+            LOG.error("Failed to check user membership elevation", e);
+          } else {
+            LOG.error("Failed to check user membership elevation", e.getMessage());
+          }
+        }
       } else if (httpRequest.getParameter(callbackFlagParameter) != null) {
-        // callback from OAuth dance, elevate immediately afterwards
+        // callback from OAuth, elevate immediately afterwards
 
         apiClient.oauthCallback(httpRequest, user.getUid());
 
-        safelyElevateUser(session, user);
-        LOG.debug("Processed elevation after callback. Will redirect to originally requested location. User is now: " +
-            "{}.", user);
+        try {
+          elevateUserIfApplicable(user);
+          session.setAttribute(PROCESSED, "true");
+        } catch (InvalidTokenException e) {
+          initiateOauthAuthorization(httpRequest, httpResponse, session);
+          return;
+        } catch (RuntimeException e) {
+          if (LOG.isDebugEnabled()) {
+            LOG.error("Failed to check user membership elevation", e);
+          } else {
+            LOG.error("Failed to check user membership elevation", e.getMessage());
+          }
+        }
+        LOG.debug("Processed elevation after callback. Will redirect to originally requested location. User is now: {}.", user);
         ((HttpServletResponse) response).sendRedirect((String) session.getAttribute(ORIGINAL_REQUEST_URL));
         return;
       } else {
         // No authorization yet, start the OAuth dance
-        final String currentRequestUrl = getCurrentRequestUrl(httpRequest);
-        session.setAttribute(ORIGINAL_REQUEST_URL, currentRequestUrl);
         LOG.debug("No auth yet, redirecting to auth url: {}", apiClient.getAuthorizationUrl());
-        ((HttpServletResponse) response).sendRedirect(apiClient.getAuthorizationUrl());
+        initiateOauthAuthorization(httpRequest, httpResponse, session);
         return;
       }
     }
     chain.doFilter(request, response);
   }
 
-  private void safelyElevateUser(HttpSession session, CoinUser user) {
-    try {
-      elevateUserIfApplicable(user);
-      session.setAttribute(PROCESSED, "true");
+  private void initiateOauthAuthorization(HttpServletRequest httpRequest, HttpServletResponse response, HttpSession session) throws IOException {
+    final String currentRequestUrl = getCurrentRequestUrl(httpRequest);
+    session.setAttribute(ORIGINAL_REQUEST_URL, currentRequestUrl);
+    response.sendRedirect(apiClient.getAuthorizationUrl());
+  }
+
+  /*
+      } catch (InvalidTokenException e) {
+      throw e;
     } catch (RuntimeException e) {
-      // If API receives an error code, it throws a RuntimeException
       if (LOG.isDebugEnabled()) {
         LOG.error("Failed to check user membership elevation", e);
       } else {
         LOG.error("Failed to check user membership elevation", e.getMessage());
       }
     }
-  }
 
+
+   */
   private String getCurrentRequestUrl(HttpServletRequest request) {
     StringBuilder sb = new StringBuilder()
         .append(request.getRequestURL());
