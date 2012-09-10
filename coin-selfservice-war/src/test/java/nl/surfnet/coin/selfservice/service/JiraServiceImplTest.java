@@ -37,7 +37,7 @@ import nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.internal.matchers.StringContains.containsString;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.*;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -68,7 +68,7 @@ public class JiraServiceImplTest {
         .issueType(JiraTask.Type.UNLINKREQUEST)
         .build();
     jiraService.create(task, new CoinUser());
-    verify(jss).createIssue(anyString(), captor.capture());
+    verify(jss).createIssueWithSecurityLevel(anyString(), captor.capture(), eq(10100L));
 
     assertThat("Given body should be set as the issue's Description field",
         captor.getValue().getDescription(), containsString("thebody"));
@@ -87,7 +87,7 @@ public class JiraServiceImplTest {
         .issueType(JiraTask.Type.QUESTION)
         .build();
     jiraService.create(task, new CoinUser());
-    verify(jss).createIssue(anyString(), captor.capture());
+    verify(jss).createIssueWithSecurityLevel(anyString(), captor.capture(),eq(10100L));
 
     assertThat(captor.getValue().getType(), IsEqual.equalTo(JiraServiceImpl.TYPE_QUESTION));
   }
@@ -101,7 +101,7 @@ public class JiraServiceImplTest {
         .issueType(JiraTask.Type.LINKREQUEST)
         .build();
 
-    when(jss.createIssue(anyString(), (RemoteIssue) anyObject()))
+    when(jss.createIssueWithSecurityLevel(anyString(), (RemoteIssue) anyObject(), eq(10100L)))
         .thenThrow(new org.swift.common.soap.jira.RemoteException());
     jiraService.create(task, new CoinUser());
   }

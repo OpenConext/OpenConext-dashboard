@@ -45,9 +45,26 @@
     <property name="acquireRetryAttempts" value="15" />
   </bean>
 
+  <!-- Our "own" database for tracking connect/disconnect requests -->
+  <bean id="apiDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+    <property name="driverClass" value="${coin-api.jdbc.driver}" />
+    <property name="jdbcUrl" value="${coin-api.jdbc.url}" />
+    <property name="username" value="${coin-api.jdbc.user}" />
+    <property name="password" value="${coin-api.jdbc.password}" />
+    <property name="idleConnectionTestPeriodInSeconds" value="${coin-selfservice.database.idleConnectionTestPeriod}"/>
+    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}"/>
+    <property name="maxConnectionsPerPartition" value="20"/>
+    <property name="minConnectionsPerPartition" value="2"/>
+    <property name="partitionCount" value="3"/>
+    <property name="acquireIncrement" value="2"/>
+    <property name="statementsCacheSize" value="100"/>
+    <property name="releaseHelperThreads" value="3"/>
+    <property name="acquireRetryAttempts" value="15" />
+  </bean>
+
   <!-- API and selfservice share the same datasource -->
   <bean id="apiJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-    <constructor-arg ref="selfserviceDataSource"/>
+    <constructor-arg ref="apiDataSource"/>
   </bean>
 
   <!-- We go to EB for statistics and consent checks -->
@@ -113,7 +130,6 @@
   <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
     <property name="baseDir" value="${coin-selfservice.db.migrations.folder}"/>
     <property name="dataSource" ref="selfserviceDataSource"/>
-    <property name="sqlMigrationPrefix" value="S" />
   </bean>
 
   <bean id="federationProviderService"  class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">

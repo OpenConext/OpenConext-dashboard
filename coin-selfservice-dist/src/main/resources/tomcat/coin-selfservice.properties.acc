@@ -24,9 +24,13 @@ janus.secret=??
 janus.uri=https://serviceregistry.acc.surfconext.nl/simplesaml/module.php/janus/services/rest/
 
 # "own" database
-coin-selfservice.jdbc.url=jdbc:mysql://db.acc.surfconext.nl:3306/api
+coin-selfservice.jdbc.url=jdbc:mysql://db.acc.surfconext.nl:3306/selfservice
 coin-selfservice.jdbc.user=??
 coin-selfservice.jdbc.password=??
+
+coin-api.jdbc.url=jdbc:mysql://db.acc.surfconext.nl:3306/api
+coin-api.jdbc.user=??
+coin-api.jdbc.password=??
 
 coin-eb-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/eb
 coin-eb-db-username=ebrw
@@ -103,6 +107,7 @@ mode.dev=false
 ##########################################################################
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
+coin-api.jdbc.driver=com.mysql.jdbc.Driver
 coin-eb-db-driver=com.mysql.jdbc.Driver
 coin-shindig-db-driver=com.mysql.jdbc.Driver
 
