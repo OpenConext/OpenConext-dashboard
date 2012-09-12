@@ -1,75 +1,65 @@
-<!-- TODO put in soap envelope and add other fields (username/password?) of needed -->
-
-<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true" >
-  <!-- Uitgaande van de instelling (entity account) wordt een 'boom' opgevraagd van licenties met bijbehorende beschrijvingen etc. Het resultaat is een lijst met regels -->
-  <entity name="account">
-    <!-- Naam van de instelling -->
-    <attribute name="name"/>
-    <!-- Statuscode zou terug moeten geven Active (1), anders is de instelling in LMNG niet meer bekend -->
-    <attribute name="statuscode"/>
-    <!-- De LMNG interne Id - waarschijnlijk voor later de beste filter -->
-    <attribute name="accountid"/>
-    <!-- URL van de instelling -->
-    <attribute name="websiteurl"/>
-    <!-- Bij een instelling is dit 1. Omdat de entiteit 'account' ook voor aanbieders gebruikt wordt is dit informatief -->
-    <attribute name="surf_isinstelling"/>
-    <!-- Onderstaand veld lijkt gevuld te zijn bij authenticatie via de SURFfederatie voor SURFspot -->
-    <attribute name="surf_ss_authentication_domain"/>
-    <order attribute="name" descending="false"/>
-    <!-- licenseagreement zijn licenties, door de alias zijn waarden als license. terug te vinden -->
-    <link-entity name="lmng_licenseagreement" from="lmng_organisationid" to="accountid" alias="license">
-      <!-- LMNG unique functionele sleutel. Er is ook een technische sleutel op basis van een Guid -->
-      <attribute name="lmng_number"/>
-      <!-- Ingangsdatum, zie ook in de filter -->
-      <attribute name="lmng_validfrom"/>
-      <!-- Einddatum, zie ook in de filter -->
-      <attribute name="lmng_validto"/>
-      <filter type="and">
-        <!-- filter op alle active, lopende licenties. De value bij de datum velden moet dus op 'vandaag' gezet worden -->
-        <condition attribute="lmng_validfrom" operator="on-or-before" value="%d"/><!-- format: 2012-09-06 -->
-        <condition attribute="lmng_validto" operator="on-or-after" value="%"/>
-        <condition attribute="statuscode" operator="eq" value="4"/>
-      </filter>
-      <!-- productvariation is de 'generieke' instantie van de afgenomen licentie. De licenseagreement is de 'koppeltabel' tussen instelling en productvariation -->
-      <link-entity name="lmng_productvariation" from="lmng_productvariationid" to="lmng_productvariationid" alias="productvariation">
-        <attribute name="lmng_name"/>
-        <!-- HTML veld met een beschrijving - helaas some ook met HTML tables -->
-        <attribute name="lmng_description"/>
-        <!-- De interessante deliverymethod zou SaaS moeten zijn - het is een verfijning op het user interface. Als er SaaS overeenkomsten zijn, kan dit ook in de filter toegepast worden -->
-        <attribute name="lmng_deliverymethodid" />
-        <filter type="and">
-          <!-- Filter op campus licenties -->
-          <condition attribute="lmng_licensemodel" operator="eq" value="2"/>
-        </filter>
-        <!-- Een product kan in verschillende verschijningsvormen aangeboden worden - productvariation. Veel beschrijvende teksten zijn op het bovenliggende product te vinden -->
-        <link-entity name="lmng_product" from="lmng_productid" to="lmng_productid" alias="product">
-          <attribute name="lmng_name"/>
-          <!-- HTML veld met een beschrijving - helaas soms ook met HTML tables -->
-          <attribute name="lmng_description"/>
-          <!-- HTML veld met een uitgebreide beschrijving - helaas soms ook met HTML tables -->
-          <attribute name="lmng_descriptionlong"/>
-          <!-- Bij een product kan een specifiek plaatje gezet worden, dat via een aparte Url op te halen is -->
-          <link-entity name="lmng_image" from="lmng_imageid" to="lmng_productimageid" alias="image" link-type="outer">
-            <attribute name="lmng_url"/>
-          </link-entity>
-          <!-- De aanbieder van een product. Zie hier het 'hergebruik' van account -->
-          <link-entity name="account" from="accountid" to="lmng_accountid" alias="supplier">
-            <attribute name="name"/>
-          </link-entity>
-          <!-- De bemiddelingsovereenkomst met de aanbieder. Deze wordt 'gejoined' om er zeker van te zijn, dat er campuslicenties gevonden worden -->
-          <link-entity name="lmng_mediationagreement" from="lmng_mediationagreementid" to="lmng_mediationagreementid" alias="mediationagreement">
-            <filter type="and">
-              <condition attribute="lmng_agreementtype" operator="eq" value="1"/>
-            </filter>
-          </link-entity>
-        </link-entity>
-      </link-entity>
-    </link-entity>
-    <!-- De eerste (belangrijkste voor software) LMNG contact persoon van de instelling met enkele attributen. Er zijn nog meer contactpersonen die opgevraagd kunnen worden -->
-    <link-entity name="contact" from="contactid" to="primarycontactid" visible="false" link-type="outer" alias="contact">
-      <attribute name="fullname"/>
-      <attribute name="emailaddress1"/>
-      <attribute name="jobtitle"/>
-    </link-entity>
-  </entity>
-</fetch>
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <CrmAuthenticationToken xmlns="http://schemas.microsoft.com/crm/2007/WebServices">
+      <AuthenticationType xmlns="http://schemas.microsoft.com/crm/2007/CoreTypes">0</AuthenticationType>
+      <OrganizationName xmlns="http://schemas.microsoft.com/crm/2007/CoreTypes">SURFdienstenBV</OrganizationName>
+      <CallerId xmlns="http://schemas.microsoft.com/crm/2007/CoreTypes">00000000-0000-0000-0000-000000000000</CallerId>
+    </CrmAuthenticationToken>
+  </soap:Header>
+  <soap:Body>
+    <Fetch xmlns="http://schemas.microsoft.com/crm/2007/WebServices">
+      <fetchXml>
+        &lt;fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true" page="1" count="1"&gt;
+        &lt;entity name="account"&gt;
+        &lt;attribute name="name"/&gt;
+        &lt;attribute name="statuscode"/&gt;
+        &lt;attribute name="accountid"/&gt;
+        &lt;attribute name="websiteurl"/&gt;
+        &lt;attribute name="surf_isinstelling"/&gt;
+        &lt;attribute name="surf_ss_authentication_domain"/&gt;
+        &lt;order attribute="name" descending="false"/&gt;
+        &lt;link-entity name="lmng_licenseagreement" from="lmng_organisationid" to="accountid" alias="license"&gt;
+        &lt;attribute name="lmng_number"/&gt;
+        &lt;attribute name="lmng_validfrom"/&gt;
+        &lt;attribute name="lmng_validto"/&gt;
+        &lt;filter type="and"&gt;
+        &lt;condition attribute="lmng_validfrom" operator="on-or-before" value="%VALID_ON%"/&gt;
+        &lt;condition attribute="lmng_validto" operator="on-or-after" value="%VALID_ON%"/&gt;
+        &lt;condition attribute="statuscode" operator="eq" value="4"/&gt;
+        &lt;/filter&gt;
+        &lt;link-entity name="lmng_productvariation" from="lmng_productvariationid" to="lmng_productvariationid" alias="productvariation"&gt;
+        &lt;attribute name="lmng_name"/&gt;
+        &lt;attribute name="lmng_description"/&gt;
+        &lt;attribute name="lmng_deliverymethodid" /&gt;
+        &lt;filter type="and"&gt;
+        &lt;condition attribute="lmng_licensemodel" operator="eq" value="2"/&gt;
+        &lt;/filter&gt;
+        &lt;link-entity name="lmng_product" from="lmng_productid" to="lmng_productid" alias="product"&gt;
+        &lt;attribute name="lmng_name"/&gt;
+        &lt;attribute name="lmng_description"/&gt;
+        &lt;attribute name="lmng_descriptionlong"/&gt;
+        &lt;link-entity name="lmng_image" from="lmng_imageid" to="lmng_productimageid" alias="image" link-type="outer"&gt;
+        &lt;attribute name="lmng_url"/&gt;
+        &lt;/link-entity&gt;
+        &lt;link-entity name="account" from="accountid" to="lmng_accountid" alias="supplier"&gt;
+        &lt;attribute name="name"/&gt;
+        &lt;/link-entity&gt;
+        &lt;link-entity name="lmng_mediationagreement" from="lmng_mediationagreementid" to="lmng_mediationagreementid" alias="mediationagreement"&gt;
+        &lt;filter type="and"&gt;
+        &lt;condition attribute="lmng_agreementtype" operator="eq" value="1"/&gt;
+        &lt;/filter&gt;
+        &lt;/link-entity&gt;
+        &lt;/link-entity&gt;
+        &lt;/link-entity&gt;
+        &lt;/link-entity&gt;
+        &lt;link-entity name="contact" from="contactid" to="primarycontactid" visible="false" link-type="outer" alias="contact"&gt;
+        &lt;attribute name="fullname"/&gt;
+        &lt;attribute name="emailaddress1"/&gt;
+        &lt;attribute name="jobtitle"/&gt;
+        &lt;/link-entity&gt;
+        &lt;/entity&gt;
+        &lt;/fetch&gt;
+      </fetchXml>
+    </Fetch>
+  </soap:Body>
+</soap:Envelope>
