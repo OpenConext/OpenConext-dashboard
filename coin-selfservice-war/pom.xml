@@ -269,7 +269,17 @@
 		<artifactId>commons-io</artifactId>
 		<version>1.3.2</version>
 	</dependency>
-
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.2.1</version>
+	</dependency>
+	<dependency>
+		<groupId>jcifs</groupId>
+		<artifactId>jcifs</artifactId>
+		<version>1.3.17</version>
+	</dependency>
+            
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
