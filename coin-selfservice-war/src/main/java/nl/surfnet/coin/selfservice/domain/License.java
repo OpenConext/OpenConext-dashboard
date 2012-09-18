@@ -106,4 +106,11 @@ public class License implements Serializable {
     this.supplierName = supplierName;
   }
 
+  @Override
+  public String toString() {
+    return "License [startDate=" + startDate + ", endDate=" + endDate + ", description=" + description + ", productName=" + productName
+        + ", identityName=" + identityName + ", contactFullName=" + contactFullName + ", contactEmail=" + contactEmail + ", supplierName="
+        + supplierName + "]";
+  }
+
 }

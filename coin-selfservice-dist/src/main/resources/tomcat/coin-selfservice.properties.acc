@@ -36,6 +36,10 @@ coin-eb-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/eb
 coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
+coin-lmng-endpoint=??
+coin-lmng-user=??
+coin-lmng-password=??
+
 coin-shindig-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/shindig
 coin-shindig-db-username=shindigrw
 coin-shindig-db-password=??
