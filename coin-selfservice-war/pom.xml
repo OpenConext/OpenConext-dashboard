@@ -301,7 +301,7 @@
         <configuration>
           <user>foo</user>
           <password>bar</password>
-          <url>jdbc:hsqldb:file:target/db/coin_api;shutdown=true</url>
+          <url>jdbc:hsqldb:mem:coin</url>
         </configuration>
       </plugin>
       <plugin>

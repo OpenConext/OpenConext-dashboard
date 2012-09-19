@@ -45,7 +45,7 @@
     <property name="acquireRetryAttempts" value="15" />
   </bean>
 
-  <!-- Our "own" database for tracking connect/disconnect requests -->
+  <!-- The api database for oauth keys -->
   <bean id="apiDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
     <property name="driverClass" value="${coin-api.jdbc.driver}" />
     <property name="jdbcUrl" value="${coin-api.jdbc.url}" />

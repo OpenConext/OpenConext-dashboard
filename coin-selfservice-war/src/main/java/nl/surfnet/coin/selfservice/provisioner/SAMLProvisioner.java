@@ -52,7 +52,6 @@ public class SAMLProvisioner implements Provisioner {
   private static final String UID = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
   private static final Logger LOG = LoggerFactory.getLogger(SAMLProvisioner.class);
 
-
   private IdentityProviderService federationProviderService;
 
   @Resource(name = "janusClient")
