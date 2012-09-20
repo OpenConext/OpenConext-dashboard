@@ -30,6 +30,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.service.LicensingService;
@@ -51,6 +52,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,7 +70,10 @@ public class LmngServiceImpl implements LicensingService {
   private static final Logger log = LoggerFactory.getLogger(LmngServiceImpl.class);
 
   private static final String PATH_SOAP_REQUEST_GET_LICENSE_QUERY = "lmngqueries/licenseForIdentityProvider.xml";
-
+  
+  @Autowired
+  private LmngIdentifierDao lmngIdentifierDao;
+  
   private String endpoint;
   private String user;
   private String password;
@@ -223,8 +228,8 @@ public class LmngServiceImpl implements LicensingService {
    * @return
    */
   private String getLmngIdentityId(IdentityProvider identityProvider) {
-    // TODO get correct IDP-id for LMNG from local database converttable
-    return identityProvider.getInstitutionId();
+    // TODO check if we need Id of institutionId
+    return lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getId());
   }
 
   /**
@@ -258,4 +263,8 @@ public class LmngServiceImpl implements LicensingService {
     this.password = password;
   }
 
+  public void setLmngIdentifierDao(LmngIdentifierDao lmngIdentifierDao) {
+    this.lmngIdentifierDao = lmngIdentifierDao;
+  }
+  
 }

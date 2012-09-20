@@ -16,29 +16,52 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
-import org.junit.Ignore;
-
+import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test class for {@code LmngServiceImpl}
  *
  */
 public class LmngServiceImplTest {
-
-  @Ignore
+  
+  private Properties properties;
+  private LmngServiceImpl lmngServiceImpl;
+  private LmngIdentifierDao mockLmngIdentifierDao;
+  
+  @Before
+  public void init() throws FileNotFoundException, IOException{
+    properties = new Properties();
+    properties.load(this.getClass().getResourceAsStream ("/coin-selfservice.properties"));
+    lmngServiceImpl = new LmngServiceImpl();
+    lmngServiceImpl.setEndpoint(properties.getProperty("coin-lmng-endpoint"));
+    lmngServiceImpl.setUser(properties.getProperty("coin-lmng-user"));
+    lmngServiceImpl.setPassword(properties.getProperty("coin-lmng-password"));
+    
+    mockLmngIdentifierDao = mock(LmngIdentifierDao.class);
+    lmngServiceImpl.setLmngIdentifierDao(mockLmngIdentifierDao);
+  }
+  
+  @Test
   public void testParseJsonToAttributeLabels() throws IOException {
-    LmngServiceImpl lmngServiceImpl = new LmngServiceImpl();
-    //TODO get properties set into service
+    when(mockLmngIdentifierDao.getLmngIdForIdentityProviderId("testId")).thenReturn("lmngId");
+
     Date date = new Date();
-    IdentityProvider identityProvider = new IdentityProvider("testid", "testinstitutionId", "testName");
+    IdentityProvider identityProvider = new IdentityProvider("testId", "testinstitutionId", "testName");
     List<License> licenses = lmngServiceImpl.getLicensesForIdentityProvider(identityProvider, date);
    
     assertEquals("Incorrect number of results", 1 ,licenses.size());
