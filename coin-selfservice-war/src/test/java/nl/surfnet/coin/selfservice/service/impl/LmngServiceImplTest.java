@@ -57,7 +57,7 @@ public class LmngServiceImplTest {
   }
   
   @Test
-  public void testParseJsonToAttributeLabels() throws IOException {
+  public void testRetrieveLmngData() throws IOException {
     when(mockLmngIdentifierDao.getLmngIdForIdentityProviderId("testId")).thenReturn("lmngId");
 
     Date date = new Date();
