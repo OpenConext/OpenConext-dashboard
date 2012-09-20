@@ -59,7 +59,7 @@ public final class PersonAttributeUtil {
         }
         List<String> values = new ArrayList<String>(attributeValues.size());
         for (XMLObject value : attributeValues) {
-          values.add(value.getDOM().getTextContent());
+          values.add(value.getDOM().getFirstChild().getNodeValue());
         }
         m.put(attribute.getName(), values);
       }

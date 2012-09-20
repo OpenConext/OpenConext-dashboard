@@ -135,7 +135,7 @@ public class SAMLProvisioner implements Provisioner {
       final List<Attribute> attributes = attributeStatement.getAttributes();
       for (Attribute attribute : attributes) {
         if (name.equals(attribute.getName())) {
-          return attribute.getAttributeValues().get(0).getDOM().getTextContent();
+          return attribute.getAttributeValues().get(0).getDOM().getFirstChild().getNodeValue();
         }
       }
     }
