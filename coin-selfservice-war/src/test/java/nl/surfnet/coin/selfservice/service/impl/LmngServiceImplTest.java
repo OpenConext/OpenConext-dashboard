@@ -31,7 +31,7 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Test class for {@code LmngServiceImpl}
@@ -56,10 +56,10 @@ public class LmngServiceImplTest {
     lmngServiceImpl.setLmngIdentifierDao(mockLmngIdentifierDao);
   }
   
-  @Test
+  @Ignore // we us this for a local integration test only
   public void testRetrieveLmngData() throws IOException {
     when(mockLmngIdentifierDao.getLmngIdForIdentityProviderId("testId")).thenReturn("lmngId");
-
+    
     Date date = new Date();
     IdentityProvider identityProvider = new IdentityProvider("testId", "testinstitutionId", "testName");
     List<License> licenses = lmngServiceImpl.getLicensesForIdentityProvider(identityProvider, date);
