@@ -127,6 +127,44 @@
             </c:if>
           </c:forEach>
         </c:if>
+        
+        <!-- licenses info -->
+         <c:if test="${fn:length(licenses) gt 0}">
+          <h3><spring:message code="jsp.sp_detail.licenses"/></h3>
+          <ul class="unstyled">
+            <c:forEach items="${licenses}" var="lc">
+              <c:if test="${not empty lc.productName}">
+                <li><spring:message code="jsp.sp_detail.license.productname"/>:<br/>
+                  &nbsp;&nbsp;<c:out value="${lc.productName}"/>
+                </li>
+              </c:if>
+              <c:if test="${not empty lc.endDate}">
+                <li><spring:message code="jsp.sp_detail.license.enddate"/>:<br/>
+                  &nbsp;&nbsp;<fmt:formatDate type="both" value="${lc.endDate}" />
+                </li>
+              </c:if>
+              <c:if test="${not empty lc.description}">
+                <li><spring:message code="jsp.sp_detail.license.description"/>:
+                  &nbsp;&nbsp;<c:out value="${lc.description}" escapeXml="false" />
+                </li>
+              </c:if>
+              <c:if test="${not empty lc.contactFullName}">
+                <li><spring:message code="jsp.sp_detail.license.contactfullname"/>:<br/>
+                  &nbsp;&nbsp;<c:out value="${lc.contactFullName}"/>
+                </li>
+              </c:if>
+              <c:if test="${not empty lc.supplierName}">
+                <li><spring:message code="jsp.sp_detail.license.suppliername"/>:<br/>
+                  &nbsp;&nbsp;<c:out value="${lc.supplierName}"/>
+                </li>
+              </c:if>
+              <hr/>
+              <br/>
+            </c:forEach>
+          </ul>
+        </c:if>
+        
+        
         <h3><spring:message code="jsp.sp_detail.moreinfo"/></h3>
         <ul class="unstyled">
           <c:if test="${not empty sp.eulaURL}">

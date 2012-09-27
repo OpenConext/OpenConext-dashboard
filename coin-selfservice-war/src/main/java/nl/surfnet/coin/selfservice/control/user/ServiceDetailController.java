@@ -33,9 +33,11 @@ import org.springframework.web.servlet.view.RedirectView;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -54,6 +56,9 @@ public class ServiceDetailController extends BaseController {
   @Resource(name = "oAuthTokenService")
   private OAuthTokenService oAuthTokenService;
 
+  @Resource(name = "licensingService")
+  private LicensingService licensingService;
+  
   @Autowired
   private ConsentDao consentDao;
 
@@ -87,9 +92,13 @@ public class ServiceDetailController extends BaseController {
     m.put("oAuthTokens", oAuthTokens);
 
     m.put("revoked", revoked);
-
+    
+    List<License> licenses = licensingService.getLicensesForIdentityProvider(selectedidp);
+    m.put("licenses", licenses);
+    
     return new ModelAndView("user/service-detail", m);
   }
+
 
   @RequestMapping(value = "revokekeys.shtml")
   public RedirectView revokeKeys(@RequestParam String spEntityId,
