@@ -50,6 +50,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +117,7 @@ public class LmngServiceImpl implements LicensingService {
   private List<License> parseResult(InputStream webserviceResult) throws ParserConfigurationException, SAXException, IOException,
       ParseException {
     List<License> resultList = new ArrayList<License>();
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis();
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -146,11 +148,9 @@ public class LmngServiceImpl implements LicensingService {
             license.setContactEmail(getFirstSubElementStringValue(resultElement, "contact.emailaddress1"));
             license.setContactFullName(getFirstSubElementStringValue(resultElement, "contact.fullname"));
             license.setDescription(getFirstSubElementStringValue(resultElement, "product.lmng_description"));
-            // TODO parse entire datestring
-            Date startDate = simpleDateFormat
-                .parse(getFirstSubElementStringValue(resultElement, "license.lmng_validfrom").substring(0, 10));
+            Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, "license.lmng_validfrom")));
             license.setStartDate(startDate);
-            Date endDate = simpleDateFormat.parse(getFirstSubElementStringValue(resultElement, "license.lmng_validto").substring(0, 10));
+            Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, "license.lmng_validto"))); 
             license.setEndDate(endDate);
             license.setIdentityName(getFirstSubElementStringValue(resultElement, "name"));
             license.setProductName(getFirstSubElementStringValue(resultElement, "product.lmng_name"));
@@ -228,7 +228,7 @@ public class LmngServiceImpl implements LicensingService {
    * @return
    */
   private String getLmngIdentityId(IdentityProvider identityProvider) {
-    // TODO check if we need Id of institutionId
+    // TODO check if we need Id or institutionId
     return lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getId());
   }
 
