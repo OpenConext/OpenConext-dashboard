@@ -49,9 +49,6 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
     jdbcTemplate = new JdbcTemplate(dataSource);
   }
 
-  @Autowired
-  private JdbcTemplate ebJdbcTemplate;
-
   @Override
   public String getLmngIdForIdentityProviderId(String identityProviderId) {
     List<String> result = jdbcTemplate.query("SELECT lmngId FROM ss_idp_lmng_identifiers WHERE idpId = ?", new RowMapper<String>() {
