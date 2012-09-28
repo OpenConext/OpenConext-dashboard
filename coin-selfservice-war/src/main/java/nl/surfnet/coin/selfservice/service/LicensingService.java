@@ -21,6 +21,7 @@ import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 /**
  * Interface of services that return Licensing information from LMNG (Licentie
@@ -49,4 +50,31 @@ public interface LicensingService {
    * @return a list of possible valid licenses
    */
   List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider, Date validOn);
+  
+  /**
+   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid
+   * today.
+   * 
+   * @param identityProvider
+   *          the identityProvider to get the licenses for
+   * @param serviceProvider
+   *          the serviceProvider to get the licenses for
+   * @return a list of possible valid licenses
+   */
+  List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider);
+
+  /**
+   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid on
+   * the given day
+   * 
+   * @param identityProvider
+   *          the identityProvider to get the licenses for
+   * @param serviceProvider
+   *          the serviceProvider to get the licenses for
+   * @param validOn
+   *          Date on which the license should be valid
+   * @return a list of possible valid licenses
+   */
+  List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider, Date validOn);
+
 }

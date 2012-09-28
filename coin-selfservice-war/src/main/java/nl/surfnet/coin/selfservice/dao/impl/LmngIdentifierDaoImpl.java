@@ -78,4 +78,20 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
     return result.get(0);
   }
 
+  @Override
+  public String getLmngIdForServiceProviderId(String spId) {
+    //TODO are we going to create a new database table for this data or are we going to use and rename the current table
+    List<String> result = jdbcTemplate.query("SELECT lmngId FROM ss_idp_lmng_identifiers WHERE idpId = ?", new RowMapper<String>() {
+      @Override
+      public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
+        return resultSet.getString("lmngId");
+      }
+    }, spId);
+    if (result == null || result.size() == 0) {
+      log.debug("No LMNG results found for SP " + spId);
+      return null;
+    }
+    return result.get(0);
+  }
+
 }
