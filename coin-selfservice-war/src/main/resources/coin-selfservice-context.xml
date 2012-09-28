@@ -176,6 +176,7 @@
     <property name="endpoint" value="${coin-lmng-endpoint}"/>
     <property name="user" value="${coin-lmng-user}"/>
     <property name="password" value="${coin-lmng-password}"/>
+    <property name="port" value="${coin-lmng-port}"/>
   </bean>
 
   <bean id="personAttributeLabelService" class="nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl">

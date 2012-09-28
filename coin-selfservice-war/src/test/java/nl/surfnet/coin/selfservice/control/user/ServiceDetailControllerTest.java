@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.control.user;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -35,8 +36,10 @@ import org.springframework.web.servlet.view.RedirectView;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -69,6 +72,9 @@ public class ServiceDetailControllerTest {
   private OAuthTokenService oAuthTokenService;
 
   @Mock
+  private LicensingService licensingService;
+  
+  @Mock
   private ConsentDao consentDao;
 
   @Mock
@@ -86,8 +92,10 @@ public class ServiceDetailControllerTest {
   public void testSpDetail() throws Exception {
     ServiceProvider sp = new ServiceProvider("mockSP");
     sp.setLinked(true);
+    IdentityProvider idp = new IdentityProvider();
+    idp.setId("mockIdP");
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
-
+    when(licensingService.getLicensesForIdentityProvider(idp)).thenReturn(new ArrayList<License>());
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 
     OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
@@ -95,8 +103,6 @@ public class ServiceDetailControllerTest {
     List<OAuthTokenInfo> infos = Arrays.asList(info);
     when(oAuthTokenService.getOAuthTokenInfoList(coinUser.getUid(), sp)).thenReturn(infos);
 
-    IdentityProvider idp = new IdentityProvider();
-    idp.setId("mockIdP");
     final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
     assertEquals("user/service-detail", modelAndView.getViewName());
     assertEquals(sp, modelAndView.getModelMap().get("sp"));
@@ -107,12 +113,13 @@ public class ServiceDetailControllerTest {
   @Test
   public void testSpDetail_notLinked() throws Exception {
     ServiceProvider sp = new ServiceProvider("mockSP");
+    IdentityProvider idp = new IdentityProvider();
+    idp.setId("mockIdP");
     sp.setLinked(false);
     when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
     when(oAuthTokenService.getOAuthTokenInfoList(coinUser.getUid(), sp)).thenReturn(Collections.<OAuthTokenInfo>emptyList());
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
-    IdentityProvider idp = new IdentityProvider();
-    idp.setId("mockIdP");
+    when(licensingService.getLicensesForIdentityProvider(idp)).thenReturn(new ArrayList<License>());
     final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
     assertEquals("user/service-detail", modelAndView.getViewName());
     assertFalse(modelAndView.getModelMap().containsKey("sp"));

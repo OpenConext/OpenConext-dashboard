@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <CrmAuthenticationToken xmlns="http://schemas.microsoft.com/crm/2007/WebServices">
+      <AuthenticationType xmlns="http://schemas.microsoft.com/crm/2007/CoreTypes">0</AuthenticationType>
+      <OrganizationName xmlns="http://schemas.microsoft.com/crm/2007/CoreTypes">SURFdienstenBV</OrganizationName>
+      <CallerId xmlns="http://schemas.microsoft.com/crm/2007/CoreTypes">00000000-0000-0000-0000-000000000000</CallerId>
+    </CrmAuthenticationToken>
+  </soap:Header>
+  <soap:Body>
+    <Fetch xmlns="http://schemas.microsoft.com/crm/2007/WebServices">
+      <fetchXml>
+      	%FETCH_QUERY%
+      </fetchXml>
+    </Fetch>
+  </soap:Body>
+</soap:Envelope>

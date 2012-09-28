@@ -115,7 +115,6 @@
       </fed:ContactPersons>
       <fed:ACL>
         <fed:IdPRef>idpentity1</fed:IdPRef>
-        <fed:IdPRef>SURFnetGuests</fed:IdPRef>
       </fed:ACL>
       <fed:ARP>
         <fed:Attribute>urn:mace:dir:attribute-def:uid</fed:Attribute>
