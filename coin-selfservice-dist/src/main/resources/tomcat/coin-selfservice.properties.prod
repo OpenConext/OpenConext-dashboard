@@ -37,6 +37,7 @@ coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
 coin-lmng-endpoint=??
+coin-lmng-port=80
 coin-lmng-user=??
 coin-lmng-password=??
 

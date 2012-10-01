@@ -37,6 +37,7 @@ coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
 coin-lmng-endpoint=http://lmng01.dev.coin.surf.net/MSCrmServices/2007/CrmService.asmx
+coin-lmng-port=80
 coin-lmng-user=adm_surfconext
 coin-lmng-password=??
 
