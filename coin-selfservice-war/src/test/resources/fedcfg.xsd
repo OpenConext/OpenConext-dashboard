@@ -17,7 +17,14 @@ limitations under the License.
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://www.surffederatie.nl/namespaces/fedcfg"
-    xmlns:fedcfg="http://www.surffederatie.nl/namespaces/fedcfg">
+    xmlns:fedcfg="http://www.surffederatie.nl/namespaces/fedcfg" version="1.1">
+    <xs:annotation>
+        <xs:documentation>Version 1.1:
+- Added ACSLocation and SLOLocation elements to SP
+- Added display attribute to SP
+- Added Issuer element to IdP
+- Added Extension element to SP and IdP</xs:documentation>
+    </xs:annotation>
     <xs:element name="Config" type="fedcfg:ConfigType">
         <xs:annotation>
             <xs:documentation>Identity Provider (IdP) and Service Provider (SP) configuration of the SURFfederatie gateway.</xs:documentation>
@@ -76,6 +83,11 @@ limitations under the License.
                     <xs:documentation>Friendly name of the IdP</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element minOccurs="0" name="Issuer" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Issuer to provide by gateway when generating an Assertion for this IdP. Defauls to the id of the IdP.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element minOccurs="0" name="HomeURL" type="xs:anyURI">
                 <xs:annotation>
                     <xs:documentation>Homepage of the IdP</xs:documentation>
@@ -106,6 +118,7 @@ limitations under the License.
                     <xs:documentation>Contact persons at the IdP. Typically a technical and an administrative contact is supplied.</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element minOccurs="0" name="Extension" type="fedcfg:Extension"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -145,6 +158,16 @@ limitations under the License.
                     <xs:documentation>URL to the Metadata published by the SP</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element minOccurs="0" name="ACSLocation" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>AssertionConsumerService Location URL</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="SLOLocation" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>SingleLogout Location URL</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="ContactPersons" type="fedcfg:ContactPersonsType">
                 <xs:annotation>
                     <xs:documentation>Contact persons at the SP. Typically a technical and an administrative contact is supplied.</xs:documentation>
@@ -161,6 +184,7 @@ limitations under the License.
                         When the ARP element is not present no ARP applies and all attributes received from the IdP are passed on.</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element minOccurs="0" name="Extension" type="fedcfg:Extension"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -174,6 +198,11 @@ limitations under the License.
             <xs:simpleType>
                 <xs:restriction base="fedcfg:ConnectionTypeAttrType"> </xs:restriction>
             </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute default="true" name="display" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation>When set to false the SP should only be shown to IdPs that are listed in the ACL.</xs:documentation>
+            </xs:annotation>
         </xs:attribute>
     </xs:complexType>
     <xs:complexType name="ContactPersonType">
@@ -240,4 +269,9 @@ limitations under the License.
             <xs:enumeration value="shib13"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:complexType name="Extension">
+        <xs:sequence>
+            <xs:any namespace="##other"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>

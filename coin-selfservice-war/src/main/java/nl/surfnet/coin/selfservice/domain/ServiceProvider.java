@@ -30,7 +30,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  */
 
 @XStreamAlias("SP")
-public class  ServiceProvider extends Provider implements Serializable {
+public class ServiceProvider extends Provider implements Serializable {
 
   private static final long serialVersionUID = -5860975443072010741L;
 
@@ -52,7 +52,8 @@ public class  ServiceProvider extends Provider implements Serializable {
 
   private String gadgetBaseUrl;
 
-  private boolean idpVisibleOnly;
+  @XStreamAsAttribute
+  private boolean display;
 
   public ServiceProvider(String id) {
     this.id = id;
@@ -95,11 +96,11 @@ public class  ServiceProvider extends Provider implements Serializable {
   }
 
   public boolean isIdpVisibleOnly() {
-    return idpVisibleOnly;
+    return !display;
   }
 
   public void setIdpVisibleOnly(boolean idpVisibleOnly) {
-    this.idpVisibleOnly = idpVisibleOnly;
+    this.display = !idpVisibleOnly;
   }
 
   public String getEulaURL() {
@@ -157,9 +158,10 @@ public class  ServiceProvider extends Provider implements Serializable {
     sb.append(", acl=").append(acl);
     sb.append(", eulaUrl='").append(eulaURL).append('\'');
     sb.append(", gadgetBaseUrl='").append(gadgetBaseUrl).append('\'');
-    sb.append(", idpVisibleOnly=").append(idpVisibleOnly);
+    sb.append(", idpVisibleOnly=").append(isIdpVisibleOnly());
     sb.append(' ').append(super.toString());
     sb.append('}');
     return sb.toString();
   }
+
 }

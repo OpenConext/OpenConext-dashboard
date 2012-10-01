@@ -38,6 +38,7 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the loading of SURFfederatie XML
@@ -55,6 +56,14 @@ public class FedConfigLoaderTest {
     final List<ServiceProvider> sps = config.getSps();
     final ServiceProvider serviceProvider = sps.get(0);
     assertEquals("http://example.com/sp-entity-id", serviceProvider.getId());
+    boolean found = false;
+    for (ServiceProvider sp : sps) {
+      if (sp.getId().equalsIgnoreCase("http://example.com/sp-entity-id")) {
+        found = true;
+        assertTrue(sp.isIdpVisibleOnly());
+      }
+    }
+    assertTrue(found);
   }
 
   @Test

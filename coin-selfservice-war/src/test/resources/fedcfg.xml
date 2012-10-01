@@ -101,7 +101,7 @@
   </fed:IdPs>
 
   <fed:SPs>
-    <fed:SP id="http://example.com/sp-entity-id" type="radius">
+    <fed:SP id="http://example.com/sp-entity-id" type="radius" display="false">
       <fed:Name>Dummy SURFfederatie Service Provider</fed:Name>
       <fed:HomeURL>http://www.corp.gov/hoc/rapidum</fed:HomeURL>
       <fed:LogoURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:LogoURL>
@@ -121,7 +121,7 @@
         <fed:Attribute>urn:mace:dir:attribute-def:displayName</fed:Attribute>
       </fed:ARP>
     </fed:SP>
-    <fed:SP id="string2" type="radius">
+    <fed:SP id="string2" type="radius" display="true">
       <fed:Name>Dummy SURFfederatie Service Provider 2</fed:Name>
       <fed:HomeURL>https://static.surfconext.nl/media/surfnet_logo.gif</fed:HomeURL>
       <fed:LogoURL>http://www.corp.gov/hoc/rapidum</fed:LogoURL>
