@@ -165,15 +165,15 @@
         </c:if>
         
         
-        <h3><spring:message code="jsp.sp_detail.moreinfo"/></h3>
-        <ul class="unstyled">
-          <c:if test="${not empty sp.eulaURL}">
+        <c:if test="${not empty sp.eulaURL}">
+          <h3><spring:message code="jsp.sp_detail.moreinfo"/></h3>
+          <ul class="unstyled">
             <li>
               <a href="<c:out value="${sp.eulaURL}"/>" target="_blank"><spring:message code="jsp.sp_detail.eula"/></a>
               <i class="icon-external-link"></i>
             </li>
-          </c:if>
-        </ul>
+          </ul>
+        </c:if>
       </div>
     </div>
   </div>
