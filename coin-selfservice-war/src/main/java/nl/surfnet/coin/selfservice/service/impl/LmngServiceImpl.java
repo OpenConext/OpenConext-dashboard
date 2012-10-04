@@ -81,6 +81,15 @@ public class LmngServiceImpl implements LicensingService {
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP = "lmngqueries/lmngQueryLicencesForIdentityProvider.xml";
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
 
+  private static final String FETCH_RESULT_CONTACT_EMAIL = "contact.emailaddress1";
+  private static final String FETCH_RESULT_CONTACT_NAME = "contact.fullname";
+  private static final String FETCH_RESULT_PRODUCT_DESCRIPTION = "product.lmng_description";
+  private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
+  private static final String FETCH_RESULT_VALID_TO = "license.lmng_validto";
+  private static final String FETCH_RESULT_IDENTITY_NAME = "name";
+  private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
+  private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
+
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
@@ -118,7 +127,8 @@ public class LmngServiceImpl implements LicensingService {
   }
 
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider, Date validOn) {
+  public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
+      Date validOn) {
     try {
       String lmngIdpId = getLmngIdentityId(identityProvider);
       String lmngSpId = getLmngServiceId(serviceProvider);
@@ -179,16 +189,16 @@ public class LmngServiceImpl implements LicensingService {
             License license = new License();
             Element resultElement = (Element) resultNode;
 
-            license.setContactEmail(getFirstSubElementStringValue(resultElement, "contact.emailaddress1"));
-            license.setContactFullName(getFirstSubElementStringValue(resultElement, "contact.fullname"));
-            license.setDescription(getFirstSubElementStringValue(resultElement, "product.lmng_description"));
-            Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, "license.lmng_validfrom")));
+            license.setContactEmail(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_EMAIL));
+            license.setContactFullName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_NAME));
+            license.setDescription(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+            Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
             license.setStartDate(startDate);
-            Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, "license.lmng_validto")));
+            Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
             license.setEndDate(endDate);
-            license.setIdentityName(getFirstSubElementStringValue(resultElement, "name"));
-            license.setProductName(getFirstSubElementStringValue(resultElement, "product.lmng_name"));
-            license.setSupplierName(getFirstSubElementStringValue(resultElement, "supplier.name"));
+            license.setIdentityName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_IDENTITY_NAME));
+            license.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
+            license.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
             log.debug("Created new License object:" + license.toString());
             resultList.add(license);
           }
@@ -262,7 +272,6 @@ public class LmngServiceImpl implements LicensingService {
    * @return
    */
   private String getLmngIdentityId(IdentityProvider identityProvider) {
-    // TODO check if we need Id or institutionId
     return lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getId());
   }
 
