@@ -42,10 +42,11 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
 /**
- * Servlet filter that performs Oauth 2.0 (authorization code) against api.surfconext.nl and gets group information
- * of the 'admin team'. Based on this information, an additional role is set on the users' Authentication object (or
- * not).
- *
+ * Servlet filter that performs Oauth 2.0 (authorization code) against
+ * api.surfconext.nl and gets group information of the 'admin team'. Based on
+ * this information, an additional role is set on the users' Authentication
+ * object (or not).
+ * 
  */
 public class ApiOAuthFilter implements Filter {
 
@@ -54,14 +55,15 @@ public class ApiOAuthFilter implements Filter {
   private OpenConextOAuthClient apiClient;
 
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
-  protected static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" +
-      ".ORIGINAL_REQUEST_URL";
+  protected static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" + ".ORIGINAL_REQUEST_URL";
   private String adminTeam;
   private String callbackFlagParameter = "oauthCallback";
 
   /**
    * No initialization needed.
-   * @param filterConfig the configuration
+   * 
+   * @param filterConfig
+   *          the configuration
    * @throws ServletException
    */
   @Override
@@ -126,61 +128,48 @@ public class ApiOAuthFilter implements Filter {
     chain.doFilter(request, response);
   }
 
-  private void initiateOauthAuthorization(HttpServletRequest httpRequest, HttpServletResponse response, HttpSession session) throws IOException {
+  private void initiateOauthAuthorization(HttpServletRequest httpRequest, HttpServletResponse response, HttpSession session)
+      throws IOException {
     final String currentRequestUrl = getCurrentRequestUrl(httpRequest);
     session.setAttribute(ORIGINAL_REQUEST_URL, currentRequestUrl);
     response.sendRedirect(apiClient.getAuthorizationUrl());
   }
 
-  /*
-      } catch (InvalidTokenException e) {
-      throw e;
-    } catch (RuntimeException e) {
-      if (LOG.isDebugEnabled()) {
-        LOG.error("Failed to check user membership elevation", e);
-      } else {
-        LOG.error("Failed to check user membership elevation", e.getMessage());
-      }
-    }
-
-
-   */
   private String getCurrentRequestUrl(HttpServletRequest request) {
-    StringBuilder sb = new StringBuilder()
-        .append(request.getRequestURL());
+    StringBuilder sb = new StringBuilder().append(request.getRequestURL());
     if (!StringUtils.isBlank(request.getQueryString())) {
-      sb
-        .append("?")
-        .append(request.getQueryString());
+      sb.append("?").append(request.getQueryString());
     }
     return sb.toString();
   }
 
-
   /**
-   * Assign an 'ROLE_ADMIN' role to the given user, if he is member of the admin team.
-   * @param coinUser the CoinUser representing the currently logged in user.
-   *
+   * Assign an 'ROLE_ADMIN' role to the given user, if he is member of the admin
+   * team.
+   * 
+   * @param coinUser
+   *          the CoinUser representing the currently logged in user.
+   * 
    */
   public void elevateUserIfApplicable(CoinUser coinUser) {
     if (isMemberOfAdminTeam(coinUser)) {
       coinUser.addAuthority(new CoinAuthority("ROLE_ADMIN"));
-      SecurityContextHolder.getContext().setAuthentication(
-          new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
+      SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
     }
   }
 
   /**
    * Whether the given coin user is member of the configured admin team
-   *
-   * @param user the CoinUser
+   * 
+   * @param user
+   *          the CoinUser
    * @return boolean
    */
   private boolean isMemberOfAdminTeam(CoinUser user) {
     final Group20 group = apiClient.getGroup20(user.getUid(), adminTeam, user.getUid());
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("Membership of adminTeam '{}' for user '{}': {}", new Object[]{adminTeam, user.getUid(), group});
+      LOG.debug("Membership of adminTeam '{}' for user '{}': {}", new Object[] { adminTeam, user.getUid(), group });
     }
     if (group != null) {
       if (LOG.isDebugEnabled()) {

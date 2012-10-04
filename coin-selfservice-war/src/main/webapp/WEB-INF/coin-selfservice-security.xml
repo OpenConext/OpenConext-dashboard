@@ -32,9 +32,13 @@
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
     <property name="adminTeam" value="${admin.teamname}" />
-    <property name="apiClient" ref="openConextApiClient" />
+    <property name="apiClient" ref="${openConextApiClient}" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
   </bean>
+
+  <bean id="openConextApiClientMock" class="nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock">
+    <property name="adminTeam" value="${admin.teamname}" />
+  </bean>	
 
   <bean id="openConextApiClient" class="nl.surfnet.coin.api.client.OpenConextOAuthClientImpl">
     <property name="callbackUrl" value="${api-callbackuri}" />

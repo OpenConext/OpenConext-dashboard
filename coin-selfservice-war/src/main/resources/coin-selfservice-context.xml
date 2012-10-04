@@ -145,7 +145,7 @@
     </property>
   </bean>
 
-  <bean id="janusClient" class="nl.surfnet.coin.janus.JanusRestClient">
+  <bean id="janusClient" class="${janus.class}">
     <property name="janusUri" value="${janus.uri}" />
     <property name="user" value="${janus.user}" />
     <property name="secret" value="${janus.secret}" />
