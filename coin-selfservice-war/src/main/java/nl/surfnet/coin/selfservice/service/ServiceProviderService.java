@@ -50,4 +50,11 @@ public interface ServiceProviderService {
    * @return the {@link ServiceProvider} object.
    */
   ServiceProvider getServiceProvider(String spEntityId, String idpEntityId);
+
+  /**
+   * Get a list of all available Service Providers (IDP independent).
+   *
+   * @return list of {@link ServiceProvider}
+   */
+  List<ServiceProvider> getAllServiceProviders();
 }

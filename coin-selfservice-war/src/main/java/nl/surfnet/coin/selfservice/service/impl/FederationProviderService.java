@@ -128,6 +128,12 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
+  @Cacheable(value = {"sps-federation"})
+  public List<ServiceProvider> getAllServiceProviders() {
+    return federatieConfig.getSps();
+  }
+
+  @Override
   public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
     List<ServiceProvider> linked = new ArrayList<ServiceProvider>();
     final List<ServiceProvider> allServiceProviders = getAllServiceProviders(idpId);

@@ -69,6 +69,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     }
     return filteredList;
   }
+  
+  @Override
+  @Cacheable(value = {"sps-janus"})
+  public List<ServiceProvider> getAllServiceProviders() {
+    return getAllServiceProvidersUnfiltered();
+  }
 
   /**
    * It's "cheaper" to get all SPs from ServiceRegistry and iterate over them than to retrieve the list of
