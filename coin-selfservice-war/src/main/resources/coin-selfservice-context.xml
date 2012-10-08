@@ -172,7 +172,7 @@
     <property name="administrativeEmail" value="${coin-administrative-email}"/>
   </bean>
 
-  <bean id="licensingService" class="nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl">
+  <bean id="licensingService" class="${lmngServiceClass}">
     <property name="endpoint" value="${coin-lmng-endpoint}"/>
     <property name="user" value="${coin-lmng-user}"/>
     <property name="password" value="${coin-lmng-password}"/>

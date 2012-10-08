@@ -17,5 +17,6 @@ VALUES
 INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId)
 VALUES
   ('idpentity3', '{AF1F54D8-1B10-DC11-A6C7-0019B9DE3AA4}');
-  
-  
+INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId)
+VALUES
+  ('http://mock-idp', '{AF1F54D8-1B10-DC11-A6C7-0019B9DE3AA4}');

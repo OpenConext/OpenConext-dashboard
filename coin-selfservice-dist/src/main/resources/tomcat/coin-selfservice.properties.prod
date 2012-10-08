@@ -113,6 +113,12 @@ mode.dev=false
 # values do NOT depend on the environment                                #
 ##########################################################################
 
+# Alle real implementations (and not local mocks for testing purposes)
+janus.class=nl.surfnet.coin.janus.JanusRestClient
+openConextApiClient=openConextApiClient
+lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
+jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
+
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-api.jdbc.driver=com.mysql.jdbc.Driver
 coin-eb-db-driver=com.mysql.jdbc.Driver
@@ -124,8 +130,3 @@ coin-selfservice.database.maxIdleTime=900
 
 coin-selfservice.db.migrations.folder=db/migration/mysql
 
-# can be either
-# nl.surfnet.coin.selfservice.service.impl.JiraServiceMock
-# or
-# nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
-jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
