@@ -1,0 +1,55 @@
+<resultset morerecords="0">
+  <result>
+    <name>Academisch Medisch Centrum</name>
+    <statuscode name="Active">1</statuscode>
+    <accountid>{268835E8-8E0F-DC11-A6C7-0019B9DE3AA4}</accountid>
+    <websiteurl>http://www.amc.uva.nl</websiteurl>
+    <surf_isinstelling name="Ja">1</surf_isinstelling>
+    <surf_ss_authentication_domain>@amc.be</surf_ss_authentication_domain>
+    <license.lmng_number>LO2011000496</license.lmng_number>
+    <license.lmng_validfrom date="1-1-2012" time="1:00">2012-01-01T01:00:00+01:00</license.lmng_validfrom>
+    <license.lmng_validto date="31-12-2014" time="1:00">2014-12-31T01:00:00+01:00</license.lmng_validto>
+    <productvariation.lmng_name>Microsoft A1 Desktoppakket, campuslicentie</productvariation.lmng_name>
+    <productvariation.lmng_deliverymethodid name="Installed" dsc="0">{EC9E3720-74D8-E011-A050-0050569E2732}</productvariation.lmng_deliverymethodid>
+    <product.lmng_name>Microsoft A1 Desktoppakket</product.lmng_name>
+    <product.lmng_description>
+      &lt;p&gt;
+      Het A1 Desktoppakket bestaat uit een bundel van Microsoft producten. Voor het overzicht van de producten zie de uitgebreide productinformatie.&lt;/p&gt;
+    </product.lmng_description>
+    <product.lmng_descriptionlong>
+      &lt;p&gt;
+      Het Desktop Pakket bestaat uit de volgende producten:&lt;/p&gt;
+      &lt;p&gt;
+      -&lt;strong&gt; Desktop Education with Enterprise CAL:&lt;/strong&gt;&lt;br /&gt;
+      &amp;nbsp; - Windows Enterprise Upgrade (*)&lt;br /&gt;
+      &amp;nbsp; - Microsoft Office Professional Plus&lt;br /&gt;
+      &amp;nbsp; - Microsoft Office for Mac Professional Edition&lt;br /&gt;
+      &amp;nbsp; - Microsoft Enterprise CAL Suite:&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft Exchange Server Enterprise CAL&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft Exchange Server Standard CAL&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft Forefront Protection Suite:&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; - Microsoft Forefront Client Security&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; - Microsoft Forefront Online Protection for Exchange Server&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; - Microsoft Forefront Protection for Exchange Server&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; - Microsoft Forefront Security for Office Communications Server&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; - Microsoft Forefront Threat Management Gateway Web Protection Service&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; - Microsoft Forefront Protection for SharePoint&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; - Microsoft Forefront Unified Access Gateway CAL&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft Lync Server Enterprise CAL&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft Lync Server Plus CAL(**)&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft Lync Server Standard CAL&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft SharePoint Enterprise CAL&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft SharePoint Standard CAL&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft System Center Client Management Suite Client Management License (CLM):&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft System Center Operations Manager CLM&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; - Microsoft System Center Data Protection Manager CLM&lt;br /&gt;
+      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;- Microsoft System Center Service Manager CLM&lt;br /&gt;
+      &amp;nbsp;&amp;
+    </product.lmng_descriptionlong>
+    <image.lmng_url>http://cms.sdnintra01.local/CrmImages/_t/cf66f66b-8837-4fab-aa9e-6825bb115c5f_bmp.jpg</image.lmng_url>
+    <supplier.name>Microsoft B.V.</supplier.name>
+    <contact.fullname>Gomes, Paul</contact.fullname>
+    <contact.emailaddress1>p.gomes@amc.uva.nl</contact.emailaddress1>
+    <contact.jobtitle>Accountmanager ICT</contact.jobtitle>
+  </result>
+</resultset>
