@@ -48,9 +48,14 @@
             		<tags:providername provider="${binding.serviceProvider}"/>
             	</a></td>
             <td class="text-overflow">
-			  <form:form method="post" action="save-spslmng.shtml" commandName="binding">
-            	<input value="${binding.lmngIdentifier}" type="text" size="20" name="bindings[${status.index}].lmngIdentifier"/>
-            	<button type="submit">V</button>
+			  <form:form method="post" action="save-spslmng.shtml" >
+            	<input value="${binding.lmngIdentifier}" type="text" size="20" name="lmngIdentifier"/>
+            	<input value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
+            	<c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
+            	<c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
+            	<c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
+            	<button type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');">C</button>
+            	<button type="submit" value="submit" title="${submitButtonTitle}" name="submit">V</button>
 			  </form:form>
             </td>
             <td class="center">

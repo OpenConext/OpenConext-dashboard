@@ -22,15 +22,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.selfservice.command.LmngServiceBinding;
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,12 +42,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/shopadmin/*")
 public class SpLnmgListController extends BaseController {
+  private static final Logger log = LoggerFactory.getLogger(SpLnmgListController.class);
 
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
 
   @Resource(name = "licensingService")
   private LicensingService licensingService;
+
+  @Autowired
+  private LmngIdentifierDao lmngIdentifierDao;
 
   @RequestMapping(value = "/all-spslmng")
   public ModelAndView listAllSps() {
@@ -53,7 +61,7 @@ public class SpLnmgListController extends BaseController {
     for (ServiceProvider serviceProvider : providerService.getAllServiceProviders()) {
       LmngServiceBinding lmngServiceBinding = new LmngServiceBinding();
       lmngServiceBinding.setServiceProvider(serviceProvider);
-      String lmngId = licensingService.getLmngServiceIdentifierForServiceProvider(serviceProvider);
+      String lmngId = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
       lmngServiceBinding.setLmngIdentifier(lmngId);
       lmngServiceBindings.add(lmngServiceBinding);
     }
@@ -64,9 +72,17 @@ public class SpLnmgListController extends BaseController {
   }
 
   @RequestMapping(value = "/save-spslmng", method = RequestMethod.POST)
-  public ModelAndView saveLmngServices(@ModelAttribute("bindings") ArrayList<LmngServiceBinding> bindings) {
+  public ModelAndView saveLmngServices(HttpServletRequest req) {
+    String spId = req.getParameter("spIdentifier");
+    String lmngId = req.getParameter("lmngIdentifier");
+    if ("clear".equalsIgnoreCase(req.getParameter("submit"))) {
+      log.debug("Clearing lmng identifier for ServiceProvider with ID " + spId );
+      lmngId = null;
+    } else {
+      log.debug("Storing lmng identifier " + lmngId + " for ServiceProvider with ID " + spId );
+    }
+    lmngIdentifierDao.saveOrUpdateLmngIdForServiceProviderId(spId, lmngId);
 
-    // TODO check if this is the way to go
     return listAllSps();
   }
 }

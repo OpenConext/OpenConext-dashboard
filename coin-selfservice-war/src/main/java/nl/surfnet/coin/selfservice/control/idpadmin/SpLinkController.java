@@ -79,9 +79,6 @@ public class SpLinkController extends BaseController {
     return new ModelAndView("idpadmin/sp-linkrequest", m);
   }
 
-
-
-
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
   public ModelAndView spRequestPost(@RequestParam String spEntityId,
                                     @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,

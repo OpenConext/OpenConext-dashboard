@@ -76,20 +76,4 @@ public interface LicensingService {
    * @return a list of possible valid licenses
    */
   List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider, Date validOn);
-
-  /**
-   * Get the identifier (GUID) for LMNG that corresponds to the given {@link ServiceProvider} 
-   * 
-   * @param serviceProvider
-   * @return the LMNG id
-   */
-  String getLmngServiceIdentifierForServiceProvider(ServiceProvider serviceProvider);
-
-  /**
-   * Save or update the given identifier (GUID) for LMNG that corresponds to the given {@link ServiceProvider} 
-   * 
-   * @param lmngServiceId lmng id for the given serviceprovider
-   * @param serviceProvider serviceprovider that thelmng id belongs to
-   */
-  void createOrUpdateLmngServiceIdentifierForServiceProvider(String lmngServiceId, ServiceProvider serviceProvider);
 }

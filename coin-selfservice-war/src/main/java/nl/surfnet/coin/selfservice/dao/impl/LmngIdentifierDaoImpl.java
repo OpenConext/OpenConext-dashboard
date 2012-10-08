@@ -96,12 +96,21 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
   @Override
   public void saveOrUpdateLmngIdForServiceProviderId(String spId, String lmngId) {
     if (getLmngIdForServiceProviderId(spId)==null) {
-      jdbcTemplate.update(
-          "INSERT INTO ss_sp_lmng_identifiers (spId,lmngId) VALUES(" +
-              "?, ?)", spId, lmngId);
+      if (lmngId == null) {
+        log.debug("No spId and lmngId passed. nothing to do");
+      } else {
+        jdbcTemplate.update(
+            "INSERT INTO ss_sp_lmng_identifiers (spId,lmngId) VALUES(" +
+                "?, ?)", spId, lmngId);
+      }
     } else {
-      jdbcTemplate.update(
-          "UPDATE ss_sp_lmng_identifiers SET spId = ? ,lmngId = ?", spId, lmngId);
+      if (lmngId == null) {
+        jdbcTemplate.update(
+            "DELETE from ss_sp_lmng_identifiers WHERE spId = ?", spId);        
+      } else {
+        jdbcTemplate.update(
+            "UPDATE ss_sp_lmng_identifiers SET lmngId = ? WHERE spId = ?", lmngId, spId);        
+      }
     }
   }
 
