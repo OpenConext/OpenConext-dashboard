@@ -152,29 +152,6 @@ public class LmngServiceMock implements LicensingService {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.LicensingService#
-   * getLmngServiceIdentifierForServiceProvider
-   * (nl.surfnet.coin.selfservice.domain.ServiceProvider)
-   */
-  @Override
-  public String getLmngServiceIdentifierForServiceProvider(ServiceProvider serviceProvider) {
-    return "{418BE0EE-A778-E111-AE5D-005056B347A9}";
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.LicensingService#
-   * createOrUpdateLmngServiceIdentifierForServiceProvider(java.lang.String,
-   * nl.surfnet.coin.selfservice.domain.ServiceProvider)
-   */
-  @Override
-  public void createOrUpdateLmngServiceIdentifierForServiceProvider(String lmngServiceId, ServiceProvider serviceProvider) {
-  }
-
   
   public void setEndpoint(String endpoint) {
     this.endpoint = endpoint;
