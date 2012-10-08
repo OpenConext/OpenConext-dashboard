@@ -16,57 +16,83 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
+import java.net.InetSocketAddress;
 import java.util.List;
-import java.util.Properties;
 
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpException;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.localserver.LocalTestServer;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.protocol.HttpRequestHandler;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mockito.internal.stubbing.answers.Returns;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Test class for {@code LmngServiceImpl}
- *
+ * 
  */
-public class LmngServiceImplTest {
-  
-  private Properties properties;
-  private LmngServiceImpl lmngServiceImpl;
-  private LmngIdentifierDao mockLmngIdentifierDao;
-  
-  @Before
-  public void init() throws FileNotFoundException, IOException{
-    properties = new Properties();
-    properties.load(this.getClass().getResourceAsStream ("/coin-selfservice.properties"));
-    lmngServiceImpl = new LmngServiceImpl();
-    lmngServiceImpl.setEndpoint(properties.getProperty("coin-lmng-endpoint"));
-    lmngServiceImpl.setUser(properties.getProperty("coin-lmng-user"));
-    lmngServiceImpl.setPassword(properties.getProperty("coin-lmng-password"));
-    
-    mockLmngIdentifierDao = mock(LmngIdentifierDao.class);
-    lmngServiceImpl.setLmngIdentifierDao(mockLmngIdentifierDao);
-  }
-  
-  @Ignore // we us this for a local integration test only
-  public void testRetrieveLmngData() throws IOException {
-    when(mockLmngIdentifierDao.getLmngIdForIdentityProviderId("testId")).thenReturn("lmngId");
-    
-    Date date = new Date();
-    IdentityProvider identityProvider = new IdentityProvider("testId", "testinstitutionId", "testName");
-    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProvider(identityProvider, date);
-   
-    assertEquals("Incorrect number of results", 1 ,licenses.size());
-    assertEquals("Incorrect name for IDP", "Hogeschool Aanbesteding" ,licenses.get(0).getIdentityName());
+public class LmngServiceImplTest implements HttpRequestHandler {
 
+  private static LocalTestServer testServer;
+
+  private static LmngServiceImpl lmngServiceImpl;
+
+  private String xmlFile;
+
+  @BeforeClass
+  public static void beforeClass() throws Exception {
+    testServer = new LocalTestServer(null, null);
+    testServer.start();
+
+    lmngServiceImpl = new LmngServiceImpl();
+    InetSocketAddress addr = testServer.getServiceAddress();
+    lmngServiceImpl.setEndpoint("http://" + addr.getHostName() + "/mock/crm");
+    lmngServiceImpl.setUser("coin-lmng-user");
+    lmngServiceImpl.setPassword("coin-lmng-password");
+    lmngServiceImpl.setPort(addr.getPort());
+
+    LmngIdentifierDao dao = mock(LmngIdentifierDao.class, new Returns("whatever"));
+    lmngServiceImpl.setLmngIdentifierDao(dao);
+
+  }
+
+  @Before
+  public void before() {
+    testServer.register("/mock/*", this);
+  }
+
+  @Test
+  public void testFetchResultSingleLicense() {
+    xmlFile = "lmngRequestResponse/tempResponseExampleActual.xml";
+    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProvider(new IdentityProvider());
+    assertEquals("Aanbesteden1", licenses.get(0).getProductName());
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.apache.http.protocol.HttpRequestHandler#handle(org.apache.http.HttpRequest
+   * , org.apache.http.HttpResponse, org.apache.http.protocol.HttpContext)
+   */
+  @Override
+  public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
+    response.setEntity(new StringEntity(IOUtils.toString(new ClassPathResource(xmlFile).getInputStream())));
+    response.setStatusCode(200);
   }
 
 }
