@@ -119,19 +119,13 @@ public abstract class BaseController {
     MenuItem home = new MenuItem("jsp.home.title", "/home.shtml", "home".equals(selectedItem));
     menu.addMenuItem(home);
 
-    // TODO create separate menutype if we support other userroles
-    MenuItem allShopSPs = new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml", "all-spslmng".equals(selectedItem));
-    menu.addMenuItem(allShopSPs);
-
     switch (type) {
       case IDPADMIN:
         MenuItem allSPs = new MenuItem("jsp.allsp.title", "/idpadmin/all-sps.shtml", "all-sps".equals(selectedItem));
         menu.addMenuItem(allSPs);
         MenuItem action = new MenuItem("jsp.actions.title", "/idpadmin/actions.shtml", "actions".equals(selectedItem));
         menu.addMenuItem(action);
-        break;
-      case SHOPADMIN:
-        allShopSPs = new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml", "all-spslmng".equals(selectedItem));
+        MenuItem allShopSPs = new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml", "all-spslmng".equals(selectedItem));
         menu.addMenuItem(allShopSPs);
         break;
       case USER:
@@ -146,8 +140,7 @@ public abstract class BaseController {
 
   public enum MenuType {
     IDPADMIN,
-    USER,
-    SHOPADMIN;
+    USER;
 
     MenuType() {
     }
