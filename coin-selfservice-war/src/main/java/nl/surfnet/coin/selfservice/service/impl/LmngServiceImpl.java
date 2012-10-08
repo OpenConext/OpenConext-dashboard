@@ -383,4 +383,14 @@ public class LmngServiceImpl implements LicensingService {
     this.lmngIdentifierDao = lmngIdentifierDao;
   }
 
+  @Override
+  public String getLmngServiceIdentifierForServiceProvider(ServiceProvider serviceProvider) {
+    return lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
+  }
+
+  @Override
+  public void createOrUpdateLmngServiceIdentifierForServiceProvider(String lmngServiceId, ServiceProvider serviceProvider) {
+    lmngIdentifierDao.saveOrUpdateLmngIdForServiceProviderId(serviceProvider.getId(), lmngServiceId);
+  }
+
 }

@@ -38,14 +38,21 @@
       </tr>
       </thead>
       <tbody>
-      <c:forEach items="${sps}" var="sp">
-        <c:if test="${not empty sp.id}">
+      <c:forEach items="${bindings}" var="binding" varStatus="status">
+        <c:if test="${not empty binding.serviceProvider.id}">
           <spring:url value="/idpadmin/sp/detail.shtml" var="detailUrl" htmlEscape="true">
-            <spring:param name="spEntityId" value="${sp.id}" />
+            <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
           </spring:url>
           <tr>
-            <td><a href="${detailUrl}" title="${sp.id} - ${fn:substring(sp.descriptions[locale.language], 0, 40)}"><tags:providername provider="${sp}"/></a></td>
-            <td class="text-overflow"><input type="text" size="20"/></td>
+            <td><a href="${detailUrl}" title="${binding.serviceProvider.id} - ${fn:substring(binding.serviceProvider.descriptions[locale.language], 0, 40)}">
+            		<tags:providername provider="${binding.serviceProvider}"/>
+            	</a></td>
+            <td class="text-overflow">
+			  <form:form method="post" action="save-spslmng.shtml" commandName="binding">
+            	<input value="${binding.lmngIdentifier}" type="text" size="20" name="bindings[${status.index}].lmngIdentifier"/>
+            	<button type="submit">V</button>
+			  </form:form>
+            </td>
             <td class="center">
               <%-- Add detail/binding button --%>
             </td>
@@ -55,7 +62,6 @@
 
       </tbody>
     </table>
-
 
   </div>
 </section>

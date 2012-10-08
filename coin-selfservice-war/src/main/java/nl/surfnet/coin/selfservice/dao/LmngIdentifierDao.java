@@ -42,4 +42,11 @@ public interface LmngIdentifierDao {
    */
   String getLmngIdForServiceProviderId(String spId);
   
+  /**
+   * Save or update an lmngId for the serviceprovider with the given ID
+   * @param spId the id of the serviceprovider
+   * @param lmngId the lmng corresponding identifier
+   */
+  void saveOrUpdateLmngIdForServiceProviderId(String spId, String lmngId);
+
 }

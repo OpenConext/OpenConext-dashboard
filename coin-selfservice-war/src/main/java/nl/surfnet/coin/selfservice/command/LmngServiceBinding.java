@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.command;
 
+import java.util.Map;
+
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 /**
@@ -25,13 +27,8 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 public class LmngServiceBinding {
 
   private String lmngIdentifier;
+  private ServiceProvider serviceProvider;
   
-  private String serviceId;
-  
-  private String serviceName;
-  
-  private String serviceDescription;
-
   /**
    * Default constructor
    */
@@ -45,14 +42,24 @@ public class LmngServiceBinding {
    * @param lmngIdentifier
    * @param serviceId
    * @param serviceName
-   * @param serviceDescription
+   * @param descriptions
    */
-  public LmngServiceBinding(String lmngIdentifier, String serviceId, String serviceName, String serviceDescription) {
+  public LmngServiceBinding(String lmngIdentifier, ServiceProvider serviceProvider) {
     super();
     this.lmngIdentifier = lmngIdentifier;
-    this.serviceId = serviceId;
-    this.serviceName = serviceName;
-    this.serviceDescription = serviceDescription;
+    this.serviceProvider = serviceProvider;
+  }
+  
+  /**
+   * Constructor with initial serviceProvider
+   * 
+   * @param serviceId
+   * @param serviceName
+   * @param descriptions
+   */
+  public LmngServiceBinding(ServiceProvider serviceProvider) {
+    super();
+    this.serviceProvider = serviceProvider;
   }
 
   public String getLmngIdentifier() {
@@ -63,28 +70,12 @@ public class LmngServiceBinding {
     this.lmngIdentifier = lmngIdentifier;
   }
 
-  public String getServiceId() {
-    return serviceId;
+  public ServiceProvider getServiceProvider() {
+    return serviceProvider;
   }
 
-  public void setServiceId(String serviceId) {
-    this.serviceId = serviceId;
-  }
-
-  public String getServiceName() {
-    return serviceName;
-  }
-
-  public void setServiceName(String serviceName) {
-    this.serviceName = serviceName;
-  }
-
-  public String getServiceDescription() {
-    return serviceDescription;
-  }
-
-  public void setServiceDescription(String serviceDescription) {
-    this.serviceDescription = serviceDescription;
+  public void setServiceProvider(ServiceProvider serviceProvider) {
+    this.serviceProvider = serviceProvider;
   }
   
   

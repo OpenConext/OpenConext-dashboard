@@ -80,8 +80,7 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
 
   @Override
   public String getLmngIdForServiceProviderId(String spId) {
-    //TODO are we going to create a new database table for this data or are we going to use and rename the current table
-    List<String> result = jdbcTemplate.query("SELECT lmngId FROM ss_idp_lmng_identifiers WHERE idpId = ?", new RowMapper<String>() {
+    List<String> result = jdbcTemplate.query("SELECT lmngId FROM ss_sp_lmng_identifiers WHERE spId = ?", new RowMapper<String>() {
       @Override
       public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
         return resultSet.getString("lmngId");
@@ -92,6 +91,18 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
       return null;
     }
     return result.get(0);
+  }
+
+  @Override
+  public void saveOrUpdateLmngIdForServiceProviderId(String spId, String lmngId) {
+    if (getLmngIdForServiceProviderId(spId)==null) {
+      jdbcTemplate.update(
+          "INSERT INTO ss_sp_lmng_identifiers (spId,lmngId) VALUES(" +
+              "?, ?)", spId, lmngId);
+    } else {
+      jdbcTemplate.update(
+          "UPDATE ss_sp_lmng_identifiers SET spId = ? ,lmngId = ?", spId, lmngId);
+    }
   }
 
 }

@@ -16,18 +16,23 @@
 
 package nl.surfnet.coin.selfservice.control.shopadmin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import nl.surfnet.coin.selfservice.command.LmngServiceBinding;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -37,15 +42,31 @@ public class SpLnmgListController extends BaseController {
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
 
-  @RequestMapping(value="/all-spslmng")
+  @Resource(name = "licensingService")
+  private LicensingService licensingService;
+
+  @RequestMapping(value = "/all-spslmng")
   public ModelAndView listAllSps() {
     Map<String, Object> m = new HashMap<String, Object>();
 
-    // Add SP's for all idps; put in a Set to filter out duplicates
-    List<ServiceProvider> sps = providerService.getAllServiceProviders();
-    m.put("sps", sps);
+    List<LmngServiceBinding> lmngServiceBindings = new ArrayList<LmngServiceBinding>();
+    for (ServiceProvider serviceProvider : providerService.getAllServiceProviders()) {
+      LmngServiceBinding lmngServiceBinding = new LmngServiceBinding();
+      lmngServiceBinding.setServiceProvider(serviceProvider);
+      String lmngId = licensingService.getLmngServiceIdentifierForServiceProvider(serviceProvider);
+      lmngServiceBinding.setLmngIdentifier(lmngId);
+      lmngServiceBindings.add(lmngServiceBinding);
+    }
+
     m.put("menu", buildMenu(MenuType.SHOPADMIN, "all-spslmng"));
+    m.put("bindings", lmngServiceBindings);
     return new ModelAndView("shopadmin/sp-overview", m);
   }
 
+  @RequestMapping(value = "/save-spslmng", method = RequestMethod.POST)
+  public ModelAndView saveLmngServices(@ModelAttribute("bindings") ArrayList<LmngServiceBinding> bindings) {
+
+    // TODO check if this is the way to go
+    return listAllSps();
+  }
 }
