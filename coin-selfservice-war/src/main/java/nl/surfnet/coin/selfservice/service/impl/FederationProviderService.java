@@ -200,7 +200,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
    * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#getAllIdentityProviders()
    */
   @Override
-  @Cacheable(value = {"idps-federation"})
+  @Cacheable(value = {"sps-federation"})
   public List<IdentityProvider> getAllIdentityProviders() {
     return federatieConfig.getIdPs();
 

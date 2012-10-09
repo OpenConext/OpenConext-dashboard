@@ -39,18 +39,13 @@
       </thead>
       <tbody>
       <c:forEach items="${bindings}" var="binding" varStatus="status">
-        <c:if test="${not empty binding.serviceProvider.id}">
-          <spring:url value="/idpadmin/sp/detail.shtml" var="detailUrl" htmlEscape="true">
-            <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
-          </spring:url>
+        <c:if test="${not empty binding.identityProvider.id}">
           <tr>
-            <td title="${binding.serviceProvider.id} - ${fn:substring(binding.serviceProvider.descriptions[locale.language], 0, 40)}"><a href="${detailUrl}">
-            		<tags:providername provider="${binding.serviceProvider}"/>
-            	</a></td>
+            <td title="${binding.identityProvider.id} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}"><tags:providername provider="${binding.identityProvider}"/></td>
             <td class="text-overflow">
-			  <form:form method="post" action="save-splmng.shtml" >
+			  <form:form method="post" action="save-idplmng.shtml" >
             	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
-            	<input value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
+            	<input value="${binding.identityProvider.id}" type="hidden" name="idpIdentifier"/>
             	<c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
             	<c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
             	<c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>

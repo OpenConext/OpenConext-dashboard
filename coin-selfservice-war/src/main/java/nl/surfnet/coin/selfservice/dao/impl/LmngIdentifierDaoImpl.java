@@ -114,4 +114,25 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
     }
   }
 
+  @Override
+  public void saveOrUpdateLmngIdForIdentityProviderId(String idpId, String lmngId) {
+    if (getLmngIdForIdentityProviderId(idpId)==null) {
+      if (lmngId == null) {
+        log.debug("No idpId and lmngId passed. nothing to do");
+      } else {
+        jdbcTemplate.update(
+            "INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId) VALUES(" +
+                "?, ?)", idpId, lmngId);
+      }
+    } else {
+      if (lmngId == null) {
+        jdbcTemplate.update(
+            "DELETE from ss_idp_lmng_identifiers WHERE idpId = ?", idpId);        
+      } else {
+        jdbcTemplate.update(
+            "UPDATE ss_idp_lmng_identifiers SET lmngId = ? WHERE idpId = ?", lmngId, idpId);        
+      }
+    }
+  }
+
 }

@@ -127,6 +127,9 @@ public abstract class BaseController {
         menu.addMenuItem(action);
         MenuItem allShopSPs = new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml", "all-spslmng".equals(selectedItem));
         menu.addMenuItem(allShopSPs);
+        MenuItem allShopIDPs = new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml", "all-idpslmng".equals(selectedItem));
+        menu.addMenuItem(allShopIDPs);
+        
         break;
       case USER:
         MenuItem linkedServices = new MenuItem("jsp.linkedServices.title", "/user/linked-services.shtml",

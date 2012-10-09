@@ -24,12 +24,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import nl.surfnet.coin.selfservice.command.LmngServiceBinding;
+import nl.surfnet.coin.selfservice.command.LmngIdentityBinding;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.LicensingService;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,11 +41,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/shopadmin/*")
-public class SpLnmgListController extends BaseController {
-  private static final Logger log = LoggerFactory.getLogger(SpLnmgListController.class);
+public class IdpLnmgListController extends BaseController {
+  private static final Logger log = LoggerFactory.getLogger(IdpLnmgListController.class);
 
-  @Resource(name = "providerService")
-  private ServiceProviderService providerService;
+  @Autowired
+  private IdentityProviderService idpService;
 
   @Resource(name = "licensingService")
   private LicensingService licensingService;
@@ -53,36 +53,36 @@ public class SpLnmgListController extends BaseController {
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
-  @RequestMapping(value = "/all-spslmng")
-  public ModelAndView listAllSps() {
+  @RequestMapping(value = "/all-idpslmng")
+  public ModelAndView listAllIdps() {
     Map<String, Object> m = new HashMap<String, Object>();
 
-    List<LmngServiceBinding> lmngServiceBindings = new ArrayList<LmngServiceBinding>();
-    for (ServiceProvider serviceProvider : providerService.getAllServiceProviders()) {
-      LmngServiceBinding lmngServiceBinding = new LmngServiceBinding();
-      lmngServiceBinding.setServiceProvider(serviceProvider);
-      String lmngId = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
-      lmngServiceBinding.setLmngIdentifier(lmngId);
-      lmngServiceBindings.add(lmngServiceBinding);
+    List<LmngIdentityBinding> lmngIdpBindings = new ArrayList<LmngIdentityBinding>();
+    for (IdentityProvider identityProvider : idpService.getAllIdentityProviders()) {
+      LmngIdentityBinding lmngIdentityBinding = new LmngIdentityBinding(identityProvider);
+      String lmngId = lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getId());
+      lmngIdentityBinding.setLmngIdentifier(lmngId);
+      lmngIdpBindings.add(lmngIdentityBinding);
     }
 
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-spslmng"));
-    m.put("bindings", lmngServiceBindings);
-    return new ModelAndView("shopadmin/sp-overview", m);
+    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-idpslmng"));
+    m.put("bindings", lmngIdpBindings);
+    return new ModelAndView("shopadmin/idp-overview", m);
   }
 
-  @RequestMapping(value = "/save-splmng", method = RequestMethod.POST)
+  @RequestMapping(value = "/save-idplmng", method = RequestMethod.POST)
   public ModelAndView saveLmngServices(HttpServletRequest req) {
-    String spId = req.getParameter("spIdentifier");
+    String idpId = req.getParameter("idpIdentifier");
     String lmngId = req.getParameter("lmngIdentifier");
     if ("clear".equalsIgnoreCase(req.getParameter("submit"))) {
-      log.debug("Clearing lmng identifier for ServiceProvider with ID " + spId );
+      log.debug("Clearing lmng identifier for IdentityProvider with ID " + idpId );
       lmngId = null;
     } else {
-      log.debug("Storing lmng identifier " + lmngId + " for ServiceProvider with ID " + spId );
+      log.debug("Storing lmng identifier " + lmngId + " for IdentityProvider with ID " + idpId );
     }
-    lmngIdentifierDao.saveOrUpdateLmngIdForServiceProviderId(spId, lmngId);
+    lmngIdentifierDao.saveOrUpdateLmngIdForIdentityProviderId(idpId, lmngId);
 
-    return listAllSps();
+    return listAllIdps();
   }
+
 }
