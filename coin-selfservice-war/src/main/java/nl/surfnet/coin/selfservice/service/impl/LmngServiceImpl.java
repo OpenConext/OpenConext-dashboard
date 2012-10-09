@@ -256,7 +256,7 @@ public class LmngServiceImpl implements LicensingService {
    */
   private InputStream getWebServiceResult(String soapRequest) throws ClientProtocolException, IOException {
     DefaultHttpClient httpclient = new DefaultHttpClient();
-    //httpclient.getAuthSchemes().register("NTLM", new NTLMSchemeFactory());
+    httpclient.getAuthSchemes().register("NTLM", new NTLMSchemeFactory());
     httpclient.getCredentialsProvider().setCredentials(AuthScope.ANY, new NTCredentials(user, password, "", ""));
     httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
     httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
