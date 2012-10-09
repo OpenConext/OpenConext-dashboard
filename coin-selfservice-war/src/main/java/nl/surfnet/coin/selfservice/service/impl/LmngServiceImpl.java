@@ -19,6 +19,7 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,6 +65,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Implementation of a licensing service that get's it information from a
@@ -111,7 +113,7 @@ public class LmngServiceImpl implements LicensingService {
 
       // call the webservice
       InputStream webserviceResult = getWebServiceResult(soapRequest);
-
+      
       // read/parse the XML response to License objects
       return parseResult(webserviceResult);
     } catch (Exception e) {
@@ -164,46 +166,53 @@ public class LmngServiceImpl implements LicensingService {
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-    Document doc = docBuilder.parse(webserviceResult);
-    Element documentElement = doc.getDocumentElement();
-
-    String fetchResultString = getFirstSubElementStringValue(documentElement, "FetchResult");
-    if (fetchResultString == null) {
-      log.warn("Webservice response did not contain a 'FetchResult' element");
-    } else {
-      InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
-      Document fetchResultDocument = docBuilder.parse(fetchInputSource);
-      Element resultset = fetchResultDocument.getDocumentElement();
-
-      if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
-        log.warn("Webservice 'FetchResult' element did not contain a 'resultset' element");
-
+    try {
+      Document doc = docBuilder.parse(webserviceResult);
+      Element documentElement = doc.getDocumentElement();
+      
+      String fetchResultString = getFirstSubElementStringValue(documentElement, "FetchResult");
+      if (fetchResultString == null) {
+        log.warn("Webservice response did not contain a 'FetchResult' element");
       } else {
-        NodeList results = resultset.getElementsByTagName("result");
-
-        int numberOfResults = results.getLength();
-        log.debug("Number of results in Fetch query:" + numberOfResults);
-        for (int i = 0; i < numberOfResults; i++) {
-          Node resultNode = results.item(i);
-          if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
-            License license = new License();
-            Element resultElement = (Element) resultNode;
-
-            license.setContactEmail(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_EMAIL));
-            license.setContactFullName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_NAME));
-            license.setDescription(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-            Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
-            license.setStartDate(startDate);
-            Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
-            license.setEndDate(endDate);
-            license.setIdentityName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_IDENTITY_NAME));
-            license.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
-            license.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
-            log.debug("Created new License object:" + license.toString());
-            resultList.add(license);
+        InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
+        Document fetchResultDocument = docBuilder.parse(fetchInputSource);
+        Element resultset = fetchResultDocument.getDocumentElement();
+        
+        if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
+          log.warn("Webservice 'FetchResult' element did not contain a 'resultset' element");
+          
+        } else {
+          NodeList results = resultset.getElementsByTagName("result");
+          
+          int numberOfResults = results.getLength();
+          log.debug("Number of results in Fetch query:" + numberOfResults);
+          for (int i = 0; i < numberOfResults; i++) {
+            Node resultNode = results.item(i);
+            if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
+              License license = new License();
+              Element resultElement = (Element) resultNode;
+              
+              license.setContactEmail(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_EMAIL));
+              license.setContactFullName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_NAME));
+              license.setDescription(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+              Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
+              license.setStartDate(startDate);
+              Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
+              license.setEndDate(endDate);
+              license.setIdentityName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_IDENTITY_NAME));
+              license.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
+              license.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
+              log.debug("Created new License object:" + license.toString());
+              resultList.add(license);
+            }
           }
         }
       }
+    } catch (SAXParseException se) {
+      log.debug("Unable to parse response from LMNG webservice.");
+      StringWriter writer = new StringWriter();
+      IOUtils.copy(webserviceResult, writer);
+      log.debug("LMNG webservice response is:\n" + writer.toString());
     }
 
     return resultList;
@@ -247,7 +256,7 @@ public class LmngServiceImpl implements LicensingService {
    */
   private InputStream getWebServiceResult(String soapRequest) throws ClientProtocolException, IOException {
     DefaultHttpClient httpclient = new DefaultHttpClient();
-   // httpclient.getAuthSchemes().register("NTLM", new NTLMSchemeFactory());
+    //httpclient.getAuthSchemes().register("NTLM", new NTLMSchemeFactory());
     httpclient.getCredentialsProvider().setCredentials(AuthScope.ANY, new NTCredentials(user, password, "", ""));
     httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
     httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
