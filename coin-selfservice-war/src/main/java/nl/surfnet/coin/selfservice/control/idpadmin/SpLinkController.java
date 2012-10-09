@@ -64,13 +64,13 @@ public class SpLinkController extends BaseController {
 
   /**
    * Controller for request form page.
-   *
-   * @param spEntityId the entity id
+   * 
+   * @param spEntityId
+   *          the entity id
    * @return ModelAndView
    */
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spLinkRequest(@RequestParam String spEntityId,
-                                    @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
@@ -80,10 +80,8 @@ public class SpLinkController extends BaseController {
   }
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spRequestPost(@RequestParam String spEntityId,
-                                    @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                    @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
-                                    BindingResult result) {
+  public ModelAndView spRequestPost(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
@@ -97,15 +95,11 @@ public class SpLinkController extends BaseController {
     }
   }
 
-
-
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST, params="confirmed=true")
+  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST, params = "confirmed=true")
   public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId,
-                                             @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
-                                             BindingResult result,
-                                             @RequestParam(value = "confirmed") boolean confirmed,
-                                             @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                             SessionStatus sessionStatus) {
+      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
+      @RequestParam(value = "confirmed") boolean confirmed, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+      SessionStatus sessionStatus) {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
@@ -116,14 +110,9 @@ public class SpLinkController extends BaseController {
       return new ModelAndView("idpadmin/sp-linkrequest-confirm", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      final JiraTask task = new JiraTask.Builder()
-          .body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
-          .identityProvider(currentUser.getIdp())
-          .serviceProvider(spEntityId)
-          .institution(currentUser.getInstitutionId())
-          .issueType(JiraTask.Type.LINKREQUEST)
-          .status(JiraTask.Status.OPEN)
-          .build();
+      final JiraTask task = new JiraTask.Builder().body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
+          .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId).institution(currentUser.getInstitutionId())
+          .issueType(JiraTask.Type.LINKREQUEST).status(JiraTask.Status.OPEN).build();
       try {
         final String issueKey = jiraService.create(task, currentUser);
         actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
@@ -137,6 +126,5 @@ public class SpLinkController extends BaseController {
       }
     }
   }
-
 
 }

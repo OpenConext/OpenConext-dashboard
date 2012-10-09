@@ -38,4 +38,13 @@ public interface IdentityProviderService {
    * @return List&lt;IdentityProvider&gt;
    */
   List<IdentityProvider> getInstituteIdentityProviders(String instituteId);
+  
+  /**
+   * Get a list of all idps 
+   * @param instituteId the instituteId
+   * @return List&lt;IdentityProvider&gt;
+   */
+  List<IdentityProvider> getAllIdentityProviders();
+  
+  
 }

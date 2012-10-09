@@ -196,5 +196,15 @@ public class FederationProviderService implements ServiceProviderService, Identi
     return idps;
   }
 
+  /* (non-Javadoc)
+   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#getAllIdentityProviders()
+   */
+  @Override
+  @Cacheable(value = {"idps-federation"})
+  public List<IdentityProvider> getAllIdentityProviders() {
+    return federatieConfig.getIdPs();
+
+  }
+
 
 }
