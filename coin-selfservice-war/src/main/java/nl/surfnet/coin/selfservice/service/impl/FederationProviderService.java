@@ -166,6 +166,20 @@ public class FederationProviderService implements ServiceProviderService, Identi
 
   @Override
   @Cacheable(value = {"sps-federation"})
+  public ServiceProvider getServiceProvider(String spEntityId) {
+    if (federatieConfig.getSps() == null) {
+      return null;
+    }
+    for (ServiceProvider sp : federatieConfig.getSps()) {
+      if (sp.getId().equals(spEntityId)) {
+        return sp;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  @Cacheable(value = {"sps-federation"})
   public IdentityProvider getIdentityProvider(String idpEntityId) {
     if (federatieConfig.getIdPs() == null) {
       return null;

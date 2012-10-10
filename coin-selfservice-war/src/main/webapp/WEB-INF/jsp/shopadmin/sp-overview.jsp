@@ -38,9 +38,14 @@
       </tr>
       </thead>
       <tbody>
+
+      <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
+      <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
+      <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
+
       <c:forEach items="${bindings}" var="binding" varStatus="status">
         <c:if test="${not empty binding.serviceProvider.id}">
-          <spring:url value="/idpadmin/sp/detail.shtml" var="detailUrl" htmlEscape="true">
+          <spring:url value="compoundSp-detail.html" var="detailUrl" htmlEscape="true">
             <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
           </spring:url>
           <tr>
@@ -51,15 +56,12 @@
 			  <form:form method="post" action="save-splmng.shtml" >
             	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
             	<input value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
-            	<c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
-            	<c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
-            	<c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
             	<button type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');">C</button>
             	<button type="submit" value="submit" title="${submitButtonTitle}" name="submit">V</button>
 			  </form:form>
             </td>
             <td class="center">
-              <%-- Add detail/binding button --%>
+              <a href="${detailUrl}">Data decisions</a>
             </td>
           </tr>
         </c:if>

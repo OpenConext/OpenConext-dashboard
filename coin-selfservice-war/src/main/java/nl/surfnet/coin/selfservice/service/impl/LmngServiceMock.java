@@ -15,26 +15,19 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import nl.surfnet.coin.janus.domain.EntityMetadata;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.type.TypeReference;
+import org.springframework.core.io.ClassPathResource;
+
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.TypeReference;
-import org.joda.time.DateTime;
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 
 /**
  * LicensingServiceMock.java
@@ -51,36 +44,6 @@ public class LmngServiceMock implements LicensingService {
 
   private List<License> licenses;
 
-  @Test
-  public void testLicenses() throws JsonGenerationException, JsonMappingException, IOException {
-
-    List<License> licenses = new ArrayList<License>();
-
-    License license = new License();
-    license.setContactEmail("dummy@monickendam.nl");
-    license.setContactFullName("Dummy DUmDum");
-    license.setDescription("Microsoft Nederland");
-    license.setEndDate(new DateTime().plusMonths(6).toDate());
-    license.setIdentityName("office365_pro");
-    license.setProductName("Office 365");
-    license.setStartDate(new DateTime().minusMonths(6).toDate());
-    license.setSupplierName("Microsoft");
-    licenses.add(license);
-
-    license = new License();
-    license.setContactEmail("pompom@monickendam.nl");
-    license.setContactFullName("Pom Pom DUmDum");
-    license.setDescription("Google Nederland");
-    license.setEndDate(new DateTime().plusMonths(6).toDate());
-    license.setIdentityName("google_maps_pro");
-    license.setProductName("Google Enterpeise");
-    license.setStartDate(new DateTime().minusMonths(6).toDate());
-    license.setSupplierName("Google");
-    licenses.add(license);
-
-    String s = objectMapper.writeValueAsString(licenses);
-    System.out.println(s);
-  }
 
   @SuppressWarnings("unchecked")
   public LmngServiceMock() {

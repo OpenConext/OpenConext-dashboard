@@ -24,4 +24,10 @@ import nl.surfnet.coin.shared.service.GenericService;
  */
 public interface CompoundServiceProviderDao extends GenericService<CompoundServiceProvider>{
 
+  /**
+   * Find by the given entityId
+   * @param entityId the entityId of the sp
+   * @return the CompoundServiceProvider found
+   */
+  CompoundServiceProvider findByEntityId(String entityId);
 }

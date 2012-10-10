@@ -22,13 +22,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.Provider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-
-import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Service Provider Service that can query multiple ServiceProviderServices and
@@ -86,16 +86,25 @@ public class CompositeServiceProviderService implements ServiceProviderService, 
 
   /**
    * Returns the first SP found or null if none found.
-   * 
-   * 
-   * @param spEntityId
-   * @param idpEntityId
-   * @return
    */
   @Override
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     for (ServiceProviderService p : serviceProviderServices) {
       final ServiceProvider sp = p.getServiceProvider(spEntityId, idpEntityId);
+      if (sp != null) {
+        return sp;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the first SP found or null if none found.
+   */
+  @Override
+  public ServiceProvider getServiceProvider(String spEntityId) {
+    for (ServiceProviderService p : serviceProviderServices) {
+      final ServiceProvider sp = p.getServiceProvider(spEntityId);
       if (sp != null) {
         return sp;
       }

@@ -159,6 +159,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     return null;
   }
 
+  @Override
+  @Cacheable(value = { "sps-janus" })
+  public ServiceProvider getServiceProvider(String spEntityId) {
+    return getServiceProvider(spEntityId, null);
+  }
+
   /**
    * Create a ServiceProvider and inflate it with the given metadata attributes.
    * 

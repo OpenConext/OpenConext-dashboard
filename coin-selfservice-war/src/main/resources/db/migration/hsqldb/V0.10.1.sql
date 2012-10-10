@@ -18,7 +18,7 @@ CREATE TABLE log_logins (
 DROP TABLE IF EXISTS consent;
 CREATE TABLE consent (
   consent_date timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  usage_date timestamp DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  usage_date timestamp DEFAULT '1980-01-01 00:00:00' NOT NULL,
   hashed_user_id varchar(80) NOT NULL,
   service_id varchar(255) NOT NULL,
   attribute varchar(80) NOT NULL,

@@ -52,6 +52,14 @@ public interface ServiceProviderService {
   ServiceProvider getServiceProvider(String spEntityId, String idpEntityId);
 
   /**
+   * Get a {@link ServiceProvider} by its entity ID, without a idpEntityId
+   *
+   * @param spEntityId the entity id of the ServiceProvider
+   * @return the {@link ServiceProvider} object.
+   */
+  ServiceProvider getServiceProvider(String spEntityId);
+
+  /**
    * Get a list of all available Service Providers (IDP independent).
    *
    * @return list of {@link ServiceProvider}

@@ -15,6 +15,11 @@
  */
 package nl.surfnet.coin.selfservice.dao.impl;
 
+import java.util.List;
+
+import org.hibernate.NonUniqueResultException;
+import org.hibernate.criterion.Restrictions;
+
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
@@ -33,4 +38,12 @@ public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHiber
     super(type);
   }
 
+  @Override
+  public CompoundServiceProvider findByEntityId(String entityId) {
+    List<CompoundServiceProvider> serviceProviderList = findByCriteria(Restrictions.eq("entityId", entityId));
+    if (serviceProviderList.size() > 1) {
+      throw new NonUniqueResultException(serviceProviderList.size());
+    }
+    return serviceProviderList.get(0);
+  }
 }
