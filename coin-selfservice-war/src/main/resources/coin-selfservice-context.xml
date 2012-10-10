@@ -132,6 +132,7 @@
   <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
     <property name="baseDir" value="${coin-selfservice.db.migrations.folder}" />
     <property name="dataSource" ref="selfserviceDataSource" />
+    <property name="disableInitCheck" value="true" /><!-- skip because Hibernate creates its own table -->
   </bean>
 
   <bean id="federationProviderService"
@@ -259,7 +260,7 @@
     <property name="useTransactionAwareDataSource" value="true" />
   </bean>
 
-  <tx:annotation-driven transaction-manager="selfserviceTransactionManager" />
+  <tx:annotation-driven transaction-manager="selfServiceTransactionManager" />
 
   <bean id="selfServiceTransactionManager"
     class="org.springframework.orm.hibernate3.HibernateTransactionManager">
