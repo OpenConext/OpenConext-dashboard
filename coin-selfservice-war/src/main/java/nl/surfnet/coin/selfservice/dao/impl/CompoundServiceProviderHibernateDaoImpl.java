@@ -33,11 +33,8 @@ import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
 public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHibernateImpl<CompoundServiceProvider> implements
     CompoundServiceProviderDao {
 
-  /**
-   * @param type
-   */
-  public CompoundServiceProviderHibernateDaoImpl(Class<CompoundServiceProvider> type) {
-    super(type);
+  public CompoundServiceProviderHibernateDaoImpl() {
+    super(CompoundServiceProvider.class);
   }
 
   @Override
