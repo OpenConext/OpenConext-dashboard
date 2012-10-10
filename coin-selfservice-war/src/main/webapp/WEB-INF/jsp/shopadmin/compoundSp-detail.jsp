@@ -43,45 +43,28 @@
 
       <div class="accordion-group">
         <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordiontest" href="#f-1-body">
-            Titel
-          </a>
-        </div>
-        <div id="f-1-body" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <ul class="nav nav-tabs">
-              <li class="active">
-                <a href="#">SURFMarket</a>
-              </li>
-              <li><a href="#">SURFConext</a></li>
-              <li><a href="#">Distributiekanaal</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="accordion-group">
-        <div class="accordion-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordiontest" href="#f-2-body">
             Titel
           </a>
         </div>
-
         <div id="f-2-body" class="accordion-body collapse">
           <div class="accordion-inner">
             <ul class="nav nav-tabs">
-              <li class="active">
-                <a href="#">SURFMarket</a>
-              </li>
-              <li><a href="#">SURFConext</a></li>
-              <li><a href="#">Distributiekanaal</a></li>
+              <li class="active"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng">SURFMarket</a></li>
+              <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext">SURFConext</a></li>
+              <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel">Distributiekanaal</a></li>
             </ul>
-            <form class="source-lmng">
-              ${field.}
-            </form>
-            <form class="source-surfconext">
+            <div class="tab-content">
 
+            <form class="tab-pane active" id="form${fieldId}-lmng">
+              <p>${compoundSp.lmngFields[field.key]}</p>
+              <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
             </form>
-            <form class="source-distributionchannel">
+            <form class="tab-pane" id="form${fieldId}-surfconext">
+              <p>${compoundSp.surfconextFields[field.key]}</p>
+              <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
+            </form>
+            <form class="tab-pane" id="form${fieldId}-distributionchannel">
               <input type="hidden" name="compoundServiceProviderId" value="${compoundSp.id}" />
               <textarea>${field.value}</textarea>
               <div class="form-actions">
@@ -89,8 +72,7 @@
               <button name="save" value="save" class="btn btn-primary">Save</button>
               </div>
             </form>
-
-
+            </div>
           </div>
         </div>
       </div>
@@ -120,12 +102,6 @@
                   <li><a href="#">Distributiekanaal</a></li>
                 </ul>
 
-                <form>
-                  <input type="hidden" name="compoundServiceProviderId" value="${compoundSp.id}" />
-                  <textarea>
-                    ${field.value}
-                  </textarea>
-                </form>
               </div>
             </div>
           </div>
