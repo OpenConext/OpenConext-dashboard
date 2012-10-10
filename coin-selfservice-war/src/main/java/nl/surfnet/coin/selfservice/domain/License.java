@@ -29,14 +29,16 @@ public class License implements Serializable {
 
   private Date startDate;
   private Date endDate;
-  private String endUserDescription;
-  private String description;
+  private String endUserDescriptionNl;
+  private String institutionDescriptionNl;
+  private String serviceDescriptionNl;
   private String productName;
   private String identityName;
   private String contactFullName;
   private String contactEmail;
   private String supplierName;
   private String detailLogo; 
+  private String lmngIdentifier;
 
   /**
    * Default constructor
@@ -58,14 +60,6 @@ public class License implements Serializable {
 
   public void setEndDate(Date endDate) {
     this.endDate = endDate;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
   }
 
   public String getProductName() {
@@ -108,14 +102,7 @@ public class License implements Serializable {
     this.supplierName = supplierName;
   }
 
-  @Override
-  public String toString() {
-    return "License [startDate=" + startDate + ", endDate=" + endDate + ", description=" + description + ", productName=" + productName
-        + ", identityName=" + identityName + ", contactFullName=" + contactFullName + ", contactEmail=" + contactEmail + ", supplierName="
-        + supplierName + "]";
-  }
-
-  public String getDetailLogo() {
+   public String getDetailLogo() {
     return detailLogo;
   }
 
@@ -123,12 +110,44 @@ public class License implements Serializable {
     this.detailLogo = detailLogo;
   }
 
-  public String getEndUserDescription() {
-    return endUserDescription;
+  public String getLmngIdentifier() {
+    return lmngIdentifier;
   }
 
-  public void setEndUserDescription(String endUserDescription) {
-    this.endUserDescription = endUserDescription;
+  public void setLmngIdentifier(String lmngIdentifier) {
+    this.lmngIdentifier = lmngIdentifier;
+  }
+
+  public String getEndUserDescriptionNl() {
+    return endUserDescriptionNl;
+  }
+
+  public void setEndUserDescriptionNl(String endUserDescriptionNl) {
+    this.endUserDescriptionNl = endUserDescriptionNl;
+  }
+
+  public String getInstitutionDescriptionNl() {
+    return institutionDescriptionNl;
+  }
+
+  public void setInstitutionDescriptionNl(String institutionDescriptionNl) {
+    this.institutionDescriptionNl = institutionDescriptionNl;
+  }
+
+  public String getServiceDescriptionNl() {
+    return serviceDescriptionNl;
+  }
+
+  public void setServiceDescriptionNl(String serviceDescriptionNl) {
+    this.serviceDescriptionNl = serviceDescriptionNl;
+  }
+
+  @Override
+  public String toString() {
+    return "License [startDate=" + startDate + ", endDate=" + endDate + ", endUserDescriptionNl=" + endUserDescriptionNl
+        + ", institutionDescriptionNl=" + institutionDescriptionNl + ", serviceDescriptionNl=" + serviceDescriptionNl
+        + ", productName=" + productName + ", identityName=" + identityName + ", contactFullName=" + contactFullName + ", contactEmail="
+        + contactEmail + ", supplierName=" + supplierName + ", detailLogo=" + detailLogo + ", lmngIdentifier=" + lmngIdentifier + "]";
   }
 
 }

@@ -48,12 +48,30 @@ public class FieldImage extends Field {
     super();
   }
 
+  public FieldImage(Source source, Key key, byte[] image) {
+    super(source, key, null);
+    this.image = image;
+  }
+
+  public FieldImage(Source source, Key key, String fileUrl) {
+    super(source, key, null);
+    this.fileUrl = fileUrl;
+  }
+
+  public FieldImage(Source source, Key key, byte[] image, CompoundServiceProvider compoundServiceProvider) {
+    super(source, key, compoundServiceProvider);
+    this.image = image;
+  }
+
+  public FieldImage(Source source, Key key, String fileUrl, CompoundServiceProvider compoundServiceProvider) {
+    super(source, key, compoundServiceProvider);
+    this.fileUrl = fileUrl;
+  }
+
   public FieldImage(String fileUrl) {
     super();
     this.fileUrl = fileUrl;
   }
-
-
 
   public FieldImage(byte[] image, String filename, String fileUrl) {
     super();

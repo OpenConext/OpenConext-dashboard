@@ -194,7 +194,9 @@ public class LmngServiceImpl implements LicensingService {
               
               license.setContactEmail(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_EMAIL));
               license.setContactFullName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_NAME));
-              license.setDescription(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+              license.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+              license.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+              license.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
               Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
               license.setStartDate(startDate);
               Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));

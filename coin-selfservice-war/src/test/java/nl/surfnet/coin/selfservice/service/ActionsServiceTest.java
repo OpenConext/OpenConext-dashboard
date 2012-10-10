@@ -43,7 +43,7 @@ import static org.junit.Assert.assertThat;
 public class ActionsServiceTest {
 
   @Resource(name="actionsService")
-  ActionsService actionsService;
+  private ActionsService actionsService;
 
   @Autowired
   private JiraService jiraService;

@@ -40,14 +40,22 @@ public abstract class Field extends DomainObject {
   @JoinColumn(name = "compound_service_provider_id", nullable = false)
   private CompoundServiceProvider compoundServiceProvider;
 
+  public Field() {
+    super();
+  }
+
+  public Field(Source source, Key key, CompoundServiceProvider compoundServiceProvider) {
+    super();
+    this.source = source;
+    this.key = key;
+    this.compoundServiceProvider = compoundServiceProvider;
+  }
+
   public enum Source {
     LMNG, SURFCONEXT, DISTRIBUTIONCHANNEL
   }
 
   public enum Key {
-
-    
-    
     APPSTORE_LOGO,
 
     APP_URL,

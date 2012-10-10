@@ -165,9 +165,9 @@
   <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
     <property name="cacheManager" ref="ehcache" />
   </bean>
-
   <bean id="ehcache"
     class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <property name="shared" value="true"/>
     <property name="configLocation" value="classpath:selfservice-ehcache.xml" />
   </bean>
   <bean id="methodNameAwareCacheKeyGenerator"

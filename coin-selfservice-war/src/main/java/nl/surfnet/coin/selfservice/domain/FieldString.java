@@ -37,6 +37,20 @@ public class FieldString extends Field {
     return "FieldString [value=" + value + ", getSource()=" + getSource() + ", getKey()=" + getKey() + "]";
   }
 
+  public FieldString() {
+    super();
+  }
+
+  public FieldString(Source source, Key key, String value) {
+    super(source, key, null);
+    this.value = value;
+  }
+
+  public FieldString(Source source, Key key, String value, CompoundServiceProvider compoundServiceProvider) {
+    super(source, key, compoundServiceProvider);
+    this.value = value;
+  }
+
   public String getValue() {
     return value;
   }

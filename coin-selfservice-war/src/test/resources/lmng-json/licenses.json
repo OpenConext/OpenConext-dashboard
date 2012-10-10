@@ -2,7 +2,7 @@
     {
         "startDate": 1333885898711,
         "endDate": 1365421898639,
-        "description": "Microsoft Nederland",
+        "serviceDescriptionNl": "Microsoft Nederland",
         "productName": "Office 365",
         "identityName": "office365_pro",
         "contactFullName": "Dummy DUmDum",
@@ -12,7 +12,7 @@
     {
         "startDate": 1333885898711,
         "endDate": 1365421898711,
-        "description": "Google Nederland",
+        "serviceDescriptionNl": "Google Nederland",
         "productName": "Google Enterpeise",
         "identityName": "google_maps_pro",
         "contactFullName": "Pom Pom DUmDum",

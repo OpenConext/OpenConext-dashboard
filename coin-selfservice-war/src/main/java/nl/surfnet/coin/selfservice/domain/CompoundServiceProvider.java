@@ -29,7 +29,8 @@ import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
-
+import static org.springframework.util.StringUtils.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,13 +45,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import nl.surfnet.coin.selfservice.domain.Field.Key;
+import nl.surfnet.coin.selfservice.domain.Field.Source;
 import nl.surfnet.coin.selfservice.domain.Provider.Language;
 import nl.surfnet.coin.shared.domain.DomainObject;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * CompoundServiceProvider.java
@@ -85,6 +90,35 @@ public class CompoundServiceProvider extends DomainObject {
   @JoinTable
   @Sort(type = SortType.NATURAL)
   private List<FieldImage> screenShotsImages = new ArrayList<FieldImage>();
+
+  public static CompoundServiceProvider builder(ServiceProvider serviceProvider, License license) {
+    byte[] image = getDefaultImage();
+    String todo = "TODO";
+
+    CompoundServiceProvider provider = new CompoundServiceProvider();
+    provider.setServiceProvider(serviceProvider);
+    provider.setLicense(license);
+
+    buildFieldImage(Key.APPSTORE_LOGO, null, null, image, provider);
+    buildFieldString(Key.APP_URL, null, serviceProvider.getHomeUrl(), todo, provider);
+    buildFieldImage(Key.DETAIL_LOGO, license.getDetailLogo(), serviceProvider.getLogoUrl(), image, provider);
+    buildFieldString(Key.ENDUSER_DESCRIPTION_EN, null, serviceProvider.getDescription(Language.EN), todo, provider);
+    buildFieldString(Key.ENDUSER_DESCRIPTION_NL, license.getEndUserDescriptionNl(), serviceProvider.getDescription(Language.NL), todo,
+        provider);
+    buildFieldString(Key.EULA_URL, null, serviceProvider.getEulaURL(), todo, provider);
+    buildFieldString(Key.INSTITUTION_DESCRIPTION_EN, null, null, todo, provider);
+    buildFieldString(Key.INSTITUTION_DESCRIPTION_NL, license.getInstitutionDescriptionNl(), null, todo, provider);
+    buildFieldString(Key.SERVICE_DESCRIPTION_EN, null, serviceProvider.getName(Language.EN), todo, provider);
+    buildFieldString(Key.SERVICE_DESCRIPTION_NL, license.getServiceDescriptionNl(), serviceProvider.getName(Language.NL), todo, provider);
+    buildFieldString(Key.SERVICE_URL, null, serviceProvider.getUrl(), todo, provider);
+    buildFieldString(Key.SUPPORT_MAIL, null, getMail(serviceProvider, ContactPersonType.help), todo, provider);
+    buildFieldString(Key.SUPPORT_URL, null, serviceProvider.getUrl(), todo, provider);
+    buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), todo, provider);
+
+    provider.addScreenShot(new FieldImage(Source.DISTRIBUTIONCHANNEL, Key.SCREENSHOT, image, provider));
+
+    return provider;
+  }
 
   public Set<FieldString> getFields() {
     return fields;
@@ -134,7 +168,6 @@ public class CompoundServiceProvider extends DomainObject {
     return (String) getFieldValue(SERVICE_DESCRIPTION_EN);
   }
 
-  
   public String getInstitutionDescriptionNl() {
     return (String) getFieldValue(INSTITUTION_DESCRIPTION_NL);
   }
@@ -207,6 +240,12 @@ public class CompoundServiceProvider extends DomainObject {
     Assert.notNull(f);
     f.setCompoundServiceProvider(this);
     return this.screenShotsImages.add(f);
+  }
+
+  public boolean removeScreenShot(FieldImage f) {
+    Assert.notNull(f);
+    f.setCompoundServiceProvider(null);
+    return this.screenShotsImages.remove(f);
   }
 
   /*
@@ -292,11 +331,11 @@ public class CompoundServiceProvider extends DomainObject {
   private Object getLmngProperty(Key key) {
     switch (key) {
     case ENDUSER_DESCRIPTION_NL:
-      return this.license.getEndUserDescription();
+      return this.license.getEndUserDescriptionNl();
     case INSTITUTION_DESCRIPTION_NL:
-      return this.license.getDescription();
+      return this.license.getInstitutionDescriptionNl();
     case SERVICE_DESCRIPTION_NL:
-      return this.license.getProductName();
+      return this.license.getServiceDescriptionNl();
     case DETAIL_LOGO:
       return new FieldImage(this.license.getDetailLogo()).getImageBytes();
     default:
@@ -308,6 +347,69 @@ public class CompoundServiceProvider extends DomainObject {
   public String toString() {
     return "CompoundServiceProvider [serviceProviderEntityId=" + serviceProviderEntityId + ", lmngId=" + lmngId + ", fields=" + fields
         + ", fieldImages=" + fieldImages + ", screenShotsImages=" + screenShotsImages + ", getId()=" + getId() + "]";
+  }
+
+  private static byte[] getDefaultImage() {
+    try {
+      return IOUtils.toByteArray(new ClassPathResource("unknown.jpg").getInputStream());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public ServiceProvider getServiceProvider() {
+    return serviceProvider;
+  }
+
+  public void setServiceProvider(ServiceProvider serviceProvider) {
+    this.serviceProvider = serviceProvider;
+    this.serviceProviderEntityId = serviceProvider.getId();
+  }
+
+  public License getLicense() {
+    return license;
+  }
+
+  public void setLicense(License license) {
+    this.license = license;
+    this.lmngId = license.getLmngIdentifier();
+  }
+
+  private void setServiceProviderEntityId(String serviceProviderEntityId) {
+    this.serviceProviderEntityId = serviceProviderEntityId;
+  }
+
+  private void setLmngId(String lmngId) {
+    this.lmngId = lmngId;
+  }
+
+  private static void buildFieldString(Key key, String lmng, String surfconext, String distributionChannel, CompoundServiceProvider provider) {
+    FieldString fieldString;
+    if (hasText(lmng)) {
+      fieldString = new FieldString(Source.LMNG, key, lmng);
+    } else if (hasText(surfconext)) {
+      fieldString = new FieldString(Source.SURFCONEXT, key, surfconext, provider);
+    } else {
+      fieldString = new FieldString(Source.DISTRIBUTIONCHANNEL, Key.ENDUSER_DESCRIPTION_NL, distributionChannel);
+    }
+    provider.addFieldString(fieldString);
+  }
+
+  private static void buildFieldImage(Key key, String lmng, String surfconext, byte[] distributionChannel, CompoundServiceProvider provider) {
+    FieldImage fieldImage;
+    if (hasText(lmng)) {
+      fieldImage = new FieldImage(Source.LMNG, key, lmng);
+    } else if (hasText(surfconext)) {
+      fieldImage = new FieldImage(Source.SURFCONEXT, key, surfconext);
+    } else {
+      fieldImage = new FieldImage(Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
+    }
+    provider.addFieldImage(fieldImage);
+  }
+
+  private static String getMail(ServiceProvider serviceProvider, ContactPersonType type) {
+    ContactPerson helpCP = serviceProvider.getContactPerson(type);
+    return (helpCP == null ? null : helpCP.getEmailAddress());
   }
 
 }
