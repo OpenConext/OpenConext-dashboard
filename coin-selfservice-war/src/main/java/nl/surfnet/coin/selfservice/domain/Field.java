@@ -40,12 +40,14 @@ public abstract class Field extends DomainObject {
   @JoinColumn(name = "compound_service_provider_id", nullable = false)
   private CompoundServiceProvider compoundServiceProvider;
 
-  public static enum Source {
+  public enum Source {
     LMNG, SURFCONEXT, DISTRIBUTIONCHANNEL
   }
 
   public enum Key {
 
+    
+    
     APPSTORE_LOGO,
 
     APP_URL,
@@ -60,6 +62,12 @@ public abstract class Field extends DomainObject {
 
     INSTITUTION_DESCRIPTION_EN,
 
+    INSTITUTION_DESCRIPTION_NL,
+ 
+    SERVICE_DESCRIPTION_EN,
+
+    SERVICE_DESCRIPTION_NL,
+
     SCREENSHOT,
 
     SERVICE_URL,
@@ -68,9 +76,7 @@ public abstract class Field extends DomainObject {
 
     SUPPORT_URL,
 
-    TECHNICAL_SUPPORTMAIL,
-
-    INSTITUTION_DESCRIPTION_NL;
+    TECHNICAL_SUPPORTMAIL
     
   }
 

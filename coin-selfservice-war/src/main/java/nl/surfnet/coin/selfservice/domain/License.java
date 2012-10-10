@@ -29,12 +29,14 @@ public class License implements Serializable {
 
   private Date startDate;
   private Date endDate;
+  private String endUserDescription;
   private String description;
   private String productName;
   private String identityName;
   private String contactFullName;
   private String contactEmail;
   private String supplierName;
+  private String detailLogo; 
 
   /**
    * Default constructor
@@ -111,6 +113,22 @@ public class License implements Serializable {
     return "License [startDate=" + startDate + ", endDate=" + endDate + ", description=" + description + ", productName=" + productName
         + ", identityName=" + identityName + ", contactFullName=" + contactFullName + ", contactEmail=" + contactEmail + ", supplierName="
         + supplierName + "]";
+  }
+
+  public String getDetailLogo() {
+    return detailLogo;
+  }
+
+  public void setDetailLogo(String detailLogo) {
+    this.detailLogo = detailLogo;
+  }
+
+  public String getEndUserDescription() {
+    return endUserDescription;
+  }
+
+  public void setEndUserDescription(String endUserDescription) {
+    this.endUserDescription = endUserDescription;
   }
 
 }

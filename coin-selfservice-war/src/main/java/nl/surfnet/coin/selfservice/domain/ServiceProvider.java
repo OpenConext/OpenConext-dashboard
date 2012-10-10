@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.CollectionUtils;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -115,6 +117,10 @@ public class ServiceProvider extends Provider implements Serializable {
     return urls;
   }
 
+  public String getUrl() {
+    return CollectionUtils.isEmpty(this.urls) ? null : urls.values().iterator().next();
+  }
+  
   public void setUrls(Map<String, String> urls) {
     this.urls = urls;
   }

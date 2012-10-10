@@ -15,10 +15,26 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.EULA_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.*;
-import static nl.surfnet.coin.selfservice.domain.Field.Source.*;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,10 +44,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import nl.surfnet.coin.selfservice.domain.Field.Key;
+import nl.surfnet.coin.selfservice.domain.Provider.Language;
 import nl.surfnet.coin.shared.domain.DomainObject;
 
 import org.hibernate.annotations.Proxy;
-import org.springframework.beans.BeanUtils;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.springframework.util.Assert;
 
 /**
@@ -44,13 +62,13 @@ import org.springframework.util.Assert;
 public class CompoundServiceProvider extends DomainObject {
 
   @Transient
-  private ServiceProvider sp;
+  private ServiceProvider serviceProvider;
 
   @Transient
-  private License ls;
+  private License license;
 
   @Column
-  private String serviceProviverEntityId;
+  private String serviceProviderEntityId;
 
   @Column
   private String lmngId;
@@ -65,7 +83,8 @@ public class CompoundServiceProvider extends DomainObject {
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
   @JoinTable
-  private Set<FieldImage> screenShotsImages = new HashSet<FieldImage>();
+  @Sort(type = SortType.NATURAL)
+  private List<FieldImage> screenShotsImages = new ArrayList<FieldImage>();
 
   public Set<FieldString> getFields() {
     return fields;
@@ -83,80 +102,93 @@ public class CompoundServiceProvider extends DomainObject {
     this.fieldImages = fieldImages;
   }
 
-  public Set<FieldImage> getScreenShotsImages() {
+  public List<FieldImage> getScreenShotsImages() {
     return screenShotsImages;
   }
 
-  public void setScreenShotsImages(Set<FieldImage> screenShotsImages) {
+  public void setScreenShotsImages(List<FieldImage> screenShotsImages) {
     this.screenShotsImages = screenShotsImages;
   }
 
   public ServiceProvider getSp() {
-    return sp;
+    return serviceProvider;
   }
 
   public License getLs() {
-    return ls;
+    return license;
   }
 
-  public String getServiceProviverEntityId() {
-    return serviceProviverEntityId;
+  public String getServiceProviderEntityId() {
+    return serviceProviderEntityId;
   }
 
   public String getLmngId() {
     return lmngId;
   }
 
+  public String getServiceDescriptionNl() {
+    return (String) getFieldValue(SERVICE_DESCRIPTION_NL);
+  }
+
+  public String getServiceDescriptionEn() {
+    return (String) getFieldValue(SERVICE_DESCRIPTION_EN);
+  }
+
+  
   public String getInstitutionDescriptionNl() {
-    return getFieldStringValue(INSTITUTION_DESCRIPTION_NL);
+    return (String) getFieldValue(INSTITUTION_DESCRIPTION_NL);
   }
 
   public String getInstitutionDescriptionEn() {
-    return getFieldStringValue(INSTITUTION_DESCRIPTION_EN);
+    return (String) getFieldValue(INSTITUTION_DESCRIPTION_EN);
   }
 
   public String getEnduserDescriptionNl() {
-    return getFieldStringValue(ENDUSER_DESCRIPTION_NL);
+    return (String) getFieldValue(ENDUSER_DESCRIPTION_NL);
   }
 
   public String getEnduserDescriptionEn() {
-    return getFieldStringValue(ENDUSER_DESCRIPTION_EN);
+    return (String) getFieldValue(ENDUSER_DESCRIPTION_EN);
   }
 
   public byte[] getAppStoreLogo() {
-    return null;
+    return (byte[]) getFieldValue(APPSTORE_LOGO);
   }
 
   public byte[] getDetailLogo() {
-    return null;
+    return (byte[]) getFieldValue(DETAIL_LOGO);
   }
 
   public String getAppUrl() {
-    return null;
+    return (String) getFieldValue(APP_URL);
   }
 
-  public Set<byte[]> getScreenshots() {
-    return null;
+  public List<byte[]> getScreenshots() {
+    List<byte[]> result = new ArrayList<byte[]>();
+    for (FieldImage fi : screenShotsImages) {
+      result.add(fi.getImage());
+    }
+    return result;
   }
 
   public String getServiceUrl() {
-    return null;
+    return (String) getFieldValue(SERVICE_URL);
   }
 
   public String getSupportUrl() {
-    return null;
+    return (String) getFieldValue(SUPPORT_URL);
   }
 
   public String getEulaUrl() {
-    return null;
+    return (String) getFieldValue(EULA_URL);
   }
 
   public String getSupportMail() {
-    return null;
+    return (String) getFieldValue(SUPPORT_MAIL);
   }
 
   public String getTechnicalSupportMail() {
-    return null;
+    return (String) getFieldValue(TECHNICAL_SUPPORTMAIL);
   }
 
   public boolean addFieldString(FieldString f) {
@@ -183,73 +215,98 @@ public class CompoundServiceProvider extends DomainObject {
    * Objects (e.g. Service Provider and License). Therefore we have chosen to
    * explicitly retrieve values.
    */
-  private String getFieldStringValue(Field.Key key) {
+  private Object getFieldValue(Field.Key key) {
     Assert.notNull(key);
     for (FieldString f : this.fields) {
       if (key.equals(f.getKey())) {
         switch (f.getSource()) {
         case LMNG:
           return getLmngProperty(key);
-         
         case SURFCONEXT:
-          
-          break;
+          return getSurfConextProperty(key);
         case DISTRIBUTIONCHANNEL:
-
-          break;
-
+          return getDistributionChannelProperty(f);
         default:
           throw new RuntimeException("Unknow Source ('" + f.getSource() + "')");
         }
       }
     }
-    return null;
-    //throw new RuntimeException("Unset key for ('" + this + "'");
+    for (FieldImage f : this.fieldImages) {
+      if (key.equals(f.getKey())) {
+        switch (f.getSource()) {
+        case LMNG:
+          return getLmngProperty(key);
+        case SURFCONEXT:
+          return getSurfConextProperty(key);
+        case DISTRIBUTIONCHANNEL:
+          return getDistributionChannelProperty(f);
+        default:
+          throw new RuntimeException("Unknow Source ('" + f.getSource() + "')");
+        }
+      }
+    }
+    throw new RuntimeException("Unset key for ('" + this + "'");
   }
 
-  private String getLmngProperty(Key key) {
-    /*
-     *     APPSTORE_LOGO,
+  private Object getDistributionChannelProperty(Field field) {
+    if (field instanceof FieldImage) {
+      return ((FieldImage) field).getImage();
+    }
+    if (field instanceof FieldString) {
+      return ((FieldString) field).getValue();
+    }
+    throw new RuntimeException("Unknown Field class: " + field.getClass());
+  }
 
-    APP_URL,
+  private Object getSurfConextProperty(Key key) {
+    switch (key) {
+    case ENDUSER_DESCRIPTION_NL:
+      return this.serviceProvider.getDescription(Language.NL);
+    case ENDUSER_DESCRIPTION_EN:
+      return this.serviceProvider.getDescription(Language.EN);
+    case SERVICE_DESCRIPTION_NL:
+      return this.serviceProvider.getName(Language.NL);
+    case SERVICE_DESCRIPTION_EN:
+      return this.serviceProvider.getName(Language.EN);
+    case DETAIL_LOGO:
+      return new FieldImage(this.serviceProvider.getLogoUrl()).getImageBytes();
+    case APP_URL:
+      return this.serviceProvider.getHomeUrl();
+    case SERVICE_URL:
+      return this.serviceProvider.getUrl();
+    case SUPPORT_URL:
+      return this.serviceProvider.getUrl();
+    case SUPPORT_MAIL:
+      ContactPerson helpCP = this.serviceProvider.getContactPerson(ContactPersonType.help);
+      return helpCP != null ? helpCP.getEmailAddress() : null;
+    case TECHNICAL_SUPPORTMAIL:
+      ContactPerson cp = this.serviceProvider.getContactPerson(ContactPersonType.technical);
+      return cp != null ? cp.getEmailAddress() : null;
+    case EULA_URL:
+      return this.serviceProvider.getEulaURL();
+    default:
+      throw new RuntimeException("SURFConext does not support property: " + key);
+    }
+  }
 
-    DETAIL_LOGO,
-
-    ENDUSER_DESCRIPTION_EN,
-
-    ENDUSER_DESCRIPTION_NL,
-
-    EULA_URL,
-
-    INSTITUTION_DESCRIPTION_EN,
-
-    SCREENSHOT,
-
-    SERVICE_URL,
-
-    SUPPORT_MAIL,
-
-    SUPPORT_URL,
-
-    TECHNICAL_SUPPORTMAIL,
-
-    INSTITUTION_DESCRIPTION_NL;
-
-     */
-//    switch (key) {
-//    case value:
-//      
-//      break;
-//
-//    default:
-//      break;
-//    }
-    return null;
+  private Object getLmngProperty(Key key) {
+    switch (key) {
+    case ENDUSER_DESCRIPTION_NL:
+      return this.license.getEndUserDescription();
+    case INSTITUTION_DESCRIPTION_NL:
+      return this.license.getDescription();
+    case SERVICE_DESCRIPTION_NL:
+      return this.license.getProductName();
+    case DETAIL_LOGO:
+      return new FieldImage(this.license.getDetailLogo()).getImageBytes();
+    default:
+      throw new RuntimeException("LMNG does not support property: " + key);
+    }
   }
 
   @Override
   public String toString() {
-    return "CompoundServiceProvider [serviceProviverEntityId=" + serviceProviverEntityId + ", lmngId=" + lmngId + ", fields=" + fields
+    return "CompoundServiceProvider [serviceProviderEntityId=" + serviceProviderEntityId + ", lmngId=" + lmngId + ", fields=" + fields
         + ", fieldImages=" + fieldImages + ", screenShotsImages=" + screenShotsImages + ", getId()=" + getId() + "]";
   }
 

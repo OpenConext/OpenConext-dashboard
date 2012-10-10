@@ -30,13 +30,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Abstract class for either ServiceProvider or IdentityProvider
  */
 public abstract class Provider implements Comparable<Provider>, Serializable {
 
-  private static final String LANG_EN = "en";
+  public enum Language {
+    EN, NL;
+  }  
 
   @XStreamAlias("type")
   @XStreamAsAttribute
@@ -140,20 +143,32 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
    * @deprecated use #getDescriptions with the language code as key
    */
   public String getDescription() {
-    return this.descriptions.get(LANG_EN);
+    return this.descriptions.get(Language.EN.name().toLowerCase());
   }
 
   /**
    * @deprecated use #addDescriptions with the language code as key
    */
   public void setDescription(String description) {
-    addDescription(LANG_EN, description);
+    addDescription(Language.EN.name().toLowerCase(), description);
   }
 
   public List<ContactPerson> getContactPersons() {
     return contactPersons;
   }
 
+  public ContactPerson getContactPerson(ContactPersonType type) {
+    if (CollectionUtils.isEmpty(contactPersons)) {
+      return null;
+    }
+    for (ContactPerson cp : contactPersons) {
+      if (cp.getContactPersonType().equals(type)) {
+        return cp;
+      }
+    }
+    return null;
+  }
+  
   public void setContactPersons(List<ContactPerson> contactPersons) {
     this.contactPersons = contactPersons;
   }
@@ -165,6 +180,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   public Map<String, String> getNames() {
     return names;
   }
+  
+  public String getName(Language language) {
+    return names.get(language.name().toLowerCase());
+  }
 
   public void setNames(Map<String, String> names) {
     this.names = names;
@@ -172,6 +191,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   public void addName(String language, String name) {
     this.names.put(language, name);
+  }
+
+  public String getDescription(Language language) {
+    return descriptions.get(language.name().toLowerCase());
   }
 
   public Map<String, String> getDescriptions() {

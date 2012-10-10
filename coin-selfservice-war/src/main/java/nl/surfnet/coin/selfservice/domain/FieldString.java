@@ -36,5 +36,13 @@ public class FieldString extends Field {
   public String toString() {
     return "FieldString [value=" + value + ", getSource()=" + getSource() + ", getKey()=" + getKey() + "]";
   }
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
   
 }

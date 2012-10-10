@@ -15,8 +15,6 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.persistence.Column;
@@ -25,7 +23,6 @@ import javax.persistence.Lob;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.annotations.Proxy;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -46,6 +43,26 @@ public class FieldImage extends Field {
 
   @Column(name = "file_url")
   private String fileUrl;
+
+  public FieldImage() {
+    super();
+  }
+
+  public FieldImage(String fileUrl) {
+    super();
+    this.fileUrl = fileUrl;
+  }
+
+
+
+  public FieldImage(byte[] image, String filename, String fileUrl) {
+    super();
+    this.image = image;
+    this.filename = filename;
+    this.fileUrl = fileUrl;
+  }
+
+
 
   public byte[] getImage() {
     return image;
