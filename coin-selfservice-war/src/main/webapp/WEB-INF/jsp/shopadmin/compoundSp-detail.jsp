@@ -33,11 +33,6 @@
   <h2>${title}</h2>
 
   <div class="content">
-    ${compoundSp}
-
-
-
-    <!--- test -->
       <div class="accordion" id="fieldaccordion">
 
 <c:forEach items="${compoundSp.fields}" var="field">
@@ -61,15 +56,20 @@
 
             <form class="tab-pane active" id="form${fieldId}-lmng">
               <p>${compoundSp.lmngFieldValues[field.key]}</p>
+              <input type="hidden" name="source" value="LMNG" />
+              <input type="hidden" name="fieldId" value="${field.id}" />
               <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
             </form>
             <form class="tab-pane" id="form${fieldId}-surfconext">
               <p>${compoundSp.surfConextFieldValues[field.key]}</p>
+              <input type="hidden" name="source" value="SURFCONEXT" />
+              <input type="hidden" name="fieldId" value="${field.id}" />
               <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
             </form>
             <form class="tab-pane" id="form${fieldId}-distributionchannel">
-              <input type="hidden" name="compoundServiceProviderId" value="${compoundSp.id}" />
-              <textarea>${compoundSp.distributionFieldValues[field.key]}</textarea>
+              <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
+              <input type="hidden" name="fieldId" value="${field.id}" />
+              <textarea name="value">${compoundSp.distributionFieldValues[field.key]}</textarea>
 
               <div class="form-actions">
                 <button name="usethis" value="usethis" class="btn">Use this</button>
@@ -84,10 +84,39 @@
     </div>
 
 
-
   </div>
 </section>
 
 <jsp:include page="../footer.jsp">
   <jsp:param name="datatables" value="false"/>
 </jsp:include>
+
+<script type="text/javascript">
+
+  // TODO: move to proper external JS file. Probably together with transition to new style?
+
+  var alertDiv = function(msg) {
+    return $("<div />").addClass("alert").html(msg)
+      .append("<button type='button'>x</button>").attr("data-dismiss", "alert").addClass("close")
+  }
+
+  $("form").submit(function(e) {
+    e.preventDefault();
+
+    var form = this;
+    $.ajax(
+      "compoundSp-update.shtml",
+      {
+        data: $(form).serialize(),
+        type: "post",
+        failure: function(msg) {
+          $(this).prepend(alertDiv("Failure saving data. Details: " + msg));
+        },
+        success: function(result) {
+          console.log("post success: " + result);
+          $(form).prepend(alertDiv("Successfully saved. TODO: message bundle"));
+
+        }
+      });
+  });
+</script>

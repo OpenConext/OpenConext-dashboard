@@ -78,13 +78,14 @@ public class SpLmngDataBindingController extends BaseController {
 
   @RequestMapping(value = "/compoundSp-update", method = RequestMethod.POST)
   public @ResponseBody
-  String updateField(@RequestParam(value = "compoundsp_id", required = true) Long compoundSpId,
-      @RequestParam(value = "field_id", required = true) Long fieldId, @RequestParam(value = "value", required = true) String value,
-      @RequestParam(value = "source", required = true) Source source) {
+  String updateField(
+      @RequestParam(value = "fieldId") Long fieldId,
+      @RequestParam(value = "value", required = false) String value,
+      @RequestParam(value = "source") Source source) {
     FieldString field = fieldStringDao.findById(fieldId);
     field.setSource(source);
     field.setValue(value);
+    fieldStringDao.saveOrUpdate(field);
     return "ok";
   }
-
 }
