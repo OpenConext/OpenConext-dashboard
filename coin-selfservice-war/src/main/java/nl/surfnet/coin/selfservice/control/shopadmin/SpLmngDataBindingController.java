@@ -35,7 +35,7 @@ public class SpLmngDataBindingController extends BaseController {
   @Resource(name="providerService")
   private ServiceProviderService sps;
 
-  @Resource(name="compoundServiceProviderDao")
+  @Resource
   private CompoundServiceProviderDao compoundServiceProviderDao;
 
   @RequestMapping(value = "/compoundSp-detail")

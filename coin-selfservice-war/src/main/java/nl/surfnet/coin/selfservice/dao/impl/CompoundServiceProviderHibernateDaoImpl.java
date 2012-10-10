@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
@@ -28,6 +29,7 @@ import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
  * CompoundServiceProviderHibernateDaoImpl.java
  * 
  */
+@Repository
 public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHibernateImpl<CompoundServiceProvider> implements
     CompoundServiceProviderDao {
 
