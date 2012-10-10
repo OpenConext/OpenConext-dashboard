@@ -289,18 +289,6 @@ public class CompoundServiceProvider extends DomainObject {
     throw new RuntimeException("Unset key for ('" + this + "'");
   }
 
-  private Object getDistributionChannelProperty(Key key) {
-    Set allFields = new HashSet();
-    fields.addAll(this.fields);
-    fieldImages.addAll(this.fieldImages);
-    for (Object object : allFields) {
-      if (((Field)object).getKey().equals(key)) {
-        return null;
-      }
-    }
-    return null;
-   }
-
   private Object getDistributionChannelProperty(Field field) {
     if (field instanceof FieldImage) {
       return ((FieldImage) field).getImage();
@@ -311,12 +299,23 @@ public class CompoundServiceProvider extends DomainObject {
     throw new RuntimeException("Unknown Field class: " + field.getClass());
   }
 
+  public Map<Key, String> getSurfConextFieldValues() {
+    return getFieldValues(Source.SURFCONEXT);
+  }
+  public Map<Key, String> getLmngFieldValues() {
+    return getFieldValues(Source.LMNG);
+  }
+  public Map<Key, String> getDistributionFieldValues() {
+    return getFieldValues(Source.DISTRIBUTIONCHANNEL);
+  }
+  
+  
   /**
    * Convenience method for JSP access
    * 
    * @return Map with all Keys currently supported by SURFconext
    */
-  public Map<Key, String> getFieldValues(Source source) {
+  private Map<Key, String> getFieldValues(Source source) {
     Key[] values = Key.values();
     Map<Key, String> result = new HashMap<Field.Key, String>(); 
     if (source.equals(Source.DISTRIBUTIONCHANNEL)) {
