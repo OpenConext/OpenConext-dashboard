@@ -281,7 +281,11 @@ public class LmngServiceImpl implements LicensingService {
    * @return
    */
   private String getLmngIdentityId(IdentityProvider identityProvider) {
-    return lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getId());
+    // currently institutionId can be null, so check first
+    if (identityProvider.getInstitutionId() == null) {
+      return null;
+    }
+    return lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getInstitutionId());
   }
 
   /**
@@ -291,7 +295,6 @@ public class LmngServiceImpl implements LicensingService {
    * @return
    */
   private String getLmngServiceId(ServiceProvider serviceProvider) {
-    // TODO check if we need Id or institutionId
     return lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
   }
 

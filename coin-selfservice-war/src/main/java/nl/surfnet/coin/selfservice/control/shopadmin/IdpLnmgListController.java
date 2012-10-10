@@ -60,7 +60,7 @@ public class IdpLnmgListController extends BaseController {
     List<LmngIdentityBinding> lmngIdpBindings = new ArrayList<LmngIdentityBinding>();
     for (IdentityProvider identityProvider : idpService.getAllIdentityProviders()) {
       LmngIdentityBinding lmngIdentityBinding = new LmngIdentityBinding(identityProvider);
-      String lmngId = lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getId());
+      String lmngId = lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getInstitutionId());
       lmngIdentityBinding.setLmngIdentifier(lmngId);
       lmngIdpBindings.add(lmngIdentityBinding);
     }
@@ -75,10 +75,10 @@ public class IdpLnmgListController extends BaseController {
     String idpId = req.getParameter("idpIdentifier");
     String lmngId = req.getParameter("lmngIdentifier");
     if ("clear".equalsIgnoreCase(req.getParameter("submit"))) {
-      log.debug("Clearing lmng identifier for IdentityProvider with ID " + idpId );
+      log.debug("Clearing lmng identifier for IdentityProvider with institutionID " + idpId );
       lmngId = null;
     } else {
-      log.debug("Storing lmng identifier " + lmngId + " for IdentityProvider with ID " + idpId );
+      log.debug("Storing lmng identifier " + lmngId + " for IdentityProvider with institutionID " + idpId );
     }
     lmngIdentifierDao.saveOrUpdateLmngIdForIdentityProviderId(idpId, lmngId);
 

@@ -39,13 +39,13 @@
       </thead>
       <tbody>
       <c:forEach items="${bindings}" var="binding" varStatus="status">
-        <c:if test="${not empty binding.identityProvider.id}">
+        <c:if test="${not empty binding.identityProvider.institutionId}">
           <tr>
-            <td title="${binding.identityProvider.id} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}"><tags:providername provider="${binding.identityProvider}"/></td>
+            <td title="${binding.identityProvider.id} - ${binding.identityProvider.institutionId} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}"><tags:providername provider="${binding.identityProvider}"/></td>
             <td class="text-overflow">
 			  <form:form method="post" action="save-idplmng.shtml" >
             	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
-            	<input value="${binding.identityProvider.id}" type="hidden" name="idpIdentifier"/>
+            	<input value="${binding.identityProvider.institutionId}" type="hidden" name="idpIdentifier"/>
             	<c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
             	<c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
             	<c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
