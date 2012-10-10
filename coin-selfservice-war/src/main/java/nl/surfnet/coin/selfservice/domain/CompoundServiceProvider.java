@@ -29,11 +29,14 @@ import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
-import static org.springframework.util.StringUtils.*;
+import static org.springframework.util.StringUtils.hasText;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -55,7 +58,6 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * CompoundServiceProvider.java
@@ -287,6 +289,18 @@ public class CompoundServiceProvider extends DomainObject {
     throw new RuntimeException("Unset key for ('" + this + "'");
   }
 
+  private Object getDistributionChannelProperty(Key key) {
+    Set allFields = new HashSet();
+    fields.addAll(this.fields);
+    fieldImages.addAll(this.fieldImages);
+    for (Object object : allFields) {
+      if (((Field)object).getKey().equals(key)) {
+        return null;
+      }
+    }
+    return null;
+   }
+
   private Object getDistributionChannelProperty(Field field) {
     if (field instanceof FieldImage) {
       return ((FieldImage) field).getImage();
@@ -295,6 +309,42 @@ public class CompoundServiceProvider extends DomainObject {
       return ((FieldString) field).getValue();
     }
     throw new RuntimeException("Unknown Field class: " + field.getClass());
+  }
+
+  /**
+   * Convenience method for JSP access
+   * 
+   * @return Map with all Keys currently supported by SURFconext
+   */
+  public Map<Key, String> getFieldValues(Source source) {
+    Key[] values = Key.values();
+    Map<Key, String> result = new HashMap<Field.Key, String>(); 
+    if (source.equals(Source.DISTRIBUTIONCHANNEL)) {
+      for (FieldString field : this.fields) {
+        result.put(field.getKey(), field.getValue());
+      }
+    } else {
+      for (Key key : values) {
+        if (!key.isImage()) {
+          try {
+            switch (source) {
+            case SURFCONEXT:
+              result.put(key, (String)getSurfConextProperty(key));
+              break;
+            case LMNG:
+              result.put(key, (String)getLmngProperty(key));
+              break;
+            case DISTRIBUTIONCHANNEL:
+              //already covered
+              break;
+            }
+          } catch (RuntimeException e) {
+            //not a problem here
+          }
+        }
+      }
+    }
+    return result;
   }
 
   private Object getSurfConextProperty(Key key) {

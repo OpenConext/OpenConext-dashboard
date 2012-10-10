@@ -56,35 +56,45 @@ public abstract class Field extends DomainObject {
   }
 
   public enum Key {
-    APPSTORE_LOGO,
+    APPSTORE_LOGO(true),
 
-    APP_URL,
+    APP_URL(false),
 
-    DETAIL_LOGO,
+    DETAIL_LOGO(true),
 
-    ENDUSER_DESCRIPTION_EN,
+    ENDUSER_DESCRIPTION_EN(false),
 
-    ENDUSER_DESCRIPTION_NL,
+    ENDUSER_DESCRIPTION_NL(false),
 
-    EULA_URL,
+    EULA_URL(false),
 
-    INSTITUTION_DESCRIPTION_EN,
+    INSTITUTION_DESCRIPTION_EN(false),
 
-    INSTITUTION_DESCRIPTION_NL,
+    INSTITUTION_DESCRIPTION_NL(false),
  
-    SERVICE_DESCRIPTION_EN,
+    SERVICE_DESCRIPTION_EN(false),
 
-    SERVICE_DESCRIPTION_NL,
+    SERVICE_DESCRIPTION_NL(false),
 
-    SCREENSHOT,
+    SCREENSHOT(true),
 
-    SERVICE_URL,
+    SERVICE_URL(false),
 
-    SUPPORT_MAIL,
+    SUPPORT_MAIL(false),
 
-    SUPPORT_URL,
+    SUPPORT_URL(false),
 
-    TECHNICAL_SUPPORTMAIL
+    TECHNICAL_SUPPORTMAIL(false);
+    
+    private boolean image;
+    
+    Key(boolean image) {
+      this.image = image;
+    }
+    
+    public boolean isImage() {
+      return image;
+    }
     
   }
 

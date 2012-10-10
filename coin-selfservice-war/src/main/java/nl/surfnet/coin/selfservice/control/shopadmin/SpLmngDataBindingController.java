@@ -37,6 +37,7 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 public class SpLmngDataBindingController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SpLmngDataBindingController.class);
+  
   @Resource(name="providerService")
   private ServiceProviderService sps;
 
