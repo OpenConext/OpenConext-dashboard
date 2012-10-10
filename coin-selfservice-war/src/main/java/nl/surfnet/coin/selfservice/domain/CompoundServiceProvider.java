@@ -436,9 +436,9 @@ public class CompoundServiceProvider extends DomainObject {
   private static void buildFieldString(Key key, String lmng, String surfconext, String distributionChannel, CompoundServiceProvider provider) {
     FieldString fieldString;
     if (hasText(lmng)) {
-      fieldString = new FieldString(Source.LMNG, key, lmng);
+      fieldString = new FieldString(Source.LMNG, key, null);
     } else if (hasText(surfconext)) {
-      fieldString = new FieldString(Source.SURFCONEXT, key, surfconext, provider);
+      fieldString = new FieldString(Source.SURFCONEXT, key, null);
     } else {
       fieldString = new FieldString(Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
     }
@@ -447,10 +447,11 @@ public class CompoundServiceProvider extends DomainObject {
 
   private static void buildFieldImage(Key key, String lmng, String surfconext, byte[] distributionChannel, CompoundServiceProvider provider) {
     FieldImage fieldImage;
+    byte[] nullByte = null;
     if (hasText(lmng)) {
-      fieldImage = new FieldImage(Source.LMNG, key, lmng);
+      fieldImage = new FieldImage(Source.LMNG, key, nullByte);
     } else if (hasText(surfconext)) {
-      fieldImage = new FieldImage(Source.SURFCONEXT, key, surfconext);
+      fieldImage = new FieldImage(Source.SURFCONEXT, key, nullByte);
     } else {
       fieldImage = new FieldImage(Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
     }
