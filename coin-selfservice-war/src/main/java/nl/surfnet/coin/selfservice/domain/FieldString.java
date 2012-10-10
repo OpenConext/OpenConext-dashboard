@@ -18,6 +18,8 @@ package nl.surfnet.coin.selfservice.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
 
 /**
@@ -34,7 +36,10 @@ public class FieldString extends Field {
 
   @Override
   public String toString() {
-    return "FieldString [value=" + value + ", getSource()=" + getSource() + ", getKey()=" + getKey() + "]";
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+      .appendSuper(super.toString())
+      .append("value", value)
+      .toString();
   }
 
   public FieldString() {

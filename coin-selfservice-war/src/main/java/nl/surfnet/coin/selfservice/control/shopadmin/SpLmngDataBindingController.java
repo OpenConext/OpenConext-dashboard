@@ -63,9 +63,15 @@ public class SpLmngDataBindingController extends BaseController {
     Assert.notNull(serviceProvider, "No such SP with entityId: " + entityId);
 
     CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
+
     if (compoundServiceProvider == null) {
-      LOG.debug("No compound Service Provider for SP '{}' yet. Will init one.", entityId);
+
+      LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", entityId);
       compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, new License());
+      compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
+      LOG.debug("Persisted a CompoundServiceProvider with id {}");
+    } else {
+      compoundServiceProvider.setServiceProvider(serviceProvider);
     }
     return new ModelAndView("shopadmin/compoundSp-detail", "compoundSp", compoundServiceProvider);
   }

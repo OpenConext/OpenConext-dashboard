@@ -15,22 +15,6 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
-import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.EULA_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
-import static org.springframework.util.StringUtils.hasText;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,17 +31,35 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import nl.surfnet.coin.selfservice.domain.Field.Key;
-import nl.surfnet.coin.selfservice.domain.Field.Source;
-import nl.surfnet.coin.selfservice.domain.Provider.Language;
-import nl.surfnet.coin.shared.domain.DomainObject;
-
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
+
+import nl.surfnet.coin.selfservice.domain.Field.Key;
+import nl.surfnet.coin.selfservice.domain.Field.Source;
+import nl.surfnet.coin.selfservice.domain.Provider.Language;
+import nl.surfnet.coin.shared.domain.DomainObject;
+
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.EULA_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * CompoundServiceProvider.java
@@ -394,8 +396,7 @@ public class CompoundServiceProvider extends DomainObject {
 
   @Override
   public String toString() {
-    return "CompoundServiceProvider [serviceProviderEntityId=" + serviceProviderEntityId + ", lmngId=" + lmngId + ", fields=" + fields
-        + ", fieldImages=" + fieldImages + ", screenShotsImages=" + screenShotsImages + ", getId()=" + getId() + "]";
+    return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).toString();
   }
 
   private static byte[] getDefaultImage() {
@@ -439,7 +440,7 @@ public class CompoundServiceProvider extends DomainObject {
     } else if (hasText(surfconext)) {
       fieldString = new FieldString(Source.SURFCONEXT, key, surfconext, provider);
     } else {
-      fieldString = new FieldString(Source.DISTRIBUTIONCHANNEL, Key.ENDUSER_DESCRIPTION_NL, distributionChannel);
+      fieldString = new FieldString(Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
     }
     provider.addFieldString(fieldString);
   }

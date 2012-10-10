@@ -20,6 +20,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import nl.surfnet.coin.shared.domain.DomainObject;
 
 /**
@@ -120,5 +123,14 @@ public abstract class Field extends DomainObject {
 
   public void setCompoundServiceProvider(CompoundServiceProvider compoundServiceProvider) {
     this.compoundServiceProvider = compoundServiceProvider;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+      .appendSuper(super.toString())
+      .append("source", source)
+      .append("key", key)
+      .toString();
   }
 }

@@ -22,6 +22,8 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
 import org.springframework.util.StringUtils;
 
@@ -122,7 +124,10 @@ public class FieldImage extends Field {
 
   @Override
   public String toString() {
-    return "FieldImage [filename=" + filename + ", getSource()=" + getSource() + ", getKey()=" + getKey() + "]";
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+    .append("fileUrl", fileUrl)
+    .append("filename", filename)
+    .toString();
   }
 
 }
