@@ -41,7 +41,7 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 @Controller
 public abstract class BaseController {
 
-  @Autowired
+  @Resource(name = "providerService")
   private IdentityProviderService idpService;
 
   @Resource(name = "localeResolver")

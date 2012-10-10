@@ -52,11 +52,10 @@ public class SAMLProvisioner implements Provisioner {
   private static final String UID = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
   private static final Logger LOG = LoggerFactory.getLogger(SAMLProvisioner.class);
 
-  private IdentityProviderService federationProviderService;
+  private IdentityProviderService identityProviderService;
 
   @Resource(name = "janusClient")
   private Janus janusClient;
-
 
   @Override
   public UserDetails provisionUser(Assertion assertion) {
@@ -67,7 +66,7 @@ public class SAMLProvisioner implements Provisioner {
     coinUser.setInstitutionId(getInstitutionId(idpId));
 
     coinUser.setIdp(idpId);
-    for (IdentityProvider idp : federationProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId())) {
+    for (IdentityProvider idp : identityProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId())) {
       coinUser.addInstitutionIdp(idp);
     }
     // Add the one the user is currently identified by if it's not in the list already.
@@ -88,7 +87,7 @@ public class SAMLProvisioner implements Provisioner {
   }
 
   private String getInstitutionId(String idpId) {
-    final IdentityProvider identityProvider = federationProviderService.getIdentityProvider(idpId);
+    final IdentityProvider identityProvider = identityProviderService.getIdentityProvider(idpId);
     if (identityProvider != null) {
       final String institutionId = identityProvider.getInstitutionId();
       if (!StringUtils.isBlank(institutionId)) {
@@ -99,7 +98,7 @@ public class SAMLProvisioner implements Provisioner {
   }
 
   private IdentityProvider getInstitutionIdP(String idpId) {
-    IdentityProvider idp = federationProviderService.getIdentityProvider(idpId);
+    IdentityProvider idp = identityProviderService.getIdentityProvider(idpId);
     if (idp == null) {
       final JanusEntity entity = janusClient.getEntity(idpId);
       if (entity == null) {
@@ -142,7 +141,7 @@ public class SAMLProvisioner implements Provisioner {
     return "";
   }
 
-  public void setIdentityProviderService(IdentityProviderService federationProviderService) {
-    this.federationProviderService = federationProviderService;
+  public void setIdentityProviderService(IdentityProviderService identityProviderService) {
+    this.identityProviderService = identityProviderService;
   }
 }

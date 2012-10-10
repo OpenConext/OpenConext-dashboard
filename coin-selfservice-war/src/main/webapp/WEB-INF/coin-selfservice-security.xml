@@ -27,7 +27,7 @@
        http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd">
 
   <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner">
-    <property name="identityProviderService" ref="federationProviderService" />
+    <property name="identityProviderService" ref="providerService" />
   </bean>
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">

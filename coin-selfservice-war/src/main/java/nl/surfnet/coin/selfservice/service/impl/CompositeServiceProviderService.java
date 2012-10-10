@@ -18,64 +18,76 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.Provider;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import nl.surfnet.coin.selfservice.domain.Provider;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-
 /**
- * Service Provider Service that can query multiple ServiceProviderServices and will combine the results.
+ * Service Provider Service that can query multiple ServiceProviderServices and
+ * will combine the results.
  */
-public class CompositeServiceProviderService implements ServiceProviderService {
+public class CompositeServiceProviderService implements ServiceProviderService, IdentityProviderService {
 
   private List<ServiceProviderService> serviceProviderServices;
+  private List<IdentityProviderService> identityProviderServices;
 
   @Override
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
-    List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
+    // we don't want double entries
+    Set<ServiceProvider> ret = new HashSet<ServiceProvider>();
     for (ServiceProviderService p : serviceProviderServices) {
       final List<ServiceProvider> providers = p.getAllServiceProviders(idpId);
       if (CollectionUtils.isNotEmpty(providers)) {
         ret.addAll(providers);
       }
     }
-    Collections.sort(ret, Provider.firstStatusThenName());
-    return ret;
+    List<ServiceProvider> sps = new ArrayList<ServiceProvider>(ret);
+    Collections.sort(sps, Provider.firstStatusThenName());
+    return sps;
   }
 
   @Override
   public List<ServiceProvider> getAllServiceProviders() {
-    List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
+    // we don't want double entries
+    Set<ServiceProvider> ret = new HashSet<ServiceProvider>();
     for (ServiceProviderService p : serviceProviderServices) {
       final List<ServiceProvider> providers = p.getAllServiceProviders();
       if (CollectionUtils.isNotEmpty(providers)) {
         ret.addAll(providers);
       }
     }
-    Collections.sort(ret, Provider.firstStatusThenName());
-    return ret;
+    List<ServiceProvider> sps = new ArrayList<ServiceProvider>(ret);
+    Collections.sort(sps, Provider.firstStatusThenName());
+    return sps;
   }
 
   @Override
   public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
-    List<ServiceProvider> ret = new ArrayList<ServiceProvider>();
+    // we don't want double entries
+    Set<ServiceProvider> ret = new HashSet<ServiceProvider>();
     for (ServiceProviderService p : serviceProviderServices) {
       final List<ServiceProvider> providers = p.getLinkedServiceProviders(idpId);
       if (CollectionUtils.isNotEmpty(providers)) {
         ret.addAll(providers);
       }
     }
-    Collections.sort(ret, Provider.firstStatusThenName());
-    return ret;
+    List<ServiceProvider> sps = new ArrayList<ServiceProvider>(ret);
+    Collections.sort(sps, Provider.firstStatusThenName());
+    return sps;
   }
 
   /**
    * Returns the first SP found or null if none found.
-   *
-   *
+   * 
+   * 
    * @param spEntityId
    * @param idpEntityId
    * @return
@@ -93,6 +105,70 @@ public class CompositeServiceProviderService implements ServiceProviderService {
 
   public void setServiceProviderServices(List<ServiceProviderService> serviceProviderServices) {
     this.serviceProviderServices = serviceProviderServices;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * nl.surfnet.coin.selfservice.service.IdentityProviderService#getIdentityProvider
+   * (java.lang.String)
+   */
+  @Override
+  public IdentityProvider getIdentityProvider(String idpEntityId) {
+    for (IdentityProviderService p : identityProviderServices) {
+      final IdentityProvider idp = p.getIdentityProvider(idpEntityId);
+      if (idp != null) {
+        return idp;
+      }
+    }
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
+   * getInstituteIdentityProviders(java.lang.String)
+   */
+  @Override
+  public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
+    // we don't want double entries
+    Set<IdentityProvider> ret = new HashSet<IdentityProvider>();
+    for (IdentityProviderService p : identityProviderServices) {
+      final List<IdentityProvider> providers = p.getInstituteIdentityProviders(instituteId);
+      if (CollectionUtils.isNotEmpty(providers)) {
+        ret.addAll(providers);
+      }
+    }
+    List<IdentityProvider> idps = new ArrayList<IdentityProvider>(ret);
+    Collections.sort(idps, Provider.firstStatusThenName());
+    return idps;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
+   * getAllIdentityProviders()
+   */
+  @Override
+  public List<IdentityProvider> getAllIdentityProviders() {
+    // we don't want double entries
+    Set<IdentityProvider> ret = new HashSet<IdentityProvider>();
+    for (IdentityProviderService p : identityProviderServices) {
+      final List<IdentityProvider> providers = p.getAllIdentityProviders();
+      if (CollectionUtils.isNotEmpty(providers)) {
+        ret.addAll(providers);
+      }
+    }
+    List<IdentityProvider> idps = new ArrayList<IdentityProvider>(ret);
+    Collections.sort(idps, Provider.firstStatusThenName());
+    return idps;
+  }
+
+  public void setIdentityProviderServices(List<IdentityProviderService> identityProviderServices) {
+    this.identityProviderServices = identityProviderServices;
   }
 
 }

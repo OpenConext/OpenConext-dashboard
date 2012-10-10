@@ -36,21 +36,21 @@ import nl.surfnet.coin.janus.domain.JanusEntity;
 import nl.surfnet.coin.selfservice.domain.ARP;
 import nl.surfnet.coin.selfservice.domain.ContactPerson;
 import nl.surfnet.coin.selfservice.domain.ContactPersonType;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
-public class ServiceRegistryProviderService implements ServiceProviderService {
+public class ServiceRegistryProviderService implements ServiceProviderService, IdentityProviderService {
 
   private static final Logger log = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
   private static final String IN_PRODUCTION = "prodaccepted";
 
-
   @Resource(name = "janusClient")
   private Janus janusClient;
 
-
   @Override
-  @Cacheable(value = {"sps-janus"})
+  @Cacheable(value = { "sps-janus" })
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> allSPs = getAllServiceProvidersUnfiltered();
 
@@ -69,17 +69,18 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     }
     return filteredList;
   }
-  
+
   @Override
-  @Cacheable(value = {"sps-janus"})
+  @Cacheable(value = { "sps-janus" })
   public List<ServiceProvider> getAllServiceProviders() {
     return getAllServiceProvidersUnfiltered();
   }
 
   /**
-   * It's "cheaper" to get all SPs from ServiceRegistry and iterate over them than to retrieve the list of
-   * all linked entity id's and then get their individual metadata.
-   *
+   * It's "cheaper" to get all SPs from ServiceRegistry and iterate over them
+   * than to retrieve the list of all linked entity id's and then get their
+   * individual metadata.
+   * 
    * {@inheritDoc}
    */
   @Override
@@ -98,7 +99,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     return linked;
   }
 
-  @Cacheable(value = {"sps-janus"})
+  @Cacheable(value = { "sps-janus" })
   public List<String> getLinkedServiceProviderIDs(String idpId) {
     List<String> spList = new ArrayList<String>();
     try {
@@ -110,7 +111,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     return spList;
   }
 
-  @Cacheable(value = {"sps-janus"})
+  @Cacheable(value = { "sps-janus" })
   private List<ServiceProvider> getAllServiceProvidersUnfiltered() {
     List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     try {
@@ -127,7 +128,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   }
 
   @Override
-  @Cacheable(value = {"sps-janus"})
+  @Cacheable(value = { "sps-janus" })
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     try {
       // first get JanusEntity. This holds the information about the workflow
@@ -160,7 +161,9 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
 
   /**
    * Create a ServiceProvider and inflate it with the given metadata attributes.
-   * @param metadata Janus metadata
+   * 
+   * @param metadata
+   *          Janus metadata
    * @return {@link ServiceProvider}
    */
   public static ServiceProvider buildServiceProviderByMetadata(EntityMetadata metadata) {
@@ -182,8 +185,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     sp.setUrls(metadata.getUrls());
     sp.setGadgetBaseUrl(metadata.getOauthConsumerKey());
     for (Contact c : metadata.getContacts()) {
-      ContactPerson p = new ContactPerson(StringUtils.join(new Object[]{c.getGivenName(), c.getSurName()}, " "),
-          c.getEmailAddress());
+      ContactPerson p = new ContactPerson(StringUtils.join(new Object[] { c.getGivenName(), c.getSurName() }, " "), c.getEmailAddress());
       p.setContactPersonType(contactPersonTypeByJanusContactType(c.getType()));
       p.setTelephoneNumber(c.getTelephoneNumber());
       sp.addContactPerson(p);
@@ -192,9 +194,44 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
   }
 
   /**
-   * Gets the {@link nl.surfnet.coin.janus.domain.ARP} from the Janus client and returns {@link ARP}
-   * @param spEntityId identifier of the Service Provider
-   * @return {@link ARP} or {@literal null} if Janus did not return {@link nl.surfnet.coin.janus.domain.ARP}
+   * Create a IdentityProvider and inflate it with the given metadata
+   * attributes.
+   * 
+   * @param metadata
+   *          Janus metadata
+   * @return {@link IdentityProvider}
+   */
+  public static IdentityProvider buildIdentityProviderByMetadata(EntityMetadata metadata) {
+    Assert.notNull(metadata, "metadata cannot be null");
+    final String appEntityId = metadata.getAppEntityId();
+    String name = metadata.getNames().get("en");
+    if (StringUtils.isBlank(name)) {
+      name = appEntityId;
+    }
+    IdentityProvider idp = new IdentityProvider(appEntityId, metadata.getInstutionId(), name);
+    // this is needed for sorting
+    idp.setName(name);
+    idp.setNames(metadata.getNames());
+    idp.setLogoUrl(metadata.getAppLogoUrl());
+    idp.setHomeUrls(metadata.getAppHomeUrls());
+    idp.setDescriptions(metadata.getDescriptions());
+    for (Contact c : metadata.getContacts()) {
+      ContactPerson p = new ContactPerson(StringUtils.join(new Object[] { c.getGivenName(), c.getSurName() }, " "), c.getEmailAddress());
+      p.setContactPersonType(contactPersonTypeByJanusContactType(c.getType()));
+      p.setTelephoneNumber(c.getTelephoneNumber());
+      idp.addContactPerson(p);
+    }
+    return idp;
+  }
+
+  /**
+   * Gets the {@link nl.surfnet.coin.janus.domain.ARP} from the Janus client and
+   * returns {@link ARP}
+   * 
+   * @param spEntityId
+   *          identifier of the Service Provider
+   * @return {@link ARP} or {@literal null} if Janus did not return
+   *         {@link nl.surfnet.coin.janus.domain.ARP}
    */
   private ARP getArp(String spEntityId) {
     final nl.surfnet.coin.janus.domain.ARP janusClientArp = janusClient.getArp(spEntityId);
@@ -203,10 +240,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
 
   /**
    * Convert a Janus contact type to a ServiceProvider's ContactPersonType.
-   *
-   * @param contactType the Janus type
+   * 
+   * @param contactType
+   *          the Janus type
    * @return the {@link ContactPersonType}
-   * @throws IllegalArgumentException in case no match can be made.
+   * @throws IllegalArgumentException
+   *           in case no match can be made.
    */
   public static ContactPersonType contactPersonTypeByJanusContactType(Contact.Type contactType) {
     ContactPersonType t = null;
@@ -226,4 +265,63 @@ public class ServiceRegistryProviderService implements ServiceProviderService {
     }
     return t;
   }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * nl.surfnet.coin.selfservice.service.IdentityProviderService#getIdentityProvider
+   * (java.lang.String)
+   */
+  @Override
+  @Cacheable(value = { "sps-janus" })
+  public IdentityProvider getIdentityProvider(String idpEntityId) {
+    try {
+      EntityMetadata metadataByEntityId = janusClient.getMetadataByEntityId(idpEntityId);
+      return buildIdentityProviderByMetadata(metadataByEntityId);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
+   * getInstituteIdentityProviders(java.lang.String)
+   */
+  @Override
+  @Cacheable(value = { "sps-janus" })
+  public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
+    //first get all entities id's
+    List<String> entityIds = janusClient.getEntityIdsByMetaData(Janus.Metadata.INSITUTION_ID, instituteId);
+    List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
+    for (String entityId : entityIds) {
+      idps.add(getIdentityProvider(entityId));
+    }
+    return idps;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
+   * getAllIdentityProviders()
+   */
+  @Override
+  @Cacheable(value = { "sps-janus" })
+ public List<IdentityProvider> getAllIdentityProviders() {
+    List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
+    try {
+      final List<EntityMetadata> sps = janusClient.getIdpList();
+      for (EntityMetadata metadata : sps) {
+        if (StringUtils.equals(metadata.getWorkflowState(), IN_PRODUCTION)) {
+          idps.add(buildIdentityProviderByMetadata(metadata));
+        }
+      }
+    } catch (RestClientException e) {
+      log.warn("Could not retrieve 'all IdPs' from Janus client", e.getMessage());
+    }
+    return idps;
+ }
 }

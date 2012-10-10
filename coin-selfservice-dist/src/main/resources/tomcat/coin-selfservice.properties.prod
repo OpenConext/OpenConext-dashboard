@@ -113,6 +113,11 @@ mode.dev=false
 # values do NOT depend on the environment                                #
 ##########################################################################
 
+hibernate-selfservice.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+hibernate-selfservice.hbm2ddl.auto=none
+hibernate-selfserviceformat_sql=true
+hibernate-selfservice.show_sql=true
+
 # Alle real implementations (and not local mocks for testing purposes)
 janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=openConextApiClient

@@ -1,1 +1,815 @@
-[{"names":{"en":null,"nl":null},"appEntityId":"https://idp.diy.surfconext.nl/simplesaml/saml2/idp/metadata.php","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":null,"nl":null},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[],"idpVisibleOnly":false},{"names":{"en":"testidp.ebdev.net","nl":""},"appTitle":"testidp.ebdev.net","appDescription":"testidp.ebdev.net","appThumbNail":"http://farm5.static.flickr.com/4070/4477061703_2ac6f4f075.jpg","appEntityId":"https://testidp.ebdev.net/simplesaml/saml2/idp/metadata.php","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"http://farm5.static.flickr.com/4070/4477061703_2ac6f4f075.jpg","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"testidp.ebdev.net","nl":"testidp.ebdev.net"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"Boy","surName":"Baukema","emailAddress":"boy@ibuildings.nl","telephoneNumber":"118429550"}],"name":"testidp.ebdev.net","description":"testidp.ebdev.net","idpVisibleOnly":false},{"names":{"en":"demo stem vo","nl":"demo stem vo"},"appTitle":"demo stem vo","appDescription":"demo stem vo","appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif","appEntityId":"https://engine.dev.surfconext.nl/authentication/idp/metadata/vo:demo_stem_vo","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"demo stem vo","nl":"demo stem vo"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"SURFconext","surName":"beheer","emailAddress":"coin-beheer@surfnet.nl","telephoneNumber":"987654321"}],"name":"demo stem vo","description":"demo stem vo","idpVisibleOnly":false},{"names":{"en":"stem vo test","nl":"stem vo test"},"appTitle":"stem vo test","appDescription":"stem vo test","appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif","appEntityId":"https://engine.dev.surfconext.nl/authentication/idp/metadata/vo:stem_vo_test","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"stem vo test","nl":"stem vo test"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"SURFconext","surName":"beheer","emailAddress":"coin-beheer@surfnet.nl","telephoneNumber":"987654321"}],"name":"stem vo test","description":"stem vo test","idpVisibleOnly":false},{"names":{"en":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet","nl":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet"},"appTitle":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet","appDescription":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet","appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif","appEntityId":"https://perftestpersistentidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet","nl":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"SURFconext","surName":"beheer","emailAddress":"surfconext-beheer@surfnet.nl","telephoneNumber":"1234567890"}],"name":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet","description":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet","idpVisibleOnly":false},{"names":{"en":"SURFguest","nl":"SURFguest"},"appTitle":"SURFguest","appDescription":"SURFguest","appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif","appEntityId":"https://surfguest.nl","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"SURFguest","nl":"SURFguest"},"urls":{"en":"http://www.surffederatie.nl","nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"Joost","surName":"van Dijk","emailAddress":"espee-beheer@surfnet.nl","telephoneNumber":"+31 302 305 305"}],"name":"SURFguest","description":"SURFguest","idpVisibleOnly":false},{"names":{"en":"Invited Guests","nl":"Invited Guests"},"appTitle":"Invited Guests","appDescription":"Invited Guests","appThumbNail":"https://static.dev.surfconext.nl/media/openidproviders.png","appEntityId":"https://guestidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.dev.surfconext.nl/media/openidproviders.png","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"Invited Guests","nl":"Invited Guests"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"SURFconext","surName":"Beheer","emailAddress":"unix@prolocation.net"}],"name":"Invited Guests","description":"Invited Guests","idpVisibleOnly":false},{"names":{"en":"Rijksuniversiteit Groningen","nl":"Rijksuniversiteit Groningen"},"appTitle":"Rijksuniversiteit Groningen","appDescription":"Rijksuniversiteit Groningen","appThumbNail":"https://wayf.surfnet.nl/federate/surfnet/img/logo/rug.png","appEntityId":"Rug","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://wayf.surfnet.nl/federate/surfnet/img/logo/rug.png","appHomeUrls":{"en":"http://www.surffederatie.nl","nl":null},"descriptions":{"en":"Rijksuniversiteit Groningen","nl":"Rijksuniversiteit Groningen"},"urls":{"en":"http://www.surffederatie.nl","nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","surName":"AAI Beheer","emailAddress":"aai-beheer@surfnet.nl"},{"type":"administrative","givenName":"SURFfederatie Beheer","emailAddress":"federatie-beheer@surfnet.nl"}],"name":"Rijksuniversiteit Groningen","description":"Rijksuniversiteit Groningen","idpVisibleOnly":false,"appHomeUrl":"http://www.surffederatie.nl"},{"names":{"en":"SURFnet BV","nl":"SURFnet BV"},"appTitle":"SURFnet BV","appDescription":"SURFnet BV","appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif","appEntityId":"SURFnet%20BV","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif","appHomeUrls":{"en":"http://www.surffederatie.nl","nl":null},"descriptions":{"en":"SURFnet BV","nl":"SURFnet BV"},"urls":{"en":"http://www.surffederatie.nl","nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"Joost","surName":"Joost van Dijk","emailAddress":"federatie-beheer@surfnet.nl","telephoneNumber":"123456789"},{"type":"administrative","givenName":"Eefje van der Harst","surName":"","emailAddress":"federatie-beheer@surfnet.nl"}],"name":"SURFnet BV","description":"SURFnet BV","idpVisibleOnly":false,"appHomeUrl":"http://www.surffederatie.nl"},{"names":{"en":"Feide OpenIdP (guest users)","nl":"Feide OpenIdP (guest users) via EDUGAIN"},"appTitle":"Feide OpenIdP (guest users)","appDescription":"Feide OpenIdP (guest users)","appThumbNail":"https://foodl.org/simplesaml/module.php/discojuice/discojuice/logos/openidp.png","appEntityId":"https://openidp.feide.no","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://foodl.org/simplesaml/module.php/discojuice/discojuice/logos/openidp.png","appHomeUrls":{"en":"https://openidp.feide.no/","nl":null},"descriptions":{"en":"Feide OpenIdP (guest users)","nl":"Feide OpenIdP (guest users) via EDUGAIN"},"urls":{"en":"https://openidp.feide.no/","nl":null},"workflowState":"testaccepted","contacts":[],"name":"Feide OpenIdP (guest users)","description":"Feide OpenIdP (guest users)","idpVisibleOnly":false,"appHomeUrl":"https://openidp.feide.no/"},{"names":{"en":"mytest1","nl":"mytest1"},"appTitle":"mytest1","appDescription":"","appThumbNail":"https://.png","appEntityId":"http://mock-idp/mytest1","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://.png","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"","nl":""},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[],"name":"mytest1","description":"","idpVisibleOnly":false},{"names":{"en":"Internet2","nl":"Internet2 (InCommon)"},"appTitle":"Internet2","appDescription":"Internet2","appThumbNail":"http://www.internet2.edu/styleguide/downloads/internet2_logo_colorpos_gif.gif","appEntityId":"urn:mace:incommon:internet2.edu","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"http://www.internet2.edu/styleguide/downloads/internet2_logo_colorpos_gif.gif","appHomeUrls":{"en":"http://www.internet2.edu","nl":null},"descriptions":{"en":"Internet2","nl":"Internet2 (InCommon)"},"urls":{"en":null,"nl":null},"workflowState":"testaccepted","contacts":[{"type":"technical","givenName":"Technical Support","surName":"Support","emailAddress":"techsupport@internet2.edu"},{"type":"administrative","givenName":"Technical Support","surName":"Support","emailAddress":"techsupport@internet2.edu"},{"type":"support","givenName":"Technical Support","surName":"Support","emailAddress":"techsupport@internet2.edu"}],"name":"Internet2","description":"Internet2","idpVisibleOnly":false,"appHomeUrl":"http://www.internet2.edu"},{"names":{"en":null,"nl":null},"appEntityId":"http://localhost-idp","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":null,"nl":null},"urls":{"en":null,"nl":null},"workflowState":"testaccepted","contacts":[],"idpVisibleOnly":false},{"names":{"en":"mock-idp-test1","nl":"mock-idp-test1"},"appTitle":"mock-idp-test1","appDescription":"","appThumbNail":"https://.png","appEntityId":"http://mock-idp/test1","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://.png","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"","nl":""},"urls":{"en":null,"nl":null},"workflowState":"testaccepted","contacts":[],"name":"mock-idp-test1","description":"","idpVisibleOnly":false},{"names":{"en":"SURFguest (TEST)","nl":"SURFguest (TEST)"},"appTitle":"SURFguest (TEST)","appDescription":"SURFguest (TEST)","appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif","appEntityId":"SURFnetGuests","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif","appHomeUrls":{"en":"http://www.surffederatie.nl","nl":null},"descriptions":{"en":"SURFguest (TEST)","nl":"SURFguest (TEST)"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"Support","surName":"OpenConext","emailAddress":"support@openconext.org","telephoneNumber":""},{"type":"support","givenName":"Support","surName":"OpenConext","emailAddress":"support@openconext.org"},{"type":"administrative","givenName":"Support","surName":"OpenConext","emailAddress":"support@openconext.org"}],"name":"SURFguest (TEST)","description":"SURFguest (TEST)","idpVisibleOnly":false,"appHomeUrl":"http://www.surffederatie.nl"},{"names":{"en":"SURFnet Mobile Demo IdP","nl":"SURFnet Mobile Demo IdP"},"appTitle":"SURFnet Mobile Demo IdP","appDescription":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP","appThumbNail":"https://static.surfconext.nl/media/idp-logo-not-found.png","appEntityId":"https://login.demo.surfconext.nl/simplesaml/saml2/idp/metadata.php","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/idp-logo-not-found.png","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP","nl":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"Henny","surName":"Bekker","emailAddress":"Henny.Bekker@surfnet.nl"},{"type":"support","givenName":"Henny","surName":"Bekker","emailAddress":"Henny.Bekker@surfnet.nl"},{"type":"administrative","givenName":"Henny","surName":"Bekker","emailAddress":"Henny.Bekker@surfnet.nl"}],"name":"SURFnet Mobile Demo IdP","description":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP","idpVisibleOnly":false},{"names":{"en":"SURFdrops beta IdP","nl":"SURFdrops beta IdP"},"appTitle":"SURFdrops beta IdP","appDescription":"Een speel en test IdP van Henny Bekker","appThumbNail":"https://static.surfconext.nl/media/idp-logo-not-found.png","appEntityId":"https://beta.surfnet.nl/simplesaml/saml2/idp/metadata.php","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/idp-logo-not-found.png","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"Een speel en test IdP van Henny Bekker","nl":"An IdP operated by Henny Bekker, for testing purposes"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"Henny","surName":"Bekker","emailAddress":"Henny.Bekker@surfnet.nl"},{"type":"administrative","givenName":"Henny","surName":"Bekker","emailAddress":"Henny.Bekker@surfnet.nl"},{"type":"support","givenName":"Henny","surName":"Bekker","emailAddress":"Henny.Bekker@surfnet.nl"}],"name":"SURFdrops beta IdP","description":"Een speel en test IdP van Henny Bekker","idpVisibleOnly":false},{"names":{"en":"FrKoIdP","nl":""},"appTitle":"FrKoIdP","appDescription":"An IdP operated by FrKo, for testing purposes.","appThumbNail":"https://static.surfconext.nl/media/idp-logo-not-found.png","appEntityId":"https://frkosp.wind.surfnet.nl/simplesamlphp/saml2/idp/metadata.php","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/idp-logo-not-found.png","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"An IdP operated by FrKo, for testing purposes.","nl":""},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"François","surName":"Kooman","emailAddress":"francois.kooman@surfnet.nl"}],"name":"FrKoIdP","description":"An IdP operated by FrKo, for testing purposes.","idpVisibleOnly":false},{"names":{"en":"Hogeschool Zeeland","nl":""},"appTitle":"Hogeschool Zeeland","appDescription":"Hogeschool Zeeland","appThumbNail":"https://.png","appEntityId":"http://adfs.myhz.nl/adfs/services/trust","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://.png","appHomeUrls":{"en":"http://www.surffederatie.nl","nl":null},"descriptions":{"en":"Hogeschool Zeeland","nl":""},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"","surName":"Joost van Dijk","emailAddress":"federatie-beheer@surfnet.nl"},{"type":"administrative","givenName":"Eefje van der Harst","surName":"","emailAddress":"federatie-beheer@surfnet.nl"}],"name":"Hogeschool Zeeland","description":"Hogeschool Zeeland","idpVisibleOnly":false,"appHomeUrl":"http://www.surffederatie.nl"},{"names":{"en":"","nl":""},"appTitle":"","appDescription":"","appThumbNail":"https://.png","appEntityId":"https://engine.dev.surfconext.nl/authentication/idp/metadata","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://.png","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"","nl":""},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[],"name":"","description":"","idpVisibleOnly":false},{"names":{"en":"http://mock-idp","nl":"http://mock-idp"},"appTitle":"http://mock-idp","appDescription":"mockidp","appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif","appEntityId":"http://mock-idp","twoLeggedOauthAllowed":false,"consentNotRequired":false,"appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif","appHomeUrls":{"en":null,"nl":null},"descriptions":{"en":"mockidp","nl":"mockidp"},"urls":{"en":null,"nl":null},"workflowState":"prodaccepted","contacts":[{"type":"technical","givenName":"","surName":"","emailAddress":"a.veenstra@onehippo.com"}],"name":"http://mock-idp","description":"mockidp","idpVisibleOnly":false}]
+[
+    {
+        "names":{
+            "en":null,
+            "nl":null
+        },
+        "appEntityId":"https://idp.diy.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":null,
+            "nl":null
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            
+        ],
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"testidp.ebdev.net",
+            "nl":""
+        },
+        "appTitle":"testidp.ebdev.net",
+        "appDescription":"testidp.ebdev.net",
+        "appThumbNail":"http://farm5.static.flickr.com/4070/4477061703_2ac6f4f075.jpg",
+        "appEntityId":"https://testidp.ebdev.net/simplesaml/saml2/idp/metadata.php",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"http://farm5.static.flickr.com/4070/4477061703_2ac6f4f075.jpg",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"testidp.ebdev.net",
+            "nl":"testidp.ebdev.net"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Boy",
+                "surName":"Baukema",
+                "emailAddress":"boy@ibuildings.nl",
+                "telephoneNumber":"118429550"
+            }
+        ],
+        "name":"testidp.ebdev.net",
+        "description":"testidp.ebdev.net",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"demo stem vo",
+            "nl":"demo stem vo"
+        },
+        "appTitle":"demo stem vo",
+        "appDescription":"demo stem vo",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"https://engine.dev.surfconext.nl/authentication/idp/metadata/vo:demo_stem_vo",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"demo stem vo",
+            "nl":"demo stem vo"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"SURFconext",
+                "surName":"beheer",
+                "emailAddress":"coin-beheer@surfnet.nl",
+                "telephoneNumber":"987654321"
+            }
+        ],
+        "name":"demo stem vo",
+        "description":"demo stem vo",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"stem vo test",
+            "nl":"stem vo test"
+        },
+        "appTitle":"stem vo test",
+        "appDescription":"stem vo test",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"https://engine.dev.surfconext.nl/authentication/idp/metadata/vo:stem_vo_test",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"stem vo test",
+            "nl":"stem vo test"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"SURFconext",
+                "surName":"beheer",
+                "emailAddress":"coin-beheer@surfnet.nl",
+                "telephoneNumber":"987654321"
+            }
+        ],
+        "name":"stem vo test",
+        "description":"stem vo test",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet",
+            "nl":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet"
+        },
+        "appTitle":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet",
+        "appDescription":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"https://perftestpersistentidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet",
+            "nl":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"SURFconext",
+                "surName":"beheer",
+                "emailAddress":"surfconext-beheer@surfnet.nl",
+                "telephoneNumber":"1234567890"
+            }
+        ],
+        "name":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet",
+        "description":"SURFconext PerformanceTest Persistent IdP | Dev | SURFnet",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"SURFguest",
+            "nl":"SURFguest"
+        },
+        "appTitle":"SURFguest",
+        "appDescription":"SURFguest",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"https://surfguest.nl",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"SURFguest",
+            "nl":"SURFguest"
+        },
+        "urls":{
+            "en":"http://www.surffederatie.nl",
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Joost",
+                "surName":"van Dijk",
+                "emailAddress":"espee-beheer@surfnet.nl",
+                "telephoneNumber":"+31 302 305 305"
+            }
+        ],
+        "name":"SURFguest",
+        "description":"SURFguest",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"Invited Guests",
+            "nl":"Invited Guests"
+        },
+        "appTitle":"Invited Guests",
+        "appDescription":"Invited Guests",
+        "appThumbNail":"https://static.dev.surfconext.nl/media/openidproviders.png",
+        "appEntityId":"https://guestidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.dev.surfconext.nl/media/openidproviders.png",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"Invited Guests",
+            "nl":"Invited Guests"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"SURFconext",
+                "surName":"Beheer",
+                "emailAddress":"unix@prolocation.net"
+            }
+        ],
+        "name":"Invited Guests",
+        "description":"Invited Guests",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"Rijksuniversiteit Groningen",
+            "nl":"Rijksuniversiteit Groningen"
+        },
+        "appTitle":"Rijksuniversiteit Groningen",
+        "appDescription":"Rijksuniversiteit Groningen",
+        "appThumbNail":"https://wayf.surfnet.nl/federate/surfnet/img/logo/rug.png",
+        "appEntityId":"Rug",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://wayf.surfnet.nl/federate/surfnet/img/logo/rug.png",
+        "appHomeUrls":{
+            "en":"http://www.surffederatie.nl",
+            "nl":null
+        },
+        "descriptions":{
+            "en":"Rijksuniversiteit Groningen",
+            "nl":"Rijksuniversiteit Groningen"
+        },
+        "urls":{
+            "en":"http://www.surffederatie.nl",
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "surName":"AAI Beheer",
+                "emailAddress":"aai-beheer@surfnet.nl"
+            },
+            {
+                "type":"administrative",
+                "givenName":"SURFfederatie Beheer",
+                "emailAddress":"federatie-beheer@surfnet.nl"
+            }
+        ],
+        "name":"Rijksuniversiteit Groningen",
+        "description":"Rijksuniversiteit Groningen",
+        "idpVisibleOnly":false,
+        "appHomeUrl":"http://www.surffederatie.nl"
+    },
+    {
+        "names":{
+            "en":"SURFnet BV",
+            "nl":"SURFnet BV"
+        },
+        "appTitle":"SURFnet BV",
+        "appDescription":"SURFnet BV",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"SURFnet%20BV",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":"http://www.surffederatie.nl",
+            "nl":null
+        },
+        "descriptions":{
+            "en":"SURFnet BV",
+            "nl":"SURFnet BV"
+        },
+        "urls":{
+            "en":"http://www.surffederatie.nl",
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Joost",
+                "surName":"Joost van Dijk",
+                "emailAddress":"federatie-beheer@surfnet.nl",
+                "telephoneNumber":"123456789"
+            },
+            {
+                "type":"administrative",
+                "givenName":"Eefje van der Harst",
+                "surName":"",
+                "emailAddress":"federatie-beheer@surfnet.nl"
+            }
+        ],
+        "name":"SURFnet BV",
+        "description":"SURFnet BV",
+        "idpVisibleOnly":false,
+        "appHomeUrl":"http://www.surffederatie.nl"
+    },
+    {
+        "names":{
+            "en":"Feide OpenIdP (guest users)",
+            "nl":"Feide OpenIdP (guest users) via EDUGAIN"
+        },
+        "appTitle":"Feide OpenIdP (guest users)",
+        "appDescription":"Feide OpenIdP (guest users)",
+        "appThumbNail":"https://foodl.org/simplesaml/module.php/discojuice/discojuice/logos/openidp.png",
+        "appEntityId":"https://openidp.feide.no",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://foodl.org/simplesaml/module.php/discojuice/discojuice/logos/openidp.png",
+        "appHomeUrls":{
+            "en":"https://openidp.feide.no/",
+            "nl":null
+        },
+        "descriptions":{
+            "en":"Feide OpenIdP (guest users)",
+            "nl":"Feide OpenIdP (guest users) via EDUGAIN"
+        },
+        "urls":{
+            "en":"https://openidp.feide.no/",
+            "nl":null
+        },
+        "workflowState":"testaccepted",
+        "contacts":[
+            
+        ],
+        "name":"Feide OpenIdP (guest users)",
+        "description":"Feide OpenIdP (guest users)",
+        "idpVisibleOnly":false,
+        "appHomeUrl":"https://openidp.feide.no/"
+    },
+    {
+        "names":{
+            "en":"mytest1",
+            "nl":"mytest1"
+        },
+        "appTitle":"mytest1",
+        "appDescription":"",
+        "appThumbNail":"https://.png",
+        "appEntityId":"http://mock-idp/mytest1",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://.png",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"",
+            "nl":""
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            
+        ],
+        "name":"mytest1",
+        "description":"",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"Internet2",
+            "nl":"Internet2 (InCommon)"
+        },
+        "appTitle":"Internet2",
+        "appDescription":"Internet2",
+        "appThumbNail":"http://www.internet2.edu/styleguide/downloads/internet2_logo_colorpos_gif.gif",
+        "appEntityId":"urn:mace:incommon:internet2.edu",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"http://www.internet2.edu/styleguide/downloads/internet2_logo_colorpos_gif.gif",
+        "appHomeUrls":{
+            "en":"http://www.internet2.edu",
+            "nl":null
+        },
+        "descriptions":{
+            "en":"Internet2",
+            "nl":"Internet2 (InCommon)"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"testaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Technical Support",
+                "surName":"Support",
+                "emailAddress":"techsupport@internet2.edu"
+            },
+            {
+                "type":"administrative",
+                "givenName":"Technical Support",
+                "surName":"Support",
+                "emailAddress":"techsupport@internet2.edu"
+            },
+            {
+                "type":"support",
+                "givenName":"Technical Support",
+                "surName":"Support",
+                "emailAddress":"techsupport@internet2.edu"
+            }
+        ],
+        "name":"Internet2",
+        "description":"Internet2",
+        "idpVisibleOnly":false,
+        "appHomeUrl":"http://www.internet2.edu"
+    },
+    {
+        "names":{
+            "en":null,
+            "nl":null
+        },
+        "appEntityId":"http://localhost-idp",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":null,
+            "nl":null
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"testaccepted",
+        "contacts":[
+            
+        ],
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"mock-idp-test1",
+            "nl":"mock-idp-test1"
+        },
+        "appTitle":"mock-idp-test1",
+        "appDescription":"",
+        "appThumbNail":"https://.png",
+        "appEntityId":"http://mock-idp/test1",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://.png",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"",
+            "nl":""
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"testaccepted",
+        "contacts":[
+            
+        ],
+        "name":"mock-idp-test1",
+        "description":"",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"SURFguest (TEST)",
+            "nl":"SURFguest (TEST)"
+        },
+        "appTitle":"SURFguest (TEST)",
+        "appDescription":"SURFguest (TEST)",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"SURFnetGuests",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":"http://www.surffederatie.nl",
+            "nl":null
+        },
+        "descriptions":{
+            "en":"SURFguest (TEST)",
+            "nl":"SURFguest (TEST)"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Support",
+                "surName":"OpenConext",
+                "emailAddress":"support@openconext.org",
+                "telephoneNumber":""
+            },
+            {
+                "type":"support",
+                "givenName":"Support",
+                "surName":"OpenConext",
+                "emailAddress":"support@openconext.org"
+            },
+            {
+                "type":"administrative",
+                "givenName":"Support",
+                "surName":"OpenConext",
+                "emailAddress":"support@openconext.org"
+            }
+        ],
+        "name":"SURFguest (TEST)",
+        "description":"SURFguest (TEST)",
+        "idpVisibleOnly":false,
+        "appHomeUrl":"http://www.surffederatie.nl"
+    },
+    {
+        "names":{
+            "en":"SURFnet Mobile Demo IdP",
+            "nl":"SURFnet Mobile Demo IdP"
+        },
+        "appTitle":"SURFnet Mobile Demo IdP",
+        "appDescription":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP",
+        "appThumbNail":"https://static.surfconext.nl/media/idp-logo-not-found.png",
+        "appEntityId":"https://login.demo.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/idp-logo-not-found.png",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP",
+            "nl":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Henny",
+                "surName":"Bekker",
+                "emailAddress":"Henny.Bekker@surfnet.nl"
+            },
+            {
+                "type":"support",
+                "givenName":"Henny",
+                "surName":"Bekker",
+                "emailAddress":"Henny.Bekker@surfnet.nl"
+            },
+            {
+                "type":"administrative",
+                "givenName":"Henny",
+                "surName":"Bekker",
+                "emailAddress":"Henny.Bekker@surfnet.nl"
+            }
+        ],
+        "name":"SURFnet Mobile Demo IdP",
+        "description":"An IdP operated by Henny Bekker, for testing purposes. Also known as SURFdrops IdP",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"SURFdrops beta IdP",
+            "nl":"SURFdrops beta IdP"
+        },
+        "appTitle":"SURFdrops beta IdP",
+        "appDescription":"Een speel en test IdP van Henny Bekker",
+        "appThumbNail":"https://static.surfconext.nl/media/idp-logo-not-found.png",
+        "appEntityId":"https://beta.surfnet.nl/simplesaml/saml2/idp/metadata.php",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/idp-logo-not-found.png",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"Een speel en test IdP van Henny Bekker",
+            "nl":"An IdP operated by Henny Bekker, for testing purposes"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Henny",
+                "surName":"Bekker",
+                "emailAddress":"Henny.Bekker@surfnet.nl"
+            },
+            {
+                "type":"administrative",
+                "givenName":"Henny",
+                "surName":"Bekker",
+                "emailAddress":"Henny.Bekker@surfnet.nl"
+            },
+            {
+                "type":"support",
+                "givenName":"Henny",
+                "surName":"Bekker",
+                "emailAddress":"Henny.Bekker@surfnet.nl"
+            }
+        ],
+        "name":"SURFdrops beta IdP",
+        "description":"Een speel en test IdP van Henny Bekker",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"FrKoIdP",
+            "nl":""
+        },
+        "appTitle":"FrKoIdP",
+        "appDescription":"An IdP operated by FrKo, for testing purposes.",
+        "appThumbNail":"https://static.surfconext.nl/media/idp-logo-not-found.png",
+        "appEntityId":"https://frkosp.wind.surfnet.nl/simplesamlphp/saml2/idp/metadata.php",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/idp-logo-not-found.png",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"An IdP operated by FrKo, for testing purposes.",
+            "nl":""
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"François",
+                "surName":"Kooman",
+                "emailAddress":"francois.kooman@surfnet.nl"
+            }
+        ],
+        "name":"FrKoIdP",
+        "description":"An IdP operated by FrKo, for testing purposes.",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"Hogeschool Zeeland",
+            "nl":""
+        },
+        "appTitle":"Hogeschool Zeeland",
+        "appDescription":"Hogeschool Zeeland",
+        "appThumbNail":"https://.png",
+        "appEntityId":"http://adfs.myhz.nl/adfs/services/trust",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://.png",
+        "appHomeUrls":{
+            "en":"http://www.surffederatie.nl",
+            "nl":null
+        },
+        "descriptions":{
+            "en":"Hogeschool Zeeland",
+            "nl":""
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"",
+                "surName":"Joost van Dijk",
+                "emailAddress":"federatie-beheer@surfnet.nl"
+            },
+            {
+                "type":"administrative",
+                "givenName":"Eefje van der Harst",
+                "surName":"",
+                "emailAddress":"federatie-beheer@surfnet.nl"
+            }
+        ],
+        "name":"Hogeschool Zeeland",
+        "description":"Hogeschool Zeeland",
+        "idpVisibleOnly":false,
+        "appHomeUrl":"http://www.surffederatie.nl"
+    },
+    {
+        "names":{
+            "en":"",
+            "nl":""
+        },
+        "appTitle":"",
+        "appDescription":"",
+        "appThumbNail":"https://.png",
+        "appEntityId":"https://engine.dev.surfconext.nl/authentication/idp/metadata",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://.png",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"",
+            "nl":""
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            
+        ],
+        "name":"",
+        "description":"",
+        "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"http://mock-idp",
+            "nl":"http://mock-idp"
+        },
+        "appTitle":"http://mock-idp",
+        "appDescription":"mockidp",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"http://mock-idp",
+        "instutionId":"mock-institution-id",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"mockidp",
+            "nl":"mockidp"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"",
+                "surName":"",
+                "emailAddress":"a.veenstra@onehippo.com"
+            }
+        ],
+        "name":"http://mock-idp",
+        "description":"mockidp",
+        "idpVisibleOnly":false
+    }
+]
