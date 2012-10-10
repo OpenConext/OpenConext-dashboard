@@ -45,7 +45,7 @@
 
       <c:forEach items="${bindings}" var="binding" varStatus="status">
         <c:if test="${not empty binding.serviceProvider.id}">
-          <spring:url value="compoundSp-detail.html" var="detailUrl" htmlEscape="true">
+          <spring:url value="compoundSp-detail.shtml" var="detailUrl" htmlEscape="true">
             <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
           </spring:url>
           <tr>

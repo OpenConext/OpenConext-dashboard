@@ -39,9 +39,11 @@ public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHiber
 
   @Override
   public CompoundServiceProvider findByEntityId(String entityId) {
-    List<CompoundServiceProvider> serviceProviderList = findByCriteria(Restrictions.eq("entityId", entityId));
+    List<CompoundServiceProvider> serviceProviderList = findByCriteria(Restrictions.eq("serviceProviderEntityId", entityId));
     if (serviceProviderList.size() > 1) {
       throw new NonUniqueResultException(serviceProviderList.size());
+    } else if (serviceProviderList.size() == 0) {
+      return null;
     }
     return serviceProviderList.get(0);
   }

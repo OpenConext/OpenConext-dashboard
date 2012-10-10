@@ -348,7 +348,7 @@
           </connectors>
           <stopKey>stopselfservice</stopKey>
           <stopPort>9280</stopPort>
-          <scanIntervalSeconds>3</scanIntervalSeconds>
+          <reload>manual</reload>
           <useTestClasspath>true</useTestClasspath>
         </configuration>
         <dependencies>
