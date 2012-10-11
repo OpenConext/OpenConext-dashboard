@@ -78,7 +78,9 @@ public class LmngServiceImplTest implements HttpRequestHandler {
   @Test
   public void testFetchResultSingleLicense() {
     xmlFile = "lmngRequestResponse/tempResponseExampleActual.xml";
-    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProvider(new IdentityProvider());
+    IdentityProvider identityProvider = new IdentityProvider();
+    identityProvider.setInstitutionId("dummy");
+    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProvider(identityProvider);
     assertEquals("Aanbesteden1", licenses.get(0).getProductName());
   }
 
