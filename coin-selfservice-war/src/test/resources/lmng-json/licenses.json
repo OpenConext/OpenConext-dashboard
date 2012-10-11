@@ -5,8 +5,6 @@
         "serviceDescriptionNl": "Microsoft Nederland",
         "productName": "Office 365",
         "identityName": "office365_pro",
-        "contactFullName": "Dummy DUmDum",
-        "contactEmail": "dummy@monickendam.nl",
         "supplierName": "Microsoft"
     },
     {
@@ -15,8 +13,6 @@
         "serviceDescriptionNl": "Google Nederland",
         "productName": "Google Enterpeise",
         "identityName": "google_maps_pro",
-        "contactFullName": "Pom Pom DUmDum",
-        "contactEmail": "pompom@monickendam.nl",
         "supplierName": "Google"
     }
 ]
