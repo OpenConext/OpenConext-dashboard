@@ -109,6 +109,6 @@ public class SpLmngDataBindingController extends BaseController {
     if (file != null) {
       field.setImage(file.getBytes());
     }
-    return "ok";
+    return field.getFileUrl();
   }
 }
