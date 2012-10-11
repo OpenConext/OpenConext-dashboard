@@ -5,7 +5,7 @@
   Copyright 2012 SURFnet bv, The Netherlands
 
   Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
+  you may not <spring:message code="jsp.compound_sp_select_source"/> file except in compliance with the License.
   You may obtain a copy of the License at
 
        http://www.apache.org/licenses/LICENSE-2.0
@@ -58,22 +58,21 @@
               <p>${compoundSp.lmngFieldValues[field.key]}</p>
               <input type="hidden" name="source" value="LMNG" />
               <input type="hidden" name="fieldId" value="${field.id}" />
-              <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
+              <button name="usethis" value="usethis" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
             </form>
             <form class="tab-pane" id="form${fieldId}-surfconext">
               <p>${compoundSp.surfConextFieldValues[field.key]}</p>
               <input type="hidden" name="source" value="SURFCONEXT" />
               <input type="hidden" name="fieldId" value="${field.id}" />
-              <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
+              <button name="usethis" value="usethis" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
             </form>
             <form class="tab-pane" id="form${fieldId}-distributionchannel">
               <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
               <input type="hidden" name="fieldId" value="${field.id}" />
               <textarea name="value">${compoundSp.distributionFieldValues[field.key]}</textarea>
-
               <div class="form-actions">
-                <button name="usethis" value="usethis" class="btn">Use this</button>
-                <button name="save" value="save" class="btn btn-primary">Save</button>
+                <button name="usethis" value="usethis" class="btn"><spring:message code="jsp.compound_sp_select_source"/></button>
+                <button name="save" value="save" class="btn btn-primary"><spring:message code="jsp.compound_sp_save"/></button>
               </div>
             </form>
             </div>
@@ -159,29 +158,32 @@
       .append("<button type='button'>x</button>").attr("data-dismiss", "alert").addClass("close")
   }
 
-  /**
-  * handler for forms on this accordion page.
-   */
-  $("form").submit(function(e) {
-    e.preventDefault();
-
-    var form = this;
-    $.ajax(
-      "compoundSp-update.shtml",
-      {
-        data: $(form).serialize(),
-        type: "post",
-        failure: function(msg) {
-          $(this).prepend(alertDiv("Failure saving data. Details: " + msg));
-        },
-        success: function(result) {
-          console.log("post success: " + result);
-          $(form).prepend(alertDiv("Successfully saved. TODO: message bundle"));
-
-        }
-      });
+  $("button[name='usethis'],button[name='save']").click(function(e) {
+	  e.preventDefault();
+	  postForm(this);	
   });
+  
+  var postForm = function(button) {
+	  var form = $(button).closest('form');
+	  var formData = form.serialize();
+	  //to include the pressed button in the formData
+ 	  formData = formData + "&" + button.name + "=" + button.value ;
+	  console.log(formData);
+	  $.ajax(
+		      "compoundSp-update.shtml",
+		      {
+		        data: formData,
+		        type: "post",
+		        failure: function(msg) {
+		          $(form).prepend(alertDiv("Failure saving data. Details: " + msg));
+		        },
+		        success: function(result) {
+		          console.log("post success: " + result);
+		          $(form).prepend(alertDiv("Successfully saved. TODO: message bundle"));
 
+		        }
+		      });
+  }
 
   /*
   Begin File upload plugin

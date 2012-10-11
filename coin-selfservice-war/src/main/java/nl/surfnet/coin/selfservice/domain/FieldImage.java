@@ -82,10 +82,8 @@ public class FieldImage extends Field {
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-    .append("fileUrl", fileUrl)
-    .append("image", image == null ? "null" : image.length + " bytes")
-    .toString();
+    return "FieldImage [fileUrl=" + fileUrl + ", getSource()=" + getSource() + ", getKey()=" + getKey()
+        + ", getId()=" + getId() + "]";
   }
 
 }

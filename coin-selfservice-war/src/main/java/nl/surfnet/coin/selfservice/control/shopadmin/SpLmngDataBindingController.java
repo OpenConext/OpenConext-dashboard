@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.control.shopadmin;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -24,6 +26,7 @@ import nl.surfnet.coin.selfservice.dao.FieldImageDao;
 import nl.surfnet.coin.selfservice.dao.FieldStringDao;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
+import nl.surfnet.coin.selfservice.domain.FieldImage;
 import nl.surfnet.coin.selfservice.domain.FieldString;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -33,10 +36,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -78,14 +83,32 @@ public class SpLmngDataBindingController extends BaseController {
 
   @RequestMapping(value = "/compoundSp-update", method = RequestMethod.POST)
   public @ResponseBody
-  String updateField(
-      @RequestParam(value = "fieldId") Long fieldId,
-      @RequestParam(value = "value", required = false) String value,
-      @RequestParam(value = "source") Source source) {
+  String updateField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
+      @RequestParam(value = "source") Source source, @RequestParam(value = "usethis", required = false) String useThis,
+      @RequestParam(value = "save", required = false) String save) {
     FieldString field = fieldStringDao.findById(fieldId);
-    field.setSource(source);
+    if (StringUtils.hasText(useThis)) {
+      field.setSource(source);
+    }
     field.setValue(value);
     fieldStringDao.saveOrUpdate(field);
+    return "ok";
+  }
+
+  @RequestMapping(value = "/upload", method = RequestMethod.POST)
+  public @ResponseBody
+  String upload(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "source") Source source,
+      @RequestParam(value = "source") Long fieldId, @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
+    if (Source.DISTRIBUTIONCHANNEL.equals(source)) {
+      Assert.isTrue(file != null, "File upload is required for Distrubution Channel");
+    }
+    FieldImage field = fieldImageDao.findById(fieldId);
+    if (StringUtils.hasText(useThis)) {
+      field.setSource(source);
+    }
+    if (file != null) {
+      field.setImage(file.getBytes());
+    }
     return "ok";
   }
 }
