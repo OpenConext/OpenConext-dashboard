@@ -121,12 +121,13 @@
             <input type="hidden" name="fieldId" value="${field.id}" />
             <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
           </form>
-          <form class="tab-pane" id="form${fieldId}-distributionchannel">
+          <form class="tab-pane imageuploadform" id="form${fieldId}-distributionchannel">
             <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
             <input type="hidden" name="fieldId" value="${field.id}" />
-
-            <input type="file"
-
+            <span id='filename'></span><br/>
+            <a href='#' class='attachlink'>Add a file</a><br/>
+            <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload" multiple style="opacity: 0; filter:alpha(opacity: 0);"><br/>
+            <input type='submit' value='Upload' id='submit'/>
             <div class="form-actions">
               <button name="usethis" value="usethis" class="btn">Use this</button>
               <button name="save" value="save" class="btn btn-primary">Save</button>
@@ -158,6 +159,9 @@
       .append("<button type='button'>x</button>").attr("data-dismiss", "alert").addClass("close")
   }
 
+  /**
+  * handler for forms on this accordion page.
+   */
   $("form").submit(function(e) {
     e.preventDefault();
 
@@ -177,4 +181,86 @@
         }
       });
   });
+
+
+  /*
+  Begin File upload plugin
+   */
+
+  $(function() {
+    fileUploadInit();
+  });
+
+  function fileUploadInit() {
+    $('input:button').button();
+    $('#submit').button();
+
+    $('form.imageuploadform').submit(function(event) {
+      event.preventDefault();
+    });
+
+    $('#reset').click(function() {
+      clearForm();
+      dialog('Success', 'Fields have been cleared!');
+    });
+
+    $('input.fileinput').fileupload({
+      dataType: 'json',
+      done: function (e, data) {
+        $.each(data.result, function (index, file) {
+          $('body').data('filelist').push(file);
+          $('#filename').append(formatFileDisplay(file));
+          $('#attach').empty().append('Add another file');
+        });
+      }
+    });
+
+    // Technique borrowed from http://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file
+    // http://stackoverflow.com/questions/210643/in-javascript-can-i-make-a-click-event-fire-programmatically-for-a-file-input
+    $(".attachlink").click(function () {
+      $(this).closest(".imageuploadform").find("input.fileinput").click();
+    });
+
+    $('body').data('filelist', new Array());
+  }
+
+  function formatFileDisplay(file) {
+    var size = '<span style="font-style:italic">'+(file.size/1000).toFixed(2)+'K</span>';
+    return file.name + ' ('+ size +')<br/>';
+  }
+
+  function getFilelist() {
+    var files = $('body').data('filelist');
+    var filenames = '';
+    for (var i=0; i<files.length; i<i++) {
+      var suffix = (i==files.length-1) ? '' : ',';
+      filenames += files[i].name + suffix;
+    }
+    return filenames;
+  }
+
+  function dialog(title, text) {
+    $('#msgbox').text(text);
+    $('#msgbox').dialog(
+      {	title: title,
+        modal: true,
+        buttons: {"Ok": function()  {
+          $(this).dialog("close");}
+        }
+      });
+  }
+
+  function clearForm() {
+    $('#owner').val('');
+    $('#description').val('');
+    $('#filename').empty();
+    $('.attachlink').empty().append('Add a file');
+    $('body').data('filelist', new Array());
+  }
+
+  /*
+   End File upload plugin
+   */
+
+
 </script>

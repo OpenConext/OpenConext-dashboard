@@ -29,6 +29,9 @@ import org.hibernate.annotations.Proxy;
 @Proxy(lazy = false)
 public class Screenshot extends DomainObject {
 
+  public Screenshot() {
+  }
+
   @Column(name = "field_image")
   @Lob
   private byte[] image;

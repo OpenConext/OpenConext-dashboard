@@ -35,6 +35,9 @@
     <script src="<c:url value="/js/modules/message.js"/>"></script>
     <script src="<c:url value="/js/modules/table.js"/>"></script>
     <script src="<c:url value="/js/modules/reservation.js"/>"></script>
+    <script src="<c:url value="/js/jquery/jquery.ui.widget.js"/>"></script>
+    <script src="<c:url value="/js/jquery/jquery.fileupload.js"/>"></script>
+    <script src="<c:url value="/js/jquery/jquery.iframe-transport.js"/>"></script>
   </c:when>
   <c:otherwise>
     <script src="<c:url value="/js/script.min.js"/>"></script>
