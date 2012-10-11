@@ -24,11 +24,13 @@ import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
 import nl.surfnet.coin.selfservice.dao.FieldImageDao;
 import nl.surfnet.coin.selfservice.dao.FieldStringDao;
+import nl.surfnet.coin.selfservice.dao.ScreenshotDao;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
 import nl.surfnet.coin.selfservice.domain.FieldImage;
 import nl.surfnet.coin.selfservice.domain.FieldString;
 import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.domain.Screenshot;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -37,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +64,9 @@ public class SpLmngDataBindingController extends BaseController {
 
   @Resource
   private FieldImageDao fieldImageDao;
+
+  @Resource
+  private ScreenshotDao screenshotDao;
 
   @RequestMapping(value = "/compoundSp-detail")
   public ModelAndView get(@RequestParam("spEntityId") String entityId) {
@@ -115,4 +121,24 @@ public class SpLmngDataBindingController extends BaseController {
     fieldImageDao.saveOrUpdate(field);
     return field.getFileUrl();
   }
+
+  @RequestMapping(value = "/screenshot", method = RequestMethod.POST)
+  public @ResponseBody
+  String screenshot(
+    @RequestParam(value = "file", required = true) MultipartFile file,
+    @RequestParam(value = "screenshotId") Long screenshotId,
+    @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
+    Screenshot screenshot = new Screenshot(file.getBytes());
+    screenshotDao.saveOrUpdate(screenshot);
+    return screenshot.getFileUrl();
+  }
+
+  @RequestMapping(value = "/screenshot/{screenshotId}", method = RequestMethod.POST)
+  public @ResponseBody
+  String screenshot(@PathVariable("screenshotId") Long screenshotId) throws IOException {
+    Screenshot sc = screenshotDao.findById(screenshotId);
+    screenshotDao.delete(sc);
+    return "ok";
+  }
+
 }

@@ -32,15 +32,15 @@ public class Screenshot extends DomainObject {
 
   public static final String FILE_URL = "/screenshots/";
 
-  public Screenshot() {
-  }
-
   @Column(name = "field_image")
   @Lob
   private byte[] image;
 
   @Transient
   private String fileUrl;
+
+  public Screenshot() {
+  }
 
   public Screenshot(byte[] image) {
     this.image = image;
@@ -52,5 +52,9 @@ public class Screenshot extends DomainObject {
 
   public String getFileUrl() {
     return FILE_URL + getId() + FILE_POSTFIX;
+  }
+
+  public void setImage(byte[] image) {
+    this.image = image;
   }
 }
