@@ -189,12 +189,12 @@ public class CompoundServiceProvider extends DomainObject {
     return (String) getFieldValue(ENDUSER_DESCRIPTION_EN);
   }
 
-  public byte[] getAppStoreLogo() {
-    return (byte[]) getFieldValue(APPSTORE_LOGO);
+  public String getAppStoreLogo() {
+    return (String) getFieldValue(APPSTORE_LOGO);
   }
 
-  public byte[] getDetailLogo() {
-    return (byte[]) getFieldValue(DETAIL_LOGO);
+  public String getDetailLogo() {
+    return (String) getFieldValue(DETAIL_LOGO);
   }
 
   public String getAppUrl() {
@@ -290,9 +290,9 @@ public class CompoundServiceProvider extends DomainObject {
     throw new RuntimeException("Unset key for ('" + this + "'");
   }
 
-  private Object getDistributionChannelProperty(Field field) {
+  private String getDistributionChannelProperty(Field field) {
     if (field instanceof FieldImage) {
-      return ((FieldImage) field).getImage();
+      return ((FieldImage) field).getFileUrl();
     }
     if (field instanceof FieldString) {
       return ((FieldString) field).getValue();
@@ -323,6 +323,10 @@ public class CompoundServiceProvider extends DomainObject {
       for (FieldString field : this.fields) {
         result.put(field.getKey(), field.getValue());
       }
+      for (FieldImage fieldImage : this.fieldImages) {
+        result.put(fieldImage.getKey(), fieldImage.getFileUrl());
+      }
+
     } else {
       for (Key key : values) {
         if (!key.isImage()) {

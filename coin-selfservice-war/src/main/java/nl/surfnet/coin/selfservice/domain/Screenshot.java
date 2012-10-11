@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import static nl.surfnet.coin.selfservice.domain.FieldImage.FILE_POSTFIX;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -28,6 +29,8 @@ import org.hibernate.annotations.Proxy;
 @Entity
 @Proxy(lazy = false)
 public class Screenshot extends DomainObject {
+
+  public static final String FILE_URL = "/screenshots/";
 
   public Screenshot() {
   }
@@ -48,6 +51,6 @@ public class Screenshot extends DomainObject {
   }
 
   public String getFileUrl() {
-    return fileUrl;
+    return FILE_URL + getId() + FILE_POSTFIX;
   }
 }

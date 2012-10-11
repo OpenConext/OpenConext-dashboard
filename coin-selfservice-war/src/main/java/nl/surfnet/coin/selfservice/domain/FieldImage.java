@@ -34,12 +34,18 @@ import org.hibernate.annotations.Proxy;
 @Proxy(lazy = false)
 public class FieldImage extends Field {
 
+  public static final String FILE_URL = "/fieldimages/";
+  public static final String FILE_POSTFIX = ".img";
+  
   @Column(name = "field_image")
   @Lob
   private byte[] image;
 
   @Transient
   private String fileUrl;
+  
+//  @Column
+//  private String contentType;
 
   public FieldImage() {
     super();
@@ -77,7 +83,7 @@ public class FieldImage extends Field {
   }
 
   public String getFileUrl() {
-    throw new NotImplementedException("Have yet to generate url to this image");
+     return FILE_URL + getId() + FILE_POSTFIX;
   }
 
   @Override

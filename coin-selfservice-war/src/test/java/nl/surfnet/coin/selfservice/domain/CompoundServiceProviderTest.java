@@ -26,28 +26,37 @@ import org.junit.Test;
 
 /**
  * CompoundServiceProviderTest.java
- *
+ * 
  */
 public class CompoundServiceProviderTest {
 
-
   /**
-   * Test method for {@link nl.surfnet.coin.selfservice.domain.CompoundServiceProvider#builder(nl.surfnet.coin.selfservice.domain.ServiceProvider, nl.surfnet.coin.selfservice.domain.License)}.
+   * Test method for
+   * {@link nl.surfnet.coin.selfservice.domain.CompoundServiceProvider#builder(nl.surfnet.coin.selfservice.domain.ServiceProvider, nl.surfnet.coin.selfservice.domain.License)}
+   * .
    */
   @Test
   public void testBuilder() {
     ServiceProvider serviceProvider = new ServiceProvider("id");
-    serviceProvider.addDescription(Language.EN.name().toLowerCase(),"EN description");
-    
+    serviceProvider.addDescription(Language.EN.name().toLowerCase(), "EN description");
+    serviceProvider.setLogoUrl("http://png");
+
     License license = new License();
-    
+
     CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, license);
     Map<Key, String> values = provider.getDistributionFieldValues();
     String des = values.get(Key.ENDUSER_DESCRIPTION_EN);
     assertNull(des);
-  
+
+    String detailLogo = provider.getDetailLogo();
+    assertEquals("http://png", detailLogo);
+
+    String appLogo = provider.getAppStoreLogo();
+    //looks strange, but corect as we did not save the provider 
+    assertEquals("/fieldimages/null.img", appLogo);
+    
     des = values.get(Key.ENDUSER_DESCRIPTION_NL);
-    assertEquals("TODO" ,des);
-}
+    assertEquals("TODO", des);
+  }
 
 }
