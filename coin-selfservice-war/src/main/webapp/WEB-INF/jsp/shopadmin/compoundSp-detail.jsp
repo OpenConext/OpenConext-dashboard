@@ -128,8 +128,7 @@
             <input type="hidden" name="fieldId" value="${field.id}" />
             <span id='filename'></span><br/>
             <a href='#' class='attachlink'>Add a file</a><br/>
-            <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml" multiple style="opacity: 0; filter:alpha(opacity: 0);"><br/>
-            <input type='submit' value='Upload' id='submit'/>
+            <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
             <div class="form-actions">
               <button name="usethis" value="usethis" class="btn">Use this</button>
               <button name="save" value="save" class="btn btn-primary">Save</button>
@@ -203,13 +202,17 @@
     });
 
     $('input.fileinput').fileupload({
-      dataType: 'json',
-      done: function (e, data) {
-        console.log(data);
+      success: function (imageUrl) {
+
+
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
       }
     });
 
-    $(".attachlink").click(function () {
+    $(".attachlink").click(function (e) {
+      e.preventDefault();
       $(this).closest(".imageuploadform").find("input.fileinput").click();
     });
   }
