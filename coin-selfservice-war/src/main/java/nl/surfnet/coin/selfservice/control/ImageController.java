@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package nl.surfnet.coin.selfservice.control;
 
 import java.io.IOException;
@@ -26,7 +27,6 @@ import nl.surfnet.coin.selfservice.domain.FieldImage;
 import nl.surfnet.coin.selfservice.domain.Screenshot;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,28 +44,22 @@ public class ImageController {
   @Resource
   private ScreenshotDao screenshotDao;
 
-  @RequestMapping(method = RequestMethod.GET, value = FieldImage.FILE_URL + "{fieldImageId}")
-  public void fieldImage(HttpServletResponse response, @PathVariable("fieldImageId") String fieldImageId) throws IOException {
-    // ends with .img
-    FieldImage fieldImage = fieldImageDao.findById(parse(fieldImageId));
+  @RequestMapping(method = RequestMethod.GET, value = FieldImage.FILE_URL + "{fieldImageId}" + FieldImage.FILE_POSTFIX)
+  public void fieldImage(HttpServletResponse response, @PathVariable("fieldImageId") Long fieldImageId) throws IOException {
+
+    FieldImage fieldImage = fieldImageDao.findById(fieldImageId);
     flush(response, fieldImage.getImage());
   }
 
-  @RequestMapping(method = RequestMethod.GET, value = Screenshot.FILE_URL + "{screenshotId}")
-  public void screenshot(HttpServletResponse response, @PathVariable("screenshotId") String screenshotId) throws IOException {
-    Screenshot screenshot = screenshotDao.findById(parse(screenshotId));
+  @RequestMapping(method = RequestMethod.GET, value = Screenshot.FILE_URL + "{screenshotId}" + FieldImage.FILE_POSTFIX)
+  public void screenshot(HttpServletResponse response, @PathVariable("screenshotId") Long screenshotId) throws IOException {
+    Screenshot screenshot = screenshotDao.findById(screenshotId);
     flush(response, screenshot.getImage());
   }
 
   private void flush(HttpServletResponse response, byte[] bytes) throws IOException {
     response.getOutputStream().write(bytes);
     response.flushBuffer();
-  }
-
-  private Long parse(String imageId) {
-    Assert.hasText(imageId);
-    Assert.isTrue(imageId.length() > FieldImage.FILE_POSTFIX.length());
-    return Long.parseLong(imageId.substring(FieldImage.FILE_POSTFIX.length()));
   }
 
 }

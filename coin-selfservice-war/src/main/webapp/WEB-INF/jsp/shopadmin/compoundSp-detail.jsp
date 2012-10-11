@@ -34,7 +34,6 @@
 
   <div class="content">
       <div class="accordion" id="fieldaccordion">
-
 <c:forEach items="${compoundSp.fields}" var="field">
   <spring:message var="fieldTitle" code="jsp.compoundSp.${field.key}" />
   <c:set var="fieldId" value="f-${field.id}" />
@@ -81,7 +80,6 @@
       </div>
 </c:forEach>
 
-
 <%-- Images --%>
 <c:forEach items="${compoundSp.fieldImages}" var="field">
   <spring:message var="fieldTitle" code="jsp.compoundSp.${field.key}" />
@@ -103,16 +101,16 @@
         <div class="tab-content">
 
           <form class="tab-pane active" id="form${fieldId}-lmng">
-            <c:if test="${compoundSp.lmngFieldValues[field.key]}">
-              <img src="${compoundSp.lmngFieldValues[field.key]}">
+            <c:if test="${!empty compoundSp.lmngFieldValues[field.key]}">
+              <img src="<spring:url value="${compoundSp.lmngFieldValues[field.key]}" />"/>
             </c:if>
             <input type="hidden" name="source" value="LMNG" />
             <input type="hidden" name="fieldId" value="${field.id}" />
             <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
           </form>
           <form class="tab-pane" id="form${fieldId}-surfconext">
-            <c:if test="${compoundSp.surfConextFieldValues[field.key]}">
-              <img src="${compoundSp.surfConextFieldValues[field.key]}">
+            <c:if test="${!empty compoundSp.surfConextFieldValues[field.key]}">
+              <img src="<spring:url value="${compoundSp.surfConextFieldValues[field.key]}" />"/>
             </c:if>
             <input type="hidden" name="source" value="SURFCONEXT" />
             <input type="hidden" name="fieldId" value="${field.id}" />
@@ -120,8 +118,8 @@
           </form>
 
           <form class="tab-pane imageuploadform" id="form${fieldId}-distributionchannel">
-            <c:if test="${compoundSp.distributionFieldValues[field.key]}">
-              <img src="${compoundSp.distributionFieldValues[field.key]}">
+            <c:if test="${!empty compoundSp.distributionFieldValues[field.key]}">
+              <img src="<spring:url value="${compoundSp.distributionFieldValues[field.key]}" />"/>
             </c:if>
 
             <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
@@ -197,13 +195,20 @@
 
   function fileUploadInit() {
 
+    var currentFileuploadForm;
+
     $('form.imageuploadform').submit(function(event) {
       event.preventDefault();
     });
 
     $('input.fileinput').fileupload({
       success: function (imageUrl) {
+        var contextPath = "${pageContext.request.contextPath}";
 
+
+        $(currentFileuploadForm)
+          .find("img")
+          .replaceWith("<img src='" + contextPath +  imageUrl +  "?" + new Date().getTime() + "'/>");
 
       },
       error: function(jqXHR, textStatus, errorThrown) {
@@ -213,7 +218,9 @@
 
     $(".attachlink").click(function (e) {
       e.preventDefault();
-      $(this).closest(".imageuploadform").find("input.fileinput").click();
+      var form = $(this).closest(".imageuploadform");
+      form.find("input.fileinput").click();
+      currentFileuploadForm = form;
     });
   }
 

@@ -78,7 +78,10 @@ public class SpLmngDataBindingController extends BaseController {
     if (compoundServiceProvider == null) {
 
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", entityId);
+
+      // TODO: get license/article from LMNG
       compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, new License());
+
       compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");
     } else {

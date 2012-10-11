@@ -329,7 +329,6 @@ public class CompoundServiceProvider extends DomainObject {
 
     } else {
       for (Key key : values) {
-        if (!key.isImage()) {
           try {
             switch (source) {
             case SURFCONEXT:
@@ -344,7 +343,6 @@ public class CompoundServiceProvider extends DomainObject {
             }
           } catch (RuntimeException e) {
             //not a problem here
-          }
         }
       }
     }

@@ -60,45 +60,36 @@ public abstract class Field extends DomainObject implements Comparable {
   }
 
   public enum Key {
-    APPSTORE_LOGO(true),
+    APPSTORE_LOGO,
 
-    APP_URL(false),
+    APP_URL,
 
-    DETAIL_LOGO(true),
+    DETAIL_LOGO,
 
-    ENDUSER_DESCRIPTION_EN(false),
+    ENDUSER_DESCRIPTION_EN,
 
-    ENDUSER_DESCRIPTION_NL(false),
+    ENDUSER_DESCRIPTION_NL,
 
-    EULA_URL(false),
+    EULA_URL,
 
-    INSTITUTION_DESCRIPTION_EN(false),
+    INSTITUTION_DESCRIPTION_EN,
 
-    INSTITUTION_DESCRIPTION_NL(false),
- 
-    SERVICE_DESCRIPTION_EN(false),
+    INSTITUTION_DESCRIPTION_NL,
 
-    SERVICE_DESCRIPTION_NL(false),
+    SERVICE_DESCRIPTION_EN,
 
-    SCREENSHOT(true),
+    SERVICE_DESCRIPTION_NL,
 
-    SERVICE_URL(false),
+    SCREENSHOT,
 
-    SUPPORT_MAIL(false),
+    SERVICE_URL,
 
-    SUPPORT_URL(false),
+    SUPPORT_MAIL,
 
-    TECHNICAL_SUPPORTMAIL(false);
+    SUPPORT_URL,
+
+    TECHNICAL_SUPPORTMAIL;
     
-    private boolean image;
-    
-    Key(boolean image) {
-      this.image = image;
-    }
-    
-    public boolean isImage() {
-      return image;
-    }
     
   }
 
