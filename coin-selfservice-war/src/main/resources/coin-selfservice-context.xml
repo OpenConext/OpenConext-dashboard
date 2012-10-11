@@ -251,6 +251,7 @@
         <value>nl.surfnet.coin.selfservice.domain.Field</value>
         <value>nl.surfnet.coin.selfservice.domain.FieldString</value>
         <value>nl.surfnet.coin.selfservice.domain.FieldImage</value>
+        <value>nl.surfnet.coin.selfservice.domain.Screenshot</value>
       </list>
     </property>
     <property name="namingStrategy">

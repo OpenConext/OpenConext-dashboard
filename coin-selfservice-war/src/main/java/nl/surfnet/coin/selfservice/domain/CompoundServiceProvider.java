@@ -18,18 +18,24 @@ package nl.surfnet.coin.selfservice.domain;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import nl.surfnet.coin.selfservice.domain.Field.Key;
+import nl.surfnet.coin.selfservice.domain.Field.Source;
+import nl.surfnet.coin.selfservice.domain.Provider.Language;
+import nl.surfnet.coin.shared.domain.DomainObject;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -39,11 +45,6 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
-
-import nl.surfnet.coin.selfservice.domain.Field.Key;
-import nl.surfnet.coin.selfservice.domain.Field.Source;
-import nl.surfnet.coin.selfservice.domain.Provider.Language;
-import nl.surfnet.coin.shared.domain.DomainObject;
 
 import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
@@ -83,17 +84,17 @@ public class CompoundServiceProvider extends DomainObject {
   private String lmngId;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
-  @JoinTable
-  private Set<FieldString> fields = new HashSet<FieldString>();
-
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
-  @JoinTable
-  private Set<FieldImage> fieldImages = new HashSet<FieldImage>();
-
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
-  @JoinTable
   @Sort(type = SortType.NATURAL)
-  private List<FieldImage> screenShotsImages = new ArrayList<FieldImage>();
+  private SortedSet<FieldString> fields = new TreeSet<FieldString>();
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
+  @Sort(type = SortType.NATURAL)
+  private SortedSet<FieldImage> fieldImages = new TreeSet<FieldImage>();
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @Sort(type = SortType.NATURAL)
+  @JoinColumn(name = "compound_service_provider_id", nullable = false)
+  private List<Screenshot> screenShotsImages = new ArrayList<Screenshot>();
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, License license) {
     byte[] image = getDefaultImage();
@@ -119,7 +120,7 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.SUPPORT_URL, null, serviceProvider.getUrl(), todo, provider);
     buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), todo, provider);
 
-    provider.addScreenShot(new FieldImage(Source.DISTRIBUTIONCHANNEL, Key.SCREENSHOT, image, provider));
+    provider.addScreenShot(new Screenshot(image));
 
     return provider;
   }
@@ -128,7 +129,7 @@ public class CompoundServiceProvider extends DomainObject {
     return fields;
   }
 
-  public void setFields(Set<FieldString> fields) {
+  public void setFields(SortedSet<FieldString> fields) {
     this.fields = fields;
   }
 
@@ -136,16 +137,16 @@ public class CompoundServiceProvider extends DomainObject {
     return fieldImages;
   }
 
-  public void setFieldImages(Set<FieldImage> fieldImages) {
+  public void setFieldImages(SortedSet<FieldImage> fieldImages) {
     this.fieldImages = fieldImages;
   }
 
-  public List<FieldImage> getScreenShotsImages() {
+  public List<Screenshot> getScreenShotsImages() {
     return screenShotsImages;
   }
 
-  public void setScreenShotsImages(List<FieldImage> screenShotsImages) {
-    this.screenShotsImages = screenShotsImages;
+  public void setScreenShotsImages(List<Screenshot> screenshots) {
+    this.screenShotsImages = screenshots;
   }
 
   public ServiceProvider getSp() {
@@ -202,8 +203,8 @@ public class CompoundServiceProvider extends DomainObject {
 
   public List<byte[]> getScreenshots() {
     List<byte[]> result = new ArrayList<byte[]>();
-    for (FieldImage fi : screenShotsImages) {
-      result.add(fi.getImage());
+    for (Screenshot s : screenShotsImages) {
+      result.add(s.getImage());
     }
     return result;
   }
@@ -240,16 +241,14 @@ public class CompoundServiceProvider extends DomainObject {
     return this.fieldImages.add(f);
   }
 
-  public boolean addScreenShot(FieldImage f) {
-    Assert.notNull(f);
-    f.setCompoundServiceProvider(this);
-    return this.screenShotsImages.add(f);
+  public boolean addScreenShot(Screenshot s) {
+    Assert.notNull(s);
+    return this.screenShotsImages.add(s);
   }
 
-  public boolean removeScreenShot(FieldImage f) {
-    Assert.notNull(f);
-    f.setCompoundServiceProvider(null);
-    return this.screenShotsImages.remove(f);
+  public boolean removeScreenShot(Screenshot s) {
+    Assert.notNull(s);
+    return this.screenShotsImages.remove(s);
   }
 
   /*
@@ -359,7 +358,7 @@ public class CompoundServiceProvider extends DomainObject {
     case SERVICE_DESCRIPTION_EN:
       return this.serviceProvider.getName(Language.EN);
     case DETAIL_LOGO:
-      return new FieldImage(this.serviceProvider.getLogoUrl()).getImageBytes();
+      return this.serviceProvider.getLogoUrl();
     case APP_URL:
       return this.serviceProvider.getHomeUrl();
     case SERVICE_URL:
@@ -388,7 +387,7 @@ public class CompoundServiceProvider extends DomainObject {
     case SERVICE_DESCRIPTION_NL:
       return this.license.getServiceDescriptionNl();
     case DETAIL_LOGO:
-      return new FieldImage(this.license.getDetailLogo()).getImageBytes();
+      return this.license.getDetailLogo();
     default:
       throw new RuntimeException("LMNG does not support property: " + key);
     }

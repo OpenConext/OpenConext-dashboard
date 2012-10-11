@@ -20,10 +20,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
+import nl.surfnet.coin.shared.domain.DomainObject;
+
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-
-import nl.surfnet.coin.shared.domain.DomainObject;
 
 /**
  * Field.java
@@ -31,7 +32,7 @@ import nl.surfnet.coin.shared.domain.DomainObject;
  */
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class Field extends DomainObject {
+public abstract class Field extends DomainObject implements Comparable {
 
   @Column(name = "field_source")
   private Source source;
@@ -132,5 +133,13 @@ public abstract class Field extends DomainObject {
       .append("source", source)
       .append("key", key)
       .toString();
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    Field that = (Field) o;
+    return new CompareToBuilder()
+      .append(this.key, that.key)
+      .toComparison();
   }
 }

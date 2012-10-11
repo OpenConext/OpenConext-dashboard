@@ -81,7 +81,65 @@
         </div>
       </div>
 </c:forEach>
+
+
+<%-- Images --%>
+<c:forEach items="${compoundSp.fieldImages}" var="field">
+  <spring:message var="fieldTitle" code="jsp.compoundSp.${field.key}" />
+  <c:set var="fieldId" value="fieldimage-${field.id}" />
+
+
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordion" href="#${fieldId}-body">
+          ${fieldTitle}
+      </a>
     </div>
+    <div id="${fieldId}-body" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng">SURFMarket</a></li>
+          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext">SURFConext</a></li>
+          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel">Distributiekanaal</a></li>
+        </ul>
+        <div class="tab-content">
+
+          <form class="tab-pane active" id="form${fieldId}-lmng">
+            <c:if test="${compoundSp.lmngFieldValues[field.key]}">
+              <img src="${compoundSp.lmngFieldValues[field.key]}">
+            </c:if>
+            <input type="hidden" name="source" value="LMNG" />
+            <input type="hidden" name="fieldId" value="${field.id}" />
+            <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
+          </form>
+          <form class="tab-pane" id="form${fieldId}-surfconext">
+            <c:if test="${compoundSp.surfConextFieldValues[field.key]}">
+              <img src="${compoundSp.surfConextFieldValues[field.key]}">
+            </c:if>
+            <input type="hidden" name="source" value="SURFCONEXT" />
+            <input type="hidden" name="fieldId" value="${field.id}" />
+            <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
+          </form>
+          <form class="tab-pane" id="form${fieldId}-distributionchannel">
+            <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
+            <input type="hidden" name="fieldId" value="${field.id}" />
+
+            <input type="file"
+
+            <div class="form-actions">
+              <button name="usethis" value="usethis" class="btn">Use this</button>
+              <button name="save" value="save" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</c:forEach>
+</div>
 
 
   </div>

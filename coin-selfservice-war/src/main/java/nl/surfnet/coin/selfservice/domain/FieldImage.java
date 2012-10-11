@@ -15,17 +15,15 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
-import java.net.URL;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
-import org.springframework.util.StringUtils;
 
 /**
  * StringField.java
@@ -40,10 +38,7 @@ public class FieldImage extends Field {
   @Lob
   private byte[] image;
 
-  @Column(name = "file_name")
-  private String filename;
-
-  @Column(name = "file_url")
+  @Transient
   private String fileUrl;
 
   public FieldImage() {
@@ -55,34 +50,23 @@ public class FieldImage extends Field {
     this.image = image;
   }
 
-  public FieldImage(Source source, Key key, String fileUrl) {
-    super(source, key, null);
-    this.fileUrl = fileUrl;
-  }
-
   public FieldImage(Source source, Key key, byte[] image, CompoundServiceProvider compoundServiceProvider) {
     super(source, key, compoundServiceProvider);
     this.image = image;
   }
 
-  public FieldImage(Source source, Key key, String fileUrl, CompoundServiceProvider compoundServiceProvider) {
+  public FieldImage(Source source, Key key, CompoundServiceProvider compoundServiceProvider) {
     super(source, key, compoundServiceProvider);
-    this.fileUrl = fileUrl;
+  }
+
+  public FieldImage(byte[] image) {
+    super();
+    this.image = image;
   }
 
   public FieldImage(String fileUrl) {
-    super();
     this.fileUrl = fileUrl;
   }
-
-  public FieldImage(byte[] image, String filename, String fileUrl) {
-    super();
-    this.image = image;
-    this.filename = filename;
-    this.fileUrl = fileUrl;
-  }
-
-
 
   public byte[] getImage() {
     return image;
@@ -92,41 +76,15 @@ public class FieldImage extends Field {
     this.image = image;
   }
 
-  public String getFilename() {
-    return filename;
-  }
-
-  public void setFilename(String filename) {
-    this.filename = filename;
-  }
-
   public String getFileUrl() {
-    return fileUrl;
-  }
-
-  public void setFileUrl(String fileUrl) {
-    this.fileUrl = fileUrl;
-  }
-
-  public byte[] getImageBytes() {
-    if (image != null && image.length > 0) {
-      return image;
-    }
-    if (StringUtils.hasText(fileUrl)) {
-      try {
-        return IOUtils.toByteArray(new URL(fileUrl).openStream());
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      } 
-    }
-    return null;
+    throw new NotImplementedException("Have yet to generate url to this image");
   }
 
   @Override
   public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
     .append("fileUrl", fileUrl)
-    .append("filename", filename)
+    .append("image", image == null ? "null" : image.length + " bytes")
     .toString();
   }
 
