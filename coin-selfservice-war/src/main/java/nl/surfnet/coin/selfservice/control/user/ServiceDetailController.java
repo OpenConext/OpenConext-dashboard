@@ -93,7 +93,7 @@ public class ServiceDetailController extends BaseController {
 
     m.put("revoked", revoked);
     
-    List<License> licenses = licensingService.getLicensesForIdentityProvider(selectedidp);
+    List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(selectedidp, sp);
     m.put("licenses", licenses);
     
     return new ModelAndView("user/service-detail", m);
