@@ -158,11 +158,6 @@
                   &nbsp;&nbsp;<c:out value="${lc.endUserDescriptionNl}" escapeXml="false" />
                 </li>
               </c:if>
-              <c:if test="${not empty lc.contactFullName}">
-                <li><spring:message code="jsp.sp_detail.license.contactfullname"/>:<br/>
-                  &nbsp;&nbsp;<c:out value="${lc.contactFullName}"/>
-                </li>
-              </c:if>
               <c:if test="${not empty lc.supplierName}">
                 <li><spring:message code="jsp.sp_detail.license.suppliername"/>:<br/>
                   &nbsp;&nbsp;<c:out value="${lc.supplierName}"/>

@@ -29,13 +29,12 @@ public class License implements Serializable {
 
   private Date startDate;
   private Date endDate;
-  private String endUserDescriptionNl;
   private String institutionDescriptionNl;
+  private String identityName;
+
+  private String endUserDescriptionNl;
   private String serviceDescriptionNl;
   private String productName;
-  private String identityName;
-  private String contactFullName;
-  private String contactEmail;
   private String supplierName;
   private String detailLogo; 
   private String lmngIdentifier;
@@ -76,22 +75,6 @@ public class License implements Serializable {
 
   public void setIdentityName(String identityName) {
     this.identityName = identityName;
-  }
-
-  public String getContactFullName() {
-    return contactFullName;
-  }
-
-  public void setContactFullName(String contactFullName) {
-    this.contactFullName = contactFullName;
-  }
-
-  public String getContactEmail() {
-    return contactEmail;
-  }
-
-  public void setContactEmail(String contactEmail) {
-    this.contactEmail = contactEmail;
   }
 
   public String getSupplierName() {
@@ -146,8 +129,7 @@ public class License implements Serializable {
   public String toString() {
     return "License [startDate=" + startDate + ", endDate=" + endDate + ", endUserDescriptionNl=" + endUserDescriptionNl
         + ", institutionDescriptionNl=" + institutionDescriptionNl + ", serviceDescriptionNl=" + serviceDescriptionNl
-        + ", productName=" + productName + ", identityName=" + identityName + ", contactFullName=" + contactFullName + ", contactEmail="
-        + contactEmail + ", supplierName=" + supplierName + ", detailLogo=" + detailLogo + ", lmngIdentifier=" + lmngIdentifier + "]";
+        + ", productName=" + productName + ", identityName=" + identityName + ", supplierName=" + supplierName + ", detailLogo=" + detailLogo + ", lmngIdentifier=" + lmngIdentifier + "]";
   }
 
 }

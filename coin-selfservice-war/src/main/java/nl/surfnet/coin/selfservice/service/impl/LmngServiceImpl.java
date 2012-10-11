@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -30,6 +31,12 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -38,6 +45,7 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.impl.ntlm.NTLMSchemeFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.http.HttpEntity;
@@ -83,14 +91,14 @@ public class LmngServiceImpl implements LicensingService {
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP = "lmngqueries/lmngQueryLicencesForIdentityProvider.xml";
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
 
-  private static final String FETCH_RESULT_CONTACT_EMAIL = "contact.emailaddress1";
-  private static final String FETCH_RESULT_CONTACT_NAME = "contact.fullname";
   private static final String FETCH_RESULT_PRODUCT_DESCRIPTION = "product.lmng_description";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
   private static final String FETCH_RESULT_VALID_TO = "license.lmng_validto";
   private static final String FETCH_RESULT_IDENTITY_NAME = "name";
   private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
   private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
+
+  private static final boolean DEBUG = false;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -107,13 +115,22 @@ public class LmngServiceImpl implements LicensingService {
 
   @Override
   public List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider, Date validOn) {
+    String idpLmngId = getLmngIdentityId(identityProvider);
+    if (idpLmngId == null || validOn == null) {
+      log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and date " + validOn);
+      return new ArrayList<License>();
+    }
     try {
       // get the file with the soap request
-      String soapRequest = getLicenceForIdpRequest(getLmngIdentityId(identityProvider), validOn);
+      String soapRequest = getLicenceForIdpRequest(idpLmngId, validOn);
+
+      if (DEBUG) {
+        FileUtils.writeStringToFile(new File("lastLmngRequest.txt"), StringEscapeUtils.unescapeHtml(soapRequest));
+      }
 
       // call the webservice
       InputStream webserviceResult = getWebServiceResult(soapRequest);
-      
+
       // read/parse the XML response to License objects
       return parseResult(webserviceResult);
     } catch (Exception e) {
@@ -131,11 +148,20 @@ public class LmngServiceImpl implements LicensingService {
   @Override
   public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
+    String lmngIdpId = getLmngIdentityId(identityProvider);
+    String lmngSpId = getLmngServiceId(serviceProvider);
+    if (lmngIdpId == null || lmngSpId == null || validOn == null) {
+      log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProvider "
+          + serviceProvider + " and date " + validOn);
+      return new ArrayList<License>();
+    }
     try {
-      String lmngIdpId = getLmngIdentityId(identityProvider);
-      String lmngSpId = getLmngServiceId(serviceProvider);
       // get the file with the soap request
       String soapRequest = getLicenceForIdpSpRequest(lmngIdpId, lmngSpId, validOn);
+
+      if (DEBUG) {
+        FileUtils.writeStringToFile(new File("lastLmngRequest.txt"), StringEscapeUtils.unescapeHtml(soapRequest));
+      }
 
       // call the webservice
       InputStream webserviceResult = getWebServiceResult(soapRequest);
@@ -169,21 +195,35 @@ public class LmngServiceImpl implements LicensingService {
     try {
       Document doc = docBuilder.parse(webserviceResult);
       Element documentElement = doc.getDocumentElement();
-      
+
       String fetchResultString = getFirstSubElementStringValue(documentElement, "FetchResult");
       if (fetchResultString == null) {
         log.warn("Webservice response did not contain a 'FetchResult' element");
+        try{
+          TransformerFactory tfactory = TransformerFactory.newInstance();
+          Transformer xform = tfactory.newTransformer();
+          Source src = new DOMSource(doc);
+          StringWriter writer = new StringWriter();
+          Result result = new StreamResult(writer);
+          xform.transform(src, result);         
+          log.debug("Response:\n" + writer.toString());
+        } catch (Exception e) {
+          log.debug("Unable to read response");
+        }
       } else {
+        if (DEBUG) {
+          FileUtils.writeStringToFile(new File("lastLmngFetchResponse.xml"), StringEscapeUtils.unescapeHtml(fetchResultString));
+        }
         InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
         Document fetchResultDocument = docBuilder.parse(fetchInputSource);
         Element resultset = fetchResultDocument.getDocumentElement();
-        
+
         if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
           log.warn("Webservice 'FetchResult' element did not contain a 'resultset' element");
-          
+
         } else {
           NodeList results = resultset.getElementsByTagName("result");
-          
+
           int numberOfResults = results.getLength();
           log.debug("Number of results in Fetch query:" + numberOfResults);
           for (int i = 0; i < numberOfResults; i++) {
@@ -191,13 +231,12 @@ public class LmngServiceImpl implements LicensingService {
             if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
               License license = new License();
               Element resultElement = (Element) resultNode;
-              
-              license.setContactEmail(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_EMAIL));
-              license.setContactFullName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_CONTACT_NAME));
+
               license.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
               license.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
               license.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-              Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
+              Date startDate = new Date(
+                  dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
               license.setStartDate(startDate);
               Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
               license.setEndDate(endDate);

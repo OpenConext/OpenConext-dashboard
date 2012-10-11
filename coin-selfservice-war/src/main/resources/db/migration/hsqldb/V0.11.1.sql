@@ -74,3 +74,8 @@ INSERT INTO ss_sp_lmng_identifiers (spId,lmngId)
 VALUES
   ('https://engine.dev.surfconext.nl/authentication/sp/metadata', 'lmng_serviceid15');
   
+INSERT INTO ss_sp_lmng_identifiers (spId,lmngId)
+VALUES
+  ('http://www.google.com', '8833CEAE-960C-E211-B6B9-005056950050');
+
+  

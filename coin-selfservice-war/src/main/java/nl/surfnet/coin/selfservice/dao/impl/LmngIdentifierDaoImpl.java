@@ -60,6 +60,7 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
       log.debug("No LMNG results found for IdP " + identityProviderId);
       return null;
     }
+    log.debug("Got LMNG GUID '" + result.get(0) + "' for IdP " + identityProviderId);
     return result.get(0);
   }
 
@@ -75,6 +76,7 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
       log.debug("No identityProviderId found for LmngId " + lnmgId);
       return null;
     }
+    log.debug("Got IDP ID '" + result.get(0) + "' for LMNG id " + lnmgId);
     return result.get(0);
   }
 
@@ -90,6 +92,7 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
       log.debug("No LMNG results found for SP " + spId);
       return null;
     }
+    log.debug("Got LMNG GUID '" + result.get(0) + "' for SP " + spId);
     return result.get(0);
   }
 
