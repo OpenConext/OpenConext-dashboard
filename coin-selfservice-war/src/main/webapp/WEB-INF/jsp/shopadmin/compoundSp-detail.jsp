@@ -87,8 +87,6 @@
   <spring:message var="fieldTitle" code="jsp.compoundSp.${field.key}" />
   <c:set var="fieldId" value="fieldimage-${field.id}" />
 
-
-
   <div class="accordion-group">
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordion" href="#${fieldId}-body">
@@ -120,12 +118,17 @@
             <input type="hidden" name="fieldId" value="${field.id}" />
             <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
           </form>
+
           <form class="tab-pane imageuploadform" id="form${fieldId}-distributionchannel">
+            <c:if test="${compoundSp.distributionFieldValues[field.key]}">
+              <img src="${compoundSp.distributionFieldValues[field.key]}">
+            </c:if>
+
             <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
             <input type="hidden" name="fieldId" value="${field.id}" />
             <span id='filename'></span><br/>
             <a href='#' class='attachlink'>Add a file</a><br/>
-            <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload" multiple style="opacity: 0; filter:alpha(opacity: 0);"><br/>
+            <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml" multiple style="opacity: 0; filter:alpha(opacity: 0);"><br/>
             <input type='submit' value='Upload' id='submit'/>
             <div class="form-actions">
               <button name="usethis" value="usethis" class="btn">Use this</button>
@@ -194,70 +197,21 @@
   });
 
   function fileUploadInit() {
-    $('input:button').button();
-    $('#submit').button();
 
     $('form.imageuploadform').submit(function(event) {
       event.preventDefault();
     });
 
-    $('#reset').click(function() {
-      clearForm();
-      dialog('Success', 'Fields have been cleared!');
-    });
-
     $('input.fileinput').fileupload({
       dataType: 'json',
       done: function (e, data) {
-        $.each(data.result, function (index, file) {
-          $('body').data('filelist').push(file);
-          $('#filename').append(formatFileDisplay(file));
-          $('#attach').empty().append('Add another file');
-        });
+        console.log(data);
       }
     });
 
-    // Technique borrowed from http://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file
-    // http://stackoverflow.com/questions/210643/in-javascript-can-i-make-a-click-event-fire-programmatically-for-a-file-input
     $(".attachlink").click(function () {
       $(this).closest(".imageuploadform").find("input.fileinput").click();
     });
-
-    $('body').data('filelist', new Array());
-  }
-
-  function formatFileDisplay(file) {
-    var size = '<span style="font-style:italic">'+(file.size/1000).toFixed(2)+'K</span>';
-    return file.name + ' ('+ size +')<br/>';
-  }
-
-  function getFilelist() {
-    var files = $('body').data('filelist');
-    var filenames = '';
-    for (var i=0; i<files.length; i<i++) {
-      var suffix = (i==files.length-1) ? '' : ',';
-      filenames += files[i].name + suffix;
-    }
-    return filenames;
-  }
-
-  function dialog(title, text) {
-    $('#msgbox').text(text);
-    $('#msgbox').dialog(
-      {	title: title,
-        modal: true,
-        buttons: {"Ok": function()  {
-          $(this).dialog("close");}
-        }
-      });
-  }
-
-  function clearForm() {
-    $('#owner').val('');
-    $('#description').val('');
-    $('#filename').empty();
-    $('.attachlink').empty().append('Add a file');
-    $('body').data('filelist', new Array());
   }
 
   /*

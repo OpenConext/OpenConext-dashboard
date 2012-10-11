@@ -97,8 +97,11 @@ public class SpLmngDataBindingController extends BaseController {
 
   @RequestMapping(value = "/upload", method = RequestMethod.POST)
   public @ResponseBody
-  String upload(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "source") Source source,
-      @RequestParam(value = "source") Long fieldId, @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
+  String upload(
+    @RequestParam(value = "file", required = false) MultipartFile file,
+    @RequestParam(value = "source") Source source,
+    @RequestParam(value = "fieldId") Long fieldId,
+    @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
     if (Source.DISTRIBUTIONCHANNEL.equals(source)) {
       Assert.isTrue(file != null, "File upload is required for Distrubution Channel");
     }
@@ -109,6 +112,7 @@ public class SpLmngDataBindingController extends BaseController {
     if (file != null) {
       field.setImage(file.getBytes());
     }
+    fieldImageDao.saveOrUpdate(field);
     return field.getFileUrl();
   }
 }

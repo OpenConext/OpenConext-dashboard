@@ -21,8 +21,6 @@ import javax.persistence.Lob;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
 
 /**
@@ -88,8 +86,11 @@ public class FieldImage extends Field {
 
   @Override
   public String toString() {
-    return "FieldImage [fileUrl=" + fileUrl + ", getSource()=" + getSource() + ", getKey()=" + getKey()
-        + ", getId()=" + getId() + "]";
+    return "FieldImage [fileUrl=" + fileUrl +
+      ", getSource()=" + getSource() +
+      ", getKey()=" + getKey() +
+      ", image=" + image == null ? "" : (image.length + " bytes") +
+      ", getId()=" + getId() + "]";
   }
 
 }
