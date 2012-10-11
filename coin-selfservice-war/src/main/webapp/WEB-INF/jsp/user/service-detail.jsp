@@ -19,7 +19,7 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
+<c:set var="spname"><tags:providername provider="${sp}" /></c:set>
 
 <jsp:include page="../header.jsp">
   <jsp:param name="title" value="${spname}"/>
@@ -34,7 +34,17 @@
       <div class="span2">
         <div class="content">
           <p>
-            <img alt="" style="float:left" src="<c:out value="${sp.logoUrl}"/>"/>
+            <c:set var="logo"><img alt="" style="float:left" src="<c:out value="${sp.logoUrl}"/>"/>
+            </c:set>
+            <c:choose>
+              <c:when test="${not empty sp.homeUrls[locale.language]}">
+                <a href="<c:out value="${sp.homeUrls[locale.language]}"/>" target="_blank">${logo}</a>
+              </c:when>
+              <c:when test="${not empty sp.homeUrl}">
+                <a href="<c:out value="${sp.homeUrl}"/>" target="_blank">${logo}</a>
+              </c:when>
+              <c:otherwise>${logo}</c:otherwise>
+            </c:choose>
           </p>
         </div>
       </div>
@@ -143,9 +153,9 @@
                   &nbsp;&nbsp;<fmt:formatDate type="both" value="${lc.endDate}" />
                 </li>
               </c:if>
-              <c:if test="${not empty lc.description}">
+              <c:if test="${not empty lc.endUserDescriptionNl}">
                 <li><spring:message code="jsp.sp_detail.license.description"/>:
-                  &nbsp;&nbsp;<c:out value="${lc.description}" escapeXml="false" />
+                  &nbsp;&nbsp;<c:out value="${lc.endUserDescriptionNl}" escapeXml="false" />
                 </li>
               </c:if>
               <c:if test="${not empty lc.contactFullName}">
