@@ -125,7 +125,7 @@ public class LmngServiceImpl implements LicensingService {
       String soapRequest = getLicenceForIdpRequest(idpLmngId, validOn);
 
       if (DEBUG) {
-        FileUtils.writeStringToFile(new File("lastLmngRequest.txt"), StringEscapeUtils.unescapeHtml(soapRequest));
+        FileUtils.writeStringToFile(new File("../../lastLmngRequest2.txt"), StringEscapeUtils.unescapeHtml(soapRequest));
       }
 
       // call the webservice
@@ -160,7 +160,7 @@ public class LmngServiceImpl implements LicensingService {
       String soapRequest = getLicenceForIdpSpRequest(lmngIdpId, lmngSpId, validOn);
 
       if (DEBUG) {
-        FileUtils.writeStringToFile(new File("lastLmngRequest.txt"), StringEscapeUtils.unescapeHtml(soapRequest));
+        FileUtils.writeStringToFile(new File("../../lastLmngRequest2.xml"), StringEscapeUtils.unescapeHtml(soapRequest));
       }
 
       // call the webservice
@@ -212,7 +212,7 @@ public class LmngServiceImpl implements LicensingService {
         }
       } else {
         if (DEBUG) {
-          FileUtils.writeStringToFile(new File("lastLmngFetchResponse.xml"), StringEscapeUtils.unescapeHtml(fetchResultString));
+          FileUtils.writeStringToFile(new File("../../lastLmngFetchResponse.xml"), StringEscapeUtils.unescapeHtml(fetchResultString));
         }
         InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
         Document fetchResultDocument = docBuilder.parse(fetchInputSource);
