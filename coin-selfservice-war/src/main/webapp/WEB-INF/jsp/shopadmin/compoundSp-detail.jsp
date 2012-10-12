@@ -46,7 +46,6 @@
         </div>
         <div id="${fieldId}-body" class="accordion-body collapse">
           <div class="accordion-inner">
-			${field.source}
             <ul class="nav nav-tabs">
               <li class="active ${field.source=='LMNG' ? 'source-selected' : ''}"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
               <li ${field.source=='SURFCONEXT' ? 'class="source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext"><spring:message code="jsp.compound_sp_surfconext"/></a></li>
