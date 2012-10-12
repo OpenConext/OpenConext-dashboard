@@ -101,7 +101,7 @@ public class SpLmngDataBindingController extends BaseController {
     }
     field.setValue(value);
     fieldStringDao.saveOrUpdate(field);
-    return "ok";
+    return source.name();
   }
 
   @RequestMapping(value = "/upload", method = RequestMethod.POST)

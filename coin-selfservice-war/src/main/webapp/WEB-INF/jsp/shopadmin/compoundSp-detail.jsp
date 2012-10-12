@@ -46,10 +46,11 @@
         </div>
         <div id="${fieldId}-body" class="accordion-body collapse">
           <div class="accordion-inner">
+			${field.source}
             <ul class="nav nav-tabs">
-              <li class="active"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng">SURFMarket</a></li>
-              <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext">SURFConext</a></li>
-              <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel">Distributiekanaal</a></li>
+              <li class="active ${field.source=='LMNG' ? 'source-selected' : ''}"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
+              <li ${field.source=='SURFCONEXT' ? 'class="source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext"><spring:message code="jsp.compound_sp_surfconext"/></a></li>
+              <li ${field.source=='DISTRIBUTIONCHANNEL' ? 'class="source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
             </ul>
             <div class="tab-content">
 
@@ -94,9 +95,9 @@
     <div id="${fieldId}-body" class="accordion-body collapse">
       <div class="accordion-inner">
         <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng">SURFMarket</a></li>
-          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext">SURFConext</a></li>
-          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel">Distributiekanaal</a></li>
+          <li class="active"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
+          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext"><spring:message code="jsp.compound_sp_surfconext"/></a></li>
+          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
         </ul>
         <div class="tab-content">
 
@@ -106,7 +107,7 @@
             </c:if>
             <input type="hidden" name="source" value="LMNG" />
             <input type="hidden" name="fieldId" value="${field.id}" />
-            <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
+            <button name="usethis" value="usethis" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
           </form>
           <form class="tab-pane" id="form${fieldId}-surfconext">
             <c:if test="${!empty compoundSp.surfConextFieldValues[field.key]}">
@@ -114,7 +115,7 @@
             </c:if>
             <input type="hidden" name="source" value="SURFCONEXT" />
             <input type="hidden" name="fieldId" value="${field.id}" />
-            <button name="usethis" value="usethis" class="btn btn-primary">Use this</button>
+            <button name="usethis" value="usethis" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
           </form>
 
           <form class="tab-pane imageuploadform" id="form${fieldId}-distributionchannel">
@@ -128,8 +129,8 @@
             <a href='#' class='attachlink'>Add a file</a><br/>
             <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
             <div class="form-actions">
-              <button name="usethis" value="usethis" class="btn">Use this</button>
-              <button name="save" value="save" class="btn btn-primary">Save</button>
+              <button name="usethis" value="usethis" class="btn"><spring:message code="jsp.compound_sp_select_source"/></button>
+              <button name="save" value="save" class="btn btn-primary"><spring:message code="jsp.compound_sp_save"/></button>
             </div>
           </form>
         </div>
@@ -179,6 +180,15 @@
 		        },
 		        success: function(result) {
 		          console.log("post success: " + result);
+				  //need to adjust the tab style above the form after the source has changed
+		          $(form).parents("div.accordion-inner").find("ul > li").each(function(index) {
+		        	var li = $(this);  
+		        	if (li.find("a").attr("href").indexOf(result.toLowerCase()) !== -1) {
+		        	  li.addClass("source-selected");	
+		        	} else {
+			          li.removeClass("source-selected");	
+		        	} 
+		          });
 		          $(form).prepend(alertDiv("Successfully saved. TODO: message bundle"));
 
 		        }

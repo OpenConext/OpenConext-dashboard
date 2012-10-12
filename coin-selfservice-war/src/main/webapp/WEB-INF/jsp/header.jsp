@@ -48,6 +48,7 @@
       <link rel="stylesheet" href="<c:url value="/css/component-userbox.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/component-autoSuggest.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/component-datatables.css"/>"/>
+      <link rel="stylesheet" href="<c:url value="/css/tweaks.css"/>"/>
     </c:when>
     <c:otherwise>
       <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>"/>
