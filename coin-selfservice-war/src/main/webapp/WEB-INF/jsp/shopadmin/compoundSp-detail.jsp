@@ -94,9 +94,9 @@
     <div id="${fieldId}-body" class="accordion-body collapse">
       <div class="accordion-inner">
         <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
-          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext"><spring:message code="jsp.compound_sp_surfconext"/></a></li>
-          <li><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
+          <li class="active ${field.source=='LMNG' ? 'source-selected' : ''}"><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
+          <li ${field.source=='SURFCONEXT' ? 'class="source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext"><spring:message code="jsp.compound_sp_surfconext"/></a></li>
+          <li ${field.source=='DISTRIBUTIONCHANNEL' ? 'class="source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
         </ul>
         <div class="tab-content">
 
@@ -125,12 +125,45 @@
             <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
             <input type="hidden" name="fieldId" value="${field.id}" />
             <span id='filename'></span><br/>
-            <a href='#' class='attachlink'>Add a file</a><br/>
+            <a href='#' class='attachlink'><spring:message code="jsp.compound_sp_select_image"/></a><br/>
             <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
             <div class="form-actions">
               <button name="usethis" value="usethis" class="btn"><spring:message code="jsp.compound_sp_select_source"/></button>
-              <button name="save" value="save" class="btn btn-primary"><spring:message code="jsp.compound_sp_save"/></button>
             </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</c:forEach>
+<%-- End Images --%>
+<%-- Begin screenshots --%>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordion" href="#screenshots-body">
+          <spring:message code="jsp.compound_sp_screenshots"/>
+      </a>
+    </div>
+    <div id="screenshots-body" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav nav-tabs">
+          <li class="source-selected"><a data-toggle="tab" class="sourceTab" href="#form-screenshots-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
+        </ul>
+        <div class="tab-content">
+	      <div class="screenshot-contents">
+	        <c:forEach items="${compoundSp.screenShotsImages}" var="screenShotImage">
+	          <div class="screenshot-content">
+				<img src="<spring:url value="${screenShotImage.fileUrl}" />"/>
+	           	<a id="screenshot-remove-${screenShotImage.id}" href="#">X</a>
+	          </div>	
+	          </c:forEach>
+	        </div>
+          <form class="tab-pane active imageuploadform" id="form-screenshots-distributionchannel">
+            	<input type="hidden" name="compoundServiceProviderId" value="${compoundSp.id}" />
+            	<span id='filename'></span><br/>
+            	<a href='#' class='attachlink'><spring:message code="jsp.compound_sp_add_image"/></a><br/>
+            	<input class="fileinput" id="upload-screenshot" type="file" name="file" data-url="upload-screenshot.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
           </form>
         </div>
       </div>
@@ -138,7 +171,6 @@
   </div>
 
 
-</c:forEach>
 </div>
 
 
@@ -162,6 +194,26 @@
 	  e.preventDefault();
 	  postForm(this);	
   });
+  
+  $("#screenshots-body").on("click", "a[id^=screenshot-remove-]", function(e){
+	  var id = $(this).attr("id").substring("screenshot-remove-".length);
+	  var parent = $(this).parents("div.screenshot-content");
+	  $.ajax("remove-screenshot/" + id + ".shtml",
+			  {
+		  		type: "delete",
+		  		failure: function(msg) {
+			          $(parent).prepend(alertDiv("Failure saving data. Details: " + msg));
+			    },
+		        success: function(result) {
+			          console.log("post success: " + result);
+					  //need to adjust the tab style above the form after the source has changed
+			          parent.remove();
+			        }
+			    
+		});
+		    
+	});
+	
   
   var postForm = function(button) {
 	  var form = $(button).closest('form');
@@ -213,18 +265,22 @@
     $('input.fileinput').fileupload({
       success: function (imageUrl) {
         var contextPath = "${pageContext.request.contextPath}";
-
-
-        $(currentFileuploadForm)
-          .find("img")
-          .replaceWith("<img src='" + contextPath +  imageUrl +  "?" + new Date().getTime() + "'/>");
-
+		var form = $(currentFileuploadForm);
+        if (form.attr("id") === "form-screenshots-distributionchannel") {
+        	$("div.screenshot-contents").
+        	append("<div class='screenshot-content'><img src='"+ contextPath + imageUrl.fileUrl +  "?" + new Date().getTime() + "'/>"
+        			+ "<a id='screenshot-remove-" + imageUrl.id + "' href='#'>X</a></div>" );
+        } else {
+            $(currentFileuploadForm)
+            .find("img")
+            .replaceWith("<img src='" + contextPath +  imageUrl +  "?" + new Date().getTime() + "'/>");
+        }
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.log(textStatus);
       }
     });
-
+    
     $(".attachlink").click(function (e) {
       e.preventDefault();
       var form = $(this).closest(".imageuploadform");

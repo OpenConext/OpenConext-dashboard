@@ -43,8 +43,7 @@ import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
 /**
  * Provider Service seeded with xml config from federation.
  */
-public class FederationProviderService implements ServiceProviderService, IdentityProviderService,
-    SpringSchedulerLoadConfigurationService {
+public class FederationProviderService implements ServiceProviderService, IdentityProviderService, SpringSchedulerLoadConfigurationService {
 
   private static final Logger LOG = LoggerFactory.getLogger(FederationProviderService.class);
   private final String configurationLocation;
@@ -52,8 +51,9 @@ public class FederationProviderService implements ServiceProviderService, Identi
 
   /**
    * Constructor
-   *
-   * @param configurationLocation Location for the SURFfederatie configuration.
+   * 
+   * @param configurationLocation
+   *          Location for the SURFfederatie configuration.
    */
   public FederationProviderService(String configurationLocation) {
     this.configurationLocation = configurationLocation;
@@ -81,8 +81,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
         LOG.debug("Updated SURFfederatie config with content from {}", configurationLocation);
       }
     } catch (IOException e) {
-      LOG.error("Could not retrieve SURFfederatie metadata from location '{}', message: {}",
-          configurationLocation, e.getMessage());
+      LOG.error("Could not retrieve SURFfederatie metadata from location '{}', message: {}", configurationLocation, e.getMessage());
     }
   }
 
@@ -104,8 +103,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
       LOG.debug("Got empty SURFfederatie config file, will not update the existing configuration");
     } else {
       LOG.debug("Parsed SURFfederatie config. List of IdP's contains items: {}, list of SP's contains items: {}",
-          CollectionUtils.isNotEmpty(config.getIdPs()),
-          CollectionUtils.isNotEmpty(config.getSps()));
+          CollectionUtils.isNotEmpty(config.getIdPs()), CollectionUtils.isNotEmpty(config.getSps()));
     }
   }
 
@@ -114,7 +112,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = {"sps-federation"})
+  @Cacheable(value = { "sps-federation" })
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
     if (federatieConfig.getSps() == null) {
@@ -128,7 +126,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = {"sps-federation"})
+  @Cacheable(value = { "sps-federation" })
   public List<ServiceProvider> getAllServiceProviders() {
     return federatieConfig.getSps();
   }
@@ -150,7 +148,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = {"sps-federation"})
+  @Cacheable(value = { "sps-federation" })
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     if (federatieConfig.getSps() == null) {
       return null;
@@ -165,7 +163,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = {"sps-federation"})
+  @Cacheable(value = { "sps-federation" })
   public ServiceProvider getServiceProvider(String spEntityId) {
     if (federatieConfig.getSps() == null) {
       return null;
@@ -179,7 +177,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = {"sps-federation"})
+  @Cacheable(value = { "sps-federation" })
   public IdentityProvider getIdentityProvider(String idpEntityId) {
     if (federatieConfig.getIdPs() == null) {
       return null;
@@ -192,9 +190,8 @@ public class FederationProviderService implements ServiceProviderService, Identi
     return null;
   }
 
-
   @Override
-  @Cacheable(value = {"sps-federation"})
+  @Cacheable(value = { "sps-federation" })
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
 
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
@@ -203,22 +200,24 @@ public class FederationProviderService implements ServiceProviderService, Identi
     }
 
     for (IdentityProvider idp : federatieConfig.getIdPs()) {
-      if (!StringUtils.isBlank(instituteId) && idp.getInstitutionId().equals(instituteId)) {
+      if (!StringUtils.isBlank(instituteId) && instituteId.equals(idp.getInstitutionId().equals(instituteId))) {
         idps.add(idp);
       }
     }
     return idps;
   }
 
-  /* (non-Javadoc)
-   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#getAllIdentityProviders()
+  /*
+   * (non-Javadoc)
+   * 
+   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
+   * getAllIdentityProviders()
    */
   @Override
-  @Cacheable(value = {"sps-federation"})
+  @Cacheable(value = { "sps-federation" })
   public List<IdentityProvider> getAllIdentityProviders() {
     return federatieConfig.getIdPs();
 
   }
-
 
 }

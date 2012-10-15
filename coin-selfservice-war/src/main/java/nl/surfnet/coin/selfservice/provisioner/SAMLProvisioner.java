@@ -23,6 +23,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.Attribute;
 import org.opensaml.saml2.core.AttributeStatement;
@@ -35,6 +37,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.janus.domain.JanusEntity;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
@@ -63,13 +66,15 @@ public class SAMLProvisioner implements Provisioner {
     CoinUser coinUser = new CoinUser();
 
     final String idpId = getAuthenticatingAuthority(assertion);
+    coinUser.setIdp(idpId);
+
     coinUser.setInstitutionId(getInstitutionId(idpId));
 
-    coinUser.setIdp(idpId);
     for (IdentityProvider idp : identityProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId())) {
       coinUser.addInstitutionIdp(idp);
     }
-    // Add the one the user is currently identified by if it's not in the list already.
+    // Add the one the user is currently identified by if it's not in the list
+    // already.
     if (coinUser.getInstitutionIdps().isEmpty()) {
       IdentityProvider idp = getInstitutionIdP(idpId);
       coinUser.addInstitutionIdp(idp);
@@ -80,7 +85,7 @@ public class SAMLProvisioner implements Provisioner {
     coinUser.setEmail(getValueFromAttributeStatements(assertion, EMAIL));
     coinUser.setSchacHomeOrganization(getValueFromAttributeStatements(assertion, SCHAC_HOME));
 
-    coinUser.addAuthority(new CoinAuthority("ROLE_USER"));
+    coinUser.addAuthority(new CoinAuthority(ROLE_USER));
     coinUser.setAttributeMap(PersonAttributeUtil.getAttributesAsMap(assertion));
 
     return coinUser;
@@ -94,6 +99,7 @@ public class SAMLProvisioner implements Provisioner {
         return institutionId;
       }
     }
+    //corner case, but possible
     return null;
   }
 
@@ -124,9 +130,8 @@ public class SAMLProvisioner implements Provisioner {
         }
       }
     }
-    return null;
+    throw new RuntimeException("No AuthenticatingAuthority present in the Assertion:" + ToStringBuilder.reflectionToString(assertion));
   }
-
 
   private String getValueFromAttributeStatements(final Assertion assertion, final String name) {
     final List<AttributeStatement> attributeStatements = assertion.getAttributeStatements();

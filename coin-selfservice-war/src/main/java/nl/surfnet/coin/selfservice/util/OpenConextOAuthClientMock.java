@@ -15,6 +15,7 @@
  */
 package nl.surfnet.coin.selfservice.util;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,9 @@ import nl.surfnet.coin.api.client.domain.Person;
  * 
  */
 public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
-  private String adminTeam;
+  private String adminLicentieIdPTeam;
+  private String adminSurfConextIdPTeam;
+  private String adminDistributionTeam;
 
   /*
    * (non-Javadoc)
@@ -109,7 +112,11 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
    */
   @Override
   public List<Group20> getGroups20(String userId, String onBehalfOf) {
-    throw new RuntimeException("Not implemented");
+    return Arrays.asList(createGroup20(adminLicentieIdPTeam), createGroup20(adminSurfConextIdPTeam), createGroup20(adminDistributionTeam));
+  }
+  
+  private Group20 createGroup20(String id) {
+    return new Group20(id, null, null);
   }
 
   /*
@@ -121,11 +128,20 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
    */
   @Override
   public Group20 getGroup20(String userId, String groupId, String onBehalfOf) {
-    return new Group20(adminTeam,adminTeam,adminTeam);
+    throw new RuntimeException("Not implemented");
   }
 
-  public void setAdminTeam(String adminTeam) {
-    this.adminTeam = adminTeam;
+  public void setAdminLicentieIdPTeam(String adminLicentieIdPTeam) {
+    this.adminLicentieIdPTeam = adminLicentieIdPTeam;
   }
+
+  public void setAdminSurfConextIdPTeam(String adminSurfConextIdPTeam) {
+    this.adminSurfConextIdPTeam = adminSurfConextIdPTeam;
+  }
+
+  public void setAdminDistributionTeam(String adminDistributionTeam) {
+    this.adminDistributionTeam = adminDistributionTeam;
+  }
+
 
 }

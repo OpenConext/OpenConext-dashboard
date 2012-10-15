@@ -27,6 +27,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * Interceptor to enable/disable (new) features
  */
 public class FeatureInterceptor extends HandlerInterceptorAdapter {
+  
   private boolean dev;
 
   @Override

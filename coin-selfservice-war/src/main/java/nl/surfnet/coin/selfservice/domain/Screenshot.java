@@ -19,13 +19,16 @@ package nl.surfnet.coin.selfservice.domain;
 import static nl.surfnet.coin.selfservice.domain.FieldImage.FILE_POSTFIX;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import nl.surfnet.coin.shared.domain.DomainObject;
 
 import org.hibernate.annotations.Proxy;
 
+@SuppressWarnings("serial")
 @Entity
 @Proxy(lazy = false)
 public class Screenshot extends DomainObject {
@@ -38,8 +41,16 @@ public class Screenshot extends DomainObject {
 
   @Transient
   private String fileUrl;
+  
+  @ManyToOne
+  @JoinColumn(name = "compound_service_provider_id", nullable = false)
+  private CompoundServiceProvider compoundServiceProvider;
 
   public Screenshot() {
+  }
+
+  public Screenshot(Long id) {
+    setId(id);
   }
 
   public Screenshot(byte[] image) {
@@ -56,5 +67,13 @@ public class Screenshot extends DomainObject {
 
   public void setImage(byte[] image) {
     this.image = image;
+  }
+
+  public CompoundServiceProvider getCompoundServiceProvider() {
+    return compoundServiceProvider;
+  }
+
+  public void setCompoundServiceProvider(CompoundServiceProvider compoundServiceProvider) {
+    this.compoundServiceProvider = compoundServiceProvider;
   }
 }

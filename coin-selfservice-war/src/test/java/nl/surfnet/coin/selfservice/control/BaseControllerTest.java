@@ -31,6 +31,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 
@@ -97,20 +98,20 @@ public class BaseControllerTest {
   @Test
   public void testCurrentRole() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
-    GrantedAuthority user = new CoinAuthority("ROLE_USER");
-    GrantedAuthority admin = new CoinAuthority("ROLE_ADMIN");
+    GrantedAuthority user = new CoinAuthority(ROLE_USER);
+    GrantedAuthority admin = new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
     final List grantedAuthorities = Arrays.asList(user, admin);
     when(coinUser.getAuthorities()).thenReturn(grantedAuthorities);
 
-    final String currentRole = baseController.getCurrentRole("ROLE_ADMIN", request);
-    assertEquals("ROLE_ADMIN", currentRole);
+    final String currentRole = baseController.getCurrentRole(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), request);
+    assertEquals(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), currentRole);
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void testCurrentRole_default() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
-    GrantedAuthority user = new CoinAuthority("ROLE_USER");
+    GrantedAuthority user = new CoinAuthority(ROLE_USER);
     final List grantedAuthorities = Arrays.asList(user);
     when(coinUser.getAuthorities()).thenReturn(grantedAuthorities);
 
@@ -122,21 +123,21 @@ public class BaseControllerTest {
   @Test
   public void testCurrentRole_alreadySet() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
-    request.getSession().setAttribute("currentrole", "ROLE_ADMIN");
+    request.getSession().setAttribute("currentrole", ROLE_DISTRIBUTION_CHANNEL_ADMIN.name());
 
     final String currentRole = baseController.getCurrentRole(null, request);
-    assertEquals("ROLE_ADMIN", currentRole);
+    assertEquals(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), currentRole);
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void testCurrentRole_notValid() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
-    GrantedAuthority user = new CoinAuthority("ROLE_USER");
+    GrantedAuthority user = new CoinAuthority(ROLE_USER);
     final List grantedAuthorities = Arrays.asList(user);
     when(coinUser.getAuthorities()).thenReturn(grantedAuthorities);
 
-    final String currentRole = baseController.getCurrentRole("ROLE_ADMIN", request);
+    final String currentRole = baseController.getCurrentRole(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), request);
     assertEquals(null, currentRole);
   }
 

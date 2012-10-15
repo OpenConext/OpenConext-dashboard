@@ -79,7 +79,7 @@
   <spring:param name="lang" value="en" />
 </spring:url>
 
-<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_IDP_SURFCONEXT_ADMIN')">
   <section class="user-box content-dense">
     <span class="user-name">
       <sec:authentication property="principal.displayName" scope="request" htmlEscape="true"/>
@@ -91,13 +91,13 @@
       <spring:message code="jsp.general.logout"/> <i class="icon-signout"></i></a>
 
     <%-- b:dropdown --%>
-    <sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+    <sec:authorize access="hasRole('ROLE_IDP_SURFCONEXT_ADMIN')" var="isAdmin"/>
 
     <div class="dropdown">
       <c:set var="userclass">
         <c:choose>
           <c:when test="${currentrole eq 'ROLE_USER'}">user-role-user</c:when>
-          <c:when test="${currentrole eq 'ROLE_ADMIN'}">user-role-manager</c:when>
+          <c:when test="${currentrole eq 'ROLE_IDP_SURFCONEXT_ADMIN'}">user-role-manager</c:when>
         </c:choose>
       </c:set>
       <div class="dropdown-toggle ${userclass}" data-toggle="dropdown">
@@ -115,13 +115,13 @@
         <ul class="dropdown-menu">
           <c:forEach items="${idps}" var="idp">
             <c:choose>
-              <c:when test="${currentrole eq 'ROLE_ADMIN' and idp.id eq ownIdp}">
+              <c:when test="${currentrole eq 'ROLE_IDP_SURFCONEXT_ADMIN' and idp.id eq ownIdp}">
                 <c:set var="userclass">user-role-user</c:set>
                 <c:set var="newrole">ROLE_USER</c:set>
               </c:when>
               <c:otherwise>
                 <c:set var="userclass">user-role-manager</c:set>
-                <c:set var="newrole">ROLE_ADMIN</c:set>
+                <c:set var="newrole">ROLE_IDP_SURFCONEXT_ADMIN</c:set>
               </c:otherwise>
             </c:choose>
             <c:if test="${newrole eq 'ROLE_USER' and selectedidp.id ne ownIdp}">
@@ -130,7 +130,7 @@
               <li class="user-role-manager" data-roleId="${idp.id}">
                 <spring:url var="toggleLink" value="/home.shtml" htmlEscape="true">
                   <spring:param name="idpId" value="${idp.id}"/>
-                  <spring:param name="role" value="ROLE_ADMIN"/>
+                  <spring:param name="role" value="ROLE_IDP_SURFCONEXT_ADMIN"/>
                 </spring:url>
                 <div class="user">
                   <a href="${toggleLink}">

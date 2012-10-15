@@ -24,7 +24,7 @@
 
     <h3>${title}</h3>
 
-    <sec:authorize access="hasRole('ROLE_ADMIN')">
+    <sec:authorize access="hasRole('ROLE_IDP_SURFCONEXT_ADMIN')">
       <p><spring:message code="jsp.home.adminintro"/></p>
     </sec:authorize>
 

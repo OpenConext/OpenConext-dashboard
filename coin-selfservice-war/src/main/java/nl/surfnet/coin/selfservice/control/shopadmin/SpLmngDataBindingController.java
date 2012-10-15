@@ -125,18 +125,20 @@ public class SpLmngDataBindingController extends BaseController {
     return field.getFileUrl();
   }
 
-  @RequestMapping(value = "/screenshot", method = RequestMethod.POST)
+  @RequestMapping(value = "/upload-screenshot", method = RequestMethod.POST, produces = "application/json")
   public @ResponseBody
-  String screenshot(
+  Screenshot screenshot(
     @RequestParam(value = "file", required = true) MultipartFile file,
-    @RequestParam(value = "screenshotId") Long screenshotId,
-    @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
+    @RequestParam(value = "compoundServiceProviderId") Long compoundServiceProviderId
+   ) throws IOException {
     Screenshot screenshot = new Screenshot(file.getBytes());
+    CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundServiceProviderId);
+    csp.addScreenShot(screenshot);
     screenshotDao.saveOrUpdate(screenshot);
-    return screenshot.getFileUrl();
+    return new Screenshot(screenshot.getId());
   }
 
-  @RequestMapping(value = "/screenshot/{screenshotId}", method = RequestMethod.POST)
+  @RequestMapping(value = "/remove-screenshot/{screenshotId}", method = RequestMethod.DELETE)
   public @ResponseBody
   String screenshot(@PathVariable("screenshotId") Long screenshotId) throws IOException {
     Screenshot sc = screenshotDao.findById(screenshotId);

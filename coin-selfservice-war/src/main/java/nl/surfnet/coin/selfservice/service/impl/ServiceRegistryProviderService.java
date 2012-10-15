@@ -299,9 +299,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   @Override
   @Cacheable(value = { "sps-janus" })
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
+    List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
+    if (StringUtils.isNotBlank(instituteId)) {
+      return idps;
+    }
     //first get all entities id's
     List<String> entityIds = janusClient.getEntityIdsByMetaData(Janus.Metadata.INSITUTION_ID, instituteId);
-    List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
     for (String entityId : entityIds) {
       idps.add(getIdentityProvider(entityId));
     }

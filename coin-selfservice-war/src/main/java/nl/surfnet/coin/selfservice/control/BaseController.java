@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
 
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.MenuItem;
@@ -96,7 +98,7 @@ public abstract class BaseController {
       return (String) currentrole;
     }
     if (role == null) {
-      role = "ROLE_USER";
+      role = CoinAuthority.Authority.ROLE_USER.name();
     }
     for (GrantedAuthority ga : SpringSecurity.getCurrentUser().getAuthorities()) {
       if (role.equals(ga.getAuthority())) {
