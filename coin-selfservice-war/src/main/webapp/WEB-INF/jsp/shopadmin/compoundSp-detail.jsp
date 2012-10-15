@@ -106,7 +106,7 @@
             </c:if>
             <input type="hidden" name="source" value="LMNG" />
             <input type="hidden" name="fieldId" value="${field.id}" />
-            <button name="usethis" value="usethis" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
+            <button name="usethis" value="usethis-image" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
           </form>
           <form class="tab-pane ${field.source=='SURFCONEXT' ? 'active' : ''}" id="form${fieldId}-surfconext">
             <c:if test="${!empty compoundSp.surfConextFieldValues[field.key]}">
@@ -114,7 +114,7 @@
             </c:if>
             <input type="hidden" name="source" value="SURFCONEXT" />
             <input type="hidden" name="fieldId" value="${field.id}" />
-            <button name="usethis" value="usethis" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
+            <button name="usethis" value="usethis-image" class="btn btn-primary"><spring:message code="jsp.compound_sp_select_source"/></button>
           </form>
 
           <form class="tab-pane imageuploadform ${field.source=='DISTRIBUTIONCHANNEL' ? 'active' : ''}" id="form${fieldId}-distributionchannel"> 
@@ -128,7 +128,7 @@
             <a href='#' class='attachlink'><spring:message code="jsp.compound_sp_select_image"/></a><br/>
             <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
             <div class="form-actions">
-              <button name="usethis" value="usethis" class="btn"><spring:message code="jsp.compound_sp_select_source"/></button>
+              <button name="usethis" value="usethis-image" class="btn"><spring:message code="jsp.compound_sp_select_source"/></button>
             </div>
           </form>
         </div>
