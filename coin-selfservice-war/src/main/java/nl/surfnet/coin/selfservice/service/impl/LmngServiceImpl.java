@@ -82,6 +82,7 @@ import org.xml.sax.SAXParseException;
 public class LmngServiceImpl implements LicensingService {
 
   private static final Logger log = LoggerFactory.getLogger(LmngServiceImpl.class);
+  private static final DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis();
 
   private static final String QUERY_PLACEHOLDER = "%FETCH_QUERY%";
   private static final String INSTITUTION_IDENTIFIER_PLACEHOLDER = "%INSTITUTION_ID%";
@@ -98,6 +99,7 @@ public class LmngServiceImpl implements LicensingService {
   private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
   private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
 
+  // TODO put in properties file
   private static final boolean DEBUG = false;
 
   @Autowired
@@ -125,7 +127,7 @@ public class LmngServiceImpl implements LicensingService {
       String soapRequest = getLicenceForIdpRequest(idpLmngId, validOn);
 
       if (DEBUG) {
-        FileUtils.writeStringToFile(new File("../../lastLmngRequest2.txt"), StringEscapeUtils.unescapeHtml(soapRequest));
+        writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
 
       // call the webservice
@@ -160,7 +162,7 @@ public class LmngServiceImpl implements LicensingService {
       String soapRequest = getLicenceForIdpSpRequest(lmngIdpId, lmngSpId, validOn);
 
       if (DEBUG) {
-        FileUtils.writeStringToFile(new File("../../lastLmngRequest2.xml"), StringEscapeUtils.unescapeHtml(soapRequest));
+        writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
 
       // call the webservice
@@ -188,7 +190,6 @@ public class LmngServiceImpl implements LicensingService {
   private List<License> parseResult(InputStream webserviceResult) throws ParserConfigurationException, SAXException, IOException,
       ParseException {
     List<License> resultList = new ArrayList<License>();
-    DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis();
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -199,20 +200,22 @@ public class LmngServiceImpl implements LicensingService {
       String fetchResultString = getFirstSubElementStringValue(documentElement, "FetchResult");
       if (fetchResultString == null) {
         log.warn("Webservice response did not contain a 'FetchResult' element");
-        try{
+        try {
           TransformerFactory tfactory = TransformerFactory.newInstance();
           Transformer xform = tfactory.newTransformer();
           Source src = new DOMSource(doc);
           StringWriter writer = new StringWriter();
           Result result = new StreamResult(writer);
-          xform.transform(src, result);         
-          log.debug("Response:\n" + writer.toString());
+          xform.transform(src, result);
+          String responseText = writer.toString();
+          writeIO("lmngFailedResponse", responseText);
+          log.debug("Response:\n" + responseText);
         } catch (Exception e) {
           log.debug("Unable to read response");
         }
       } else {
         if (DEBUG) {
-          FileUtils.writeStringToFile(new File("../../lastLmngFetchResponse.xml"), StringEscapeUtils.unescapeHtml(fetchResultString));
+          writeIO("lmngFetchResponse", StringEscapeUtils.unescapeHtml(fetchResultString));
         }
         InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
         Document fetchResultDocument = docBuilder.parse(fetchInputSource);
@@ -229,22 +232,9 @@ public class LmngServiceImpl implements LicensingService {
           for (int i = 0; i < numberOfResults; i++) {
             Node resultNode = results.item(i);
             if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
-              License license = new License();
               Element resultElement = (Element) resultNode;
 
-              license.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-              license.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-              license.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-              Date startDate = new Date(
-                  dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
-              license.setStartDate(startDate);
-              Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
-              license.setEndDate(endDate);
-              license.setIdentityName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_IDENTITY_NAME));
-              license.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
-              license.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
-              log.debug("Created new License object:" + license.toString());
-              resultList.add(license);
+              resultList.add(createLicense(resultElement));
             }
           }
         }
@@ -257,6 +247,23 @@ public class LmngServiceImpl implements LicensingService {
     }
 
     return resultList;
+  }
+
+  private License createLicense(Element resultElement) {
+    License license = new License();
+    license.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+    license.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+    license.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+    Date startDate = new Date(
+        dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
+    license.setStartDate(startDate);
+    Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
+    license.setEndDate(endDate);
+    license.setIdentityName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_IDENTITY_NAME));
+    license.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
+    license.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
+    log.debug("Created new License object:" + license.toString());
+    return license;
   }
 
   /**
@@ -436,4 +443,21 @@ public class LmngServiceImpl implements LicensingService {
     this.lmngIdentifierDao = lmngIdentifierDao;
   }
 
+  /**
+   * Write the given content to a file with the given filename (and add a
+   * datetime prefix). For debugging purposes
+   * 
+   * @param filename
+   * @param content
+   */
+  private void writeIO(String filename, String content) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssS");
+    try {
+      FileUtils.writeStringToFile(new File(System.getProperty("java.io.tmpdir") + filename + "_" + sdf.format(new Date()) + ".xml"),
+          content);
+    } catch (IOException e) {
+      log.debug("Failed to write input/output file. " + e.getMessage());
+    }
+
+  }
 }
