@@ -55,7 +55,7 @@ public class HomeControllerTest {
   public void testStart() throws Exception {
 
     final ModelAndView mav = controller.home("ROLE_USER");
-    assertEquals("home", mav.getViewName());
+    assertEquals("app-overview", mav.getViewName());
 
     final ModelMap modelMap = mav.getModelMap();
     assertTrue(modelMap.containsKey("menu"));

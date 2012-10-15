@@ -60,7 +60,7 @@
         <jsp:include page="arp.jsp" />
 
         <div>
-          <a class="btn btn-primary" href="<spring:url value="/idpadmin/sp/question.shtml">
+          <a class="btn btn-primary" href="<spring:url value="/requests/question.shtml">
                 <spring:param name="spEntityId" value="${sp.id}" />
               </spring:url>"
              title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>

@@ -37,7 +37,7 @@
 
         
 
-        <form id="question" class="form form-horizontal" action="/idpadmin/sp/question.shtml?spEntityId=https://rave.beta.surfnet.nl" method="post">
+        <form id="question" class="form form-horizontal" action="/requests/question.shtml?spEntityId=https://rave.beta.surfnet.nl" method="post">
           <fieldset>
 
             <div class="control-group">
