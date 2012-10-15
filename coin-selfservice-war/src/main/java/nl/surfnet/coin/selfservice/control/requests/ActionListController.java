@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control.idpadmin;
+package nl.surfnet.coin.selfservice.control.requests;
 
 import java.io.IOException;
 import java.util.Collections;

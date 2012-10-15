@@ -96,7 +96,9 @@
 
             <div class="actions">
               <button type="submit" class="btn btn-primary">Send</button>
-              <a class="btn" href="/idpadmin/sp/detail.shtml?spEntityId=">Cancel</a>
+              <a class="btn" href="<c:url value="/idpadmin/sp/detail.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"><spring:message code="jsp.sp_question.buttoncancel"/></a>
             </div>
 
           </fieldset>
@@ -106,13 +108,6 @@
       </div>
 
     </section>
-
-
-
-
-
-
-
             </div>
 
 
