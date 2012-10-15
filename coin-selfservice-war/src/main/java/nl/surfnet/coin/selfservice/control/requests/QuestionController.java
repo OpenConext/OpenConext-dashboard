@@ -116,7 +116,7 @@ public class QuestionController extends BaseController {
         notificationService.sendMail(issueKey, emailFrom, question.getSubject(), question.getBody());
 
         m.put("issueKey", issueKey);
-        return new ModelAndView("idpadmin/sp-question-thanks", m);
+        return new ModelAndView("requests/question-thanks", m);
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
         m.put("jiraError", e.getMessage());

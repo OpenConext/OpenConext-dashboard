@@ -20,14 +20,13 @@
 
 <c:set var="spname"><tags:providername provider="${sp}"/></c:set>
 
-<jsp:include page="../header.jsp">
+<jsp:include page="../head.jsp">
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
 
 <sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
 
-
-            <div class="column-center content-holder">
+  <div class="column-center content-holder">
 
     <section>
 
@@ -36,8 +35,7 @@
       <div class="content">
 
         
-
-        <form id="question" class="form form-horizontal" action="/requests/question.shtml?spEntityId=https://rave.beta.surfnet.nl" method="post">
+        <form:form cssClass="form form-horizontal" id="question" commandName="question">
           <fieldset>
 
             <div class="control-group">
@@ -103,7 +101,7 @@
 
           </fieldset>
 
-        </form>
+        </form:form>
 
       </div>
 
@@ -209,4 +207,4 @@
   </div>
 </div> -->
 
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="../foot.jsp"/>
