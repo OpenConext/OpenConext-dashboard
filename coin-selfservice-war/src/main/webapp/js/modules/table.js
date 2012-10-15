@@ -1,131 +1,73 @@
-/*
- * Copyright 2012 SURFnet bv, The Netherlands
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 var app = app || {};
 
-app.table = function(){
+app.table = function() {
+    var ranResponsiveTables = false;
+
 
     var init = function() {
+        initDataTable();
+        responsiveDataTable();
 
-        initEventHandlers();
-
+        $(window).on('resize', responsiveDataTable);
     };
 
-    var initEventHandlers = function() {
 
-        initRowDetails();
-        initTeamsFilter();
-
-    };
-
-    var initRowDetails = function() {
-
-        $('.table').on('click', '.rowdetails td:first-child', function(event) {
-
-            var row = $(event.target).closest('.rowdetails');
-            var details = row.find('.rowdetails-content');
-
-            var rowHeight = row.closest('table').find('tr').height();
-
-            if(!row.hasClass('expanded')) {
-
-                details[0]._originalHeight = details[0]._originalHeight || details.height();
-                details.height(0);
-
-                row.animate({
-                    height: rowHeight + details[0]._originalHeight + 20
-                })
-
-                details.animate({
-                    height: details[0]._originalHeight,
-                    opacity: 1
-                })
-            } else {
-
-                row.animate({
-                    height: rowHeight
-                })
-
-                details.animate({
-                    height: 0,
-                    opacity: 0
-                })
-            }
-
-            row.toggleClass('expanded');
+    var initDataTable = function() {
+        $('.table-sortable').each(function(index, table) {
+            $(table).dataTable({
+                bPaginate: false,
+                bLengthChange: false,
+                bAutoWidth: false,
+                bInfo: false,
+                oLanguage: {
+                    sSearch: '_INPUT_'
+                }
+            });
         });
     };
 
-    var initTeamsFilter = function() {
 
-        var component = $('[data-component="teams-filter"]');
+    var responsiveDataTable = function() {
+        var tables = $('.data-table-wrapper table');
 
-        if(component.length) {
-
-            var tableStripeFix = function(table, reset) {
-                if(reset) {
-                    table.find('tr.existing').removeClass('odd even');
-                } else {
-                    table.find('tr.existing').filter(':odd').addClass('even'); // jQuery's ':odd' filter broken?!
-                    table.find('tr.existing').filter(':even').addClass('odd');
-                }
-
+        if (tables.length) {
+            if ($(window).width() < 767) {
+                tables.addClass('narrow');
+            }
+            else {
+                tables.removeClass('narrow');
             }
 
-            var table = component.siblings('table'),
-                rows = table.find('tr.new'),
-                selectedRadio = component.find(':radio:checked'),
-                showAll = selectedRadio.val() === 'all';
+            if (!ranResponsiveTables) {
+                ranResponsiveTables = true;
 
-            // Initial state
-            tableStripeFix(table, showAll);
-            rows.find('td').wrapInner('<span></span>');
-            rows.css({ display: showAll ? 'table-row' : 'none' }).find('span').css({opacity: showAll ? 1 : 0});
+                tables.each(function() {
+                    var table = $(this),
+                        headers = [],
+                        tr;
 
-            component.find(':radio').on('change', function() {
+                    table.find('thead th').each(function() {
+                        headers.push($(this).text());
+                    });
 
-                showAll = component.find(':radio:checked').val() === 'all';
+                    table.find('tr').each(function() {
+                        tr = $(this);
 
-                if(showAll) {
-                    tableStripeFix(table, showAll); // Fix before animation
-                }
+                        tr.find('td').each(function(index, td) {
+                            td = $(td);
 
-                rows.css({
-                    display: 'table-row'
-                }).find('span').animate({
-                    opacity: showAll ? 1 : 0
-                }, 800, function() {
-                    if(!showAll) {
-                        tableStripeFix(table, showAll);  // Fix after animation
-                    }
-                    rows.css({
-                        display: showAll ? 'table-row' : 'none'
-                    })
-                })
-
-            })
-
+                            td.attr('data-title', headers[index]);
+                        });
+                    });
+                });
+            }
         }
+    };
 
-    }
 
     return {
         init: init
-    }
-
+    };
 }();
 
 app.register(app.table);

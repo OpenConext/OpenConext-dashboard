@@ -1,19 +1,3 @@
-/*
- * Copyright 2012 SURFnet bv, The Netherlands
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 var app = app || {};
 
 app.global = function() {
@@ -22,52 +6,121 @@ app.global = function() {
 
         initEventHandlers();
         initPlugins();
-
     };
 
     var initEventHandlers = function() {
 
         initUserSelection();
-
+        initTextSearch();
+        initReadMore();
     };
 
     var initPlugins = function() {
 
         initTooltips();
         initPopovers();
-
     };
 
     var initUserSelection = function() {
-
-        var form = $('.dropdown-menu');
+        var form = $('form.dropdown-menu');
 
         form.on('click', 'li', function(event) {
 
-            var item = $(event.target).closest('li')[0];
-            var roleId = item.getAttribute('data-roleId');
+            var item = $(event.target).closest('li')[0], roleId = item
+                    .getAttribute('data-roleId');
 
             $('<input>').attr({
-                type: 'hidden',
-                name: 'roleId',
-                value: roleId
+                type : 'hidden',
+                name : 'roleId',
+                value : roleId
             }).appendTo(form);
 
             form[0].submit();
-
-        })
-
+        });
     };
 
-    var _placement = function(popup, element) {
-        popup.setAttribute('data-type', element.getAttribute('data-type'))
-        return 'top';
+    var initTextSearch = function() {
+        var searchButton = $('#sb_id');
+        var searchInput = $('#si_id');
+
+        searchButton.click(function(event){
+            search(event); 
+        });
+
+        searchInput.keydown(function(event){
+            if (event.which === 13) {
+               search(event);
+            }
+        });
     }
+
+
+    var initReadMore = function() {
+        var readMoreElms = $('.with-read-more').each(function(index, elm) {
+            elm = $(elm);
+
+            var linkText = elm.data('readMoreText');
+
+            elm.append('<a class="toggle-read-more" href="#">' + linkText + '</a>');
+            elm.addClass('folded');
+        });
+
+        readMoreElms.on('click', '.toggle-read-more', function(e) {
+            e.preventDefault();
+
+            var elm = $(this),
+                wrapper = elm.closest('.with-read-more').toggleClass('folded');
+
+            if (wrapper.hasClass('folded')) {
+                elm.html(wrapper.data('readMoreText'));
+            }
+            else {
+                elm.html(wrapper.data('readLessText'));
+            }
+        });
+    }
+
+
+    function search (event) {
+        var searchButton = $('#sb_id');
+        var searchInput = $('#si_id');
+        var currentUrl = document.URL;
+        var searchPart = "/search?search=";
+
+        //Remove jsessionid, this mixes up the url mappings
+        currentUrl = currentUrl.replace(/;jsessionid.*\//,"/");
+
+        currentUrl = currentUrl.replace(window.location.search, "");
+        // Is a search text entered?
+        if (searchInput.val().length == 0) {
+            // Remove from url
+            currentUrl = currentUrl.replace("/search", "");
+        } else {
+            // Are we filtering?
+            if (currentUrl.indexOf("filter") == -1) {
+                // Add search url and param
+                currentUrl = currentUrl + searchPart + searchInput.val();
+                if (currentUrl.lastIndexOf("/search/search") != -1) {
+                    currentUrl = currentUrl.replace("/search/search",
+                            "/search");
+                }
+            } else {
+                // Only add param
+                currentUrl = currentUrl + "?search=" + searchInput.val();
+            }
+        }
+        window.location.href = currentUrl;
+    }
+
+    var _placement = function(popup, element) {
+        popup.setAttribute('data-type', element.getAttribute('data-type'));
+        return 'top';
+    };
 
     var initTooltips = function() {
 
-       	$('[rel="tooltip"]').tooltip({
-            placement: _placement
+        $('[rel="tooltip"]').tooltip({
+            placement : _placement
         });
 
     };
@@ -75,13 +128,13 @@ app.global = function() {
     var initPopovers = function() {
 
         $('[rel="popover"]').popover({
-            placement: _placement
+            placement : _placement
         });
 
     };
 
     return {
-        init: init
+        init : init
     };
 
 }();

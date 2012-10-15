@@ -1,23 +1,7 @@
-/*
- * Copyright 2012 SURFnet bv, The Netherlands
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /* generic */
 
 body {
-    font-family: Arial, sans-serif; /* Bootstrap default is Helvetica (Neue) */
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; /* Bootstrap default is Helvetica (Neue) */
 }
 
 .small {
@@ -31,9 +15,9 @@ thead {
 /* header */
 
 header {
-    background: url("../images/logo.png") 10px 10px no-repeat;
-    padding-left: 155px;
     position: relative;
+    padding-left: 155px;
+    background: url("../images/logo.png") 10px 10px no-repeat;
 }
 
 header h1 {
@@ -68,10 +52,10 @@ footer {
 
 section h1,
 section h2 {
-    background-color: #4fb3cf;
-    color: #FFF;
-    font-size: 15px;
     padding-left: 20px;
+    font-size: 15px;
+    color: #FFF;
+    background-color: #4fb3cf;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
@@ -86,14 +70,15 @@ section h2 {
     list-style: none;
 }
 
+.form .filter,
 .dl,
 .ul {
     margin-left: 3em;
 }
 
 .ul li {
-    font-weight: bold;
     margin-bottom: 1em;
+    font-weight: bold;
 }
 
 .dl dt,
@@ -103,8 +88,8 @@ section h2 {
 
 .dl dt:before,
 .ul li:before {
-    content: "• ";
     color: #0088CC;
+    content: "• ";
 }
 
 .dl dt.inactive:before,
@@ -118,13 +103,13 @@ section h2 {
 }
 
 .dl dd {
-    color: #666;
     margin: 0 0 2em 0.95em;
+    color: #666;
 }
 
 .tasks {
-    list-style: none;
     margin: 0;
+    list-style: none;
 }
 
 .tasks li {
@@ -142,6 +127,6 @@ section h2 {
     margin-left: 15px;
 }
 
-.mb10 {
-  margin-bottom: 10px;
+#csrf-token {
+    display: none;
 }

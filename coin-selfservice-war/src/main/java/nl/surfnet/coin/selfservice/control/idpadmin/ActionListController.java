@@ -36,7 +36,6 @@ import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 
 @Controller
-@RequestMapping(value = "/idpadmin/*")
 public class ActionListController extends BaseController {
 
   @Resource(name = "jiraService")
@@ -45,7 +44,7 @@ public class ActionListController extends BaseController {
   @Resource(name = "actionsService")
   private ActionsService actionsService;
 
-  @RequestMapping(value = "actions")
+  @RequestMapping(value = "requests-overview.shtml")
   public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp)
       throws IOException {
     Map<String, Object> model = new HashMap<String, Object>();
@@ -54,9 +53,9 @@ public class ActionListController extends BaseController {
     final List<Action> actions = actionsService.getActions(selectedidp.getId());
     Collections.sort(actions, Collections.reverseOrder(Action.sortByDateAsc()));
     model.put("actionList", actions);
-    model.put("menu", buildMenu(MenuType.IDPADMIN, "actions"));
+    model.put("menu", buildMenu(MenuType.IDPADMIN, "requests-overview"));
 
-    return new ModelAndView("idpadmin/actions", model);
+    return new ModelAndView("requests-overview", model);
   }
 
 }

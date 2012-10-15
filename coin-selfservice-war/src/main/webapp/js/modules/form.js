@@ -1,19 +1,3 @@
-/*
- * Copyright 2012 SURFnet bv, The Netherlands
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 var app = app || {};
 
 app.form = function(){
@@ -28,12 +12,15 @@ app.form = function(){
     var initEventHandlers = function() {
 
         initFormLinks();
-        initBandwidthSelector();
-        initStartNow();
         initReservationFilter();
         initPhysicalPortSelector();
         initAcceptDeclineSelector();
+        initPhysicalPortSelectorForVirtualPort();
 
+        // create reservation
+        initBandwidthSelector();
+        initStartNow();
+        initProtectionType();
     };
 
     var initPlugins = function() {
@@ -41,6 +28,7 @@ app.form = function(){
         initDropDownReload();
         initDatepickers();
         initAutoSuggest();
+        initSelect2();
 
     };
 
@@ -54,7 +42,11 @@ app.form = function(){
             var post = function(url, data) {
                 $.post(url, data)
                 .success(function() {
-                    successMessage ? app.message.showInfo(successMessage) : window.location.reload(true);
+                    if (successMessage) {
+                        app.message.showInfo(successMessage);
+                    } else {
+                        window.location.reload(true);
+                    }
                 })
                 .error(function() {
                     alert(errorMessage);
@@ -79,7 +71,7 @@ app.form = function(){
 
             event.preventDefault();
 
-        })
+        });
 
     };
 
@@ -99,11 +91,11 @@ app.form = function(){
                 selectedValues.push(parseInt($(element).find('option:selected').attr('data-bandwidth-max')));
             });
             return Math.min.apply(null, selectedValues);
-        }
+        };
 
         var calculateBandwidth = function(multiplier) {
             return Math.floor(getMaxBandwidth() * multiplier);
-        }
+        };
 
         var activateBandwidthButton = function() {
 
@@ -115,7 +107,7 @@ app.form = function(){
                 }
             });
 
-        }
+        };
 
         $('[data-component="bandwidth-selector"] input').on('change', function(event) {
 
@@ -147,7 +139,7 @@ app.form = function(){
 
         activateBandwidthButton();
 
-    }
+    };
 
     var initDropDownReload = function() {
 
@@ -161,7 +153,7 @@ app.form = function(){
 
         }
 
-    }
+    };
 
     var attachDropdownReloadPlugin = function(dropdown) {
 
@@ -179,7 +171,7 @@ app.form = function(){
             }
         );
 
-    }
+    };
 
     var initDatepickers = function() {
 
@@ -192,7 +184,7 @@ app.form = function(){
             });
 
         }
-    }
+    };
 
     var attachDatepickerPlugin = function(datepickers) {
 
@@ -201,28 +193,32 @@ app.form = function(){
             autoclose: true
         });
 
-    }
+    };
 
     var initStartNow = function() {
-        var date,
-            time;
 
-        $('[data-component="start-now"] :checkbox').on('click', function() {
-            var inputs = $('[data-component="start-now"] :text'),
+        $('[data-component="start-now"]').each(function(i, item) {
+
+            var component = $(item),
+                inputs = component.find(':text'),
                 dateInput = inputs.eq(0),
-                timeInput = inputs.eq(1);
-
-            if (dateInput.prop('disabled')) {
-                dateInput.val(date).prop('disabled', false);
-                timeInput.val(time).prop('disabled', false);
-            } else {
-                date = dateInput.val();
+                timeInput = inputs.eq(1),
+                date = dateInput.val(),
                 time = timeInput.val();
-                dateInput.val('').prop('disabled', true);
-                timeInput.val('').prop('disabled', true);
-            }
+
+            component.on('click', ':checkbox', function() {
+                if (dateInput.prop('disabled')) {
+                    dateInput.val(date).prop('disabled', false);
+                    timeInput.val(time).prop('disabled', false);
+                } else {
+                    date = dateInput.val();
+                    time = timeInput.val();
+                    dateInput.val('').prop('disabled', true);
+                    timeInput.val('').prop('disabled', true);
+                }
+            });
         });
-    }
+    };
 
     var initAutoSuggest = function() {
 
@@ -236,7 +232,7 @@ app.form = function(){
 
         }
 
-    }
+    };
 
     var attachAutoSuggestPlugin = function(asElements) {
 
@@ -273,9 +269,9 @@ app.form = function(){
                 }
             });
 
-        })
+        });
 
-    }
+    };
 
     var initReservationFilter = function() {
 
@@ -285,15 +281,38 @@ app.form = function(){
             window.location.href = element.closest('form').attr('action') + element.val();
         });
 
-    }
+    };
 
     var initPhysicalPortSelector = function() {
         $('[data-component="physicalport-selector"]').on('change', function() {
             var selected = $(this).find('option:selected');
             $("#_nocLabel_id").val(selected.attr("data-noclabel"));
-            $("#_portId_id").val(selected.attr("data-portid"));
+            $("#_bodPortId_id").val(selected.attr("data-portid"));
         });
-    }
+    };
+
+    var initPhysicalPortSelectorForVirtualPort = function() {
+        var selects = $('[data-component="physicalport-selector-for-virtualport"]');
+
+        selects.each(function(i, item){
+            var select = $(item),
+               fieldGroup = $('#'+select.attr("data-field"));
+
+            select.on('change', function() {
+                var show = select.find(":selected").attr("data-hasvlan") === 'true';
+
+                if (show) {
+                   fieldGroup.show();
+                } else {
+                    //empty existing value, to prevent posting
+                    fieldGroup.find("input").val('');
+                    fieldGroup.hide();
+                }
+            });
+
+            select.trigger('change');
+        });
+    };
 
     var initAcceptDeclineSelector = function() {
         var component = $('[data-component="accept-decline-selector"]');
@@ -313,11 +332,36 @@ app.form = function(){
             $('#' + (state === 'accept' ? 'decline' : 'accept') + '-form').toggle();
             submitButton.val(eval(state+'Label'));
         }
+    };
+
+    var initProtectionType = function() {
+        var component = $('[data-component="protection-type"]');
+
+        if (component.length) {
+            var hidden = component.find(":hidden");
+
+            component.on('click', ':checkbox', function(event) {
+                if ($(event.target).attr("checked")) {
+                    hidden.val("PROTECTED");
+                } else {
+                    hidden.val("UNPROTECTED");
+                }
+            });
+
+            if (hidden.val() == "PROTECTED") {
+                component.find(":checkbox").attr("checked", "checked");
+            }
+        }
+    };
+
+    var initSelect2 = function() {
+        var elms = $('select');
+        elms.select2();
     }
 
     return {
         init: init
-    }
+    };
 
 }();
 

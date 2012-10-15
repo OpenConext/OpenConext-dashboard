@@ -123,7 +123,7 @@ public abstract class BaseController {
       case IDPADMIN:
         MenuItem allSPs = new MenuItem("jsp.allsp.title", "/idpadmin/all-sps.shtml", "all-sps".equals(selectedItem));
         menu.addMenuItem(allSPs);
-        MenuItem action = new MenuItem("jsp.actions.title", "/idpadmin/actions.shtml", "actions".equals(selectedItem));
+        MenuItem action = new MenuItem("jsp.requests-overview.title", "/requests-overview.shtml", "requests-overview".equals(selectedItem));
         menu.addMenuItem(action);
         MenuItem allShopSPs = new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml", "all-spslmng".equals(selectedItem));
         menu.addMenuItem(allShopSPs);

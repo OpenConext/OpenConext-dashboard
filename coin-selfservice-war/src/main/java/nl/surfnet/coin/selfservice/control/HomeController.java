@@ -36,7 +36,7 @@ public class HomeController extends BaseController {
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
-  @RequestMapping("/home.shtml")
+  @RequestMapping("/app-overview.shtml")
   public ModelAndView home(@ModelAttribute("currentrole") String currentRole) {
     Map<String, Object> model = new HashMap<String, Object>();
 
@@ -51,7 +51,7 @@ public class HomeController extends BaseController {
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
 
-    return new ModelAndView("home", model);
+    return new ModelAndView("app-overview", model);
   }
 
   @RequestMapping("/styleguide.shtml")
