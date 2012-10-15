@@ -31,7 +31,7 @@
   <c:when test="${dev eq true}">
     <script src="<c:url value="/js/main.js"/>"></script>
     <script src="<c:url value="/js/modules/global.js"/>"></script>
-    <script src="<c:url value="/js/modules/form.js"/>"></script>
+    <!-- script src="<c:url value="/js/modules/form.js"/>"></script-->
     <script src="<c:url value="/js/modules/message.js"/>"></script>
     <script src="<c:url value="/js/modules/table.js"/>"></script>
     <script src="<c:url value="/js/modules/reservation.js"/>"></script>
