@@ -23,11 +23,11 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import org.springframework.stereotype.Controller;
@@ -46,8 +46,9 @@ public class HomeController extends BaseController {
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
-  @Resource(name = "providerService")
-  private ServiceProviderService providerService;
+
+  @Resource
+  private CompoundSPService compoundSPService;
 
   @RequestMapping("/app-overview.shtml")
   public ModelAndView home(@ModelAttribute("currentrole") String currentRole,
@@ -55,17 +56,17 @@ public class HomeController extends BaseController {
     Map<String, Object> model = new HashMap<String, Object>();
     
     // TODO create a generic way of retrieving the services for the current role
-    List<ServiceProvider> services;
+    List<CompoundServiceProvider> services;
     Menu menu;
     if (CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN.name().equals(currentRole)) {
       menu = buildMenu(MenuType.IDPADMIN, "home");
-      services = providerService.getAllServiceProviders(selectedidp.getId());
+      services = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find by idp id
     } else {
       menu = buildMenu(MenuType.USER, "home");
-      services = providerService.getLinkedServiceProviders(selectedidp.getId());
+      services = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find LINKED! by idp id
     }
     model.put("menu", menu);
-    model.put("sps", services);
+    model.put("compoundSps", services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);

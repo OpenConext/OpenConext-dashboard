@@ -23,21 +23,22 @@
 	<h1 class="hidden-phone">Mijn apps</h1>
 	<section>
 		<ul class="app-grid" data-search-placeholder="Search in applications">
-			<c:forEach items="${sps}" var="sp">
-				<c:if test="${not empty sp.id}">
+			<c:forEach items="${compoundSps}" var="compoundSp">
+				<c:if test="${not empty compoundSp.id}">
 					<li>
 						<spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-							<spring:param name="spEntityId" value="${sp.id}" />
+							<spring:param name="compoundSpId" value="${compoundSp.id}" />
 						</spring:url>
 						<h2>
-							<a href="${detailUrl}"><tags:providername provider="${sp}" /></a>
+							<a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a><!--TODO: providername for compoundSp instead of SP -->
 						</h2> 
-						<c:if test="${not empty sp.logoUrl}">
-							<img src="${sp.logoUrl}" alt="<c:out value=""/>" />
+						<c:if test="${not empty compoundSp.appStoreLogo}">
+							<img src="${compoundSp.appStoreLogo}" alt="<c:out value=""/>" />
 						</c:if>
 						<p class="desc">
-							<c:out value="${fn:substring(sp.descriptions[locale.language], 0, 40)}" />
+							<c:out value="${fn:substring(compoundSp.serviceDescriptionEn, 0, 40)}" />
 						</p>
+						<%--
 						<c:if test="${not empty sp.urls[locale.language]}">
 							<p class="open-app">
 								<a href="<c:out value="${sp.urls[locale.language]}"/>" class="open-app" target="_blank"> 
@@ -45,6 +46,7 @@
 								</a>
 							</p>
 						</c:if>
+						--%>
 					</li>
 				</c:if>
 			</c:forEach>
