@@ -15,6 +15,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   --%>
+
+<c:set var="spname"><tags:providername provider="${compoundSp}" /></c:set>
 <spring:message var="title" code="jsp.home.title" />
 <jsp:include page="head.jsp">
   <jsp:param name="title" value="${title}" />
@@ -22,11 +24,15 @@
 
 <div class="column-right side-content-holder">
   <section>
-    <img src="../images/logos/google-apps-nonsquare.png" class="application-logo">
+    <c:if test="${not empty compoundSp.detailLogo}">
+      <img src="${compoundSp.detailLogo}" alt="<c:out value=""/>" class="application-logo">
+    </c:if>
     <ul class="action-list">
-      <li><a href="index.html">Website Google Apps</a></li>
-      <li><a href="index.html">Contact Google Apps</a></li>
-      <li><a href="index.html">Terms & Conditions</a></li>
+      <li><a href="index.html">Website <c:out value="${spname}"/></a></li>
+      <li><a href="index.html">Contact <c:out value="${spname}"/></a></li>
+      <c:if test="${not empty compoundSp.eulaURL}">
+        <li><a href="${compoundSp.eulaURL}">Terms & Conditions</a></li>
+      </c:if>
     </ul>
     <p>Wordt gebruikt door 21 andere instellingen en door 2401 personen.</p>
     <p>Is Service Provider van Surfnet sinds 12-02-2012.</p>
@@ -36,7 +42,7 @@
 <div class="column-center content-holder">
   <section>
 
-    <h1>Google Apps</h1>
+    <h1><c:out value="${spname}"/></h1>
 
     <div class="with-read-more" data-read-more-text="Meer" data-read-less-text="Minder">
       <p>
@@ -50,13 +56,33 @@
     </div>
 
     <div>
-      <a class="btn btn-primary btn-primary-alt" href="index.html">App aanvragen</a>
-      <a class="btn" href="index.html">Stel een vraag</a>
+      <c:choose>
+        <c:when test="${not compoundSp.sp.linked}">
+          <a class="btn btn-primary" href="<c:url value="/requests/linkrequest.shtml">
+            <c:param name="spEntityId" value="${compoundSp.sp.spid}" />
+          </c:url>"
+             title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+          </a>
+        </c:when>
+        <c:when test="${compoundSp.sp.splinked}">
+          <a class="btn btn-primary" href="<c:url value="/requests/unlinkrequest.shtml">
+            <c:param name="spEntityId" value="${compoundSp.sp.spid}" />
+          </c:url>"
+             title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
+              code="jsp.sp_detail.requestunlink"/>
+          </a>
+        </c:when>
+      </c:choose>
+      <a class="btn" href="<spring:url value="/requests/question.shtml">
+            <spring:param name="spEntityId" value="${compoundSp.sp.id}" />
+          </spring:url>"
+         title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
+      </a>
     </div>
 
     <hr>
 
-    <h2>Screenshots van Google Apps</h2>
+    <h2>Screenshots van <c:out value="${spname}"/></h2>
 
     <div class="screenshots-holder gallery-holder">
       <ul class="gallery">
