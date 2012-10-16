@@ -99,14 +99,13 @@ public class LmngServiceImpl implements LicensingService {
   private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
 
   // TODO put in properties file
-  private static final boolean DEBUG = true;
+  //private static final boolean DEBUG = true;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
   private String endpoint;
-  private String user;
-  private String password;
+  private boolean debug;
   private Integer port = 80; // set default port to 80
 
   @Override
@@ -125,7 +124,7 @@ public class LmngServiceImpl implements LicensingService {
       // get the file with the soap request
       String soapRequest = getLicenceForIdpRequest(idpLmngId, validOn);
 
-      if (DEBUG) {
+      if (debug) {
         writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
 
@@ -160,7 +159,7 @@ public class LmngServiceImpl implements LicensingService {
       // get the file with the soap request
       String soapRequest = getLicenceForIdpSpRequest(lmngIdpId, lmngSpId, validOn);
 
-      if (DEBUG) {
+      if (debug) {
         writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
 
@@ -213,7 +212,7 @@ public class LmngServiceImpl implements LicensingService {
           log.debug("Unable to read response");
         }
       } else {
-        if (DEBUG) {
+        if (debug) {
           writeIO("lmngFetchResponse", StringEscapeUtils.unescapeHtml(fetchResultString));
         }
         InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
@@ -425,12 +424,8 @@ public class LmngServiceImpl implements LicensingService {
     this.endpoint = endpoint;
   }
 
-  public void setUser(String user) {
-    this.user = user;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+  public void setDebug(boolean debug) {
+    this.debug = debug;
   }
 
   public void setPort(Integer port) {

@@ -61,8 +61,7 @@ public class LmngServiceImplTest implements HttpRequestHandler {
     lmngServiceImpl = new LmngServiceImpl();
     InetSocketAddress addr = testServer.getServiceAddress();
     lmngServiceImpl.setEndpoint("http://" + addr.getHostName() + "/mock/crm");
-    lmngServiceImpl.setUser("coin-lmng-user");
-    lmngServiceImpl.setPassword("coin-lmng-password");
+    lmngServiceImpl.setDebug(false);
     lmngServiceImpl.setPort(addr.getPort());
 
     LmngIdentifierDao dao = mock(LmngIdentifierDao.class, new Returns("whatever"));
