@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -43,7 +44,6 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
-import nl.surfnet.coin.selfservice.service.impl.ntlm.NTLMSchemeFactory;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -52,15 +52,12 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HTTP;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -84,6 +81,7 @@ public class LmngServiceImpl implements LicensingService {
   private static final Logger log = LoggerFactory.getLogger(LmngServiceImpl.class);
   private static final DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis();
 
+  private static final String UID_PLACEHOLDER = "%UID%";
   private static final String QUERY_PLACEHOLDER = "%FETCH_QUERY%";
   private static final String INSTITUTION_IDENTIFIER_PLACEHOLDER = "%INSTITUTION_ID%";
   private static final String SERVICE_IDENTIFIER_PLACEHOLDER = "%SERVICE_ID%";
@@ -92,6 +90,7 @@ public class LmngServiceImpl implements LicensingService {
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP = "lmngqueries/lmngQueryLicencesForIdentityProvider.xml";
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
 
+  private static final String RESULT_ELEMENT = "GetDataResult";
   private static final String FETCH_RESULT_PRODUCT_DESCRIPTION = "product.lmng_description";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
   private static final String FETCH_RESULT_VALID_TO = "license.lmng_validto";
@@ -100,7 +99,7 @@ public class LmngServiceImpl implements LicensingService {
   private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
 
   // TODO put in properties file
-  private static final boolean DEBUG = false;
+  private static final boolean DEBUG = true;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -197,9 +196,9 @@ public class LmngServiceImpl implements LicensingService {
       Document doc = docBuilder.parse(webserviceResult);
       Element documentElement = doc.getDocumentElement();
 
-      String fetchResultString = getFirstSubElementStringValue(documentElement, "FetchResult");
+      String fetchResultString = getFirstSubElementStringValue(documentElement, RESULT_ELEMENT);
       if (fetchResultString == null) {
-        log.warn("Webservice response did not contain a 'FetchResult' element");
+        log.warn("Webservice response did not contain a 'GetDataResult' element");
         try {
           TransformerFactory tfactory = TransformerFactory.newInstance();
           Transformer xform = tfactory.newTransformer();
@@ -222,7 +221,7 @@ public class LmngServiceImpl implements LicensingService {
         Element resultset = fetchResultDocument.getDocumentElement();
 
         if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
-          log.warn("Webservice 'FetchResult' element did not contain a 'resultset' element");
+          log.warn("Webservice 'GetDataResult' element did not contain a 'resultset' element");
 
         } else {
           NodeList results = resultset.getElementsByTagName("result");
@@ -254,8 +253,7 @@ public class LmngServiceImpl implements LicensingService {
     license.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
     license.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
     license.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-    Date startDate = new Date(
-        dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
+    Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
     license.setStartDate(startDate);
     Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
     license.setEndDate(endDate);
@@ -302,19 +300,16 @@ public class LmngServiceImpl implements LicensingService {
    * @throws ClientProtocolException
    * @throws IOException
    */
-  private InputStream getWebServiceResult(String soapRequest) throws ClientProtocolException, IOException {
+  private InputStream getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException {
     DefaultHttpClient httpclient = new DefaultHttpClient();
-    httpclient.getAuthSchemes().register("NTLM", new NTLMSchemeFactory());
-    httpclient.getCredentialsProvider().setCredentials(AuthScope.ANY, new NTCredentials(user, password, "", ""));
+    
     httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
     httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
     httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
 
     HttpPost httppost = new HttpPost(endpoint);
+    httppost.setHeader("Content-Type", "application/soap+xml");
     httppost.setEntity(new StringEntity(soapRequest));
-
-    httppost.setHeader(HTTP.TARGET_HOST, "host");
-    httppost.setHeader("Content-type", "text/xml");
 
     HttpResponse httpresponse = httpclient.execute(new HttpHost(new URL(endpoint).getHost(), port), httppost, new BasicHttpContext());
     HttpEntity output = httpresponse.getEntity();
@@ -375,8 +370,10 @@ public class LmngServiceImpl implements LicensingService {
     // html encode the string
     query = StringEscapeUtils.escapeHtml(query);
 
-    // Insert the query in the envelope
+    // Insert the query in the envelope and add a UID in the envelope
     result = result.replaceAll(QUERY_PLACEHOLDER, query);
+    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+
     return result;
   }
 
@@ -412,8 +409,9 @@ public class LmngServiceImpl implements LicensingService {
     // html encode the string
     query = StringEscapeUtils.escapeHtml(query);
 
-    // Insert the query in the envelope
+    // Insert the query in the envelope and add a UID in the envelope
     result = result.replaceAll(QUERY_PLACEHOLDER, query);
+    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
     return result;
   }
 
