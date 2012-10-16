@@ -81,7 +81,6 @@ public class SpDetailController extends BaseController {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
     return new ModelAndView("idpadmin/sp-detail", m);
   }
 

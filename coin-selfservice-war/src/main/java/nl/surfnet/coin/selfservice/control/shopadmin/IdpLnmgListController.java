@@ -65,7 +65,6 @@ public class IdpLnmgListController extends BaseController {
       lmngIdpBindings.add(lmngIdentityBinding);
     }
 
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-idpslmng"));
     m.put("bindings", lmngIdpBindings);
     return new ModelAndView("shopadmin/idp-overview", m);
   }

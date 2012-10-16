@@ -81,7 +81,7 @@ public abstract class BaseController {
         return idp;
       }
     }
-    return null;
+    throw new RuntimeException("There is no Selected IdP");
   }
 
   /**
@@ -106,49 +106,8 @@ public abstract class BaseController {
         return role;
       }
     }
-    return null;
+    throw new RuntimeException("There is no current role");
   }
 
-  /**
-   * Builds a {@link Menu} based on {@link MenuType} and the identifier of the selected menu item
-   *
-   * @param type         {@link MenuType}
-   * @param selectedItem identifier of the selected menu item, can be {@literal null} or empty
-   * @return Menu
-   */
-  protected static Menu buildMenu(MenuType type, String selectedItem) {
-    Menu menu = new Menu(type.toString());
-    MenuItem home = new MenuItem("jsp.home.title", "/home.shtml", "home".equals(selectedItem));
-    menu.addMenuItem(home);
-
-    switch (type) {
-      case IDPADMIN:
-        MenuItem allSPs = new MenuItem("jsp.allsp.title", "/idpadmin/all-sps.shtml", "all-sps".equals(selectedItem));
-        menu.addMenuItem(allSPs);
-        MenuItem action = new MenuItem("jsp.requests-overview.title", "/requests-overview.shtml", "requests-overview".equals(selectedItem));
-        menu.addMenuItem(action);
-        MenuItem allShopSPs = new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml", "all-spslmng".equals(selectedItem));
-        menu.addMenuItem(allShopSPs);
-        MenuItem allShopIDPs = new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml", "all-idpslmng".equals(selectedItem));
-        menu.addMenuItem(allShopIDPs);
-        
-        break;
-      case USER:
-        MenuItem linkedServices = new MenuItem("jsp.linkedServices.title", "/user/linked-services.shtml",
-            "linked-services".equals(selectedItem));
-        menu.addMenuItem(linkedServices);
-        break;
-    }
-
-    return menu;
-  }
-
-  public enum MenuType {
-    IDPADMIN,
-    USER;
-
-    MenuType() {
-    }
-  }
 
 }

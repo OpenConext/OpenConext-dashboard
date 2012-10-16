@@ -66,7 +66,6 @@ public class SpLnmgListController extends BaseController {
       lmngServiceBindings.add(lmngServiceBinding);
     }
 
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-spslmng"));
     m.put("bindings", lmngServiceBindings);
     return new ModelAndView("shopadmin/sp-overview", m);
   }
