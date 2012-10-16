@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control.idpadmin;
+package nl.surfnet.coin.selfservice.control.requests;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import nl.surfnet.coin.selfservice.command.LinkRequest;
+import nl.surfnet.coin.selfservice.command.UnlinkRequest;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -43,15 +43,16 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
+import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 @Controller
-@RequestMapping("/idpadmin/sp")
-@SessionAttributes(value = "linkrequest")
-public class SpLinkController extends BaseController {
+@RequestMapping("/requests")
+@SessionAttributes(value = "unlinkrequest")
+public class UnlinkRequestController extends BaseController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SpLinkController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(UnlinkRequestController.class);
 
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
@@ -62,26 +63,32 @@ public class SpLinkController extends BaseController {
   @Resource(name = "actionsService")
   private ActionsService actionsService;
 
+  @Resource(name = "notificationService")
+  private NotificationService notificationService;
+
   /**
-   * Controller for request form page.
-   * 
-   * @param spEntityId
-   *          the entity id
+   * Controller for unlink request form page.
+   *
+   * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.GET)
+  public ModelAndView spUnlinkRequest(@RequestParam String spEntityId,
+                                      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
-    m.put("linkrequest", new LinkRequest());
     m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
-    return new ModelAndView("idpadmin/sp-linkrequest", m);
+    m.put("unlinkrequest", new UnlinkRequest());
+    return new ModelAndView("requests/unlinkrequest", m);
   }
 
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spRequestPost(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result) {
+
+  @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST)
+  public ModelAndView spUnlinkrequestPost(@RequestParam String spEntityId,
+                                          @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                          @Valid @ModelAttribute("unlinkrequest") UnlinkRequest unlinkrequest,
+                                          BindingResult result) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
@@ -89,17 +96,20 @@ public class SpLinkController extends BaseController {
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("idpadmin/sp-linkrequest", m);
+      return new ModelAndView("requests/unlinkrequest", m);
     } else {
-      return new ModelAndView("idpadmin/sp-linkrequest-confirm", m);
+      return new ModelAndView("requests/unlinkrequest-confirm", m);
     }
   }
 
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST, params = "confirmed=true")
+
+  @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST, params="confirmed=true")
   public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId,
-      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
-      @RequestParam(value = "confirmed") boolean confirmed, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-      SessionStatus sessionStatus) {
+                                             @Valid @ModelAttribute("unlinkrequest") UnlinkRequest unlinkrequest,
+                                             BindingResult result,
+                                             @RequestParam(value = "confirmed") boolean confirmed,
+                                             @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                             SessionStatus sessionStatus) {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
@@ -107,22 +117,28 @@ public class SpLinkController extends BaseController {
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("idpadmin/sp-linkrequest-confirm", m);
+      return new ModelAndView("requests/linkrequest-confirm", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      final JiraTask task = new JiraTask.Builder().body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
-          .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId).institution(currentUser.getInstitutionId())
-          .issueType(JiraTask.Type.LINKREQUEST).status(JiraTask.Status.OPEN).build();
+      final JiraTask task = new JiraTask.Builder()
+          .body(currentUser.getEmail() + ("\n\n" + unlinkrequest.getNotes()))
+          .identityProvider(currentUser.getIdp())
+          .serviceProvider(spEntityId)
+          .institution(currentUser.getInstitutionId())
+          .issueType(JiraTask.Type.UNLINKREQUEST)
+          .status(JiraTask.Status.OPEN)
+          .build();
       try {
         final String issueKey = jiraService.create(task, currentUser);
         actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
         m.put("issueKey", issueKey);
         sessionStatus.setComplete();
-        return new ModelAndView("idpadmin/sp-linkrequest-thanks", m);
+        return new ModelAndView("requests/unlinkrequest-thanks", m);
       } catch (IOException e) {
-        LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
+        LOG.debug("Error while trying to create Jira issue. Will return to form view",
+            e);
         m.put("jiraError", e.getMessage());
-        return new ModelAndView("idpadmin/sp-linkrequest-confirm", m);
+        return new ModelAndView("requests/unlinkrequest-confirm", m);
       }
     }
   }

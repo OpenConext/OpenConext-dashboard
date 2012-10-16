@@ -23,12 +23,17 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * Simple implementation of a {@link GrantedAuthority}
  */
+@SuppressWarnings("serial")
 public class CoinAuthority implements GrantedAuthority {
 
   private final String authority;
+  
+  public enum Authority {
+    ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_USER
+  }
 
-  public CoinAuthority(String authority) {
-    this.authority = authority;
+  public CoinAuthority(Authority authority) {
+    this.authority = authority.name();
   }
 
   @Override

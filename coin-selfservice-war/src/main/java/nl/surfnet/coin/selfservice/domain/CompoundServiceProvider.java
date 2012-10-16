@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.domain;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -91,10 +92,8 @@ public class CompoundServiceProvider extends DomainObject {
   @Sort(type = SortType.NATURAL)
   private SortedSet<FieldImage> fieldImages = new TreeSet<FieldImage>();
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @Sort(type = SortType.NATURAL)
-  @JoinColumn(name = "compound_service_provider_id", nullable = false)
-  private List<Screenshot> screenShotsImages = new ArrayList<Screenshot>();
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
+  private Set<Screenshot> screenShotsImages = new HashSet<Screenshot>();
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, License license) {
     byte[] image = getDefaultImage();
@@ -141,11 +140,11 @@ public class CompoundServiceProvider extends DomainObject {
     this.fieldImages = fieldImages;
   }
 
-  public List<Screenshot> getScreenShotsImages() {
+  public Set<Screenshot> getScreenShotsImages() {
     return screenShotsImages;
   }
 
-  public void setScreenShotsImages(List<Screenshot> screenshots) {
+  public void setScreenShotsImages(Set<Screenshot> screenshots) {
     this.screenShotsImages = screenshots;
   }
 
@@ -243,11 +242,13 @@ public class CompoundServiceProvider extends DomainObject {
 
   public boolean addScreenShot(Screenshot s) {
     Assert.notNull(s);
+    s.setCompoundServiceProvider(this);
     return this.screenShotsImages.add(s);
   }
 
   public boolean removeScreenShot(Screenshot s) {
     Assert.notNull(s);
+    s.setCompoundServiceProvider(null);
     return this.screenShotsImages.remove(s);
   }
 

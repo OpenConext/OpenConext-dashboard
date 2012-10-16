@@ -16,7 +16,12 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,11 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import nl.surfnet.coin.api.client.InvalidTokenException;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
@@ -40,6 +40,12 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
@@ -56,7 +62,9 @@ public class ApiOAuthFilter implements Filter {
 
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
   protected static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" + ".ORIGINAL_REQUEST_URL";
-  private String adminTeam;
+  private String adminLicentieIdPTeam;
+  private String adminSurfConextIdPTeam;
+  private String adminDistributionTeam;
   private String callbackFlagParameter = "oauthCallback";
 
   /**
@@ -144,44 +152,44 @@ public class ApiOAuthFilter implements Filter {
   }
 
   /**
-   * Assign an 'ROLE_ADMIN' role to the given user, if he is member of the admin
+   * Assign the appropriate roles to the given user, if he is member of one the admin teams
    * team.
    * 
    * @param coinUser
    *          the CoinUser representing the currently logged in user.
    * 
    */
-  public void elevateUserIfApplicable(CoinUser coinUser) {
-    if (isMemberOfAdminTeam(coinUser)) {
-      coinUser.addAuthority(new CoinAuthority("ROLE_ADMIN"));
-      SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
-    }
-  }
-
-  /**
-   * Whether the given coin user is member of the configured admin team
-   * 
-   * @param user
-   *          the CoinUser
-   * @return boolean
-   */
-  private boolean isMemberOfAdminTeam(CoinUser user) {
-    final Group20 group = apiClient.getGroup20(user.getUid(), adminTeam, user.getUid());
+  private void elevateUserIfApplicable(CoinUser coinUser) {
+    List<Group20> groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("Membership of adminTeam '{}' for user '{}': {}", new Object[] { adminTeam, user.getUid(), group });
+      LOG.debug("Memberships of adminTeams '{}' for user '{}'", new Object[] { groups, coinUser.getUid() });
     }
-    if (group != null) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("User {} is member of admin team '{}'", user.getUid(), group.getId());
-      }
-      return true;
+    /*
+     * adminLicentieIdPTeam, adminSurfConextIdPTeam, adminDistributionTeam;
+     */
+    if (groupsContains(adminLicentieIdPTeam, groups)) {
+      coinUser.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
     }
-    return false;
+    if (groupsContains(adminSurfConextIdPTeam, groups)) {
+      coinUser.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
+    }
+    if (groupsContains(adminDistributionTeam, groups)) {
+      coinUser.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+    }
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
   }
 
-  public void setAdminTeam(String adminTeam) {
-    this.adminTeam = adminTeam;
+  private boolean groupsContains(String teamId, List<Group20> groups) {
+    if (CollectionUtils.isEmpty(groups)) {
+      return false;
+    }
+    for (Group20 group20 : groups) {
+      if (group20.getId().equalsIgnoreCase(teamId)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
@@ -194,5 +202,17 @@ public class ApiOAuthFilter implements Filter {
 
   public void setCallbackFlagParameter(String callbackFlagParameter) {
     this.callbackFlagParameter = callbackFlagParameter;
+  }
+
+  public void setAdminLicentieIdPTeam(String adminLicentieIdPTeam) {
+    this.adminLicentieIdPTeam = adminLicentieIdPTeam;
+  }
+
+  public void setAdminSurfConextIdPTeam(String adminSurfConextIdPTeam) {
+    this.adminSurfConextIdPTeam = adminSurfConextIdPTeam;
+  }
+
+  public void setAdminDistributionTeam(String adminDistributionTeam) {
+    this.adminDistributionTeam = adminDistributionTeam;
   }
 }

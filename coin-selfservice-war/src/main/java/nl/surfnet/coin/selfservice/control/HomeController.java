@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -41,7 +42,7 @@ public class HomeController extends BaseController {
     Map<String, Object> model = new HashMap<String, Object>();
 
     Menu menu;
-    if ("ROLE_ADMIN".equals(currentRole)) {
+    if (CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN.name().equals(currentRole)) {
       menu = buildMenu(MenuType.IDPADMIN, "home");
     } else {
       menu = buildMenu(MenuType.USER, "home");

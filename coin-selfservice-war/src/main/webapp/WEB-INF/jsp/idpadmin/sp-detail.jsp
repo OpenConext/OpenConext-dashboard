@@ -67,14 +67,14 @@
           </a>
           <c:choose>
             <c:when test="${not sp.linked}">
-              <a class="btn btn-primary" href="<c:url value="/idpadmin/sp/linkrequest.shtml">
+              <a class="btn btn-primary" href="<c:url value="/requests/linkrequest.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
               </a>
             </c:when>
             <c:when test="${sp.linked}">
-              <a class="btn btn-primary" href="<c:url value="/idpadmin/sp/unlinkrequest.shtml">
+              <a class="btn btn-primary" href="<c:url value="/requests/unlinkrequest.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message

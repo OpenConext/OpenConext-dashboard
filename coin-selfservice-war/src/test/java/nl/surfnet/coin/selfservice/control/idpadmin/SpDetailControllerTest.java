@@ -16,42 +16,27 @@
 
 package nl.surfnet.coin.selfservice.control.idpadmin;
 
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.ModelAndView;
-
-import nl.surfnet.coin.selfservice.command.Question;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ModelAndView;
 
 public class SpDetailControllerTest {
 
@@ -60,25 +45,10 @@ public class SpDetailControllerTest {
   private SpDetailController spDetailController;
 
   @Mock
-  private JiraService jiraService;
-
-  @Mock
   private ServiceProviderService sps;
 
   @Mock
-  private ActionsService actionsService;
-
-  @Mock
   private CoinUser coinUser;
-
-  @Mock
-  private NotificationService notificationService;
-
-  @Mock
-  private LocaleResolver localeResolver;
-
-  @Mock
-  private PersonAttributeLabelService labelService;
 
   @Before
   public void before() {
@@ -96,48 +66,6 @@ public class SpDetailControllerTest {
     final ModelAndView mav = spDetailController.spDetail("foobar", getIdp());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("idpadmin/sp-detail"));
-  }
-  @Test
-  public void questionGET() {
-    final ModelAndView mav = spDetailController.spQuestion("foobar", getIdp());
-    assertTrue(mav.hasView());
-    assertThat(mav.getViewName(), is("idpadmin/sp-question"));
-    assertTrue(mav.getModel().containsKey("question"));
-  }
-
-  @Test
-  public void questionPostHappy() throws IOException {
-    final String issueKey = "TEST-001";
-    when(jiraService.create(Matchers.<JiraTask>any(), Matchers.<CoinUser>any())).thenReturn(issueKey);
-    Question question = new Question();
-    BindingResult result = new BeanPropertyBindingResult(question, "question");
-    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
-    verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
-    verify(notificationService).sendMail(eq(issueKey), (String) anyObject(), (String) anyObject(), (String) anyObject());
-    assertTrue(mav.hasView());
-    assertThat(mav.getViewName(), is("idpadmin/sp-question-thanks"));
-  }
-
-  @Test
-  public void questionThrowsJiraError() throws IOException {
-    Question question = new Question();
-    BindingResult result = new BeanPropertyBindingResult(question, "question");
-    when(jiraService.create((JiraTask) anyObject(), Matchers.<CoinUser>any())).thenThrow(new IOException("An IOException on purpose"));
-    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
-    verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject(), anyString(),
-        anyString());
-    assertTrue(mav.hasView());
-    assertThat("in case of error the form view should be returned", mav.getViewName(), is("idpadmin/sp-question"));
-  }
-
-  @Test
-  public void questionPostWithValidationError() {
-    Question question = new Question();
-    BindingResult result = new BeanPropertyBindingResult(question, "question");
-    result.addError(new ObjectError("question", "foo 123 is required"));
-    final ModelAndView mav = spDetailController.spQuestionSubmit("foobar", getIdp(), question, result);
-    assertTrue(mav.hasView());
-    assertThat(mav.getViewName(), is("idpadmin/sp-question"));
   }
 
   private static IdentityProvider getIdp() {

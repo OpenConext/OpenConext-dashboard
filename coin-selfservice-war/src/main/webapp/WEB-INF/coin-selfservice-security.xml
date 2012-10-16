@@ -31,13 +31,17 @@
   </bean>
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
-    <property name="adminTeam" value="${admin.teamname}" />
+    <property name="adminLicentieIdPTeam" value="${admin.licentie.idp.teamname}" />
+    <property name="adminSurfConextIdPTeam" value="${admin.surfconext.idp.teamname}" />
+    <property name="adminDistributionTeam" value="${admin.distribution.channel.teamname}" />
     <property name="apiClient" ref="${openConextApiClient}" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
   </bean>
 
   <bean id="openConextApiClientMock" class="nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock">
-    <property name="adminTeam" value="${admin.teamname}" />
+    <property name="adminLicentieIdPTeam" value="${admin.licentie.idp.teamname}" />
+    <property name="adminSurfConextIdPTeam" value="${admin.surfconext.idp.teamname}" />
+    <property name="adminDistributionTeam" value="${admin.distribution.channel.teamname}" />
   </bean>	
 
   <bean id="openConextApiClient" class="nl.surfnet.coin.api.client.OpenConextOAuthClientImpl">
@@ -77,15 +81,15 @@
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
     <security:intercept-url pattern="${ASSERTION_CONSUMER_URI}"
-                               access="hasAnyRole(ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER)"/>
+                               access="hasAnyRole('ROLE_ANONYMOUS','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN', 'ROLE_DISTRIBUTION_CHANNEL_ADMIN', 'ROLE_USER')"/>
 
     <security:intercept-url pattern="/css/**" access="permitAll"/>
     <security:intercept-url pattern="/font/**" access="permitAll"/>
     <security:intercept-url pattern="/images/**" access="permitAll"/>
     <security:intercept-url pattern="/js/**" access="permitAll"/>
     <security:intercept-url pattern="/*.ico" access="permitAll"/>
-    <security:intercept-url pattern="/idpadmin/**" access="hasAnyRole('ROLE_ADMIN')"/>
-    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+    <security:intercept-url pattern="/idpadmin/**" access="hasAnyRole('ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN', 'ROLE_DISTRIBUTION_CHANNEL_ADMIN')"/>
+    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN', 'ROLE_DISTRIBUTION_CHANNEL_ADMIN')"/>
 
     <security:form-login login-page="/OpenSAML.sso/Login?target=${wayf.url.sso}" default-target-url="/" />
     <security:anonymous/>

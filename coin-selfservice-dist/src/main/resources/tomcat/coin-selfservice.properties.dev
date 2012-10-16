@@ -91,8 +91,10 @@ federationconfig.location=https://knikker.surfnet.nl/fedcfg/config-selfservice-t
 # Amount of miliseconds between reloading the SURFfederatie config file (900000 = 15 minutes)
 federationconfig.reload.interval=900000
 
-# Only members of the following team are admins
-admin.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
+# Only members of the following teams are admins
+admin.licentie.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
+admin.surfconext.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
+admin.distribution.channel.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:managementvo
 
 api-baseurl=https\://api.dev.surfconext.nl/v1/
 api-consumerkey=dev-selfservice
@@ -114,7 +116,7 @@ mode.dev=false
 
 hibernate-selfservice.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 hibernate-selfservice.hbm2ddl.auto=none
-hibernate-selfserviceformat_sql=true
+hibernate-selfservice.format_sql=true
 hibernate-selfservice.show_sql=true
 
 # Alle real implementations (and not local mocks for testing purposes)

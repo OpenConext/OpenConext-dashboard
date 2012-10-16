@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import java.util.Arrays;
+
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpSession;
 
@@ -69,7 +71,6 @@ public class ApiOAuthFilterTest {
     request = new MockHttpServletRequest("GET", "/anyUrl");
     response = new MockHttpServletResponse();
 
-
   }
 
   @Test
@@ -96,12 +97,10 @@ public class ApiOAuthFilterTest {
     SecurityContextHolder.getContext().setAuthentication(getAuthentication(new CoinUser()));
     when(apiClient.getAuthorizationUrl()).thenReturn("http://authorization-url");
 
-
     filter.doFilter(request, response, chain);
     LOG.debug("url: " + request.getRequestURL());
     assertThat("Originally requested url should be stored for later redirect (after oauth)",
-        (String) request.getSession().getAttribute(ApiOAuthFilter.ORIGINAL_REQUEST_URL),
-        IsEqual.equalTo("http://localhost:80/anyUrl"));
+        (String) request.getSession().getAttribute(ApiOAuthFilter.ORIGINAL_REQUEST_URL), IsEqual.equalTo("http://localhost:80/anyUrl"));
     assertThat("redirect to oauth authorization url", response.getRedirectedUrl(), IsEqual.equalTo("http://authorization-url"));
   }
 
@@ -113,14 +112,14 @@ public class ApiOAuthFilterTest {
     SecurityContextHolder.getContext().setAuthentication(getAuthentication(coinUser));
 
     filter.setCallbackFlagParameter("myDummyCallback");
-    filter.setAdminTeam("myAdminTeam");
+    filter.setAdminDistributionTeam("myAdminTeam");
 
     request.setParameter("myDummyCallback", "true");
     request.setSession(session);
     when(session.getAttribute(ApiOAuthFilter.ORIGINAL_REQUEST_URL)).thenReturn("http://originalUrl");
     filter.doFilter(request, response, chain);
     verify(apiClient).oauthCallback(eq(request), anyString());
-    verify(apiClient).getGroup20("the-users-uid", "myAdminTeam", "the-users-uid");
+    verify(apiClient).getGroups20("the-users-uid", "the-users-uid");
     verify(session).setAttribute(ApiOAuthFilter.PROCESSED, "true");
     assertThat("redirect to original url", response.getRedirectedUrl(), IsEqual.equalTo("http://originalUrl"));
   }
@@ -133,8 +132,8 @@ public class ApiOAuthFilterTest {
     coinUser.setUid("the-users-uid");
     SecurityContextHolder.getContext().setAuthentication(getAuthentication(coinUser));
 
-    filter.setAdminTeam("a-team");
-    when(apiClient.getGroup20("the-users-uid", "a-team", "the-users-id")).thenReturn(null);
+    filter.setAdminDistributionTeam("a-team");
+    when(apiClient.getGroups20("the-users-uid", "the-users-id")).thenReturn(null);
 
     filter.doFilter(request, response, chain);
     assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
@@ -144,7 +143,7 @@ public class ApiOAuthFilterTest {
   @Test
   public void filterAndUsePrefetchedAccessTokenAndIsAdmin() throws Exception {
 
-    filter.setAdminTeam("a-team");
+    filter.setAdminDistributionTeam("a-team");
 
     final CoinUser coinUser = new CoinUser();
     coinUser.setUid("the-users-uid");
@@ -153,7 +152,7 @@ public class ApiOAuthFilterTest {
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
     request.getSession(true).setAttribute(ApiOAuthFilter.PROCESSED, null);
     // let apiClient return the admin group
-    when(apiClient.getGroup20("the-users-uid", "a-team", "the-users-uid")).thenReturn(new Group20());
+    when(apiClient.getGroups20("the-users-uid", "the-users-uid")).thenReturn(Arrays.asList(new Group20("a-team", null, null)));
 
     // Before: no authorities
     assertThat(SecurityContextHolder.getContext().getAuthentication().getAuthorities().size(), Is.is(0));
@@ -164,7 +163,6 @@ public class ApiOAuthFilterTest {
     // Verify flag that the process is done.
     assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
   }
-
 
   protected Authentication getAuthentication(CoinUser coinUser) {
     final TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");

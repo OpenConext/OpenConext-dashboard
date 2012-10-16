@@ -26,6 +26,7 @@ import nl.surfnet.coin.selfservice.dao.FieldImageDao;
 import nl.surfnet.coin.selfservice.dao.FieldStringDao;
 import nl.surfnet.coin.selfservice.dao.ScreenshotDao;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.Field;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
 import nl.surfnet.coin.selfservice.domain.FieldImage;
 import nl.surfnet.coin.selfservice.domain.FieldString;
@@ -68,6 +69,7 @@ public class SpLmngDataBindingController extends BaseController {
   @Resource
   private ScreenshotDao screenshotDao;
 
+
   @RequestMapping(value = "/compoundSp-detail")
   public ModelAndView get(@RequestParam("spEntityId") String entityId) {
     ServiceProvider serviceProvider = sps.getServiceProvider(entityId);
@@ -95,22 +97,26 @@ public class SpLmngDataBindingController extends BaseController {
   String updateField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
       @RequestParam(value = "source") Source source, @RequestParam(value = "usethis", required = false) String useThis,
       @RequestParam(value = "save", required = false) String save) {
-    FieldString field = fieldStringDao.findById(fieldId);
-    if (StringUtils.hasText(useThis)) {
-      field.setSource(source);
+    //TODO refactor to use seperate methods...
+    if ("usethis-image".equals(useThis)) {
+      FieldImage fieldImage = fieldImageDao.findById(fieldId);
+      fieldImage.setSource(source);
+      fieldImageDao.saveOrUpdate((FieldImage) fieldImage);
+    } else {
+      FieldString field = fieldStringDao.findById(fieldId);
+      field.setValue(value);
+      if (StringUtils.hasText(useThis)) {
+        field.setSource(source);
+      }
+      fieldStringDao.saveOrUpdate((FieldString) field);
     }
-    field.setValue(value);
-    fieldStringDao.saveOrUpdate(field);
     return source.name();
   }
 
   @RequestMapping(value = "/upload", method = RequestMethod.POST)
   public @ResponseBody
-  String upload(
-    @RequestParam(value = "file", required = false) MultipartFile file,
-    @RequestParam(value = "source") Source source,
-    @RequestParam(value = "fieldId") Long fieldId,
-    @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
+  String upload(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "source") Source source,
+      @RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
     if (Source.DISTRIBUTIONCHANNEL.equals(source)) {
       Assert.isTrue(file != null, "File upload is required for Distrubution Channel");
     }
@@ -125,18 +131,18 @@ public class SpLmngDataBindingController extends BaseController {
     return field.getFileUrl();
   }
 
-  @RequestMapping(value = "/screenshot", method = RequestMethod.POST)
+  @RequestMapping(value = "/upload-screenshot", method = RequestMethod.POST, produces = "application/json")
   public @ResponseBody
-  String screenshot(
-    @RequestParam(value = "file", required = true) MultipartFile file,
-    @RequestParam(value = "screenshotId") Long screenshotId,
-    @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
+  Screenshot screenshot(@RequestParam(value = "file", required = true) MultipartFile file,
+      @RequestParam(value = "compoundServiceProviderId") Long compoundServiceProviderId) throws IOException {
     Screenshot screenshot = new Screenshot(file.getBytes());
+    CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundServiceProviderId);
+    csp.addScreenShot(screenshot);
     screenshotDao.saveOrUpdate(screenshot);
-    return screenshot.getFileUrl();
+    return new Screenshot(screenshot.getId());
   }
 
-  @RequestMapping(value = "/screenshot/{screenshotId}", method = RequestMethod.POST)
+  @RequestMapping(value = "/remove-screenshot/{screenshotId}", method = RequestMethod.DELETE)
   public @ResponseBody
   String screenshot(@PathVariable("screenshotId") Long screenshotId) throws IOException {
     Screenshot sc = screenshotDao.findById(screenshotId);

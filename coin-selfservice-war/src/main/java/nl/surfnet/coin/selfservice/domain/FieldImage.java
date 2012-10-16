@@ -81,7 +81,7 @@ public class FieldImage extends Field {
   }
 
   public String getFileUrl() {
-     return FILE_URL + getId() + FILE_POSTFIX;
+     return image == null ? null : FILE_URL + getId() + FILE_POSTFIX;
   }
 
   @Override
