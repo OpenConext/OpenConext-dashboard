@@ -50,14 +50,13 @@ public class HomeController extends BaseController {
   private CompoundSPService compoundSPService;
 
   @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute("currentrole") String currentRole,
-      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> model = new HashMap<String, Object>();
     
     // TODO create a generic way of retrieving the services for the current role
     List<CompoundServiceProvider> services
       = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find by idp id
-    model.put("compoundSps", services);
+    model.put(COMPOUND_SPS, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);

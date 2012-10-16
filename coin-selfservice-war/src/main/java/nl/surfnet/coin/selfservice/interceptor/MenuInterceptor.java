@@ -17,6 +17,8 @@
 package nl.surfnet.coin.selfservice.interceptor;
 
 import java.util.Collection;
+import java.util.List;
+
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,13 +45,26 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
-      map.addAttribute("menu", createMenu());
+      Menu menu = createMenu();
+      setSelected(request, menu);
+      map.addAttribute("menu", menu);
     }
   }
 
-  protected Menu createMenu() {
+  private void setSelected(HttpServletRequest request, Menu menu) {
+    String requestURI = request.getRequestURI();
+    List<MenuItem> menuItems = menu.getMenuItems();
+    for (MenuItem menuItem : menuItems) {
+      if (requestURI.endsWith(menuItem.getUrl())) {
+        menuItem.setSelected(true);
+        break;
+      }
+    }
+  }
+
+  private Menu createMenu() {
     Menu menu = new Menu();
-    menu.addMenuItem(new MenuItem("jsp.home.title", "/"));
+    menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
     menu.addMenuItem(new MenuItem("jsp.linkedServices.title", "/user/linked-services.shtml"));
     Collection<? extends GrantedAuthority> authorities = SpringSecurity.getCurrentUser().getAuthorities();
     for (GrantedAuthority grantedAuthority : authorities) {

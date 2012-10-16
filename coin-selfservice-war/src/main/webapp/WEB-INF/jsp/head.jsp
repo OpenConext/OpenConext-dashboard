@@ -60,8 +60,8 @@
           <li class="role-switch">
             <c:if test="${fn:length(idps) gt 1}">          
               <ul class="user-dropdown">
-                <c:forEach items="${idps}" var="idp" varStatus="i">
-                  <li class="user-role-manager ${i.count == 1 ? 'active' : ''}" data-roleId="${idp.id}">
+                <c:forEach items="${idps}" var="idp">
+                  <li class="user-role-manager ${selectedidp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
                         <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
                           <spring:param name="idpId" value="${idp.id}" />
                         </spring:url> 

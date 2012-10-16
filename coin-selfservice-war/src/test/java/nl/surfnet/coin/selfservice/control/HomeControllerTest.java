@@ -65,7 +65,7 @@ public class HomeControllerTest {
   @Test
   public void testStart() throws Exception {
 
-    final ModelAndView mav = controller.home("ROLE_USER", new IdentityProvider());
+    final ModelAndView mav = controller.home(new IdentityProvider());
     assertEquals("app-overview", mav.getViewName());
 
     final ModelMap modelMap = mav.getModelMap();
