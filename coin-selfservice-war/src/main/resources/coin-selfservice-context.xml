@@ -162,7 +162,7 @@
     <property name="secret" value="${janus.secret}" />
   </bean>
 
-  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+  <bean id="cacheManager" class="${cacheManagerClass}">
     <property name="cacheManager" ref="ehcache" />
   </bean>
   <bean id="ehcache"

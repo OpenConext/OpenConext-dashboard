@@ -50,7 +50,7 @@ public class CompoundSPService {
   @Resource
   private LicensingService licensingService;
 
-  @Cacheable("compoundServiceProviderService")
+  @Cacheable("default")
   public List<CompoundServiceProvider> getCSPsByIdp(IdentityProvider identityProvider) {
 
     // Base: the list of all service providers for this IDP
@@ -103,10 +103,10 @@ public class CompoundSPService {
     if (licenses.size() == 1) {
       csp.setLicense(licenses.get(0));
     } else if (licenses.isEmpty()) {
-      LOG.debug("No license for idp {} and SP {}", idp, csp.getServiceProvider());
+      LOG.debug("No license for idp {} and SP {}", idp.getId(), csp.getServiceProvider().getId());
     } else {
       LOG.info("Multiple licenses found for idp {} and SP {}: {}",
-        new Object[] {idp, csp.getServiceProvider(), licenses});
+        new Object[] {idp.getId(), csp.getServiceProvider().getId(), licenses.size()});
     }
   }
 }

@@ -21,14 +21,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.util.Assert;
-import org.springframework.web.client.RestClientException;
-
 import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.janus.domain.Contact;
 import nl.surfnet.coin.janus.domain.EntityMetadata;
@@ -41,6 +33,14 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.util.Assert;
+import org.springframework.web.client.RestClientException;
+
 public class ServiceRegistryProviderService implements ServiceProviderService, IdentityProviderService {
 
   private static final Logger log = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
@@ -50,7 +50,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   private Janus janusClient;
 
   @Override
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> allSPs = getAllServiceProvidersUnfiltered();
 
@@ -71,7 +71,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   public List<ServiceProvider> getAllServiceProviders() {
     return getAllServiceProvidersUnfiltered();
   }
@@ -99,7 +99,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     return linked;
   }
 
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   public List<String> getLinkedServiceProviderIDs(String idpId) {
     List<String> spList = new ArrayList<String>();
     try {
@@ -111,7 +111,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     return spList;
   }
 
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   private List<ServiceProvider> getAllServiceProvidersUnfiltered() {
     List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     try {
@@ -128,7 +128,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     try {
       // first get JanusEntity. This holds the information about the workflow
@@ -160,7 +160,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   public ServiceProvider getServiceProvider(String spEntityId) {
     return getServiceProvider(spEntityId, null);
   }
@@ -272,15 +272,8 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     return t;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.selfservice.service.IdentityProviderService#getIdentityProvider
-   * (java.lang.String)
-   */
   @Override
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   public IdentityProvider getIdentityProvider(String idpEntityId) {
     try {
       EntityMetadata metadataByEntityId = janusClient.getMetadataByEntityId(idpEntityId);
@@ -290,14 +283,8 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
-   * getInstituteIdentityProviders(java.lang.String)
-   */
   @Override
-  @Cacheable(value = { "sps-janus" })
+  @Cacheable("default")
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
     if (StringUtils.isBlank(instituteId)) {
@@ -311,15 +298,9 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     return idps;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
-   * getAllIdentityProviders()
-   */
   @Override
-  @Cacheable(value = { "sps-janus" })
- public List<IdentityProvider> getAllIdentityProviders() {
+  @Cacheable("default")
+  public List<IdentityProvider> getAllIdentityProviders() {
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
     try {
       final List<EntityMetadata> sps = janusClient.getIdpList();
