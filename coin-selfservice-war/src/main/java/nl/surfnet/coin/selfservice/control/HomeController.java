@@ -55,16 +55,8 @@ public class HomeController extends BaseController {
     Map<String, Object> model = new HashMap<String, Object>();
     
     // TODO create a generic way of retrieving the services for the current role
-    List<CompoundServiceProvider> services;
-    Menu menu;
-    if (CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN.name().equals(currentRole)) {
-      menu = buildMenu(MenuType.IDPADMIN, "home");
-      services = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find by idp id
-    } else {
-      menu = buildMenu(MenuType.USER, "home");
-      services = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find LINKED! by idp id
-    }
-    model.put("menu", menu);
+    List<CompoundServiceProvider> services
+      = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find by idp id
     model.put("compoundSps", services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
@@ -76,14 +68,12 @@ public class HomeController extends BaseController {
   @RequestMapping("/styleguide.shtml")
   public ModelAndView styleguide() {
     Map<String, Object> model = new HashMap<String, Object>();
-    model.put("menu", buildMenu(MenuType.USER, "styleguide"));
     return new ModelAndView("styleguide", model);
   }
 
   @RequestMapping("/form.shtml")
   public ModelAndView styleguideForm() {
     Map<String, Object> model = new HashMap<String, Object>();
-    model.put("menu", buildMenu(MenuType.USER, "styleguide"));
     return new ModelAndView("styleguide-form", model);
   }
 

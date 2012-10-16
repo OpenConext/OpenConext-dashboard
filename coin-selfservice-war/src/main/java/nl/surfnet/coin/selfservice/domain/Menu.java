@@ -23,29 +23,17 @@ import java.util.List;
  * Menu
  */
 public class Menu {
-  private final String id;
+
   private List<MenuItem> menuItems = new ArrayList<MenuItem>();
-
-  public Menu(String id) {
-    this.id = id;
-  }
-
-  /**
-   * @return identifier of the menu
-   */
-  public String getId() {
-    return id;
-  }
 
   public List<MenuItem> getMenuItems() {
     return menuItems;
   }
 
-  public void setMenuItems(List<MenuItem> menuItems) {
-    this.menuItems = menuItems;
-  }
-
   public void addMenuItem(MenuItem menuItem) {
-    this.menuItems.add(menuItem);
+    //clumsy, but we want to preserve the order and not have duplicates
+    if (!menuItems.contains(menuItem)) {
+      menuItems.add(menuItem);
+    }
   }
 }

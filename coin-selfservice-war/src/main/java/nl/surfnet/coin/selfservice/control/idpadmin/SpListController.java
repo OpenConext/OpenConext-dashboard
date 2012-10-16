@@ -51,7 +51,6 @@ public class SpListController extends BaseController {
     // Add SP's for all idps; put in a Set to filter out duplicates
     List<ServiceProvider> sps = providerService.getAllServiceProviders(selectedidp.getId());
     m.put("sps", sps);
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
     return new ModelAndView("idpadmin/sp-overview", m);
   }
 

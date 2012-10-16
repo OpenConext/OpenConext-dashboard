@@ -75,7 +75,6 @@ public class LinkrequestController extends BaseController {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
     m.put("linkrequest", new LinkRequest());
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
     return new ModelAndView("requests/linkrequest", m);
   }
 
@@ -85,7 +84,6 @@ public class LinkrequestController extends BaseController {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
@@ -103,7 +101,6 @@ public class LinkrequestController extends BaseController {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
-    m.put("menu", buildMenu(MenuType.IDPADMIN, "all-sps"));
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());

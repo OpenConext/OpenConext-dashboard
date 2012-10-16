@@ -16,14 +16,24 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import nl.surfnet.coin.janus.Janus;
+import nl.surfnet.coin.janus.domain.JanusEntity;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.util.PersonAttributeUtil;
+import nl.surfnet.spring.security.opensaml.Provisioner;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.Attribute;
@@ -34,16 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import nl.surfnet.coin.janus.Janus;
-import nl.surfnet.coin.janus.domain.JanusEntity;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
-import nl.surfnet.coin.selfservice.util.PersonAttributeUtil;
-import nl.surfnet.spring.security.opensaml.Provisioner;
-
 /**
  * implementation to return UserDetails from a SAML Assertion
  */
@@ -52,7 +52,9 @@ public class SAMLProvisioner implements Provisioner {
   private static final String DISPLAY_NAME = "urn:mace:dir:attribute-def:displayName";
   private static final String EMAIL = "urn:mace:dir:attribute-def:mail";
   private static final String SCHAC_HOME = "urn:mace:terena.org:attribute-def:schacHomeOrganization";
-  private static final String UID = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
+  
+  private String uuidAttribute = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
+
   private static final Logger LOG = LoggerFactory.getLogger(SAMLProvisioner.class);
 
   private IdentityProviderService identityProviderService;
@@ -80,7 +82,7 @@ public class SAMLProvisioner implements Provisioner {
       coinUser.addInstitutionIdp(idp);
     }
 
-    coinUser.setUid(getValueFromAttributeStatements(assertion, UID));
+    coinUser.setUid(getValueFromAttributeStatements(assertion, uuidAttribute));
     coinUser.setDisplayName(getValueFromAttributeStatements(assertion, DISPLAY_NAME));
     coinUser.setEmail(getValueFromAttributeStatements(assertion, EMAIL));
     coinUser.setSchacHomeOrganization(getValueFromAttributeStatements(assertion, SCHAC_HOME));
@@ -149,4 +151,10 @@ public class SAMLProvisioner implements Provisioner {
   public void setIdentityProviderService(IdentityProviderService identityProviderService) {
     this.identityProviderService = identityProviderService;
   }
+
+  public void setUuidAttribute(String uuidAttribute) {
+    this.uuidAttribute = uuidAttribute;
+  }
+
+ 
 }

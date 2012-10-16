@@ -53,8 +53,6 @@ public class ActionListController extends BaseController {
     final List<Action> actions = actionsService.getActions(selectedidp.getId());
     Collections.sort(actions, Collections.reverseOrder(Action.sortByDateAsc()));
     model.put("actionList", actions);
-    model.put("menu", buildMenu(MenuType.IDPADMIN, "requests-overview"));
-
     return new ModelAndView("requests-overview", model);
   }
 

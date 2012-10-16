@@ -707,6 +707,7 @@
         "appDescription":"Hogeschool Zeeland",
         "appThumbNail":"https://.png",
         "appEntityId":"http://adfs.myhz.nl/adfs/services/trust",
+        "instutionId":"mock-institution-id",
         "twoLeggedOauthAllowed":false,
         "consentNotRequired":false,
         "appLogoUrl":"https://.png",

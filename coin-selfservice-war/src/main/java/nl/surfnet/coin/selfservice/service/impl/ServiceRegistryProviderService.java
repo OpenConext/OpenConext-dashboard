@@ -300,7 +300,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   @Cacheable(value = { "sps-janus" })
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
-    if (StringUtils.isNotBlank(instituteId)) {
+    if (StringUtils.isBlank(instituteId)) {
       return idps;
     }
     //first get all entities id's

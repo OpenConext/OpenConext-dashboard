@@ -83,8 +83,6 @@ public class ServiceDetailController extends BaseController {
     CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(compoundSpId);
     m.put("compoundSp", compoundServiceProvider);
 
-    m.put("menu", buildMenu(MenuType.USER, "linked-services"));
-
     String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
     final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(), spEntityId);
     m.put("mayHaveGivenConsent", mayHaveGivenConsent);
