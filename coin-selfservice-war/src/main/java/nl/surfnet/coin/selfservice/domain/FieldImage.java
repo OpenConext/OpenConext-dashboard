@@ -20,7 +20,6 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.hibernate.annotations.Proxy;
 
 /**
@@ -89,7 +88,7 @@ public class FieldImage extends Field {
     return "FieldImage [fileUrl=" + fileUrl +
       ", getSource()=" + getSource() +
       ", getKey()=" + getKey() +
-      ", image=" + image == null ? "" : (image.length + " bytes") +
+      ", image=" + (image == null ? "" : (image.length + " bytes")) +
       ", getId()=" + getId() + "]";
   }
 
