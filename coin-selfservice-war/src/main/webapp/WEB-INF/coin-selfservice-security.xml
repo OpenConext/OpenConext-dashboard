@@ -28,6 +28,7 @@
 
   <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner">
     <property name="identityProviderService" ref="providerService" />
+    <property name="uuidAttribute" value="${saml-uuid-attribute}"/>
   </bean>
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 package nl.surfnet.coin.selfservice.util;
+import static java.util.Arrays.asList;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,32 @@ import nl.surfnet.coin.api.client.domain.Person;
  * 
  */
 public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
+
+  public enum Users {
+
+    ADMIN_IDP_SURFCONEXT("adminidpsc"), ADMIN_IDP_LICENSE("adminidpli"), ADMIN_DISTRIBUTIE_CHANNEL("admindk"), USER("user"), ALL("NA");
+
+    private String user;
+
+    private Users(String user) {
+      this.user = user;
+    }
+
+    public String getUser() {
+      return user;
+    }
+
+    public static Users fromUser(String userName) {
+      Users[] values = Users.values();
+      for (Users user : values) {
+        if (user.getUser().equalsIgnoreCase(userName)) {
+          return user;
+        }
+      }
+      return ALL;
+    }
+  }
+
   private String adminLicentieIdPTeam;
   private String adminSurfConextIdPTeam;
   private String adminDistributionTeam;
@@ -112,9 +139,24 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
    */
   @Override
   public List<Group20> getGroups20(String userId, String onBehalfOf) {
-    return Arrays.asList(createGroup20(adminLicentieIdPTeam), createGroup20(adminSurfConextIdPTeam), createGroup20(adminDistributionTeam));
+    final Users user = Users.fromUser(userId);
+    switch (user) {
+    case ADMIN_DISTRIBUTIE_CHANNEL:
+      return asList(createGroup20(adminDistributionTeam));
+    case ADMIN_IDP_LICENSE:
+      return asList(createGroup20(adminLicentieIdPTeam));
+    case ADMIN_IDP_SURFCONEXT:
+      return asList(createGroup20(adminSurfConextIdPTeam));
+    case USER:
+      return new ArrayList<Group20>();
+    case ALL:
+      return asList(createGroup20(adminLicentieIdPTeam), createGroup20(adminSurfConextIdPTeam), createGroup20(adminDistributionTeam));
+    default:
+      throw new RuntimeException("Unknown");
+    }
+    
   }
-  
+
   private Group20 createGroup20(String id) {
     return new Group20(id, null, null);
   }
@@ -142,6 +184,5 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
   public void setAdminDistributionTeam(String adminDistributionTeam) {
     this.adminDistributionTeam = adminDistributionTeam;
   }
-
 
 }
