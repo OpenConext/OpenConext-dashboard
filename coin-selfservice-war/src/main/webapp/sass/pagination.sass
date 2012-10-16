@@ -1,0 +1,89 @@
+.pagination
+  background: transparent
+  border: none
+  margin: 1em 0
+
+  ul li
+    a
+      +filter-gradient(#FFF, #E7E7E7)
+      background: #FFF
+      +background(linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), #FFF)
+      background-size: 100% 100%
+      border: 1px solid #D3D3D3
+      +border-radius(3px)
+      color: #666
+      display: block
+      font-size: 14px
+      height: 14px
+      line-height: 14px
+      margin-left: 7px
+      overflow: hidden
+      padding: 5px 8px
+      +single-transition(background-color, 0.2s)
+
+      &:hover,
+      &:focus
+        +filter-gradient(#F3F3F3, #F3F3F3)
+        background-color: #F3F3F3
+        background-position: 0 0
+        +single-transition(background-color, 0.2s)
+
+    &.active a
+      +filter-gradient(#67C6DD, #53B3D3)
+      background: #67C6DD
+      +background(linear-gradient(top, #67C6DD, #53B3D3), #67C6DD)
+      border-color: #4993A8
+      color: #FFF
+
+    &.active a,
+    &.disabled
+      pointer-events: none
+
+    &:first-child a,
+    &:last-child a
+      +filter-gradient(#FFF, #E7E7E7)
+      background: #FFF
+      +background(linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), #FFF)
+      background-size: 100% 100%
+      border: 1px solid #D3D3D3
+      +border-radius(3px)
+      color: #666
+      display: block
+      font-size: 14px
+      height: 14px
+      line-height: 14px
+      margin-left: 7px
+      overflow: hidden
+      padding: 5px 8px
+      position: relative
+      +single-transition(background-color, 0.2s)
+
+      &:hover
+        +filter-gradient(#F3F3F3, #F3F3F3)
+        background-color: #F3F3F3
+        background-position: 0 0
+        +single-transition(background-color, 0.2s)
+
+    &:first-child a::before
+      background: url(../images/bg-pagination-prev.png)
+      content: ''
+      display: inline
+      display: inline-block
+      height: 8px
+      left: -6px
+      position: relative
+      width: 15px
+      zoom: 1
+
+    &:last-child a::after
+      background: url(../images/bg-pagination-next.png)
+      content: ''
+      display: inline
+      display: inline-block
+      height: 8px
+      left: 6px
+      position: relative
+      width: 15px
+
+    &.disabled a
+      background-color: #EEE

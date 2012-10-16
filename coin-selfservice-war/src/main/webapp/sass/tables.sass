@@ -1,0 +1,211 @@
+.data-table-holder
+  position: relative
+
+.data-table-wrapper
+  overflow: auto
+  width: 100%
+
+  .table
+    min-width: 700px
+
+.table,
+.table-bordered,
+.table-striped
+  border-bottom: none
+  border-left: none
+  border-right: none
+  border-top-color: #E1E1E1
+  margin: 1em 0
+
+  th
+    +filter-gradient(#FFF, #F2F2F2)
+    background: #FFF
+    +background(linear-gradient(top, #FFF, #F2F2F2), #FFF)
+    border-bottom-color: #E1E1E1
+    border-left: none
+    border-right: none
+    color: #666
+    font-size: 12px
+    font-weight: normal
+    height: auto
+
+    a
+      color: #666
+
+  td
+    background: #FFF
+    border-bottom-color: #E1E1E1
+    border-left: none
+    border-right: none
+    color: #000
+    padding: 10px 8px
+
+  tr:nth-child(even) td
+    background: #F8F8F8 !important
+
+.table-sortable
+  margin-top: 2.25em
+
+  thead .sorting,
+  thead .sorting_asc,
+  thead .sorting_desc
+    cursor: pointer
+
+    &:focus
+      color: #070707
+      outline: none
+      text-decoration: underline
+
+    &:after
+      background: url(../images/bg-toggle-read-more.png) 0 0
+      bottom: 2px
+      content: ''
+      display: inline-block
+      height: 7px
+      margin-left: 10px
+      position: relative
+      vertical-align: middle
+      width: 9px
+
+  thead .sorting_desc:after
+    background-position: 0 -7px
+
+.table-discussion
+  td
+    border-left: 1px solid $subtle_gray
+    +box-sizing(border-box)
+    min-width: 270px
+    padding: 25px
+
+    &:first-child
+      border-left: none
+
+    time
+      color: #666
+
+    label
+      font-family: 'VAG Rundschrift D Light', vagrundschriftdligregular, 'Helvetica Neue', Helvetiva, Arial, sans-serif
+      font-size: 20px
+      font-smooth: always
+      font-weight: normal
+      line-height: 25px
+
+    textarea
+      +box-sizing(border-box)
+      font-size: 1em
+      height: 10em
+      resize: vertical
+      width: 100%
+
+.dataTables_empty
+  font-style: italic
+
+.dataTables_filter input
+  background: #FFF url(../images/bg-icon-grid-search.png) no-repeat 96% 50%
+  border-radius: 5em
+  height: auto
+  padding: 6px 16px
+  position: absolute
+  right: 0
+  top: 0
+
+.table-with-statuses
+  .new,
+  .in-progress,
+  .handled,
+  .denied
+    &:before
+      background: url(../images/sprite-icons-statuses.png)
+      content: ''
+      display: inline-block
+      height: 18px
+      margin-right: 8px
+      vertical-align: middle
+      width: 23px
+
+  .denied:before
+    background-position: 0 -18px
+
+  .handled:before
+    background-position: 0 -36px
+
+  .in-progress:before
+    background-position: 0 -54px
+
+
+
+.table.narrow
+  display: block
+  min-width: 0
+  width: 100%
+
+  thead,
+  tbody,
+  th,
+  td,
+  tr
+    display: block
+
+  thead tr
+    left: -9999px
+    position: absolute
+    top: -9999px
+
+  tr
+    border: 1px solid $subtle_gray
+    border-width: 1px 0
+
+  td
+    border: none
+    border-bottom: 1px solid $subtle_gray
+    padding-left: 40%
+    position: relative
+
+    &:before
+      content: attr(data-title)
+      left: 8px
+      padding-right: 10px
+      position: absolute
+      top: 10px
+      white-space: nowrap
+      width: 55%
+
+
+@media (max-width: 767px)
+  .dataTables_filter input
+    +box-sizing(border-box)
+    margin: 0
+    position: static
+    width: 100%
+
+
+@media (max-width: 600px), (max-width: 1000px) and (min-width: 767px)
+  .table-discussion
+    min-width: 0
+
+    tr,
+    td
+      border: none
+      display: block
+
+    td,
+    th
+      background: transparent !important
+      padding: 15px 0 5px
+
+      & + td,
+      & + th
+        padding: 0 0 15px
+
+      &:nth-child(even)
+        border-bottom: 1px solid $subtle_gray
+
+  .table-discussion.table-striped tbody tr:nth-child(even) td
+    background: transparent !important
+
+
+@media (max-width: 767px) and (min-width: 600px)
+  .table-discussion
+    td,
+    th
+      min-width: 200px

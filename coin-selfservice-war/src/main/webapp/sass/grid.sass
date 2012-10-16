@@ -1,0 +1,94 @@
+.has-left-right,
+.has-left
+  overflow: hidden
+  width: 100%
+
+  > div
+    +box-sizing(border-box)
+
+  .column-left
+    display: inline
+    float: left
+    padding: 50px 50px 0 50px
+    width: 260px
+
+  .column-center
+    border: 1px solid $subtle_gray
+    border-width: 0 1px
+    margin: 0 300px 0 260px
+    padding: 43px 50px 50px
+
+  .column-right
+    display: inline
+    float: right
+    padding-top: 50px
+    width: 250px
+
+  &.narrow
+    .column-center
+      border-right: none
+      margin-right: 0
+      padding: 50px
+
+    .column-right
+      border-left: 1px solid $subtle_gray
+      border-top: none
+      display: block
+      float: none
+      margin: 0 0 0 260px
+      padding: 0 0 50px 50px
+      width: auto
+
+      > section
+        border-top: none
+        padding-top: 2em
+
+  .condensed &
+    margin: 0
+
+    .column-left
+      float: none
+      padding: 0
+      width: 100%
+
+    .column-center
+      border-left: none
+      margin-left: 0
+      padding: 25px
+
+    &.narrow .column-right
+      border: none
+      margin-left: 0
+      padding: 0 25px
+
+      section
+        padding-top: 0
+
+        p
+          margin-bottom: 0
+
+          &:last-child
+            margin-bottom: 1.5em
+
+.has-left
+  .column-center
+    border-right: none
+    margin-right: 0
+
+
+@media (max-width: 767px)
+  .has-left,
+  .has-left-right
+    .column-left
+      float: none
+      overflow: hidden
+      padding: 0
+      width: 100%
+
+      section
+        padding: 25px
+
+    .column-center
+      border-left: none
+      margin-left: 0
+      padding: 25px

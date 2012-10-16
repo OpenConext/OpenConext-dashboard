@@ -1,0 +1,222 @@
+@import "compass/typography/text/ellipsis"
+
+.app-grid-holder
+  position: relative
+
+.app-grid
+  background: url(../images/bg-app-grid.png) repeat-x 0 100%
+  border-top: 1px solid $subtle_gray
+  margin: 25px 0
+  overflow: hidden
+  width: 100%
+
+  &.app-grid-js
+    li
+      cursor: pointer
+      +transition(background-color 1s)
+
+      &:hover
+        background: #F2F2F2
+        +transition(background-color 0.3s)
+
+  li
+    border: 1px solid $subtle_gray
+    border-width: 0 1px 1px 0
+    +box-sizing(border-box)
+    display: block
+    float: left
+    height: 127px
+    overflow: hidden
+    padding: 22px 20px 22px 114px
+    position: relative
+    width: 33%
+
+    &:nth-child(3n)
+      border-right: none
+
+    &.hide
+      display: none
+
+    h2
+      font: bold 14px 'Helvetica Neue', Helvetica, Arial, sans-serif
+
+      a
+        color: #000
+        +transition(none)
+
+        &:hover,
+        &:focus
+          color: $main_blue
+          +transition(none)
+
+    p.desc
+      height: 25px
+      line-height: 25px
+      margin-bottom: 0.25em
+      +ellipsis
+      width: 100%
+
+    img
+      height: 73px
+      left: 22px
+      position: absolute
+      top: 22px
+      width: 73px
+
+    .open-app a
+      +filter-gradient(#FFF, #E7E7E7)
+      background: #FFF
+      +background(linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), #FFF)
+      background-size: 100% 100%
+      border: 1px solid #D3D3D3
+      +border-radius(3px)
+      color: #666
+      display: inline
+      display: inline-block
+      font-size: 11px
+      font-weight: bold
+      height: 14px
+      line-height: 14px
+      overflow: hidden
+      padding: 4px 6px
+      position: relative
+      text-transform: uppercase
+      +transition(none)
+      zoom: 1
+
+      &:hover
+        +filter-gradient(#EC9900, #DD9000)
+        background: #EF9900
+        +background(linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #EF9900)
+        border-color: #CB9A40 #B66600 #B55E00 #B66600
+        color: #FFF
+        text-decoration: none
+
+      &:after
+        background: url(../images/bg-open-app.png)
+        content: ''
+        display: inline
+        display: inline-block
+        height: 8px
+        left: 6px
+        position: relative
+        width: 15px
+
+input.app-grid-search
+  background: #FFF url(../images/bg-icon-grid-search.png) no-repeat 96% 50%
+  border-radius: 5em
+  height: auto
+  padding: 6px 16px
+  position: absolute
+  right: 50px
+  top: 50px
+
+  &:focus
+    outline: none
+
+  &::-webkit-input-placeholder
+    color: #CACACA
+
+  &:-moz-placeholder
+    color: #CACACA
+
+  &:-ms-input-placeholder
+    color: #CACACA
+
+  .condensed &
+    right: 25px
+    top: 25px
+
+
+@media (min-width: 1300px)
+  .app-grid
+    li
+      width: 25%
+
+      &:nth-child(3n)
+        border-right: 1px solid $subtle_gray
+
+      &:nth-child(4n)
+        border-right: none
+
+
+@media (max-width: 1200px)
+  .app-grid
+    li
+      width: 50%
+
+      &:nth-child(3n)
+        border-right: 1px solid $subtle_gray
+
+      &:nth-child(2n)
+        border-right: none
+
+
+@media (max-width: 950px)
+  .app-grid-wrapper
+    .column-left
+      float: none
+      overflow: hidden
+      padding: 0
+      width: 100%
+
+      section
+        padding: 25px
+
+      .secondary-menu
+        border-bottom: 1px solid $subtle_gray
+        margin: 0
+        max-width: 100%
+        min-width: 100%
+        overflow: hidden
+        padding-top: 0
+        width: 100%
+
+        ul li
+          float: left
+          margin: 0
+
+          &:before
+            display: none
+
+          ul
+            display: none
+
+        a
+          display: block
+          font-size: 14px
+          font-weight: normal
+          padding: 15px 5px 15px 25px
+
+    .column-center
+      border-left: none
+      margin-left: 0
+      padding: 25px
+
+  input.app-grid-search
+    +box-sizing(border-box)
+    margin: 10px 0
+    position: static
+    width: 100%
+
+  .no-sticky-app-grid-wrapper-menu .hidden-phone
+    display: none
+    
+  .app-grid-holder
+    margin: -1px 0 !important
+    padding: 0 !important
+
+    section
+      margin-bottom: 0
+      padding: 0 25px
+
+  .app-grid
+    margin: 0 -25px 25px
+    width: auto
+
+
+@media (max-width: 560px)
+  .app-grid
+    li
+      border-right: none !important
+      width: 100%

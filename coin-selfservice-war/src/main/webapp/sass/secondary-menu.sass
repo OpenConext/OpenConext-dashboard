@@ -1,0 +1,136 @@
+.secondary-menu
+  margin: -50px 0 0
+  padding-top: 50px
+  top: 0
+  width: 100%
+
+  &.sticky
+    left: 50px
+    position: fixed
+    top: 50px
+    width: 160px
+    z-index: 9999
+
+    .condensed &
+      background: #FFF
+      left: 0
+      right: 0
+      top: 0
+      width: 100%
+
+  ul
+    margin: 0
+    list-style: none
+
+  > ul > li
+    margin: 0 0 17px 0
+    padding: 0
+    position: relative
+
+    &:before
+      background: url(../images/sprite-secondary-menu.png)
+      background-position: 0 0
+      content: ''
+      height: 50px
+      left: 0
+      pointer-events: none
+      position: absolute
+      top: -12px
+      width: 30px
+
+    &:hover:before,
+    &:focus:before,
+    &.active:before
+      background-position: -40px 0
+
+    &.groups
+      &:before
+        background-position: 0 -50px
+      &:hover:before,
+      &:focus:before,
+      &.active:before
+        background-position: -40px -50px
+
+    &.requests
+      &:before
+        background-position: 0 -100px
+      &:hover:before,
+      &:focus:before,
+      &.active:before
+        background-position: -40px -100px
+
+    &.stats
+      &:before
+        background-position: 0 -150px
+      &:hover:before,
+      &:focus:before,
+      &.active:before
+        background-position: -40px -150px
+
+    &.profile
+      &:before
+        background-position: 0 -200px
+      &:hover:before,
+      &:focus:before,
+      &.active:before
+        background-position: -40px -200px
+
+    &.actions
+      float: none
+
+  a
+    color: #7F7F7F
+    display: block
+    font-size: 18px
+    font-weight: 300
+    letter-spacing: 0.06em
+    padding: 4px 0 4px 40px
+    +transition(color 0.3s)
+
+    &:hover,
+    &:focus
+      color: $main_blue
+      +transition(color 0.3s)
+      outline: none
+      
+  .active > a
+    color: $main_blue
+
+  li
+    line-height: 18px
+
+  ul ul
+    li
+      padding: 0
+
+    a
+      color: #626262
+      font-size: 14px
+      letter-spacing: 1px
+      padding: 4px 0 0 40px
+
+@media (max-width: 767px)
+  .secondary-menu
+    border-bottom: 1px solid $subtle_gray
+    margin: 0
+    max-width: 100%
+    min-width: 100%
+    overflow: hidden
+    padding-top: 0
+    width: 100%
+
+    ul li
+      float: left
+      margin: 0
+
+      &:before
+        display: none
+
+      ul
+        display: none
+
+    a
+      display: block
+      font-size: 14px
+      font-weight: normal
+      padding: 15px 5px 15px 25px

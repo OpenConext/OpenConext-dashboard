@@ -1,0 +1,271 @@
+.header
+  background: #FFF url(../images/bg-header.png) no-repeat 50% 100%
+  +box-sizing(border-box)
+  clear: both
+  float: left
+  margin-bottom: 0
+  min-height: 0
+  padding: 19px 30px 19px 50px
+  width: 100%
+
+  body.js-loading &
+    max-height: 74px
+
+  a
+    height: auto
+    left: auto
+    position: static
+    top: auto
+    width: auto
+
+  .logo
+    float: left
+    margin: -15px
+    padding: 15px
+
+    &:focus
+      +border-radius(5px)
+      outline: 1px dashed #CCC
+
+  nav
+    float: right
+    visibility: visible
+    width: auto
+
+    body.js-loading &
+      visibility: hidden
+
+    ul
+      list-style: none
+      margin: 0
+      padding: 0
+      width: auto
+
+    li
+      border-left: 1px solid $subtle_gray
+      color: #626262
+      float: left
+      font-size: 14px
+      font-weight: 300
+      height: 26px
+      line-height: 26px
+      padding: 5px 20px
+      width: auto
+
+      &:first-child
+        border-left: none
+
+    a
+      color: #626262
+      +single-transition(color, 0.2s)
+
+      &:hover,
+      &:focus
+        color: #333
+        +single-transition(color, 0.2s)
+
+    .user a
+      color: #52B2D2
+      text-decoration: underline
+
+      &:hover,
+      &:focus
+        color: #626262
+
+    .role-switch
+      position: relative
+      width: 130px
+
+      .user-dropdown
+        background: #FFF
+        +background(linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), #FFF)
+        border: 1px solid #E5E5E5
+        +border-radius(3px)
+        left: 5px
+        padding: 0 8px
+        position: absolute
+        right: 5px
+        top: 5px
+        z-index: 99
+
+        &:after
+          background: url(../images/select2.png) no-repeat 0 1px
+          +border-right-radius(4px)
+          bottom: 0
+          content: ''
+          position: absolute
+          right: 0
+          top: 0
+          width: 18px
+
+        li
+          border-left: none
+          display: none
+          padding: 0
+
+          &.active
+            display: block
+
+        a
+          display: block
+          height: 26px
+          line-height: 26px
+
+      &:hover
+        .user-dropdown
+          background: #CCC
+          +background(linear-gradient(#FFF 85%, #EEE 99%))
+
+          &:after
+            background: url(../images/select2.png) no-repeat 0 1px
+            border-left: none
+
+        li
+          display: block
+          height: 36px
+
+          a
+            display: block
+            height: 36px
+
+          &:last-child
+            height: 26px
+
+            a
+              height: 26px
+
+    .configuration:before,
+    .logout:before
+      color: #7E7E7E
+      font-family: FontAwesome
+      margin-right: 10px
+
+    .configuration:before
+      content: '\f013'
+
+    .logout:before
+      content: '\f045'
+
+  .condensed &
+    .menu-trigger
+      +filter-gradient(#68C6DE, #53B3D3)
+      background: #68C6DE
+      +background(linear-gradient(top, #68C6DE, #53B3D3), #68C6DE)
+      border: 1px solid #4690A6
+      border-color: #7DB4C1 #79B0BF #4690A6 #79B0BF
+      +border-radius(3px)
+      box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.0470588) 0px 1px 2px 0px
+      color: #FFF
+      font-size: 16px
+      height: 19px
+      margin-left: 7px
+      overflow: hidden
+      padding: 8px 13px 9px
+      position: absolute !important
+      right: 25px
+      text-indent: -9999em
+      top: 17px
+      +transition(background-color 0.2s, color 0.2s)
+      width: 39px
+      zoom: 1
+
+      &:hover
+        +filter-gradient(#56A3B7, #56A3B7)
+        background-color: #56A3B7
+        color: #FFF
+        +transition(background-color 0.2s, color 0.2s)
+
+      &:before
+        background: url(../images/user-dropdown.png)
+        content: ''
+        height: 19px
+        left: 13px
+        position: absolute
+        top: 8px
+        width: 39px
+
+    .menu-respond-holder
+      background: #FFF
+      border: 1px solid $subtle_gray
+      +border-radius(4px)
+      box-shadow: 1px 1px 0 rgba(7, 7, 7, 0.15)
+      position: absolute
+      right: 25px
+      top: 65px
+      width: 200px
+      z-index: 99
+
+      &:before
+        border-bottom: 10px solid $subtle_gray
+        border-left: 7px solid transparent
+        border-right: 7px solid transparent
+        content: ''
+        height: 0
+        position: absolute
+        right: 10px
+        top: -10px
+        width: 0
+
+      &:after
+        border-bottom: 7px solid #FFF
+        border-left: 5px solid transparent
+        border-right: 5px solid transparent
+        content: ''
+        height: 0
+        position: absolute
+        right: 12px
+        top: -7px
+        width: 0
+
+      li
+        border-bottom: 1px solid $subtle_gray
+        height: 26px
+        margin: 0 15px
+        padding: 15px 0
+
+      .role-switch
+        height: auto
+        width: auto
+
+      .user-dropdown
+        background: transparent !important
+        border: none
+        +border-radius(3px)
+        padding: 0 8px
+        position: static
+
+        &:after
+          display: none
+
+        li
+          border: none
+          display: block
+          height: auto
+          margin-left: 1em
+
+        a
+          height: auto
+
+@media (max-width: 767px)
+  .header
+    float: left
+    margin: 0
+    padding: 19px 5px 19px 25px
+    width: 100%
+
+    nav
+      width: 100%
+
+      li
+        border-left: none
+        float: none
+        height: auto
+        padding: 5px 0
+
+@media (max-width: 950px)
+  .no-sticky-app-grid-wrapper-menu
+    .header
+      float: left
+      margin: 0
+      padding: 19px 5px 19px 25px
+      width: 100%
