@@ -40,10 +40,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Controller for SP detail pages
+ *
+ * @deprecated All requests for detail pages should be handled by a single controller, {@link nl.surfnet.coin.selfservice.control.ServiceDetailController}
  */
 @Controller
 @RequestMapping("/idpadmin/sp")
 @SessionAttributes(value = { "linkrequest", "unlinkrequest" })
+@Deprecated
 public class SpDetailController extends BaseController {
 
   @Resource(name = "providerService")

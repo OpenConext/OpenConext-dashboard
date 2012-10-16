@@ -14,9 +14,14 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control.idpadmin;
+package nl.surfnet.coin.selfservice.control.statistics;
 
 import java.util.List;
+
+import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.dao.StatisticDao;
+import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,11 +29,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import nl.surfnet.coin.selfservice.control.BaseController;
-import nl.surfnet.coin.selfservice.dao.StatisticDao;
-import nl.surfnet.coin.selfservice.domain.ChartSerie;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 
 /**
  * Controller for statistics
@@ -54,7 +54,7 @@ public class StatisticController extends BaseController {
     }
   }
 
-  void setStatisticDao(StatisticDao statisticDao) {
+  public void setStatisticDao(StatisticDao statisticDao) {
     this.statisticDao = statisticDao;
   }
 

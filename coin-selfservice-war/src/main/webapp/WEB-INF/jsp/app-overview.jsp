@@ -26,7 +26,7 @@
 			<c:forEach items="${sps}" var="sp">
 				<c:if test="${not empty sp.id}">
 					<li>
-						<spring:url value="/user/service/detail.shtml" var="detailUrl" htmlEscape="true">
+						<spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
 							<spring:param name="spEntityId" value="${sp.id}" />
 						</spring:url>
 						<h2>

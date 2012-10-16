@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control.user;
+package nl.surfnet.coin.selfservice.control;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,15 +22,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
@@ -43,11 +34,19 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
 /**
  * Controller for the detail view(s) of a service (provider)
  */
 @Controller
-@RequestMapping("/user/service/*")
+@RequestMapping
 public class ServiceDetailController extends BaseController {
 
   @Resource(name = "providerService")
@@ -71,7 +70,7 @@ public class ServiceDetailController extends BaseController {
    * @param spEntityId the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value = "detail.shtml")
+  @RequestMapping(value = "/app-detail")
   public ModelAndView serviceDetail(@RequestParam String spEntityId,
                                     @RequestParam(required = false) String revoked,
                                     @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
@@ -96,7 +95,7 @@ public class ServiceDetailController extends BaseController {
     List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(selectedidp, sp);
     m.put("licenses", licenses);
     
-    return new ModelAndView("user/service-detail", m);
+    return new ModelAndView("app-detail", m);
   }
 
 
@@ -105,6 +104,6 @@ public class ServiceDetailController extends BaseController {
                                  @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     oAuthTokenService.revokeOAuthTokens(SpringSecurity.getCurrentUser().getUid(), sp);
-    return new RedirectView("detail.shtml?revoked=true&spEntityId=" + spEntityId);
+    return new RedirectView("app-detail.shtml?revoked=true&spEntityId=" + spEntityId);
   }
 }
