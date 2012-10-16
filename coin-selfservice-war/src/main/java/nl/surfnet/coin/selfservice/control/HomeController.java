@@ -22,10 +22,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -55,7 +53,7 @@ public class HomeController extends BaseController {
     
     // TODO create a generic way of retrieving the services for the current role
     List<CompoundServiceProvider> services
-      = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find by idp id
+      = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();

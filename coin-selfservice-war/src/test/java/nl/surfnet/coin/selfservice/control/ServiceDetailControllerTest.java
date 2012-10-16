@@ -99,7 +99,7 @@ public class ServiceDetailControllerTest {
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
     CompoundServiceProvider csp = new CompoundServiceProvider();
-    when(compoundSPService.getCSPById(1L)).thenReturn(csp);
+    when(compoundSPService.getCSPById(idp, 1L)).thenReturn(csp);
     when(licensingService.getLicensesForIdentityProvider(idp)).thenReturn(new ArrayList<License>());
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 

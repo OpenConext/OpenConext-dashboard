@@ -80,7 +80,7 @@ public class ServiceDetailController extends BaseController {
                                     @RequestParam(required = false) String revoked,
                                     @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(compoundSpId);
+    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(selectedidp, compoundSpId);
     m.put("compoundSp", compoundServiceProvider);
 
     String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
