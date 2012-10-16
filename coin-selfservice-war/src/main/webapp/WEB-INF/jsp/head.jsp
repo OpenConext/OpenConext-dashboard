@@ -34,6 +34,7 @@
       <link rel="stylesheet" href="<c:url value="/css/layout.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/screen.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/select2.css"/>"/>
+      <link rel="stylesheet" href="<c:url value="/css/shopadmin.css"/>"/>
     </c:when>
     <c:otherwise>
       <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>"/>

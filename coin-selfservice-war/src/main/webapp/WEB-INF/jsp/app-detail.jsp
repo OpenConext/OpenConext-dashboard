@@ -83,29 +83,19 @@
 
     <hr>
 
-    <h2>Screenshots van <c:out value="${spname}"/></h2>
+    <c:if test="${not empty compoundSp.screenShotsImages}">
+      <h2>Screenshots van <c:out value="${spname}"/></h2>
 
-    <div class="screenshots-holder gallery-holder">
-      <ul class="gallery">
-        <li>
-          <a href="../images/screenshots/screenshot-1.jpg">
-            <img src="../images/screenshots/screenshot-1-thumb.jpg" alt="Foo">
-          </a>
-        </li><li>
-          <a href="../images/screenshots/screenshot-1.jpg">
-            <img src="../images/screenshots/screenshot-1-thumb.jpg" alt="Foo">
-          </a>
-        </li><li>
-          <a href="../images/screenshots/screenshot-1.jpg">
-            <img src="../images/screenshots/screenshot-1-thumb.jpg" alt="Foo">
-          </a>
-        </li><li>
-          <a href="../images/screenshots/screenshot-1.jpg">
-            <img src="../images/screenshots/screenshot-1-thumb.jpg" alt="Foo">
-          </a>
-        </li>
-      </ul>
-    </div>
+      <div class="screenshots-holder gallery-holder">
+        <ul class="gallery">
+          <c:forEach items="${compoundSp.screenShotsImages}" var="screenshot"><li>
+            <a href="<spring:url value="${screenshot.fileUrl}" />">
+              <img src="<spring:url value="${screenshot.fileUrl}" />" alt="Screenshot <c:out value="${spname}"/>">
+            </a>
+          </li></c:forEach>
+        </ul>
+      </div>
+    </c:if>
   </section>
 
 </div><!-- .column-center.content-holder -->

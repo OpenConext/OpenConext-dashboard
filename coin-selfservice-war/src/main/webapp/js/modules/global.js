@@ -119,17 +119,17 @@ app.global = function() {
 
     var initTooltips = function() {
 
-        $('[rel="tooltip"]').tooltip({
-            placement : _placement
-        });
+        // $('[rel="tooltip"]').tooltip({
+        //     placement : _placement
+        // });
 
     };
 
     var initPopovers = function() {
 
-        $('[rel="popover"]').popover({
-            placement : _placement
-        });
+        // $('[rel="popover"]').popover({
+        //     placement : _placement
+        // });
 
     };
 
