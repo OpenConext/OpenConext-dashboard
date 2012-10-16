@@ -18,8 +18,6 @@ package nl.surfnet.coin.selfservice.control;
 
 import java.util.HashMap;
 
-import javax.annotation.Resource;
-
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
@@ -69,7 +67,6 @@ public class HomeControllerTest {
     assertEquals("app-overview", mav.getViewName());
 
     final ModelMap modelMap = mav.getModelMap();
-    assertTrue(modelMap.containsKey("menu"));
     assertTrue(modelMap.containsKey("personAttributeLabels"));
   }
 }
