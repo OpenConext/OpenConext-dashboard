@@ -14,12 +14,23 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control.user;
+package nl.surfnet.coin.selfservice.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import nl.surfnet.coin.selfservice.dao.ConsentDao;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.service.OAuthTokenService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,17 +44,6 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import nl.surfnet.coin.selfservice.dao.ConsentDao;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
-import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
-import nl.surfnet.coin.selfservice.service.OAuthTokenService;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
@@ -52,7 +52,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Test for {@link ServiceDetailController}
+ * Test for {@link nl.surfnet.coin.selfservice.control.ServiceDetailController}
  */
 public class ServiceDetailControllerTest {
 
@@ -104,7 +104,7 @@ public class ServiceDetailControllerTest {
     when(oAuthTokenService.getOAuthTokenInfoList(coinUser.getUid(), sp)).thenReturn(infos);
 
     final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
-    assertEquals("user/service-detail", modelAndView.getViewName());
+    assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(sp, modelAndView.getModelMap().get("sp"));
     assertTrue(modelAndView.getModelMap().containsKey("revoked"));
     assertNull(modelAndView.getModelMap().get("revoked"));
@@ -121,7 +121,7 @@ public class ServiceDetailControllerTest {
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
     when(licensingService.getLicensesForIdentityProvider(idp)).thenReturn(new ArrayList<License>());
     final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
-    assertEquals("user/service-detail", modelAndView.getViewName());
+    assertEquals("app-detail", modelAndView.getViewName());
     assertFalse(modelAndView.getModelMap().containsKey("sp"));
   }
 
@@ -137,7 +137,7 @@ public class ServiceDetailControllerTest {
 
     final RedirectView view = controller.revokeKeys("mockSp", idp);
     verify(oAuthTokenService).revokeOAuthTokens(coinUser.getUid(), sp);
-    assertEquals("detail.shtml?revoked=true&spEntityId=mockSp", view.getUrl());
+    assertEquals("app-detail.shtml?revoked=true&spEntityId=mockSp", view.getUrl());
   }
 
   private Authentication getAuthentication() {

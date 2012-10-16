@@ -18,6 +18,11 @@ package nl.surfnet.coin.selfservice.control;
 
 import java.util.HashMap;
 
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -25,9 +30,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -44,6 +46,9 @@ public class HomeControllerTest {
   @Mock
   private PersonAttributeLabelServiceJsonImpl labelService;
 
+  @Mock
+  private ServiceProviderService sps;
+
   @Before
   public void setUp() throws Exception {
     controller = new HomeController();
@@ -54,7 +59,7 @@ public class HomeControllerTest {
   @Test
   public void testStart() throws Exception {
 
-    final ModelAndView mav = controller.home("ROLE_USER");
+    final ModelAndView mav = controller.home("ROLE_USER", new IdentityProvider());
     assertEquals("app-overview", mav.getViewName());
 
     final ModelMap modelMap = mav.getModelMap();
