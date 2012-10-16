@@ -19,7 +19,7 @@
 <sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
 <selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
 <c:if test="${fn:length(arps) gt 0}">
-  <h3><spring:message code="jsp.sp_detail.arp"/></h3>
+  <h2><spring:message code="jsp.sp_detail.arp"/></h2>
 
   <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
   <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${spname}"/></p>

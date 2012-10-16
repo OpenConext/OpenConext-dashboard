@@ -128,8 +128,15 @@
 
 
 
+<c:choose>
+  <c:when test="${not empty param.wrapperAdditionalCssClass}">
+    <div class="wrapper ${param.wrapperAdditionalCssClass}">
+  </c:when>
+  <c:otherwise>
+    <div class="wrapper has-left">
+  </c:otherwise>
+</c:choose>
 
-<div class="wrapper has-left app-grid-wrapper">
   <div class="column-left menu-holder">
     <nav class="secondary-menu">
       <ul>

@@ -38,7 +38,9 @@
         <jsp:include page="arp.jsp" />
 
 
-        <spring:message code="jsp.sp_linkrequest.termsintro" />
+        <p>
+          <spring:message code="jsp.sp_linkrequest.termsintro" />
+        </p>
         <ul>
           <li><spring:message code="jsp.sp_linkrequest.terms1" arguments="${spname}"/></li>
           <li><spring:message code="jsp.sp_linkrequest.terms2" arguments="${spname}"/></li>
@@ -70,7 +72,7 @@
             <div class="actions">
               <button type="submit" class="btn btn-primary"><spring:message
                   code="jsp.sp_linkrequest.buttonsubmit"/></button>
-              <a href="<c:url value="/idpadmin/sp/detail.shtml">
+              <a class="btn" href="<c:url value="/idpadmin/sp/detail.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"><spring:message code="jsp.sp_linkrequest.buttoncancel"/></a>
             </div>

@@ -36,7 +36,7 @@
 
         <c:set var="sp" value="${sp}" scope="request" />
 
-        <spring:message code="jsp.sp_unlinkrequest.intro" arguments="${spname}"/>
+        <p><spring:message code="jsp.sp_unlinkrequest.intro" arguments="${spname}"/></p>
 
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
@@ -64,7 +64,7 @@
             <div class="actions">
               <button type="submit" class="btn btn-primary"><spring:message
                   code="jsp.sp_unlinkrequest.buttonsubmit"/></button>
-              <a href="<c:url value="/idpadmin/sp/detail.shtml">
+              <a class="btn" href="<c:url value="/idpadmin/sp/detail.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"><spring:message code="jsp.sp_unlinkrequest.buttoncancel"/></a>
             </div>

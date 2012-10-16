@@ -18,6 +18,8 @@
   limitations under the License.
   --%>
 
+</div>
+
 <footer class="footer">
   <div class="content-some-dense">
     <spring:message code="jsp.general.footertext" htmlEscape="false"/>

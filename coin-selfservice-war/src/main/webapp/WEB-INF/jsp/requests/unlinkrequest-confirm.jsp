@@ -42,13 +42,14 @@
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
             <input type="hidden" name="confirmed" value="true" />
-            <div class="message">
+            <p>
+              <i class="icon-info-sign"></i>
               <spring:message code="jsp.sp_unlinkrequestconfirm.message" />
-            </div>
+            </p>
             <div class="actions">
               <button type="submit" class="btn btn-primary"><spring:message
                   code="jsp.sp_unlinkrequestconfirm.buttonsubmit"/></button>
-              <a href="<c:url value="/idpadmin/sp/detail.shtml">
+              <a class="btn" href="<c:url value="/idpadmin/sp/detail.shtml">
                 <c:param name="spEntityId" value="${sp.id}" />
               </c:url>"><spring:message code="jsp.sp_unlinkrequestconfirm.buttoncancel"/></a>
             </div>

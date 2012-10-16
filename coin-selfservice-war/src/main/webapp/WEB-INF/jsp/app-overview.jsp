@@ -17,7 +17,8 @@
   --%>
 <spring:message var="title" code="jsp.home.title" />
 <jsp:include page="head.jsp">
-	<jsp:param name="title" value="${title}" />
+  <jsp:param name="title" value="${title}" />
+  <jsp:param name="wrapperAdditionalCssClass" value="has-left wrapper-app-grid" />
 </jsp:include>
 <div class="column-center content-holder app-grid-holder">
 	<h1 class="hidden-phone">Mijn apps</h1>

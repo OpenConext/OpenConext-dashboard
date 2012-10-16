@@ -16,10 +16,11 @@
   limitations under the License.
   --%>
 
-<c:set var="spname"><tags:providername provider="${compoundSp}" /></c:set>
+<c:set var="spname"><tags:providername provider="${compoundSp.sp}" /></c:set>
 <spring:message var="title" code="jsp.home.title" />
 <jsp:include page="head.jsp">
   <jsp:param name="title" value="${title}" />
+  <jsp:param name="wrapperAdditionalCssClass" value="has-left-right" />
 </jsp:include>
 
 <div class="column-right side-content-holder">
@@ -30,8 +31,8 @@
     <ul class="action-list">
       <li><a href="index.html">Website <c:out value="${spname}"/></a></li>
       <li><a href="index.html">Contact <c:out value="${spname}"/></a></li>
-      <c:if test="${not empty compoundSp.eulaURL}">
-        <li><a href="${compoundSp.eulaURL}">Terms & Conditions</a></li>
+      <c:if test="${not empty compoundSp.eulaUrl}">
+        <li><a href="${compoundSp.eulaUrl}">Terms & Conditions</a></li>
       </c:if>
     </ul>
     <p>Wordt gebruikt door 21 andere instellingen en door 2401 personen.</p>
@@ -58,15 +59,15 @@
     <div>
       <c:choose>
         <c:when test="${not compoundSp.sp.linked}">
-          <a class="btn btn-primary" href="<c:url value="/requests/linkrequest.shtml">
-            <c:param name="spEntityId" value="${compoundSp.sp.spid}" />
+          <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/linkrequest.shtml">
+            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
           </c:url>"
              title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
           </a>
         </c:when>
-        <c:when test="${compoundSp.sp.splinked}">
-          <a class="btn btn-primary" href="<c:url value="/requests/unlinkrequest.shtml">
-            <c:param name="spEntityId" value="${compoundSp.sp.spid}" />
+        <c:when test="${compoundSp.sp.linked}">
+          <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/unlinkrequest.shtml">
+            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
           </c:url>"
              title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
               code="jsp.sp_detail.requestunlink"/>
