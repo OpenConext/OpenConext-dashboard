@@ -31,7 +31,6 @@
     <script src="<c:url value="/js/bootstrap/bootstrap-popover.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-tooltip.js"/>"></script>
     <script src="<c:url value="/js/highstock.js"/>"></script>
-    <script src="<c:url value="/js/jquery/jquery.datatables.1.9.1.min.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.1.9.4.min.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.columnfilter.1.4.7.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.ui.widget.js"/>"></script>
@@ -40,40 +39,20 @@
     <script src="<c:url value="/js/jquery/select2.js"/>"></script>
     <script src="<c:url value="/js/main.js"/>"></script>
     <script src="<c:url value="/js/modules/app-grid.js"/>"></script>
-    <script src="<c:url value="/js/modules/form.js"/>"></script>
     <script src="<c:url value="/js/modules/gallery.js"/>"></script>
     <script src="<c:url value="/js/modules/global.js"/>"></script>
     <script src="<c:url value="/js/modules/message.js"/>"></script>
-    <script src="<c:url value="/js/modules/reservation.js"/>"></script>
     <script src="<c:url value="/js/modules/respond.js"/>"></script>
     <script src="<c:url value="/js/modules/secondary-menu.js"/>"></script>
     <script src="<c:url value="/js/modules/table.js"/>"></script>
     <script src="<c:url value="/js/tools/html5shiv.js"/>"></script>
     <script src="<c:url value="/js/tools/ios-orientationchange-fix.js"/>"></script>
-    <script src="<c:url value="/js/tools/live.js"/>"></script>
-    <script src="<c:url value="/js/tools/prettify.js"/>"></script>
     <script src="<c:url value="/js/tools/sizewatcher.js"/>"></script>
   </c:when>
   <c:otherwise>
     <script src="<c:url value="/js/script.min.js"/>"></script>
   </c:otherwise>
 </c:choose>
-
-<spring:url var="url_plugin_socket" value="/js/jquery/jquery-socket-1.0a.js"/>
-<spring:url var="url_plugin_autoSuggest" value="/js/jquery/jquery-autoSuggest.js"/>
-<spring:url var="url_plugin_datepicker" value="/js/datepicker/bootstrap-datepicker.js"/>
-<spring:url var="url_plugin_dropdownReload" value="/js/jquery/dropdown-reload.js"/>
-
-<script>
-  app.plugins = {
-    jquery:{
-      socket:'<c:out value="${url_plugin_socket}"/>',
-      autoSuggest:'<c:out value="${url_plugin_autoSuggest}"/>',
-      datepicker:'<c:out value="${url_plugin_datepicker}"/>',
-      dropdownReload:'<c:out value="${url_plugin_dropdownReload}"/>'
-    }
-  }
-</script>
 
 <c:if test="${param.chart eq true}">
 <tags:sp_renderchart/>
