@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
@@ -31,6 +32,7 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
@@ -52,6 +54,9 @@ public class ServiceDetailController extends BaseController {
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
 
+  @Resource
+  private CompoundSPService compoundSPService;
+
   @Resource(name = "oAuthTokenService")
   private OAuthTokenService oAuthTokenService;
 
@@ -67,32 +72,32 @@ public class ServiceDetailController extends BaseController {
   /**
    * Controller for detail page.
    *
-   * @param spEntityId the entity id
+   * @param compoundSpId the compound service provider id
    * @return ModelAndView
    */
   @RequestMapping(value = "/app-detail")
-  public ModelAndView serviceDetail(@RequestParam String spEntityId,
+  public ModelAndView serviceDetail(@RequestParam long compoundSpId,
                                     @RequestParam(required = false) String revoked,
                                     @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
-    if (sp.isLinked()) {
-      m.put("sp", sp);
-    }
+    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(compoundSpId);
+    m.put("compoundSp", compoundServiceProvider);
+
     m.put("menu", buildMenu(MenuType.USER, "linked-services"));
 
+    String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
     final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(), spEntityId);
     m.put("mayHaveGivenConsent", mayHaveGivenConsent);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     m.put("personAttributeLabels", attributeLabelMap);
 
-    final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser().getUid(), sp);
+    final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser().getUid(), compoundServiceProvider.getServiceProvider());
     m.put("oAuthTokens", oAuthTokens);
 
     m.put("revoked", revoked);
     
-    List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(selectedidp, sp);
+    List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(selectedidp, compoundServiceProvider.getServiceProvider());
     m.put("licenses", licenses);
     
     return new ModelAndView("app-detail", m);

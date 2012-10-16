@@ -37,11 +37,18 @@ public class CompoundSPService {
 
   // TODO: cache
   // TODO: filter by idpEntityId
+  // TODO: first get all sps. Then lookup CompoundSPs, adding non-existing ones.
   public List<CompoundServiceProvider> getAllCSPByIdp(String idpEntityId) {
     List<CompoundServiceProvider> all = compoundServiceProviderDao.findAll();
     for(CompoundServiceProvider csp : all) {
       csp.setServiceProvider(serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId()));
     }
     return all;
+  }
+
+  public CompoundServiceProvider getCSPById(long compoundSpId) {
+    CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
+    csp.setServiceProvider(serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId()));
+    return csp;
   }
 }

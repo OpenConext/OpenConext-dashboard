@@ -46,7 +46,6 @@ public class HomeController extends BaseController {
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
-
   @Resource
   private CompoundSPService compoundSPService;
 

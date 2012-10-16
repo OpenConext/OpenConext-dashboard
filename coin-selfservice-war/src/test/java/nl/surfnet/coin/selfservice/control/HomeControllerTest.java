@@ -18,9 +18,12 @@ package nl.surfnet.coin.selfservice.control;
 
 import java.util.HashMap;
 
+import javax.annotation.Resource;
+
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import org.junit.Before;
@@ -48,6 +51,9 @@ public class HomeControllerTest {
 
   @Mock
   private ServiceProviderService sps;
+
+  @Mock
+  private CompoundSPService compoundSPService;
 
   @Before
   public void setUp() throws Exception {

@@ -18,11 +18,11 @@ package nl.surfnet.coin.selfservice.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
@@ -30,6 +30,7 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import org.junit.Before;
@@ -45,9 +46,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -80,6 +82,9 @@ public class ServiceDetailControllerTest {
   @Mock
   private PersonAttributeLabelServiceJsonImpl labelService;
 
+  @Mock
+  private CompoundSPService compoundSPService;
+
   @Before
   public void setUp() throws Exception {
     controller = new ServiceDetailController();
@@ -90,39 +95,24 @@ public class ServiceDetailControllerTest {
 
   @Test
   public void testSpDetail() throws Exception {
-    ServiceProvider sp = new ServiceProvider("mockSP");
-    sp.setLinked(true);
+
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
-    when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
+    CompoundServiceProvider csp = new CompoundServiceProvider();
+    when(compoundSPService.getCSPById(1L)).thenReturn(csp);
     when(licensingService.getLicensesForIdentityProvider(idp)).thenReturn(new ArrayList<License>());
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 
     OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
     info.setUserId(coinUser.getUid());
     List<OAuthTokenInfo> infos = Arrays.asList(info);
-    when(oAuthTokenService.getOAuthTokenInfoList(coinUser.getUid(), sp)).thenReturn(infos);
+    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenReturn(infos);
 
-    final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
+    final ModelAndView modelAndView = controller.serviceDetail(1, null, idp);
     assertEquals("app-detail", modelAndView.getViewName());
-    assertEquals(sp, modelAndView.getModelMap().get("sp"));
+    assertEquals(csp, modelAndView.getModelMap().get("compoundSp"));
     assertTrue(modelAndView.getModelMap().containsKey("revoked"));
     assertNull(modelAndView.getModelMap().get("revoked"));
-  }
-
-  @Test
-  public void testSpDetail_notLinked() throws Exception {
-    ServiceProvider sp = new ServiceProvider("mockSP");
-    IdentityProvider idp = new IdentityProvider();
-    idp.setId("mockIdP");
-    sp.setLinked(false);
-    when(providerService.getServiceProvider("mockSP", "mockIdP")).thenReturn(sp);
-    when(oAuthTokenService.getOAuthTokenInfoList(coinUser.getUid(), sp)).thenReturn(Collections.<OAuthTokenInfo>emptyList());
-    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
-    when(licensingService.getLicensesForIdentityProvider(idp)).thenReturn(new ArrayList<License>());
-    final ModelAndView modelAndView = controller.serviceDetail("mockSP", null, idp);
-    assertEquals("app-detail", modelAndView.getViewName());
-    assertFalse(modelAndView.getModelMap().containsKey("sp"));
   }
 
   @Test
