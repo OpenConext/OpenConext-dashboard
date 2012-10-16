@@ -69,13 +69,12 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
     Collection<? extends GrantedAuthority> authorities = SpringSecurity.getCurrentUser().getAuthorities();
     for (GrantedAuthority grantedAuthority : authorities) {
       if (grantedAuthority instanceof CoinAuthority) {
-        Authority authority = fromString(((CoinAuthority) grantedAuthority).getAuthority());
+        Authority authority = ((CoinAuthority) grantedAuthority).getEnumAuthority();
         switch (authority) {
         case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
           menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests-overview.shtml"));
           menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
           menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
-          menu.addMenuItem(new MenuItem("jsp.allsp.title", "/idpadmin/all-sps.shtml"));
           break;
         case ROLE_IDP_LICENSE_ADMIN:
           menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests-overview.shtml"));

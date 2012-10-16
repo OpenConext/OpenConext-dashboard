@@ -71,10 +71,10 @@
                   </li>
                 </c:forEach>
               </ul>
-          </c:if>
-          <c:if test="${fn:length(idps) == 1}">
-            <tags:providername provider="${idps[0]}" />
-          </c:if>
+            </c:if>
+            <c:if test="${fn:length(idps) == 1}">
+              <tags:providername provider="${idps[0]}" />
+            </c:if>
           </li>
         
 
@@ -83,9 +83,6 @@
     </nav>
 
   </header>
-
-
-
 
   <c:choose>
     <c:when test="${not empty param.wrapperAdditionalCssClass}">
