@@ -271,9 +271,14 @@
         	append("<div class='screenshot-content'><img src='"+ contextPath + imageUrl.fileUrl +  "?" + new Date().getTime() + "'/>"
         			+ "<a id='screenshot-remove-" + imageUrl.id + "' href='#'>X</a></div>" );
         } else {
-            $(currentFileuploadForm)
-            .find("img")
-            .replaceWith("<img src='" + contextPath +  imageUrl +  "?" + new Date().getTime() + "'/>");
+            var img = $(currentFileuploadForm).find("img");
+            var newimg = "<img src='" + contextPath +  imageUrl +  "?" + new Date().getTime() + "'/>";
+            if (img.length) {
+            	img.replaceWith(newimg);
+            } else {
+            	form.prepend(newimg);
+            }
+            
         }
       },
       error: function(jqXHR, textStatus, errorThrown) {
