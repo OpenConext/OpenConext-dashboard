@@ -19,60 +19,69 @@
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
 <spring:message var="title" code="jsp.allsp.title"/>
 
-<jsp:include page="../header.jsp">
+<jsp:include page="../head.jsp">
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-<section>
+<div class="column-center content-holder">
 
-  <h2>${title}</h2>
+  <section>
 
-  <div class="content">
+    <h1>${title}</h1>
 
-    <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination">
-      <thead>
-      <tr>
-        <th><spring:message code="jsp.sp_overview.name"/></th>
-        <th><spring:message code="jsp.sp_overview.lmngid"/></th>
-        <th><spring:message code="jsp.sp_overview.detail"/></th>
-      </tr>
-      </thead>
-      <tbody>
+    <div class="content">
 
-      <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
-      <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
-      <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
+      <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination">
+        <thead>
+        <tr>
+          <th><spring:message code="jsp.sp_overview.name"/></th>
+          <th><spring:message code="jsp.sp_overview.lmngid"/></th>
+          <th><spring:message code="jsp.sp_overview.detail"/></th>
+        </tr>
+        </thead>
+        <tbody>
 
-      <c:forEach items="${bindings}" var="binding" varStatus="status">
-        <c:if test="${not empty binding.serviceProvider.id}">
-          <spring:url value="compoundSp-detail.shtml" var="detailUrl" htmlEscape="true">
-            <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
-          </spring:url>
-          <tr>
-            <td title="${binding.serviceProvider.id} - ${fn:substring(binding.serviceProvider.descriptions[locale.language], 0, 40)}"><a href="${detailUrl}">
-            		<tags:providername provider="${binding.serviceProvider}"/>
-            	</a></td>
-            <td class="text-overflow">
-			  <form:form method="post" action="save-splmng.shtml" >
-            	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
-            	<input value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
-            	<button type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');">C</button>
-            	<button type="submit" value="submit" title="${submitButtonTitle}" name="submit">V</button>
-			  </form:form>
-            </td>
-            <td class="center">
-              <a href="${detailUrl}">Data decisions</a>
-            </td>
-          </tr>
-        </c:if>
-      </c:forEach>
+        <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
+        <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
+        <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
 
-      </tbody>
-    </table>
+        <c:forEach items="${bindings}" var="binding" varStatus="status">
+          <c:if test="${not empty binding.serviceProvider.id}">
+            <spring:url value="compoundSp-detail.shtml" var="detailUrl" htmlEscape="true">
+              <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
+            </spring:url>
+            <tr>
+              <td title="${binding.serviceProvider.id} - ${fn:substring(binding.serviceProvider.descriptions[locale.language], 0, 40)}"><a href="${detailUrl}">
+              		<tags:providername provider="${binding.serviceProvider}"/>
+              	</a></td>
+              <td>
+  			  <form:form method="post" action="save-splmng.shtml" style="margin:0">
+              	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
+              	<input value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
+                <div class="btn-group">
+                	<button class="btn btn-small" type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');">
+                    <i class="icon-ban-circle"></i>
+                  </button>
+                	<button class="btn btn-small" type="submit" value="submit" title="${submitButtonTitle}" name="submit">
+                    <i class="icon-ok"></i>
+                  </button>
+                </div>
+  			  </form:form>
+              </td>
+              <td class="center">
+                <a href="${detailUrl}">Data decisions</a>
+              </td>
+            </tr>
+          </c:if>
+        </c:forEach>
 
-  </div>
-</section>
+        </tbody>
+      </table>
 
-<jsp:include page="../footer.jsp">
+    </div>
+  </section>
+</div>
+
+<jsp:include page="../foot.jsp">
   <jsp:param name="datatables" value="true"/>
 </jsp:include>
