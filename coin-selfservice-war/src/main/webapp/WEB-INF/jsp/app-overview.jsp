@@ -51,7 +51,4 @@
 		</ul>
 	</section>
 </div>
-<!-- .span9.content-holder -->
-
-</div>
 <jsp:include page="foot.jsp" />
