@@ -17,37 +17,55 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.Menu;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.Menu;
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-
+/**
+ * Controller of the homepage showing 'my apps' (or my services, meaning the
+ * services that belong to you as a user with a specific role)
+ * 
+ */
 @Controller
 public class HomeController extends BaseController {
 
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
-  @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute("currentrole") String currentRole) {
-    Map<String, Object> model = new HashMap<String, Object>();
+  @Resource(name = "providerService")
+  private ServiceProviderService providerService;
 
+  @RequestMapping("/app-overview.shtml")
+  public ModelAndView home(@ModelAttribute("currentrole") String currentRole,
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+    Map<String, Object> model = new HashMap<String, Object>();
+    
+    // TODO create a generic way of retrieving the services for the current role
+    List<ServiceProvider> services;
     Menu menu;
     if (CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN.name().equals(currentRole)) {
       menu = buildMenu(MenuType.IDPADMIN, "home");
+      services = providerService.getAllServiceProviders(selectedidp.getId());
     } else {
       menu = buildMenu(MenuType.USER, "home");
+      services = providerService.getLinkedServiceProviders(selectedidp.getId());
     }
     model.put("menu", menu);
+    model.put("sps", services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);

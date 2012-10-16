@@ -14,7 +14,6 @@
 
   <c:choose>
     <c:when test="${dev eq true}">
-      <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.2.min.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.4.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/bootstrap-alert.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/bootstrap-button.css"/>"/>
@@ -29,16 +28,12 @@
       <link rel="stylesheet" href="<c:url value="/css/bootstrap-responsive.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/bootstrap-table.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/bootstrap-tooltip.css"/>"/>
-      <link rel="stylesheet" href="<c:url value="/css/component-autoSuggest.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/component-datatables.css"/>"/>
-      <link rel="stylesheet" href="<c:url value="/css/component-userbox.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/generic.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/layout.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/screen.css"/>"/>
       <link rel="stylesheet" href="<c:url value="/css/select2.css"/>"/>
-      <link rel="stylesheet" href="<c:url value="/css/styleguide"/>"/>
-      <link rel="stylesheet" href="<c:url value="/css/tweaks.css"/>"/>
     </c:when>
     <c:otherwise>
       <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>"/>

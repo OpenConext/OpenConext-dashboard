@@ -1,5 +1,5 @@
-<%@ include file="include.jsp" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ include file="include.jsp"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -15,65 +15,43 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   --%>
-<spring:message var="title" code="jsp.home.title"/>
+<spring:message var="title" code="jsp.home.title" />
 <jsp:include page="head.jsp">
-  <jsp:param name="title" value="${title}"/>
+	<jsp:param name="title" value="${title}" />
 </jsp:include>
-      <div class="column-center content-holder app-grid-holder">
-        <h1 class="hidden-phone">Mijn apps</h1>
-        <section>
-          <ul class="app-grid" data-search-placeholder="Search in applications">
-            <li>
-              <h2><a href="app-detail-page.html">Prezi</a></h2>
-              <img src="../images/logos/prezi.png" alt="">
-              <p class="desc">Presos</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-            <li>
-              <h2><a href="app-detail-page.html">SkyDrive</a></h2>
-              <img src="../images/logos/skydrive.png" alt="">
-              <p class="desc">Offline opslag</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-            <li>
-              <h2><a href="app-detail-page.html">Alfresco</a></h2>
-              <img src="../images/logos/alfresco.png" alt="">
-              <p class="desc">Document management</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-            <li>
-              <h2><a href="app-detail-page.html">Drillster</a></h2>
-              <img src="../images/logos/drillster.png" alt="">
-              <p class="desc">Online learning</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-            <li>
-              <h2><a href="app-detail-page.html">Strato</a></h2>
-              <img src="../images/logos/strato.png" alt="">
-              <p class="desc">Websites en hosting</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-            <li>
-              <h2><a href="app-detail-page.html">Google Apps</a></h2>
-              <img src="../images/logos/google-apps.png" alt="">
-              <p class="desc">Diverse apps</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-            <li>
-              <h2><a href="app-detail-page.html">Veoh</a></h2>
-              <img src="../images/logos/veoh.png" alt="">
-              <p class="desc">Videos</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-            <li>
-              <h2><a href="app-detail-page.html">Greencloud</a></h2>
-              <img src="../images/logos/greencloud.png" alt="">
-              <p class="desc">Greencloud</p>
-              <p class="open-app"><a href="app-detail-page.html">Open app</a></p>
-            </li>
-          </ul>
-        </section>
-      </div><!-- .span9.content-holder -->
+<div class="column-center content-holder app-grid-holder">
+	<h1 class="hidden-phone">Mijn apps</h1>
+	<section>
+		<ul class="app-grid" data-search-placeholder="Search in applications">
+			<c:forEach items="${sps}" var="sp">
+				<c:if test="${not empty sp.id}">
+					<li>
+						<spring:url value="/user/service/detail.shtml" var="detailUrl" htmlEscape="true">
+							<spring:param name="spEntityId" value="${sp.id}" />
+						</spring:url>
+						<h2>
+							<a href="${detailUrl}"><tags:providername provider="${sp}" /></a>
+						</h2> 
+						<c:if test="${not empty sp.logoUrl}">
+							<img src="${sp.logoUrl}" alt="<c:out value=""/>" />
+						</c:if>
+						<p class="desc">
+							<c:out value="${fn:substring(sp.descriptions[locale.language], 0, 40)}" />
+						</p>
+						<c:if test="${not empty sp.urls[locale.language]}">
+							<p class="open-app">
+								<a href="<c:out value="${sp.urls[locale.language]}"/>" class="open-app" target="_blank"> 
+									<spring:message	code="jsp.sp_detail.serviceurl" />
+								</a>
+							</p>
+						</c:if>
+					</li>
+				</c:if>
+			</c:forEach>
+		</ul>
+	</section>
+</div>
+<!-- .span9.content-holder -->
 
-    </div>
-<jsp:include page="foot.jsp"/>
+</div>
+<jsp:include page="foot.jsp" />
