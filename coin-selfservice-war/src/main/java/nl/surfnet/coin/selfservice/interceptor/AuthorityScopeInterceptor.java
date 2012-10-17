@@ -28,6 +28,8 @@ import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTI
 import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,7 +96,11 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     sp.setConstraints(constraints);
   }
 
-  private boolean containsRole(Collection<CoinAuthority> authorities, Authority... authority) {
+  private boolean containsRole(Collection<CoinAuthority> coinAuthorities, Authority... authority) {
+    Set<Authority> authorities = new HashSet<CoinAuthority.Authority>();
+    for (CoinAuthority grantedAuth : coinAuthorities) {
+      authorities.add(grantedAuth.getEnumAuthority());
+    }
     for (Authority auth : authority) {
       if (authorities.contains(auth)) {
         return true;
