@@ -36,6 +36,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+/**
+ * Abstraction for the Compound Service Providers.
+ * This deals with persistence and linking to Service Providers
+ */
 @Component
 public class CompoundSPService {
 
@@ -64,19 +68,27 @@ public class CompoundSPService {
     // Build a list of CSPs. Create new ones for SPs that have no CSP yet.
     List<CompoundServiceProvider> all = new ArrayList<CompoundServiceProvider>();
     for(ServiceProvider sp : allServiceProviders) {
+
+      CompoundServiceProvider csp;
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
-        CompoundServiceProvider csp = mapByServiceProviderEntityId.get(sp.getId());
-        enrich(identityProvider, csp);
-        all.add(csp);
+         csp = mapByServiceProviderEntityId.get(sp.getId());
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
-        CompoundServiceProvider csp = createCompoundServiceProvider(sp);
-        all.add(csp);
+        csp = createCompoundServiceProvider(sp);
       }
+      enrich(identityProvider, csp);
+      all.add(csp);
     }
     return all;
   }
 
+  /**
+   * Create a CSP for the given SP.
+   * TODO: add license
+   *
+   * @param sp the SP
+   * @return the created (and persisted) CSP
+   */
   public CompoundServiceProvider createCompoundServiceProvider(ServiceProvider sp) {
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, new License());
     compoundServiceProviderDao.saveOrUpdate(csp);
@@ -91,12 +103,24 @@ public class CompoundSPService {
     return map;
   }
 
+  /**
+   * Get a CSP by its ID, for the given IDP.
+   * @param idp the IDP
+   * @param compoundSpId long
+   * @return
+   */
   public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId) {
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
     enrich(idp, csp);
     return csp;
   }
 
+  /**
+   * Enrich a CSP with license data and the underlying service provider.
+   *
+   * @param idp the IDP for whom this CSP is enriched (licenses are Idp specific)
+   * @param csp the CSP to be enriched.
+   */
   protected void enrich(IdentityProvider idp, CompoundServiceProvider csp) {
     csp.setServiceProvider(serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId()));
     List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(idp, csp.getServiceProvider());
