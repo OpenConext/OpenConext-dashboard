@@ -53,7 +53,7 @@
     <property name="version" value="v2" />
   </bean>
 
-  <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.CertificateStoreImpl">
+  <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.KeyStore">
     <property name="certificates">
       <map>
         <entry key="${wayf.url.metadata}" value="${wayf.certificate}"/>
@@ -74,6 +74,7 @@
     <property name="SAMLMessageHandler" ref="samlMessageHandler"/>
     <property name="assertionConsumerServiceURL" value="${ASSERTION_CONSUMER_URL}"/>
     <property name="entityID" value="${ISSUING_ENTITY_ID}"/>
+    <property name="credentialResolver" ref="samlKeyStoreCredentialResolverDelegate" />
   </bean>
 
   <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true" access-denied-page="/error.jsp">
