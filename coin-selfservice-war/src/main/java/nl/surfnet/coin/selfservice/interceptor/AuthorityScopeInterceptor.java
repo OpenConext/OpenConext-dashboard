@@ -16,21 +16,12 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import java.util.Collection;
-import java.util.List;
-
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.Menu;
-import nl.surfnet.coin.selfservice.domain.MenuItem;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -46,8 +37,20 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
-      
+      CompoundServiceProvider sp = (CompoundServiceProvider) map.get(BaseController.COMPOUND_SP);
+      if (sp != null) {
+        scopeCompoundServiceProvider(sp);
+      }
     }
+  }
+
+  /*
+   * Based on https://wiki.surfnetlabs.nl/display/services/App-omschrijving we tell the Service to limit scope
+   * access based on the authority
+   */
+  private void scopeCompoundServiceProvider(CompoundServiceProvider sp) {
+    
+    
   }
 
   
