@@ -69,10 +69,6 @@
     <property name="paramName" value="lang" />
   </bean>
 
-  <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-    <property name="defaultLocale" value="en"/>
-  </bean>
-
   <mvc:annotation-driven />
   <mvc:interceptors>
     <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor"/>

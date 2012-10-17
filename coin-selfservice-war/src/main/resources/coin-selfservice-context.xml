@@ -123,6 +123,10 @@
     </property>
   </bean>
 
+  <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+    <property name="defaultLocale" value="en"/>
+  </bean>
+
   <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
     <property name="baseDir" value="${coin-selfservice.db.migrations.folder}" />
     <property name="dataSource" ref="selfserviceDataSource" />

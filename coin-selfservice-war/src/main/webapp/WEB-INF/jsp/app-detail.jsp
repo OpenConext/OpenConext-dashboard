@@ -58,8 +58,13 @@
     <h1><c:out value="${spname}"/></h1>
     
 
+
     <div class="with-read-more" data-read-more-text="Meer" data-read-less-text="Minder">
-      <tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" />
+      <tags:html-format>
+        <jsp:attribute name="input">
+          <tags:locale-specific nlVariant="${compoundSp.descriptionNl}" enVariant="${compoundSp.descriptionEn}" />
+        </jsp:attribute>
+      </tags:html-format>
     </div>
 
 

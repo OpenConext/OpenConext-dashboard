@@ -187,6 +187,15 @@ public class CompoundServiceProvider extends DomainObject {
     return (String) getFieldValue(ENDUSER_DESCRIPTION_EN);
   }
 
+  public String getDescriptionNl() {
+    // TODO
+    return "TODO: getDescription() in CompoundServiceProvider. For now: " + getEnduserDescriptionNl();
+  }
+  public String getDescriptionEn() {
+    // TODO
+    return "TODO: getDescription() in CompoundServiceProvider. For now: " + getEnduserDescriptionEn();
+  }
+
   public String getAppStoreLogo() {
     return (String) getFieldValue(APPSTORE_LOGO);
   }
