@@ -189,6 +189,10 @@
 
   // TODO: move to proper external JS file. Probably together with transition to new style?
 
+  var strings = [];
+  strings['successful-save'] = '<spring:message code="jsp.js.successful_save" />';
+  strings['failed-save'] = '<spring:message code="jsp.js.failed_save" />';
+
   var alertDiv = function(msg) {
     return $("<div />").addClass("alert").html(msg)
       .append("<button type='button'>&times;</button>").attr("data-dismiss", "alert").addClass("close")
@@ -231,7 +235,7 @@
 		        data: formData,
 		        type: "post",
 		        failure: function(msg) {
-		          $(form).prepend(alertDiv("Failure saving data. Details: " + msg));
+		          $(form).prepend(alertDiv(strings['failed-save']));
 		        },
 		        success: function(result) {
 		          console.log("post success: " + result);
@@ -246,7 +250,7 @@
 			        	} 
 			          });
 		          }
-		          $(form).prepend(alertDiv("Successfully saved. TODO: message bundle"));
+		          $(form).prepend(alertDiv(strings['successful-save']));
 
 		        }
 		      });
