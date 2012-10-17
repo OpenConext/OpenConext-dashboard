@@ -52,8 +52,7 @@ public class HomeController extends BaseController {
     Map<String, Object> model = new HashMap<String, Object>();
     
     // TODO create a generic way of retrieving the services for the current role
-    List<CompoundServiceProvider> services
-      = compoundSPService.getCSPsByIdp(selectedidp);
+    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
