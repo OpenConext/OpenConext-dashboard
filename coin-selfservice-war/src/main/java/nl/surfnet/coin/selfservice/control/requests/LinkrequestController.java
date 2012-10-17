@@ -46,7 +46,9 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
+import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 @Controller
@@ -64,6 +66,8 @@ public class LinkrequestController extends BaseController {
 
   @Resource(name = "actionsService")
   private ActionsService actionsService;
+  
+  private PersonAttributeLabelService personAttributeLabelService = new PersonAttributeLabelServiceJsonImpl("classpath:person_attributes.json"); 
 
   /**
    * Controller for request form page.
@@ -79,6 +83,7 @@ public class LinkrequestController extends BaseController {
     m.put("sp", sp);
     m.put("compoundSpId", compoundSpId);
     m.put("linkrequest", new LinkRequest());
+    m.put("personAttributeLabels", personAttributeLabelService.getAttributeLabelMap());
     return new ModelAndView("requests/linkrequest", m);
   }
 
