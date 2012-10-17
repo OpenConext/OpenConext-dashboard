@@ -54,10 +54,13 @@
   <section>
 
     <h1><c:out value="${spname}"/></h1>
-    
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
-      <tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" />
+      <tags:html-format>
+        <jsp:attribute name="input">
+          <tags:locale-specific nlVariant="${compoundSp.descriptionNl}" enVariant="${compoundSp.descriptionEn}" />
+        </jsp:attribute>
+      </tags:html-format>
     </div>
 
 

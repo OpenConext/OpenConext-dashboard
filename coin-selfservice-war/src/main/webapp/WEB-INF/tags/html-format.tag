@@ -14,13 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
-<%@attribute name="enVariant" type="java.lang.String" required="true" %>
-<%@attribute name="nlVariant" type="java.lang.String" required="true" %>
-<c:choose>
-  <c:when test="${locale.language eq 'nl'}">
-    <c:out value="${nlVariant}" />
-  </c:when>
-  <c:otherwise>
-    <c:out value="${enVariant}" />
-  </c:otherwise>
-</c:choose>
+<%@attribute name="input" type="java.lang.String" required="true" %>
+<c:set var="newline" value="
+" />
+<p><c:out value="${fn:replace(fn:trim(input), newline, \"</p><p>\")}" escapeXml="false" /></p>

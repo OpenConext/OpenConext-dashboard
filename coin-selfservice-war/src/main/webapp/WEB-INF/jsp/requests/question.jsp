@@ -24,8 +24,6 @@
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
 
-<sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
-
   <div class="column-center content-holder">
 
     <section>
@@ -34,12 +32,6 @@
 
       <div class="content">
 
-
-        <c:if test="${not empty jiraError}">
-          <div class="alert alert-error">
-            <spring:message code="jsp.sp_question.jiraError" arguments="${jiraError}"/>
-          </div>
-        </c:if>
         
         <form:form cssClass="form form-horizontal" id="question" commandName="question">
           <fieldset>
@@ -48,7 +40,8 @@
               <label class="control-label"><spring:message code="jsp.sp_question.applicantname"/></label>
 
               <div class="controls">
-                <output>${principal.displayName}</output>
+                <output><sec:authentication property="principal.displayName" scope="request"
+              htmlEscape="true" /></output>
               </div>
             </div>
 
@@ -60,33 +53,28 @@
               </div>
             </div>
 
-            <div class="control-group <form:errors path="subject">error</form:errors>">
-              <label class="control-label"><spring:message code="jsp.sp_question.subjectfield"/></label>
+            <div class="control-group ">
+              <label class="control-label">Subject:</label>
 
               <div class="controls">
-                <form:input path="subject" cssClass="input-xlarge"/>
-                <form:errors path="subject">
-                  <p class="help-block"><form:errors path="subject"/></p>
-                </form:errors>
+                <input id="subject" name="subject" class="input-xlarge" type="text" value=""/>
+                
               </div>
             </div>
-            <div class="control-group <form:errors path="body">error</form:errors>">
-              <label class="control-label"><spring:message code="jsp.sp_question.bodyfield"/></label>
+            <div class="control-group ">
+              <label class="control-label">Question:</label>
 
               <div class="controls">
-                <form:textarea path="body" cssClass="input-xlarge" rows="10"/>
-                <form:errors path="body">
-                  <p class="help-block"><form:errors path="body"/></p>
-                </form:errors>
+                <textarea id="body" name="body" class="input-xlarge" rows="10"></textarea>
+                
               </div>
             </div>
 
             <div class="actions">
               <button type="submit" class="btn btn-primary">Send</button>
-              <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="compoundSpId" value="${compoundSpId}" />
-              </spring:url>
-              <a class="btn" href="${detailUrl}"><spring:message code="jsp.sp_question.buttoncancel"/></a>
+              <a class="btn" href="<c:url value="/idpadmin/sp/detail.shtml">
+                <c:param name="spEntityId" value="${sp.id}" />
+              </c:url>"><spring:message code="jsp.sp_question.buttoncancel"/></a>
             </div>
 
           </fieldset>
@@ -97,6 +85,7 @@
 
     </section>
             </div>
+
 
 
 

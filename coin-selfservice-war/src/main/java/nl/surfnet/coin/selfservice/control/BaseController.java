@@ -54,6 +54,13 @@ public abstract class BaseController {
    */
   public static final String COMPOUND_SPS = "compoundSps";
   
+  /**
+   * The name of the key under which a compoundSps (e.g. the service) is stored for the detail view
+   */
+  public static final String COMPOUND_SP = "compoundSp";
+
+
+  
   @ModelAttribute(value = "idps")
   public List<IdentityProvider> getMyInstitutionIdps() {
     return SpringSecurity.getCurrentUser().getInstitutionIdps();
