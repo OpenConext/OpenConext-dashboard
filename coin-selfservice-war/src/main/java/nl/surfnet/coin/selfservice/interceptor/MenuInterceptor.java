@@ -72,15 +72,15 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
         Authority authority = ((CoinAuthority) grantedAuthority).getEnumAuthority();
         switch (authority) {
         case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
-          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests-overview.shtml"));
+          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
           menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
           menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
           break;
         case ROLE_IDP_LICENSE_ADMIN:
-          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests-overview.shtml"));
+          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
           break;
         case ROLE_IDP_SURFCONEXT_ADMIN:
-          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests-overview.shtml"));
+          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
           break;
         default:
           break;

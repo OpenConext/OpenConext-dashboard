@@ -24,13 +24,11 @@
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
 
-<sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
-
   <div class="column-center content-holder">
 
     <section>
 
-      <h1>Ask a question</h1>
+      <h1><spring:message code="jsp.sp_detail.askquestion" /></h1>
 
       <div class="content">
 
@@ -39,41 +37,19 @@
           <fieldset>
 
             <div class="control-group">
-              <label class="control-label">Applicant name:</label>
+              <label class="control-label"><spring:message code="jsp.sp_question.applicantname"/></label>
 
               <div class="controls">
-                <output>Arjan Eising</output>
+                <output><sec:authentication property="principal.displayName" scope="request"
+              htmlEscape="true" /></output>
               </div>
             </div>
 
             <div class="control-group">
-              <label class="control-label">Identity Provider:</label>
+              <label class="control-label"><spring:message code="jsp.sp_question.idp"/></label>
 
               <div class="controls">
-                <output>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    SURFguest (TEST)
-  
-  
-  
-  
-  
-</output>
+                <output><tags:providername provider="${selectedidp}"/></output>
               </div>
             </div>
 

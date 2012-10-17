@@ -52,7 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @SessionAttributes(value = { "linkrequest", "unlinkrequest" })
-@RequestMapping("/requests/*")
+@RequestMapping("/requests")
 public class QuestionController extends BaseController {
 
   @Resource(name = "providerService")
@@ -81,7 +81,7 @@ public class QuestionController extends BaseController {
    *          the entity id
    * @return ModelAndView
    */
-  @RequestMapping(value = "/requests/question.shtml", method = RequestMethod.GET)
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
   public ModelAndView spQuestion(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
@@ -90,7 +90,7 @@ public class QuestionController extends BaseController {
     return new ModelAndView("requests/question", m);
   }
 
-  @RequestMapping(value = "/requests/question.shtml", method = RequestMethod.POST)
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
   public ModelAndView spQuestionSubmit(@RequestParam String spEntityId,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, @Valid @ModelAttribute("question") Question question,
       BindingResult result) {

@@ -47,9 +47,7 @@
                   </c:set>
                   <tr>
                     <td>
-                      <a href="request-detail.html">
-                        <c:out value="${actionType}"/>
-                      </a>
+                      <c:out value="${actionType}"/>
                     </td>
                     <td>
                       <c:choose>
@@ -62,9 +60,7 @@
                       </c:choose>
                     </td>
                     <td>
-                      <a href="request-detail.html">
-                        <c:out value="${action.userName}"/>
-                      </a>
+                      <c:out value="${action.userName}"/>
                     </td>
                     <td>
                       <fmt:formatDate value="${action.requestDate}" pattern="yyyy-MM-dd"/>
