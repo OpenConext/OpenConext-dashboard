@@ -76,7 +76,6 @@ public class LmngServiceImplTest implements HttpRequestHandler {
   }
 
   @Test
-  @Ignore
   public void testFetchResultSingleLicense() {
     xmlFile = "lmngRequestResponse/tempResponseExampleActual.xml";
     IdentityProvider identityProvider = new IdentityProvider();
