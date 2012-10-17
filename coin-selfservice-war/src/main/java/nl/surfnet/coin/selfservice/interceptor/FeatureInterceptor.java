@@ -19,6 +19,8 @@ package nl.surfnet.coin.selfservice.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -37,6 +39,7 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
       map.addAttribute("dev", dev);
+      map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
 
