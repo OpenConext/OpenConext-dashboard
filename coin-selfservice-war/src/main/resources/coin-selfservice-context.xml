@@ -162,7 +162,7 @@
     <property name="secret" value="${janus.secret}" />
   </bean>
 
-  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+  <bean id="cacheManager" class="${cacheManagerClass}">
     <property name="cacheManager" ref="ehcache" />
   </bean>
   <bean id="ehcache"
@@ -187,9 +187,8 @@
 
   <bean id="licensingService" class="${lmngServiceClass}">
     <property name="endpoint" value="${coin-lmng-endpoint}" />
-    <property name="user" value="${coin-lmng-user}" />
-    <property name="password" value="${coin-lmng-password}" />
     <property name="port" value="${coin-lmng-port}" />
+    <property name="debug" value="${coin-lmng-debug}" />
   </bean>
 
   <bean id="personAttributeLabelService"

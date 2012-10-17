@@ -49,6 +49,11 @@ public abstract class BaseController {
   @Resource(name = "localeResolver")
   protected LocaleResolver localeResolver;
 
+  /**
+   * The name of the key under which all compoundSps (e.g. the services) are stored
+   */
+  public static final String COMPOUND_SPS = "compoundSps";
+  
   @ModelAttribute(value = "idps")
   public List<IdentityProvider> getMyInstitutionIdps() {
     return SpringSecurity.getCurrentUser().getInstitutionIdps();
@@ -83,31 +88,5 @@ public abstract class BaseController {
     }
     throw new RuntimeException("There is no Selected IdP");
   }
-
-  /**
-   * Exposes the current role of the user for use in RequestMapping methods
-   *
-   * @param role    the name of the {@link GrantedAuthority}
-   * @param request {@link HttpServletRequest}, for storing/retrieving the selected role in the http session
-   * @return the name of the selected {@link GrantedAuthority}
-   */
-  @ModelAttribute(value = "currentrole")
-  public String getCurrentRole(@RequestParam(required = false) String role, HttpServletRequest request) {
-    final Object currentrole = request.getSession().getAttribute("currentrole");
-    if (role == null && currentrole != null) {
-      return (String) currentrole;
-    }
-    if (role == null) {
-      role = CoinAuthority.Authority.ROLE_USER.name();
-    }
-    for (GrantedAuthority ga : SpringSecurity.getCurrentUser().getAuthorities()) {
-      if (role.equals(ga.getAuthority())) {
-        request.getSession().setAttribute("currentrole", role);
-        return role;
-      }
-    }
-    throw new RuntimeException("There is no current role");
-  }
-
 
 }

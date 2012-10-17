@@ -51,18 +51,28 @@
   <header class="header">
     <a class="logo" href="${homeUrl}"> <img src="<c:url value="/images/surf-conext-logo.png"/>" alt="Surf Conext">
     </a>
+    
 
     <nav class="primary-navigation">
       <ul>
         <li class="user"><spring:message code="jsp.general.welcome" /> <a href="index.html"><sec:authentication property="principal.displayName" scope="request"
               htmlEscape="true" /></a>
         </li>
+    <c:if test="${dev eq true}">
+      <li class="role-switch">
+      <ul class="user-dropdown">
+      <c:forEach items="${roles}" var="role" varStatus="vs">
+      <li class="user-role-manager ${vs.count == 1 ? 'active' : ''}">${role.authority}</li>
+      </c:forEach>
+      </ul>
+      </li>
+    </c:if>
 
           <li class="role-switch">
             <c:if test="${fn:length(idps) gt 1}">          
               <ul class="user-dropdown">
-                <c:forEach items="${idps}" var="idp" varStatus="i">
-                  <li class="user-role-manager ${i.count == 1 ? 'active' : ''}" data-roleId="${idp.id}">
+                <c:forEach items="${idps}" var="idp">
+                  <li class="user-role-manager ${selectedidp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
                         <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
                           <spring:param name="idpId" value="${idp.id}" />
                         </spring:url> 
@@ -72,10 +82,10 @@
                   </li>
                 </c:forEach>
               </ul>
-          </c:if>
-          <c:if test="${fn:length(idps) == 1}">
-            <tags:providername provider="${idps[0]}" />
-          </c:if>
+            </c:if>
+            <c:if test="${fn:length(idps) == 1}">
+              <tags:providername provider="${idps[0]}" />
+            </c:if>
           </li>
         
 
@@ -84,9 +94,6 @@
     </nav>
 
   </header>
-
-
-
 
   <c:choose>
     <c:when test="${not empty param.wrapperAdditionalCssClass}">

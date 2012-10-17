@@ -22,10 +22,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -50,14 +48,13 @@ public class HomeController extends BaseController {
   private CompoundSPService compoundSPService;
 
   @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute("currentrole") String currentRole,
-      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> model = new HashMap<String, Object>();
     
     // TODO create a generic way of retrieving the services for the current role
     List<CompoundServiceProvider> services
-      = compoundSPService.getAllCSPByIdp(selectedidp.getId()); // TODO: find by idp id
-    model.put("compoundSps", services);
+      = compoundSPService.getCSPsByIdp(selectedidp);
+    model.put(COMPOUND_SPS, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);

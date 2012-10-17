@@ -21,8 +21,15 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.thoughtworks.xstream.XStream;
+import nl.surfnet.coin.selfservice.domain.FederatieConfig;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.SpringSchedulerLoadConfigurationService;
+import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
 
+import com.thoughtworks.xstream.XStream;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -31,14 +38,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-
-import nl.surfnet.coin.selfservice.domain.FederatieConfig;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-import nl.surfnet.coin.selfservice.service.SpringSchedulerLoadConfigurationService;
-import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
 
 /**
  * Provider Service seeded with xml config from federation.
@@ -112,7 +111,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = { "sps-federation" })
+  @Cacheable("default")
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
     if (federatieConfig.getSps() == null) {
@@ -126,7 +125,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = { "sps-federation" })
+  @Cacheable("default")
   public List<ServiceProvider> getAllServiceProviders() {
     return federatieConfig.getSps();
   }
@@ -148,7 +147,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = { "sps-federation" })
+  @Cacheable("default")
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     if (federatieConfig.getSps() == null) {
       return null;
@@ -163,7 +162,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = { "sps-federation" })
+  @Cacheable("default")
   public ServiceProvider getServiceProvider(String spEntityId) {
     if (federatieConfig.getSps() == null) {
       return null;
@@ -177,7 +176,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = { "sps-federation" })
+  @Cacheable("default")
   public IdentityProvider getIdentityProvider(String idpEntityId) {
     if (federatieConfig.getIdPs() == null) {
       return null;
@@ -191,7 +190,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable(value = { "sps-federation" })
+  @Cacheable("default")
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
 
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
@@ -207,14 +206,8 @@ public class FederationProviderService implements ServiceProviderService, Identi
     return idps;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.IdentityProviderService#
-   * getAllIdentityProviders()
-   */
   @Override
-  @Cacheable(value = { "sps-federation" })
+  @Cacheable("default")
   public List<IdentityProvider> getAllIdentityProviders() {
     return federatieConfig.getIdPs();
 

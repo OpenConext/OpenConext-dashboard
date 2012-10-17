@@ -67,18 +67,6 @@ public class ServiceListControllerTest {
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
 
-  @Test
-  public void testLinkedServices() {
-    ModelAndView mav = controller.listLinkedSps(idp);
-    when(serviceProviderService.getLinkedServiceProviders(idp.getId())).thenReturn(new ArrayList<ServiceProvider>());
-    assertEquals("user/service-overview", mav.getViewName());
-    final ModelMap modelMap = mav.getModelMap();
-    assertTrue(modelMap.containsKey("sps"));
-    final Menu menu = (Menu) modelMap.get("menu");
-    assertEquals(BaseController.MenuType.USER.toString(), menu.getId());
-  }
-
-
   private Authentication getAuthentication() {
     return new TestingAuthenticationToken(coinUser, "");
   }

@@ -35,8 +35,7 @@ import nl.surfnet.coin.selfservice.service.LicensingService;
  */
 public class LmngServiceMock implements LicensingService {
   private String endpoint;
-  private String user;
-  private String password;
+  private boolean debug;
   private String port;
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
@@ -119,14 +118,11 @@ public class LmngServiceMock implements LicensingService {
   public void setEndpoint(String endpoint) {
     this.endpoint = endpoint;
   }
-  public void setUser(String user) {
-    this.user = user;
-  }
-  public void setPassword(String password) {
-    this.password = password;
-  }
   public void setPort(String port) {
     this.port = port;
+  }
+  public void setDebug(boolean debug) {
+    this.debug = debug;
   }
 
 }

@@ -29,7 +29,6 @@ import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 
-import org.apache.http.localserver.LocalTestServer;
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -52,8 +51,7 @@ public class LmngServiceImplIT {
     properties.load(this.getClass().getResourceAsStream("/coin-selfservice.properties"));
     lmngServiceImpl = new LmngServiceImpl();
     lmngServiceImpl.setEndpoint(properties.getProperty("coin-lmng-endpoint"));
-    lmngServiceImpl.setUser(properties.getProperty("coin-lmng-user"));
-    lmngServiceImpl.setPassword(properties.getProperty("coin-lmng-password"));
+    lmngServiceImpl.setDebug(false);
 
     mockLmngIdentifierDao = mock(LmngIdentifierDao.class);
     lmngServiceImpl.setLmngIdentifierDao(mockLmngIdentifierDao);

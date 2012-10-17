@@ -182,7 +182,11 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   }
   
   public String getName(Language language) {
-    return names.get(language.name().toLowerCase());
+    if (names == null) {
+      return null;
+    } else {
+      return names.get(language.name().toLowerCase());
+    }
   }
 
   public void setNames(Map<String, String> names) {
@@ -194,7 +198,11 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   }
 
   public String getDescription(Language language) {
-    return descriptions.get(language.name().toLowerCase());
+    if (descriptions == null) {
+      return null;
+    } else {
+      return descriptions.get(language.name().toLowerCase());
+    }
   }
 
   public Map<String, String> getDescriptions() {

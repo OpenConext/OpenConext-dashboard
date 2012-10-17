@@ -49,7 +49,6 @@ public class BaseControllerTest {
   @Mock
   private CoinUser coinUser;
 
-
   @Before
   public void setUp() throws Exception {
     baseController = new TestController();
@@ -92,53 +91,6 @@ public class BaseControllerTest {
 
     final IdentityProvider identityProvider = baseController.getRequestedIdp(null, request);
     assertEquals(idp2, identityProvider);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testCurrentRole() throws Exception {
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    GrantedAuthority user = new CoinAuthority(ROLE_USER);
-    GrantedAuthority admin = new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
-    final List grantedAuthorities = Arrays.asList(user, admin);
-    when(coinUser.getAuthorities()).thenReturn(grantedAuthorities);
-
-    final String currentRole = baseController.getCurrentRole(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), request);
-    assertEquals(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), currentRole);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testCurrentRole_default() throws Exception {
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    GrantedAuthority user = new CoinAuthority(ROLE_USER);
-    final List grantedAuthorities = Arrays.asList(user);
-    when(coinUser.getAuthorities()).thenReturn(grantedAuthorities);
-
-    final String currentRole = baseController.getCurrentRole(null, request);
-    assertEquals("ROLE_USER", currentRole);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testCurrentRole_alreadySet() throws Exception {
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    request.getSession().setAttribute("currentrole", ROLE_DISTRIBUTION_CHANNEL_ADMIN.name());
-
-    final String currentRole = baseController.getCurrentRole(null, request);
-    assertEquals(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), currentRole);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testCurrentRole_notValid() throws Exception {
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    GrantedAuthority user = new CoinAuthority(ROLE_USER);
-    final List grantedAuthorities = Arrays.asList(user);
-    when(coinUser.getAuthorities()).thenReturn(grantedAuthorities);
-
-    final String currentRole = baseController.getCurrentRole(ROLE_DISTRIBUTION_CHANNEL_ADMIN.name(), request);
-    assertEquals(null, currentRole);
   }
 
   protected Authentication getAuthentication() {
