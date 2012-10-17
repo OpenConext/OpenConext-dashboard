@@ -47,8 +47,6 @@
         <li><a href="${compoundSp.eulaUrl}">Terms & Conditions</a></li>
       </c:if>
     </ul>
-    <p>Wordt gebruikt door 21 andere instellingen en door 2401 personen.</p>
-    <p>Is Service Provider van Surfnet sinds 12-02-2012.</p>
   </section>
 </div>
 
@@ -58,7 +56,7 @@
     <h1><c:out value="${spname}"/></h1>
     
 
-    <div class="with-read-more" data-read-more-text="Meer" data-read-less-text="Minder">
+    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" />
     </div>
 
@@ -68,6 +66,7 @@
         <c:when test="${not compoundSp.sp.linked}">
           <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/linkrequest.shtml">
             <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+            <c:param name="compoundSpId" value="${compoundSp.id}" />
           </c:url>"
              title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
           </a>

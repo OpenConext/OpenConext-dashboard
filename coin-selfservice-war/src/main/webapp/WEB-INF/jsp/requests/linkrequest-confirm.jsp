@@ -47,11 +47,13 @@
               <spring:message code="jsp.sp_linkrequestconfirm.message" />
             </p>
             <div class="actions">
-              <button type="submit" class="btn btn-primary"><spring:message
-                  code="jsp.sp_linkrequestconfirm.buttonsubmit"/></button>
-              <a class="btn" href="<c:url value="/idpadmin/sp/detail.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>"><spring:message code="jsp.sp_linkrequestconfirm.buttoncancel"/></a>
+              <button type="submit" class="btn btn-primary">
+                <spring:message code="jsp.sp_linkrequestconfirm.buttonsubmit"/>
+              </button>
+              <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
+                <spring:param name="compoundSpId" value="${compoundSpId}" />
+              </spring:url>
+              <a class="btn" href="${detailUrl}"><spring:message code="jsp.sp_linkrequestconfirm.buttoncancel"/></a>
             </div>
 
           </fieldset>

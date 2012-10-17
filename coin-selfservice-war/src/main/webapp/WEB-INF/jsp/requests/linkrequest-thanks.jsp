@@ -32,6 +32,19 @@
     <p>
       <spring:message code="jsp.sp_linkrequest.thankstext" arguments="${issueKey}"/>
     </p>
+    <div class="actions">
+      <spring:url value="../app-overview.shtml" var="overviewUrl" htmlEscape="true" />
+      <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
+        <spring:param name="compoundSpId" value="${compoundSpId}" />
+      </spring:url>
+
+      <a class="btn btn-primary btn-primary-alt" href="${overviewUrl}">
+        <spring:message code="jsp.request.backtooverview" />
+      </a>
+      <a class="btn" href="${detailUrl}">
+        <spring:message code="jsp.request.backtodetail" arguments="${spname}" />
+      </a>
+    </div>
   </section>
 </div>
 

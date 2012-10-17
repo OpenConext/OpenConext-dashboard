@@ -30,108 +30,18 @@
 
     <section>
 
-      <h1>Ask a question</h1>
+      <h1><spring:message code="jsp.sp_question.pagetitle" arguments="${spname}"/></h1>
 
       <div class="content">
 
-        
-        <form:form cssClass="form form-horizontal" id="question" commandName="question">
-          <fieldset>
-
-            <div class="control-group">
-              <label class="control-label">Applicant name:</label>
-
-              <div class="controls">
-                <output>Arjan Eising</output>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label">Identity Provider:</label>
-
-              <div class="controls">
-                <output>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    SURFguest (TEST)
-  
-  
-  
-  
-  
-</output>
-              </div>
-            </div>
-
-            <div class="control-group ">
-              <label class="control-label">Subject:</label>
-
-              <div class="controls">
-                <input id="subject" name="subject" class="input-xlarge" type="text" value=""/>
-                
-              </div>
-            </div>
-            <div class="control-group ">
-              <label class="control-label">Question:</label>
-
-              <div class="controls">
-                <textarea id="body" name="body" class="input-xlarge" rows="10"></textarea>
-                
-              </div>
-            </div>
-
-            <div class="actions">
-              <button type="submit" class="btn btn-primary">Send</button>
-              <a class="btn" href="<c:url value="/idpadmin/sp/detail.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>"><spring:message code="jsp.sp_question.buttoncancel"/></a>
-            </div>
-
-          </fieldset>
-
-        </form:form>
-
-      </div>
-
-    </section>
-            </div>
-
-
-
-
-
-
-<!-- 
-
-<div class="row">
-  <div class="span8">
-    <section>
-
-      <h2><spring:message code="jsp.sp_question.pagetitle" arguments="${spname}"/></h2>
-
-      <div class="content">
 
         <c:if test="${not empty jiraError}">
           <div class="alert alert-error">
             <spring:message code="jsp.sp_question.jiraError" arguments="${jiraError}"/>
           </div>
         </c:if>
-
-        <form:form cssClass="form form-horizontal" commandName="question">
+        
+        <form:form cssClass="form form-horizontal" id="question" commandName="question">
           <fieldset>
 
             <div class="control-group">
@@ -172,11 +82,11 @@
             </div>
 
             <div class="actions">
-              <button type="submit" class="btn btn-primary"><spring:message
-                  code="jsp.sp_question.buttonsubmit"/></button>
-              <a href="<c:url value="/idpadmin/sp/detail.shtml">
-                <c:param name="spEntityId" value="${sp.id}" />
-              </c:url>"><spring:message code="jsp.sp_question.buttoncancel"/></a>
+              <button type="submit" class="btn btn-primary">Send</button>
+              <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
+                <spring:param name="compoundSpId" value="${compoundSpId}" />
+              </spring:url>
+              <a class="btn" href="${detailUrl}"><spring:message code="jsp.sp_question.buttoncancel"/></a>
             </div>
 
           </fieldset>
@@ -186,20 +96,8 @@
       </div>
 
     </section>
-  </div>
+            </div>
 
-  <div class="span4">
 
-    <section>
-      <h2><spring:message code="jsp.sp_question.helptitle"/></h2>
-
-      <div class="content">
-        <p><spring:message code="jsp.sp_question.helpparagraph"/></p>
-
-      </div>
-    </section>
-
-  </div>
-</div> -->
 
 <jsp:include page="../foot.jsp"/>

@@ -73,24 +73,26 @@ public class UnlinkRequestController extends BaseController {
    * @return ModelAndView
    */
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spUnlinkRequest(@RequestParam String spEntityId,
+  public ModelAndView spUnlinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
+    m.put("compoundSpId", compoundSpId);
     m.put("unlinkrequest", new UnlinkRequest());
     return new ModelAndView("requests/unlinkrequest", m);
   }
 
 
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spUnlinkrequestPost(@RequestParam String spEntityId,
+  public ModelAndView spUnlinkrequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
                                           @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                           @Valid @ModelAttribute("unlinkrequest") UnlinkRequest unlinkrequest,
                                           BindingResult result) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
+    m.put("compoundSpId", compoundSpId);
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
@@ -102,7 +104,7 @@ public class UnlinkRequestController extends BaseController {
 
 
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST, params="confirmed=true")
-  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId,
+  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
                                              @Valid @ModelAttribute("unlinkrequest") UnlinkRequest unlinkrequest,
                                              BindingResult result,
                                              @RequestParam(value = "confirmed") boolean confirmed,
@@ -111,6 +113,7 @@ public class UnlinkRequestController extends BaseController {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
+    m.put("compoundSpId", compoundSpId);
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());

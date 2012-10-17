@@ -70,20 +70,22 @@ public class LinkrequestController extends BaseController {
    * @return ModelAndView
    */
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
+    m.put("compoundSpId", compoundSpId);
     m.put("linkrequest", new LinkRequest());
     return new ModelAndView("requests/linkrequest", m);
   }
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spRequestPost(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+  public ModelAndView spRequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
       @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
+    m.put("compoundSpId", compoundSpId);
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
@@ -94,13 +96,14 @@ public class LinkrequestController extends BaseController {
   }
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST, params = "confirmed=true")
-  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId,
+  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
       @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
       @RequestParam(value = "confirmed") boolean confirmed, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
       SessionStatus sessionStatus) {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
+    m.put("compoundSpId", compoundSpId);
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
