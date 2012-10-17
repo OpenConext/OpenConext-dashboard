@@ -50,6 +50,11 @@ public class ContactPerson implements Serializable {
     this.emailAddress = emailAddress;
   }
 
+  public ContactPerson(ContactPersonType contactPersonType, String emailAddress) {
+    this.contactPersonType = contactPersonType;
+    this.emailAddress = emailAddress;
+  }
+
   public String getName() {
     return name;
   }

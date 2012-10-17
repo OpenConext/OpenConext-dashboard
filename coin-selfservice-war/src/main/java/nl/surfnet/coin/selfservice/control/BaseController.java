@@ -43,12 +43,6 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 @Controller
 public abstract class BaseController {
 
-  @Resource(name = "providerService")
-  private IdentityProviderService idpService;
-
-  @Resource(name = "localeResolver")
-  protected LocaleResolver localeResolver;
-
   /**
    * The name of the key under which all compoundSps (e.g. the services) are stored
    */
@@ -59,8 +53,22 @@ public abstract class BaseController {
    */
   public static final String COMPOUND_SP = "compoundSp";
 
+  /**
+   * The name of the key under which we store the info if a logged user is allowed to ask questions
+   */
+  public static final String SERVICE_APPLY_ALLOWED = "applyAllowed";
 
-  
+  /**
+   * The name of the key under which we store the info if a logged user is allowed to ask questions
+   */
+  public static final String SERVICE_QUESTION_ALLOWED = "questionAllowed";
+
+  @Resource(name = "providerService")
+  private IdentityProviderService idpService;
+
+  @Resource(name = "localeResolver")
+  protected LocaleResolver localeResolver;
+
   @ModelAttribute(value = "idps")
   public List<IdentityProvider> getMyInstitutionIdps() {
     return SpringSecurity.getCurrentUser().getInstitutionIdps();
