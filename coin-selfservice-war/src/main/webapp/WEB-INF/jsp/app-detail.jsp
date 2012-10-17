@@ -29,8 +29,20 @@
       <img src="${compoundSp.detailLogo}" alt="<c:out value=""/>" class="application-logo">
     </c:if>
     <ul class="action-list">
-      <li><a href="index.html">Website <c:out value="${spname}"/></a></li>
-      <li><a href="index.html">Contact <c:out value="${spname}"/></a></li>
+      <c:if test="${not empty compoundSp.serviceUrl}">
+        <li>
+          <a href="${compoundSp.serviceUrl}">
+            <spring:message code="jsp.app_detail.service_url_label" arguments="${spname}" />
+          </a>
+        </li>
+      </c:if>
+      <c:if test="${not empty compoundSp.supportUrl}">
+        <li>
+          <a href="${compoundSp.supportUrl}">
+            <spring:message code="jsp.app_detail.support_url_label" arguments="${spname}" />
+          </a>
+        </li>
+      </c:if>
       <c:if test="${not empty compoundSp.eulaUrl}">
         <li><a href="${compoundSp.eulaUrl}">Terms & Conditions</a></li>
       </c:if>
@@ -44,17 +56,12 @@
   <section>
 
     <h1><c:out value="${spname}"/></h1>
+    
 
     <div class="with-read-more" data-read-more-text="Meer" data-read-less-text="Minder">
-      <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu orci sit amet est mattis varius. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc tincidunt tempus accumsan. Cras tortor orci, faucibus ultricies euismod et, fringilla vitae purus. Nunc eleifend dictum metus, at laoreet libero congue nec. Aliquam at velit risus, in dictum libero.
-      </p>
-      <p>
-      Nunc eros libero, aliquam in eleifend at, dapibus vel libero. Proin imperdiet blandit metus at suscipit. Duis volutpat eros eu ante rhoncus lacinia dictum eros mollis. Vestibulum id neque dolor, id laoreet odio. Sed vel tellus nec nunc sollicitudin aliquet. Aliquam tempus luctus sem. Sed id felis dolor. Sed vel odio at justo sollicitudin euismod. Integer a nisi ut massa bibendum placerat adipiscing eu nunc.
-      <p>
-      Cras condimentum, turpis vel egestas tristique, neque sapien consequat odio, ut congue est turpis in lectus. Sed imperdiet lacus nec purus pretium pretium.
-      </p>
+      <tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" />
     </div>
+
 
     <div>
       <c:choose>

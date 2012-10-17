@@ -26,8 +26,9 @@
       "bPaginate":false,
       "bLengthChange":false,
       "bSort":false,
+      "bAutoWidth":false,
       "oLanguage":{
-        "sSearch":"<spring:message code="datatables.sSearch"/>",
+        "sSearch":"_INPUT_",
         "sZeroRecords":"<spring:message code="datatables.sZeroRecords"/>",
         "sInfo":"<spring:message code="datatables.sInfo"/>",
         "sInfoEmpty":"<spring:message code="datatables.sInfoEmpty"/>",

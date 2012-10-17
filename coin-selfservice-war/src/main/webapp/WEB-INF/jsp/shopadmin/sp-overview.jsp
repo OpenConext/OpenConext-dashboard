@@ -25,12 +25,11 @@
 
 <div class="column-center content-holder">
 
-  <section>
+  <section class="data-table-holder">
 
     <h1>${title}</h1>
-
-    <div class="content">
-
+    <div class="data-table-wrapper">
+      
       <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination">
         <thead>
         <tr>
@@ -55,7 +54,7 @@
               		<tags:providername provider="${binding.serviceProvider}"/>
               	</a></td>
               <td>
-  			  <form:form method="post" action="save-splmng.shtml" style="margin:0">
+  			  <form:form method="post" action="save-splmng.shtml" style="margin:0" cssClass="lmng-id-edit">
               	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
               	<input value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
                 <div class="btn-group">
@@ -69,7 +68,7 @@
   			  </form:form>
               </td>
               <td class="center">
-                <a href="${detailUrl}">Data decisions</a>
+                <a href="${detailUrl}">Data&nbsp;decisions</a>
               </td>
             </tr>
           </c:if>

@@ -1,0 +1,115 @@
+@import "compass"
+
+.lmng-id-edit
+  > *
+    vertical-align: middle
+
+.accordion-group
+  border-width: 1px 0
+
+.accordion-heading .accordion-toggle
+  padding: 8px 0
+
+.nav
+  margin-bottom: 0
+
+.nav-tabs
+  border-bottom-color: #999
+
+  >
+    li > a
+      margin-left: 5px
+      margin-right: 0
+      padding: 8px 12px
+      +transition(none)
+
+      &:hover,
+      &:focus
+        background: #E0E0E0
+        border-color: #999
+        border-bottom-color: transparent
+
+    .active > a
+      background: #E0E0E0
+      border-color: #999
+      border-bottom-color: transparent
+
+      &:hover,
+      &:focus
+        background: #E0E0E0
+        border-color: #999
+        border-bottom-color: transparent
+
+  li.source-selected a:after
+    content: '✓'
+    margin-left: 5px
+
+.tab-content
+  background: #E0E0E0
+  +background(linear-gradient(#E0E0E0, #F8F8F8), #FFF)
+  border-bottom: 1px solid #999
+  margin-bottom: 2em
+
+.tab-pane.active
+  margin: 18px
+
+.tab-content .alert
+  background: #E2F3F8
+  border-color: #60BFDA
+  +box-sizing(border-box)
+  color: #555
+  font-size: 14px
+  font-weight: normal
+  opacity: 1
+  position: relative
+  width: 100%
+
+  button
+    background: #C5E8F2
+    border: none
+    border-left: 1px solid #60BFDA
+    border-radius: 0 4px 4px 0
+    bottom: 0
+    color: #000
+    position: absolute
+    right: 0
+    top: 0
+    width: 3em
+
+.form-actions
+  padding: 0
+
+.tab-content form textarea
+  +box-sizing(border-box)
+  height: 6em
+  resize: vertical
+  width: 100%
+
+.screenshot-contents
+  padding: 18px
+  width: 650px
+
+  .screenshot-content
+    position: relative
+
+  img
+    max-width: 100%
+
+  a
+    background: #4FB3CF
+    border-radius: 2em
+    color: #FFF
+    font-size: 1.2em
+    height: 1em
+    line-height: 1em
+    padding: 0.2em
+    position: absolute
+    right: -0.6em
+    text-align: center
+    top: -0.6em
+    width: 1em
+
+    &:hover,
+    &:focus
+      background: #070707
+      text-decoration: none
