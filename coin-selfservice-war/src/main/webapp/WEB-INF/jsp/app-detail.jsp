@@ -108,10 +108,10 @@
         </c:choose>
       </c:if>
       <c:if test="${questionAllowed}">
-        <a class="btn" href="<spring:url value="/requests/question.shtml">
-              <spring:param name="spEntityId" value="${compoundSp.sp.id}" />
+        <a class="btn" href="<c:url value="/requests/question.shtml">
+              <c:param name="spEntityId" value="${compoundSp.sp.id}" />
               <c:param name="compoundSpId" value="${compoundSp.id}" />
-            </spring:url>"
+            </c:url>"
            title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
         </a>
       </c:if>  
