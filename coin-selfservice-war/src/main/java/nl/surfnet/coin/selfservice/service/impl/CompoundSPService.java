@@ -76,7 +76,7 @@ public class CompoundSPService {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
         csp = createCompoundServiceProvider(sp);
       }
-      enrich(identityProvider, csp);
+      enrich(identityProvider, csp, sp);
       all.add(csp);
     }
     return all;
@@ -111,7 +111,7 @@ public class CompoundSPService {
    */
   public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId) {
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
-    enrich(idp, csp);
+    enrich(idp, csp, null);
     return csp;
   }
 
@@ -120,13 +120,16 @@ public class CompoundSPService {
    *
    * @param idp the IDP for whom this CSP is enriched (licenses are Idp specific)
    * @param csp the CSP to be enriched.
+   * @param sp the SP in case it is known. Otherwise (leave it null) it will be retrieved from the underlying ServiceProviderService
    */
-  protected void enrich(IdentityProvider idp, CompoundServiceProvider csp) {
-    ServiceProvider serviceProvider = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId());
-    if (serviceProvider == null) {
+  protected void enrich(IdentityProvider idp, CompoundServiceProvider csp, ServiceProvider sp) {
+    if (sp == null) {
+      sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId());
+    }
+    if (sp == null) {
       LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
     } else {
-      csp.setServiceProvider(serviceProvider);
+      csp.setServiceProvider(sp);
     }
 
     List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(idp, csp.getServiceProvider());
