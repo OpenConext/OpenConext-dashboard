@@ -38,10 +38,19 @@ app.appgrid = function() {
     var setSearch = function() {
         var placeholder = gridElm.data('searchPlaceholder');
 
-        gridElm.before('<input type="search" class="app-grid-search" placeholder="' + placeholder + '">');
+        gridElm.before('<nav class="filter-grid">' +
+                         '<input type="search" class="app-grid-search" placeholder="' + placeholder + '">' +
+                         '<ul>' +
+                           '<li><a href="#foo" data-filter="popular">Populaire apps</a</li>' +
+                           '<li><a href="#foo" data-filter="mine">Mijn apps</a</li>' +
+                           '<li><a href="#foo" data-filter="new">Nieuwe apps</a</li>' +
+                         '</ul>' +
+                       '</nav>');
 
         var searchElm = $('.app-grid-search'),
-            timer = null;
+            filterLinks = $('.filter-grid a'),
+            timer = null,
+            activeFilters = [];
 
         function setTimer() {
             if (timer) {
@@ -84,7 +93,27 @@ app.appgrid = function() {
             });
         }
 
+        function doFilter(e) {
+            e.preventDefault();
+
+            var clickedFilter = $(this),
+                theFilter = clickedFilter.data('filter'),
+                index = $.inArray(theFilter, activeFilters);
+
+            if (index === -1) {
+                activeFilters.push(theFilter);
+                clickedFilter.addClass('active-filter');
+            }
+            else {
+                activeFilters.splice(index, 1);
+                clickedFilter.removeClass('active-filter');
+            }
+
+            console.log(activeFilters);
+        }
+
         searchElm.bind('keyup change', setTimer);
+        filterLinks.on('click', doFilter);
     };
 
 

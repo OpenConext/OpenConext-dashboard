@@ -102,30 +102,65 @@
         position: relative
         width: 15px
 
-input.app-grid-search
-  background: #FFF url(../images/bg-icon-grid-search.png) no-repeat 96% 50%
-  border-radius: 5em
-  height: auto
-  padding: 6px 16px
+.filter-grid
   position: absolute
   right: 50px
   top: 50px
 
-  &:focus
-    outline: none
+  ul
+    float: right
+    list-style: none
 
-  &::-webkit-input-placeholder
-    color: #CACACA
+  li
+    float: left
 
-  &:-moz-placeholder
-    color: #CACACA
+  a
+    background: $subtle_gray
+    +background(linear-gradient($subtle_gray, #D8D8D8), $subtle_gray)
+    border: 1px solid #CCC
+    border-right: none
+    color: #000
+    display: block
+    font-size: 13px
+    line-height: 18px
+    padding: 6px 16px
 
-  &:-ms-input-placeholder
-    color: #CACACA
+    &:hover,
+    &:focus
+      background: #D8D8D8
+      +background(linear-gradient(#D8D8D8, $subtle_gray), #D8D8D8)
 
-  .condensed &
-    right: 25px
-    top: 25px
+    &.active-filter
+      background: #D0D0D0
+      +background(linear-gradient(#D8D8D8, #CCC), #D0D0D0)
+      color: mix(#52B2D2, #000, 90%)
+      text-shadow: 0 0 0.2em rgba(255, 255, 255, 0.5)
+
+  li:first-child a
+    +border-left-radius(5em)
+
+  input.app-grid-search
+    background: #FFF url(../images/bg-icon-grid-search.png) no-repeat 96% 50%
+    +border-right-radius(5em)
+    float: right
+    height: auto
+    padding: 6px 16px
+
+    &:focus
+      outline: none
+
+    &::-webkit-input-placeholder
+      color: #CACACA
+
+    &:-moz-placeholder
+      color: #CACACA
+
+    &:-ms-input-placeholder
+      color: #CACACA
+
+    .condensed &
+      right: 25px
+      top: 25px
 
 
 @media (min-width: 1300px)
