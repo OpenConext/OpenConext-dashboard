@@ -10,9 +10,19 @@ app.message = function() {
         $("#alerts").prepend(record);
 
     };
+    
+    var bundle = { "success.save" : {"en" : "Successfully saved.", "nl" : "Correct opgeslagen." }};
+    
+    var i18n = function(key) {
+    	var lang = $("span#locale_conext").attr("class");
+    	if (lang) {
+    		return bundle[key][lang];
+    	}
+    }
 
     return {
-        showInfo: showInfo
+        showInfo: showInfo,
+        i18n: i18n
     };
 
 }();

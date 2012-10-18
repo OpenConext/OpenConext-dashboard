@@ -194,8 +194,9 @@
   strings['failed-save'] = '<spring:message code="jsp.js.failed_save" />';
 
   var alertDiv = function(msg) {
-    return $("<div />").addClass("alert").html(msg)
-      .append("<button type='button'>&times;</button>").attr("data-dismiss", "alert").addClass("close")
+	  var tmsg = app.message.i18n(msg);
+	  return $("<div />").addClass("alert").html(tmsg)
+       .append("<button type='button'>&times;</button>").attr("data-dismiss", "alert").addClass("close")
   }
 
   $("button[name='usethis'],button[name='save']").click(function(e) {
@@ -251,7 +252,6 @@
 			          });
 		          }
 		          $(form).prepend(alertDiv(strings['successful-save']));
-
 		        }
 		      });
   }

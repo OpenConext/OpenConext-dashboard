@@ -116,3 +116,5 @@
       </ul>
     </nav>
   </div>
+  
+  <span hidden="true" id="locale_conext" class="${locale.language}"></span>
