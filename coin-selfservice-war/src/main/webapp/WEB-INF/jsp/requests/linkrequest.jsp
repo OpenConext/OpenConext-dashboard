@@ -52,7 +52,7 @@
 
             <div class="control-group <form:errors path="agree">error</form:errors>">
                <form:label path="agree" cssClass="checkbox">
-                 <form:checkbox path="agree" id="agree"/>
+                 <form:checkbox path="agree" id="agree" cssClass="required"/>
                  <spring:message code="jsp.sp_linkrequest.agreefield"/></form:label>
                 <form:errors path="agree">
                   <p class="help-block"><form:errors path="agree"/></p>

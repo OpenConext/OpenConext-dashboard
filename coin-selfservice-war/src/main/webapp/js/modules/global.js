@@ -13,6 +13,7 @@ app.global = function() {
         initUserSelection();
         initTextSearch();
         initReadMore();
+        initRequiredCheckbox();
     };
 
     var initPlugins = function() {
@@ -125,6 +126,7 @@ app.global = function() {
         return 'top';
     };
 
+
     var initTooltips = function() {
 
         $('[rel="tooltip"]').tooltip({
@@ -140,6 +142,25 @@ app.global = function() {
         // });
 
     };
+
+
+    var initRequiredCheckbox = function() {
+        $('input:checkbox.required').each(function() {
+            var checkbox = $(this),
+                form = checkbox.closest('form');
+
+            form.on('submit', function(e) {
+                if (checkbox.is(':checked')) {
+                    return;
+                }
+                else {
+                    checkbox.closest('.control-group').addClass('error');
+                    e.preventDefault();
+                }
+            });
+        });
+    };
+
 
     return {
         init : init
