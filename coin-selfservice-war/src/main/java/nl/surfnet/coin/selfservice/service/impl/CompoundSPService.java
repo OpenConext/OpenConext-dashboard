@@ -122,7 +122,13 @@ public class CompoundSPService {
    * @param csp the CSP to be enriched.
    */
   protected void enrich(IdentityProvider idp, CompoundServiceProvider csp) {
-    csp.setServiceProvider(serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId()));
+    ServiceProvider serviceProvider = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId());
+    if (serviceProvider == null) {
+      LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
+    } else {
+      csp.setServiceProvider(serviceProvider);
+    }
+
     List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(idp, csp.getServiceProvider());
     if (licenses.size() == 1) {
       csp.setLicense(licenses.get(0));
