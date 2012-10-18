@@ -18,10 +18,10 @@
 <spring:message var="title" code="jsp.home.title" />
 <jsp:include page="head.jsp">
   <jsp:param name="title" value="${title}" />
-  <jsp:param name="wrapperAdditionalCssClass" value="has-left wrapper-app-grid" />
+  <jsp:param name="wrapperAdditionalCssClass" value="has-left app-grid-wrapper" />
 </jsp:include>
 <div class="column-center content-holder app-grid-holder">
-	<h1 class="hidden-phone">Mijn apps</h1>
+	<h1 class="hidden-phone"><spring:message code="jsp.home.title" /></h1>
 	<section>
 		<ul class="app-grid" data-search-placeholder="Search in applications">
 			<c:forEach items="${compoundSps}" var="compoundSp">

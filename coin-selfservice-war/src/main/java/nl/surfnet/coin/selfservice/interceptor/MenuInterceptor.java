@@ -65,7 +65,6 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
   private Menu createMenu() {
     Menu menu = new Menu();
     menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
-    menu.addMenuItem(new MenuItem("jsp.linkedServices.title", "/user/linked-services.shtml"));
     Collection<? extends GrantedAuthority> authorities = SpringSecurity.getCurrentUser().getAuthorities();
     for (GrantedAuthority grantedAuthority : authorities) {
       if (grantedAuthority instanceof CoinAuthority) {
