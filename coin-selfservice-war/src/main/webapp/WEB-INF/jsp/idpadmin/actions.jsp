@@ -56,10 +56,10 @@
             <c:choose>
               <c:when test="${action.status eq 'CLOSED'}">
                 <i class="icon-ok" rel="tooltip"
-                   data-original-title="<spring:message code="jsp.actions.tooltip-closed" />" data-type="info"></i>
+                   data-original-title="<spring:message code="jsp.actions.tooltip-closed" />"></i>
               </c:when>
               <c:when test="${action.status eq 'OPEN'}">
-                <i class="icon-time" rel="tooltip" data-original-title="<spring:message code="jsp.actions.tooltip-open"/>" data-type="info"></i>
+                <i class="icon-time" rel="tooltip" data-original-title="<spring:message code="jsp.actions.tooltip-open"/>"></i>
               </c:when>
             </c:choose>
           </td>

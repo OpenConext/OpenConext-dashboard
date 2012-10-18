@@ -299,6 +299,9 @@ a {
 .with-read-more.folded .toggle-read-more:after {
   background-position: 0 0; }
 
+[rel="tooltip"] {
+  cursor: help; }
+
 footer {
   background: transparent url(../images/bg-footer.png) no-repeat 50% 0;
   color: #999999;

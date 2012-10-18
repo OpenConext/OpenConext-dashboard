@@ -59,6 +59,10 @@ app.global = function() {
         var readMoreElms = $('.with-read-more').each(function(index, elm) {
             elm = $(elm);
 
+            if (elm.find('p').length < 2) {
+                return;
+            }
+
             var linkText = elm.data('readMoreText');
 
             elm.append('<a class="toggle-read-more" href="#">' + linkText + '</a>');
@@ -119,9 +123,9 @@ app.global = function() {
 
     var initTooltips = function() {
 
-        // $('[rel="tooltip"]').tooltip({
-        //     placement : _placement
-        // });
+        $('[rel="tooltip"]').tooltip({
+            placement : _placement
+        });
 
     };
 

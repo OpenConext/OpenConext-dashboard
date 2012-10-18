@@ -35,7 +35,7 @@ limitations under the License.
         <c:out value="${name}"/>
       </c:when>
       <c:otherwise>
-        <a href="#" rel="tooltip" data-type="info" data-original-title="<c:out value="${description}"/>"><c:out value="${name}"/></a>
+        <span rel="tooltip" data-original-title="<c:out value="${description}"/>"><c:out value="${name}"/></span>
       </c:otherwise>
     </c:choose>
 
