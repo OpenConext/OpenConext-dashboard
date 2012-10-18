@@ -60,6 +60,10 @@ app.global = function() {
             elm = $(elm);
 
             if (elm.find('p').length < 2) {
+                pElm = elm.find('p');
+                if (pElm.length === 0 || $.trim(pElm.text()).length === 0) {
+                    elm.remove();
+                }
                 return;
             }
 
