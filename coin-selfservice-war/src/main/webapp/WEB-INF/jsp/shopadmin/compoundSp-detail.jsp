@@ -235,15 +235,17 @@
 		        },
 		        success: function(result) {
 		          console.log("post success: " + result);
-				  //need to adjust the tab style above the form after the source has changed
-		          $(form).parents("div.accordion-inner").find("ul > li").each(function(index) {
-		        	var li = $(this);  
-		        	if (li.find("a").attr("href").indexOf(result.toLowerCase()) !== -1) {
-		        	  li.addClass("source-selected");	
-		        	} else {
-			          li.removeClass("source-selected");	
-		        	} 
-		          });
+		          if (button.name === 'usethis') {
+					  //need to adjust the tab style above the form after the source has changed
+			          $(form).parents("div.accordion-inner").find("ul > li").each(function(index) {
+			        	var li = $(this);  
+			        	if (li.find("a").attr("href").indexOf(result.toLowerCase()) !== -1) {
+			        	  li.addClass("source-selected");	
+			        	} else {
+				          li.removeClass("source-selected");	
+			        	} 
+			          });
+		          }
 		          $(form).prepend(alertDiv("Successfully saved. TODO: message bundle"));
 
 		        }
