@@ -58,38 +58,63 @@
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
         <jsp:attribute name="input">
-          <tags:locale-specific nlVariant="${compoundSp.descriptionNl}" enVariant="${compoundSp.descriptionEn}" />
+          <tags:locale-specific nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
         </jsp:attribute>
       </tags:html-format>
     </div>
 
+    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+      <tags:html-format>
+        <jsp:attribute name="input">
+          <tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" />
+        </jsp:attribute>
+      </tags:html-format>
+    </div>
+
+    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+      <tags:html-format>
+        <jsp:attribute name="input">
+          <tags:locale-specific nlVariant="${compoundSp.enduserDescriptionNl}" enVariant="${compoundSp.enduserDescriptionEn}" />
+        </jsp:attribute>
+      </tags:html-format>
+    </div>
+    
+    <c:set var="sp" value="${compoundSp.sp}" scope="request" />
+    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+          <jsp:include page="requests/arp.jsp" />
+    </div>
+    
 
     <div>
-      <c:choose>
-        <c:when test="${not compoundSp.sp.linked}">
-          <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/linkrequest.shtml">
-            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-            <c:param name="compoundSpId" value="${compoundSp.id}" />
-          </c:url>"
-             title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
-          </a>
-        </c:when>
-        <c:when test="${compoundSp.sp.linked}">
-          <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/unlinkrequest.shtml">
-            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-            <c:param name="compoundSpId" value="${compoundSp.id}" />
-          </c:url>"
-             title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
-              code="jsp.sp_detail.requestunlink"/>
-          </a>
-        </c:when>
-      </c:choose>
-      <a class="btn" href="<c:url value="/requests/question.shtml">
-            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-            <c:param name="compoundSpId" value="${compoundSp.id}" />
-          </c:url>"
-         title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
-      </a>
+      <c:if test="${applyAllowed}">
+        <c:choose>
+          <c:when test="${not compoundSp.sp.linked}">
+            <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/linkrequest.shtml">
+              <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+              <c:param name="compoundSpId" value="${compoundSp.id}" />
+            </c:url>"
+               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+            </a>
+          </c:when>
+          <c:when test="${compoundSp.sp.linked}">
+            <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/unlinkrequest.shtml">
+              <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+              <c:param name="compoundSpId" value="${compoundSp.id}" />
+            </c:url>"
+               title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
+                code="jsp.sp_detail.requestunlink"/>
+            </a>
+          </c:when>
+        </c:choose>
+      </c:if>
+      <c:if test="${questionAllowed}">
+        <a class="btn" href="<spring:url value="/requests/question.shtml">
+              <spring:param name="spEntityId" value="${compoundSp.sp.id}" />
+              <c:param name="compoundSpId" value="${compoundSp.id}" />
+            </spring:url>"
+           title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
+        </a>
+      </c:if>  
     </div>
 
     <hr>
