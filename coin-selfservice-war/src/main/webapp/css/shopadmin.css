@@ -1,4 +1,5 @@
-.lmng-id-edit > * {
+.lmng-id-edit > *,
+.lmng-idp-edit > * {
   vertical-align: middle; }
 
 .accordion-group {

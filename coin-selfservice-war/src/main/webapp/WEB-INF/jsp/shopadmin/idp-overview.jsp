@@ -44,19 +44,21 @@
             <tr>
               <td title="${binding.identityProvider.id} - ${binding.identityProvider.institutionId} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}"><tags:providername provider="${binding.identityProvider}"/></td>
               <td class="text-overflow">
-  			  <form:form method="post" action="save-idplmng.shtml" >
-              	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
-              	<input value="${binding.identityProvider.institutionId}" type="hidden" name="idpIdentifier"/>
-              	<c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
-              	<c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
-              	<c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
-              	<button type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');" class="btn btn-small">
-                  <i class="icon-ban-circle"></i>
-                </button>
-              	<button type="submit" value="submit" title="${submitButtonTitle}" name="submit" class="btn btn-small">
-                  <i class="icon-ok"></i>
-                </button>
-  			  </form:form>
+          <form:form method="post" action="save-idplmng.shtml" class="lmng-idp-edit">
+                <input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
+                <input value="${binding.identityProvider.institutionId}" type="hidden" name="idpIdentifier"/>
+                <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
+                <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
+                <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
+                <div class="btn-group">
+                  <button type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');" class="btn btn-small">
+                    <i class="icon-ban-circle"></i>
+                  </button>
+                  <button type="submit" value="submit" title="${submitButtonTitle}" name="submit" class="btn btn-small">
+                    <i class="icon-ok"></i>
+                  </button>
+                </div>
+          </form:form>
               </td>
               <td class="center">
                 <%-- Add detail/binding button --%>

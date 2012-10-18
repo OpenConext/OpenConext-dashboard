@@ -82,21 +82,23 @@ public class QuestionController extends BaseController {
    * @return ModelAndView
    */
   @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
-  public ModelAndView spQuestion(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView spQuestion(@RequestParam String spEntityId, @RequestParam Long compoundSpId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("question", new Question());
     m.put("sp", sp);
+    m.put("compoundSpId", compoundSpId);
     return new ModelAndView("requests/question", m);
   }
 
   @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
-  public ModelAndView spQuestionSubmit(@RequestParam String spEntityId,
+  public ModelAndView spQuestionSubmit(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, @Valid @ModelAttribute("question") Question question,
       BindingResult result) {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
+    m.put("compoundSpId", compoundSpId);
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());

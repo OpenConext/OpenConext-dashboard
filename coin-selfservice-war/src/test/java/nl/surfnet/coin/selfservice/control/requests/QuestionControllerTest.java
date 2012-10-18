@@ -92,7 +92,7 @@ public class QuestionControllerTest {
   }
   @Test
   public void questionGET() {
-    final ModelAndView mav = questionController.spQuestion("foobar", getIdp());
+    final ModelAndView mav = questionController.spQuestion("foobar", 1L, getIdp());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("requests/question"));
     assertTrue(mav.getModel().containsKey("question"));
@@ -104,7 +104,7 @@ public class QuestionControllerTest {
     when(jiraService.create(Matchers.<JiraTask>any(), Matchers.<CoinUser>any())).thenReturn(issueKey);
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
     verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
     verify(notificationService).sendMail(eq(issueKey), (String) anyObject(), (String) anyObject(), (String) anyObject());
     assertTrue(mav.hasView());
@@ -116,7 +116,7 @@ public class QuestionControllerTest {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     when(jiraService.create((JiraTask) anyObject(), Matchers.<CoinUser>any())).thenThrow(new IOException("An IOException on purpose"));
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
     verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject(), anyString(),
         anyString());
     assertTrue(mav.hasView());
@@ -128,7 +128,7 @@ public class QuestionControllerTest {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     result.addError(new ObjectError("question", "foo 123 is required"));
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("requests/question"));
   }

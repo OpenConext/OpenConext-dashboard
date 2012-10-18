@@ -77,15 +77,17 @@
         <c:when test="${compoundSp.sp.linked}">
           <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/unlinkrequest.shtml">
             <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+            <c:param name="compoundSpId" value="${compoundSp.id}" />
           </c:url>"
              title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
               code="jsp.sp_detail.requestunlink"/>
           </a>
         </c:when>
       </c:choose>
-      <a class="btn" href="<spring:url value="/requests/question.shtml">
-            <spring:param name="spEntityId" value="${compoundSp.sp.id}" />
-          </spring:url>"
+      <a class="btn" href="<c:url value="/requests/question.shtml">
+            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+            <c:param name="compoundSpId" value="${compoundSp.id}" />
+          </c:url>"
          title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
       </a>
     </div>
