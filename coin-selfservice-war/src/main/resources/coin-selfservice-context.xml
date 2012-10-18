@@ -48,8 +48,7 @@
     <property name="jdbcUrl" value="${coin-api.jdbc.url}" />
     <property name="username" value="${coin-api.jdbc.user}" />
     <property name="password" value="${coin-api.jdbc.password}" />
-    <property name="idleConnectionTestPeriodInSeconds"
-      value="${coin-selfservice.database.idleConnectionTestPeriod}" />
+    <property name="idleConnectionTestPeriodInSeconds" value="${coin-selfservice.database.idleConnectionTestPeriod}" />
     <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
     <property name="maxConnectionsPerPartition" value="20" />
     <property name="minConnectionsPerPartition" value="2" />

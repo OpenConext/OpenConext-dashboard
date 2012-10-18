@@ -50,7 +50,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   private Janus janusClient;
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> allSPs = getAllServiceProvidersUnfiltered();
 
@@ -71,7 +71,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<ServiceProvider> getAllServiceProviders() {
     return getAllServiceProvidersUnfiltered();
   }
@@ -99,7 +99,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     return linked;
   }
 
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<String> getLinkedServiceProviderIDs(String idpId) {
     List<String> spList = new ArrayList<String>();
     try {
@@ -111,7 +111,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     return spList;
   }
 
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   private List<ServiceProvider> getAllServiceProvidersUnfiltered() {
     List<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     try {
@@ -128,7 +128,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     try {
       // first get JanusEntity. This holds the information about the workflow
@@ -160,7 +160,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public ServiceProvider getServiceProvider(String spEntityId) {
     return getServiceProvider(spEntityId, null);
   }
@@ -273,7 +273,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public IdentityProvider getIdentityProvider(String idpEntityId) {
     try {
       EntityMetadata metadataByEntityId = janusClient.getMetadataByEntityId(idpEntityId);
@@ -284,7 +284,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
     if (StringUtils.isBlank(instituteId)) {
@@ -299,7 +299,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<IdentityProvider> getAllIdentityProviders() {
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
     try {

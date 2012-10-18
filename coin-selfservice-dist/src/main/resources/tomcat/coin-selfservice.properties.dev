@@ -123,6 +123,7 @@ janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=openConextApiClient
 lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
+cacheManagerClass=nl.surfnet.coin.shared.cache.ConextNoOpCacheManager
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-api.jdbc.driver=com.mysql.jdbc.Driver
@@ -138,4 +139,3 @@ coin-selfservice.db.migrations.folder=db/migration/mysql
 #which SAML attribute holds the UUID
 saml-uuid-attribute=urn:oid:1.3.6.1.4.1.1076.20.40.40.1
 
-cacheManagerClass=nl.surfnet.coin.shared.cache.ConextNoOpCacheManager

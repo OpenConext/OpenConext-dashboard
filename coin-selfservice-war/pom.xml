@@ -416,6 +416,7 @@
 
               <jsSourceDir>js</jsSourceDir>
               <jsSourceIncludes>
+                <jsSourceInclude>tools/*.js</jsSourceInclude>
                 <jsSourceInclude>modules/*.js</jsSourceInclude>
               </jsSourceIncludes>
               <jsSourceFiles>

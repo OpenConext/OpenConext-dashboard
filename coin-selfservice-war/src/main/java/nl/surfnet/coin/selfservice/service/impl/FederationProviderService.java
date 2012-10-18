@@ -111,7 +111,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<ServiceProvider> getAllServiceProviders(String idpId) {
     List<ServiceProvider> providers = new ArrayList<ServiceProvider>();
     if (federatieConfig.getSps() == null) {
@@ -125,7 +125,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<ServiceProvider> getAllServiceProviders() {
     return federatieConfig.getSps();
   }
@@ -147,7 +147,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
     if (federatieConfig.getSps() == null) {
       return null;
@@ -162,7 +162,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public ServiceProvider getServiceProvider(String spEntityId) {
     if (federatieConfig.getSps() == null) {
       return null;
@@ -176,7 +176,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public IdentityProvider getIdentityProvider(String idpEntityId) {
     if (federatieConfig.getIdPs() == null) {
       return null;
@@ -190,7 +190,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
 
     List<IdentityProvider> idps = new ArrayList<IdentityProvider>();
@@ -207,7 +207,7 @@ public class FederationProviderService implements ServiceProviderService, Identi
   }
 
   @Override
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<IdentityProvider> getAllIdentityProviders() {
     return federatieConfig.getIdPs();
 

@@ -117,7 +117,7 @@ mode.dev=false
 
 hibernate-selfservice.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 hibernate-selfservice.hbm2ddl.auto=none
-hibernate-selfserviceformat_sql=true
+hibernate-selfservice.format_sql=true
 hibernate-selfservice.show_sql=false
 
 # Alle real implementations (and not local mocks for testing purposes)
@@ -125,6 +125,7 @@ janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=openConextApiClient
 lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
+cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-api.jdbc.driver=com.mysql.jdbc.Driver
@@ -139,5 +140,3 @@ coin-selfservice.db.migrations.folder=db/migration/mysql
 
 #which SAML attribute holds the UUID
 saml-uuid-attribute=urn:oid:1.3.6.1.4.1.1076.20.40.40.1
-
-cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager

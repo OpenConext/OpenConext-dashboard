@@ -54,7 +54,7 @@ public class CompoundSPService {
   @Resource
   private LicensingService licensingService;
 
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<CompoundServiceProvider> getCSPsByIdp(IdentityProvider identityProvider) {
 
     // Base: the list of all service providers for this IDP
