@@ -46,8 +46,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * Interceptor to de-scope the visibility {@link CompoundServiceProvider} objects for
- * display
+ * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
+ * objects for display
+ * 
+ * See <a
+ * href="https://wiki.surfnetlabs.nl/display/services/App-omschrijving">https
+ * ://wiki.surfnetlabs.nl/display/services/App-omschrijving</a>
  */
 public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
@@ -86,8 +90,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     AttributeScopeConstraints constraints = new AttributeScopeConstraints();
 
     /*
-     * We only veto ROLE_USER 
-     * 
+     * We only veto ROLE_USER
      */
     if (CollectionUtils.isEmpty(authorities)
         || ((authorities.size() == 1 && authorities.iterator().next().getEnumAuthority().equals(Authority.ROLE_USER)))) {

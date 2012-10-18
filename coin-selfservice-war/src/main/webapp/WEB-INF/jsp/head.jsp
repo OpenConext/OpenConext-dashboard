@@ -58,15 +58,15 @@
         <li class="user"><spring:message code="jsp.general.welcome" /> <a href="index.html"><sec:authentication property="principal.displayName" scope="request"
               htmlEscape="true" /></a>
         </li>
-    <c:if test="${dev eq true}">
-      <li class="role-switch">
-      <ul class="user-dropdown">
-      <c:forEach items="${roles}" var="role" varStatus="vs">
-      <li class="user-role-manager ${vs.count == 1 ? 'active' : ''}">${role.authority}</li>
-      </c:forEach>
-      </ul>
-      </li>
-    </c:if>
+        <c:if test="${dev eq true}">
+          <li class="role-switch">
+            <ul class="user-dropdown">
+              <c:forEach items="${roles}" var="role" varStatus="vs">
+                <li class="user-role-manager ${vs.count == 1 ? 'active' : ''}">${role.authority}</li>
+              </c:forEach>
+            </ul>
+          </li>
+        </c:if>
 
           <li class="role-switch">
             <c:if test="${fn:length(idps) gt 1}">          
@@ -87,8 +87,25 @@
               <tags:providername provider="${idps[0]}" />
             </c:if>
           </li>
-        
-
+          
+          <spring:url value="" var="langNL" htmlEscape="true">
+            <c:forEach var="par" items="${paramValues}">
+              <c:if test="${par.key ne 'lang'}">
+                <spring:param name="${par.key}" value="${par.value[0]}" />
+              </c:if>   
+            </c:forEach>          
+            <spring:param name="lang" value="nl" />
+          </spring:url>
+          <spring:url value="" var="langEN" htmlEscape="true">
+            <c:forEach var="par" items="${paramValues}">
+              <c:if test="${par.key ne 'lang'}">
+                <spring:param name="${par.key}" value="${par.value[0]}" />
+              </c:if>   
+            </c:forEach>          
+            <spring:param name="lang" value="en" />
+          </spring:url> 
+          <li class="user"><a href="${langNL}">NL</a>|<a href="${langEN}">EN</a>
+          </li>
         <li class="logout"><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />"><spring:message code="jsp.general.logout" /></a></li>
       </ul>
     </nav>

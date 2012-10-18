@@ -194,8 +194,7 @@
   strings['failed-save'] = '<spring:message code="jsp.js.failed_save" />';
 
   var alertDiv = function(msg) {
-	  var tmsg = app.message.i18n(msg);
-	  return $("<div />").addClass("alert").html(tmsg)
+	  return $("<div />").addClass("alert").html(msg)
        .append("<button type='button'>&times;</button>").attr("data-dismiss", "alert").addClass("close")
   }
 
