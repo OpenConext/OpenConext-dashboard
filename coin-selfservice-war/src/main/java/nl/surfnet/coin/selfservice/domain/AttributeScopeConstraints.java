@@ -15,6 +15,7 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,8 @@ import nl.surfnet.coin.selfservice.domain.Field.Key;
  * https://wiki.surfnetlabs.nl/display/services/App-omschrijving
  * 
  */
-public class AttributeScopeConstraints {
+@SuppressWarnings("serial")
+public class AttributeScopeConstraints implements Serializable{
 
   private Set<Key> keys;
 
