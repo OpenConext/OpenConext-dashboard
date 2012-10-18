@@ -157,7 +157,7 @@ a
     padding: 0.7em 50px 0.7em 0
     +transition(color 0.3s)
 
-.with-read-more
+.wrapper .with-read-more
   .toggle-read-more:after
     background: url(../images/bg-toggle-read-more.png) 0 -7px
     content: ''
@@ -165,6 +165,23 @@ a
     height: 7px
     margin-left: 10px
     width: 9px
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul,
+  ol,
+  blockquote,
+  pre
+    color: #666 !important
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important
+    font-size: 14px !important
+    font-weight: normal !important
+    margin-bottom: 0
 
   &.folded
     h1,
@@ -174,20 +191,23 @@ a
     h5,
     h6,
     p,
+    ul,
+    ol,
     blockquote,
     pre
-      margin-bottom: 0
       +transition(none)
 
-      + h1,
-      + h2,
-      + h3,
-      + h4,
-      + h5,
-      + h6,
-      + p,
-      + blockquote,
-      + pre
+      ~ h1,
+      ~ h2,
+      ~ h3,
+      ~ h4,
+      ~ h5,
+      ~ h6,
+      ~ p,
+      ~ ul,
+      ~ ol,
+      ~ blockquote,
+      ~ pre
         display: none
 
     .toggle-read-more:after
