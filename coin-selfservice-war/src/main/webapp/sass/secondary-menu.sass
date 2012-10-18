@@ -28,7 +28,7 @@
     position: relative
 
     &:before
-      background: url(../images/sprite-secondary-menu.png)
+      background: url(../images/sprite-secondary-menu.png) no-repeat
       background-position: 0 0
       content: ''
       height: 50px
@@ -51,7 +51,7 @@
       &.active:before
         background-position: -40px -50px
 
-    &.requests
+    &.requests-overview
       &:before
         background-position: 0 -100px
       &:hover:before,
@@ -74,6 +74,22 @@
       &:focus:before,
       &.active:before
         background-position: -40px -200px
+
+    &.allsplmng
+      &:before
+        background-position: 0 -250px
+      &:hover:before,
+      &:focus:before,
+      &.active:before
+        background-position: -40px -250px
+
+    &.allidplmng
+      &:before
+        background-position: 0 -300px
+      &:hover:before,
+      &:focus:before,
+      &.active:before
+        background-position: -40px -300px
 
     &.actions
       float: none

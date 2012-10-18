@@ -1006,7 +1006,7 @@ textarea {
     padding: 0;
     position: relative; }
     .secondary-menu > ul > li:before {
-      background: url(../images/sprite-secondary-menu.png);
+      background: url(../images/sprite-secondary-menu.png) no-repeat;
       background-position: 0 0;
       content: "";
       height: 50px;
@@ -1021,9 +1021,9 @@ textarea {
       background-position: 0 -50px; }
     .secondary-menu > ul > li.groups:hover:before, .secondary-menu > ul > li.groups:focus:before, .secondary-menu > ul > li.groups.active:before {
       background-position: -40px -50px; }
-    .secondary-menu > ul > li.requests:before {
+    .secondary-menu > ul > li.requests-overview:before {
       background-position: 0 -100px; }
-    .secondary-menu > ul > li.requests:hover:before, .secondary-menu > ul > li.requests:focus:before, .secondary-menu > ul > li.requests.active:before {
+    .secondary-menu > ul > li.requests-overview:hover:before, .secondary-menu > ul > li.requests-overview:focus:before, .secondary-menu > ul > li.requests-overview.active:before {
       background-position: -40px -100px; }
     .secondary-menu > ul > li.stats:before {
       background-position: 0 -150px; }
@@ -1033,6 +1033,14 @@ textarea {
       background-position: 0 -200px; }
     .secondary-menu > ul > li.profile:hover:before, .secondary-menu > ul > li.profile:focus:before, .secondary-menu > ul > li.profile.active:before {
       background-position: -40px -200px; }
+    .secondary-menu > ul > li.allsplmng:before {
+      background-position: 0 -250px; }
+    .secondary-menu > ul > li.allsplmng:hover:before, .secondary-menu > ul > li.allsplmng:focus:before, .secondary-menu > ul > li.allsplmng.active:before {
+      background-position: -40px -250px; }
+    .secondary-menu > ul > li.allidplmng:before {
+      background-position: 0 -300px; }
+    .secondary-menu > ul > li.allidplmng:hover:before, .secondary-menu > ul > li.allidplmng:focus:before, .secondary-menu > ul > li.allidplmng.active:before {
+      background-position: -40px -300px; }
     .secondary-menu > ul > li.actions {
       float: none; }
   .secondary-menu a {
