@@ -29,22 +29,45 @@
       <img src="${compoundSp.detailLogo}" alt="<c:out value=""/>" class="application-logo">
     </c:if>
     <ul class="action-list">
+      <c:if test="${not empty compoundSp.appUrl}">
+        <li>
+          <a href="${compoundSp.appUrl}">
+            <spring:message code="jsp.app_detail.app_url_label" />
+          </a>
+        </li>
+      </c:if>
       <c:if test="${not empty compoundSp.serviceUrl}">
         <li>
           <a href="${compoundSp.serviceUrl}">
-            <spring:message code="jsp.app_detail.service_url_label" arguments="${spname}" />
+            <spring:message code="jsp.app_detail.service_url_label" />
           </a>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.supportUrl}">
         <li>
           <a href="${compoundSp.supportUrl}">
-            <spring:message code="jsp.app_detail.support_url_label" arguments="${spname}" />
+            <spring:message code="jsp.app_detail.support_url_label" />
           </a>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.eulaUrl}">
-        <li><a href="${compoundSp.eulaUrl}">Terms & Conditions</a></li>
+        <li>
+          <a href="${compoundSp.eulaUrl}">
+            <spring:message code="jsp.app_detail.terms_conditions" />
+          </a>
+        </li>
+      </c:if>
+      <c:if test="${not empty compoundSp.technicalSupportMail}">  
+        <li>
+          <i class="icon-envelope"></i><spring:message code="jsp.app_detail.technical_email" />
+          <c:out value="${compoundSp.technicalSupportMail}"/>
+        </li>
+      </c:if>
+      <c:if test="${not empty compoundSp.supportMail}">  
+        <li>
+          <i class="icon-envelope"></i><spring:message code="jsp.app_detail.support_email" />
+          <c:out value="${compoundSp.supportMail}"/>
+        </li>
       </c:if>
     </ul>
   </section>
@@ -56,20 +79,23 @@
     <h1><c:out value="${spname}"/></h1>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+      <%--span rel="tooltip" data-original-title="<spring:message code="jsp.app_detail.institution_description"/>"--%>
       <tags:html-format>
         <jsp:attribute name="input">
-          <tags:locale-specific nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
+            <tags:locale-specific nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
         </jsp:attribute>
       </tags:html-format>
+      <%--/span--%>
     </div>
 
-    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+    <%-- Not included in https://wiki.surfnetlabs.nl/display/services/App-omschrijving--%>
+    <%--div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
         <jsp:attribute name="input">
           <tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" />
         </jsp:attribute>
       </tags:html-format>
-    </div>
+    </div--%>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
@@ -84,6 +110,25 @@
           <jsp:include page="requests/arp.jsp" />
     </div>
     
+    
+    <c:choose>
+      <c:when test="${compoundSp.licenseAvailable}">
+        <div>
+          <strong><spring:message code="jsp.app_detail.license_available"/></strong>
+          <c:set var="endDate"><fmt:formatDate pattern="dd/MM/yyyy" value="${compoundSp.license.endDate}"/></c:set>
+          <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
+        </div>    
+      </c:when>
+      <c:otherwise>
+        <div>
+          <strong><spring:message code="jsp.app_detail.license_not_available"/></strong>
+        </div>    
+      </c:otherwise>
+    </c:choose>
+    
+    <div>
+      
+    </div>
 
     <div>
       <c:if test="${applyAllowed}">

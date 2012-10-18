@@ -58,7 +58,9 @@
 
               <div class="controls">
                 <input id="subject" name="subject" class="input-xlarge" type="text" value=""/>
-                
+              </div>
+              <div class="controls">
+                <form:errors path="subject"/>                
               </div>
             </div>
             <div class="control-group ">
@@ -66,7 +68,9 @@
 
               <div class="controls">
                 <textarea id="body" name="body" class="input-xlarge" rows="10"></textarea>
-                
+              </div>
+              <div class="controls">
+                <form:errors path="subject"/>                
               </div>
             </div>
 

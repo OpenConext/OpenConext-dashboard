@@ -23,6 +23,8 @@ import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTIO
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
@@ -89,14 +91,18 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
     AttributeScopeConstraints constraints = new AttributeScopeConstraints();
 
-    /*
-     * We only veto ROLE_USER
-     */
-    if (CollectionUtils.isEmpty(authorities)
-        || ((authorities.size() == 1 && authorities.iterator().next().getEnumAuthority().equals(Authority.ROLE_USER)))) {
+    if (isRoleUser(authorities)) {
       constraints.addAttributeScopeConstraint(INSTITUTION_DESCRIPTION_EN, INSTITUTION_DESCRIPTION_NL, TECHNICAL_SUPPORTMAIL);
     }
+    if (containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN)) {
+      constraints.addAttributeScopeConstraint(ENDUSER_DESCRIPTION_EN,ENDUSER_DESCRIPTION_NL );
+    }
     sp.setConstraints(constraints);
+  }
+
+  private boolean isRoleUser(Collection<CoinAuthority> authorities) {
+    return CollectionUtils.isEmpty(authorities)
+        || ((authorities.size() == 1 && authorities.iterator().next().getEnumAuthority().equals(Authority.ROLE_USER)));
   }
 
   private boolean containsRole(Collection<CoinAuthority> coinAuthorities, Authority... authority) {
