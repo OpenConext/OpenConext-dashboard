@@ -21,6 +21,10 @@ import java.util.Arrays;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpSession;
 
+import nl.surfnet.coin.api.client.OpenConextOAuthClient;
+import nl.surfnet.coin.api.client.domain.Group20;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsEqual;
 import org.junit.Before;
@@ -35,10 +39,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import nl.surfnet.coin.api.client.OpenConextOAuthClient;
-import nl.surfnet.coin.api.client.domain.Group20;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
 
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -71,6 +71,7 @@ public class ApiOAuthFilterTest {
     request = new MockHttpServletRequest("GET", "/anyUrl");
     response = new MockHttpServletResponse();
 
+    SecurityContextHolder.getContext().setAuthentication(null);
   }
 
   @Test
