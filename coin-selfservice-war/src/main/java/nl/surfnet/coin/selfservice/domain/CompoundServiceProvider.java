@@ -38,6 +38,7 @@ import nl.surfnet.coin.selfservice.domain.Provider.Language;
 import nl.surfnet.coin.shared.domain.DomainObject;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
@@ -98,6 +99,9 @@ public class CompoundServiceProvider extends DomainObject {
   private Set<Screenshot> screenShotsImages = new HashSet<Screenshot>();
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, License license) {
+    Assert.notNull(serviceProvider);  
+    Assert.notNull(license);  
+    
     byte[] image = getDefaultImage();
     String todo = "TODO";
 
@@ -438,6 +442,10 @@ public class CompoundServiceProvider extends DomainObject {
     this.lmngId = license.getLmngIdentifier();
   }
 
+  public boolean isLicenseAvailable() {
+    return StringUtils.isNotBlank(getLicense().getLmngIdentifier()); 
+  }
+  
   private void setServiceProviderEntityId(String serviceProviderEntityId) {
     this.serviceProviderEntityId = serviceProviderEntityId;
   }

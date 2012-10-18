@@ -37,8 +37,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 /**
- * Abstraction for the Compound Service Providers.
- * This deals with persistence and linking to Service Providers
+ * Abstraction for the Compound Service Providers. This deals with persistence
+ * and linking to Service Providers
  */
 @Component
 public class CompoundSPService {
@@ -48,13 +48,13 @@ public class CompoundSPService {
   @Resource
   private CompoundServiceProviderDao compoundServiceProviderDao;
 
-  @Resource(name="providerService")
+  @Resource(name = "providerService")
   private ServiceProviderService serviceProviderService;
 
   @Resource
   private LicensingService licensingService;
 
-  @Cacheable("default")
+  @Cacheable("selfserviceDefault")
   public List<CompoundServiceProvider> getCSPsByIdp(IdentityProvider identityProvider) {
 
     // Base: the list of all service providers for this IDP
@@ -67,26 +67,26 @@ public class CompoundSPService {
 
     // Build a list of CSPs. Create new ones for SPs that have no CSP yet.
     List<CompoundServiceProvider> all = new ArrayList<CompoundServiceProvider>();
-    for(ServiceProvider sp : allServiceProviders) {
+    for (ServiceProvider sp : allServiceProviders) {
 
       CompoundServiceProvider csp;
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
-         csp = mapByServiceProviderEntityId.get(sp.getId());
+        csp = mapByServiceProviderEntityId.get(sp.getId());
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
         csp = createCompoundServiceProvider(sp);
       }
-      enrich(identityProvider, csp);
+      enrich(identityProvider, csp, sp);
       all.add(csp);
     }
     return all;
   }
 
   /**
-   * Create a CSP for the given SP.
-   * TODO: add license
-   *
-   * @param sp the SP
+   * Create a CSP for the given SP. TODO: add license
+   * 
+   * @param sp
+   *          the SP
    * @return the created (and persisted) CSP
    */
   public CompoundServiceProvider createCompoundServiceProvider(ServiceProvider sp) {
@@ -105,13 +105,16 @@ public class CompoundSPService {
 
   /**
    * Get a CSP by its ID, for the given IDP.
-   * @param idp the IDP
-   * @param compoundSpId long
+   * 
+   * @param idp
+   *          the IDP
+   * @param compoundSpId
+   *          long
    * @return
    */
   public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId) {
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
-    enrich(idp, csp);
+    enrich(idp, csp, null);
     return csp;
   }
 
@@ -120,17 +123,32 @@ public class CompoundSPService {
    *
    * @param idp the IDP for whom this CSP is enriched (licenses are Idp specific)
    * @param csp the CSP to be enriched.
+   * @param sp the SP in case it is known. Otherwise (leave it null) it will be retrieved from the underlying ServiceProviderService
+   * 
+   * @param idp
+   *          the IDP for whom this CSP is enriched (licenses are Idp specific)
+   * @param csp
+   *          the CSP to be enriched.
    */
-  protected void enrich(IdentityProvider idp, CompoundServiceProvider csp) {
-    csp.setServiceProvider(serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId()));
+  protected void enrich(IdentityProvider idp, CompoundServiceProvider csp, ServiceProvider sp) {
+    if (sp == null) {
+      sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId());
+    }
+    if (sp == null) {
+      LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
+    } else {
+      csp.setServiceProvider(sp);
+    }
+
     List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(idp, csp.getServiceProvider());
-    if (licenses.size() == 1) {
-      csp.setLicense(licenses.get(0));
-    } else if (licenses.isEmpty()) {
+    if (licenses.isEmpty()) {
       LOG.debug("No license for idp {} and SP {}", idp.getId(), csp.getServiceProvider().getId());
     } else {
-      LOG.info("Multiple licenses found for idp {} and SP {}: {}",
-        new Object[] {idp.getId(), csp.getServiceProvider().getId(), licenses.size()});
+      csp.setLicense(licenses.get(0));
+      if (licenses.size() > 1) {
+        LOG.info("Multiple licenses found for idp {} and SP {}: {}",
+            new Object[] { idp.getId(), csp.getServiceProvider().getId(), licenses.size() });
+      }
     }
   }
 }

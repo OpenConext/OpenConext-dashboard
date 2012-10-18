@@ -5,7 +5,8 @@
         "serviceDescriptionNl": "Microsoft Nederland",
         "productName": "Office 365",
         "identityName": "office365_pro",
-        "supplierName": "Microsoft"
+        "supplierName": "Microsoft",
+        "lmngIdentifier" : "1234568"
     },
     {
         "startDate": 1333885898711,
@@ -13,6 +14,7 @@
         "serviceDescriptionNl": "Google Nederland",
         "productName": "Google Enterpeise",
         "identityName": "google_maps_pro",
-        "supplierName": "Google"
+        "supplierName": "Google",
+        "lmngIdentifier" : "1234568"
     }
 ]
