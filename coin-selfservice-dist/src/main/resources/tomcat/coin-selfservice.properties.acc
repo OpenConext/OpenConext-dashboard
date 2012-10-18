@@ -37,9 +37,9 @@ coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
 coin-lmng-endpoint=??
-coin-lmng-port=80
-coin-lmng-user=??
-coin-lmng-password=??
+coin-lmng-port=8080
+coin-lmng-debug=false
+
 
 coin-shindig-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/shindig
 coin-shindig-db-username=shindigrw
