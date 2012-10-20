@@ -56,7 +56,7 @@ public class CompoundServiceProviderTest {
     assertEquals("/fieldimages/null.img", appLogo);
     
     des = values.get(Key.ENDUSER_DESCRIPTION_NL);
-    assertEquals("TODO", des);
+    assertNull(des);
   }
 
 }
