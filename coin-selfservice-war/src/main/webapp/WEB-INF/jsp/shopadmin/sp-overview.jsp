@@ -68,7 +68,7 @@
   			  </form:form>
               </td>
               <td class="center">
-                <a href="${detailUrl}">Data&nbsp;decisions</a>
+                <a href="${detailUrl}"><spring:message code="jsp.sp_overview.data_decision" /></a>
               </td>
             </tr>
           </c:if>

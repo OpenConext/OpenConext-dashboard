@@ -116,6 +116,8 @@ public abstract class Field extends DomainObject implements Comparable {
   public void setCompoundServiceProvider(CompoundServiceProvider compoundServiceProvider) {
     this.compoundServiceProvider = compoundServiceProvider;
   }
+  
+  public abstract boolean isUnset();
 
   @Override
   public String toString() {

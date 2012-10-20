@@ -103,7 +103,7 @@ public class CompoundServiceProvider extends DomainObject {
     Assert.notNull(license);  
     
     byte[] image = getDefaultImage();
-    String todo = "TODO";
+    String todo = null;
 
     CompoundServiceProvider provider = new CompoundServiceProvider();
     provider.setServiceProvider(serviceProvider);

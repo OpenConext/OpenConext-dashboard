@@ -92,4 +92,12 @@ public class FieldImage extends Field {
       ", getId()=" + getId() + "]";
   }
 
+  /* (non-Javadoc)
+   * @see nl.surfnet.coin.selfservice.domain.Field#isUnset()
+   */
+  @Override
+  public boolean isUnset() {
+    return Field.Source.DISTRIBUTIONCHANNEL.equals(getSource()) && (image == null || image.length == 0);
+  }
+
 }

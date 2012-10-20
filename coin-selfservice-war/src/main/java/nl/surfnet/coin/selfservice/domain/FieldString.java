@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
@@ -62,6 +63,15 @@ public class FieldString extends Field {
 
   public void setValue(String value) {
     this.value = value;
+  }
+
+  /* (non-Javadoc)
+   * @see nl.surfnet.coin.selfservice.domain.Field#isUnset()
+   */
+  @Override
+  public boolean isUnset() {
+    return Field.Source.DISTRIBUTIONCHANNEL.equals(getSource()) && StringUtils.isBlank(value);
+
   }
   
 }

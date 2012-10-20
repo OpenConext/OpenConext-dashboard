@@ -39,7 +39,7 @@
   <spring:message var="fieldTitle" code="jsp.compoundSp.${field.key}" />
   <c:set var="fieldId" value="f-${field.id}" />
 
-      <div class="accordion-group">
+      <div class="accordion-group ${field.unset == true ? 'error' : ''}">
         <div class="accordion-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordion" href="#${fieldId}-body">
             ${fieldTitle}

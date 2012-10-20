@@ -31,28 +31,28 @@
     <ul class="action-list">
       <c:if test="${not empty compoundSp.appUrl}">
         <li>
-          <a href="${compoundSp.appUrl}">
+          <a href="${compoundSp.appUrl}" target="_blank">
             <spring:message code="jsp.app_detail.app_url_label" />
           </a>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.serviceUrl}">
         <li>
-          <a href="${compoundSp.serviceUrl}">
+          <a href="${compoundSp.serviceUrl}" target="_blank">
             <spring:message code="jsp.app_detail.service_url_label" />
           </a>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.supportUrl}">
         <li>
-          <a href="${compoundSp.supportUrl}">
+          <a href="${compoundSp.supportUrl}" target="_blank">
             <spring:message code="jsp.app_detail.support_url_label" />
           </a>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.eulaUrl}">
         <li>
-          <a href="${compoundSp.eulaUrl}">
+          <a href="${compoundSp.eulaUrl}" target="_blank">
             <spring:message code="jsp.app_detail.terms_conditions" />
           </a>
         </li>
