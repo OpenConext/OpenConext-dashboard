@@ -61,6 +61,12 @@ public class HomeController extends BaseController {
     return new ModelAndView("app-overview", model);
   }
 
+  @RequestMapping("/user.shtml")
+  public ModelAndView user() {
+    Map<String, Object> model = new HashMap<String, Object>();
+    return new ModelAndView("user", model);
+  }
+
   @RequestMapping("/styleguide.shtml")
   public ModelAndView styleguide() {
     Map<String, Object> model = new HashMap<String, Object>();
