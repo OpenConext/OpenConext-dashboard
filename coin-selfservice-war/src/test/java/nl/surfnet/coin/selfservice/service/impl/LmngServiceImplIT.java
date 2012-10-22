@@ -28,6 +28,7 @@ import java.util.Properties;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -64,7 +65,8 @@ public class LmngServiceImplIT {
 
     Date date = new Date();
     IdentityProvider identityProvider = new IdentityProvider("testId", "testinstitutionId", "testName");
-    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProvider(identityProvider, date);
+    ServiceProvider serviceProvider = new ServiceProvider("testId");
+    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, date);
 
     assertEquals("Incorrect number of results", 1, licenses.size());
     assertEquals("Incorrect name for IDP", "Hogeschool Aanbesteding", licenses.get(0).getIdentityName());

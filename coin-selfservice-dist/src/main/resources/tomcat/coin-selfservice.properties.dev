@@ -36,9 +36,13 @@ coin-eb-db-url=jdbc:mysql://db.dev.surfconext.nl:3306/eb
 coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
-coin-lmng-endpoint=http://lmng01.dev.coin.surf.net/CrmService.svc
-coin-lmng-port=8080
+lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
+coin-lmng-endpoint=https://lmng01.dev.coin.surf.net:8444/CrmService.svc
 coin-lmng-debug=true
+coin-lmngClientCertificatePassword=??
+coin-lmngClientCertificatePrivateKey=??
+coin-lmngClientCertificate=??
+coin-lmngRootCertificate=??
 
 coin-shindig-db-url=jdbc:mysql://db.dev.surfconext.nl:3306/shindig
 coin-shindig-db-username=shindigrw

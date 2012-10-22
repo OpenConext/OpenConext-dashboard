@@ -28,15 +28,19 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 
 /**
  * LicensingServiceMock.java
  * 
  */
 public class LmngServiceMock implements LicensingService {
-  private String endpoint;
+
   private boolean debug;
-  private String port;
+  private String endpoint;
+  private KeyStore keyStore;
+  private KeyStore trustStore;
+  private String keystorePassword;
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
@@ -55,27 +59,16 @@ public class LmngServiceMock implements LicensingService {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.LicensingService#
-   * getLicensesForIdentityProvider
-   * (nl.surfnet.coin.selfservice.domain.IdentityProvider)
-   */
+
   @Override
-  public List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider) {
+  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+      List<ServiceProvider> serviceProviders) {
     return this.licenses;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.LicensingService#
-   * getLicensesForIdentityProvider
-   * (nl.surfnet.coin.selfservice.domain.IdentityProvider, java.util.Date)
-   */
   @Override
-  public List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider, Date validOn) {
+  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+      List<ServiceProvider> serviceProviders, Date validOn) {
     return this.licenses;
   }
 
@@ -114,15 +107,30 @@ public class LmngServiceMock implements LicensingService {
     }
   }
 
-  
-  public void setEndpoint(String endpoint) {
-    this.endpoint = endpoint;
-  }
-  public void setPort(String port) {
-    this.port = port;
-  }
+
   public void setDebug(boolean debug) {
     this.debug = debug;
   }
+
+
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
+  }
+
+
+  public void setKeyStore(KeyStore keyStore) {
+    this.keyStore = keyStore;
+  }
+
+
+  public void setTrustStore(KeyStore trustStore) {
+    this.trustStore = trustStore;
+  }
+
+
+  public void setKeystorePassword(String keystorePassword) {
+    this.keystorePassword = keystorePassword;
+  }
+
 
 }
