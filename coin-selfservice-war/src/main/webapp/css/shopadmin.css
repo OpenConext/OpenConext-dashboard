@@ -4,6 +4,8 @@
 
 .accordion-group {
   border-width: 1px 0; }
+  .accordion-group.error .accordion-heading a {
+    color: #cc3917; }
 
 .accordion-heading .accordion-toggle {
   padding: 8px 0; }
