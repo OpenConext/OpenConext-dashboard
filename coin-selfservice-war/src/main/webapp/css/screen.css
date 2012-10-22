@@ -1608,6 +1608,8 @@ textarea {
   position: absolute;
   right: 50px;
   top: 50px; }
+  .filter-grid div {
+    float: right; }
   .filter-grid ul {
     float: right;
     list-style: none; }
@@ -1621,7 +1623,7 @@ textarea {
     background: -o-linear-gradient(#e5e5e5, #d8d8d8), #e5e5e5;
     background: linear-gradient(#e5e5e5, #d8d8d8), #e5e5e5;
     border: 1px solid #cccccc;
-    border-right: none;
+    border-width: 1px 0 1px 1px;
     color: black;
     display: block;
     font-size: 13px;
@@ -1720,13 +1722,63 @@ textarea {
     margin-left: 0;
     padding: 25px; }
 
-  input.app-grid-search {
+  .filter-grid {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 10px 0;
     position: static;
     width: 100%; }
+    .filter-grid input.app-grid-search {
+      -moz-border-radius-bottomleft: 0;
+      -webkit-border-bottom-left-radius: 0;
+      border-bottom-left-radius: 0;
+      -moz-border-radius-bottomright: 0;
+      -webkit-border-bottom-right-radius: 0;
+      border-bottom-right-radius: 0;
+      -moz-border-radius-topleft: 0.75em;
+      -webkit-border-top-left-radius: 0.75em;
+      border-top-left-radius: 0.75em;
+      -moz-border-radius-topright: 0.75em;
+      -webkit-border-top-right-radius: 0.75em;
+      border-top-right-radius: 0.75em;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0;
+      width: 100%; }
+    .filter-grid div {
+      display: table;
+      margin-bottom: 10px;
+      width: 100%; }
+    .filter-grid ul {
+      display: table-row;
+      float: none; }
+    .filter-grid li {
+      display: table-cell;
+      float: none; }
+    .filter-grid a {
+      border-width: 0 1px 1px 0;
+      display: block; }
+    .filter-grid li:first-child a {
+      border-width: 0 1px 1px 1px;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      -ms-border-radius: 0;
+      -o-border-radius: 0;
+      border-radius: 0;
+      -moz-border-radius-bottomleft: 0.75em;
+      -webkit-border-bottom-left-radius: 0.75em;
+      border-bottom-left-radius: 0.75em; }
+    .filter-grid li:last-child a {
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      -ms-border-radius: 0;
+      -o-border-radius: 0;
+      border-radius: 0;
+      -moz-border-radius-bottomright: 0.75em;
+      -webkit-border-bottom-right-radius: 0.75em;
+      border-bottom-right-radius: 0.75em; }
 
   .no-sticky-app-grid-wrapper-menu .hidden-phone {
     display: none; }

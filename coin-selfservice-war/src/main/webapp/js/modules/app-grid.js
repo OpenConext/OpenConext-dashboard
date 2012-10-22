@@ -39,11 +39,13 @@ app.appgrid = function() {
         var placeholder = gridElm.data('searchPlaceholder');
 
         gridElm.before('<nav class="filter-grid">' +
-                         '<input type="search" class="app-grid-search" placeholder="' + placeholder + '">' +
-                         '<ul>' +
-                           '<li><a href="#foo" data-filter="licensed">Has license</a</li>' +
-                           '<li><a href="#foo" data-filter="connected">Is connected</a</li>' +
-                         '</ul>' +
+                           '<input type="search" class="app-grid-search" placeholder="' + placeholder + '">' +
+                           '<div>' +
+                               '<ul>' +
+                                   '<li><a href="#foo" data-filter="licensed">Has license</a</li>' +
+                                   '<li><a href="#foo" data-filter="connected">Is connected</a</li>' +
+                               '</ul>' +
+                           '</div>' +
                        '</nav>');
 
         var searchElm = $('.app-grid-search'),

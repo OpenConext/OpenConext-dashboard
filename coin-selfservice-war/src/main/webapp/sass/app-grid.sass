@@ -124,6 +124,9 @@
   right: 50px
   top: 50px
 
+  div
+    float: right
+
   ul
     float: right
     list-style: none
@@ -135,7 +138,7 @@
     background: $subtle_gray
     +background(linear-gradient($subtle_gray, #D8D8D8), $subtle_gray)
     border: 1px solid #CCC
-    border-right: none
+    border-width: 1px 0 1px 1px
     color: #000
     display: block
     font-size: 13px
@@ -245,11 +248,44 @@
       margin-left: 0
       padding: 25px
 
-  input.app-grid-search
+  .filter-grid
     +box-sizing(border-box)
     margin: 10px 0
     position: static
     width: 100%
+
+    input.app-grid-search
+      +border-bottom-radius(0)
+      +border-top-radius(0.75em)
+      +box-sizing(border-box)
+      margin: 0
+      width: 100%
+
+    div
+      display: table
+      margin-bottom: 10px
+      width: 100%
+
+    ul
+      display: table-row
+      float: none
+
+    li
+      display: table-cell
+      float: none
+
+    a
+      border-width: 0 1px 1px 0
+      display: block
+
+    li:first-child a
+      border-width: 0 1px 1px 1px
+      +border-radius(0)
+      +border-bottom-left-radius(0.75em)
+
+    li:last-child a
+      +border-radius(0)
+      +border-bottom-right-radius(0.75em)
 
   .no-sticky-app-grid-wrapper-menu .hidden-phone
     display: none
