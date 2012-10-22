@@ -32,13 +32,10 @@
     <property name="idleConnectionTestPeriodInSeconds"
       value="${coin-selfservice.database.idleConnectionTestPeriod}" />
     <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="20" />
-    <property name="minConnectionsPerPartition" value="2" />
-    <property name="partitionCount" value="3" />
-    <property name="acquireIncrement" value="2" />
+    <property name="maxConnectionsPerPartition" value="5" />
+    <property name="minConnectionsPerPartition" value="1" />
+    <property name="partitionCount" value="2" />
     <property name="statementsCacheSize" value="100" />
-    <property name="releaseHelperThreads" value="3" />
-    <property name="acquireRetryAttempts" value="15" />
   </bean>
 
   <!-- The api database for oauth keys -->
@@ -50,13 +47,10 @@
     <property name="password" value="${coin-api.jdbc.password}" />
     <property name="idleConnectionTestPeriodInSeconds" value="${coin-selfservice.database.idleConnectionTestPeriod}" />
     <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="20" />
-    <property name="minConnectionsPerPartition" value="2" />
-    <property name="partitionCount" value="3" />
-    <property name="acquireIncrement" value="2" />
+    <property name="maxConnectionsPerPartition" value="5" />
+    <property name="minConnectionsPerPartition" value="1" />
+    <property name="partitionCount" value="1" />
     <property name="statementsCacheSize" value="100" />
-    <property name="releaseHelperThreads" value="3" />
-    <property name="acquireRetryAttempts" value="15" />
   </bean>
 
   <!-- API and selfservice share the same datasource -->
@@ -74,13 +68,10 @@
     <property name="idleConnectionTestPeriodInSeconds"
       value="${coin-selfservice.database.idleConnectionTestPeriod}" />
     <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="20" />
-    <property name="minConnectionsPerPartition" value="2" />
-    <property name="partitionCount" value="3" />
-    <property name="acquireIncrement" value="2" />
+    <property name="maxConnectionsPerPartition" value="5" />
+    <property name="minConnectionsPerPartition" value="1" />
+    <property name="partitionCount" value="1" />
     <property name="statementsCacheSize" value="100" />
-    <property name="releaseHelperThreads" value="3" />
-    <property name="acquireRetryAttempts" value="15" />
   </bean>
 
   <bean id="ebJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
@@ -97,13 +88,10 @@
     <property name="idleConnectionTestPeriodInSeconds"
       value="${coin-selfservice.database.idleConnectionTestPeriod}" />
     <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="20" />
-    <property name="minConnectionsPerPartition" value="2" />
-    <property name="partitionCount" value="3" />
-    <property name="acquireIncrement" value="2" />
+    <property name="maxConnectionsPerPartition" value="5" />
+    <property name="minConnectionsPerPartition" value="1" />
+    <property name="partitionCount" value="1" />
     <property name="statementsCacheSize" value="100" />
-    <property name="releaseHelperThreads" value="3" />
-    <property name="acquireRetryAttempts" value="15" />
   </bean>
 
   <bean id="shindigJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

@@ -17,8 +17,6 @@
   limitations under the License.
   --%>
 
-<script src="<c:url value="/js/jquery/jquery.datatables.1.9.1.min.js"/>"></script>
-<script src="<c:url value="/js/jquery/jquery.datatables.columnfilter.1.4.7.js"/>"></script>
 <script>
 
   $(document).ready(function () {

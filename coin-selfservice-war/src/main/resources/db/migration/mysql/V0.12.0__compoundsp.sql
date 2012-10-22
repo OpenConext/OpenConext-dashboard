@@ -26,7 +26,7 @@ CREATE TABLE `field_string` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `field_key` int(11) DEFAULT NULL,
   `field_source` int(11) DEFAULT NULL,
-  `field_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `field_value` varchar(1023) COLLATE utf8_unicode_ci DEFAULT NULL,
   `compound_service_provider_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK10A88EF6D151AC27` (`compound_service_provider_id`),
