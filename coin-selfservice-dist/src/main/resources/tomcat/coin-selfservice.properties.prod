@@ -126,6 +126,7 @@ hibernate-selfservice.show_sql=false
 janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=openConextApiClient
 lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
+keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
 cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager
 
