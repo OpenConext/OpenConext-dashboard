@@ -36,7 +36,6 @@ coin-eb-db-url=jdbc:mysql://db.dev.surfconext.nl:3306/eb
 coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
-lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
 coin-lmng-endpoint=https://lmng01.dev.coin.surf.net:8444/CrmService.svc
 coin-lmng-debug=true
 coin-lmngClientCertificatePassword=??
