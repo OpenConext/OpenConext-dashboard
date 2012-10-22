@@ -103,7 +103,7 @@ public class CompoundServiceProvider extends DomainObject {
     Assert.notNull(license);  
     
     byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
-    byte[] detailLogoImageBytes = getImageBytesFromClasspath("450x300.png");
+    byte[] detailLogoImageBytes = getImageBytesFromClasspath("500x300.png");
     byte[] screenshotImageBytes = getImageBytesFromClasspath("1024x768.png");
     String todo = null;
 
