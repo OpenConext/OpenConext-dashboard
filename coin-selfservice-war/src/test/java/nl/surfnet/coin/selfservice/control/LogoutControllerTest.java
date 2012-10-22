@@ -16,30 +16,25 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import org.junit.Before;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.support.SimpleSessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Test class for {@link LogoutController}
  */
 public class LogoutControllerTest {
-  private LogoutController controller;
-
-  @Before
-  public void setUp() throws Exception {
-    controller = new LogoutController();
-  }
+  private LogoutController controller = new LogoutController();
 
   @Test
   public void testLogout() throws Exception {
     SessionStatus status = new SimpleSessionStatus();
-    final ModelAndView modelAndView = controller.logout(status);
+    final ModelAndView modelAndView = controller.logout( new MockHttpServletRequest(),status);
     assertEquals("logout", modelAndView.getViewName());
     assertTrue(modelAndView.getModelMap().isEmpty());
   }

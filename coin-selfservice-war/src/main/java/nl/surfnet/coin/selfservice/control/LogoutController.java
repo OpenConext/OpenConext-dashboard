@@ -19,6 +19,9 @@ package nl.surfnet.coin.selfservice.control;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
@@ -31,9 +34,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class LogoutController {
 
   @RequestMapping("/logout.shtml")
-  public ModelAndView logout(SessionStatus status) {
+  public ModelAndView logout(HttpServletRequest request, SessionStatus status) {
     status.setComplete();
     Map<String, Object> m = new HashMap<String, Object>();
+    request.getSession().invalidate();
+    SecurityContextHolder.getContext().setAuthentication(null);
     return new ModelAndView("logout", m);
   }
 }

@@ -106,7 +106,7 @@
           </spring:url> 
           <li class="user"><a href="${langNL}"> NL </a>|<a href="${langEN}"> EN </a>
           </li>
-        <li class="logout"><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />"><spring:message code="jsp.general.logout" /></a></li>
+        <li class="logout"><a href="<spring:url value="/logout.shtml" htmlEscape="true" />"><spring:message code="jsp.general.logout" /></a></li>
       </ul>
     </nav>
 

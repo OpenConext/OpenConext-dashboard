@@ -17,23 +17,25 @@
 
 <spring:message code="jsp.logout.title" var="title"/>
 
-<jsp:include page="header.jsp">
+<jsp:include page="head.jsp">
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-<section>
+  <div class="column-center content-holder">
+    <section class="data-table-holder">
 
-  <h2><c:out value="${title}"/></h2>
+    <h3>${title}</h3>
 
-  <div class="row">
-    <div class="span12">
-      <div class="content">
-        <p><spring:message code="jsp.logout.status"/></p>
-        <p><spring:message code="jsp.logout.closebrowser" htmlEscape="false"/></p>
+    <div class="row">
+      <div class="span12">
+        <div class="content">
+          <p><spring:message code="jsp.logout.status"/></p>
+          <p><spring:message code="jsp.logout.closebrowser" htmlEscape="false"/></p>
+        </div>
       </div>
     </div>
-  </div>
 </section>
+</div>
 
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="foot.jsp"/>

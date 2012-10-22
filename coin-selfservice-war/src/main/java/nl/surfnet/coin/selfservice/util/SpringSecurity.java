@@ -32,13 +32,13 @@ public class SpringSecurity {
   public static CoinUser getCurrentUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth == null) {
-      throw new SecurityException("No suitable security context.");
+      return new CoinUser();
     }
     Object principal = auth.getPrincipal();
     if (principal != null && principal instanceof CoinUser) {
       return (CoinUser) principal;
     }
-    throw new SecurityException("No suitable security context.");
+    return new CoinUser();
   }
 
   /**
