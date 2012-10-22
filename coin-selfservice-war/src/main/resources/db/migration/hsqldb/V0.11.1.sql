@@ -9,5 +9,10 @@ create table ss_sp_lmng_identifiers (
 INSERT INTO ss_sp_lmng_identifiers (spId,lmngId)
 VALUES
   ('http://www.google.com', '8833CEAE-960C-E211-B6B9-005056950050');
+INSERT INTO ss_sp_lmng_identifiers (spId,lmngId)
+VALUES
+  ('Greencloud', '41D136D1-3819-E211-B687-005056950050');
+INSERT INTO ss_sp_lmng_identifiers (spId,lmngId)
+VALUES
+  ('EDUgroepen', '26FF7404-970C-E211-B6B9-005056950050');
 
-  
