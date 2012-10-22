@@ -234,13 +234,14 @@
 		      {
 		        data: formData,
 		        type: "post",
-		        failure: function(msg) {
+		        error: function(jqxhr, msg) {
+              console.log("Error while saving: " + msg);
 		          $(form).prepend(alertDiv(strings['failed-save']));
 		        },
 		        success: function(result) {
 		          console.log("post success: " + result);
 		          if (button.name === 'usethis') {
-					  //need to adjust the tab style above the form after the source has changed
+    					  //need to adjust the tab style above the form after the source has changed
 			          $(form).parents("div.accordion-inner").find("ul > li").each(function(index) {
 			        	var li = $(this);  
 			        	if (li.find("a").attr("href").indexOf(result.toLowerCase()) !== -1) {
