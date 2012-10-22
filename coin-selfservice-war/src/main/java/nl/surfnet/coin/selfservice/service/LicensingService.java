@@ -30,28 +30,6 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 public interface LicensingService {
 
   /**
-   * Gets a list with Licenses for the given identityProvider which are valid
-   * today.
-   * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @return a list of possible valid licenses
-   */
-  List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider);
-
-  /**
-   * Gets a list with Licenses for the given identityProvider which are valid on
-   * the given day
-   * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @param validOn
-   *          Date on which the license should be valid
-   * @return a list of possible valid licenses
-   */
-  List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider, Date validOn);
-  
-  /**
    * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid
    * today.
    * 
@@ -76,4 +54,30 @@ public interface LicensingService {
    * @return a list of possible valid licenses
    */
   List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider, Date validOn);
+
+  /**
+   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid
+   * today.
+   * 
+   * @param identityProvider
+   *          the identityProvider to get the licenses for
+   * @param serviceProviders
+   *          the serviceProviders to get the licenses for
+   * @return a list of possible valid licenses
+   */
+  List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders);
+
+  /**
+   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid on
+   * the given day
+   * 
+   * @param identityProvider
+   *          the identityProvider to get the licenses for
+   * @param serviceProviders
+   *          the serviceProviders to get the licenses for
+   * @param validOn
+   *          Date on which the license should be valid
+   * @return a list of possible valid licenses
+   */
+  List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders, Date validOn);
 }

@@ -37,9 +37,11 @@ coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
 coin-lmng-endpoint=??
-coin-lmng-port=8080
 coin-lmng-debug=false
-
+coin-lmngClientCertificatePassword=??
+coin-lmngClientCertificatePrivateKey=??
+coin-lmngClientCertificate=??
+coin-lmngRootCertificate=??
 
 coin-shindig-db-url=jdbc:mysql://db.surfconext.nl:3306/shindig
 coin-shindig-db-username=shindigrw
@@ -124,6 +126,7 @@ hibernate-selfservice.show_sql=false
 janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=openConextApiClient
 lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
+keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
 cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager
 

@@ -1,0 +1,1 @@
+<condition attribute="lmng_sdnarticleid" operator="eq" value="%SERVICE_ID%"/>

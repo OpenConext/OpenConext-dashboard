@@ -4,7 +4,7 @@
       <adr:ReplyTo>
          <adr:Address>http://www.w3.org/2005/08/addressing/anonymous</adr:Address>
       </adr:ReplyTo>
-      <adr:To s:mustUnderstand="1" xmlns:s="s">http://lmng01.dev.coin.surf.net:8080/CrmService.svc</adr:To>
+      <adr:To s:mustUnderstand="1" xmlns:s="s">%ENDPOINT%</adr:To>
       <adr:Action>http://Surfmarket.CRMProxyService/ICrmService/GetData</adr:Action></soap:Header>
   <soap:Body>
     <sur:GetData>

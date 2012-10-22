@@ -21,7 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,20 +47,24 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.protocol.BasicHttpContext;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -81,15 +88,18 @@ public class LmngServiceImpl implements LicensingService {
   private static final Logger log = LoggerFactory.getLogger(LmngServiceImpl.class);
   private static final DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis();
 
+  private static final String ENDPOINT_PLACEHOLDER = "%ENDPOINT%";
   private static final String UID_PLACEHOLDER = "%UID%";
   private static final String QUERY_PLACEHOLDER = "%FETCH_QUERY%";
   private static final String INSTITUTION_IDENTIFIER_PLACEHOLDER = "%INSTITUTION_ID%";
   private static final String SERVICE_IDENTIFIER_PLACEHOLDER = "%SERVICE_ID%";
   private static final String VALID_ON_DATE_PLACEHOLDER = "%VALID_ON%";
+  private static final String ARTICLE_CONDITION_PLACEHOLDER = "%ARTICLE_CONDITION%";
+  
   private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
-  private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP = "lmngqueries/lmngQueryLicencesForIdentityProvider.xml";
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
-
+  private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryCondition.xml";
+  
   private static final String RESULT_ELEMENT = "GetDataResult";
   private static final String FETCH_RESULT_PRODUCT_DESCRIPTION = "product.lmng_description";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
@@ -98,47 +108,14 @@ public class LmngServiceImpl implements LicensingService {
   private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
   private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
 
-  // TODO put in properties file
-  //private static final boolean DEBUG = true;
-
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
-  private String endpoint;
   private boolean debug;
-  private Integer port = 80; // set default port to 80
-
-  @Override
-  public List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider) {
-    return getLicensesForIdentityProvider(identityProvider, new Date());
-  }
-
-  @Override
-  public List<License> getLicensesForIdentityProvider(IdentityProvider identityProvider, Date validOn) {
-    String idpLmngId = getLmngIdentityId(identityProvider);
-    if (idpLmngId == null || validOn == null) {
-      log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and date " + validOn);
-      return new ArrayList<License>();
-    }
-    try {
-      // get the file with the soap request
-      String soapRequest = getLicenceForIdpRequest(idpLmngId, validOn);
-
-      if (debug) {
-        writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
-      }
-
-      // call the webservice
-      InputStream webserviceResult = getWebServiceResult(soapRequest);
-
-      // read/parse the XML response to License objects
-      return parseResult(webserviceResult);
-    } catch (Exception e) {
-      log.error("Exception while reading license", e);
-      throw new RuntimeException("License retrieval exception", e);
-    }
-
-  }
+  private String endpoint;
+  private KeyStore keyStore;
+  private KeyStore trustStore;
+  private String keystorePassword;
 
   @Override
   public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider) {
@@ -148,17 +125,21 @@ public class LmngServiceImpl implements LicensingService {
   @Override
   public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
-    String lmngIdpId = getLmngIdentityId(identityProvider);
-    String lmngSpId = getLmngServiceId(serviceProvider);
-    if (lmngIdpId == null || lmngSpId == null || validOn == null) {
-      log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProvider "
-          + serviceProvider + " and date " + validOn);
-      return new ArrayList<License>();
-    }
     try {
+      String institutionId = getLmngIdentityId(identityProvider);
+      String serviceId = getLmngServiceId(serviceProvider);
+      
+      // validation
+      if (institutionId == null || serviceId == null) {
+        log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProvider "
+            + serviceProvider + " and date " + validOn + ". Possibly no binding found");
+        return new ArrayList<License>();
+      }
+      
       // get the file with the soap request
-      String soapRequest = getLicenceForIdpSpRequest(lmngIdpId, lmngSpId, validOn);
-
+      String soapRequest = getLmngSoapRequest(institutionId, serviceId, validOn);
+      if (soapRequest == null) {
+      }
       if (debug) {
         writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -172,7 +153,21 @@ public class LmngServiceImpl implements LicensingService {
       log.error("Exception while reading license", e);
       throw new RuntimeException("License retrieval exception", e);
     }
+  }
 
+
+  @Override
+  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+      List<ServiceProvider> serviceProviders) {
+    // TODO RJ implement this method
+    throw new RuntimeException("not implemented yet");
+  }
+
+  @Override
+  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+      List<ServiceProvider> serviceProviders, Date validOn) {
+    // TODO RJ implement this method
+    throw new RuntimeException("not implemented yet");
   }
 
   /**
@@ -197,7 +192,7 @@ public class LmngServiceImpl implements LicensingService {
 
       String fetchResultString = getFirstSubElementStringValue(documentElement, RESULT_ELEMENT);
       if (fetchResultString == null) {
-        log.warn("Webservice response did not contain a 'GetDataResult' element");
+        log.warn("Webservice response did not contain a 'GetDataResult' element. Empty response, please contact LMNG webservice admin");
         try {
           TransformerFactory tfactory = TransformerFactory.newInstance();
           Transformer xform = tfactory.newTransformer();
@@ -238,7 +233,7 @@ public class LmngServiceImpl implements LicensingService {
         }
       }
     } catch (SAXParseException se) {
-      log.debug("Unable to parse response from LMNG webservice.");
+      log.debug("Unable to parse response from LMNG webservice.", se);
       StringWriter writer = new StringWriter();
       IOUtils.copy(webserviceResult, writer);
       log.debug("LMNG webservice response is:\n" + writer.toString());
@@ -282,7 +277,9 @@ public class LmngServiceImpl implements LicensingService {
       Element subItemFirstElement = (Element) subItemListList.item(0);
       NodeList textFNList = subItemFirstElement.getChildNodes();
       if (textFNList != null) {
-        result = ((Node) textFNList.item(0)).getNodeValue().trim();
+        if (((Node) textFNList.item(0)) != null && ((Node) textFNList.item(0)).getNodeValue() != null) {
+          result = ((Node) textFNList.item(0)).getNodeValue().trim();
+        }
       }
     }
     return result;
@@ -298,10 +295,25 @@ public class LmngServiceImpl implements LicensingService {
    * @return an inputstream of the webservice response
    * @throws ClientProtocolException
    * @throws IOException
+   * @throws KeyStoreException
+   * @throws NoSuchAlgorithmException
+   * @throws UnrecoverableKeyException
+   * @throws KeyManagementException
    */
-  private InputStream getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException {
-    DefaultHttpClient httpclient = new DefaultHttpClient();
-    
+  private InputStream getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException, KeyManagementException,
+      UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+    log.debug("Calling the LMNG proxy webservice.");
+    SchemeRegistry schemeRegistry = new SchemeRegistry();
+
+    PlainSocketFactory sf = PlainSocketFactory.getSocketFactory();
+    schemeRegistry.register(new Scheme("http", 80, sf));
+
+    SSLSocketFactory lSchemeSocketFactory = new SSLSocketFactory(keyStore.getJavaSecurityKeyStore(), keystorePassword,
+        trustStore.getJavaSecurityKeyStore());
+    schemeRegistry.register(new Scheme("https", 443, lSchemeSocketFactory));
+
+    DefaultHttpClient httpclient = new DefaultHttpClient(new BasicClientConnectionManager(schemeRegistry));
+
     httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
     httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
     httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
@@ -310,9 +322,10 @@ public class LmngServiceImpl implements LicensingService {
     httppost.setHeader("Content-Type", "application/soap+xml");
     httppost.setEntity(new StringEntity(soapRequest));
 
-    HttpResponse httpresponse = httpclient.execute(new HttpHost(new URL(endpoint).getHost(), port), httppost, new BasicHttpContext());
+    HttpResponse httpresponse = httpclient.execute(httppost);
     HttpEntity output = httpresponse.getEntity();
 
+    log.debug("Done calling the LMNG proxy webservice. Response:" + httpresponse);
     return output.getContent();
   }
 
@@ -324,10 +337,10 @@ public class LmngServiceImpl implements LicensingService {
    */
   private String getLmngIdentityId(IdentityProvider identityProvider) {
     // currently institutionId can be null, so check first
-    if (identityProvider.getInstitutionId() == null) {
-      return null;
+    if (identityProvider != null && identityProvider.getInstitutionId() != null) {
+      return lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getInstitutionId());
     }
-    return lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getInstitutionId());
+    return null;
   }
 
   /**
@@ -337,70 +350,39 @@ public class LmngServiceImpl implements LicensingService {
    * @return
    */
   private String getLmngServiceId(ServiceProvider serviceProvider) {
-    return lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
+    if (serviceProvider != null && serviceProvider.getId() != null) {
+      return lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
+    }
+    return null;
   }
 
-  /**
-   * Get a String representation of the soap request for the query that gives
-   * all licences for the given institutionid and the given date
-   * 
-   * @param institutionId
-   * @param validOn
-   * @return
-   * @throws IOException
-   */
-  private String getLicenceForIdpRequest(String institutionId, Date validOn) throws IOException {
+  private String getLmngSoapRequest(String institutionId, String serviceId, Date validOn) throws IOException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+    
     // Get the soap/fetch envelope
     String result = getLmngRequestEnvelope();
 
-    // Get the query String and replace the placeholders
-    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_LICENCES_FOR_IDP);
-    InputStream inputStream = queryResource.getInputStream();
-    String query = IOUtils.toString(inputStream);
-    if (institutionId != null) {
-      query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
-    }
-    if (validOn != null) {
-      query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
-    }
-
-    // html encode the string
-    query = StringEscapeUtils.escapeHtml(query);
-
-    // Insert the query in the envelope and add a UID in the envelope
-    result = result.replaceAll(QUERY_PLACEHOLDER, query);
-    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
-
-    return result;
-  }
-
-  /**
-   * Get a String representation of the soap request for the query that gives
-   * all licences for the given institutionid and the given date
-   * 
-   * @param institutionId
-   * @param validOn
-   * @return
-   * @throws IOException
-   */
-  private String getLicenceForIdpSpRequest(String institutionId, String serviceId, Date validOn) throws IOException {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-    // Get the soap/fetch envelope
-    String result = getLmngRequestEnvelope();
-
-    // Get the query String and replace the placeholders
     ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP);
+    
     InputStream inputStream = queryResource.getInputStream();
     String query = IOUtils.toString(inputStream);
     if (institutionId != null) {
       query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
     }
+    
+    String articleCondition;
     if (serviceId != null) {
-      query = query.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
+      //TODO RJ make this a for loop with multiple services
+      ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_CONDITION);
+      InputStream articleInputStream = articleConditionResource.getInputStream();
+      articleCondition = IOUtils.toString(articleInputStream);
+      articleCondition = articleCondition.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
+    } else {
+      articleCondition = "";
     }
+    query = query.replaceAll(ARTICLE_CONDITION_PLACEHOLDER, articleCondition);
+    
+    
     if (validOn != null) {
       query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
     }
@@ -410,6 +392,7 @@ public class LmngServiceImpl implements LicensingService {
 
     // Insert the query in the envelope and add a UID in the envelope
     result = result.replaceAll(QUERY_PLACEHOLDER, query);
+    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
     result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
     return result;
   }
@@ -428,8 +411,16 @@ public class LmngServiceImpl implements LicensingService {
     this.debug = debug;
   }
 
-  public void setPort(Integer port) {
-    this.port = port;
+  public void setKeyStore(KeyStore keyStore) {
+    this.keyStore = keyStore;
+  }
+
+  public void setKeystorePassword(String keystorePassword) {
+    this.keystorePassword = keystorePassword;
+  }
+
+  public void setTrustStore(KeyStore trustStore) {
+    this.trustStore = trustStore;
   }
 
   public void setLmngIdentifierDao(LmngIdentifierDao lmngIdentifierDao) {

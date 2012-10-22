@@ -26,10 +26,10 @@
   </div>
 </footer>
 
-<script src="<c:url value="/js/jquery/jquery-1.7.2.min.js"/>"></script>
-<script src="<c:url value="/js/bootstrap/bootstrap-2.0.3.min.js"/>"></script>
 <c:choose>
   <c:when test="${dev eq true}">
+    <script src="<c:url value="/js/jquery/jquery-1.7.2.min.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap/bootstrap-2.0.3.min.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-tooltip.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-popover.js"/>"></script>
     <script src="<c:url value="/js/highstock.js"/>"></script>
