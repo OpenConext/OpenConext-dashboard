@@ -41,9 +41,8 @@ app.appgrid = function() {
         gridElm.before('<nav class="filter-grid">' +
                          '<input type="search" class="app-grid-search" placeholder="' + placeholder + '">' +
                          '<ul>' +
-                           '<li><a href="#foo" data-filter="popular">Populaire apps</a</li>' +
-                           '<li><a href="#foo" data-filter="mine">Mijn apps</a</li>' +
-                           '<li><a href="#foo" data-filter="new">Nieuwe apps</a</li>' +
+                           '<li><a href="#foo" data-filter="licensed">Has license</a</li>' +
+                           '<li><a href="#foo" data-filter="connected">Is connected</a</li>' +
                          '</ul>' +
                        '</nav>');
 
@@ -84,6 +83,18 @@ app.appgrid = function() {
                     }
                 });
 
+                $.each(activeFilters, function(i, filter) {
+                    if (display === false) {
+                        return;
+                    }
+
+                    display = false;
+
+                    if ($elm.hasClass(filter)) {
+                        display = true;
+                    }
+                });
+
                 if (display) {
                     $elm.removeClass('hide');
                 }
@@ -109,7 +120,7 @@ app.appgrid = function() {
                 clickedFilter.removeClass('active-filter');
             }
 
-            console.log(activeFilters);
+            doSearch();
         }
 
         searchElm.bind('keyup change', setTimer);
