@@ -20,10 +20,6 @@
       a
         +box-shadow(0 0 0.4em #AAA)
         display: block
-        +display-box
-        +box-orient(horizontal)
-        +box-pack(center)
-        +box-align(center)
         height: auto
         +transition(box-shadow 2s)
         width: 100%
@@ -31,6 +27,7 @@
         &:hover
           +box-shadow(0 0 0.6em $main_blue)
           +transition(box-shadow 0.5s)
+
 
 .gallery-holder-js
   overflow: hidden
