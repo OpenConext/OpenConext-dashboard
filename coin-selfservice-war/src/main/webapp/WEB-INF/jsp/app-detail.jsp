@@ -59,13 +59,13 @@
       </c:if>
       <c:if test="${not empty compoundSp.technicalSupportMail}">  
         <li>
-          <i class="icon-envelope"></i><spring:message code="jsp.app_detail.technical_email" />
+          <spring:message code="jsp.app_detail.technical_email" />
           <c:out value="${compoundSp.technicalSupportMail}"/>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.supportMail}">  
         <li>
-          <i class="icon-envelope"></i><spring:message code="jsp.app_detail.support_email" />
+          <spring:message code="jsp.app_detail.support_email" />
           <c:out value="${compoundSp.supportMail}"/>
         </li>
       </c:if>
@@ -77,6 +77,39 @@
   <section>
 
     <h1><c:out value="${spname}"/></h1>
+
+    <c:if test="${applyAllowed}">
+      <div class="license-connect">
+        <c:choose>
+          <c:when test="${compoundSp.licenseAvailable}">
+            <div class="license-available">
+              <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
+              <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/></c:set>
+              <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
+            </div>
+          </c:when>
+          <c:otherwise>
+            <div class="license-not-available">
+              <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
+            </div>
+          </c:otherwise>
+        </c:choose>
+        <c:choose>
+          <c:when test="${not compoundSp.sp.linked}">
+            <div class="service-not-connected">
+              <p><strong>Technische koppeling niet aanwezig</strong></p>
+              <p>Neem contact op met ons adoptieteam</p>
+            </div>
+          </c:when>
+          <c:when test="${compoundSp.sp.linked}">
+            <div class="service-connected">
+              <p><strong>Technische koppeling aanwezig</strong></p>
+              <p>Neem contact op met ons adoptieteam</p>
+            </div>
+          </c:when>
+        </c:choose>
+      </div>
+    </c:if>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <%--span rel="tooltip" data-original-title="<spring:message code="jsp.app_detail.institution_description"/>"--%>
@@ -110,22 +143,6 @@
           <jsp:include page="requests/arp.jsp" />
     </div>
     
-    
-    <c:choose>
-      <c:when test="${compoundSp.licenseAvailable}">
-        <div>
-          <strong><spring:message code="jsp.app_detail.license_available"/></strong>
-          <c:set var="endDate"><fmt:formatDate pattern="dd/MM/yyyy" value="${compoundSp.license.endDate}"/></c:set>
-          <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
-        </div>    
-      </c:when>
-      <c:otherwise>
-        <div>
-          <strong><spring:message code="jsp.app_detail.license_not_available"/></strong>
-        </div>    
-      </c:otherwise>
-    </c:choose>
-    
     <div>
       
     </div>
@@ -134,7 +151,7 @@
       <c:if test="${applyAllowed}">
         <c:choose>
           <c:when test="${not compoundSp.sp.linked}">
-            <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/linkrequest.shtml">
+            <a class="btn btn-primary btn-small" href="<c:url value="/requests/linkrequest.shtml">
               <c:param name="spEntityId" value="${compoundSp.sp.id}" />
               <c:param name="compoundSpId" value="${compoundSp.id}" />
             </c:url>"
@@ -142,7 +159,7 @@
             </a>
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
-            <a class="btn btn-primary btn-primary-alt" href="<c:url value="/requests/unlinkrequest.shtml">
+            <a class="btn btn-primary btn-small" href="<c:url value="/requests/unlinkrequest.shtml">
               <c:param name="spEntityId" value="${compoundSp.sp.id}" />
               <c:param name="compoundSpId" value="${compoundSp.id}" />
             </c:url>"
@@ -153,7 +170,7 @@
         </c:choose>
       </c:if>
       <c:if test="${questionAllowed}">
-        <a class="btn" href="<c:url value="/requests/question.shtml">
+        <a class="btn btn-small" href="<c:url value="/requests/question.shtml">
               <c:param name="spEntityId" value="${compoundSp.sp.id}" />
               <c:param name="compoundSpId" value="${compoundSp.id}" />
             </c:url>"

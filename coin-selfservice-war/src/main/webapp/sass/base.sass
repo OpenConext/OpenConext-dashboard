@@ -144,6 +144,61 @@ a
     margin: 25px 0
     overflow: hidden
 
+.license-connect
+  border: 1px solid $subtle_gray
+  border-width: 1px 0
+  margin-bottom: 1.6em
+  overflow: hidden
+  padding: 1em 0
+
+  div
+    +box-sizing(border-box)
+    float: left
+    padding: 0 0 0 45px
+    position: relative
+    width: 50%
+
+    &:before
+      background: url(../images/sprite-license-availability.png)
+      content: ''
+      height: 39px
+      left: 0
+      position: absolute
+      top: 5px
+      width: 35px
+
+  .license-available,
+  .license-not-available
+    &:before
+      background: url(../images/sprite-license-availability.png)
+
+    strong
+      color: #00B274
+
+  .license-not-available
+    &:before
+      background-position: -35px 0
+
+    strong
+      color: #E31937
+
+  .service-connected,
+  .service-not-connected
+    padding-left: 49px
+
+    &:before
+      background: url(../images/sprite-service-connectivity.png)
+      height: 35px
+      top: 7px
+      width: 39px
+
+  .service-not-connected
+    &:before
+      background-position: -39px 0
+
+  p
+    margin-bottom: 0
+
 .action-list
   border: 1px solid $subtle_gray
   border-width: 1px 0
