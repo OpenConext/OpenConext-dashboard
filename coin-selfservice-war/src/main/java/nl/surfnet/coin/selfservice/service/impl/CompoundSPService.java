@@ -132,7 +132,7 @@ public class CompoundSPService {
    */
   protected void enrich(IdentityProvider idp, CompoundServiceProvider csp, ServiceProvider sp) {
     if (sp == null) {
-      sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId());
+      sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
     }
     if (sp == null) {
       LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
