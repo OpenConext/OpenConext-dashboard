@@ -125,19 +125,34 @@ public class LmngServiceImpl implements LicensingService {
   @Override
   public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
+    List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
+    serviceProviders.add(serviceProvider);
+    return getLicensesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
+  }
+
+
+  @Override
+  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+      List<ServiceProvider> serviceProviders) {
+    return getLicensesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
+  }
+
+  @Override
+  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+      List<ServiceProvider> serviceProviders, Date validOn) {
     try {
       String institutionId = getLmngIdentityId(identityProvider);
-      String serviceId = getLmngServiceId(serviceProvider);
+      List<String> serviceIds = getLmngServiceIds(serviceProviders);
       
-      // validation
-      if (institutionId == null || serviceId == null) {
-        log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProvider "
-            + serviceProvider + " and date " + validOn + ". Possibly no binding found");
+      // validation, we need an institutionId and at least one serviceId
+      if (institutionId == null || serviceIds.size() == 0) {
+        log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProviders "
+            + serviceProviders + " and date " + validOn + ". Possibly no binding found");
         return new ArrayList<License>();
       }
       
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequest(institutionId, serviceId, validOn);
+      String soapRequest = getLmngSoapRequest(institutionId, serviceIds, validOn);
       if (soapRequest == null) {
       }
       if (debug) {
@@ -153,21 +168,6 @@ public class LmngServiceImpl implements LicensingService {
       log.error("Exception while reading license", e);
       throw new RuntimeException("License retrieval exception", e);
     }
-  }
-
-
-  @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders) {
-    // TODO RJ implement this method
-    throw new RuntimeException("not implemented yet");
-  }
-
-  @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders, Date validOn) {
-    // TODO RJ implement this method
-    throw new RuntimeException("not implemented yet");
   }
 
   /**
@@ -344,9 +344,9 @@ public class LmngServiceImpl implements LicensingService {
   }
 
   /**
-   * Get the LMNG identifier for the given IDP
+   * Get the LMNG identifier for the given SP
    * 
-   * @param identityProvider
+   * @param serviceProvider
    * @return
    */
   private String getLmngServiceId(ServiceProvider serviceProvider) {
@@ -356,7 +356,24 @@ public class LmngServiceImpl implements LicensingService {
     return null;
   }
 
-  private String getLmngSoapRequest(String institutionId, String serviceId, Date validOn) throws IOException {
+  /**
+   * Get the LMNG identifiers for the given SP list
+   * 
+   * @param serviceProviders
+   * @return
+   */
+  private List<String> getLmngServiceIds(List<ServiceProvider> serviceProviders) {
+    List<String> result = new ArrayList<String>();
+    for (ServiceProvider sp : serviceProviders) {
+      String serviceId = getLmngServiceId(sp);
+      if (serviceId != null) {
+        result.add(serviceId);
+      }
+    }
+    return result;
+  }
+
+  private String getLmngSoapRequest(String institutionId, List<String> serviceIds, Date validOn) throws IOException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
     // Get the soap/fetch envelope
@@ -370,17 +387,15 @@ public class LmngServiceImpl implements LicensingService {
       query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
     }
     
-    String articleCondition;
-    if (serviceId != null) {
-      //TODO RJ make this a for loop with multiple services
-      ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_CONDITION);
-      InputStream articleInputStream = articleConditionResource.getInputStream();
-      articleCondition = IOUtils.toString(articleInputStream);
-      articleCondition = articleCondition.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
-    } else {
-      articleCondition = "";
+    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_CONDITION);
+    InputStream articleInputStream = articleConditionResource.getInputStream();
+    String articleConditionTemplate = IOUtils.toString(articleInputStream);
+    String articleConditions = "";
+    for (String serviceId : serviceIds) {
+      articleConditions = articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
+      articleConditions = articleConditions + "\n";
     }
-    query = query.replaceAll(ARTICLE_CONDITION_PLACEHOLDER, articleCondition);
+    query = query.replaceAll(ARTICLE_CONDITION_PLACEHOLDER, articleConditions);
     
     
     if (validOn != null) {
