@@ -17,10 +17,11 @@ h3 {
 
 h1 {
   background: transparent !important;
-  -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  -ms-border-radius: 0;
+  -webkit-border-radius: 0;
   -o-border-radius: 0;
+  -ms-border-radius: 0;
+  -khtml-border-radius: 0;
   border-radius: 0;
   font-size: 36px;
   font-weight: normal;
@@ -100,10 +101,11 @@ ol,
 .content h1,
 .content h2,
 .content h3 {
-  -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  -ms-border-radius: 0;
+  -webkit-border-radius: 0;
   -o-border-radius: 0;
+  -ms-border-radius: 0;
+  -khtml-border-radius: 0;
   border-radius: 0;
   color: black !important;
   padding: 0; }
@@ -116,14 +118,14 @@ ol,
 
 a {
   color: #4fb3cf;
-  -webkit-transition: color 0.3s;
   -moz-transition: color 0.3s;
+  -webkit-transition: color 0.3s;
   -o-transition: color 0.3s;
   transition: color 0.3s; }
   a:hover, a:focus {
     color: #070705;
-    -webkit-transition: color 0.3s;
     -moz-transition: color 0.3s;
+    -webkit-transition: color 0.3s;
     -o-transition: color 0.3s;
     transition: color 0.3s; }
 
@@ -142,10 +144,11 @@ a {
   .wrapper h2,
   .wrapper h3 {
     background: transparent !important;
-    -webkit-border-radius: 0;
     -moz-border-radius: 0;
-    -ms-border-radius: 0;
+    -webkit-border-radius: 0;
     -o-border-radius: 0;
+    -ms-border-radius: 0;
+    -khtml-border-radius: 0;
     border-radius: 0;
     color: black !important;
     padding: 0; }
@@ -234,8 +237,8 @@ a {
     background: url(../images/bg-action-list-item.png) no-repeat 100% 50%;
     display: block;
     padding: 0.7em 50px 0.7em 0;
-    -webkit-transition: color 0.3s;
     -moz-transition: color 0.3s;
+    -webkit-transition: color 0.3s;
     -o-transition: color 0.3s;
     transition: color 0.3s; }
 
@@ -273,8 +276,8 @@ a {
 .wrapper .with-read-more.folded ol,
 .wrapper .with-read-more.folded blockquote,
 .wrapper .with-read-more.folded pre {
-  -webkit-transition: none;
   -moz-transition: none;
+  -webkit-transition: none;
   -o-transition: none;
   transition: none; }
   .wrapper .with-read-more.folded h1 ~ h1,
@@ -416,6 +419,7 @@ footer {
     padding: 0; }
   footer a {
     color: #999999;
+<<<<<<< HEAD
     -webkit-transition: color 0.3s;
     -moz-transition: color 0.3s;
     -o-transition: color 0.3s;
@@ -426,6 +430,26 @@ footer {
       -moz-transition: color 0.3s;
       -o-transition: color 0.3s;
       transition: color 0.3s; }
+=======
+    -moz-transition-property: color;
+    -webkit-transition-property: color;
+    -o-transition-property: color;
+    transition-property: color;
+    -moz-transition-duration: 0.3s;
+    -webkit-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s; }
+    footer a:hover, footer a:focus {
+      color: #070707;
+      -moz-transition-property: color;
+      -webkit-transition-property: color;
+      -o-transition-property: color;
+      transition-property: color;
+      -moz-transition-duration: 0.3s;
+      -webkit-transition-duration: 0.3s;
+      -o-transition-duration: 0.3s;
+      transition-duration: 0.3s; }
+>>>>>>> Added mvn ruby plugin for compiling sass files into css files
 
 @media (max-width: 767px) {
   .wrapper h1 {
@@ -465,8 +489,9 @@ footer {
   width: 100%; }
   .has-left-right > div,
   .has-left > div {
-    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box; }
   .has-left-right .column-left,
   .has-left .column-left {
@@ -593,11 +618,12 @@ input[type="color"],
 .uneditable-input {
   padding-bottom: 6px;
   padding-top: 6px;
-  -webkit-box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.1);
   box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.1);
-  -webkit-transition: box-shadow 0.3s, border 0.3s;
   -moz-transition: box-shadow 0.3s, border 0.3s;
+  -webkit-transition: box-shadow 0.3s, border 0.3s;
   -o-transition: box-shadow 0.3s, border 0.3s;
   transition: box-shadow 0.3s, border 0.3s; }
 
@@ -645,13 +671,23 @@ textarea {
   background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
   background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
   background: -o-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
   background: linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
   background-size: 100% 100%;
+<<<<<<< HEAD
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
   border-radius: 6px;
+=======
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+>>>>>>> Added mvn ruby plugin for compiling sass files into css files
   color: #070707;
   float: none;
   font-size: 16px;
@@ -660,8 +696,8 @@ textarea {
   overflow: hidden;
   padding: 8px 13px 9px;
   position: relative !important;
-  -webkit-transition: background-color 0.2s, color 0.2s;
   -moz-transition: background-color 0.2s, color 0.2s;
+  -webkit-transition: background-color 0.2s, color 0.2s;
   -o-transition: background-color 0.2s, color 0.2s;
   transition: background-color 0.2s, color 0.2s;
   vertical-align: top;
@@ -672,8 +708,8 @@ textarea {
     background-color: #f3f3f3;
     background-position: 0 0;
     color: black;
-    -webkit-transition: background-color 0.2s, color 0.2s;
     -moz-transition: background-color 0.2s, color 0.2s;
+    -webkit-transition: background-color 0.2s, color 0.2s;
     -o-transition: background-color 0.2s, color 0.2s;
     transition: background-color 0.2s, color 0.2s;
     outline: none; }
@@ -686,11 +722,12 @@ textarea {
   background: -webkit-linear-gradient(top, rgba(104, 198, 222, 0), rgba(104, 198, 222, 0.2)), #68c6de;
   background: -moz-linear-gradient(top, rgba(104, 198, 222, 0), rgba(104, 198, 222, 0.2)), #68c6de;
   background: -o-linear-gradient(top, rgba(104, 198, 222, 0), rgba(104, 198, 222, 0.2)), #68c6de;
+  background: -ms-linear-gradient(top, rgba(104, 198, 222, 0), rgba(104, 198, 222, 0.2)), #68c6de;
   background: linear-gradient(top, rgba(104, 198, 222, 0), rgba(104, 198, 222, 0.2)), #68c6de;
   border-color: #7db4c1 #4d97ab #408aa3 #4d97ab;
   color: white;
-  -webkit-transition: background-color 0.2s, color 0.2s;
   -moz-transition: background-color 0.2s, color 0.2s;
+  -webkit-transition: background-color 0.2s, color 0.2s;
   -o-transition: background-color 0.2s, color 0.2s;
   transition: background-color 0.2s, color 0.2s; }
   .btn-primary:hover, .btn-primary:focus {
@@ -698,8 +735,8 @@ textarea {
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF56A3B7', endColorstr='#FF56A3B7');
     background-color: #60bfda;
     color: white;
-    -webkit-transition: background-color 0.2s, color 0.2s;
     -moz-transition: background-color 0.2s, color 0.2s;
+    -webkit-transition: background-color 0.2s, color 0.2s;
     -o-transition: background-color 0.2s, color 0.2s;
     transition: background-color 0.2s, color 0.2s; }
 
@@ -711,6 +748,7 @@ textarea {
   background: -webkit-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
   background: -moz-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
   background: -o-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
+  background: -ms-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
   background: linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
   border-color: #cb9a40 #b66600 #b55e00 #b66600;
   color: white; }
@@ -719,8 +757,8 @@ textarea {
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFDD9000', endColorstr='#FFDD9000');
     background-color: #e08f01;
     color: white;
-    -webkit-transition: background-color 0.2s, color 0.2s;
     -moz-transition: background-color 0.2s, color 0.2s;
+    -webkit-transition: background-color 0.2s, color 0.2s;
     -o-transition: background-color 0.2s, color 0.2s;
     transition: background-color 0.2s, color 0.2s; }
 
@@ -736,8 +774,9 @@ textarea {
 
 .actions {
   border-top: 1px solid #e5e5e5;
-  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
   margin: 25px 0 0;
   padding: 15px 0;
@@ -753,8 +792,9 @@ textarea {
     margin-left: 0; } }
 .header {
   background: white url(../images/bg-header.png) no-repeat 50% 100%;
-  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
   float: left;
@@ -775,10 +815,11 @@ textarea {
     margin: -15px;
     padding: 15px; }
     .header .logo:focus {
-      -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
-      -ms-border-radius: 5px;
+      -webkit-border-radius: 5px;
       -o-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -khtml-border-radius: 5px;
       border-radius: 5px;
       outline: 1px dashed #cccccc; }
   .header nav {
@@ -806,16 +847,24 @@ textarea {
         border-left: none; }
     .header nav a {
       color: #626262;
-      -webkit-transition: color 0.2s;
-      -moz-transition: color 0.2s;
-      -o-transition: color 0.2s;
-      transition: color 0.2s; }
+      -moz-transition-property: color;
+      -webkit-transition-property: color;
+      -o-transition-property: color;
+      transition-property: color;
+      -moz-transition-duration: 0.2s;
+      -webkit-transition-duration: 0.2s;
+      -o-transition-duration: 0.2s;
+      transition-duration: 0.2s; }
       .header nav a:hover, .header nav a:focus {
         color: #333333;
-        -webkit-transition: color 0.2s;
-        -moz-transition: color 0.2s;
-        -o-transition: color 0.2s;
-        transition: color 0.2s; }
+        -moz-transition-property: color;
+        -webkit-transition-property: color;
+        -o-transition-property: color;
+        transition-property: color;
+        -moz-transition-duration: 0.2s;
+        -webkit-transition-duration: 0.2s;
+        -o-transition-duration: 0.2s;
+        transition-duration: 0.2s; }
     .header nav .user a {
       color: #52b2d2;
       text-decoration: underline; }
@@ -830,12 +879,14 @@ textarea {
         background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
         background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
         background: -o-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
+        background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
         background: linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
         border: 1px solid #e5e5e5;
-        -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
-        -ms-border-radius: 3px;
+        -webkit-border-radius: 3px;
         -o-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -khtml-border-radius: 3px;
         border-radius: 3px;
         left: 5px;
         padding: 0 8px;
@@ -847,9 +898,15 @@ textarea {
           background: url(../images/select2.png) no-repeat 0 1px;
           -moz-border-radius-topright: 4px;
           -webkit-border-top-right-radius: 4px;
+          -o-border-top-right-radius: 4px;
+          -ms-border-top-right-radius: 4px;
+          -khtml-border-top-right-radius: 4px;
           border-top-right-radius: 4px;
           -moz-border-radius-bottomright: 4px;
           -webkit-border-bottom-right-radius: 4px;
+          -o-border-bottom-right-radius: 4px;
+          -ms-border-bottom-right-radius: 4px;
+          -khtml-border-bottom-right-radius: 4px;
           border-bottom-right-radius: 4px;
           bottom: 0;
           content: "";
@@ -873,6 +930,7 @@ textarea {
         background: -webkit-linear-gradient(#ffffff 85%, #eeeeee 99%);
         background: -moz-linear-gradient(#ffffff 85%, #eeeeee 99%);
         background: -o-linear-gradient(#ffffff 85%, #eeeeee 99%);
+        background: -ms-linear-gradient(#ffffff 85%, #eeeeee 99%);
         background: linear-gradient(#ffffff 85%, #eeeeee 99%); }
         .header nav .role-switch:hover .user-dropdown:after {
           background: url(../images/select2.png) no-repeat 0 1px;
@@ -904,13 +962,15 @@ textarea {
     background: -webkit-linear-gradient(top, #68c6de, #53b3d3), #68c6de;
     background: -moz-linear-gradient(top, #68c6de, #53b3d3), #68c6de;
     background: -o-linear-gradient(top, #68c6de, #53b3d3), #68c6de;
+    background: -ms-linear-gradient(top, #68c6de, #53b3d3), #68c6de;
     background: linear-gradient(top, #68c6de, #53b3d3), #68c6de;
     border: 1px solid #4690a6;
     border-color: #7db4c1 #79b0bf #4690a6 #79b0bf;
-    -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
+    -webkit-border-radius: 3px;
     -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -khtml-border-radius: 3px;
     border-radius: 3px;
     box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.04706) 0px 1px 2px 0px;
     color: white;
@@ -923,8 +983,8 @@ textarea {
     right: 25px;
     text-indent: -9999em;
     top: 17px;
-    -webkit-transition: background-color 0.2s, color 0.2s;
     -moz-transition: background-color 0.2s, color 0.2s;
+    -webkit-transition: background-color 0.2s, color 0.2s;
     -o-transition: background-color 0.2s, color 0.2s;
     transition: background-color 0.2s, color 0.2s;
     width: 39px;
@@ -934,8 +994,8 @@ textarea {
       filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF56A3B7', endColorstr='#FF56A3B7');
       background-color: #56a3b7;
       color: white;
-      -webkit-transition: background-color 0.2s, color 0.2s;
       -moz-transition: background-color 0.2s, color 0.2s;
+      -webkit-transition: background-color 0.2s, color 0.2s;
       -o-transition: background-color 0.2s, color 0.2s;
       transition: background-color 0.2s, color 0.2s; }
     .condensed .header .menu-trigger:before {
@@ -949,10 +1009,11 @@ textarea {
   .condensed .header .menu-respond-holder {
     background: white;
     border: 1px solid #e5e5e5;
-    -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
+    -webkit-border-radius: 4px;
     -o-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -khtml-border-radius: 4px;
     border-radius: 4px;
     box-shadow: 1px 1px 0 rgba(7, 7, 7, 0.15);
     position: absolute;
@@ -991,10 +1052,11 @@ textarea {
     .condensed .header .menu-respond-holder .user-dropdown {
       background: transparent !important;
       border: none;
-      -webkit-border-radius: 3px;
       -moz-border-radius: 3px;
-      -ms-border-radius: 3px;
+      -webkit-border-radius: 3px;
       -o-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -khtml-border-radius: 3px;
       border-radius: 3px;
       padding: 0 8px;
       position: static; }
@@ -1096,14 +1158,14 @@ textarea {
     font-weight: 300;
     letter-spacing: 0.06em;
     padding: 4px 0 4px 40px;
-    -webkit-transition: color 0.3s;
     -moz-transition: color 0.3s;
+    -webkit-transition: color 0.3s;
     -o-transition: color 0.3s;
     transition: color 0.3s; }
     .secondary-menu a:hover, .secondary-menu a:focus {
       color: #4fb3cf;
-      -webkit-transition: color 0.3s;
       -moz-transition: color 0.3s;
+      -webkit-transition: color 0.3s;
       -o-transition: color 0.3s;
       transition: color 0.3s;
       outline: none; }
@@ -1167,6 +1229,7 @@ textarea {
     background: -webkit-linear-gradient(top, #ffffff, #f2f2f2), white;
     background: -moz-linear-gradient(top, #ffffff, #f2f2f2), white;
     background: -o-linear-gradient(top, #ffffff, #f2f2f2), white;
+    background: -ms-linear-gradient(top, #ffffff, #f2f2f2), white;
     background: linear-gradient(top, #ffffff, #f2f2f2), white;
     border-bottom-color: #e1e1e1;
     border-left: none;
@@ -1222,8 +1285,9 @@ textarea {
 
 .table-discussion td {
   border-left: 1px solid #e5e5e5;
-  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
   min-width: 270px;
   padding: 25px; }
@@ -1238,8 +1302,9 @@ textarea {
     font-weight: normal;
     line-height: 25px; }
   .table-discussion td textarea {
-    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1em;
     height: 10em;
@@ -1309,8 +1374,9 @@ textarea {
 
 @media (max-width: 767px) {
   .dataTables_filter input {
-    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0;
     position: static;
@@ -1352,13 +1418,15 @@ textarea {
     background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background: -o-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background: linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background-size: 100% 100%;
     border: 1px solid lightgrey;
-    -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
+    -webkit-border-radius: 3px;
     -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -khtml-border-radius: 3px;
     border-radius: 3px;
     color: #666666;
     display: block;
@@ -1368,19 +1436,27 @@ textarea {
     margin-left: 7px;
     overflow: hidden;
     padding: 5px 8px;
-    -webkit-transition: background-color 0.2s;
-    -moz-transition: background-color 0.2s;
-    -o-transition: background-color 0.2s;
-    transition: background-color 0.2s; }
+    -moz-transition-property: background-color;
+    -webkit-transition-property: background-color;
+    -o-transition-property: background-color;
+    transition-property: background-color;
+    -moz-transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+    -o-transition-duration: 0.2s;
+    transition-duration: 0.2s; }
     .pagination ul li a:hover, .pagination ul li a:focus {
       *zoom: 1;
       filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFF3F3F3', endColorstr='#FFF3F3F3');
       background-color: #f3f3f3;
       background-position: 0 0;
-      -webkit-transition: background-color 0.2s;
-      -moz-transition: background-color 0.2s;
-      -o-transition: background-color 0.2s;
-      transition: background-color 0.2s; }
+      -moz-transition-property: background-color;
+      -webkit-transition-property: background-color;
+      -o-transition-property: background-color;
+      transition-property: background-color;
+      -moz-transition-duration: 0.2s;
+      -webkit-transition-duration: 0.2s;
+      -o-transition-duration: 0.2s;
+      transition-duration: 0.2s; }
   .pagination ul li.active a {
     *zoom: 1;
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF67C6DD', endColorstr='#FF53B3D3');
@@ -1389,6 +1465,7 @@ textarea {
     background: -webkit-linear-gradient(top, #67c6dd, #53b3d3), #67c6dd;
     background: -moz-linear-gradient(top, #67c6dd, #53b3d3), #67c6dd;
     background: -o-linear-gradient(top, #67c6dd, #53b3d3), #67c6dd;
+    background: -ms-linear-gradient(top, #67c6dd, #53b3d3), #67c6dd;
     background: linear-gradient(top, #67c6dd, #53b3d3), #67c6dd;
     border-color: #4993a8;
     color: white; }
@@ -1402,13 +1479,15 @@ textarea {
     background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background: -o-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background: linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
     background-size: 100% 100%;
     border: 1px solid lightgrey;
-    -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
+    -webkit-border-radius: 3px;
     -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -khtml-border-radius: 3px;
     border-radius: 3px;
     color: #666666;
     display: block;
@@ -1419,19 +1498,27 @@ textarea {
     overflow: hidden;
     padding: 5px 8px;
     position: relative;
-    -webkit-transition: background-color 0.2s;
-    -moz-transition: background-color 0.2s;
-    -o-transition: background-color 0.2s;
-    transition: background-color 0.2s; }
+    -moz-transition-property: background-color;
+    -webkit-transition-property: background-color;
+    -o-transition-property: background-color;
+    transition-property: background-color;
+    -moz-transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+    -o-transition-duration: 0.2s;
+    transition-duration: 0.2s; }
     .pagination ul li:first-child a:hover, .pagination ul li:last-child a:hover {
       *zoom: 1;
       filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFF3F3F3', endColorstr='#FFF3F3F3');
       background-color: #f3f3f3;
       background-position: 0 0;
-      -webkit-transition: background-color 0.2s;
-      -moz-transition: background-color 0.2s;
-      -o-transition: background-color 0.2s;
-      transition: background-color 0.2s; }
+      -moz-transition-property: background-color;
+      -webkit-transition-property: background-color;
+      -o-transition-property: background-color;
+      transition-property: background-color;
+      -moz-transition-duration: 0.2s;
+      -webkit-transition-duration: 0.2s;
+      -o-transition-duration: 0.2s;
+      transition-duration: 0.2s; }
   .pagination ul li:first-child a::before {
     background: url(../images/bg-pagination-prev.png);
     content: "";
@@ -1462,6 +1549,7 @@ textarea {
   background: -webkit-linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
   background: -moz-linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
   background: -o-linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
+  background: -ms-linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
   background: linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf; }
   .modal-header h1,
   .modal-header h2,
@@ -1479,14 +1567,14 @@ textarea {
   width: 100%; }
   .app-grid.app-grid-js li {
     cursor: pointer;
-    -webkit-transition: background-color 1s;
     -moz-transition: background-color 1s;
+    -webkit-transition: background-color 1s;
     -o-transition: background-color 1s;
     transition: background-color 1s; }
     .app-grid.app-grid-js li:hover {
       background: #f2f2f2;
-      -webkit-transition: background-color 0.3s;
       -moz-transition: background-color 0.3s;
+      -webkit-transition: background-color 0.3s;
       -o-transition: background-color 0.3s;
       transition: background-color 0.3s; }
     .app-grid.app-grid-js li.connected:hover:after {
@@ -1495,8 +1583,9 @@ textarea {
   .app-grid li {
     border: 1px solid #e5e5e5;
     border-width: 0 1px 1px 0;
-    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     display: block;
     float: left;
@@ -1524,14 +1613,14 @@ textarea {
       overflow: hidden; }
       .app-grid li h2 a {
         color: black;
-        -webkit-transition: none;
         -moz-transition: none;
+        -webkit-transition: none;
         -o-transition: none;
         transition: none; }
         .app-grid li h2 a:hover, .app-grid li h2 a:focus {
           color: #4fb3cf;
-          -webkit-transition: none;
           -moz-transition: none;
+          -webkit-transition: none;
           -o-transition: none;
           transition: none; }
     .app-grid li p.desc {
@@ -1540,8 +1629,8 @@ textarea {
       margin-bottom: 0.25em;
       white-space: nowrap;
       overflow: hidden;
-      -ms-text-overflow: ellipsis;
       -o-text-overflow: ellipsis;
+      -ms-text-overflow: ellipsis;
       text-overflow: ellipsis;
       width: 100%; }
     .app-grid li img {
@@ -1558,13 +1647,15 @@ textarea {
       background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
       background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
       background: -o-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
+      background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
       background: linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), white;
       background-size: 100% 100%;
       border: 1px solid lightgrey;
-      -webkit-border-radius: 3px;
       -moz-border-radius: 3px;
-      -ms-border-radius: 3px;
+      -webkit-border-radius: 3px;
       -o-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -khtml-border-radius: 3px;
       border-radius: 3px;
       color: #666666;
       display: inline;
@@ -1577,8 +1668,8 @@ textarea {
       padding: 4px 6px;
       position: relative;
       text-transform: uppercase;
-      -webkit-transition: none;
       -moz-transition: none;
+      -webkit-transition: none;
       -o-transition: none;
       transition: none;
       zoom: 1; }
@@ -1590,6 +1681,7 @@ textarea {
         background: -webkit-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
         background: -moz-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
         background: -o-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
+        background: -ms-linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
         background: linear-gradient(top, rgba(239, 153, 0, 0), rgba(155, 100, 3, 0.2)), #ef9900;
         border-color: #cb9a40 #b66600 #b55e00 #b66600;
         color: white;
@@ -1619,6 +1711,7 @@ textarea {
     background: -webkit-linear-gradient(#e5e5e5, #d8d8d8), #e5e5e5;
     background: -moz-linear-gradient(#e5e5e5, #d8d8d8), #e5e5e5;
     background: -o-linear-gradient(#e5e5e5, #d8d8d8), #e5e5e5;
+    background: -ms-linear-gradient(#e5e5e5, #d8d8d8), #e5e5e5;
     background: linear-gradient(#e5e5e5, #d8d8d8), #e5e5e5;
     border: 1px solid #cccccc;
     border-right: none;
@@ -1633,6 +1726,7 @@ textarea {
       background: -webkit-linear-gradient(#d8d8d8, #e5e5e5), #d8d8d8;
       background: -moz-linear-gradient(#d8d8d8, #e5e5e5), #d8d8d8;
       background: -o-linear-gradient(#d8d8d8, #e5e5e5), #d8d8d8;
+      background: -ms-linear-gradient(#d8d8d8, #e5e5e5), #d8d8d8;
       background: linear-gradient(#d8d8d8, #e5e5e5), #d8d8d8; }
     .filter-grid a.active-filter {
       background: #d0d0d0;
@@ -1640,23 +1734,36 @@ textarea {
       background: -webkit-linear-gradient(#d8d8d8, #cccccc), #d0d0d0;
       background: -moz-linear-gradient(#d8d8d8, #cccccc), #d0d0d0;
       background: -o-linear-gradient(#d8d8d8, #cccccc), #d0d0d0;
+      background: -ms-linear-gradient(#d8d8d8, #cccccc), #d0d0d0;
       background: linear-gradient(#d8d8d8, #cccccc), #d0d0d0;
       color: #49a0bd;
       text-shadow: 0 0 0.2em rgba(255, 255, 255, 0.5); }
   .filter-grid li:first-child a {
     -moz-border-radius-topleft: 5em;
     -webkit-border-top-left-radius: 5em;
+    -o-border-top-left-radius: 5em;
+    -ms-border-top-left-radius: 5em;
+    -khtml-border-top-left-radius: 5em;
     border-top-left-radius: 5em;
     -moz-border-radius-bottomleft: 5em;
     -webkit-border-bottom-left-radius: 5em;
+    -o-border-bottom-left-radius: 5em;
+    -ms-border-bottom-left-radius: 5em;
+    -khtml-border-bottom-left-radius: 5em;
     border-bottom-left-radius: 5em; }
   .filter-grid input.app-grid-search {
     background: white url(../images/bg-icon-grid-search.png) no-repeat 96% 50%;
     -moz-border-radius-topright: 5em;
     -webkit-border-top-right-radius: 5em;
+    -o-border-top-right-radius: 5em;
+    -ms-border-top-right-radius: 5em;
+    -khtml-border-top-right-radius: 5em;
     border-top-right-radius: 5em;
     -moz-border-radius-bottomright: 5em;
     -webkit-border-bottom-right-radius: 5em;
+    -o-border-bottom-right-radius: 5em;
+    -ms-border-bottom-right-radius: 5em;
+    -khtml-border-bottom-right-radius: 5em;
     border-bottom-right-radius: 5em;
     float: right;
     height: auto;
@@ -1721,8 +1828,9 @@ textarea {
     padding: 25px; }
 
   input.app-grid-search {
-    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     margin: 10px 0;
     position: static;
@@ -1755,8 +1863,9 @@ textarea {
     list-style: none;
     margin: 0 -9px; }
     .gallery-holder ul li {
-      -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -ms-box-sizing: border-box;
       box-sizing: border-box;
       float: left;
       margin-bottom: 13px;
@@ -1764,22 +1873,43 @@ textarea {
       padding: 5px 9px 0;
       width: 25%; }
       .gallery-holder ul li a {
-        -webkit-box-shadow: 0 0 0.4em #aaaaaa;
         -moz-box-shadow: 0 0 0.4em #aaaaaa;
+        -webkit-box-shadow: 0 0 0.4em #aaaaaa;
+        -o-box-shadow: 0 0 0.4em #aaaaaa;
         box-shadow: 0 0 0.4em #aaaaaa;
         display: block;
+<<<<<<< HEAD
+=======
+        display: -moz-box;
+        display: -webkit-box;
+        display: -ms-box;
+        display: box;
+        -moz-box-orient: horizontal;
+        -webkit-box-orient: horizontal;
+        -ms-box-orient: horizontal;
+        box-orient: horizontal;
+        -moz-box-pack: center;
+        -webkit-box-pack: center;
+        -ms-box-pack: center;
+        box-pack: center;
+        -moz-box-align: center;
+        -webkit-box-align: center;
+        -ms-box-align: center;
+        box-align: center;
+>>>>>>> Added mvn ruby plugin for compiling sass files into css files
         height: auto;
-        -webkit-transition: box-shadow 2s;
         -moz-transition: box-shadow 2s;
+        -webkit-transition: box-shadow 2s;
         -o-transition: box-shadow 2s;
         transition: box-shadow 2s;
         width: 100%; }
         .gallery-holder ul li a:hover {
-          -webkit-box-shadow: 0 0 0.6em #4fb3cf;
           -moz-box-shadow: 0 0 0.6em #4fb3cf;
+          -webkit-box-shadow: 0 0 0.6em #4fb3cf;
+          -o-box-shadow: 0 0 0.6em #4fb3cf;
           box-shadow: 0 0 0.6em #4fb3cf;
-          -webkit-transition: box-shadow 0.5s;
           -moz-transition: box-shadow 0.5s;
+          -webkit-transition: box-shadow 0.5s;
           -o-transition: box-shadow 0.5s;
           transition: box-shadow 0.5s; }
 
@@ -1791,8 +1921,9 @@ textarea {
     margin: 0; }
     .gallery-holder-js .large-image img {
       border: none;
-      -webkit-box-shadow: 0 0 0.4em #aaaaaa;
       -moz-box-shadow: 0 0 0.4em #aaaaaa;
+      -webkit-box-shadow: 0 0 0.4em #aaaaaa;
+      -o-box-shadow: 0 0 0.4em #aaaaaa;
       box-shadow: 0 0 0.4em #aaaaaa;
       margin: 5px 0 20px;
       max-width: 700px;
@@ -1818,3 +1949,117 @@ textarea {
 .gallery-holder.narrow-gallery ul li:first-child:nth-last-child(n + 4),
 .gallery-holder.narrow-gallery ul li:first-child:nth-last-child(n + 4) ~ li {
   width: 50%; }
+
+.lmng-id-edit > *,
+.lmng-idp-edit > * {
+  vertical-align: middle; }
+
+.accordion-group {
+  border-width: 1px 0; }
+
+.accordion-heading .accordion-toggle {
+  padding: 8px 0; }
+
+.nav {
+  margin-bottom: 0; }
+
+.nav-tabs {
+  border-bottom-color: #999999; }
+  .nav-tabs > li > a {
+    margin-left: 5px;
+    margin-right: 0;
+    padding: 8px 12px;
+    -moz-transition: none;
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none; }
+    .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+      background: #e0e0e0;
+      border-color: #999999;
+      border-bottom-color: transparent; }
+  .nav-tabs > .active > a {
+    background: #e0e0e0;
+    border-color: #999999;
+    border-bottom-color: transparent; }
+    .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+      background: #e0e0e0;
+      border-color: #999999;
+      border-bottom-color: transparent; }
+  .nav-tabs li.source-selected a:after {
+    content: "✓";
+    margin-left: 5px; }
+
+.tab-content {
+  background: #e0e0e0;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #f8f8f8)), white;
+  background: -webkit-linear-gradient(#e0e0e0, #f8f8f8), white;
+  background: -moz-linear-gradient(#e0e0e0, #f8f8f8), white;
+  background: -o-linear-gradient(#e0e0e0, #f8f8f8), white;
+  background: -ms-linear-gradient(#e0e0e0, #f8f8f8), white;
+  background: linear-gradient(#e0e0e0, #f8f8f8), white;
+  border-bottom: 1px solid #999999;
+  margin-bottom: 2em; }
+
+.tab-pane.active {
+  margin: 18px; }
+
+.tab-content .alert {
+  background: #e2f3f8;
+  border-color: #60bfda;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #555555;
+  font-size: 14px;
+  font-weight: normal;
+  opacity: 1;
+  position: relative;
+  width: 100%; }
+  .tab-content .alert button {
+    background: #c5e8f2;
+    border: none;
+    border-left: 1px solid #60bfda;
+    border-radius: 0 4px 4px 0;
+    bottom: 0;
+    color: black;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 3em; }
+
+.form-actions {
+  padding: 0; }
+
+.tab-content form textarea {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 6em;
+  resize: vertical;
+  width: 100%; }
+
+.screenshot-contents {
+  padding: 18px;
+  width: 650px; }
+  .screenshot-contents .screenshot-content {
+    position: relative; }
+  .screenshot-contents img {
+    max-width: 100%; }
+  .screenshot-contents a {
+    background: #4fb3cf;
+    border-radius: 2em;
+    color: white;
+    font-size: 1.2em;
+    height: 1em;
+    line-height: 1em;
+    padding: 0.2em;
+    position: absolute;
+    right: -0.6em;
+    text-align: center;
+    top: -0.6em;
+    width: 1em; }
+    .screenshot-contents a:hover, .screenshot-contents a:focus {
+      background: #070707;
+      text-decoration: none; }

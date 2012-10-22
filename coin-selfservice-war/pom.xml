@@ -28,6 +28,13 @@
   <packaging>war</packaging>
   <name>OpenConext : coin-selfservice-war</name>
 
+  <repositories>
+    <repository>
+      <id>rubygems-releases</id>
+      <url>http://rubygems-proxy.torquebox.org/releases</url>
+    </repository>
+  </repositories>
+  
   <properties>
     <coin-shared.version>2.8.0</coin-shared.version>
     <coin-test.version>2.8.3</coin-test.version>
@@ -108,6 +115,13 @@
   </dependencyManagement>
 
   <dependencies>
+        <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>compass</artifactId>
+        <version>0.11.7</version>
+        <type>gem</type>
+      </dependency>
+  
     <dependency>
       <groupId>org.surfnet.coin</groupId>
       <artifactId>coin-shared</artifactId>
@@ -315,10 +329,33 @@
       <version>1.2.2</version>
     </dependency>
     
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>1.5.9</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
+    <plugin>
+        <groupId>de.saumya.mojo</groupId>
+        <artifactId>gem-maven-plugin</artifactId>
+        <version>0.28.6</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <execArgs>${project.build.directory}/rubygems/bin/compass compile ${basedir}/src/main/webapp ${basedir}/src/main/webapp/sass/screen.sass</execArgs>
+        </configuration>
+      </plugin> 
       <plugin>
         <groupId>com.googlecode.flyway</groupId>
         <artifactId>flyway-maven-plugin</artifactId>
