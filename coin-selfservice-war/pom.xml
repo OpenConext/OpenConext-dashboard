@@ -40,7 +40,7 @@
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
     <bonecp.version>0.7.1.RELEASE</bonecp.version>
-	  <mujina-idp.version>2.11.0-SNAPSHOT</mujina-idp.version>
+	<mujina-idp.version>2.11.0-SNAPSHOT</mujina-idp.version>
   </properties>
 
   <dependencyManagement>
@@ -415,12 +415,38 @@
               <cssFinalFile>style.css</cssFinalFile>
 
               <jsSourceDir>js</jsSourceDir>
-              <jsSourceIncludes>
-                <jsSourceInclude>tools/*.js</jsSourceInclude>
-                <jsSourceInclude>modules/*.js</jsSourceInclude>
-              </jsSourceIncludes>
               <jsSourceFiles>
+                <!--
+                All javascript files are setup explicitly here, to conserve their order in the minified version.
+                -->
+                <jsSourceFile>jquery/jquery-1.7.2.min.js</jsSourceFile>
+                <jsSourceFile>bootstrap/bootstrap-2.0.3.min.js</jsSourceFile>
+                <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
+                <jsSourceFile>bootstrap/bootstrap-popover.js</jsSourceFile>
+
+                <jsSourceFile>highstock.js</jsSourceFile>
+
+                <jsSourceFile>jquery/jquery.datatables.1.9.4.min.js</jsSourceFile>
+                <jsSourceFile>jquery/jquery.datatables.columnfilter.1.4.7.js</jsSourceFile>
+                <jsSourceFile>jquery/jquery.ui.widget.js</jsSourceFile>
+                <jsSourceFile>jquery/jquery.fileupload.js</jsSourceFile>
+                <jsSourceFile>jquery/jquery.iframe-transport.js</jsSourceFile>
+                <jsSourceFile>jquery/select2.js</jsSourceFile>
+
                 <jsSourceFile>main.js</jsSourceFile>
+
+                <jsSourceFile>modules/app-grid.js</jsSourceFile>
+                <jsSourceFile>modules/gallery.js</jsSourceFile>
+                <jsSourceFile>modules/global.js</jsSourceFile>
+                <jsSourceFile>modules/message.js</jsSourceFile>
+                <jsSourceFile>modules/respond.js</jsSourceFile>
+                <jsSourceFile>modules/secondary-menu.js</jsSourceFile>
+                <jsSourceFile>modules/table.js</jsSourceFile>
+
+                <jsSourceFile>tools/html5shiv.js</jsSourceFile>
+                <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>
+                <jsSourceFile>tools/sizewatcher.js</jsSourceFile>
+
               </jsSourceFiles>
               <jsFinalFile>script.js</jsFinalFile>
             </configuration>
