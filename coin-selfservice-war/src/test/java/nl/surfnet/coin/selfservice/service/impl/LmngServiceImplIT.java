@@ -16,22 +16,24 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * LmngServiceImplIT.java
@@ -39,38 +41,75 @@ import org.junit.Ignore;
  * @TODO move to the integration tests
  *       (/conext-integration-tests/src/test/java/nl/surfnet/conext/test/)
  * 
+ * NOTE! we us this for a local integration test only
+ * 
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:coin-selfservice-context.xml",
+    "classpath:coin-selfservice-properties-context.xml",
+    "classpath:coin-shared-context.xml"})
 public class LmngServiceImplIT {
 
-  private Properties properties;
+  @Autowired
   private LmngServiceImpl lmngServiceImpl;
-  private LmngIdentifierDao mockLmngIdentifierDao;
 
   @Before
   public void init() throws FileNotFoundException, IOException {
-    properties = new Properties();
-    properties.load(this.getClass().getResourceAsStream("/coin-selfservice.properties"));
-    lmngServiceImpl = new LmngServiceImpl();
-    lmngServiceImpl.setEndpoint(properties.getProperty("coin-lmng-endpoint"));
-    lmngServiceImpl.setDebug(false);
-
-    mockLmngIdentifierDao = mock(LmngIdentifierDao.class);
-    lmngServiceImpl.setLmngIdentifierDao(mockLmngIdentifierDao);
   }
 
-  @Ignore
   // we us this for a local integration test only
-  public void testRetrieveLmngData() throws IOException {
-    when(mockLmngIdentifierDao.getLmngIdForIdentityProviderId("testId")).thenReturn("lmngId");
-
+  @Test
+  @Ignore
+  public void testRetrieveLmngSingleGoogle() throws IOException {
     Date date = new Date();
-    IdentityProvider identityProvider = new IdentityProvider("testId", "testinstitutionId", "testName");
-    ServiceProvider serviceProvider = new ServiceProvider("testId");
+    IdentityProvider identityProvider = new IdentityProvider("mock-institution-id", "mock-institution-id", "testName");
+    ServiceProvider serviceProvider = new ServiceProvider("http://www.google.com");
     List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, date);
 
     assertEquals("Incorrect number of results", 1, licenses.size());
-    assertEquals("Incorrect name for IDP", "Hogeschool Aanbesteding", licenses.get(0).getIdentityName());
-
+    assertEquals("Incorrect name for IDP", "Open Universiteit Nederland", licenses.get(0).getIdentityName());
+    assertEquals("Incorrect name for product", "Google Apps Education Edition", licenses.get(0).getProductName());
   }
 
+  // we us this for a local integration test only
+  @Test
+  @Ignore
+  public void testRetrieveLmngGoogleEdugroepGreencloudSurfMarket() throws IOException {
+    Date date = new Date();
+    IdentityProvider surfMarket = new IdentityProvider("SURFmarket", "SURFmarket", "testName");
+    
+    List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
+    sps.add(new ServiceProvider("http://www.google.com"));
+    sps.add(new ServiceProvider("Greencloud"));
+    sps.add(new ServiceProvider("EDUgroepen"));
+    
+    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
+
+    assertEquals("Incorrect number of results", 2, licenses.size());
+    assertEquals("Incorrect name for IDP", "SURFmarket", licenses.get(0).getIdentityName());
+    assertEquals("Incorrect name for product", "EDUgroepen", licenses.get(0).getProductName());
+    assertEquals("Incorrect name for product", "Greencloud", licenses.get(1).getProductName());
+  }
+
+  // we us this for a local integration test only
+  @Test
+  @Ignore
+  public void testRetrieveLmngGoogleEdugroepGreencloudSurfNet() throws IOException {
+    Date date = new Date();
+    IdentityProvider surfMarket = new IdentityProvider("SURFnet", "SURFnet", "testName");
+    
+    List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
+    sps.add(new ServiceProvider("http://www.google.com"));
+    sps.add(new ServiceProvider("Greencloud"));
+    sps.add(new ServiceProvider("EDUgroepen"));
+    
+    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
+
+    assertEquals("Incorrect number of results", 2, licenses.size());
+    assertEquals("Incorrect name for IDP", "SURFnet bv", licenses.get(0).getIdentityName());
+    assertEquals("Incorrect name for product", "Google Apps Education Edition", licenses.get(0).getProductName());
+    assertEquals("Incorrect name for product", "EDUgroepen", licenses.get(1).getProductName());
+  }
+
+  
 }

@@ -94,12 +94,12 @@ public class LmngServiceImpl implements LicensingService {
   private static final String INSTITUTION_IDENTIFIER_PLACEHOLDER = "%INSTITUTION_ID%";
   private static final String SERVICE_IDENTIFIER_PLACEHOLDER = "%SERVICE_ID%";
   private static final String VALID_ON_DATE_PLACEHOLDER = "%VALID_ON%";
-  private static final String ARTICLE_CONDITION_PLACEHOLDER = "%ARTICLE_CONDITION%";
-  
+  private static final String ARTICLE_CONDITION_VALUE_PLACEHOLDER = "%ARTICLE_CONDITION_VALUES%";
+
   private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
-  private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryCondition.xml";
-  
+  private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryConditionValue.xml";
+
   private static final String RESULT_ELEMENT = "GetDataResult";
   private static final String FETCH_RESULT_PRODUCT_DESCRIPTION = "product.lmng_description";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
@@ -130,7 +130,6 @@ public class LmngServiceImpl implements LicensingService {
     return getLicensesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
   }
 
-
   @Override
   public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders) {
@@ -143,14 +142,14 @@ public class LmngServiceImpl implements LicensingService {
     try {
       String institutionId = getLmngIdentityId(identityProvider);
       List<String> serviceIds = getLmngServiceIds(serviceProviders);
-      
+
       // validation, we need an institutionId and at least one serviceId
       if (institutionId == null || serviceIds.size() == 0) {
         log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProviders "
             + serviceProviders + " and date " + validOn + ". Possibly no binding found");
         return new ArrayList<License>();
       }
-      
+
       // get the file with the soap request
       String soapRequest = getLmngSoapRequest(institutionId, serviceIds, validOn);
       if (soapRequest == null) {
@@ -375,29 +374,27 @@ public class LmngServiceImpl implements LicensingService {
 
   private String getLmngSoapRequest(String institutionId, List<String> serviceIds, Date validOn) throws IOException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     // Get the soap/fetch envelope
     String result = getLmngRequestEnvelope();
 
     ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP);
-    
+
     InputStream inputStream = queryResource.getInputStream();
     String query = IOUtils.toString(inputStream);
     if (institutionId != null) {
       query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
     }
-    
+
     ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_CONDITION);
     InputStream articleInputStream = articleConditionResource.getInputStream();
     String articleConditionTemplate = IOUtils.toString(articleInputStream);
-    String articleConditions = "";
+    String articleConditionValues = "";
     for (String serviceId : serviceIds) {
-      articleConditions = articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
-      articleConditions = articleConditions + "\n";
+      articleConditionValues += articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
     }
-    query = query.replaceAll(ARTICLE_CONDITION_PLACEHOLDER, articleConditions);
-    
-    
+    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
+
     if (validOn != null) {
       query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
     }
@@ -452,8 +449,9 @@ public class LmngServiceImpl implements LicensingService {
   private void writeIO(String filename, String content) {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssS");
     try {
-      FileUtils.writeStringToFile(new File(System.getProperty("java.io.tmpdir") + filename + "_" + sdf.format(new Date()) + ".xml"),
-          content);
+      String fullFileName = System.getProperty("java.io.tmpdir") + filename + "_" + sdf.format(new Date()) + ".xml";
+      FileUtils.writeStringToFile(new File(fullFileName), content);
+      log.debug("wrote I/O file to " + fullFileName);
     } catch (IOException e) {
       log.debug("Failed to write input/output file. " + e.getMessage());
     }

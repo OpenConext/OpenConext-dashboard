@@ -20,3 +20,9 @@ VALUES
 INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId)
 VALUES
   ('http://mock-idp', '{AF1F54D8-1B10-DC11-A6C7-0019B9DE3AA4}');
+INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId)
+VALUES
+  ('SURFmarket', '7E7326CA-1A10-DC11-A6C7-0019B9DE3AA4');
+INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId)
+VALUES
+  ('SURFnet', '837326CA-1A10-DC11-A6C7-0019B9DE3AA4');
