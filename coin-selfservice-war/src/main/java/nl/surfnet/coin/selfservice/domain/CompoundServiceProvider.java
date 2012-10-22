@@ -102,16 +102,18 @@ public class CompoundServiceProvider extends DomainObject {
     Assert.notNull(serviceProvider);  
     Assert.notNull(license);  
     
-    byte[] image = getDefaultImage();
+    byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
+    byte[] detailLogoImageBytes = getImageBytesFromClasspath("450x300.png");
+    byte[] screenshotImageBytes = getImageBytesFromClasspath("1024x768.png");
     String todo = null;
 
     CompoundServiceProvider provider = new CompoundServiceProvider();
     provider.setServiceProvider(serviceProvider);
     provider.setLicense(license);
 
-    buildFieldImage(Key.APPSTORE_LOGO, null, null, image, provider);
+    buildFieldImage(Key.APPSTORE_LOGO, null, null, appStoreLogoImageBytes, provider);
     buildFieldString(Key.APP_URL, null, serviceProvider.getHomeUrl(), todo, provider);
-    buildFieldImage(Key.DETAIL_LOGO, license.getDetailLogo(), serviceProvider.getLogoUrl(), image, provider);
+    buildFieldImage(Key.DETAIL_LOGO, license.getDetailLogo(), serviceProvider.getLogoUrl(), detailLogoImageBytes, provider);
     buildFieldString(Key.ENDUSER_DESCRIPTION_EN, null, serviceProvider.getDescription(Language.EN), todo, provider);
     buildFieldString(Key.ENDUSER_DESCRIPTION_NL, license.getEndUserDescriptionNl(), serviceProvider.getDescription(Language.NL), todo,
         provider);
@@ -125,7 +127,7 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.SUPPORT_URL, null, serviceProvider.getUrl(), todo, provider);
     buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), todo, provider);
 
-    provider.addScreenShot(new Screenshot(image));
+    provider.addScreenShot(new Screenshot(screenshotImageBytes));
 
     return provider;
   }
@@ -416,9 +418,9 @@ public class CompoundServiceProvider extends DomainObject {
       .toString();
   }
 
-  private static byte[] getDefaultImage() {
+  private static byte[] getImageBytesFromClasspath(String filename) {
     try {
-      return IOUtils.toByteArray(new ClassPathResource("unknown.jpg").getInputStream());
+      return IOUtils.toByteArray(new ClassPathResource(filename).getInputStream());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -443,7 +445,7 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public boolean isLicenseAvailable() {
-    return StringUtils.isNotBlank(getLicense().getLmngIdentifier()); 
+    return getLicense() != null && StringUtils.isNotBlank(getLicense().getLmngIdentifier());
   }
   
   private void setServiceProviderEntityId(String serviceProviderEntityId) {
