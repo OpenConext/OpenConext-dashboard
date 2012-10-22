@@ -192,6 +192,8 @@ a {
     padding: 0 0 0 45px;
     position: relative;
     width: 50%; }
+    .narrow .license-connect div {
+      width: 100%; }
     .license-connect div:before {
       background: url(../images/sprite-license-availability.png);
       content: "";
@@ -203,6 +205,11 @@ a {
   .license-connect .license-available:before,
   .license-connect .license-not-available:before {
     background: url(../images/sprite-license-availability.png); }
+  .narrow .license-connect .license-available, .narrow
+  .license-connect .license-not-available {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em; }
   .license-connect .license-available strong,
   .license-connect .license-not-available strong {
     color: #00b274; }
@@ -219,8 +226,13 @@ a {
       height: 35px;
       top: 7px;
       width: 39px; }
+    .license-connect .service-connected strong,
+    .license-connect .service-not-connected strong {
+      color: #00b274; }
   .license-connect .service-not-connected:before {
     background-position: -39px 0; }
+  .license-connect .service-not-connected strong {
+    color: #e31937; }
   .license-connect p {
     margin-bottom: 0; }
 

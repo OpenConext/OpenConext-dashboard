@@ -158,6 +158,9 @@ a
     position: relative
     width: 50%
 
+    .narrow &
+      width: 100%
+
     &:before
       background: url(../images/sprite-license-availability.png)
       content: ''
@@ -171,6 +174,11 @@ a
   .license-not-available
     &:before
       background: url(../images/sprite-license-availability.png)
+
+    .narrow &
+      border-bottom: 1px solid $subtle_gray
+      margin-bottom: 0.5em
+      padding-bottom: 0.5em
 
     strong
       color: #00B274
@@ -192,9 +200,15 @@ a
       top: 7px
       width: 39px
 
+    strong
+      color: #00B274
+
   .service-not-connected
     &:before
       background-position: -39px 0
+
+    strong
+      color: #E31937
 
   p
     margin-bottom: 0
