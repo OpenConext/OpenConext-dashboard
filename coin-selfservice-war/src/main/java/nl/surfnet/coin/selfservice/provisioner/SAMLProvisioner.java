@@ -16,10 +16,6 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -43,6 +39,8 @@ import org.opensaml.saml2.core.AuthnStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
 
 /**
  * implementation to return UserDetails from a SAML Assertion
@@ -124,11 +122,7 @@ public class SAMLProvisioner implements Provisioner {
       final List<AuthenticatingAuthority> authorities = as.getAuthnContext().getAuthenticatingAuthorities();
       for (AuthenticatingAuthority aa : authorities) {
         if (StringUtils.isNotBlank(aa.getURI())) {
-          try {
-            return URLDecoder.decode(aa.getURI(), "UTF-8");
-          } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Machine does not support UTF-8", e);
-          }
+          return aa.getURI();
         }
       }
     }
