@@ -26,7 +26,7 @@
 		<ul class="app-grid" data-search-placeholder="Search in applications">
 			<c:forEach items="${compoundSps}" var="compoundSp">
 				<c:if test="${not empty compoundSp.id}">
-					<li>
+					<li class="connected">
 						<spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
 							<spring:param name="compoundSpId" value="${compoundSp.id}" />
 						</spring:url>

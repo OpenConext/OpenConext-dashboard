@@ -1506,8 +1506,17 @@ textarea {
       border-right: none; }
     .app-grid li.hide {
       display: none; }
+    .app-grid li.connected:after {
+      color: #999999;
+      content: "\f046";
+      font-family: FontAwesome;
+      position: absolute;
+      right: 10px;
+      top: 20px; }
     .app-grid li h2 {
-      font: bold 14px "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      font: bold 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 100%;
+      overflow: hidden; }
       .app-grid li h2 a {
         color: black;
         -webkit-transition: none;
