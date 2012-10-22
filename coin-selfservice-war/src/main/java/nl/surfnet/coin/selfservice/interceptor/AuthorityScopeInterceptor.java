@@ -16,6 +16,28 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import nl.surfnet.coin.selfservice.domain.AttributeScopeConstraints;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
 import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
@@ -29,24 +51,6 @@ import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTI
 import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import nl.surfnet.coin.selfservice.domain.AttributeScopeConstraints;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
-import org.springframework.ui.ModelMap;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
  * objects for display
@@ -57,24 +61,50 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
+  private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
+
   @SuppressWarnings("unchecked")
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
       throws Exception {
 
     if (modelAndView != null) {
+
+      Collection<CoinAuthority> authorities = (Collection<CoinAuthority>) SpringSecurity.getCurrentUser().getAuthorities();
+
       final ModelMap map = modelAndView.getModelMap();
       CompoundServiceProvider sp = (CompoundServiceProvider) map.get(COMPOUND_SP);
       if (sp != null) {
-        scopeCompoundServiceProvider(map, sp);
+        scopeCompoundServiceProvider(map, sp, authorities);
       }
       Collection<CompoundServiceProvider> sps = (Collection<CompoundServiceProvider>) map.get(COMPOUND_SPS);
       if (!CollectionUtils.isEmpty(sps)) {
+        sps = scopeListOfCompoundServiceProviders(sps, authorities);
         for (CompoundServiceProvider compoundServiceProvider : sps) {
-          scopeCompoundServiceProvider(map, compoundServiceProvider);
+          scopeCompoundServiceProvider(map, compoundServiceProvider, authorities);
         }
       }
     }
+  }
+
+  /**
+   * Reduce list based on whether the SP 'is linked' to the current IdP.
+   * @param sps
+   * @param authorities
+   * @return a reduced list, or the same, if no changes.
+   */
+  private Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> sps, Collection<CoinAuthority> authorities) {
+    if (isRoleUser(authorities)) {
+      List resultList = new ArrayList<CompoundServiceProvider>();
+      for (CompoundServiceProvider csp : sps) {
+        if (csp.getServiceProvider().isLinked()) {
+          resultList.add(csp);
+        }
+      }
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser. # Before: {}, after: {}", new Object[] {SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size()} );
+      return resultList;
+    }
+    return sps;
   }
 
   /*
@@ -82,8 +112,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * tell the Service to limit scope access based on the authority
    */
   @SuppressWarnings("unchecked")
-  private void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp) {
-    Collection<CoinAuthority> authorities = (Collection<CoinAuthority>) SpringSecurity.getCurrentUser().getAuthorities();
+  private void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, Collection<CoinAuthority> authorities) {
 
     map.put(SERVICE_QUESTION_ALLOWED,
         containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
