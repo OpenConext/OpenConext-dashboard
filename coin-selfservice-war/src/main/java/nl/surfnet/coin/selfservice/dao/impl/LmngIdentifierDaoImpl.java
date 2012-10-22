@@ -57,7 +57,7 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
       }
     }, identityProviderId);
     if (result == null || result.size() == 0) {
-      log.debug("No LMNG results found for IdP " + identityProviderId);
+      log.debug("No LMNG ID found for IdP " + identityProviderId);
       return null;
     }
     log.debug("Got LMNG GUID '" + result.get(0) + "' for IdP " + identityProviderId);
@@ -89,7 +89,7 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
       }
     }, spId);
     if (result == null || result.size() == 0) {
-      log.debug("No LMNG results found for SP " + spId);
+      log.debug("No LMNG ID found for SP " + spId);
       return null;
     }
     log.debug("Got LMNG GUID '" + result.get(0) + "' for SP " + spId);
