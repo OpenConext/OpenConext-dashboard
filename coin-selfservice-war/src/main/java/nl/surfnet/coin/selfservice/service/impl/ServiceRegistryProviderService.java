@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -85,12 +86,13 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
    */
   @Override
   public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
-    List<ServiceProvider> linked = new ArrayList<ServiceProvider>();
+
     final List<ServiceProvider> allServiceProviders = getAllServiceProviders(idpId);
     if (CollectionUtils.isEmpty(allServiceProviders)) {
-      return linked;
+      return Collections.emptyList();
     }
 
+    List<ServiceProvider> linked = new ArrayList<ServiceProvider>();
     for (ServiceProvider sp : allServiceProviders) {
       if (sp.isLinked()) {
         linked.add(sp);
@@ -103,8 +105,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   public List<String> getLinkedServiceProviderIDs(String idpId) {
     List<String> spList = new ArrayList<String>();
     try {
-      final List<String> sps = janusClient.getAllowedSps(idpId);
-      spList = sps;
+      spList = janusClient.getAllowedSps(idpId);
     } catch (RestClientException e) {
       log.warn("Could not retrieve allowed SPs from Janus client", e.getMessage());
     }
