@@ -441,7 +441,7 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public boolean isArticleAvailable() {
-    return !Article.NONE.equals(this.article) ;
+    return article != null && !Article.NONE.equals(this.article);
   }
   
   private void setServiceProviderEntityId(String serviceProviderEntityId) {
