@@ -60,7 +60,7 @@
       <c:if test="${not empty compoundSp.technicalSupportMail}">  
         <li>
           <spring:message code="jsp.app_detail.technical_email" />
-          <c:out value="${compoundSp.technicalSupportMail}"/>
+          <a href="mailto:<c:out value="${compoundSp.technicalSupportMail}"/>"><c:out value="${compoundSp.technicalSupportMail}"/></a>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.supportMail}">  
@@ -76,7 +76,7 @@
 <div class="column-center content-holder">
   <section>
 
-    <h1><c:out value="${spname}"/></h1>
+    <h1>${spname}</h1>
 
     <c:if test="${applyAllowed}">
       <div class="license-connect">
@@ -97,14 +97,14 @@
         <c:choose>
           <c:when test="${not compoundSp.sp.linked}">
             <div class="service-not-connected">
-              <p><strong>Technische koppeling niet aanwezig</strong></p>
-              <p>Neem contact op met ons adoptieteam</p>
+              <p><strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong></p>
+              <p><spring:message code="jsp.app_detail.contact_adoption_team"/></p>
             </div>
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
             <div class="service-connected">
-              <p><strong>Technische koppeling aanwezig</strong></p>
-              <p>Neem contact op met ons adoptieteam</p>
+              <p><strong><spring:message code="jsp.app_detail.technical_connection"/></strong></p>
+              <p><spring:message code="jsp.app_detail.contact_adoption_team"/></p>
             </div>
           </c:when>
         </c:choose>
@@ -182,7 +182,7 @@
     <hr>
 
     <c:if test="${not empty compoundSp.screenShotsImages}">
-      <h2>Screenshots van <c:out value="${spname}"/></h2>
+      <h2><spring:message code="jsp.app_detail.screenshots_of" arguments="${spname}" htmlEscape="false"/></h2>
 
       <div class="screenshots-holder gallery-holder">
         <ul class="gallery">

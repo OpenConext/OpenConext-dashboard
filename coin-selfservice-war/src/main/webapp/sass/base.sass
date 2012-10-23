@@ -226,6 +226,14 @@ a
     padding: 0.7em 50px 0.7em 0
     +transition(color 0.3s)
 
+  a[href^="mailto:"]
+    background: none
+
+    &:before
+      content: '\f003'
+      font-family: FontAwesome
+      margin-right: 0.5em
+
 .wrapper .with-read-more
   .toggle-read-more:after
     background: url(../images/bg-toggle-read-more.png) 0 -7px
