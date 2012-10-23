@@ -26,6 +26,11 @@ import java.util.List;
  */
 public class Article {
 
+  /*
+   * Optional pattern applied to prevent many, many nullpointer checks and exceptions
+   */
+  public static final Article NONE = new Article();
+
   private List<License> licenses;
 
   private String endUserDescriptionNl;

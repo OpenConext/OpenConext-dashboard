@@ -140,7 +140,7 @@ public class AuthorityScopeInterceptorTest {
   private CompoundServiceProvider buildCompoundSeriveProvider() {
     ServiceProvider serviceProvider = new ServiceProvider(null);
     serviceProvider.addContactPerson(new ContactPerson(ContactPersonType.technical, "we.dont.want.regular.user.to.see.this@wgaf"));
-    CompoundServiceProvider sp = CompoundServiceProvider.builder(serviceProvider, new Article());
+    CompoundServiceProvider sp = CompoundServiceProvider.builder(serviceProvider, Article.NONE);
     return sp;
   }
 

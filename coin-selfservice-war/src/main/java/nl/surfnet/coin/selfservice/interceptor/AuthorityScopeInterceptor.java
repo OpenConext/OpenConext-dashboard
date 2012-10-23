@@ -107,7 +107,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     } else if (isRoleIdPLicenseAdmin(authorities)) {
       List<CompoundServiceProvider> resultList = new ArrayList<CompoundServiceProvider>();
       for (CompoundServiceProvider csp : sps) {
-        if (csp.isLicenseAvailable()) {
+        if (csp.isArticleAvailable()) {
           resultList.add(csp);
         }
       }
