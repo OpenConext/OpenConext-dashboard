@@ -83,6 +83,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
         for (CompoundServiceProvider compoundServiceProvider : sps) {
           scopeCompoundServiceProvider(map, compoundServiceProvider, authorities);
         }
+        map.put(COMPOUND_SPS, sps);
       }
     }
   }
