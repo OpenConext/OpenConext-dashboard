@@ -17,7 +17,7 @@
   --%>
 
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
-<spring:message var="title" code="jsp.allsp.title"/>
+<spring:message var="title" code="jsp.allsplmng.title"/>
 
 <jsp:include page="../head.jsp">
   <jsp:param name="title" value="${title}"/>
