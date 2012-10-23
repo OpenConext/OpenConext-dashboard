@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
-import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
@@ -94,10 +93,7 @@ public class ServiceDetailController extends BaseController {
     m.put("oAuthTokens", oAuthTokens);
 
     m.put("revoked", revoked);
-    
-    List<Article> articles = licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(selectedidp, compoundServiceProvider.getServiceProvider());
-    m.put("licenses", articles);
-    
+
     return new ModelAndView("app-detail", m);
   }
 
