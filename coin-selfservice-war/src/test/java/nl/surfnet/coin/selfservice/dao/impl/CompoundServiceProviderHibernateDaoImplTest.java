@@ -17,8 +17,8 @@ package nl.surfnet.coin.selfservice.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.junit.Test;
@@ -47,7 +47,7 @@ public class CompoundServiceProviderHibernateDaoImplTest {
   
   @Test
   public void test() {
-    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider("sp-id"), new License());
+    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider("sp-id"), new Article());
     Long id = dao.saveOrUpdate(provider);
     provider = dao.findById(id);
     assertEquals(1,provider.getScreenshots().size());

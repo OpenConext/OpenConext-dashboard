@@ -17,21 +17,25 @@ package nl.surfnet.coin.selfservice.interceptor;
 
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.ContactPerson;
 import nl.surfnet.coin.selfservice.domain.ContactPersonType;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
@@ -58,7 +62,7 @@ public class AuthorityScopeInterceptorTest {
   public void test_regular_user_may_not_see_technical_mail_address() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
 
-    CoinUser user = coinUser(Authority.ROLE_USER);
+    CoinUser user = coinUser(ROLE_USER);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     CompoundServiceProvider sp = buildCompoundSeriveProvider();
     modelAndView.addObject(BaseController.COMPOUND_SP, sp);
@@ -91,7 +95,7 @@ public class AuthorityScopeInterceptorTest {
   public void test_power_user_may_see_technical_mail_address() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
 
-    CoinUser user = coinUser(Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+    CoinUser user = coinUser(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     CompoundServiceProvider sp = buildCompoundSeriveProvider();
     modelAndView.addObject(BaseController.COMPOUND_SP, sp);
@@ -107,6 +111,23 @@ public class AuthorityScopeInterceptorTest {
     assertTrue((Boolean) model.get(SERVICE_APPLY_ALLOWED));
 
   }
+  
+  @Test
+  @SuppressWarnings("unchecked")
+  public void idp_license_admin_may_only_see_licensed_services() throws Exception {
+    ModelAndView modelAndView = new ModelAndView();
+
+    CoinUser user = coinUser(ROLE_IDP_LICENSE_ADMIN);
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    CompoundServiceProvider sp = buildCompoundSeriveProvider();
+    modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp));
+    
+    interceptor.postHandle(null, null, null, modelAndView);
+
+    Collection<CompoundServiceProvider> sps =  (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(BaseController.COMPOUND_SPS);
+    assertEquals(0, sps.size());
+   
+  }
 
   private CoinUser coinUser(Authority... authorities) {
     CoinUser coinUser = new CoinUser();
@@ -119,8 +140,7 @@ public class AuthorityScopeInterceptorTest {
   private CompoundServiceProvider buildCompoundSeriveProvider() {
     ServiceProvider serviceProvider = new ServiceProvider(null);
     serviceProvider.addContactPerson(new ContactPerson(ContactPersonType.technical, "we.dont.want.regular.user.to.see.this@wgaf"));
-
-    CompoundServiceProvider sp = CompoundServiceProvider.builder(serviceProvider, new License());
+    CompoundServiceProvider sp = CompoundServiceProvider.builder(serviceProvider, Article.NONE);
     return sp;
   }
 

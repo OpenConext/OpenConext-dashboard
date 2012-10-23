@@ -24,8 +24,8 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.apache.commons.io.IOUtils;
@@ -82,8 +82,8 @@ public class LmngServiceImplTest implements HttpRequestHandler {
     IdentityProvider identityProvider = new IdentityProvider();
     identityProvider.setInstitutionId("dummy");
     ServiceProvider serviceProvider = new ServiceProvider("dummysp");
-    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider);
-    assertEquals("Aanbesteden1", licenses.get(0).getProductName());
+    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider);
+    assertEquals("Aanbesteden1", articles.get(0).getServiceDescriptionNl());
   }
 
   /*

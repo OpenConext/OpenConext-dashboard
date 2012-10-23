@@ -24,9 +24,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
@@ -90,7 +90,7 @@ public class CompoundSPService {
    * @return the created (and persisted) CSP
    */
   public CompoundServiceProvider createCompoundServiceProvider(ServiceProvider sp) {
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, new License());
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, new Article());
     compoundServiceProviderDao.saveOrUpdate(csp);
     return csp;
   }
@@ -119,14 +119,14 @@ public class CompoundSPService {
   }
 
   /**
-   * Enrich a CSP with license data and the underlying service provider.
+   * Enrich a CSP with article/license data and the underlying service provider.
    *
    * @param idp the IDP for whom this CSP is enriched (licenses are Idp specific)
    * @param csp the CSP to be enriched.
    * @param sp the SP in case it is known. Otherwise (leave it null) it will be retrieved from the underlying ServiceProviderService
    * 
    * @param idp
-   *          the IDP for whom this CSP is enriched (licenses are Idp specific)
+   *          the IDP for whom this CSP is enriched (licences are Idp specific)
    * @param csp
    *          the CSP to be enriched.
    */
@@ -140,14 +140,14 @@ public class CompoundSPService {
       csp.setServiceProvider(sp);
     }
 
-    List<License> licenses = licensingService.getLicensesForIdentityProviderAndServiceProvider(idp, csp.getServiceProvider());
-    if (licenses.isEmpty()) {
-      LOG.debug("No license for idp {} and SP {}", idp.getId(), csp.getServiceProvider().getId());
+    List<Article> articles = licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, csp.getServiceProvider());
+    if (articles.isEmpty()) {
+      LOG.debug("No article for idp {} and SP {}", idp.getId(), csp.getServiceProvider().getId());
     } else {
-      csp.setLicense(licenses.get(0));
-      if (licenses.size() > 1) {
-        LOG.info("Multiple licenses found for idp {} and SP {}: {}",
-            new Object[] { idp.getId(), csp.getServiceProvider().getId(), licenses.size() });
+      csp.setArticle(articles.get(0));
+      if (articles.size() > 1) {
+        LOG.info("Multiple articles found for idp {} and SP {}: {}",
+            new Object[] { idp.getId(), csp.getServiceProvider().getId(), articles.size() });
       }
     }
   }

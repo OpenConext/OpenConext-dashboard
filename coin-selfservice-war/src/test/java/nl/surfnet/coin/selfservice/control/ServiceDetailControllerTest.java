@@ -16,15 +16,23 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
@@ -44,14 +52,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Test for {@link nl.surfnet.coin.selfservice.control.ServiceDetailController}
@@ -101,7 +101,7 @@ public class ServiceDetailControllerTest {
     ServiceProvider sp = new ServiceProvider("mockSp");
     CompoundServiceProvider csp = new CompoundServiceProvider();
     when(compoundSPService.getCSPById(idp, 1L)).thenReturn(csp);
-    when(licensingService.getLicensesForIdentityProviderAndServiceProvider(idp, sp)).thenReturn(new ArrayList<License>());
+    when(licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, sp)).thenReturn(new ArrayList<Article>());
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 
     OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");

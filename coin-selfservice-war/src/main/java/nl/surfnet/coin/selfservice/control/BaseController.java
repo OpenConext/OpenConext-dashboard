@@ -63,6 +63,11 @@ public abstract class BaseController {
    */
   public static final String SERVICE_QUESTION_ALLOWED = "questionAllowed";
 
+  /**
+   * The name of the key under which we store the info if a logged user is allowed to filter in the app grid
+   */
+  public static final String FILTER_APP_GRID_ALLOWED = "filterAppGridAllowed";
+
   @Resource(name = "providerService")
   private IdentityProviderService idpService;
 

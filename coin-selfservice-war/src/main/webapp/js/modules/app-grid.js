@@ -37,15 +37,20 @@ app.appgrid = function() {
 
     var setSearch = function() {
         var placeholder = gridElm.data('searchPlaceholder');
+        var filters = '';
 
-        gridElm.before('<nav class="filter-grid">' +
+        if (gridElm.hasClass('filters-available')) {
+            filters = '<div>' +
+                        '<ul>' +
+                            '<li><a href="#" data-filter="licensed"><i class="icon-shopping-cart"></i> Has license</a></li>' +
+                            '<li><a href="#" data-filter="connected"><i class="icon-check"></i> Is connected</a></li>' +
+                        '</ul>' +
+                      '</div>';
+        }
+
+        gridElm.before('<nav class="filter-grid' + (gridElm.hasClass('filters-available') ? ' filters-available' : '') + '">' +
                            '<input type="search" class="app-grid-search" placeholder="' + placeholder + '">' +
-                           '<div>' +
-                               '<ul>' +
-                                   '<li><a href="#" data-filter="licensed"><i class="icon-shopping-cart"></i> Has license</a></li>' +
-                                   '<li><a href="#" data-filter="connected"><i class="icon-check"></i> Is connected</a></li>' +
-                               '</ul>' +
-                           '</div>' +
+                           filters +
                        '</nav>');
 
         var searchElm = $('.app-grid-search'),

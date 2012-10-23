@@ -222,7 +222,10 @@ a
 
   a
     background: url(../images/bg-action-list-item.png) no-repeat 100% 50%
+    +box-sizing(border-box)
     display: block
+    max-width: 100%
+    overflow: hidden
     padding: 0.7em 50px 0.7em 0
     +transition(color 0.3s)
 
@@ -233,6 +236,11 @@ a
       content: '\f003'
       font-family: FontAwesome
       margin-right: 0.5em
+
+  &.email-addresses
+    border-top: none
+    color: #7D7D7D
+    margin-top: -2.5em
 
 .wrapper .with-read-more
   .toggle-read-more:after

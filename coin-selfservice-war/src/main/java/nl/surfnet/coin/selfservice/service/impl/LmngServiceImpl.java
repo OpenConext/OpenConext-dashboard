@@ -43,6 +43,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
@@ -118,40 +119,40 @@ public class LmngServiceImpl implements LicensingService {
   private String keystorePassword;
 
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider) {
-    return getLicensesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, new Date());
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider) {
+    return getLicenseArticlesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, new Date());
   }
 
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
     List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
     serviceProviders.add(serviceProvider);
-    return getLicensesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
+    return getLicenseArticlesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
   }
 
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders) {
-    return getLicensesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
+    return getLicenseArticlesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
   }
 
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     try {
-      String institutionId = getLmngIdentityId(identityProvider);
+      String lmngInstitutionId = getLmngIdentityId(identityProvider);
       List<String> serviceIds = getLmngServiceIds(serviceProviders);
 
       // validation, we need an institutionId and at least one serviceId
-      if (institutionId == null || serviceIds.size() == 0) {
+      if (lmngInstitutionId == null || serviceIds.size() == 0) {
         log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProviders "
             + serviceProviders + " and date " + validOn + ". Possibly no binding found");
-        return new ArrayList<License>();
+        return new ArrayList<Article>();
       }
 
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequest(institutionId, serviceIds, validOn);
+      String soapRequest = getLmngSoapRequest(lmngInstitutionId, serviceIds, validOn);
       if (soapRequest == null) {
       }
       if (debug) {
@@ -179,9 +180,9 @@ public class LmngServiceImpl implements LicensingService {
    * @throws SAXException
    * @throws ParseException
    */
-  private List<License> parseResult(InputStream webserviceResult) throws ParserConfigurationException, SAXException, IOException,
+  private List<Article> parseResult(InputStream webserviceResult) throws ParserConfigurationException, SAXException, IOException,
       ParseException {
-    List<License> resultList = new ArrayList<License>();
+    List<Article> resultList = new ArrayList<Article>();
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -226,7 +227,7 @@ public class LmngServiceImpl implements LicensingService {
             if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
               Element resultElement = (Element) resultNode;
 
-              resultList.add(createLicense(resultElement));
+              resultList.add(createArticle(resultElement));
             }
           }
         }
@@ -241,20 +242,22 @@ public class LmngServiceImpl implements LicensingService {
     return resultList;
   }
 
-  private License createLicense(Element resultElement) {
+  private Article createArticle(Element resultElement) {
+    Article article = new Article();
     License license = new License();
-    license.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-    license.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-    license.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+    article.addLicense(license);
+    
+    article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+    article.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
+    article.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
     Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
     license.setStartDate(startDate);
     Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
     license.setEndDate(endDate);
-    license.setIdentityName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_IDENTITY_NAME));
-    license.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
-    license.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
+    article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
+    article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
     log.debug("Created new License object:" + license.toString());
-    return license;
+    return article;
   }
 
   /**

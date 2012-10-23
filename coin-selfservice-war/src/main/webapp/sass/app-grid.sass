@@ -174,7 +174,7 @@
 
   input.app-grid-search
     background: #FFF url(../images/bg-icon-grid-search.png) no-repeat 96% 50%
-    +border-right-radius(5em)
+    +border-radius(5em)
     float: right
     height: auto
     padding: 6px 16px
@@ -194,6 +194,9 @@
     .condensed &
       right: 25px
       top: 25px
+
+  &.filters-available input.app-grid-search
+    +border-left-radius(0)
 
 
 @media (min-width: 1300px)
@@ -268,11 +271,15 @@
     width: 100%
 
     input.app-grid-search
-      +border-bottom-radius(0)
-      +border-top-radius(0.75em)
+      +border-radius(5em)
       +box-sizing(border-box)
-      margin: 0
+      margin: 0 0 10px
       width: 100%
+
+    &.filters-available input.app-grid-search
+      +border-radius(0.75em)
+      +border-bottom-radius(0)
+      margin: 0
 
     div
       display: table

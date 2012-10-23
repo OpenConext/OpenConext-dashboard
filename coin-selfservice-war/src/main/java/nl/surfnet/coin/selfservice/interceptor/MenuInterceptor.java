@@ -86,6 +86,7 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
         }
       }
     }
+    menu.addMenuItem(new MenuItem("jsp.profile.title", "/user.shtml"));
     return menu;
   }
 

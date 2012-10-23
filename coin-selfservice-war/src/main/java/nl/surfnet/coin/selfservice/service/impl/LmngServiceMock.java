@@ -18,22 +18,23 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.domain.Article;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
+
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.core.io.ClassPathResource;
 
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
-import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
-
 /**
  * LicensingServiceMock.java
  * 
  */
+@SuppressWarnings("unused")
 public class LmngServiceMock implements LicensingService {
 
   private boolean debug;
@@ -45,31 +46,29 @@ public class LmngServiceMock implements LicensingService {
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
-  private List<License> licenses;
-
+  private List<Article> articles;
 
   @SuppressWarnings("unchecked")
   public LmngServiceMock() {
     try {
-      TypeReference<List<License>> typeReference = new TypeReference<List<License>>() {
+      TypeReference<List<Article>> typeReference = new TypeReference<List<Article>>() {
       };
-      this.licenses = (List<License>) parseJsonData(typeReference, "lmng-json/licenses.json");
+      this.articles = (List<Article>) parseJsonData(typeReference, "lmng-json/articles.json");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
-
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders) {
-    return this.licenses;
+    return this.articles;
   }
 
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
-    return this.licenses;
+    return this.articles;
   }
 
   /*
@@ -81,8 +80,9 @@ public class LmngServiceMock implements LicensingService {
    * nl.surfnet.coin.selfservice.domain.ServiceProvider)
    */
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider) {
-    return this.licenses;
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
+      ServiceProvider serviceProvider) {
+    return this.articles;
   }
 
   /*
@@ -94,9 +94,9 @@ public class LmngServiceMock implements LicensingService {
    * nl.surfnet.coin.selfservice.domain.ServiceProvider, java.util.Date)
    */
   @Override
-  public List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
-      Date validOn) {
-    return this.licenses;
+  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
+      ServiceProvider serviceProvider, Date validOn) {
+    return this.articles;
   }
 
   private Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {
@@ -107,30 +107,24 @@ public class LmngServiceMock implements LicensingService {
     }
   }
 
-
   public void setDebug(boolean debug) {
     this.debug = debug;
   }
-
 
   public void setEndpoint(String endpoint) {
     this.endpoint = endpoint;
   }
 
-
   public void setKeyStore(KeyStore keyStore) {
     this.keyStore = keyStore;
   }
-
 
   public void setTrustStore(KeyStore trustStore) {
     this.trustStore = trustStore;
   }
 
-
   public void setKeystorePassword(String keystorePassword) {
     this.keystorePassword = keystorePassword;
   }
-
 
 }

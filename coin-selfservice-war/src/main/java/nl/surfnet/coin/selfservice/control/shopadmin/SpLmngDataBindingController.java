@@ -25,12 +25,11 @@ import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
 import nl.surfnet.coin.selfservice.dao.FieldImageDao;
 import nl.surfnet.coin.selfservice.dao.FieldStringDao;
 import nl.surfnet.coin.selfservice.dao.ScreenshotDao;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.Field;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
 import nl.surfnet.coin.selfservice.domain.FieldImage;
 import nl.surfnet.coin.selfservice.domain.FieldString;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.Screenshot;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
@@ -82,7 +81,7 @@ public class SpLmngDataBindingController extends BaseController {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", entityId);
 
       // TODO: get license/article from LMNG
-      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, new License());
+      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, new Article());
 
       compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");

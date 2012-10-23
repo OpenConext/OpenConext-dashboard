@@ -57,6 +57,10 @@
           </a>
         </li>
       </c:if>
+      <c:if test="${(not empty compoundSp.technicalSupportMail) || (not empty compoundSp.supportMail)}"> 
+        </ul>
+        <ul class="action-list email-addresses">
+      </c:if>
       <c:if test="${not empty compoundSp.technicalSupportMail}">  
         <li>
           <spring:message code="jsp.app_detail.technical_email" />
@@ -66,7 +70,7 @@
       <c:if test="${not empty compoundSp.supportMail}">  
         <li>
           <spring:message code="jsp.app_detail.support_email" />
-          <c:out value="${compoundSp.supportMail}"/>
+          <a href="mailto:<c:out value="${compoundSp.supportMail}"/>"><c:out value="${compoundSp.supportMail}"/></a>
         </li>
       </c:if>
     </ul>
@@ -81,10 +85,10 @@
     <c:if test="${applyAllowed}">
       <div class="license-connect">
         <c:choose>
-          <c:when test="${compoundSp.licenseAvailable}">
+          <c:when test="${compoundSp.articleAvailable}">
             <div class="license-available">
               <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
-              <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/></c:set>
+              <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
               <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
             </div>
           </c:when>
