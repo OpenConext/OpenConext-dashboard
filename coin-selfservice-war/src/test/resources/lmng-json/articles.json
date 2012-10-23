@@ -1,20 +1,24 @@
 [
     {
-        "startDate": 1333885898711,
-        "endDate": 1365421898639,
         "serviceDescriptionNl": "Microsoft Nederland",
         "serviceDescriptionNl": "Office 365",
         "institutionName": "office365_pro",
         "supplierName": "Microsoft",
-        "lmngIdentifier" : "1234568"
+        "lmngIdentifier" : "1234568",
+        "licenses" : {
+          "startDate": 1333885898711,
+          "endDate": 1365421898639
+        }
     },
     {
-        "startDate": 1333885898711,
-        "endDate": 1365421898711,
         "serviceDescriptionNl": "Google Nederland",
-        "serviceDescriptionNl": "Google Enterpeise",
+        "serviceDescriptionNl": "Google Enterprise",
         "institutionName": "google_maps_pro",
         "supplierName": "Google",
-        "lmngIdentifier" : "1234568"
+        "lmngIdentifier" : "1234568",
+        "licenses" : {
+          "startDate": 1333885898711,
+          "endDate": 1365421898711
+        }
     }
 ]

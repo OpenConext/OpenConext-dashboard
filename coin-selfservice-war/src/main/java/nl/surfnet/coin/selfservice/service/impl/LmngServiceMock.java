@@ -53,7 +53,7 @@ public class LmngServiceMock implements LicensingService {
     try {
       TypeReference<List<Article>> typeReference = new TypeReference<List<Article>>() {
       };
-      this.articles = (List<Article>) parseJsonData(typeReference, "lmng-json/licenses.json");
+      this.articles = (List<Article>) parseJsonData(typeReference, "lmng-json/articles.json");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
