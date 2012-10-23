@@ -94,9 +94,9 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * @param authorities
    * @return a reduced list, or the same, if no changes.
    */
-  private Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> sps, Collection<CoinAuthority> authorities) {
+  protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> sps, Collection<CoinAuthority> authorities) {
     if (isRoleUser(authorities)) {
-      List resultList = new ArrayList<CompoundServiceProvider>();
+      List<CompoundServiceProvider> resultList = new ArrayList<CompoundServiceProvider>();
       for (CompoundServiceProvider csp : sps) {
         if (csp.getServiceProvider().isLinked()) {
           resultList.add(csp);
@@ -104,6 +104,16 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       }
       LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser. # Before: {}, after: {}", new Object[] {SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size()} );
       return resultList;
+    } else if (isRoleIdPLicenseAdmin(authorities)) {
+      List<CompoundServiceProvider> resultList = new ArrayList<CompoundServiceProvider>();
+      for (CompoundServiceProvider csp : sps) {
+        if (csp.isLicenseAvailable()) {
+          resultList.add(csp);
+        }
+      }
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user. # Before: {}, after: {}", new Object[] {SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size()} );
+      return resultList;
+      
     }
     return sps;
   }
@@ -112,8 +122,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * Based on https://wiki.surfnetlabs.nl/display/services/App-omschrijving we
    * tell the Service to limit scope access based on the authority
    */
-  @SuppressWarnings("unchecked")
-  private void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, Collection<CoinAuthority> authorities) {
+  protected void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, Collection<CoinAuthority> authorities) {
 
     map.put(SERVICE_QUESTION_ALLOWED,
         containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
@@ -130,12 +139,16 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     sp.setConstraints(constraints);
   }
 
-  private boolean isRoleUser(Collection<CoinAuthority> authorities) {
+  protected boolean isRoleUser(Collection<CoinAuthority> authorities) {
     return CollectionUtils.isEmpty(authorities)
         || ((authorities.size() == 1 && authorities.iterator().next().getEnumAuthority().equals(Authority.ROLE_USER)));
   }
 
-  private boolean containsRole(Collection<CoinAuthority> coinAuthorities, Authority... authority) {
+  protected boolean isRoleIdPLicenseAdmin(Collection<CoinAuthority> authorities) {
+    return containsRole(authorities, ROLE_IDP_LICENSE_ADMIN) && !containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+  }
+
+  protected boolean containsRole(Collection<CoinAuthority> coinAuthorities, Authority... authority) {
     Set<Authority> authorities = new HashSet<CoinAuthority.Authority>();
     for (CoinAuthority grantedAuth : coinAuthorities) {
       authorities.add(grantedAuth.getEnumAuthority());

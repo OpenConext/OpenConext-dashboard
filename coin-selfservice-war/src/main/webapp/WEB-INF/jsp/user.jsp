@@ -59,6 +59,28 @@
       </tbody>
     </table>
   
+    <hr/>
+  
+    <h3><spring:message code="jsp.role.title"/></h3>
+  
+    <p><spring:message code="jsp.role.information.header"/><p>
+    <table class="table table-bordered table-striped table-above-pagination">
+      <thead>
+      <tr>
+        <th><spring:message code="jsp.role.information.role"/></th>
+        <th><spring:message code="jsp.role.information.description"/></th>
+      </tr>
+      </thead>
+      <tbody>
+        <c:forEach items="${roles}" var="role" varStatus="vs">
+        <tr>
+          <td><spring:message code="jsp.role.information.key.${role.authority}"/></td>
+          <td><spring:message code="jsp.role.information.value.${role.authority}"/></td>
+        </tr>
+      </c:forEach>
+      </tbody>
+    </table>
+
   </section>
   </div>
 
