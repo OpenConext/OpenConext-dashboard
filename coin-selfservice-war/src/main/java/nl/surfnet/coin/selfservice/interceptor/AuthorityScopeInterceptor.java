@@ -16,6 +16,20 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
+import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
+import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
+import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,19 +51,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
 
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
@@ -90,11 +91,13 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
   /**
    * Reduce list based on whether the SP 'is linked' to the current IdP.
+   * 
    * @param sps
    * @param authorities
    * @return a reduced list, or the same, if no changes.
    */
-  protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> sps, Collection<CoinAuthority> authorities) {
+  protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> sps,
+      Collection<CoinAuthority> authorities) {
     if (isRoleUser(authorities)) {
       List<CompoundServiceProvider> resultList = new ArrayList<CompoundServiceProvider>();
       for (CompoundServiceProvider csp : sps) {
@@ -102,7 +105,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
           resultList.add(csp);
         }
       }
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser. # Before: {}, after: {}", new Object[] {SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size()} );
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser. # Before: {}, after: {}", new Object[] {
+          SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size() });
       return resultList;
     } else if (isRoleIdPLicenseAdmin(authorities)) {
       List<CompoundServiceProvider> resultList = new ArrayList<CompoundServiceProvider>();
@@ -111,9 +115,10 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
           resultList.add(csp);
         }
       }
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user. # Before: {}, after: {}", new Object[] {SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size()} );
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user. # Before: {}, after: {}",
+          new Object[] { SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size() });
       return resultList;
-      
+
     }
     return sps;
   }
@@ -124,9 +129,10 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    */
   protected void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, Collection<CoinAuthority> authorities) {
 
-    map.put(SERVICE_QUESTION_ALLOWED,
-        containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
+    boolean isAdmin = containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+    map.put(SERVICE_QUESTION_ALLOWED, isAdmin);
     map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
+    map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
 
     AttributeScopeConstraints constraints = new AttributeScopeConstraints();
 
@@ -134,7 +140,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       constraints.addAttributeScopeConstraint(INSTITUTION_DESCRIPTION_EN, INSTITUTION_DESCRIPTION_NL, TECHNICAL_SUPPORTMAIL);
     }
     if (containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN)) {
-      constraints.addAttributeScopeConstraint(ENDUSER_DESCRIPTION_EN,ENDUSER_DESCRIPTION_NL );
+      constraints.addAttributeScopeConstraint(ENDUSER_DESCRIPTION_EN, ENDUSER_DESCRIPTION_NL);
     }
     sp.setConstraints(constraints);
   }
@@ -145,7 +151,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   }
 
   protected boolean isRoleIdPLicenseAdmin(Collection<CoinAuthority> authorities) {
-    return containsRole(authorities, ROLE_IDP_LICENSE_ADMIN) && !containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+    return containsRole(authorities, ROLE_IDP_LICENSE_ADMIN)
+        && !containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
   }
 
   protected boolean containsRole(Collection<CoinAuthority> coinAuthorities, Authority... authority) {

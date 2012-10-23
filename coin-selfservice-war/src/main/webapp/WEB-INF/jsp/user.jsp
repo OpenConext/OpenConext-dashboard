@@ -23,7 +23,7 @@
   <div class="column-center content-holder">
     <section class="data-table-holder">
 
-    <h3>${title}</h3>
+    <h1>${title}</h1>
 
     <sec:authentication property="principal.attributeMap" scope="request" var="attributeMap"/>
 
@@ -61,7 +61,7 @@
   
     <hr/>
   
-    <h3><spring:message code="jsp.role.title"/></h3>
+    <h1><spring:message code="jsp.role.title"/></h1>
   
     <p><spring:message code="jsp.role.information.header"/><p>
     <table class="table table-bordered table-striped table-above-pagination">
