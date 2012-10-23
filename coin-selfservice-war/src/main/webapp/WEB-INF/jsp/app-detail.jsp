@@ -81,10 +81,10 @@
     <c:if test="${applyAllowed}">
       <div class="license-connect">
         <c:choose>
-          <c:when test="${compoundSp.licenseAvailable}">
+          <c:when test="${compoundSp.articleAvailable}">
             <div class="license-available">
               <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
-              <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/></c:set>
+              <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
               <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
             </div>
           </c:when>

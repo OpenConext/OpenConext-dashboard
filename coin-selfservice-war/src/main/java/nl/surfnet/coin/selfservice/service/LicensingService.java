@@ -19,8 +19,8 @@ package nl.surfnet.coin.selfservice.service;
 import java.util.Date;
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 /**
@@ -30,19 +30,19 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 public interface LicensingService {
 
   /**
-   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid
+   * Gets a list with Articles with licenses for the given identityProvider and serviceProvider which are valid
    * today.
    * 
    * @param identityProvider
    *          the identityProvider to get the licenses for
    * @param serviceProvider
    *          the serviceProvider to get the licenses for
-   * @return a list of possible valid licenses
+   * @return a list of possible articles valid with licenses
    */
-  List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider);
+  List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider);
 
   /**
-   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid on
+   * Gets a list with Articles with Licenses for the given identityProvider and serviceProvider which are valid on
    * the given day
    * 
    * @param identityProvider
@@ -51,24 +51,24 @@ public interface LicensingService {
    *          the serviceProvider to get the licenses for
    * @param validOn
    *          Date on which the license should be valid
-   * @return a list of possible valid licenses
+   * @return a list of possible articles with valid licenses
    */
-  List<License> getLicensesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider, Date validOn);
+  List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider, Date validOn);
 
   /**
-   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid
+   * Gets a list with Articles with Licenses for the given identityProvider and serviceProvider which are valid
    * today.
    * 
    * @param identityProvider
    *          the identityProvider to get the licenses for
    * @param serviceProviders
    *          the serviceProviders to get the licenses for
-   * @return a list of possible valid licenses
+   * @return a list of possible articles with valid licenses
    */
-  List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders);
+  List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders);
 
   /**
-   * Gets a list with Licenses for the given identityProvider and serviceProvider which are valid on
+   * Gets a list with Articles with Licenses for the given identityProvider and serviceProvider which are valid on
    * the given day
    * 
    * @param identityProvider
@@ -77,7 +77,7 @@ public interface LicensingService {
    *          the serviceProviders to get the licenses for
    * @param validOn
    *          Date on which the license should be valid
-   * @return a list of possible valid licenses
+   * @return a list of possible articles with valid licenses
    */
-  List<License> getLicensesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders, Date validOn);
+  List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders, Date validOn);
 }

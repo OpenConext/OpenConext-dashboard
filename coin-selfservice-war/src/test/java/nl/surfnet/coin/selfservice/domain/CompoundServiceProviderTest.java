@@ -41,9 +41,9 @@ public class CompoundServiceProviderTest {
     serviceProvider.addDescription(Language.EN.name().toLowerCase(), "EN description");
     serviceProvider.setLogoUrl("http://png");
 
-    License license = new License();
+    Article article = new Article();
 
-    CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, license);
+    CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, article);
     Map<Key, String> values = provider.getDistributionFieldValues();
     String des = values.get(Key.ENDUSER_DESCRIPTION_EN);
     assertNull(des);

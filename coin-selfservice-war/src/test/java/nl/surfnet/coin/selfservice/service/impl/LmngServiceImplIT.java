@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.junit.Before;
@@ -64,11 +64,11 @@ public class LmngServiceImplIT {
     Date date = new Date();
     IdentityProvider identityProvider = new IdentityProvider("mock-institution-id", "mock-institution-id", "testName");
     ServiceProvider serviceProvider = new ServiceProvider("http://www.google.com");
-    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, date);
+    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, date);
 
-    assertEquals("Incorrect number of results", 1, licenses.size());
-    assertEquals("Incorrect name for IDP", "Open Universiteit Nederland", licenses.get(0).getIdentityName());
-    assertEquals("Incorrect name for product", "Google Apps Education Edition", licenses.get(0).getProductName());
+    assertEquals("Incorrect number of results", 1, articles.size());
+    assertEquals("Incorrect name for IDP", "Open Universiteit Nederland", articles.get(0).getInstitutionName());
+    assertEquals("Incorrect name for product", "Google Apps Education Edition", articles.get(0).getServiceDescriptionNl());
   }
 
   // we us this for a local integration test only
@@ -83,12 +83,12 @@ public class LmngServiceImplIT {
     sps.add(new ServiceProvider("Greencloud"));
     sps.add(new ServiceProvider("EDUgroepen"));
     
-    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
+    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
 
-    assertEquals("Incorrect number of results", 2, licenses.size());
-    assertEquals("Incorrect name for IDP", "SURFmarket", licenses.get(0).getIdentityName());
-    assertEquals("Incorrect name for product", "EDUgroepen", licenses.get(0).getProductName());
-    assertEquals("Incorrect name for product", "Greencloud", licenses.get(1).getProductName());
+    assertEquals("Incorrect number of results", 2, articles.size());
+    assertEquals("Incorrect name for IDP", "SURFmarket", articles.get(0).getInstitutionName());
+    assertEquals("Incorrect name for product", "EDUgroepen", articles.get(0).getServiceDescriptionNl());
+    assertEquals("Incorrect name for product", "Greencloud", articles.get(1).getServiceDescriptionNl());
   }
 
   // we us this for a local integration test only
@@ -103,12 +103,12 @@ public class LmngServiceImplIT {
     sps.add(new ServiceProvider("Greencloud"));
     sps.add(new ServiceProvider("EDUgroepen"));
     
-    List<License> licenses = lmngServiceImpl.getLicensesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
+    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
 
-    assertEquals("Incorrect number of results", 2, licenses.size());
-    assertEquals("Incorrect name for IDP", "SURFnet bv", licenses.get(0).getIdentityName());
-    assertEquals("Incorrect name for product", "Google Apps Education Edition", licenses.get(0).getProductName());
-    assertEquals("Incorrect name for product", "EDUgroepen", licenses.get(1).getProductName());
+    assertEquals("Incorrect number of results", 2, articles.size());
+    assertEquals("Incorrect name for IDP", "SURFnet bv", articles.get(0).getInstitutionName());
+    assertEquals("Incorrect name for product", "Google Apps Education Edition", articles.get(0).getServiceDescriptionNl());
+    assertEquals("Incorrect name for product", "EDUgroepen", articles.get(1).getServiceDescriptionNl());
   }
 
   

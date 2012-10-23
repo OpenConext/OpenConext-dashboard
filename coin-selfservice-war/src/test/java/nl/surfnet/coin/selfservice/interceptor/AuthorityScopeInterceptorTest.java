@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
@@ -35,7 +36,6 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.ContactPerson;
 import nl.surfnet.coin.selfservice.domain.ContactPersonType;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
@@ -140,7 +140,7 @@ public class AuthorityScopeInterceptorTest {
   private CompoundServiceProvider buildCompoundSeriveProvider() {
     ServiceProvider serviceProvider = new ServiceProvider(null);
     serviceProvider.addContactPerson(new ContactPerson(ContactPersonType.technical, "we.dont.want.regular.user.to.see.this@wgaf"));
-    CompoundServiceProvider sp = CompoundServiceProvider.builder(serviceProvider, new License());
+    CompoundServiceProvider sp = CompoundServiceProvider.builder(serviceProvider, new Article());
     return sp;
   }
 

@@ -76,7 +76,7 @@ public class CompoundServiceProvider extends DomainObject {
   private ServiceProvider serviceProvider;
 
   @Transient
-  private License license;
+  private Article article;
 
   @Column
   private String serviceProviderEntityId;
@@ -98,9 +98,9 @@ public class CompoundServiceProvider extends DomainObject {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
   private Set<Screenshot> screenShotsImages = new HashSet<Screenshot>();
 
-  public static CompoundServiceProvider builder(ServiceProvider serviceProvider, License license) {
+  public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Article article) {
     Assert.notNull(serviceProvider);  
-    Assert.notNull(license);  
+    Assert.notNull(article);  
     
     byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
     byte[] detailLogoImageBytes = getImageBytesFromClasspath("500x300.png");
@@ -109,19 +109,19 @@ public class CompoundServiceProvider extends DomainObject {
 
     CompoundServiceProvider provider = new CompoundServiceProvider();
     provider.setServiceProvider(serviceProvider);
-    provider.setLicense(license);
+    provider.setArticle(article);
 
     buildFieldImage(Key.APPSTORE_LOGO, null, null, appStoreLogoImageBytes, provider);
     buildFieldString(Key.APP_URL, null, serviceProvider.getHomeUrl(), todo, provider);
-    buildFieldImage(Key.DETAIL_LOGO, license.getDetailLogo(), serviceProvider.getLogoUrl(), detailLogoImageBytes, provider);
+    buildFieldImage(Key.DETAIL_LOGO, article.getDetailLogo(), serviceProvider.getLogoUrl(), detailLogoImageBytes, provider);
     buildFieldString(Key.ENDUSER_DESCRIPTION_EN, null, serviceProvider.getDescription(Language.EN), todo, provider);
-    buildFieldString(Key.ENDUSER_DESCRIPTION_NL, license.getEndUserDescriptionNl(), serviceProvider.getDescription(Language.NL), todo,
+    buildFieldString(Key.ENDUSER_DESCRIPTION_NL, article.getEndUserDescriptionNl(), serviceProvider.getDescription(Language.NL), todo,
         provider);
     buildFieldString(Key.EULA_URL, null, serviceProvider.getEulaURL(), todo, provider);
     buildFieldString(Key.INSTITUTION_DESCRIPTION_EN, null, null, todo, provider);
-    buildFieldString(Key.INSTITUTION_DESCRIPTION_NL, license.getInstitutionDescriptionNl(), null, todo, provider);
+    buildFieldString(Key.INSTITUTION_DESCRIPTION_NL, article.getInstitutionDescriptionNl(), null, todo, provider);
     buildFieldString(Key.SERVICE_DESCRIPTION_EN, null, serviceProvider.getName(Language.EN), todo, provider);
-    buildFieldString(Key.SERVICE_DESCRIPTION_NL, license.getServiceDescriptionNl(), serviceProvider.getName(Language.NL), todo, provider);
+    buildFieldString(Key.SERVICE_DESCRIPTION_NL, article.getServiceDescriptionNl(), serviceProvider.getName(Language.NL), todo, provider);
     buildFieldString(Key.SERVICE_URL, null, serviceProvider.getUrl(), todo, provider);
     buildFieldString(Key.SUPPORT_MAIL, null, getMail(serviceProvider, ContactPersonType.help), todo, provider);
     buildFieldString(Key.SUPPORT_URL, null, serviceProvider.getUrl(), todo, provider);
@@ -158,10 +158,6 @@ public class CompoundServiceProvider extends DomainObject {
 
   public ServiceProvider getSp() {
     return serviceProvider;
-  }
-
-  public License getLs() {
-    return license;
   }
 
   public String getServiceProviderEntityId() {
@@ -396,13 +392,13 @@ public class CompoundServiceProvider extends DomainObject {
   private Object getLmngProperty(Key key) {
     switch (key) {
     case ENDUSER_DESCRIPTION_NL:
-      return this.license.getEndUserDescriptionNl();
+      return this.article.getEndUserDescriptionNl();
     case INSTITUTION_DESCRIPTION_NL:
-      return this.license.getInstitutionDescriptionNl();
+      return this.article.getInstitutionDescriptionNl();
     case SERVICE_DESCRIPTION_NL:
-      return this.license.getServiceDescriptionNl();
+      return this.article.getServiceDescriptionNl();
     case DETAIL_LOGO:
-      return this.license.getDetailLogo();
+      return this.article.getDetailLogo();
     default:
       throw new RuntimeException("LMNG does not support property: " + key);
     }
@@ -435,17 +431,17 @@ public class CompoundServiceProvider extends DomainObject {
     this.serviceProviderEntityId = serviceProvider.getId();
   }
 
-  public License getLicense() {
-    return license;
+  public Article getArticle() {
+    return article;
   }
 
-  public void setLicense(License license) {
-    this.license = license;
-    this.lmngId = license.getLmngIdentifier();
+  public void setArticle(Article article) {
+    this.article = article;
+    this.lmngId = article.getLmngIdentifier();
   }
 
-  public boolean isLicenseAvailable() {
-    return getLicense() != null && StringUtils.isNotBlank(getLicense().getLmngIdentifier());
+  public boolean isArticleAvailable() {
+    return getArticle() != null;
   }
   
   private void setServiceProviderEntityId(String serviceProviderEntityId) {
