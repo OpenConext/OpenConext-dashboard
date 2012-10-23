@@ -27,7 +27,7 @@
     float: left
     height: 127px
     overflow: hidden
-    padding: 22px 20px 22px 114px
+    padding: 22px 30px 22px 114px
     position: relative
     width: 33%
 
@@ -44,6 +44,18 @@
       position: absolute
       right: 10px
       top: 20px
+
+    &.licensed:after
+      color: #999
+      content: '\f07a'
+      font-family: FontAwesome
+      position: absolute
+      right: 10px
+      top: 20px
+
+    &.connected.licensed:after
+      content: '\f07a\A\f046'
+      white-space: pre
 
     h2
       font: bold 14px 'Helvetica Neue', Helvetica, Arial, sans-serif
@@ -148,6 +160,14 @@
       +background(linear-gradient(#D8D8D8, #CCC), #D0D0D0)
       color: mix(#52B2D2, #000, 90%)
       text-shadow: 0 0 0.2em rgba(255, 255, 255, 0.5)
+
+  i,
+  a:hover i
+    text-decoration: none
+
+    &:before
+      color: #777
+
 
   li:first-child a
     +border-left-radius(5em)
