@@ -117,6 +117,8 @@ public class LmngServiceImpl implements LicensingService {
   private KeyStore keyStore;
   private KeyStore trustStore;
   private String keystorePassword;
+  private boolean activeMode;
+  
 
   @Override
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider) {
@@ -459,5 +461,13 @@ public class LmngServiceImpl implements LicensingService {
       log.debug("Failed to write input/output file. " + e.getMessage());
     }
 
+  }
+
+  public void setActiveMode(boolean activeMode) {
+    this.activeMode = activeMode;
+  }
+
+  public boolean isActiveMode() {
+    return activeMode;
   }
 }

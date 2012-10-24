@@ -95,13 +95,6 @@ public class CompoundSPServiceTest {
   }
 
   @Test
-  public void testCreateCompoundServiceProvider() throws Exception {
-    ServiceProvider sp1 = new ServiceProvider("spId1");
-    cspService.createCompoundServiceProvider(sp1);
-    verify(compoundServiceProviderDao, times(1)).saveOrUpdate(any(CompoundServiceProvider.class));
-  }
-
-  @Test
   public void testGetCSPById() throws Exception {
     List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
     ServiceProvider sp1 = new ServiceProvider("spId1");

@@ -42,6 +42,7 @@ public class LmngServiceMock implements LicensingService {
   private KeyStore keyStore;
   private KeyStore trustStore;
   private String keystorePassword;
+  private boolean activeMode;
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
@@ -62,12 +63,14 @@ public class LmngServiceMock implements LicensingService {
   @Override
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders) {
+    invariant();
     return this.articles;
   }
 
   @Override
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
+    invariant();
     return this.articles;
   }
 
@@ -82,6 +85,7 @@ public class LmngServiceMock implements LicensingService {
   @Override
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
       ServiceProvider serviceProvider) {
+    invariant();
     return this.articles;
   }
 
@@ -96,6 +100,7 @@ public class LmngServiceMock implements LicensingService {
   @Override
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
       ServiceProvider serviceProvider, Date validOn) {
+    invariant();
     return this.articles;
   }
 
@@ -125,6 +130,21 @@ public class LmngServiceMock implements LicensingService {
 
   public void setKeystorePassword(String keystorePassword) {
     this.keystorePassword = keystorePassword;
+  }
+
+  public void setActiveMode(boolean activeMode) {
+    this.activeMode = activeMode;
+  }
+  
+  public boolean isActiveMode() {
+    return activeMode;
+  }
+
+  private void invariant() {
+    if (!activeMode) {
+      throw new RuntimeException(this.getClass().getSimpleName() + " is not active. No calls can be made");
+    }
+    
   }
 
 }

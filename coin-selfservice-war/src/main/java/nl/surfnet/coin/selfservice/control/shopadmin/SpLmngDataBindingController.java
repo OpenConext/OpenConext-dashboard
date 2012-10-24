@@ -33,6 +33,7 @@ import nl.surfnet.coin.selfservice.domain.FieldString;
 import nl.surfnet.coin.selfservice.domain.Screenshot;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,9 @@ public class SpLmngDataBindingController extends BaseController {
   private CompoundServiceProviderDao compoundServiceProviderDao;
 
   @Resource
+  private CompoundSPService compoundSPService;
+
+  @Resource
   private FieldStringDao fieldStringDao;
 
   @Resource
@@ -73,7 +77,9 @@ public class SpLmngDataBindingController extends BaseController {
   public ModelAndView get(@RequestParam("spEntityId") String entityId) {
     ServiceProvider serviceProvider = sps.getServiceProvider(entityId);
     Assert.notNull(serviceProvider, "No such SP with entityId: " + entityId);
-
+    
+    //compoundSPService.getCSPById(idp, compoundSpId)
+    //TODO don't use the dao, but use the compundSPService which enriches a compoundServiceProvider
     CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
 
     if (compoundServiceProvider == null) {

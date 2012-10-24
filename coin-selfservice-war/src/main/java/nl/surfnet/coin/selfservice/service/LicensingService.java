@@ -80,4 +80,12 @@ public interface LicensingService {
    * @return a list of possible articles with valid licenses
    */
   List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders, Date validOn);
+  
+  /**
+   * Is the LMNG service active? If not then no calls should be made and the entire distribution channel runs without license / article information from LMNG.
+   * 
+   * @return whether the LicensingService is active
+   */
+  public boolean isActiveMode() ;
+
 }

@@ -176,6 +176,7 @@
     <property name="keyStore" ref="lmngKeystore" />
     <property name="trustStore" ref="lmngTruststore" />
     <property name="keystorePassword" value="${coin-lmngClientCertificatePassword}"/>
+    <property name="activeMode" value="${coin-lmng-active-mode}"/>
   </bean>
 
   <bean id="personAttributeLabelService"

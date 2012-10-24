@@ -72,11 +72,12 @@ public class CompoundSPService {
       CompoundServiceProvider csp;
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
         csp = mapByServiceProviderEntityId.get(sp.getId());
+        csp.setServiceProvider(sp);
+        csp.setArticle(getArticle(identityProvider, sp));
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
-        csp = createCompoundServiceProvider(sp);
+        csp = createCompoundServiceProvider(identityProvider, sp);
       }
-      enrich(identityProvider, csp, sp);
       all.add(csp);
     }
     return all;
@@ -89,8 +90,8 @@ public class CompoundSPService {
    *          the SP
    * @return the created (and persisted) CSP
    */
-  public CompoundServiceProvider createCompoundServiceProvider(ServiceProvider sp) {
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, new Article());
+  private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, getArticle(idp, sp));
     compoundServiceProviderDao.saveOrUpdate(csp);
     return csp;
   }
@@ -114,41 +115,39 @@ public class CompoundSPService {
    */
   public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId) {
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
-    enrich(idp, csp, null);
+    ServiceProvider sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
+    if (sp == null) {
+      //TODO how to handle this. The SP does not exists anymore, we should delete the 
+      LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
+      return csp;
+    }
+    csp.setServiceProvider(sp);
+    csp.setArticle(getArticle(idp, sp)) ; 
     return csp;
   }
 
   /**
-   * Enrich a CSP with article/license data and the underlying service provider.
+   * Get the Article for a CSP 
    *
-   * @param idp the IDP for whom this CSP is enriched (licenses are Idp specific)
-   * @param csp the CSP to be enriched.
-   * @param sp the SP in case it is known. Otherwise (leave it null) it will be retrieved from the underlying ServiceProviderService
+   * @param idp the IDP for which Article is returned (licenses are Idp specific)
+   * @param sp the SP 
    * 
-   * @param idp
-   *          the IDP for whom this CSP is enriched (licences are Idp specific)
-   * @param csp
-   *          the CSP to be enriched.
    */
-  protected void enrich(IdentityProvider idp, CompoundServiceProvider csp, ServiceProvider sp) {
-    if (sp == null) {
-      sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
-    }
-    if (sp == null) {
-      LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
-    } else {
-      csp.setServiceProvider(sp);
-    }
-
-    List<Article> articles = licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, csp.getServiceProvider());
+  private Article getArticle(IdentityProvider idp, ServiceProvider sp) {
+    if (!licensingService.isActiveMode()) {
+      LOG.info("Returning Article.NONE because licensingService is inactive");
+      return Article.NONE;
+    }     
+    List<Article> articles = licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, sp);
     if (articles.isEmpty()) {
-      LOG.debug("No article for idp {} and SP {}", idp.getId(), csp.getServiceProvider().getId());
+      LOG.debug("No article for idp {} and SP {}", idp.getId(), sp.getId());
+      return Article.NONE;
     } else {
-      csp.setArticle(articles.get(0));
       if (articles.size() > 1) {
         LOG.info("Multiple articles found for idp {} and SP {}: {}",
-            new Object[] { idp.getId(), csp.getServiceProvider().getId(), articles.size() });
+            new Object[] { idp.getId(), sp.getId(), articles.size() });
       }
+      return articles.get(0); 
     }
   }
 }
