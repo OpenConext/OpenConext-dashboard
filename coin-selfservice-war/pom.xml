@@ -388,7 +388,7 @@
             <goals>
               <goal>exec</goal>
             </goals>
-            <phase>package</phase>
+            <phase>compile</phase>
           </execution>
         </executions>
         <configuration>

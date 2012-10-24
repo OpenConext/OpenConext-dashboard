@@ -35,12 +35,6 @@ import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
@@ -82,7 +76,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * Implementation of a licensing service that get's it information from a
@@ -130,7 +123,7 @@ public class LmngServiceImpl implements LicensingService {
   private KeyStore trustStore;
   private String keystorePassword;
   private boolean activeMode;
-  
+
   @Override
   @Cacheable("selfserviceDefault")
   public Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
@@ -160,14 +153,14 @@ public class LmngServiceImpl implements LicensingService {
       }
 
       // call the webservice
-      InputStream webserviceResult = getWebServiceResult(soapRequest);
-
+      String webserviceResult = getWebServiceResult(soapRequest);
       // read/parse the XML response to License objects
       return parseResult(webserviceResult);
     } catch (Exception e) {
-      log.error("Exception while reading license", e);
-      throw new RuntimeException("License retrieval exception", e);
+      log.error("Exception while retrieving article/license", e);
+      // TODO error mail, we only expect one
     }
+    return null;
   }
 
   @Override
@@ -186,23 +179,20 @@ public class LmngServiceImpl implements LicensingService {
         }
 
         // call the webservice
-        InputStream webserviceResult = getWebServiceResult(soapRequest);
-
+        String webserviceResult = getWebServiceResult(soapRequest);
         // read/parse the XML response to License objects
         return parseResult(webserviceResult);
       } catch (Exception e) {
-        log.error("Exception while reading license", e);
-        throw new RuntimeException("License retrieval exception", e);
+        log.error("Exception while retrieving article", e);
+        // TODO error mail, we only expect one
       }
-
-      
     }
-
     return result;
   }
-  
+
   /**
-   * This method tries to parse the result into Article objects with possible licenses
+   * This method tries to parse the result into Article objects with possible
+   * licenses
    * 
    * @param webserviceResult
    * @throws ParserConfigurationException
@@ -210,73 +200,53 @@ public class LmngServiceImpl implements LicensingService {
    * @throws SAXException
    * @throws ParseException
    */
-  private Article parseResult(InputStream webserviceResult) throws ParserConfigurationException, SAXException, IOException,
-      ParseException {
+  private Article parseResult(String webserviceResult) throws ParserConfigurationException, SAXException, IOException, ParseException {
     List<Article> resultList = new ArrayList<Article>();
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-    try {
-      Document doc = docBuilder.parse(webserviceResult);
-      Element documentElement = doc.getDocumentElement();
+    InputStream inputStream = IOUtils.toInputStream(webserviceResult);
+    Document doc = docBuilder.parse(inputStream);
+    Element documentElement = doc.getDocumentElement();
 
-      String fetchResultString = getFirstSubElementStringValue(documentElement, RESULT_ELEMENT);
-      if (fetchResultString == null) {
-        log.warn("Webservice response did not contain a 'GetDataResult' element. Empty response, please contact LMNG webservice admin");
-        try {
-          TransformerFactory tfactory = TransformerFactory.newInstance();
-          Transformer xform = tfactory.newTransformer();
-          Source src = new DOMSource(doc);
-          StringWriter writer = new StringWriter();
-          Result result = new StreamResult(writer);
-          xform.transform(src, result);
-          String responseText = writer.toString();
-          writeIO("lmngFailedResponse", responseText);
-          log.debug("Response:\n" + responseText);
-        } catch (Exception e) {
-          log.debug("Unable to read response");
-        }
+    String fetchResultString = getFirstSubElementStringValue(documentElement, RESULT_ELEMENT);
+    if (fetchResultString == null) {
+      log.warn("Webservice response did not contain a 'GetDataResult' element. WebserviceResult:\n" + webserviceResult);
+    } else {
+      if (debug) {
+        writeIO("lmngFetchResponse", StringEscapeUtils.unescapeHtml(fetchResultString));
+      }
+      InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
+      Document fetchResultDocument = docBuilder.parse(fetchInputSource);
+      Element resultset = fetchResultDocument.getDocumentElement();
+
+      if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
+        log.warn("Webservice 'GetDataResult' element did not contain a 'resultset' element");
+
       } else {
-        if (debug) {
-          writeIO("lmngFetchResponse", StringEscapeUtils.unescapeHtml(fetchResultString));
-        }
-        InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
-        Document fetchResultDocument = docBuilder.parse(fetchInputSource);
-        Element resultset = fetchResultDocument.getDocumentElement();
+        NodeList results = resultset.getElementsByTagName("result");
 
-        if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
-          log.warn("Webservice 'GetDataResult' element did not contain a 'resultset' element");
+        int numberOfResults = results.getLength();
+        log.debug("Number of results in Fetch query:" + numberOfResults);
+        for (int i = 0; i < numberOfResults; i++) {
+          Node resultNode = results.item(i);
+          if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element resultElement = (Element) resultNode;
 
-        } else {
-          NodeList results = resultset.getElementsByTagName("result");
-
-          int numberOfResults = results.getLength();
-          log.debug("Number of results in Fetch query:" + numberOfResults);
-          for (int i = 0; i < numberOfResults; i++) {
-            Node resultNode = results.item(i);
-            if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
-              Element resultElement = (Element) resultNode;
-
-              resultList.add(createArticle(resultElement));
-            }
+            resultList.add(createArticle(resultElement));
           }
         }
       }
-    } catch (SAXParseException se) {
-      log.debug("Unable to parse response from LMNG webservice.", se);
-      StringWriter writer = new StringWriter();
-      IOUtils.copy(webserviceResult, writer);
-      log.debug("LMNG webservice response is:\n" + writer.toString());
     }
     if (resultList.size() > 1) {
-      //TODO error mail, we only expect one
-      return resultList.get(0);  
+      // TODO error mail, we only expect one
+      return resultList.get(0);
     } else if (resultList.isEmpty()) {
       return null;
     } else {
-      return resultList.get(0);  
+      return resultList.get(0);
     }
-    
+
   }
 
   private Article createArticle(Element resultElement) {
@@ -291,7 +261,7 @@ public class LmngServiceImpl implements LicensingService {
     article.setSpecialConditions(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SPECIAL_CONDITIONS));
     article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
     article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
-    
+
     String licenseNumber = getFirstSubElementStringValue(resultElement, FETCH_RESULT_LICENSE_NUMBER);
     if (licenseNumber != null) {
       License license = new License();
@@ -302,7 +272,7 @@ public class LmngServiceImpl implements LicensingService {
       license.setEndDate(endDate);
       article.addLicense(license);
     }
-    
+
     log.debug("Created new Article object:" + article.toString());
     return article;
   }
@@ -349,7 +319,7 @@ public class LmngServiceImpl implements LicensingService {
    * @throws UnrecoverableKeyException
    * @throws KeyManagementException
    */
-  private InputStream getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException, KeyManagementException,
+  private String getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException, KeyManagementException,
       UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
     log.debug("Calling the LMNG proxy webservice.");
     SchemeRegistry schemeRegistry = new SchemeRegistry();
@@ -374,8 +344,23 @@ public class LmngServiceImpl implements LicensingService {
     HttpResponse httpresponse = httpclient.execute(httppost);
     HttpEntity output = httpresponse.getEntity();
 
-    log.debug("Done calling the LMNG proxy webservice. Response:" + httpresponse);
-    return output.getContent();
+    // Continue only if we have a successful response (code 200)
+    int status = httpresponse.getStatusLine().getStatusCode();
+    // Get String representation of response
+    StringWriter writer = new StringWriter();
+    IOUtils.copy(output.getContent(), writer);
+    String response = writer.toString();
+
+    if (debug) {
+      writeIO("lmngWsResponseStatus" + status, StringEscapeUtils.unescapeHtml(response));
+    }
+    log.warn("LMNG proxy webservice called. Http response:" + httpresponse);
+
+    if (status != 200) {
+      log.debug("LMNG webservice response content is:\n" + response);
+      throw new RuntimeException("Invalid response from LMNG webservice. Http response " + httpresponse);
+    }
+    return response;
   }
 
   /**

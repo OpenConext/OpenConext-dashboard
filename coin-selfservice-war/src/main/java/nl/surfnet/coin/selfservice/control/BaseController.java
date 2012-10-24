@@ -22,20 +22,14 @@ import java.util.Locale;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
-
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.Menu;
-import nl.surfnet.coin.selfservice.domain.MenuItem;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 /**
  * Abstract controller used to set model attributes to the request
@@ -67,6 +61,11 @@ public abstract class BaseController {
    * The name of the key under which we store the info if a logged user is allowed to filter in the app grid
    */
   public static final String FILTER_APP_GRID_ALLOWED = "filterAppGridAllowed";
+
+  /**
+   * The name of the key that defines whether a deeplink to SURFMarket should be shown.
+   */
+  public static final String DEEPLINK_TO_SURFMARKET_ALLOWED = "deepLinkToSurfMarketAllowed";
 
   /**
    * The name of the key under which we store the info if LMNG is active (e.g. we use License Info)

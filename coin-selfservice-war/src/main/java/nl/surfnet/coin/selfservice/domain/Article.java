@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,8 @@ import java.util.List;
  * Article information. An article is our LMNG implementation of a service.
  * 
  */
-public class Article {
+@SuppressWarnings("serial")
+public class Article implements Serializable {
 
   /*
    * Optional pattern applied to prevent many, many nullpointer checks and exceptions

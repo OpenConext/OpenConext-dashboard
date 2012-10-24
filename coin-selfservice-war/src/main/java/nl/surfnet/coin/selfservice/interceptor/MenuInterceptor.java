@@ -19,8 +19,6 @@ package nl.surfnet.coin.selfservice.interceptor;
 import java.util.Collection;
 import java.util.List;
 
-import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,7 +36,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 /**
  * Interceptor to add the menu
  */
-public class MenuInterceptor extends HandlerInterceptorAdapter {
+public class MenuInterceptor extends LmngActiveAwareInterceptor {
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
@@ -46,7 +44,6 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
-//TODO
       boolean lmngActiveMode = true;
       Menu menu = createMenu(lmngActiveMode);
       setSelected(request, menu);

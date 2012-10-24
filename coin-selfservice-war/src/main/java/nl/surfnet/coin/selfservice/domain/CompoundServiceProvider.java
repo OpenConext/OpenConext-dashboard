@@ -440,7 +440,9 @@ public class CompoundServiceProvider extends DomainObject {
 
   public void setArticle(Article article) {
     this.article = article;
-    this.lmngId = article.getLmngIdentifier();
+    if (this.article != null) {
+      this.lmngId = article.getLmngIdentifier();
+    }
   }
 
   public boolean isArticleAvailable() {
