@@ -16,6 +16,8 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,14 +78,14 @@ public class LmngServiceImplIT {
   @Ignore
   public void testRetrieveLmngGoogleEdugroepGreencloudSurfMarket() throws IOException {
     Date date = new Date();
-    IdentityProvider surfMarket = new IdentityProvider("SURFmarket", "SURFmarket", "testName");
+    IdentityProvider idp = new IdentityProvider("SURFmarket", "SURFmarket", "testName");
     
     List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
     sps.add(new ServiceProvider("http://www.google.com"));
     sps.add(new ServiceProvider("Greencloud"));
     sps.add(new ServiceProvider("EDUgroepen"));
     
-    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
+    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProviders(idp, sps, date);
 
     assertEquals("Incorrect number of results", 2, articles.size());
     assertEquals("Incorrect name for IDP", "SURFmarket", articles.get(0).getInstitutionName());
@@ -96,19 +98,33 @@ public class LmngServiceImplIT {
   @Ignore
   public void testRetrieveLmngGoogleEdugroepGreencloudSurfNet() throws IOException {
     Date date = new Date();
-    IdentityProvider surfMarket = new IdentityProvider("SURFnet", "SURFnet", "testName");
+    IdentityProvider idp = new IdentityProvider("SURFnet", "SURFnet", "testName");
     
     List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
     sps.add(new ServiceProvider("http://www.google.com"));
     sps.add(new ServiceProvider("Greencloud"));
     sps.add(new ServiceProvider("EDUgroepen"));
     
-    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProviders(surfMarket, sps, date);
+    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProviders(idp, sps, date);
 
     assertEquals("Incorrect number of results", 2, articles.size());
     assertEquals("Incorrect name for IDP", "SURFnet bv", articles.get(0).getInstitutionName());
     assertEquals("Incorrect name for product", "Google Apps Education Edition", articles.get(0).getServiceDescriptionNl());
     assertEquals("Incorrect name for product", "EDUgroepen", articles.get(1).getServiceDescriptionNl());
+  }
+
+  // we us this for a local integration test only
+  @Test
+  @Ignore
+  public void testRetrieveLmngGoogleServiceOnly() throws IOException {
+    ServiceProvider sp = new ServiceProvider("http://www.google.com");
+    
+    Article article = lmngServiceImpl.getArticleForServiceProvider(sp);
+
+    assertNotNull("Expected Article result", article);
+    assertNull("Expected no institution name", article.getInstitutionName());
+    assertEquals("Incorrect name for product", "Google Drive", article.getProductName());
+    assertEquals("Incorrect article id", "{8833CEAE-960C-E211-B6B9-005056950050}", article.getLmngIdentifier());
   }
 
   

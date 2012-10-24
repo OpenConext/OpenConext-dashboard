@@ -24,18 +24,15 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
-import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
@@ -72,9 +69,6 @@ public class ServiceDetailControllerTest {
 
   @Mock
   private OAuthTokenService oAuthTokenService;
-
-  @Mock
-  private LicensingService licensingService;
   
   @Mock
   private ConsentDao consentDao;
@@ -98,10 +92,8 @@ public class ServiceDetailControllerTest {
 
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
-    ServiceProvider sp = new ServiceProvider("mockSp");
     CompoundServiceProvider csp = new CompoundServiceProvider();
     when(compoundSPService.getCSPById(idp, 1L)).thenReturn(csp);
-    when(licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, sp)).thenReturn(new ArrayList<Article>());
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 
     OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");

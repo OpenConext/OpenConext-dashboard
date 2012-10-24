@@ -62,29 +62,7 @@ public class LmngServiceMock implements LicensingService {
 
   @Override
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders) {
-    invariant();
-    return this.articles;
-  }
-
-  @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
-    invariant();
-    return this.articles;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.LicensingService#
-   * getLicensesForIdentityProviderAndServiceProvider
-   * (nl.surfnet.coin.selfservice.domain.IdentityProvider,
-   * nl.surfnet.coin.selfservice.domain.ServiceProvider)
-   */
-  @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
-      ServiceProvider serviceProvider) {
     invariant();
     return this.articles;
   }
@@ -102,6 +80,12 @@ public class LmngServiceMock implements LicensingService {
       ServiceProvider serviceProvider, Date validOn) {
     invariant();
     return this.articles;
+  }
+
+  @Override
+  public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
+    invariant();
+    return this.articles.get(0);
   }
 
   private Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {

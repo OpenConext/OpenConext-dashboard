@@ -28,7 +28,6 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
@@ -58,9 +57,6 @@ public class ServiceDetailController extends BaseController {
 
   @Resource(name = "oAuthTokenService")
   private OAuthTokenService oAuthTokenService;
-
-  @Resource(name = "licensingService")
-  private LicensingService licensingService;
   
   @Autowired
   private ConsentDao consentDao;

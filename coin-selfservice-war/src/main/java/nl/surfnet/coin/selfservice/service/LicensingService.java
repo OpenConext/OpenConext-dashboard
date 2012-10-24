@@ -30,20 +30,8 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 public interface LicensingService {
 
   /**
-   * Gets a list with Articles with licenses for the given identityProvider and serviceProvider which are valid
-   * today.
-   * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @param serviceProvider
-   *          the serviceProvider to get the licenses for
-   * @return a list of possible articles valid with licenses
-   */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider);
-
-  /**
-   * Gets a list with Articles with Licenses for the given identityProvider and serviceProvider which are valid on
-   * the given day
+   * Gets a list with Articles with Licenses for the given identityProvider and
+   * serviceProvider which are valid on the given day
    * 
    * @param identityProvider
    *          the identityProvider to get the licenses for
@@ -53,23 +41,12 @@ public interface LicensingService {
    *          Date on which the license should be valid
    * @return a list of possible articles with valid licenses
    */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider, Date validOn);
+  List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
+      Date validOn);
 
   /**
-   * Gets a list with Articles with Licenses for the given identityProvider and serviceProvider which are valid
-   * today.
-   * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @param serviceProviders
-   *          the serviceProviders to get the licenses for
-   * @return a list of possible articles with valid licenses
-   */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders);
-
-  /**
-   * Gets a list with Articles with Licenses for the given identityProvider and serviceProvider which are valid on
-   * the given day
+   * Gets a list with Articles with Licenses for the given identityProvider and
+   * serviceProvider which are valid on the given day
    * 
    * @param identityProvider
    *          the identityProvider to get the licenses for
@@ -79,13 +56,29 @@ public interface LicensingService {
    *          Date on which the license should be valid
    * @return a list of possible articles with valid licenses
    */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider, List<ServiceProvider> serviceProviders, Date validOn);
-  
+  List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+      List<ServiceProvider> serviceProviders, Date validOn);
+
   /**
-   * Is the LMNG service active? If not then no calls should be made and the entire distribution channel runs without license / article information from LMNG.
+   * Is the LMNG service active? If not then no calls should be made and the
+   * entire distribution channel runs without license / article information from
+   * LMNG.
    * 
    * @return whether the LicensingService is active
    */
-  public boolean isActiveMode() ;
+  public boolean isActiveMode();
+
+  /**
+   * Get the Article belonging to te given serviceProvider. We assume we'll get
+   * just one article for one serviceprovider (first result). This article will
+   * NOT contain a License as this call does not depend on an IDP. This method
+   * can be used for retrieving Article information in admin pages or displaying
+   * IDP independent article information.
+   * 
+   * @param serviceProvider
+   *          the sp to get the article for
+   * @return the article found in LMNG or null
+   */
+  Article getArticleForServiceProvider(ServiceProvider serviceProvider);
 
 }

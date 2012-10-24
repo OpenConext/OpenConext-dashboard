@@ -54,9 +54,9 @@
               		<tags:providername provider="${binding.serviceProvider}"/>
               	</a></td>
               <td>
-  			  <form:form method="post" action="save-splmng.shtml" style="margin:0" cssClass="lmng-id-edit">
-              	<input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
-              	<input value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
+  			  <form:form id="form-${status.index}" method="post" action="save-splmng.shtml" style="margin:0" cssClass="lmng-id-edit">
+              	<input id="lmngId-${status.index}" value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
+              	<input id="spId-${status.index}" value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
                 <div class="btn-group">
                 	<button class="btn btn-small" type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');">
                     <i class="icon-ban-circle"></i>

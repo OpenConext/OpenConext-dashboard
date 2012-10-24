@@ -71,7 +71,9 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -100,14 +102,22 @@ public class LmngServiceImpl implements LicensingService {
   private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
   private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryConditionValue.xml";
+  private static final String PATH_FETCH_QUERY_ARTICLE_DETAILS = "lmngqueries/lmngQueryGetServiceDetails.xml";
 
   private static final String RESULT_ELEMENT = "GetDataResult";
-  private static final String FETCH_RESULT_PRODUCT_DESCRIPTION = "product.lmng_description";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
   private static final String FETCH_RESULT_VALID_TO = "license.lmng_validto";
-  private static final String FETCH_RESULT_IDENTITY_NAME = "name";
-  private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
+  private static final String FETCH_RESULT_LICENSE_NUMBER = "license.lmng_number";
   private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
+  private static final String FETCH_RESULT_ARTICLE_STATUS = "artikel.statuscode";
+  private static final String FETCH_RESULT_DESCRIPTION_ENDUSER = "artikel.lmng_surfspotdescriptionlong";
+  private static final String FETCH_RESULT_DESCRIPTION_INSTITUTION = "artikel.lmng_descriptionlong";
+  private static final String FETCH_RESULT_DESCRIPTION_SERVICE = "artikel.lmng_description";
+  private static final String FETCH_RESULT_DETAIL_LOGO = "image.lmng_url";
+  private static final String FETCH_RESULT_SPECIAL_CONDITIONS = "image.lmng_url";
+  private static final String FETCH_RESULT_LMNG_IDENTIFIER = "artikel.lmng_sdnarticleid";
+  private static final String FETCH_RESULT_INSTITUTION_NAME = "name";
+  private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -119,13 +129,8 @@ public class LmngServiceImpl implements LicensingService {
   private String keystorePassword;
   private boolean activeMode;
   
-
   @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider) {
-    return getLicenseArticlesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, new Date());
-  }
-
-  @Override
+  @Cacheable("selfserviceDefault")
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
     List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
@@ -134,12 +139,7 @@ public class LmngServiceImpl implements LicensingService {
   }
 
   @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders) {
-    return getLicenseArticlesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
-  }
-
-  @Override
+  @Cacheable("selfserviceDefault")
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     try {
@@ -154,9 +154,7 @@ public class LmngServiceImpl implements LicensingService {
       }
 
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequest(lmngInstitutionId, serviceIds, validOn);
-      if (soapRequest == null) {
-      }
+      String soapRequest = getLmngSoapRequestForIdpAndSp(lmngInstitutionId, serviceIds, validOn);
       if (debug) {
         writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -172,9 +170,42 @@ public class LmngServiceImpl implements LicensingService {
     }
   }
 
+  @Override
+  @Cacheable("selfserviceDefault")
+  public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
+    String serviceId = getLmngServiceId(serviceProvider);
+    Article result = null;
+
+    if (serviceId == null) {
+      log.info("No binding found for given SP. Unable to find article.");
+    } else {
+      try {
+        String soapRequest = getLmngSoapRequestForSp(serviceId);
+        if (debug) {
+          writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
+        }
+
+        // call the webservice
+        InputStream webserviceResult = getWebServiceResult(soapRequest);
+
+        // read/parse the XML response to License objects
+        List<Article> resulList = parseResult(webserviceResult);
+        if (resulList != null && resulList.size()>0) {
+          result = resulList.get(0);
+        }
+      } catch (Exception e) {
+        log.error("Exception while reading license", e);
+        throw new RuntimeException("License retrieval exception", e);
+      }
+
+      
+    }
+
+    return result;
+  }
+  
   /**
-   * This method tries to parse the result into License objects using XStream
-   * and the expected result format.
+   * This method tries to parse the result into Article objects with possible licenses
    * 
    * @param webserviceResult
    * @throws ParserConfigurationException
@@ -240,25 +271,34 @@ public class LmngServiceImpl implements LicensingService {
       IOUtils.copy(webserviceResult, writer);
       log.debug("LMNG webservice response is:\n" + writer.toString());
     }
-
     return resultList;
   }
 
   private Article createArticle(Element resultElement) {
     Article article = new Article();
-    License license = new License();
-    article.addLicense(license);
-    
-    article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-    article.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-    article.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_DESCRIPTION));
-    Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
-    license.setStartDate(startDate);
-    Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
-    license.setEndDate(endDate);
-    article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
+    article.setArticleState(getFirstSubElementStringValue(resultElement, FETCH_RESULT_ARTICLE_STATUS));
+    article.setDetailLogo(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DETAIL_LOGO));
+    article.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_ENDUSER));
+    article.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_INSTITUTION));
+    article.setInstitutionName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_INSTITUTION_NAME));
+    article.setLmngIdentifier(getFirstSubElementStringValue(resultElement, FETCH_RESULT_LMNG_IDENTIFIER));
+    article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_SERVICE));
+    article.setSpecialConditions(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SPECIAL_CONDITIONS));
     article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
-    log.debug("Created new License object:" + license.toString());
+    article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
+    
+    String licenseNumber = getFirstSubElementStringValue(resultElement, FETCH_RESULT_LICENSE_NUMBER);
+    if (licenseNumber != null) {
+      License license = new License();
+      license.setLicenseNumber(licenseNumber);
+      Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
+      license.setStartDate(startDate);
+      Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
+      license.setEndDate(endDate);
+      article.addLicense(license);
+    }
+    
+    log.debug("Created new Article object:" + article.toString());
     return article;
   }
 
@@ -377,7 +417,7 @@ public class LmngServiceImpl implements LicensingService {
     return result;
   }
 
-  private String getLmngSoapRequest(String institutionId, List<String> serviceIds, Date validOn) throws IOException {
+  private String getLmngSoapRequestForIdpAndSp(String institutionId, List<String> serviceIds, Date validOn) throws IOException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     // Get the soap/fetch envelope
@@ -403,6 +443,27 @@ public class LmngServiceImpl implements LicensingService {
     if (validOn != null) {
       query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
     }
+
+    // html encode the string
+    query = StringEscapeUtils.escapeHtml(query);
+
+    // Insert the query in the envelope and add a UID in the envelope
+    result = result.replaceAll(QUERY_PLACEHOLDER, query);
+    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
+    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+    return result;
+  }
+
+  private String getLmngSoapRequestForSp(String serviceId) throws IOException {
+    Assert.notNull(serviceId);
+    // Get the soap/fetch envelope
+    String result = getLmngRequestEnvelope();
+
+    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_DETAILS);
+
+    InputStream inputStream = queryResource.getInputStream();
+    String query = IOUtils.toString(inputStream);
+    query = query.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
 
     // html encode the string
     query = StringEscapeUtils.escapeHtml(query);
