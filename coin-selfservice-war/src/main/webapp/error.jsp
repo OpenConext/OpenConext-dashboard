@@ -1,3 +1,4 @@
+<%@ page isErrorPage="true" %>
 <%@ include file="WEB-INF/jsp/include.jsp"%>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
@@ -55,9 +56,41 @@
     <div class="column-center content-wrapper">
 
       <h1>SURFconext Self service</h1>
-      <p>An error occurred. Please try to reload the page or go to the <a href="<c:url value="/"/>">homepage</a>.</p>
+
+      <c:set var="endUserMessage">
+        <c:choose>
+          <c:when test="${pageContext.errorData.statusCode == 400}">Bad request. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+          <c:when test="${pageContext.errorData.statusCode == 403}">Access denied. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+          <c:when test="${pageContext.errorData.statusCode == 404}">Page not found. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+          <c:when test="${pageContext.errorData.statusCode == 500}">An error occurred. Please try to reload the page or go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+        </c:choose>
+      </c:set>
+
+      <p>${endUserMessage}</p>
+
+      <c:if test="${dev}">
+        <div class="well">
+        <h2>Details (shown only in dev mode)</h2>
+        <dl>
+          <dt>Requested uri</dt>
+          <dd>${pageContext.errorData.requestURI}</dd>
+          <dt>Servlet</dt>
+          <dd>${pageContext.errorData.servletName}</dd>
+          <dt>  Status code</dt>
+          <dd>${pageContext.errorData.statusCode}</dd>
+          <dt>Exception message</dt>
+          <dd>${pageContext.errorData.throwable.message}</dd>
+          <dt>Stacktrace</dt>
+          <c:forEach var="trace" items="${pageContext.errorData.throwable.stackTrace}">
+            <dd>${trace}</dd>
+          </c:forEach>
+        </dl>
+        </div>
+      </c:if>
     </div>
   </div>
+
+
   <footer>
     <div class="content-some-dense">
       SURFnet | T +31 302 305 305 | <a href="mailto:surfconext-beheer@surfnet.nl">surfconext-beheer@surfnet.nl</a>
