@@ -104,6 +104,12 @@ public class LmngServiceMock implements LicensingService {
     return this.articles;
   }
 
+  @Override
+  public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
+    invariant();
+    return this.articles.get(0);
+  }
+
   private Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {
     try {
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);

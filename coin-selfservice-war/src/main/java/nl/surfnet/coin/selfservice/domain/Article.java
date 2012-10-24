@@ -37,6 +37,7 @@ public class Article {
   private String institutionDescriptionNl;
   private String serviceDescriptionNl;
   private String supplierName;
+  private String productName;
   private String detailLogo;
   private String specialConditions;
   private String articleState;
@@ -249,6 +250,14 @@ public class Article {
     if (getLicence() != null) {
       getLicence().setInstitutionName(institutionName);
     }
+  }
+
+  public String getProductName() {
+    return productName;
+  }
+
+  public void setProductName(String productName) {
+    this.productName = productName;
   }
   
 }
