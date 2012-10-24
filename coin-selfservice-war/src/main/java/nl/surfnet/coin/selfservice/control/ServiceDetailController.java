@@ -35,6 +35,7 @@ import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonI
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +65,9 @@ public class ServiceDetailController extends BaseController {
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
+  @Value("${lmngDeepLinkBaseUrl}")
+  private String lmngDeepLinkBaseUrl;
+
   /**
    * Controller for detail page.
    *
@@ -89,6 +93,8 @@ public class ServiceDetailController extends BaseController {
     m.put("oAuthTokens", oAuthTokens);
 
     m.put("revoked", revoked);
+
+    m.put("lmngDeepLinkUrl", lmngDeepLinkBaseUrl);
 
     return new ModelAndView("app-detail", m);
   }

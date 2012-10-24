@@ -74,7 +74,6 @@
 
     <h1>${spname}</h1>
 
-    <c:if test="${applyAllowed}">
       <div class="license-connect">
         <c:choose>
           <c:when test="${compoundSp.articleAvailable}">
@@ -82,6 +81,11 @@
               <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
               <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
               <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
+
+              <c:if test="${deepLinkToSurfMarketAllowed}">
+                <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
+                <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
+              </c:if>
             </div>
           </c:when>
           <c:otherwise>
@@ -90,6 +94,9 @@
             </div>
           </c:otherwise>
         </c:choose>
+
+
+        <c:if test="${applyAllowed}">
         <c:choose>
           <c:when test="${not compoundSp.sp.linked}">
             <div class="service-not-connected">
@@ -104,8 +111,8 @@
             </div>
           </c:when>
         </c:choose>
+        </c:if>
       </div>
-    </c:if>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <%--span rel="tooltip" data-original-title="<spring:message code="jsp.app_detail.institution_description"/>"--%>
