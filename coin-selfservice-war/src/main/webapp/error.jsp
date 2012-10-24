@@ -56,7 +56,17 @@
     <div class="column-center content-wrapper">
 
       <h1>SURFconext Self service</h1>
-      <p>An error occurred. Please try to reload the page or go to the <a href="<c:url value="/"/>">homepage</a>.</p>
+
+      <c:set var="endUserMessage">
+        <c:choose>
+          <c:when test="${pageContext.errorData.statusCode == 400}">Bad request. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+          <c:when test="${pageContext.errorData.statusCode == 403}">Access denied. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+          <c:when test="${pageContext.errorData.statusCode == 404}">Page not found. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+          <c:when test="${pageContext.errorData.statusCode == 500}">An error occurred. Please try to reload the page or go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
+        </c:choose>
+      </c:set>
+
+      <p>${endUserMessage}</p>
 
       <c:if test="${dev}">
         <div class="well">
