@@ -65,17 +65,4 @@ public class HomeController extends BaseController {
     Map<String, Object> model = new HashMap<String, Object>();
     return new ModelAndView("user", model);
   }
-
-  @RequestMapping("/styleguide.shtml")
-  public ModelAndView styleguide() {
-    Map<String, Object> model = new HashMap<String, Object>();
-    return new ModelAndView("styleguide", model);
-  }
-
-  @RequestMapping("/form.shtml")
-  public ModelAndView styleguideForm() {
-    Map<String, Object> model = new HashMap<String, Object>();
-    return new ModelAndView("styleguide-form", model);
-  }
-
 }
