@@ -61,19 +61,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * href="https://wiki.surfnetlabs.nl/display/services/App-omschrijving">https
  * ://wiki.surfnetlabs.nl/display/services/App-omschrijving</a>
  */
-public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
+public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
 
   private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
-
-  private boolean isLmngActive;
-  
-  /**
-   * @param isLmngActive
-   */
-  public AuthorityScopeInterceptor(boolean isLmngActive) {
-    super();
-    this.isLmngActive = isLmngActive;
-  }
 
   @SuppressWarnings("unchecked")
   @Override
