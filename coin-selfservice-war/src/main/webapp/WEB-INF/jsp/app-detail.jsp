@@ -135,15 +135,11 @@
     </div>
     
     <c:set var="sp" value="${compoundSp.sp}" scope="request" />
-    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+    <div class="arp">
           <jsp:include page="requests/arp.jsp" />
     </div>
-    
-    <div>
-      
-    </div>
 
-    <div>
+<!--     <div>
       <c:if test="${applyAllowed}">
         <c:choose>
           <c:when test="${not compoundSp.sp.linked}">
@@ -173,7 +169,7 @@
            title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
         </a>
       </c:if>  
-    </div>
+    </div> -->
 
     <hr>
 

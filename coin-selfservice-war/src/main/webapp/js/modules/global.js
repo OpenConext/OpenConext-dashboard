@@ -14,6 +14,7 @@ app.global = function() {
         initTextSearch();
         initReadMore();
         initRequiredCheckbox();
+        initArp();
     };
 
     var initPlugins = function() {
@@ -159,6 +160,27 @@ app.global = function() {
                 }
             });
         });
+    };
+
+
+    var initArp = function() {
+        var elm = $('.arp'),
+            arpTrigger = null;
+
+        if (elm.length === 0) {
+            return;
+        }
+
+        function openArp(e) {
+            e.preventDefault();
+
+            elm.removeClass('hide');
+            arpTrigger.addClass('hide');
+        }
+
+        elm.addClass('hide').before('<a class="btn btn-small arp-trigger" href="#"><i class="icon-upload-alt"></i> Attributen die worden gedeeld</a>');
+
+        arpTrigger = $('.arp-trigger').on('click', openArp);
     };
 
 
