@@ -57,23 +57,15 @@
           </a>
         </li>
       </c:if>
-      <c:if test="${(not empty compoundSp.technicalSupportMail) || (not empty compoundSp.supportMail)}"> 
-        </ul>
+      </ul>
+      <c:if test="${not empty compoundSp.supportMail}">
         <ul class="action-list email-addresses">
-      </c:if>
-      <c:if test="${not empty compoundSp.technicalSupportMail}">  
-        <li>
-          <spring:message code="jsp.app_detail.technical_email" />
-          <a href="mailto:<c:out value="${compoundSp.technicalSupportMail}"/>"><c:out value="${compoundSp.technicalSupportMail}"/></a>
-        </li>
-      </c:if>
-      <c:if test="${not empty compoundSp.supportMail}">  
         <li>
           <spring:message code="jsp.app_detail.support_email" />
           <a href="mailto:<c:out value="${compoundSp.supportMail}"/>"><c:out value="${compoundSp.supportMail}"/></a>
         </li>
+      </ul>
       </c:if>
-    </ul>
   </section>
 </div>
 
