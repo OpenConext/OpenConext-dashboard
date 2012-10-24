@@ -36,6 +36,9 @@ coin-eb-db-url=jdbc:mysql://db.dev.surfconext.nl:3306/eb
 coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
+#set to false to go to the surfconext version without licenses
+coin-lmng-active-mode=true
+
 coin-lmng-endpoint=https://lmng01.dev.coin.surf.net:8444/CrmService.svc
 coin-lmng-debug=true
 coin-lmngClientCertificatePassword=??

@@ -53,6 +53,7 @@ import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -74,6 +75,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -131,26 +133,24 @@ public class LmngServiceImpl implements LicensingService {
   
   @Override
   @Cacheable("selfserviceDefault")
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
+  public Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
     List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
     serviceProviders.add(serviceProvider);
-    return getLicenseArticlesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
+    return getArticleForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
   }
 
   @Override
   @Cacheable("selfserviceDefault")
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public Article getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     try {
       String lmngInstitutionId = getLmngIdentityId(identityProvider);
       List<String> serviceIds = getLmngServiceIds(serviceProviders);
 
       // validation, we need an institutionId and at least one serviceId
-      if (lmngInstitutionId == null || serviceIds.size() == 0) {
-        log.info("No valid parameters for LMNG information for identityProvider " + identityProvider + " and serviceProviders "
-            + serviceProviders + " and date " + validOn + ". Possibly no binding found");
-        return new ArrayList<Article>();
+      if (StringUtils.isBlank(lmngInstitutionId) || CollectionUtils.isEmpty(serviceIds)) {
+        return null;
       }
 
       // get the file with the soap request
@@ -189,10 +189,7 @@ public class LmngServiceImpl implements LicensingService {
         InputStream webserviceResult = getWebServiceResult(soapRequest);
 
         // read/parse the XML response to License objects
-        List<Article> resulList = parseResult(webserviceResult);
-        if (resulList != null && resulList.size()>0) {
-          result = resulList.get(0);
-        }
+        return parseResult(webserviceResult);
       } catch (Exception e) {
         log.error("Exception while reading license", e);
         throw new RuntimeException("License retrieval exception", e);
@@ -213,7 +210,7 @@ public class LmngServiceImpl implements LicensingService {
    * @throws SAXException
    * @throws ParseException
    */
-  private List<Article> parseResult(InputStream webserviceResult) throws ParserConfigurationException, SAXException, IOException,
+  private Article parseResult(InputStream webserviceResult) throws ParserConfigurationException, SAXException, IOException,
       ParseException {
     List<Article> resultList = new ArrayList<Article>();
 
@@ -271,7 +268,15 @@ public class LmngServiceImpl implements LicensingService {
       IOUtils.copy(webserviceResult, writer);
       log.debug("LMNG webservice response is:\n" + writer.toString());
     }
-    return resultList;
+    if (resultList.size() > 1) {
+      //TODO error mail, we only expect one
+      return resultList.get(0);  
+    } else if (resultList.isEmpty()) {
+      return null;
+    } else {
+      return resultList.get(0);  
+    }
+    
   }
 
   private Article createArticle(Element resultElement) {

@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * Abstraction for the Compound Service Providers. This deals with persistence
@@ -118,37 +119,60 @@ public class CompoundSPService {
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
     ServiceProvider sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
     if (sp == null) {
-      //TODO how to handle this. The SP does not exists anymore, we should delete the 
-      LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
+      // TODO how to handle this. The SP does not exists anymore, we should
+      // delete the
+      LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.",
+          csp.getServiceProviderEntityId());
       return csp;
     }
     csp.setServiceProvider(sp);
-    csp.setArticle(getArticle(idp, sp)) ; 
+    csp.setArticle(getArticle(idp, sp));
     return csp;
   }
 
   /**
-   * Get the current Article for a CSP 
-   *
-   * @param idp the IDP for which Article is returned (licenses are Idp specific)
-   * @param sp the SP 
+   * Get a CSP by its ServiceProvider
+   * 
+   * @param serviceProviderEntityId
+   *          the ServiceProvider
+   * @param compoundSpId
+   *          long
+   * @return
+   */
+  public CompoundServiceProvider getCSPById(String serviceProviderEntityId) {
+
+    ServiceProvider serviceProvider = serviceProviderService.getServiceProvider(serviceProviderEntityId);
+    Assert.notNull(serviceProvider, "No such SP with entityId: " + serviceProviderEntityId);
+
+    CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
+    if (compoundServiceProvider == null) {
+      LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProviderEntityId);
+      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, getArticle(null, serviceProvider));
+      compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
+      LOG.debug("Persisted a CompoundServiceProvider with id {}");
+    } else {
+      compoundServiceProvider.setServiceProvider(serviceProvider);
+      compoundServiceProvider.setArticle(getArticle(null, serviceProvider));
+
+    }
+    return compoundServiceProvider;
+  }
+
+  /**
+   * Get the Article for a CSP
+   * 
+   * @param idp
+   *          the IDP for which Article is returned (licenses are Idp specific)
+   * @param sp
+   *          the SP
    * 
    */
   private Article getArticle(IdentityProvider idp, ServiceProvider sp) {
     if (!licensingService.isActiveMode()) {
       LOG.info("Returning Article.NONE because licensingService is inactive");
       return Article.NONE;
-    }     
-    List<Article> articles = licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, sp, new Date());
-    if (articles.isEmpty()) {
-      LOG.debug("No article for idp {} and SP {}", idp.getId(), sp.getId());
-      return Article.NONE;
-    } else {
-      if (articles.size() > 1) {
-        LOG.info("Multiple articles found for idp {} and SP {}: {}",
-            new Object[] { idp.getId(), sp.getId(), articles.size() });
-      }
-      return articles.get(0); 
     }
+    return (idp == null) ? licensingService.getArticleForServiceProvider(sp) : licensingService
+        .getArticleForIdentityProviderAndServiceProvider(idp, sp, new Date());
   }
 }

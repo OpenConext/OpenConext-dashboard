@@ -47,24 +47,24 @@ public class LmngServiceMock implements LicensingService {
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
-  private List<Article> articles;
+  private Article article;
 
   @SuppressWarnings("unchecked")
   public LmngServiceMock() {
     try {
-      TypeReference<List<Article>> typeReference = new TypeReference<List<Article>>() {
+      TypeReference<Article> typeReference = new TypeReference<Article>() {
       };
-      this.articles = (List<Article>) parseJsonData(typeReference, "lmng-json/articles.json");
+      this.article = (Article) parseJsonData(typeReference, "lmng-json/articles.json");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
   @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public Article getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     invariant();
-    return this.articles;
+    return this.article;
   }
 
   /*
@@ -76,16 +76,16 @@ public class LmngServiceMock implements LicensingService {
    * nl.surfnet.coin.selfservice.domain.ServiceProvider, java.util.Date)
    */
   @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
+  public Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
       ServiceProvider serviceProvider, Date validOn) {
     invariant();
-    return this.articles;
+    return this.article;
   }
 
   @Override
   public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
     invariant();
-    return this.articles.get(0);
+    return this.article;
   }
 
   private Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {

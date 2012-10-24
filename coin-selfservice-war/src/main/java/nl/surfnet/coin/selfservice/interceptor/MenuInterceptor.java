@@ -19,6 +19,7 @@ package nl.surfnet.coin.selfservice.interceptor;
 import java.util.Collection;
 import java.util.List;
 
+import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +46,9 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
-      Menu menu = createMenu();
+//TODO
+      boolean lmngActiveMode = true;
+      Menu menu = createMenu(lmngActiveMode);
       setSelected(request, menu);
       map.addAttribute("menu", menu);
     }
@@ -62,7 +65,7 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
     }
   }
 
-  private Menu createMenu() {
+  private Menu createMenu(boolean lmngActiveMode) {
     Menu menu = new Menu();
     menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
     Collection<? extends GrantedAuthority> authorities = SpringSecurity.getCurrentUser().getAuthorities();
@@ -71,9 +74,11 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
         Authority authority = ((CoinAuthority) grantedAuthority).getEnumAuthority();
         switch (authority) {
         case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
+          if (lmngActiveMode) {
+            menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
+            menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
+          }
           menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
-          menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
-          menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
           break;
         case ROLE_IDP_LICENSE_ADMIN:
           menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));

@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
+import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +33,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class FeatureInterceptor extends HandlerInterceptorAdapter {
   
   private boolean dev;
-
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -53,4 +54,5 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
   public void setDev(boolean dev) {
     this.dev = dev;
   }
+ 
 }

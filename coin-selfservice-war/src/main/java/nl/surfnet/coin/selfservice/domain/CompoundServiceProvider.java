@@ -83,7 +83,7 @@ public class CompoundServiceProvider extends DomainObject {
 
   @Column
   private String lmngId;
-  
+
   @Transient
   private AttributeScopeConstraints constraints;
 
@@ -99,9 +99,15 @@ public class CompoundServiceProvider extends DomainObject {
   private Set<Screenshot> screenShotsImages = new HashSet<Screenshot>();
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Article article) {
-    Assert.notNull(serviceProvider);  
-    Assert.notNull(article);  
-    
+    Assert.notNull(serviceProvider);
+    if (article == null) {
+      /*
+       * Anti pattern, but alternative is numerous null pointer checks and more
+       * code. This works as we keep the article inline
+       */
+      article = Article.NONE;
+    }
+
     byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
     byte[] detailLogoImageBytes = getImageBytesFromClasspath("500x300.png");
     byte[] screenshotImageBytes = getImageBytesFromClasspath("1024x768.png");
@@ -266,7 +272,7 @@ public class CompoundServiceProvider extends DomainObject {
     if (this.constraints != null && !this.constraints.isAllowed(key)) {
       return null;
     }
-    
+
     Assert.notNull(key);
     for (FieldString f : this.fields) {
       if (key.equals(f.getKey())) {
@@ -312,14 +318,15 @@ public class CompoundServiceProvider extends DomainObject {
   public Map<Key, String> getSurfConextFieldValues() {
     return getFieldValues(Source.SURFCONEXT);
   }
+
   public Map<Key, String> getLmngFieldValues() {
     return getFieldValues(Source.LMNG);
   }
+
   public Map<Key, String> getDistributionFieldValues() {
     return getFieldValues(Source.DISTRIBUTIONCHANNEL);
   }
-  
-  
+
   /**
    * Convenience method for JSP access
    * 
@@ -327,7 +334,7 @@ public class CompoundServiceProvider extends DomainObject {
    */
   private Map<Key, String> getFieldValues(Source source) {
     Key[] values = Key.values();
-    Map<Key, String> result = new HashMap<Field.Key, String>(); 
+    Map<Key, String> result = new HashMap<Field.Key, String>();
     if (source.equals(Source.DISTRIBUTIONCHANNEL)) {
       for (FieldString field : this.fields) {
         result.put(field.getKey(), field.getValue());
@@ -338,20 +345,20 @@ public class CompoundServiceProvider extends DomainObject {
 
     } else {
       for (Key key : values) {
-          try {
-            switch (source) {
-            case SURFCONEXT:
-              result.put(key, (String)getSurfConextProperty(key));
-              break;
-            case LMNG:
-              result.put(key, (String)getLmngProperty(key));
-              break;
-            case DISTRIBUTIONCHANNEL:
-              //already covered
-              break;
-            }
-          } catch (RuntimeException e) {
-            //not a problem here
+        try {
+          switch (source) {
+          case SURFCONEXT:
+            result.put(key, (String) getSurfConextProperty(key));
+            break;
+          case LMNG:
+            result.put(key, (String) getLmngProperty(key));
+            break;
+          case DISTRIBUTIONCHANNEL:
+            // already covered
+            break;
+          }
+        } catch (RuntimeException e) {
+          // not a problem here
         }
       }
     }
@@ -406,12 +413,8 @@ public class CompoundServiceProvider extends DomainObject {
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-      .append("id", getId())
-      .append("serviceProvider", serviceProvider)
-      .append("serviceProviderEntityId", serviceProviderEntityId)
-      .append("lmngId", lmngId)
-      .toString();
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("id", getId()).append("serviceProvider", serviceProvider)
+        .append("serviceProviderEntityId", serviceProviderEntityId).append("lmngId", lmngId).toString();
   }
 
   private static byte[] getImageBytesFromClasspath(String filename) {
@@ -443,7 +446,7 @@ public class CompoundServiceProvider extends DomainObject {
   public boolean isArticleAvailable() {
     return article != null && !Article.NONE.equals(this.article);
   }
-  
+
   private void setServiceProviderEntityId(String serviceProviderEntityId) {
     this.serviceProviderEntityId = serviceProviderEntityId;
   }

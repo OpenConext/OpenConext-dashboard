@@ -22,7 +22,6 @@ import static org.mockito.Mockito.mock;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Date;
-import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
@@ -83,8 +82,8 @@ public class LmngServiceImplTest implements HttpRequestHandler {
     IdentityProvider identityProvider = new IdentityProvider();
     identityProvider.setInstitutionId("dummy");
     ServiceProvider serviceProvider = new ServiceProvider("dummysp");
-    List<Article> articles = lmngServiceImpl.getLicenseArticlesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, new Date());
-    assertEquals("Aanbesteden1", articles.get(0).getServiceDescriptionNl());
+    Article article = lmngServiceImpl.getArticleForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, new Date());
+    assertEquals("Aanbesteden1", article.getServiceDescriptionNl());
   }
 
   /*

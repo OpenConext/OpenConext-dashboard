@@ -72,7 +72,9 @@
   <mvc:annotation-driven />
   <mvc:interceptors>
     <ref bean="featureInterceptor" /><!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
-    <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor"/>
+    <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor">
+      <constructor-arg value="${coin-lmng-active-mode}"/>
+    </bean>
     <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor"/>
     <ref bean="localeChangeInterceptor" />
   </mvc:interceptors>

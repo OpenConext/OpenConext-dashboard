@@ -53,7 +53,7 @@ import static org.junit.Assert.fail;
  */
 public class AuthorityScopeInterceptorTest {
 
-  private AuthorityScopeInterceptor interceptor = new AuthorityScopeInterceptor();
+  private AuthorityScopeInterceptor interceptor = new AuthorityScopeInterceptor(true);
 
   /**
    * Test method for

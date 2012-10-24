@@ -39,9 +39,9 @@ public interface LicensingService {
    *          the serviceProvider to get the licenses for
    * @param validOn
    *          Date on which the license should be valid
-   * @return a list of possible articles with valid licenses
+   * @return a articles with valid licenses
    */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
+  Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn);
 
   /**
@@ -54,19 +54,11 @@ public interface LicensingService {
    *          the serviceProviders to get the licenses for
    * @param validOn
    *          Date on which the license should be valid
-   * @return a list of possible articles with valid licenses
+   * @return a articles with valid licenses
    */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  Article getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn);
 
-  /**
-   * Is the LMNG service active? If not then no calls should be made and the
-   * entire distribution channel runs without license / article information from
-   * LMNG.
-   * 
-   * @return whether the LicensingService is active
-   */
-  public boolean isActiveMode();
 
   /**
    * Get the Article belonging to te given serviceProvider. We assume we'll get
@@ -81,4 +73,12 @@ public interface LicensingService {
    */
   Article getArticleForServiceProvider(ServiceProvider serviceProvider);
 
+  /**
+   * Is the LMNG service active? If not then no calls should be made and the
+   * entire distribution channel runs without license / article information from
+   * LMNG.
+   * 
+   * @return whether the LicensingService is active
+   */
+  public boolean isActiveMode();
 }

@@ -75,25 +75,7 @@ public class SpLmngDataBindingController extends BaseController {
 
   @RequestMapping(value = "/compoundSp-detail")
   public ModelAndView get(@RequestParam("spEntityId") String entityId) {
-    ServiceProvider serviceProvider = sps.getServiceProvider(entityId);
-    Assert.notNull(serviceProvider, "No such SP with entityId: " + entityId);
-    
-    //compoundSPService.getCSPById(idp, compoundSpId)
-    //TODO don't use the dao, but use the compundSPService which enriches a compoundServiceProvider
-    CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
-
-    if (compoundServiceProvider == null) {
-
-      LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", entityId);
-
-      // TODO: get license/article from LMNG
-      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, new Article());
-
-      compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
-      LOG.debug("Persisted a CompoundServiceProvider with id {}");
-    } else {
-      compoundServiceProvider.setServiceProvider(serviceProvider);
-    }
+    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(entityId);
     return new ModelAndView("shopadmin/compoundSp-detail", "compoundSp", compoundServiceProvider);
   }
 

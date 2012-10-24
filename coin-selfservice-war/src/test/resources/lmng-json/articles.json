@@ -1,4 +1,3 @@
-[
     {
         "serviceDescriptionNl": "Microsoft Nederland",
         "serviceDescriptionNl": "Office 365",
@@ -9,16 +8,4 @@
           "startDate": 1333885898711,
           "endDate": 1365421898639
         }
-    },
-    {
-        "serviceDescriptionNl": "Google Nederland",
-        "serviceDescriptionNl": "Google Enterprise",
-        "institutionName": "google_maps_pro",
-        "supplierName": "Google",
-        "lmngIdentifier" : "1234568",
-        "licenses" : {
-          "startDate": 1333885898711,
-          "endDate": 1365421898711
-        }
     }
-]
