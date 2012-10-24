@@ -15,14 +15,6 @@
  */
 package nl.surfnet.coin.selfservice.interceptor;
 
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -30,7 +22,6 @@ import java.util.Map;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
@@ -40,8 +31,21 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
 import org.junit.Test;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
+
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * AuthorityScopeInterceptorTest.java
@@ -65,6 +69,7 @@ public class AuthorityScopeInterceptorTest {
     CoinUser user = coinUser(ROLE_USER);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     CompoundServiceProvider sp = buildCompoundSeriveProvider();
+    sp.getServiceProvider().setLinked(true);
     modelAndView.addObject(BaseController.COMPOUND_SP, sp);
 
     String technicalSupportMail = sp.getTechnicalSupportMail();
@@ -82,6 +87,22 @@ public class AuthorityScopeInterceptorTest {
     assertFalse((Boolean) model.get(SERVICE_QUESTION_ALLOWED));
     assertFalse((Boolean) model.get(SERVICE_APPLY_ALLOWED));
 
+  }
+
+  @Test(expected = AccessDeniedException.class)
+  public void userCannotViewUnlinkedServices() throws Exception {
+    ModelAndView mav = new ModelAndView();
+
+    CoinUser user = coinUser(ROLE_USER);
+
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    CompoundServiceProvider sp = buildCompoundSeriveProvider();
+    sp.getServiceProvider().setLinked(false);
+    mav.addObject(BaseController.COMPOUND_SP, sp);
+
+    interceptor.postHandle(null, null, null, mav);
+
+    fail("an AccessDeniedException should be thrown by now");
   }
 
   /**
