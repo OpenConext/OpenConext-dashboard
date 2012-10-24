@@ -4,7 +4,7 @@
 <%@ include file="include.jsp"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 
-<html lang="en">
+<html lang="${locale.language}">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -104,7 +104,7 @@
             </c:forEach>          
             <spring:param name="lang" value="en" />
           </spring:url> 
-          <li class="user"><a href="${langNL}"> NL </a>|<a href="${langEN}"> EN </a>
+          <li class="user"><a href="${langNL}">NL</a> | <a href="${langEN}">EN</a>
           </li>
         <li class="logout"><a href="<spring:url value="/logout.shtml" htmlEscape="true" />"><spring:message code="jsp.general.logout" /></a></li>
       </ul>
@@ -135,5 +135,3 @@
       </ul>
     </nav>
   </div>
-  
-  <span hidden="true" id="locale_conext" class="${locale.language}"></span>

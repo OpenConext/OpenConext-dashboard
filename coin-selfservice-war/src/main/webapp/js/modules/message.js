@@ -11,14 +11,36 @@ app.message = function() {
 
     };
     
-    var bundle = { "success.save" : {"en" : "Successfully saved.", "nl" : "Correct opgeslagen." }};
+    var bundle = {
+        "success.save" : {
+            en : "Successfully saved.",
+            nl : "Correct opgeslagen."
+        },
+        "failed.save" : {
+            en : "Failed to save.",
+            nl : "Niet opgeslagen"
+        },
+        "appgrid.search.placeholder" : {
+            en : "Search in applications",
+            nl : "Zoek in applicaties"
+        },
+        "appgrid.filter.haslicense" : {
+            en: "Has license",
+            nl: "Heeft licensie"
+        },
+        "appgrid.filter.isconnected" : {
+            en : "Is connected",
+            nl : "Is verbonden"
+        }
+    };
     
     var i18n = function(key) {
-    	var lang = $("span#locale_conext").attr("class");
-    	if (lang) {
-    		return bundle[key][lang];
-    	}
-    }
+        var lang = $('html').attr('lang').substring(0, 2);
+        
+        if (lang) {
+            return bundle[key][lang];
+        }
+    };
 
     return {
         showInfo: showInfo,

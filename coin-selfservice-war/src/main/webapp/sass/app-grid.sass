@@ -147,8 +147,11 @@
     color: #000
     display: block
     font-size: 13px
+    height: 18px
     line-height: 18px
     padding: 6px 16px
+    text-decoration: none
+    +transition(none)
 
     &:hover,
     &:focus
@@ -160,6 +163,9 @@
       +background(linear-gradient(#D8D8D8, #CCC), #D0D0D0)
       color: mix(#52B2D2, #000, 90%)
       text-shadow: 0 0 0.2em rgba(255, 255, 255, 0.5)
+
+      i:before
+        color: mix(#52B2D2, #000, 90%)
 
   i,
   a:hover i
@@ -176,7 +182,8 @@
     background: #FFF url(../images/bg-icon-grid-search.png) no-repeat 96% 50%
     +border-radius(5em)
     float: right
-    height: auto
+    height: 18px
+    line-height: 18px
     padding: 6px 16px
 
     &:focus
@@ -319,6 +326,7 @@
       padding: 0 25px
 
   .app-grid
+    clear: both
     margin: 0 -25px 25px
     width: auto
 
