@@ -26,7 +26,7 @@ app.message = function() {
         },
         "appgrid.filter.haslicense" : {
             en: "Has license",
-            nl: "Heeft licensie"
+            nl: "Heeft licentie"
         },
         "appgrid.filter.isconnected" : {
             en : "Is connected",
