@@ -22,7 +22,7 @@ app.appgrid = function() {
             var elm = $(this),
                 target = $(e.target);
 
-            if (target.is('a')) {
+            if (target.is('a') || target.closest('a').length === 1) {
                 return;
             }
 
@@ -60,12 +60,14 @@ app.appgrid = function() {
             timer = null,
             activeFilters = [];
 
+
         function setTimer() {
             if (timer) {
                 clearTimeout(timer);
             }
             timer = setTimeout(doSearch, 100);
         }
+
 
         function doSearch() {
             var isSearch = searchElm.val().length !== 0,

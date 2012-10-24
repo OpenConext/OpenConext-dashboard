@@ -21,37 +21,39 @@
   <jsp:param name="wrapperAdditionalCssClass" value="has-left app-grid-wrapper" />
 </jsp:include>
 <div class="column-center content-holder app-grid-holder">
-	<h1 class="hidden-phone"><spring:message code="jsp.home.title" /></h1>
-	<section>
-		<ul class="app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''}" data-search-placeholder="Search in applications">
-			<c:forEach items="${compoundSps}" var="compoundSp">
-				<c:if test="${not empty compoundSp.id}">
-					<li class="${compoundSp.sp.linked ? "connected" : ""} ${compoundSp.articleAvailable ? "licensed" : ""}">
-						<spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-							<spring:param name="compoundSpId" value="${compoundSp.id}" />
-						</spring:url>
-						<h2>
-							<a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a><!--TODO: providername for compoundSp instead of SP -->
-						</h2> 
-						<c:if test="${not empty compoundSp.appStoreLogo}">
-							<img src="<c:url value="${compoundSp.appStoreLogo}"/>" alt="<c:out value=""/>" />
-						</c:if>
-						<p class="desc">
-							<c:out value="${fn:substring(compoundSp.serviceDescriptionEn, 0, 40)}" />
-						</p>
-						<%--
-						<c:if test="${not empty sp.urls[locale.language]}">
-							<p class="open-app">
-								<a href="<c:out value="${sp.urls[locale.language]}"/>" class="open-app" target="_blank"> 
-									<spring:message	code="jsp.sp_detail.serviceurl" />
-								</a>
-							</p>
-						</c:if>
-						--%>
-					</li>
-				</c:if>
-			</c:forEach>
-		</ul>
-	</section>
+  <h1 class="hidden-phone"><spring:message code="jsp.home.title" /></h1>
+  <section>
+    <ul class="app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''}" data-search-placeholder="Search in applications">
+      <c:forEach items="${compoundSps}" var="compoundSp">
+        <c:if test="${not empty compoundSp.id}">
+          <li class="${compoundSp.sp.linked ? "connected" : ""} ${compoundSp.articleAvailable ? "licensed" : ""}">
+            <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
+              <spring:param name="compoundSpId" value="${compoundSp.id}" />
+            </spring:url>
+            <h2>
+              <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a><!--TODO: providername for compoundSp instead of SP -->
+            </h2> 
+            <c:if test="${not empty compoundSp.appStoreLogo}">
+              <img src="<c:url value="${compoundSp.appStoreLogo}"/>" alt="<c:out value=""/>" />
+            </c:if>
+            <p class="desc">
+              <c:out value="${fn:substring(compoundSp.serviceDescriptionEn, 0, 40)}" />
+            </p>
+            <div class="app-meta-cta">
+              <c:if test="${compoundSp.articleAvailable}">
+                <i class="icon-shopping-cart" rel="tooltip" title="<spring:message code="jsp.sp_overview.haslicense" />"></i><br>
+              </c:if>
+              <c:if test="${compoundSp.sp.linked}">
+                <i class="icon-check" rel="tooltip" title="<spring:message code="jsp.sp_overview.isconnected" />"></i>
+              </c:if>
+              <a href="#FOOOO" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                <i class="icon-play"></i>
+              </a>
+            </div>
+          </li>
+        </c:if>
+      </c:forEach>
+    </ul>
+  </section>
 </div>
 <jsp:include page="foot.jsp" />
