@@ -32,6 +32,13 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
   
   private boolean dev;
 
+
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    request.setAttribute("dev", dev); // for use on error page
+    return true;
+  }
+
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
     super.postHandle(request, response, handler, modelAndView);
