@@ -94,13 +94,40 @@
           <c:when test="${not compoundSp.sp.linked}">
             <div class="service-not-connected">
               <p><strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong></p>
-              <p><spring:message code="jsp.app_detail.contact_adoption_team"/></p>
+              <a class="btn btn-small" href="<c:url value="/requests/linkrequest.shtml">
+                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+                <c:param name="compoundSpId" value="${compoundSp.id}" />
+              </c:url>"
+                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
+              </a>
+              <c:if test="${questionAllowed}">
+                <a class="btn btn-small" href="<c:url value="/requests/question.shtml">
+                      <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+                      <c:param name="compoundSpId" value="${compoundSp.id}" />
+                    </c:url>"
+                   title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
+                </a>
+              </c:if>
             </div>
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
             <div class="service-connected">
               <p><strong><spring:message code="jsp.app_detail.technical_connection"/></strong></p>
-              <p><spring:message code="jsp.app_detail.contact_adoption_team"/></p>
+              <a class="btn btn-small" href="<c:url value="/requests/unlinkrequest.shtml">
+                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+                <c:param name="compoundSpId" value="${compoundSp.id}" />
+              </c:url>"
+                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
+                  code="jsp.sp_detail.requestunlink"/>
+              <c:if test="${questionAllowed}">
+                <a class="btn btn-small" href="<c:url value="/requests/question.shtml">
+                      <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+                      <c:param name="compoundSpId" value="${compoundSp.id}" />
+                    </c:url>"
+                   title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
+                </a>
+              </c:if>
+              </a>
             </div>
           </c:when>
         </c:choose>
@@ -138,38 +165,6 @@
     <div class="arp">
           <jsp:include page="requests/arp.jsp" />
     </div>
-
-<!--     <div>
-      <c:if test="${applyAllowed}">
-        <c:choose>
-          <c:when test="${not compoundSp.sp.linked}">
-            <a class="btn btn-primary btn-small" href="<c:url value="/requests/linkrequest.shtml">
-              <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-              <c:param name="compoundSpId" value="${compoundSp.id}" />
-            </c:url>"
-               title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
-            </a>
-          </c:when>
-          <c:when test="${compoundSp.sp.linked}">
-            <a class="btn btn-primary btn-small" href="<c:url value="/requests/unlinkrequest.shtml">
-              <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-              <c:param name="compoundSpId" value="${compoundSp.id}" />
-            </c:url>"
-               title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
-                code="jsp.sp_detail.requestunlink"/>
-            </a>
-          </c:when>
-        </c:choose>
-      </c:if>
-      <c:if test="${questionAllowed}">
-        <a class="btn btn-small" href="<c:url value="/requests/question.shtml">
-              <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-              <c:param name="compoundSpId" value="${compoundSp.id}" />
-            </c:url>"
-           title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
-        </a>
-      </c:if>  
-    </div> -->
 
     <hr>
 
