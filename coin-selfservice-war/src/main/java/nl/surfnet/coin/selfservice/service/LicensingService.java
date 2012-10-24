@@ -30,18 +30,6 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 public interface LicensingService {
 
   /**
-   * Gets a list with Articles with licenses for the given identityProvider and
-   * serviceProvider which are valid today.
-   * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @param serviceProvider
-   *          the serviceProvider to get the licenses for
-   * @return a list of possible articles valid with licenses
-   */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider);
-
-  /**
    * Gets a list with Articles with Licenses for the given identityProvider and
    * serviceProvider which are valid on the given day
    * 
@@ -55,19 +43,6 @@ public interface LicensingService {
    */
   List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn);
-
-  /**
-   * Gets a list with Articles with Licenses for the given identityProvider and
-   * serviceProvider which are valid today.
-   * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @param serviceProviders
-   *          the serviceProviders to get the licenses for
-   * @return a list of possible articles with valid licenses
-   */
-  List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders);
 
   /**
    * Gets a list with Articles with Licenses for the given identityProvider and

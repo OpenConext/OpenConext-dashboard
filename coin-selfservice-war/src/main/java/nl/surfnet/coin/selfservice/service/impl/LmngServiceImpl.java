@@ -71,6 +71,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
@@ -128,13 +129,8 @@ public class LmngServiceImpl implements LicensingService {
   private String keystorePassword;
   private boolean activeMode;
   
-
   @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider) {
-    return getLicenseArticlesForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, new Date());
-  }
-
-  @Override
+  @Cacheable("selfserviceDefault")
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
     List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
@@ -143,12 +139,7 @@ public class LmngServiceImpl implements LicensingService {
   }
 
   @Override
-  public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders) {
-    return getLicenseArticlesForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
-  }
-
-  @Override
+  @Cacheable("selfserviceDefault")
   public List<Article> getLicenseArticlesForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     try {
@@ -180,6 +171,7 @@ public class LmngServiceImpl implements LicensingService {
   }
 
   @Override
+  @Cacheable("selfserviceDefault")
   public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
     String serviceId = getLmngServiceId(serviceProvider);
     Article result = null;

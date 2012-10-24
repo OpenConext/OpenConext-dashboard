@@ -9,3 +9,4 @@ target
 *rebel.xml
 testfiles
 .DS_Store
+coin-selfservice-war/src/test/resources/coin-selfservice.properties.backup

@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class CompoundSPService {
   }
 
   /**
-   * Get the Article for a CSP 
+   * Get the current Article for a CSP 
    *
    * @param idp the IDP for which Article is returned (licenses are Idp specific)
    * @param sp the SP 
@@ -138,7 +139,7 @@ public class CompoundSPService {
       LOG.info("Returning Article.NONE because licensingService is inactive");
       return Article.NONE;
     }     
-    List<Article> articles = licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, sp);
+    List<Article> articles = licensingService.getLicenseArticlesForIdentityProviderAndServiceProvider(idp, sp, new Date());
     if (articles.isEmpty()) {
       LOG.debug("No article for idp {} and SP {}", idp.getId(), sp.getId());
       return Article.NONE;
