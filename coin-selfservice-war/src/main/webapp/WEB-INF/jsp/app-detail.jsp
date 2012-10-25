@@ -39,14 +39,14 @@
       <c:if test="${not empty compoundSp.serviceUrl}">
         <li>
           <a href="${compoundSp.serviceUrl}" target="_blank">
-            <spring:message code="jsp.app_detail.service_url_label" arguments="${spname}"/>
+            <spring:message code="jsp.app_detail.service_url_label" />
           </a>
         </li>
       </c:if>
       <c:if test="${not empty compoundSp.supportUrl}">
         <li>
           <a href="${compoundSp.supportUrl}" target="_blank">
-            <spring:message code="jsp.app_detail.support_url_label" />
+            <spring:message code="jsp.app_detail.support_url_label" arguments="${spname}"/>
           </a>
         </li>
       </c:if>
@@ -91,6 +91,7 @@
           <c:otherwise>
             <div class="license-not-available">
               <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
+              <br/>
             </div>
           </c:otherwise>
         </c:choose>

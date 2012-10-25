@@ -131,7 +131,7 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
     map.put(SERVICE_QUESTION_ALLOWED, isAdmin);
     map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
     map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
-    map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN));
+    map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
 
 
     // Do not allow normal users to view 'unlinked' services, even if requested explicitly.

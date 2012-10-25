@@ -32,7 +32,7 @@ import org.hibernate.annotations.Proxy;
 @Proxy(lazy = false)
 public class FieldString extends Field {
 
-  @Column(name = "field_value", length=1000)
+  @Column(name = "field_value", length=65535)
   private String value;
 
   @Override

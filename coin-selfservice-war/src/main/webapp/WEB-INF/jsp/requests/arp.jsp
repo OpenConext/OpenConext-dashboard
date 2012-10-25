@@ -26,7 +26,6 @@
 		  <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
 		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${spname}"/></p>
 		  <c:forEach items="${arps}" var="arp">
-		    <p><spring:message code="jsp.sp_detail.arp.policy"/></p>
 		    <ul>
 		      <c:if test="${empty arp.fedAttributes and empty arp.conextAttributes}">
 		        <li><spring:message code="jsp.sp_detail.arp.nopolicy"/></li>

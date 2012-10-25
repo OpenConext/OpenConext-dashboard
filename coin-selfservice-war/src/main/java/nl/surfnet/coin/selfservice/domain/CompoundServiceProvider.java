@@ -100,13 +100,7 @@ public class CompoundServiceProvider extends DomainObject {
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Article article) {
     Assert.notNull(serviceProvider);
-    if (article == null) {
-      /*
-       * Anti pattern, but alternative is numerous null pointer checks and more
-       * code. This works as we keep the article inline
-       */
-      article = Article.NONE;
-    }
+    article = sanityCheckArticle(article);
 
     byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
     byte[] detailLogoImageBytes = getImageBytesFromClasspath("500x300.png");
@@ -136,6 +130,18 @@ public class CompoundServiceProvider extends DomainObject {
     provider.addScreenShot(new Screenshot(screenshotImageBytes));
 
     return provider;
+  }
+
+  /**
+   * @param article
+   * @return
+   */
+  private static Article sanityCheckArticle(Article article) {
+    /*
+     * Anti pattern, but alternative is numerous null pointer checks and more
+     * code. This works as we keep the article inline
+     */
+    return (article == null) ? Article.NONE : article;
   }
 
   public Set<FieldString> getFields() {
@@ -439,14 +445,18 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public void setArticle(Article article) {
-    this.article = article;
+    this.article = sanityCheckArticle(article);
     if (this.article != null) {
-      this.lmngId = article.getLmngIdentifier();
+      this.lmngId = this.article.getLmngIdentifier();
     }
   }
 
   public boolean isArticleAvailable() {
     return article != null && !Article.NONE.equals(this.article);
+  }
+
+  public boolean isArticleLicenseAvailable() {
+    return isArticleAvailable() && article.getLicence() != null;
   }
 
   private void setServiceProviderEntityId(String serviceProviderEntityId) {

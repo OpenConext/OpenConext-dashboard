@@ -49,7 +49,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:coin-selfservice-context.xml",
-    "classpath:coin-selfservice-properties-context.xml",
+    "classpath:coin-selfservice-properties-integration-context.xml",
     "classpath:coin-shared-context.xml"})
 public class LmngServiceImplIT {
 
@@ -96,7 +96,7 @@ public class LmngServiceImplIT {
 
   // we us this for a local integration test only
   @Test
-  @Ignore
+  
   public void testRetrieveLmngGoogleEdugroepGreencloudSurfNet() throws IOException {
     Date date = new Date();
     IdentityProvider idp = new IdentityProvider("SURFnet", "SURFnet", "testName");
@@ -114,7 +114,7 @@ public class LmngServiceImplIT {
 
   // we us this for a local integration test only
   @Test
-  @Ignore
+  
   public void testRetrieveLmngGoogleServiceOnly() throws IOException {
     ServiceProvider sp = new ServiceProvider("http://www.google.com");
     

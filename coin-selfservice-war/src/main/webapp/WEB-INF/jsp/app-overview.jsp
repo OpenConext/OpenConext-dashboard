@@ -46,9 +46,11 @@
               <c:if test="${compoundSp.sp.linked}">
                 <i class="icon-check" rel="tooltip" title="<spring:message code="jsp.sp_overview.isconnected" />"></i>
               </c:if>
-              <a href="#FOOOO" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
-                <i class="icon-play"></i>
-              </a>
+              <c:if test="${not empty compoundSp.appUrl}">
+                <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                  <i class="icon-play"></i>
+                </a>
+              </c:if>              
             </div>
           </li>
         </c:if>
