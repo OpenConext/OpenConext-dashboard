@@ -70,7 +70,7 @@ public abstract class BaseController {
   /**
    * The name of the key under which we store the info if LMNG is active (e.g. we use License Info)
    */
-  public static final String LMNG_ACTIVE_MODUS = "filterAppGridAllowed";
+  public static final String LMNG_ACTIVE_MODUS = "lmngActiveModus";
   
   @Resource(name = "providerService")
   private IdentityProviderService idpService;

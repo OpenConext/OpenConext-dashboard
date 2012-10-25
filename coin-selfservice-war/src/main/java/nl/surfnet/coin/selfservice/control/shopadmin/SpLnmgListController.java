@@ -28,7 +28,6 @@ import nl.surfnet.coin.selfservice.command.LmngServiceBinding;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 import org.slf4j.Logger;
@@ -46,9 +45,6 @@ public class SpLnmgListController extends BaseController {
 
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
-
-  @Resource(name = "licensingService")
-  private LicensingService licensingService;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;

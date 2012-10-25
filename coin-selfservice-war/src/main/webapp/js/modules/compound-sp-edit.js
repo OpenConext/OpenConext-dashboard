@@ -82,8 +82,7 @@ app.compoundSpEdit = function() {
 
     $('input.fileinput').fileupload({
       success: function (imageUrl) {
-        var contextPath = "${pageContext.request.contextPath}";
-    var form = $(currentFileuploadForm);
+        var form = $(currentFileuploadForm);
         if (form.attr("id") === "form-screenshots-distributionchannel") {
           $("div.screenshot-contents").
           append("<div class='screenshot-content'><img src='"+ contextPath + imageUrl.fileUrl +  "?" + new Date().getTime() + "'/>"

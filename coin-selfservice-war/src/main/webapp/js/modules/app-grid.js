@@ -42,12 +42,14 @@ app.appgrid = function() {
             filters = '';
 
         if (gridElm.hasClass('filters-available')) {
-            filters = '<div>' +
-                        '<ul>' +
-                            '<li><a href="#" data-filter="licensed"><i class="icon-shopping-cart"></i> ' + hasLicenseText + '</a></li>' +
-                            '<li><a href="#" data-filter="connected"><i class="icon-check"></i> ' + isConnectedText + '</a></li>' +
-                        '</ul>' +
-                      '</div>';
+        	filters = '<div>' + 
+        				'<ul>';
+            if (gridElm.hasClass('lmng-active')) {
+            	filters += '<li><a href="#" data-filter="licensed"><i class="icon-shopping-cart"></i> ' + hasLicenseText + '</a></li>'
+            }
+            filters += '<li><a href="#" data-filter="connected"><i class="icon-check"></i> ' + isConnectedText + '</a></li>' +
+                      '</ul>' +
+                    '</div>';
         }
 
         gridElm.before('<nav class="filter-grid' + (gridElm.hasClass('filters-available') ? ' filters-available' : '') + '">' +

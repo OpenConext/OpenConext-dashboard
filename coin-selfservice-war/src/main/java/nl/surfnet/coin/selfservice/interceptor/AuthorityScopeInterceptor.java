@@ -16,6 +16,22 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
+import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
+import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
+import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,21 +53,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
-
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
-import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
 
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
@@ -87,7 +88,21 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
         }
         map.put(COMPOUND_SPS, sps);
       }
+      
+      scopeGeneralAuthCons(map, authorities);
     }
+  }
+
+  protected void scopeGeneralAuthCons(ModelMap map, Collection<CoinAuthority> authorities) {
+    boolean isAdmin = containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+    map.put(SERVICE_QUESTION_ALLOWED, isAdmin);
+    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
+    map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+
+    map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
+    map.put(LMNG_ACTIVE_MODUS, isLmngActive());
+
+    
   }
 
   /**
@@ -126,13 +141,6 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
    * tell the Service to limit scope access based on the authority
    */
   protected void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, Collection<CoinAuthority> authorities) {
-
-    boolean isAdmin = containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
-    map.put(SERVICE_QUESTION_ALLOWED, isAdmin);
-    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
-    map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
-    map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-
 
     // Do not allow normal users to view 'unlinked' services, even if requested explicitly.
     if (isRoleUser(authorities) && !sp.getServiceProvider().isLinked()) {

@@ -79,13 +79,13 @@ public class LmngServiceMock implements LicensingService {
   public Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
       ServiceProvider serviceProvider, Date validOn) {
     invariant();
-    return null;//this.article;
+    return this.article;
   }
 
   @Override
   public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
     invariant();
-    return null;//this.article;
+    return this.article;
   }
 
   private Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {

@@ -128,6 +128,7 @@ public class LmngServiceImpl implements LicensingService {
   @Cacheable("selfserviceDefault")
   public Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
       Date validOn) {
+    invariant();
     List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
     serviceProviders.add(serviceProvider);
     return getArticleForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
@@ -137,6 +138,7 @@ public class LmngServiceImpl implements LicensingService {
   @Cacheable("selfserviceDefault")
   public Article getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
+    invariant();
     try {
       String lmngInstitutionId = getLmngIdentityId(identityProvider);
       List<String> serviceIds = getLmngServiceIds(serviceProviders);
@@ -166,6 +168,7 @@ public class LmngServiceImpl implements LicensingService {
   @Override
   @Cacheable("selfserviceDefault")
   public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
+    invariant();
     String serviceId = getLmngServiceId(serviceProvider);
     Article result = null;
 
@@ -514,6 +517,12 @@ public class LmngServiceImpl implements LicensingService {
 
   }
 
+  private void invariant() {
+    if (!activeMode) {
+      throw new RuntimeException(this.getClass().getSimpleName() + " is not active. No calls may be made.");
+    }
+  }
+  
   public void setActiveMode(boolean activeMode) {
     this.activeMode = activeMode;
   }
@@ -521,4 +530,5 @@ public class LmngServiceImpl implements LicensingService {
   public boolean isActiveMode() {
     return activeMode;
   }
+
 }

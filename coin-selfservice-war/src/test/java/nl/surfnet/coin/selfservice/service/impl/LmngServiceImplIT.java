@@ -62,7 +62,7 @@ public class LmngServiceImplIT {
 
   // we us this for a local integration test only
   @Test
-  @Ignore
+  
   public void testRetrieveLmngSingleGoogle() throws IOException {
     Date date = new Date();
     IdentityProvider identityProvider = new IdentityProvider("mock-institution-id", "mock-institution-id", "testName");

@@ -24,6 +24,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import nl.surfnet.coin.selfservice.command.LmngIdentityBinding;
+import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +38,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import nl.surfnet.coin.selfservice.command.LmngIdentityBinding;
-import nl.surfnet.coin.selfservice.control.BaseController;
-import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
-import nl.surfnet.coin.selfservice.service.LicensingService;
-
 @Controller
 @RequestMapping(value = "/shopadmin/*")
 public class IdpLnmgListController extends BaseController {
@@ -46,9 +45,6 @@ public class IdpLnmgListController extends BaseController {
 
   @Resource(name = "providerService")
   private IdentityProviderService idpService;
-
-  @Resource(name = "licensingService")
-  private LicensingService licensingService;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;

@@ -73,29 +73,32 @@
   <section>
 
     <h1>${spname}</h1>
-
+    
       <div class="license-connect">
-        <c:choose>
-          <c:when test="${compoundSp.articleAvailable}">
-            <div class="license-available">
-              <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
-              <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
-              <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
+        <c:if test="${lmngActiveModus}">    
+          <c:choose>
+            <c:when test="${compoundSp.articleLicenseAvailable}">
+              <div class="license-available">
+                <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
+                <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
+                <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
+  
+                <c:if test="${deepLinkToSurfMarketAllowed}">
+                  <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
+                  <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
+                </c:if>
+              </div>
+            </c:when>
+            <c:otherwise>
+              <div class="license-not-available">
+                <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
+                <br/>
+              </div>
+            </c:otherwise>
+          </c:choose>
+       </c:if>   
 
-              <c:if test="${deepLinkToSurfMarketAllowed}">
-                <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
-                <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
-              </c:if>
-            </div>
-          </c:when>
-          <c:otherwise>
-            <div class="license-not-available">
-              <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
-              <br/>
-            </div>
-          </c:otherwise>
-        </c:choose>
-
+        <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed and !applyAllowed}" />
 
         <c:if test="${applyAllowed}">
         <c:choose>
@@ -108,14 +111,7 @@
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
               </a>
-              <c:if test="${questionAllowed}">
-                <a class="btn btn-small" href="<c:url value="/requests/question.shtml">
-                      <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                      <c:param name="compoundSpId" value="${compoundSp.id}" />
-                    </c:url>"
-                   title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
-                </a>
-              </c:if>
+             <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
             </div>
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
@@ -127,14 +123,7 @@
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
                   code="jsp.sp_detail.requestunlink"/>
-              <c:if test="${questionAllowed}">
-                <a class="btn btn-small" href="<c:url value="/requests/question.shtml">
-                      <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                      <c:param name="compoundSpId" value="${compoundSp.id}" />
-                    </c:url>"
-                   title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
-                </a>
-              </c:if>
+             <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
               </a>
             </div>
           </c:when>
@@ -151,15 +140,6 @@
       </tags:html-format>
       <%--/span--%>
     </div>
-
-    <%-- Not included in https://wiki.surfnetlabs.nl/display/services/App-omschrijving--%>
-    <%--div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
-      <tags:html-format>
-        <jsp:attribute name="input">
-          <tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" />
-        </jsp:attribute>
-      </tags:html-format>
-    </div--%>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>

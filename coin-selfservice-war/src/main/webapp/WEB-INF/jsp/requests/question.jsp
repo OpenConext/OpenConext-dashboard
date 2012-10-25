@@ -57,7 +57,7 @@
               <label class="control-label">Subject:</label>
 
               <div class="controls">
-                <input id="subject" name="subject" class="input-xlarge" type="text" value=""/>
+                <form:input class="input-xlarge" path="subject" />
               </div>
               <div class="controls">
                 <form:errors path="subject"/>                
@@ -67,10 +67,10 @@
               <label class="control-label">Question:</label>
 
               <div class="controls">
-                <textarea id="body" name="body" class="input-xlarge" rows="10"></textarea>
+                <form:textarea rows="10" class="input-xlarge" path="body" />
               </div>
               <div class="controls">
-                <form:errors path="subject"/>                
+                <form:errors path="body"/>                
               </div>
             </div>
 

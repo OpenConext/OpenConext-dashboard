@@ -23,10 +23,11 @@
 <div class="column-center content-holder app-grid-holder">
   <h1 class="hidden-phone"><spring:message code="jsp.home.title" /></h1>
   <section>
-    <ul class="app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''}" data-search-placeholder="Search in applications">
+    <ul class="app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActiveModus == true ? 'lmng-active' : ''}" 
+              data-search-placeholder="Search in applications">
       <c:forEach items="${compoundSps}" var="compoundSp">
         <c:if test="${not empty compoundSp.id}">
-          <li class="${compoundSp.sp.linked ? "connected" : ""} ${compoundSp.articleAvailable ? "licensed" : ""}">
+          <li class="${compoundSp.sp.linked ? "connected" : ""} ${compoundSp.articleLicenseAvailable ? "licensed" : ""}">
             <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
               <spring:param name="compoundSpId" value="${compoundSp.id}" />
             </spring:url>
@@ -40,7 +41,7 @@
               <c:out value="${fn:substring(compoundSp.serviceDescriptionEn, 0, 40)}" />
             </p>
             <div class="app-meta-cta">
-              <c:if test="${compoundSp.articleAvailable}">
+              <c:if test="${compoundSp.articleLicenseAvailable && lmngActiveModus}">
                 <i class="icon-shopping-cart" rel="tooltip" title="<spring:message code="jsp.sp_overview.haslicense" />"></i><br>
               </c:if>
               <c:if test="${compoundSp.sp.linked}">

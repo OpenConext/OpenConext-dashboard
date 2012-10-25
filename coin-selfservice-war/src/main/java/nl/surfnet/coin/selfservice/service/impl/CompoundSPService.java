@@ -172,7 +172,18 @@ public class CompoundSPService {
       LOG.info("Returning Article.NONE because licensingService is inactive");
       return Article.NONE;
     }
-    return (idp == null) ? licensingService.getArticleForServiceProvider(sp) : licensingService
-        .getArticleForIdentityProviderAndServiceProvider(idp, sp, new Date());
+    /*
+     * TODO this is a hack and causes performance issues. Need to refactor but
+     * for now necessary as we don't have the correct query in lmng to
+     * accomplish this
+     */
+    if (idp == null) {
+      return licensingService.getArticleForServiceProvider(sp);
+    }
+    Article licenseArticle = licensingService.getArticleForIdentityProviderAndServiceProvider(idp, sp, new Date());
+    if (licenseArticle == null) {
+      return licensingService.getArticleForServiceProvider(sp);
+    }
+    return licenseArticle;
   }
 }

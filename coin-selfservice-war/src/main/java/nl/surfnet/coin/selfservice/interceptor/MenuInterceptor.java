@@ -44,8 +44,7 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
-      boolean lmngActiveMode = true;
-      Menu menu = createMenu(lmngActiveMode);
+      Menu menu = createMenu();
       setSelected(request, menu);
       map.addAttribute("menu", menu);
     }
@@ -62,7 +61,7 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
     }
   }
 
-  private Menu createMenu(boolean lmngActiveMode) {
+  private Menu createMenu() {
     Menu menu = new Menu();
     menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
     Collection<? extends GrantedAuthority> authorities = SpringSecurity.getCurrentUser().getAuthorities();
@@ -71,7 +70,7 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
         Authority authority = ((CoinAuthority) grantedAuthority).getEnumAuthority();
         switch (authority) {
         case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
-          if (lmngActiveMode) {
+          if (isLmngActive()) {
             menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
             menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
           }

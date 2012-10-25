@@ -56,7 +56,7 @@
     <script src="<c:url value="/js/script.min.js"/>"></script>
   </c:otherwise>
 </c:choose>
-
+<script>var contextPath = "${pageContext.request.contextPath}"</script>
 <c:if test="${param.chart eq true}">
 <tags:sp_renderchart/>
 </c:if>
