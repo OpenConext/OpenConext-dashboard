@@ -18,9 +18,9 @@
 <%@attribute name="nlVariant" type="java.lang.String" required="true" %>
 <c:choose>
   <c:when test="${locale.language eq 'nl'}">
-    <c:out value="${nlVariant}" />
+    <c:out escapeXml="false" value="${nlVariant}" />
   </c:when>
   <c:otherwise>
-    <c:out value="${enVariant}" />
+    <c:out escapeXml="false" value="${enVariant}" />
   </c:otherwise>
 </c:choose>

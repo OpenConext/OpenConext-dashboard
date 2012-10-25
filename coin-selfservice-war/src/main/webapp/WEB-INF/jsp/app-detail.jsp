@@ -167,7 +167,7 @@
         </jsp:attribute>
       </tags:html-format>
     </div>
-    
+ 
     <c:set var="sp" value="${compoundSp.sp}" scope="request" />
     <div class="arp">
           <jsp:include page="requests/arp.jsp" />
