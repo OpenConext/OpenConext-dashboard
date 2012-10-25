@@ -31,6 +31,10 @@ app.message = function() {
         "appgrid.filter.isconnected" : {
             en : "Is connected",
             nl : "Is verbonden"
+        },
+        "arp.button.text" : {
+        	en : " Attributes that are shared",
+        	nl : " Attributen die worden gedeeld"
         }
     };
     

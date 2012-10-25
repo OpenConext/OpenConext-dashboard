@@ -178,7 +178,7 @@ app.global = function() {
             arpTrigger.addClass('hide');
         }
 
-        elm.addClass('hide').before('<a class="btn btn-small arp-trigger" href="#"><i class="icon-upload-alt"></i> Attributen die worden gedeeld</a>');
+        elm.addClass('hide').before('<a class="btn btn-small arp-trigger" href="#"><i class="icon-upload-alt"></i>' + app.message.i18n('arp.button.text') + '</a>');
 
         arpTrigger = $('.arp-trigger').on('click', openArp);
     };
