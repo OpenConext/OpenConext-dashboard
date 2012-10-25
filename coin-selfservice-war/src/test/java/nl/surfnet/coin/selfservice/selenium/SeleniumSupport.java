@@ -18,6 +18,8 @@ package nl.surfnet.coin.selfservice.selenium;
 
 import java.util.concurrent.TimeUnit;
 
+import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
+
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -37,10 +39,8 @@ public class SeleniumSupport {
 
   private static WebDriver driver;
 
-  private static final String MUJINA_BASE = "http://localhost:8095/mujina-idp";
-
   protected String getSelfserviceBaseUrl() {
-    return System.getProperty("selenium.test.url", "http://localhost:8095/selfservice/");
+    return System.getProperty("selenium.test.url", "http://localhost:8280/selfservice/");
   }
 
   @Before
@@ -98,8 +98,12 @@ public class SeleniumSupport {
     return driver;
   }
 
-  public void loginAtMujina() {
-    getWebDriver().findElement(By.name("j_username")).sendKeys("user");
+  public void loginAtMujinaAsUser() {
+    loginAtMujinaAs(OpenConextOAuthClientMock.Users.USER);
+  }
+
+  public void loginAtMujinaAs(OpenConextOAuthClientMock.Users user) {
+    getWebDriver().findElement(By.name("j_username")).sendKeys(user.getUser());
     getWebDriver().findElement(By.name("j_password")).sendKeys("secret");
     getWebDriver().findElement(By.name("login")).submit();
   }

@@ -45,16 +45,16 @@
               <td title="${binding.identityProvider.id} - ${binding.identityProvider.institutionId} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}"><tags:providername provider="${binding.identityProvider}"/></td>
               <td class="text-overflow">
           <form:form method="post" action="save-idplmng.shtml" class="lmng-idp-edit">
-                <input value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
-                <input value="${binding.identityProvider.institutionId}" type="hidden" name="idpIdentifier"/>
+                <input id="lmngId-${status.index}" value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
+                <input id="idpId-${status.index}" value="${binding.identityProvider.institutionId}" type="hidden" name="idpIdentifier"/>
                 <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
                 <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
                 <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
                 <div class="btn-group">
-                  <button type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');" class="btn btn-small">
+                  <button id="clear-${status.index}" type="submit" value="clear" title="${clearButtonTitle}" name="clearbutton" onclick="return confirm('${confirmationMessage}');" class="btn btn-small">
                     <i class="icon-ban-circle"></i>
                   </button>
-                  <button type="submit" value="submit" title="${submitButtonTitle}" name="submit" class="btn btn-small">
+                  <button id="submit-${status.index}" type="submit" value="submit" title="${submitButtonTitle}" name="submitbutton" class="btn btn-small">
                     <i class="icon-ok"></i>
                   </button>
                 </div>

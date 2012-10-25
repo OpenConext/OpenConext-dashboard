@@ -58,10 +58,10 @@
               	<input id="lmngId-${status.index}" value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
               	<input id="spId-${status.index}" value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
                 <div class="btn-group">
-                	<button class="btn btn-small" type="submit" value="clear" title="${clearButtonTitle}" name="submit" onclick="return confirm('${confirmationMessage}');">
+                	<button class="btn btn-small" id="clear-${status.index}" type="submit" value="clear" title="${clearButtonTitle}" name="clearbutton" onclick="return confirm('${confirmationMessage}');">
                     <i class="icon-ban-circle"></i>
                   </button>
-                	<button class="btn btn-small" type="submit" value="submit" title="${submitButtonTitle}" name="submit">
+                	<button class="btn btn-small" id="submit-${status.index}" type="submit" value="submit" title="${submitButtonTitle}" name="submitbutton">
                     <i class="icon-ok"></i>
                   </button>
                 </div>
