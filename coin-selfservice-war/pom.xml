@@ -121,13 +121,17 @@
   </dependencyManagement>
 
   <dependencies>
-        <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>compass</artifactId>
-        <version>0.11.7</version>
-        <type>gem</type>
-      </dependency>
-  
+    <dependency>
+      <groupId>org.imgscalr</groupId>
+      <artifactId>imgscalr-lib</artifactId>
+      <version>4.2</version>
+    </dependency>    
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>compass</artifactId>
+      <version>0.11.7</version>
+      <type>gem</type>
+    </dependency>
     <dependency>
       <groupId>org.surfnet.coin</groupId>
       <artifactId>coin-shared</artifactId>

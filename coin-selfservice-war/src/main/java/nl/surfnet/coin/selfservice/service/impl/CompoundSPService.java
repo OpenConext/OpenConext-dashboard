@@ -120,7 +120,7 @@ public class CompoundSPService {
     ServiceProvider sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
     if (sp == null) {
       // TODO how to handle this. The SP does not exists anymore, we should
-      // delete the
+      // delete the CompoundServiceProvider????
       LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.",
           csp.getServiceProviderEntityId());
       return csp;

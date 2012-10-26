@@ -123,7 +123,7 @@
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
                   code="jsp.sp_detail.requestunlink"/>
-             <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
+              <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
               </a>
             </div>
           </c:when>
