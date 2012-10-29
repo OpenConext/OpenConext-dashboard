@@ -75,30 +75,6 @@
     <h1>${spname}</h1>
     
       <div class="license-connect">
-        <c:if test="${lmngActiveModus}">    
-          <c:choose>
-            <c:when test="${compoundSp.articleLicenseAvailable}">
-              <div class="license-available">
-                <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
-                <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
-                <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
-  
-                <c:if test="${deepLinkToSurfMarketAllowed}">
-                  <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
-                  <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
-                </c:if>
-              </div>
-            </c:when>
-            <c:otherwise>
-              <div class="license-not-available">
-                <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
-                <br/>
-              </div>
-            </c:otherwise>
-          </c:choose>
-       </c:if>   
-
-        <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed and !applyAllowed}" />
 
         <c:if test="${applyAllowed}">
         <c:choose>
@@ -129,6 +105,33 @@
           </c:when>
         </c:choose>
         </c:if>
+
+
+        
+        <c:if test="${lmngActiveModus}">    
+          <c:choose>
+            <c:when test="${compoundSp.articleLicenseAvailable}">
+              <div class="license-available">
+                <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
+                <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
+                <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
+  
+                <c:if test="${deepLinkToSurfMarketAllowed}">
+                  <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
+                  <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
+                </c:if>
+              </div>
+            </c:when>
+            <c:otherwise>
+              <div class="license-not-available">
+                <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
+                <br/>
+              </div>
+            </c:otherwise>
+          </c:choose>
+       </c:if>   
+
+        <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed and !applyAllowed}" />
       </div>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">

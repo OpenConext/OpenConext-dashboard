@@ -171,7 +171,8 @@ a
       width: 35px
 
   .license-available,
-  .license-not-available
+  .license-not-available,
+  .license-not-needed
     &:before
       background: url(../images/sprite-license-availability.png)
 
@@ -189,6 +190,13 @@ a
 
     strong
       color: #E31937
+
+  .license-not-needed
+    &:before
+      background-position: -70px 0
+
+    strong
+      color: #666
 
   .service-connected,
   .service-not-connected
