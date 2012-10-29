@@ -81,26 +81,26 @@
           <c:when test="${not compoundSp.sp.linked}">
             <div class="service-not-connected">
               <p><strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong></p>
-              <a class="btn btn-small" href="<c:url value="/requests/linkrequest.shtml">
+              <a href="<c:url value="/requests/linkrequest.shtml">
                 <c:param name="spEntityId" value="${compoundSp.sp.id}" />
                 <c:param name="compoundSpId" value="${compoundSp.id}" />
               </c:url>"
-                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/>
-              </a>
+                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
+              |
              <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
             </div>
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
             <div class="service-connected">
               <p><strong><spring:message code="jsp.app_detail.technical_connection"/></strong></p>
-              <a class="btn btn-small" href="<c:url value="/requests/unlinkrequest.shtml">
+              <a href="<c:url value="/requests/unlinkrequest.shtml">
                 <c:param name="spEntityId" value="${compoundSp.sp.id}" />
                 <c:param name="compoundSpId" value="${compoundSp.id}" />
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
-                  code="jsp.sp_detail.requestunlink"/>
+                  code="jsp.sp_detail.requestunlink"/></a>
+              |
               <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
-              </a>
             </div>
           </c:when>
         </c:choose>

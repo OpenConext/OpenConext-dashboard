@@ -18,7 +18,7 @@
     required="true" %>
 <%@attribute name="invariant" type="java.lang.Boolean" required="true" %>
 <c:if test="${invariant}">
-  <a class="btn btn-small" href="<c:url value="/requests/question.shtml">
+  <a href="<c:url value="/requests/question.shtml">
     <c:param name="spEntityId" value="${csp.sp.id}" />
     <c:param name="compoundSpId" value="${csp.id}" />
     </c:url>"
