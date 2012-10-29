@@ -15,6 +15,7 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,10 +62,12 @@ public class LmngServiceMock implements LicensingService {
   }
 
   @Override
-  public Article getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     invariant();
-    return this.article;
+    List<Article> resultList = new ArrayList<Article>();
+    resultList.add(article);
+    return resultList;
   }
 
   /*
