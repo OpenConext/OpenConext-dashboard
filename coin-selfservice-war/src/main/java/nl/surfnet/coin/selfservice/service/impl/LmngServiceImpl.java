@@ -16,35 +16,26 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -61,8 +52,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.params.CoreProtocolPNames;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,12 +59,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  * Implementation of a licensing service that get's it information from a
@@ -84,7 +67,6 @@ import org.xml.sax.SAXException;
 public class LmngServiceImpl implements LicensingService {
 
   private static final Logger log = LoggerFactory.getLogger(LmngServiceImpl.class);
-  private static final DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis();
 
   private static final String ENDPOINT_PLACEHOLDER = "%ENDPOINT%";
   private static final String UID_PLACEHOLDER = "%UID%";
@@ -99,21 +81,6 @@ public class LmngServiceImpl implements LicensingService {
   private static final String PATH_FETCH_QUERY_ARTICLES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryArticlesWithOrWithoutLicencesForIdpAndSp.xml";
   private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryConditionValue.xml";
   private static final String PATH_FETCH_QUERY_ARTICLE_DETAILS = "lmngqueries/lmngQueryGetServiceDetails.xml";
-  
-  private static final String RESULT_ELEMENT = "GetDataResult";
-  private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
-  private static final String FETCH_RESULT_VALID_TO = "license.lmng_validto";
-  private static final String FETCH_RESULT_LICENSE_NUMBER = "license.lmng_number";
-  private static final String FETCH_RESULT_SUPPLIER_NAME = "supplier.name";
-  private static final String FETCH_RESULT_ARTICLE_STATUS = "artikel.statuscode";
-  private static final String FETCH_RESULT_DESCRIPTION_ENDUSER = "artikel.lmng_surfspotdescriptionlong";
-  private static final String FETCH_RESULT_DESCRIPTION_INSTITUTION = "artikel.lmng_descriptionlong";
-  private static final String FETCH_RESULT_DESCRIPTION_SERVICE = "artikel.lmng_description";
-  private static final String FETCH_RESULT_DETAIL_LOGO = "image.lmng_url";
-  private static final String FETCH_RESULT_SPECIAL_CONDITIONS = "image.lmng_url";
-  private static final String FETCH_RESULT_LMNG_IDENTIFIER = "artikel.lmng_sdnarticleid";
-  private static final String FETCH_RESULT_INSTITUTION_NAME = "name";
-  private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -161,13 +128,13 @@ public class LmngServiceImpl implements LicensingService {
       // get the file with the soap request
       String soapRequest = getLmngSoapRequestForIdpAndSp(lmngInstitutionId, serviceIds, validOn);
       if (debug) {
-        writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
+        LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
 
       // call the webservice
       String webserviceResult = getWebServiceResult(soapRequest);
       // read/parse the XML response to License objects
-      return parseResult(webserviceResult);
+      return LmngUtil.parseResult(webserviceResult, debug);
     } catch (Exception e) {
       log.error("Exception while retrieving article/license", e);
       // TODO error mail
@@ -188,14 +155,14 @@ public class LmngServiceImpl implements LicensingService {
       try {
         String soapRequest = getLmngSoapRequestForSp(serviceId);
         if (debug) {
-          writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
+          LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
         }
 
         // call the webservice
         String webserviceResult = getWebServiceResult(soapRequest);
         // read/parse the XML response to License objects
 
-        List<Article> results = parseResult(webserviceResult);
+        List<Article> results = LmngUtil.parseResult(webserviceResult, debug);
         if (results.isEmpty()) {
           return null;
         } else if (results.size() > 1) {
@@ -204,116 +171,10 @@ public class LmngServiceImpl implements LicensingService {
           return results.get(0);
         } else {
           return results.get(0);
-        }        
+        }
       } catch (Exception e) {
         log.error("Exception while retrieving article", e);
         // TODO error mail, we only expect one
-      }
-    }
-    return result;
-  }
-
-  /**
-   * This method tries to parse the result into Article objects with possible
-   * licenses
-   * 
-   * @param webserviceResult
-   * @throws ParserConfigurationException
-   * @throws IOException
-   * @throws SAXException
-   * @throws ParseException
-   */
-  private List<Article> parseResult(String webserviceResult) throws ParserConfigurationException, SAXException, IOException, ParseException {
-    List<Article> resultList = new ArrayList<Article>();
-
-    DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-    InputStream inputStream = IOUtils.toInputStream(webserviceResult);
-    Document doc = docBuilder.parse(inputStream);
-    Element documentElement = doc.getDocumentElement();
-
-    String fetchResultString = getFirstSubElementStringValue(documentElement, RESULT_ELEMENT);
-    if (fetchResultString == null) {
-      log.warn("Webservice response did not contain a 'GetDataResult' element. WebserviceResult:\n" + webserviceResult);
-    } else {
-      if (debug) {
-        writeIO("lmngFetchResponse", StringEscapeUtils.unescapeHtml(fetchResultString));
-      }
-      InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
-      Document fetchResultDocument = docBuilder.parse(fetchInputSource);
-      Element resultset = fetchResultDocument.getDocumentElement();
-
-      if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
-        log.warn("Webservice 'GetDataResult' element did not contain a 'resultset' element");
-
-      } else {
-        NodeList results = resultset.getElementsByTagName("result");
-
-        int numberOfResults = results.getLength();
-        log.debug("Number of results in Fetch query:" + numberOfResults);
-        for (int i = 0; i < numberOfResults; i++) {
-          Node resultNode = results.item(i);
-          if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
-            Element resultElement = (Element) resultNode;
-
-            resultList.add(createArticle(resultElement));
-          }
-        }
-      }
-    }
-    return resultList;
-  }
-
-  private Article createArticle(Element resultElement) {
-    Article article = new Article();
-    article.setArticleState(getFirstSubElementStringValue(resultElement, FETCH_RESULT_ARTICLE_STATUS));
-    article.setDetailLogo(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DETAIL_LOGO));
-    article.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_ENDUSER));
-    article.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_INSTITUTION));
-    article.setLmngIdentifier(getFirstSubElementStringValue(resultElement, FETCH_RESULT_LMNG_IDENTIFIER));
-    article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_SERVICE));
-    article.setSpecialConditions(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SPECIAL_CONDITIONS));
-    article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
-    article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
-
-    String licenseNumber = getFirstSubElementStringValue(resultElement, FETCH_RESULT_LICENSE_NUMBER);
-    if (licenseNumber != null) {
-      License license = new License();
-      license.setLicenseNumber(licenseNumber);
-      license.setInstitutionName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_INSTITUTION_NAME));
-      Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
-      license.setStartDate(startDate);
-      Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
-      license.setEndDate(endDate);
-      article.addLicense(license);
-    }
-
-    log.debug("Created new Article object:" + article.toString());
-    return article;
-  }
-
-  /**
-   * Get a child element with the given name and return the value of it as a
-   * String This method will return the first (if available) item value,
-   * possible multiple values will be ignored.
-   * 
-   * @param element
-   *          The element to get the subelement from
-   * 
-   * @param string
-   *          the string of the subelement
-   * @return a string representation of the content of the subelement
-   */
-  private String getFirstSubElementStringValue(Element element, String subItemName) {
-    String result = null;
-    NodeList subItemListList = element.getElementsByTagName(subItemName);
-    if (subItemListList != null && subItemListList.getLength() > 0) {
-      Element subItemFirstElement = (Element) subItemListList.item(0);
-      NodeList textFNList = subItemFirstElement.getChildNodes();
-      if (textFNList != null) {
-        if (((Node) textFNList.item(0)) != null && ((Node) textFNList.item(0)).getNodeValue() != null) {
-          result = ((Node) textFNList.item(0)).getNodeValue().trim();
-        }
       }
     }
     return result;
@@ -367,7 +228,7 @@ public class LmngServiceImpl implements LicensingService {
     String response = writer.toString();
 
     if (debug) {
-      writeIO("lmngWsResponseStatus" + status, StringEscapeUtils.unescapeHtml(response));
+      LmngUtil.writeIO("lmngWsResponseStatus" + status, StringEscapeUtils.unescapeHtml(response));
     }
     log.warn("LMNG proxy webservice called. Http response:" + httpresponse);
 
@@ -486,6 +347,14 @@ public class LmngServiceImpl implements LicensingService {
     return IOUtils.toString(inputStream);
   }
 
+  private void invariant() {
+    if (!activeMode) {
+      throw new RuntimeException(this.getClass().getSimpleName() + " is not active. No calls may be made.");
+    }
+  }
+
+  // GETTERS AND SETTERS BELOW
+
   public void setEndpoint(String endpoint) {
     this.endpoint = endpoint;
   }
@@ -510,31 +379,6 @@ public class LmngServiceImpl implements LicensingService {
     this.lmngIdentifierDao = lmngIdentifierDao;
   }
 
-  /**
-   * Write the given content to a file with the given filename (and add a
-   * datetime prefix). For debugging purposes
-   * 
-   * @param filename
-   * @param content
-   */
-  private void writeIO(String filename, String content) {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssS");
-    try {
-      String fullFileName = System.getProperty("java.io.tmpdir") + filename + "_" + sdf.format(new Date()) + ".xml";
-      FileUtils.writeStringToFile(new File(fullFileName), content);
-      log.debug("wrote I/O file to " + fullFileName);
-    } catch (IOException e) {
-      log.debug("Failed to write input/output file. " + e.getMessage());
-    }
-
-  }
-
-  private void invariant() {
-    if (!activeMode) {
-      throw new RuntimeException(this.getClass().getSimpleName() + " is not active. No calls may be made.");
-    }
-  }
-  
   public void setActiveMode(boolean activeMode) {
     this.activeMode = activeMode;
   }
