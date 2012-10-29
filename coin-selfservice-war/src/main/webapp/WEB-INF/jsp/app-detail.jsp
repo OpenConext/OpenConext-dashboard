@@ -112,7 +112,15 @@
           <c:choose>
             <c:when test="${compoundSp.articleLicenseAvailable}">
               <div class="license-available">
-                <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
+                <c:choose>
+                  <c:when test="${compoundSp.article.licence.groupLicense}">
+                    <p><strong><spring:message code="jsp.app_detail.group_license_available"/></strong></p>
+                    <p><spring:message code="jsp.app_detail.group_license_available_detail"/></p>
+                  </c:when>
+                  <c:otherwise>
+                    <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
+                  </c:otherwise>
+                </c:choose>          
                 <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
                 <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
   
@@ -122,9 +130,15 @@
                 </c:if>
               </div>
             </c:when>
-            <c:otherwise>
+            <c:when test="${compoundSp.articleAvailable}">
               <div class="license-not-available">
                 <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
+              </div>
+            </c:when>
+            <c:otherwise>
+              <div class="license-not-needed">
+                <p><strong><spring:message code="jsp.app_detail.license_not_needed"/></strong></p>
+                <p><spring:message code="jsp.app_detail.license_not_needed_detail"/></p>
                 <br/>
               </div>
             </c:otherwise>
