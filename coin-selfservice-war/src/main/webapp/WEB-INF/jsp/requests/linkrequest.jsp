@@ -70,13 +70,13 @@
             </div>
 
             <div class="actions">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary btn-small">
                 <spring:message code="jsp.sp_linkrequest.buttonsubmit" />
               </button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
                 <spring:param name="compoundSpId" value="${compoundSpId}" />
               </spring:url>
-              <a class="btn" href="${detailUrl}"><spring:message code="jsp.sp_linkrequest.buttoncancel"/></a>
+              <a class="btn btn-small" href="${detailUrl}"><spring:message code="jsp.sp_linkrequest.buttoncancel"/></a>
             </div>
           </fieldset>
         </form:form>

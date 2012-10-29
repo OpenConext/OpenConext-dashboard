@@ -38,10 +38,10 @@
         <spring:param name="compoundSpId" value="${compoundSpId}" />
       </spring:url>
 
-      <a class="btn btn-primary btn-primary-alt" href="${overviewUrl}">
+      <a class="btn btn-primary btn-small" href="${overviewUrl}">
         <spring:message code="jsp.request.backtooverview" />
       </a>
-      <a class="btn" href="${detailUrl}">
+      <a class="btn btn-small" href="${detailUrl}">
         <spring:message code="jsp.request.backtodetail" arguments="${spname}" />
       </a>
     </div>
