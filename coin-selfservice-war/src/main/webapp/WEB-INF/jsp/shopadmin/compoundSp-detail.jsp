@@ -31,7 +31,14 @@
 <div class="column-center content-holder">
 <section>
 
-  <h1>${title}</h1>
+  <h1>${title}
+    <spring:url value="/app-detail.shtml" var="detailUrl" htmlEscape="true">
+      <spring:param name="compoundSpId" value="${compoundSp.id}" />
+    </spring:url>
+    <a href="${detailUrl}">
+      <i class="icon-eye-open" rel="tooltip" title="<spring:message code="jsp.compoundsp_detail.previewlink" />"></i>
+    </a>
+  </h1>
 
   <div class="content">
       <div class="accordion" id="fieldaccordion">
