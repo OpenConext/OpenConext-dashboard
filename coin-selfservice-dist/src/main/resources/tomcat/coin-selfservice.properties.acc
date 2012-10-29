@@ -36,14 +36,31 @@ coin-eb-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/eb
 coin-eb-db-username=ebrw
 coin-eb-db-password=??
 
-#set to false to go to the surfconext version without licenses
+# Whether to try to fetch license information from LMNG.
+# Set to false to go to the surfconext version without licenses
 coin-lmng-active-mode=true
 
+# SOAP service endpoint for LMNG.
+# This is a complete URL to which requests will be posted.
+# Example: https://lmng01.dev.coin.surf.net:8444/CrmService.svc
 coin-lmng-endpoint=??
+
+# If set to true, requests/responses will be written to a file in the java.io.tmpdir directory.
 coin-lmng-debug=false
+
+# Password that is used for protecting the client certificate
 coin-lmngClientCertificatePassword=??
+
+# Base64 encoded string of the client's private key.
+# One line, without the -----BEGIN RSA PRIVATE KEY--- and the ---- END RSA ... ----- parts.
 coin-lmngClientCertificatePrivateKey=??
+
+# Base64 encoded string of the client certificate.
+# One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
 coin-lmngClientCertificate=??
+
+# Base64 encoded string of the root certificate that was used to issue the client certificate and the server certificate.
+# One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
 coin-lmngRootCertificate=??
 
 coin-shindig-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/shindig
@@ -95,10 +112,12 @@ federationconfig.location=https://knikker.surfnet.nl/fedcfg/config-selfservice-t
 # Amount of miliseconds between reloading the SURFfederatie config file (900000 = 15 minutes)
 federationconfig.reload.interval=900000
 
-# Only members of the following teams are admins
-admin.licentie.idp.teamname=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
+# Team id that is used as definition of who is a 'license contact person'.
+admin.licentie.idp.teamname=??
+# Team id that is used as definition of who is a 'conext contact person'.
 admin.surfconext.idp.teamname=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
-admin.distribution.channel.teamname=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:managementvo
+# Team id that is used as definition of who is a 'shop manager/shop admin'.
+admin.distribution.channel.teamname=??
 
 api-baseurl=https\://api.acc.surfconext.nl/v1/
 api-consumerkey=https://selfservice.acc.surfconext.nl/
@@ -110,12 +129,11 @@ api-callbackuri=https\://selfservice.acc.surfconext.nl/apiOauthCallback?apiOauth
 ## The following properties are used to enable/disable features
 ##
 ####################################################################
-# Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
+# Defines if the site is in local dev mode or deployed on the server. Used for CSS/JS concatenation
 mode.dev=false
 
 ##########################################################################
-# The following properties are the responsibility of development. The    #
-# values do NOT depend on the environment                                #
+# The following properties are the responsibility of development.
 ##########################################################################
 
 hibernate-selfservice.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
