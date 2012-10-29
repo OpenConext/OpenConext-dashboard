@@ -96,9 +96,10 @@ public class LmngServiceImpl implements LicensingService {
 
   private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
   private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
+  private static final String PATH_FETCH_QUERY_ARTICLES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryArticlesWithOrWithoutLicencesForIdpAndSp.xml";
   private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryConditionValue.xml";
   private static final String PATH_FETCH_QUERY_ARTICLE_DETAILS = "lmngqueries/lmngQueryGetServiceDetails.xml";
-
+  
   private static final String RESULT_ELEMENT = "GetDataResult";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
   private static final String FETCH_RESULT_VALID_TO = "license.lmng_validto";
@@ -131,12 +132,21 @@ public class LmngServiceImpl implements LicensingService {
     invariant();
     List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
     serviceProviders.add(serviceProvider);
-    return getArticleForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
+    List<Article> results = getArticleForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
+    if (results.isEmpty()) {
+      return null;
+    } else if (results.size() > 1) {
+      log.warn("Got more than one result but expected zero or one. Error mail will be sent. N/O results=" + results.size());
+      // TODO add errormail
+      return results.get(0);
+    } else {
+      return results.get(0);
+    }
   }
 
   @Override
   @Cacheable("selfserviceDefault")
-  public Article getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
+  public List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     invariant();
     try {
@@ -160,7 +170,7 @@ public class LmngServiceImpl implements LicensingService {
       return parseResult(webserviceResult);
     } catch (Exception e) {
       log.error("Exception while retrieving article/license", e);
-      // TODO error mail, we only expect one
+      // TODO error mail
     }
     return null;
   }
@@ -184,7 +194,17 @@ public class LmngServiceImpl implements LicensingService {
         // call the webservice
         String webserviceResult = getWebServiceResult(soapRequest);
         // read/parse the XML response to License objects
-        return parseResult(webserviceResult);
+
+        List<Article> results = parseResult(webserviceResult);
+        if (results.isEmpty()) {
+          return null;
+        } else if (results.size() > 1) {
+          log.warn("Got more than one result but expected zero or one. Error mail will be sent. N/O results=" + results.size());
+          // TODO add errormail
+          return results.get(0);
+        } else {
+          return results.get(0);
+        }        
       } catch (Exception e) {
         log.error("Exception while retrieving article", e);
         // TODO error mail, we only expect one
@@ -203,7 +223,7 @@ public class LmngServiceImpl implements LicensingService {
    * @throws SAXException
    * @throws ParseException
    */
-  private Article parseResult(String webserviceResult) throws ParserConfigurationException, SAXException, IOException, ParseException {
+  private List<Article> parseResult(String webserviceResult) throws ParserConfigurationException, SAXException, IOException, ParseException {
     List<Article> resultList = new ArrayList<Article>();
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -241,15 +261,7 @@ public class LmngServiceImpl implements LicensingService {
         }
       }
     }
-    if (resultList.size() > 1) {
-      // TODO error mail, we only expect one
-      return resultList.get(0);
-    } else if (resultList.isEmpty()) {
-      return null;
-    } else {
-      return resultList.get(0);
-    }
-
+    return resultList;
   }
 
   private Article createArticle(Element resultElement) {
@@ -258,7 +270,6 @@ public class LmngServiceImpl implements LicensingService {
     article.setDetailLogo(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DETAIL_LOGO));
     article.setEndUserDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_ENDUSER));
     article.setInstitutionDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_INSTITUTION));
-    article.setInstitutionName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_INSTITUTION_NAME));
     article.setLmngIdentifier(getFirstSubElementStringValue(resultElement, FETCH_RESULT_LMNG_IDENTIFIER));
     article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_SERVICE));
     article.setSpecialConditions(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SPECIAL_CONDITIONS));
@@ -269,6 +280,7 @@ public class LmngServiceImpl implements LicensingService {
     if (licenseNumber != null) {
       License license = new License();
       license.setLicenseNumber(licenseNumber);
+      license.setInstitutionName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_INSTITUTION_NAME));
       Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
       license.setStartDate(startDate);
       Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
@@ -416,7 +428,7 @@ public class LmngServiceImpl implements LicensingService {
     // Get the soap/fetch envelope
     String result = getLmngRequestEnvelope();
 
-    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP);
+    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLES_LICENCES_FOR_IDP_SP);
 
     InputStream inputStream = queryResource.getInputStream();
     String query = IOUtils.toString(inputStream);
