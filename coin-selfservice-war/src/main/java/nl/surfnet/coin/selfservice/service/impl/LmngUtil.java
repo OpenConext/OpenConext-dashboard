@@ -71,7 +71,11 @@ public class LmngUtil {
   private static final String FETCH_RESULT_LMNG_IDENTIFIER = "lmng_sdnarticleid";// artikel.FIELDNAME
   private static final String FETCH_RESULT_INSTITUTION_NAME = "name";
   private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
+  private static final String FETCH_RESULT_LICENSEMODEL = "productvariation.lmng_licensemodel";
 
+  private static final String GROUP_LICENSEMODEL = "3";
+  
+  
   /**
    * This method tries to parse the result into Article objects with possible
    * licenses
@@ -145,6 +149,10 @@ public class LmngUtil {
       license.setStartDate(startDate);
       Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
       license.setEndDate(endDate);
+      String licenseModel = getFirstSubElementStringValue(resultElement, FETCH_RESULT_LICENSEMODEL);
+      if (licenseModel != null && GROUP_LICENSEMODEL.equals(licenseModel)) {
+        license.setGroupLicense(true);
+      }
       article.addLicense(license);
     }
 

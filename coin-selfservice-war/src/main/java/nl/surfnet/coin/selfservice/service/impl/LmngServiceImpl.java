@@ -100,7 +100,7 @@ public class LmngServiceImpl implements LicensingService {
     List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
     serviceProviders.add(serviceProvider);
     List<Article> results = getArticleForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
-    if (results.isEmpty()) {
+    if (results == null || results.isEmpty()) {
       return null;
     } else if (results.size() > 1) {
       log.warn("Got more than one result but expected zero or one. Error mail will be sent. N/O results=" + results.size());
