@@ -31,6 +31,7 @@ public class License implements Serializable {
   private Date endDate;
   private String licenseNumber;
   private String institutionName;
+  private boolean groupLicense;
   
   /**
    * Default constructor
@@ -82,6 +83,14 @@ public class License implements Serializable {
   public String toString() {
     return "License [startDate=" + startDate + ", endDate=" + endDate + ", licenseNumber=" + licenseNumber + ", institutionName="
         + institutionName + "]";
+  }
+
+  public boolean isGroupLicense() {
+    return groupLicense;
+  }
+
+  public void setGroupLicense(boolean groupLicense) {
+    this.groupLicense = groupLicense;
   }
 
 }
