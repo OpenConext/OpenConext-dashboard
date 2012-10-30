@@ -38,6 +38,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -48,8 +49,8 @@ import org.springframework.util.Assert;
 @Component
 public class CompoundSPService {
 
-  // TODO put this in the properties file
-  private static final int LMNG_CACHE_EXPIRY_SECONDS = 60 * 60;
+  @Value("${lmngCacheSeconds}")
+  private String lmngCacheExpireSeconds;
 
   Logger LOG = LoggerFactory.getLogger(CompoundSPService.class);
 
@@ -221,7 +222,7 @@ public class CompoundSPService {
         // return current value (possibly null)
         return result == null ? null : result.getValue();
       } else {
-        DateTime invaliDate = new DateTime(now).plusMinutes(LMNG_CACHE_EXPIRY_SECONDS);
+        DateTime invaliDate = new DateTime(now).plusMinutes(Integer.parseInt(lmngCacheExpireSeconds));
         result = new SimpleEntry<DateTime, List<Article>>(invaliDate, lmngResult);
         lmngCachedResults.put(idp, result);
         return result.getValue();

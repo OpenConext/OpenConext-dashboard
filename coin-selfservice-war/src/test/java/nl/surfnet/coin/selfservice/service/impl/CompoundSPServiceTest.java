@@ -110,6 +110,7 @@ public class CompoundSPServiceTest {
     CompoundServiceProvider gottenCSP = cspService.getCSPById(idp, 1L);
     assertTrue(csp == gottenCSP);
     assertTrue(sp1 == gottenCSP.getServiceProvider());
-
   }
+  
+  //TODO add tests for LMNG caching
 }
