@@ -18,10 +18,10 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Identity provider
@@ -31,10 +31,15 @@ public class IdentityProvider extends Provider implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /*
+   * Optional pattern applied to prevent nullpointer checks a possibility to use
+   * it as a map-key
+   */
+  public static final IdentityProvider NONE = new IdentityProvider();
+
   @XStreamAlias("id")
   @XStreamAsAttribute
   private String id;
-
 
   @XStreamAlias("InstitutionID")
   private String institutionId;

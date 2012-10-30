@@ -16,17 +16,12 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Date;
 
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
-import nl.surfnet.coin.selfservice.domain.Article;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpException;
@@ -38,8 +33,6 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpRequestHandler;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
 import org.springframework.core.io.ClassPathResource;
 
@@ -73,17 +66,6 @@ public class LmngServiceImplTest implements HttpRequestHandler {
   @Before
   public void before() {
     testServer.register("/mock/*", this);
-  }
-
-  @Test
-  @Ignore
-  public void testFetchResultSingleLicense() {
-    xmlFile = "lmngRequestResponse/tempResponseExampleActual.xml";
-    IdentityProvider identityProvider = new IdentityProvider();
-    identityProvider.setInstitutionId("dummy");
-    ServiceProvider serviceProvider = new ServiceProvider("dummysp");
-    Article article = lmngServiceImpl.getArticleForIdentityProviderAndServiceProvider(identityProvider, serviceProvider, new Date());
-    assertEquals("Aanbesteden1", article.getServiceDescriptionNl());
   }
 
   /*

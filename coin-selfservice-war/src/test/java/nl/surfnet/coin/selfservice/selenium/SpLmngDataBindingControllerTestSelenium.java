@@ -19,7 +19,6 @@ package nl.surfnet.coin.selfservice.selenium;
 import junit.framework.Assert;
 import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -54,7 +53,6 @@ public class SpLmngDataBindingControllerTestSelenium extends SeleniumSupport {
   }
   
   @Test
-  @Ignore // TODO RJ work in progress
   public void getLmngIdForSpChangeValue() {
     WebDriver driver = getRestartedWebDriver();
     String currentLmngValue = "26FF7404-970C-E211-B6B9-005056950050";

@@ -50,7 +50,6 @@ public class LmngServiceMock implements LicensingService {
 
   private Article article;
 
-  @SuppressWarnings("unchecked")
   public LmngServiceMock() {
     try {
       TypeReference<Article> typeReference = new TypeReference<Article>() {
@@ -68,27 +67,6 @@ public class LmngServiceMock implements LicensingService {
     List<Article> resultList = new ArrayList<Article>();
     resultList.add(article);
     return resultList;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.selfservice.service.LicensingService#
-   * getLicensesForIdentityProviderAndServiceProvider
-   * (nl.surfnet.coin.selfservice.domain.IdentityProvider,
-   * nl.surfnet.coin.selfservice.domain.ServiceProvider, java.util.Date)
-   */
-  @Override
-  public Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider,
-      ServiceProvider serviceProvider, Date validOn) {
-    invariant();
-    return this.article;
-  }
-
-  @Override
-  public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
-    invariant();
-    return this.article;
   }
 
   private Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {
@@ -122,7 +100,7 @@ public class LmngServiceMock implements LicensingService {
   public void setActiveMode(boolean activeMode) {
     this.activeMode = activeMode;
   }
-  
+
   public boolean isActiveMode() {
     return activeMode;
   }
@@ -131,7 +109,7 @@ public class LmngServiceMock implements LicensingService {
     if (!activeMode) {
       throw new RuntimeException(this.getClass().getSimpleName() + " is not active. No calls can be made");
     }
-    
+
   }
 
 }

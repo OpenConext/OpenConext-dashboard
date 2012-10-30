@@ -16,8 +16,9 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
+import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -32,9 +34,10 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -45,7 +48,14 @@ import org.springframework.util.Assert;
 @Component
 public class CompoundSPService {
 
+  // TODO put this in the properties file
+  private static final int LMNG_CACHE_EXPIRY_SECONDS = 60 * 60;
+
   Logger LOG = LoggerFactory.getLogger(CompoundSPService.class);
+
+  // Cached resultlist of LMNG data. A resultlist is stored per IDP with an
+  // expire date
+  private final Map<IdentityProvider, AbstractMap.SimpleEntry<DateTime, List<Article>>> lmngCachedResults = new HashMap<IdentityProvider, AbstractMap.SimpleEntry<DateTime, List<Article>>>();
 
   @Resource
   private CompoundServiceProviderDao compoundServiceProviderDao;
@@ -56,7 +66,9 @@ public class CompoundSPService {
   @Resource
   private LicensingService licensingService;
 
-  @Cacheable("selfserviceDefault")
+  @Autowired
+  private LmngIdentifierDao lmngIdentifierDao;
+
   public List<CompoundServiceProvider> getCSPsByIdp(IdentityProvider identityProvider) {
 
     // Base: the list of all service providers for this IDP
@@ -75,7 +87,7 @@ public class CompoundSPService {
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
         csp = mapByServiceProviderEntityId.get(sp.getId());
         csp.setServiceProvider(sp);
-        csp.setArticle(getArticle(identityProvider, sp));
+        csp.setArticle(getCachedArticleForIdpAndSp(identityProvider, sp));
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
         csp = createCompoundServiceProvider(identityProvider, sp);
@@ -93,7 +105,7 @@ public class CompoundSPService {
    * @return the created (and persisted) CSP
    */
   private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, getArticle(idp, sp));
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, getCachedArticleForIdpAndSp(idp, sp));
     compoundServiceProviderDao.saveOrUpdate(csp);
     return csp;
   }
@@ -126,7 +138,7 @@ public class CompoundSPService {
       return csp;
     }
     csp.setServiceProvider(sp);
-    csp.setArticle(getArticle(idp, sp));
+    csp.setArticle(getCachedArticleForIdpAndSp(idp, sp));
     return csp;
   }
 
@@ -147,43 +159,82 @@ public class CompoundSPService {
     CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
     if (compoundServiceProvider == null) {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProviderEntityId);
-      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, getArticle(null, serviceProvider));
+      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider));
       compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");
     } else {
       compoundServiceProvider.setServiceProvider(serviceProvider);
-      compoundServiceProvider.setArticle(getArticle(null, serviceProvider));
+      compoundServiceProvider.setArticle(getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider));
 
     }
     return compoundServiceProvider;
   }
 
   /**
-   * Get the Article for a CSP
+   * Get an article from the licensingservice belonging to the given IDP and SP
    * 
    * @param idp
-   *          the IDP for which Article is returned (licenses are Idp specific)
    * @param sp
-   *          the SP
-   * 
+   * @return
    */
-  private Article getArticle(IdentityProvider idp, ServiceProvider sp) {
+  private Article getCachedArticleForIdpAndSp(IdentityProvider idp, ServiceProvider sp) {
     if (!licensingService.isActiveMode()) {
       LOG.info("Returning Article.NONE because licensingService is inactive");
       return Article.NONE;
     }
-    /*
-     * TODO this is a hack and causes performance issues. Need to refactor but
-     * for now necessary as we don't have the correct query in lmng to
-     * accomplish this
-     */
-    if (idp == null) {
-      return licensingService.getArticleForServiceProvider(sp);
+    Assert.notNull(idp);
+    Assert.notNull(sp);
+    String spLmngIdentifier = lmngIdentifierDao.getLmngIdForServiceProviderId(sp.getId());
+    if (spLmngIdentifier != null) {
+      for (Article article : getCachedArticlesForIdp(idp)) {
+        if (article.getLmngIdentifier().equals(spLmngIdentifier)) {
+          // Get first article (we expect a max of one article per SP)
+          return article;
+        }
+      }
     }
-    Article licenseArticle = licensingService.getArticleForIdentityProviderAndServiceProvider(idp, sp, new Date());
-    if (licenseArticle == null) {
-      return licensingService.getArticleForServiceProvider(sp);
+    LOG.debug("No lmngidentifier for this SP or no LMNG result found, nothing to return. LmngID = " + spLmngIdentifier);
+    return null;
+  }
+
+  /**
+   * Get the list of articles from the cache (or from LMNG if cache is empty or
+   * invalid).
+   * 
+   * @param idp
+   *          the corresponding IDP
+   * @return the list of articles belonging to the IDP
+   */
+  private List<Article> getCachedArticlesForIdp(IdentityProvider idp) {
+    if (!licensingService.isActiveMode()) {
+      LOG.info("Returning null because licensingService is inactive");
+      return null;
     }
-    return licenseArticle;
+    SimpleEntry<DateTime, List<Article>> result = lmngCachedResults.get(idp);
+    DateTime now = getNow();
+    if (result == null || result.getKey().isBefore(now)) {
+      // reload from lmng
+      List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(idp.getId());
+      List<Article> lmngResult = licensingService.getArticleForIdentityProviderAndServiceProviders(idp, allServiceProviders, now.toDate());
+      if (lmngResult == null || lmngResult.isEmpty()) {
+        LOG.warn("No LMNG data retrieved. Cache not updated.");
+        // return current value (possibly null)
+        return result == null ? null : result.getValue();
+      } else {
+        DateTime invaliDate = new DateTime(now).plusMinutes(LMNG_CACHE_EXPIRY_SECONDS);
+        result = new SimpleEntry<DateTime, List<Article>>(invaliDate, lmngResult);
+        lmngCachedResults.put(idp, result);
+        return result.getValue();
+      }
+    } else {
+      return result.getValue();
+    }
+  }
+  
+  /**
+   * @return a new DateTime object (representing this moment) used for possible overriding in tests
+   */
+  protected DateTime getNow() {
+    return new DateTime();
   }
 }

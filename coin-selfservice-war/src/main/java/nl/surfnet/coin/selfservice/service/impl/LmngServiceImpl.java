@@ -38,7 +38,6 @@ import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -55,7 +54,6 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -75,12 +73,12 @@ public class LmngServiceImpl implements LicensingService {
   private static final String SERVICE_IDENTIFIER_PLACEHOLDER = "%SERVICE_ID%";
   private static final String VALID_ON_DATE_PLACEHOLDER = "%VALID_ON%";
   private static final String ARTICLE_CONDITION_VALUE_PLACEHOLDER = "%ARTICLE_CONDITION_VALUES%";
+  private static final String ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER = "%INSTITUTION_CONDITION%";
 
   private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
-  private static final String PATH_FETCH_QUERY_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicencesForIdentityProviderAndService.xml";
   private static final String PATH_FETCH_QUERY_ARTICLES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryArticlesWithOrWithoutLicencesForIdpAndSp.xml";
   private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryConditionValue.xml";
-  private static final String PATH_FETCH_QUERY_ARTICLE_DETAILS = "lmngqueries/lmngQueryGetServiceDetails.xml";
+  private static final String PATH_FETCH_QUERY_INSTITUTION_CONDITION = "lmngqueries/lmngArticleQueryInstitutionCondition.xml";
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -93,36 +91,16 @@ public class LmngServiceImpl implements LicensingService {
   private boolean activeMode;
 
   @Override
-  @Cacheable("selfserviceDefault")
-  public Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
-      Date validOn) {
-    invariant();
-    List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
-    serviceProviders.add(serviceProvider);
-    List<Article> results = getArticleForIdentityProviderAndServiceProviders(identityProvider, serviceProviders, new Date());
-    if (results == null || results.isEmpty()) {
-      return null;
-    } else if (results.size() > 1) {
-      log.warn("Got more than one result but expected zero or one. Error mail will be sent. N/O results=" + results.size());
-      // TODO add errormail
-      return results.get(0);
-    } else {
-      return results.get(0);
-    }
-  }
-
-  @Override
-  @Cacheable("selfserviceDefault")
   public List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
     List<Article> nullResult = new ArrayList<Article>();
     invariant();
     try {
-      String lmngInstitutionId = getLmngIdentityId(identityProvider);
+      String lmngInstitutionId = IdentityProvider.NONE.equals(identityProvider) ? null : getLmngIdentityId(identityProvider);
       List<String> serviceIds = getLmngServiceIds(serviceProviders);
 
-      // validation, we need an institutionId and at least one serviceId
-      if (StringUtils.isBlank(lmngInstitutionId) || CollectionUtils.isEmpty(serviceIds)) {
+      // validation, we need at least one serviceId
+      if (CollectionUtils.isEmpty(serviceIds)) {
         return nullResult;
       }
 
@@ -141,44 +119,6 @@ public class LmngServiceImpl implements LicensingService {
       // TODO error mail
     }
     return nullResult;
-  }
-
-  @Override
-  @Cacheable("selfserviceDefault")
-  public Article getArticleForServiceProvider(ServiceProvider serviceProvider) {
-    invariant();
-    String serviceId = getLmngServiceId(serviceProvider);
-    Article result = null;
-
-    if (serviceId == null) {
-      log.info("No binding found for given SP. Unable to find article.");
-    } else {
-      try {
-        String soapRequest = getLmngSoapRequestForSp(serviceId);
-        if (debug) {
-          LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
-        }
-
-        // call the webservice
-        String webserviceResult = getWebServiceResult(soapRequest);
-        // read/parse the XML response to License objects
-
-        List<Article> results = LmngUtil.parseResult(webserviceResult, debug);
-        if (results.isEmpty()) {
-          return null;
-        } else if (results.size() > 1) {
-          log.warn("Got more than one result but expected zero or one. Error mail will be sent. N/O results=" + results.size());
-          // TODO add errormail
-          return results.get(0);
-        } else {
-          return results.get(0);
-        }
-      } catch (Exception e) {
-        log.error("Exception while retrieving article", e);
-        // TODO error mail, we only expect one
-      }
-    }
-    return result;
   }
 
   /**
@@ -286,6 +226,8 @@ public class LmngServiceImpl implements LicensingService {
 
   private String getLmngSoapRequestForIdpAndSp(String institutionId, List<String> serviceIds, Date validOn) throws IOException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Assert.notNull(validOn);
+    Assert.notNull(serviceIds);
 
     // Get the soap/fetch envelope
     String result = getLmngRequestEnvelope();
@@ -294,9 +236,6 @@ public class LmngServiceImpl implements LicensingService {
 
     InputStream inputStream = queryResource.getInputStream();
     String query = IOUtils.toString(inputStream);
-    if (institutionId != null) {
-      query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
-    }
 
     ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_CONDITION);
     InputStream articleInputStream = articleConditionResource.getInputStream();
@@ -305,32 +244,19 @@ public class LmngServiceImpl implements LicensingService {
     for (String serviceId : serviceIds) {
       articleConditionValues += articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
     }
-    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
 
-    if (validOn != null) {
-      query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
+    String institutionConditionTemplate = "";
+    if (institutionId != null) {
+      ClassPathResource institutionConditionResource = new ClassPathResource(PATH_FETCH_QUERY_INSTITUTION_CONDITION);
+      InputStream institutionConditionInputStream = institutionConditionResource.getInputStream();
+      institutionConditionTemplate = IOUtils.toString(institutionConditionInputStream);
+      institutionConditionTemplate = institutionConditionTemplate.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
     }
 
-    // html encode the string
-    query = StringEscapeUtils.escapeHtml(query);
-
-    // Insert the query in the envelope and add a UID in the envelope
-    result = result.replaceAll(QUERY_PLACEHOLDER, query);
-    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
-    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
-    return result;
-  }
-
-  private String getLmngSoapRequestForSp(String serviceId) throws IOException {
-    Assert.notNull(serviceId);
-    // Get the soap/fetch envelope
-    String result = getLmngRequestEnvelope();
-
-    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_DETAILS);
-
-    InputStream inputStream = queryResource.getInputStream();
-    String query = IOUtils.toString(inputStream);
-    query = query.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
+    // replace base query with placeholders
+    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
+    query = query.replaceAll(ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER, institutionConditionTemplate);
+    query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
 
     // html encode the string
     query = StringEscapeUtils.escapeHtml(query);
