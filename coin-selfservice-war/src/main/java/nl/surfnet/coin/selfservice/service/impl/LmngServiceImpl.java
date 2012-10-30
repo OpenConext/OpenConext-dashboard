@@ -115,6 +115,7 @@ public class LmngServiceImpl implements LicensingService {
   @Cacheable("selfserviceDefault")
   public List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn) {
+    List<Article> nullResult = new ArrayList<Article>();
     invariant();
     try {
       String lmngInstitutionId = getLmngIdentityId(identityProvider);
@@ -122,7 +123,7 @@ public class LmngServiceImpl implements LicensingService {
 
       // validation, we need an institutionId and at least one serviceId
       if (StringUtils.isBlank(lmngInstitutionId) || CollectionUtils.isEmpty(serviceIds)) {
-        return null;
+        return nullResult;
       }
 
       // get the file with the soap request
@@ -139,7 +140,7 @@ public class LmngServiceImpl implements LicensingService {
       log.error("Exception while retrieving article/license", e);
       // TODO error mail
     }
-    return null;
+    return nullResult;
   }
 
   @Override
