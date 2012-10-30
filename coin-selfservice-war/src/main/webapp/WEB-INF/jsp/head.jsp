@@ -7,8 +7,9 @@
 <html lang="${locale.language}">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><spring:message code="jsp.general.pageTitle" arguments="${param.title}" /></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
 
     <c:choose>
       <c:when test="${dev eq true}">
@@ -28,11 +29,8 @@
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-tooltip.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/component-datatables.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/generic.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/layout.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/screen.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/select2.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/shopadmin.css"/>" />
       </c:when>
       <c:otherwise>
         <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>" />
