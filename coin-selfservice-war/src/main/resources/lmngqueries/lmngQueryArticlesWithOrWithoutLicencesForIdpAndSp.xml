@@ -37,9 +37,7 @@
               <condition attribute="lmng_validfrom" operator="on-or-before" value="%VALID_ON%"/>
               <condition attribute="lmng_validto" operator="on-or-after" value="%VALID_ON%"/>
               <condition attribute="statuscode" operator="eq" value="4"/>
-              <condition attribute="lmng_organisationid" operator="in">
-                <value>%INSTITUTION_ID%</value>
-              </condition>
+              %INSTITUTION_CONDITION%
             </filter>
           </link-entity>
         </link-entity>

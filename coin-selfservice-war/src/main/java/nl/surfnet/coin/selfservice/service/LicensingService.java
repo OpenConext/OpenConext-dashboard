@@ -30,21 +30,6 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 public interface LicensingService {
 
   /**
-   * Gets an article with possible Licenses for the given identityProvider and
-   * serviceProvider which are valid on the given day
-   * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @param serviceProvider
-   *          the serviceProvider to get the licenses for
-   * @param validOn
-   *          Date on which the license should be valid
-   * @return a articles with valid licenses
-   */
-  Article getArticleForIdentityProviderAndServiceProvider(IdentityProvider identityProvider, ServiceProvider serviceProvider,
-      Date validOn);
-
-  /**
    * Gets a list with Articles with possible Licenses for the given identityProvider and
    * serviceProvider which are valid on the given day
    * 
@@ -58,20 +43,6 @@ public interface LicensingService {
    */
   List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
       List<ServiceProvider> serviceProviders, Date validOn);
-
-
-  /**
-   * Get the Article belonging to te given serviceProvider. We assume we'll get
-   * just one article for one serviceprovider (first result). This article will
-   * NOT contain a License as this call does not depend on an IDP. This method
-   * can be used for retrieving Article information in admin pages or displaying
-   * IDP independent article information.
-   * 
-   * @param serviceProvider
-   *          the sp to get the article for
-   * @return the article found in LMNG or null
-   */
-  Article getArticleForServiceProvider(ServiceProvider serviceProvider);
 
   /**
    * Is the LMNG service active? If not then no calls should be made and the
