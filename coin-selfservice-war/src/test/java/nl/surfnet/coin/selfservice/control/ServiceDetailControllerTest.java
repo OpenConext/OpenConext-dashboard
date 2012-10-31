@@ -93,7 +93,7 @@ public class ServiceDetailControllerTest {
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
     CompoundServiceProvider csp = new CompoundServiceProvider();
-    when(compoundSPService.getCSPById(idp, 1L)).thenReturn(csp);
+    when(compoundSPService.getCSPById(idp, 1L, false)).thenReturn(csp);
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 
     OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
@@ -101,7 +101,7 @@ public class ServiceDetailControllerTest {
     List<OAuthTokenInfo> infos = Arrays.asList(info);
     when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenReturn(infos);
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, null, idp);
+    final ModelAndView modelAndView = controller.serviceDetail(1, null, "false", idp);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(csp, modelAndView.getModelMap().get("compoundSp"));
     assertTrue(modelAndView.getModelMap().containsKey("revoked"));
