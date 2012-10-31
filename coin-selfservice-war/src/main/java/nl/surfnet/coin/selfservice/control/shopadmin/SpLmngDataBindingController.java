@@ -72,31 +72,32 @@ public class SpLmngDataBindingController extends BaseController {
   @Resource
   private ScreenshotDao screenshotDao;
 
-
   @RequestMapping(value = "/compoundSp-detail")
   public ModelAndView get(@RequestParam("spEntityId") String entityId) {
     CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(entityId);
     return new ModelAndView("shopadmin/compoundSp-detail", "compoundSp", compoundServiceProvider);
   }
 
+  @RequestMapping(value = "/compoundSp-update", method = RequestMethod.POST, params = "usethis=usethis-image")
+  public @ResponseBody
+  String updateImageField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
+      @RequestParam(value = "source") Source source) {
+    FieldImage fieldImage = fieldImageDao.findById(fieldId);
+    fieldImage.setSource(source);
+    fieldImageDao.saveOrUpdate((FieldImage) fieldImage);
+    return source.name();
+  }
+
   @RequestMapping(value = "/compoundSp-update", method = RequestMethod.POST)
   public @ResponseBody
-  String updateField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
-      @RequestParam(value = "source") Source source, @RequestParam(value = "usethis", required = false) String useThis,
-      @RequestParam(value = "save", required = false) String save) {
-    //TODO refactor to use seperate methods...
-    if ("usethis-image".equals(useThis)) {
-      FieldImage fieldImage = fieldImageDao.findById(fieldId);
-      fieldImage.setSource(source);
-      fieldImageDao.saveOrUpdate((FieldImage) fieldImage);
-    } else {
-      FieldString field = fieldStringDao.findById(fieldId);
-      field.setValue(value);
-      if (StringUtils.hasText(useThis)) {
-        field.setSource(source);
-      }
-      fieldStringDao.saveOrUpdate((FieldString) field);
+  String updateStringField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
+      @RequestParam(value = "source") Source source, @RequestParam(value = "usethis", required = false) String useThis) {
+    FieldString field = fieldStringDao.findById(fieldId);
+    field.setValue(value);
+    if (StringUtils.hasText(useThis)) {
+      field.setSource(source);
     }
+    fieldStringDao.saveOrUpdate((FieldString) field);
     return source.name();
   }
 
