@@ -60,6 +60,13 @@ app.respond = function() {
         gallerySizeWatcher.breakpoint(0, 400, {
             className: 'narrow-gallery'
         });
+
+
+        var licenseConnectSizeWatcher = new SizeWatcher('.license-connect');
+
+        licenseConnectSizeWatcher.breakpoint(0, 550, {
+            className: 'narrow-license-connect'
+        });
     };
 
 

@@ -158,9 +158,6 @@ a
     position: relative
     width: 50%
 
-    .narrow &
-      width: 100%
-
     &:before
       background: url(../images/sprite-license-availability.png)
       content: ''
@@ -175,11 +172,6 @@ a
   .license-not-needed
     &:before
       background: url(../images/sprite-license-availability.png)
-
-    .narrow &
-      border-bottom: 1px solid $subtle_gray
-      margin-bottom: 0.5em
-      padding-bottom: 0.5em
 
     strong
       color: #00B274
@@ -220,6 +212,15 @@ a
 
   p
     margin-bottom: 0
+
+  &.narrow-license-connect div
+    width: 100%
+
+  &.narrow-license-connect .service-connected,
+  &.narrow-license-connect .service-not-connected
+    border-bottom: 1px solid $subtle_gray
+    margin-bottom: 0.5em
+    padding-bottom: 0.5em
 
 .action-list
   border: 1px solid $subtle_gray

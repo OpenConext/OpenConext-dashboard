@@ -92,7 +92,11 @@
             </c:forEach>          
             <spring:param name="lang" value="en" />
           </spring:url> 
-          <li class="user"><a href="${langNL}">NL</a> | <a href="${langEN}">EN</a>
+          <li class="language">
+            <div>
+              <a href="${langNL}" hreflang="nl" title="Nederlands">NL</a> |
+              <a href="${langEN}" hreflang="en" title="English">EN</a>
+            </div>
           </li>
         <li class="logout"><a href="<spring:url value="/logout.shtml" htmlEscape="true" />"><spring:message code="jsp.general.logout" /></a></li>
       </ul>

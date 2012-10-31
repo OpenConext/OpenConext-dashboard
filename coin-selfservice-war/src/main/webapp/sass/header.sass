@@ -42,7 +42,6 @@
       width: auto
 
     li
-      border-left: 1px solid $subtle_gray
       color: #626262
       float: left
       font-size: 14px
@@ -133,6 +132,17 @@
 
             a
               height: 26px
+
+    .language div
+      background: #FFF
+      +background(linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), #FFF)
+      border: 1px solid #E5E5E5
+      +border-radius(3px)
+      color: #AAA
+      padding: 0 0.4em
+
+      a
+        color: #626262
 
     .configuration:before,
     .logout:before
