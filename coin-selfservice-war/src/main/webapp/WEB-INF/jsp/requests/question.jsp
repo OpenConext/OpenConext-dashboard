@@ -35,7 +35,7 @@
         
         <form:form cssClass="form form-horizontal" id="question" commandName="question">
           <fieldset>
-
+            <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
             <div class="control-group">
               <label class="control-label"><spring:message code="jsp.sp_question.applicantname"/></label>
 
@@ -60,7 +60,7 @@
                 <form:input class="input-xlarge" path="subject" />
               </div>
               <div class="controls">
-                <form:errors path="subject"/>                
+                <form:errors cssClass="error" path="subject"/>                
               </div>
             </div>
             <div class="control-group ">
@@ -70,7 +70,7 @@
                 <form:textarea rows="10" class="input-xlarge" path="body" />
               </div>
               <div class="controls">
-                <form:errors path="body"/>                
+                <form:errors cssClass="error" path="body"/>                
               </div>
             </div>
 

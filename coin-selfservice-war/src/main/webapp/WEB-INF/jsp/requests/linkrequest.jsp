@@ -49,7 +49,7 @@
 
         <form:form cssClass="form form-horizontal" commandName="linkrequest">
           <fieldset>
-
+            <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
             <div class="control-group <form:errors path="agree">error</form:errors>">
                <form:label path="agree" cssClass="checkbox">
                  <form:checkbox path="agree" id="agree" cssClass="required"/>

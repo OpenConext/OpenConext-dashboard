@@ -41,6 +41,7 @@
 
         <form:form cssClass="form form-horizontal" commandName="linkrequest">
           <fieldset>
+            <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
             <input type="hidden" name="confirmed" value="true" />
             <p>
               <i class="icon-info-sign"></i>

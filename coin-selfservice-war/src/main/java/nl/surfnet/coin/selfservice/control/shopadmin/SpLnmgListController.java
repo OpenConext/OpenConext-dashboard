@@ -30,6 +30,7 @@ import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,8 @@ public class SpLnmgListController extends BaseController {
   public ModelAndView saveLmngServices(HttpServletRequest req) {
     String spId = req.getParameter("spIdentifier");
     String lmngId = req.getParameter("lmngIdentifier");
-    if ("clear".equalsIgnoreCase(req.getParameter("submit"))) {
+    String isClearPressed = req.getParameter("clearbutton");
+    if (StringUtils.isNotBlank(isClearPressed)) {
       log.debug("Clearing lmng identifier for ServiceProvider with ID " + spId );
       lmngId = null;
     } else {

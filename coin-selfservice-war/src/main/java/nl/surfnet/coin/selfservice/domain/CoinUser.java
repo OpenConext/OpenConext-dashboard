@@ -43,8 +43,7 @@ public class CoinUser implements UserDetails {
   private Map<String, List<String>> attributeMap = new HashMap<String, List<String>>();
 
   /**
-   * It is not allowed to call this method
-   * {@inheritDoc}
+   * It is not allowed to call this method {@inheritDoc}
    */
   @Override
   public String getPassword() {
@@ -83,7 +82,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Unique identifier of the user, e.g. urn:collab:person:org.example:john.doe
-   *
+   * 
    * @return unique identifier of the user
    */
   public String getUid() {
@@ -96,7 +95,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Display name, e.g. 'John S. Doe Jr'
-   *
+   * 
    * @return display name of the user
    */
   public String getDisplayName() {
@@ -131,7 +130,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Returns a collection that will contain {@link CoinAuthority}'s
-   *
+   * 
    * {@inheritDoc}
    */
   @Override
@@ -148,9 +147,9 @@ public class CoinUser implements UserDetails {
   }
 
   /**
-   * List of {@link IdentityProvider}'s of the institution for this users. Usually contains only the IdP the user logs
-   * in with.
-   *
+   * List of {@link IdentityProvider}'s of the institution for this users.
+   * Usually contains only the IdP the user logs in with.
+   * 
    * @return List of {@link IdentityProvider}'s
    */
   public List<IdentityProvider> getInstitutionIdps() {
@@ -162,9 +161,11 @@ public class CoinUser implements UserDetails {
   }
 
   /**
-   * Identifier of the institution the IdentityProvider of the user belongs to. Can be empty.
-   *
-   * @return Identifier of the institution the IdentityProvider of the user belongs to
+   * Identifier of the institution the IdentityProvider of the user belongs to.
+   * Can be empty.
+   * 
+   * @return Identifier of the institution the IdentityProvider of the user
+   *         belongs to
    */
   public String getInstitutionId() {
     return institutionId;
@@ -176,7 +177,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Identifier of the IdentityProvider the user has logged in with
-   *
+   * 
    * @return Identifier of the IdentityProvider the user has logged in with
    */
   public String getIdp() {
@@ -189,7 +190,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Map of user attributes, key as String, value Object
-   *
+   * 
    * @return Map of user attributes
    */
   public Map<String, List<String>> getAttributeMap() {
@@ -204,14 +205,11 @@ public class CoinUser implements UserDetails {
     this.attributeMap.put(key, value);
   }
 
+  @Override
   public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("uid", uid)
-        .append("displayName", displayName)
-        .append("idp", idp)
-        .append("schacHomeOrganization", schacHomeOrganization)
-        .append("authorities", getAuthorities())
-        .append("attributes", attributeMap)
-        .toString();
+    return "CoinUser [uid=" + uid + ", displayName=" + displayName + ", schacHomeOrganization=" + schacHomeOrganization + ", idp=" + idp
+        + ", institutionIdps=" + institutionIdps + ", institutionId=" + institutionId + ", email=" + email + ", grantedAuthorities="
+        + new ArrayList<CoinAuthority>(grantedAuthorities) + ", attributeMap=" + attributeMap + "]";
   }
+
 }

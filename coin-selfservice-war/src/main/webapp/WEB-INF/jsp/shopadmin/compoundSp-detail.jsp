@@ -63,17 +63,20 @@
 
             <form class="tab-pane ${field.source=='LMNG' ? 'active' : ''}" id="form${fieldId}-lmng">
               <p>${compoundSp.lmngFieldValues[field.key]}</p>
+              <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
               <input type="hidden" name="source" value="LMNG" />
               <input type="hidden" name="fieldId" value="${field.id}" />
               <button name="usethis" value="usethis" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
             </form>
             <form class="tab-pane ${field.source=='SURFCONEXT' ? 'active' : ''}" id="form${fieldId}-surfconext">
               <p>${compoundSp.surfConextFieldValues[field.key]}</p>
+              <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
               <input type="hidden" name="source" value="SURFCONEXT" />
               <input type="hidden" name="fieldId" value="${field.id}" />
               <button name="usethis" value="usethis" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
             </form>
             <form class="tab-pane ${field.source=='DISTRIBUTIONCHANNEL' ? 'active' : ''}" id="form${fieldId}-distributionchannel">
+              <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
               <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
               <input type="hidden" name="fieldId" value="${field.id}" />
               <textarea name="value">${compoundSp.distributionFieldValues[field.key]}</textarea>
@@ -112,6 +115,7 @@
             <c:if test="${!empty compoundSp.lmngFieldValues[field.key]}">
               <img src="<spring:url value="${compoundSp.lmngFieldValues[field.key]}" />"/>
             </c:if>
+            <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
             <input type="hidden" name="source" value="LMNG" />
             <input type="hidden" name="fieldId" value="${field.id}" />
             <button name="usethis" value="usethis-image" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
@@ -120,6 +124,7 @@
             <c:if test="${!empty compoundSp.surfConextFieldValues[field.key]}">
               <img src="<spring:url value="${compoundSp.surfConextFieldValues[field.key]}" />"/>
             </c:if>
+            <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
             <input type="hidden" name="source" value="SURFCONEXT" />
             <input type="hidden" name="fieldId" value="${field.id}" />
             <button name="usethis" value="usethis-image" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
@@ -130,6 +135,7 @@
               <img src="<spring:url value="${compoundSp.distributionFieldValues[field.key]}" />"/>
             </c:if>
 
+            <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
             <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
             <input type="hidden" name="fieldId" value="${field.id}" />
             <span id='filename'></span><br/>
@@ -168,10 +174,11 @@
 	          </c:forEach>
 	        </div>
           <form class="tab-pane active imageuploadform" id="form-screenshots-distributionchannel">
-            	<input type="hidden" name="compoundServiceProviderId" value="${compoundSp.id}" />
-            	<span id='filename'></span><br/>
-            	<a href='#' class='attachlink btn btn-primary btn-small'><spring:message code="jsp.compound_sp_add_image"/></a><br/>
-            	<input class="fileinput" id="upload-screenshot" type="file" name="file" data-url="upload-screenshot.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
+            <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+          	<input type="hidden" name="compoundServiceProviderId" value="${compoundSp.id}" />
+          	<span id='filename'></span><br/>
+          	<a href='#' class='attachlink btn btn-primary btn-small'><spring:message code="jsp.compound_sp_add_image"/></a><br/>
+          	<input class="fileinput" id="upload-screenshot" type="file" name="file" data-url="upload-screenshot.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
           </form>
         </div>
       </div>
@@ -191,14 +198,3 @@
 <jsp:include page="../foot.jsp">
   <jsp:param name="datatables" value="false"/>
 </jsp:include>
-
-<script type="text/javascript">
-
-
-
-  /*
-   End File upload plugin
-   */
-
-
-</script>

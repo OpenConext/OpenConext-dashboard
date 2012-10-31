@@ -72,6 +72,11 @@ public abstract class BaseController {
    */
   public static final String LMNG_ACTIVE_MODUS = "lmngActiveModus";
   
+  /**
+   * The name of the key under which we store the token used to prevent session hijacking
+   */
+  public static final String TOKEN_CHECK = "tokencheck";
+  
   @Resource(name = "providerService")
   private IdentityProviderService idpService;
 

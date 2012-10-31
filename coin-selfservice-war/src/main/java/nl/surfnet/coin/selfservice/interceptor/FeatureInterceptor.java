@@ -16,8 +16,6 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

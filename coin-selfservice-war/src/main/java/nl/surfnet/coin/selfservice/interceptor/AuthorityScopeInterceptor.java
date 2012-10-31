@@ -23,6 +23,7 @@ import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID
 import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
@@ -33,6 +34,7 @@ import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTI
 import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -47,11 +49,15 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -65,6 +71,20 @@ import org.springframework.web.servlet.ModelAndView;
 public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
 
   private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
+
+  private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(new String[] { POST.name(), DELETE.name(), PUT.name() });
+
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    if (TOKEN_CHECK_METHODS.contains(request.getMethod().toUpperCase())) {
+      String token = request.getParameter(TOKEN_CHECK);
+      String sessionToken = (String) request.getSession().getAttribute(TOKEN_CHECK);
+      if (StringUtils.isBlank(token) || !token.equals(sessionToken)) {
+        throw new SecurityException(String.format("Token from session '%s' sdoes not match token '%s' from request", sessionToken, token));
+      }
+    }
+    return true;
+  }
 
   @SuppressWarnings("unchecked")
   @Override
@@ -88,8 +108,10 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
         }
         map.put(COMPOUND_SPS, sps);
       }
-      
+
       scopeGeneralAuthCons(map, authorities);
+
+      addTokenToModelMap(request, map);
     }
   }
 
@@ -102,11 +124,11 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
     map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
     map.put(LMNG_ACTIVE_MODUS, isLmngActive());
 
-    
   }
 
   /**
    * Reduce list based on whether the SP 'is linked' to the current IdP.
+   * 
    * @return a reduced list, or the same, if no changes.
    */
   protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> sps,
@@ -142,10 +164,12 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
    */
   protected void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, Collection<CoinAuthority> authorities) {
 
-    // Do not allow normal users to view 'unlinked' services, even if requested explicitly.
+    // Do not allow normal users to view 'unlinked' services, even if requested
+    // explicitly.
     if (isRoleUser(authorities) && !sp.getServiceProvider().isLinked()) {
-      LOG.info("user requested CSP details of CSP with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
-      sp.getId());
+      LOG.info(
+          "user requested CSP details of CSP with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
+          sp.getId());
       throw new AccessDeniedException("Access denied");
     }
 
@@ -181,6 +205,18 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
       }
     }
     return false;
+  }
+
+  /*
+   * Add a security token to the modelMap that is rendered as hidden value in
+   * POST forms. In the preHandle we check if the request is a POST and expect
+   * equality of the token send as request parameter and the token stored in the
+   * session
+   */
+  private void addTokenToModelMap(HttpServletRequest request, ModelMap map) {
+    String token = RandomStringUtils.randomAlphanumeric(256);
+    map.addAttribute(TOKEN_CHECK, token);
+    request.getSession().setAttribute(TOKEN_CHECK, token);
   }
 
 }

@@ -55,6 +55,7 @@
               	</a></td>
               <td>
   			  <form:form id="form-${status.index}" method="post" action="save-splmng.shtml" style="margin:0" cssClass="lmng-id-edit">
+                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
               	<input id="lmngId-${status.index}" value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
               	<input id="spId-${status.index}" value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
                 <div class="btn-group">

@@ -50,12 +50,14 @@ import org.springframework.util.Assert;
 public class CompoundSPService {
 
   @Value("${lmngCacheSeconds}")
-  private String lmngCacheExpireSeconds;
+  private int lmngCacheExpireSeconds;
 
-  Logger LOG = LoggerFactory.getLogger(CompoundSPService.class);
+  private Logger LOG = LoggerFactory.getLogger(CompoundSPService.class);
 
-  // Cached resultlist of LMNG data. A resultlist is stored per IDP with an
-  // expire date
+  /*
+   * Cached resultlist of LMNG data. A resultlist is stored per IDP with an
+   * expire date
+   */
   private final Map<IdentityProvider, AbstractMap.SimpleEntry<DateTime, List<Article>>> lmngCachedResults = new HashMap<IdentityProvider, AbstractMap.SimpleEntry<DateTime, List<Article>>>();
 
   @Resource
@@ -160,7 +162,8 @@ public class CompoundSPService {
     CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
     if (compoundServiceProvider == null) {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProviderEntityId);
-      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider));
+      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider,
+          getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider));
       compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");
     } else {
@@ -220,9 +223,9 @@ public class CompoundSPService {
       if (lmngResult == null || lmngResult.isEmpty()) {
         LOG.warn("No LMNG data retrieved. Cache not updated.");
         // return current value (possibly null)
-        return result == null ? null : result.getValue();
+        return result == null ? new ArrayList<Article>() : result.getValue();
       } else {
-        DateTime invaliDate = new DateTime(now).plusMinutes(Integer.parseInt(lmngCacheExpireSeconds));
+        DateTime invaliDate = new DateTime(now).plusSeconds(lmngCacheExpireSeconds);
         result = new SimpleEntry<DateTime, List<Article>>(invaliDate, lmngResult);
         lmngCachedResults.put(idp, result);
         return result.getValue();
@@ -231,9 +234,10 @@ public class CompoundSPService {
       return result.getValue();
     }
   }
-  
+
   /**
-   * @return a new DateTime object (representing this moment) used for possible overriding in tests
+   * @return a new DateTime object (representing this moment) used for possible
+   *         overriding in tests
    */
   protected DateTime getNow() {
     return new DateTime();
