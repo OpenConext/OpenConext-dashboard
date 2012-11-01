@@ -24,10 +24,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class SpLmngDataBindingControllerTestSelenium extends SeleniumSupport {
+public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
 
-  //TODO build the url with the known host/port/context
-  private static final String bindingAdminUrl = "shopadmin/all-spslmng.shtml";
+  private static final String bindingAdminUrl = "shopadmin/all-idpslmng.shtml";
  
   @Test
   public void getLmngIdForSpPageSuccess() {
@@ -36,12 +35,12 @@ public class SpLmngDataBindingControllerTestSelenium extends SeleniumSupport {
     driver.get(getSelfserviceBaseUrl()); // get homepage
     loginAtMujinaAs(OpenConextOAuthClientMock.Users.ALL); // login
     driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
-    WebElement element = driver.findElement(By.id("form-62"));
-    Assert.assertNotNull("Element form-62 should exist (expected 63 rows/forms)", element);
+    WebElement element = driver.findElement(By.id("form-14"));
+    Assert.assertNotNull("Element form-14 should exist (expected 15 visable or invisable rows/forms)", element);
   }
   
   @Test
-  public void getLmngIdForSpAccessDenied() {
+  public void getLmngIdForSpAccessDeniedUser() {
     WebDriver driver = getRestartedWebDriver();
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
@@ -53,33 +52,69 @@ public class SpLmngDataBindingControllerTestSelenium extends SeleniumSupport {
   }
   
   @Test
+  public void getLmngIdForSpAccessDeniedAdminIdpLicense() {
+    WebDriver driver = getRestartedWebDriver();
+
+    driver.get(getSelfserviceBaseUrl()); // get homepage
+    loginAtMujinaAs(OpenConextOAuthClientMock.Users.ADMIN_IDP_LICENSE); // login as normal user
+    driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
+    
+    WebElement element = driver.findElement(By.xpath("//*[contains(.,'Access denied')]")); 
+    Assert.assertNotNull("Expected 'access denied' text", element);
+  }
+  
+  @Test
+  public void getLmngIdForSpAccessDeniedAdminIdpSurfconext() {
+    WebDriver driver = getRestartedWebDriver();
+
+    driver.get(getSelfserviceBaseUrl()); // get homepage
+    loginAtMujinaAs(OpenConextOAuthClientMock.Users.ADMIN_IDP_SURFCONEXT); // login as normal user
+    driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
+    
+    WebElement element = driver.findElement(By.xpath("//*[contains(.,'Access denied')]")); 
+    Assert.assertNotNull("Expected 'access denied' text", element);
+  }
+  
+  @Test
+  public void getLmngIdForSpAccessGrantedAdminDist() {
+    WebDriver driver = getRestartedWebDriver();
+
+    driver.get(getSelfserviceBaseUrl()); // get homepage
+    loginAtMujinaAs(OpenConextOAuthClientMock.Users.ADMIN_DISTRIBUTIE_CHANNEL); // login as normal user
+    driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
+    
+    WebElement element = driver.findElement(By.id("idp_overview_table")); 
+    Assert.assertNotNull("Expected 'access denied' text", element);
+  }
+  
+  @Test
   public void getLmngIdForSpChangeValue() {
     WebDriver driver = getRestartedWebDriver();
-    String currentLmngValue = "26FF7404-970C-E211-B6B9-005056950050";
-    String newLmngValue = "41D136D1-3819-E211-B687-005056950050";
+    String currentLmngValue = "{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}";
+    String newLmngValue = "{AF1F54D8-1B10-DC11-A6C7-0019B9DE3AA4}";
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
     loginAtMujinaAs(OpenConextOAuthClientMock.Users.ALL); // login as normal user
     driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
 
-    WebElement inputSp = driver.findElement(By.id("spId-0"));
-    Assert.assertEquals("Unexpected SP id", "https://rave.beta.surfnet.nl", inputSp.getAttribute("value"));
+    WebElement inputSp = driver.findElement(By.id("idpId-1"));
+    Assert.assertEquals("Unexpected IDP id", "mock-institution-id", inputSp.getAttribute("value"));
     
-    WebElement inputLmng = driver.findElement(By.id("lmngId-0"));
+    WebElement inputLmng = driver.findElement(By.id("lmngId-1"));
     Assert.assertEquals("Unexpected LMNG id", currentLmngValue, inputLmng.getAttribute("value"));
     inputLmng.clear();
     inputLmng.sendKeys(newLmngValue);
     
-    WebElement form = driver.findElement(By.id("form-0"));
+    WebElement form = driver.findElement(By.id("form-1"));
     form.findElement(By.name("submitbutton")).click();
 
-    inputLmng = driver.findElement(By.id("lmngId-0"));
+    inputLmng = driver.findElement(By.id("lmngId-1"));
     Assert.assertEquals("Unexpected new LMNG id", newLmngValue, inputLmng.getAttribute("value"));
 
     // reset value to initial value
     inputLmng.clear();
     inputLmng.sendKeys(currentLmngValue);
-    form = driver.findElement(By.id("form-0"));
+    form = driver.findElement(By.id("form-1"));
     form.findElement(By.name("submitbutton")).click();
     
   }
