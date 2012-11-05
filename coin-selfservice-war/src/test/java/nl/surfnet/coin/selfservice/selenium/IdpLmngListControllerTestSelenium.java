@@ -29,7 +29,7 @@ public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
   private static final String bindingAdminUrl = "shopadmin/all-idpslmng.shtml";
  
   @Test
-  public void getLmngIdForSpPageSuccess() {
+  public void getLmngIdForIdpPageSuccess() {
     WebDriver driver = getRestartedWebDriver();
     
     driver.get(getSelfserviceBaseUrl()); // get homepage
@@ -40,7 +40,7 @@ public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
   }
   
   @Test
-  public void getLmngIdForSpAccessDeniedUser() {
+  public void getLmngIdForIdpAccessDeniedUser() {
     WebDriver driver = getRestartedWebDriver();
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
@@ -52,7 +52,7 @@ public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
   }
   
   @Test
-  public void getLmngIdForSpAccessDeniedAdminIdpLicense() {
+  public void getLmngIdForIdpAccessDeniedAdminIdpLicense() {
     WebDriver driver = getRestartedWebDriver();
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
@@ -64,7 +64,7 @@ public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
   }
   
   @Test
-  public void getLmngIdForSpAccessDeniedAdminIdpSurfconext() {
+  public void getLmngIdForIdpAccessDeniedAdminIdpSurfconext() {
     WebDriver driver = getRestartedWebDriver();
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
@@ -76,7 +76,7 @@ public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
   }
   
   @Test
-  public void getLmngIdForSpAccessGrantedAdminDist() {
+  public void getLmngIdForIdpAccessGrantedAdminDist() {
     WebDriver driver = getRestartedWebDriver();
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
@@ -84,11 +84,11 @@ public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
     driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
     
     WebElement element = driver.findElement(By.id("idp_overview_table")); 
-    Assert.assertNotNull("Expected 'access denied' text", element);
+    Assert.assertNotNull("Expected idp_table", element);
   }
-  
+
   @Test
-  public void getLmngIdForSpChangeValue() {
+  public void getLmngIdForIdpChangeValue() {
     WebDriver driver = getRestartedWebDriver();
     String currentLmngValue = "{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}";
     String newLmngValue = "{AF1F54D8-1B10-DC11-A6C7-0019B9DE3AA4}";
@@ -116,6 +116,30 @@ public class IdpLmngListControllerTestSelenium extends SeleniumSupport {
     inputLmng.sendKeys(currentLmngValue);
     form = driver.findElement(By.id("form-1"));
     form.findElement(By.name("submitbutton")).click();
+    
+  }
+
+  @Test
+  public void getLmngIdForIdpChangeIllegalValue() {
+    WebDriver driver = getRestartedWebDriver();
+    String currentLmngValue = "{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}";
+    String newLmngValue = "illegal string value";
+
+    driver.get(getSelfserviceBaseUrl()); // get homepage
+    loginAtMujinaAs(OpenConextOAuthClientMock.Users.ALL); // login as normal user
+    driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
+
+    WebElement inputLmng = driver.findElement(By.id("lmngId-1"));
+    Assert.assertEquals("Unexpected LMNG id", currentLmngValue, inputLmng.getAttribute("value"));
+    inputLmng.clear();
+    inputLmng.sendKeys(newLmngValue);
+    
+    WebElement form = driver.findElement(By.id("form-1"));
+    form.findElement(By.name("submitbutton")).click();
+
+    //Wrong format for LMNG ID
+    WebElement element = driver.findElement(By.xpath("//*[contains(.,'Wrong format for LMNG ID')]")); 
+    Assert.assertNotNull("Expected 'Wrong format for LMNG ID' text", element);
     
   }
  

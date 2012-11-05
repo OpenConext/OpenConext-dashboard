@@ -78,8 +78,8 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
   @Test
   public void getLmngIdForSpChangeValue() {
     WebDriver driver = getRestartedWebDriver();
-    String currentLmngValue = "26FF7404-970C-E211-B6B9-005056950050";
-    String newLmngValue = "41D136D1-3819-E211-B687-005056950050";
+    String currentLmngValue = "{26FF7404-970C-E211-B6B9-005056950050}";
+    String newLmngValue = "{41D136D1-3819-E211-B687-005056950050}";
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
     loginAtMujinaAs(OpenConextOAuthClientMock.Users.ALL); // login as normal user
@@ -106,5 +106,29 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
     form.findElement(By.name("submitbutton")).click();
     
   }
- 
+
+  @Test
+  public void getLmngIdForSpChangeIllegalValue() {
+    WebDriver driver = getRestartedWebDriver();
+    String currentLmngValue = "{26FF7404-970C-E211-B6B9-005056950050}";
+    String newLmngValue = "illegal string value";
+
+    driver.get(getSelfserviceBaseUrl()); // get homepage
+    loginAtMujinaAs(OpenConextOAuthClientMock.Users.ALL); // login as normal user
+    driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
+
+    WebElement inputLmng = driver.findElement(By.id("lmngId-0"));
+    Assert.assertEquals("Unexpected LMNG id", currentLmngValue, inputLmng.getAttribute("value"));
+    inputLmng.clear();
+    inputLmng.sendKeys(newLmngValue);
+    
+    WebElement form = driver.findElement(By.id("form-0"));
+    form.findElement(By.name("submitbutton")).click();
+
+    //Wrong format for LMNG ID
+    WebElement element = driver.findElement(By.xpath("//*[contains(.,'Wrong format for LMNG ID')]")); 
+    Assert.assertNotNull("Expected 'Wrong format for LMNG ID' text", element);
+    
+  }
+
 }
