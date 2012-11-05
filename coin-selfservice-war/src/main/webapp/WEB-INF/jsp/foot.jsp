@@ -41,6 +41,7 @@
     <script src="<c:url value="/js/jquery/select2.js"/>"></script>
     <script src="<c:url value="/js/main.js"/>"></script>
     <script src="<c:url value="/js/modules/app-grid.js"/>"></script>
+    <script src="<c:url value="/js/modules/forms.js"/>"></script>
     <script src="<c:url value="/js/modules/gallery.js"/>"></script>
     <script src="<c:url value="/js/modules/global.js"/>"></script>
     <script src="<c:url value="/js/modules/message.js"/>"></script>
