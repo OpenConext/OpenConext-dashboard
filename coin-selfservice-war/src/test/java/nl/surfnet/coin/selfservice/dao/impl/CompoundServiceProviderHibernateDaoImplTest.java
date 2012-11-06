@@ -50,7 +50,7 @@ public class CompoundServiceProviderHibernateDaoImplTest {
     CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider("sp-id"), new Article());
     Long id = dao.saveOrUpdate(provider);
     provider = dao.findById(id);
-    assertEquals(1,provider.getScreenshots().size());
+    assertEquals(2,provider.getFieldImages().size());
     
   }
 

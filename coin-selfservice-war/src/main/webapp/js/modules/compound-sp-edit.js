@@ -17,9 +17,12 @@ app.compoundSpEdit = function() {
   });
   
   $("#screenshots-body").on("click", "a[id^=screenshot-remove-]", function(e){
-    var id = $(this).attr("id").substring("screenshot-remove-".length);
-    var parent = $(this).parents("div.screenshot-content");
-    $.ajax("remove-screenshot/" + id + ".shtml",
+    var elem =$(this);
+	var id = elem .attr("id").substring("screenshot-remove-".length);
+    var parent = elem .parents("div.screenshot-content");
+    
+    var tokencheck = $('input[name="tokencheck"]').first().attr('value');
+    $.ajax("remove-screenshot/" + id + ".shtml?tokencheck=" + tokencheck,
         {
           type: "delete",
           failure: function(msg) {

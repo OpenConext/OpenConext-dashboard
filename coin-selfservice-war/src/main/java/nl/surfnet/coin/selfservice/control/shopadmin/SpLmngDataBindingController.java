@@ -25,13 +25,11 @@ import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
 import nl.surfnet.coin.selfservice.dao.FieldImageDao;
 import nl.surfnet.coin.selfservice.dao.FieldStringDao;
 import nl.surfnet.coin.selfservice.dao.ScreenshotDao;
-import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
 import nl.surfnet.coin.selfservice.domain.FieldImage;
 import nl.surfnet.coin.selfservice.domain.FieldString;
 import nl.surfnet.coin.selfservice.domain.Screenshot;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
@@ -135,6 +133,7 @@ public class SpLmngDataBindingController extends BaseController {
   String screenshot(@PathVariable("screenshotId") Long screenshotId) throws IOException {
     Screenshot sc = screenshotDao.findById(screenshotId);
     screenshotDao.delete(sc);
+    LOG.debug("Screenshot " + screenshotId + " removed");
     return "ok";
   }
 

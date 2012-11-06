@@ -15,6 +15,22 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.EULA_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+import static org.springframework.util.StringUtils.hasText;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +54,6 @@ import nl.surfnet.coin.selfservice.domain.Provider.Language;
 import nl.surfnet.coin.shared.domain.DomainObject;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
@@ -46,22 +61,6 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
-
-import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.EULA_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
-import static org.springframework.util.StringUtils.hasText;
 
 /**
  * CompoundServiceProvider.java
@@ -104,7 +103,6 @@ public class CompoundServiceProvider extends DomainObject {
 
     byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
     byte[] detailLogoImageBytes = getImageBytesFromClasspath("500x300.png");
-    byte[] screenshotImageBytes = getImageBytesFromClasspath("1024x768.png");
     String todo = null;
 
     CompoundServiceProvider provider = new CompoundServiceProvider();
@@ -126,8 +124,6 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.SUPPORT_MAIL, null, getMail(serviceProvider, ContactPersonType.help), todo, provider);
     buildFieldString(Key.SUPPORT_URL, null, serviceProvider.getUrl(), todo, provider);
     buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), todo, provider);
-
-    provider.addScreenShot(new Screenshot(screenshotImageBytes));
 
     return provider;
   }
@@ -457,14 +453,6 @@ public class CompoundServiceProvider extends DomainObject {
 
   public boolean isArticleLicenseAvailable() {
     return isArticleAvailable() && article.getLicence() != null;
-  }
-
-  private void setServiceProviderEntityId(String serviceProviderEntityId) {
-    this.serviceProviderEntityId = serviceProviderEntityId;
-  }
-
-  private void setLmngId(String lmngId) {
-    this.lmngId = lmngId;
   }
 
   private static void buildFieldString(Key key, String lmng, String surfconext, String distributionChannel, CompoundServiceProvider provider) {

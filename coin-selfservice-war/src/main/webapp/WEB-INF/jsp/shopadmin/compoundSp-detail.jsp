@@ -169,8 +169,8 @@
 	      <div class="screenshot-contents">
 	        <c:forEach items="${compoundSp.screenShotsImages}" var="screenShotImage">
 	          <div class="screenshot-content">
-				<img src="<spring:url value="${screenShotImage.fileUrl}" />"/>
-	           	<a id="screenshot-remove-${screenShotImage.id}" href="#">&times;</a>
+							<img src="<spring:url value="${screenShotImage.fileUrl}" />"/>
+				           	<a id="screenshot-remove-${screenShotImage.id}" href="#">&times;</a>
 	          </div>	
 	          </c:forEach>
 	        </div>
