@@ -38,6 +38,8 @@
     <script src="<c:url value="/js/jquery/jquery.ui.widget.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.fileupload.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.iframe-transport.js"/>"></script>
+    <script src="<c:url value="/js/jquery/jquery.transit.js"/>"></script>
+    <script src="<c:url value="/js/jquery/jquery.tickback.js"/>"></script>
     <script src="<c:url value="/js/jquery/select2.js"/>"></script>
     <script src="<c:url value="/js/main.js"/>"></script>
     <script src="<c:url value="/js/modules/app-grid.js"/>"></script>

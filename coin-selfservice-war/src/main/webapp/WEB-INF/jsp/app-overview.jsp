@@ -27,7 +27,7 @@
               data-search-placeholder="Search in applications">
       <c:forEach items="${compoundSps}" var="compoundSp">
         <c:if test="${not empty compoundSp.id}">
-          <li class="${compoundSp.sp.linked ? "connected" : ""} ${compoundSp.articleLicenseAvailable ? "licensed" : ""}">
+          <li class="${compoundSp.sp.linked ? "connected" : ""} ${compoundSp.articleLicenseAvailable ? "licensed" : ""}" data-id="${compoundSp.id}">
             <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
               <spring:param name="compoundSpId" value="${compoundSp.id}" />
             </spring:url>
@@ -41,15 +41,9 @@
               <c:out value="${fn:substring(compoundSp.serviceDescriptionEn, 0, 40)}" />
             </p>
             <div class="app-meta-cta">
-              <c:if test="${compoundSp.articleLicenseAvailable && lmngActiveModus}">
-                <i class="icon-shopping-cart" rel="tooltip" title="<spring:message code="jsp.sp_overview.haslicense" />"></i><br>
-              </c:if>
-              <c:if test="${compoundSp.sp.linked}">
-                <i class="icon-check" rel="tooltip" title="<spring:message code="jsp.sp_overview.isconnected" />"></i>
-              </c:if>
               <c:if test="${not empty compoundSp.appUrl}">
                 <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
-                  <i class="icon-play"></i>
+                  <i class="icon-external-link"></i>
                 </a>
               </c:if>              
             </div>

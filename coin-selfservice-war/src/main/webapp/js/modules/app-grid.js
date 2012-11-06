@@ -1,7 +1,9 @@
 var app = app || {};
 
 app.appgrid = function() {
-    var gridElm;
+    var gridElm, keywords;
+
+    keywords = [];
 
     var init  = function() {
         gridElm = $('.app-grid');
@@ -42,12 +44,12 @@ app.appgrid = function() {
             filters = '';
 
         if (gridElm.hasClass('filters-available')) {
-        	filters = '<div>' + 
-        				'<ul>';
+            filters = '<div>' +
+                        '<ul>';
             if (gridElm.hasClass('lmng-active')) {
-            	filters += '<li><a href="#" data-filter="licensed"><i class="icon-shopping-cart"></i> ' + hasLicenseText + '</a></li>'
+                filters += '<li><a href="#" data-filter="licensed">' + hasLicenseText + '</a></li>';
             }
-            filters += '<li><a href="#" data-filter="connected"><i class="icon-check"></i> ' + isConnectedText + '</a></li>' +
+            filters += '<li><a href="#" data-filter="connected">' + isConnectedText + '</a></li>' +
                       '</ul>' +
                     '</div>';
         }
@@ -67,53 +69,25 @@ app.appgrid = function() {
             if (timer) {
                 clearTimeout(timer);
             }
-            timer = setTimeout(doSearch, 100);
+            timer = setTimeout(doSearch, 250);
         }
 
 
-        function doSearch() {
-            var isSearch = searchElm.val().length !== 0,
-                keywords = [];
+        function doSearch(time) {
+            var isSearch = searchElm.val().length !== 0;
+
+            if (time === undefined) {
+                time = 250;
+            }
+            
+            keywords = [];
 
             if (isSearch) {
                 keywords = searchElm.val().toLowerCase().split(' ');
             }
 
-            gridElm.find('li').each(function(index, elm) {
-                var $elm = $(elm),
-                    display = true,
-                    text = elm.textContent.toLowerCase() || elm.innerText.toLowerCase();
-
-                $.each(keywords, function(i, kw) {
-                    if (display === false) {
-                        return;
-                    }
-
-                    display = false;
-
-                    if (text.indexOf(kw) !== -1) {
-                        display = true;
-                    }
-                });
-
-                $.each(activeFilters, function(i, filter) {
-                    if (display === false) {
-                        return;
-                    }
-
-                    display = false;
-
-                    if ($elm.hasClass(filter)) {
-                        display = true;
-                    }
-                });
-
-                if (display) {
-                    $elm.removeClass('hide');
-                }
-                else {
-                    $elm.addClass('hide');
-                }
+            gridElm.tickback('filter', {
+                duration: time
             });
         }
 
@@ -133,11 +107,73 @@ app.appgrid = function() {
                 clickedFilter.removeClass('active-filter');
             }
 
-            doSearch();
+            doSearch(250);
         }
+
+
+        function mustDisplay(elm) {
+            var display = true,
+                text = elm.text().toLowerCase();
+
+            $.each(keywords, function(i, kw) {
+                if (display === false) {
+                    return;
+                }
+
+                display = false;
+
+                if (text.indexOf(kw) !== -1) {
+                    display = true;
+                }
+            });
+
+            $.each(activeFilters, function(i, filter) {
+                if (display === false) {
+                    return;
+                }
+
+                display = false;
+
+                if (elm.hasClass(filter)) {
+                    display = true;
+                }
+            });
+
+            return !display;
+        }
+
+
+        function howToSort(a, b){
+            var aText = $.trim(a.find('h2').text().toLowerCase()),
+                bText = $.trim(b.find('h2').text().toLowerCase());
+
+            if (aText < bText) {
+                  return -1;
+            }
+            if (aText > bText) {
+                return 1;
+            }
+            return 0;
+        }
+
 
         searchElm.bind('keyup change', setTimer);
         filterLinks.on('click', doFilter);
+
+
+        gridElm.tickback({
+            activeItemsFirst: true,
+            duration: 250,
+            filterCallback: mustDisplay,
+            itemInactiveClass: 'grid-item-hidden',
+            itemInactiveStyles: {
+                opacity: 0.35
+            },
+            itemActiveStyles: {
+                opacity: 1
+            },
+            sortCallback: howToSort
+        });
     };
 
 
