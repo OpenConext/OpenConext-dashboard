@@ -52,6 +52,14 @@ public class Article implements Serializable {
   }
 
   /**
+   * @param lmngIdentifier
+   */
+  public Article(String lmngIdentifier) {
+    super();
+    this.lmngIdentifier = lmngIdentifier;
+  }
+
+  /**
    * Field initializing constructor
    * 
    * @param endUserDescriptionNl

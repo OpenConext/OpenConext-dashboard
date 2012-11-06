@@ -90,7 +90,7 @@ public class CompoundSPService {
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
         csp = mapByServiceProviderEntityId.get(sp.getId());
         csp.setServiceProvider(sp);
-        csp.setArticle(getCachedArticleForIdpAndSp(identityProvider, sp));
+        csp.setArticle(getCachedArticleForIdpAndSp(identityProvider, sp, false));
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
         csp = createCompoundServiceProvider(identityProvider, sp);
@@ -101,14 +101,14 @@ public class CompoundSPService {
   }
 
   /**
-   * Create a CSP for the given SP. TODO: add license
+   * Create a CSP for the given SP. 
    * 
    * @param sp
    *          the SP
    * @return the created (and persisted) CSP
    */
   private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, getCachedArticleForIdpAndSp(idp, sp));
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, getCachedArticleForIdpAndSp(idp, sp, false));
     compoundServiceProviderDao.saveOrUpdate(csp);
     return csp;
   }
@@ -131,17 +131,28 @@ public class CompoundSPService {
    * @return
    */
   public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId) {
+    return getCSPById(idp, compoundSpId,false);
+  }
+
+  /**
+   * Get a CSP by its ID, for the given IDP.
+   * 
+   * @param idp
+   *          the IDP
+   * @param compoundSpId
+   *          long
+   * @return
+   */
+  public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId, boolean refreshCache) {
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
     ServiceProvider sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
     if (sp == null) {
-      // TODO how to handle this. The SP does not exists anymore, we should
-      // delete the CompoundServiceProvider????
       LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.",
           csp.getServiceProviderEntityId());
       return csp;
     }
     csp.setServiceProvider(sp);
-    csp.setArticle(getCachedArticleForIdpAndSp(idp, sp));
+    csp.setArticle(getCachedArticleForIdpAndSp(idp, sp, false));
     return csp;
   }
 
@@ -163,12 +174,12 @@ public class CompoundSPService {
     if (compoundServiceProvider == null) {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProviderEntityId);
       compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider,
-          getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider));
+          getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider, false));
       compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");
     } else {
       compoundServiceProvider.setServiceProvider(serviceProvider);
-      compoundServiceProvider.setArticle(getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider));
+      compoundServiceProvider.setArticle(getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider, false));
 
     }
     return compoundServiceProvider;
@@ -181,7 +192,7 @@ public class CompoundSPService {
    * @param sp
    * @return
    */
-  private Article getCachedArticleForIdpAndSp(IdentityProvider idp, ServiceProvider sp) {
+  private Article getCachedArticleForIdpAndSp(IdentityProvider idp, ServiceProvider sp, boolean refreshCache) {
     if (!licensingService.isActiveMode()) {
       LOG.info("Returning Article.NONE because licensingService is inactive");
       return Article.NONE;
@@ -190,7 +201,7 @@ public class CompoundSPService {
     Assert.notNull(sp);
     String spLmngIdentifier = lmngIdentifierDao.getLmngIdForServiceProviderId(sp.getId());
     if (spLmngIdentifier != null) {
-      for (Article article : getCachedArticlesForIdp(idp)) {
+      for (Article article : getCachedArticlesForIdp(idp, refreshCache)) {
         if (article.getLmngIdentifier().equals(spLmngIdentifier)) {
           // Get first article (we expect a max of one article per SP)
           return article;
@@ -209,14 +220,14 @@ public class CompoundSPService {
    *          the corresponding IDP
    * @return the list of articles belonging to the IDP
    */
-  private List<Article> getCachedArticlesForIdp(IdentityProvider idp) {
+  private List<Article> getCachedArticlesForIdp(IdentityProvider idp, boolean refreshCache) {
     if (!licensingService.isActiveMode()) {
       LOG.info("Returning null because licensingService is inactive");
       return null;
     }
     SimpleEntry<DateTime, List<Article>> result = lmngCachedResults.get(idp);
     DateTime now = getNow();
-    if (result == null || result.getKey().isBefore(now)) {
+    if (result == null || result.getKey().isBefore(now) || refreshCache) {
       // reload from lmng
       List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(idp.getId());
       List<Article> lmngResult = licensingService.getArticleForIdentityProviderAndServiceProviders(idp, allServiceProviders, now.toDate());
@@ -225,8 +236,8 @@ public class CompoundSPService {
         // return current value (possibly null)
         return result == null ? new ArrayList<Article>() : result.getValue();
       } else {
-        DateTime invaliDate = new DateTime(now).plusSeconds(lmngCacheExpireSeconds);
-        result = new SimpleEntry<DateTime, List<Article>>(invaliDate, lmngResult);
+        DateTime invalidationDate = new DateTime(now).plusSeconds(lmngCacheExpireSeconds);
+        result = new SimpleEntry<DateTime, List<Article>>(invalidationDate, lmngResult);
         lmngCachedResults.put(idp, result);
         return result.getValue();
       }

@@ -67,10 +67,10 @@ public class LmngUtil {
   private static final String FETCH_RESULT_DESCRIPTION_INSTITUTION = "lmng_descriptionlong";// artikel.FIELDNAME
   private static final String FETCH_RESULT_DESCRIPTION_SERVICE = "lmng_description";// artikel.FIELDNAME
   private static final String FETCH_RESULT_DETAIL_LOGO = "image.lmng_url";
-  private static final String FETCH_RESULT_SPECIAL_CONDITIONS = "image.lmng_url";
+  private static final String FETCH_RESULT_SPECIAL_CONDITIONS = "lmng_specialconditions";
   private static final String FETCH_RESULT_LMNG_IDENTIFIER = "lmng_sdnarticleid";// artikel.FIELDNAME
   private static final String FETCH_RESULT_INSTITUTION_NAME = "name";
-  private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
+  private static final String FETCH_RESULT_PRODUCT_NAME = "lmng_name";
   private static final String FETCH_RESULT_LICENSEMODEL = "productvariation.lmng_licensemodel";
 
   private static final String GROUP_LICENSEMODEL = "3";
@@ -203,7 +203,9 @@ public class LmngUtil {
     } catch (IOException e) {
       log.debug("Failed to write input/output file. " + e.getMessage());
     }
-
   }
 
+  public static boolean isValidGuid(String guid) {
+    return guid.matches("\\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\}");
+  }
 }

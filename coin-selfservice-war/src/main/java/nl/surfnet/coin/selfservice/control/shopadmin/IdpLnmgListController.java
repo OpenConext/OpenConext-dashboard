@@ -29,6 +29,7 @@ import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.service.impl.LmngUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -70,6 +71,11 @@ public class IdpLnmgListController extends BaseController {
   public ModelAndView saveLmngServices(HttpServletRequest req) {
     String idpId = req.getParameter("idpIdentifier");
     String lmngId = req.getParameter("lmngIdentifier");
+
+    if (!LmngUtil.isValidGuid(lmngId)) {
+      throw new RuntimeException("Illegal format for LMNG GUID. Should have been validated by the frontend");
+    }
+
     String isClearPressed = req.getParameter("clearbutton");
     if (StringUtils.isNotBlank(isClearPressed)) {
       log.debug("Clearing lmng identifier for IdentityProvider with institutionID " + idpId );

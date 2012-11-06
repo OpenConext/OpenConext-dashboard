@@ -19,6 +19,8 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -29,12 +31,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
+import nl.surfnet.coin.shared.domain.ErrorMail;
+import nl.surfnet.coin.shared.service.ErrorMessageMailer;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -83,6 +89,9 @@ public class LmngServiceImpl implements LicensingService {
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
+  @Resource(name = "errorMessageMailer")
+  private ErrorMessageMailer errorMessageMailer;
+
   private boolean debug;
   private String endpoint;
   private KeyStore keyStore;
@@ -116,7 +125,7 @@ public class LmngServiceImpl implements LicensingService {
       return LmngUtil.parseResult(webserviceResult, debug);
     } catch (Exception e) {
       log.error("Exception while retrieving article/license", e);
-      // TODO error mail
+      sendErrorMail(identityProvider, serviceProviders, e.getMessage(), "getArticleForIdentityProviderAndServiceProviders");
     }
     return nullResult;
   }
@@ -277,6 +286,36 @@ public class LmngServiceImpl implements LicensingService {
   private void invariant() {
     if (!activeMode) {
       throw new RuntimeException(this.getClass().getSimpleName() + " is not active. No calls may be made.");
+    }
+  }
+
+  /*
+   * Send a mail
+   */
+  private void sendErrorMail(IdentityProvider idp, List<ServiceProvider> sps, String message, String method) {
+    String shortMessage = "Exception while retrieving article/license";
+    String spEntityIds = "";
+    if (sps != null) {
+      for (ServiceProvider sp : sps) {
+        spEntityIds += sp.getId() + ", ";
+      }
+    }
+    String idpEntityId = idp == null ? "NULL" : idp.getId();
+    String institutionId = idp == null ? "NULL" : idp.getInstitutionId();
+
+    String formattedMessage = String.format(
+        "LMNG call for Identity Provider '%s' with institution ID '%s' and Service Provider(s) '%s' failed with the following message: '%s'",
+        idpEntityId, institutionId, spEntityIds, message);
+    ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
+    errorMail.setLocation(this.getClass().getName() + "#get" + method);
+    errorMessageMailer.sendErrorMail(errorMail);
+  }
+
+  private String getHost() {
+    try {
+      return InetAddress.getLocalHost().toString();
+    } catch (UnknownHostException e) {
+      return "UNKNOWN";
     }
   }
 

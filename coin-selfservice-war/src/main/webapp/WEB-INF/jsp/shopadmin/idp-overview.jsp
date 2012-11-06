@@ -30,7 +30,7 @@
     <h1>${title}</h1>
     <div class="data-table-wrapper">
 
-      <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination">
+      <table id="idp_overview_table" class="table table-bordered table-striped table-above-pagination">
         <thead>
         <tr>
           <th><spring:message code="jsp.sp_overview.name"/></th>
@@ -44,7 +44,7 @@
             <tr>
               <td title="${binding.identityProvider.id} - ${binding.identityProvider.institutionId} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}"><tags:providername provider="${binding.identityProvider}"/></td>
               <td class="text-overflow">
-          <form:form method="post" action="save-idplmng.shtml" class="lmng-idp-edit">
+          <form:form id="form-${status.index}" method="post" action="save-idplmng.shtml" class="lmng-id-edit">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
                 <input id="lmngId-${status.index}" value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
                 <input id="idpId-${status.index}" value="${binding.identityProvider.institutionId}" type="hidden" name="idpIdentifier"/>

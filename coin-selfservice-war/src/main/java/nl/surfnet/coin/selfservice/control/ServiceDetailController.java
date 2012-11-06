@@ -58,7 +58,7 @@ public class ServiceDetailController extends BaseController {
 
   @Resource(name = "oAuthTokenService")
   private OAuthTokenService oAuthTokenService;
-  
+
   @Autowired
   private ConsentDao consentDao;
 
@@ -70,16 +70,19 @@ public class ServiceDetailController extends BaseController {
 
   /**
    * Controller for detail page.
-   *
-   * @param compoundSpId the compound service provider id
+   * 
+   * @param compoundSpId
+   *          the compound service provider id
    * @return ModelAndView
    */
   @RequestMapping(value = "/app-detail")
-  public ModelAndView serviceDetail(@RequestParam long compoundSpId,
-                                    @RequestParam(required = false) String revoked,
-                                    @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView serviceDetail(@RequestParam(value = "compoundSpId") long compoundSpId,
+      @RequestParam(required = false) String revoked,
+      @RequestParam(value = "refreshCache", required = false, defaultValue = "false") String refreshCache,
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(selectedidp, compoundSpId);
+    CompoundServiceProvider compoundServiceProvider = compoundSPService
+        .getCSPById(selectedidp, compoundSpId, Boolean.valueOf(refreshCache));
     m.put(COMPOUND_SP, compoundServiceProvider);
 
     String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
@@ -89,7 +92,8 @@ public class ServiceDetailController extends BaseController {
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     m.put("personAttributeLabels", attributeLabelMap);
 
-    final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser().getUid(), compoundServiceProvider.getServiceProvider());
+    final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser().getUid(),
+        compoundServiceProvider.getServiceProvider());
     m.put("oAuthTokens", oAuthTokens);
 
     m.put("revoked", revoked);
@@ -99,10 +103,8 @@ public class ServiceDetailController extends BaseController {
     return new ModelAndView("app-detail", m);
   }
 
-
   @RequestMapping(value = "revokekeys.shtml")
-  public RedirectView revokeKeys(@RequestParam String spEntityId,
-                                 @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public RedirectView revokeKeys(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     oAuthTokenService.revokeOAuthTokens(SpringSecurity.getCurrentUser().getUid(), sp);
     return new RedirectView("app-detail.shtml?revoked=true&spEntityId=" + spEntityId);

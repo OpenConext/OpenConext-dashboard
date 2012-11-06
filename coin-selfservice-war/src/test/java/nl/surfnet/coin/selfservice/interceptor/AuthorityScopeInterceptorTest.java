@@ -80,7 +80,7 @@ public class AuthorityScopeInterceptorTest {
     // we have not intercepted yet, so everything is accessible
     assertNotNull(technicalSupportMail);
 
-    interceptor.postHandle(null, null, null, modelAndView);
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
 
     technicalSupportMail = sp.getTechnicalSupportMail();
     // intercepted...
@@ -125,7 +125,7 @@ public class AuthorityScopeInterceptorTest {
     CompoundServiceProvider sp = buildCompoundSeriveProvider();
     modelAndView.addObject(BaseController.COMPOUND_SP, sp);
 
-    interceptor.postHandle(null, null, null, modelAndView);
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
 
     String technicalSupportMail = sp.getTechnicalSupportMail();
     assertNotNull(technicalSupportMail);
@@ -147,7 +147,7 @@ public class AuthorityScopeInterceptorTest {
     CompoundServiceProvider sp = buildCompoundSeriveProvider();
     modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp));
     
-    interceptor.postHandle(null, null, null, modelAndView);
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
 
     Collection<CompoundServiceProvider> sps =  (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(BaseController.COMPOUND_SPS);
     assertEquals(0, sps.size());
