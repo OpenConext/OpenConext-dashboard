@@ -33,12 +33,12 @@ app.message = function() {
             nl : "Is verbonden"
         },
         "arp.button.text" : {
-        	en : " Attributes that are shared",
-        	nl : " Attributen die worden gedeeld"
+            en : " Attributes that are shared",
+            nl : " Attributen die worden gedeeld"
         },
         "lmng.identifier.error" : {
-        	en : "Wrong format for LMNG ID (be sure to include the brackets)",
-        	nl : "Verkeerde LMNG ID (let op: accolades zijn verplicht)"
+            en : "Wrong format for LMNG ID (be sure to include the brackets)",
+            nl : "Verkeerde LMNG ID (let op: accolades zijn verplicht)"
         }
     };
     
