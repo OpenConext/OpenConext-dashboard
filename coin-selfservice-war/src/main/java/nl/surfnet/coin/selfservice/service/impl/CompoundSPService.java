@@ -152,7 +152,7 @@ public class CompoundSPService {
       return csp;
     }
     csp.setServiceProvider(sp);
-    csp.setArticle(getCachedArticleForIdpAndSp(idp, sp, false));
+    csp.setArticle(getCachedArticleForIdpAndSp(idp, sp, refreshCache));
     return csp;
   }
 
@@ -252,5 +252,9 @@ public class CompoundSPService {
    */
   protected DateTime getNow() {
     return new DateTime();
+  }
+
+  public void setLmngCacheExpireSeconds(int lmngCacheExpireSeconds) {
+    this.lmngCacheExpireSeconds = lmngCacheExpireSeconds;
   }
 }

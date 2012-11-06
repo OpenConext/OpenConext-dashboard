@@ -16,14 +16,36 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsEqual;
@@ -37,18 +59,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-
+@SuppressWarnings("unchecked")
 public class ApiOAuthFilterTest {
+
+  private static final String THE_USERS_UID = "the-users-uid";
 
   @InjectMocks
   private ApiOAuthFilter filter;
@@ -95,7 +111,8 @@ public class ApiOAuthFilterTest {
   @Test
   public void filterAndStartOauthDance() throws Exception {
 
-    SecurityContextHolder.getContext().setAuthentication(getAuthentication(new CoinUser()));
+    setAuthentication();
+    
     when(apiClient.getAuthorizationUrl()).thenReturn("http://authorization-url");
 
     filter.doFilter(request, response, chain);
@@ -108,9 +125,7 @@ public class ApiOAuthFilterTest {
   @Test
   public void filterAndProcessCallback() throws Exception {
     final HttpSession session = mock(HttpSession.class);
-    final CoinUser coinUser = new CoinUser();
-    coinUser.setUid("the-users-uid");
-    SecurityContextHolder.getContext().setAuthentication(getAuthentication(coinUser));
+    setAuthentication();
 
     filter.setCallbackFlagParameter("myDummyCallback");
     filter.setAdminDistributionTeam("myAdminTeam");
@@ -120,7 +135,7 @@ public class ApiOAuthFilterTest {
     when(session.getAttribute(ApiOAuthFilter.ORIGINAL_REQUEST_URL)).thenReturn("http://originalUrl");
     filter.doFilter(request, response, chain);
     verify(apiClient).oauthCallback(eq(request), anyString());
-    verify(apiClient).getGroups20("the-users-uid", "the-users-uid");
+    verify(apiClient).getGroups20(THE_USERS_UID, THE_USERS_UID);
     verify(session).setAttribute(ApiOAuthFilter.PROCESSED, "true");
     assertThat("redirect to original url", response.getRedirectedUrl(), IsEqual.equalTo("http://originalUrl"));
   }
@@ -129,45 +144,112 @@ public class ApiOAuthFilterTest {
   public void filterAndUsePrefetchedAccessTokenButNoAdmin() throws Exception {
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
 
-    final CoinUser coinUser = new CoinUser();
-    coinUser.setUid("the-users-uid");
-    SecurityContextHolder.getContext().setAuthentication(getAuthentication(coinUser));
+    setAuthentication();
 
     filter.setAdminDistributionTeam("a-team");
-    when(apiClient.getGroups20("the-users-uid", "the-users-id")).thenReturn(null);
+    when(apiClient.getGroups20(THE_USERS_UID, THE_USERS_UID)).thenReturn(null);
 
     filter.doFilter(request, response, chain);
     assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
-    assertThat(SecurityContextHolder.getContext().getAuthentication().getAuthorities().size(), Is.is(0));
+    assertOnlyUserRoleIsGranted();
   }
 
   @Test
   public void filterAndUsePrefetchedAccessTokenAndIsAdmin() throws Exception {
 
-    filter.setAdminDistributionTeam("a-team");
-
-    final CoinUser coinUser = new CoinUser();
-    coinUser.setUid("the-users-uid");
-    SecurityContextHolder.getContext().setAuthentication(getAuthentication(coinUser));
+    setAuthentication();
 
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
     request.getSession(true).setAttribute(ApiOAuthFilter.PROCESSED, null);
-    // let apiClient return the admin group
-    when(apiClient.getGroups20("the-users-uid", "the-users-uid")).thenReturn(Arrays.asList(new Group20("a-team", null, null)));
 
-    // Before: no authorities
-    assertThat(SecurityContextHolder.getContext().getAuthentication().getAuthorities().size(), Is.is(0));
+    this.setUpGroupMembersShips(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+
     filter.doFilter(request, response, chain);
-    // After: 1 authority
-    assertThat(SecurityContextHolder.getContext().getAuthentication().getAuthorities().size(), Is.is(1));
+
+    assertRoleIsGranted(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
 
     // Verify flag that the process is done.
     assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
   }
 
-  protected Authentication getAuthentication(CoinUser coinUser) {
+  @Test
+  public void test_elevate_user_results_in_only_one_selfservice_admin() throws IOException, ServletException {
+    setUpForAuthoritiesCheck(ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+    assertRoleIsGranted(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+  }
+
+  @Test
+  public void test_elevate_user_results_in_two_admins() throws IOException, ServletException {
+    setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+    assertRoleIsGranted( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+  }
+
+  @Test
+  public void test_elevate_user_one_idp_admin() throws IOException, ServletException {
+    setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
+    assertRoleIsGranted( ROLE_IDP_LICENSE_ADMIN);
+  }
+
+  @Test
+  public void test_elevate_user_results_in_user() throws IOException, ServletException {
+    setUpForAuthoritiesCheck( new Authority[]{});
+    assertRoleIsGranted( ROLE_USER);
+  }
+
+  private void setUpForAuthoritiesCheck(Authority... groupMemberShips) throws IOException, ServletException {
+    request.getSession(true).setAttribute(ApiOAuthFilter.PROCESSED, null);
+    when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
+
+    setAuthentication();
+
+    setUpGroupMembersShips(groupMemberShips);
+
+    filter.doFilter(request, response, chain);
+    
+  }
+
+  private void setUpGroupMembersShips(Authority... authorities) {
+    List<Group20> groups = new ArrayList<Group20>();
+    for (Authority authority : authorities) {
+      switch (authority) {
+      case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
+        filter.setAdminDistributionTeam(authority.name());
+        groups.add(new Group20(authority.name()));
+        break;
+      case ROLE_IDP_LICENSE_ADMIN:
+        filter.setAdminLicentieIdPTeam(authority.name());
+        groups.add(new Group20(authority.name()));
+        break;
+      case ROLE_IDP_SURFCONEXT_ADMIN:
+        filter.setAdminSurfConextIdPTeam(authority.name());
+        groups.add(new Group20(authority.name()));
+        break;
+      default:
+      }
+    }
+    when(apiClient.getGroups20(THE_USERS_UID, THE_USERS_UID)).thenReturn(groups);
+  }
+
+  private void setAuthentication() {
+    final CoinUser coinUser = new CoinUser();
+    coinUser.setUid(THE_USERS_UID);
+    coinUser.addAuthority(new CoinAuthority(ROLE_USER));
+
     final TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");
     token.setAuthenticated(true);
-    return token;
+
+    SecurityContextHolder.getContext().setAuthentication(token);
   }
+
+  private void assertOnlyUserRoleIsGranted() {
+    assertRoleIsGranted(ROLE_USER);
+  }
+
+  private void assertRoleIsGranted(Authority... auths) {
+    CoinUser user = SpringSecurity.getCurrentUser();
+    List<Authority> authorities = user.getAuthorityEnums();
+    assertEquals(authorities.size(), auths.length);
+    assertTrue(authorities.containsAll(Arrays.asList(auths)));
+  }
+
 }

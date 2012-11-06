@@ -16,10 +16,19 @@
 package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import nl.surfnet.coin.selfservice.domain.Field.Key;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.*;
+import static java.util.Arrays.asList;
 
 /**
  * AttributeScopeConstraints.java
@@ -30,17 +39,40 @@ import nl.surfnet.coin.selfservice.domain.Field.Key;
  * 
  */
 @SuppressWarnings("serial")
-public class AttributeScopeConstraints implements Serializable{
+public class AttributeScopeConstraints implements Serializable {
 
-  private Set<Key> keys;
+  private HashSet<Key> keys;
 
-  public void addAttributeScopeConstraint(Key... constraints) {
+  // private constructor as we want to enforce builder
+  private AttributeScopeConstraints() {
+  }
+
+  private static Map<Key, Collection<Authority>> constraints = new HashMap<Field.Key, Collection<Authority>>();
+
+  static {
+    constraints.put(INSTITUTION_DESCRIPTION_EN, asList(ROLE_USER));
+    constraints.put(INSTITUTION_DESCRIPTION_NL, asList(ROLE_USER));
+    constraints.put(TECHNICAL_SUPPORTMAIL, asList(ROLE_USER));
+    constraints.put(ENDUSER_DESCRIPTION_EN, asList(ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
+    constraints.put(ENDUSER_DESCRIPTION_NL, asList(ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
+
+  }
+
+  public static AttributeScopeConstraints builder(Collection<Authority> authorities) {
+    AttributeScopeConstraints result = new AttributeScopeConstraints();
+    for (Entry<Key, Collection<Authority>> entry : constraints.entrySet()) {
+      if (entry.getValue().containsAll(authorities)) {
+        result.addAttributeScopeConstraint(entry.getKey());
+      }
+    }
+    return result;
+  }
+
+  private void addAttributeScopeConstraint(Key key) {
     if (this.keys == null) {
-      this.keys = new HashSet<Field.Key>();
+      this.keys = new HashSet<Key>();
     }
-    for (Key key : constraints) {
-      this.keys.add(key);
-    }
+    this.keys.add(key);
   }
 
   public boolean isAllowed(Key key) {

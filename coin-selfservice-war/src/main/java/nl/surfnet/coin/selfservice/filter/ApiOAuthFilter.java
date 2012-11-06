@@ -21,6 +21,8 @@ import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_ID
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -37,6 +39,7 @@ import nl.surfnet.coin.api.client.InvalidTokenException;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
@@ -152,8 +155,8 @@ public class ApiOAuthFilter implements Filter {
   }
 
   /**
-   * Assign the appropriate roles to the given user, if he is member of one the admin teams
-   * team.
+   * Assign the appropriate roles to the given user, if he is member of one the
+   * admin teams team.
    * 
    * @param coinUser
    *          the CoinUser representing the currently logged in user.
@@ -166,17 +169,23 @@ public class ApiOAuthFilter implements Filter {
       LOG.debug("Memberships of adminTeams '{}' for user '{}'", new Object[] { groups, coinUser.getUid() });
     }
     /*
-     * adminLicentieIdPTeam, adminSurfConextIdPTeam, adminDistributionTeam;
+     * We want to end up with only one role, the one exception is that an user
+     * has two roles: ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN
      */
-    if (groupsContains(adminLicentieIdPTeam, groups)) {
-      coinUser.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-    }
-    if (groupsContains(adminSurfConextIdPTeam, groups)) {
-      coinUser.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-    }
     if (groupsContains(adminDistributionTeam, groups)) {
-      coinUser.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+      coinUser.setAuthorities(Arrays.asList(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN)));
+    } else {
+      List<CoinAuthority> authories = new ArrayList<CoinAuthority>();
+      if (groupsContains(adminLicentieIdPTeam, groups)) {
+        authories.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
+      }
+      if (groupsContains(adminSurfConextIdPTeam, groups)) {
+        authories.add(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
+        coinUser.setAuthorities(Arrays.asList(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN)));
+      }
+      coinUser.setAuthorities(authories.isEmpty() ? Arrays.asList(new CoinAuthority(Authority.ROLE_USER)) : authories);
     }
+
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
   }
 

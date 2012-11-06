@@ -94,7 +94,7 @@ public class AuthorityScopeInterceptorTest {
   }
 
   @Test(expected = AccessDeniedException.class)
-  public void userCannotViewUnlinkedServices() throws Exception {
+  public void user_cannot_view_unlinked_services() throws Exception {
     ModelAndView mav = new ModelAndView();
 
     CoinUser user = coinUser(ROLE_USER);

@@ -16,22 +16,18 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.MenuItem;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Interceptor to add the menu
@@ -64,27 +60,24 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
   private Menu createMenu() {
     Menu menu = new Menu();
     menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
-    Collection<? extends GrantedAuthority> authorities = SpringSecurity.getCurrentUser().getAuthorities();
-    for (GrantedAuthority grantedAuthority : authorities) {
-      if (grantedAuthority instanceof CoinAuthority) {
-        Authority authority = ((CoinAuthority) grantedAuthority).getEnumAuthority();
-        switch (authority) {
-        case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
-          if (isLmngActive()) {
-            menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
-            menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
-          }
-          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
-          break;
-        case ROLE_IDP_LICENSE_ADMIN:
-          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
-          break;
-        case ROLE_IDP_SURFCONEXT_ADMIN:
-          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
-          break;
-        default:
-          break;
+    List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
+    for (Authority authority : authorities) {
+      switch (authority) {
+      case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
+        if (isLmngActive()) {
+          menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
+          menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
         }
+        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
+        break;
+      case ROLE_IDP_LICENSE_ADMIN:
+        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
+        break;
+      case ROLE_IDP_SURFCONEXT_ADMIN:
+        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
+        break;
+      default:
+        break;
       }
     }
     menu.addMenuItem(new MenuItem("jsp.profile.title", "/user.shtml"));

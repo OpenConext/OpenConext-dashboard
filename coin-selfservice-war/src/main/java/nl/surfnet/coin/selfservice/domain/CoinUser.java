@@ -19,8 +19,11 @@ package nl.surfnet.coin.selfservice.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -146,6 +149,15 @@ public class CoinUser implements UserDetails {
     this.grantedAuthorities.add(grantedAuthority);
   }
 
+  public void removeUserAuthority() {
+    for (Iterator<CoinAuthority> iterator = this.grantedAuthorities.iterator(); iterator.hasNext();) {
+      CoinAuthority auth = iterator.next();
+      if (auth.getEnumAuthority().equals(Authority.ROLE_USER)) {
+        iterator.remove();
+      }
+    }
+  }
+
   /**
    * List of {@link IdentityProvider}'s of the institution for this users.
    * Usually contains only the IdP the user logs in with.
@@ -203,6 +215,14 @@ public class CoinUser implements UserDetails {
 
   public void addAttribute(String key, List<String> value) {
     this.attributeMap.put(key, value);
+  }
+  
+  public List<Authority> getAuthorityEnums() {
+    List<Authority> result = new ArrayList<Authority>();
+    for (CoinAuthority authority : this.grantedAuthorities) {
+      result.add(authority.getEnumAuthority());
+    }
+    return result;
   }
 
   @Override

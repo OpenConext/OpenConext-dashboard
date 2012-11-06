@@ -154,5 +154,15 @@ public class CompoundSPServiceTest {
     article = csp.getArticle();
     assertEquals(lmngIdentifer, article.getLmngIdentifier());
 
+    // quick test to see if the force cache refresh works
+    when(compoundServiceProviderDao.findById(1L)).thenReturn(csp);
+    when(serviceProviderService.getServiceProvider("spId1", null)).thenReturn(sp1);
+    try {
+      csp = cspService.getCSPById(new IdentityProvider(), 1L, true);
+      fail();
+    } catch (RuntimeException e) {
+      assertEquals("Should not be called", e.getMessage());
+    }
+
   }
 }

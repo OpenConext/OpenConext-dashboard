@@ -16,6 +16,9 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.collection.LambdaCollections.with;
 import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
 import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
 import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
@@ -27,24 +30,18 @@ import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.surfnet.coin.selfservice.domain.AttributeScopeConstraints;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -56,8 +53,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMethod;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -93,7 +88,7 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
 
     if (modelAndView != null) {
 
-      Collection<CoinAuthority> authorities = (Collection<CoinAuthority>) SpringSecurity.getCurrentUser().getAuthorities();
+      List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
 
       final ModelMap map = modelAndView.getModelMap();
       CompoundServiceProvider sp = (CompoundServiceProvider) map.get(COMPOUND_SP);
@@ -115,10 +110,10 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
     }
   }
 
-  protected void scopeGeneralAuthCons(ModelMap map, Collection<CoinAuthority> authorities) {
+  protected void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities) {
     boolean isAdmin = containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
     map.put(SERVICE_QUESTION_ALLOWED, isAdmin);
-    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN));
+    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
 
     map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
@@ -131,38 +126,24 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
    * 
    * @return a reduced list, or the same, if no changes.
    */
-  protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> sps,
-      Collection<CoinAuthority> authorities) {
+  protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> cps,
+      List<Authority> authorities) {
     if (isRoleUser(authorities)) {
-      List<CompoundServiceProvider> resultList = new ArrayList<CompoundServiceProvider>();
-      for (CompoundServiceProvider csp : sps) {
-        if (csp.getServiceProvider().isLinked()) {
-          resultList.add(csp);
-        }
-      }
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser. # Before: {}, after: {}", new Object[] {
-          SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size() });
-      return resultList;
+      cps = with(cps).retain(having(on(CompoundServiceProvider.class).getServiceProvider().isLinked()));
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser.",SpringSecurity.getCurrentUser().getUid());
     } else if (isRoleIdPLicenseAdmin(authorities)) {
-      List<CompoundServiceProvider> resultList = new ArrayList<CompoundServiceProvider>();
-      for (CompoundServiceProvider csp : sps) {
-        if (csp.isArticleAvailable()) {
-          resultList.add(csp);
-        }
-      }
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user. # Before: {}, after: {}",
-          new Object[] { SpringSecurity.getCurrentUser().getUid(), sps.size(), resultList.size() });
-      return resultList;
-
+      cps = with(cps).retain(having(on(CompoundServiceProvider.class).isArticleAvailable()));
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user",
+          SpringSecurity.getCurrentUser().getUid());
     }
-    return sps;
+    return cps;
   }
 
   /*
    * Based on https://wiki.surfnetlabs.nl/display/services/App-omschrijving we
    * tell the Service to limit scope access based on the authority
    */
-  protected void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, Collection<CoinAuthority> authorities) {
+  protected void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, List<Authority> authorities) {
 
     // Do not allow normal users to view 'unlinked' services, even if requested
     // explicitly.
@@ -173,32 +154,21 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
       throw new AccessDeniedException("Access denied");
     }
 
-    AttributeScopeConstraints constraints = new AttributeScopeConstraints();
-
-    if (isRoleUser(authorities)) {
-      constraints.addAttributeScopeConstraint(INSTITUTION_DESCRIPTION_EN, INSTITUTION_DESCRIPTION_NL, TECHNICAL_SUPPORTMAIL);
-    }
-    if (containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN)) {
-      constraints.addAttributeScopeConstraint(ENDUSER_DESCRIPTION_EN, ENDUSER_DESCRIPTION_NL);
-    }
+    AttributeScopeConstraints constraints = AttributeScopeConstraints.builder(authorities);
     sp.setConstraints(constraints);
   }
 
-  protected boolean isRoleUser(Collection<CoinAuthority> authorities) {
+  protected boolean isRoleUser(List<Authority> authorities) {
     return CollectionUtils.isEmpty(authorities)
-        || ((authorities.size() == 1 && authorities.iterator().next().getEnumAuthority().equals(Authority.ROLE_USER)));
+        || ((authorities.size() == 1 && authorities.get(0).equals(Authority.ROLE_USER)));
   }
 
-  protected boolean isRoleIdPLicenseAdmin(Collection<CoinAuthority> authorities) {
+  protected boolean isRoleIdPLicenseAdmin(List<Authority> authorities) {
     return containsRole(authorities, ROLE_IDP_LICENSE_ADMIN)
         && !containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
   }
 
-  protected boolean containsRole(Collection<CoinAuthority> coinAuthorities, Authority... authority) {
-    Set<Authority> authorities = new HashSet<CoinAuthority.Authority>();
-    for (CoinAuthority grantedAuth : coinAuthorities) {
-      authorities.add(grantedAuth.getEnumAuthority());
-    }
+  protected boolean containsRole(List<Authority> authorities, Authority... authority) {
     for (Authority auth : authority) {
       if (authorities.contains(auth)) {
         return true;

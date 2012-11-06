@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package nl.surfnet.coin.selfservice.util;
+
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
@@ -33,8 +34,28 @@ import nl.surfnet.coin.api.client.domain.Person;
 public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
 
   public enum Users {
+    /*
+     * ROLE_IDP_SURFCONEXT_ADMIN=IdP Institution Administrator
+     */
+    ADMIN_IDP_SURFCONEXT("adminidpsc"),
+    /*
+     * ROLE_IDP_LICENSE_ADMIN=IdP License Administrator
+     */
+    ADMIN_IDP_LICENSE("adminidpli"),
+    /*
+     * ROLE_DISTRIBUTION_CHANNEL_ADMIN=Distribution Channel Administrator
+     */
+    ADMIN_DISTRIBUTIE_CHANNEL("admindk"),
+    /*
+     * ROLE_USER=Distribution Channel User
+     */
+    USER("user"),
+    /*
+     * Both IdP admins
+     */
+    ADMIN_IDP_ADMIN("adminidp"),
 
-    ADMIN_IDP_SURFCONEXT("adminidpsc"), ADMIN_IDP_LICENSE("adminidpli"), ADMIN_DISTRIBUTIE_CHANNEL("admindk"), USER("user"), ALL("NA");
+    ALL("NA");
 
     private String user;
 
@@ -147,6 +168,8 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
       return asList(createGroup20(adminLicentieIdPTeam));
     case ADMIN_IDP_SURFCONEXT:
       return asList(createGroup20(adminSurfConextIdPTeam));
+    case ADMIN_IDP_ADMIN: 
+      return asList(createGroup20(adminLicentieIdPTeam),createGroup20(adminSurfConextIdPTeam));
     case USER:
       return new ArrayList<Group20>();
     case ALL:
@@ -154,7 +177,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
     default:
       throw new RuntimeException("Unknown");
     }
-    
+
   }
 
   private Group20 createGroup20(String id) {

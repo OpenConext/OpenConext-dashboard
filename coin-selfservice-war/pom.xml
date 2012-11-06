@@ -1,20 +1,13 @@
-<!--
-  Copyright 2012 SURFnet bv, The Netherlands
+<!-- Copyright 2012 SURFnet bv, The Netherlands Licensed under the Apache 
+  License, Version 2.0 (the "License"); you may not use this file except in 
+  compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+  Unless required by applicable law or agreed to in writing, software distributed 
+  under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+  OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+  the specific language governing permissions and limitations under the License. -->
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-  -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-selfservice-parent</artifactId>
@@ -34,25 +27,26 @@
       <url>http://rubygems-proxy.torquebox.org/releases</url>
     </repository>
   </repositories>
-  
+
   <properties>
     <coin-shared.version>2.12.0-SNAPSHOT</coin-shared.version>
     <coin-test.version>2.8.3</coin-test.version>
     <coin-master.test-dependencies.version>2.8.2</coin-master.test-dependencies.version>
-    <coin-api-serviceregistry.version>2.11.0-SNAPSHOT</coin-api-serviceregistry.version>
-    <coin-api-client.version>2.8.8</coin-api-client.version>
+    <coin-api.version>2.11.0-SNAPSHOT</coin-api.version>
     <spring-security-opensaml.version>2.11.0-SNAPSHOT</spring-security-opensaml.version>
     <spring-security.version>3.1.0.RELEASE</spring-security.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
     <bonecp.version>0.7.1.RELEASE</bonecp.version>
-	  <mujina-idp.version>2.11.0-SNAPSHOT</mujina-idp.version>
+    <mujina-idp.version>2.11.0-SNAPSHOT</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
-  	<selenium.version>2.25.0</selenium.version>
-    <selenium.test.url>http://localhost:8280/selfservice/</selenium.test.url>  	
-    <!-- default webdriver for selenium tests. To be overridden on a per profile 
-      base -->
+    <selenium.version>2.25.0</selenium.version>
+    <selenium.test.url>http://localhost:8280/selfservice/</selenium.test.url>
+    <jetty.port>8280</jetty.port>
+    
+    <!-- default webdriver for selenium tests. To be overridden on a per 
+      profile base -->
     <selenium.webdriver>firefox</selenium.webdriver>
   </properties>
 
@@ -122,10 +116,15 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.googlecode.lambdaj</groupId>
+      <artifactId>lambdaj</artifactId>
+      <version>2.3.3</version>
+    </dependency>
+    <dependency>
       <groupId>org.imgscalr</groupId>
       <artifactId>imgscalr-lib</artifactId>
       <version>4.2</version>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>rubygems</groupId>
       <artifactId>compass</artifactId>
@@ -175,11 +174,6 @@
       <artifactId>jsp-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
     </dependency>
@@ -203,17 +197,17 @@
     <dependency>
       <groupId>org.surfnet.coin</groupId>
       <artifactId>coin-api-serviceregistry-client</artifactId>
-      <version>${coin-api-serviceregistry.version}</version>
+      <version>${coin-api.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.surfnet.coin</groupId>
       <artifactId>coin-api-client</artifactId>
-      <version>${coin-api-client.version}</version>
+      <version>${coin-api.version}</version>
     </dependency>
 
-    <!-- The next two slf4j dependencies are the ones we want to use. Other
- will be excluded. -->
+    <!-- The next two slf4j dependencies are the ones we want to use. Other 
+      will be excluded. -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -289,22 +283,22 @@
       <artifactId>spring-core</artifactId>
     </dependency>
 
-	<dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-io</artifactId>
-		<version>1.3.2</version>
-	</dependency>
-	<dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpclient</artifactId>
-		<version>4.2.1</version>
-	</dependency>
-	<dependency>
-		<groupId>jcifs</groupId>
-		<artifactId>jcifs</artifactId>
-		<version>1.3.17</version>
-	</dependency>
-            
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jcifs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>1.3.17</version>
+    </dependency>
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
@@ -324,21 +318,21 @@
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
     </dependency>
-    
+
     <dependency>
-	  <groupId>org.apache.httpcomponents</groupId>
-	  <artifactId>httpclient</artifactId>
-	  <version>4.2.1</version>
-	  <classifier>tests</classifier>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.2.1</version>
+      <classifier>tests</classifier>
       <scope>test</scope>
-	</dependency>
+    </dependency>
 
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
       <version>1.2.2</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
@@ -377,12 +371,12 @@
       <scope>test</scope>
     </dependency>
     <!-- End Selenium -->
-    
+
   </dependencies>
 
   <build>
     <plugins>
-    <plugin>
+      <plugin>
         <groupId>de.saumya.mojo</groupId>
         <artifactId>gem-maven-plugin</artifactId>
         <version>0.28.6</version>
@@ -396,9 +390,11 @@
           </execution>
         </executions>
         <configuration>
-          <execArgs>${project.build.directory}/rubygems/bin/compass compile ${basedir}/src/main/webapp ${basedir}/src/main/webapp/sass/screen.sass</execArgs>
+          <execArgs>${project.build.directory}/rubygems/bin/compass
+            compile ${basedir}/src/main/webapp
+            ${basedir}/src/main/webapp/sass/screen.sass</execArgs>
         </configuration>
-      </plugin> 
+      </plugin>
       <plugin>
         <groupId>com.googlecode.flyway</groupId>
         <artifactId>flyway-maven-plugin</artifactId>
@@ -413,7 +409,7 @@
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <configuration>
-        <contextHandlers>
+          <contextHandlers>
             <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
               <contextPath>/mujina-idp</contextPath>
               <war>${settings.localRepository}/org/surfnet/coin/mujina-idp/${mujina-idp.version}/mujina-idp-${mujina-idp.version}.war</war>
@@ -427,7 +423,8 @@
           </webAppConfig>
           <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
           <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+            <connector
+              implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
               <port>8280</port>
               <host>0.0.0.0</host>
             </connector>
@@ -472,7 +469,8 @@
             </goals>
             <configuration>
               <target>
-                <property name="coin-selfservice-version" value="${project.version}" />
+                <property name="coin-selfservice-version"
+                  value="${project.version}" />
                 <ant target="build" inheritRefs="true" />
               </target>
             </configuration>
@@ -496,9 +494,8 @@
 
               <jsSourceDir>js</jsSourceDir>
               <jsSourceFiles>
-                <!--
-                All javascript files are setup explicitly here, to conserve their order in the minified version.
-                -->
+                <!-- All javascript files are setup explicitly here, to conserve 
+                  their order in the minified version. -->
                 <jsSourceFile>jquery/jquery-1.7.2.min.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-2.0.3.min.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
@@ -538,37 +535,38 @@
       </plugin>
     </plugins>
     <pluginManagement>
-    	<plugins>
-    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-    		<plugin>
-    			<groupId>org.eclipse.m2e</groupId>
-    			<artifactId>lifecycle-mapping</artifactId>
-    			<version>1.0.0</version>
-    			<configuration>
-    				<lifecycleMappingMetadata>
-    					<pluginExecutions>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
-    								<groupId>com.samaxes.maven</groupId>
-    								<artifactId>
-    									maven-minify-plugin
-    								</artifactId>
-    								<versionRange>
-    									[1.3.5,)
-    								</versionRange>
-    								<goals>
-    									<goal>minify</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    								<ignore></ignore>
-    							</action>
-    						</pluginExecution>
-    					</pluginExecutions>
-    				</lifecycleMappingMetadata>
-    			</configuration>
-    		</plugin>
-    	</plugins>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings 
+          only. It has no influence on the Maven build itself. -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>com.samaxes.maven</groupId>
+                    <artifactId>
+                      maven-minify-plugin
+                    </artifactId>
+                    <versionRange>
+                      [1.3.5,)
+                    </versionRange>
+                    <goals>
+                      <goal>minify</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
     </pluginManagement>
   </build>
 
@@ -624,18 +622,21 @@
               <webAppConfig>
                 <contextPath>/selfservice</contextPath>
                 <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
+                <defaultsDescriptor>${basedir}/src/test/resources/jettywebdefault.xml</defaultsDescriptor>
               </webAppConfig>
+              <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
               <connectors>
-                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                <connector
+                  implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                   <port>${jetty.port}</port>
-                  <maxIdleTime>60000</maxIdleTime>
+                  <host>0.0.0.0</host>
                 </connector>
               </connectors>
               <daemon>true</daemon>
               <scanIntervalSeconds>0</scanIntervalSeconds>
-              <stopKey>foo</stopKey>
-              <stopPort>9966</stopPort>
-              <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
+              <stopKey>stopselfservice</stopKey>
+              <stopPort>9280</stopPort>
+              <useTestClasspath>true</useTestClasspath>
             </configuration>
             <executions>
               <execution>
