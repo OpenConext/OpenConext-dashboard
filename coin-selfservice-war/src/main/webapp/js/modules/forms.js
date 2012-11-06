@@ -11,7 +11,7 @@ app.forms = function() {
 		function editSubmit(e) {
 			var inputField = $(this).find(".lmngIdentifier");
 			var regexp = /\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}/;
-			if(!regexp.test(inputField.val())) {
+			if(inputField.val() != null && inputField.val() != '' && !regexp.test(inputField.val())) {
 				e.preventDefault();
 				inputField.addClass("error");
 				inputField.closest("form").append("<p class='error'>" + app.message.i18n('lmng.identifier.error') + "</p>")
