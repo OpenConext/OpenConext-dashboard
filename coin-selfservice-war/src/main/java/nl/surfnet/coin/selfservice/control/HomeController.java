@@ -22,11 +22,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,7 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class HomeController extends BaseController {
-
+  
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
@@ -63,6 +66,8 @@ public class HomeController extends BaseController {
   @RequestMapping("/user.shtml")
   public ModelAndView user() {
     Map<String, Object> model = new HashMap<String, Object>();
+    CoinUser user = SpringSecurity.getCurrentUser();
+    model.put("mainAttributes", new PersonMainAttributes(user.getAttributeMap()));
     return new ModelAndView("user", model);
   }
 }

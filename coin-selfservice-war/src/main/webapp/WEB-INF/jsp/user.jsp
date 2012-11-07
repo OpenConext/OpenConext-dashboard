@@ -33,9 +33,9 @@
     <div class="profile-attributes">
       <div class="attributes-main">
         <ul>
-          <li><spring:message code="jsp.user_attributes.mail"/>: <span>j.doe@example.com</span></li>
-          <li><spring:message code="jsp.user_attributes.display_name"/>: <span>admin</span></li>
-          <li><spring:message code="jsp.user_attributes.organization"/>: <span>example.com</span></li>
+          <li><spring:message code="jsp.user_attributes.mail"/>: <span><c:out value="${mainAttributes.mail}"/></span></li>
+          <li><spring:message code="jsp.user_attributes.display_name"/>: <span><c:out value="${mainAttributes.displayName}"/></span></li>
+          <li><spring:message code="jsp.user_attributes.organization"/>: <span><c:out value="${mainAttributes.schacHomeOrganization}"/></span></li>
         </ul>
       </div>
 
