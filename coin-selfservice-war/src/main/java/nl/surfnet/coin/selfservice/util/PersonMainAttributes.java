@@ -42,7 +42,6 @@ public class PersonMainAttributes {
     mail = attributeMap.get(USER_ATTRIBUTE_MAIL) == null ? null : attributeMap.get(USER_ATTRIBUTE_MAIL).get(0);
     displayName = attributeMap.get(USER_ATTRIBUTE_DISPLAY_NAME) == null ? null : attributeMap.get(USER_ATTRIBUTE_DISPLAY_NAME).get(0);
     schacHomeOrganization = attributeMap.get(USER_ATTRIBUTE_SCHAC_HOME_ORGANISATIONS) == null ? null : attributeMap.get(USER_ATTRIBUTE_SCHAC_HOME_ORGANISATIONS).get(0);
-    mail = mail + "XXXX";
   }
 
   public String getMail() {
