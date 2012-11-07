@@ -28,36 +28,48 @@
     <sec:authentication property="principal.attributeMap" scope="request" var="attributeMap"/>
 
     <p><spring:message code="jsp.home.attributes.header"/><p>
-    <table class="table table-bordered table-striped table-above-pagination">
-      <thead>
-      <tr>
-        <th><spring:message code="jsp.person.attributes.key"/></th>
-        <th><spring:message code="jsp.person.attributes.value"/></th>
-      </tr>
-      </thead>
-      <tbody>
-      <c:forEach items="${attributeMap}" var="attribute">
-        <tr>
-          <td><tags:arp-attribute-info attributeKey="${attribute.key}"/></td>
-          <td>
-            <c:choose>
-              <c:when test="${fn:length(attribute.value) gt 1}">
-                <ul>
-                  <c:forEach items="${attribute.value}" var="value">
-                    <li><c:out value="${value}"/></li>
-                  </c:forEach>
-                </ul>
-              </c:when>
-              <c:otherwise>
-                <c:out value="${attribute.value[0]}"/>
-              </c:otherwise>
-            </c:choose>
-          </td>
-        </tr>
 
-      </c:forEach>
-      </tbody>
-    </table>
+    <h2><spring:message code="jsp.user_attributes.title"/></h2>
+    <div class="profile-attributes">
+      <div class="attributes-main">
+        <ul>
+          <li><spring:message code="jsp.user_attributes.mail"/>: <span>j.doe@example.com</span></li>
+          <li><spring:message code="jsp.user_attributes.display_name"/>: <span>admin</span></li>
+          <li><spring:message code="jsp.user_attributes.organization"/>: <span>example.com</span></li>
+        </ul>
+      </div>
+
+      <table class="attributes-detail table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th><spring:message code="jsp.person.attributes.key"/></th>
+          <th><spring:message code="jsp.person.attributes.value"/></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${attributeMap}" var="attribute">
+          <tr>
+            <td><tags:arp-attribute-info attributeKey="${attribute.key}"/></td>
+            <td>
+              <c:choose>
+                <c:when test="${fn:length(attribute.value) gt 1}">
+                  <ul>
+                    <c:forEach items="${attribute.value}" var="value">
+                      <li><c:out value="${value}"/></li>
+                    </c:forEach>
+                  </ul>
+                </c:when>
+                <c:otherwise>
+                  <c:out value="${attribute.value[0]}"/>
+                </c:otherwise>
+              </c:choose>
+            </td>
+          </tr>
+
+        </c:forEach>
+        </tbody>
+      </table>
+    </div>
   
     <hr/>
   

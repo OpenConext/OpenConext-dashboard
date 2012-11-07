@@ -15,6 +15,7 @@ app.global = function() {
         initReadMore();
         initRequiredCheckbox();
         initArp();
+        initDetailedAttributes();
     };
 
     var initPlugins = function() {
@@ -181,6 +182,31 @@ app.global = function() {
         elm.addClass('hide').before('<a class="btn btn-small arp-trigger" href="#"><i class="icon-upload-alt"></i>' + app.message.i18n('arp.button.text') + '</a>');
 
         arpTrigger = $('.arp-trigger').on('click', openArp);
+    };
+
+
+
+    var initDetailedAttributes = function() {
+        var profileAttributes = $('.profile-attributes'),
+            main = $('.attributes-main', profileAttributes),
+            mainInner = $('ul', main);
+
+
+        function init() {
+            profileAttributes.addClass('profile-attributes-js');
+            mainInner.append('<li class="see-all"><a href="#" class="btn btn-small">See all…</a></li>');
+            $('.see-all a', mainInner).on('click', showDetailed);
+        }
+
+
+        function showDetailed(e) {
+            e.preventDefault();
+            main.fadeOut(300);
+        }
+
+        if (profileAttributes.length) {
+            init();
+        }
     };
 
 
