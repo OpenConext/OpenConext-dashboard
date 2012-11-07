@@ -86,7 +86,9 @@ public abstract class Field extends DomainObject implements Comparable {
 
     SUPPORT_MAIL,
 
-    SUPPORT_URL,
+    SUPPORT_URL_NL,
+
+    SUPPORT_URL_EN,
 
     TECHNICAL_SUPPORTMAIL;
     

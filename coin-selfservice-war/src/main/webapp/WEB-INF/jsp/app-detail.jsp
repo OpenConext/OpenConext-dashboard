@@ -43,9 +43,10 @@
           </a>
         </li>
       </c:if>
-      <c:if test="${not empty compoundSp.supportUrl}">
+      <c:set var="supportUrl"><tags:locale-specific nlVariant="${compoundSp.supportUrlNl}" enVariant="${compoundSp.supportUrlEn}" /></c:set>
+      <c:if test="${not empty supportUrl}">
         <li>
-          <a href="${compoundSp.supportUrl}" target="_blank">
+          <a href="${supportUrl}" target="_blank">
             <spring:message code="jsp.app_detail.support_url_label" arguments="${spname}"/>
           </a>
         </li>

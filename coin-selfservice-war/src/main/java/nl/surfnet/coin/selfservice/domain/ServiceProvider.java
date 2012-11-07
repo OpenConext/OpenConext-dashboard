@@ -57,6 +57,8 @@ public class ServiceProvider extends Provider implements Serializable {
   @XStreamAsAttribute
   private boolean display;
 
+  private String applicationUrl;
+  
   public ServiceProvider(String id) {
     this.id = id;
   }
@@ -168,6 +170,14 @@ public class ServiceProvider extends Provider implements Serializable {
     sb.append(' ').append(super.toString());
     sb.append('}');
     return sb.toString();
+  }
+
+  public String getApplicationUrl() {
+    return applicationUrl;
+  }
+
+  public void setApplicationUrl(String applicationUrl) {
+    this.applicationUrl = applicationUrl;
   }
 
 }

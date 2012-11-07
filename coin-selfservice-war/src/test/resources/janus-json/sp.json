@@ -2090,6 +2090,7 @@
             "en":"Braindrops Rave demo portal",
             "nl":"Braindrops Rave demo portal"
         },
+        "applicationUrl":"https://rave.beta.surfnet.nl/application_rul",
         "oauthConsumerKey":"https://rave.beta.surfnet.nl/.*",
         "appTitle":"Braindrops Rave demo portal",
         "appIcon":"https://www.surfnet.nl/icon.gif",
@@ -2108,8 +2109,8 @@
             "nl":"Braindrops Rave demo portal"
         },
         "urls":{
-            "en":"",
-            "nl":""
+            "en":"http://home_url_en",
+            "nl":"http://home_url_nl"
         },
         "workflowState":"prodaccepted",
         "contacts":[

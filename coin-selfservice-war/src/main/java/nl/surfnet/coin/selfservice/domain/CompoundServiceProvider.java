@@ -27,7 +27,8 @@ import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_E
 import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL_NL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -54,6 +55,7 @@ import nl.surfnet.coin.selfservice.domain.Provider.Language;
 import nl.surfnet.coin.shared.domain.DomainObject;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
@@ -61,6 +63,8 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+//import nl.surfnet.coin.selfservice.domain.Provider.Language;
 
 /**
  * CompoundServiceProvider.java
@@ -110,7 +114,7 @@ public class CompoundServiceProvider extends DomainObject {
     provider.setArticle(article);
 
     buildFieldImage(Key.APPSTORE_LOGO, null, null, appStoreLogoImageBytes, provider);
-    buildFieldString(Key.APP_URL, null, serviceProvider.getHomeUrl(), todo, provider);
+    buildFieldString(Key.APP_URL, null, serviceProvider.getApplicationUrl(), todo, provider);
     buildFieldImage(Key.DETAIL_LOGO, article.getDetailLogo(), serviceProvider.getLogoUrl(), detailLogoImageBytes, provider);
     buildFieldString(Key.ENDUSER_DESCRIPTION_EN, null, serviceProvider.getDescription(Language.EN), todo, provider);
     buildFieldString(Key.ENDUSER_DESCRIPTION_NL, article.getEndUserDescriptionNl(), serviceProvider.getDescription(Language.NL), todo,
@@ -120,9 +124,10 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.INSTITUTION_DESCRIPTION_NL, article.getInstitutionDescriptionNl(), null, todo, provider);
     buildFieldString(Key.SERVICE_DESCRIPTION_EN, null, serviceProvider.getName(Language.EN), todo, provider);
     buildFieldString(Key.SERVICE_DESCRIPTION_NL, article.getServiceDescriptionNl(), serviceProvider.getName(Language.NL), todo, provider);
-    buildFieldString(Key.SERVICE_URL, null, serviceProvider.getUrl(), todo, provider);
+    buildFieldString(Key.SERVICE_URL, null, getServiceUrl(serviceProvider), todo, provider);
     buildFieldString(Key.SUPPORT_MAIL, null, getMail(serviceProvider, ContactPersonType.help), todo, provider);
-    buildFieldString(Key.SUPPORT_URL, null, serviceProvider.getUrl(), todo, provider);
+    buildFieldString(Key.SUPPORT_URL_NL, null, getSupportUrl(serviceProvider, Language.NL), todo, provider);
+    buildFieldString(Key.SUPPORT_URL_EN, null, getSupportUrl(serviceProvider, Language.EN), todo, provider);
     buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), todo, provider);
 
     return provider;
@@ -224,8 +229,12 @@ public class CompoundServiceProvider extends DomainObject {
     return (String) getFieldValue(SERVICE_URL);
   }
 
-  public String getSupportUrl() {
-    return (String) getFieldValue(SUPPORT_URL);
+  public String getSupportUrlNl() {
+    return (String) getFieldValue(SUPPORT_URL_NL);
+  }
+
+  public String getSupportUrlEn() {
+    return (String) getFieldValue(SUPPORT_URL_EN);
   }
 
   public String getEulaUrl() {
@@ -380,11 +389,13 @@ public class CompoundServiceProvider extends DomainObject {
     case DETAIL_LOGO:
       return this.serviceProvider.getLogoUrl();
     case APP_URL:
-      return this.serviceProvider.getHomeUrl();
+      return this.serviceProvider.getApplicationUrl();
     case SERVICE_URL:
-      return this.serviceProvider.getUrl();
-    case SUPPORT_URL:
-      return this.serviceProvider.getUrl();
+      return getServiceUrl(this.serviceProvider);
+    case SUPPORT_URL_NL:
+      return getSupportUrl(this.serviceProvider, Language.NL);
+    case SUPPORT_URL_EN:
+      return getSupportUrl(this.serviceProvider, Language.EN);
     case SUPPORT_MAIL:
       ContactPerson helpCP = this.serviceProvider.getContactPerson(ContactPersonType.help);
       return helpCP != null ? helpCP.getEmailAddress() : null;
@@ -480,6 +491,29 @@ public class CompoundServiceProvider extends DomainObject {
     provider.addFieldImage(fieldImage);
   }
 
+  private static String getServiceUrl(ServiceProvider sp) {
+    Map<String, String> homeUrls = sp.getHomeUrls();
+    if (!CollectionUtils.isEmpty(homeUrls)) {
+      String homeUrl = homeUrls.get(Provider.Language.NL.name().toLowerCase());
+      if (StringUtils.isNotBlank(homeUrl)) {
+        return homeUrl;
+      }
+      homeUrl = homeUrls.get(Provider.Language.EN.name().toLowerCase());
+      if (StringUtils.isNotBlank(homeUrl)) {
+        return homeUrl;
+      }
+    }
+    return sp.getHomeUrl();
+  }
+  
+  private static String getSupportUrl(ServiceProvider sp, Language lang) {
+    Map<String, String> urls = sp.getUrls();
+    if (CollectionUtils.isEmpty(urls)) {
+      return sp.getUrl();
+    }
+    return urls.get(lang.name().toLowerCase());
+  }
+  
   private static String getMail(ServiceProvider serviceProvider, ContactPersonType type) {
     ContactPerson helpCP = serviceProvider.getContactPerson(type);
     return (helpCP == null ? null : helpCP.getEmailAddress());
