@@ -70,14 +70,12 @@ public class LmngUtil {
   private static final String FETCH_RESULT_DETAIL_LOGO = "image.lmng_url";
   private static final String FETCH_RESULT_SPECIAL_CONDITIONS = "lmng_specialconditions";
   private static final String FETCH_RESULT_LMNG_IDENTIFIER = "lmng_sdnarticleid";// artikel.FIELDNAME
-  private static final String FETCH_RESULT_INSTITUTION_NAME = "name";
-  private static final String FETCH_RESULT_PRODUCT_NAME = "lmng_name";
-  private static final String FETCH_RESULT_PRODUCT_NUMBER = "lmng_productid";
+  private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
+  private static final String FETCH_RESULT_PRODUCT_NUMBER = "product.lmng_productid";
   private static final String FETCH_RESULT_LICENSEMODEL = "productvariation.lmng_licensemodel";
 
   private static final String GROUP_LICENSEMODEL = "3";
-  
-  
+
   /**
    * This method tries to parse the result into Article objects with possible
    * licenses
@@ -122,12 +120,32 @@ public class LmngUtil {
           if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
             Element resultElement = (Element) resultNode;
 
-            resultList.add(createArticle(resultElement));
+            addNewArticle(resultList, createArticle(resultElement));
           }
         }
       }
     }
     return resultList;
+  }
+
+  /**
+   * Add the given new article to the resultlist or add a possible license to an
+   * article with the same GUID that is already in the resultlist
+   * 
+   * @param resultList
+   * @param newArticle
+   */
+  private static void addNewArticle(List<Article> resultList, Article newArticle) {
+    for (Article article : resultList) {
+      if (article.getLmngIdentifier().equals(newArticle.getLmngIdentifier()) && newArticle.getLicenses() != null) {
+        for (License license : newArticle.getLicenses()) {
+          article.addLicense(license);
+        }
+        return; //done, return method
+      }
+    }
+    // not found in the current list? Then add it.
+    resultList.add(newArticle);
   }
 
   private static Article createArticle(Element resultElement) {
@@ -142,12 +160,11 @@ public class LmngUtil {
     article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
     article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
     article.setProductNumber(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NUMBER));
-    
+
     String licenseNumber = getFirstSubElementStringValue(resultElement, FETCH_RESULT_LICENSE_NUMBER);
     if (licenseNumber != null) {
       License license = new License();
       license.setLicenseNumber(licenseNumber);
-      license.setInstitutionName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_INSTITUTION_NAME));
       Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
       license.setStartDate(startDate);
       Date endDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_TO)));
