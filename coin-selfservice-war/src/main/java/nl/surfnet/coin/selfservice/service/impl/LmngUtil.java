@@ -141,7 +141,8 @@ public class LmngUtil {
     article.setSpecialConditions(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SPECIAL_CONDITIONS));
     article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
     article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
-
+    article.setProductNumber(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NUMBER));
+    
     String licenseNumber = getFirstSubElementStringValue(resultElement, FETCH_RESULT_LICENSE_NUMBER);
     if (licenseNumber != null) {
       License license = new License();
