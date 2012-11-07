@@ -9,6 +9,7 @@
     <link-entity name="lmng_sdnarticle_lmng_product" from="lmng_sdnarticleid" to="lmng_sdnarticleid" visible="false" intersect="true">
       <link-entity name="lmng_product" from="lmng_productid" to="lmng_productid" alias="product">
         <attribute name="lmng_name"/>
+        <attribute name="lmng_productid"/>
         <attribute name="lmng_description"/>
         <attribute name="lmng_descriptionlong"/>
         <link-entity name="lmng_image" from="lmng_imageid" to="lmng_productimageid" alias="image" link-type="outer">

@@ -163,7 +163,7 @@ app.global = function() {
         });
     };
 
-
+    // call this method to enable/disable arp with button
     var initArp = function() {
         var elm = $('.arp'),
             arpTrigger = null;

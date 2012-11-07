@@ -29,7 +29,8 @@ import java.util.List;
 public class Article implements Serializable {
 
   /*
-   * Optional pattern applied to prevent many, many nullpointer checks and exceptions
+   * Optional pattern applied to prevent many, many nullpointer checks and
+   * exceptions
    */
   public static final Article NONE = new Article();
 
@@ -40,6 +41,7 @@ public class Article implements Serializable {
   private String serviceDescriptionNl;
   private String supplierName;
   private String productName;
+  private String productNumber;
   private String detailLogo;
   private String specialConditions;
   private String articleState;
@@ -56,31 +58,6 @@ public class Article implements Serializable {
    */
   public Article(String lmngIdentifier) {
     super();
-    this.lmngIdentifier = lmngIdentifier;
-  }
-
-  /**
-   * Field initializing constructor
-   * 
-   * @param endUserDescriptionNl
-   * @param institutionDescriptionNl
-   * @param serviceDescriptionNl
-   * @param supplierName
-   * @param detailLogo
-   * @param specialConditions
-   * @param articleState
-   * @param lmngIdentifier
-   */
-  public Article(String endUserDescriptionNl, String institutionDescriptionNl, String serviceDescriptionNl, String supplierName,
-      String detailLogo, String specialConditions, String articleState, String lmngIdentifier) {
-    super();
-    this.endUserDescriptionNl = endUserDescriptionNl;
-    this.institutionDescriptionNl = institutionDescriptionNl;
-    this.serviceDescriptionNl = serviceDescriptionNl;
-    this.supplierName = supplierName;
-    this.detailLogo = detailLogo;
-    this.specialConditions = specialConditions;
-    this.articleState = articleState;
     this.lmngIdentifier = lmngIdentifier;
   }
 
@@ -124,6 +101,14 @@ public class Article implements Serializable {
     this.supplierName = supplierName;
   }
 
+  public String getProductNumber() {
+    return productNumber;
+  }
+
+  public void setProductNumber(String productNumber) {
+    this.productNumber = productNumber;
+  }
+
   public String getDetailLogo() {
     return detailLogo;
   }
@@ -162,13 +147,13 @@ public class Article implements Serializable {
     }
     licenses.add(license);
   }
-  
-  
+
   // BELOW convenience methods for licenses
-  
+
   /**
-   * convenience method.
-   * Assuming we have 1 license. return the first (and only?) item from the licenses list
+   * convenience method. Assuming we have 1 license. return the first (and
+   * only?) item from the licenses list
+   * 
    * @return the first license
    */
   public License getLicence() {
@@ -177,9 +162,10 @@ public class Article implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the startDate of the first license
    */
   public Date getStartDate() {
@@ -188,9 +174,10 @@ public class Article implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the endDate of the first license
    */
   public Date getEndDate() {
@@ -199,9 +186,10 @@ public class Article implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the license number of the first license
    */
   public String getLicenseNumber() {
@@ -210,9 +198,10 @@ public class Article implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the institution name of the first license
    */
   public String getInstitutionName() {
@@ -221,9 +210,10 @@ public class Article implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the startDate of the first license
    */
   public void setStartDate(Date startDate) {
@@ -231,9 +221,10 @@ public class Article implements Serializable {
       getLicence().setStartDate(startDate);
     }
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the endDate of the first license
    */
   public void setEndDate(Date endDate) {
@@ -241,9 +232,10 @@ public class Article implements Serializable {
       getLicence().setEndDate(endDate);
     }
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the license number of the first license
    */
   public void setLicenseNumber(String licenseNumber) {
@@ -251,9 +243,10 @@ public class Article implements Serializable {
       getLicence().setLicenseNumber(licenseNumber);
     }
   }
-  
+
   /**
    * convenience method.
+   * 
    * @return the institution name of the first license
    */
   public void setInstitutionName(String institutionName) {
@@ -269,5 +262,5 @@ public class Article implements Serializable {
   public void setProductName(String productName) {
     this.productName = productName;
   }
-  
+
 }

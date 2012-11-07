@@ -190,6 +190,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     sp.setIdpVisibleOnly(metadata.isIdpVisibleOnly());
     sp.setEulaURL(metadata.getEula());
     sp.setUrls(metadata.getUrls());
+    sp.setApplicationUrl(metadata.getApplicationUrl());
     sp.setGadgetBaseUrl(metadata.getOauthConsumerKey());
     for (Contact c : metadata.getContacts()) {
       ContactPerson p = new ContactPerson(StringUtils.join(new Object[] { c.getGivenName(), c.getSurName() }, " "), c.getEmailAddress());
