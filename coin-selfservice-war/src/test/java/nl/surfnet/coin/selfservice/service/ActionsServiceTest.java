@@ -47,7 +47,7 @@ public class ActionsServiceTest {
 
   @Autowired
   private JiraService jiraService;
-
+  
   @Test
   public void synchronization() throws IOException {
 

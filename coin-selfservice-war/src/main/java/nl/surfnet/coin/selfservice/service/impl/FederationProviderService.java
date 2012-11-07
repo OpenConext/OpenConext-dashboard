@@ -16,10 +16,13 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.io.IOException;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.domain.FederatieConfig;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -28,16 +31,18 @@ import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.SpringSchedulerLoadConfigurationService;
 import nl.surfnet.coin.selfservice.util.XStreamFedConfigBuilder;
+import nl.surfnet.coin.shared.domain.ErrorMail;
+import nl.surfnet.coin.shared.service.ErrorMessageMailer;
 
-import com.thoughtworks.xstream.XStream;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+
+import com.thoughtworks.xstream.XStream;
 
 /**
  * Provider Service seeded with xml config from federation.
@@ -48,13 +53,16 @@ public class FederationProviderService implements ServiceProviderService, Identi
   private final String configurationLocation;
   private FederatieConfig federatieConfig = new FederatieConfig();
 
+  private ErrorMessageMailer errorMessageMailer;
+
   /**
    * Constructor
    * 
    * @param configurationLocation
    *          Location for the SURFfederatie configuration.
    */
-  public FederationProviderService(String configurationLocation) {
+  public FederationProviderService(String configurationLocation, ErrorMessageMailer mailer) {
+    this.errorMessageMailer = mailer;
     this.configurationLocation = configurationLocation;
     loadConfiguration();
   }
@@ -63,12 +71,13 @@ public class FederationProviderService implements ServiceProviderService, Identi
   @Override
   public void loadConfiguration() {
     LOG.debug("Loading configuration from {}", configurationLocation);
-    Resource resource;
+    org.springframework.core.io.Resource resource;
     try {
       resource = getConfigurationFileAsResource(configurationLocation);
-    } catch (MalformedURLException e) {
-      LOG.error("URL for SURFfederatie metadata '{}' is malformed. Fix it in coin-selfservice.properties. Error: {}",
-          configurationLocation, e);
+    } catch (Exception e) {
+      String error = String.format("URL for SURFfederatie metadata '%s' is malformed. Fix it in coin-selfservice.properties. Error: %s", configurationLocation, e.getMessage());
+      LOG.error(error);
+      sendErrorMail("Error in URL of the Federation configuration",error,"loadConfiguration");
       return;
     }
     final XStream xStream = XStreamFedConfigBuilder.getXStreamForFedConfig(true);
@@ -79,13 +88,15 @@ public class FederationProviderService implements ServiceProviderService, Identi
         federatieConfig = config;
         LOG.debug("Updated SURFfederatie config with content from {}", configurationLocation);
       }
-    } catch (IOException e) {
-      LOG.error("Could not retrieve SURFfederatie metadata from location '{}', message: {}", configurationLocation, e.getMessage());
+    } catch (Exception e) {
+      String error = String.format("Could not retrieve SURFfederatie metadata from location '%s', message: %s", configurationLocation, e.getMessage());
+      LOG.error(error);
+      sendErrorMail("Error in parsing Federation configuration", error, "loadConfiguration");
     }
   }
 
-  private Resource getConfigurationFileAsResource(String configurationFilename) throws MalformedURLException {
-    Resource resource;
+  private org.springframework.core.io.Resource getConfigurationFileAsResource(String configurationFilename) throws MalformedURLException {
+    org.springframework.core.io.Resource resource;
     if (configurationFilename.matches("^(http://|https://|ftp://|file://)(.+)")) {
       resource = new UrlResource(configurationFilename);
     } else {
@@ -211,6 +222,27 @@ public class FederationProviderService implements ServiceProviderService, Identi
   public List<IdentityProvider> getAllIdentityProviders() {
     return federatieConfig.getIdPs();
 
+  }
+  
+  /*
+   * Send a mail
+   */
+  private void sendErrorMail(String shortMessage, String error, String method) {
+    ErrorMail errorMail = new ErrorMail(shortMessage, error, error, getHost(), "Federatie");
+    errorMail.setLocation(this.getClass().getName() + "#" + method);
+    errorMessageMailer.sendErrorMail(errorMail);
+  }
+  
+  private String getHost() {
+    try {
+      return InetAddress.getLocalHost().toString();
+    } catch (UnknownHostException e) {
+      return "UNKNOWN";
+    }
+  }
+
+  public void setErrorMessageMailer(ErrorMessageMailer errorMessageMailer) {
+    this.errorMessageMailer = errorMessageMailer;
   }
 
 }

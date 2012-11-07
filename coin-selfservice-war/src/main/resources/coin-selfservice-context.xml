@@ -122,7 +122,8 @@
 
   <bean id="federationProviderService"
     class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
-    <constructor-arg name="configurationLocation" value="${federationconfig.location}" />
+    <constructor-arg index="0" name="configurationLocation" value="${federationconfig.location}" />
+    <constructor-arg index="1" ref="errorMessageMailer" />
   </bean>
 
   <bean id="providerServices" class="java.util.ArrayList">
