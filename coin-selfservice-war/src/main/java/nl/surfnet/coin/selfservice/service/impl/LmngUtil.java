@@ -72,6 +72,7 @@ public class LmngUtil {
   private static final String FETCH_RESULT_LMNG_IDENTIFIER = "lmng_sdnarticleid";// artikel.FIELDNAME
   private static final String FETCH_RESULT_INSTITUTION_NAME = "name";
   private static final String FETCH_RESULT_PRODUCT_NAME = "lmng_name";
+  private static final String FETCH_RESULT_PRODUCT_NUMBER = "lmng_productid";
   private static final String FETCH_RESULT_LICENSEMODEL = "productvariation.lmng_licensemodel";
 
   private static final String GROUP_LICENSEMODEL = "3";
