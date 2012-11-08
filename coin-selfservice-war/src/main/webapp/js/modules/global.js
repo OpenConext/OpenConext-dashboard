@@ -194,7 +194,7 @@ app.global = function() {
 
         function init() {
             profileAttributes.addClass('profile-attributes-js');
-            mainInner.append('<li class="see-all"><a href="#" class="btn btn-small">See all…</a></li>');
+            mainInner.append('<li class="see-all"><a href="#" class="btn btn-small">' + app.message.i18n('show.all.attributes') + '</a></li>');
             $('.see-all a', mainInner).on('click', showDetailed);
         }
 

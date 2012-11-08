@@ -39,6 +39,10 @@ app.message = function() {
         "lmng.identifier.error" : {
             en : "Wrong format for LMNG ID (be sure to include the brackets)",
             nl : "Verkeerde LMNG ID (let op: accolades zijn verplicht)"
+        },
+        "show.all.attributes" : {
+            en : "Show all…",
+            nl : "Alles tonen…"
         }
     };
     
