@@ -45,6 +45,21 @@ public interface LicensingService {
       List<ServiceProvider> serviceProviders, Date validOn);
 
   /**
+   * Get the name of the institution in LMNG belonging to given GUID
+   * @param guid guid of the IDP to check
+   * @return the name of the institution in LMNG
+   */
+  String getInstitutionName(String guid);
+  
+  /**
+   * Get the name of the service/product in LMNG belonging to given GUID
+   * 
+   * @param lmngId
+   * @return
+   */
+  String getServiceName(String lmngId);
+  
+  /**
    * Is the LMNG service active? If not then no calls should be made and the
    * entire distribution channel runs without license / article information from
    * LMNG.
@@ -52,4 +67,5 @@ public interface LicensingService {
    * @return whether the LicensingService is active
    */
   public boolean isActiveMode();
+
 }

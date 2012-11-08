@@ -73,6 +73,7 @@ public class LmngUtil {
   private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
   private static final String FETCH_RESULT_PRODUCT_NUMBER = "product.lmng_productid";
   private static final String FETCH_RESULT_LICENSEMODEL = "productvariation.lmng_licensemodel";
+  private static final String FETCH_RESULT_INSTITUTE_NAME = "name";
 
   private static final String GROUP_LICENSEMODEL = "3";
 
@@ -87,6 +88,45 @@ public class LmngUtil {
    * @throws ParseException
    */
   public static List<Article> parseResult(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException,
+      SAXException, IOException, ParseException {
+    List<Article> resultList = new ArrayList<Article>();
+
+    NodeList nodes = parse(webserviceResult, writeResponseToFile);
+
+    if (nodes != null) {
+      int numberOfResults = nodes.getLength();
+      log.debug("Number of results in Fetch query:" + numberOfResults);
+      for (int i = 0; i < numberOfResults; i++) {
+        Node resultNode = nodes.item(i);
+        if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
+          Element resultElement = (Element) resultNode;
+          
+          addNewArticle(resultList, createArticle(resultElement));
+        }
+      }
+    }
+    return resultList;
+  }
+
+  public static String parseResultInstitute(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException,
+      SAXException, IOException, ParseException {
+    NodeList nodes = parse(webserviceResult, writeResponseToFile);
+    String result = null;
+    if (nodes != null) {
+      int numberOfResults = nodes.getLength();
+      log.debug("Number of results in Fetch query:" + numberOfResults);
+      for (int i = 0; i < numberOfResults; i++) {
+        Node resultNode = nodes.item(i);
+        if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
+          Element resultElement = (Element) resultNode;
+          return getFirstSubElementStringValue(resultElement, FETCH_RESULT_INSTITUTE_NAME);
+        }
+      }
+    }
+    return result;
+  }
+
+  private static NodeList parse(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException,
       SAXException, IOException, ParseException {
     List<Article> resultList = new ArrayList<Article>();
 
@@ -109,23 +149,11 @@ public class LmngUtil {
 
       if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
         log.warn("Webservice 'GetDataResult' element did not contain a 'resultset' element");
-
       } else {
-        NodeList results = resultset.getElementsByTagName("result");
-
-        int numberOfResults = results.getLength();
-        log.debug("Number of results in Fetch query:" + numberOfResults);
-        for (int i = 0; i < numberOfResults; i++) {
-          Node resultNode = results.item(i);
-          if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
-            Element resultElement = (Element) resultNode;
-
-            addNewArticle(resultList, createArticle(resultElement));
-          }
-        }
+       return resultset.getElementsByTagName("result");
       }
     }
-    return resultList;
+    return null;
   }
 
   /**
@@ -141,7 +169,7 @@ public class LmngUtil {
         for (License license : newArticle.getLicenses()) {
           article.addLicense(license);
         }
-        return; //done, return method
+        return; // done, return method
       }
     }
     // not found in the current list? Then add it.

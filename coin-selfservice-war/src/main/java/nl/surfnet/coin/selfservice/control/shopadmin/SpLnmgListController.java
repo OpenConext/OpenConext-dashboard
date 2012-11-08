@@ -28,6 +28,7 @@ import nl.surfnet.coin.selfservice.command.LmngServiceBinding;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.LicensingService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.LmngUtil;
 
@@ -48,12 +49,17 @@ public class SpLnmgListController extends BaseController {
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
 
+  @Resource
+  private LicensingService licensingService;
+
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
   @RequestMapping(value = "/all-spslmng")
-  public ModelAndView listAllSps() {
-    Map<String, Object> m = new HashMap<String, Object>();
+  public ModelAndView listAllSps(Map<String, Object> model) {
+    if (model == null) {
+      model = new HashMap<String, Object>();
+    }
 
     List<LmngServiceBinding> lmngServiceBindings = new ArrayList<LmngServiceBinding>();
     for (ServiceProvider serviceProvider : providerService.getAllServiceProviders()) {
@@ -64,28 +70,42 @@ public class SpLnmgListController extends BaseController {
       lmngServiceBindings.add(lmngServiceBinding);
     }
 
-    m.put("bindings", lmngServiceBindings);
-    return new ModelAndView("shopadmin/sp-overview", m);
+    model.put("bindings", lmngServiceBindings);
+    return new ModelAndView("shopadmin/sp-overview", model);
   }
 
   @RequestMapping(value = "/save-splmng", method = RequestMethod.POST)
   public ModelAndView saveLmngServices(HttpServletRequest req) {
+    Map<String, Object> model = new HashMap<String, Object>();
+
     String spId = req.getParameter("spIdentifier");
     String lmngId = req.getParameter("lmngIdentifier");
-    
-    if (!LmngUtil.isValidGuid(lmngId)) {
-      throw new RuntimeException("Illegal format for LMNG GUID. Should have been validated by the frontend");
-    }
+    Integer index = Integer.valueOf(req.getParameter("index"));
 
     String isClearPressed = req.getParameter("clearbutton");
     if (StringUtils.isNotBlank(isClearPressed)) {
       log.debug("Clearing lmng identifier for ServiceProvider with ID " + spId );
       lmngId = null;
     } else {
+      // extra validation (also done in frontend/jquery)
+      if (!LmngUtil.isValidGuid(lmngId)) { 
+        model.put("errorMessage", "jsp.lmng_binding_overview.wrong.guid");
+        model.put("messageIndex", index);
+        return listAllSps(model);
+      }
+
+      String serviceLmngName = licensingService.getServiceName(lmngId);
+      if (serviceLmngName == null) {
+        model.put("errorMessage", "jsp.lmng_binding_overview.unknown.guid");
+        model.put("messageIndex", index);
+      } else {
+        model.put("infoMessage", serviceLmngName);
+        model.put("messageIndex", index);
+      }
       log.debug("Storing lmng identifier " + lmngId + " for ServiceProvider with ID " + spId );
     }
     lmngIdentifierDao.saveOrUpdateLmngIdForServiceProviderId(spId, lmngId);
 
-    return listAllSps();
+    return listAllSps(model);
   }
 }

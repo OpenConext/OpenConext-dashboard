@@ -33,9 +33,9 @@
       <table id="idp_overview_table" class="table table-bordered table-striped table-above-pagination">
         <thead>
         <tr>
-          <th><spring:message code="jsp.sp_overview.name"/></th>
-          <th><spring:message code="jsp.sp_overview.lmngid"/></th>
-          <th><spring:message code="jsp.sp_overview.detail"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.detail"/></th>
         </tr>
         </thead>
         <tbody>
@@ -46,11 +46,12 @@
               <td class="text-overflow">
           <form:form id="form-${status.index}" method="post" action="save-idplmng.shtml" class="lmng-id-edit">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+                <input type="hidden" name="index" value="${status.index}"/>
+                <input type="hidden" id="idpId-${status.index}" value="${binding.identityProvider.institutionId}" name="idpIdentifier"/>
                 <input id="lmngId-${status.index}" value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" size="40" name="lmngIdentifier"/>
-                <input id="idpId-${status.index}" value="${binding.identityProvider.institutionId}" type="hidden" name="idpIdentifier"/>
-                <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
-                <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
-                <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
+                <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.lmng_binding_overview.confirm" /></c:set>
+                <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.lmng_binding_overview.clearbutton" /></c:set>
+                <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.lmng_binding_overview.submitbutton" /></c:set>
                 <div class="btn-group">
                   <button id="clear-${status.index}" type="submit" value="clear" title="${clearButtonTitle}" name="clearbutton" onclick="return confirm('${confirmationMessage}');" class="btn btn-small">
                     <i class="icon-ban-circle"></i>
@@ -59,6 +60,8 @@
                     <i class="icon-ok"></i>
                   </button>
                 </div>
+                <c:if test="${(status.index eq messageIndex) && (not empty errorMessage)}"><div class="errorMessage"><spring:message code="${errorMessage}" /></div></c:if>
+                <c:if test="${(status.index eq messageIndex) && (not empty infoMessage)}"><div class="infoMessage"><spring:message code="jsp.lmng_binding_overview.new.idp.guid" /><c:out value="${infoMessage}" /></div></c:if>
           </form:form>
               </td>
               <td class="center">
