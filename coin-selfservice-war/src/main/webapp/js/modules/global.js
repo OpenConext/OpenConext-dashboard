@@ -14,14 +14,12 @@ app.global = function() {
         initTextSearch();
         initReadMore();
         initRequiredCheckbox();
-        initArp();
         initDetailedAttributes();
     };
 
     var initPlugins = function() {
 
         initTooltips();
-        initPopovers();
     };
 
     var initUserSelection = function() {
@@ -137,15 +135,6 @@ app.global = function() {
 
     };
 
-    var initPopovers = function() {
-
-        // $('[rel="popover"]').popover({
-        //     placement : _placement
-        // });
-
-    };
-
-
     var initRequiredCheckbox = function() {
         $('input:checkbox.required').each(function() {
             var checkbox = $(this),
@@ -162,29 +151,6 @@ app.global = function() {
             });
         });
     };
-
-    // call this method to enable/disable arp with button
-    var initArp = function() {
-        var elm = $('.arp'),
-            arpTrigger = null;
-
-        if (elm.length === 0) {
-            return;
-        }
-
-        function openArp(e) {
-            e.preventDefault();
-
-            elm.removeClass('hide');
-            arpTrigger.addClass('hide');
-        }
-
-        elm.addClass('hide').before('<a class="btn btn-small arp-trigger" href="#"><i class="icon-upload-alt"></i>' + app.message.i18n('arp.button.text') + '</a>');
-
-        arpTrigger = $('.arp-trigger').on('click', openArp);
-    };
-
-
 
     var initDetailedAttributes = function() {
         var profileAttributes = $('.profile-attributes'),

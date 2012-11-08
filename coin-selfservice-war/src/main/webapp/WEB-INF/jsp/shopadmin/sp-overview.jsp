@@ -33,16 +33,16 @@
       <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination">
         <thead>
         <tr>
-          <th><spring:message code="jsp.sp_overview.name"/></th>
-          <th><spring:message code="jsp.sp_overview.lmngid"/></th>
-          <th><spring:message code="jsp.sp_overview.detail"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.detail"/></th>
         </tr>
         </thead>
         <tbody>
 
-        <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.sp_overview.confirm" /></c:set>
-        <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.sp_overview.clearbutton" /></c:set>
-        <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.sp_overview.submitbutton" /></c:set>
+        <c:set var="confirmationMessage" scope="request"><spring:message code="jsp.lmng_binding_overview.confirm" /></c:set>
+        <c:set var="clearButtonTitle" scope="request"><spring:message code="jsp.lmng_binding_overview.clearbutton" /></c:set>
+        <c:set var="submitButtonTitle" scope="request"><spring:message code="jsp.lmng_binding_overview.submitbutton" /></c:set>
 
         <c:forEach items="${bindings}" var="binding" varStatus="status">
           <c:if test="${not empty binding.serviceProvider.id}">
@@ -56,8 +56,9 @@
               <td>
   			  <form:form id="form-${status.index}" method="post" action="save-splmng.shtml" style="margin:0" cssClass="lmng-id-edit">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+                <input type="hidden" name="index" value="${status.index}"/>
+              	<input type="hidden" id="spId-${status.index}" value="${binding.serviceProvider.id}" name="spIdentifier"/>
               	<input id="lmngId-${status.index}" value="${binding.lmngIdentifier}" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
-              	<input id="spId-${status.index}" value="${binding.serviceProvider.id}" type="hidden" name="spIdentifier"/>
                 <div class="btn-group">
                 	<button class="btn btn-small" id="clear-${status.index}" type="submit" value="clear" title="${clearButtonTitle}" name="clearbutton" onclick="return confirm('${confirmationMessage}');">
                     <i class="icon-ban-circle"></i>
@@ -66,10 +67,12 @@
                     <i class="icon-ok"></i>
                   </button>
                 </div>
+                <c:if test="${(status.index eq messageIndex) && (not empty errorMessage)}"><div class="errorMessage"><spring:message code="${errorMessage}" /></div></c:if>
+                <c:if test="${(status.index eq messageIndex) && (not empty infoMessage)}"><div class="infoMessage"><spring:message code="jsp.lmng_binding_overview.new.sp.guid" /><c:out value="${infoMessage}" /></div></c:if>
   			  </form:form>
               </td>
               <td class="center">
-                <a href="${detailUrl}"><spring:message code="jsp.sp_overview.data_decision" /></a>
+                <a href="${detailUrl}"><spring:message code="jsp.lmng_binding_overview.data_decision" /></a>
               </td>
             </tr>
           </c:if>

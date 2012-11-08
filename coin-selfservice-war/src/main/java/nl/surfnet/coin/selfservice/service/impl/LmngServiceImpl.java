@@ -27,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -85,6 +86,7 @@ public class LmngServiceImpl implements LicensingService {
   private static final String PATH_FETCH_QUERY_ARTICLES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryArticlesWithOrWithoutLicencesForIdpAndSp.xml";
   private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryConditionValue.xml";
   private static final String PATH_FETCH_QUERY_INSTITUTION_CONDITION = "lmngqueries/lmngArticleQueryInstitutionCondition.xml";
+  private static final String PATH_FETCH_QUERY_GET_INSTITUTION = "lmngqueries/lmngQueryGetInstitution.xml";
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -128,6 +130,65 @@ public class LmngServiceImpl implements LicensingService {
       sendErrorMail(identityProvider, serviceProviders, e.getMessage(), "getArticleForIdentityProviderAndServiceProviders");
     }
     return nullResult;
+  }
+
+  @Override
+  public String getServiceName(String guid) {
+    String result = null;
+    try {
+      // get the file with the soap request
+      String soapRequest = getLmngSoapRequestForIdpAndSp(null, Arrays.asList(new String[] {guid}), new Date());
+      if (debug) {
+        LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
+      }
+      
+      // call the webservice
+      String webserviceResult = getWebServiceResult(soapRequest);
+      // read/parse the XML response to License objects
+      List<Article> resultList = LmngUtil.parseResult(webserviceResult, debug);
+      if (resultList != null && resultList.size() > 0) {
+        result = resultList.get(0).getProductName();
+      }
+    } catch (Exception e) {
+      log.error("Exception while retrieving article/license", e);
+      sendErrorMail(guid, e.getMessage(), "getServiceName");
+    }
+    return result;
+  }
+
+  @Override
+  public String getInstitutionName(String guid) {
+    String result = null;
+    try {
+      ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_GET_INSTITUTION);
+
+      // Get the soap/fetch envelope
+      String soapRequest = getLmngRequestEnvelope();
+
+      InputStream inputStream;
+      inputStream = queryResource.getInputStream();
+      String query = IOUtils.toString(inputStream);
+      query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, guid);
+      
+      // html encode the string
+      query = StringEscapeUtils.escapeHtml(query);
+      
+      // Insert the query in the envelope and add a UID in the envelope
+      soapRequest = soapRequest.replaceAll(QUERY_PLACEHOLDER, query);
+      soapRequest = soapRequest.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
+      soapRequest = soapRequest.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+
+      if (debug) {
+        LmngUtil.writeIO("lmngRequestInstitution", StringEscapeUtils.unescapeHtml(soapRequest));
+      }
+
+      String webserviceResult = getWebServiceResult(soapRequest);
+      result = LmngUtil.parseResultInstitute(webserviceResult, debug);
+    } catch (Exception e) {
+      log.error("Exception while retrieving article/license", e);
+      sendErrorMail(guid, e.getMessage(), "getInstitutionName");
+    }
+    return result;
   }
 
   /**
@@ -303,9 +364,21 @@ public class LmngServiceImpl implements LicensingService {
     String idpEntityId = idp == null ? "NULL" : idp.getId();
     String institutionId = idp == null ? "NULL" : idp.getInstitutionId();
 
-    String formattedMessage = String.format(
-        "LMNG call for Identity Provider '%s' with institution ID '%s' and Service Provider(s) '%s' failed with the following message: '%s'",
-        idpEntityId, institutionId, spEntityIds, message);
+    String formattedMessage = String
+        .format(
+            "LMNG call for Identity Provider '%s' with institution ID '%s' and Service Provider(s) '%s' failed with the following message: '%s'",
+            idpEntityId, institutionId, spEntityIds, message);
+    ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
+    errorMail.setLocation(this.getClass().getName() + "#get" + method);
+    errorMessageMailer.sendErrorMail(errorMail);
+  }
+
+  /*
+   * Send a mail
+   */
+  private void sendErrorMail(String guid, String message, String method) {
+    String shortMessage = "Exception while retrieving institute from LMNG";
+    String formattedMessage = String.format("LMNG call for institute GUID '%s' failed with the following message: '%s'", guid, message);
     ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
     errorMail.setLocation(this.getClass().getName() + "#get" + method);
     errorMessageMailer.sendErrorMail(errorMail);
@@ -352,5 +425,4 @@ public class LmngServiceImpl implements LicensingService {
   public boolean isActiveMode() {
     return activeMode;
   }
-
 }

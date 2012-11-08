@@ -112,4 +112,16 @@ public class LmngServiceMock implements LicensingService {
 
   }
 
+  @Override
+  public String getInstitutionName(String guid) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getServiceName(String lmngId) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

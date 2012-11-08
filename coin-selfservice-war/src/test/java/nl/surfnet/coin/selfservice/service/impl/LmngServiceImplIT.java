@@ -119,4 +119,15 @@ public class LmngServiceImplIT {
     assertEquals("Incorrect name for product", "EDUgroepen", articles.get(3).getProductName());
   }
 
+  // we us this for a local integration test only
+  @Test
+  public void testRetrieveInstitutionName() throws IOException {
+    String guid = "{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}";
+    
+    String instituteName = licensingService.getInstitutionName(guid);
+
+    assertNotNull(instituteName);
+    assertEquals("Incorrect institution name", "Open Universiteit Nederland", instituteName);
+  }
+
 }
