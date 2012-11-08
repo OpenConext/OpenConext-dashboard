@@ -38,10 +38,17 @@
     border-left: none
     border-right: none
     color: #000
-    padding: 10px 8px
-    +word-break()
-    +hyphenation()
     min-width: 120px
+    padding: 10px 8px
+    -ms-word-break: break-all
+    word-break: break-all
+    word-break: break-word
+    -ms-word-break: break-all
+    word-break: break-all
+    word-break: break-word
+    -moz-hyphens: auto
+    -webkit-hyphens: auto
+    hyphens: auto
 
   tr:nth-child(even) td
     background: #F8F8F8 !important
