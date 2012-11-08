@@ -39,6 +39,9 @@
     border-right: none
     color: #000
     padding: 10px 8px
+    +word-break()
+    +hyphenation()
+    min-width: 120px
 
   tr:nth-child(even) td
     background: #F8F8F8 !important
@@ -169,6 +172,11 @@
       top: 10px
       white-space: nowrap
       width: 55%
+
+#sp_overview_table,
+#idp_overview_table
+  input
+    width: 275px
 
 
 @media (max-width: 767px)
