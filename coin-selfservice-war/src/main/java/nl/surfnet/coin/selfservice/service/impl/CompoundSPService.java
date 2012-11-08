@@ -161,8 +161,6 @@ public class CompoundSPService {
    * 
    * @param serviceProviderEntityId
    *          the ServiceProvider
-   * @param compoundSpId
-   *          long
    * @return
    */
   public CompoundServiceProvider getCSPById(String serviceProviderEntityId) {
@@ -229,7 +227,10 @@ public class CompoundSPService {
     DateTime now = getNow();
     if (result == null || result.getKey().isBefore(now) || refreshCache) {
       // reload from lmng
-      List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(idp.getId());
+      List<ServiceProvider> allServiceProviders =
+        idp == IdentityProvider.NONE
+          ? serviceProviderService.getAllServiceProviders()
+          : serviceProviderService.getAllServiceProviders(idp.getId());
       List<Article> lmngResult = licensingService.getArticleForIdentityProviderAndServiceProviders(idp, allServiceProviders, now.toDate());
       if (lmngResult == null || lmngResult.isEmpty()) {
         LOG.warn("No LMNG data retrieved. Cache not updated.");
