@@ -261,6 +261,7 @@
     <constructor-arg index="0" value="${coin-lmngClientCertificatePrivateKey}" />
     <constructor-arg index="1" value="${coin-lmngClientCertificatePassword}" />
     <constructor-arg index="2" value="${coin-lmngClientCertificate}" />
+    <constructor-arg index="3" value="${coin-lmng-active-mode}"/>
     <property name="certificates">
       <map>
         <entry key="LmngRootCertificate" value="${coin-lmngRootCertificate}" />
@@ -270,6 +271,7 @@
   </bean>
   
   <bean id="lmngTruststore" class="${keyStoreClass}">
+    <constructor-arg index="0" value="${coin-lmng-active-mode}"/>
     <property name="certificates">
       <map>
         <entry key="LmngRootCertificate" value="${coin-lmngRootCertificate}" />

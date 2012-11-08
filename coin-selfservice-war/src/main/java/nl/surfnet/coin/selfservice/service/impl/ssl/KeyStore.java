@@ -21,21 +21,22 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.surfnet.spring.security.opensaml.util.KeyStoreUtil;
+
 import org.apache.commons.ssl.Base64;
 import org.springframework.beans.factory.annotation.Required;
-
-import nl.surfnet.spring.security.opensaml.util.KeyStoreUtil;
 
 public class KeyStore {
 
   private java.security.KeyStore keyStore;
   private Map<String, String> passwords = new HashMap<String, String>();
+  private boolean activeMode = true;
 
   /**
    * Constructor for public keys (truststore)
    */
-  public KeyStore() {
-    this(null, null, null);
+  public KeyStore(boolean activeMode) {
+    this(null, null, null,activeMode);
   }
 
   /**
@@ -44,7 +45,11 @@ public class KeyStore {
    * @param password
    * @param certificate
    */
-  public KeyStore(String privateKey, String password, String certificate) {
+  public KeyStore(String privateKey, String password, String certificate, boolean activeMode) {
+    this.activeMode = activeMode;
+    if (!activeMode) {
+      return;
+    }
     try {
       keyStore = java.security.KeyStore.getInstance("JKS");
       keyStore.load(null, password == null ? null : password.toCharArray());
@@ -58,6 +63,9 @@ public class KeyStore {
 
   @Required
   public void setCertificates(Map<String, String> certificates) {
+    if (!activeMode) {
+      return;
+    }
     for (Map.Entry<String, String> entry : certificates.entrySet()) {
       addCertificate(entry.getKey(), entry.getValue());
     }
@@ -79,7 +87,7 @@ public class KeyStore {
    * @param password
    *          password to protect key with
    */
-  public void addPrivateKey(String alias, String privateKey, String certificate, String password) {
+  private void addPrivateKey(String alias, String privateKey, String certificate, String password) {
     String wrappedCert = "-----BEGIN CERTIFICATE-----\n" + certificate + "\n-----END CERTIFICATE-----";
     byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
 
@@ -92,11 +100,11 @@ public class KeyStore {
     }
   }
 
-  public void addCertificate(String alias, String certificate) {
+  private void addCertificate(String alias, String certificate) {
     KeyStoreUtil.appendCertificateToKeyStore(keyStore, alias, certificate);
   }
 
-  public Map<String, String> getPrivateKeyPasswords() {
+  private Map<String, String> getPrivateKeyPasswords() {
     return passwords;
   }
 

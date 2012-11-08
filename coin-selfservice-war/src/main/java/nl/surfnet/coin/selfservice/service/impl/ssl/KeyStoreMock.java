@@ -28,8 +28,8 @@ import org.springframework.beans.factory.annotation.Required;
  */
 public class KeyStoreMock extends KeyStore {
 
-  public KeyStoreMock() {
-    this(null, null, null);
+  public KeyStoreMock(boolean activeMode) {
+    this(null, null, null, activeMode);
   }
 
   /**
@@ -39,7 +39,8 @@ public class KeyStoreMock extends KeyStore {
    * @param password
    * @param certificate
    */
-  public KeyStoreMock(String privateKey, String password, String certificate) {
+  public KeyStoreMock(String privateKey, String password, String certificate, boolean activeMode) {
+    super(privateKey, password, certificate, false);
   }
 
   @Required
