@@ -50,11 +50,13 @@
               <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
             </spring:url>
             <tr>
-              <td title="${binding.serviceProvider.id} - ${fn:substring(binding.serviceProvider.descriptions[locale.language], 0, 40)}"><a href="${detailUrl}">
+              <td title="${binding.serviceProvider.id} - ${fn:substring(binding.serviceProvider.descriptions[locale.language], 0, 40)}">
+                <a id="row${status.index}" />
+                <a href="${detailUrl}">
               		<tags:providername provider="${binding.serviceProvider}"/>
               	</a></td>
               <td>
-  			  <form:form id="form-${status.index}" method="post" action="save-splmng.shtml" style="margin:0" cssClass="lmng-id-edit">
+  			  <form:form id="form-${status.index}" method="post" action="save-splmng.shtml#row${status.index}" style="margin:0" cssClass="lmng-id-edit">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
                 <input type="hidden" name="index" value="${status.index}"/>
               	<input type="hidden" id="spId-${status.index}" value="${binding.serviceProvider.id}" name="spIdentifier"/>
@@ -67,8 +69,8 @@
                     <i class="icon-ok"></i>
                   </button>
                 </div>
-                <c:if test="${(status.index eq messageIndex) && (not empty errorMessage)}"><div class="errorMessage"><spring:message code="${errorMessage}" /></div></c:if>
-                <c:if test="${(status.index eq messageIndex) && (not empty infoMessage)}"><div class="infoMessage"><spring:message code="jsp.lmng_binding_overview.new.sp.guid" /><c:out value="${infoMessage}" /></div></c:if>
+                <c:if test="${(status.index eq messageIndex) && (not empty errorMessage)}"><p class="error"><spring:message code="${errorMessage}" /></p></c:if>
+                <c:if test="${(status.index eq messageIndex) && (not empty infoMessage)}"><p class="info"><spring:message code="jsp.lmng_binding_overview.new.sp.guid" /><c:out value="${infoMessage}" /></p></c:if>
   			  </form:form>
               </td>
               <td class="center">

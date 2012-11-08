@@ -35,16 +35,18 @@
         <tr>
           <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
           <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
-          <th><spring:message code="jsp.lmng_binding_overview.detail"/></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${bindings}" var="binding" varStatus="status">
           <c:if test="${not empty binding.identityProvider.institutionId}">
             <tr>
-              <td title="${binding.identityProvider.id} - ${binding.identityProvider.institutionId} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}"><tags:providername provider="${binding.identityProvider}"/></td>
+              <td title="${binding.identityProvider.id} - ${binding.identityProvider.institutionId} - ${fn:substring(binding.identityProvider.descriptions[locale.language], 0, 40)}">
+                <a id="row${status.index}" />
+                <tags:providername provider="${binding.identityProvider}"/>
+              </td>
               <td class="text-overflow">
-          <form:form id="form-${status.index}" method="post" action="save-idplmng.shtml" class="lmng-id-edit">
+          <form:form id="form-${status.index}" method="post" action="save-idplmng.shtml#row${status.index}" class="lmng-id-edit">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
                 <input type="hidden" name="index" value="${status.index}"/>
                 <input type="hidden" id="idpId-${status.index}" value="${binding.identityProvider.institutionId}" name="idpIdentifier"/>
@@ -60,12 +62,9 @@
                     <i class="icon-ok"></i>
                   </button>
                 </div>
-                <c:if test="${(status.index eq messageIndex) && (not empty errorMessage)}"><div class="errorMessage"><spring:message code="${errorMessage}" /></div></c:if>
-                <c:if test="${(status.index eq messageIndex) && (not empty infoMessage)}"><div class="infoMessage"><spring:message code="jsp.lmng_binding_overview.new.idp.guid" /><c:out value="${infoMessage}" /></div></c:if>
+                <c:if test="${(status.index eq messageIndex) && (not empty errorMessage)}"><p class="error"><spring:message code="${errorMessage}" /></p></c:if>
+                <c:if test="${(status.index eq messageIndex) && (not empty infoMessage)}"><p class="info"><spring:message code="jsp.lmng_binding_overview.new.idp.guid" /><c:out value="${infoMessage}" /></p></c:if>
           </form:form>
-              </td>
-              <td class="center">
-                <%-- Add detail/binding button --%>
               </td>
             </tr>
           </c:if>
