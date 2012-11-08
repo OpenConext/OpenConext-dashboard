@@ -313,7 +313,6 @@ a
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important
     font-size: 14px !important
     font-weight: normal !important
-    margin-bottom: 0
 
   &.folded
     h1,
@@ -329,17 +328,17 @@ a
     pre
       +transition(none)
 
-      ~ h1,
-      ~ h2,
-      ~ h3,
-      ~ h4,
-      ~ h5,
-      ~ h6,
-      ~ p,
-      ~ ul,
-      ~ ol,
-      ~ blockquote,
-      ~ pre
+      + * ~ h1,
+      + * ~ h2,
+      + * ~ h3,
+      + * ~ h4,
+      + * ~ h5,
+      + * ~ h6,
+      + * ~ p,
+      + * ~ ul,
+      + * ~ ol,
+      + * ~ blockquote,
+      + * ~ pre
         display: none
 
     .toggle-read-more:after
