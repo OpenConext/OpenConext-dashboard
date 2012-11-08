@@ -24,6 +24,7 @@ import java.util.Properties;
 import javax.mail.internet.MimeMessage;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.shared.service.ErrorMessageMailer;
 
 import org.junit.After;
@@ -81,6 +82,16 @@ public class FederationProviderServiceTest {
     List<IdentityProvider> idps = service.getAllIdentityProviders();
     assertEquals(4, idps.size());
   }
+
+  @Test
+  public void test_load_configuration_happy_flow_latest_version() {
+    FederationProviderService service = getFederationProviderService("config-selfservice-test.xml");
+    List<IdentityProvider> idps = service.getAllIdentityProviders();
+    assertEquals(116, idps.size());
+
+    List<ServiceProvider> sps = service.getAllServiceProviders();
+    assertEquals(115, sps.size());
+}
 
   @Test
   public void test_error_mail_for_unparsable_content() {
