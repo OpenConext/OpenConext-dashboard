@@ -125,10 +125,12 @@
       <artifactId>imgscalr-lib</artifactId>
       <version>4.2</version>
     </dependency>
+    <!-- Check the available versions using 
+    http://rubygems-proxy.torquebox.org/releases/rubygems/compass/maven-metadata.xml -->
     <dependency>
       <groupId>rubygems</groupId>
       <artifactId>compass</artifactId>
-      <version>0.11.7</version>
+      <version>0.12.2</version>
       <type>gem</type>
     </dependency>
     <dependency>
