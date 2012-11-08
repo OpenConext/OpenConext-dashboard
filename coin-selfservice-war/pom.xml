@@ -376,7 +376,7 @@
 
   <build>
     <plugins>
-      <plugin>
+      <!-- plugin>
         <groupId>de.saumya.mojo</groupId>
         <artifactId>gem-maven-plugin</artifactId>
         <version>0.28.6</version>
@@ -394,7 +394,7 @@
             compile ${basedir}/src/main/webapp
             ${basedir}/src/main/webapp/sass/screen.sass</execArgs>
         </configuration>
-      </plugin>
+      </plugin-->
       <plugin>
         <groupId>com.googlecode.flyway</groupId>
         <artifactId>flyway-maven-plugin</artifactId>
