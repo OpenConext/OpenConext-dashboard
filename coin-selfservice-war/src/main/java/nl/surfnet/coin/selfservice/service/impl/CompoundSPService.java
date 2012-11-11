@@ -130,19 +130,6 @@ public class CompoundSPService {
    *          long
    * @return
    */
-  public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId) {
-    return getCSPById(idp, compoundSpId,false);
-  }
-
-  /**
-   * Get a CSP by its ID, for the given IDP.
-   * 
-   * @param idp
-   *          the IDP
-   * @param compoundSpId
-   *          long
-   * @return
-   */
   public CompoundServiceProvider getCSPById(IdentityProvider idp, long compoundSpId, boolean refreshCache) {
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundSpId);
     ServiceProvider sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());

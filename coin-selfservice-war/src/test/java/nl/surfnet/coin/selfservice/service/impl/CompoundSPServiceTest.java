@@ -125,7 +125,7 @@ public class CompoundSPServiceTest {
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp1, new Article());
     when(compoundServiceProviderDao.findById(1L)).thenReturn(csp);
     IdentityProvider idp = new IdentityProvider("idpid", "instid", "thename");
-    CompoundServiceProvider gottenCSP = cspService.getCSPById(idp, 1L);
+    CompoundServiceProvider gottenCSP = cspService.getCSPById(idp, 1L, false);
     assertTrue(csp == gottenCSP);
     assertTrue(sp1 == gottenCSP.getServiceProvider());
   }

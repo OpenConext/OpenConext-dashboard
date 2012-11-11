@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ImageController {
 
+  private static final int CACHE_AGE = 60 * 60;
+
   @Resource
   private FieldImageDao fieldImageDao;
 
@@ -58,8 +61,17 @@ public class ImageController {
   }
 
   private void flush(HttpServletResponse response, byte[] bytes) throws IOException {
+    long expiry = getCurrentDate().getTime() + (CACHE_AGE * 1000);
+    
+    response.setDateHeader("Expires", expiry);
+    response.setHeader("Cache-Control", "max-age="+ CACHE_AGE);
+    
     response.getOutputStream().write(bytes);
     response.flushBuffer();
+  }
+  
+  protected Date getCurrentDate() {
+    return new Date();
   }
 
 }
