@@ -68,8 +68,9 @@
   </filter>
   <filter-mapping>
     <filter-name>apiOauthFilter</filter-name>
-    <url-pattern>*.shmtl</url-pattern>
-  </filter-mapping>
+    <url-pattern>/*</url-pattern>
+<!--     <url-pattern>*.shmtl</url-pattern>
+ -->  </filter-mapping>
 
   <servlet>
     <servlet-name>coin-selfservice</servlet-name>
