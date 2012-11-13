@@ -16,7 +16,7 @@
 
 package nl.surfnet.coin.selfservice.control.idpadmin;
 
-import nl.surfnet.coin.selfservice.control.statistics.StatisticController;
+import nl.surfnet.coin.selfservice.control.shopadmin.StatisticController;
 import nl.surfnet.coin.selfservice.dao.impl.MockStatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -27,7 +27,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertFalse;
 
 /**
-Test class for {@link nl.surfnet.coin.selfservice.control.statistics.StatisticController}
+Test class for {@link nl.surfnet.coin.selfservice.control.shopadmin.StatisticController}
  */
 public class StatisticControllerTest {
 

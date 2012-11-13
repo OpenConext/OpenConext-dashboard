@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.dao.impl;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -55,26 +54,55 @@ public class StatisticDaoImpl implements StatisticDao {
   public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
     List<StatResult> statResults;
     // because we also want to show statistics for the IdP with id SURFnet%20BV
-    // URLEncoder#encode replaces a space with +, but in the database we have %20
+    // URLEncoder#encode replaces a space with +, but in the database we have
+    // %20
     String encodedIdp = idpEntityId.replaceAll(" ", "%20");
-    Object[] args = spEntityId == null ? new Object[]{encodedIdp} : new Object[]{encodedIdp, spEntityId};
+    Object[] args = spEntityId == null ? new Object[] { encodedIdp } : new Object[] { encodedIdp, spEntityId };
 
     try {
-      final StringBuilder sql = new StringBuilder("select count(*), spentityid, date(loginstamp) as logindate ");
-      sql.append("from log_logins where idpentityid = ? ");
-      if (spEntityId != null) {
-        sql.append("and spentityid = ? ");
-      }
-      sql.append("group by day(loginstamp), spentityid ");
-      sql.append("order by spentityid, loginstamp asc");
 
-      statResults = this.ebJdbcTemplate.query(
-          sql.toString(),
-          args, mapRowsToStatResult());
+      String s = "select count(id) as cid, spentityid as spentityid from log_logins group by spentityid ";
+     // int q = ebJdbcTemplate.queryForInt(s);
+     // System.out.println(q);
+      List<String> query = ebJdbcTemplate.query(s, new RowMapper<String>(){
+        @Override
+        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+          return String.valueOf( rs.getInt("cid"));
+        }});
+      System.out.println(query);
+
+      String sql = getSql(spEntityId);
+
+      statResults = this.ebJdbcTemplate.query(sql.toString(), args, mapRowsToStatResult());
     } catch (EmptyResultDataAccessException e) {
       statResults = new ArrayList<StatResult>();
     }
     return convertStatResultsToChartSeries(statResults);
+  }
+
+  private String getSql(String spEntityId) {
+//    select count(id) as count, spentityid from log_logins where 
+//    idpentityid = 'SURFnetGuests' group by spentityid order by spentityid
+    
+    final StringBuilder sql = new StringBuilder("select count(id) as cid, spentityid, CAST(loginstamp AS DATE) as logindate ");
+    sql.append("from log_logins where idpentityid = ? ");
+    if (spEntityId != null) {
+      sql.append("and spentityid = ? ");
+    }
+    sql.append("group by spentityid ");
+    sql.append("order by spentityid");
+    return sql.toString();
+  }
+
+  private StringBuilder getSqlOld(String spEntityId) {
+    final StringBuilder sql = new StringBuilder("select count(*), spentityid, date(loginstamp) as logindate ");
+    sql.append("from log_logins where idpentityid = ? ");
+    if (spEntityId != null) {
+      sql.append("and spentityid = ? ");
+    }
+    sql.append("group by day(loginstamp), spentityid ");
+    sql.append("order by spentityid, loginstamp asc");
+    return sql;
   }
 
   private static final Logger LOG = LoggerFactory.getLogger(StatisticDaoImpl.class);
@@ -83,7 +111,7 @@ public class StatisticDaoImpl implements StatisticDao {
     return new RowMapper<StatResult>() {
       @Override
       public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
-        int logins = rs.getInt("count(*)");
+        int logins = rs.getInt("cid");
         String spentitiy = rs.getString("spentityid");
         StatResult statResult = new StatResult();
         statResult.setSpEntityId(spentitiy);
@@ -99,12 +127,14 @@ public class StatisticDaoImpl implements StatisticDao {
   }
 
   /**
-   * The SQL query returns a single row per date/Service provider combination. For the {@link ChartSerie}
-   * we need one object per Service Provider with a list of dates.
-   * If on a day no logins were done for an SP, the SQL query returns no row. We need to insert a zero hits
-   * entry into the list of logins.
-   *
-   * @param statResults List of {@link StatResult}'s (SQL row)
+   * The SQL query returns a single row per date/Service provider combination.
+   * For the {@link ChartSerie} we need one object per Service Provider with a
+   * list of dates. If on a day no logins were done for an SP, the SQL query
+   * returns no row. We need to insert a zero hits entry into the list of
+   * logins.
+   * 
+   * @param statResults
+   *          List of {@link StatResult}'s (SQL row)
    * @return List of {@link ChartSerie} (HighChart input)
    */
   public List<ChartSerie> convertStatResultsToChartSeries(List<StatResult> statResults) {
@@ -137,13 +167,15 @@ public class StatisticDaoImpl implements StatisticDao {
     return chartSeries;
   }
 
-
   /**
-   * Get a converted Calendar in which the timezone difference has been added.<br /><br />
-   *
+   * Get a converted Calendar in which the timezone difference has been added.<br />
+   * <br />
+   * 
    * Input: 0:00:00 CEST<br />
    * Output: 2:00:00 CEST
-   * @param cal the original
+   * 
+   * @param cal
+   *          the original
    * @return converted calendar
    */
   public static Calendar convertToGmt(Calendar cal) {
@@ -151,14 +183,14 @@ public class StatisticDaoImpl implements StatisticDao {
     Date date = cal.getTime();
     TimeZone tz = cal.getTimeZone();
 
-
-    //Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
+    // Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
     long msFromEpochGmt = date.getTime();
 
-    //gives you the current offset in ms from GMT at the current date
+    // gives you the current offset in ms from GMT at the current date
     int offsetFromUTC = tz.getOffset(msFromEpochGmt);
 
-    //create a new calendar in GMT timezone, set to this date and add the offset
+    // create a new calendar in GMT timezone, set to this date and add the
+    // offset
     Calendar gmtCal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
     gmtCal.setTime(date);
     gmtCal.add(Calendar.MILLISECOND, offsetFromUTC);

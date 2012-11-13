@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control.statistics;
+package nl.surfnet.coin.selfservice.control.shopadmin;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -23,8 +26,11 @@ import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,17 +40,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Controller for statistics
  */
 @Controller
-@RequestMapping(value = "/idpadmin/*")
+@RequestMapping(value = "/shopadmin/*")
 public class StatisticController extends BaseController {
 
   @Autowired
   private StatisticDao statisticDao;
 
+  @RequestMapping("/stats.shtml")
+  public String stats(ModelMap model) {
+    /*
+     * prefetch the json from the dao and upt in the modelmap
+     */
+    return "shopadmin/statistics";
+  }
+
   @RequestMapping("/loginsperspperday.json")
-  public
-  @ResponseBody
+  public @ResponseBody
   ChartSerie getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                               @RequestParam(value = "spentityid", required = false) String spentityid) {
+      @RequestParam(value = "spentityid", required = false) String spentityid) {
 
     final List<ChartSerie> loginsPerDay = statisticDao.getLoginsPerSpPerDay(selectedidp.getId(), spentityid);
     if (loginsPerDay.size() > 0) {
@@ -52,6 +65,14 @@ public class StatisticController extends BaseController {
     } else {
       return null;
     }
+  }
+
+  @RequestMapping("/loginsperspperday-mock.json")
+  public @ResponseBody
+  String getLoginsPerSPMock(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+      @RequestParam(value = "spentityid", required = false) String spentityid) throws IOException {
+
+    return IOUtils.toString(new ClassPathResource("stat-json/stats.json").getInputStream());
   }
 
   public void setStatisticDao(StatisticDao statisticDao) {

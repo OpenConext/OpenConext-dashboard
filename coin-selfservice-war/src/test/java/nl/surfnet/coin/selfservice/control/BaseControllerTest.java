@@ -59,7 +59,7 @@ public class BaseControllerTest {
   @Test 
   public void deleteme() {
     String s = "abcdef";
-    s = s.replaceAll("[bd]", "");
+    s += "1";
     System.out.println(s);
   }
 
