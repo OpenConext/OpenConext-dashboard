@@ -60,8 +60,20 @@ app.global = function() {
         var readMoreElms = $('.with-read-more').each(function(index, elm) {
             elm = $(elm);
 
-            if (elm.find('p').length < 2) {
-                pElm = elm.find('p');
+            var pElm, pElms = elm.find('p');
+
+            for (var i = 0, l = pElms.length; i < l; ++i) {
+                pElm = $(pElms[i]);
+
+                if ($.trim(pElm.text()).length === 0) {
+                    pElm.remove();
+                }
+            }
+
+            pElms = elm.find('p');
+
+            if (pElms.length < 2) {
+                pElm = pElms.first();
                 if (pElm.length === 0 || $.trim(pElm.text()).length === 0) {
                     elm.remove();
                 }
