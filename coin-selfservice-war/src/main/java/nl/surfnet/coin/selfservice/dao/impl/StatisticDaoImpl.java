@@ -53,27 +53,19 @@ public class StatisticDaoImpl implements StatisticDao {
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
     List<StatResult> statResults;
-    // because we also want to show statistics for the IdP with id SURFnet%20BV
-    // URLEncoder#encode replaces a space with +, but in the database we have
-    // %20
+    /*
+     * Because we also want to show statistics for the IdP with id SURFnet%20BV
+     * URLEncoder#encode replaces a space with +, but in the database we have
+     * %20
+     */
     String encodedIdp = idpEntityId.replaceAll(" ", "%20");
     Object[] args = spEntityId == null ? new Object[] { encodedIdp } : new Object[] { encodedIdp, spEntityId };
 
     try {
 
-      String s = "select count(id) as cid, spentityid as spentityid from log_logins group by spentityid ";
-     // int q = ebJdbcTemplate.queryForInt(s);
-     // System.out.println(q);
-      List<String> query = ebJdbcTemplate.query(s, new RowMapper<String>(){
-        @Override
-        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-          return String.valueOf( rs.getInt("cid"));
-        }});
-      System.out.println(query);
-
       String sql = getSql(spEntityId);
 
-      statResults = this.ebJdbcTemplate.query(sql.toString(), args, mapRowsToStatResult());
+      statResults = this.ebJdbcTemplate.query(sql, args, mapRowsToStatResult());
     } catch (EmptyResultDataAccessException e) {
       statResults = new ArrayList<StatResult>();
     }
@@ -81,31 +73,15 @@ public class StatisticDaoImpl implements StatisticDao {
   }
 
   private String getSql(String spEntityId) {
-//    select count(id) as count, spentityid from log_logins where 
-//    idpentityid = 'SURFnetGuests' group by spentityid order by spentityid
-    
     final StringBuilder sql = new StringBuilder("select count(id) as cid, spentityid, CAST(loginstamp AS DATE) as logindate ");
     sql.append("from log_logins where idpentityid = ? ");
     if (spEntityId != null) {
       sql.append("and spentityid = ? ");
     }
-    sql.append("group by spentityid ");
+    sql.append("group by logindate, spentityid ");
     sql.append("order by spentityid");
     return sql.toString();
   }
-
-  private StringBuilder getSqlOld(String spEntityId) {
-    final StringBuilder sql = new StringBuilder("select count(*), spentityid, date(loginstamp) as logindate ");
-    sql.append("from log_logins where idpentityid = ? ");
-    if (spEntityId != null) {
-      sql.append("and spentityid = ? ");
-    }
-    sql.append("group by day(loginstamp), spentityid ");
-    sql.append("order by spentityid, loginstamp asc");
-    return sql;
-  }
-
-  private static final Logger LOG = LoggerFactory.getLogger(StatisticDaoImpl.class);
 
   public RowMapper<StatResult> mapRowsToStatResult() {
     return new RowMapper<StatResult>() {

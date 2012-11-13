@@ -56,22 +56,15 @@ public class StatisticController extends BaseController {
 
   @RequestMapping("/loginsperspperday.json")
   public @ResponseBody
-  ChartSerie getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+  List<ChartSerie> getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
       @RequestParam(value = "spentityid", required = false) String spentityid) {
-
-    final List<ChartSerie> loginsPerDay = statisticDao.getLoginsPerSpPerDay(selectedidp.getId(), spentityid);
-    if (loginsPerDay.size() > 0) {
-      return loginsPerDay.get(0);
-    } else {
-      return null;
-    }
+    return statisticDao.getLoginsPerSpPerDay(selectedidp.getId(), spentityid);
   }
 
   @RequestMapping("/loginsperspperday-mock.json")
   public @ResponseBody
   String getLoginsPerSPMock(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
       @RequestParam(value = "spentityid", required = false) String spentityid) throws IOException {
-
     return IOUtils.toString(new ClassPathResource("stat-json/stats.json").getInputStream());
   }
 

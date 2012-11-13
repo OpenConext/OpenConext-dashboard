@@ -23,6 +23,7 @@ import java.util.List;
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,11 @@ public class StatisticDaoImplTest {
 
   @Test
   public void testConvertStatResultsToChartSeries() throws Exception {
-//    List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp", null);
-//    assertEquals(4, series.size());
+    List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp", null);
+    assertEquals(2, series.size());
+    
+    String s = new ObjectMapper().writeValueAsString(series);
+    System.out.println(s);
 
   }
 }

@@ -22,15 +22,17 @@
 
 <footer class="footer">
   <div class="content-some-dense">
-    <a href="http://www.surfnet.nl" target="_blank" hreflang="nl">
+    <a href="http://www.surfnet.nl" target="_blank">
       <spring:message code="jsp.general.footertext.name"/>
     </a>
     |
-    <a href="https://wiki.surfnetlabs.nl/display/conextsupport/Cloud+Services+Portal" hreflang="en">
+    <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
+    <a href="${supporturl}"  target="_blank">
       <spring:message code="jsp.general.footertext.supportpages"/>
     </a>
     |
-    <a href="https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28EN%29" hreflang="en">
+    <c:set var="tosurl"><spring:message code="jsp.general.footertext.tos.url"/></c:set>
+    <a href="${tosurl}"  target="_blank">
       <spring:message code="jsp.general.footertext.tos"/>
     </a>
     |
