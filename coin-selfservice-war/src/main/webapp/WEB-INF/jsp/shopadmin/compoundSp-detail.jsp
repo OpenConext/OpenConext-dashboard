@@ -104,7 +104,7 @@
   <div class="accordion-group">
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordion" href="#${fieldId}-body">
-          ${fieldTitle}
+          ${fieldTitle} <span><spring:message code="${field.source}"/></span>
       </a>
     </div>
     <div id="${fieldId}-body" class="accordion-body collapse">
@@ -164,7 +164,7 @@
   <div class="accordion-group">
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordion" href="#screenshots-body">
-          <spring:message code="jsp.compound_sp_screenshots"/>
+          <spring:message code="jsp.compound_sp_screenshots"/><span><spring:message code="jsp.compound_sp_distributionchannel"/></span>
       </a>
     </div>
     <div id="screenshots-body" class="accordion-body collapse">
