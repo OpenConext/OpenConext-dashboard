@@ -17,6 +17,8 @@
 package nl.surfnet.coin.selfservice.control.shopadmin;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -70,10 +72,15 @@ public class SpLmngDataBindingController extends BaseController {
   @Resource
   private ScreenshotDao screenshotDao;
 
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   @RequestMapping(value = "/compoundSp-detail")
-  public ModelAndView get(@RequestParam("spEntityId") String entityId) {
+  public ModelAndView get(@RequestParam("spEntityId") String entityId,
+      @RequestParam(value = "lmngActive", required = false, defaultValue = "true") String lmngActive) {
     CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(entityId);
-    return new ModelAndView("shopadmin/compoundSp-detail", "compoundSp", compoundServiceProvider);
+    Map model = new HashMap();
+    model.put(BaseController.COMPOUND_SP, compoundServiceProvider);
+    model.put("lmngActive", Boolean.parseBoolean(lmngActive));
+    return new ModelAndView("shopadmin/compoundSp-detail", model);
   }
 
   @RequestMapping(value = "/compoundSp-update", method = RequestMethod.POST, params = "usethis=usethis-image")

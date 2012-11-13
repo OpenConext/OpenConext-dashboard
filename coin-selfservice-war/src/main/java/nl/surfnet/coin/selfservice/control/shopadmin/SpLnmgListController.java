@@ -56,7 +56,7 @@ public class SpLnmgListController extends BaseController {
   private LmngIdentifierDao lmngIdentifierDao;
 
   @RequestMapping(value = "/all-spslmng")
-  public ModelAndView listAllSps(Map<String, Object> model) {
+  public ModelAndView listAllSpsLmng(Map<String, Object> model) {
     if (model == null) {
       model = new HashMap<String, Object>();
     }
@@ -72,6 +72,16 @@ public class SpLnmgListController extends BaseController {
 
     model.put("bindings", lmngServiceBindings);
     return new ModelAndView("shopadmin/sp-overview", model);
+  }
+
+  @RequestMapping(value = "/all-spsconfig")
+  public ModelAndView listAllSps(Map<String, Object> model) {
+    if (model == null) {
+      model = new HashMap<String, Object>();
+    }
+    List<ServiceProvider> allSps = providerService.getAllServiceProviders();
+    model.put("sps", allSps);
+    return new ModelAndView("shopadmin/sp-only-overview", model);
   }
 
   @RequestMapping(value = "/save-splmng", method = RequestMethod.POST)

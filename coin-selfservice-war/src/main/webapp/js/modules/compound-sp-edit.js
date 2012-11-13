@@ -61,6 +61,7 @@ app.compoundSpEdit = function() {
                   li.removeClass("source-selected");  
                 } 
                 });
+                $(form).parents("div.accordion-group").first().removeClass("error");
               }
               $(form).prepend(alertDiv(app.message.i18n('success.save')));
             }

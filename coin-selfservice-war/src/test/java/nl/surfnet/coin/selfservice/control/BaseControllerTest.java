@@ -55,6 +55,13 @@ public class BaseControllerTest {
     MockitoAnnotations.initMocks(this);
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
+  
+  @Test 
+  public void deleteme() {
+    String s = "abcdef";
+    s = s.replaceAll("[bd]", "");
+    System.out.println(s);
+  }
 
   @Test
   public void testMyIdentityProviders() throws Exception {

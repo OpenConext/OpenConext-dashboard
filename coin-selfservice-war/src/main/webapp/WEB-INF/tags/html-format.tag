@@ -15,6 +15,6 @@
   ~ limitations under the License.
   --%>
 <%@attribute name="input" type="java.lang.String" required="true" %>
-<c:set var="newline" value="
-" />
-<p><c:out value="${fn:replace(fn:trim(input), newline, \"</p><p>\")}" escapeXml="false" /></p>
+<p><%= ((String)jspContext.findAttribute("input")).trim().
+        replaceAll(System.getProperty("line.separator"), "</p><p>").
+        replaceAll("<p>[\\n\\r]</p>","") %></p>
