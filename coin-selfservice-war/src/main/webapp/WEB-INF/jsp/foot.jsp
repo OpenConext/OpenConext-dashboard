@@ -22,7 +22,21 @@
 
 <footer class="footer">
   <div class="content-some-dense">
-    <spring:message code="jsp.general.footertext" htmlEscape="false"/>
+    <a href="http://www.surfnet.nl" target="_blank" hreflang="nl">
+      <spring:message code="jsp.general.footertext.name"/>
+    </a>
+    |
+    <a href="https://wiki.surfnetlabs.nl/display/conextsupport/Cloud+Services+Portal" hreflang="en">
+      <spring:message code="jsp.general.footertext.supportpages"/>
+    </a>
+    |
+    <a href="https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28EN%29" hreflang="en">
+      <spring:message code="jsp.general.footertext.tos"/>
+    </a>
+    |
+    <a href="mailto:<spring:message code="jsp.general.footertext.mail"/>">
+      <spring:message code="jsp.general.footertext.mail"/>
+    </a>
   </div>
 </footer>
 
