@@ -27,17 +27,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.surfnet.coin.selfservice.dao.StatisticDao;
+import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.StatResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import nl.surfnet.coin.selfservice.dao.StatisticDao;
-import nl.surfnet.coin.selfservice.domain.ChartSerie;
-import nl.surfnet.coin.selfservice.domain.StatResult;
 
 /**
  * SQL implementation for the statistic service

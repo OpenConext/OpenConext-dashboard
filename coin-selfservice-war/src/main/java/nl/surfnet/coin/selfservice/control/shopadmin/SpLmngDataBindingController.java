@@ -98,6 +98,8 @@ public class SpLmngDataBindingController extends BaseController {
   String updateStringField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
       @RequestParam(value = "source") Source source, @RequestParam(value = "usethis", required = false) String useThis) {
     FieldString field = fieldStringDao.findById(fieldId);
+    //TODO https://jira.surfconext.nl/jira/browse/BACKLOG-788
+    // Check the combination FieldString#Key and FieldString#Source
     field.setValue(value);
     if (StringUtils.hasText(useThis)) {
       field.setSource(source);
