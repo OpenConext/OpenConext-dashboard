@@ -134,6 +134,10 @@
             <c:when test="${compoundSp.articleAvailable}">
               <div class="license-not-available">
                 <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
+                <c:if test="${deepLinkToSurfMarketAllowed}">
+                  <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
+                  <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
+                </c:if>
               </div>
             </c:when>
             <c:otherwise>
