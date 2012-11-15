@@ -36,39 +36,36 @@ public class ChartSerie {
   private long pointStart;
   private long pointInterval = 24L * 3600L * 1000L; // one day
 
-  public String getName() {
-    return name;
+  public ChartSerie(String name, long pointStart) {
+    super();
+    this.name = name;
+    this.pointStart = pointStart;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public String getName() {
+    return name;
   }
 
   public List<Integer> getData() {
     return data;
   }
 
-  public void setData(List<Integer> data) {
-    this.data = data;
-  }
-
-  public void addData(Integer number) {
-    this.data.add(number);
-  }
-
   public long getPointStart() {
     return pointStart;
-  }
-
-  public void setPointStart(Date pointStart) {
-    this.pointStart = pointStart.getTime();
   }
 
   public long getPointInterval() {
     return pointInterval;
   }
 
-  public void setPointInterval(long pointInterval) {
-    this.pointInterval = pointInterval;
+  public void addData(Integer number) {
+    this.data.add(number);
   }
+
+  public void addZeroDays(int nbr) {
+    for (int i = 0; i < nbr; i++) {
+      this.data.add(0);
+    }
+  }
+  
 }

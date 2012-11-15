@@ -18,22 +18,24 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.util.Date;
 
+import org.joda.time.LocalDate;
+
 /**
 * Represents the result row of the mysql query to get login statistics
 */
 public class StatResult implements Comparable<StatResult> {
 
   private String spEntityId;
-  private Date date;
+  private long millis;
   private Integer logins;
 
   public StatResult() {
 
   }
 
-  public StatResult(String spEntityId, Date date, Integer logins) {
+  public StatResult(String spEntityId, long millis, Integer logins) {
     this.spEntityId = spEntityId;
-    this.date = date;
+    this.millis = millis;
     this.logins = logins;
   }
 
@@ -41,24 +43,12 @@ public class StatResult implements Comparable<StatResult> {
     return spEntityId;
   }
 
-  public void setSpEntityId(String spEntityId) {
-    this.spEntityId = spEntityId;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
+  public long getMillis() {
+    return millis;
   }
 
   public Integer getLogins() {
     return logins;
-  }
-
-  public void setLogins(Integer logins) {
-    this.logins = logins;
   }
 
   @Override
@@ -72,7 +62,7 @@ public class StatResult implements Comparable<StatResult> {
 
     StatResult that = (StatResult) o;
 
-    if (date != null ? !date.equals(that.date) : that.date != null) {
+    if (millis != that.millis) {
       return false;
     }
     if (logins != null ? !logins.equals(that.logins) : that.logins != null) {
@@ -88,7 +78,7 @@ public class StatResult implements Comparable<StatResult> {
   @Override
   public int hashCode() {
     int result = spEntityId != null ? spEntityId.hashCode() : 0;
-    result = 31 * result + (date != null ? date.hashCode() : 0);
+    result = 31 * result + (Long.valueOf(millis).hashCode());
     result = 31 * result + (logins != null ? logins.hashCode() : 0);
     return result;
   }
@@ -101,11 +91,9 @@ public class StatResult implements Comparable<StatResult> {
 
     final String thisSP = this.getSpEntityId();
     final String thatSP = that.getSpEntityId();
-    final Date thisDate = this.getDate();
-    final Date thatDate = that.getDate();
 
     if (thisSP.equals(thatSP)) {
-      return thisDate.compareTo(thatDate);
+      return millis < that.millis ? -1 : (millis==that.millis ? 0 : 1) ;
     } else {
       return thisSP.compareTo(thatSP);
     }

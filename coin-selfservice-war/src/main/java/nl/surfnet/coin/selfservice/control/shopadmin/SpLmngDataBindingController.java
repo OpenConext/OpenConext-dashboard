@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.validation.ValidationException;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
@@ -98,8 +99,11 @@ public class SpLmngDataBindingController extends BaseController {
   String updateStringField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
       @RequestParam(value = "source") Source source, @RequestParam(value = "usethis", required = false) String useThis) {
     FieldString field = fieldStringDao.findById(fieldId);
-    //TODO https://jira.surfconext.nl/jira/browse/BACKLOG-788
-    // Check the combination FieldString#Key and FieldString#Source
+    //https://jira.surfconext.nl/jira/browse/BACKLOG-788
+    //Check the combination FieldString#Key and FieldString#Source
+    if (!CompoundServiceProvider.isAllowedCombination(field.getKey(), source)) {
+      throw new ValidationException(String.format("Not allowed combination. Key %s and Source %s", field.getKey(), source));
+    }
     field.setValue(value);
     if (StringUtils.hasText(useThis)) {
       field.setSource(source);

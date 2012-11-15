@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.StatResult;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -60,24 +62,21 @@ public class StatisticDaoImpl implements StatisticDao {
     Object[] args = spEntityId == null ? new Object[] { encodedIdp } : new Object[] { encodedIdp, spEntityId };
 
     try {
-
       String sql = getSql(spEntityId);
-
       statResults = this.ebJdbcTemplate.query(sql, args, mapRowsToStatResult());
     } catch (EmptyResultDataAccessException e) {
-      statResults = new ArrayList<StatResult>();
+      return new ArrayList<ChartSerie>();
     }
     return convertStatResultsToChartSeries(statResults);
   }
 
   private String getSql(String spEntityId) {
-    final StringBuilder sql = new StringBuilder("select count(id) as cid, spentityid, CAST(loginstamp AS DATE) as logindate ");
+    StringBuilder sql = new StringBuilder("select count(id) as cid, spentityid, CAST(loginstamp AS DATE) as logindate ");
     sql.append("from log_logins where idpentityid = ? ");
     if (spEntityId != null) {
       sql.append("and spentityid = ? ");
     }
-    sql.append("group by logindate, spentityid ");
-    sql.append("order by spentityid");
+    sql.append("group by logindate, spentityid order by spentityid, logindate");
     return sql.toString();
   }
 
@@ -87,15 +86,15 @@ public class StatisticDaoImpl implements StatisticDao {
       public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
         int logins = rs.getInt("cid");
         String spentitiy = rs.getString("spentityid");
-        StatResult statResult = new StatResult();
-        statResult.setSpEntityId(spentitiy);
         Date logindate = rs.getDate("logindate");
-        final Calendar cal = Calendar.getInstance();
-        cal.setTime(logindate);
-        convertToGmt(cal);
-        statResult.setDate(convertToGmt(cal).getTime());
-        statResult.setLogins(logins);
-        return statResult;
+        return  new StatResult(spentitiy,logindate.getTime(),logins);
+//        statResult.setSpEntityId(spentitiy);
+//        final Calendar cal = Calendar.getInstance();
+//        cal.setTime(logindate);
+//        convertToGmt(cal);
+//        statResult.setDate(convertToGmt(cal).getTime());
+//        statResult.setLogins(logins);
+//        return statResult;
       }
     };
   }
@@ -114,25 +113,20 @@ public class StatisticDaoImpl implements StatisticDao {
   public List<ChartSerie> convertStatResultsToChartSeries(List<StatResult> statResults) {
     Collections.sort(statResults);
 
-    Map<String, ChartSerie> chartSerieMap = new LinkedHashMap<String, ChartSerie>();
-    Date previousDate = new Date();
+    Map<String, ChartSerie> chartSerieMap = new HashMap<String, ChartSerie>();
+    long previousMillis = 0;
 
     for (StatResult statResult : statResults) {
-      ChartSerie c = chartSerieMap.get(statResult.getSpEntityId());
-      if (c == null) {
-        c = new ChartSerie();
-        c.setName(statResult.getSpEntityId());
-        c.setPointStart(statResult.getDate());
+      ChartSerie chartSerie = chartSerieMap.get(statResult.getSpEntityId());
+      if (chartSerie == null) {
+        chartSerie = new ChartSerie(statResult.getSpEntityId(), statResult.getMillis());
       } else {
-        final long dayDiff = statResult.getDate().getTime() - previousDate.getTime();
-        long nrOfZeroDates = dayDiff / DAY_IN_MS;
-        for (long i = 1; i < nrOfZeroDates; i++) {
-          c.addData(0);
-        }
+        int nbrOfZeroDays = (int) (((statResult.getMillis() - previousMillis) / DAY_IN_MS) - 1);
+        chartSerie.addZeroDays(nbrOfZeroDays);
       }
-      c.addData(statResult.getLogins());
-      previousDate = statResult.getDate();
-      chartSerieMap.put(c.getName(), c);
+      chartSerie.addData(statResult.getLogins());
+      previousMillis = statResult.getMillis();
+      chartSerieMap.put(chartSerie.getName(), chartSerie);
     }
     List<ChartSerie> chartSeries = new ArrayList<ChartSerie>();
     for (ChartSerie c : chartSerieMap.values()) {
@@ -152,7 +146,7 @@ public class StatisticDaoImpl implements StatisticDao {
    *          the original
    * @return converted calendar
    */
-  public static Calendar convertToGmt(Calendar cal) {
+  private Calendar convertToGmt(Calendar cal) {
 
     Date date = cal.getTime();
     TimeZone tz = cal.getTimeZone();
@@ -170,5 +164,9 @@ public class StatisticDaoImpl implements StatisticDao {
     gmtCal.add(Calendar.MILLISECOND, offsetFromUTC);
 
     return gmtCal;
+  }
+
+  public void setEbJdbcTemplate(JdbcTemplate ebJdbcTemplate) {
+    this.ebJdbcTemplate = ebJdbcTemplate;
   }
 }

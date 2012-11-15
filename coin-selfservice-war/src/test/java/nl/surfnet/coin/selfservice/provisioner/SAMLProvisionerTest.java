@@ -16,6 +16,11 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -23,6 +28,10 @@ import java.util.Arrays;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,19 +48,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.service.impl.FederationProviderService;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
-
 public class SAMLProvisionerTest {
 
   @Mock
-  private FederationProviderService fedProvSvc;
+  private IdentityProviderService identityProviderService;
 
   @InjectMocks
   private SAMLProvisioner s;
@@ -70,8 +70,8 @@ public class SAMLProvisionerTest {
     IdentityProvider idp2 = new IdentityProvider("https://surfguest.nl/2", "institutionId", "idp-name2");
     IdentityProvider idp3 = new IdentityProvider("https://surfguest.nl/3", "institutionId", "idp-name3");
 
-    when(fedProvSvc.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
-    when(fedProvSvc.getInstituteIdentityProviders("institutionId")).thenReturn(Arrays.asList(idp, idp2, idp3));
+    when(identityProviderService.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
+    when(identityProviderService.getInstituteIdentityProviders("institutionId")).thenReturn(Arrays.asList(idp, idp2, idp3));
 
     CoinUser cu = (CoinUser) s.provisionUser(a);
 

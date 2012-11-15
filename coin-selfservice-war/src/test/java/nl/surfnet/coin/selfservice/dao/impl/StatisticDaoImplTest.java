@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.dao.impl;
 
 import static junit.framework.Assert.assertEquals;
 
+import java.util.Arrays;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
@@ -46,9 +47,20 @@ public class StatisticDaoImplTest {
   public void testConvertStatResultsToChartSeries() throws Exception {
     List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp", null);
     assertEquals(2, series.size());
-    
-    String s = new ObjectMapper().writeValueAsString(series);
-    System.out.println(s);
 
+    ChartSerie serie = getChartSerie("https://rave.beta.surfnet.nl", series);
+    assertEquals(Arrays.asList(1,2,1), serie.getData());
+
+    serie = getChartSerie("https://canvas.test.surfnet.nl", series);
+    assertEquals(Arrays.asList(1,0,0,2,1), serie.getData());
+  }
+
+  private ChartSerie getChartSerie(String sp, List<ChartSerie> series) {
+    for (ChartSerie chartSerie : series) {
+      if (chartSerie.getName().equals(sp)) {
+        return chartSerie;
+      }
+    }
+    throw new RuntimeException("No chartSerie with name '" + sp + "'");
   }
 }

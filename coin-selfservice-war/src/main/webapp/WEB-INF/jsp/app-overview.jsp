@@ -35,7 +35,7 @@
               <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a><!--TODO: providername for compoundSp instead of SP -->
             </h2> 
             <c:if test="${not empty compoundSp.appStoreLogo}">
-              <img src="<c:url value="${compoundSp.appStoreLogo}"/>" alt="<c:out value=""/>" />
+              <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
             </c:if>
             <p class="desc">
               <c:out value="${fn:substring(compoundSp.serviceDescriptionEn, 0, 40)}" />

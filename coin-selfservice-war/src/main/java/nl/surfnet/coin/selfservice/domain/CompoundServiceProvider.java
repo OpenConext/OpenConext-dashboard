@@ -64,6 +64,7 @@ import org.hibernate.annotations.SortType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
 //import nl.surfnet.coin.selfservice.domain.Provider.Language;
 
 /**
@@ -505,7 +506,7 @@ public class CompoundServiceProvider extends DomainObject {
     }
     return sp.getHomeUrl();
   }
-  
+
   private static String getSupportUrl(ServiceProvider sp, Language lang) {
     Map<String, String> urls = sp.getUrls();
     if (CollectionUtils.isEmpty(urls)) {
@@ -513,7 +514,7 @@ public class CompoundServiceProvider extends DomainObject {
     }
     return urls.get(lang.name().toLowerCase());
   }
-  
+
   private static String getMail(ServiceProvider serviceProvider, ContactPersonType type) {
     ContactPerson helpCP = serviceProvider.getContactPerson(type);
     return (helpCP == null ? null : helpCP.getEmailAddress());
@@ -521,6 +522,30 @@ public class CompoundServiceProvider extends DomainObject {
 
   public void setConstraints(AttributeScopeConstraints constraints) {
     this.constraints = constraints;
+  }
+
+  public static boolean isAllowedCombination(Key key, Source source) {
+    CompoundServiceProvider provider = new CompoundServiceProvider();
+    provider.setArticle(Article.NONE);
+    provider.setServiceProvider(new ServiceProvider(null));
+    switch (source) {
+    case LMNG:
+      try {
+        provider.getLmngProperty(key);
+        return true;
+      } catch (RuntimeException e) {
+        return false;
+      }
+    case SURFCONEXT:
+      try {
+        provider.getSurfConextProperty(key);
+        return true;
+      } catch (RuntimeException e) {
+        return false;
+      }
+    default:
+      return true;
+    }
   }
 
 }

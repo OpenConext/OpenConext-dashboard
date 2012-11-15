@@ -120,26 +120,8 @@
     <property name="disableInitCheck" value="true" /><!-- skip because Hibernate creates its own table -->
   </bean>
 
-  <bean id="federationProviderService"
-    class="nl.surfnet.coin.selfservice.service.impl.FederationProviderService">
-    <constructor-arg index="0" name="configurationLocation" value="${federationconfig.location}" />
-    <constructor-arg index="1" ref="errorMessageMailer" />
-  </bean>
-
-  <bean id="providerServices" class="java.util.ArrayList">
-    <constructor-arg>
-      <list>
-        <bean
-          class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService" />
-        <ref bean="federationProviderService" />
-      </list>
-    </constructor-arg>
-  </bean>
-
   <bean id="providerService"
-    class="nl.surfnet.coin.selfservice.service.impl.CompositeServiceProviderService">
-    <property name="serviceProviderServices" ref="providerServices" />
-    <property name="identityProviderServices" ref="providerServices" />
+    class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService">
   </bean>
 
   <bean id="janusClient" class="${janus.class}">

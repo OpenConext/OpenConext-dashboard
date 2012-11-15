@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 import java.util.Map;
 
 import nl.surfnet.coin.selfservice.domain.Field.Key;
+import nl.surfnet.coin.selfservice.domain.Field.Source;
 import nl.surfnet.coin.selfservice.domain.Provider.Language;
 
 import org.junit.Test;
@@ -52,11 +53,25 @@ public class CompoundServiceProviderTest {
     assertEquals("http://png", detailLogo);
 
     String appLogo = provider.getAppStoreLogo();
-    //looks strange, but corect as we did not save the provider 
+    // looks strange, but corect as we did not save the provider
     assertEquals("/fieldimages/null.img", appLogo);
-    
+
     des = values.get(Key.ENDUSER_DESCRIPTION_NL);
     assertNull(des);
+  }
+
+  @Test
+  public void testIsAllowed() {
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.INSTITUTION_DESCRIPTION_EN, Source.SURFCONEXT));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.ENDUSER_DESCRIPTION_NL, Source.SURFCONEXT));
+
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_EN, Source.LMNG));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.LMNG));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.INSTITUTION_DESCRIPTION_NL, Source.LMNG));
+
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
+
   }
 
 }
