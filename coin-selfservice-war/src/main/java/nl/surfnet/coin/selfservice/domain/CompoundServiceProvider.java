@@ -81,6 +81,9 @@ public class CompoundServiceProvider extends DomainObject {
 
   @Transient
   private Article article;
+  
+  @Transient
+  private List<License> licenses;
 
   @Column
   private String serviceProviderEntityId;
@@ -462,9 +465,29 @@ public class CompoundServiceProvider extends DomainObject {
   public boolean isArticleAvailable() {
     return article != null && !Article.NONE.equals(this.article);
   }
+  
+  public List<License> getLicenses() {
+    return licenses;
+  }
+  
+  /**
+   * Convenience method for the first (and only?) license belonging to an idp and a service
+   * @return the first license found or null
+   */
+  public License getLicense() {
+    return licenses == null || licenses.isEmpty() ? null : licenses.get(0);
+  }
+
+  public void setLicenses(List<License> licenses) {
+    this.licenses = licenses;
+  }
+
+  public boolean isLicenseAvailable() {
+    return licenses != null && !licenses.isEmpty();
+  }
 
   public boolean isArticleLicenseAvailable() {
-    return isArticleAvailable() && article.getLicence() != null;
+    return isArticleAvailable() && isLicenseAvailable();
   }
 
   private static void buildFieldString(Key key, String lmng, String surfconext, String distributionChannel, CompoundServiceProvider provider) {

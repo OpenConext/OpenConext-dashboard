@@ -4,9 +4,4 @@
         "institutionName": "office365_pro",
         "supplierName": "Microsoft",
         "lmngIdentifier" : "1234568",
-        "licenses" : {
-          "startDate": 1333885898711,
-          "endDate": 1365421898639,
-          "groupLicense": true
-        }
     }

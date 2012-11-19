@@ -16,13 +16,17 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -36,7 +40,7 @@ import org.springframework.core.io.ClassPathResource;
  * 
  */
 @SuppressWarnings("unused")
-public class LmngServiceMock implements LicensingService {
+public class LmngServiceMock implements LmngService {
 
   private boolean debug;
   private String endpoint;
@@ -49,24 +53,17 @@ public class LmngServiceMock implements LicensingService {
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
   private Article article;
+  private License license;
 
   public LmngServiceMock() {
     try {
       TypeReference<Article> typeReference = new TypeReference<Article>() {
       };
       this.article = (Article) parseJsonData(typeReference, "lmng-json/articles.json");
+      this.license = (License) parseJsonData(typeReference, "lmng-json/licenses.json");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-  }
-
-  @Override
-  public List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders, Date validOn) {
-    invariant();
-    List<Article> resultList = new ArrayList<Article>();
-    resultList.add(article);
-    return resultList;
   }
 
   private Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {
@@ -122,6 +119,16 @@ public class LmngServiceMock implements LicensingService {
   public String getServiceName(String lmngId) {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn) {
+    return Arrays.asList(new License[] {license});
+  }
+
+  @Override
+  public List<Article> getArticlesForServiceProviders(List<String> serviceProviderEntityIds) {
+    return Arrays.asList(new Article[] {article});
   }
 
 }

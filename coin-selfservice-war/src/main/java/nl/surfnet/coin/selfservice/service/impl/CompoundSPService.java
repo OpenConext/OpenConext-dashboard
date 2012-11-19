@@ -19,7 +19,7 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashMap; 
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +30,9 @@ import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 import org.joda.time.DateTime;
@@ -49,16 +50,22 @@ import org.springframework.util.Assert;
 @Component
 public class CompoundSPService {
 
-  @Value("${lmngCacheSeconds}")
-  private int lmngCacheExpireSeconds;
+  @Value("${lmngArticleCacheSeconds}")
+  private int lmngArticleCacheExpireSeconds;
+
+  @Value("${lmngLicenseCacheSeconds}")
+  private int lmngLicenseCacheExpireSeconds;
 
   private Logger LOG = LoggerFactory.getLogger(CompoundSPService.class);
-
+  
+  private AbstractMap.SimpleEntry<DateTime, List<Article>> cachedArticles;
+  
   /*
    * Cached resultlist of LMNG data. A resultlist is stored per IDP with an
    * expire date
    */
-  private final Map<IdentityProvider, AbstractMap.SimpleEntry<DateTime, List<Article>>> lmngCachedResults = new HashMap<IdentityProvider, AbstractMap.SimpleEntry<DateTime, List<Article>>>();
+  private Map<AbstractMap.SimpleEntry<IdentityProvider, Article>, AbstractMap.SimpleEntry<DateTime, List<License>>> lmngCachedResults; 
+      //new HashMap<AbstractMap.SimpleEntry<IdentityProvider, Article>, AbstractMap.SimpleEntry<DateTime, List<Article>>>();
 
   @Resource
   private CompoundServiceProviderDao compoundServiceProviderDao;
@@ -67,7 +74,7 @@ public class CompoundSPService {
   private ServiceProviderService serviceProviderService;
 
   @Resource
-  private LicensingService licensingService;
+  private LmngService licensingService;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -90,7 +97,8 @@ public class CompoundSPService {
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
         csp = mapByServiceProviderEntityId.get(sp.getId());
         csp.setServiceProvider(sp);
-        csp.setArticle(getCachedArticleForIdpAndSp(identityProvider, sp, false));
+        csp.setArticle(getCachedArticle(sp, false));
+        csp.setLicenses(getCachedLicenses(identityProvider, csp.getArticle()));
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
         csp = createCompoundServiceProvider(identityProvider, sp);
@@ -108,7 +116,10 @@ public class CompoundSPService {
    * @return the created (and persisted) CSP
    */
   private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, getCachedArticleForIdpAndSp(idp, sp, false));
+    Article article = getCachedArticle(sp, false);
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, article);
+    csp.setLicenses(getCachedLicenses(idp, csp.getArticle()));
+    
     compoundServiceProviderDao.saveOrUpdate(csp);
     return csp;
   }
@@ -139,7 +150,8 @@ public class CompoundSPService {
       return csp;
     }
     csp.setServiceProvider(sp);
-    csp.setArticle(getCachedArticleForIdpAndSp(idp, sp, refreshCache));
+    csp.setArticle(getCachedArticle(sp, refreshCache));
+    csp.setLicenses(getCachedLicenses(idp, csp.getArticle()));
     return csp;
   }
 
@@ -159,79 +171,68 @@ public class CompoundSPService {
     if (compoundServiceProvider == null) {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProviderEntityId);
       compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider,
-          getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider, false));
+          getCachedArticle(serviceProvider, false));
       compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");
     } else {
       compoundServiceProvider.setServiceProvider(serviceProvider);
-      compoundServiceProvider.setArticle(getCachedArticleForIdpAndSp(IdentityProvider.NONE, serviceProvider, false));
+      compoundServiceProvider.setArticle(getCachedArticle(serviceProvider, false));
 
     }
     return compoundServiceProvider;
   }
 
-  /**
-   * Get an article from the licensingservice belonging to the given IDP and SP
-   * 
-   * @param idp
-   * @param sp
-   * @return
-   */
-  private Article getCachedArticleForIdpAndSp(IdentityProvider idp, ServiceProvider sp, boolean refreshCache) {
+  
+  private Article getCachedArticle(ServiceProvider sp, boolean refreshCache) {
     if (!licensingService.isActiveMode()) {
-      LOG.info("Returning Article.NONE because licensingService is inactive");
+      LOG.info("Returning Article.NONE because lmngService is inactive");
       return Article.NONE;
     }
-    Assert.notNull(idp);
     Assert.notNull(sp);
-    String spLmngIdentifier = lmngIdentifierDao.getLmngIdForServiceProviderId(sp.getId());
-    if (spLmngIdentifier != null) {
-      for (Article article : getCachedArticlesForIdp(idp, refreshCache)) {
-        if (article.getLmngIdentifier().equals(spLmngIdentifier)) {
-          // Get first article (we expect a max of one article per SP)
-          return article;
-        }
+    
+    // Check and update (if needed) cache
+    DateTime now = getNow();
+    if (cachedArticles == null || refreshCache || cachedArticles.getKey().isBefore(now)) {
+      List<ServiceProvider> allSps = serviceProviderService.getAllServiceProviders();
+      List<String> allSpsIds = new ArrayList<String>();
+      for (ServiceProvider serviceProvider : allSps) {
+        allSpsIds.add(serviceProvider.getId());
+      }
+      List<Article> articles = licensingService.getArticlesForServiceProviders(allSpsIds);
+      DateTime invalidationDate = new DateTime(now).plusSeconds(lmngArticleCacheExpireSeconds);
+      cachedArticles = new SimpleEntry<DateTime, List<Article>>(invalidationDate, articles);
+    }
+    
+    // find and return article from cache
+    for (Article article : cachedArticles.getValue()) {
+      if (article.getServiceProviderEntityId().equals(sp.getId())){
+        return article;
       }
     }
-    LOG.debug("No lmngidentifier for this SP or no LMNG result found, nothing to return. LmngID = " + spLmngIdentifier);
+
+    LOG.debug("No Article found for given SP with ID " + sp.getId());
     return null;
   }
 
-  /**
-   * Get the list of articles from the cache (or from LMNG if cache is empty or
-   * invalid).
-   * 
-   * @param idp
-   *          the corresponding IDP
-   * @return the list of articles belonging to the IDP
-   */
-  private List<Article> getCachedArticlesForIdp(IdentityProvider idp, boolean refreshCache) {
-    if (!licensingService.isActiveMode()) {
-      LOG.info("Returning null because licensingService is inactive");
-      return null;
-    }
-    SimpleEntry<DateTime, List<Article>> result = lmngCachedResults.get(idp);
-    DateTime now = getNow();
-    if (result == null || result.getKey().isBefore(now) || refreshCache) {
-      // reload from lmng
-      List<ServiceProvider> allServiceProviders =
-        idp == IdentityProvider.NONE
-          ? serviceProviderService.getAllServiceProviders()
-          : serviceProviderService.getAllServiceProviders(idp.getId());
-      List<Article> lmngResult = licensingService.getArticleForIdentityProviderAndServiceProviders(idp, allServiceProviders, now.toDate());
-      if (lmngResult == null || lmngResult.isEmpty()) {
-        LOG.warn("No LMNG data retrieved. Cache not updated.");
-        // return current value (possibly null)
-        return result == null ? new ArrayList<Article>() : result.getValue();
-      } else {
-        DateTime invalidationDate = new DateTime(now).plusSeconds(lmngCacheExpireSeconds);
-        result = new SimpleEntry<DateTime, List<Article>>(invalidationDate, lmngResult);
-        lmngCachedResults.put(idp, result);
-        return result.getValue();
+  private List<License> getCachedLicenses(IdentityProvider idp, Article article) {
+    Assert.notNull(idp);
+    if (article != null) {
+      if (lmngCachedResults == null) {
+        lmngCachedResults = new HashMap<AbstractMap.SimpleEntry<IdentityProvider,Article>, AbstractMap.SimpleEntry<DateTime,List<License>>>();
       }
-    } else {
-      return result.getValue();
+      DateTime now = getNow();
+      SimpleEntry<IdentityProvider, Article> entry = new SimpleEntry<IdentityProvider, Article>(idp, article);
+      SimpleEntry<DateTime, List<License>> cachedValue = lmngCachedResults.get(entry);
+      if (cachedValue == null || cachedValue.getKey().isBefore(now)) {
+        List<License> licenses = licensingService.getLicensesForIdpAndSp(idp, article.getLmngIdentifier(), now.toDate());
+        DateTime invalidationDate = new DateTime(now).plusSeconds(lmngLicenseCacheExpireSeconds);
+        cachedValue = new SimpleEntry<DateTime, List<License>>(invalidationDate, licenses);
+        lmngCachedResults.put(entry, cachedValue);
+      }
+      return cachedValue.getValue();
     }
+    // no article? -> no licenses either, return null.
+    return null;
   }
 
   /**
@@ -242,7 +243,12 @@ public class CompoundSPService {
     return new DateTime();
   }
 
-  public void setLmngCacheExpireSeconds(int lmngCacheExpireSeconds) {
-    this.lmngCacheExpireSeconds = lmngCacheExpireSeconds;
+  public void setLmngArticleCacheExpireSeconds(int lmngArticleCacheExpireSeconds) {
+    this.lmngArticleCacheExpireSeconds = lmngArticleCacheExpireSeconds;
   }
+
+  public void setLmngLicenseCacheExpireSeconds(int lmngLicenseCacheExpireSeconds) {
+    this.lmngLicenseCacheExpireSeconds = lmngLicenseCacheExpireSeconds;
+  }
+  
 }

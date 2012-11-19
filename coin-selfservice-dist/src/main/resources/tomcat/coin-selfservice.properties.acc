@@ -166,5 +166,6 @@ saml-uuid-attribute=urn:oid:1.3.6.1.4.1.1076.20.40.40.1
 # For deeplinks from detail pages to SURFmarket
 lmngDeepLinkBaseUrl=https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=
 
-lmngCacheSeconds=3600
+lmngArticleCacheSeconds=21600
+lmngLicenseCacheSeconds=1800
 

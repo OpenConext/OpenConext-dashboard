@@ -17,9 +17,6 @@
 package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Article information. An article is our LMNG implementation of a service.
@@ -34,8 +31,6 @@ public class Article implements Serializable {
    */
   public static final Article NONE = new Article();
 
-  private List<License> licenses;
-
   private String endUserDescriptionNl;
   private String institutionDescriptionNl;
   private String serviceDescriptionNl;
@@ -46,6 +41,7 @@ public class Article implements Serializable {
   private String specialConditions;
   private String articleState;
   private String lmngIdentifier;
+  private String serviceProviderEntityId;
 
   /**
    * Default constructor
@@ -59,14 +55,6 @@ public class Article implements Serializable {
   public Article(String lmngIdentifier) {
     super();
     this.lmngIdentifier = lmngIdentifier;
-  }
-
-  public List<License> getLicenses() {
-    return licenses;
-  }
-
-  public void setLicenses(List<License> licenses) {
-    this.licenses = licenses;
   }
 
   public String getEndUserDescriptionNl() {
@@ -141,118 +129,12 @@ public class Article implements Serializable {
     this.lmngIdentifier = lmngIdentifier;
   }
 
-  public void addLicense(License license) {
-    if (licenses == null) {
-      licenses = new ArrayList<License>();
-    }
-    licenses.add(license);
+  public String getServiceProviderEntityId() {
+    return serviceProviderEntityId;
   }
 
-  // BELOW convenience methods for licenses
-
-  /**
-   * convenience method. Assuming we have 1 license. return the first (and
-   * only?) item from the licenses list
-   * 
-   * @return the first license
-   */
-  public License getLicence() {
-    if (licenses != null && licenses.size() > 0) {
-      return licenses.get(0);
-    }
-    return null;
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the startDate of the first license
-   */
-  public Date getStartDate() {
-    if (getLicence() != null) {
-      return getLicence().getStartDate();
-    }
-    return null;
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the endDate of the first license
-   */
-  public Date getEndDate() {
-    if (getLicence() != null) {
-      return getLicence().getEndDate();
-    }
-    return null;
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the license number of the first license
-   */
-  public String getLicenseNumber() {
-    if (getLicence() != null) {
-      return getLicence().getLicenseNumber();
-    }
-    return null;
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the institution name of the first license
-   */
-  public String getInstitutionName() {
-    if (getLicence() != null) {
-      return getLicence().getInstitutionName();
-    }
-    return null;
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the startDate of the first license
-   */
-  public void setStartDate(Date startDate) {
-    if (getLicence() != null) {
-      getLicence().setStartDate(startDate);
-    }
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the endDate of the first license
-   */
-  public void setEndDate(Date endDate) {
-    if (getLicence() != null) {
-      getLicence().setEndDate(endDate);
-    }
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the license number of the first license
-   */
-  public void setLicenseNumber(String licenseNumber) {
-    if (getLicence() != null) {
-      getLicence().setLicenseNumber(licenseNumber);
-    }
-  }
-
-  /**
-   * convenience method.
-   * 
-   * @return the institution name of the first license
-   */
-  public void setInstitutionName(String institutionName) {
-    if (getLicence() != null) {
-      getLicence().setInstitutionName(institutionName);
-    }
+  public void setServiceProviderEntityId(String serviceProviderEntityId) {
+    this.serviceProviderEntityId = serviceProviderEntityId;
   }
 
   public String getProductName() {

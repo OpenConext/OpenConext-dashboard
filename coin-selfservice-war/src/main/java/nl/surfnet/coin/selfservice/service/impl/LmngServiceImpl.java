@@ -28,8 +28,11 @@ import java.security.UnrecoverableKeyException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -37,8 +40,8 @@ import javax.annotation.Resource;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 import nl.surfnet.coin.shared.domain.ErrorMail;
 import nl.surfnet.coin.shared.service.ErrorMessageMailer;
@@ -69,7 +72,7 @@ import org.springframework.util.CollectionUtils;
  * Implementation of a licensing service that get's it information from a
  * webservice interface on LMNG
  */
-public class LmngServiceImpl implements LicensingService {
+public class LmngServiceImpl implements LmngService {
 
   private static final Logger log = LoggerFactory.getLogger(LmngServiceImpl.class);
 
@@ -83,10 +86,11 @@ public class LmngServiceImpl implements LicensingService {
   private static final String ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER = "%INSTITUTION_CONDITION%";
 
   private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
-  private static final String PATH_FETCH_QUERY_ARTICLES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryArticlesWithOrWithoutLicencesForIdpAndSp.xml";
-  private static final String PATH_FETCH_QUERY_ARTICLE_CONDITION = "lmngqueries/lmngArticleQueryConditionValue.xml";
-  private static final String PATH_FETCH_QUERY_INSTITUTION_CONDITION = "lmngqueries/lmngArticleQueryInstitutionCondition.xml";
+  private static final String PATH_FETCH_QUERY_LICENSES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicensesForIdpsAndSps.xml";
+  private static final String PATH_FETCH_QUERY_ARTICLES_FOR_SPS = "lmngqueries/lmngQueryArticlesForSps.xml";
   private static final String PATH_FETCH_QUERY_GET_INSTITUTION = "lmngqueries/lmngQueryGetInstitution.xml";
+  private static final String PATH_FETCH_QUERYCONDITION_ARTICLE = "lmngqueries/lmngArticleQueryConditionValue.xml";
+  private static final String PATH_FETCH_QUERYCONDITION_INSTITUTION = "lmngqueries/lmngArticleQueryInstitutionCondition.xml";
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -102,21 +106,22 @@ public class LmngServiceImpl implements LicensingService {
   private boolean activeMode;
 
   @Override
-  public List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders, Date validOn) {
-    List<Article> nullResult = new ArrayList<Article>();
+  public List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn) {
+    List<License> result = new ArrayList<License>();
     invariant();
     try {
       String lmngInstitutionId = IdentityProvider.NONE.equals(identityProvider) ? null : getLmngIdentityId(identityProvider);
-      List<String> serviceIds = getLmngServiceIds(serviceProviders);
 
       // validation, we need at least one serviceId
-      if (CollectionUtils.isEmpty(serviceIds)) {
-        return nullResult;
+      if (articleIdentifier == null) {
+        return result;
       }
 
+      List<String> articleIdentifiers = new ArrayList<String>();
+      articleIdentifiers.add(articleIdentifier);
+
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequestForIdpAndSp(lmngInstitutionId, serviceIds, validOn);
+      String soapRequest = getLmngSoapRequestForIdpAndSp(lmngInstitutionId, articleIdentifiers, validOn);
       if (debug) {
         LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -124,28 +129,63 @@ public class LmngServiceImpl implements LicensingService {
       // call the webservice
       String webserviceResult = getWebServiceResult(soapRequest);
       // read/parse the XML response to License objects
-      return LmngUtil.parseResult(webserviceResult, debug);
+      result = LmngUtil.parseLicensesResult(webserviceResult, debug);
     } catch (Exception e) {
-      log.error("Exception while retrieving article/license", e);
-      sendErrorMail(identityProvider, serviceProviders, e.getMessage(), "getArticleForIdentityProviderAndServiceProviders");
+      log.error("Exception while retrieving licenses", e);
+      sendErrorMail(identityProvider, articleIdentifier, e.getMessage(), "getLicensesForIdpAndSp");
     }
-    return nullResult;
+    return result;
+  }
+
+  @Override
+  public List<Article> getArticlesForServiceProviders(List<String> serviceProvidersEntityIds) {
+    List<Article> result = new ArrayList<Article>();
+    invariant();
+    try {
+      Map<String, String> serviceIds = getLmngServiceIds(serviceProvidersEntityIds);
+
+      // validation, we need at least one serviceId
+      if (CollectionUtils.isEmpty(serviceIds)) {
+        return result;
+      }
+
+      // get the file with the soap request
+      String soapRequest = getLmngSoapRequestForSps(serviceIds.keySet());
+      if (debug) {
+        LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
+      }
+
+      // call the webservice
+      String webserviceResult = getWebServiceResult(soapRequest);
+      // read/parse the XML response to License objects
+      List<Article> parsedArticles = LmngUtil.parseArticlesResult(webserviceResult, debug);
+
+      for (Article article : parsedArticles) {
+        article.setServiceProviderEntityId(serviceIds.get(article.getLmngIdentifier()));
+        result.add(article);
+      }
+    } catch (Exception e) {
+      log.error("Exception while retrieving articles", e);
+      sendErrorMail(serviceProvidersEntityIds, e.getMessage(), "getArticlesForServiceProviders");
+    }
+    return result;
   }
 
   @Override
   public String getServiceName(String guid) {
+    invariant();
     String result = null;
     try {
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequestForIdpAndSp(null, Arrays.asList(new String[] {guid}), new Date());
+      String soapRequest = getLmngSoapRequestForSps(Arrays.asList(new String[] { guid }));
       if (debug) {
         LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
-      
+
       // call the webservice
       String webserviceResult = getWebServiceResult(soapRequest);
       // read/parse the XML response to License objects
-      List<Article> resultList = LmngUtil.parseResult(webserviceResult, debug);
+      List<Article> resultList = LmngUtil.parseArticlesResult(webserviceResult, debug);
       if (resultList != null && resultList.size() > 0) {
         result = resultList.get(0).getProductName();
       }
@@ -158,6 +198,7 @@ public class LmngServiceImpl implements LicensingService {
 
   @Override
   public String getInstitutionName(String guid) {
+    invariant();
     String result = null;
     try {
       ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_GET_INSTITUTION);
@@ -169,10 +210,10 @@ public class LmngServiceImpl implements LicensingService {
       inputStream = queryResource.getInputStream();
       String query = IOUtils.toString(inputStream);
       query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, guid);
-      
+
       // html encode the string
       query = StringEscapeUtils.escapeHtml(query);
-      
+
       // Insert the query in the envelope and add a UID in the envelope
       soapRequest = soapRequest.replaceAll(QUERY_PLACEHOLDER, query);
       soapRequest = soapRequest.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
@@ -228,7 +269,10 @@ public class LmngServiceImpl implements LicensingService {
     httppost.setHeader("Content-Type", "application/soap+xml");
     httppost.setEntity(new StringEntity(soapRequest));
 
+    Date beforeCall = new Date();
     HttpResponse httpresponse = httpclient.execute(httppost);
+    Date afterCall = new Date();
+
     HttpEntity output = httpresponse.getEntity();
 
     // Continue only if we have a successful response (code 200)
@@ -241,7 +285,9 @@ public class LmngServiceImpl implements LicensingService {
     if (debug) {
       LmngUtil.writeIO("lmngWsResponseStatus" + status, StringEscapeUtils.unescapeHtml(response));
     }
-    log.warn("LMNG proxy webservice called. Http response:" + httpresponse);
+
+    long durationSeconds = (afterCall.getTime() - beforeCall.getTime()) / 1000;
+    log.warn("LMNG proxy webservice called in " + durationSeconds + " seconds. Http response:" + httpresponse);
 
     if (status != 200) {
       log.debug("LMNG webservice response content is:\n" + response);
@@ -270,9 +316,9 @@ public class LmngServiceImpl implements LicensingService {
    * @param serviceProvider
    * @return
    */
-  private String getLmngServiceId(ServiceProvider serviceProvider) {
-    if (serviceProvider != null && serviceProvider.getId() != null) {
-      return lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
+  private String getLmngServiceId(String serviceProviderEntityId) {
+    if (serviceProviderEntityId != null) {
+      return lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProviderEntityId);
     }
     return null;
   }
@@ -281,14 +327,14 @@ public class LmngServiceImpl implements LicensingService {
    * Get the LMNG identifiers for the given SP list
    * 
    * @param serviceProviders
-   * @return
+   * @return a map with the LMNGID as key and serviceprovider entity ID as value
    */
-  private List<String> getLmngServiceIds(List<ServiceProvider> serviceProviders) {
-    List<String> result = new ArrayList<String>();
-    for (ServiceProvider sp : serviceProviders) {
-      String serviceId = getLmngServiceId(sp);
+  private Map<String, String> getLmngServiceIds(List<String> serviceProvidersEntityIds) {
+    Map<String, String> result = new HashMap<String, String>();
+    for (String spId : serviceProvidersEntityIds) {
+      String serviceId = getLmngServiceId(spId);
       if (serviceId != null) {
-        result.add(serviceId);
+        result.put(serviceId, spId);
       }
     }
     return result;
@@ -302,12 +348,12 @@ public class LmngServiceImpl implements LicensingService {
     // Get the soap/fetch envelope
     String result = getLmngRequestEnvelope();
 
-    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLES_LICENCES_FOR_IDP_SP);
+    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_LICENSES_LICENCES_FOR_IDP_SP);
 
     InputStream inputStream = queryResource.getInputStream();
     String query = IOUtils.toString(inputStream);
 
-    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLE_CONDITION);
+    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_ARTICLE);
     InputStream articleInputStream = articleConditionResource.getInputStream();
     String articleConditionTemplate = IOUtils.toString(articleInputStream);
     String articleConditionValues = "";
@@ -317,7 +363,7 @@ public class LmngServiceImpl implements LicensingService {
 
     String institutionConditionTemplate = "";
     if (institutionId != null) {
-      ClassPathResource institutionConditionResource = new ClassPathResource(PATH_FETCH_QUERY_INSTITUTION_CONDITION);
+      ClassPathResource institutionConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_INSTITUTION);
       InputStream institutionConditionInputStream = institutionConditionResource.getInputStream();
       institutionConditionTemplate = IOUtils.toString(institutionConditionInputStream);
       institutionConditionTemplate = institutionConditionTemplate.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
@@ -327,6 +373,39 @@ public class LmngServiceImpl implements LicensingService {
     query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
     query = query.replaceAll(ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER, institutionConditionTemplate);
     query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
+
+    // html encode the string
+    query = StringEscapeUtils.escapeHtml(query);
+
+    // Insert the query in the envelope and add a UID in the envelope
+    result = result.replaceAll(QUERY_PLACEHOLDER, query);
+    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
+    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+    return result;
+  }
+
+  private String getLmngSoapRequestForSps(Collection<String> serviceIds) throws IOException {
+    Assert.notNull(serviceIds);
+
+    // Get the soap/fetch envelope
+    String result = getLmngRequestEnvelope();
+
+    // TODO change path
+    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLES_FOR_SPS);
+
+    InputStream inputStream = queryResource.getInputStream();
+    String query = IOUtils.toString(inputStream);
+
+    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_ARTICLE);
+    InputStream articleInputStream = articleConditionResource.getInputStream();
+    String articleConditionTemplate = IOUtils.toString(articleInputStream);
+    String articleConditionValues = "";
+    for (String serviceId : serviceIds) {
+      articleConditionValues += articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
+    }
+
+    // replace base query with placeholders
+    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
 
     // html encode the string
     query = StringEscapeUtils.escapeHtml(query);
@@ -353,21 +432,34 @@ public class LmngServiceImpl implements LicensingService {
   /*
    * Send a mail
    */
-  private void sendErrorMail(IdentityProvider idp, List<ServiceProvider> sps, String message, String method) {
+  private void sendErrorMail(IdentityProvider idp, String articleIdentifier, String message, String method) {
     String shortMessage = "Exception while retrieving article/license";
-    String spEntityIds = "";
-    if (sps != null) {
-      for (ServiceProvider sp : sps) {
-        spEntityIds += sp.getId() + ", ";
-      }
-    }
+
     String idpEntityId = idp == null ? "NULL" : idp.getId();
     String institutionId = idp == null ? "NULL" : idp.getInstitutionId();
 
-    String formattedMessage = String
-        .format(
-            "LMNG call for Identity Provider '%s' with institution ID '%s' and Service Provider(s) '%s' failed with the following message: '%s'",
-            idpEntityId, institutionId, spEntityIds, message);
+    String formattedMessage = String.format(
+        "LMNG call for Identity Provider '%s' with institution ID '%s' and Article with Id's '%s' failed with the following message: '%s'",
+        idpEntityId, institutionId, articleIdentifier, message);
+    ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
+    errorMail.setLocation(this.getClass().getName() + "#get" + method);
+    errorMessageMailer.sendErrorMail(errorMail);
+  }
+
+  /*
+   * Send a mail
+   */
+  private void sendErrorMail(List<String> spIds, String message, String method) {
+    String shortMessage = "Exception while retrieving article/license";
+    String spEntityIds = "";
+    if (spIds != null) {
+      for (String spId : spIds) {
+        spEntityIds += spId + ", ";
+      }
+    }
+
+    String formattedMessage = String.format("LMNG call for Service Providers with id's '%s' failed with the following message: '%s'",
+        spEntityIds, message);
     ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
     errorMail.setLocation(this.getClass().getName() + "#get" + method);
     errorMessageMailer.sendErrorMail(errorMail);
@@ -425,4 +517,5 @@ public class LmngServiceImpl implements LicensingService {
   public boolean isActiveMode() {
     return activeMode;
   }
+
 }

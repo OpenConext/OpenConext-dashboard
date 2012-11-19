@@ -21,36 +21,41 @@ import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.domain.License;
 
 /**
- * Interface of services that return Licensing information from LMNG (Licentie
- * Modellen Next Generation)
+ * Interface of services that return Licensing and article information from LMNG
+ * (Licentie Modellen Next Generation)
  */
-public interface LicensingService {
+public interface LmngService {
 
   /**
-   * Gets a list with Articles with possible Licenses for the given identityProvider and
-   * serviceProvider which are valid on the given day
+   * Gets a list with Licenses for the given
+   * identityProvider and services (lmngIdentifiers) which are valid on the given day
    * 
-   * @param identityProvider
-   *          the identityProvider to get the licenses for
-   * @param serviceProviders
-   *          the serviceProviders to get the licenses for
-   * @param validOn
-   *          Date on which the license should be valid
-   * @return a (possible) list of articles with valid licenses
+   * @param identityProvider the identityProvider to get the licenses for
+   * @param lmngIdentifier lmngIdentifier (belonging to SP's) where the licenses are for.
+   * @param validOn Date on which the license should be valid
+   * @return a (possible) list of licenses
    */
-  List<Article> getArticleForIdentityProviderAndServiceProviders(IdentityProvider identityProvider,
-      List<ServiceProvider> serviceProviders, Date validOn);
+  List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn);
+
+  /**
+   * Get articles for the given serviceProviders.
+   * @param serviceProviderEntityIds list of ID's of serviceproviders to get the lmng article for
+   * @return a list of possible articles
+   */
+  List<Article> getArticlesForServiceProviders(List<String> serviceProviderEntityIds);
 
   /**
    * Get the name of the institution in LMNG belonging to given GUID
-   * @param guid guid of the IDP to check
+   * 
+   * @param guid
+   *          guid of the IDP to check
    * @return the name of the institution in LMNG
    */
   String getInstitutionName(String guid);
-  
+
   /**
    * Get the name of the service/product in LMNG belonging to given GUID
    * 
@@ -58,7 +63,7 @@ public interface LicensingService {
    * @return
    */
   String getServiceName(String lmngId);
-  
+
   /**
    * Is the LMNG service active? If not then no calls should be made and the
    * entire distribution channel runs without license / article information from

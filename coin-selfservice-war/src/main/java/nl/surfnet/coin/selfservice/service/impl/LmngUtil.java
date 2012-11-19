@@ -78,17 +78,11 @@ public class LmngUtil {
   private static final String GROUP_LICENSEMODEL = "3";
 
   /**
-   * This method tries to parse the result into Article objects with possible
-   * licenses
+   * Parse the result to an article(list)
    * 
-   * @param webserviceResult
-   * @throws ParserConfigurationException
-   * @throws IOException
-   * @throws SAXException
-   * @throws ParseException
    */
-  public static List<Article> parseResult(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException,
-      SAXException, IOException, ParseException {
+  public static List<Article> parseArticlesResult(String webserviceResult, boolean writeResponseToFile)
+      throws ParserConfigurationException, SAXException, IOException, ParseException {
     List<Article> resultList = new ArrayList<Article>();
 
     NodeList nodes = parse(webserviceResult, writeResponseToFile);
@@ -100,8 +94,30 @@ public class LmngUtil {
         Node resultNode = nodes.item(i);
         if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
           Element resultElement = (Element) resultNode;
-          
-          addNewArticle(resultList, createArticle(resultElement));
+          resultList.add(createArticle(resultElement));
+        }
+      }
+    }
+    return resultList;
+  }
+
+  /**
+   * Parse the result to a license(list)
+   */
+  public static List<License> parseLicensesResult(String webserviceResult, boolean writeResponseToFile)
+      throws ParserConfigurationException, SAXException, IOException, ParseException {
+    List<License> resultList = new ArrayList<License>();
+
+    NodeList nodes = parse(webserviceResult, writeResponseToFile);
+
+    if (nodes != null) {
+      int numberOfResults = nodes.getLength();
+      log.debug("Number of results in Fetch query:" + numberOfResults);
+      for (int i = 0; i < numberOfResults; i++) {
+        Node resultNode = nodes.item(i);
+        if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
+          Element resultElement = (Element) resultNode;
+          resultList.add(createLicense(resultElement));
         }
       }
     }
@@ -126,9 +142,8 @@ public class LmngUtil {
     return result;
   }
 
-  private static NodeList parse(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException,
-      SAXException, IOException, ParseException {
-    List<Article> resultList = new ArrayList<Article>();
+  private static NodeList parse(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException, SAXException,
+      IOException, ParseException {
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -150,30 +165,10 @@ public class LmngUtil {
       if (resultset == null || !"resultset".equals(resultset.getNodeName())) {
         log.warn("Webservice 'GetDataResult' element did not contain a 'resultset' element");
       } else {
-       return resultset.getElementsByTagName("result");
+        return resultset.getElementsByTagName("result");
       }
     }
     return null;
-  }
-
-  /**
-   * Add the given new article to the resultlist or add a possible license to an
-   * article with the same GUID that is already in the resultlist
-   * 
-   * @param resultList
-   * @param newArticle
-   */
-  private static void addNewArticle(List<Article> resultList, Article newArticle) {
-    for (Article article : resultList) {
-      if (article.getLmngIdentifier().equals(newArticle.getLmngIdentifier()) && newArticle.getLicenses() != null) {
-        for (License license : newArticle.getLicenses()) {
-          article.addLicense(license);
-        }
-        return; // done, return method
-      }
-    }
-    // not found in the current list? Then add it.
-    resultList.add(newArticle);
   }
 
   private static Article createArticle(Element resultElement) {
@@ -189,9 +184,18 @@ public class LmngUtil {
     article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
     article.setProductNumber(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NUMBER));
 
+    log.debug("Created new Article object:" + article.toString());
+    return article;
+  }
+
+  private static License createLicense(Element resultElement) {
+    License license = null;
+
     String licenseNumber = getFirstSubElementStringValue(resultElement, FETCH_RESULT_LICENSE_NUMBER);
-    if (licenseNumber != null) {
-      License license = new License();
+    if (licenseNumber == null) {
+      log.debug("Element did not contain a " + FETCH_RESULT_LICENSE_NUMBER + ". Unable to create license");
+    } else {
+      license = new License();
       license.setLicenseNumber(licenseNumber);
       Date startDate = new Date(dateTimeFormatter.parseMillis(getFirstSubElementStringValue(resultElement, FETCH_RESULT_VALID_FROM)));
       license.setStartDate(startDate);
@@ -201,11 +205,9 @@ public class LmngUtil {
       if (licenseModel != null && GROUP_LICENSEMODEL.equals(licenseModel)) {
         license.setGroupLicense(true);
       }
-      article.addLicense(license);
+      log.debug("Created new License object:" + license.toString());
     }
-
-    log.debug("Created new Article object:" + article.toString());
-    return article;
+    return license;
   }
 
   /**
