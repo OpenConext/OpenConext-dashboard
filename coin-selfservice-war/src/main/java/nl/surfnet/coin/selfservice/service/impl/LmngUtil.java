@@ -31,6 +31,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import nl.surfnet.coin.selfservice.domain.Article;
+import nl.surfnet.coin.selfservice.domain.ArticleMedium;
+import nl.surfnet.coin.selfservice.domain.ArticleMedium.ArticleMediumType;
 import nl.surfnet.coin.selfservice.domain.License;
 
 import org.apache.commons.io.FileUtils;
@@ -75,6 +77,12 @@ public class LmngUtil {
   private static final String FETCH_RESULT_LICENSEMODEL = "productvariation.lmng_licensemodel";
   private static final String FETCH_RESULT_INSTITUTE_NAME = "name";
 
+  private static final String FETCH_RESULT_MEDIUM_URL = "articlemedium.lmng_downloadurl";
+  private static final String FETCH_RESULT_MEDIUM_NAME = "articlemedium.lmng_name";  
+  private static final String FETCH_RESULT_MEDIUM_SUPPLIER_ID = "articlemedium.lmng_supplierid";
+  private static final String FETCH_RESULT_MEDIUM_GOOGLE_ID = "{5859F910-5E12-DF11-A633-0019B9DE3AA4}";
+  private static final String FETCH_RESULT_MEDIUM_APPLE_ID = "{5FF1FAB3-2410-DC11-A6C7-0019B9DE3AA4}";
+  
   private static final String GROUP_LICENSEMODEL = "3";
 
   /**
@@ -94,7 +102,21 @@ public class LmngUtil {
         Node resultNode = nodes.item(i);
         if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
           Element resultElement = (Element) resultNode;
-          resultList.add(createArticle(resultElement));
+          Article newArticle = createArticle(resultElement);
+          // try to find if this article is already in the list (possible multiple results for different mediatypes) and enrich the medium information
+          for (Article article : resultList) {
+            if (article.getLmngIdentifier() != null && article.getLmngIdentifier().equals(newArticle.getLmngIdentifier())) {
+              if (newArticle.getAndroidPlayStoreMedium() != null) {
+                article.setAndroidPlayStoreMedium(newArticle.getAndroidPlayStoreMedium());
+              } else if (newArticle.getAppleAppStoreMedium() != null) {
+                article.setAppleAppStoreMedium(newArticle.getAppleAppStoreMedium());
+              }
+              newArticle = null;
+            }
+          }
+          if (newArticle != null) {
+            resultList.add(newArticle);
+          }
         }
       }
     }
@@ -117,7 +139,10 @@ public class LmngUtil {
         Node resultNode = nodes.item(i);
         if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
           Element resultElement = (Element) resultNode;
-          resultList.add(createLicense(resultElement));
+          License newLicense = createLicense(resultElement);
+          if (newLicense != null) {
+            resultList.add(newLicense);
+          }
         }
       }
     }
@@ -183,7 +208,22 @@ public class LmngUtil {
     article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
     article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
     article.setProductNumber(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NUMBER));
-
+    
+    String mediumSupplier = getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_SUPPLIER_ID);
+    if (FETCH_RESULT_MEDIUM_GOOGLE_ID.equals(mediumSupplier)) {
+      ArticleMedium articleMedium = new ArticleMedium();
+      articleMedium.setType(ArticleMediumType.ANDROIDMARKET);
+      articleMedium.setName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_NAME));
+      articleMedium.setUrl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_URL));
+      article.setAndroidPlayStoreMedium(articleMedium);
+    } else if (FETCH_RESULT_MEDIUM_APPLE_ID.equals(mediumSupplier)) {
+      ArticleMedium articleMedium = new ArticleMedium();
+      articleMedium.setType(ArticleMediumType.APPLESTORE);
+      articleMedium.setName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_NAME));
+      articleMedium.setUrl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_URL));
+      article.setAppleAppStoreMedium(articleMedium);
+    }
+    
     log.debug("Created new Article object:" + article.toString());
     return article;
   }

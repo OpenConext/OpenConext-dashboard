@@ -42,7 +42,10 @@ public class Article implements Serializable {
   private String articleState;
   private String lmngIdentifier;
   private String serviceProviderEntityId;
-
+  
+  private ArticleMedium appleAppStoreMedium;
+  private ArticleMedium androidPlayStoreMedium;
+  
   /**
    * Default constructor
    */
@@ -143,6 +146,22 @@ public class Article implements Serializable {
 
   public void setProductName(String productName) {
     this.productName = productName;
+  }
+
+  public ArticleMedium getAppleAppStoreMedium() {
+    return appleAppStoreMedium;
+  }
+
+  public void setAppleAppStoreMedium(ArticleMedium appleAppStoreMedium) {
+    this.appleAppStoreMedium = appleAppStoreMedium;
+  }
+
+  public ArticleMedium getAndroidPlayStoreMedium() {
+    return androidPlayStoreMedium;
+  }
+
+  public void setAndroidPlayStoreMedium(ArticleMedium androidPlayStoreMedium) {
+    this.androidPlayStoreMedium = androidPlayStoreMedium;
   }
 
 }

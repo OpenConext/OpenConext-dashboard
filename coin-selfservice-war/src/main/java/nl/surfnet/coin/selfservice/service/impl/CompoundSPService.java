@@ -65,7 +65,6 @@ public class CompoundSPService {
    * expire date
    */
   private Map<AbstractMap.SimpleEntry<IdentityProvider, Article>, AbstractMap.SimpleEntry<DateTime, List<License>>> lmngCachedResults; 
-      //new HashMap<AbstractMap.SimpleEntry<IdentityProvider, Article>, AbstractMap.SimpleEntry<DateTime, List<Article>>>();
 
   @Resource
   private CompoundServiceProviderDao compoundServiceProviderDao;
@@ -97,8 +96,9 @@ public class CompoundSPService {
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
         csp = mapByServiceProviderEntityId.get(sp.getId());
         csp.setServiceProvider(sp);
-        csp.setArticle(getCachedArticle(sp, false));
-        csp.setLicenses(getCachedLicenses(identityProvider, csp.getArticle()));
+        Article article = getCachedArticle(sp, false);
+        csp.setArticle(article);
+        csp.setLicenses(getCachedLicenses(identityProvider, article));
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
         csp = createCompoundServiceProvider(identityProvider, sp);
@@ -118,7 +118,7 @@ public class CompoundSPService {
   private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
     Article article = getCachedArticle(sp, false);
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, article);
-    csp.setLicenses(getCachedLicenses(idp, csp.getArticle()));
+    csp.setLicenses(getCachedLicenses(idp, article));
     
     compoundServiceProviderDao.saveOrUpdate(csp);
     return csp;
@@ -150,8 +150,9 @@ public class CompoundSPService {
       return csp;
     }
     csp.setServiceProvider(sp);
-    csp.setArticle(getCachedArticle(sp, refreshCache));
-    csp.setLicenses(getCachedLicenses(idp, csp.getArticle()));
+    Article article = getCachedArticle(sp, refreshCache);
+    csp.setArticle(article);
+    csp.setLicenses(getCachedLicenses(idp, article));
     return csp;
   }
 

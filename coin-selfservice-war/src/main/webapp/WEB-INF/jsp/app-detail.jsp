@@ -29,16 +29,20 @@
       <img src="${compoundSp.detailLogo}" alt="<c:out value=""/>" class="application-logo">
     </c:if>
     <ul class="launch-icons">
-      <li>
-        <a href="#app-store-url">
-          <img src="<c:url value="/images/icon-app-store.png"/>" alt="iTunes App Store">
-        </a>
-      </li>
-      <li>
-        <a href="#play-store-url">
-          <img src="<c:url value="/images/icon-google-play.png"/>" alt="Google Play Store">
-        </a>
-      </li>
+      <c:if test="${not empty compoundSp.article.appleAppStoreMedium}">
+	      <li>
+          <a href="${compoundSp.article.appleAppStoreMedium.url}">
+	          <img src="<c:url value="/images/icon-app-store.png"/>" alt="iTunes App Store">
+	        </a>
+	      </li>
+      </c:if>
+      <c:if test="${not empty compoundSp.article.androidPlayStoreMedium}">
+	      <li>
+	        <a href="${compoundSp.article.androidPlayStoreMedium.url}">
+	          <img src="<c:url value="/images/icon-google-play.png"/>" alt="Google Play Store">
+	        </a>
+	      </li>
+	    </c:if>
     </ul>
     <ul class="action-list">
       <c:if test="${not empty compoundSp.appUrl}">
