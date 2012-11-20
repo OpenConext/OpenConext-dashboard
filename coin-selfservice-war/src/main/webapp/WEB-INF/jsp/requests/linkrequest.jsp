@@ -47,6 +47,12 @@
           <li><spring:message code="jsp.sp_linkrequest.terms3" arguments="${spname}"/></li>
         </ul>
 
+        <c:if test="${not empty jiraError}">
+          <div class="alert alert-error">
+            <spring:message code="jsp.sp_linkrequest.jiraError" arguments="${jiraError}"/>
+          </div>
+        </c:if>
+
         <form:form cssClass="form form-horizontal" commandName="linkrequest">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
