@@ -509,8 +509,6 @@
                 <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-popover.js</jsSourceFile>
 
-                <jsSourceFile>highstock.js</jsSourceFile>
-
                 <jsSourceFile>jquery/jquery.datatables.1.9.4.min.js</jsSourceFile>
                 <jsSourceFile>jquery/jquery.datatables.columnfilter.1.4.7.js</jsSourceFile>
                 <jsSourceFile>jquery/jquery.ui.widget.js</jsSourceFile>

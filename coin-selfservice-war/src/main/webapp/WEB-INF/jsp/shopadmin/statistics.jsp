@@ -23,18 +23,44 @@
 </jsp:include>
 
 <div class="column-center content-holder">
+  <h1>${title}</h1>
 
-  <section class="data-table-holder">
+  <nav class="statistics-filters">
+    <ul>
+      <li class="back hide">
+        <a href="#">
+          <i class="icon-arrow-left"></i>
+        </a>
+      </li>
+      <li class="time-offset">
+        <a class="prev-time-offset" href="#">
+          <i class="icon-arrow-left"></i>
+        </a>
+        <select id="choose-time-offset"></select>
+        <a class="next-time-offset" href="#">
+          <i class="icon-arrow-right"></i>
+        </a>
+      </li>
+      <li class="show">
+        <a href="#" data-show="all">
+          <spring:message code="jsp.stats.all" />
+        </a>
+        <a href="#" data-show="quarter">
+          <spring:message code="jsp.stats.quarter" />
+        </a>
+        <a href="#" data-show="month">
+          <spring:message code="jsp.stats.month" />
+        </a>
+        <a href="#" data-show="week">
+          <spring:message code="jsp.stats.week" />
+        </a>
+      </li>
+    </ul>
+  </nav>
 
-    <h1>${title}</h1>
-    <%-- <c:if test="${param.chart eq true}"> --%>
-    <tags:sp_renderchart/>
-    <%-- </c:if> --%>
-    <br/>
-    <%-- <c:if test="${param.datatables eq true}"> --%>
-    <tags:sp_renderdatatables columnFilter="${param.columnFilter}"/>
-    <%-- </c:if> --%>
-
+  <section class="statistics-holder">
+    <div id="sp-overview-chart"></div>
+    <div id="sp-detail-chart"></div>
   </section>
 </div>
 

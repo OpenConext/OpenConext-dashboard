@@ -43,6 +43,58 @@ app.message = function() {
         "show.all.attributes" : {
             en : "Show all…",
             nl : "Alles tonen…"
+        },
+        "stats.title.overview_default" : {
+            en : "Stats",
+            nl : "Statistieken"
+        },
+        "stats.title.overview_zoomed" : {
+            en : "Stats for #{range}",
+            nl : "Statistieken over #{range}"
+        },
+        "stats.title.sp_overview" : {
+            en : "Stats for #{sp}",
+            nl : "Statistieken van #{sp}"
+        },
+        "stats.title.sp_zoomed" : {
+            en : "Stats of #{sp} for #{range}",
+            nl : "Statistieken van #{sp} over #{range}"
+        },
+        "stats.menu.all" : {
+            en : "All",
+            nl : "Alles"
+        },
+        "stats.menu.quarter" : {
+            en : "Quearter",
+            nl : "Kwartaal"
+        },
+        "stats.menu.month" : {
+            en : "Month",
+            nl : "Maand"
+        },
+        "stats.menu.week" : {
+            en : "Week",
+            nl : "Week"
+        },
+        "stats.menu.months" : {
+            en : "January|February|March|April|May|June|July|August|September|October|November|December",
+            nl : "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december"
+        },
+        "stats.logins_per_day" : {
+            en : "Logins per day",
+            nl : "Inloggen per dag"
+        },
+        "stats.days" : {
+            en : "Days",
+            nl : "Dagen"
+        },
+        "stats.weekof" : {
+            en : "Week #{week} of #{year}",
+            nl : "Week #{week} van #{year}"
+        },
+        "stats.total_logins" : {
+            en : "Total logins",
+            nl : "Aantal inloggen"
         }
     };
     
