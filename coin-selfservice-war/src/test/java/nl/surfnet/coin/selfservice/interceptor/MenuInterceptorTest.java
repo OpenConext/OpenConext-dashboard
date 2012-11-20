@@ -15,10 +15,6 @@
  */
 package nl.surfnet.coin.selfservice.interceptor;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +30,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * TestMenuInterceptorTest.java
  * 
@@ -43,10 +45,10 @@ public class MenuInterceptorTest {
   private MenuInterceptor menuInterceptor = new MenuInterceptor();
 
   @Test
-  public void test_menu_for_user_has_profile_and_home() throws Exception {
+  public void test_menu_for_user_has_home() throws Exception {
     Menu menu = executeTestAndReturnMenu("/app-overview.shtml", ROLE_USER);
 
-    assertEquals(2, menu.getMenuItems().size());
+    assertEquals(1, menu.getMenuItems().size());
     assertTrue(menu.getMenuItems().get(0).isSelected());
 
   }
@@ -55,7 +57,7 @@ public class MenuInterceptorTest {
   public void test_menu_for_idp_admin_has_duplicates() throws Exception {
     Menu menu = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
 
-    assertEquals(4, menu.getMenuItems().size());
+    assertEquals(3, menu.getMenuItems().size());
     assertEquals("jsp.requests-overview.title", menu.getMenuItems().get(1).getLabel());
 
   }

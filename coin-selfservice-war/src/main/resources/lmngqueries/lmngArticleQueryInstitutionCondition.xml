@@ -1,3 +1,2 @@
-              <condition attribute="lmng_organisationid" operator="in">
-                <value>%INSTITUTION_ID%</value>
-              </condition>
+            <condition attribute="lmng_organisationid" operator="eq" value="%INSTITUTION_ID%" />
+              

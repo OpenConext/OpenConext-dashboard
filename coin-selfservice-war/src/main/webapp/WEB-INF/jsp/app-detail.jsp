@@ -114,7 +114,7 @@
             <c:when test="${compoundSp.articleLicenseAvailable}">
               <div class="license-available">
                 <c:choose>
-                  <c:when test="${compoundSp.article.licence.groupLicense}">
+                  <c:when test="${compoundSp.license.groupLicense}">
                     <p><strong><spring:message code="jsp.app_detail.group_license_available"/></strong></p>
                     <p><spring:message code="jsp.app_detail.group_license_available_detail"/></p>
                   </c:when>
@@ -122,7 +122,7 @@
                     <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
                   </c:otherwise>
                 </c:choose>          
-                <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.article.endDate}"/></c:set>
+                <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/></c:set>
                 <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
   
                 <c:if test="${deepLinkToSurfMarketAllowed}">

@@ -38,7 +38,8 @@
               <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
             </c:if>
             <p class="desc">
-              <c:out value="${fn:substring(compoundSp.serviceDescriptionEn, 0, 40)}" />
+              <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
+              <c:out value="${fn:substring(serviceDescription, 0, 40)}" />
             </p>
             <div class="app-meta-cta">
               <c:if test="${not empty compoundSp.appUrl}">

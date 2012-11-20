@@ -29,7 +29,7 @@ import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
-import nl.surfnet.coin.selfservice.service.LicensingService;
+import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.impl.LmngUtil;
 
 import org.apache.commons.lang.StringUtils;
@@ -50,7 +50,7 @@ public class IdpLnmgListController extends BaseController {
   private IdentityProviderService idpService;
 
   @Resource
-  private LicensingService licensingService;
+  private LmngService licensingService;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;

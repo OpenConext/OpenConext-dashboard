@@ -85,7 +85,6 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
         break;
       }
     }
-    menu.addMenuItem(new MenuItem("jsp.profile.title", "/user.shtml"));
     return menu;
   }
 

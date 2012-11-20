@@ -25,18 +25,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-
 import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.Action;
@@ -50,6 +38,18 @@ import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/requests")
@@ -88,8 +88,10 @@ public class LinkrequestController extends BaseController {
   }
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spRequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result) {
+  public ModelAndView spRequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+                                    @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
+                                    @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                    SessionStatus sessionStatus) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
@@ -98,24 +100,6 @@ public class LinkrequestController extends BaseController {
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("requests/linkrequest", m);
-    } else {
-      return new ModelAndView("requests/linkrequest-confirm", m);
-    }
-  }
-
-  @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST, params = "confirmed=true")
-  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
-      @RequestParam(value = "confirmed") boolean confirmed, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-      SessionStatus sessionStatus) {
-
-    Map<String, Object> m = new HashMap<String, Object>();
-    m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
-    m.put("compoundSpId", compoundSpId);
-
-    if (result.hasErrors()) {
-      LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
-      return new ModelAndView("requests/linkrequest-confirm", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
       final JiraTask task = new JiraTask.Builder().body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
@@ -130,7 +114,7 @@ public class LinkrequestController extends BaseController {
       } catch (IOException e) {
         LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
         m.put("jiraError", e.getMessage());
-        return new ModelAndView("requests/linkrequest-confirm", m);
+        return new ModelAndView("requests/linkrequest", m);
       }
     }
   }
