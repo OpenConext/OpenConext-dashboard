@@ -28,6 +28,18 @@
     <c:if test="${not empty compoundSp.detailLogo}">
       <img src="${compoundSp.detailLogo}" alt="<c:out value=""/>" class="application-logo">
     </c:if>
+    <ul class="launch-icons">
+      <li>
+        <a href="#app-store-url">
+          <img src="<c:url value="/images/icon-app-store.png"/>" alt="iTunes App Store">
+        </a>
+      </li>
+      <li>
+        <a href="#play-store-url">
+          <img src="<c:url value="/images/icon-google-play.png"/>" alt="Google Play Store">
+        </a>
+      </li>
+    </ul>
     <ul class="action-list">
       <c:if test="${not empty compoundSp.appUrl}">
         <li>
