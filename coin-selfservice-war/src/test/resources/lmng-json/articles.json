@@ -1,6 +1,7 @@
     {
-        "serviceDescriptionNl": "Microsoft Nederland",
-        "institutionDescriptionNl": "office365_pro",
-        "supplierName": "Microsoft",
-        "lmngIdentifier" : "1234568"
+        "serviceDescriptionNl": "Google apps for education",
+        "institutionDescriptionNl": "Google apps",
+        "supplierName": "Google",
+        "serviceProviderEntityId": "http://www.google.com",
+        "lmngIdentifier" : "{8833CEAE-960C-E211-B6B9-005056950050}"
     }
