@@ -36,7 +36,6 @@ public class Article implements Serializable {
   private String serviceDescriptionNl;
   private String supplierName;
   private String productName;
-  private String productNumber;
   private String detailLogo;
   private String specialConditions;
   private String articleState;
@@ -90,14 +89,6 @@ public class Article implements Serializable {
 
   public void setSupplierName(String supplierName) {
     this.supplierName = supplierName;
-  }
-
-  public String getProductNumber() {
-    return productNumber;
-  }
-
-  public void setProductNumber(String productNumber) {
-    this.productNumber = productNumber;
   }
 
   public String getDetailLogo() {

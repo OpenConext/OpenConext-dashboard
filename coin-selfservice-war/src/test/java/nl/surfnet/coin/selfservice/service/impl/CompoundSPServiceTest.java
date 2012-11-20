@@ -128,39 +128,4 @@ public class CompoundSPServiceTest {
     assertTrue(sp1 == gottenCSP.getServiceProvider());
   }
 
-//  @Test
-//  public void testGetAllCSPThroughCache() {
-//    now = DateTime.parse("2010-10-10T00:00:00.000+00:00");
-//    String lmngIdentifer = "lmngIdentifier";
-//
-//    ServiceProvider sp1 = new ServiceProvider("spId1");
-//    when(serviceProviderService.getServiceProvider(sp1.getId())).thenReturn(sp1);
-//    when(licensingService.isActiveMode()).thenReturn(Boolean.TRUE);
-//    when(lmngIdentifierDao.getLmngIdForServiceProviderId(sp1.getId())).thenReturn(lmngIdentifer);
-//    List<Article> articles = Arrays.asList(new Article[] { new Article(lmngIdentifer) });
-//    when(
-//        licensingService.getArticleForIdentityProviderAndServiceProviders(IdentityProvider.NONE, new ArrayList<ServiceProvider>(),
-//            now.toDate())).thenReturn(articles);
-//    CompoundServiceProvider csp = cspService.getCSPById(sp1.getId());
-//    Article article = csp.getArticle();
-//    assertEquals(lmngIdentifer, article.getLmngIdentifier());
-//
-//    when(
-//        licensingService.getArticleForIdentityProviderAndServiceProviders(IdentityProvider.NONE, new ArrayList<ServiceProvider>(),
-//            now.toDate())).thenThrow(new RuntimeException("Should not be called"));
-//    csp = cspService.getCSPById(sp1.getId());
-//    article = csp.getArticle();
-//    assertEquals(lmngIdentifer, article.getLmngIdentifier());
-//
-//    // quick test to see if the force cache refresh works
-//    when(compoundServiceProviderDao.findById(1L)).thenReturn(csp);
-//    when(serviceProviderService.getServiceProvider("spId1", null)).thenReturn(sp1);
-//    try {
-//      csp = cspService.getCSPById(new IdentityProvider(), 1L, true);
-//      fail();
-//    } catch (RuntimeException e) {
-//      assertEquals("Should not be called", e.getMessage());
-//    }
-//
-//  }
 }
