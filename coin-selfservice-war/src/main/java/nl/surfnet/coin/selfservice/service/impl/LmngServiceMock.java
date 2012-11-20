@@ -57,10 +57,12 @@ public class LmngServiceMock implements LmngService {
 
   public LmngServiceMock() {
     try {
-      TypeReference<Article> typeReference = new TypeReference<Article>() {
+      TypeReference<Article> articleTypeReference = new TypeReference<Article>() {
       };
-      this.article = (Article) parseJsonData(typeReference, "lmng-json/articles.json");
-      this.license = (License) parseJsonData(typeReference, "lmng-json/licenses.json");
+      this.article = (Article) parseJsonData(articleTypeReference, "lmng-json/articles.json");
+      TypeReference<License> licenseTypeReference = new TypeReference<License>() {
+      };
+      this.license = (License) parseJsonData(licenseTypeReference, "lmng-json/licenses.json");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

@@ -1,7 +1,6 @@
     {
         "serviceDescriptionNl": "Microsoft Nederland",
-        "serviceDescriptionNl": "Office 365",
-        "institutionName": "office365_pro",
+        "institutionDescriptionNl": "office365_pro",
         "supplierName": "Microsoft",
-        "lmngIdentifier" : "1234568",
+        "lmngIdentifier" : "1234568"
     }
