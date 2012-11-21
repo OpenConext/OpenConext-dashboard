@@ -33,7 +33,7 @@
         <link rel="stylesheet" href="<c:url value="/css/select2.css"/>" />
       </c:when>
       <c:otherwise>
-        <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/style.min.css?v=${project.version}"/>" />
       </c:otherwise>
     </c:choose>
 
