@@ -126,11 +126,12 @@ public class JanusRestClientMock implements Janus {
   @Override
   public List<String> getAllowedSps(String idpentityid) {
     List<String> results = new ArrayList<String>();
-    for (EntityMetadata metadata : spList) {
-      if (!metadata.isIdpVisibleOnly()) {
+    for (int i = 0; i < spList.size(); i++) {
+      EntityMetadata metadata = spList.get(i);
+      if (i % 2 == 0) {
         results.add(metadata.getAppEntityId());
       }
-    }
+    } 
     return results;
   }
 

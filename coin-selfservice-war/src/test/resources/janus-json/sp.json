@@ -28,7 +28,7 @@
                 "emailAddress":"marc@ibuildings.nl"
             }
         ],
-        "idpVisibleOnly":false
+        "idpVisibleOnly":true
     },
     {
         "names":{
@@ -58,7 +58,7 @@
         ],
         "name":"SURFmedia (boy.local)",
         "description":"SURFmedia (boy.local)",
-        "idpVisibleOnly":false
+        "idpVisibleOnly":true
     },
     {
         "names":{
@@ -2352,7 +2352,7 @@
         ],
         "name":"SURFconext EngineBlock | Dev | SURFnet",
         "description":"SURFconext is a collaboration infrastructure that creates new opportunities to collaborate online based on a combination of applications from different providers.",
-        "idpVisibleOnly":false
+        "idpVisibleOnly":true
     },
     {
         "names":{
@@ -2401,7 +2401,7 @@
         ],
         "name":"",
         "description":"",
-        "idpVisibleOnly":false
+        "idpVisibleOnly":true
     },
     {
         "names":{
@@ -2438,7 +2438,7 @@
         ],
         "name":"",
         "description":"",
-        "idpVisibleOnly":false
+        "idpVisibleOnly":true
     },
     {
         "names":{

@@ -133,6 +133,7 @@
   <bean id="cacheManager" class="${cacheManagerClass}">
     <property name="cacheManager" ref="ehcache" />
   </bean>
+  
   <bean id="ehcache"
     class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
     <property name="shared" value="true"/>
