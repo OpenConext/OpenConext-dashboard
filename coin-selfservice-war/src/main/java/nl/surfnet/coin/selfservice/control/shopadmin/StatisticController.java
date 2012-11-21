@@ -44,7 +44,8 @@ public class StatisticController extends BaseController {
   private StatisticDao statisticDao;
 
   @RequestMapping("/stats.shtml")
-  public String stats(ModelMap model) {
+  public String stats(ModelMap model, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+    model.put("selectedidp", selectedidp);
     return "shopadmin/statistics";
   }
 

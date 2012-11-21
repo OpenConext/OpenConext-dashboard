@@ -19,17 +19,15 @@ app.graphs = function() {
       return;
     }
 
-    baseUrl = getBaseUrl();
-
     // Fetch dependencies
     var highcharts = $.ajax({
-      url: baseUrl + 'highcharts.js',
+      url: contextPath + '/js/highcharts.js',
       cache: true,
       dataType: 'script'
     });
-
+    var selectedIdp = chartOverviewElm.attr('data-ipd'); 
     var data = $.ajax({
-      url: '/selfservice/shopadmin/loginsperspperday.json',
+      url: contextPath + '/shopadmin/loginsperspperday.json?selectedidp=' + selectedIdp,
       cache: true,
       dataType: 'json'
     });
@@ -58,14 +56,6 @@ app.graphs = function() {
     filterElm.on('click', '.show a', setTimeframe);
     filterElm.on('change', '#choose-time-offset', setTimeframe);
     wrapperElm.on('click', '.back', initRendering);
-  };
-
-
-  var getBaseUrl = function() {
-    var scriptTag = $('script[src*="modules/graphs.js"]'),
-        src = scriptTag.attr('src');
-
-    return src.substring(0, src.indexOf('modules/graphs.js'));
   };
 
 
