@@ -67,7 +67,7 @@
     <script src="<c:url value="/js/tools/sizewatcher.js"/>"></script>
   </c:when>
   <c:otherwise>
-    <script src="<c:url value="/js/script.min.js?v=${project.version}"/>"></script>
+    <script src="<c:url value="/js/script.min.js"/>"></script>
   </c:otherwise>
 </c:choose>
 <script>var contextPath = "${pageContext.request.contextPath}"</script>
@@ -79,5 +79,4 @@
 <tags:sp_renderdatatables columnFilter="${param.columnFilter}"/>
 </c:if>
 </body>
-<!-- version: ${project.version} -->
 </html>
