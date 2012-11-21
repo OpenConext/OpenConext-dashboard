@@ -515,6 +515,8 @@
                 <jsSourceFile>jquery/jquery.fileupload.js</jsSourceFile>
                 <jsSourceFile>jquery/jquery.iframe-transport.js</jsSourceFile>
                 <jsSourceFile>jquery/select2.js</jsSourceFile>
+                <jsSourceFile>jquery/jquery.transit.js</jsSourceFile>
+                <jsSourceFile>jquery/jquery.tickback.js</jsSourceFile>
 
                 <jsSourceFile>main.js</jsSourceFile>
 
@@ -522,6 +524,7 @@
                 <jsSourceFile>modules/gallery.js</jsSourceFile>
                 <jsSourceFile>modules/global.js</jsSourceFile>
                 <jsSourceFile>modules/message.js</jsSourceFile>
+                <jsSourceFile>modules/graphs.js</jsSourceFile>
                 <jsSourceFile>modules/respond.js</jsSourceFile>
                 <jsSourceFile>modules/secondary-menu.js</jsSourceFile>
                 <jsSourceFile>modules/table.js</jsSourceFile>
