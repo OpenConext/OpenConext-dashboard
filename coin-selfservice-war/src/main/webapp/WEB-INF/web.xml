@@ -109,6 +109,7 @@
   <servlet-mapping>
     <servlet-name>opensaml-dispatcher</servlet-name>
     <url-pattern>/OpenSAML.sso/Login</url-pattern>
+    <url-pattern>/OpenSAML.sso/Metadata</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

@@ -70,13 +70,6 @@
                              certificatestore-ref="samlCertificateStore"
                              authentication-manager-ref="authenticationManager"/>
 
-  <bean id="authnRequestController" class="nl.surfnet.spring.security.opensaml.controller.AuthnRequestController">
-    <property name="SAMLMessageHandler" ref="samlMessageHandler"/>
-    <property name="assertionConsumerServiceURL" value="${ASSERTION_CONSUMER_URL}"/>
-    <property name="entityID" value="${ISSUING_ENTITY_ID}"/>
-    <property name="credentialResolver" ref="samlKeyStoreCredentialResolverDelegate" />
-  </bean>
-
   <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
 
     <security:custom-filter position="PRE_AUTH_FILTER" ref="samlPreAuthFilter"/>

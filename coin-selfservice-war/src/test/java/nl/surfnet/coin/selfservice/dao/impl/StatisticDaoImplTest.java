@@ -24,7 +24,6 @@ import java.util.List;
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class StatisticDaoImplTest {
 
   @Test
   public void testConvertStatResultsToChartSeries() throws Exception {
-    List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp", null);
+    List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp");
     assertEquals(2, series.size());
 
     ChartSerie serie = getChartSerie("https://rave.beta.surfnet.nl", series);

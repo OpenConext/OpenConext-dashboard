@@ -30,8 +30,7 @@ public interface StatisticDao {
    * Makes a List of login data for a specific Service Provider got the Identity Provider
    *
    * @param idpEntityId unique identifier of the Identity provider
-   * @param spEntityId  unique identifier of the Service provider
    * @return List of {@link StatResult}
    */
-  List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId, String spEntityId);
+  List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId);
 }

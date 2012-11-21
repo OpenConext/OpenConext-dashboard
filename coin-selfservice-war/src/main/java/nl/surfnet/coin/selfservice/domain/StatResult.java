@@ -16,16 +16,13 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
-import java.util.Date;
-
-import org.joda.time.LocalDate;
 
 /**
 * Represents the result row of the mysql query to get login statistics
 */
 public class StatResult implements Comparable<StatResult> {
 
-  private String spEntityId;
+  private String sp;
   private long millis;
   private Integer logins;
 
@@ -33,14 +30,14 @@ public class StatResult implements Comparable<StatResult> {
 
   }
 
-  public StatResult(String spEntityId, long millis, Integer logins) {
-    this.spEntityId = spEntityId;
+  public StatResult(String sp, long millis, Integer logins) {
+    this.sp = sp;
     this.millis = millis;
     this.logins = logins;
   }
 
-  public String getSpEntityId() {
-    return spEntityId;
+  public String getSpName() {
+    return sp;
   }
 
   public long getMillis() {
@@ -68,7 +65,7 @@ public class StatResult implements Comparable<StatResult> {
     if (logins != null ? !logins.equals(that.logins) : that.logins != null) {
       return false;
     }
-    if (spEntityId != null ? !spEntityId.equals(that.spEntityId) : that.spEntityId != null) {
+    if (sp != null ? !sp.equals(that.sp) : that.sp != null) {
       return false;
     }
 
@@ -77,7 +74,7 @@ public class StatResult implements Comparable<StatResult> {
 
   @Override
   public int hashCode() {
-    int result = spEntityId != null ? spEntityId.hashCode() : 0;
+    int result = sp != null ? sp.hashCode() : 0;
     result = 31 * result + (Long.valueOf(millis).hashCode());
     result = 31 * result + (logins != null ? logins.hashCode() : 0);
     return result;
@@ -89,8 +86,8 @@ public class StatResult implements Comparable<StatResult> {
       return 0;
     }
 
-    final String thisSP = this.getSpEntityId();
-    final String thatSP = that.getSpEntityId();
+    final String thisSP = this.getSpName();
+    final String thatSP = that.getSpName();
 
     if (thisSP.equals(thatSP)) {
       return millis < that.millis ? -1 : (millis==that.millis ? 0 : 1) ;

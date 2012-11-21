@@ -1,0 +1,16 @@
+service-name-en=SelfService
+service-name-nl=SelfService
+service-description-en=SelfService application 
+service-description-nl=SelfService applicatie
+
+contact-person-administrative-given-name=SURFConext
+contact-person-administrative-sur-name=SURFConext
+contact-person-administrative-email=beheer@surfconext.nl
+
+contact-person-technical-given-name=SURFConext
+contact-person-technical-sur-name=SURFConext
+contact-person-technical-email=beheer@surfconext.nl
+
+contact-person-support-given-name=SURFConext
+contact-person-support-sur-name=SURFConext
+contact-person-support-email=beheer@surfconext.nl

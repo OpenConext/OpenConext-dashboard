@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -32,7 +31,6 @@ import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.StatResult;
 
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,7 +49,7 @@ public class StatisticDaoImpl implements StatisticDao {
   private JdbcTemplate ebJdbcTemplate;
 
   @Override
-  public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId, String spEntityId) {
+  public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId) {
     List<StatResult> statResults;
     /*
      * Because we also want to show statistics for the IdP with id SURFnet%20BV
@@ -59,10 +57,10 @@ public class StatisticDaoImpl implements StatisticDao {
      * %20
      */
     String encodedIdp = idpEntityId.replaceAll(" ", "%20");
-    Object[] args = spEntityId == null ? new Object[] { encodedIdp } : new Object[] { encodedIdp, spEntityId };
+    Object[] args = new Object[] { encodedIdp } ;
 
     try {
-      String sql = getSql(spEntityId);
+      String sql = getSql();
       statResults = this.ebJdbcTemplate.query(sql, args, mapRowsToStatResult());
     } catch (EmptyResultDataAccessException e) {
       return new ArrayList<ChartSerie>();
@@ -70,13 +68,10 @@ public class StatisticDaoImpl implements StatisticDao {
     return convertStatResultsToChartSeries(statResults);
   }
 
-  private String getSql(String spEntityId) {
-    StringBuilder sql = new StringBuilder("select count(id) as cid, spentityid, CAST(loginstamp AS DATE) as logindate ");
+  private String getSql() {
+    StringBuilder sql = new StringBuilder("select count(id) as cid, spentityname, CAST(loginstamp AS DATE) as logindate ");
     sql.append("from log_logins where idpentityid = ? ");
-    if (spEntityId != null) {
-      sql.append("and spentityid = ? ");
-    }
-    sql.append("group by logindate, spentityid order by spentityid, logindate");
+    sql.append("group by logindate, spentityname order by spentityname, logindate");
     return sql.toString();
   }
 
@@ -85,16 +80,9 @@ public class StatisticDaoImpl implements StatisticDao {
       @Override
       public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
         int logins = rs.getInt("cid");
-        String spentitiy = rs.getString("spentityid");
+        String sp = rs.getString("spentityname");
         Date logindate = rs.getDate("logindate");
-        return  new StatResult(spentitiy,logindate.getTime(),logins);
-//        statResult.setSpEntityId(spentitiy);
-//        final Calendar cal = Calendar.getInstance();
-//        cal.setTime(logindate);
-//        convertToGmt(cal);
-//        statResult.setDate(convertToGmt(cal).getTime());
-//        statResult.setLogins(logins);
-//        return statResult;
+        return  new StatResult(sp,logindate.getTime(),logins);
       }
     };
   }
@@ -117,9 +105,9 @@ public class StatisticDaoImpl implements StatisticDao {
     long previousMillis = 0;
 
     for (StatResult statResult : statResults) {
-      ChartSerie chartSerie = chartSerieMap.get(statResult.getSpEntityId());
+      ChartSerie chartSerie = chartSerieMap.get(statResult.getSpName());
       if (chartSerie == null) {
-        chartSerie = new ChartSerie(statResult.getSpEntityId(), statResult.getMillis());
+        chartSerie = new ChartSerie(statResult.getSpName(), statResult.getMillis());
       } else {
         int nbrOfZeroDays = (int) (((statResult.getMillis() - previousMillis) / DAY_IN_MS) - 1);
         chartSerie.addZeroDays(nbrOfZeroDays);

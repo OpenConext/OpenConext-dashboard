@@ -35,6 +35,7 @@
     <property name="SAMLMessageHandler" ref="samlMessageHandler" />
     <property name="entityID" value="${ISSUING_ENTITY_ID}"/>
     <property name="credentialResolver" ref="samlKeyStoreCredentialResolverDelegate" />
+    <property name="metaDataProperties" value ="metadata.selfservice.properties"/>
   </bean>
 
 </beans>

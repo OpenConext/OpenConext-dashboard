@@ -45,19 +45,19 @@ CREATE TABLE oauth_token_info (
   PRIMARY KEY (id)
 );
 
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-19 11:48:41','na', 'https://rave.beta.surfnet.nl', 'http://mock-idp');	
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-20 11:48:41','na', 'https://rave.beta.surfnet.nl', 'http://mock-idp');	
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-20 11:48:41','na', 'https://rave.beta.surfnet.nl', 'http://mock-idp');	
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-21 11:48:41','na', 'https://rave.beta.surfnet.nl', 'http://mock-idp');	
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-18 11:48:41','na', 'https://canvas.test.surfnet.nl', 'http://mock-idp');	
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-21 11:48:41','na', 'https://canvas.test.surfnet.nl', 'http://mock-idp');	
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-21 11:48:41','na', 'https://canvas.test.surfnet.nl', 'http://mock-idp');	
-INSERT INTO log_logins (loginstamp, userid, spentityid, idpentityid) 
+INSERT INTO log_logins (loginstamp, userid, spentityname, idpentityid) 
 	VALUES ('2012-04-22 11:48:41','na', 'https://canvas.test.surfnet.nl', 'http://mock-idp');	

@@ -17,8 +17,6 @@
 package nl.surfnet.coin.selfservice.control.shopadmin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -33,7 +31,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -48,23 +45,18 @@ public class StatisticController extends BaseController {
 
   @RequestMapping("/stats.shtml")
   public String stats(ModelMap model) {
-    /*
-     * prefetch the json from the dao and upt in the modelmap
-     */
     return "shopadmin/statistics";
   }
 
   @RequestMapping("/loginsperspperday.json")
   public @ResponseBody
-  List<ChartSerie> getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-      @RequestParam(value = "spentityid", required = false) String spentityid) {
-    return statisticDao.getLoginsPerSpPerDay(selectedidp.getId(), spentityid);
+  List<ChartSerie> getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+    return statisticDao.getLoginsPerSpPerDay(selectedidp.getId());
   }
 
   @RequestMapping("/loginsperspperday-mock.json")
   public @ResponseBody
-  String getLoginsPerSPMock(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-      @RequestParam(value = "spentityid", required = false) String spentityid) throws IOException {
+  String getLoginsPerSPMock(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) throws IOException {
     return IOUtils.toString(new ClassPathResource("stat-json/stats.json").getInputStream());
   }
 
