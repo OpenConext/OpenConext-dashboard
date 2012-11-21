@@ -26,11 +26,6 @@
       <spring:message code="jsp.general.footertext.name"/>
     </a>
     |
-    <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
-    <a href="${supporturl}"  target="_blank">
-      <spring:message code="jsp.general.footertext.supportpages"/>
-    </a>
-    |
     <c:set var="tosurl"><spring:message code="jsp.general.footertext.tos.url"/></c:set>
     <a href="${tosurl}"  target="_blank">
       <spring:message code="jsp.general.footertext.tos"/>

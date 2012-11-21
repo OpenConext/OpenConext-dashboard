@@ -98,7 +98,17 @@
               <a href="${langEN}" hreflang="en" title="English">EN</a>
             </div>
           </li>
-        <li class="logout"><a href="<spring:url value="/logout.shtml" htmlEscape="true" />"><spring:message code="jsp.general.logout" /></a></li>
+        <li class="help">
+          <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
+          <a href="${supporturl}"  target="_blank">
+            <spring:message code="jsp.general.footertext.supportpages"/>
+          </a>
+        </li>
+        <li class="logout">
+          <a href="<spring:url value="/logout.shtml" htmlEscape="true" />">
+            <spring:message code="jsp.general.logout" />
+          </a>
+        </li>
       </ul>
     </nav>
 

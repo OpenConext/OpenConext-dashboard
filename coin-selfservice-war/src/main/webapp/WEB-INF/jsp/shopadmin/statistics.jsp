@@ -25,23 +25,12 @@
 <div class="column-center content-holder">
   <h1>${title}</h1>
 
-  <nav class="statistics-filters">
-    <ul>
-      <li class="back hide">
-        <a href="#">
-          <i class="icon-arrow-left"></i>
-        </a>
-      </li>
-      <li class="time-offset">
-        <a class="prev-time-offset" href="#">
-          <i class="icon-arrow-left"></i>
-        </a>
-        <select id="choose-time-offset"></select>
-        <a class="next-time-offset" href="#">
-          <i class="icon-arrow-right"></i>
-        </a>
-      </li>
-      <li class="show">
+  <section class="statistics-holder">
+    <a href="#" class="back hide">
+      <i class="icon-arrow-left"></i> Back to overview
+    </a>
+    <nav class="statistics-filters">
+      <div class="show">
         <a href="#" data-show="all">
           <spring:message code="jsp.stats.all" />
         </a>
@@ -54,11 +43,12 @@
         <a href="#" data-show="week">
           <spring:message code="jsp.stats.week" />
         </a>
-      </li>
-    </ul>
-  </nav>
+      </div>
+      <div class="time-offset">
+        <select id="choose-time-offset" title="<spring:message code="jsp.stats.select_offset" />"></select>
+      </div>
+    </nav>
 
-  <section class="statistics-holder">
     <div id="sp-overview-chart"></div>
     <div id="sp-detail-chart"></div>
   </section>

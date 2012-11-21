@@ -1,7 +1,7 @@
 var app = app || {};
 
 app.graphs = function() {
-  var chartOverviewElm, chartDetailElm, baseUrl, originalData, filterElm, filterType, filterOffset, firstDate, currentData, currentlyShownSp, currentTitle;
+  var chartOverviewElm, chartDetailElm, baseUrl, originalData, filterElm, filterType, filterOffset, firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm;
 
   currentlyShownSp = null;
   currentTitle = app.message.i18n('stats.title.overview_default');
@@ -12,6 +12,7 @@ app.graphs = function() {
   var init  = function() {
     chartOverviewElm = $('#sp-overview-chart');
     chartDetailElm = $('#sp-detail-chart');
+    wrapperElm = $('.statistics-holder');
 
     // Only launch graphs app when these elements are on the apge
     if (chartOverviewElm.length === 0 || chartDetailElm.length === 0) {
@@ -41,13 +42,22 @@ app.graphs = function() {
   };
 
 
+  var initI18n = function() {
+    Highcharts.setOptions({
+      lang: {
+        resetZoom: app.message.i18n('stats.reset_zoom'),
+        shortMonths: app.message.i18n('stats.short_months').split('|')
+      }
+    });
+  };
+
+
   var initFilters = function() {
     filterElm = $('.statistics-filters');
 
     filterElm.on('click', '.show a', setTimeframe);
     filterElm.on('change', '#choose-time-offset', setTimeframe);
-    filterElm.on('click', '.time-offset a', setNextOrPrevTimeframe);
-    filterElm.on('click', '.back a', initRendering);
+    wrapperElm.on('click', '.back', initRendering);
   };
 
 
@@ -60,6 +70,8 @@ app.graphs = function() {
 
 
   var initRendering = function(highcharts, data) {
+    initI18n();
+
     if (arguments.length === 2) {
       originalData = data;
 
@@ -91,7 +103,7 @@ app.graphs = function() {
 
     chartOverviewElm.closest('section').height(height);
 
-    $('.back', filterElm).addClass('hide');
+    $('.back', wrapperElm).addClass('hide');
 
     var chart = new Highcharts.Chart({
       chart: {
@@ -101,7 +113,7 @@ app.graphs = function() {
         type: 'bar'
       },
       credits: {
-        enabled: false
+        text: 'Highcharts'
       },
       plotOptions: {
         bar: {
@@ -159,6 +171,21 @@ app.graphs = function() {
         }
       }
     });
+
+
+    $('.highcharts-axis-labels:first tspan', chartOverviewElm).on('click', function() {
+        setSp($(this).text());
+    }).hover(function() {
+      $(this).parent().css({
+        cursor: 'pointer',
+        fill: '#4FB3CF'
+      });
+    }, function() {
+      $(this).parent().css({
+        cursor: 'default',
+        fill: '#666'
+      });
+    });
   };
 
 
@@ -170,7 +197,7 @@ app.graphs = function() {
     chartOverviewElm.stop().fadeOut(500);
     chartDetailElm.stop().fadeOut(0).fadeIn(500);
 
-    $('.back', filterElm).removeClass('hide');
+    $('.back', wrapperElm).removeClass('hide');
 
     var chart = new Highcharts.Chart({
       chart: {
@@ -180,7 +207,7 @@ app.graphs = function() {
         zoomType: 'x'
       },
       credits: {
-        enabled: false
+        text: 'Highcharts'
       },
       plotOptions: {
         areaspline: {
@@ -228,8 +255,18 @@ app.graphs = function() {
   };
 
 
-  var setSp = function(e) {
-    currentlyShownSp = e.point.config[2];
+  var setSp = function(arg) {
+    if (typeof arg == 'string') {
+      for (var l = currentData.length - 1; l > -1; --l) {
+        if (currentData[l].name.indexOf(arg) === 0) {
+          currentlyShownSp = l;
+          break;
+        }
+      }
+    }
+    else {
+      currentlyShownSp = arg.point.config[2];
+    }
 
     currentTitle = app.message.i18n('stats.title.sp_overview').replace('#{sp}',  currentData[currentlyShownSp].name);
 
@@ -253,7 +290,7 @@ app.graphs = function() {
       menuItems = getMenuItems(filterOffset, filterType);
       buildMenu(menuItems);
 
-      elm.closest('li').find('.active').removeClass('active');
+      elm.closest('div').find('.active').removeClass('active');
       elm.addClass('active');
     }
     else {
@@ -288,31 +325,6 @@ app.graphs = function() {
 
       renderOverview(filterData(newData, filterType, filterOffset));
     }
-  };
-
-
-  var setNextOrPrevTimeframe = function(e) {
-    e.preventDefault();
-
-    var elm = $(this),
-        toSet = null,
-        dropdown = $('#choose-time-offset'),
-        ref = $('option[value="' + filterOffset + '"]', dropdown);
-
-    if (elm.is('.prev-time-offset')) {
-      toSet = ref.next();
-    }
-    else {
-      toSet = ref.prev();
-    }
-
-    if (toSet.length) {
-      ref.removeAttr('selected');
-      toSet.attr('selected', 'selected');
-      filterOffset = toSet.val();
-    }
-
-    dropdown.trigger('change');
   };
 
 

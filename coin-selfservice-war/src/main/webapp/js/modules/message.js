@@ -80,6 +80,10 @@ app.message = function() {
             en : "January|February|March|April|May|June|July|August|September|October|November|December",
             nl : "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december"
         },
+        "stats.short_months" : {
+            en : "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
+            nl : "jan|feb|maa|apr|mei|jun|jul|aug|sep|okt|nov|dec"
+        },
         "stats.logins_per_day" : {
             en : "Logins per day",
             nl : "Inloggen per dag"
@@ -95,6 +99,10 @@ app.message = function() {
         "stats.total_logins" : {
             en : "Total logins",
             nl : "Aantal inloggen"
+        },
+        "stats.reset_zoom" : {
+            en : "Reset zoom",
+            nl : "Zoom herstellen"
         }
     };
     
