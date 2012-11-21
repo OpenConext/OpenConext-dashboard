@@ -29,7 +29,7 @@ app.graphs = function() {
     });
 
     var data = $.ajax({
-      url: '/selfservice/shopadmin/loginsperspperday-mock.json',
+      url: '/selfservice/shopadmin/loginsperspperday.json',
       cache: true,
       dataType: 'json'
     });
@@ -99,7 +99,7 @@ app.graphs = function() {
 
     var formattedData = formatForOverview(data),
         categories = formatCategories(formattedData),
-        height = formattedData.length * 40;
+        height = Math.max(formattedData.length * 40 + 150, 400);
 
     chartOverviewElm.closest('section').height(height);
 
