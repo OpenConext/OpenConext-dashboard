@@ -39,7 +39,6 @@ public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHiber
   }
 
   @Override
-  @Cacheable("selfserviceDefault")
   public CompoundServiceProvider findByEntityId(String entityId) {
     List<CompoundServiceProvider> serviceProviderList = findByCriteria(Restrictions.eq("serviceProviderEntityId", entityId));
     if (serviceProviderList.size() > 1) {
@@ -48,5 +47,11 @@ public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHiber
       return null;
     }
     return serviceProviderList.get(0);
+  }
+
+  @Override
+  @Cacheable("selfserviceDefault")
+  public List<CompoundServiceProvider> findAll() {
+    return super.findAll();
   }
 }
