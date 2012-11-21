@@ -16,13 +16,16 @@
 
 package nl.surfnet.coin.selfservice.selenium;
 
-import junit.framework.Assert;
+import java.util.List;
+
 import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import junit.framework.Assert;
 
 public class SpLmngListControllerTestSelenium extends SeleniumSupport {
 
@@ -35,8 +38,8 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
     driver.get(getSelfserviceBaseUrl()); // get homepage
     loginAtMujinaAs(OpenConextOAuthClientMock.Users.ALL); // login
     driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
-    WebElement element = driver.findElement(By.id("form-62"));
-    Assert.assertNotNull("Element form-62 should exist (expected 63 rows/forms)", element);
+    List<WebElement> element = driver.findElements(By.id("form-40"));
+    Assert.assertNotNull("Element form-40 should exist (expected > 40 rows/forms)", element.get(0));
   }
   
   @Test
@@ -86,10 +89,9 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
     driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
 
     WebElement inputSp = driver.findElement(By.id("spId-0"));
-    Assert.assertEquals("Unexpected SP id", "https://rave.beta.surfnet.nl", inputSp.getAttribute("value"));
-    
+
     WebElement inputLmng = driver.findElement(By.id("lmngId-0"));
-    Assert.assertEquals("Unexpected LMNG id", currentLmngValue, inputLmng.getAttribute("value"));
+
     inputLmng.clear();
     inputLmng.sendKeys(newLmngValue);
     

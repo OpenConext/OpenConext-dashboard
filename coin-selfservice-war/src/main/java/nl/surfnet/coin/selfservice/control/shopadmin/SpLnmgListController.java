@@ -101,7 +101,7 @@ public class SpLnmgListController extends BaseController {
       if (!LmngUtil.isValidGuid(lmngId)) { 
         model.put("errorMessage", "jsp.lmng_binding_overview.wrong.guid");
         model.put("messageIndex", index);
-        return listAllSps(model);
+        return listAllSpsLmng(model);
       }
 
       String serviceLmngName = licensingService.getServiceName(lmngId);
@@ -116,6 +116,6 @@ public class SpLnmgListController extends BaseController {
     }
     lmngIdentifierDao.saveOrUpdateLmngIdForServiceProviderId(spId, lmngId);
 
-    return listAllSps(model);
+    return listAllSpsLmng(model);
   }
 }

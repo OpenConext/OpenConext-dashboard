@@ -93,21 +93,17 @@
             <spring:param name="lang" value="en" />
           </spring:url>
 
+        <li class="language">
+          <div>
+
           <c:choose>
             <c:when test="${locale.language  eq 'en'}">
-              <c:set var="langNLActive" value="" />
-              <c:set var="langENActive" value="active" />
+              <a href="${langNL}" hreflang="nl" title="Nederlands">NL</a> | <span>EN</span>
             </c:when>
             <c:otherwise>
-              <c:set var="langNLActive" value="active" />
-              <c:set var="langENActive" value="" />
+              <span>NL</span> | <a href="${langEN}" hreflang="en" title="English">EN</a>
             </c:otherwise>
           </c:choose>
-          
-          <li class="language">
-            <div>
-              <a href="${langNL}" hreflang="nl" title="Nederlands" class="${langNLActive}">NL</a> |
-              <a href="${langEN}" hreflang="en" title="English" class="${langENActive}">EN</a>
             </div>
           </li>
         <li class="help">

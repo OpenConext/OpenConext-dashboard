@@ -94,6 +94,7 @@ app.graphs = function() {
     chartOverviewElm.closest('section').height(height);
 
     $('.back', wrapperElm).addClass('hide');
+    $('#stats-info-text').removeClass('hide');
 
     var chart = new Highcharts.Chart({
       chart: {
@@ -188,6 +189,8 @@ app.graphs = function() {
     chartDetailElm.stop().fadeOut(0).fadeIn(500);
 
     $('.back', wrapperElm).removeClass('hide');
+    $('#stats-info-text').addClass('hide');
+    
 
     var chart = new Highcharts.Chart({
       chart: {

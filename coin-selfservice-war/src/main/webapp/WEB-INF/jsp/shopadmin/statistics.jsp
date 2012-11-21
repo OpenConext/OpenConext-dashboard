@@ -25,9 +25,11 @@
 <div class="column-center content-holder">
   <h1>${title}</h1>
 
+  <p id="stats-info-text"><spring:message code="jsp.stats.info"/><p>
+
   <section class="statistics-holder">
     <a href="#" class="back hide">
-      <i class="icon-arrow-left"></i> Back to overview
+      <i class="icon-arrow-left"></i> <spring:message code="jsp.stats.back_to_overview"/>
     </a>
     <nav class="statistics-filters">
       <div class="show">

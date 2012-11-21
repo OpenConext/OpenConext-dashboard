@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
@@ -38,6 +39,7 @@ public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHiber
   }
 
   @Override
+  @Cacheable("selfserviceDefault")
   public CompoundServiceProvider findByEntityId(String entityId) {
     List<CompoundServiceProvider> serviceProviderList = findByCriteria(Restrictions.eq("serviceProviderEntityId", entityId));
     if (serviceProviderList.size() > 1) {
