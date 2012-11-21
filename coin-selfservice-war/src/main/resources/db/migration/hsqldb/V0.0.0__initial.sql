@@ -47,6 +47,10 @@ INSERT INTO oauth_entry (token, token_secret, app_id, callback_url, callback_url
 VALUES
   ('babecafe-babe-cafe-babe-cafebabecafe', 'deadbeef-dead-beef-dead-beefdeadbeef', 'http://mujina-sp', 'https://mujina-sp.example.com/social/oauth-callback.shtml', 1, 'urn:collab:person:example.com:dummy-user', 1, 'http://mujina-sp', 'ACCESS', '2012-06-14 11:54:32', 'surfnet.nl', NULL, '1.0', '987654', 0, NULL);
 
+INSERT INTO oauth_entry (token, token_secret, app_id, callback_url, callback_url_signed, user_id, authorized, consumer_key, type, issue_time, domain, container, oauth_version, callback_token, callback_token_attempts, virtual_organization)
+VALUES
+  ('babecafe-cafe-babe-babe-cafebabecafe', 'deadbeef-dead-beef-dead-beefdeadbeef', 'http://mujina-sp-1082', 'https://mujina-sp.example.com/social/oauth-callback.shtml', 1, 'admin', 1, 'http://mujina-sp-1082', 'ACCESS', '2012-06-14 11:54:32', 'surfnet.nl', NULL, '1.0', '987654', 0, NULL);
+
 drop table if exists oauth_access_token;
 CREATE TABLE oauth_access_token (
   token_id varchar(255) NOT NULL,

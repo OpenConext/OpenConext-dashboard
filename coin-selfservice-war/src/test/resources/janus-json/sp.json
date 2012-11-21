@@ -1464,6 +1464,7 @@
         "appThumbNail":"https://.png",
         "appEntityId":"http://mujina-sp-1082",
         "twoLeggedOauthAllowed":false,
+        "oauthConsumerKey":"http://mujina-sp-1082",
         "consentNotRequired":false,
         "appLogoUrl":"https://.png",
         "appHomeUrls":{

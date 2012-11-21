@@ -196,7 +196,8 @@
 
     <%--@elvariable id="oAuthTokens" type="java.util.List<nl.surfnet.coin.selfservice.domain.OAuthTokenInfo>"--%>
     <c:if test="${fn:length(oAuthTokens) gt 0}">
-      <spring:url value="/user/service/revokekeys.shtml" htmlEscape="true" var="revokeUrl">
+      <spring:url value="revokekeys.shtml" htmlEscape="true" var="revokeUrl">
+        <spring:param name="compoundSpId" value="${compoundSp.id}"/>
         <spring:param name="spEntityId" value="${compoundSp.serviceProviderEntityId}"/>
       </spring:url>
       <spring:message code="jsp.service_detail.oauth_present"/> (<a href="${revokeUrl}"><spring:message

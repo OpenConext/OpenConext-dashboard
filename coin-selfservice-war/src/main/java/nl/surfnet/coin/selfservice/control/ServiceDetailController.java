@@ -94,6 +94,7 @@ public class ServiceDetailController extends BaseController {
 
     final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser().getUid(),
         compoundServiceProvider.getServiceProvider());
+    
     m.put("oAuthTokens", oAuthTokens);
 
     m.put("revoked", revoked);
@@ -104,9 +105,9 @@ public class ServiceDetailController extends BaseController {
   }
 
   @RequestMapping(value = "revokekeys.shtml")
-  public RedirectView revokeKeys(@RequestParam String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public RedirectView revokeKeys(@RequestParam(value = "compoundSpId") long compoundSpId, @RequestParam(value = "spEntityId") String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     oAuthTokenService.revokeOAuthTokens(SpringSecurity.getCurrentUser().getUid(), sp);
-    return new RedirectView("app-detail.shtml?revoked=true&spEntityId=" + spEntityId);
+    return new RedirectView("app-detail.shtml?compoundSpId=" + compoundSpId + "&revoked=true");
   }
 }
