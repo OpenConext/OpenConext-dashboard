@@ -1,7 +1,7 @@
 var app = app || {};
 
 app.graphs = function() {
-  var chartOverviewElm, chartDetailElm, baseUrl, originalData, filterElm, filterType, filterOffset, firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm;
+  var chartOverviewElm, chartDetailElm, originalData, filterElm, filterType, filterOffset, firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm;
 
   currentlyShownSp = null;
   currentTitle = app.message.i18n('stats.title.overview_default');
@@ -25,9 +25,9 @@ app.graphs = function() {
       cache: true,
       dataType: 'script'
     });
-    var selectedIdp = chartOverviewElm.attr('data-ipd'); 
+    var selectedIdp = chartOverviewElm.attr('data-ipd');
     var data = $.ajax({
-      url: contextPath + '/shopadmin/loginsperspperday.json?selectedidp=' + selectedIdp,
+      url: contextPath + '/shopadmin/loginsperspperday.json?selectedidp=' + encodeURIComponent(selectedIdp),
       cache: true,
       dataType: 'json'
     });
@@ -246,7 +246,7 @@ app.graphs = function() {
 
 
   var setSp = function(arg) {
-    if (typeof arg == 'string') {
+    if (typeof arg === 'string') {
       for (var l = currentData.length - 1; l > -1; --l) {
         if (currentData[l].name.indexOf(arg) === 0) {
           currentlyShownSp = l;
@@ -277,8 +277,8 @@ app.graphs = function() {
     if (elm.is('a')) {
       filterType = elm.attr('data-show');
       filterOffset = getDateOffset(firstDate, filterType);
-      menuItems = getMenuItems(filterOffset, filterType);
-      buildMenu(menuItems);
+      menuItems = getMenuItems(filterOffset, filterType); // get an object with time-friendly time ranges
+      filterOffset = buildMenu(menuItems); // returns the last time offset
 
       elm.closest('div').find('.active').removeClass('active');
       elm.addClass('active');
@@ -415,9 +415,14 @@ app.graphs = function() {
 
     $('option', menu).remove();
 
+    var maxTime = 0;
+
     if (menuItems.display) {
       $.each(menuItems.dates, function(time, text) {
         menu.prepend('<option value="' + time + '">' + text + '</option>');
+        if (time > maxTime) {
+          maxTime = time;
+        }
       });
       menu.attr('disabled', false);
     }
@@ -426,6 +431,8 @@ app.graphs = function() {
     }
 
     $('option:first', menu).attr('selected', true);
+
+    return maxTime;
   };
 
 
