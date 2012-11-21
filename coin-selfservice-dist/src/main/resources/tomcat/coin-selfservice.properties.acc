@@ -38,30 +38,30 @@ coin-eb-db-password=??
 
 # Whether to try to fetch license information from LMNG.
 # Set to false to go to the surfconext version without licenses
-coin-lmng-active-mode=true
+coin-lmng-active-mode=false
 
 # SOAP service endpoint for LMNG.
 # This is a complete URL to which requests will be posted.
 # Example: https://lmng01.dev.coin.surf.net:8444/CrmService.svc
-coin-lmng-endpoint=??
+coin-lmng-endpoint=https://na.org
 
 # If set to true, requests/responses will be written to a file in the java.io.tmpdir directory.
 coin-lmng-debug=false
 
 # Password that is used for protecting the client certificate
-coin-lmngClientCertificatePassword=??
+coin-lmngClientCertificatePassword=NA
 
 # Base64 encoded string of the client's private key.
 # One line, without the -----BEGIN RSA PRIVATE KEY--- and the ---- END RSA ... ----- parts.
-coin-lmngClientCertificatePrivateKey=??
+coin-lmngClientCertificatePrivateKey=NA
 
 # Base64 encoded string of the client certificate.
 # One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
-coin-lmngClientCertificate=??
+coin-lmngClientCertificate=NA
 
 # Base64 encoded string of the root certificate that was used to issue the client certificate and the server certificate.
 # One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
-coin-lmngRootCertificate=??
+coin-lmngRootCertificate=NA
 
 coin-shindig-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/shindig
 coin-shindig-db-username=shindigrw
