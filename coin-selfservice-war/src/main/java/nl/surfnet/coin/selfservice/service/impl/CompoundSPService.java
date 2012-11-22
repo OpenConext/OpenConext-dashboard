@@ -231,6 +231,11 @@ public class CompoundSPService {
   }
 
   private List<License> getCachedLicenses(IdentityProvider idp, Article article) {
+    if (!licensingService.isActiveMode()) {
+      LOG.info("Returning License.NONE because lmngService is inactive");
+      return License.NONE;
+    }
+
     Assert.notNull(idp);
     if (article != null) {
       if (lmngCachedResults == null) {
