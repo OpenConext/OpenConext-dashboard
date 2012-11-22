@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -133,11 +134,13 @@ public class SpLmngDataBindingController extends BaseController {
   @RequestMapping(value = "/upload-screenshot", method = RequestMethod.POST, produces = "application/json")
   public @ResponseBody
   Screenshot screenshot(@RequestParam(value = "file", required = true) MultipartFile file,
-      @RequestParam(value = "compoundServiceProviderId") Long compoundServiceProviderId) throws IOException {
+      @RequestParam(value = "compoundServiceProviderId") Long compoundServiceProviderId,
+      HttpServletResponse response) throws IOException {
     Screenshot screenshot = new Screenshot(file.getBytes());
     CompoundServiceProvider csp = compoundServiceProviderDao.findById(compoundServiceProviderId);
     csp.addScreenShot(screenshot);
     screenshotDao.saveOrUpdate(screenshot);
+    response.setHeader("X-UA-Compatible", "IE=edge,chrome=1");
     return new Screenshot(screenshot.getId());
   }
 

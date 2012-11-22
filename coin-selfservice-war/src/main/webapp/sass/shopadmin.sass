@@ -85,6 +85,7 @@
 
 .form-actions
   padding: 0
+  background-color: transparent
 
 .tab-content form textarea
   +box-sizing(border-box)
@@ -120,3 +121,24 @@
     &:focus
       background: #070707
       text-decoration: none
+
+
+.fileinput-button
+  position: relative
+  overflow: hidden
+  float: left
+  margin-right: 4px
+
+  input
+    position: absolute
+    top: 0
+    right: 0
+    margin: 0
+    opacity: 0
+    filter: alpha(opacity=0)
+    transform: translate(-300px, 0) scale(4)
+    font-size: 23px
+    direction: ltr
+    cursor: pointer
+  span
+    font-size: 1em

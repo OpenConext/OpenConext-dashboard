@@ -86,41 +86,46 @@ app.compoundSpEdit = function() {
 
     $('input.fileinput').fileupload({
       success: function (imageUrl) {
+
         var form = $(currentFileuploadForm);
+
         if (form.attr("id") === "form-screenshots-distributionchannel") {
+          // IE9 does not inject the ajax data as first argument, but injects jQuery instead.
+          if (typeof(imageUrl.fileUrl) != "string") {
+            window.location.href = window.location.href;
+            return;
+          }
+
           $("div.screenshot-contents").
           append("<div class='screenshot-content'><img src='"+ contextPath + imageUrl.fileUrl +  "?" + new Date().getTime() + "'/>"
               + "<a id='screenshot-remove-" + imageUrl.id + "' href='#'>&times;</a></div>" );
         } else {
-            var img = $(currentFileuploadForm).find("img");
+
+          // IE9 does not inject the ajax data as first argument, but injects jQuery instead.
+          if (typeof(imageUrl) != "string") {
+            window.location.href = window.location.href;
+            return;
+          }
+
+          var img = $(currentFileuploadForm).find("img");
             var newimg = "<img src='" + contextPath +  imageUrl +  "?" + new Date().getTime() + "'/>";
             if (img.length) {
               img.replaceWith(newimg);
             } else {
               form.prepend(newimg);
             }
-            
         }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
       }
     });
-    
-    $(".attachlink").click(function (e) {
-      e.preventDefault();
-      var form = $(this).closest(".imageuploadform");
-      form.find("input.fileinput").click();
-      currentFileuploadForm = form;
+
+    $("input.fileinput").click(function () {
+      currentFileuploadForm = $(this).closest(".imageuploadform");
     });
   }
-
-
 
   return {
     init: init
   }
 }();
-
-
 
 app.register(app.compoundSpEdit);

@@ -146,10 +146,12 @@
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
             <input type="hidden" name="source" value="DISTRIBUTIONCHANNEL" />
             <input type="hidden" name="fieldId" value="${field.id}" />
-            <span id='filename'></span><br/>
-            <a href='#' class='attachlink'><spring:message code="jsp.compound_sp_select_image"/></a><br/>
-            <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
+
             <div class="form-actions">
+              <span class="btn btn-small fileinput-button btn-primary">
+                <span><spring:message code="jsp.compound_sp_select_image"/></span>
+                <input class="fileinput" id="upload-${fieldId}" type="file" name="file" data-url="upload.shtml">
+              </span>
               <button name="usethis" value="usethis-image" class="btn btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
             </div>
           </form>
@@ -184,9 +186,12 @@
           <form class="tab-pane active imageuploadform" id="form-screenshots-distributionchannel">
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
           	<input type="hidden" name="compoundServiceProviderId" value="${compoundSp.id}" />
-          	<span id='filename'></span><br/>
-          	<a href='#' class='attachlink btn btn-primary btn-small'><spring:message code="jsp.compound_sp_add_image"/></a><br/>
-          	<input class="fileinput" id="upload-screenshot" type="file" name="file" data-url="upload-screenshot.shtml" style="opacity: 0; filter:alpha(opacity: 0);"><br/>
+
+            <span class="btn btn-small fileinput-button btn-primary">
+              <span><spring:message code="jsp.compound_sp_add_image"/></span>
+              <input class="fileinput" id="upload-screenshot" type="file" name="file" data-url="upload-screenshot.shtml">
+            </span>
+
           </form>
         </div>
       </div>
