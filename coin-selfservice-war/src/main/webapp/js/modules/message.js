@@ -24,13 +24,21 @@ app.message = function() {
             en : "Search in applications",
             nl : "Zoek in applicaties"
         },
-        "appgrid.filter.haslicense" : {
-            en: "Has license",
-            nl: "Heeft licentie"
+        "appgrid.filter.license" : {
+            en: "License",
+            nl: "Licentie"
         },
-        "appgrid.filter.isconnected" : {
-            en : "Is connected",
-            nl : "Is verbonden"
+        "appgrid.filter.no-license" : {
+            en: "No license",
+            nl: "Geen licentie"
+        },
+        "appgrid.filter.connected" : {
+            en: "Connected",
+            nl: "Verbonden"
+        },
+        "appgrid.filter.not-connected" : {
+            en: "Not connected",
+            nl: "Niet verbonden"
         },
         "arp.button.text" : {
             en : " Attributes that are shared",

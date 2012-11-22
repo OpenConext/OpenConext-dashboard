@@ -39,17 +39,17 @@ app.appgrid = function() {
 
     var setSearch = function() {
         var placeholderText = app.message.i18n('appgrid.search.placeholder'),
-            hasLicenseText = app.message.i18n('appgrid.filter.haslicense'),
-            isConnectedText = app.message.i18n('appgrid.filter.isconnected'),
             filters = '';
 
         if (gridElm.hasClass('filters-available')) {
             filters = '<div>' +
                         '<ul>';
             if (gridElm.hasClass('lmng-active')) {
-                filters += '<li><a href="#" data-filter="licensed">' + hasLicenseText + '</a></li>';
+                filters += '<li><a href="#" data-filter="licensed">' + app.message.i18n('appgrid.filter.license') + '</a></li>' +
+                           '<li><a href="#" data-filter="not-licensed">' + app.message.i18n('appgrid.filter.no-license') + '</a></li>';
             }
-            filters += '<li><a href="#" data-filter="connected">' + isConnectedText + '</a></li>' +
+            filters += '<li><a href="#" data-filter="connected">' + app.message.i18n('appgrid.filter.connected') + '</a></li>' +
+                       '<li><a href="#" data-filter="not-connected">' + app.message.i18n('appgrid.filter.not-connected') + '</a></li>' +
                       '</ul>' +
                     '</div>';
         }
@@ -98,6 +98,7 @@ app.appgrid = function() {
             });
         }
 
+
         function doFilter(e) {
             e.preventDefault();
 
@@ -134,7 +135,9 @@ app.appgrid = function() {
                 }
             });
 
-            $.each(activeFilters, function(i, filter) {
+            filters = ignoreObsoleteFilters(activeFilters);
+
+            $.each(filters, function(i, filter) {
                 if (display === false) {
                     return;
                 }
@@ -147,6 +150,28 @@ app.appgrid = function() {
             });
 
             return !display;
+        }
+
+
+        function ignoreObsoleteFilters(filters) {
+            var cantHaveBoth = [['connected', 'not-connected'], ['licensed', 'not-licensed']],
+                inspecting = null,
+                pos0, pos1,
+                toReturn = $.extend(true, [], filters);
+
+            for (var l = cantHaveBoth.length - 1; l >= 0; --l) {
+                inspecting = cantHaveBoth[l];
+
+                pos0 = $.inArray(inspecting[0], toReturn);
+                pos1 = $.inArray(inspecting[1], toReturn);
+
+                if (pos0 !== -1 && pos1 !== -1) {
+                    toReturn.splice(pos0, 1);
+                    toReturn.splice($.inArray(inspecting[1], toReturn), 1);
+                }
+            }
+
+            return toReturn;
         }
 
 
