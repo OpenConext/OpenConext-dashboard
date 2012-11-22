@@ -47,7 +47,7 @@
                   <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
                     <i class="icon-external-link"></i>
                   </a>
-                </c:when> 
+                </c:when>
                 <c:when test="${not compoundSp.sp.linked}">
                   <a href="<c:url value="/requests/linkrequest.shtml">
                       <c:param name="spEntityId" value="${compoundSp.sp.id}" />
@@ -57,7 +57,7 @@
                   <i class="icon-link"></i>
                  </a>
                 </c:when>
-              </c:choose>            
+              </c:choose> 
             </div>
           </li>
         </c:if>
