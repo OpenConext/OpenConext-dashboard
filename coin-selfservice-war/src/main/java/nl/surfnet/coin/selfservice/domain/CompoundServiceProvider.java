@@ -458,7 +458,7 @@ public class CompoundServiceProvider extends DomainObject {
   public void setArticle(Article article) {
     this.article = sanityCheckArticle(article);
     if (this.article != null) {
-      this.lmngId = this.article.getLmngIdentifier();
+      this.lmngId = this.article.getLmngProductIdentifier();
     }
   }
 

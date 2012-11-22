@@ -92,10 +92,12 @@ public class LmngUtil {
   private static final String FETCH_RESULT_DETAIL_LOGO = "image.lmng_url";
   private static final String FETCH_RESULT_SPECIAL_CONDITIONS = "lmng_specialconditions";
   private static final String FETCH_RESULT_LMNG_IDENTIFIER = "lmng_sdnarticleid";// artikel.FIELDNAME
-  private static final String FETCH_RESULT_PRODUCT_NAME = "lmng_name";
+  private static final String FETCH_RESULT_ARTICLE_NAME = "lmng_name";
   private static final String FETCH_RESULT_LICENSEMODEL = "productvariation.lmng_licensemodel";
   private static final String FETCH_RESULT_INSTITUTE_NAME = "name";
-
+  private static final String FETCH_RESULT_PRODUCT_ID = "product.lmng_productid";
+  private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
+  
   private static final String FETCH_RESULT_MEDIUM_URL = "articlemedium.lmng_downloadurl";
   private static final String FETCH_RESULT_MEDIUM_NAME = "articlemedium.lmng_name";  
   private static final String FETCH_RESULT_MEDIUM_SUPPLIER_ID = "articlemedium.lmng_supplierid";
@@ -225,7 +227,9 @@ public class LmngUtil {
     article.setServiceDescriptionNl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_DESCRIPTION_SERVICE));
     article.setSpecialConditions(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SPECIAL_CONDITIONS));
     article.setSupplierName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_SUPPLIER_NAME));
+    article.setArticleName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_ARTICLE_NAME));
     article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
+    article.setLmngProductIdentifier(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_ID));
     
     String mediumSupplier = getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_SUPPLIER_ID);
     if (FETCH_RESULT_MEDIUM_GOOGLE_ID.equals(mediumSupplier)) {

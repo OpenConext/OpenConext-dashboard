@@ -23,5 +23,11 @@
         </link-entity>
       </link-entity>
     </link-entity>
+    <link-entity name="lmng_sdnarticle_lmng_product" from="lmng_sdnarticleid" to="lmng_sdnarticleid" visible="false" intersect="true">
+      <link-entity name="lmng_product" from="lmng_productid" to="lmng_productid" alias="product">
+        <attribute name="lmng_name"/>
+        <attribute name="lmng_productid"/>
+      </link-entity>
+    </link-entity>
   </entity>
 </fetch>

@@ -36,9 +36,11 @@ public class Article implements Serializable {
   private String serviceDescriptionNl;
   private String supplierName;
   private String productName;
+  private String articleName;
   private String detailLogo;
   private String specialConditions;
   private String articleState;
+  private String lmngProductIdentifier;
   private String lmngIdentifier;
   private String serviceProviderEntityId;
   
@@ -153,6 +155,22 @@ public class Article implements Serializable {
 
   public void setAndroidPlayStoreMedium(ArticleMedium androidPlayStoreMedium) {
     this.androidPlayStoreMedium = androidPlayStoreMedium;
+  }
+
+  public String getArticleName() {
+    return articleName;
+  }
+
+  public void setArticleName(String articleName) {
+    this.articleName = articleName;
+  }
+
+  public String getLmngProductIdentifier() {
+    return lmngProductIdentifier;
+  }
+
+  public void setLmngProductIdentifier(String lmngProductIdentifier) {
+    this.lmngProductIdentifier = lmngProductIdentifier;
   }
 
 }
