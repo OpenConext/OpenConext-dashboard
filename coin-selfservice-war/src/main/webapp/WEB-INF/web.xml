@@ -95,8 +95,7 @@
       classpath:coin-selfservice-properties-context.xml,
       classpath:coin-selfservice-context.xml,
       WEB-INF/coin-selfservice-security.xml,
-      classpath:coin-shared-context.xml,
-      classpath:coin-selfservice-scheduler.xml
+      classpath:coin-shared-context.xml
     </param-value>
   </context-param>
 
