@@ -43,7 +43,7 @@ coin-lmng-active-mode=false
 # SOAP service endpoint for LMNG.
 # This is a complete URL to which requests will be posted.
 # Example: https://lmng01.dev.coin.surf.net:8444/CrmService.svc
-coin-lmng-endpoint=https://na.org
+coin-lmng-endpoint=https\://na.example.org
 
 # If set to true, requests/responses will be written to a file in the java.io.tmpdir directory.
 coin-lmng-debug=false
