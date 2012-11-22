@@ -118,9 +118,9 @@ public class ServiceDetailControllerTest {
 
     when(providerService.getServiceProvider("mockSp", "mockIdP")).thenReturn(sp);
 
-    final RedirectView view = controller.revokeKeys("mockSp", idp);
+    final RedirectView view = controller.revokeKeys(1, "mockSp", idp);
     verify(oAuthTokenService).revokeOAuthTokens(coinUser.getUid(), sp);
-    assertEquals("app-detail.shtml?revoked=true&spEntityId=mockSp", view.getUrl());
+    assertEquals("app-detail.shtml?compoundSpId=1&revoked=true", view.getUrl());
   }
 
   private Authentication getAuthentication() {
