@@ -60,7 +60,7 @@ app.global = function() {
         var readMoreElms = $('.with-read-more').each(function(index, elm) {
             elm = $(elm);
 
-            var pElm, pElms = elm.find('p');
+            var pElm, pElms = elm.children('h1,h2,h3,h4,h5,h6,p,ul,ol,blockquote,pre');
 
             for (var i = 0, l = pElms.length; i < l; ++i) {
                 pElm = $(pElms[i]);
