@@ -65,6 +65,13 @@ app.appgrid = function() {
             activeFilters = [];
 
 
+        function checkFocusKeyUp(e) {
+            if (e.which === 191 && !$(e.target).is('input,textarea,a,submit,button')) {
+                searchElm[0].focus();
+            }
+        }
+
+
         function setTimer() {
             if (timer) {
                 clearTimeout(timer);
@@ -159,6 +166,7 @@ app.appgrid = function() {
 
         searchElm.bind('keyup change', setTimer);
         filterLinks.on('click', doFilter);
+        $(window).keyup(checkFocusKeyUp);
 
 
         gridElm.tickback({
