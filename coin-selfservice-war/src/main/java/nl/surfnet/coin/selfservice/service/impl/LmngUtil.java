@@ -23,8 +23,10 @@ import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -43,6 +45,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -59,6 +63,22 @@ public class LmngUtil {
 
   private static final Logger log = LoggerFactory.getLogger(LmngUtil.class);
   private static final DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis();
+
+  public static final String ENDPOINT_PLACEHOLDER = "%ENDPOINT%";
+  public static final String UID_PLACEHOLDER = "%UID%";
+  public static final String QUERY_PLACEHOLDER = "%FETCH_QUERY%";
+  public static final String INSTITUTION_IDENTIFIER_PLACEHOLDER = "%INSTITUTION_ID%";
+
+  private static final String SERVICE_IDENTIFIER_PLACEHOLDER = "%SERVICE_ID%";
+  private static final String VALID_ON_DATE_PLACEHOLDER = "%VALID_ON%";
+  private static final String ARTICLE_CONDITION_VALUE_PLACEHOLDER = "%ARTICLE_CONDITION_VALUES%";
+  private static final String ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER = "%INSTITUTION_CONDITION%";
+
+  private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
+  private static final String PATH_FETCH_QUERY_LICENSES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicensesForIdpsAndSps.xml";
+  private static final String PATH_FETCH_QUERY_ARTICLES_FOR_SPS = "lmngqueries/lmngQueryArticlesForSps.xml";
+  private static final String PATH_FETCH_QUERYCONDITION_ARTICLE = "lmngqueries/lmngArticleQueryConditionValue.xml";
+  private static final String PATH_FETCH_QUERYCONDITION_INSTITUTION = "lmngqueries/lmngArticleQueryInstitutionCondition.xml";
 
   private static final String RESULT_ELEMENT = "GetDataResult";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
@@ -296,4 +316,89 @@ public class LmngUtil {
   public static boolean isValidGuid(String guid) {
     return StringUtils.isEmpty(guid) || guid.matches("\\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\}");
   }
+  
+
+  public static String getLmngSoapRequestForIdpAndSp(String institutionId, List<String> serviceIds, Date validOn, String endpoint) throws IOException {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Assert.notNull(validOn);
+    Assert.notNull(serviceIds);
+
+    // Get the soap/fetch envelope
+    String result = getLmngRequestEnvelope();
+
+    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_LICENSES_LICENCES_FOR_IDP_SP);
+
+    InputStream inputStream = queryResource.getInputStream();
+    String query = IOUtils.toString(inputStream);
+
+    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_ARTICLE);
+    InputStream articleInputStream = articleConditionResource.getInputStream();
+    String articleConditionTemplate = IOUtils.toString(articleInputStream);
+    String articleConditionValues = "";
+    for (String serviceId : serviceIds) {
+      articleConditionValues += articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
+    }
+
+    String institutionConditionTemplate = "";
+    if (institutionId != null) {
+      ClassPathResource institutionConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_INSTITUTION);
+      InputStream institutionConditionInputStream = institutionConditionResource.getInputStream();
+      institutionConditionTemplate = IOUtils.toString(institutionConditionInputStream);
+      institutionConditionTemplate = institutionConditionTemplate.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
+    }
+
+    // replace base query with placeholders
+    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
+    query = query.replaceAll(ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER, institutionConditionTemplate);
+    query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
+
+    // html encode the string
+    query = StringEscapeUtils.escapeHtml(query);
+
+    // Insert the query in the envelope and add a UID in the envelope
+    result = result.replaceAll(QUERY_PLACEHOLDER, query);
+    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
+    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+    return result;
+  }
+
+  public static String getLmngSoapRequestForSps(Collection<String> serviceIds, String endpoint) throws IOException {
+    Assert.notNull(serviceIds);
+
+    // Get the soap/fetch envelope
+    String result = getLmngRequestEnvelope();
+
+    // TODO change path
+    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLES_FOR_SPS);
+
+    InputStream inputStream = queryResource.getInputStream();
+    String query = IOUtils.toString(inputStream);
+
+    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_ARTICLE);
+    InputStream articleInputStream = articleConditionResource.getInputStream();
+    String articleConditionTemplate = IOUtils.toString(articleInputStream);
+    String articleConditionValues = "";
+    for (String serviceId : serviceIds) {
+      articleConditionValues += articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
+    }
+
+    // replace base query with placeholders
+    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
+
+    // html encode the string
+    query = StringEscapeUtils.escapeHtml(query);
+
+    // Insert the query in the envelope and add a UID in the envelope
+    result = result.replaceAll(QUERY_PLACEHOLDER, query);
+    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
+    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+    return result;
+  }
+
+  public static String getLmngRequestEnvelope() throws IOException {
+    ClassPathResource envelopeResource = new ClassPathResource(PATH_SOAP_FETCH_REQUEST);
+    InputStream inputStream = envelopeResource.getInputStream();
+    return IOUtils.toString(inputStream);
+  }
+
 }

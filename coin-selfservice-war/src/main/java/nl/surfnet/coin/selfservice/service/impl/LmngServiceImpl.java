@@ -25,10 +25,8 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +63,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -76,21 +73,7 @@ public class LmngServiceImpl implements LmngService {
 
   private static final Logger log = LoggerFactory.getLogger(LmngServiceImpl.class);
 
-  private static final String ENDPOINT_PLACEHOLDER = "%ENDPOINT%";
-  private static final String UID_PLACEHOLDER = "%UID%";
-  private static final String QUERY_PLACEHOLDER = "%FETCH_QUERY%";
-  private static final String INSTITUTION_IDENTIFIER_PLACEHOLDER = "%INSTITUTION_ID%";
-  private static final String SERVICE_IDENTIFIER_PLACEHOLDER = "%SERVICE_ID%";
-  private static final String VALID_ON_DATE_PLACEHOLDER = "%VALID_ON%";
-  private static final String ARTICLE_CONDITION_VALUE_PLACEHOLDER = "%ARTICLE_CONDITION_VALUES%";
-  private static final String ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER = "%INSTITUTION_CONDITION%";
-
-  private static final String PATH_SOAP_FETCH_REQUEST = "lmngqueries/lmngSoapFetchMessage.xml";
-  private static final String PATH_FETCH_QUERY_LICENSES_LICENCES_FOR_IDP_SP = "lmngqueries/lmngQueryLicensesForIdpsAndSps.xml";
-  private static final String PATH_FETCH_QUERY_ARTICLES_FOR_SPS = "lmngqueries/lmngQueryArticlesForSps.xml";
   private static final String PATH_FETCH_QUERY_GET_INSTITUTION = "lmngqueries/lmngQueryGetInstitution.xml";
-  private static final String PATH_FETCH_QUERYCONDITION_ARTICLE = "lmngqueries/lmngArticleQueryConditionValue.xml";
-  private static final String PATH_FETCH_QUERYCONDITION_INSTITUTION = "lmngqueries/lmngArticleQueryInstitutionCondition.xml";
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
@@ -105,8 +88,29 @@ public class LmngServiceImpl implements LmngService {
   private String keystorePassword;
   private boolean activeMode;
 
+  private DefaultHttpClient httpclient;
+
+  public LmngServiceImpl() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+    super();
+    SchemeRegistry schemeRegistry = new SchemeRegistry();
+
+    PlainSocketFactory sf = PlainSocketFactory.getSocketFactory();
+    schemeRegistry.register(new Scheme("http", 80, sf));
+
+    SSLSocketFactory lSchemeSocketFactory = new SSLSocketFactory(keyStore.getJavaSecurityKeyStore(), keystorePassword,
+        trustStore.getJavaSecurityKeyStore());
+    schemeRegistry.register(new Scheme("https", 443, lSchemeSocketFactory));
+
+    httpclient = new DefaultHttpClient(new BasicClientConnectionManager(schemeRegistry));
+
+    httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
+    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+    httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
+  }
+
   @Override
-  public List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn) {
+  public List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn)
+      throws LmngException {
     List<License> result = new ArrayList<License>();
     invariant();
     try {
@@ -121,7 +125,7 @@ public class LmngServiceImpl implements LmngService {
       articleIdentifiers.add(articleIdentifier);
 
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequestForIdpAndSp(lmngInstitutionId, articleIdentifiers, validOn);
+      String soapRequest = LmngUtil.getLmngSoapRequestForIdpAndSp(lmngInstitutionId, articleIdentifiers, validOn, endpoint);
       if (debug) {
         LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -131,14 +135,16 @@ public class LmngServiceImpl implements LmngService {
       // read/parse the XML response to License objects
       result = LmngUtil.parseLicensesResult(webserviceResult, debug);
     } catch (Exception e) {
-      log.error("Exception while retrieving licenses", e);
+      String exceptionMessage = "Exception while retrieving licenses" + e.getMessage();
+      log.error(exceptionMessage, e);
       sendErrorMail(identityProvider, articleIdentifier, e.getMessage(), "getLicensesForIdpAndSp");
+      throw new LmngException(exceptionMessage, e);
     }
     return result;
   }
 
   @Override
-  public List<Article> getArticlesForServiceProviders(List<String> serviceProvidersEntityIds) {
+  public List<Article> getArticlesForServiceProviders(List<String> serviceProvidersEntityIds) throws LmngException {
     List<Article> result = new ArrayList<Article>();
     invariant();
     try {
@@ -150,7 +156,7 @@ public class LmngServiceImpl implements LmngService {
       }
 
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequestForSps(serviceIds.keySet());
+      String soapRequest = LmngUtil.getLmngSoapRequestForSps(serviceIds.keySet(), endpoint);
       if (debug) {
         LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -165,8 +171,10 @@ public class LmngServiceImpl implements LmngService {
         result.add(article);
       }
     } catch (Exception e) {
-      log.error("Exception while retrieving articles", e);
+      String exceptionMessage = "Exception while retrieving articles:" + e.getMessage();
+      log.error(exceptionMessage, e);
       sendErrorMail(serviceProvidersEntityIds, e.getMessage(), "getArticlesForServiceProviders");
+      throw new LmngException(exceptionMessage, e);
     }
     return result;
   }
@@ -177,7 +185,7 @@ public class LmngServiceImpl implements LmngService {
     String result = null;
     try {
       // get the file with the soap request
-      String soapRequest = getLmngSoapRequestForSps(Arrays.asList(new String[] { guid }));
+      String soapRequest = LmngUtil.getLmngSoapRequestForSps(Arrays.asList(new String[] { guid }), endpoint);
       if (debug) {
         LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -204,20 +212,20 @@ public class LmngServiceImpl implements LmngService {
       ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_GET_INSTITUTION);
 
       // Get the soap/fetch envelope
-      String soapRequest = getLmngRequestEnvelope();
+      String soapRequest = LmngUtil.getLmngRequestEnvelope();
 
       InputStream inputStream;
       inputStream = queryResource.getInputStream();
       String query = IOUtils.toString(inputStream);
-      query = query.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, guid);
+      query = query.replaceAll(LmngUtil.INSTITUTION_IDENTIFIER_PLACEHOLDER, guid);
 
       // html encode the string
       query = StringEscapeUtils.escapeHtml(query);
 
       // Insert the query in the envelope and add a UID in the envelope
-      soapRequest = soapRequest.replaceAll(QUERY_PLACEHOLDER, query);
-      soapRequest = soapRequest.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
-      soapRequest = soapRequest.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+      soapRequest = soapRequest.replaceAll(LmngUtil.QUERY_PLACEHOLDER, query);
+      soapRequest = soapRequest.replaceAll(LmngUtil.ENDPOINT_PLACEHOLDER, endpoint);
+      soapRequest = soapRequest.replaceAll(LmngUtil.UID_PLACEHOLDER, UUID.randomUUID().toString());
 
       if (debug) {
         LmngUtil.writeIO("lmngRequestInstitution", StringEscapeUtils.unescapeHtml(soapRequest));
@@ -247,23 +255,8 @@ public class LmngServiceImpl implements LmngService {
    * @throws UnrecoverableKeyException
    * @throws KeyManagementException
    */
-  private String getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException, KeyManagementException,
-      UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+  private String getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException {
     log.debug("Calling the LMNG proxy webservice.");
-    SchemeRegistry schemeRegistry = new SchemeRegistry();
-
-    PlainSocketFactory sf = PlainSocketFactory.getSocketFactory();
-    schemeRegistry.register(new Scheme("http", 80, sf));
-
-    SSLSocketFactory lSchemeSocketFactory = new SSLSocketFactory(keyStore.getJavaSecurityKeyStore(), keystorePassword,
-        trustStore.getJavaSecurityKeyStore());
-    schemeRegistry.register(new Scheme("https", 443, lSchemeSocketFactory));
-
-    DefaultHttpClient httpclient = new DefaultHttpClient(new BasicClientConnectionManager(schemeRegistry));
-
-    httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
-    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-    httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
 
     HttpPost httppost = new HttpPost(endpoint);
     httppost.setHeader("Content-Type", "application/soap+xml");
@@ -280,20 +273,20 @@ public class LmngServiceImpl implements LmngService {
     // Get String representation of response
     StringWriter writer = new StringWriter();
     IOUtils.copy(output.getContent(), writer);
-    String response = writer.toString();
+    String stringResponse = writer.toString();
 
     if (debug) {
-      LmngUtil.writeIO("lmngWsResponseStatus" + status, StringEscapeUtils.unescapeHtml(response));
+      LmngUtil.writeIO("lmngWsResponseStatus" + status, StringEscapeUtils.unescapeHtml(stringResponse));
     }
 
     long durationSeconds = (afterCall.getTime() - beforeCall.getTime()) / 1000;
     log.warn("LMNG proxy webservice called in " + durationSeconds + " seconds. Http response:" + httpresponse);
 
     if (status != 200) {
-      log.debug("LMNG webservice response content is:\n" + response);
+      log.debug("LMNG webservice response content is:\n" + stringResponse);
       throw new RuntimeException("Invalid response from LMNG webservice. Http response " + httpresponse);
     }
-    return response;
+    return stringResponse;
   }
 
   /**
@@ -338,89 +331,6 @@ public class LmngServiceImpl implements LmngService {
       }
     }
     return result;
-  }
-
-  private String getLmngSoapRequestForIdpAndSp(String institutionId, List<String> serviceIds, Date validOn) throws IOException {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    Assert.notNull(validOn);
-    Assert.notNull(serviceIds);
-
-    // Get the soap/fetch envelope
-    String result = getLmngRequestEnvelope();
-
-    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_LICENSES_LICENCES_FOR_IDP_SP);
-
-    InputStream inputStream = queryResource.getInputStream();
-    String query = IOUtils.toString(inputStream);
-
-    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_ARTICLE);
-    InputStream articleInputStream = articleConditionResource.getInputStream();
-    String articleConditionTemplate = IOUtils.toString(articleInputStream);
-    String articleConditionValues = "";
-    for (String serviceId : serviceIds) {
-      articleConditionValues += articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
-    }
-
-    String institutionConditionTemplate = "";
-    if (institutionId != null) {
-      ClassPathResource institutionConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_INSTITUTION);
-      InputStream institutionConditionInputStream = institutionConditionResource.getInputStream();
-      institutionConditionTemplate = IOUtils.toString(institutionConditionInputStream);
-      institutionConditionTemplate = institutionConditionTemplate.replaceAll(INSTITUTION_IDENTIFIER_PLACEHOLDER, institutionId);
-    }
-
-    // replace base query with placeholders
-    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
-    query = query.replaceAll(ARTICLE_INSTITUTION_CONDITION_PLACEHOLDER, institutionConditionTemplate);
-    query = query.replaceAll(VALID_ON_DATE_PLACEHOLDER, simpleDateFormat.format(validOn));
-
-    // html encode the string
-    query = StringEscapeUtils.escapeHtml(query);
-
-    // Insert the query in the envelope and add a UID in the envelope
-    result = result.replaceAll(QUERY_PLACEHOLDER, query);
-    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
-    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
-    return result;
-  }
-
-  private String getLmngSoapRequestForSps(Collection<String> serviceIds) throws IOException {
-    Assert.notNull(serviceIds);
-
-    // Get the soap/fetch envelope
-    String result = getLmngRequestEnvelope();
-
-    // TODO change path
-    ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLES_FOR_SPS);
-
-    InputStream inputStream = queryResource.getInputStream();
-    String query = IOUtils.toString(inputStream);
-
-    ClassPathResource articleConditionResource = new ClassPathResource(PATH_FETCH_QUERYCONDITION_ARTICLE);
-    InputStream articleInputStream = articleConditionResource.getInputStream();
-    String articleConditionTemplate = IOUtils.toString(articleInputStream);
-    String articleConditionValues = "";
-    for (String serviceId : serviceIds) {
-      articleConditionValues += articleConditionTemplate.replaceAll(SERVICE_IDENTIFIER_PLACEHOLDER, serviceId);
-    }
-
-    // replace base query with placeholders
-    query = query.replaceAll(ARTICLE_CONDITION_VALUE_PLACEHOLDER, articleConditionValues);
-
-    // html encode the string
-    query = StringEscapeUtils.escapeHtml(query);
-
-    // Insert the query in the envelope and add a UID in the envelope
-    result = result.replaceAll(QUERY_PLACEHOLDER, query);
-    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
-    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
-    return result;
-  }
-
-  private String getLmngRequestEnvelope() throws IOException {
-    ClassPathResource envelopeResource = new ClassPathResource(PATH_SOAP_FETCH_REQUEST);
-    InputStream inputStream = envelopeResource.getInputStream();
-    return IOUtils.toString(inputStream);
   }
 
   private void invariant() {

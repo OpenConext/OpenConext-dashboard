@@ -56,7 +56,7 @@ public class LmngServiceImplIT {
 
   // we us this for a local integration test only
   @Test
-  public void testRetrieveLmngGoogleEdugroepGreencloudSurfMarket() throws IOException {
+  public void testRetrieveLmngGoogleEdugroepGreencloudSurfMarket() throws IOException, LmngException {
 
     List<String> spIds = new ArrayList<String>();
     spIds.add("http://www.google.com");

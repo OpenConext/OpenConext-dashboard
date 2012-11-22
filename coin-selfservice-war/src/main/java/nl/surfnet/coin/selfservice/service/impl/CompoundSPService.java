@@ -19,7 +19,8 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.HashMap; 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,8 @@ import org.springframework.util.Assert;
  */
 @Component
 public class CompoundSPService {
+
+  private static final int LMNG_TIMEOUT_AFTER_EXCEPTION_SECONDS = 600;
 
   @Value("${lmngArticleCacheSeconds}")
   private int lmngArticleCacheExpireSeconds;
@@ -199,8 +202,20 @@ public class CompoundSPService {
       for (ServiceProvider serviceProvider : allSps) {
         allSpsIds.add(serviceProvider.getId());
       }
-      List<Article> articles = licensingService.getArticlesForServiceProviders(allSpsIds);
+      List<Article> articles;
       DateTime invalidationDate = new DateTime(now).plusSeconds(lmngArticleCacheExpireSeconds);
+      try {
+        articles = licensingService.getArticlesForServiceProviders(allSpsIds);
+      } catch (LmngException e) {
+        // Cache cannot be updated. Continue using old values. create empty item if we have nothing at all
+        LOG.warn("Cache for articles cannot be updated. Exception thrown: " + e.getMessage());
+        if (cachedArticles == null) {
+          articles = Collections.emptyList();
+        } else {
+          articles = cachedArticles.getValue();
+        }
+        invalidationDate = new DateTime(now).plusSeconds(LMNG_TIMEOUT_AFTER_EXCEPTION_SECONDS);
+      }
       cachedArticles = new SimpleEntry<DateTime, List<Article>>(invalidationDate, articles);
     }
     
@@ -225,8 +240,20 @@ public class CompoundSPService {
       SimpleEntry<IdentityProvider, Article> entry = new SimpleEntry<IdentityProvider, Article>(idp, article);
       SimpleEntry<DateTime, List<License>> cachedValue = lmngCachedResults.get(entry);
       if (cachedValue == null || cachedValue.getKey().isBefore(now)) {
-        List<License> licenses = licensingService.getLicensesForIdpAndSp(idp, article.getLmngIdentifier(), now.toDate());
+        List<License> licenses;
         DateTime invalidationDate = new DateTime(now).plusSeconds(lmngLicenseCacheExpireSeconds);
+        try {
+          licenses = licensingService.getLicensesForIdpAndSp(idp, article.getLmngIdentifier(), now.toDate());
+        } catch (LmngException e) {
+          // Cache cannot be updated. Continue using old values. create empty item if we have nothing at all
+          LOG.warn("Cache for licenses cannot be updated. Exception thrown: " + e.getMessage());
+          if (cachedValue == null) {
+            licenses = Collections.emptyList();
+          } else {
+            licenses = cachedValue.getValue();
+          }
+          invalidationDate = new DateTime(now).plusSeconds(LMNG_TIMEOUT_AFTER_EXCEPTION_SECONDS);
+        }
         cachedValue = new SimpleEntry<DateTime, List<License>>(invalidationDate, licenses);
         lmngCachedResults.put(entry, cachedValue);
       }

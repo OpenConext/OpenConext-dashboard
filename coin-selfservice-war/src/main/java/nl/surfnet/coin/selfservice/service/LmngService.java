@@ -22,6 +22,7 @@ import java.util.List;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.service.impl.LmngException;
 
 /**
  * Interface of services that return Licensing and article information from LMNG
@@ -37,15 +38,17 @@ public interface LmngService {
    * @param lmngIdentifier lmngIdentifier (belonging to SP's) where the licenses are for.
    * @param validOn Date on which the license should be valid
    * @return a (possible) list of licenses
+   * @throws LmngException If connection or call fails (rethrows all exceptions)
    */
-  List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn);
+  List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn) throws LmngException;
 
   /**
    * Get articles for the given serviceProviders.
    * @param serviceProviderEntityIds list of ID's of serviceproviders to get the lmng article for
    * @return a list of possible articles
+   * @throws LmngException 
    */
-  List<Article> getArticlesForServiceProviders(List<String> serviceProviderEntityIds);
+  List<Article> getArticlesForServiceProviders(List<String> serviceProviderEntityIds) throws LmngException;
 
   /**
    * Get the name of the institution in LMNG belonging to given GUID
