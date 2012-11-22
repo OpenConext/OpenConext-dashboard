@@ -90,24 +90,6 @@ public class LmngServiceImpl implements LmngService {
 
   private DefaultHttpClient httpclient;
 
-  public LmngServiceImpl() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
-    super();
-    SchemeRegistry schemeRegistry = new SchemeRegistry();
-
-    PlainSocketFactory sf = PlainSocketFactory.getSocketFactory();
-    schemeRegistry.register(new Scheme("http", 80, sf));
-
-    SSLSocketFactory lSchemeSocketFactory = new SSLSocketFactory(keyStore.getJavaSecurityKeyStore(), keystorePassword,
-        trustStore.getJavaSecurityKeyStore());
-    schemeRegistry.register(new Scheme("https", 443, lSchemeSocketFactory));
-
-    httpclient = new DefaultHttpClient(new BasicClientConnectionManager(schemeRegistry));
-
-    httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
-    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-    httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
-  }
-
   @Override
   public List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn)
       throws LmngException {
@@ -255,7 +237,7 @@ public class LmngServiceImpl implements LmngService {
    * @throws UnrecoverableKeyException
    * @throws KeyManagementException
    */
-  private String getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException {
+  private String getWebServiceResult(final String soapRequest) throws ClientProtocolException, IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
     log.debug("Calling the LMNG proxy webservice.");
 
     HttpPost httppost = new HttpPost(endpoint);
@@ -263,7 +245,7 @@ public class LmngServiceImpl implements LmngService {
     httppost.setEntity(new StringEntity(soapRequest));
 
     Date beforeCall = new Date();
-    HttpResponse httpresponse = httpclient.execute(httppost);
+    HttpResponse httpresponse = getHttpClient().execute(httppost);
     Date afterCall = new Date();
 
     HttpEntity output = httpresponse.getEntity();
@@ -394,6 +376,26 @@ public class LmngServiceImpl implements LmngService {
     }
   }
 
+  private DefaultHttpClient getHttpClient() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+    if (httpclient == null) {
+      SchemeRegistry schemeRegistry = new SchemeRegistry();
+      
+      PlainSocketFactory sf = PlainSocketFactory.getSocketFactory();
+      schemeRegistry.register(new Scheme("http", 80, sf));
+      
+      SSLSocketFactory lSchemeSocketFactory = new SSLSocketFactory(keyStore.getJavaSecurityKeyStore(), keystorePassword,
+          trustStore.getJavaSecurityKeyStore());
+      schemeRegistry.register(new Scheme("https", 443, lSchemeSocketFactory));
+      
+      httpclient = new DefaultHttpClient(new BasicClientConnectionManager(schemeRegistry));
+      
+      httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
+      httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+      httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
+    }
+    
+    return httpclient;
+  }
   // GETTERS AND SETTERS BELOW
 
   public void setEndpoint(String endpoint) {
