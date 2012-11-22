@@ -50,6 +50,11 @@ public class HomeController extends BaseController {
   @Resource
   private CompoundSPService compoundSPService;
 
+  @ModelAttribute(value = "personAttributeLabels")
+  public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
+    return personAttributeLabelService.getAttributeLabelMap();
+  }
+
   @RequestMapping("/app-overview.shtml")
   public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> model = new HashMap<String, Object>();
