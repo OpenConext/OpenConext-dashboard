@@ -32,7 +32,7 @@ import org.opensaml.xml.XMLObject;
  */
 public final class PersonAttributeUtil {
 
-  private static final List<String> ATTRIBUTE_FILTER = attributeFilter();
+  private static final List<String> ATTRIBUTE_FILTER_IN = attributeFilterIn();
 
   private PersonAttributeUtil() {
 
@@ -50,7 +50,7 @@ public final class PersonAttributeUtil {
     for (AttributeStatement attributeStatement : attributeStatements) {
       final List<Attribute> attributes = attributeStatement.getAttributes();
       for (Attribute attribute : attributes) {
-        if (ATTRIBUTE_FILTER.contains(attribute.getName())) {
+        if (!ATTRIBUTE_FILTER_IN.contains(attribute.getName())) {
           continue;
         }
         final List<XMLObject> attributeValues = attribute.getAttributeValues();
@@ -68,25 +68,39 @@ public final class PersonAttributeUtil {
   }
 
   /**
-   * List of attributes that can be filtered
+   * List of attributes that will be filtered in. If attributes are not in this list they will NOT be shown.
+   * 
    * Copied from https://raw.github.com/OpenConext/OpenConext-engineblock/master/application/modules/Default/Controller/LoggedIn.php
    */
-  private static List<String> attributeFilter() {
+  private static List<String> attributeFilterIn() {
     return Arrays.asList(
-        "urn:oid:2.5.4.42",
-        "urn:oid:2.5.4.3",
-        "urn:oid:2.5.4.4",
-        "urn:oid:2.16.840.1.113730.3.1.241",
-        "urn:oid:0.9.2342.19200300.100.1.1",
-        "urn:oid:0.9.2342.19200300.100.1.3",
-        "urn:oid:1.3.6.1.4.1.1466.115.121.1.15",
-        "urn:oid:1.3.6.1.4.1.5923.1.1.1.6",
-        "coin:",
-        "urn:nl.surfconext.licenseInfo",
-        "urn:mace:dir:attribute-def:isMemberOf",
-        "urn:oid:1.3.6.1.4.1.1076.20.40.40.1",
-        "urn:oid:1.3.6.1.4.1.5923.1.1.1.10",
-        "urn:mace:dir:attribute-def:eduPersonTargetedID");
+        "urn:mace:dir:attribute-def:uid",
+        "urn:mace:dir:attribute-def:sn",
+        "urn:mace:dir:attribute-def:givenName",
+        "urn:mace:dir:attribute-def:cn",
+        "urn:mace:dir:attribute-def:displayName",
+        "urn:mace:dir:attribute-def:mail",
+        "urn:mace:dir:attribute-def:eduPersonAffiliation",
+        "urn:mace:dir:attribute-def:eduPersonEntitlement",
+        "urn:mace:dir:attribute-def:eduPersonPrincipalName",
+        "urn:mace:dir:attribute-def:preferredLanguage",
+        "urn:mace:terena.org:attribute-def:schacHomeOrganization",
+        "urn:mace:terena.org:attribute-def:schacHomeOrganizationType",
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization",
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit",
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch",
+        "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer",
+        "urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier",
+        "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization",
+        "urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit",
+        "urn:mace:surffederatie_nl:attribute-def:nlEduPersonStudyBranch",
+        "urn:mace:surffederatie_nl:attribute-def:nlStudielinkNummer",
+        "urn:mace:surffederatie_nl:attribute-def:nlDigitalAuthorIdentifier",
+        "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1",
+        "urn:oid:1.3.6.1.4.1.5923.1.1.1.1",
+        "nameid",
+        "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2",
+        "urn:oid:1.3.6.1.4.1.5923.1.5.1.1");
   }
 
 }
