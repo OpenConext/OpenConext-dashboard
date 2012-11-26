@@ -108,11 +108,11 @@ jiraProjectKey=TEST
 personAttributesLabels.location=classpath\:person_attributes.json
 
 # Team id that is used as definition of who is a 'license contact person'.
-admin.licentie.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
+admin.licentie.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:licentiecontactpersonen
 # Team id that is used as definition of who is a 'conext contact person'.
-admin.surfconext.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:contactpersonen_idps
+admin.surfconext.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
 # Team id that is used as definition of who is a 'shop manager/shop admin'.
-admin.distribution.channel.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:management\:managementvotest
+admin.distribution.channel.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:shopmanager_cdk
 
 api-baseurl=https\://api.dev.surfconext.nl/v1/
 api-consumerkey=dev-selfservice
