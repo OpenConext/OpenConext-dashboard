@@ -25,12 +25,17 @@ import javax.annotation.Resource;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,13 +48,19 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class HomeController extends BaseController {
-  
+
+  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+      .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
   @Resource
   private CompoundSPService compoundSPService;
 
+  @Resource
+  private NotificationService notificationService;
+    
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
     return personAttributeLabelService.getAttributeLabelMap();
@@ -62,6 +73,15 @@ public class HomeController extends BaseController {
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
 
+    List<NotificationMessage> notificationMessages = notificationService.getNotifications(services);
+    
+    try {
+      String jsonNotificationMessages = objectMapper.writeValueAsString(notificationMessages);
+      model.put("jsonNotificationMessages", jsonNotificationMessages);
+    } catch (Exception e) {
+      //TODO add logging
+    }
+    
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
 

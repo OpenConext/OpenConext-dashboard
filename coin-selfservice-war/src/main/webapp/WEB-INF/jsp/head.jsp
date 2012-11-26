@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-generic.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-modal.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-navbar.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/bootstrap-notify.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-pagination.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-popover.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-responsive.css"/>" />

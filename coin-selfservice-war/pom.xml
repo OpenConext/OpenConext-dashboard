@@ -508,6 +508,9 @@
                 <jsSourceFile>bootstrap/bootstrap-2.0.3.min.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-popover.js</jsSourceFile>
+                <jsSourceFile>bootstrap/bootstrap-transition.js</jsSourceFile>
+                <jsSourceFile>bootstrap/bootstrap-alert.js</jsSourceFile>
+                <jsSourceFile>bootstrap/bootstrap-notify.js</jsSourceFile>
 
                 <jsSourceFile>jquery/jquery.datatables.1.9.4.min.js</jsSourceFile>
                 <jsSourceFile>jquery/jquery.datatables.columnfilter.1.4.7.js</jsSourceFile>

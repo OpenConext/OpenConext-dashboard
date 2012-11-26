@@ -41,8 +41,11 @@
   <c:when test="${dev eq true}">
     <script src="<c:url value="/js/jquery/jquery-1.7.2.min.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-2.0.3.min.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap/bootstrap-alert.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-tooltip.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-popover.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap/bootstrap-transition.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap/bootstrap-notify.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.1.9.4.min.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.columnfilter.1.4.7.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.ui.widget.js"/>"></script>
@@ -73,7 +76,12 @@
     <script src="<c:url value="/js/script.min.js"/>"></script>
   </c:otherwise>
 </c:choose>
-<script>var contextPath = "${pageContext.request.contextPath}"</script>
+<script>
+  var contextPath = "${pageContext.request.contextPath}";
+  <c:if test="${not empty jsonNotificationMessages}">
+    var notifications = ${jsonNotificationMessages};
+  </c:if>
+</script>
 <c:if test="${param.chart eq true}">
 <tags:sp_renderchart/>
 </c:if>

@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -49,6 +50,9 @@ public class HomeControllerTest {
 
   @Mock
   private ServiceProviderService sps;
+
+  @Mock
+  private NotificationService notificationService;
 
   @Mock
   private CompoundSPService compoundSPService;
