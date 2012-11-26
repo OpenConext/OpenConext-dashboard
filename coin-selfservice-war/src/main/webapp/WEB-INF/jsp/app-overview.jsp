@@ -27,7 +27,7 @@
               data-search-placeholder="Search in applications">
       <c:forEach items="${compoundSps}" var="compoundSp">
         <c:if test="${not empty compoundSp.id}">
-          <li class="${compoundSp.sp.linked ? "connected" : ""} ${compoundSp.articleLicenseAvailable ? "licensed" : ""}" data-id="${compoundSp.id}">
+          <li class="${compoundSp.sp.linked ? "connected" : "not-connected"} ${compoundSp.articleLicenseAvailable ? "licensed" : "not-licensed"}" data-id="${compoundSp.id}">
             <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
               <spring:param name="compoundSpId" value="${compoundSp.id}" />
             </spring:url>
@@ -41,14 +41,16 @@
               <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
               <c:out value="${fn:substring(serviceDescription, 0, 40)}" />
             </p>
-            <p class="connect-app">
-              <a href="<c:url value="/requests/linkrequest.shtml">
-                      <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                      <c:param name="compoundSpId" value="${compoundSp.id}" />
-                    </c:url>">
-                <spring:message code="jsp.sp_detail.requestlink_short"/>
-              </a>
-            </p>
+            <c:if test="${not compoundSp.sp.linked}">
+              <p class="connect-app">
+                <a href="<c:url value="/requests/linkrequest.shtml">
+                        <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+                        <c:param name="compoundSpId" value="${compoundSp.id}" />
+                      </c:url>">
+                  <spring:message code="jsp.sp_detail.requestlink_short"/>
+                </a>
+              </p>
+            </c:if>
             <div class="app-meta-cta">
               <c:if test="${not empty compoundSp.appUrl}">
                 <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
