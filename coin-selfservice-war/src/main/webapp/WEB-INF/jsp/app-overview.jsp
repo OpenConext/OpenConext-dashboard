@@ -47,7 +47,7 @@
                         <c:param name="spEntityId" value="${compoundSp.sp.id}" />
                         <c:param name="compoundSpId" value="${compoundSp.id}" />
                       </c:url>">
-                  <spring:message code="jsp.sp_detail.requestlink_short"/>
+                  <spring:message code="jsp.sp_detail.requestlink"/>
                 </a>
               </p>
             </c:if>
