@@ -86,6 +86,7 @@
     <security:intercept-url pattern="/*.ico" access="permitAll"/>
     <security:intercept-url pattern="/shopadmin/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN')"/>
     <security:intercept-url pattern="/stats/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>
+    <security:intercept-url pattern="/requests/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>
     <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN', 'ROLE_DISTRIBUTION_CHANNEL_ADMIN')"/>
 
     <security:form-login login-page="/OpenSAML.sso/Login?target=${wayf.url.sso}" default-target-url="/" />
