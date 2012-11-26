@@ -2,20 +2,15 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-
-import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.shared.service.MailService;
 
-public class NotificationServiceImpl implements NotificationService {
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.mail.SimpleMailMessage;
+
+public class EmailServiceImpl implements EmailService {
 
   private String administrativeEmail;
-
-  private static final Logger LOG = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
   @Resource(name = "mailService")
   private MailService mailService;

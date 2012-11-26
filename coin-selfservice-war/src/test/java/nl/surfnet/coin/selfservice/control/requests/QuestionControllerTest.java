@@ -34,7 +34,7 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
-import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -72,7 +72,7 @@ public class QuestionControllerTest {
   private CoinUser coinUser;
 
   @Mock
-  private NotificationService notificationService;
+  private EmailService emailService;
 
   @Mock
   private LocaleResolver localeResolver;
@@ -106,7 +106,7 @@ public class QuestionControllerTest {
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
     verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
-    verify(notificationService).sendMail(eq(issueKey), (String) anyObject(), (String) anyObject(), (String) anyObject());
+    verify(emailService).sendMail(eq(issueKey), (String) anyObject(), (String) anyObject(), (String) anyObject());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("requests/question-thanks"));
   }

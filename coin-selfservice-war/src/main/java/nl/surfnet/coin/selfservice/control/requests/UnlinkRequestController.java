@@ -43,7 +43,7 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.JiraService;
-import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
@@ -63,8 +63,8 @@ public class UnlinkRequestController extends BaseController {
   @Resource(name = "actionsService")
   private ActionsService actionsService;
 
-  @Resource(name = "notificationService")
-  private NotificationService notificationService;
+  @Resource(name = "emailService")
+  private EmailService emailService;
 
   /**
    * Controller for unlink request form page.

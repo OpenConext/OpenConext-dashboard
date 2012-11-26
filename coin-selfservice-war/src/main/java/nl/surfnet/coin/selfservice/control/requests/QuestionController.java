@@ -31,7 +31,7 @@ import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.JiraService;
-import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -61,8 +61,8 @@ public class QuestionController extends BaseController {
   @Resource(name = "jiraService")
   private JiraService jiraService;
 
-  @Resource(name = "notificationService")
-  private NotificationService notificationService;
+  @Resource(name = "emailService")
+  private EmailService emailService;
 
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
@@ -113,7 +113,7 @@ public class QuestionController extends BaseController {
 
         final String emailFrom = currentUser.getEmail();
 
-        notificationService.sendMail(issueKey, emailFrom, question.getSubject(), question.getBody());
+        emailService.sendMail(issueKey, emailFrom, question.getSubject(), question.getBody());
 
         m.put("issueKey", issueKey);
         return new ModelAndView("requests/question-thanks", m);
