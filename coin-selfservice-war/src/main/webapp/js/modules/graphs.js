@@ -27,7 +27,7 @@ app.graphs = function() {
     });
     var selectedIdp = chartOverviewElm.attr('data-ipd');
     var data = $.ajax({
-      url: contextPath + '/shopadmin/loginsperspperday.json?selectedidp=' + encodeURIComponent(selectedIdp),
+      url: contextPath + '/stats/loginsperspperday.json?selectedidp=' + encodeURIComponent(selectedIdp),
       cache: true,
       dataType: 'json'
     });

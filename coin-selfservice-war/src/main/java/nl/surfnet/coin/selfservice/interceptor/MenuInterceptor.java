@@ -71,15 +71,15 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
           menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spsconfig.shtml"));
         }
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
-        menu.addMenuItem(new MenuItem("jsp.stats.title", "/shopadmin/stats.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       case ROLE_IDP_LICENSE_ADMIN:
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
-        menu.addMenuItem(new MenuItem("jsp.stats.title", "/shopadmin/stats.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       case ROLE_IDP_SURFCONEXT_ADMIN:
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/requests-overview.shtml"));
-        menu.addMenuItem(new MenuItem("jsp.stats.title", "/shopadmin/stats.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       default:
         break;

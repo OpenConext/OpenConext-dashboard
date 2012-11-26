@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.control.shopadmin;
+package nl.surfnet.coin.selfservice.control.stats;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Controller for statistics
  */
 @Controller
-@RequestMapping(value = "/shopadmin/*")
+@RequestMapping(value = "/stats/*")
 public class StatisticController extends BaseController {
 
   @Autowired
@@ -46,7 +46,7 @@ public class StatisticController extends BaseController {
   @RequestMapping("/stats.shtml")
   public String stats(ModelMap model, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     model.put("selectedidp", selectedidp);
-    return "shopadmin/statistics";
+    return "stats/statistics";
   }
 
   @RequestMapping("/loginsperspperday.json")
@@ -64,5 +64,4 @@ public class StatisticController extends BaseController {
   public void setStatisticDao(StatisticDao statisticDao) {
     this.statisticDao = statisticDao;
   }
-
 }
