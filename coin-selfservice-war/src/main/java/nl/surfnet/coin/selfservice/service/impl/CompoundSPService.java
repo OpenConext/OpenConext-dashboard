@@ -189,7 +189,7 @@ public class CompoundSPService {
   
   private Article getCachedArticle(ServiceProvider sp, boolean refreshCache) {
     if (!licensingService.isActiveMode()) {
-      LOG.info("Returning Article.NONE because lmngService is inactive");
+      LOG.debug("Returning Article.NONE because lmngService is inactive");
       return Article.NONE;
     }
     Assert.notNull(sp);
@@ -232,7 +232,7 @@ public class CompoundSPService {
 
   private List<License> getCachedLicenses(IdentityProvider idp, Article article) {
     if (!licensingService.isActiveMode()) {
-      LOG.info("Returning License.NONE because lmngService is inactive");
+      LOG.debug("Returning License.NONE because lmngService is inactive");
       return License.NONE;
     }
 
