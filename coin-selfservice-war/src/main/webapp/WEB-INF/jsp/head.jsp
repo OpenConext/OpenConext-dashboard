@@ -57,7 +57,7 @@
 
     <nav class="primary-navigation">
       <ul>
-        <li class="user"><spring:message code="jsp.general.welcome" /> <a href="user.shtml"><sec:authentication property="principal.displayName" scope="request"
+        <li class="user"><spring:message code="jsp.general.welcome" /> <a href="/user.shtml"><sec:authentication property="principal.displayName" scope="request"
               htmlEscape="true" /></a>
         </li>
           <li class="role-switch">
