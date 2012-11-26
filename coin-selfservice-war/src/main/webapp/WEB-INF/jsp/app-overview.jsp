@@ -41,23 +41,20 @@
               <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
               <c:out value="${fn:substring(serviceDescription, 0, 40)}" />
             </p>
-            <div class="app-meta-cta">
-              <c:choose>
-                <c:when test="${not empty compoundSp.appUrl}">
-                  <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
-                    <i class="icon-external-link"></i>
-                  </a>
-                </c:when>
-                <c:when test="${not compoundSp.sp.linked}">
-                  <a href="<c:url value="/requests/linkrequest.shtml">
+            <p class="connect-app">
+              <a href="<c:url value="/requests/linkrequest.shtml">
                       <c:param name="spEntityId" value="${compoundSp.sp.id}" />
                       <c:param name="compoundSpId" value="${compoundSp.id}" />
-                    </c:url>"
-                   title="<spring:message code="jsp.sp_detail.requestlink_detailed"/>" rel="tooltip">
-                  <i class="icon-link"></i>
-                 </a>
-                </c:when>
-              </c:choose> 
+                    </c:url>">
+                <spring:message code="jsp.sp_detail.requestlink_short"/>
+              </a>
+            </p>
+            <div class="app-meta-cta">
+              <c:if test="${not empty compoundSp.appUrl}">
+                <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                  <i class="icon-external-link"></i>
+                </a>
+              </c:if>
             </div>
           </li>
         </c:if>
