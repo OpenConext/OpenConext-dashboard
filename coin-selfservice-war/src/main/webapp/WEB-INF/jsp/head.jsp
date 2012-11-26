@@ -31,6 +31,10 @@
         <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/screen.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/select2.css"/>" />
+        <%--
+        Reminder: if you change this list in any way, remember to update the corresponding list in the POM (for the minify-plugin.
+       --%>
+
       </c:when>
       <c:otherwise>
         <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>" />

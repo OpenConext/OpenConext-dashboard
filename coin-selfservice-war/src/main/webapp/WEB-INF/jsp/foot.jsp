@@ -65,6 +65,9 @@
     <script src="<c:url value="/js/tools/html5shiv.js"/>"></script>
     <script src="<c:url value="/js/tools/ios-orientationchange-fix.js"/>"></script>
     <script src="<c:url value="/js/tools/sizewatcher.js"/>"></script>
+    <%--
+      Reminder: if you change this list in any way, remember to update the corresponding list in the POM (for the minify-plugin.
+     --%>
   </c:when>
   <c:otherwise>
     <script src="<c:url value="/js/script.min.js"/>"></script>
