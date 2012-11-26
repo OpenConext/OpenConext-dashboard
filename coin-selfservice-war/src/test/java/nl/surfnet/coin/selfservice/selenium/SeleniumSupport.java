@@ -23,7 +23,6 @@ import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.slf4j.Logger;
@@ -98,28 +97,18 @@ public class SeleniumSupport {
     return driver;
   }
 
-  public void loginAtMujinaAsUser() {
-    loginAtMujinaAs(OpenConextOAuthClientMock.Users.USER);
+  public void clickOnPartialLink(String linkText) {
+    driver.findElement(By.partialLinkText(linkText)).click();
   }
+  public void clickOnButton(String textOnButton) {
+    String xpathExpression = String.format("//button[contains(text(),\"%s\")]", textOnButton);
+    driver.findElement(By.xpath(xpathExpression)).click();
+  }
+
 
   public void loginAtMujinaAs(OpenConextOAuthClientMock.Users user) {
     getWebDriver().findElement(By.name("j_username")).sendKeys(user.getUser());
     getWebDriver().findElement(By.name("j_password")).sendKeys("secret");
     getWebDriver().findElement(By.name("login")).submit();
   }
-
-  protected void giveUserConsentIfNeeded() {
-    WebElement authorizeButton = null;
-    try {
-      authorizeButton = getWebDriver()
-          .findElement(By.id("accept_terms_button"));
-    } catch (RuntimeException e) {
-      LOG.debug("No consent form found, probably no consent needed anymore.");
-    }
-    if (authorizeButton != null) {
-      LOG.debug("Clicking 'authorize'-button on user consent form");
-      authorizeButton.click();
-    }
-  }
-
 }
