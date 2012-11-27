@@ -6,12 +6,11 @@
   OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
   the specific language governing permissions and limitations under the License. -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-selfservice-parent</artifactId>
-    <version>2.12.0-SNAPSHOT</version>
+    <version>2.14.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -372,8 +371,7 @@
           </webAppConfig>
           <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
           <connectors>
-            <connector
-              implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
               <port>8280</port>
               <host>0.0.0.0</host>
             </connector>
@@ -418,8 +416,7 @@
             </goals>
             <configuration>
               <target>
-                <property name="coin-selfservice-version"
-                  value="${project.version}" />
+                <property name="coin-selfservice-version" value="${project.version}" />
                 <ant target="build" inheritRefs="true" />
               </target>
             </configuration>
@@ -514,7 +511,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore />
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -581,8 +578,7 @@
               </webAppConfig>
               <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
               <connectors>
-                <connector
-                  implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                   <port>${jetty.port}</port>
                   <host>0.0.0.0</host>
                 </connector>
