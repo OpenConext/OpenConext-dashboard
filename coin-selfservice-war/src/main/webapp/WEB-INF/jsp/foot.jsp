@@ -65,6 +65,7 @@
     <script src="<c:url value="/js/modules/compound-sp-edit.js"/>"></script>
     <script src="<c:url value="/js/modules/table.js"/>"></script>
     <script src="<c:url value="/js/modules/graphs.js"/>"></script>
+    <script src="<c:url value="/js/modules/notifications.js"/>"></script>
     <script src="<c:url value="/js/tools/html5shiv.js"/>"></script>
     <script src="<c:url value="/js/tools/ios-orientationchange-fix.js"/>"></script>
     <script src="<c:url value="/js/tools/sizewatcher.js"/>"></script>

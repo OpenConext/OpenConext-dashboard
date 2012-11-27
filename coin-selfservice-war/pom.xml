@@ -473,6 +473,7 @@
                 <jsSourceFile>modules/secondary-menu.js</jsSourceFile>
                 <jsSourceFile>modules/table.js</jsSourceFile>
                 <jsSourceFile>modules/compound-sp-edit.js</jsSourceFile>
+                <jsSourceFile>modules/notifications.js</jsSourceFile>
 
                 <jsSourceFile>tools/html5shiv.js</jsSourceFile>
                 <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>

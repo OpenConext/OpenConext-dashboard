@@ -111,6 +111,26 @@ app.message = function() {
         "stats.reset_zoom" : {
             en : "Reset zoom",
             nl : "Zoom herstellen"
+        },
+        "jsp.notifications.lcp.service.not.linked" : {
+            en : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Vraag de federatiecontactpersoon van uw instelling om deze koppeling te activeren.",
+            nl : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Vraag de federatiecontactpersoon van uw instelling om deze koppeling te activeren."
+        },
+        "jsp.notifications.fcp.service.not.linked" : {
+            en : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Bekijk deze applicatie en activeer de koppeling (link naar de detailpagina).",
+            nl : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Bekijk deze applicatie en activeer de koppeling (link naar de detailpagina)."
+        },
+        "jsp.notifications.fcp.license.not.available" : {
+            en : "Voor {0} is wel een SURFconext koppeling aanwezig, maar er is nog geen licentie afgesloten. Bekijk deze applicatie en sluit direct een overeenkomst af bij SURFmarket.nl (link naar de detailpagina).",
+            nl : "Voor {0} is wel een SURFconext koppeling aanwezig, maar er is nog geen licentie afgesloten. Bekijk deze applicatie en sluit direct een overeenkomst af bij SURFmarket.nl (link naar de detailpagina)."
+        },
+        "jsp.notifications.lcp.license.not.available" : {
+            en : "Voor {0} is wel een SURFconextkoppeling aanwezig, maar er is nog geen licentie afgesloten. Vraag de licentiecontactpersoon van uw instelling om deze aan te schaffen via SURFmarket.nl.",
+            nl : "Voor {0} is wel een SURFconextkoppeling aanwezig, maar er is nog geen licentie afgesloten. Vraag de licentiecontactpersoon van uw instelling om deze aan te schaffen via SURFmarket.nl."
+        },
+        "jsp.notifications.too_many" : {
+            en : "Too many notifications.",
+            nl : "Veelsteveel notificaties."
         }
     };
     
