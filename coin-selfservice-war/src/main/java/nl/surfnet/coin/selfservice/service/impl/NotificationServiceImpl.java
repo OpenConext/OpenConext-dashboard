@@ -48,57 +48,39 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public List<NotificationMessage> getNotifications(IdentityProvider selectedidp) {
-    
-    Authority authority = getHighestAuthority();
-    
-    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-
-    
     List<NotificationMessage> result = new ArrayList<NotificationMessage>();
     
+    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
+    
     for (CompoundServiceProvider compoundServiceProvider : services) {
-      String messageKey = null;
-      if (compoundServiceProvider.isLicenseAvailable() && !compoundServiceProvider.getSp().isLinked()) {
-        if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
-          messageKey = LCP_SERVICE_NOT_LINKED_KEY;
-        } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
-          messageKey = FCP_SERVICE_NOT_LINKED_KEY;
+      for (Authority authority : getAuthorities()) {        
+        String messageKey = null;
+        if (compoundServiceProvider.isLicenseAvailable() && !compoundServiceProvider.getSp().isLinked()) {
+          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
+            messageKey = LCP_SERVICE_NOT_LINKED_KEY;
+          } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
+            messageKey = FCP_SERVICE_NOT_LINKED_KEY;
+          }
+        } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
+          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
+            messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
+          } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
+            messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;
+          }
         }
-      } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
-        if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
-          messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
-        } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
-          messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;
+        if (messageKey != null) {
+          NotificationMessage notificationMessage = new NotificationMessage();
+          notificationMessage.setMessageKey(messageKey);
+          notificationMessage.setArguments(compoundServiceProvider.getSp().getId());
+          result.add(notificationMessage);
         }
-      }
-      if (messageKey != null) {
-        NotificationMessage notificationMessage = new NotificationMessage();
-        notificationMessage.setMessageKey(messageKey);
-        notificationMessage.setArguments(compoundServiceProvider.getSp().getId());
-        result.add(notificationMessage);
       }
     }
     
     return result;
   }
 
-  /**
-   * In case a user has multiple roles, determine which one has priority in case of these notification messages.
-   * @param authorities
-   * @return
-   */
-  private Authority getHighestAuthority() {
-    List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
-    Authority result = null;
-    for (Authority authority : authorities) {
-      if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
-        result = authority;
-        break;
-      } else if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)) {
-        result = authority;
-      }
-    }
-    return result;
+  protected List<Authority> getAuthorities(){
+    return SpringSecurity.getCurrentUser().getAuthorityEnums();
   }
-
 }
