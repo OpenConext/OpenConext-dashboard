@@ -229,7 +229,7 @@ app.graphs = function() {
         {
           name: app.message.i18n('stats.days'),
           data: data.data,
-          pointStart: data.pointStart,
+          pointStart: Math.max(data.pointStart, filterOffset),
           pointInterval: data.pointInterval
         }
       ],
