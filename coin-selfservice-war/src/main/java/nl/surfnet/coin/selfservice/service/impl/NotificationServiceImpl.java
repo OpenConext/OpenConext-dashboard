@@ -22,9 +22,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.stereotype.Component;
 
@@ -35,32 +38,67 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationServiceImpl implements NotificationService {
 
+  private static final String LCP_SERVICE_NOT_LINKED_KEY = "jsp.notifications.lcp.service.not.linked";
+  private static final String FCP_SERVICE_NOT_LINKED_KEY = "jsp.notifications.fcp.service.not.linked";
+  private static final String LCP_LICENCE_NOT_AVAILABLE_KEY = "jsp.notifications.lcp.license.not.available";
+  private static final String FCP_LICENCE_NOT_AVAILABLE_KEY = "jsp.notifications.fcp.license.not.available";
+
   @Resource
   private CompoundSPService compoundSPService;
 
   @Override
-  public List<NotificationMessage> getNotifications(List<CompoundServiceProvider> services) {
+  public List<NotificationMessage> getNotifications(IdentityProvider selectedidp) {
+    
+    Authority authority = getHighestAuthority();
+    
+    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
+
+    
     List<NotificationMessage> result = new ArrayList<NotificationMessage>();
     
-    //TODO get message from messageresource
     for (CompoundServiceProvider compoundServiceProvider : services) {
+      String messageKey = null;
       if (compoundServiceProvider.isLicenseAvailable() && !compoundServiceProvider.getSp().isLinked()) {
-        NotificationMessage message = new NotificationMessage();
-        message
-            .setMessage("Voor "
-                + compoundServiceProvider.getSp().getId()
-                + " is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Vraag de federatiecontactpersoon van uw instelling om deze koppeling te activeren");
-        result.add(message);
+        if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
+          messageKey = LCP_SERVICE_NOT_LINKED_KEY;
+        } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
+          messageKey = FCP_SERVICE_NOT_LINKED_KEY;
+        }
       } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
-        NotificationMessage message = new NotificationMessage();
-        message
-            .setMessage("Voor "
-                + compoundServiceProvider.getSp().getId()
-                + "  is wel een SURFconext koppeling aanwezig, maar er is nog geen licentie afgesloten. Bekijk deze applicatie en sluit direct een overeenkomst af bij SURFmarket.nl (link naar de detailpagina)");
-        result.add(message);
+        if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
+          messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
+        } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
+          messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;
+        }
+      }
+      if (messageKey != null) {
+        NotificationMessage notificationMessage = new NotificationMessage();
+        notificationMessage.setMessageKey(messageKey);
+        notificationMessage.setArguments(compoundServiceProvider.getSp().getId());
+        result.add(notificationMessage);
       }
     }
     
     return result;
   }
+
+  /**
+   * In case a user has multiple roles, determine which one has priority in case of these notification messages.
+   * @param authorities
+   * @return
+   */
+  private Authority getHighestAuthority() {
+    List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
+    Authority result = null;
+    for (Authority authority : authorities) {
+      if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
+        result = authority;
+        break;
+      } else if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)) {
+        result = authority;
+      }
+    }
+    return result;
+  }
+
 }

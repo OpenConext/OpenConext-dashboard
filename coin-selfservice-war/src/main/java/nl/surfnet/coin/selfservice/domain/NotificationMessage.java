@@ -26,7 +26,8 @@ public class NotificationMessage implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String message;
+  private String messageKey;
+  private String arguments;
   private boolean read;
   
   public boolean isRead() {
@@ -35,11 +36,17 @@ public class NotificationMessage implements Serializable {
   public void setRead(boolean read) {
     this.read = read;
   }
-  public String getMessage() {
-    return message;
+  public String getMessageKey() {
+    return messageKey;
   }
-  public void setMessage(String message) {
-    this.message = message;
+  public void setMessageKey(String messageKey) {
+    this.messageKey = messageKey;
+  }
+  public String getArguments() {
+    return arguments;
+  }
+  public void setArguments(String arguments) {
+    this.arguments = arguments;
   }
   
 }

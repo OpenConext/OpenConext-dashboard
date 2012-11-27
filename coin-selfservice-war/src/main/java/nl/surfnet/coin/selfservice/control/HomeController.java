@@ -16,12 +16,14 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -36,6 +38,7 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,7 +76,7 @@ public class HomeController extends BaseController {
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
 
-    List<NotificationMessage> notificationMessages = notificationService.getNotifications(services);
+    List<NotificationMessage> notificationMessages = notificationService.getNotifications(selectedidp);
     
     try {
       String jsonNotificationMessages = objectMapper.writeValueAsString(notificationMessages);
