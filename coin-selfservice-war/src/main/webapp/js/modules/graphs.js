@@ -55,7 +55,9 @@ app.graphs = function() {
 
     filterElm.on('click', '.show a', setTimeframe);
     filterElm.on('change', '#choose-time-offset', setTimeframe);
-    wrapperElm.on('click', '.back', initRendering);
+    wrapperElm.on('click', '.back', function() {
+      location.hash = '';
+    });
   };
 
 
@@ -68,9 +70,19 @@ app.graphs = function() {
       renderOverview(filterData(data, filterType, filterOffset));
 
       filterElm.find('.show a:first').trigger('click');
+
+      if ('onhashchange' in window) {
+        $(window).on('hashchange', setHash);
+      }
+
+      if (location.hash.length) {
+          setHash();
+      }
     }
     else {
-      highcharts.preventDefault();
+      if (highcharts) {
+        highcharts.preventDefault();
+      }
       currentTitle = app.message.i18n('stats.title.overview_default');
       renderOverview(currentData, true);
     }
@@ -232,7 +244,7 @@ app.graphs = function() {
       xAxis: {
         type: 'datetime',
         lineColor: '#7F7F7F',
-        maxZoom: 7 * 24 * 3600000
+        maxZoom: 4 * 24 * 3600000
       },
       yAxis: {
         gridLineColor: '#E5E5E5',
@@ -248,17 +260,41 @@ app.graphs = function() {
   };
 
 
+  var setHash = function() {
+    setSp(decodeURIComponent(location.hash.substring(1)));
+  };
+
+
   var setSp = function(arg) {
     if (typeof arg === 'string') {
-      for (var l = currentData.length - 1; l > -1; --l) {
-        if (currentData[l].name.indexOf(arg) === 0) {
-          currentlyShownSp = l;
-          break;
+      if (arg.length > 0 && decodeURIComponent(location.hash).indexOf(arg) !== 1) {
+        location.hash = encodeURIComponent(arg);
+        return;
+      }
+      else {
+        currentlyShownSp = false;
+        for (var l = currentData.length - 1; l > -1; --l) {
+          if (arg.length > 0 && currentData[l].name.indexOf(arg) === 0) {
+            currentlyShownSp = l;
+            break;
+          }
+        }
+
+        if (currentlyShownSp === false) {
+          initRendering();
+          return;
         }
       }
     }
     else {
       currentlyShownSp = arg.point.config[2];
+
+      var name = currentData[currentlyShownSp].name.substring(0, 30);
+
+      if (decodeURIComponent(location.hash).indexOf() !== 1) {
+        location.hash = encodeURIComponent(name);
+        return;
+      }
     }
 
     currentTitle = app.message.i18n('stats.title.sp_overview').replace('#{sp}',  currentData[currentlyShownSp].name);
@@ -287,8 +323,10 @@ app.graphs = function() {
       elm.addClass('active');
     }
     else {
-      filterOffset = parseInt(elm.val(), 10);
+      filterOffset = elm.val();
     }
+    
+    filterOffset = parseInt(filterOffset, 10);
 
     var newData = [];
 
