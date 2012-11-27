@@ -96,9 +96,9 @@ app.message = function() {
             en : "Logins per day",
             nl : "Inloggen per dag"
         },
-        "stats.days" : {
-            en : "Days",
-            nl : "Dagen"
+        "stats.logins" : {
+            en : "Logins",
+            nl : "Logins"
         },
         "stats.weekof" : {
             en : "Week #{week} of #{year}",
