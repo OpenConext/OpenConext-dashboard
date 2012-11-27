@@ -55,7 +55,7 @@
                           <spring:message code="jsp.requests-overview.tooltip-closed" />
                         </c:when>
                         <c:when test="${action.status eq 'OPEN'}">
-                          <spring:message code="jsp.requests-overview.tooltip-closed" />
+                          <spring:message code="jsp.requests-overview.tooltip-open" />
                         </c:when>
                       </c:choose>
                     </td>
@@ -63,7 +63,7 @@
                       <c:out value="${action.userName}"/>
                     </td>
                     <td>
-                      <fmt:formatDate value="${action.requestDate}" pattern="yyyy-MM-dd"/>
+                      <fmt:formatDate value="${action.requestDate}" pattern="dd-MM-yyyy"/>
                     </td>
                   </tr>
                 </c:forEach>
