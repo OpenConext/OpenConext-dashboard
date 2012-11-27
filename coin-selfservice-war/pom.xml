@@ -504,7 +504,7 @@
               <jsSourceFiles>
                 <!-- All javascript files are setup explicitly here, to conserve 
                   their order in the minified version. -->
-                <jsSourceFile>jquery/jquery-1.7.2.min.js</jsSourceFile>
+                <jsSourceFile>jquery/jquery-1.8.3.min.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-2.0.3.min.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
                 <jsSourceFile>bootstrap/bootstrap-popover.js</jsSourceFile>
