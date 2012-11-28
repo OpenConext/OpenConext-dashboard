@@ -24,7 +24,6 @@ import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -33,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of notification service
- *
+ * 
  */
 @Component
 public class NotificationServiceImpl implements NotificationService {
@@ -47,22 +46,24 @@ public class NotificationServiceImpl implements NotificationService {
   private CompoundSPService compoundSPService;
 
   @Override
-  public List<NotificationMessage> getNotifications(IdentityProvider selectedidp) {
+  public List<NotificationMessage> getNotifications(List<CompoundServiceProvider> services) {
     List<NotificationMessage> result = new ArrayList<NotificationMessage>();
-    
-    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-    
+
     for (CompoundServiceProvider compoundServiceProvider : services) {
-      for (Authority authority : getAuthorities()) {        
+      for (Authority authority : getAuthorities()) {
         String messageKey = null;
         if (compoundServiceProvider.isLicenseAvailable() && !compoundServiceProvider.getSp().isLinked()) {
-          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
+          // Get messagekey based on Authority (for LCP also filter on
+          // availableArticles)
+          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority) && compoundServiceProvider.isArticleAvailable()) {
             messageKey = LCP_SERVICE_NOT_LINKED_KEY;
           } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
             messageKey = FCP_SERVICE_NOT_LINKED_KEY;
           }
         } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
-          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority)){
+          // Get messagekey based on Authority (for LCP also filter on
+          // availableArticles)
+          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority) && compoundServiceProvider.isArticleAvailable()) {
             messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
           } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
             messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;
@@ -71,16 +72,16 @@ public class NotificationServiceImpl implements NotificationService {
         if (messageKey != null) {
           NotificationMessage notificationMessage = new NotificationMessage();
           notificationMessage.setMessageKey(messageKey);
-          notificationMessage.setArguments(compoundServiceProvider.getSp().getId());
+          notificationMessage.setArguments(compoundServiceProvider.getServiceDescriptionNl());
           result.add(notificationMessage);
         }
       }
     }
-    
+
     return result;
   }
 
-  protected List<Authority> getAuthorities(){
+  protected List<Authority> getAuthorities() {
     return SpringSecurity.getCurrentUser().getAuthorityEnums();
   }
 }
