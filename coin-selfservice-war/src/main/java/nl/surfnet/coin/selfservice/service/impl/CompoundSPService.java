@@ -60,14 +60,18 @@ public class CompoundSPService {
   private int lmngLicenseCacheExpireSeconds;
 
   private Logger LOG = LoggerFactory.getLogger(CompoundSPService.class);
-  
-  private AbstractMap.SimpleEntry<DateTime, List<Article>> cachedArticles;
-  
+
   /*
-   * Cached resultlist of LMNG data. A resultlist is stored per IDP with an
-   * expire date
+   * Cached resultlist of LMNG license data. A resultlist is stored per IDP with
+   * an expire date
    */
-  private Map<AbstractMap.SimpleEntry<IdentityProvider, Article>, AbstractMap.SimpleEntry<DateTime, List<License>>> lmngCachedResults; 
+  private Map<AbstractMap.SimpleEntry<IdentityProvider, Article>, AbstractMap.SimpleEntry<DateTime, List<License>>> cachedLicenses;
+
+  /*
+   * Cached resultlist of LMNG article data. A resultlist is IDP independent but
+   * has an expire date
+   */
+  private AbstractMap.SimpleEntry<DateTime, List<Article>> cachedArticles;
 
   @Resource
   private CompoundServiceProviderDao compoundServiceProviderDao;
@@ -112,7 +116,7 @@ public class CompoundSPService {
   }
 
   /**
-   * Create a CSP for the given SP. 
+   * Create a CSP for the given SP.
    * 
    * @param sp
    *          the SP
@@ -122,7 +126,7 @@ public class CompoundSPService {
     Article article = getCachedArticle(sp, false);
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, article);
     csp.setLicenses(getCachedLicenses(idp, article));
-    
+
     compoundServiceProviderDao.saveOrUpdate(csp);
     return csp;
   }
@@ -174,8 +178,7 @@ public class CompoundSPService {
     CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
     if (compoundServiceProvider == null) {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProviderEntityId);
-      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider,
-          getCachedArticle(serviceProvider, false));
+      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, getCachedArticle(serviceProvider, false));
       compoundServiceProviderDao.saveOrUpdate(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");
     } else {
@@ -186,14 +189,27 @@ public class CompoundSPService {
     return compoundServiceProvider;
   }
 
-  
+  /**
+   * Get an (LNMG)article for the given SP, the article will be retrieved from
+   * the cache if it's available and not expired. Otherwise a new list of
+   * articles for all SP's will be retrieved from LMNG and placed in the cache
+   * with an expiration date based upon the lmngArticleCacheExpireSeconds
+   * variable.
+   * 
+   * @param sp
+   *          the SP to get the article for
+   * @param refreshCache
+   *          if true the cache will be forced to refresh (expirationdate
+   *          independent)
+   * @return the (possibly cached) article
+   */
   private Article getCachedArticle(ServiceProvider sp, boolean refreshCache) {
     if (!licensingService.isActiveMode()) {
       LOG.debug("Returning Article.NONE because lmngService is inactive");
       return Article.NONE;
     }
     Assert.notNull(sp);
-    
+
     // Check and update (if needed) cache
     DateTime now = getNow();
     if (cachedArticles == null || refreshCache || cachedArticles.getKey().isBefore(now)) {
@@ -207,7 +223,8 @@ public class CompoundSPService {
       try {
         articles = licensingService.getArticlesForServiceProviders(allSpsIds);
       } catch (LmngException e) {
-        // Cache cannot be updated. Continue using old values. create empty item if we have nothing at all
+        // Cache cannot be updated. Continue using old values. create empty item
+        // if we have nothing at all
         LOG.warn("Cache for articles cannot be updated. Exception thrown: " + e.getMessage());
         if (cachedArticles == null) {
           articles = Collections.emptyList();
@@ -218,10 +235,10 @@ public class CompoundSPService {
       }
       cachedArticles = new SimpleEntry<DateTime, List<Article>>(invalidationDate, articles);
     }
-    
+
     // find and return article from cache
     for (Article article : cachedArticles.getValue()) {
-      if (article.getServiceProviderEntityId().equals(sp.getId())){
+      if (article.getServiceProviderEntityId().equals(sp.getId())) {
         return article;
       }
     }
@@ -230,6 +247,22 @@ public class CompoundSPService {
     return null;
   }
 
+  /**
+   * Get a list of (LNMG)licenses for the given IDP and Article, the licenses
+   * will be retrieved from the cache if it's available and not expired.
+   * Otherwise a new list of licenses for this IDP and article combination
+   * (valid at the current date) will be retrieved from LMNG and placed in the
+   * cache with an expiration date based upon the lmngArticleCacheExpireSeconds
+   * variable. Cache items are based on a key of the combination 'IDP and
+   * article'.
+   * 
+   * @param idp
+   *          the IDP to get the license for
+   * @param article
+   *          the article to get the license for
+   * @return the (possibly cached) list of licenses (in general there will be
+   *         just 1 active license per IDP/article)
+   */
   private List<License> getCachedLicenses(IdentityProvider idp, Article article) {
     if (!licensingService.isActiveMode()) {
       LOG.debug("Returning License.NONE because lmngService is inactive");
@@ -238,19 +271,20 @@ public class CompoundSPService {
 
     Assert.notNull(idp);
     if (article != null) {
-      if (lmngCachedResults == null) {
-        lmngCachedResults = new HashMap<AbstractMap.SimpleEntry<IdentityProvider,Article>, AbstractMap.SimpleEntry<DateTime,List<License>>>();
+      if (cachedLicenses == null) {
+        cachedLicenses = new HashMap<AbstractMap.SimpleEntry<IdentityProvider, Article>, AbstractMap.SimpleEntry<DateTime, List<License>>>();
       }
       DateTime now = getNow();
       SimpleEntry<IdentityProvider, Article> entry = new SimpleEntry<IdentityProvider, Article>(idp, article);
-      SimpleEntry<DateTime, List<License>> cachedValue = lmngCachedResults.get(entry);
+      SimpleEntry<DateTime, List<License>> cachedValue = cachedLicenses.get(entry);
       if (cachedValue == null || cachedValue.getKey().isBefore(now)) {
         List<License> licenses;
         DateTime invalidationDate = new DateTime(now).plusSeconds(lmngLicenseCacheExpireSeconds);
         try {
           licenses = licensingService.getLicensesForIdpAndSp(idp, article.getLmngIdentifier(), now.toDate());
         } catch (LmngException e) {
-          // Cache cannot be updated. Continue using old values. create empty item if we have nothing at all
+          // Cache cannot be updated. Continue using old values. create empty
+          // item if we have nothing at all
           LOG.warn("Cache for licenses cannot be updated. Exception thrown: " + e.getMessage());
           if (cachedValue == null) {
             licenses = Collections.emptyList();
@@ -260,7 +294,7 @@ public class CompoundSPService {
           invalidationDate = new DateTime(now).plusSeconds(LMNG_TIMEOUT_AFTER_EXCEPTION_SECONDS);
         }
         cachedValue = new SimpleEntry<DateTime, List<License>>(invalidationDate, licenses);
-        lmngCachedResults.put(entry, cachedValue);
+        cachedLicenses.put(entry, cachedValue);
       }
       return cachedValue.getValue();
     }
@@ -283,5 +317,5 @@ public class CompoundSPService {
   public void setLmngLicenseCacheExpireSeconds(int lmngLicenseCacheExpireSeconds) {
     this.lmngLicenseCacheExpireSeconds = lmngLicenseCacheExpireSeconds;
   }
-  
+
 }
