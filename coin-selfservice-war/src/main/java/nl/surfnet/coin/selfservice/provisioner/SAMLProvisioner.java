@@ -39,6 +39,7 @@ import org.opensaml.saml2.core.AuthnStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
 
@@ -68,8 +69,11 @@ public class SAMLProvisioner implements Provisioner {
 
     coinUser.setInstitutionId(getInstitutionId(idpId));
 
-    for (IdentityProvider idp : identityProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId())) {
-      coinUser.addInstitutionIdp(idp);
+    List<IdentityProvider> instituteIdPs = identityProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId());
+    if (!CollectionUtils.isEmpty(instituteIdPs)) {
+      for (IdentityProvider idp : instituteIdPs) {
+        coinUser.addInstitutionIdp(idp);
+      }
     }
     // Add the one the user is currently identified by if it's not in the list
     // already.

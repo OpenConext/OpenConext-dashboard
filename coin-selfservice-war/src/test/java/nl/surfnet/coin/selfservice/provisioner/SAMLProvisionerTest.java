@@ -54,15 +54,16 @@ public class SAMLProvisionerTest {
   private IdentityProviderService identityProviderService;
 
   @InjectMocks
-  private SAMLProvisioner s;
+  private SAMLProvisioner provisioner;
 
   @Before
   public void before() {
-    s = new SAMLProvisioner();
+    provisioner = new SAMLProvisioner();
     MockitoAnnotations.initMocks(this);
   }
+
   @Test
-  public void testProvision() throws Exception {
+  public void test_provision_happy_flow() throws Exception {
 
     final Assertion a = readAssertionFromFile("assertion.xml");
 
@@ -73,9 +74,8 @@ public class SAMLProvisionerTest {
     when(identityProviderService.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
     when(identityProviderService.getInstituteIdentityProviders("institutionId")).thenReturn(Arrays.asList(idp, idp2, idp3));
 
-    CoinUser cu = (CoinUser) s.provisionUser(a);
+    CoinUser cu = (CoinUser) provisioner.provisionUser(a);
 
-//    verify(fedProvSvc).getIdentityProvider("boo");
     assertEquals("urn:collab:person:surfguest.nl:gvanderploeg", cu.getUsername());
     assertEquals("https://surfguest.nl", cu.getIdp());
     assertEquals("surfguest.nl", cu.getSchacHomeOrganization());
@@ -84,12 +84,25 @@ public class SAMLProvisionerTest {
     assertEquals("urn:collab:person:surfguest.nl:gvanderploeg", cu.getUid());
     assertThat(cu.getInstitutionId(), is("institutionId"));
 
-    assertThat("Multiple idps belonging to the same institution should be linked",
-        cu.getInstitutionIdps().size(), is(3));
+    assertThat("Multiple idps belonging to the same institution should be linked", cu.getInstitutionIdps().size(), is(3));
   }
 
-  private Assertion readAssertionFromFile(String filename) throws ConfigurationException, IOException,
-      UnmarshallingException,
+  @Test
+  public void test_provision_no_institution_id() throws Exception {
+
+    final Assertion a = readAssertionFromFile("assertion.xml");
+
+    IdentityProvider idp = new IdentityProvider("https://surfguest.nl", null, "idp-name");
+
+    when(identityProviderService.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
+    when(identityProviderService.getInstituteIdentityProviders(null)).thenReturn(null);
+
+    CoinUser cu = (CoinUser) provisioner.provisionUser(a);
+    assertEquals(1,cu.getInstitutionIdps().size());
+    
+  }
+
+  private Assertion readAssertionFromFile(String filename) throws ConfigurationException, IOException, UnmarshallingException,
       SAXException, ParserConfigurationException {
     DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
     f.setNamespaceAware(true);
@@ -97,23 +110,11 @@ public class SAMLProvisionerTest {
     return (Assertion) readFromFile(f.newDocumentBuilder(), new ClassPathResource(filename).getFile());
   }
 
-
   /**
-   OpenSAML Helper method to read an XML object from a DOM element.
+   * OpenSAML Helper method to read an XML object from a file.
    */
-  public static XMLObject fromElement (Element element)
-      throws IOException, UnmarshallingException, SAXException
-  {
-    return Configuration.getUnmarshallerFactory()
-        .getUnmarshaller (element).unmarshall (element);
-  }
-
-  /**
-   OpenSAML Helper method to read an XML object from a file.
-   */
-  public XMLObject readFromFile (DocumentBuilder builder, File file)
-      throws IOException, UnmarshallingException, SAXException
-  {
-    return fromElement (builder.parse (file).getDocumentElement ());
+  public XMLObject readFromFile(DocumentBuilder builder, File file) throws IOException, UnmarshallingException, SAXException {
+    Element element = builder.parse(file).getDocumentElement();
+    return Configuration.getUnmarshallerFactory().getUnmarshaller(element).unmarshall(element);
   }
 }
