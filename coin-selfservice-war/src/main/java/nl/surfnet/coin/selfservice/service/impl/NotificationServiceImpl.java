@@ -57,7 +57,8 @@ public class NotificationServiceImpl implements NotificationService {
           // availableArticles)
           if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority) && compoundServiceProvider.isArticleAvailable()) {
             messageKey = LCP_SERVICE_NOT_LINKED_KEY;
-          } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
+          } 
+          if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
             messageKey = FCP_SERVICE_NOT_LINKED_KEY;
           }
         } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
@@ -65,7 +66,8 @@ public class NotificationServiceImpl implements NotificationService {
           // availableArticles)
           if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority) && compoundServiceProvider.isArticleAvailable()) {
             messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
-          } else if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
+          } 
+          if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
             messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;
           }
         }
