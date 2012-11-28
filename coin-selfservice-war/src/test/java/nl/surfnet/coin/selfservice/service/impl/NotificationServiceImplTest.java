@@ -66,16 +66,11 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesLcp() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
 
-    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
-    // "name");
-
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, true));
     services.add(createCompoundServiceProvider("testSp2", false, true));
     services.add(createCompoundServiceProvider("testSp3", true, false));
     services.add(createCompoundServiceProvider("testSp4", false, false));
-
-    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
     List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
@@ -91,16 +86,11 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesFcp() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_SURFCONEXT_ADMIN });
 
-    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
-    // "name");
-
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, false));
     services.add(createCompoundServiceProvider("testSp2", false, true));
     services.add(createCompoundServiceProvider("testSp3", true, true));
     services.add(createCompoundServiceProvider("testSp4", false, false));
-
-    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
     List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
@@ -116,16 +106,11 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesShopmanager() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN });
 
-    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
-    // "name");
-
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", false, true));
     services.add(createCompoundServiceProvider("testSp2", true, false));
     services.add(createCompoundServiceProvider("testSp3", true, true));
     services.add(createCompoundServiceProvider("testSp4", false, false));
-
-    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
     List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
@@ -136,15 +121,10 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithoutMessages() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
 
-    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
-    // "name");
-
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, true));
     services.add(createCompoundServiceProvider("testSp2", true, true));
     services.add(createCompoundServiceProvider("testSp3", false, false));
-
-    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
     List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
