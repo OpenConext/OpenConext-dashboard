@@ -17,17 +17,17 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
+import nl.surfnet.coin.selfservice.domain.Provider.Language;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.junit.Before;
@@ -66,7 +66,8 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesLcp() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
+    // "name");
 
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, true));
@@ -74,15 +75,15 @@ public class NotificationServiceImplTest {
     services.add(createCompoundServiceProvider("testSp3", true, false));
     services.add(createCompoundServiceProvider("testSp4", false, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
     assertEquals(2, result.size());
-    assertEquals(result.get(0).getArguments(), "testSp2");
-    assertEquals(result.get(0).getMessageKey(), "jsp.notifications.lcp.license.not.available");
-    assertEquals(result.get(1).getArguments(), "testSp3");
-    assertEquals(result.get(1).getMessageKey(), "jsp.notifications.lcp.service.not.linked");
+    assertEquals("testSp2", result.get(0).getArguments());
+    assertEquals("jsp.notifications.lcp.license.not.available", result.get(0).getMessageKey());
+    assertEquals("testSp3", result.get(1).getArguments());
+    assertEquals("jsp.notifications.lcp.service.not.linked", result.get(1).getMessageKey());
 
   }
 
@@ -90,7 +91,8 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesFcp() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_SURFCONEXT_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
+    // "name");
 
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, false));
@@ -98,15 +100,15 @@ public class NotificationServiceImplTest {
     services.add(createCompoundServiceProvider("testSp3", true, true));
     services.add(createCompoundServiceProvider("testSp4", false, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
     assertEquals(2, result.size());
-    assertEquals(result.get(0).getArguments(), "testSp1");
-    assertEquals(result.get(0).getMessageKey(), "jsp.notifications.fcp.service.not.linked");
-    assertEquals(result.get(1).getArguments(), "testSp2");
-    assertEquals(result.get(1).getMessageKey(), "jsp.notifications.fcp.license.not.available");
+    assertEquals("testSp1", result.get(0).getArguments());
+    assertEquals("jsp.notifications.fcp.service.not.linked", result.get(0).getMessageKey());
+    assertEquals("testSp2", result.get(1).getArguments());
+    assertEquals("jsp.notifications.fcp.license.not.available", result.get(1).getMessageKey());
 
   }
 
@@ -114,7 +116,8 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesShopmanager() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
+    // "name");
 
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", false, true));
@@ -122,9 +125,9 @@ public class NotificationServiceImplTest {
     services.add(createCompoundServiceProvider("testSp3", true, true));
     services.add(createCompoundServiceProvider("testSp4", false, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
     assertEquals(0, result.size());
   }
@@ -133,29 +136,33 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithoutMessages() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    // IdentityProvider idp = new IdentityProvider("idpId", "institutionid",
+    // "name");
 
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, true));
     services.add(createCompoundServiceProvider("testSp2", true, true));
     services.add(createCompoundServiceProvider("testSp3", false, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    // when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    List<NotificationMessage> result = notificationServiceImpl.getNotifications(services);
 
     assertEquals(0, result.size());
   }
 
-  private CompoundServiceProvider createCompoundServiceProvider(String spId, boolean hasLicense, boolean isLinked) {
-    CompoundServiceProvider csp = new CompoundServiceProvider();
-    ServiceProvider sp = new ServiceProvider(spId);
+  private CompoundServiceProvider createCompoundServiceProvider(String spName, boolean hasLicense, boolean isLinked) {
+    ServiceProvider sp = new ServiceProvider(spName);
+    sp.addName(Language.NL.name().toLowerCase(), spName);
+
+    Article article = new Article();
+    article.setServiceProviderEntityId(spName);
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, article);
     if (isLinked) {
       sp.setLinked(true);
     } else {
       sp.setLinked(false);
     }
-    csp.setServiceProvider(sp);
 
     if (hasLicense) {
       csp.setLicenses(Arrays.asList(new License[] { new License() }));

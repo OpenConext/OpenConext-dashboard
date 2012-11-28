@@ -16,6 +16,10 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -30,12 +34,9 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 /**
  * Test for {@link HomeController}
@@ -67,7 +68,7 @@ public class HomeControllerTest {
   @Test
   public void testStart() throws Exception {
 
-    final ModelAndView mav = controller.home(new IdentityProvider());
+    final ModelAndView mav = controller.home(new IdentityProvider(), new MockHttpServletRequest());
     assertEquals("app-overview", mav.getViewName());
 
     final ModelMap modelMap = mav.getModelMap();
