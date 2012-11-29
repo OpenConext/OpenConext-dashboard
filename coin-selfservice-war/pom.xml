@@ -415,7 +415,7 @@
               <goal>exec</goal>
             </goals>
             
-            <phase>pre-clean</phase>
+            <phase>generate-resources</phase>
           </execution>
         </executions>
         <configuration>
@@ -431,7 +431,7 @@
         <version>1.3.5</version>
         <executions>
           <execution>
-             <phase>clean</phase>
+             <phase>process-resources</phase>
             <configuration>
               <cssSourceDir>css</cssSourceDir>
               <cssSourceIncludes>
