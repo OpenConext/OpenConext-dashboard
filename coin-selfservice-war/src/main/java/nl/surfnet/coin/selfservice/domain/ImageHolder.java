@@ -18,11 +18,10 @@ package nl.surfnet.coin.selfservice.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Proxy;
 
 import nl.surfnet.coin.shared.domain.DomainObject;
+
+import org.hibernate.annotations.Proxy;
 
 /**
  * ImageHolder.java

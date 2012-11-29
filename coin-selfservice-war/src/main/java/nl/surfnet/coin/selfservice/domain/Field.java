@@ -32,7 +32,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class Field extends DomainObject implements Comparable {
+public abstract class Field extends DomainObject implements Comparable<Field> {
 
   @Column(name = "field_source")
   private Source source;
@@ -131,8 +131,7 @@ public abstract class Field extends DomainObject implements Comparable {
   }
 
   @Override
-  public int compareTo(Object o) {
-    Field that = (Field) o;
+  public int compareTo(Field that) {
     return new CompareToBuilder()
       .append(this.key, that.key)
       .toComparison();

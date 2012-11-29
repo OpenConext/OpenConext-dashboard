@@ -15,20 +15,25 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
+import static java.util.Arrays.asList;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import nl.surfnet.coin.selfservice.domain.Field.Key;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.*;
-import static java.util.Arrays.asList;
 
 /**
  * AttributeScopeConstraints.java

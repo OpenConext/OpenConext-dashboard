@@ -16,8 +16,6 @@
 
 package nl.surfnet.coin.selfservice.command;
 
-import java.util.Map;
-
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 /**

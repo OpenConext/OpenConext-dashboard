@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -36,12 +38,8 @@ import org.opensaml.saml2.core.Attribute;
 import org.opensaml.saml2.core.AttributeStatement;
 import org.opensaml.saml2.core.AuthenticatingAuthority;
 import org.opensaml.saml2.core.AuthnStatement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
-
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
 
 /**
  * implementation to return UserDetails from a SAML Assertion

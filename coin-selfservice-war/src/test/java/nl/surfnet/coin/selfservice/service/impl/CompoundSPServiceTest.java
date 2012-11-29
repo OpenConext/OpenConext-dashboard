@@ -130,6 +130,7 @@ public class CompoundSPServiceTest {
     assertTrue(sp1 == gottenCSP.getServiceProvider());
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void testLmngCacheExpire() throws Exception {
     //Set the cache to 1 minute

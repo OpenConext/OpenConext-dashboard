@@ -29,6 +29,7 @@ import nl.surfnet.coin.selfservice.domain.ARP;
 /**
  * Returns a List of {@link nl.surfnet.coin.selfservice.domain.ARP} for the current Identity Provider
  */
+@SuppressWarnings("serial")
 public class ARPFilter extends TagSupport {
 
   private String var;

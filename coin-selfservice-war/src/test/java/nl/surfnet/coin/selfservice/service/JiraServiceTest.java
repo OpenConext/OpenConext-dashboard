@@ -1,25 +1,23 @@
 package nl.surfnet.coin.selfservice.service;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.JiraTask;
 
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.internal.matchers.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.JiraTask;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 /**
  *
@@ -30,7 +28,6 @@ import static org.junit.Assert.assertThat;
         "/coin-selfservice-properties-context.xml",
         "classpath:coin-shared-context.xml"})
 public class JiraServiceTest {
-    private static final Logger log = LoggerFactory.getLogger(JiraServiceTest.class);
 
     @Autowired
     private JiraService jiraService;

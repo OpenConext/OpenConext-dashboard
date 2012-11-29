@@ -88,8 +88,6 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
     loginAtMujinaAs(OpenConextOAuthClientMock.Users.ALL); // login as normal user
     driver.get(getSelfserviceBaseUrl()+bindingAdminUrl); // get lmng sp admin page
 
-    WebElement inputSp = driver.findElement(By.id("spId-0"));
-
     WebElement inputLmng = driver.findElement(By.id("lmngId-0"));
 
     inputLmng.clear();

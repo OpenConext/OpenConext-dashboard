@@ -25,14 +25,13 @@ import java.util.Map;
 
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Simple conext user
  */
+@SuppressWarnings("serial")
 public class CoinUser implements UserDetails {
 
   private String uid;

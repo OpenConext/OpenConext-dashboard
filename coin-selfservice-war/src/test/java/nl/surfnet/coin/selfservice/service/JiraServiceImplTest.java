@@ -16,9 +16,23 @@
 
 package nl.surfnet.coin.selfservice.service;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.internal.matchers.StringContains.containsString;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.JiraTask;
+import nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl;
 
 import org.hamcrest.core.IsEqual;
 import org.junit.Before;
@@ -29,19 +43,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.swift.common.soap.jira.JiraSoapService;
 import org.swift.common.soap.jira.RemoteIssue;
-
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.JiraTask;
-import nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.internal.matchers.StringContains.containsString;
-import static org.mockito.Matchers.*;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class JiraServiceImplTest {
 

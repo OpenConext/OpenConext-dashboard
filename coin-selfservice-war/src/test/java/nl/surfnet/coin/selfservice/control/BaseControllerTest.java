@@ -16,8 +16,14 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import java.util.Arrays;
 import java.util.List;
+
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,16 +33,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link BaseController}

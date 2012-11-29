@@ -25,8 +25,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,8 +32,6 @@ import org.slf4j.LoggerFactory;
  */
 public class SeleniumSupport {
   
-  private final static Logger LOG = LoggerFactory.getLogger(SeleniumSupport.class);
-
   private static WebDriver driver;
 
   protected String getSelfserviceBaseUrl() {

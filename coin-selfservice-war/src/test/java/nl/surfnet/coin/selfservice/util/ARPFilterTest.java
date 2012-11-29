@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -62,38 +63,33 @@ public class ARPFilterTest {
 
   @Test
   public void testDoEndTag_match() throws Exception {
-    final List<ARP> arps = getArps();
-    arpFilter.setIdpId(IDP1);
-    arpFilter.setArpList(arps);
-
-    final int result = arpFilter.doEndTag();
-    assertEquals(TagSupport.EVAL_PAGE, result);
-    final List<ARP> list = (List<ARP>) mockPageContext.getAttribute("var");
+    final List<ARP> list = setUpArps(IDP1, getArps());
     assertEquals(1, list.size());
     assertEquals(2, list.get(0).getFedAttributes().size());
   }
 
   @Test
   public void testDoEndTag_noMatch() throws Exception {
-    final List<ARP> arps = getArps();
-    arpFilter.setIdpId(IDP2);
-    arpFilter.setArpList(arps);
-
-    final int result = arpFilter.doEndTag();
-    assertEquals(TagSupport.EVAL_PAGE, result);
-    final List<ARP> list = (List<ARP>) mockPageContext.getAttribute("var");
+    final List<ARP> list = setUpArps(IDP2, getArps());
     assertEquals(1, list.size());
     assertEquals(1, list.get(0).getFedAttributes().size());
   }
 
   @Test
   public void testDoEndTag_emptyList() throws Exception {
-    arpFilter.setIdpId(IDP1);
-    arpFilter.setArpList(Collections.<ARP>emptyList());
+    final List<ARP> list = setUpArps(IDP1, Collections.<ARP>emptyList());
+    assertTrue(list.isEmpty());
+  }
+
+  @SuppressWarnings("unchecked")
+  private List<ARP> setUpArps(String idpId, List<ARP> arps) throws JspException {
+    arpFilter.setIdpId(idpId);
+    arpFilter.setArpList(arps);
+
     final int result = arpFilter.doEndTag();
     assertEquals(TagSupport.EVAL_PAGE, result);
     final List<ARP> list = (List<ARP>) mockPageContext.getAttribute("var");
-    assertTrue(list.isEmpty());
+    return list;
   }
 
   private static List<ARP> getArps() {

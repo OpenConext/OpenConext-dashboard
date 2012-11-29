@@ -33,7 +33,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -61,7 +60,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-@SuppressWarnings("unchecked")
 public class ApiOAuthFilterTest {
 
   private static final String THE_USERS_UID = "the-users-uid";

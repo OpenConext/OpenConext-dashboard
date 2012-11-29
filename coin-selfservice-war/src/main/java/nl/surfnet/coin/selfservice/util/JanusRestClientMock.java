@@ -18,9 +18,8 @@ package nl.surfnet.coin.selfservice.util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import static nl.surfnet.coin.janus.Janus.Metadata.*;
+
 import nl.surfnet.coin.janus.Janus;
-import nl.surfnet.coin.janus.Janus.Metadata;
 import nl.surfnet.coin.janus.domain.ARP;
 import nl.surfnet.coin.janus.domain.EntityMetadata;
 import nl.surfnet.coin.janus.domain.JanusEntity;

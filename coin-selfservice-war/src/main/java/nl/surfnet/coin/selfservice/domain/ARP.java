@@ -97,9 +97,4 @@ public class ARP implements Serializable {
     this.conextAttributes = conextAttributes;
   }
 
-  private static List<Object> allValues() {
-    List<Object> allValues = new ArrayList<Object>(1);
-    allValues.add("*");
-    return allValues;
-  }
 }

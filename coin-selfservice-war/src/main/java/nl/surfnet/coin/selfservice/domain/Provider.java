@@ -35,6 +35,7 @@ import org.springframework.util.CollectionUtils;
 /**
  * Abstract class for either ServiceProvider or IdentityProvider
  */
+@SuppressWarnings("serial")
 public abstract class Provider implements Comparable<Provider>, Serializable {
 
   public enum Language {

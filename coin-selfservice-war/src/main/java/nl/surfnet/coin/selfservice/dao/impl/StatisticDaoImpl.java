@@ -19,13 +19,11 @@ package nl.surfnet.coin.selfservice.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
@@ -121,37 +119,6 @@ public class StatisticDaoImpl implements StatisticDao {
       chartSeries.add(c);
     }
     return chartSeries;
-  }
-
-  /**
-   * Get a converted Calendar in which the timezone difference has been added.<br />
-   * <br />
-   * 
-   * Input: 0:00:00 CEST<br />
-   * Output: 2:00:00 CEST
-   * 
-   * @param cal
-   *          the original
-   * @return converted calendar
-   */
-  private Calendar convertToGmt(Calendar cal) {
-
-    Date date = cal.getTime();
-    TimeZone tz = cal.getTimeZone();
-
-    // Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
-    long msFromEpochGmt = date.getTime();
-
-    // gives you the current offset in ms from GMT at the current date
-    int offsetFromUTC = tz.getOffset(msFromEpochGmt);
-
-    // create a new calendar in GMT timezone, set to this date and add the
-    // offset
-    Calendar gmtCal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-    gmtCal.setTime(date);
-    gmtCal.add(Calendar.MILLISECOND, offsetFromUTC);
-
-    return gmtCal;
   }
 
   public void setEbJdbcTemplate(JdbcTemplate ebJdbcTemplate) {
