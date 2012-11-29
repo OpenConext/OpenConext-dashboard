@@ -82,8 +82,10 @@ public class NotificationServiceImplTest {
 
     assertEquals(2, result.size());
     assertEquals("testSp2", result.get(0).getArguments());
+    assertEquals(services.get(1), result.get(0).getCorrespondingServiceProvider());
     assertEquals("jsp.notifications.lcp.license.not.available", result.get(0).getMessageKey());
     assertEquals("testSp3", result.get(1).getArguments());
+    assertEquals(services.get(2), result.get(1).getCorrespondingServiceProvider());
     assertEquals("jsp.notifications.lcp.service.not.linked", result.get(1).getMessageKey());
 
   }
@@ -106,8 +108,10 @@ public class NotificationServiceImplTest {
 
     assertEquals(2, result.size());
     assertEquals("testSp1", result.get(0).getArguments());
+    assertEquals(services.get(0), result.get(0).getCorrespondingServiceProvider());
     assertEquals("jsp.notifications.fcp.service.not.linked", result.get(0).getMessageKey());
     assertEquals("testSp2", result.get(1).getArguments());
+    assertEquals(services.get(1), result.get(1).getCorrespondingServiceProvider());
     assertEquals("jsp.notifications.fcp.license.not.available", result.get(1).getMessageKey());
 
   }
