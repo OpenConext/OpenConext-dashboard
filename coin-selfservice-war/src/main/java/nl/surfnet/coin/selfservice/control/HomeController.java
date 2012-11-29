@@ -27,17 +27,11 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,19 +45,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController extends BaseController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
-
-  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-      .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
   @Resource
   private CompoundSPService compoundSPService;
-
-  @Resource
-  private NotificationService notificationService;
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
@@ -77,17 +63,6 @@ public class HomeController extends BaseController {
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
 
-//    if (request.getSession().getAttribute("notificationsShown") == null) {
-//      List<NotificationMessage> notificationMessages = notificationService.getNotifications(services);
-//      try {
-//        String jsonNotificationMessages = objectMapper.writeValueAsString(notificationMessages);
-//        model.put("jsonNotificationMessages", jsonNotificationMessages);
-//        request.getSession().setAttribute("notificationsShown", Boolean.TRUE);
-//      } catch (Exception e) {
-//        LOG.error("Exception while creating json for notificationMessages");
-//      }
-//    }
-
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
 
@@ -100,5 +75,10 @@ public class HomeController extends BaseController {
     CoinUser user = SpringSecurity.getCurrentUser();
     model.put("mainAttributes", new PersonMainAttributes(user.getAttributeMap()));
     return new ModelAndView("user", model);
+  }
+
+  @RequestMapping("/notifications.shtml")
+  public ModelAndView notifications() {
+    return new ModelAndView("notifications");
   }
 }

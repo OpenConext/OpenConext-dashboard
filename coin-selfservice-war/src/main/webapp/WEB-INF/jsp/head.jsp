@@ -111,6 +111,23 @@
           </c:choose>
             </div>
           </li>
+          
+          
+          
+          
+        <li class="help">
+          <a href="<spring:url value="/notifications.shtml" htmlEscape="true" />">
+            <spring:message code="jsp.general.notifications" />
+          </a>
+          <c:if test="${notifications.unreadMessages}">
+            ${notifications.numberOfUnreadMessages}
+          </c:if>
+        </li>
+        
+        
+        
+        
+        
         <li class="help">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
           <a href="${supporturl}"  target="_blank">

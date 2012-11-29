@@ -18,7 +18,7 @@ package nl.surfnet.coin.selfservice.service;
 
 import java.util.List;
 
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 
 public interface NotificationService {
@@ -30,9 +30,9 @@ public interface NotificationService {
    * 
    * @param services
    * 
-   * @param list
-   *          of services for the current IDP
+   * @param selectedidp
+   *          the selected idp
    * @return list of possible notifications
    */
-  List<NotificationMessage> getNotifications(List<CompoundServiceProvider> services);
+  List<NotificationMessage> getNotifications(IdentityProvider selectedidp);
 }

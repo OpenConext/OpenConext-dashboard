@@ -79,10 +79,14 @@
 </c:choose>
 <script>
   var contextPath = "${pageContext.request.contextPath}";
-  <c:if test="${not empty jsonNotificationMessages}">
-    var notifications = ${jsonNotificationMessages};
-  </c:if>
 </script>
+<!-- 
+Test notifications
+      <c:forEach items="${notifications.messages}" var="message">
+        Message: <spring:message code="${message.messageKey}" />
+        
+      </c:forEach>
+ -->
 <c:if test="${param.chart eq true}">
 <tags:sp_renderchart/>
 </c:if>

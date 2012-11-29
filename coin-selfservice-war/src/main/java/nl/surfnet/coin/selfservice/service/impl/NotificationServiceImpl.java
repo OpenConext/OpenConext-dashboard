@@ -24,10 +24,12 @@ import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -46,8 +48,10 @@ public class NotificationServiceImpl implements NotificationService {
   private CompoundSPService compoundSPService;
 
   @Override
-  public List<NotificationMessage> getNotifications(List<CompoundServiceProvider> services) {
+  public List<NotificationMessage> getNotifications(IdentityProvider selectedidp) {
     List<NotificationMessage> result = new ArrayList<NotificationMessage>();
+
+    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
 
     for (CompoundServiceProvider compoundServiceProvider : services) {
       for (Authority authority : getAuthorities()) {
@@ -74,7 +78,11 @@ public class NotificationServiceImpl implements NotificationService {
         if (messageKey != null) {
           NotificationMessage notificationMessage = new NotificationMessage();
           notificationMessage.setMessageKey(messageKey);
-          notificationMessage.setArguments(compoundServiceProvider.getServiceDescriptionNl());
+          String arguments = compoundServiceProvider.getServiceDescriptionNl();
+          if (StringUtils.isEmpty(arguments)) {
+            arguments = compoundServiceProvider.getServiceProviderEntityId();
+          }
+          notificationMessage.setArguments(arguments);
           result.add(notificationMessage);
         }
       }

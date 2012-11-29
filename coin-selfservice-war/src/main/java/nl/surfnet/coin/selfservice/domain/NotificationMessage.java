@@ -18,6 +18,8 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Message that is shown as a notification to a logged in user.
  *
@@ -28,7 +30,7 @@ public class NotificationMessage implements Serializable {
 
   private String messageKey;
   private String arguments;
-  private boolean read;
+  private boolean read = false;
   
   public boolean isRead() {
     return read;
@@ -47,6 +49,15 @@ public class NotificationMessage implements Serializable {
   }
   public void setArguments(String arguments) {
     this.arguments = arguments;
+  }
+  
+  /**
+   * Misusing a getMethod (to call using EL) in order to set the 'read' flag
+   * @return
+   */
+  public String getSetMessageRead(){
+    read = true;
+    return StringUtils.EMPTY;
   }
   
 }

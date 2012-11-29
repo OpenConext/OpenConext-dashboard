@@ -23,7 +23,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.NotificationMessage;
+import nl.surfnet.coin.selfservice.domain.NotificationMessages;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.stereotype.Controller;
@@ -76,9 +79,14 @@ public abstract class BaseController {
    * The name of the key under which we store the token used to prevent session hijacking
    */
   public static final String TOKEN_CHECK = "tokencheck";
+
+  private static final String NOTIFICATIONS_LINKED_LICENSE_GENERATED = "linkedLicenseNotificationsGenerated";
   
   @Resource(name = "providerService")
   private IdentityProviderService idpService;
+
+  @Resource
+  private NotificationService notificationService;
 
   @Resource(name = "localeResolver")
   protected LocaleResolver localeResolver;
@@ -116,6 +124,30 @@ public abstract class BaseController {
       }
     }
     throw new RuntimeException("There is no Selected IdP");
+  }
+
+  /**
+   * Get notifications
+   */
+  @ModelAttribute(value = "notifications")
+  public NotificationMessages getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+    Object notifications = request.getSession().getAttribute("notifications");
+    if (notifications == null) {
+      notifications = new NotificationMessages();
+    }
+    NotificationMessages notificationMessages = (NotificationMessages) notifications;
+    
+    IdentityProvider idp = getRequestedIdp(idpId, request);
+ 
+    if (request.getSession().getAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED) == null) {
+      List<NotificationMessage> notificationMessageList = notificationService.getNotifications(idp);
+      notificationMessages.addAllMessages(notificationMessageList);
+      request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
+    }
+
+    request.getSession().setAttribute("notifications", notifications);
+
+    return notificationMessages;
   }
 
 }
