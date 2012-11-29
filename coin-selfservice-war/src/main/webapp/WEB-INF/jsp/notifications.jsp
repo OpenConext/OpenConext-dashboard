@@ -31,6 +31,7 @@
                 <tr>
                   <th><spring:message code="jsp.notifications.new"/></th>
                   <th><spring:message code="jsp.notifications.message"/></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -49,6 +50,11 @@
                     </td>
                     <td>
                       <spring:message code="${notificationMessage.messageKey}" arguments="${notificationMessage.arguments}"/>
+                    </td>
+                    <td>
+                      <c:if test="${not empty notificationMessage.correspondingServiceProvider and not empty notificationMessage.correspondingServiceProvider.appStoreLogo}">
+                        <img src="<c:url value="${notificationMessage.correspondingServiceProvider.appStoreLogo}"/>"/>
+                      </c:if>
                     </td>
                   </tr>
                 </c:forEach>

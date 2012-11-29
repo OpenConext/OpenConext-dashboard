@@ -78,6 +78,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (messageKey != null) {
           NotificationMessage notificationMessage = new NotificationMessage();
           notificationMessage.setMessageKey(messageKey);
+          notificationMessage.setCorrespondingServiceProvider(compoundServiceProvider);
           String arguments = compoundServiceProvider.getServiceDescriptionNl();
           if (StringUtils.isEmpty(arguments)) {
             arguments = compoundServiceProvider.getServiceProviderEntityId();

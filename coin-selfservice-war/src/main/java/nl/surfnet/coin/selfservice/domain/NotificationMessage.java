@@ -31,6 +31,7 @@ public class NotificationMessage implements Serializable {
   private String messageKey;
   private String arguments;
   private boolean read = false;
+  private CompoundServiceProvider correspondingServiceProvider;
   
   public boolean isRead() {
     return read;
@@ -51,6 +52,12 @@ public class NotificationMessage implements Serializable {
     this.arguments = arguments;
   }
   
+  public CompoundServiceProvider getCorrespondingServiceProvider() {
+    return correspondingServiceProvider;
+  }
+  public void setCorrespondingServiceProvider(CompoundServiceProvider correspondingServiceProvider) {
+    this.correspondingServiceProvider = correspondingServiceProvider;
+  }
   /**
    * Misusing a getMethod (to call using EL) in order to set the 'read' flag
    * @return
