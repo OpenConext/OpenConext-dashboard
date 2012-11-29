@@ -1,7 +1,7 @@
 var app = app || {};
 
 app.notifications = function() {
-  var messageBox = null;
+  var notificationsElm = null;
 
 
   var init = function() {
@@ -10,52 +10,51 @@ app.notifications = function() {
 
 
   var checkNotifications = function() {
-    if (typeof window.notifications !== 'undefined') {
-      showNotifications(window.notifications);
-    }
-  };
+    notificationsElm = $('.notifications');
 
-
-  var showNotifications = function(notifications) {
-    var lngt = notifications.length;
-    if (lngt === 0) {
+    if (!notificationsElm.length) {
       return;
     }
- 
-    for (var i = 0, l = Math.min(3, lngt); i < l; ++i) {
-      displaySingleNotification(notifications[i]);
-    }
 
-    if (lngt > 3) {
-      displaySingleNotification('jsp.notifications.too_many');
+    showNotification();
+  };
+
+
+  var showNotification = function() {
+    notificationsElm.removeClass('hide');
+    notificationsElm.attr('tabindex', '0');
+    notificationsElm.css('right', '-300px');
+    notificationsElm.stop();
+    notificationsElm.on('click', showAllNotifications);
+
+    var closeButton = $('<a class="close-notifications" href="#" title="Close">×</a>');
+    closeButton.on('click', hideNotifications);
+    closeButton.appendTo(notificationsElm);
+
+    setTimeout(function() {
+      notificationsElm.animate({
+        right: '2.5em'
+      }, 1000);
+    }, 400);
+  };
+
+
+  var showAllNotifications = function(e) {
+    e.preventDefault();
+
+    var url = notificationsElm.attr('data-href');
+
+    if (url && url.length) {
+      location.href = url;
     }
   };
 
 
-  var displaySingleNotification = function(message) {
-    if (typeof message === 'object') {
-      message = app.message.i18n(message.messageKey).replace('{0}', message.arguments);
-    }
-    else {
-      message = app.message.i18n(message);
-    }
+  var hideNotifications = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-
-    if (!messageBox) {
-      messageBox = $('<div class="notifications bottom-right bottom-left"></div>');
-      messageBox.appendTo('body');
-    }
-
-    messageBox.notify({
-      fadeOut: {
-        enabled: true,
-        delay: 10000
-      },
-      message: {
-        text: message
-      },
-      type: 'info'
-    }).show();
+    notificationsElm.addClass('hide');
   };
 
 

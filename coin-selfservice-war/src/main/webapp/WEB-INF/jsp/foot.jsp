@@ -37,15 +37,19 @@
   </div>
 </footer>
 
+<c:if test="${notifications.unreadMessages}">
+  <div class="notifications hide" data-href="<spring:url value="/notifications.shtml" htmlEscape="true" />">
+    <spring:message code="jsp.notifications.popupmessage" arguments="${notifications.numberOfUnreadMessages}" />
+  </div>
+</c:if>
+
 <c:choose>
   <c:when test="${dev eq true}">
     <script src="<c:url value="/js/jquery/jquery-1.8.3.min.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-2.0.3.min.js"/>"></script>
-    <script src="<c:url value="/js/bootstrap/bootstrap-alert.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-tooltip.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-popover.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-transition.js"/>"></script>
-    <script src="<c:url value="/js/bootstrap/bootstrap-notify.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.1.9.4.min.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.columnfilter.1.4.7.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.ui.widget.js"/>"></script>
@@ -80,13 +84,6 @@
 <script>
   var contextPath = "${pageContext.request.contextPath}";
 </script>
-<!-- 
-Test notifications
-      <c:forEach items="${notifications.messages}" var="message">
-        Message: <spring:message code="${message.messageKey}" />
-        
-      </c:forEach>
- -->
 <c:if test="${param.chart eq true}">
 <tags:sp_renderchart/>
 </c:if>

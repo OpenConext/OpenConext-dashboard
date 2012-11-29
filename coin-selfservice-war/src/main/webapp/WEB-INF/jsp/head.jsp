@@ -14,7 +14,6 @@
     <c:choose>
       <c:when test="${dev eq true}">
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.4.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/bootstrap-alert.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-button.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-datepicker.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-dropdown.css"/>" />
@@ -22,7 +21,6 @@
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-generic.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-modal.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-navbar.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/bootstrap-notify.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-pagination.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-popover.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-responsive.css"/>" />
@@ -61,6 +59,7 @@
         <li class="user"><spring:message code="jsp.general.welcome" /> <a href="/user.shtml"><sec:authentication property="principal.displayName" scope="request"
               htmlEscape="true" /></a>
         </li>
+
           <li class="role-switch">
             <c:if test="${fn:length(idps) gt 1}">          
               <ul class="user-dropdown">
@@ -111,23 +110,15 @@
           </c:choose>
             </div>
           </li>
-          
-          
-          
-          
-        <li class="help">
-          <a href="<spring:url value="/notifications.shtml" htmlEscape="true" />">
+        <li class="inbox" data-unread="5">
+          <c:set var="inboxurl"><spring:url value="/notifications.shtml" htmlEscape="true" /></c:set>
+          <a href="${inboxurl}">
             <spring:message code="jsp.general.notifications" />
+            <c:if test="${notifications.unreadMessages}">
+              <span>(${notifications.numberOfUnreadMessages})</span>
+            </c:if>
           </a>
-          <c:if test="${notifications.unreadMessages}">
-            ${notifications.numberOfUnreadMessages}
-          </c:if>
         </li>
-        
-        
-        
-        
-        
         <li class="help">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
           <a href="${supporturl}"  target="_blank">
