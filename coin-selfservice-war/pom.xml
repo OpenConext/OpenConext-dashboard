@@ -415,8 +415,7 @@
               <goal>exec</goal>
             </goals>
             
-            <phase>post-clean</phase>
-<!--             <phase>generate-sources</phase> -->
+            <phase>pre-clean</phase>
           </execution>
         </executions>
         <configuration>
@@ -432,9 +431,7 @@
         <version>1.3.5</version>
         <executions>
           <execution>
-            <!-- id>default-minify</id-->
-<!--              <phase>generate-resources</phase> -->
-             <phase>compile</phase>
+             <phase>clean</phase>
             <configuration>
               <cssSourceDir>css</cssSourceDir>
               <cssSourceIncludes>
