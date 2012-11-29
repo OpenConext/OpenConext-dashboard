@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
@@ -78,16 +77,16 @@ public class HomeController extends BaseController {
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
 
-    if (request.getSession().getAttribute("notificationsShown") == null) {
-      List<NotificationMessage> notificationMessages = notificationService.getNotifications(services);
-      try {
-        String jsonNotificationMessages = objectMapper.writeValueAsString(notificationMessages);
-        model.put("jsonNotificationMessages", jsonNotificationMessages);
-        request.getSession().setAttribute("notificationsShown", Boolean.TRUE);
-      } catch (Exception e) {
-        LOG.error("Exception while creating json for notificationMessages");
-      }
-    }
+//    if (request.getSession().getAttribute("notificationsShown") == null) {
+//      List<NotificationMessage> notificationMessages = notificationService.getNotifications(services);
+//      try {
+//        String jsonNotificationMessages = objectMapper.writeValueAsString(notificationMessages);
+//        model.put("jsonNotificationMessages", jsonNotificationMessages);
+//        request.getSession().setAttribute("notificationsShown", Boolean.TRUE);
+//      } catch (Exception e) {
+//        LOG.error("Exception while creating json for notificationMessages");
+//      }
+//    }
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
