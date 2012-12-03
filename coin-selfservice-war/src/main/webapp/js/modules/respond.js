@@ -27,7 +27,7 @@ app.respond = function() {
             }
         });
 
-        menuSizeWatcher.breakpoint(0, 951, {
+        menuSizeWatcher.breakpoint(0, 1101, {
             enter: function() {
                 if ($('.app-grid-wrapper').length === 1) {
                     $('body').addClass('no-sticky-app-grid-wrapper-menu');
