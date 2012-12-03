@@ -57,7 +57,8 @@ public class StatisticController extends BaseController {
 
   @RequestMapping("/loginsperspperday-mock.json")
   public @ResponseBody
-  String getLoginsPerSPMock(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) throws IOException {
+  String getLoginsPerSPMock(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) throws IOException, InterruptedException {
+    Thread.sleep(5000);
     return IOUtils.toString(new ClassPathResource("stat-json/stats.json").getInputStream());
   }
 
