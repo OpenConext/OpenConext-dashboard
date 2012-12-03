@@ -76,9 +76,4 @@ public class HomeController extends BaseController {
     model.put("mainAttributes", new PersonMainAttributes(user.getAttributeMap()));
     return new ModelAndView("user", model);
   }
-
-  @RequestMapping("/notifications.shtml")
-  public ModelAndView notifications() {
-    return new ModelAndView("notifications");
-  }
 }

@@ -57,7 +57,7 @@ public class MenuInterceptorTest {
   public void test_menu_for_idp_admin_has_duplicates() throws Exception {
     Menu menu = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
 
-    assertEquals(3, menu.getMenuItems().size());
+    assertEquals(4, menu.getMenuItems().size());
     assertEquals("jsp.requests-overview.title", menu.getMenuItems().get(1).getLabel());
 
   }

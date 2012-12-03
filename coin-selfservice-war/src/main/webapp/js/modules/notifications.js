@@ -10,7 +10,7 @@ app.notifications = function() {
 
 
   var checkNotifications = function() {
-    notificationsElm = $('.notifications');
+    notificationsElm = $('.notifications-popup');
 
     if (!notificationsElm.length) {
       return;

@@ -110,15 +110,6 @@
           </c:choose>
             </div>
           </li>
-        <li class="inbox" data-unread="5">
-          <c:set var="inboxurl"><spring:url value="/notifications.shtml" htmlEscape="true" /></c:set>
-          <a href="${inboxurl}">
-            <spring:message code="jsp.general.notifications" />
-            <c:if test="${notifications.unreadMessages}">
-              <span>(${notifications.numberOfUnreadMessages})</span>
-            </c:if>
-          </a>
-        </li>
         <li class="help">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
           <a href="${supporturl}"  target="_blank">

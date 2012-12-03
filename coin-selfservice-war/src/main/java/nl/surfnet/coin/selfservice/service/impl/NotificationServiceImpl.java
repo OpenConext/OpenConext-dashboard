@@ -29,7 +29,6 @@ import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -51,42 +50,56 @@ public class NotificationServiceImpl implements NotificationService {
   public List<NotificationMessage> getNotifications(IdentityProvider selectedidp) {
     List<NotificationMessage> result = new ArrayList<NotificationMessage>();
 
+    boolean isLcp = getAuthorities().contains(Authority.ROLE_IDP_LICENSE_ADMIN);
+    boolean isFcp = getAuthorities().contains(Authority.ROLE_IDP_SURFCONEXT_ADMIN);
+    if (!isLcp && !isFcp) {
+      return result;
+    }
+    
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
+    List<CompoundServiceProvider> notLinkedCSPs = new ArrayList<CompoundServiceProvider>();
+    List<CompoundServiceProvider> noLicenseCSPs = new ArrayList<CompoundServiceProvider>();
+    
+    String messageKey = null;
 
     for (CompoundServiceProvider compoundServiceProvider : services) {
-      for (Authority authority : getAuthorities()) {
-        String messageKey = null;
-        if (compoundServiceProvider.isLicenseAvailable() && !compoundServiceProvider.getSp().isLinked()) {
-          // Get messagekey based on Authority (for LCP also filter on
-          // availableArticles)
-          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority) && compoundServiceProvider.isArticleAvailable()) {
-            messageKey = LCP_SERVICE_NOT_LINKED_KEY;
-          } 
-          if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
-            messageKey = FCP_SERVICE_NOT_LINKED_KEY;
-          }
-        } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
-          // Get messagekey based on Authority (for LCP also filter on
-          // availableArticles)
-          if (Authority.ROLE_IDP_LICENSE_ADMIN.equals(authority) && compoundServiceProvider.isArticleAvailable()) {
-            messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
-          } 
-          if (Authority.ROLE_IDP_SURFCONEXT_ADMIN.equals(authority)) {
-            messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;
-          }
-        }
-        if (messageKey != null) {
-          NotificationMessage notificationMessage = new NotificationMessage();
-          notificationMessage.setMessageKey(messageKey);
-          notificationMessage.setCorrespondingServiceProvider(compoundServiceProvider);
-          String arguments = compoundServiceProvider.getServiceDescriptionNl();
-          if (StringUtils.isEmpty(arguments)) {
-            arguments = compoundServiceProvider.getServiceProviderEntityId();
-          }
-          notificationMessage.setArguments(arguments);
-          result.add(notificationMessage);
+      if (compoundServiceProvider.isLicenseAvailable() && !compoundServiceProvider.getSp().isLinked()) {
+        // if statement inside if statement for readability
+        if (isFcp || (isLcp && compoundServiceProvider.isArticleAvailable())) {
+          notLinkedCSPs.add(compoundServiceProvider);
+        } 
+      } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
+        // if statement inside if statement for readability
+        if (isFcp || (isLcp && compoundServiceProvider.isArticleAvailable())) {
+          noLicenseCSPs.add(compoundServiceProvider);
         }
       }
+    }
+
+    // Create message for license available but service not linked
+    if (!notLinkedCSPs.isEmpty()) {
+      NotificationMessage notificationMessage = new NotificationMessage();
+      if (isFcp) {
+        messageKey = FCP_SERVICE_NOT_LINKED_KEY;
+      } else {
+        messageKey = LCP_SERVICE_NOT_LINKED_KEY;        
+      }
+      notificationMessage.setMessageKey(messageKey);
+      notificationMessage.setArguments(notLinkedCSPs);
+      result.add(notificationMessage);
+    }
+
+    // Create message for service linked but license not available
+    if (!noLicenseCSPs.isEmpty()) {
+      NotificationMessage notificationMessage = new NotificationMessage();
+      if (isLcp) {
+        messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
+      } else {
+        messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;        
+      }
+      notificationMessage.setMessageKey(messageKey);
+      notificationMessage.setArguments(noLicenseCSPs);
+      result.add(notificationMessage);
     }
 
     return result;

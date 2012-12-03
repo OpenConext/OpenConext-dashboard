@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -29,9 +30,8 @@ public class NotificationMessage implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String messageKey;
-  private String arguments;
+  private List<CompoundServiceProvider> arguments;
   private boolean read = false;
-  private CompoundServiceProvider correspondingServiceProvider;
   
   public boolean isRead() {
     return read;
@@ -44,22 +44,16 @@ public class NotificationMessage implements Serializable {
   }
   public void setMessageKey(String messageKey) {
     this.messageKey = messageKey;
-  }
-  public String getArguments() {
+  }  
+  public List<CompoundServiceProvider> getArguments() {
     return arguments;
   }
-  public void setArguments(String arguments) {
+  public void setArguments(List<CompoundServiceProvider> arguments) {
     this.arguments = arguments;
   }
-  
-  public CompoundServiceProvider getCorrespondingServiceProvider() {
-    return correspondingServiceProvider;
-  }
-  public void setCorrespondingServiceProvider(CompoundServiceProvider correspondingServiceProvider) {
-    this.correspondingServiceProvider = correspondingServiceProvider;
-  }
+
   /**
-   * Misusing a getMethod (to call using EL) in order to set the 'read' flag
+   * Mis-using a getMethod (to call using EL) in order to set the 'read' flag
    * @return
    */
   public String getSetMessageRead(){

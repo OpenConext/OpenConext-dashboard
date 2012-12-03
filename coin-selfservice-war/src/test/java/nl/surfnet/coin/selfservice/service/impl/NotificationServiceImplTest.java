@@ -75,18 +75,25 @@ public class NotificationServiceImplTest {
     services.add(createCompoundServiceProvider("testSp2", false, true));
     services.add(createCompoundServiceProvider("testSp3", true, false));
     services.add(createCompoundServiceProvider("testSp4", false, false));
+    services.add(createCompoundServiceProvider("testSp5", true, false));
 
     when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
     List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
 
     assertEquals(2, result.size());
-    assertEquals("testSp2", result.get(0).getArguments());
-    assertEquals(services.get(1), result.get(0).getCorrespondingServiceProvider());
-    assertEquals("jsp.notifications.lcp.license.not.available", result.get(0).getMessageKey());
-    assertEquals("testSp3", result.get(1).getArguments());
-    assertEquals(services.get(2), result.get(1).getCorrespondingServiceProvider());
-    assertEquals("jsp.notifications.lcp.service.not.linked", result.get(1).getMessageKey());
+    NotificationMessage message = result.get(0);
+    
+    assertEquals(2, message.getArguments().size());
+    assertEquals(services.get(2), message.getArguments().get(0));
+    assertEquals(services.get(4), message.getArguments().get(1));
+    assertEquals("jsp.notifications.lcp.service.not.linked", message.getMessageKey());
+
+    message = result.get(1);
+    
+    assertEquals(1, message.getArguments().size());
+    assertEquals(services.get(1), message.getArguments().get(0));
+    assertEquals("jsp.notifications.lcp.license.not.available", message.getMessageKey());
 
   }
 
@@ -107,13 +114,15 @@ public class NotificationServiceImplTest {
     List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
 
     assertEquals(2, result.size());
-    assertEquals("testSp1", result.get(0).getArguments());
-    assertEquals(services.get(0), result.get(0).getCorrespondingServiceProvider());
-    assertEquals("jsp.notifications.fcp.service.not.linked", result.get(0).getMessageKey());
-    assertEquals("testSp2", result.get(1).getArguments());
-    assertEquals(services.get(1), result.get(1).getCorrespondingServiceProvider());
-    assertEquals("jsp.notifications.fcp.license.not.available", result.get(1).getMessageKey());
+    NotificationMessage message = result.get(0);
+    assertEquals(1, message.getArguments().size());
+    assertEquals(services.get(0), message.getArguments().get(0));
+    assertEquals("jsp.notifications.fcp.service.not.linked", message.getMessageKey());
 
+    message = result.get(1);
+    assertEquals(1, message.getArguments().size());
+    assertEquals(services.get(1), message.getArguments().get(0));
+    assertEquals("jsp.notifications.fcp.license.not.available", message.getMessageKey());
   }
 
   @Test

@@ -38,7 +38,7 @@
 </footer>
 
 <c:if test="${notifications.unreadMessages}">
-  <div class="notifications hide" data-href="<spring:url value="/notifications.shtml" htmlEscape="true" />">
+  <div class="notifications-popup hide" data-href="<spring:url value="/notifications/notifications-overview.shtml" htmlEscape="true" />">
     <spring:message code="jsp.notifications.popupmessage" arguments="${notifications.numberOfUnreadMessages}" />
   </div>
 </c:if>
