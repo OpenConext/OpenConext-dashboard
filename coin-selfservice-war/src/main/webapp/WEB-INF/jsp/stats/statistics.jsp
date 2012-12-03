@@ -51,7 +51,7 @@
       </div>
     </nav>
 
-    <div id="sp-overview-chart" data-ipd="${selectedidp.id}"></div>
+    <div id="sp-overview-chart" class="ajax-loader" data-ipd="${selectedidp.id}"></div>
     <div id="sp-detail-chart"></div>
   </section>
 </div>

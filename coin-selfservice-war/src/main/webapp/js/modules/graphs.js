@@ -64,6 +64,8 @@ app.graphs = function() {
   var initRendering = function(highcharts, data) {
     initI18n();
 
+    chartOverviewElm.removeClass('ajax-loader');
+
     if (arguments.length === 2) {
       originalData = data;
 
