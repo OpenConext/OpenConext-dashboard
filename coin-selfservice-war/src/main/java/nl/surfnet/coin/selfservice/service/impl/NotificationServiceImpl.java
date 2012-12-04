@@ -55,11 +55,11 @@ public class NotificationServiceImpl implements NotificationService {
     if (!isLcp && !isFcp) {
       return result;
     }
-    
+
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     List<CompoundServiceProvider> notLinkedCSPs = new ArrayList<CompoundServiceProvider>();
     List<CompoundServiceProvider> noLicenseCSPs = new ArrayList<CompoundServiceProvider>();
-    
+
     String messageKey = null;
 
     for (CompoundServiceProvider compoundServiceProvider : services) {
@@ -67,8 +67,9 @@ public class NotificationServiceImpl implements NotificationService {
         // if statement inside if statement for readability
         if (isFcp || (isLcp && compoundServiceProvider.isArticleAvailable())) {
           notLinkedCSPs.add(compoundServiceProvider);
-        } 
-      } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.getSp().isLinked()) {
+        }
+      } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.isArticleAvailable()
+          && compoundServiceProvider.getSp().isLinked()) {
         // if statement inside if statement for readability
         if (isFcp || (isLcp && compoundServiceProvider.isArticleAvailable())) {
           noLicenseCSPs.add(compoundServiceProvider);
@@ -82,7 +83,7 @@ public class NotificationServiceImpl implements NotificationService {
       if (isFcp) {
         messageKey = FCP_SERVICE_NOT_LINKED_KEY;
       } else {
-        messageKey = LCP_SERVICE_NOT_LINKED_KEY;        
+        messageKey = LCP_SERVICE_NOT_LINKED_KEY;
       }
       notificationMessage.setMessageKey(messageKey);
       notificationMessage.setArguments(notLinkedCSPs);
@@ -95,7 +96,7 @@ public class NotificationServiceImpl implements NotificationService {
       if (isLcp) {
         messageKey = LCP_LICENCE_NOT_AVAILABLE_KEY;
       } else {
-        messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;        
+        messageKey = FCP_LICENCE_NOT_AVAILABLE_KEY;
       }
       notificationMessage.setMessageKey(messageKey);
       notificationMessage.setArguments(noLicenseCSPs);
