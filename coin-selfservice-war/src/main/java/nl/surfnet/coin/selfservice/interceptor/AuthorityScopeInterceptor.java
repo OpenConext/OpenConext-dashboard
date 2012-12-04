@@ -49,12 +49,15 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hamcrest.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
+
+import ch.lambdaj.function.matcher.HasArgumentWithValue;
 
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
@@ -129,13 +132,17 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
    */
   protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> cps,
       List<Authority> authorities) {
+    HasArgumentWithValue<Object, Boolean> linkedSpsMatcher = having(on(CompoundServiceProvider.class).getServiceProvider().isLinked());
     if (isRoleUser(authorities)) {
       cps = with(cps).retain(having(on(CompoundServiceProvider.class).getServiceProvider().isLinked()));
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser.",SpringSecurity.getCurrentUser().getUid());
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser.", SpringSecurity.getCurrentUser().getUid());
     } else if (isRoleIdPLicenseAdmin(authorities)) {
-      cps = with(cps).retain(having(on(CompoundServiceProvider.class).isArticleAvailable()));
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user",
-          SpringSecurity.getCurrentUser().getUid());
+      HasArgumentWithValue<Object, Boolean> articleAvailableMatcher = having(on(CompoundServiceProvider.class).isArticleAvailable());
+
+      cps = with(cps).retain(linkedSpsMatcher.or(articleAvailableMatcher));
+
+      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user", SpringSecurity.getCurrentUser()
+          .getUid());
     }
     return cps;
   }
@@ -160,8 +167,7 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
   }
 
   protected boolean isRoleUser(List<Authority> authorities) {
-    return CollectionUtils.isEmpty(authorities)
-        || ((authorities.size() == 1 && authorities.get(0).equals(Authority.ROLE_USER)));
+    return CollectionUtils.isEmpty(authorities) || ((authorities.size() == 1 && authorities.get(0).equals(Authority.ROLE_USER)));
   }
 
   protected boolean isRoleIdPLicenseAdmin(List<Authority> authorities) {

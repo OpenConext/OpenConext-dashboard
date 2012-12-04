@@ -40,6 +40,7 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.ContactPerson;
 import nl.surfnet.coin.selfservice.domain.ContactPersonType;
+import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
@@ -147,10 +148,25 @@ public class AuthorityScopeInterceptorTest {
     modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp));
     
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
-
     Collection<CompoundServiceProvider> sps =  (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(BaseController.COMPOUND_SPS);
     assertEquals(0, sps.size());
-   
+
+    CompoundServiceProvider sp1 = buildCompoundSeriveProvider();
+    sp1.setLicenses(Arrays.asList(new License()));
+    sp1.setArticle(new Article("test1"));
+    modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp, sp1));
+
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+    sps =  (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(BaseController.COMPOUND_SPS);
+    assertEquals(1, sps.size());
+
+    CompoundServiceProvider sp2 = buildCompoundSeriveProvider();
+    sp2.getServiceProvider().setLinked(true);
+    modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp, sp1, sp2));
+
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+    sps =  (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(BaseController.COMPOUND_SPS);
+    assertEquals(2, sps.size());
   }
   
   @Test
