@@ -57,7 +57,7 @@
     <nav class="primary-navigation">
       <ul>
         <li class="user">
-          <spring:message code="jsp.general.welcome" /> <a href="<c:url value="/user.shtml" />">
+          <spring:message code="jsp.general.welcome" /> <a href="<spring:url value="/user.shtml" htmlEscape="true" />">
             <sec:authentication property="principal.displayName" scope="request" htmlEscape="true" />
           </a>
         </li>
