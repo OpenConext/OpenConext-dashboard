@@ -56,46 +56,48 @@
 
     <nav class="primary-navigation">
       <ul>
-        <li class="user"><spring:message code="jsp.general.welcome" /> <a href="/user.shtml"><sec:authentication property="principal.displayName" scope="request"
-              htmlEscape="true" /></a>
+        <li class="user">
+          <spring:message code="jsp.general.welcome" /> <a href="<c:url value="/user.shtml" />">
+            <sec:authentication property="principal.displayName" scope="request" htmlEscape="true" />
+          </a>
         </li>
 
-          <li class="role-switch">
-            <c:if test="${fn:length(idps) gt 1}">          
-              <ul class="user-dropdown">
-                <c:forEach items="${idps}" var="idp">
-                  <li class="user-role-manager ${selectedidp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
-                        <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
-                          <spring:param name="idpId" value="${idp.id}" />
-                        </spring:url> 
-                        <a href="${toggleLink}"> 
-                          <tags:providername provider="${idp}" />
-                        </a>
-                  </li>
-                </c:forEach>
-              </ul>
+        <li class="role-switch">
+          <c:if test="${fn:length(idps) gt 1}">
+            <ul class="user-dropdown">
+              <c:forEach items="${idps}" var="idp">
+                <li class="user-role-manager ${selectedidp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
+                      <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
+                        <spring:param name="idpId" value="${idp.id}" />
+                      </spring:url>
+                      <a href="${toggleLink}">
+                        <tags:providername provider="${idp}" />
+                      </a>
+                </li>
+              </c:forEach>
+            </ul>
+          </c:if>
+          <c:if test="${fn:length(idps) == 1}">
+            <tags:providername provider="${idps[0]}" />
+          </c:if>
+        </li>
+
+        <spring:url value="" var="langNL" htmlEscape="true">
+          <c:forEach var="par" items="${paramValues}">
+            <c:if test="${par.key ne 'lang'}">
+              <spring:param name="${par.key}" value="${par.value[0]}" />
             </c:if>
-            <c:if test="${fn:length(idps) == 1}">
-              <tags:providername provider="${idps[0]}" />
+          </c:forEach>
+          <spring:param name="lang" value="nl" />
+        </spring:url>
+        <spring:url value="" var="langEN" htmlEscape="true">
+          <c:forEach var="par" items="${paramValues}">
+            <c:if test="${par.key ne 'lang'}">
+              <spring:param name="${par.key}" value="${par.value[0]}" />
             </c:if>
-          </li>
-          
-          <spring:url value="" var="langNL" htmlEscape="true">
-            <c:forEach var="par" items="${paramValues}">
-              <c:if test="${par.key ne 'lang'}">
-                <spring:param name="${par.key}" value="${par.value[0]}" />
-              </c:if>   
-            </c:forEach>          
-            <spring:param name="lang" value="nl" />
-          </spring:url>
-          <spring:url value="" var="langEN" htmlEscape="true">
-            <c:forEach var="par" items="${paramValues}">
-              <c:if test="${par.key ne 'lang'}">
-                <spring:param name="${par.key}" value="${par.value[0]}" />
-              </c:if>   
-            </c:forEach>          
-            <spring:param name="lang" value="en" />
-          </spring:url>
+          </c:forEach>
+          <spring:param name="lang" value="en" />
+        </spring:url>
 
         <li class="language">
           <div>
