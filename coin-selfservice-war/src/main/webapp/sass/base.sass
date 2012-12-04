@@ -166,7 +166,7 @@ a
       left: 0
       position: absolute
       top: 5px
-      width: 35px
+      width: 34px
 
   .license-available,
   .license-not-available,
@@ -227,8 +227,8 @@ a
   border: 1px solid $subtle_gray
   border-width: 1px 0
   list-style: none
-  margin: 2.5em 0
-  padding: 2.5em 0
+  margin: 1.25em 0
+  padding: 1.25em 0
 
   a
     background: url(../images/bg-action-list-item.png) no-repeat 100% 50%
@@ -253,12 +253,21 @@ a
     margin-top: -2.5em
 
 .launch-icons
+  border-top: 1px solid $subtle_gray
   list-style: none
-  margin: 2.5em 0 0
+  margin: 1.25em 0 0
+  padding-top: 1.25em
 
   li
     padding: 0.5em 0
-
+ 
+  .start-app
+    +box-sizing(border-box)
+    #height: 59px
+    #line-height: 39px
+    margin-bottom: 0
+    width: 170px
+        
 .service-stats
   margin: 0 0 17px 0
   padding: 0

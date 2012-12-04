@@ -29,6 +29,14 @@
       <img src="${compoundSp.detailLogo}" alt="<c:out value=""/>" class="application-logo">
     </c:if>
     <ul class="launch-icons">
+      <c:if test="${not empty compoundSp.appUrl}">
+        <li>
+          <a class="btn btn-primary-alt start-app" href="${compoundSp.appUrl}" target="_blank">
+            <spring:message code="jsp.app_detail.app_url_label"/>
+            <i class="icon-play"></i>
+          </a>
+        </li>
+      </c:if>
       <c:if test="${not empty compoundSp.article.appleAppStoreMedium}">
 	      <li>
           <a href="${compoundSp.article.appleAppStoreMedium.url}">
@@ -44,18 +52,11 @@
 	      </li>
 	    </c:if>
     </ul>
-    <ul class="action-list">
-      <c:if test="${not empty compoundSp.appUrl}">
-        <li>
-          <a href="${compoundSp.appUrl}" target="_blank">
-            <spring:message code="jsp.app_detail.app_url_label" arguments="${spname}"/>
-          </a>
-        </li>
-      </c:if>
+      <ul class="action-list">
       <c:if test="${not empty compoundSp.serviceUrl}">
         <li>
           <a href="${compoundSp.serviceUrl}" target="_blank">
-            <spring:message code="jsp.app_detail.service_url_label" />
+            <spring:message code="jsp.app_detail.service_url_label" arguments="${spname}"/>
           </a>
         </li>
       </c:if>
