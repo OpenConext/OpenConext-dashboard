@@ -29,28 +29,33 @@
         
             <c:forEach items="${notifications}" var="notificationMessage">
               <div class="notificationMessage"><spring:message code="${notificationMessage.messageKey}"/></div>
-	            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable">
-	              <thead>
-	                <tr>
+              <table class="table table-bordered table-striped table-above-pagination table-with-statuses">
+                <thead>
+                  <tr>
                     <th><spring:message code="jsp.notifications.image"/></th>
                     <th><spring:message code="jsp.notifications.name"/></th>
-	                </tr>
-	              </thead>
-	              <tbody>
+                  </tr>
+                </thead>
+                <tbody>
                   <c:forEach items="${notificationMessage.arguments}" var="cspArgument">
-	                  <c:set var="spname"><tags:providername provider="${cspArgument.sp}" /></c:set>
-	                  <tr>
-	                    <td class="notification-image">
-						            <c:if test="${not empty cspArgument.appStoreLogo}">
-						              <img src="<c:url value="${cspArgument.appStoreLogo}"/>"/>
-						            </c:if>
-	                    </td>
-	                    <td>
-	                      ${spname}
-	                    </td>
-	                </c:forEach>
-	              </tbody>
-	            </table>
+                    <c:set var="spname"><tags:providername provider="${cspArgument.sp}" /></c:set>
+                    <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
+                      <spring:param name="compoundSpId" value="${compoundSp.id}" />
+                    </spring:url>
+                    <tr>
+                      <td class="notification-image">
+                        <c:if test="${not empty cspArgument.appStoreLogo}">
+                          <img src="<c:url value="${cspArgument.appStoreLogo}"/>" width="30" height="30" alt="">
+                        </c:if>
+                      </td>
+                      <td>
+                        <a href="${detailUrl}">
+                          ${spname}
+                        </a>
+                      </td>
+                  </c:forEach>
+                </tbody>
+              </table>
             </c:forEach>
 
         </section>
