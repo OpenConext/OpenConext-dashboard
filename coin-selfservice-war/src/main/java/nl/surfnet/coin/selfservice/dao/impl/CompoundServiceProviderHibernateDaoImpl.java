@@ -17,17 +17,17 @@ package nl.surfnet.coin.selfservice.dao.impl;
 
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
+
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-
-import nl.surfnet.coin.selfservice.control.requests.LinkrequestController;
-import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
 
 /**
  * CompoundServiceProviderHibernateDaoImpl.java
@@ -59,5 +59,10 @@ public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHiber
   @Cacheable("selfserviceDefault")
   public List<CompoundServiceProvider> findAll() {
     return super.findAll();
+  }
+
+  @CacheEvict(value = "selfserviceDefault", allEntries = true)
+  public void evict() {
+    LOG.debug("Evicted cache");
   }
 }

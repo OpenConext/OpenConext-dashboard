@@ -27,7 +27,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
-import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -40,7 +39,6 @@ import org.hibernate.HibernateException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
@@ -83,9 +81,6 @@ public class CompoundSPService {
 
   @Resource
   private LmngService licensingService;
-
-  @Autowired
-  private LmngIdentifierDao lmngIdentifierDao;
 
   public List<CompoundServiceProvider> getCSPsByIdp(IdentityProvider identityProvider) {
 
@@ -135,6 +130,7 @@ public class CompoundSPService {
     csp.setLicenses(getCachedLicenses(idp, article));
     try {
       compoundServiceProviderDao.saveOrUpdate(csp);
+      compoundServiceProviderDao.evict();
     } catch (RuntimeException e) {
       if (e instanceof HibernateException || e instanceof DataAccessException) {
         //let's give the database another try, otherwise rethrow
@@ -334,5 +330,4 @@ public class CompoundSPService {
   public void setLmngLicenseCacheExpireSeconds(int lmngLicenseCacheExpireSeconds) {
     this.lmngLicenseCacheExpireSeconds = lmngLicenseCacheExpireSeconds;
   }
-
 }

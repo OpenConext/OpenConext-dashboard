@@ -31,7 +31,5 @@ public interface CompoundServiceProviderDao extends GenericService<CompoundServi
    */
   CompoundServiceProvider findByEntityId(String entityId);
 
-  Long saveOrUpdate(CompoundServiceProvider csp);
-
-  
+  void evict();
 }
