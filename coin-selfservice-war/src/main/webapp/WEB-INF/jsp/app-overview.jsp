@@ -41,7 +41,7 @@
               <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
               <c:out value="${fn:substring(serviceDescription, 0, 40)}" />
             </p>
-            <c:if test="${not compoundSp.sp.linked}">
+            <c:if test="${applyAllowed and (not compoundSp.sp.linked)}">
               <p class="connect-app">
                 <a href="<c:url value="/requests/linkrequest.shtml">
                         <c:param name="spEntityId" value="${compoundSp.sp.id}" />
