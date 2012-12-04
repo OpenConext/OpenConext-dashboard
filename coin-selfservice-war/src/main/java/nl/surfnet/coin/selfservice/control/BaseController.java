@@ -131,29 +131,30 @@ public abstract class BaseController {
     throw new RuntimeException("There is no Selected IdP");
   }
 
-  /**
-   * Get notifications from the session (if available) and place as model attribute.
-   * Create/generate possible notifications if not found on session and add to session.
-   */
-  @ModelAttribute(value = "notifications")
-  public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-    Object notifications = request.getSession().getAttribute("notifications");
-    if (notifications == null) {
-      notifications = new ArrayList<NotificationMessage>();
-    }
-    @SuppressWarnings("unchecked")
-    List<NotificationMessage> notificationMessages = (ArrayList<NotificationMessage>) notifications;
-    
-    IdentityProvider idp = getRequestedIdp(idpId, request);
- 
-    if (request.getSession().getAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED) == null) {
-      notificationMessages = notificationService.getNotifications(idp);
-      request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
-    }
-
-    request.getSession().setAttribute("notifications", notificationMessages);
-
-    return notificationMessages;
-  }
+// TODO when reactivating these notifications, rename the jsp.requests-overview.title back to: Status  
+//  /**
+//   * Get notifications from the session (if available) and place as model attribute.
+//   * Create/generate possible notifications if not found on session and add to session.
+//   */
+//  @ModelAttribute(value = "notifications")
+//  public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+//    Object notifications = request.getSession().getAttribute("notifications");
+//    if (notifications == null) {
+//      notifications = new ArrayList<NotificationMessage>();
+//    }
+//    @SuppressWarnings("unchecked")
+//    List<NotificationMessage> notificationMessages = (ArrayList<NotificationMessage>) notifications;
+//    
+//    IdentityProvider idp = getRequestedIdp(idpId, request);
+// 
+//    if (request.getSession().getAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED) == null) {
+//      notificationMessages = notificationService.getNotifications(idp);
+//      request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
+//    }
+//
+//    request.getSession().setAttribute("notifications", notificationMessages);
+//
+//    return notificationMessages;
+//  }
 
 }

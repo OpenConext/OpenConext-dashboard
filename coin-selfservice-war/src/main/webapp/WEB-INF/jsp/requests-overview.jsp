@@ -21,7 +21,8 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-      <div class="column-center content-holder">
+    <div class="column-center content-holder">
+      <c:if test="${not empty notifications}">
         <section class="data-table-holder">
           <h1><spring:message code="jsp.notifications.title"/></h1>
           <div class="data-table-wrapper">
@@ -53,7 +54,7 @@
             </c:forEach>
 
         </section>
-
+      </c:if>
         <section class="data-table-holder">
 
           <h1><spring:message code="jsp.requests-overview.title"/></h1>
