@@ -7,7 +7,6 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.util.ConcurrentRunner;
 import nl.surfnet.coin.selfservice.util.ConcurrentRunnerContext;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +19,18 @@ import static junit.framework.Assert.assertEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:coin-selfservice-context.xml",
+@ContextConfiguration(locations = {
+  "classpath:coin-selfservice-context.xml",
+  "classpath:coin-selfservice-with-real-cache.xml",
   "classpath:coin-selfservice-properties-context.xml",
-  "classpath:coin-shared-context.xml"})
+  "classpath:coin-shared-context.xml"
+})
 @TransactionConfiguration(transactionManager = "selfServiceTransactionManager", defaultRollback = true)
 @Transactional
 public class CSPInitializationTest {
 
   @Autowired
   private CompoundSPService cspSvc;
-
-  @Before
-  public void setup() {
-  }
 
   @Test
   public void test() {
