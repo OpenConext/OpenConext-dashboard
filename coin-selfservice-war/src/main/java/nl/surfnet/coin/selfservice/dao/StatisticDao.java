@@ -19,7 +19,6 @@ package nl.surfnet.coin.selfservice.dao;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
-import nl.surfnet.coin.selfservice.domain.StatResult;
 
 /**
  * Service for statistics
@@ -27,10 +26,18 @@ import nl.surfnet.coin.selfservice.domain.StatResult;
 public interface StatisticDao {
 
   /**
-   * Makes a List of login data for a specific Service Provider got the Identity Provider
+   * Makes a List of login data per Service Provider got the Identity Provider
    *
    * @param idpEntityId unique identifier of the Identity provider
-   * @return List of {@link StatResult}
+   * @return List of {@link ChartSerie}
    */
   List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId);
+
+  /**
+   * Makes a List of login data per Service Provider 
+   *
+   * @return List of {@link ChartSerie}
+   */
+  List<ChartSerie> getLoginsPerSpPerDay();
+
 }

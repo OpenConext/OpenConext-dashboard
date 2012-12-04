@@ -85,7 +85,7 @@ public class CompoundServiceProvider extends DomainObject {
   @Transient
   private List<License> licenses;
 
-  @Column
+  @Column (unique = true)
   private String serviceProviderEntityId;
 
   @Column

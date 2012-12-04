@@ -66,6 +66,11 @@ public abstract class BaseController {
   public static final String FILTER_APP_GRID_ALLOWED = "filterAppGridAllowed";
 
   /**
+   * The name of the key under which we store the info if a logged user is a kind of admin
+   */
+  public static final String IS_ADMIN_USER = "isAdminUser";
+
+  /**
    * The name of the key that defines whether a deeplink to SURFMarket should be shown.
    */
   public static final String DEEPLINK_TO_SURFMARKET_ALLOWED = "deepLinkToSurfMarketAllowed";

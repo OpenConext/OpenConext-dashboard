@@ -34,11 +34,13 @@ public class ChartSerie {
   private List<Integer> data = new ArrayList<Integer>();
   private long pointStart;
   private long pointInterval = 24L * 3600L * 1000L; // one day
+  private String idp;
 
-  public ChartSerie(String name, long pointStart) {
+  public ChartSerie(String name, String idP, long pointStart) {
     super();
     this.name = name;
     this.pointStart = pointStart;
+    this.idp = idP;
   }
 
   public String getName() {
@@ -65,6 +67,10 @@ public class ChartSerie {
     for (int i = 0; i < nbr; i++) {
       this.data.add(0);
     }
+  }
+
+  public String getIdp() {
+    return idp;
   }
   
 }

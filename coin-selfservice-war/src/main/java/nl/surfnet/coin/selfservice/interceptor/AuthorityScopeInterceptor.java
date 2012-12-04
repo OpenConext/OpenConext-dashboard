@@ -23,6 +23,7 @@ import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
 import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
 import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
 import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
@@ -115,8 +116,8 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
     map.put(SERVICE_QUESTION_ALLOWED, isAdmin);
     map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-
     map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
+    map.put(IS_ADMIN_USER, isAdmin);
     map.put(LMNG_ACTIVE_MODUS, isLmngActive());
 
   }

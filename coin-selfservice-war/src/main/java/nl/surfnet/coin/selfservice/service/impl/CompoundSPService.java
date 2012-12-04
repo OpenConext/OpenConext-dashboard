@@ -36,11 +36,13 @@ import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
+import org.hibernate.HibernateException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -102,10 +104,7 @@ public class CompoundSPService {
       CompoundServiceProvider csp;
       if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
         csp = mapByServiceProviderEntityId.get(sp.getId());
-        csp.setServiceProvider(sp);
-        Article article = getCachedArticle(sp, false);
-        csp.setArticle(article);
-        csp.setLicenses(getCachedLicenses(identityProvider, article));
+        csp = compound(identityProvider, sp, csp);
       } else {
         LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
         csp = createCompoundServiceProvider(identityProvider, sp);
@@ -113,6 +112,14 @@ public class CompoundSPService {
       all.add(csp);
     }
     return all;
+  }
+
+  private CompoundServiceProvider compound(IdentityProvider identityProvider, ServiceProvider sp, CompoundServiceProvider csp) {
+    csp.setServiceProvider(sp);
+    Article article = getCachedArticle(sp, false);
+    csp.setArticle(article);
+    csp.setLicenses(getCachedLicenses(identityProvider, article));
+    return csp;
   }
 
   /**
@@ -126,8 +133,19 @@ public class CompoundSPService {
     Article article = getCachedArticle(sp, false);
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, article);
     csp.setLicenses(getCachedLicenses(idp, article));
-
-    compoundServiceProviderDao.saveOrUpdate(csp);
+    try {
+      compoundServiceProviderDao.saveOrUpdate(csp);
+    } catch (RuntimeException e) {
+      if (e instanceof HibernateException || e instanceof DataAccessException) {
+        //let's give the database another try, otherwise rethrow
+        CompoundServiceProvider cspFromDb = compoundServiceProviderDao.findByEntityId(sp.getId());
+        if (cspFromDb != null) {
+          csp = compound(idp, sp, cspFromDb);
+        } else {
+          throw e;
+        }
+      }
+    }
     return csp;
   }
 
@@ -184,7 +202,6 @@ public class CompoundSPService {
     } else {
       compoundServiceProvider.setServiceProvider(serviceProvider);
       compoundServiceProvider.setArticle(getCachedArticle(serviceProvider, false));
-
     }
     return compoundServiceProvider;
   }

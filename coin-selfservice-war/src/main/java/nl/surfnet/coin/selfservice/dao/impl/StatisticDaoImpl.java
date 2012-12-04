@@ -48,39 +48,57 @@ public class StatisticDaoImpl implements StatisticDao {
 
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId) {
-    List<StatResult> statResults;
+    String encodedIdp = bugFixForEntityId(idpEntityId);
+    Object[] args = new Object[] { encodedIdp };
+    try {
+      String sql = getSql(true);
+      return convertStatResultsToChartSeries(this.ebJdbcTemplate.query(sql, args, mapRowsToStatResult()), idpEntityId);
+    } catch (EmptyResultDataAccessException e) {
+      return new ArrayList<ChartSerie>();
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see nl.surfnet.coin.selfservice.dao.StatisticDao#getLoginsPerSpPerDay()
+   */
+  @Override
+  public List<ChartSerie> getLoginsPerSpPerDay() {
+    try {
+      String sql = getSql(false);
+      /*
+       * select count(id) as cid, coalesce(spentityname, spentityid) as spname, CAST(loginstamp AS DATE) as logindate,
+coalesce(idpentityname, idpentityid) as idpname
+from log_logins group by logindate, spname order by idpname, spname, logindate 
+       */
+      return new ArrayList<ChartSerie>();//convertStatResultsToChartSeries(this.ebJdbcTemplate.query(sql, mapRowsToStatResult()));
+    } catch (EmptyResultDataAccessException e) {
+      return new ArrayList<ChartSerie>();
+    }
+  }
+  private String bugFixForEntityId(String idpEntityId) {
     /*
      * Because we also want to show statistics for the IdP with id SURFnet%20BV
      * URLEncoder#encode replaces a space with +, but in the database we have
      * %20
      */
     String encodedIdp = idpEntityId.replaceAll(" ", "%20");
-    Object[] args = new Object[] { encodedIdp } ;
-
-    try {
-      String sql = getSql();
-      statResults = this.ebJdbcTemplate.query(sql, args, mapRowsToStatResult());
-    } catch (EmptyResultDataAccessException e) {
-      return new ArrayList<ChartSerie>();
-    }
-    return convertStatResultsToChartSeries(statResults);
+    return encodedIdp;
   }
 
-  private String getSql() {
-    StringBuilder sql = new StringBuilder("select count(id) as cid, spentityname, CAST(loginstamp AS DATE) as logindate ");
-    sql.append("from log_logins where idpentityid = ? ");
-    sql.append("group by logindate, spentityname order by spentityname, logindate");
-    return sql.toString();
+  private String getSql(boolean includeIdP) {
+    String idpInclusion =  (includeIdP ? "where idpentityid = ?" : "");
+    return "select count(id) as cid, coalesce(spentityname, spentityid) as spname, CAST(loginstamp AS DATE) as logindate "
+        + "from log_logins " + idpInclusion + " group by logindate, spname order by spname, logindate";
   }
 
-  public RowMapper<StatResult> mapRowsToStatResult() {
+  private RowMapper<StatResult> mapRowsToStatResult() {
     return new RowMapper<StatResult>() {
       @Override
       public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
         int logins = rs.getInt("cid");
-        String sp = rs.getString("spentityname");
+        String sp = rs.getString("spname");
         Date logindate = rs.getDate("logindate");
-        return  new StatResult(sp,logindate.getTime(),logins);
+        return new StatResult(sp, logindate.getTime(), logins);
       }
     };
   }
@@ -96,7 +114,7 @@ public class StatisticDaoImpl implements StatisticDao {
    *          List of {@link StatResult}'s (SQL row)
    * @return List of {@link ChartSerie} (HighChart input)
    */
-  public List<ChartSerie> convertStatResultsToChartSeries(List<StatResult> statResults) {
+  private List<ChartSerie> convertStatResultsToChartSeries(List<StatResult> statResults, String idP) {
     Collections.sort(statResults);
 
     Map<String, ChartSerie> chartSerieMap = new HashMap<String, ChartSerie>();
@@ -105,7 +123,7 @@ public class StatisticDaoImpl implements StatisticDao {
     for (StatResult statResult : statResults) {
       ChartSerie chartSerie = chartSerieMap.get(statResult.getSpName());
       if (chartSerie == null) {
-        chartSerie = new ChartSerie(statResult.getSpName(), statResult.getMillis());
+        chartSerie = new ChartSerie(statResult.getSpName(), idP, statResult.getMillis());
       } else {
         int nbrOfZeroDays = (int) (((statResult.getMillis() - previousMillis) / DAY_IN_MS) - 1);
         chartSerie.addZeroDays(nbrOfZeroDays);
@@ -124,4 +142,6 @@ public class StatisticDaoImpl implements StatisticDao {
   public void setEbJdbcTemplate(JdbcTemplate ebJdbcTemplate) {
     this.ebJdbcTemplate = ebJdbcTemplate;
   }
+
+  
 }

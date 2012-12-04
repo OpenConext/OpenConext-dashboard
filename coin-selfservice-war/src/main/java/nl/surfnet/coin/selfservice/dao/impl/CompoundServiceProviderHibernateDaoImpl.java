@@ -19,9 +19,12 @@ import java.util.List;
 
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
+import nl.surfnet.coin.selfservice.control.requests.LinkrequestController;
 import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
@@ -34,6 +37,8 @@ import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
 public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHibernateImpl<CompoundServiceProvider> implements
     CompoundServiceProviderDao {
 
+  private static final Logger LOG = LoggerFactory.getLogger(CompoundServiceProviderHibernateDaoImpl.class);
+
   public CompoundServiceProviderHibernateDaoImpl() {
     super(CompoundServiceProvider.class);
   }
@@ -42,6 +47,7 @@ public class CompoundServiceProviderHibernateDaoImpl extends GenericServiceHiber
   public CompoundServiceProvider findByEntityId(String entityId) {
     List<CompoundServiceProvider> serviceProviderList = findByCriteria(Restrictions.eq("serviceProviderEntityId", entityId));
     if (serviceProviderList.size() > 1) {
+      LOG.error("More then one ('" + serviceProviderList.size() + "') CompoundServiceProvider found with entityId('" + entityId + "')");
       throw new NonUniqueResultException(serviceProviderList.size());
     } else if (serviceProviderList.size() == 0) {
       return null;

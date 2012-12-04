@@ -259,6 +259,27 @@ a
   li
     padding: 0.5em 0
 
+.service-stats
+  margin: 0 0 17px 0
+  padding: 0
+  position: relative
+  
+  &:before
+    background: url(../images/sprite-secondary-menu.png) 
+    background-position: 0 -150px
+    content: ''
+    height: 50px
+    left: 0
+    pointer-events: none
+    position: absolute
+    top: -12px
+    width: 30px
+  &:hover:before,
+  &:focus:before,
+  &.active:before
+    background-position: -40px -150px
+    
+
 .profile-attributes-js
   position: relative
 
