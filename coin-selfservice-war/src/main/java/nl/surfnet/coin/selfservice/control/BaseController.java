@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
-import nl.surfnet.coin.selfservice.domain.NotificationMessages;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -132,25 +132,26 @@ public abstract class BaseController {
   }
 
   /**
-   * Get notifications
+   * Get notifications from the session (if available) and place as model attribute.
+   * Create/generate possible notifications if not found on session and add to session.
    */
   @ModelAttribute(value = "notifications")
-  public NotificationMessages getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+  public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
     Object notifications = request.getSession().getAttribute("notifications");
     if (notifications == null) {
-      notifications = new NotificationMessages();
+      notifications = new ArrayList<NotificationMessage>();
     }
-    NotificationMessages notificationMessages = (NotificationMessages) notifications;
+    @SuppressWarnings("unchecked")
+    List<NotificationMessage> notificationMessages = (ArrayList<NotificationMessage>) notifications;
     
     IdentityProvider idp = getRequestedIdp(idpId, request);
  
     if (request.getSession().getAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED) == null) {
-      List<NotificationMessage> notificationMessageList = notificationService.getNotifications(idp);
-      notificationMessages.addAllMessages(notificationMessageList);
+      notificationMessages = notificationService.getNotifications(idp);
       request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
     }
 
-    request.getSession().setAttribute("notifications", notifications);
+    request.getSession().setAttribute("notifications", notificationMessages);
 
     return notificationMessages;
   }

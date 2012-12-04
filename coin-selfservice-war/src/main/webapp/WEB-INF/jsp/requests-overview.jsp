@@ -21,8 +21,39 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-
       <div class="column-center content-holder">
+        <section class="data-table-holder">
+          <h1><spring:message code="jsp.notifications.title"/></h1>
+          <div class="data-table-wrapper">
+        
+            <c:forEach items="${notifications}" var="notificationMessage">
+              <div class="notificationMessage"><spring:message code="${notificationMessage.messageKey}"/></div>
+	            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable">
+	              <thead>
+	                <tr>
+                    <th><spring:message code="jsp.notifications.image"/></th>
+                    <th><spring:message code="jsp.notifications.name"/></th>
+	                </tr>
+	              </thead>
+	              <tbody>
+                  <c:forEach items="${notificationMessage.arguments}" var="cspArgument">
+	                  <c:set var="spname"><tags:providername provider="${cspArgument.sp}" /></c:set>
+	                  <tr>
+	                    <td class="notification-image">
+						            <c:if test="${not empty cspArgument.appStoreLogo}">
+						              <img src="<c:url value="${cspArgument.appStoreLogo}"/>"/>
+						            </c:if>
+	                    </td>
+	                    <td>
+	                      ${spname}
+	                    </td>
+	                </c:forEach>
+	              </tbody>
+	            </table>
+            </c:forEach>
+
+        </section>
+
         <section class="data-table-holder">
 
           <h1><spring:message code="jsp.requests-overview.title"/></h1>

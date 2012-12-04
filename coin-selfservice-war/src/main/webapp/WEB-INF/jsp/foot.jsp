@@ -37,9 +37,9 @@
   </div>
 </footer>
 
-<c:if test="${notifications.unreadMessages}">
-  <div class="notifications-popup hide" data-href="<spring:url value="/notifications/notifications-overview.shtml" htmlEscape="true" />">
-    <spring:message code="jsp.notifications.popupmessage" arguments="${notifications.numberOfUnreadMessages}" />
+<c:if test="${not empty notifications}">
+  <div class="notifications-popup hide" data-href="<spring:url value="/requests/requests-overview.shtml" htmlEscape="true" />">
+    <spring:message code="jsp.notifications.popupmessage" arguments="${fn:length(notifications)}" />
   </div>
 </c:if>
 
