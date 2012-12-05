@@ -26,16 +26,16 @@
   <h1>${title}</h1>
 
     <c:if test="${isGod eq true}">
-      <p id="stats-info-text" style="display: none"><spring:message code="jsp.stats.info.admin"/></p>
+      <p id="stats-info-text"><spring:message code="jsp.stats.info.admin"/></p>
     </c:if>
     <c:if test="${isGod eq false}">
       <c:set var="idpname"><tags:providername provider="${selectedidp}" /></c:set>
-      <p id="stats-info-text" style="display: none">
+      <p id="stats-info-text">
         <spring:message code="jsp.stats.info" arguments="${idpname}"/>
       </p>
     </c:if>
     
-  <section class="statistics-holder hide" >
+  <section class="statistics-holder" >
 
     <nav class="statistics-navigation"> 
       <div class="show">

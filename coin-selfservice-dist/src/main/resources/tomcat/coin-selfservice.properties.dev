@@ -163,3 +163,5 @@ lmngDeepLinkBaseUrl=https://www.surfmarket.nl/instelling/dlc/paginas/productomsc
 
 lmngArticleCacheSeconds=21600
 lmngLicenseCacheSeconds=1800
+
+statisticsDaoClass=nl.surfnet.coin.selfservice.dao.impl.StatisticDaoImpl

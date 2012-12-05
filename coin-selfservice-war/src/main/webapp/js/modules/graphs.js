@@ -14,16 +14,16 @@ app.graphs = function() {
   var init  = function() {
     chartOverviewElm = $('#sp-overview-chart');
     chartDetailElm = $('#sp-detail-chart');
-    wrapperElm = $('.statistics-holder');
-    isGod = chartOverviewElm.data('is-god');
-    var selectedIdp = chartOverviewElm.data('idp');
-    console.log(selectedIdp);
-    console.log(isGod);
 
     // Only launch graphs app when these elements are on the apge
     if (chartOverviewElm.length === 0 || chartDetailElm.length === 0) {
       return;
     }
+
+    wrapperElm = $('.statistics-holder');
+    isGod = chartOverviewElm.data('is-god');
+    var selectedIdp = chartOverviewElm.data('idp');
+
 
     // Fetch dependencies
     var highcharts = $.ajax({
@@ -42,16 +42,10 @@ app.graphs = function() {
 
     var formattedData = data.then(formatData);
 
-    $.when(highcharts, formattedData).then(initRendering).done(showResult);
+    $.when(highcharts, formattedData).done(initRendering);
 
     initFilters();
   };
-
-  var showResult = function() {
-    $('#stats-info-text').show();
-    $('.statistics-holder').show();
-    
-  }
 
   var initI18n = function() {
     Highcharts.setOptions({
@@ -108,8 +102,8 @@ app.graphs = function() {
     currentData = data;
 
     if (back) {
-      chartDetailElm.stop().fadeOut(1000);
-      chartOverviewElm.stop().fadeOut(500).fadeIn(1000);
+      chartDetailElm.stop().fadeOut(500);
+      chartOverviewElm.stop().fadeOut(500).fadeIn(500);
     }
 
     currentlyShownSp = null;
@@ -121,7 +115,6 @@ app.graphs = function() {
     chartOverviewElm.closest('section').height(height);
 
     $('.back, .forward', wrapperElm).addClass('hide');
-    $('#stats-info-text').removeClass('hide');
 
     var chart = new Highcharts.Chart({
       chart: {
@@ -212,12 +205,10 @@ app.graphs = function() {
 
     currentlyShownSp = which;
 
-    chartOverviewElm.stop().fadeOut(1000);
-    chartDetailElm.stop().fadeOut(500).fadeIn(1000);
+    chartOverviewElm.stop().fadeOut(500);
+    chartDetailElm.stop().fadeOut(500).fadeIn(500);
 
     $('.back, .forward', wrapperElm).removeClass('hide');
-    $('#stats-info-text').addClass('hide');
-    
 
     var chart = new Highcharts.Chart({
       chart: {
