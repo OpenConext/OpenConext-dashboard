@@ -305,14 +305,19 @@ a
       background: #FFF
       border: 1px solid $subtle_gray
       box-shadow: 0 0 2em rgba(0, 0, 0, 0.6)
+      +box-sizing(border-box)
       left: 0
       list-style: none
       margin: 0 auto
+      max-width: 450px
       padding: 2em
       position: absolute
       right: 0
       top: 25px
-      width: 450px
+      width: 85%
+
+      @media (max-width: 480px)
+        padding: 1em
 
       li
         overflow: hidden
