@@ -51,7 +51,7 @@ public abstract class BaseController {
   public static final String COMPOUND_SP = "compoundSp";
 
   /**
-   * The name of the key under which we store the info if a logged user is allowed to ask questions
+   * The name of the key under which we store the info if a logged user is allowed to request connections / disconnects
    */
   public static final String SERVICE_APPLY_ALLOWED = "applyAllowed";
 
@@ -79,6 +79,11 @@ public abstract class BaseController {
    * The name of the key under which we store the info if LMNG is active (e.g. we use License Info)
    */
   public static final String LMNG_ACTIVE_MODUS = "lmngActiveModus";
+  
+  /**
+   * The name of the key under which we store the info if the logged in user is Distribution Channel Admin (aka God)
+   */
+  public static final String IS_GOD = "isGod";
   
   /**
    * The name of the key under which we store the token used to prevent session hijacking

@@ -1,7 +1,9 @@
 var app = app || {};
 
 app.graphs = function() {
-  var chartOverviewElm, chartDetailElm, originalData, filterElm, filterType, filterOffset, firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm;
+  var chartOverviewElm, chartDetailElm, originalData, filterElm, filterType, filterOffset, firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm, isGod;
+  
+  var mock = "mock";
 
   currentlyShownSp = null;
   currentTitle = app.message.i18n('stats.title.overview_default');
@@ -13,6 +15,10 @@ app.graphs = function() {
     chartOverviewElm = $('#sp-overview-chart');
     chartDetailElm = $('#sp-detail-chart');
     wrapperElm = $('.statistics-holder');
+    isGod = chartOverviewElm.data('is-god');
+    var selectedIdp = chartOverviewElm.data('idp');
+    console.log(selectedIdp);
+    console.log(isGod);
 
     // Only launch graphs app when these elements are on the apge
     if (chartOverviewElm.length === 0 || chartDetailElm.length === 0) {
@@ -25,20 +31,27 @@ app.graphs = function() {
       cache: true,
       dataType: 'script'
     });
-    var selectedIdp = chartOverviewElm.attr('data-ipd');
+
     var data = $.ajax({
-      url: contextPath + '/stats/loginsperspperday.json?selectedidp=' + encodeURIComponent(selectedIdp),
+ //     url: contextPath + '/stats/loginsperspperday.json?selectedidp=' + encodeURIComponent(selectedIdp),
+      url: contextPath + '/stats/loginsperspperday.json',
+  //    url: contextPath + '/stats/loginsperspperdaybyidp.json',
       cache: true,
       dataType: 'json'
     });
 
-    var formattedData = data.pipe(formatData);
+    var formattedData = data.then(formatData);
 
-    $.when(highcharts, formattedData).done(initRendering);
+    $.when(highcharts, formattedData).then(initRendering).done(showResult);
 
     initFilters();
   };
 
+  var showResult = function() {
+    $('#stats-info-text').show();
+    $('.statistics-holder').show();
+    
+  }
 
   var initI18n = function() {
     Highcharts.setOptions({
@@ -95,8 +108,8 @@ app.graphs = function() {
     currentData = data;
 
     if (back) {
-      chartDetailElm.stop().fadeOut(500);
-      chartOverviewElm.stop().fadeOut(0).fadeIn(500);
+      chartDetailElm.stop().fadeOut(1000);
+      chartOverviewElm.stop().fadeOut(500).fadeIn(1000);
     }
 
     currentlyShownSp = null;
@@ -107,7 +120,7 @@ app.graphs = function() {
 
     chartOverviewElm.closest('section').height(height);
 
-    $('.back', wrapperElm).addClass('hide');
+    $('.back, .forward', wrapperElm).addClass('hide');
     $('#stats-info-text').removeClass('hide');
 
     var chart = new Highcharts.Chart({
@@ -199,10 +212,10 @@ app.graphs = function() {
 
     currentlyShownSp = which;
 
-    chartOverviewElm.stop().fadeOut(500);
-    chartDetailElm.stop().fadeOut(0).fadeIn(500);
+    chartOverviewElm.stop().fadeOut(1000);
+    chartDetailElm.stop().fadeOut(500).fadeIn(1000);
 
-    $('.back', wrapperElm).removeClass('hide');
+    $('.back, .forward', wrapperElm).removeClass('hide');
     $('#stats-info-text').addClass('hide');
     
 
@@ -261,7 +274,7 @@ app.graphs = function() {
     });
   };
 
-
+  //TODO - spentityid
   var setHash = function() {
     setSp(decodeURIComponent(location.hash.substring(1)));
   };

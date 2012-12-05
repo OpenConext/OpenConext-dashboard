@@ -31,16 +31,20 @@ import java.util.List;
 public class ChartSerie {
 
   private String name;
-  private List<Integer> data = new ArrayList<Integer>();
+  private String spEntityId;
+  private String idpEntityId;
   private long pointStart;
   private long pointInterval = 24L * 3600L * 1000L; // one day
-  private String idp;
+  private List<Integer> data = new ArrayList<Integer>();
 
-  public ChartSerie(String name, String idP, long pointStart) {
+  public ChartSerie() {}
+  
+  public ChartSerie(String name, String idpEntityId, String spEntityId, long pointStart) {
     super();
     this.name = name;
     this.pointStart = pointStart;
-    this.idp = idP;
+    this.idpEntityId = idpEntityId;
+    this.spEntityId = spEntityId;
   }
 
   public String getName() {
@@ -69,8 +73,37 @@ public class ChartSerie {
     }
   }
 
-  public String getIdp() {
-    return idp;
+  public String getSpEntityId() {
+    return spEntityId;
   }
+
+  public String getIdpEntityId() {
+    return idpEntityId;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setSpEntityId(String spEntityId) {
+    this.spEntityId = spEntityId;
+  }
+
+  public void setIdpEntityId(String idpEntityId) {
+    this.idpEntityId = idpEntityId;
+  }
+
+  public void setPointStart(long pointStart) {
+    this.pointStart = pointStart;
+  }
+
+  public void setPointInterval(long pointInterval) {
+    this.pointInterval = pointInterval;
+  }
+
+  public void setData(List<Integer> data) {
+    this.data = data;
+  }
+
   
 }

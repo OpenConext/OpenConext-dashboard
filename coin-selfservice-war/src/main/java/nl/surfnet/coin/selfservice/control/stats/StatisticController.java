@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control.stats;
 
-import java.io.IOException;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -24,9 +23,7 @@ import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,17 +46,16 @@ public class StatisticController extends BaseController {
     return "stats/statistics";
   }
 
-  @RequestMapping("/loginsperspperday.json")
+  @RequestMapping("/loginsperspperdaybyidp.json")
   public @ResponseBody
-  List<ChartSerie> getLoginsPerSP(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  List<ChartSerie> getLoginsPerSPByIdp(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     return statisticDao.getLoginsPerSpPerDay(selectedidp.getId());
   }
 
-  @RequestMapping("/loginsperspperday-mock.json")
+  @RequestMapping("/loginsperspperday.json")
   public @ResponseBody
-  String getLoginsPerSPMock(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) throws IOException, InterruptedException {
-    Thread.sleep(5000);
-    return IOUtils.toString(new ClassPathResource("stat-json/stats.json").getInputStream());
+  List<ChartSerie> getLoginsPerSP() {
+    return statisticDao.getLoginsPerSpPerDay();
   }
 
   public void setStatisticDao(StatisticDao statisticDao) {

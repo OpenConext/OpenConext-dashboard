@@ -130,6 +130,8 @@
     <property name="secret" value="${janus.secret}" />
   </bean>
 
+  <bean id="statisticDao" class="${statisticsDaoClass}"/>
+
   <bean id="cacheManager" class="${cacheManagerClass}">
     <property name="cacheManager" ref="ehcache" />
   </bean>

@@ -33,15 +33,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 /**
  * SQL implementation for the statistic service
  */
-@Repository
 public class StatisticDaoImpl implements StatisticDao {
 
   private static final long DAY_IN_MS = 24L * 60L * 60L * 1000L;
+
+  private static final String BASE_SQL = "select count(id) as cid, spentityid as spentityid, spentityname as spentityname, idpentityid as idpentityid, CAST(loginstamp AS DATE) as logindate from log_logins %s group by logindate, spentityid order by spentityid, logindate, idpentityid";
+  private static final String SQL_WITH_IDP = String.format(BASE_SQL, "where idpentityid = ?");
+  private static final String SQL_ALL_IDPS = String.format(BASE_SQL, "");
 
   @Autowired
   private JdbcTemplate ebJdbcTemplate;
@@ -49,32 +52,24 @@ public class StatisticDaoImpl implements StatisticDao {
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId) {
     String encodedIdp = bugFixForEntityId(idpEntityId);
-    Object[] args = new Object[] { encodedIdp };
     try {
-      String sql = getSql(true);
-      return convertStatResultsToChartSeries(this.ebJdbcTemplate.query(sql, args, mapRowsToStatResult()), idpEntityId);
+      List<StatResult> results = ebJdbcTemplate.query(SQL_WITH_IDP, new Object[] { encodedIdp }, mapRowsToStatResult());
+      return convertStatResultsToChartSeries(results);
     } catch (EmptyResultDataAccessException e) {
       return new ArrayList<ChartSerie>();
     }
   }
 
-  /* (non-Javadoc)
-   * @see nl.surfnet.coin.selfservice.dao.StatisticDao#getLoginsPerSpPerDay()
-   */
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay() {
     try {
-      String sql = getSql(false);
-      /*
-       * select count(id) as cid, coalesce(spentityname, spentityid) as spname, CAST(loginstamp AS DATE) as logindate,
-coalesce(idpentityname, idpentityid) as idpname
-from log_logins group by logindate, spname order by idpname, spname, logindate 
-       */
-      return new ArrayList<ChartSerie>();//convertStatResultsToChartSeries(this.ebJdbcTemplate.query(sql, mapRowsToStatResult()));
+      List<StatResult> results = ebJdbcTemplate.query(SQL_ALL_IDPS, mapRowsToStatResult());
+      return convertStatResultsToChartSeries(results);
     } catch (EmptyResultDataAccessException e) {
       return new ArrayList<ChartSerie>();
     }
   }
+
   private String bugFixForEntityId(String idpEntityId) {
     /*
      * Because we also want to show statistics for the IdP with id SURFnet%20BV
@@ -85,36 +80,38 @@ from log_logins group by logindate, spname order by idpname, spname, logindate
     return encodedIdp;
   }
 
-  private String getSql(boolean includeIdP) {
-    String idpInclusion =  (includeIdP ? "where idpentityid = ?" : "");
-    return "select count(id) as cid, coalesce(spentityname, spentityid) as spname, CAST(loginstamp AS DATE) as logindate "
-        + "from log_logins " + idpInclusion + " group by logindate, spname order by spname, logindate";
-  }
-
   private RowMapper<StatResult> mapRowsToStatResult() {
     return new RowMapper<StatResult>() {
       @Override
       public StatResult mapRow(ResultSet rs, int rowNum) throws SQLException {
         int logins = rs.getInt("cid");
-        String sp = rs.getString("spname");
+        String spName = rs.getString("spentityname");
+        String spEntityId = rs.getString("spentityid");
+        String idpPentityId = rs.getString("idpentityid");
         Date logindate = rs.getDate("logindate");
-        return new StatResult(sp, logindate.getTime(), logins);
+        /*
+         * Although we have ensured EngineBlock always inserts spentityname,
+         * there might be older records (and the cornercase being that the
+         * spentityname is not null but sometimes ''
+         */
+        spName = StringUtils.hasText(spName) ? spName : spEntityId;
+        return new StatResult(spEntityId, spName, logindate.getTime(), logins, idpPentityId);
       }
     };
   }
 
-  /**
+  /*
    * The SQL query returns a single row per date/Service provider combination.
    * For the {@link ChartSerie} we need one object per Service Provider with a
    * list of dates. If on a day no logins were done for an SP, the SQL query
    * returns no row. We need to insert a zero hits entry into the list of
    * logins.
    * 
-   * @param statResults
-   *          List of {@link StatResult}'s (SQL row)
+   * @param statResults List of {@link StatResult}'s (SQL row)
+   * 
    * @return List of {@link ChartSerie} (HighChart input)
    */
-  private List<ChartSerie> convertStatResultsToChartSeries(List<StatResult> statResults, String idP) {
+  private List<ChartSerie> convertStatResultsToChartSeries(List<StatResult> statResults) {
     Collections.sort(statResults);
 
     Map<String, ChartSerie> chartSerieMap = new HashMap<String, ChartSerie>();
@@ -123,7 +120,8 @@ from log_logins group by logindate, spname order by idpname, spname, logindate
     for (StatResult statResult : statResults) {
       ChartSerie chartSerie = chartSerieMap.get(statResult.getSpName());
       if (chartSerie == null) {
-        chartSerie = new ChartSerie(statResult.getSpName(), idP, statResult.getMillis());
+        chartSerie = new ChartSerie(statResult.getSpName(), statResult.getIdpEntityIdp(), statResult.getSpEntityId(),
+            statResult.getMillis());
       } else {
         int nbrOfZeroDays = (int) (((statResult.getMillis() - previousMillis) / DAY_IN_MS) - 1);
         chartSerie.addZeroDays(nbrOfZeroDays);
@@ -143,5 +141,4 @@ from log_logins group by logindate, spname order by idpname, spname, logindate
     this.ebJdbcTemplate = ebJdbcTemplate;
   }
 
-  
 }

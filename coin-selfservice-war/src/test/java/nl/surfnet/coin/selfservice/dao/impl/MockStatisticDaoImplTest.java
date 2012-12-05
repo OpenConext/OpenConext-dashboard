@@ -14,30 +14,26 @@
  * limitations under the License.
  */
 
-package nl.surfnet.coin.selfservice.dao;
+package nl.surfnet.coin.selfservice.dao.impl;
+
+import static junit.framework.Assert.assertEquals;
 
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 
-/**
- * Service for statistics
- */
-public interface StatisticDao {
+import org.junit.Test;
 
-  /**
-   * Makes a List of login data per Service Provider got the Identity Provider
-   *
-   * @param idpEntityId unique identifier of the Identity provider
-   * @return List of {@link ChartSerie}
-   */
-  List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId);
+public class MockStatisticDaoImplTest {
 
-  /**
-   * Makes a List of login data per Service Provider for all IdP's 
-   *
-   * @return List of {@link ChartSerie}
-   */
-  List<ChartSerie> getLoginsPerSpPerDay();
+  private StatisticDao dao = new MockStatisticDaoImpl();
+  
+  @Test
+  public void testConvertStatResultsToChartSeries() throws Exception {
+    List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp");
+    assertEquals(13, series.size());
+
+  }
 
 }

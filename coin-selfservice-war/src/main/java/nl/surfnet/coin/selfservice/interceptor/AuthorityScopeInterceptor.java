@@ -24,6 +24,7 @@ import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
 import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
+import static nl.surfnet.coin.selfservice.control.BaseController.IS_GOD;
 import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
@@ -121,7 +122,7 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
     map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
     map.put(IS_ADMIN_USER, isAdmin);
     map.put(LMNG_ACTIVE_MODUS, isLmngActive());
-
+    map.put(IS_GOD, isDistributionChannelGod(authorities));
   }
 
   /**
@@ -181,6 +182,10 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
       }
     }
     return false;
+  }
+  
+  protected boolean isDistributionChannelGod(List<Authority> authorities) {
+    return containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
   }
 
   /*

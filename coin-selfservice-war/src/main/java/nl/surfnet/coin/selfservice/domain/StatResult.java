@@ -22,22 +22,26 @@ package nl.surfnet.coin.selfservice.domain;
 */
 public class StatResult implements Comparable<StatResult> {
 
-  private String sp;
+  private String spEntityId;
+  private String spName;
   private long millis;
   private Integer logins;
+  private String idpEntityIdp;
 
-  public StatResult() {
-
-  }
-
-  public StatResult(String sp, long millis, Integer logins) {
-    this.sp = sp;
+  public StatResult(String spEntityId, String spName, long millis, Integer logins, String idpEntityIdp) {
+    this.spEntityId = spEntityId;
+    this.spName = spName;
     this.millis = millis;
     this.logins = logins;
+    this.idpEntityIdp = idpEntityIdp;
+  }
+
+  public String getSpEntityId() {
+    return spEntityId;
   }
 
   public String getSpName() {
-    return sp;
+    return spName;
   }
 
   public long getMillis() {
@@ -46,6 +50,10 @@ public class StatResult implements Comparable<StatResult> {
 
   public Integer getLogins() {
     return logins;
+  }
+
+  public String getIdpEntityIdp() {
+    return idpEntityIdp;
   }
 
   @Override
@@ -65,7 +73,7 @@ public class StatResult implements Comparable<StatResult> {
     if (logins != null ? !logins.equals(that.logins) : that.logins != null) {
       return false;
     }
-    if (sp != null ? !sp.equals(that.sp) : that.sp != null) {
+    if (spEntityId != null ? !spEntityId.equals(that.spEntityId) : that.spEntityId != null) {
       return false;
     }
 
@@ -74,7 +82,7 @@ public class StatResult implements Comparable<StatResult> {
 
   @Override
   public int hashCode() {
-    int result = sp != null ? sp.hashCode() : 0;
+    int result = spEntityId != null ? spEntityId.hashCode() : 0;
     result = 31 * result + (Long.valueOf(millis).hashCode());
     result = 31 * result + (logins != null ? logins.hashCode() : 0);
     return result;
@@ -86,8 +94,8 @@ public class StatResult implements Comparable<StatResult> {
       return 0;
     }
 
-    final String thisSP = this.getSpName();
-    final String thatSP = that.getSpName();
+    final String thisSP = this.getSpEntityId();
+    final String thatSP = that.getSpEntityId();
 
     if (thisSP.equals(thatSP)) {
       return millis < that.millis ? -1 : (millis==that.millis ? 0 : 1) ;

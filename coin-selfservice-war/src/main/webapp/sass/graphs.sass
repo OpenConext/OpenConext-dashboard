@@ -11,11 +11,16 @@
     right: 0
     top: 7.5em
 
-  .statistics-filters
+  .statistics-navigation
+    width: 100%
+    clear: both
+  
+  .statistics-filters,
+  .statistics-idp-filter
     +background(linear-gradient(#DDD, $subtle_gray))
     border: 1px solid #CCC
     +border-radius(4px)
-    clear: both
+    //clear: both
     float: right
     position: absolute
     right: 0
@@ -47,7 +52,12 @@
     select
       width: 100%
 
-  .back
+  .statistics-idp-filter
+    float: left
+    vertical-align: top
+
+  .back,
+  .forward
     color: #000
     left: 0
     position: absolute
@@ -59,3 +69,6 @@
   .ajax-loader
     background: url(../images/ajax-loader.gif) no-repeat 50% 1em
     min-height: 150px
+  
+  .forward
+    top: 20px

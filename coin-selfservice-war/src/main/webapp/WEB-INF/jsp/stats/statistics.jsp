@@ -25,12 +25,40 @@
 <div class="column-center content-holder">
   <h1>${title}</h1>
 
-  <p id="stats-info-text"><spring:message code="jsp.stats.info"/><p>
+    <c:if test="${isGod eq true}">
+      <p id="stats-info-text" style="display: none"><spring:message code="jsp.stats.info.admin"/></p>
+    </c:if>
+    <c:if test="${isGod eq false}">
+      <c:set var="idpname"><tags:providername provider="${selectedidp}" /></c:set>
+      <p id="stats-info-text" style="display: none">
+        <spring:message code="jsp.stats.info" arguments="${idpname}"/>
+      </p>
+    </c:if>
+    
+  <section class="statistics-holder hide" >
 
-  <section class="statistics-holder">
-    <a href="#" class="back hide">
-      <i class="icon-arrow-left"></i> <spring:message code="jsp.stats.back_to_overview"/>
-    </a>
+    <nav class="statistics-navigation"> 
+      <div class="show">
+      <a href="#" class="back hide">
+        <i class="icon-arrow-left"></i> <spring:message code="jsp.stats.back_to_overview"/>
+      </a>
+      <c:if test="${isGod}">
+        <a href="#" class="forward hide">
+          <i class="icon-arrow-right"></i> <spring:message code="jsp.stats.back_to_sp"/>
+        </a>
+      </c:if>
+      </div>
+    </nav>
+
+    <nav class="statistics-idp-filter">
+      <div class="show">
+        <select id="idp-select2">
+          <option value="AL">Alabama</option>
+          <option value="WY">Wyoming</option>
+        </select>
+      </div>
+    </nav>
+
     <nav class="statistics-filters">
       <div class="show">
         <a href="#" data-show="all">
@@ -50,8 +78,8 @@
         <select id="choose-time-offset" title="<spring:message code="jsp.stats.select_offset" />"></select>
       </div>
     </nav>
-
-    <div id="sp-overview-chart" class="ajax-loader" data-ipd="${selectedidp.id}"></div>
+    
+    <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedidp.id}" data-is-god="${isGod}"></div>
     <div id="sp-detail-chart"></div>
   </section>
 </div>
