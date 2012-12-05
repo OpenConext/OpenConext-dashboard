@@ -18,13 +18,10 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-
 
 /**
  * Message that is shown as a notification to a logged in user.
- *
+ * 
  */
 public class NotificationMessage implements Serializable {
 
@@ -36,18 +33,16 @@ public class NotificationMessage implements Serializable {
   public String getMessageKey() {
     return messageKey;
   }
+
   public void setMessageKey(String messageKey) {
     this.messageKey = messageKey;
-  }  
+  }
+
   public List<CompoundServiceProvider> getArguments() {
     return arguments;
   }
+
   public void setArguments(List<CompoundServiceProvider> arguments) {
-    Collections.sort(arguments, new Comparator<CompoundServiceProvider>() {
-      public int compare(CompoundServiceProvider o1, CompoundServiceProvider o2) {
-        return o1.getSp().getName().toUpperCase().compareTo(o2.getSp().getName().toUpperCase());
-      }
-    });
     this.arguments = arguments;
   }
 }
