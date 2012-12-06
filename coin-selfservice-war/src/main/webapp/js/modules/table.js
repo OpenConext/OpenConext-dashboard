@@ -12,8 +12,24 @@ app.table = function() {
     };
 
 
+    var trimmer = function(str) {
+        return $.trim(str.replace(/(<([^>]+)>)/ig, ''));
+    };
+
+
     var initDataTable = function() {
-        $('.table-sortable').each(function(index, table) {
+        jQuery.fn.dataTableExt.oSort['spnames-asc'] = function(x, y) {
+            x = trimmer(x);
+            y = trimmer(y);
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        };
+        jQuery.fn.dataTableExt.oSort['spnames-desc'] = function(x, y) {
+            x = trimmer(x);
+            y = trimmer(y);
+            return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+        };
+
+        $('.table-sortable:not(#csp-statusses)').each(function(index, table) {
             $(table).dataTable({
                 bPaginate: false,
                 bLengthChange: false,
@@ -23,6 +39,24 @@ app.table = function() {
                     sSearch: '_INPUT_'
                 }
             });
+        });
+
+        $('#csp-statusses').dataTable({
+            bPaginate: false,
+            bLengthChange: false,
+            bAutoWidth: false,
+            bInfo: false,
+            oLanguage: {
+                sSearch: '_INPUT_'
+            },
+            aoColumns: [
+                { 'sType': 'spnames' },
+                null,
+                null,
+                null,
+                null,
+                null
+            ]
         });
     };
 

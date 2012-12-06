@@ -29,7 +29,7 @@
               <form:form id="selectIdpForm" method="post" action="selectIdp.shtml" class="selectIdpForm">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
                                 
-	              <select id="filteredIdpId" name="filteredIdpId" onChange="document.getElementById('selectIdpForm').submit();">
+	              <select id="filteredIdpId" name="filteredIdpId" onChange="document.getElementById('selectIdpForm').submit();" class="select2-narrow">
 	                <c:forEach items="${allIdps}" var="idp">
 	                  <c:choose>
 	                    <c:when test="${idp.id == filteredIdp}">
@@ -46,10 +46,10 @@
               </form:form>
             </div>
   
-            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable">
+            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" id="csp-statusses">
               <thead>
                 <tr>
-                  <th><spring:message code="jsp.cspstatus.csp.name"/></th>
+                  <th class="html sorting_asc"><spring:message code="jsp.cspstatus.csp.name"/></th>
                   <th><spring:message code="jsp.cspstatus.csp.lmnglink"/></th>
                   <th><spring:message code="jsp.cspstatus.csp.haslicense"/></th>
                   <th><spring:message code="jsp.cspstatus.csp.grouplicense"/></th>
@@ -67,9 +67,7 @@
 			            
                   <tr>
                     <td title="${serviceDescription} - ${binding.serviceProvider.id}">
-                      <a title="${serviceDescription}" href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" />
-	                      ${serviceDescription}
-                      </a>
+                      <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a>
                     </td>
                     <td>
                       <c:choose>
@@ -77,7 +75,7 @@
                           <i class="icon-ok"/>
                         </c:when>
                         <c:otherwise>
-                          <i class="icon-remove"/>
+                          <i class="icon-remove icon-greyed-out"/>
                         </c:otherwise>
                       </c:choose>
                     </td>
@@ -87,7 +85,7 @@
                           <i class="icon-ok"/>
                         </c:when>
                         <c:otherwise>
-                          <i class="icon-remove"/>
+                          <i class="icon-remove icon-greyed-out"/>
                         </c:otherwise>
                       </c:choose>
                     </td>
@@ -98,7 +96,7 @@
 	                          <i class="icon-ok"/>
 	                        </c:when>
 	                        <c:otherwise>
-	                          <i class="icon-remove"/>
+	                          <i class="icon-remove icon-greyed-out"/>
 	                        </c:otherwise>
 	                      </c:choose>
 	                    </c:if>
@@ -114,7 +112,7 @@
                           <i class="icon-ok"/>
                         </c:when>
                         <c:otherwise>
-                          <i class="icon-remove"/>
+                          <i class="icon-remove icon-greyed-out"/>
                         </c:otherwise>
                       </c:choose>
                     </td>
