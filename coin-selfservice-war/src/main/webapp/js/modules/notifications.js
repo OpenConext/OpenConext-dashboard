@@ -27,7 +27,7 @@ app.notifications = function() {
     notificationsElm.stop();
     notificationsElm.on('click', showAllNotifications);
 
-    var closeButton = $('<a class="close-notifications" href="closeNotificationPopup.shtml" title="Close">×</a>');
+    var closeButton = $('.close-notifications', notificationsElm);
     closeButton.on('click', hideNotifications);
     closeButton.appendTo(notificationsElm);
 
@@ -51,7 +51,6 @@ app.notifications = function() {
 
 
   var hideNotifications = function(e) {
-    e.preventDefault();
     e.stopPropagation();
 
     notificationsElm.addClass('hide');
