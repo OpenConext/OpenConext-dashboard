@@ -46,6 +46,7 @@ import nl.surfnet.coin.shared.service.ErrorMessageMailer;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -98,8 +99,8 @@ public class LmngServiceImpl implements LmngService {
     try {
       String lmngInstitutionId = IdentityProvider.NONE.equals(identityProvider) ? null : getLmngIdentityId(identityProvider);
 
-      // validation, we need at least one serviceId
-      if (articleIdentifier == null) {
+      // validation, we need at least one serviceId/articleID and an institution ID (as licenses belong to an institute)
+      if (articleIdentifier == null || StringUtils.isEmpty(lmngInstitutionId))  {
         return result;
       }
 

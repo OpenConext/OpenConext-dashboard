@@ -66,7 +66,7 @@
 			            <c:set var="serviceDescription"><tags:providername provider="${compoundSp.sp}" /></c:set>
 			            
                   <tr>
-                    <td title="${serviceDescription} - ${binding.serviceProvider.id}">
+                    <td title="${serviceDescription} - ${compoundSp.sp.id}">
                       <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a>
                     </td>
                     <td>
