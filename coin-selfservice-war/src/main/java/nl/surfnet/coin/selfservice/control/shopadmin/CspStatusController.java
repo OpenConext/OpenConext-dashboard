@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
@@ -55,22 +54,21 @@ public class CspStatusController extends BaseController {
     return idpService.getAllIdentityProviders();
   }
 
-  
   @RequestMapping("/csp-status-overview.shtml")
   public ModelAndView allCspsForSelectedIdp(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
     Map<String, Object> model = new HashMap<String, Object>();
-    
+
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
     model.put("filteredIdp", selectedidp.getId());
 
     return new ModelAndView("shopadmin/csp-status-overview", model);
   }
-  
+
   @RequestMapping(value = "/selectIdp", method = RequestMethod.POST)
   public ModelAndView selectIdp(HttpServletRequest req) {
     Map<String, Object> model = new HashMap<String, Object>();
-    
+
     String filteredIdpId = (String) req.getParameter("filteredIdpId");
     if (filteredIdpId != null) {
       IdentityProvider selectedidp = idpService.getIdentityProvider(filteredIdpId);

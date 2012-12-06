@@ -56,6 +56,7 @@
                   </c:forEach>
                 </tbody>
               </table>
+              <hr/>
             </c:forEach>
 
         </section>

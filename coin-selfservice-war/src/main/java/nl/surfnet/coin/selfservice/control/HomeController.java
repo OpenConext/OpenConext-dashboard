@@ -80,9 +80,7 @@ public class HomeController extends BaseController {
 
   @RequestMapping(value = "/closeNotificationPopup.shtml")
   public String rateHandler(HttpServletRequest request) {
-
     request.getSession().setAttribute("notificationPopupClosed", Boolean.TRUE);
-
     String referer = request.getHeader("Referer");
     return "redirect:" + referer;
   }
