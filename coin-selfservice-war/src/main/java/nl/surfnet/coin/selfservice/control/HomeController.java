@@ -76,4 +76,15 @@ public class HomeController extends BaseController {
     model.put("mainAttributes", new PersonMainAttributes(user.getAttributeMap()));
     return new ModelAndView("user", model);
   }
+  
+
+  @RequestMapping(value = "/closeNotificationPopup.shtml")
+  public String rateHandler(HttpServletRequest request) {
+
+    request.getSession().setAttribute("notificationPopupClosed", Boolean.TRUE);
+
+    String referer = request.getHeader("Referer");
+    return "redirect:" + referer;
+  }
+
 }

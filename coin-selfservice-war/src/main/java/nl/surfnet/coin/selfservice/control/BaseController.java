@@ -41,57 +41,72 @@ import org.springframework.web.servlet.LocaleResolver;
 public abstract class BaseController {
 
   /**
-   * The name of the key under which all compoundSps (e.g. the services) are stored
+   * The name of the key under which all compoundSps (e.g. the services) are
+   * stored
    */
   public static final String COMPOUND_SPS = "compoundSps";
-  
+
   /**
-   * The name of the key under which a compoundSps (e.g. the service) is stored for the detail view
+   * The name of the key under which all identityproviders are stored
+   */
+  public static final String ALL_IDPS = "allIdps";
+
+  /**
+   * The name of the key under which a compoundSps (e.g. the service) is stored
+   * for the detail view
    */
   public static final String COMPOUND_SP = "compoundSp";
 
   /**
-   * The name of the key under which we store the info if a logged user is allowed to request connections / disconnects
+   * The name of the key under which we store the info if a logged user is
+   * allowed to request connections / disconnects
    */
   public static final String SERVICE_APPLY_ALLOWED = "applyAllowed";
 
   /**
-   * The name of the key under which we store the info if a logged user is allowed to ask questions
+   * The name of the key under which we store the info if a logged user is
+   * allowed to ask questions
    */
   public static final String SERVICE_QUESTION_ALLOWED = "questionAllowed";
 
   /**
-   * The name of the key under which we store the info if a logged user is allowed to filter in the app grid
+   * The name of the key under which we store the info if a logged user is
+   * allowed to filter in the app grid
    */
   public static final String FILTER_APP_GRID_ALLOWED = "filterAppGridAllowed";
 
   /**
-   * The name of the key under which we store the info if a logged user is a kind of admin
+   * The name of the key under which we store the info if a logged user is a
+   * kind of admin
    */
   public static final String IS_ADMIN_USER = "isAdminUser";
 
   /**
-   * The name of the key that defines whether a deeplink to SURFMarket should be shown.
+   * The name of the key that defines whether a deeplink to SURFMarket should be
+   * shown.
    */
   public static final String DEEPLINK_TO_SURFMARKET_ALLOWED = "deepLinkToSurfMarketAllowed";
 
   /**
-   * The name of the key under which we store the info if LMNG is active (e.g. we use License Info)
+   * The name of the key under which we store the info if LMNG is active (e.g.
+   * we use License Info)
    */
   public static final String LMNG_ACTIVE_MODUS = "lmngActiveModus";
-  
+
   /**
-   * The name of the key under which we store the info if the logged in user is Distribution Channel Admin (aka God)
+   * The name of the key under which we store the info if the logged in user is
+   * Distribution Channel Admin (aka God)
    */
   public static final String IS_GOD = "isGod";
-  
+
   /**
-   * The name of the key under which we store the token used to prevent session hijacking
+   * The name of the key under which we store the token used to prevent session
+   * hijacking
    */
   public static final String TOKEN_CHECK = "tokencheck";
 
   private static final String NOTIFICATIONS_LINKED_LICENSE_GENERATED = "linkedLicenseNotificationsGenerated";
-  
+
   @Resource(name = "providerService")
   private IdentityProviderService idpService;
 
@@ -113,10 +128,14 @@ public abstract class BaseController {
 
   /**
    * Exposes the requested IdP for use in RequestMapping methods.
-   *
-   * @param idpId   the idp selected in the view
-   * @param request HttpServletRequest, for storing/retrieving the selected idp in the http session.
-   * @return the IdentityProvider selected, or null in case of unknown/invalid idpId
+   * 
+   * @param idpId
+   *          the idp selected in the view
+   * @param request
+   *          HttpServletRequest, for storing/retrieving the selected idp in the
+   *          http session.
+   * @return the IdentityProvider selected, or null in case of unknown/invalid
+   *         idpId
    */
   @ModelAttribute(value = "selectedidp")
   public IdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId, HttpServletRequest request) {
@@ -136,30 +155,29 @@ public abstract class BaseController {
     throw new RuntimeException("There is no Selected IdP");
   }
 
-// TODO when reactivating these notifications, rename the jsp.requests-overview.title back to: Status  
-//  /**
-//   * Get notifications from the session (if available) and place as model attribute.
-//   * Create/generate possible notifications if not found on session and add to session.
-//   */
-//  @ModelAttribute(value = "notifications")
-//  public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-//    Object notifications = request.getSession().getAttribute("notifications");
-//    if (notifications == null) {
-//      notifications = new ArrayList<NotificationMessage>();
-//    }
-//    @SuppressWarnings("unchecked")
-//    List<NotificationMessage> notificationMessages = (ArrayList<NotificationMessage>) notifications;
-//    
-//    IdentityProvider idp = getRequestedIdp(idpId, request);
-// 
-//    if (request.getSession().getAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED) == null) {
-//      notificationMessages = notificationService.getNotifications(idp);
-//      request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
-//    }
-//
-//    request.getSession().setAttribute("notifications", notificationMessages);
-//
-//    return notificationMessages;
-//  }
+  /**
+   * Get notifications from the session (if available) and place as model
+   * attribute. Create/generate possible notifications if not found on session
+   * and add to session.
+   */
+  @ModelAttribute(value = "notifications")
+  public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+    Object notifications = request.getSession().getAttribute("notifications");
+    if (notifications == null) {
+      notifications = new ArrayList<NotificationMessage>();
+    }
+    @SuppressWarnings("unchecked")
+    List<NotificationMessage> notificationMessages = (ArrayList<NotificationMessage>) notifications;
 
+    IdentityProvider idp = getRequestedIdp(idpId, request);
+
+    if (request.getSession().getAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED) == null) {
+      notificationMessages = notificationService.getNotifications(idp);
+      request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
+    }
+
+    request.getSession().setAttribute("notifications", notificationMessages);
+
+    return notificationMessages;
+  }
 }

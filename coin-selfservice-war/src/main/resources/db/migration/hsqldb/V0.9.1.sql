@@ -7,7 +7,7 @@ create table ss_idp_lmng_identifiers (
 
 INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId)
 VALUES
-  ('mock-institution-id', '{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}');
+  ('mock-institution-id', '{837326CA-1A10-DC11-A6C7-0019B9DE3AA4}');
 INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId)
 VALUES
   ('SURFnetGuests', '{268835E8-8E0F-DC11-A6C7-0019B9DE3AA4}');
