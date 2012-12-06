@@ -20,6 +20,7 @@ import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Repository;
  * SQL implementation for the statistic service
  */
 @Repository
+@SuppressWarnings("unchecked")
 public class MockStatisticDaoImpl implements StatisticDao {
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
@@ -39,24 +41,33 @@ public class MockStatisticDaoImpl implements StatisticDao {
 
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId) {
-    return parseJsonData("stat-json/stats_mockidp.json");
+    return (List<ChartSerie>) parseJsonData("stat-json/stats_mockidp.json");
   }
 
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay() {
-    return parseJsonData("stat-json/stats.json");
+    return (List<ChartSerie>) parseJsonData("stat-json/stats.json");
   }
 
-  private List<ChartSerie> parseJsonData(String jsonFile) {
+  @Override
+  public List<IdentityProviderRepresenter> getIdpLoginIdentifiers() {
+    return (List<IdentityProviderRepresenter>) parseJsonData("stat-json/stats-idps.json",
+        new TypeReference<List<IdentityProviderRepresenter>>() {
+        });
+  }
+
+  private Object parseJsonData(String jsonFile) {
+    return parseJsonData(jsonFile, new TypeReference<List<ChartSerie>>() {
+    });
+  }
+
+  @SuppressWarnings("rawtypes")
+  private Object parseJsonData(String jsonFile,  TypeReference typeReference) {
     try {
-      Thread.sleep(1500);
-      TypeReference<List<ChartSerie>> typeReference = new TypeReference<List<ChartSerie>>() {
-      };
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
-
 
 }

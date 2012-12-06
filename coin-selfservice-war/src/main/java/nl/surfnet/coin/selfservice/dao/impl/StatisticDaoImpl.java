@@ -27,6 +27,7 @@ import java.util.Map;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.StatResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,18 @@ public class StatisticDaoImpl implements StatisticDao {
       return new ArrayList<ChartSerie>();
     }
   }
+  
+  @Override
+  public List<IdentityProviderRepresenter> getIdpLoginIdentifiers() {
+    return ebJdbcTemplate.query("select distinct idpentityid as idpentityid, idpentityname as idpentityname from log_logins order by idpentityname", new RowMapper<IdentityProviderRepresenter>() {
+      @Override
+      public IdentityProviderRepresenter mapRow(ResultSet rs, int rowNum) throws SQLException {
+        String name = rs.getString("idpentityname");
+        String entityId = rs.getString("idpentityid");
+        name = spNameNullCheck(name, entityId);
+        return new IdentityProviderRepresenter(entityId,name);
+      }});
+  }
 
   private String bugFixForEntityId(String idpEntityId) {
     /*
@@ -89,17 +102,22 @@ public class StatisticDaoImpl implements StatisticDao {
         String spEntityId = rs.getString("spentityid");
         String idpPentityId = rs.getString("idpentityid");
         Date logindate = rs.getDate("logindate");
-        /*
-         * Although we have ensured EngineBlock always inserts spentityname,
-         * there might be older records (and the cornercase being that the
-         * spentityname is not null but sometimes ''
-         */
-        spName = StringUtils.hasText(spName) ? spName : spEntityId;
+        spName = spNameNullCheck(spName, spEntityId);
         return new StatResult(spEntityId, spName, logindate.getTime(), logins, idpPentityId);
       }
+
     };
   }
 
+  private String spNameNullCheck(String spName, String spEntityId) {
+    /*
+     * Although we have ensured EngineBlock always inserts spentityname,
+     * there might be older records (and the cornercase being that the
+     * spentityname is not null but sometimes ''
+     */
+    spName = StringUtils.hasText(spName) ? spName : spEntityId;
+    return spName;
+  }
   /*
    * The SQL query returns a single row per date/Service provider combination.
    * For the {@link ChartSerie} we need one object per Service Provider with a

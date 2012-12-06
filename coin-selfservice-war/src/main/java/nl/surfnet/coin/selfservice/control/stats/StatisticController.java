@@ -22,6 +22,7 @@ import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,9 @@ public class StatisticController extends BaseController {
   @RequestMapping("/stats.shtml")
   public String stats(ModelMap model, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     model.put("selectedidp", selectedidp);
+    if (AuthorityScopeInterceptor.isDistributionChannelAdmin()) {
+      model.put("allIdps", statisticDao.getIdpLoginIdentifiers());
+    }
     return "stats/statistics";
   }
 

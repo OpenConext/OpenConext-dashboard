@@ -28,8 +28,8 @@
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-tooltip.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/component-datatables.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/screen.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/select2.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/screen.css"/>" />
         <%--
         Reminder: if you change this list in any way, remember to update the corresponding list in the POM (for the minify-plugin.
        --%>

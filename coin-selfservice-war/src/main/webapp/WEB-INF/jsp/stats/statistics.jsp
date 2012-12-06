@@ -24,7 +24,8 @@
 
 <div class="column-center content-holder">
   <h1>${title}</h1>
-
+  
+    <!-- Shorter then otherwise -->
     <c:if test="${isGod eq true}">
       <p id="stats-info-text"><spring:message code="jsp.stats.info.admin"/></p>
     </c:if>
@@ -50,14 +51,19 @@
       </div>
     </nav>
 
-    <nav class="statistics-idp-filter">
-      <div class="show">
-        <select id="idp-select2">
-          <option value="AL">Alabama</option>
-          <option value="WY">Wyoming</option>
-        </select>
-      </div>
-    </nav>
+    <c:if test="${isGod eq true}">
+      <nav class="statistics-idp-filter">
+        <div class="show">
+          <c:set var="idp-placeholder"><spring:message code="jsp.stats.select_idp"/></c:set>
+          <select id="idp-select2" data-placeholder="${idp-placeholder}">
+            <option value="ALL" selected="selected">All</option>
+            <c:forEach items="${allIdps}" var="idp">
+              <option value="${idp.entityId}">${idp.name}</option>
+            </c:forEach>
+          </select>
+        </div>
+      </nav>
+    </c:if>
 
     <nav class="statistics-filters">
       <div class="show">

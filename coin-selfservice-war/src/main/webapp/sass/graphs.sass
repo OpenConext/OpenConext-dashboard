@@ -1,6 +1,11 @@
+$holder_top: 7.5em
+$line_height: 2.5em
+$idp_switch_top: 3.5em
+$response_top: 4em
+
 .statistics-holder
   min-height: 300px
-  padding-top: 7.5em
+  padding-top: $holder_top
   position: relative
 
   #sp-overview-chart,
@@ -9,7 +14,7 @@
     left: 0
     position: absolute
     right: 0
-    top: 7.5em
+    top: $holder_top
 
   .statistics-navigation
     width: 100%
@@ -20,15 +25,13 @@
     +background(linear-gradient(#DDD, $subtle_gray))
     border: 1px solid #CCC
     +border-radius(4px)
-    //clear: both
-    float: right
     position: absolute
     right: 0
     top: 0
     width: 300px
 
     div
-      line-height: 2.5em
+      line-height: $line_height
       padding: 0.1em 0.6em
 
       a
@@ -38,7 +41,7 @@
     .show
       a
         display: inline-block
-        line-height: 2.5em
+        line-height: $line_height
         padding: 0 0.5em
 
         &:hover,
@@ -53,8 +56,15 @@
       width: 100%
 
   .statistics-idp-filter
-    float: left
-    vertical-align: top
+    top: 6.1em
+    
+    div
+      padding: 0.2em 0.8em 0.2em 0.3em
+      
+    .show
+      a
+        display: block
+        width: 100%
 
   .back,
   .forward
@@ -72,3 +82,34 @@
   
   .forward
     top: 20px
+
+.select2-container
+  display: block
+  width: 100%
+  padding-left: 0px
+  padding-right: 0px
+  color: #000
+  text-decoration: none
+  
+.select2-result-label
+  font-size: 12px  
+    
+.statistics-holder-idp-switch
+  padding-top: $holder_top + $idp_switch_top
+  
+  #sp-overview-chart,
+  #sp-details-chart
+    top: $holder_top + $idp_switch_top
+
+@media (max-width: 570px)
+  .statistics-holder
+    padding-top: $holder_top + $response_top
+    
+    .statistics-filters
+      top: $response_top
+     
+    .statistics-idp-filter
+      top: $holder_top + $response_top
+      
+  .statistics-holder-idp-switch
+    padding-top: $holder_top + $idp_switch_top + $response_top 

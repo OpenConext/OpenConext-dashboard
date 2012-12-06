@@ -69,13 +69,10 @@
         </li>
       </c:if>
       <c:if test="${isAdminUser}">
-        <!-- TODO: fix link by id -->
-        <!--
         <spring:url var="statsLink" value="/stats/stats.shtml#" htmlEscape="true"/>
         <li>
           <a class="service-stats" href="${statsLink}<c:out  value="${compoundSp.sp.id}" />"></a>
         </li>
-        -->
       </c:if>
       <c:if test="${not empty compoundSp.eulaUrl}">
         <li>

@@ -22,18 +22,30 @@ import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 
 import org.junit.Test;
 
 public class MockStatisticDaoImplTest {
 
   private StatisticDao dao = new MockStatisticDaoImpl();
-  
+
   @Test
-  public void testConvertStatResultsToChartSeries() throws Exception {
+  public void testGetLoginsPerSpPerDayByIdp() throws Exception {
     List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp");
     assertEquals(13, series.size());
+  }
 
+  @Test
+  public void testGetLoginsPerSpPerDay() throws Exception {
+    List<ChartSerie> series = dao.getLoginsPerSpPerDay();
+    assertEquals(53, series.size());
+  }
+
+  @Test
+  public void testGetIdpLoginIdentifiers() throws Exception {
+    List<IdentityProviderRepresenter> series = dao.getIdpLoginIdentifiers();
+    assertEquals(35, series.size());
   }
 
 }

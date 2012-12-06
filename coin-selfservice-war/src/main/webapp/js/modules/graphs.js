@@ -19,11 +19,17 @@ app.graphs = function() {
     if (chartOverviewElm.length === 0 || chartDetailElm.length === 0) {
       return;
     }
-
+    
     wrapperElm = $('.statistics-holder');
     isGod = chartOverviewElm.data('is-god');
+    if (isGod) {
+      wrapperElm.addClass('statistics-holder-idp-switch');
+      $('#idp-select2').select2().change(function(e) {
+        idp = $("#idp-select2 option:selected").val();
+        //TODO go to idpChange
+      });
+    }
     var selectedIdp = chartOverviewElm.data('idp');
-
 
     // Fetch dependencies
     var highcharts = $.ajax({
@@ -32,10 +38,11 @@ app.graphs = function() {
       dataType: 'script'
     });
 
+    var jsonUrl = (isGod ? '/stats/loginsperspperday.json' : '/stats/loginsperspperdaybyidp.json')
+    
     var data = $.ajax({
  //     url: contextPath + '/stats/loginsperspperday.json?selectedidp=' + encodeURIComponent(selectedIdp),
-      url: contextPath + '/stats/loginsperspperday.json',
-  //    url: contextPath + '/stats/loginsperspperdaybyidp.json',
+      url: contextPath + jsonUrl,
       cache: true,
       dataType: 'json'
     });
@@ -46,6 +53,16 @@ app.graphs = function() {
 
     initFilters();
   };
+  
+  var idpChange = function() {
+    //TODO can be also called when in SP selected modus
+    var newIdp = $("#idp-select2 option:selected").val();
+    if (newIdp === 'ALL') {
+      initRendering(orginalData);
+    }
+    
+    
+  }
 
   var initI18n = function() {
     Highcharts.setOptions({
@@ -265,7 +282,6 @@ app.graphs = function() {
     });
   };
 
-  //TODO - spentityid
   var setHash = function() {
     setSp(decodeURIComponent(location.hash.substring(1)));
   };
@@ -280,7 +296,12 @@ app.graphs = function() {
       else {
         currentlyShownSp = false;
         for (var l = currentData.length - 1; l > -1; --l) {
-          if (arg.length > 0 && currentData[l].name.indexOf(arg) === 0) {
+          /*
+           * We either get the link from the SP overview table (name) or from the 
+           * detail page (spEntityId). 
+           */  
+          if (arg.length > 0 && (currentData[l].name.indexOf(arg) === 0 || 
+                                 currentData[l].spEntityId.indexOf(arg) === 0)) {
             currentlyShownSp = l;
             break;
           }
@@ -291,8 +312,7 @@ app.graphs = function() {
           return;
         }
       }
-    }
-    else {
+    } else {
       currentlyShownSp = arg.point.config[2];
 
       var name = currentData[currentlyShownSp].name.substring(0, 30);

@@ -175,7 +175,7 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
         && !containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
   }
 
-  protected boolean containsRole(List<Authority> authorities, Authority... authority) {
+  protected static boolean containsRole(List<Authority> authorities, Authority... authority) {
     for (Authority auth : authority) {
       if (authorities.contains(auth)) {
         return true;
@@ -186,6 +186,10 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
   
   protected boolean isDistributionChannelGod(List<Authority> authorities) {
     return containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+  }
+
+  public static boolean isDistributionChannelAdmin() {
+    return containsRole(SpringSecurity.getCurrentUser().getAuthorityEnums(), ROLE_DISTRIBUTION_CHANNEL_ADMIN);
   }
 
   /*
