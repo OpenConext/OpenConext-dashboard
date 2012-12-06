@@ -58,7 +58,7 @@ public class MenuInterceptorTest {
     Menu menu = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
 
     assertEquals(3, menu.getMenuItems().size());
-    assertEquals("jsp.requests-overview.title", menu.getMenuItems().get(1).getLabel());
+    assertEquals("jsp.notifications.title", menu.getMenuItems().get(1).getLabel());
 
   }
 
