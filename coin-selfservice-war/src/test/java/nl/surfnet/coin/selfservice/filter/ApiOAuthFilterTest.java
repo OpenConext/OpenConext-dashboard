@@ -80,6 +80,7 @@ public class ApiOAuthFilterTest {
   @Before
   public void setUp() throws Exception {
     filter = new ApiOAuthFilter();
+    filter.setLmngActive(true);
     MockitoAnnotations.initMocks(this);
 
     request = new MockHttpServletRequest("GET", "/anyUrl");
@@ -186,6 +187,20 @@ public class ApiOAuthFilterTest {
   public void test_elevate_user_one_idp_admin() throws IOException, ServletException {
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
     assertRoleIsGranted( ROLE_IDP_LICENSE_ADMIN);
+  }
+
+  @Test
+  public void test_elevate_user_results_in_one_admin_when_lmng_is_disabled() throws IOException, ServletException {
+    filter.setLmngActive(false);
+    setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+    assertRoleIsGranted( ROLE_IDP_SURFCONEXT_ADMIN);
+  }
+
+  @Test
+  public void test_elevate_user_idp_license_admin_becomes_user_role_when_lmng_is_disabled() throws IOException, ServletException {
+    filter.setLmngActive(false);
+    setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
+    assertRoleIsGranted( ROLE_USER);
   }
 
   @Test

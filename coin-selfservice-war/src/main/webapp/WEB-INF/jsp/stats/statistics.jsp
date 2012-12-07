@@ -54,9 +54,9 @@
     <c:if test="${isGod eq true}">
       <nav class="statistics-idp-filter">
         <div class="show">
-          <c:set var="idp-placeholder"><spring:message code="jsp.stats.select_idp"/></c:set>
-          <select id="idp-select2" data-placeholder="${idp-placeholder}">
-            <option value="ALL" selected="selected">All</option>
+          <select id="idp-select2"">
+            <option></option>
+            <option value="ALL"><spring:message code="jsp.stats.all_idps"/></option>
             <c:forEach items="${allIdps}" var="idp">
               <option value="${idp.entityId}">${idp.name}</option>
             </c:forEach>

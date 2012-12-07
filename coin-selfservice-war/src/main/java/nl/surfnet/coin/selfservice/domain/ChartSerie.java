@@ -35,6 +35,7 @@ public class ChartSerie {
   private String idpEntityId;
   private long pointStart;
   private long pointInterval = 24L * 3600L * 1000L; // one day
+  private int total;
   private List<Integer> data = new ArrayList<Integer>();
 
   public ChartSerie() {}
@@ -65,6 +66,7 @@ public class ChartSerie {
 
   public void addData(Integer number) {
     this.data.add(number);
+    this.total += number;
   }
 
   public void addZeroDays(int nbr) {
@@ -103,6 +105,14 @@ public class ChartSerie {
 
   public void setData(List<Integer> data) {
     this.data = data;
+  }
+
+  public int getTotal() {
+    return total;
+  }
+
+  public void setTotal(int total) {
+    this.total = total;
   }
 
   

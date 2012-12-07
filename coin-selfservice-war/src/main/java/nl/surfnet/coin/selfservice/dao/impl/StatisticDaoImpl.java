@@ -70,17 +70,20 @@ public class StatisticDaoImpl implements StatisticDao {
       return new ArrayList<ChartSerie>();
     }
   }
-  
+
   @Override
   public List<IdentityProviderRepresenter> getIdpLoginIdentifiers() {
-    return ebJdbcTemplate.query("select distinct idpentityid as idpentityid, idpentityname as idpentityname from log_logins order by idpentityname", new RowMapper<IdentityProviderRepresenter>() {
-      @Override
-      public IdentityProviderRepresenter mapRow(ResultSet rs, int rowNum) throws SQLException {
-        String name = rs.getString("idpentityname");
-        String entityId = rs.getString("idpentityid");
-        name = spNameNullCheck(name, entityId);
-        return new IdentityProviderRepresenter(entityId,name);
-      }});
+    return ebJdbcTemplate.query(
+        "select distinct idpentityid as idpentityid, idpentityname as idpentityname from log_logins order by idpentityname",
+        new RowMapper<IdentityProviderRepresenter>() {
+          @Override
+          public IdentityProviderRepresenter mapRow(ResultSet rs, int rowNum) throws SQLException {
+            String name = rs.getString("idpentityname");
+            String entityId = rs.getString("idpentityid");
+            name = spNameNullCheck(name, entityId);
+            return new IdentityProviderRepresenter(entityId, name);
+          }
+        });
   }
 
   private String bugFixForEntityId(String idpEntityId) {
@@ -111,19 +114,20 @@ public class StatisticDaoImpl implements StatisticDao {
 
   private String spNameNullCheck(String spName, String spEntityId) {
     /*
-     * Although we have ensured EngineBlock always inserts spentityname,
-     * there might be older records (and the cornercase being that the
-     * spentityname is not null but sometimes ''
+     * Although we have ensured EngineBlock always inserts spentityname, there
+     * might be older records (and the cornercase being that the spentityname is
+     * not null but sometimes ''
      */
     spName = StringUtils.hasText(spName) ? spName : spEntityId;
     return spName;
   }
+
   /*
    * The SQL query returns a single row per date/Service provider combination.
-   * For the {@link ChartSerie} we need one object per Service Provider with a
-   * list of dates. If on a day no logins were done for an SP, the SQL query
-   * returns no row. We need to insert a zero hits entry into the list of
-   * logins.
+   * For the {@link ChartSerie} we need one object per Service Provider per
+   * Identity provider with a list of dates. If on a day no logins were done for
+   * an SP, the SQL query returns no row. We need to insert a zero hits entry
+   * into the list of logins.
    * 
    * @param statResults List of {@link StatResult}'s (SQL row)
    * 
@@ -136,9 +140,9 @@ public class StatisticDaoImpl implements StatisticDao {
     long previousMillis = 0;
 
     for (StatResult statResult : statResults) {
-      ChartSerie chartSerie = chartSerieMap.get(statResult.getSpName());
+      ChartSerie chartSerie = chartSerieMap.get(statResult.getSpEntityId() + "-" + statResult.getIdpEntityId());
       if (chartSerie == null) {
-        chartSerie = new ChartSerie(statResult.getSpName(), statResult.getIdpEntityIdp(), statResult.getSpEntityId(),
+        chartSerie = new ChartSerie(statResult.getSpName(), statResult.getIdpEntityId(), statResult.getSpEntityId(),
             statResult.getMillis());
       } else {
         int nbrOfZeroDays = (int) (((statResult.getMillis() - previousMillis) / DAY_IN_MS) - 1);
@@ -146,13 +150,9 @@ public class StatisticDaoImpl implements StatisticDao {
       }
       chartSerie.addData(statResult.getLogins());
       previousMillis = statResult.getMillis();
-      chartSerieMap.put(chartSerie.getName(), chartSerie);
+      chartSerieMap.put(chartSerie.getSpEntityId() + "-" + chartSerie.getIdpEntityId(), chartSerie);
     }
-    List<ChartSerie> chartSeries = new ArrayList<ChartSerie>();
-    for (ChartSerie c : chartSerieMap.values()) {
-      chartSeries.add(c);
-    }
-    return chartSeries;
+    return new ArrayList<ChartSerie>(chartSerieMap.values());
   }
 
   public void setEbJdbcTemplate(JdbcTemplate ebJdbcTemplate) {

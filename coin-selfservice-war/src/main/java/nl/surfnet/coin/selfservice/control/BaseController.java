@@ -29,9 +29,13 @@ import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.LocaleResolver;
 
 /**
@@ -180,4 +184,17 @@ public abstract class BaseController {
 
     return notificationMessages;
   }
+  
+  /** 
+   * Handler for RuntimeExceptions. We don't want a 500, but a 400
+   * @param e the exception
+   * @return the response body
+   */
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  @ExceptionHandler(RuntimeException.class)
+  public Object handleException(RuntimeException e) {
+    return e.getMessage();
+  }
+
 }

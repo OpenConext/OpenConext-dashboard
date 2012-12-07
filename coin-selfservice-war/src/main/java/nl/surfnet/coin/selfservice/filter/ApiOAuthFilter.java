@@ -69,6 +69,7 @@ public class ApiOAuthFilter implements Filter {
   private String adminSurfConextIdPTeam;
   private String adminDistributionTeam;
   private String callbackFlagParameter = "oauthCallback";
+  private boolean lmngActive;
 
   /**
    * No initialization needed.
@@ -176,7 +177,7 @@ public class ApiOAuthFilter implements Filter {
       coinUser.setAuthorities(Arrays.asList(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN)));
     } else {
       List<CoinAuthority> authories = new ArrayList<CoinAuthority>();
-      if (groupsContains(adminLicentieIdPTeam, groups)) {
+      if (groupsContains(adminLicentieIdPTeam, groups) && this.lmngActive) {
         authories.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
       }
       if (groupsContains(adminSurfConextIdPTeam, groups)) {
@@ -223,5 +224,9 @@ public class ApiOAuthFilter implements Filter {
 
   public void setAdminDistributionTeam(String adminDistributionTeam) {
     this.adminDistributionTeam = adminDistributionTeam;
+  }
+
+  public void setLmngActive(boolean lmngActive) {
+    this.lmngActive = lmngActive;
   }
 }

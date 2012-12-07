@@ -33,13 +33,13 @@ public class MockStatisticDaoImplTest {
   @Test
   public void testGetLoginsPerSpPerDayByIdp() throws Exception {
     List<ChartSerie> series = dao.getLoginsPerSpPerDay("http://mock-idp");
-    assertEquals(13, series.size());
+    assertEquals(11, series.size());
   }
 
   @Test
   public void testGetLoginsPerSpPerDay() throws Exception {
     List<ChartSerie> series = dao.getLoginsPerSpPerDay();
-    assertEquals(53, series.size());
+    assertEquals(131, series.size());
   }
 
   @Test

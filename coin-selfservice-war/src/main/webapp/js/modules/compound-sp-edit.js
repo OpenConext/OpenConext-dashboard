@@ -6,9 +6,13 @@ app.compoundSpEdit = function() {
 
   };
 
-  var alertDiv = function(msg) {
-    return $("<div />").addClass("alert").html(msg)
-       .append("<button type='button'>&times;</button>").attr("data-dismiss", "alert").addClass("close")
+  var alertDiv = function(msg, error) {
+    var div = $("<div />").addClass("alert").html(msg)
+       .append("<button type='button'>&times;</button>").attr("data-dismiss", "alert").addClass("close");
+    if (error) {
+      div.addClass("error");
+    }
+    return div 
   }
 
   $("button[name='usethis'],button[name='save']").click(function(e) {
@@ -18,7 +22,7 @@ app.compoundSpEdit = function() {
   
   $("#screenshots-body").on("click", "a[id^=screenshot-remove-]", function(e){
     var elem =$(this);
-	var id = elem .attr("id").substring("screenshot-remove-".length);
+    var id = elem .attr("id").substring("screenshot-remove-".length);
     var parent = elem .parents("div.screenshot-content");
     
     var tokencheck = $('input[name="tokencheck"]').first().attr('value');
@@ -26,7 +30,7 @@ app.compoundSpEdit = function() {
         {
           type: "delete",
           failure: function(msg) {
-                $(parent).prepend(alertDiv("Failure saving data. Details: " + msg));
+                $(parent).prepend(alertDiv("Failure saving data. Details: " + msg), true);
           },
             success: function(result) {
                 parent.remove();
@@ -48,7 +52,7 @@ app.compoundSpEdit = function() {
             data: formData,
             type: "post",
             error: function(jqxhr, msg) {
-              $(form).prepend(alertDiv(app.message.i18n('failed.save')));
+              $(form).prepend(alertDiv(app.message.i18n('failed.save') + ' : ' + jqxhr.responseText, true));
             },
             success: function(result) {
               if (button.name === 'usethis') {

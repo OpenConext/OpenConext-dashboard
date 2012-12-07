@@ -37,6 +37,7 @@
     <property name="adminDistributionTeam" value="${admin.distribution.channel.teamname}" />
     <property name="apiClient" ref="${openConextApiClient}" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
+    <property name="lmngActive" value="${coin-lmng-active-mode}"/>
   </bean>
 
   <bean id="openConextApiClientMock" class="nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock">

@@ -16,24 +16,23 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
-
 /**
-* Represents the result row of the mysql query to get login statistics
-*/
+ * Represents the result row of the mysql query to get login statistics
+ */
 public class StatResult implements Comparable<StatResult> {
 
   private String spEntityId;
   private String spName;
   private long millis;
   private Integer logins;
-  private String idpEntityIdp;
+  private String idpEntityId;
 
-  public StatResult(String spEntityId, String spName, long millis, Integer logins, String idpEntityIdp) {
+  public StatResult(String spEntityId, String spName, long millis, Integer logins, String idpEntityId) {
     this.spEntityId = spEntityId;
     this.spName = spName;
     this.millis = millis;
     this.logins = logins;
-    this.idpEntityIdp = idpEntityIdp;
+    this.idpEntityId = idpEntityId;
   }
 
   public String getSpEntityId() {
@@ -52,40 +51,8 @@ public class StatResult implements Comparable<StatResult> {
     return logins;
   }
 
-  public String getIdpEntityIdp() {
-    return idpEntityIdp;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    StatResult that = (StatResult) o;
-
-    if (millis != that.millis) {
-      return false;
-    }
-    if (logins != null ? !logins.equals(that.logins) : that.logins != null) {
-      return false;
-    }
-    if (spEntityId != null ? !spEntityId.equals(that.spEntityId) : that.spEntityId != null) {
-      return false;
-    }
-
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = spEntityId != null ? spEntityId.hashCode() : 0;
-    result = 31 * result + (Long.valueOf(millis).hashCode());
-    result = 31 * result + (logins != null ? logins.hashCode() : 0);
-    return result;
+  public String getIdpEntityId() {
+    return idpEntityId;
   }
 
   @Override
@@ -94,14 +61,22 @@ public class StatResult implements Comparable<StatResult> {
       return 0;
     }
 
-    final String thisSP = this.getSpEntityId();
-    final String thatSP = that.getSpEntityId();
+    final String thisIdpEntityId = this.getIdpEntityId();
+    final String thatIdpEntityId = that.getIdpEntityId();
 
-    if (thisSP.equals(thatSP)) {
-      return millis < that.millis ? -1 : (millis==that.millis ? 0 : 1) ;
-    } else {
-      return thisSP.compareTo(thatSP);
+    if (thisIdpEntityId.equals(thatIdpEntityId)) {
+
+      final String thisSpEntityId = this.getSpEntityId();
+      final String thatSpEntityId = that.getSpEntityId();
+
+      if (thisSpEntityId.equals(thatSpEntityId)) {
+        return millis < that.millis ? -1 : (millis == that.millis ? 0 : 1);
+      } else {
+        return thisSpEntityId.compareTo(thatSpEntityId);
+      }
     }
+    return thisIdpEntityId.compareTo(thatIdpEntityId);
+
   }
 
 }

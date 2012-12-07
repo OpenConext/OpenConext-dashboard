@@ -17,7 +17,7 @@ app.message = function() {
             nl : "Correct opgeslagen."
         },
         "failed.save" : {
-            en : "Failed to save.",
+            en : "Failed to save",
             nl : "Niet opgeslagen"
         },
         "appgrid.search.placeholder" : {
@@ -49,8 +49,12 @@ app.message = function() {
             nl : "Verkeerde LMNG ID (let op: accolades zijn verplicht)"
         },
         "show.all.attributes" : {
-            en : "Show all…",
-            nl : "Alles tonen…"
+          en : "Show all…",
+          nl : "Alles tonen…"
+        },
+        "stats.select_idp" : {
+          en : "Select an Identity Provider",
+          nl : "Selecteer een Identity Provider"
         },
         "stats.title.overview_default" : {
             en : "Stats",
@@ -61,8 +65,8 @@ app.message = function() {
             nl : "Statistieken over #{range}"
         },
         "stats.title.sp_overview" : {
-            en : "Stats for #{sp}",
-            nl : "Statistieken van #{sp}"
+            en : "Stats for #{sp} (total #{total})",
+            nl : "Statistieken van #{sp} (totaal #{total})"
         },
         "stats.title.sp_zoomed" : {
             en : "Stats of #{sp} for #{range}",

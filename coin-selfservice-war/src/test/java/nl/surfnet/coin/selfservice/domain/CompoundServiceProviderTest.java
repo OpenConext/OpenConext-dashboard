@@ -66,6 +66,7 @@ public class CompoundServiceProviderTest {
     assertTrue(CompoundServiceProvider.isAllowedCombination(Key.ENDUSER_DESCRIPTION_NL, Source.SURFCONEXT));
 
     assertFalse(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_EN, Source.LMNG));
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.APPSTORE_LOGO, Source.LMNG));
     assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.LMNG));
     assertTrue(CompoundServiceProvider.isAllowedCombination(Key.INSTITUTION_DESCRIPTION_NL, Source.LMNG));
 

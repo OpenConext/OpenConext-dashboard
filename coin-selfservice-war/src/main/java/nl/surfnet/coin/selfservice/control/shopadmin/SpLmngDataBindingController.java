@@ -30,6 +30,7 @@ import nl.surfnet.coin.selfservice.dao.FieldImageDao;
 import nl.surfnet.coin.selfservice.dao.FieldStringDao;
 import nl.surfnet.coin.selfservice.dao.ScreenshotDao;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.Field;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
 import nl.surfnet.coin.selfservice.domain.FieldImage;
 import nl.surfnet.coin.selfservice.domain.FieldString;
@@ -90,6 +91,7 @@ public class SpLmngDataBindingController extends BaseController {
   String updateImageField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
       @RequestParam(value = "source") Source source) {
     FieldImage fieldImage = fieldImageDao.findById(fieldId);
+    validateCombination(source, fieldImage);
     fieldImage.setSource(source);
     fieldImageDao.saveOrUpdate((FieldImage) fieldImage);
     return source.name();
@@ -100,17 +102,20 @@ public class SpLmngDataBindingController extends BaseController {
   String updateStringField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
       @RequestParam(value = "source") Source source, @RequestParam(value = "usethis", required = false) String useThis) {
     FieldString field = fieldStringDao.findById(fieldId);
-    //https://jira.surfconext.nl/jira/browse/BACKLOG-788
-    //Check the combination FieldString#Key and FieldString#Source
-    if (!CompoundServiceProvider.isAllowedCombination(field.getKey(), source)) {
-      throw new ValidationException(String.format("Not allowed combination. Key %s and Source %s", field.getKey(), source));
-    }
+    validateCombination(source, field);
     field.setValue(value);
     if (StringUtils.hasText(useThis)) {
       field.setSource(source);
     }
     fieldStringDao.saveOrUpdate((FieldString) field);
     return source.name();
+  }
+
+  private void validateCombination(Source source, Field field) {
+    //Check the combination Field#Key and Field#Source
+    if (!CompoundServiceProvider.isAllowedCombination(field.getKey(), source)) {
+      throw new ValidationException(String.format("Not allowed combination. Key %s and Source %s", field.getKey(), source));
+    }
   }
 
   @RequestMapping(value = "/upload", method = RequestMethod.POST)
