@@ -208,6 +208,4 @@
 </div>
 </div>
 
-<jsp:include page="../foot.jsp">
-  <jsp:param name="datatables" value="false"/>
-</jsp:include>
+<jsp:include page="../foot.jsp"/>

@@ -41,7 +41,8 @@
               </form:form>
             </div>
   
-            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" id="csp-statusses">
+            <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.idp" /></c:set>
+            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" id="csp-statusses" data-search-placeholder="${searchPlaceholder}">
               <thead>
                 <tr>
                   <th class="html sorting_asc"><spring:message code="jsp.cspstatus.csp.name"/></th>

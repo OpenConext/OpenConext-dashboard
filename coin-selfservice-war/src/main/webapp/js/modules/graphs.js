@@ -124,6 +124,7 @@ app.graphs = function() {
 
     if (back) {
       chartDetailElm.stop().fadeOut(500);
+      //TODO use when and done
       // chartOverviewElm.stop().fadeOut(500).fadeIn(500);
       chartOverviewElm.stop().fadeIn(1000);
     }

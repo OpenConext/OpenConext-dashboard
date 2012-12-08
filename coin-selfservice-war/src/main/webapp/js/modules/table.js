@@ -7,7 +7,7 @@ app.table = function() {
     var init = function() {
         initDataTable();
         responsiveDataTable();
-
+        tableSearchPlaceholder();
         $(window).on('resize', responsiveDataTable);
     };
 
@@ -60,7 +60,21 @@ app.table = function() {
         });
     };
 
-
+    var tableSearchPlaceholder = function() {
+      $('.dataTables_filter input[aria-controls]').each(function(index){
+        var elem = $(this);
+        if (!elem.attr('placeholder')) {
+          var placeholder = $('.dataTables_wrapper').find('table').data('search-placeholder');
+          if (placeholder) {
+            elem.attr('placeholder',placeholder);
+          } else {
+            elem.attr('placeholder',
+                app.message.i18n('jsp.search_placeholder'));
+          }
+        }
+      });
+    };
+    
     var responsiveDataTable = function() {
         var tables = $('.data-table-wrapper table');
 

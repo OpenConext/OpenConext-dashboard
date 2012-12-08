@@ -89,9 +89,6 @@
       </div>
 
     </section>
-            </div>
-
-
-
+  </div>
 
 <jsp:include page="../foot.jsp"/>

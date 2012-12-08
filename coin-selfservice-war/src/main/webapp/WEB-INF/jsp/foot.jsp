@@ -86,12 +86,5 @@
 <script>
   var contextPath = "${pageContext.request.contextPath}";
 </script>
-<c:if test="${param.chart eq true}">
-<tags:sp_renderchart/>
-</c:if>
-
-<c:if test="${param.datatables eq true}">
-<tags:sp_renderdatatables columnFilter="${param.columnFilter}"/>
-</c:if>
 </body>
 </html>

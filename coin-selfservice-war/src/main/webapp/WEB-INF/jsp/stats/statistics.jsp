@@ -90,6 +90,4 @@
   </section>
 </div>
 
-<jsp:include page="../foot.jsp">
-  <jsp:param name="datatables" value="true"/>
-</jsp:include>
+<jsp:include page="../foot.jsp"/>

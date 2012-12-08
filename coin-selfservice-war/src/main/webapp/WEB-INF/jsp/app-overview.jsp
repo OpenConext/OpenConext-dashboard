@@ -23,8 +23,7 @@
 <div class="column-center content-holder app-grid-holder">
   <h1 class="hidden-phone"><spring:message code="jsp.home.title" /></h1>
   <section>
-    <ul class="app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActiveModus == true ? 'lmng-active' : ''}" 
-              data-search-placeholder="Search in applications">
+    <ul class="app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActiveModus == true ? 'lmng-active' : ''}"> 
       <c:forEach items="${compoundSps}" var="compoundSp">
         <c:if test="${not empty compoundSp.id}">
           <li class="${compoundSp.sp.linked ? "connected" : "not-connected"} ${compoundSp.articleLicenseAvailable ? "licensed" : "not-licensed"}" data-id="${compoundSp.id}">

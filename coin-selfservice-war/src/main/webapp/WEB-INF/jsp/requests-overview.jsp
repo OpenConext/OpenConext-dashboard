@@ -26,10 +26,10 @@
         <section class="data-table-holder">
           <h1><spring:message code="jsp.notifications.title"/></h1>
           <div class="data-table-wrapper">
-        
             <c:forEach items="${notifications}" var="notificationMessage">
               <div class="notificationMessage"><spring:message code="${notificationMessage.messageKey}"/></div>
-              <table class="table table-bordered table-striped table-above-pagination table-with-statuses">
+              <c:set var="searchPlaceholder"><spring:message code="jsp.notifications.search.placeholder"/></c:set>
+              <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" data-search-placeholder="${searchPlaceholder}">
                 <thead>
                   <tr>
                     <th><spring:message code="jsp.notifications.image"/></th>

@@ -30,7 +30,8 @@
     <h1>${title}</h1>
     <div class="data-table-wrapper">
 
-      <table id="idp_overview_table" class="table table-bordered table-striped table-above-pagination">
+      <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.idp" /></c:set>
+      <table id="idp_overview_table" class="table table-bordered table-striped table-above-pagination table-sortable" data-search-placeholder="${searchPlaceholder}">
         <thead>
         <tr>
           <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
@@ -77,6 +78,4 @@
   </section>
 </div>
 
-<jsp:include page="../foot.jsp">
-  <jsp:param name="datatables" value="true"/>
-</jsp:include>
+<jsp:include page="../foot.jsp"/>

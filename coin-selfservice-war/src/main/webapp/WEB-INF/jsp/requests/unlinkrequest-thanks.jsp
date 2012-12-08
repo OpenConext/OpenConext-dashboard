@@ -50,5 +50,4 @@
   </section>
 </div>
 
-
 <jsp:include page="../foot.jsp"/>

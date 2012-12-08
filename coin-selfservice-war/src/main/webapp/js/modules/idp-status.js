@@ -13,8 +13,6 @@ app.idpStatus = function() {
       $('#selectIdpForm').submit();
     });
 
-    $('input[aria-controls="csp-statusses"]').attr('placeholder',
-        app.message.i18n('jsp.csp.status.search_placeholder'));
   };
 
   return {
