@@ -1,7 +1,8 @@
 var app = app || {};
 
 app.graphs = function() {
-  var chartOverviewElm, chartDetailElm, originalData, consolidatedData, filterElm, filterType, filterOffset, firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm, isGod;
+  var chartOverviewElm, chartDetailElm, originalData, consolidatedData, filterElm, filterType, filterOffset, 
+        firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm, isGod;
 
   var mock = "mock";
 
@@ -25,7 +26,7 @@ app.graphs = function() {
     if (isGod) {
       wrapperElm.addClass('statistics-holder-idp-switch');
       $('#idp-select2').select2({
-        placeholder: app.message.i18n('stats.select_idp')
+        placeholder : app.message.i18n('stats.select_idp')
       }).change(idpChange);
     }
 
@@ -36,8 +37,7 @@ app.graphs = function() {
       dataType : 'script'
     });
 
-    var jsonUrl = (isGod ? '/stats/loginsperspperday.json'
-        : '/stats/loginsperspperdaybyidp.json')
+    var jsonUrl = (isGod ? '/stats/loginsperspperday.json' : '/stats/loginsperspperdaybyidp.json')
 
     var data = $.ajax({
       url : contextPath + jsonUrl,
@@ -53,9 +53,17 @@ app.graphs = function() {
   };
 
   var idpChange = function() {
-    // TODO can be also called when in SP selected modus
     var newIdp = $("#idp-select2 option:selected").val();
-    if (newIdp === 'ALL') {
+    if (currentlyShownSp) {
+      var spEntityId = currentData[currentlyShownSp].spEntityId;
+      if (newIdp === 'ALL') {
+        currentData = consolidatedData;
+      } else {
+        currentData = filterOutIdp(originalData, newIdp);
+      }
+      setSp(spEntityId);
+    }
+    else if (newIdp === 'ALL') {
       renderOverview(consolidatedData);
     } else {
       renderOverview(filterOutIdp(originalData, newIdp));
@@ -97,7 +105,6 @@ app.graphs = function() {
     chartOverviewElm.removeClass('ajax-loader');
 
     if (arguments.length === 2) {
-      // originalData = data;
 
       renderOverview(filterData(data, filterType, filterOffset));
 
@@ -123,16 +130,15 @@ app.graphs = function() {
     currentData = data;
 
     if (back) {
-      chartDetailElm.stop().fadeOut(500);
-      //TODO use when and done
-      // chartOverviewElm.stop().fadeOut(500).fadeIn(500);
-      chartOverviewElm.stop().fadeIn(1000);
+      chartDetailElm.stop().fadeOut(500).promise().done(function() {
+        chartOverviewElm.stop().fadeIn(500);
+      });
     }
 
     currentlyShownSp = null;
 
-    var formattedData = formatForOverview(data), categories = formatCategories(formattedData), height = Math
-        .max(formattedData.length * 40 + 150, 400);
+    var formattedData = formatForOverview(data), categories = formatCategories(formattedData), height = Math.max(
+        formattedData.length * 40 + 150, 400);
 
     chartOverviewElm.closest('section').height(height);
 
@@ -167,8 +173,7 @@ app.graphs = function() {
               x2 : 0,
               y2 : 1
             },
-            stops : [ [ 0, 'rgba(79, 179, 207, 0.75)' ],
-                [ 1, 'rgba(79, 179, 207, 0.2)' ] ]
+            stops : [ [ 0, 'rgba(79, 179, 207, 0.75)' ], [ 1, 'rgba(79, 179, 207, 0.2)' ] ]
           },
           color : '#4FB3CF',
           pointPlacement : null,
@@ -206,10 +211,9 @@ app.graphs = function() {
       }
     });
 
-    $('.highcharts-axis-labels:first tspan', chartOverviewElm).on('click',
-        function() {
-          setSp($(this).text());
-        }).hover(function() {
+    $('.highcharts-axis-labels:first tspan', chartOverviewElm).on('click', function() {
+      setSp($(this).text());
+    }).hover(function() {
       $(this).parent().css({
         cursor : 'pointer',
         fill : '#4FB3CF'
@@ -222,14 +226,15 @@ app.graphs = function() {
     });
   };
 
-  var renderChart = function(which) {
-    var data = currentData[which];
+  var renderChart = function(data, which) {
+    var data = data[which];
 
     currentlyShownSp = which;
 
     // if coming from overview TODO move to generic function (or helper, or
     // jquery function)
     $('.back, .forward', wrapperElm).removeClass('hide');
+    
     chartOverviewElm.stop().fadeOut(500).promise().done(function() {
       chartDetailElm.stop().fadeOut(500).promise().done(function() {
         createDetailChart(data);
@@ -240,58 +245,57 @@ app.graphs = function() {
   };
 
   var createDetailChart = function(data) {
-    return new Highcharts.Chart(
-        {
-          chart : {
-            animation : false,
-            renderTo : chartDetailElm.attr('id'),
-            type : 'areaspline',
-            zoomType : 'x'
-          },
-          credits : {
-            text : 'Highcharts'
-          },
-          plotOptions : {
-            areaspline : {
-              animation : false,
-              borderWidth : 0,
-              fillColor : 'rgba(79, 179, 207, 0.2)',
-              color : '#4FB3CF',
-              pointPlacement : null,
-              shadow : false,
-              pointPadding : 0.2
-            }
-          },
-          series : [ {
-            name : app.message.i18n('stats.logins'),
-            data : data.data,
-            pointStart : Math.max(data.pointStart, filterOffset),
-            pointInterval : data.pointInterval
-          } ],
-          tooltip : {
-            pointFormat : '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-            valueDecimals : 0,
-            shared : true
-          },
-          title : {
-            text : currentTitle
-          },
-          xAxis : {
-            type : 'datetime',
-            lineColor : '#7F7F7F',
-            maxZoom : 4 * 24 * 3600000
-          },
-          yAxis : {
-            gridLineColor : '#E5E5E5',
-            gridLineWidth : 1,
-            title : {
-              text : app.message.i18n('stats.logins_per_day'),
-              style : {
-                color : '#7F7F7F'
-              }
-            }
+    return new Highcharts.Chart({
+      chart : {
+        animation : false,
+        renderTo : chartDetailElm.attr('id'),
+        type : 'areaspline',
+        zoomType : 'x'
+      },
+      credits : {
+        text : 'Highcharts'
+      },
+      plotOptions : {
+        areaspline : {
+          animation : false,
+          borderWidth : 0,
+          fillColor : 'rgba(79, 179, 207, 0.2)',
+          color : '#4FB3CF',
+          pointPlacement : null,
+          shadow : false,
+          pointPadding : 0.2
+        }
+      },
+      series : [ {
+        name : app.message.i18n('stats.logins'),
+        data : data.data,
+        pointStart : Math.max(data.pointStart, filterOffset),
+        pointInterval : data.pointInterval
+      } ],
+      tooltip : {
+        pointFormat : '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+        valueDecimals : 0,
+        shared : true
+      },
+      title : {
+        text : currentTitle
+      },
+      xAxis : {
+        type : 'datetime',
+        lineColor : '#7F7F7F',
+        maxZoom : 4 * 24 * 3600000
+      },
+      yAxis : {
+        gridLineColor : '#E5E5E5',
+        gridLineWidth : 1,
+        title : {
+          text : app.message.i18n('stats.logins_per_day'),
+          style : {
+            color : '#7F7F7F'
           }
-        });
+        }
+      }
+    });
   }
 
   var setHash = function() {
@@ -300,8 +304,7 @@ app.graphs = function() {
 
   var setSp = function(arg) {
     if (typeof arg === 'string') {
-      if (arg.length > 0
-          && decodeURIComponent(location.hash).indexOf(arg) !== 1) {
+      if (arg.length > 0 && decodeURIComponent(location.hash).indexOf(arg) !== 1) {
         location.hash = encodeURIComponent(arg);
         return;
       } else {
@@ -312,8 +315,7 @@ app.graphs = function() {
            * the detail page (spEntityId).
            */
           if (arg.length > 0
-              && (currentData[l].name.indexOf(arg) === 0 || currentData[l].spEntityId
-                  .indexOf(arg) === 0)) {
+              && (currentData[l].name.indexOf(arg) === 0 || currentData[l].spEntityId.indexOf(arg) === 0)) {
             currentlyShownSp = l;
             break;
           }
@@ -335,16 +337,14 @@ app.graphs = function() {
       }
     }
 
-    currentTitle = app.message.i18n('stats.title.sp_overview').replace('#{sp}',
-        currentData[currentlyShownSp].name).replace('#{total}',
-        currentData[currentlyShownSp].total);
+    currentTitle = app.message.i18n('stats.title.sp_overview').replace('#{sp}', currentData[currentlyShownSp].name)
+        .replace('#{total}', currentData[currentlyShownSp].total);
 
     if (filterType !== 'all') {
-      currentTitle += ' over '
-          + $('#choose-time-offset option:selected').text();
+      currentTitle += ' over ' + $('#choose-time-offset option:selected').text();
     }
 
-    renderChart(currentlyShownSp);
+    renderChart(currentData, currentlyShownSp);
   };
 
   var setTimeframe = function(e) {
@@ -380,22 +380,20 @@ app.graphs = function() {
       currentData = filterData(newData, filterType, filterOffset);
 
       if (filterType === 'all') {
-        currentTitle = app.message.i18n('stats.title.sp_overview').replace(
-            '#{sp}', currentData[currentlyShownSp].name).replace('#{total}',
-            currentData[currentlyShownSp].total);
+        currentTitle = app.message.i18n('stats.title.sp_overview').replace('#{sp}', currentData[currentlyShownSp].name)
+            .replace('#{total}', currentData[currentlyShownSp].total);
       } else {
-        currentTitle = app.message.i18n('stats.title.sp_zoomed').replace(
-            '#{sp}', currentData[currentlyShownSp].name).replace('#{range}',
-            $('#choose-time-offset option:selected').text());
+        currentTitle = app.message.i18n('stats.title.sp_zoomed').replace('#{sp}', currentData[currentlyShownSp].name)
+            .replace('#{range}', $('#choose-time-offset option:selected').text());
       }
 
-      renderChart(currentlyShownSp);
+      renderChart(currentData, currentlyShownSp);
     } else {
       if (filterType === 'all') {
         currentTitle = app.message.i18n('stats.title.overview_default');
       } else {
-        currentTitle = app.message.i18n('stats.title.overview_zoomed').replace(
-            '#{range}', $('#choose-time-offset option:selected').text());
+        currentTitle = app.message.i18n('stats.title.overview_zoomed').replace('#{range}',
+            $('#choose-time-offset option:selected').text());
       }
 
       renderOverview(filterData(newData, filterType, filterOffset));
@@ -441,25 +439,22 @@ app.graphs = function() {
   };
 
   var getMenuItems = function(dateOffset, filterType) {
-    var day = 24 * 60 * 60 * 1000, months = app.message.i18n(
-        'stats.menu.months').split('|'), today = new Date(), dates = {}, dateOffsetTime = dateOffset
+    var day = 24 * 60 * 60 * 1000, months = app.message.i18n('stats.menu.months').split('|'), today = new Date(), dates = {}, dateOffsetTime = dateOffset
         .getTime(), display = true, newMonth, newYear;
 
     switch (filterType) {
     case 'week':
       while (dateOffset < today) {
         dateOffsetTime = dateOffset.getTime();
-        dates[dateOffsetTime] = app.message.i18n('stats.weekof').replace(
-            '#{week}', dateOffset.getWeek()).replace('#{year}',
-            dateOffset.getFullYear());
+        dates[dateOffsetTime] = app.message.i18n('stats.weekof').replace('#{week}', dateOffset.getWeek()).replace(
+            '#{year}', dateOffset.getFullYear());
         dateOffset = new Date(dateOffsetTime + day * 7);
       }
       break;
     case 'month':
       while (dateOffset < today) {
         dateOffsetTime = dateOffset.getTime();
-        dates[dateOffsetTime] = months[dateOffset.getMonth()] + ' '
-            + dateOffset.getFullYear();
+        dates[dateOffsetTime] = months[dateOffset.getMonth()] + ' ' + dateOffset.getFullYear();
         newMonth = dateOffset.getMonth() + 1;
         newYear = dateOffset.getFullYear();
         if (newMonth === 12) {
@@ -472,9 +467,7 @@ app.graphs = function() {
     case 'quarter':
       while (dateOffset < today) {
         dateOffsetTime = dateOffset.getTime();
-        dates[dateOffsetTime] = 'Q'
-            + Math.floor((dateOffset.getMonth() + 3) / 3) + ' '
-            + dateOffset.getFullYear();
+        dates[dateOffsetTime] = 'Q' + Math.floor((dateOffset.getMonth() + 3) / 3) + ' ' + dateOffset.getFullYear();
         newMonth = dateOffset.getMonth() + 3;
         newYear = dateOffset.getFullYear();
         if (newMonth === 12) {
@@ -556,8 +549,7 @@ app.graphs = function() {
       return data;
     }
     data.sort(function(a, b) {
-      return a.spEntityId > b.spEntityId ? 1
-          : ((b.spEntityId > a.spEntityId) ? -1 : 0);
+      return a.spEntityId > b.spEntityId ? 1 : ((b.spEntityId > a.spEntityId) ? -1 : 0);
     });
     var result = [];
     var previous = copySpDataObject(data[0]);
@@ -569,8 +561,7 @@ app.graphs = function() {
          */
         var interval = previous.pointInterval;
 
-        var end = Math.max(previous.pointStart
-            + (interval * previous.data.length), next.pointStart
+        var end = Math.max(previous.pointStart + (interval * previous.data.length), next.pointStart
             + (interval * next.data.length));
         var start = Math.min(previous.pointStart, next.pointStart);
 
@@ -581,8 +572,7 @@ app.graphs = function() {
          */
         var newData = [];
         for ( var j = 0; j < nbrOfDays; ++j) {
-          newData.push(getLoginsForData(previous, start)
-              + getLoginsForData(next, start));
+          newData.push(getLoginsForData(previous, start) + getLoginsForData(next, start));
           start += interval;
         }
         previous.data = newData;
@@ -651,8 +641,7 @@ app.graphs = function() {
     }
 
     for ( var i = 0, l = data.length; i < l; ++i) {
-      newData = [], dataOffset = data[i].pointStart,
-          dataInterval = data[i].pointInterval, spliceTil = 0;
+      newData = [], dataOffset = data[i].pointStart, dataInterval = data[i].pointInterval, spliceTil = 0;
 
       // Calculate start offset from start date in data and filter date
       if (dataOffset <= filterOffset) {

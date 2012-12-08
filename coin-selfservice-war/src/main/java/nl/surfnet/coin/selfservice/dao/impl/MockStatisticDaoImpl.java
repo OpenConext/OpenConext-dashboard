@@ -35,6 +35,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 @SuppressWarnings("unchecked")
 public class MockStatisticDaoImpl implements StatisticDao {
+  
+  private long timeout = 1500;
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
@@ -64,10 +66,15 @@ public class MockStatisticDaoImpl implements StatisticDao {
   @SuppressWarnings("rawtypes")
   private Object parseJsonData(String jsonFile,  TypeReference typeReference) {
     try {
+      Thread.sleep(timeout);
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public void setTimeout(long timeout) {
+    this.timeout = timeout;
   }
 
 }

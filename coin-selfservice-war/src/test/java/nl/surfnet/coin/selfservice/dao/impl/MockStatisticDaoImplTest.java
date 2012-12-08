@@ -20,7 +20,6 @@ import static junit.framework.Assert.assertEquals;
 
 import java.util.List;
 
-import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 
@@ -28,7 +27,11 @@ import org.junit.Test;
 
 public class MockStatisticDaoImplTest {
 
-  private StatisticDao dao = new MockStatisticDaoImpl();
+  private static MockStatisticDaoImpl dao = new MockStatisticDaoImpl();
+  
+  static {
+    dao.setTimeout(0);
+  }
 
   @Test
   public void testGetLoginsPerSpPerDayByIdp() throws Exception {

@@ -29,7 +29,8 @@
             <c:forEach items="${notifications}" var="notificationMessage">
               <div class="notificationMessage"><spring:message code="${notificationMessage.messageKey}"/></div>
               <c:set var="searchPlaceholder"><spring:message code="jsp.notifications.search.placeholder"/></c:set>
-              <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" data-search-placeholder="${searchPlaceholder}">
+              <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" 
+                        data-search-placeholder="${searchPlaceholder}">
                 <thead>
                   <tr>
                     <th><spring:message code="jsp.notifications.image"/></th>
@@ -58,14 +59,16 @@
               </table>
               <hr/>
             </c:forEach>
-
+          </div>
         </section>
       </c:if>
         <section class="data-table-holder">
 
           <h1><spring:message code="jsp.requests-overview.title"/></h1>
           <div class="data-table-wrapper">
-            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable">
+            <c:set var="searchPlaceholderRequests"><spring:message code="jsp.requests-overview.search.placeholder"/></c:set>
+            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable"
+                      data-search-placeholder="${searchPlaceholderRequests}">
               <thead>
                 <tr>
                   <th><spring:message code="jsp.requests-overview.type"/></th>
