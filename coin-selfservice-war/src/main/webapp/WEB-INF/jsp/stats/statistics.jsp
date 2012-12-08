@@ -54,7 +54,7 @@
     <c:if test="${isGod eq true}">
       <nav class="statistics-idp-filter">
         <div class="show">
-          <select id="idp-select2"">
+          <select id="idp-select2">
             <option></option>
             <option value="ALL"><spring:message code="jsp.stats.all_idps"/></option>
             <c:forEach items="${allIdps}" var="idp">

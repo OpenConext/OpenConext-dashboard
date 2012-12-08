@@ -134,8 +134,12 @@ app.message = function() {
         },
         "jsp.notifications.too_many" : {
             en : "Too many notifications.",
-            nl : "Veelsteveel notificaties."
-        }
+            nl : "Te veel notificaties."
+        },
+        "jsp.csp.status.search_placeholder" : {
+          en : "Search in services",
+          nl : "Zoek in services"
+      }
     };
     
     var i18n = function(key) {

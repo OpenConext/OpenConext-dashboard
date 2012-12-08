@@ -23,24 +23,19 @@
     <div class="column-center content-holder">
         <section class="data-table-holder">
           <h1><spring:message code="jsp.cspstatus.title"/></h1>
+          <p><spring:message code="jsp.cspstatus.info"/></p>
+          
           <div class="data-table-wrapper">
   
             <div>
               <form:form id="selectIdpForm" method="post" action="selectIdp.shtml" class="selectIdpForm">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
                                 
-	              <select id="filteredIdpId" name="filteredIdpId" onChange="document.getElementById('selectIdpForm').submit();" class="select2-narrow">
+	              <select id="filteredIdpId" name="filteredIdpId" class="select2-narrow">
 	                <c:forEach items="${allIdps}" var="idp">
-	                  <c:choose>
-	                    <c:when test="${idp.id == filteredIdp}">
-                        <option selected="selected" value="${idp.id}"><tags:providername provider="${idp}" />
-	                    </c:when>
-	                    <c:otherwise>
-	                      <option value="${idp.id}"><tags:providername provider="${idp}" />
-	                    </c:otherwise>
-	                  </c:choose>
-	                  
-	                  </option>
+                    <option value="${idp.id}" ${idp.id eq filteredIdp ? 'selected="selected"' : ''}>
+                      <tags:providername provider="${idp}" />
+                    </option>
 	                </c:forEach>
 	              </select>
               </form:form>
@@ -125,6 +120,3 @@
       </div>
 
 <jsp:include page="../foot.jsp"/>
-<script>
-  $('#filteredIdpId').select2();
-</script>

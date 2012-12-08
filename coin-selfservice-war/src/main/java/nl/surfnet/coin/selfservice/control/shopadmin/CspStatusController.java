@@ -30,9 +30,11 @@ import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -55,29 +57,19 @@ public class CspStatusController extends BaseController {
   }
 
   @RequestMapping("/csp-status-overview.shtml")
-  public ModelAndView allCspsForSelectedIdp(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
+  public ModelAndView allCspsForSelectedIdp(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> model = new HashMap<String, Object>();
 
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
     model.put(COMPOUND_SPS, services);
     model.put("filteredIdp", selectedidp.getId());
-
     return new ModelAndView("shopadmin/csp-status-overview", model);
   }
 
   @RequestMapping(value = "/selectIdp", method = RequestMethod.POST)
-  public ModelAndView selectIdp(HttpServletRequest req) {
-    Map<String, Object> model = new HashMap<String, Object>();
-
-    String filteredIdpId = (String) req.getParameter("filteredIdpId");
-    if (filteredIdpId != null) {
-      IdentityProvider selectedidp = idpService.getIdentityProvider(filteredIdpId);
-      List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-      model.put(COMPOUND_SPS, services);
-      model.put("filteredIdp", selectedidp.getId());
-    }
-
-    return new ModelAndView("shopadmin/csp-status-overview", model);
+  public ModelAndView selectIdp(@RequestParam String filteredIdpId) {
+    IdentityProvider selectedidp = idpService.getIdentityProvider(filteredIdpId);
+    return allCspsForSelectedIdp(selectedidp);
   }
 
 }
