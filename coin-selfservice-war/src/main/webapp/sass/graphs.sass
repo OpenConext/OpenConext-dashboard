@@ -68,20 +68,28 @@ $response_top: 4em
 
   .back,
   .forward
-    color: #000
+    color: #4FB3CF
     left: 0
     position: absolute
     top: 0
 
-    i:before
-      color: #666
+    &:hover,
+    &:focus
+      color: #000
+
+    i
+      color: #4FB3CF
+
+      &:hover,
+      &:focus
+        color: #000
+
+  .forward
+    top: 20px
 
   .ajax-loader
     background: url(../images/ajax-loader.gif) no-repeat 50% 1em
     min-height: 150px
-  
-  .forward
-    top: 20px
 
 .select2-container
   display: block
