@@ -2,7 +2,7 @@ var app = app || {};
 
 app.graphs = function() {
   var chartOverviewElm, chartDetailElm, originalData, consolidatedData, filterElm, filterType, filterOffset, 
-        firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm, isGod;
+        firstDate, currentData, currentlyShownSp, currentTitle, wrapperElm, isGod, compoundServiceProviders;
 
   var mock = "mock";
 
@@ -43,6 +43,14 @@ app.graphs = function() {
       url : contextPath + jsonUrl,
       cache : true,
       dataType : 'json'
+    });
+
+    $.ajax({
+      url : contextPath + '/stats/spcspcombis.json',
+      cache : true,
+      dataType : 'json'
+    }).done(function(csps){
+      compoundServiceProviders = csps; 
     });
 
     var formattedData = data.then(formatData);
@@ -231,9 +239,8 @@ app.graphs = function() {
 
     currentlyShownSp = which;
 
-    // if coming from overview TODO move to generic function (or helper, or
-    // jquery function)
-    $('.back, .forward', wrapperElm).removeClass('hide');
+    $('.back', wrapperElm).removeClass('hide');
+    showLinkToDetail(data);
     
     chartOverviewElm.stop().fadeOut(500).promise().done(function() {
       chartDetailElm.stop().fadeOut(500).promise().done(function() {
@@ -242,6 +249,16 @@ app.graphs = function() {
         chartDetailElm.fadeIn(500);
       });
     });
+  };
+  
+  var showLinkToDetail = function(data) {
+    for ( var i = 0, l = compoundServiceProviders.length; i < l; ++i) {
+      if (compoundServiceProviders[i].spEntityId === data.spEntityId) {
+        var forward = $('.forward', wrapperElm);
+        forward.attr('href',contextPath + '/app-detail.shtml?compoundSpId=' + compoundServiceProviders[i].compoundServiceProviderId);
+        forward.removeClass('hide');
+      }
+    }
   };
 
   var createDetailChart = function(data) {

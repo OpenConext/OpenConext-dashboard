@@ -43,11 +43,9 @@
       <a href="#" class="back hide">
         <i class="icon-arrow-left"></i> <spring:message code="jsp.stats.back_to_overview"/>
       </a>
-      <c:if test="${isGod}">
         <a href="#" class="forward hide">
           <i class="icon-arrow-right"></i> <spring:message code="jsp.stats.back_to_sp"/>
         </a>
-      </c:if>
       </div>
     </nav>
 

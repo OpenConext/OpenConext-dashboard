@@ -21,6 +21,7 @@ import static junit.framework.Assert.assertEquals;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 
 import org.junit.Test;
@@ -49,6 +50,12 @@ public class MockStatisticDaoImplTest {
   public void testGetIdpLoginIdentifiers() throws Exception {
     List<IdentityProviderRepresenter> series = dao.getIdpLoginIdentifiers();
     assertEquals(35, series.size());
+  }
+
+  @Test
+  public void testGetCompoundServiceProviderSpLinks() throws Exception {
+    List<CompoundServiceProviderRepresenter> series = dao.getCompoundServiceProviderSpLinks();
+    assertEquals(164, series.size());
   }
 
 }

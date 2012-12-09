@@ -19,7 +19,10 @@ package nl.surfnet.coin.selfservice.dao;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 /**
  * Service for statistics
@@ -47,4 +50,9 @@ public interface StatisticDao {
    */
   List<IdentityProviderRepresenter> getIdpLoginIdentifiers();
 
+  /**
+   * Get all existing {@link CompoundServiceProvider} id with the respective {@link ServiceProvider} entityIds
+   */
+  List<CompoundServiceProviderRepresenter> getCompoundServiceProviderSpLinks();
 }
+

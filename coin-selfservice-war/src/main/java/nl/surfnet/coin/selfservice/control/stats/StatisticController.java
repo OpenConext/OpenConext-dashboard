@@ -21,6 +21,7 @@ import java.util.List;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
 
@@ -60,6 +61,12 @@ public class StatisticController extends BaseController {
   public @ResponseBody
   List<ChartSerie> getLoginsPerSP() {
     return statisticDao.getLoginsPerSpPerDay();
+  }
+
+  @RequestMapping("/spcspcombis.json")
+  public @ResponseBody
+  List<CompoundServiceProviderRepresenter> getCspSpIds() {
+    return statisticDao.getCompoundServiceProviderSpLinks();
   }
 
   public void setStatisticDao(StatisticDao statisticDao) {

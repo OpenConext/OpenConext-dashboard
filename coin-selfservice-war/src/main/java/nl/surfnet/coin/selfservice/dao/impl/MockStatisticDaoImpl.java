@@ -20,6 +20,7 @@ import java.util.List;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -30,13 +31,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 /**
- * SQL implementation for the statistic service
+ * Mock implementation for the statistic service
  */
 @Repository
 @SuppressWarnings("unchecked")
 public class MockStatisticDaoImpl implements StatisticDao {
-  
-  private long timeout = 1500;
+
+  private long timeout = 500;
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
@@ -58,13 +59,20 @@ public class MockStatisticDaoImpl implements StatisticDao {
         });
   }
 
+  @Override
+  public List<CompoundServiceProviderRepresenter> getCompoundServiceProviderSpLinks() {
+    return (List<CompoundServiceProviderRepresenter>) parseJsonData("stat-json/stats_csp_sp.json",
+        new TypeReference<List<CompoundServiceProviderRepresenter>>() {
+        });
+  }
+
   private Object parseJsonData(String jsonFile) {
     return parseJsonData(jsonFile, new TypeReference<List<ChartSerie>>() {
     });
   }
 
   @SuppressWarnings("rawtypes")
-  private Object parseJsonData(String jsonFile,  TypeReference typeReference) {
+  private Object parseJsonData(String jsonFile, TypeReference typeReference) {
     try {
       Thread.sleep(timeout);
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);

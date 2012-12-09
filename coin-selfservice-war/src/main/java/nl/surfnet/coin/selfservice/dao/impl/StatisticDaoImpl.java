@@ -27,6 +27,7 @@ import java.util.Map;
 
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.StatResult;
 
@@ -49,6 +50,9 @@ public class StatisticDaoImpl implements StatisticDao {
 
   @Autowired
   private JdbcTemplate ebJdbcTemplate;
+  
+  @Autowired
+  private JdbcTemplate selfserviceJdbcTemplate;
 
   @Override
   public List<ChartSerie> getLoginsPerSpPerDay(String idpEntityId) {
@@ -84,6 +88,15 @@ public class StatisticDaoImpl implements StatisticDao {
             return new IdentityProviderRepresenter(entityId, name);
           }
         });
+  }
+  
+  @Override
+  public List<CompoundServiceProviderRepresenter> getCompoundServiceProviderSpLinks() {
+    return selfserviceJdbcTemplate.query("select id as id, service_provider_entity_id as sp_id from compound_service_provider", new RowMapper<CompoundServiceProviderRepresenter>(){
+      @Override
+      public CompoundServiceProviderRepresenter mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new CompoundServiceProviderRepresenter(rs.getLong("id"), rs.getString("sp_id"));
+      }});
   }
 
   private String bugFixForEntityId(String idpEntityId) {
@@ -157,6 +170,10 @@ public class StatisticDaoImpl implements StatisticDao {
 
   public void setEbJdbcTemplate(JdbcTemplate ebJdbcTemplate) {
     this.ebJdbcTemplate = ebJdbcTemplate;
+  }
+
+  public void setSelfserviceJdbcTemplate(JdbcTemplate selfserviceJdbcTemplate) {
+    this.selfserviceJdbcTemplate = selfserviceJdbcTemplate;
   }
 
 }
