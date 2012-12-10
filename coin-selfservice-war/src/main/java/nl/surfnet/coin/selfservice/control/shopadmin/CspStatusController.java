@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
@@ -30,7 +29,6 @@ import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
