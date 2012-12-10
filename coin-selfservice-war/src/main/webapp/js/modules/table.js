@@ -27,7 +27,7 @@ app.table = function() {
       return ((x < y) ? 1 : ((x > y) ? -1 : 0));
     };
 
-    $('.table-sortable:not(#csp-statusses)').each(function(index, table) {
+    $('.table-sortable:not(#csp-statusses, #csp-statusses-short)').each(function(index, table) {
       $(table).dataTable({
         bPaginate : false,
         bLengthChange : false,
@@ -40,17 +40,29 @@ app.table = function() {
     });
 
     $('#csp-statusses').dataTable({
-      bPaginate : false,
-      bLengthChange : false,
-      bAutoWidth : false,
-      bInfo : false,
-      oLanguage : {
-        sSearch : '_INPUT_'
-      },
-      aoColumns : [ {
-        'sType' : 'spnames'
-      }, null, null, null, null, null ]
-    });
+        bPaginate : false,
+        bLengthChange : false,
+        bAutoWidth : false,
+        bInfo : false,
+        oLanguage : {
+          sSearch : '_INPUT_'
+        },
+        aoColumns : [ {
+          'sType' : 'spnames'
+        }, null, null, null, null, null ]
+      });
+    $('#csp-statusses-short').dataTable({
+        bPaginate : false,
+        bLengthChange : false,
+        bAutoWidth : false,
+        bInfo : false,
+        oLanguage : {
+          sSearch : '_INPUT_'
+        },
+        aoColumns : [ {
+          'sType' : 'spnames'
+        }, null ]
+      });
   };
 
   var tableSearchPlaceholder = function() {

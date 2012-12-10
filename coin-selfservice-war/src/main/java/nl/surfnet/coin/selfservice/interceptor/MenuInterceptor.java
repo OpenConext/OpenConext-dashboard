@@ -70,6 +70,7 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
           menu.addMenuItem(new MenuItem("jsp.cspstatus.title", "/shopadmin/csp-status-overview.shtml"));
         } else {
           menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spsconfig.shtml"));
+          menu.addMenuItem(new MenuItem("jsp.cspstatus.title", "/shopadmin/csp-status-overview.shtml"));
         }
         menu.addMenuItem(new MenuItem("jsp.notifications.title", "/requests/requests-overview.shtml"));
         menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));

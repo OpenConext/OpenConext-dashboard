@@ -41,81 +41,96 @@
               </form:form>
             </div>
   
+            <c:choose>
+              <c:when test="${lmngActiveModus}">
+                <c:set var="tableIdentifier" value="csp-statusses"></c:set>
+              </c:when>
+              <c:otherwise>
+                <c:set var="tableIdentifier" value="csp-statusses-short"></c:set>
+              </c:otherwise>
+            </c:choose>
+  
             <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.idp" /></c:set>
-            <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" id="csp-statusses" data-search-placeholder="${searchPlaceholder}">
-              <thead>
-                <tr>
-                  <th class="html sorting_asc"><spring:message code="jsp.cspstatus.csp.name"/></th>
-                  <th><spring:message code="jsp.cspstatus.csp.lmnglink"/></th>
-                  <th><spring:message code="jsp.cspstatus.csp.haslicense"/></th>
-                  <th><spring:message code="jsp.cspstatus.csp.grouplicense"/></th>
-                  <th><spring:message code="jsp.cspstatus.csp.license.expire"/></th>
-                  <th><spring:message code="jsp.cspstatus.csp.islinked"/></th>
-                </tr>
-              </thead>
-              <tbody>
-                <c:forEach items="${compoundSps}" var="compoundSp">
-			            <spring:url value="/app-detail.shtml" var="detailUrl" htmlEscape="true">
-			              <spring:param name="compoundSpId" value="${compoundSp.id}" />
-			            </spring:url>
-			            
-			            <c:set var="serviceDescription"><tags:providername provider="${compoundSp.sp}" /></c:set>
-			            
-                  <tr>
-                    <td title="${serviceDescription} - ${compoundSp.sp.id}">
-                      <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a>
-                    </td>
-                    <td>
-                      <c:choose>
-                        <c:when test="${compoundSp.articleAvailable}">
-                          <i class="icon-ok"/>
-                        </c:when>
-                        <c:otherwise>
-                          <i class="icon-remove icon-greyed-out"/>
-                        </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td>
-                      <c:choose>
-                        <c:when test="${compoundSp.licenseAvailable}">
-                          <i class="icon-ok"/>
-                        </c:when>
-                        <c:otherwise>
-                          <i class="icon-remove icon-greyed-out"/>
-                        </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td>
-                      <c:if test="${not empty compoundSp.license}">
-	                      <c:choose>
-	                        <c:when test="${compoundSp.license.groupLicense}">
-	                          <i class="icon-ok"/>
-	                        </c:when>
-	                        <c:otherwise>
-	                          <i class="icon-remove icon-greyed-out"/>
-	                        </c:otherwise>
-	                      </c:choose>
-	                    </c:if>
-                    </td>
-                    <td>
-                      <c:if test="${not empty compoundSp.license}">
-                        <fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/>
+                <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" id="${tableIdentifier}" data-search-placeholder="${searchPlaceholder}">
+                  <thead>
+                    <tr>
+                      <th class="html sorting_asc"><spring:message code="jsp.cspstatus.csp.name"/></th>
+                      <c:if test="${lmngActiveModus}">
+	                      <th><spring:message code="jsp.cspstatus.csp.lmnglink"/></th>
+	                      <th><spring:message code="jsp.cspstatus.csp.haslicense"/></th>
+	                      <th><spring:message code="jsp.cspstatus.csp.grouplicense"/></th>
+	                      <th><spring:message code="jsp.cspstatus.csp.license.expire"/></th>
                       </c:if>
-                    </td>
-                    <td>
-                      <c:choose>
-                        <c:when test="${not compoundSp.sp.linked}">
-                          <i class="icon-ok"/>
-                        </c:when>
-                        <c:otherwise>
-                          <i class="icon-remove icon-greyed-out"/>
-                        </c:otherwise>
-                      </c:choose>
-                    </td>
-                  </tr>
-                </c:forEach>
-              </tbody>
-            </table>
+		                  <th><spring:message code="jsp.cspstatus.csp.islinked"/></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <c:forEach items="${compoundSps}" var="compoundSp">
+                      <spring:url value="/app-detail.shtml" var="detailUrl" htmlEscape="true">
+                        <spring:param name="compoundSpId" value="${compoundSp.id}" />
+                      </spring:url>
+                      
+                      <c:set var="serviceDescription"><tags:providername provider="${compoundSp.sp}" /></c:set>
+                      
+                      <tr>
+                        <td title="${serviceDescription} - ${compoundSp.sp.id}">
+                          <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a>
+                        </td>
+                        <c:if test="${lmngActiveModus}">
+	                        <td>
+	                          <c:choose>
+	                            <c:when test="${compoundSp.articleAvailable}">
+	                              <i class="icon-ok"/>
+	                            </c:when>
+	                            <c:otherwise>
+	                              <i class="icon-remove icon-greyed-out"/>
+	                            </c:otherwise>
+	                          </c:choose>
+	                        </td>
+	                        <td>
+	                          <c:choose>
+	                            <c:when test="${compoundSp.licenseAvailable}">
+	                              <i class="icon-ok"/>
+	                            </c:when>
+	                            <c:otherwise>
+	                              <i class="icon-remove icon-greyed-out"/>
+	                            </c:otherwise>
+	                          </c:choose>
+	                        </td>
+	                        <td>
+	                          <c:if test="${not empty compoundSp.license}">
+	                            <c:choose>
+	                              <c:when test="${compoundSp.license.groupLicense}">
+	                                <i class="icon-ok"/>
+	                              </c:when>
+	                              <c:otherwise>
+	                                <i class="icon-remove icon-greyed-out"/>
+	                              </c:otherwise>
+	                            </c:choose>
+	                          </c:if>
+	                        </td>
+                           <td>
+                             <c:if test="${not empty compoundSp.license}">
+                               <fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/>
+                             </c:if>
+                           </td>
+	                      </c:if>
+                          
+                        <td>
+                          <c:choose>
+                            <c:when test="${not compoundSp.sp.linked}">
+                              <i class="icon-ok"/>
+                            </c:when>
+                            <c:otherwise>
+                              <i class="icon-remove icon-greyed-out"/>
+                            </c:otherwise>
+                          </c:choose>
+                        </td>
+                      </tr>
+                    </c:forEach>
+                  </tbody>
+                </table>
+
           </div>
         </section>
       </div>
