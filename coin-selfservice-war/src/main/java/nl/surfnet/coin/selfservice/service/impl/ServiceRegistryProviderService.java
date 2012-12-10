@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +35,8 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.shared.domain.ErrorMail;
+import nl.surfnet.coin.shared.service.ErrorMessageMailer;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -49,6 +53,9 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
 
   @Resource(name = "janusClient")
   private Janus janusClient;
+
+  @Resource(name = "errorMessageMailer")
+  private ErrorMessageMailer errorMessageMailer;
 
   @Override
   @Cacheable("selfserviceDefault")
@@ -108,6 +115,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
       spList = janusClient.getAllowedSps(idpId);
     } catch (RestClientException e) {
       log.warn("Could not retrieve allowed SPs from Janus client", e.getMessage());
+      sendErrorMail("RestClientException", e.getMessage(), "LinkedServiceProviderIDs");
     }
     return spList;
   }
@@ -124,6 +132,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
       }
     } catch (RestClientException e) {
       log.warn("Could not retrieve 'all SPs' from Janus client", e.getMessage());
+      sendErrorMail("RestClientException", e.getMessage(), "AllServiceProvidersUnfiltered");
     }
     return spList;
   }
@@ -156,6 +165,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
       return serviceProvider;
     } catch (RestClientException e) {
       log.warn("Could not retrieve metadata from Janus client", e.getMessage());
+      sendErrorMail("RestClientException", e.getMessage(), "ServiceProvider");
     }
     return null;
   }
@@ -281,6 +291,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
       EntityMetadata metadataByEntityId = janusClient.getMetadataByEntityId(idpEntityId);
       return buildIdentityProviderByMetadata(metadataByEntityId);
     } catch (Exception e) {
+      sendErrorMail("Exception", e.getMessage(), "identityProvider");
       return null;
     }
   }
@@ -292,7 +303,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     if (StringUtils.isBlank(instituteId)) {
       return idps;
     }
-    //first get all entities id's
+    // first get all entities id's
     List<String> entityIds = janusClient.getEntityIdsByMetaData(Janus.Metadata.INSITUTION_ID, instituteId);
     for (String entityId : entityIds) {
       idps.add(getIdentityProvider(entityId));
@@ -315,5 +326,26 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
       log.warn("Could not retrieve 'all IdPs' from Janus client", e.getMessage());
     }
     return idps;
- }
+  }
+
+  /*
+   * Send a mail
+   */
+  private void sendErrorMail(String exceptionName, String message, String method) {
+    String shortMessage = exceptionName + " while retrieving information from Janus";
+    String formattedMessage = String.format("Janus call failed with a " + exceptionName + " containing the following message: '%s'",
+        message);
+    ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
+    errorMail.setLocation(this.getClass().getName() + "#get" + method);
+    errorMessageMailer.sendErrorMail(errorMail);
+  }
+
+  private String getHost() {
+    try {
+      return InetAddress.getLocalHost().toString();
+    } catch (UnknownHostException e) {
+      return "UNKNOWN";
+    }
+  }
+
 }
