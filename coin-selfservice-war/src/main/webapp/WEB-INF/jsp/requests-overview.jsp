@@ -27,10 +27,8 @@
           <h1><spring:message code="jsp.notifications.title"/></h1>
           <div class="data-table-wrapper">
             <c:forEach items="${notifications}" var="notificationMessage">
-              <div class="notificationMessage"><spring:message code="${notificationMessage.messageKey}"/></div>
-              <c:set var="searchPlaceholder"><spring:message code="jsp.notifications.search.placeholder"/></c:set>
-              <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" 
-                        data-search-placeholder="${searchPlaceholder}">
+              <p class="notificationMessage"><spring:message code="${notificationMessage.messageKey}"/></p>
+              <table class="table table-bordered table-striped table-above-pagination table-with-statuses">
                 <thead>
                   <tr>
                     <th><spring:message code="jsp.notifications.image"/></th>
@@ -40,8 +38,8 @@
                 <tbody>
                   <c:forEach items="${notificationMessage.arguments}" var="cspArgument">
                     <c:set var="spname"><tags:providername provider="${cspArgument.sp}" /></c:set>
-                    <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-                      <spring:param name="compoundSpId" value="${compoundSp.id}" />
+                    <spring:url value="/app-detail.shtml" var="detailUrl" htmlEscape="true">
+                      <spring:param name="compoundSpId" value="${cspArgument.id}" />
                     </spring:url>
                     <tr>
                       <td class="notification-image">
