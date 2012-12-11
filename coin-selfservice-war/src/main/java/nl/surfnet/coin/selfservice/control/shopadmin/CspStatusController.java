@@ -64,7 +64,7 @@ public class CspStatusController extends BaseController {
     return new ModelAndView("shopadmin/csp-status-overview", model);
   }
 
-  @RequestMapping(value = "/selectIdp", method = RequestMethod.POST)
+  @RequestMapping(value = "/selectIdp", method = RequestMethod.GET)
   public ModelAndView selectIdp(@RequestParam String filteredIdpId) {
     IdentityProvider selectedidp = idpService.getIdentityProvider(filteredIdpId);
     return allCspsForSelectedIdp(selectedidp);

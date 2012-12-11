@@ -28,8 +28,7 @@
           <div class="data-table-wrapper">
   
             <div>
-              <form:form id="selectIdpForm" method="post" action="selectIdp.shtml" class="selectIdpForm">
-                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+              <form:form id="selectIdpForm" method="get" action="selectIdp.shtml" class="selectIdpForm">
                                 
 	              <select id="filteredIdpId" name="filteredIdpId" class="select2-narrow">
 	                <c:forEach items="${allIdps}" var="idp">
