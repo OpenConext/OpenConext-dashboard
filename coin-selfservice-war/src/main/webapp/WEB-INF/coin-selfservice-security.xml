@@ -74,6 +74,7 @@
   <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
 
     <security:custom-filter position="PRE_AUTH_FILTER" ref="samlPreAuthFilter"/>
+    <security:custom-filter after="PRE_AUTH_FILTER" ref="apiOauthFilter"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Metadata" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
