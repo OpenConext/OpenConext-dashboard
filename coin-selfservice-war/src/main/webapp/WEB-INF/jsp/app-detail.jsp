@@ -109,8 +109,8 @@
                 <c:param name="compoundSpId" value="${compoundSp.id}" />
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
-              |
-             <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
+              <c:if test="${questionAllowed}">|
+             <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
             </div>
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
@@ -122,8 +122,8 @@
               </c:url>"
                  title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
                   code="jsp.sp_detail.requestunlink"/></a>
-              |
-              <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" />
+              <c:if test="${questionAllowed}">|
+              <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
             </div>
           </c:when>
         </c:choose>
