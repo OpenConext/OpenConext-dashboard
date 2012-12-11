@@ -3,7 +3,6 @@ var app = app || {};
 app.notifications = function() {
   var notificationsElm = null;
 
-
   var init = function() {
     checkNotifications();
   };
@@ -31,11 +30,12 @@ app.notifications = function() {
     closeButton.on('click', hideNotifications);
     closeButton.appendTo(notificationsElm);
 
-    setTimeout(function() {
-      notificationsElm.animate({
-        right: '2.5em'
-      }, 1000);
-    }, 400);
+	setTimeout(function() {
+		notificationsElm.animate({
+			right: '2.5em'
+		}, 1000);
+		animationShown = true;
+	}, 400);
   };
 
 
@@ -51,7 +51,12 @@ app.notifications = function() {
 
 
   var hideNotifications = function(e) {
-    e.stopPropagation();
+	  e.stopPropagation();
+	  e.preventDefault();
+	  var hideUrl = $(this).attr('href');
+	  $.ajax({
+		  url: hideUrl,
+	  });
 
     notificationsElm.addClass('hide');
   };

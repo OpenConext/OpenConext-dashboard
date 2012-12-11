@@ -109,6 +109,15 @@ public abstract class BaseController {
    */
   public static final String TOKEN_CHECK = "tokencheck";
 
+  /**
+   * The name of the key under which we store the notifications
+   */
+  private static final String NOTIFICATIONS = "notifications";
+
+  /**
+   * The name of the key under which we store the info if the notifications for
+   * licenses/linked services were generated already
+   */
   private static final String NOTIFICATIONS_LINKED_LICENSE_GENERATED = "linkedLicenseNotificationsGenerated";
 
   @Resource(name = "providerService")
@@ -166,7 +175,7 @@ public abstract class BaseController {
    */
   @ModelAttribute(value = "notifications")
   public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-    Object notifications = request.getSession().getAttribute("notifications");
+    Object notifications = request.getSession().getAttribute(NOTIFICATIONS);
     if (notifications == null) {
       notifications = new ArrayList<NotificationMessage>();
     }
@@ -180,7 +189,7 @@ public abstract class BaseController {
       request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
     }
 
-    request.getSession().setAttribute("notifications", notificationMessages);
+    request.getSession().setAttribute(NOTIFICATIONS, notificationMessages);
 
     return notificationMessages;
   }
