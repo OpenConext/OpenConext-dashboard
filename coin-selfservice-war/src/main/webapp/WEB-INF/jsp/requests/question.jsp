@@ -54,7 +54,7 @@
             </div>
 
             <div class="control-group ">
-              <label class="control-label">Subject:</label>
+              <label class="control-label"><spring:message code="jsp.sp_question.subjectfield"/></label>
 
               <div class="controls">
                 <form:input class="input-xlarge" path="subject" />
@@ -64,7 +64,7 @@
               </div>
             </div>
             <div class="control-group ">
-              <label class="control-label">Question:</label>
+              <label class="control-label"><spring:message code="jsp.sp_question.bodyfield"/></label>
 
               <div class="controls">
                 <form:textarea rows="10" class="input-xlarge" path="body" />
@@ -75,7 +75,7 @@
             </div>
 
             <div class="actions">
-              <button type="submit" class="btn btn-primary btn-small">Send</button>
+              <button type="submit" class="btn btn-primary btn-small"><spring:message code="jsp.sp_question.buttonsubmit"/></button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
                 <spring:param name="compoundSpId" value="${compoundSpId}" />
               </spring:url>
