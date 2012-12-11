@@ -132,7 +132,6 @@ public class AuthorityScopeInterceptorTest {
 
     // also allowed
     Map<String, Object> model = modelAndView.getModel();
-    assertTrue((Boolean) model.get(SERVICE_QUESTION_ALLOWED));
     assertTrue((Boolean) model.get(SERVICE_APPLY_ALLOWED));
 
   }
