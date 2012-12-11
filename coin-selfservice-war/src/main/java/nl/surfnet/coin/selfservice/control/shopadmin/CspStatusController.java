@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.control.shopadmin;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,9 @@ public class CspStatusController extends BaseController {
 
   @ModelAttribute(value = "allIdps")
   public List<IdentityProvider> getAllIdps() {
-    return idpService.getAllIdentityProviders();
+    List<IdentityProvider> identityProviders = idpService.getAllIdentityProviders();
+    Collections.sort(identityProviders);
+    return identityProviders;
   }
 
   @RequestMapping("/csp-status-overview.shtml")
