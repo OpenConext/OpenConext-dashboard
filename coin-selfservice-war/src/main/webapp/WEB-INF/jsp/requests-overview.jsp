@@ -16,7 +16,7 @@
   limitations under the License.
   --%>
 <jsp:useBean id="actionList" scope="request" type="java.util.List"/>
-<spring:message var="title" code="jsp.home.title"/>
+<spring:message var="title" code="jsp.notifications.title"/>
 <jsp:include page="head.jsp">
   <jsp:param name="title" value="${title}"/>
 </jsp:include>

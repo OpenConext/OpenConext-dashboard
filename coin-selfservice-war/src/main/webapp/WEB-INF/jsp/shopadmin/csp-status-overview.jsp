@@ -15,7 +15,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   --%>
-<spring:message var="title" code="jsp.home.title"/>
+<spring:message var="title" code="jsp.cspstatus.title"/>
 <jsp:include page="../head.jsp">
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
