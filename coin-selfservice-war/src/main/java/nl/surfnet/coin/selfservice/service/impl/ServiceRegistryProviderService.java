@@ -335,7 +335,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     String shortMessage = exceptionName + " while retrieving information from Janus";
     String formattedMessage = String.format("Janus call failed with a " + exceptionName + " containing the following message: '%s'",
         message);
-    ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
+    ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "Janus");
     errorMail.setLocation(this.getClass().getName() + "#get" + method);
     errorMessageMailer.sendErrorMail(errorMail);
   }
