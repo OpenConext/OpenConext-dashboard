@@ -11,7 +11,7 @@ app.gallery = function() {
 
             elm.addClass('gallery-holder-js');
 
-            elm.prepend('<div class="large-image"><img src="#" alt="">');
+            elm.prepend('<div class="large-image"><img src="" alt="">');
 
             elm.on('click', 'a', viewImage);
 
