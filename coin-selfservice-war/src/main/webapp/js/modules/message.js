@@ -60,27 +60,31 @@ app.message = function() {
       nl : "Selecteer een Identity Provider"
     },
     "stats.title.overview_default" : {
-      en : "Stats",
-      nl : "Statistieken"
+      en : "Logins",
+      nl : "Logins"
     },
     "stats.title.overview_zoomed" : {
-      en : "Stats for #{range}",
-      nl : "Statistieken over #{range}"
+      en : "Logins for #{range}",
+      nl : "Logins over #{range}"
     },
     "stats.title.sp_overview" : {
-      en : "Stats for #{sp} (total #{total})",
-      nl : "Statistieken van #{sp} (totaal #{total})"
+      en : "Logins for #{sp} (total #{total})",
+      nl : "Logins van #{sp} (totaal #{total})"
+    },
+    "stats.title.sp_no_data" : {
+      en : "No data available",
+      nl : "Geen gegevens"
     },
     "stats.title.sp_zoomed" : {
-      en : "Stats of #{sp} for #{range}",
-      nl : "Statistieken van #{sp} over #{range}"
+      en : "Logins of #{sp} for #{range}",
+      nl : "Logins van #{sp} over #{range}"
     },
     "stats.menu.all" : {
       en : "All",
       nl : "Alles"
     },
     "stats.menu.quarter" : {
-      en : "Quearter",
+      en : "Quarter",
       nl : "Kwartaal"
     },
     "stats.menu.month" : {

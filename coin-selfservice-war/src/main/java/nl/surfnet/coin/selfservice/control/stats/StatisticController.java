@@ -24,7 +24,6 @@ import javax.annotation.Resource;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
@@ -35,6 +34,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -51,10 +51,11 @@ public class StatisticController extends BaseController {
   private IdentityProviderService idpService;
 
   @RequestMapping("/stats.shtml")
-  public String stats(ModelMap model, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public String stats(ModelMap model, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, @RequestParam(value = "spEntityId", required=false) final String selectedSp) {
     model.put("selectedidp", selectedidp);
 
     // Get all idp's which are known in selfservice and available in the statistics database
+    model.put("spEntityId", selectedSp);
     if (AuthorityScopeInterceptor.isDistributionChannelAdmin()) {
       List<IdentityProviderRepresenter> idpRepresenters = new ArrayList<IdentityProviderRepresenter>();
       List<IdentityProvider> allIdps = idpService.getAllIdentityProviders();

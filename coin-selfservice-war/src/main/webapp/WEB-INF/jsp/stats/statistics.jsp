@@ -54,7 +54,7 @@
         <div class="show">
           <select id="idp-select2">
             <option></option>
-            <option value="ALL"><spring:message code="jsp.stats.all_idps"/></option>
+            <option value=""><spring:message code="jsp.stats.all_idps"/></option>
             <c:forEach items="${allIdps}" var="idp">
               <option value="${idp.entityId}">${idp.name}</option>
             </c:forEach>
@@ -84,7 +84,7 @@
     </nav>
     
     <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedidp.id}" data-is-god="${isGod}"></div>
-    <div id="sp-detail-chart"></div>
+    <div id="sp-detail-chart" data-spEntityId="${spEntityId}"></div>
   </section>
 </div>
 
