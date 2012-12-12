@@ -60,7 +60,7 @@
           </a>
         </li>
       </c:if>
-      <c:set var="supportUrl"><tags:locale-specific nlVariant="${compoundSp.supportUrlNl}" enVariant="${compoundSp.supportUrlEn}" /></c:set>
+      <c:set var="supportUrl"><tags:locale-specific escapeXml="true" nlVariant="${compoundSp.supportUrlNl}" enVariant="${compoundSp.supportUrlEn}" /></c:set>
       <c:if test="${not empty supportUrl}">
         <li>
           <a href="${supportUrl}" target="_blank">
@@ -179,7 +179,7 @@
       <%--span rel="tooltip" data-original-title="<spring:message code="jsp.app_detail.institution_description"/>"--%>
       <tags:html-format>
         <jsp:attribute name="input">
-            <tags:locale-specific nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
+            <tags:locale-specific escapeXml="true" nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
         </jsp:attribute>
       </tags:html-format>
       <%--/span--%>
@@ -188,7 +188,7 @@
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
         <jsp:attribute name="input">
-          <tags:locale-specific nlVariant="${compoundSp.enduserDescriptionNl}" enVariant="${compoundSp.enduserDescriptionEn}" />
+          <tags:locale-specific escapeXml="true" nlVariant="${compoundSp.enduserDescriptionNl}" enVariant="${compoundSp.enduserDescriptionEn}" />
         </jsp:attribute>
       </tags:html-format>
     </div>

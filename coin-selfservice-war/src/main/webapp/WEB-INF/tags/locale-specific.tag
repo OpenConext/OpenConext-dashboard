@@ -16,11 +16,17 @@
   --%>
 <%@attribute name="enVariant" type="java.lang.String" required="true" %>
 <%@attribute name="nlVariant" type="java.lang.String" required="true" %>
+<%@attribute name="escapeXml" type="java.lang.Boolean" required="false" %>
+
+<c:if test="${empty escapeXml}">
+<c:set var="escapeXml" >false</c:set>
+</c:if>  
+
 <c:choose>
   <c:when test="${locale.language eq 'nl'}">
-    <c:out escapeXml="false" value="${nlVariant}" />
+    <c:out escapeXml="${escapeXml}" value="${nlVariant}" />
   </c:when>
   <c:otherwise>
-    <c:out escapeXml="false" value="${enVariant}" />
+    <c:out escapeXml="${escapeXml}" value="${enVariant}" />
   </c:otherwise>
 </c:choose>
