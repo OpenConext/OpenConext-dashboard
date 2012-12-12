@@ -31,7 +31,7 @@
     <coin-shared.version>2.14.0</coin-shared.version>
     <coin-test.version>2.8.3</coin-test.version>
     <coin-master.test-dependencies.version>2.15.1</coin-master.test-dependencies.version>
-    <coin-api.version>2.14.0</coin-api.version>
+    <coin-api.version>2.15.0-SNAPSHOT</coin-api.version>
     <spring-security-opensaml.version>2.16</spring-security-opensaml.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
@@ -471,6 +471,7 @@
                 <jsSourceFile>modules/table.js</jsSourceFile>
                 <jsSourceFile>modules/compound-sp-edit.js</jsSourceFile>
                 <jsSourceFile>modules/notifications.js</jsSourceFile>
+                <jsSourceFile>modules/app-detail.js</jsSourceFile>
 
                 <jsSourceFile>tools/html5shiv.js</jsSourceFile>
                 <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>

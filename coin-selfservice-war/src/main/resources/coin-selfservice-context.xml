@@ -128,6 +128,14 @@
     class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService">
   </bean>
 
+  <bean id="openConextApiClient" class="${openConextApiClient}">
+    <property name="callbackUrl" value="${api-callbackuri}" />
+    <property name="endpointBaseUrl" value="${api-baseurl}" />
+    <property name="consumerKey" value="${api-consumerkey}"/>
+    <property name="consumerSecret" value="${api-consumersecret}" />
+    <property name="version" value="v2" />
+  </bean>
+
   <bean id="janusClient" class="${janus.class}">
     <property name="janusUri" value="${janus.uri}" />
     <property name="user" value="${janus.user}" />

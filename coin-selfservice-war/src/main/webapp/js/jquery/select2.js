@@ -1,7 +1,7 @@
 /*
  Copyright 2012 Igor Vaynberg
 
- Version: @@ver@@ Timestamp: @@timestamp@@
+ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
 
  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this work except in
  compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
@@ -40,8 +40,7 @@
         return;
     }
 
-    var KEY, AbstractSelect2, SingleSelect2, MultiSelect2, nextUid, sizer,
-        lastMousePosition, $document;
+    var KEY, AbstractSelect2, SingleSelect2, MultiSelect2, nextUid, sizer;
 
     KEY = {
         TAB: 9,
@@ -90,8 +89,6 @@
             return k >= 112 && k <= 123;
         }
     };
-
-    $document = $(document);
 
     nextUid=(function() { var counter=1; return function() { return counter++; }; }());
 
@@ -165,8 +162,8 @@
         });
     }
 
-    $document.bind("mousemove", function (e) {
-        lastMousePosition = {x: e.pageX, y: e.pageY};
+    $(document).delegate("body", "mousemove", function (e) {
+        $.data(document, "select2-lastpos", {x: e.pageX, y: e.pageY});
     });
 
     /**
@@ -177,7 +174,7 @@
      */
     function installFilteredMouseMove(element) {
 	    element.bind("mousemove", function (e) {
-            var lastpos = lastMousePosition;
+            var lastpos = $.data(document, "select2-lastpos");
             if (lastpos === undefined || lastpos.x !== e.pageX || lastpos.y !== e.pageY) {
                 $(e.target).trigger("mousemove-filtered", e);
             }
@@ -229,10 +226,6 @@
     function killEvent(event) {
         event.preventDefault();
         event.stopPropagation();
-    }
-    function killEventImmediately(event) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
     }
 
     function measureTextWidth(e) {
@@ -500,16 +493,16 @@
      *
      * also takes care of clicks on label tags that point to the source element
      */
-    $document.ready(function () {
-        $document.bind("mousedown touchend", function (e) {
+    $(document).ready(function () {
+        $(document).delegate("body", "mousedown touchend", function (e) {
             var target = $(e.target).closest("div.select2-container").get(0), attr;
             if (target) {
-                $document.find("div.select2-container-active").each(function () {
+                $(document).find("div.select2-container-active").each(function () {
                     if (this !== target) $(this).data("select2").blur();
                 });
             } else {
                 target = $(e.target).closest("div.select2-drop").get(0);
-                $document.find("div.select2-drop-active").each(function () {
+                $(document).find("div.select2-drop-active").each(function () {
                     if (this !== target) $(this).data("select2").blur();
                 });
             }
@@ -979,18 +972,13 @@
                 });
             });
 
-            window.setTimeout(function() {
-                // this is done inside a timeout because IE will sometimes fire a resize event while opening
-                // the dropdown and that causes this handler to immediately close it. this way the dropdown
-                // has a chance to fully open before we start listening to resize events
-                $(window).bind(resize, function() {
-                    var s2 = $(selector);
-                    if (s2.length == 0) {
-                        $(window).unbind(resize);
-                    }
-                    s2.select2("close");
-                })
-            }, 10);
+            $(window).bind(resize, function() {
+                var s2 = $(selector);
+                if (s2.length == 0) {
+                    $(window).unbind(resize);
+                }
+                s2.select2("close");
+            });
 
             this.clearDropdownAlignmentPreference();
 
@@ -1543,11 +1531,10 @@
                     return;
                 }
 
-                if (e.which == KEY.DELETE || e.which == KEY.BACKSPACE) {
+                if (e.which == KEY.DELETE) {
                     if (this.opts.allowClear) {
                         this.clear();
                     }
-                    killEvent(e);
                     return;
                 }
 
@@ -1583,7 +1570,7 @@
             selection.delegate("abbr", "mousedown", this.bind(function (e) {
                 if (!this.enabled) return;
                 this.clear();
-                killEventImmediately(e);
+                killEvent(e);
                 this.close();
                 this.triggerChange();
                 this.selection.focus();

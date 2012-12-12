@@ -35,23 +35,9 @@
     <property name="adminLicentieIdPTeam" value="${admin.licentie.idp.teamname}" />
     <property name="adminSurfConextIdPTeam" value="${admin.surfconext.idp.teamname}" />
     <property name="adminDistributionTeam" value="${admin.distribution.channel.teamname}" />
-    <property name="apiClient" ref="${openConextApiClient}" />
+    <property name="apiClient" ref="openConextApiClient" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
     <property name="lmngActive" value="${coin-lmng-active-mode}"/>
-  </bean>
-
-  <bean id="openConextApiClientMock" class="nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock">
-    <property name="adminLicentieIdPTeam" value="${admin.licentie.idp.teamname}" />
-    <property name="adminSurfConextIdPTeam" value="${admin.surfconext.idp.teamname}" />
-    <property name="adminDistributionTeam" value="${admin.distribution.channel.teamname}" />
-  </bean>	
-
-  <bean id="openConextApiClient" class="nl.surfnet.coin.api.client.OpenConextOAuthClientImpl">
-    <property name="callbackUrl" value="${api-callbackuri}" />
-    <property name="endpointBaseUrl" value="${api-baseurl}" />
-    <property name="consumerKey" value="${api-consumerkey}"/>
-    <property name="consumerSecret" value="${api-consumersecret}" />
-    <property name="version" value="v2" />
   </bean>
 
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.KeyStore">

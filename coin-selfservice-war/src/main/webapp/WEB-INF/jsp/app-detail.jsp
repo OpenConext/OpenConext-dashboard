@@ -51,8 +51,17 @@
 	        </a>
 	      </li>
 	    </c:if>
+      <li>
+        <spring:url var="recommendAppLink" value="/app-recommend.shtml">
+          <spring:param name="compoundSpId" value="${compoundSp.id}" />
+        </spring:url>
+        <a id="recommend-app" class="btn btn-primary recommend-app" href="${recommendAppLink}">
+            <spring:message code="jsp.app_detail.recommend_app"/>
+            <i class="icon-comments-alt"></i>
+          </a>
+        </li>
     </ul>
-      <ul class="action-list">
+    <ul class="action-list">
       <c:if test="${not empty compoundSp.serviceUrl}">
         <li>
           <a href="${compoundSp.serviceUrl}" target="_blank">

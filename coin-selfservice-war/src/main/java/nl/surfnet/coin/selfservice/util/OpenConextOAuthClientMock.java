@@ -18,20 +18,28 @@ package nl.surfnet.coin.selfservice.util;
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nl.surfnet.coin.api.client.OAuthVersion;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
+import nl.surfnet.coin.api.client.domain.Email;
 import nl.surfnet.coin.api.client.domain.Group;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.Assert;
 
 /**
  * OpenConextOAuthClientMock.java
  * 
  */
-public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
+public class OpenConextOAuthClientMock implements OpenConextOAuthClient, InitializingBean {
 
   public enum Users {
     /*
@@ -136,7 +144,19 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
    */
   @Override
   public List<Person> getGroupMembers(String groupId, String onBehalfOf) {
-    throw new RuntimeException("Not implemented");
+    List<Person> persons = new ArrayList<Person>();
+    String group = groupId.substring(groupId.lastIndexOf(":") + 1);
+    persons.add(createPerson("John Doe", "john.doe@"+group));
+    persons.add(createPerson("Pitje Puck", "p.p@"+group));
+    persons.add(createPerson("Yan Yoe", "yan@"+group));
+    return persons;
+  }
+
+  private Person createPerson(String displayName, String email) {
+    Person p = new Person();
+    p.setDisplayName(displayName);
+    p.setEmails(Collections.singleton(new Email(email)));
+    return p;
   }
 
   /*
@@ -168,8 +188,8 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
       return asList(createGroup20(adminLicentieIdPTeam));
     case ADMIN_IDP_SURFCONEXT:
       return asList(createGroup20(adminSurfConextIdPTeam));
-    case ADMIN_IDP_ADMIN: 
-      return asList(createGroup20(adminLicentieIdPTeam),createGroup20(adminSurfConextIdPTeam));
+    case ADMIN_IDP_ADMIN:
+      return asList(createGroup20(adminLicentieIdPTeam), createGroup20(adminSurfConextIdPTeam));
     case USER:
       return new ArrayList<Group20>();
     case ALL:
@@ -181,7 +201,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
   }
 
   private Group20 createGroup20(String id) {
-    return new Group20(id, null, null);
+    return new Group20(id, id.substring(id.lastIndexOf(":") + 1), id);
   }
 
   /*
@@ -196,16 +216,34 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
     throw new RuntimeException("Not implemented");
   }
 
-  public void setAdminLicentieIdPTeam(String adminLicentieIdPTeam) {
-    this.adminLicentieIdPTeam = adminLicentieIdPTeam;
+  /*
+   * The following is needed to be conform the contract of the real
+   * OpenConextOAuthClient. For the same reason we get the values our selves
+   * from the properties files, as we can't inject them
+   */
+
+  public void setCallbackUrl(String url) {
   }
 
-  public void setAdminSurfConextIdPTeam(String adminSurfConextIdPTeam) {
-    this.adminSurfConextIdPTeam = adminSurfConextIdPTeam;
+  public void setConsumerSecret(String secret) {
   }
 
-  public void setAdminDistributionTeam(String adminDistributionTeam) {
-    this.adminDistributionTeam = adminDistributionTeam;
+  public void setConsumerKey(String key) {
+  }
+
+  public void setEndpointBaseUrl(String url) {
+  }
+
+  public void setVersion(OAuthVersion v) {
+  }
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    Properties prop = new Properties();
+    prop.load(new ClassPathResource("coin-selfservice.properties").getInputStream());
+    adminLicentieIdPTeam = prop.getProperty("admin.licentie.idp.teamname");
+    adminSurfConextIdPTeam = prop.getProperty("admin.surfconext.idp.teamname");
+    adminDistributionTeam = prop.getProperty("admin.distribution.channel.teamname");
   }
 
 }
