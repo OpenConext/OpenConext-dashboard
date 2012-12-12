@@ -117,7 +117,7 @@
                           
                         <td>
                           <c:choose>
-                            <c:when test="${not compoundSp.sp.linked}">
+                            <c:when test="${compoundSp.sp.linked}">
                               <i class="icon-ok"/>
                             </c:when>
                             <c:otherwise>
