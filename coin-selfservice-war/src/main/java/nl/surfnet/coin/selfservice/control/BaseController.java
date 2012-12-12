@@ -112,13 +112,13 @@ public abstract class BaseController {
   /**
    * The name of the key under which we store the notifications
    */
-  private static final String NOTIFICATIONS = "notifications";
+  public static final String NOTIFICATIONS = "notifications";
 
   /**
    * The name of the key under which we store the info if the notifications for
    * licenses/linked services were generated already
    */
-  private static final String NOTIFICATIONS_LINKED_LICENSE_GENERATED = "linkedLicenseNotificationsGenerated";
+  public static final String NOTIFICATIONS_LINKED_LICENSE_GENERATED = "linkedLicenseNotificationsGenerated";
 
   @Resource(name = "providerService")
   private IdentityProviderService idpService;
