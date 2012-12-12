@@ -40,6 +40,7 @@
     <mujina-idp.version>2.15.0</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
     <selenium.version>2.25.0</selenium.version>
+    <freemarker.version>[2.3.19,2.4)</freemarker.version>
     <selenium.test.url>http://localhost:8280/selfservice/</selenium.test.url>
     <jetty.port>8280</jetty.port>
     
@@ -318,6 +319,11 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.20</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>${freemarker.version}</version>
     </dependency>
 
   </dependencies>

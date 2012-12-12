@@ -276,8 +276,12 @@
     </property>
   </bean>
 
-
   <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     <property name="maxUploadSize" value="10000000" />
   </bean>
+
+  <bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+     <property name="templateLoaderPath" value="classpath:/ftl/"/>
+  </bean>
+
 </beans>
