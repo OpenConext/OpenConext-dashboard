@@ -164,3 +164,6 @@ lmngArticleCacheSeconds=21600
 lmngLicenseCacheSeconds=1800
 
 statisticsDaoClass=nl.surfnet.coin.selfservice.dao.impl.StatisticDaoImpl
+
+#the maximum of number mails to be send for recommendation
+maxRecommendationEmails=30
