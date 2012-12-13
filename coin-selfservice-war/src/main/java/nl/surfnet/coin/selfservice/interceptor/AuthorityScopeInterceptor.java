@@ -27,6 +27,7 @@ import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
 import static nl.surfnet.coin.selfservice.control.BaseController.IS_GOD;
 import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_CONNECTION_VISIBLE;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
@@ -117,7 +118,8 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
   protected void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities) {
     boolean isAdmin = containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
     map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
-    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
+    map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
     map.put(IS_ADMIN_USER, isAdmin);

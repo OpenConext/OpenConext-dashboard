@@ -110,16 +110,18 @@
   <section>
       <h1>${spname}</h1>
       <div class="license-connect">
-        <c:if test="${applyAllowed}">
+        <c:if test="${connectionVisible}">
         <c:choose>
           <c:when test="${not compoundSp.sp.linked}">
             <div class="service-not-connected">
               <p><strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong></p>
-              <a href="<c:url value="/requests/linkrequest.shtml">
-                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                <c:param name="compoundSpId" value="${compoundSp.id}" />
-              </c:url>"
-                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
+              <c:if test="${applyAllowed}">
+	              <a href="<c:url value="/requests/linkrequest.shtml">
+	                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+	                <c:param name="compoundSpId" value="${compoundSp.id}" />
+	              </c:url>"
+	                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
+	            </c:if>
               <c:if test="${questionAllowed}">|
              <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
             </div>
@@ -127,12 +129,14 @@
           <c:when test="${compoundSp.sp.linked}">
             <div class="service-connected">
               <p><strong><spring:message code="jsp.app_detail.technical_connection"/></strong></p>
-              <a href="<c:url value="/requests/unlinkrequest.shtml">
-                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                <c:param name="compoundSpId" value="${compoundSp.id}" />
-              </c:url>"
-                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
-                  code="jsp.sp_detail.requestunlink"/></a>
+              <c:if test="${applyAllowed}">
+	              <a href="<c:url value="/requests/unlinkrequest.shtml">
+	                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+	                <c:param name="compoundSpId" value="${compoundSp.id}" />
+	              </c:url>"
+	                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
+	                  code="jsp.sp_detail.requestunlink"/></a>
+	            </c:if>
               <c:if test="${questionAllowed}">|
               <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
             </div>
