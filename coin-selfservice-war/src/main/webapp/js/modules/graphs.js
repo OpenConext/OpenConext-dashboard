@@ -460,11 +460,14 @@ app.graphs = function() {
       title += ' over ' + $('#choose-time-offset option:selected').text();
     }
 
-    renderDetailChart(data, title);
+    // give filterData() [data] instead of data, because it only accepts (and returns) an array of data blocks.
+    renderDetailChart(filterData([data], filterType, filterOffset)[0], title);
   };
 
   var setTimeframe = function(e) {
     e.preventDefault();
+
+//    console.log("setTimeframe()");
 
     var elm = $(this), menuItems;
 
@@ -481,8 +484,9 @@ app.graphs = function() {
     } else {
       filterOffset = elm.val();
     }
-
     filterOffset = parseInt(filterOffset, 10);
+//    console.log("filterOffset: " + new Date(filterOffset));
+//    console.log("selectedSp: " + selectedSp);
 
     if (selectedSp) {
       var data = dataWrapper.getBySp(selectedSp);
@@ -497,6 +501,8 @@ app.graphs = function() {
         title = app.message.i18n('stats.title.sp_zoomed').replace('#{sp}', spName)
             .replace('#{range}', $('#choose-time-offset option:selected').text());
       }
+//      console.log("filterType (selectedSp): " + filterType);
+
       renderDetailChart(dataForSp, title);
     } else {
       if (filterType === 'all') {
@@ -510,6 +516,7 @@ app.graphs = function() {
   };
 
   var getDateOffset = function(firstDate, filterType) {
+//    console.log("firstDate: " + new Date(firstDate ) + ", filterType: " + filterType);
     var date = new Date(firstDate), first, refDate;
 
     switch (filterType) {
