@@ -31,6 +31,8 @@ import freemarker.template.TemplateException;
 
 public class EmailServiceImpl implements EmailService {
 
+  public static final String RECOMMENTATION_EMAIL_TEMPLATE = "recommendationMail";
+  
   private static final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
 
   private String administrativeEmail;
@@ -147,6 +149,10 @@ public class EmailServiceImpl implements EmailService {
     } catch (TemplateException e) {
       throw new RuntimeException("Failed to create templated mail", e);
     }
+  }
+
+  public void setFreemarkerConfiguration(Configuration freemarkerConfiguration) {
+    this.freemarkerConfiguration = freemarkerConfiguration;
   }
 
 }
