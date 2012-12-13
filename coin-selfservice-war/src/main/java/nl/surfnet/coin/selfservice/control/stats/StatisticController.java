@@ -26,6 +26,7 @@ import nl.surfnet.coin.selfservice.dao.StatisticDao;
 import nl.surfnet.coin.selfservice.domain.ChartSerie;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProviderRepresenter;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 
