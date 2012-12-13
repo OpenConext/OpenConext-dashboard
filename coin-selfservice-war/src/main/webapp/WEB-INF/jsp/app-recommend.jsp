@@ -26,12 +26,15 @@
       <c:set var="toShortInput">
         <spring:message code="jsp.app_recommendation.format_input_too_short" />
       </c:set>
-      <input type="hidden" name="emailSelect2" id="email-select2" data-max-selection-size="${maxRecommendationEmails}" data-format-input-too-short="${toShortInput}" />
+      <c:set var="toManyInput">
+        <spring:message code="jsp.app_recommendation.format_input_too_many" />
+      </c:set>
+      <input type="hidden" name="emailSelect2" id="email-select2" data-max-selection-size="${maxRecommendationEmails}" 
+      data-format-input-too-short="${toShortInput}" data-format-selection-too-big="${toManyInput}"/>
       <p>
         <spring:message code="jsp.app_recommendation.note_text" />
       </p>
-      <textarea name="recommendPersonalNote" class="recommendation-text-input" rows="12"> 
-    </textarea>
+      <textarea name="recommendPersonalNote" class="recommendation-text-input" rows="12"/> 
     </form>
   </div>
 

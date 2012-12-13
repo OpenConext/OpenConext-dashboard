@@ -1,4 +1,10 @@
 /*
+ Contains a enhancement made by Okke Harsta (https://github.com/ivaynberg/select2/issues/645). 
+ 
+ Needs to put into pull request. The queue for pull requests is very long...
+  
+ */
+/*
  Copyright 2012 Igor Vaynberg
 
  Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
@@ -2035,6 +2041,9 @@
 
         // multi
         onSelect: function (data) {
+            if (!this.opts.addSelectedChoiceAllowed(data)) {
+              return;
+            }
             this.addSelectedChoice(data);
             if (this.select) { this.postprocessResults(); }
 
@@ -2385,7 +2394,8 @@
             }
             return markup;
         },
-        blurOnChange: false
+        blurOnChange: false,
+        addSelectedChoiceAllowed: function(data) {return true;}
     };
 
     // exports

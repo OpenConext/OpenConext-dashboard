@@ -31,13 +31,12 @@ app.appDetail = function() {
     var data = groupsWithMembers[0];
 
     html.find('#recommend-link').click(function() {
-      // $.post($(this).data('post-url'), $('#recommend-form').serialize());
-
       $.ajax({
         type : "POST",
         url : $(this).data('post-url'),
         data : $('#recommend-form').serialize(),
         error : function(msg) {
+          //TODO - use hidden div to tell the user i18n what went wrong
           $('.select2-input').addClass('error');
         },
         success : function(result) {
@@ -46,7 +45,6 @@ app.appDetail = function() {
           html.remove()
         }
       });
-
     });
 
     $('#recommend-form').submit(function(e) {
@@ -68,10 +66,17 @@ app.appDetail = function() {
           };
         }
       },
+      addSelectedChoiceAllowed : function(data) {
+        //Keep it simple. See http://ex-parrot.com/~pdw/Mail-RFC822-Address.html
+        return /\S+@\S+/g.test(data.id);
+      },
       tokenSeparators : [ " ", ", " ],
       multiple : true,
       placeholder : "Emails...",
       maximumSelectionSize : emailSelect2.data('max-selection-size'),
+      formatSelectionTooBig: function(maxSize) {
+        return emailSelect2.data('format-selection-too-big') + ' (' + maxSize + ')';
+      },
       formatResult : format,
       minimumInputLength : 1,
       formatInputTooShort : function(term, minLength) {
