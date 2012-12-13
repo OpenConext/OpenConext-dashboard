@@ -60,10 +60,12 @@ public class CspStatusController extends BaseController {
   @RequestMapping("/csp-status-overview.shtml")
   public ModelAndView allCspsForSelectedIdp(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> model = new HashMap<String, Object>();
-
-    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-    model.put(COMPOUND_SPS, services);
-    model.put("filteredIdp", selectedidp.getId());
+    
+    if (selectedidp!=null) {
+      List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
+      model.put(COMPOUND_SPS, services);
+      model.put("filteredIdp", selectedidp.getId());
+    }
     return new ModelAndView("shopadmin/csp-status-overview", model);
   }
 
