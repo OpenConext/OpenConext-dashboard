@@ -21,8 +21,7 @@
         <spring:param name="compoundSpId" value="${compoundSp.id}" />
       </spring:url>
       <input type="hidden" name="detailAppStoreLink" value="${detailAppLink}" />
-      <p>${pageContext.request.contextPath}
-        <spring:message code="jsp.app_recommendation.email_selection_text" arguments="${spname}" />
+      <p><spring:message code="jsp.app_recommendation.email_selection_text" arguments="${spname}" />
       </p>
       <c:set var="toShortInput">
         <spring:message code="jsp.app_recommendation.format_input_too_short" />
