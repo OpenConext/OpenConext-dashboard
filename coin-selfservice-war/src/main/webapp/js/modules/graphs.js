@@ -4,7 +4,8 @@ app.graphs = function() {
 
 
   var dataWrapper, chartOverviewElm, chartDetailElm, filterElm, filterType, filterOffset,
-        firstDate = Infinity, selectedSp, wrapperElm, isGod, compoundServiceProviders;
+        firstDate = Infinity, selectedSp, wrapperElm, isGod, compoundServiceProviders,
+    selectedIdp;
 
 
   var DataWrapper = function(isGod) {
@@ -199,13 +200,10 @@ app.graphs = function() {
   var idpChange = function() {
 
     var newIdp = $("#idp-select2 option:selected").val();
+    selectedIdp = newIdp;
 
     if (selectedSp) {
-      if (newIdp === '') {
-        initDetailRendering(selectedSp);
-      } else {
-        initDetailRendering(selectedSp, newIdp);
-      }
+      initDetailRendering(selectedSp);
     } else if (newIdp === '') {
       renderOverview(dataWrapper.getAllData(true));
     } else {
@@ -225,6 +223,10 @@ app.graphs = function() {
 
   var initI18n = function() {
     Highcharts.setOptions({
+      global : {
+        // Data is in local timezone
+        useUTC : false
+      },
       lang : {
         resetZoom : app.message.i18n('stats.reset_zoom'),
         shortMonths : app.message.i18n('stats.short_months').split('|')
@@ -446,8 +448,10 @@ app.graphs = function() {
     });
   }
 
-  var initDetailRendering = function(spEntityId, idpEntityId) {
-    var data = idpEntityId ? dataWrapper.getBySpAndIdp(spEntityId, idpEntityId) : dataWrapper.getBySp(spEntityId);
+  var initDetailRendering = function(spEntityId) {
+
+    var data = (selectedIdp && selectedIdp !== '') ? dataWrapper.getBySpAndIdp(spEntityId, selectedIdp) : dataWrapper.getBySp(spEntityId);
+
     var title;
     if (data.data) {
       title = app.message.i18n('stats.title.sp_overview').replace('#{sp}', data.name)
@@ -683,6 +687,9 @@ app.graphs = function() {
     }
 
     for ( var i = 0, l = mutableData.length; i < l; ++i) {
+      if (!mutableData[i].data) {
+        continue;
+      }
       dataOffset = mutableData[i].pointStart, dataInterval = mutableData[i].pointInterval, spliceTil = 0;
 
       // Calculate start offset from start date in data and filter date
