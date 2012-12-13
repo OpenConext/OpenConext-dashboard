@@ -71,7 +71,7 @@ public class EmailServiceImplTest {
     // create map with variables for the template
     Map<String, Object> templateVars = new HashMap<String, Object>();
     templateVars.put("compoundSp", csp);
-    templateVars.put("baseURL", "https://selfservice.test.surfconext.nl/");
+    templateVars.put("appstoreURL", "https://selfservice.test.surfconext.nl/");
     templateVars.put("recommendPersonalNote", "This is a personal note");
     templateVars.put("invitername", "testname");
     

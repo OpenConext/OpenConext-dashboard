@@ -16,13 +16,14 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
@@ -36,16 +37,16 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
+import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -72,6 +73,9 @@ public class ServiceDetailController extends BaseController {
 
   @Resource(name = "oAuthTokenService")
   private OAuthTokenService oAuthTokenService;
+
+  @Resource(name = "emailService")
+  private EmailService emailService;
 
   @Autowired
   private OpenConextOAuthClient apiClient;
@@ -139,31 +143,50 @@ public class ServiceDetailController extends BaseController {
   public @ResponseBody
   String doRecommendApp(@RequestParam(value = "compoundSpId") long compoundSpId,
       @RequestParam(value = "recommendPersonalNote", required = false) String recommendPersonalNote,
-      @RequestParam(value = "emailSelect2") String emailSelect2,
-      @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
-      @CookieValue(value = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", required = false) String localeAbbr) {
+      @RequestParam(value = "emailSelect2") String emailSelect2, @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
+      @CookieValue(value = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", required = false) String localeAbbr,
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
     recommendPersonalNote = StringUtils.hasText(recommendPersonalNote) ? ((recommendPersonalNote.replace("\n\r", "").trim().length() == 0) ? null
         : recommendPersonalNote)
         : null;
     if (!StringUtils.hasText(emailSelect2)) {
       throw new RuntimeException("Required field emails addresses");
     }
-    //TODO validate emails
     String[] recipients = emailSelect2.split(",");
+    // TODO validate emails
     System.out.println(recipients);
-    Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en"); 
+    Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en");
     System.out.println("locale :" + locale);
     System.out.println("compoundSp:" + compoundSpId);
     System.out.println("recommendPersonalNote:" + recommendPersonalNote);
     System.out.println("emailSelect2:" + emailSelect2);
-    
-    //TODO
-    System.out.println("detailAppStoreLink: "+detailAppStoreLink);
-    System.out.println( "app-detail.shtml?compoundSpId=X");
+
+    // TODO
+    System.out.println("detailAppStoreLink: " + detailAppStoreLink);
+    System.out.println("app-detail.shtml?compoundSpId=X");
     CoinUser coinUser = SpringSecurity.getCurrentUser();
     System.out.println(coinUser.getDisplayName());
-    // emailService,sendEmail(emailService.EMAIL_RECOMMENSDATION,map, recipients
-    // )
+
+    CompoundServiceProvider csp = compoundSPService.getCSPById(selectedidp, compoundSpId, Boolean.FALSE);
+
+    String subject = coinUser.getDisplayName() + " would like to recommend " + csp.getSp().getName();
+
+    Map<String, Object> templateVars = new HashMap<String, Object>();
+    templateVars.put("compoundSp", csp);
+    templateVars.put("recommendPersonalNote", recommendPersonalNote);
+    templateVars.put("invitername", coinUser.getDisplayName());
+    
+    int serverPort = request.getServerPort();
+    String baseUrl;
+    if (serverPort != 80) {
+      baseUrl = String.format("%s://%s:%d%s/",request.getScheme(),  request.getServerName(), request.getServerPort(), request.getContextPath());
+    } else {
+      baseUrl = String.format("%s://%s%s/",request.getScheme(),  request.getServerName(), request.getContextPath());
+    }
+    templateVars.put("appstoreURL", baseUrl + detailAppStoreLink);
+    
+    emailService.sendTemplatedMultipartEmail(subject, EmailServiceImpl.RECOMMENTATION_EMAIL_TEMPLATE, locale, Arrays.asList(recipients),
+        coinUser.getEmail(), templateVars);
     return "ok";
   }
 
@@ -178,8 +201,9 @@ public class ServiceDetailController extends BaseController {
       groupsWithMembers.addGroup(group, members);
     }
     return groupsWithMembers.getEntries();
-    //return groupsWithMembers.getEntries();
-  //  return IOUtils.toString(new ClassPathResource("recommendations/emails.json").getInputStream());
+    // return groupsWithMembers.getEntries();
+    // return IOUtils.toString(new
+    // ClassPathResource("recommendations/emails.json").getInputStream());
   }
 
   @RequestMapping(value = "revokekeys.shtml")
