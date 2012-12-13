@@ -493,27 +493,13 @@ app.graphs = function() {
 //    console.log("selectedSp: " + selectedSp);
 
     if (selectedSp) {
-      var data = dataWrapper.getBySp(selectedSp);
-      var dataForSp = filterData([data], filterType, filterOffset)[0];
-      var spName = dataForSp.name; // use the name from the first record for this sp.
-
-      var title;
-      if (filterType === 'all') {
-         title = app.message.i18n('stats.title.sp_overview').replace('#{sp}', spName)
-            .replace('#{total}', data.total);
-      } else {
-        title = app.message.i18n('stats.title.sp_zoomed').replace('#{sp}', spName)
-            .replace('#{range}', $('#choose-time-offset option:selected').text());
-      }
-//      console.log("filterType (selectedSp): " + filterType);
-
-      renderDetailChart(dataForSp, title);
+      initDetailRendering(selectedSp);
     } else {
+      var title;
       if (filterType === 'all') {
         title = app.message.i18n('stats.title.overview_default');
       } else {
-        title = app.message.i18n('stats.title.overview_zoomed').replace('#{range}',
-            $('#choose-time-offset option:selected').text());
+        title = app.message.i18n('stats.title.overview_zoomed').replace('#{range}', $('#choose-time-offset option:selected').text());
       }
       renderOverview(filterData(dataWrapper.getAllData(), filterType, filterOffset), title);
     }
