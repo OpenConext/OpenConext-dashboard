@@ -1,3 +1,7 @@
+.modal-backdrop, .modal-backdrop.fade.in 
+  filter: alpha(opacity=60)
+  opacity: 0.6
+
 .modal-header
   +filter-gradient(#4FB3CF, #4294AB)
   background: #4FB3CF
@@ -19,11 +23,21 @@
 .recommendation-header
   color: white
   
-.recommendation-textinput
-  width: 90%
+.recommendation-text-input
+  width: 98%
   
 .select2-container
-  width: 70%
+  width: 95%
+  
+.select2-search-field  
+  input.error
+    border: 1
+    border-color: #C00
   
 .select2-search-choice
   font-size: 12px    
+  
+.select2-result-label
+  [class^="icon-"]
+    padding-right: 3px  
+ 

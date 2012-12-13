@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.surfnet.coin.api.client.domain.Group20;
+import nl.surfnet.coin.api.client.domain.Group20Entry;
 import nl.surfnet.coin.api.client.domain.Person;
 
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -33,30 +34,39 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 public class GroupContext {
 
-  private Map<Group20, List<Person>> data = new HashMap<Group20, List<Person>>();
+  private List<Group20Wrap> wraps = new ArrayList<Group20Wrap>();
 
   public void addGroup(Group20 group, List<Person> members) {
-    data.put(group, members);
+    List<PersonWrap> children = new ArrayList<GroupContext.PersonWrap>();
+    for (Person p : members) {
+      children.add(new PersonWrap(p.getEmailValue(), p.getDisplayName(), false));
+    }
+    wraps.add(new Group20Wrap(group.getTitle(), true, children));
   }
   
-  public List<Entry> getEntries() {
-    List<Entry> entries = new ArrayList<GroupContext.Entry>();
-    for (Group20 group : data.keySet()) {
-      entries.add(new Entry(group.getId(), group.getTitle(), true));
-      List<Person> members = data.get(group);
-      for (Person person : members) {
-        entries.add(new Entry(person.getEmailValue(), person.getDisplayName(), false));
-      }
-    }
-    return entries;
+  public List<Group20Wrap>  getEntries() {
+    return wraps;
   }
 
-  public class Entry {
+  public class Group20Wrap {
+    public final String text;
+    public final boolean group;
+    public List<PersonWrap> children;
+    public Group20Wrap(String text, boolean group, List<PersonWrap> children) {
+      super();
+      this.text = text;
+      this.group = group;
+      this.children = children;
+    }
+
+  }
+  
+  public class PersonWrap {
     public final String id;
     public final String text;
     public final boolean group;
 
-    public Entry(String id, String text, boolean group) {
+    public PersonWrap(String id, String text, boolean group) {
       super();
       this.id = id;
       this.text = text;

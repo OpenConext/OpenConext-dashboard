@@ -16,9 +16,10 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -29,9 +30,8 @@ import nl.surfnet.coin.api.client.domain.Person;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProviderRepresenter;
 import nl.surfnet.coin.selfservice.domain.GroupContext;
-import nl.surfnet.coin.selfservice.domain.GroupContext.Entry;
+import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
@@ -42,11 +42,16 @@ import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,6 +84,9 @@ public class ServiceDetailController extends BaseController {
 
   @Value("${lmngDeepLinkBaseUrl}")
   private String lmngDeepLinkBaseUrl;
+
+  @Value("${maxRecommendationEmails}")
+  private int maxRecommendationEmails = 20;
 
   /**
    * Controller for detail page.
@@ -123,13 +131,45 @@ public class ServiceDetailController extends BaseController {
 
     CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(selectedidp, compoundSpId, false);
     m.put(COMPOUND_SP, compoundServiceProvider);
-
+    m.put("maxRecommendationEmails", maxRecommendationEmails);
     return new ModelAndView("app-recommend", m);
+  }
+
+  @RequestMapping(value = "/do-app-recommend", method = RequestMethod.POST)
+  public @ResponseBody
+  String doRecommendApp(@RequestParam(value = "compoundSpId") long compoundSpId,
+      @RequestParam(value = "recommendPersonalNote", required = false) String recommendPersonalNote,
+      @RequestParam(value = "emailSelect2") String emailSelect2,
+      @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
+      @CookieValue(value = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", required = false) String localeAbbr) {
+    recommendPersonalNote = StringUtils.hasText(recommendPersonalNote) ? ((recommendPersonalNote.replace("\n\r", "").trim().length() == 0) ? null
+        : recommendPersonalNote)
+        : null;
+    if (!StringUtils.hasText(emailSelect2)) {
+      throw new RuntimeException("Required field emails addresses");
+    }
+    //TODO validate emails
+    String[] recipients = emailSelect2.split(",");
+    System.out.println(recipients);
+    Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en"); 
+    System.out.println("locale :" + locale);
+    System.out.println("compoundSp:" + compoundSpId);
+    System.out.println("recommendPersonalNote:" + recommendPersonalNote);
+    System.out.println("emailSelect2:" + emailSelect2);
+    
+    //TODO
+    System.out.println("detailAppStoreLink: "+detailAppStoreLink);
+    System.out.println( "app-detail.shtml?compoundSpId=X");
+    CoinUser coinUser = SpringSecurity.getCurrentUser();
+    System.out.println(coinUser.getDisplayName());
+    // emailService,sendEmail(emailService.EMAIL_RECOMMENSDATION,map, recipients
+    // )
+    return "ok";
   }
 
   @RequestMapping("/groupsWithMembers.json")
   public @ResponseBody
-  List<GroupContext.Entry> groupsWithMembers() {
+  List<Group20Wrap> groupsWithMembers() {
     CoinUser coinUser = SpringSecurity.getCurrentUser();
     List<Group20> groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
     GroupContext groupsWithMembers = new GroupContext();
@@ -138,6 +178,8 @@ public class ServiceDetailController extends BaseController {
       groupsWithMembers.addGroup(group, members);
     }
     return groupsWithMembers.getEntries();
+    //return groupsWithMembers.getEntries();
+  //  return IOUtils.toString(new ClassPathResource("recommendations/emails.json").getInputStream());
   }
 
   @RequestMapping(value = "revokekeys.shtml")
