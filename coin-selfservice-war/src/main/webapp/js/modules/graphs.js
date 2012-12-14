@@ -286,7 +286,7 @@ app.graphs = function() {
           type : 'bar'
         },
         credits : {
-          text : 'Highcharts'
+          enabled : false
         },
         plotOptions : {
           bar : {
@@ -403,7 +403,7 @@ app.graphs = function() {
         zoomType : 'x'
       },
       credits : {
-        text : 'Highcharts'
+        enabled : false
       },
       plotOptions : {
         areaspline : {

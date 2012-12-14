@@ -19,12 +19,16 @@ public interface EmailService {
    *          the name of the template (it will lookup templateName.ftl and
    *          templateName-plaintext.ftl in the path from the freemarker
    *          configuration)
-   * @param locale The locale to use for the template
-   * @param recipients List of recipients (being email addresses)
-   * @param from The 'from' email address of the sender
-   * @param templateVars a map with variables to use in the Freemarker template
+   * @param locale
+   *          The locale to use for the template
+   * @param recipients
+   *          List of recipients (being email addresses)
+   * @param from
+   *          The 'from' email address of the sender
+   * @param templateVars
+   *          a map with variables to use in the Freemarker template
    */
-  void sendTemplatedMultipartEmail(final String subject, final String templateName, final Locale locale, final List<String> recipients,
-      final String from, final Map<String, Object> templateVars);
+  void sendTemplatedMultipartEmail(String subject, String templateName, Locale locale, List<String> recipients, String from,
+      Map<String, Object> templateVars);
 
 }

@@ -36,12 +36,13 @@ app.appDetail = function() {
         url : $(this).data('post-url'),
         data : $('#recommend-form').serialize(),
         error : function(msg) {
-          //TODO - use hidden div to tell the user i18n what went wrong
+          // TODO - use hidden div to tell the user i18n what went wrong
           $('.select2-input').addClass('error');
         },
         success : function(result) {
           html.modal('hide');
-          //have to completely remove the modal otherwise we get session token problems
+          // have to completely remove the modal otherwise we get session token
+          // problems
           html.remove()
         }
       });
@@ -56,25 +57,12 @@ app.appDetail = function() {
     var emailSelect2 = html.find('#email-select2');
     emailSelect2.select2({
       placeholder : app.message.i18n('stats.select_idp'),
-      createSearchChoice : function(term, data) {
-        if ($(data).filter(function() {
-          return this.text.localeCompare(term) === 0;
-        }).length === 0) {
-          return {
-            id : term,
-            text : term
-          };
-        }
-      },
-      addSelectedChoiceAllowed : function(data) {
-        //Keep it simple. See http://ex-parrot.com/~pdw/Mail-RFC822-Address.html
-        return /\S+@\S+/g.test(data.id);
-      },
+      createSearchChoice : searchChoice,
       tokenSeparators : [ " ", ", " ],
       multiple : true,
       placeholder : "Emails...",
       maximumSelectionSize : emailSelect2.data('max-selection-size'),
-      formatSelectionTooBig: function(maxSize) {
+      formatSelectionTooBig : function(maxSize) {
         return emailSelect2.data('format-selection-too-big') + ' (' + maxSize + ')';
       },
       formatResult : format,
@@ -92,6 +80,21 @@ app.appDetail = function() {
     });
   }
 
+  var searchChoice = function(term, data) {
+    if ($(data).filter(function() {
+      return this.text.localeCompare(term) === 0;
+    }).length === 0) {
+      if (/\S+@\S+/g.test(term)) {
+        return {
+          id : term,
+          text : term
+        };
+      } else {
+        return null;
+      }
+    }
+  }
+  
   var format = function(state) {
     if (state.group) {
       return '<i class="icon-group"></i>' + state.text;
