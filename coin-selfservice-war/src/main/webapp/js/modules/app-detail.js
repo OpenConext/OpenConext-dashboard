@@ -31,13 +31,26 @@ app.appDetail = function() {
     var data = groupsWithMembers[0];
 
     html.find('#recommend-link').click(function() {
+      var sel = $("#email-select2").select2("val");
+      if (!sel || sel.length === 0) {
+        var msg = $("<p>"+app.message.i18n('jsp.recommendations.email_required')+"</p>");
+        $(".error").html(msg);
+        $(".error").show();
+        msg.animate({
+          opacity : 0
+        }, 5000, 'linear', function() {
+          $(".error").hide();
+        });
+        return;
+      }
+
+      
       $.ajax({
         type : "POST",
         url : $(this).data('post-url'),
         data : $('#recommend-form').serialize(),
         error : function(msg) {
-          // TODO - use hidden div to tell the user i18n what went wrong
-          $('.select2-input').addClass('error');
+          $('.error').html(msg);
         },
         success : function(result) {
           html.modal('hide');
@@ -56,7 +69,6 @@ app.appDetail = function() {
 
     var emailSelect2 = html.find('#email-select2');
     emailSelect2.select2({
-      placeholder : app.message.i18n('stats.select_idp'),
       createSearchChoice : searchChoice,
       tokenSeparators : [ " ", ", " ],
       multiple : true,
@@ -94,7 +106,7 @@ app.appDetail = function() {
       }
     }
   }
-  
+
   var format = function(state) {
     if (state.group) {
       return '<i class="icon-group"></i>' + state.text;

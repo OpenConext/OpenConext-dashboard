@@ -77,6 +77,13 @@
           </a>
         </li>
       </c:if>
+      <c:if test="${not empty compoundSp.eulaUrl}">
+        <li>
+          <a href="${compoundSp.eulaUrl}" target="_blank">
+            <spring:message code="jsp.app_detail.terms_conditions" />
+          </a>
+        </li>
+      </c:if>
       <c:if test="${isAdminUser}">
         <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
           <spring:param name="spEntityId" value="${compoundSp.sp.id}" />
@@ -85,13 +92,6 @@
         <li>
           <a class="service-stats" rel="tooltip" data-type="info" data-original-title="${tooltipStats}" 
               href="${statsLink}"></a>
-        </li>
-      </c:if>
-      <c:if test="${not empty compoundSp.eulaUrl}">
-        <li>
-          <a href="${compoundSp.eulaUrl}" target="_blank">
-            <spring:message code="jsp.app_detail.terms_conditions" />
-          </a>
         </li>
       </c:if>
       </ul>
@@ -190,27 +190,26 @@
         <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed and !applyAllowed}" />
       </div>
 
-    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
-      <%--span rel="tooltip" data-original-title="<spring:message code="jsp.app_detail.institution_description"/>"--%>
+    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" 
+              data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
         <jsp:attribute name="input">
-            <tags:locale-specific escapeXml="true" nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
+            <tags:locale-specific escapeXml="false" nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
         </jsp:attribute>
       </tags:html-format>
-      <%--/span--%>
     </div>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
         <jsp:attribute name="input">
-          <tags:locale-specific escapeXml="true" nlVariant="${compoundSp.enduserDescriptionNl}" enVariant="${compoundSp.enduserDescriptionEn}" />
+          <tags:locale-specific escapeXml="false" nlVariant="${compoundSp.enduserDescriptionNl}" enVariant="${compoundSp.enduserDescriptionEn}" />
         </jsp:attribute>
       </tags:html-format>
     </div>
  
     <c:set var="sp" value="${compoundSp.sp}" scope="request" />
     <div class="arp">
-          <jsp:include page="requests/arp.jsp" />
+      <jsp:include page="requests/arp.jsp" />
     </div>
 
     <%--@elvariable id="oAuthTokens" type="java.util.List<nl.surfnet.coin.selfservice.domain.OAuthTokenInfo>"--%>
@@ -241,11 +240,13 @@
 
       <div class="screenshots-holder gallery-holder">
         <ul class="gallery">
-          <c:forEach items="${compoundSp.screenShotsImages}" var="screenshot"><li>
-            <a href="<spring:url value="${screenshot.fileUrl}" />">
-              <img src="<spring:url value="${screenshot.fileUrl}" />" alt="Screenshot <c:out value="${spname}"/>">
-            </a>
-          </li></c:forEach>
+          <c:forEach items="${compoundSp.screenShotsImages}" var="screenshot">
+            <li>
+              <a href="<spring:url value="${screenshot.fileUrl}" />">
+                <img src="<spring:url value="${screenshot.fileUrl}" />" alt="Screenshot <c:out value="${spname}"/>">
+              </a>
+            </li>
+          </c:forEach>
         </ul>
       </div>
     </c:if>

@@ -146,6 +146,10 @@ app.message = function() {
     "jsp.search_placeholder" : {
       en : "Search...",
       nl : "Zoek..."
+    },
+    "jsp.recommendations.email_required" : {
+      en : "At least one valid email is required .",
+      nl : "Tenminste 1 valide email adres is verplicht."
     }
   };
 

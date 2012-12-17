@@ -152,20 +152,9 @@ public class ServiceDetailController extends BaseController {
     if (!StringUtils.hasText(emailSelect2)) {
       throw new RuntimeException("Required field emails addresses");
     }
-    String[] recipients = emailSelect2.split(",");
-    // TODO validate emails
-    System.out.println(recipients);
+      String[] recipients = emailSelect2.split(",");
     Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en");
-    System.out.println("locale :" + locale);
-    System.out.println("compoundSp:" + compoundSpId);
-    System.out.println("recommendPersonalNote:" + recommendPersonalNote);
-    System.out.println("emailSelect2:" + emailSelect2);
-
-    // TODO
-    System.out.println("detailAppStoreLink: " + detailAppStoreLink);
-    System.out.println("app-detail.shtml?compoundSpId=X");
     CoinUser coinUser = SpringSecurity.getCurrentUser();
-    System.out.println(coinUser.getDisplayName());
 
     CompoundServiceProvider csp = compoundSPService.getCSPById(selectedidp, compoundSpId, Boolean.FALSE);
 
@@ -175,19 +164,26 @@ public class ServiceDetailController extends BaseController {
     templateVars.put("compoundSp", csp);
     templateVars.put("recommendPersonalNote", recommendPersonalNote);
     templateVars.put("invitername", coinUser.getDisplayName());
-    
-    int serverPort = request.getServerPort();
-    String baseUrl;
-    if (serverPort != 80) {
-      baseUrl = String.format("%s://%s:%d%s/",request.getScheme(),  request.getServerName(), request.getServerPort(), request.getContextPath());
-    } else {
-      baseUrl = String.format("%s://%s%s/",request.getScheme(),  request.getServerName(), request.getContextPath());
-    }
+
+    String baseUrl = getBaseUrl(request);
+
     templateVars.put("appstoreURL", baseUrl + detailAppStoreLink);
-    
+
     emailService.sendTemplatedMultipartEmail(subject, EmailServiceImpl.RECOMMENTATION_EMAIL_TEMPLATE, locale, Arrays.asList(recipients),
         coinUser.getEmail(), templateVars);
     return "ok";
+  }
+
+  private String getBaseUrl(HttpServletRequest request) {
+    int serverPort = request.getServerPort();
+    String baseUrl;
+    if (serverPort != 80) {
+      baseUrl = String.format("%s://%s:%d%s/", request.getScheme(), request.getServerName(), request.getServerPort(),
+          request.getContextPath());
+    } else {
+      baseUrl = String.format("%s://%s%s/", request.getScheme(), request.getServerName(), request.getContextPath());
+    }
+    return baseUrl;
   }
 
   @RequestMapping("/groupsWithMembers.json")
@@ -201,9 +197,6 @@ public class ServiceDetailController extends BaseController {
       groupsWithMembers.addGroup(group, members);
     }
     return groupsWithMembers.getEntries();
-    // return groupsWithMembers.getEntries();
-    // return IOUtils.toString(new
-    // ClassPathResource("recommendations/emails.json").getInputStream());
   }
 
   @RequestMapping(value = "revokekeys.shtml")

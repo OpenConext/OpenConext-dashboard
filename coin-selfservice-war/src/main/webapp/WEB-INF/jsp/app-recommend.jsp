@@ -23,6 +23,8 @@
       <input type="hidden" name="detailAppStoreLink" value="${detailAppLink}" />
       <p><spring:message code="jsp.app_recommendation.email_selection_text" arguments="${spname}" />
       </p>
+      <div class="error hide">
+      </div>
       <c:set var="toShortInput">
         <spring:message code="jsp.app_recommendation.format_input_too_short" />
       </c:set>

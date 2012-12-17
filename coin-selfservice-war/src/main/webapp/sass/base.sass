@@ -174,6 +174,7 @@ a
   .license-available,
   .license-not-available,
   .license-not-needed
+    padding-bottom: 5px     
     &:before
       background: url(../images/sprite-license-availability.png)
 
@@ -197,6 +198,7 @@ a
   .service-connected,
   .service-not-connected
     padding-left: 49px
+    padding-bottom: 5px 
 
     &:before
       background: url(../images/sprite-service-connectivity.png)
@@ -255,6 +257,10 @@ a
     color: #7D7D7D
     margin-top: -2.5em
 
+.application-logo
+  max-height: 120px
+  max-width: 200px
+
 .launch-icons
   border-top: 1px solid $subtle_gray
   list-style: none
@@ -268,10 +274,8 @@ a
     +box-sizing(border-box)
     margin-bottom: 0
     width: 170px
-        
-  .recommend-app
-    font-size: 1em
-
+    font-size: 1em      
+  
 .service-stats
   margin: 0 0 17px 0
   padding: 0
@@ -447,9 +451,9 @@ footer
     li
       max-width: 15em
 
-    a
+    a:not(.service-stats)
       padding: 0.3em 50px 0.3em 0
-
+    
   footer
     padding: 25px
 
@@ -458,3 +462,13 @@ footer
   .no-sticky-app-grid-wrapper-menu
     footer
       padding: 25px
+  
+  .license-connect
+    &.narrow-license-connect .service-connected,
+    &.narrow-license-connect .service-not-connected
+      margin-bottom: 0.5em
+      padding-bottom: 2.0em
+      
+  .service-connected,
+  .service-not-connected
+    padding-bottom: 20px
