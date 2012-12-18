@@ -8,17 +8,8 @@ OpenConext was developed by SURFnet as part of the SURFworks programme. SURFnet 
 
 
 OpenConext: [http://www.openconext.org](http://www.openconext.org)
+
 SURFconext: [http://www.surfconext.nl](http://www.surfconext.nl)
-
-
-## Disclaimer
-
-See the NOTICE file
-
-## Release Notes
-
-- To be done
-- ..
 
 
 ## Getting started
@@ -41,3 +32,7 @@ To run locally:
 
     cd coin-selfservice-war
     mvn jetty:run
+
+## Disclaimer
+
+SelfService uses Highcharts JavaScript for rendering statistics. Highcharts is a Highsoft sotware product which is free for non-commercial use, but it is not free for commercial use. See [this page](http://shop.highsoft.com/highcharts.html#redist) for more details.
