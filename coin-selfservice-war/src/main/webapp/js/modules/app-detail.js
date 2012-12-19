@@ -2,6 +2,8 @@ var app = app || {};
 
 app.appDetail = function() {
 
+  var loadingModal;
+  
   var init = function() {
     var recommendApp = $('#recommend-app');
 
@@ -12,6 +14,10 @@ app.appDetail = function() {
     recommendApp.click(function(e) {
       e.preventDefault();
 
+      loadingModal = $('<div class="modal fade"><div class="modal-body"><p>'+
+          app.message.i18n('jsp.recommendations.loading_contacts') +'</p></div></div>');
+      loadingModal.modal();
+      
       var groupsWithMembers = $.ajax({
         url : contextPath + '/groupsWithMembers.json',
         cache : true,
@@ -86,6 +92,9 @@ app.appDetail = function() {
       data : data
     });
 
+    loadingModal.modal('hide');
+    loadingModal.remove();
+    
     html.modal({
       backdrop : "static",
       keyboard : "false"

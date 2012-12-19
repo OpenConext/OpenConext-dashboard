@@ -152,7 +152,7 @@ public class ServiceDetailController extends BaseController {
     if (!StringUtils.hasText(emailSelect2)) {
       throw new RuntimeException("Required field emails addresses");
     }
-      String[] recipients = emailSelect2.split(",");
+    String[] recipients = emailSelect2.split(",");
     Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en");
     CoinUser coinUser = SpringSecurity.getCurrentUser();
 
@@ -186,17 +186,23 @@ public class ServiceDetailController extends BaseController {
     return baseUrl;
   }
 
+  @SuppressWarnings("unchecked")
   @RequestMapping("/groupsWithMembers.json")
   public @ResponseBody
-  List<Group20Wrap> groupsWithMembers() {
-    CoinUser coinUser = SpringSecurity.getCurrentUser();
-    List<Group20> groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
-    GroupContext groupsWithMembers = new GroupContext();
-    for (Group20 group : groups) {
-      List<Person> members = apiClient.getGroupMembers(group.getId(), coinUser.getUid());
-      groupsWithMembers.addGroup(group, members);
+  List<Group20Wrap> groupsWithMembers(HttpServletRequest request) {
+    List<Group20Wrap> result = (List<Group20Wrap>) request.getSession().getAttribute(GROUPS_WITH_MEMBERS);
+    if (result == null) {
+      CoinUser coinUser = SpringSecurity.getCurrentUser();
+      List<Group20> groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
+      GroupContext groupsWithMembers = new GroupContext();
+      for (Group20 group : groups) {
+        List<Person> members = apiClient.getGroupMembers(group.getId(), coinUser.getUid());
+        groupsWithMembers.addGroup(group, members);
+      }
+      result = groupsWithMembers.getEntries();
+      request.getSession().setAttribute(GROUPS_WITH_MEMBERS, result);
     }
-    return groupsWithMembers.getEntries();
+    return result;
   }
 
   @RequestMapping(value = "revokekeys.shtml")

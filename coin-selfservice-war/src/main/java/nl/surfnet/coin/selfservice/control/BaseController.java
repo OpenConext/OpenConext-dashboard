@@ -126,6 +126,13 @@ public abstract class BaseController {
    */
   public static final String NOTIFICATIONS_LINKED_LICENSE_GENERATED = "linkedLicenseNotificationsGenerated";
 
+  /**
+   * The name of the key under which we store the information from Api regarding
+   * group memberships and actual members for auto-completion in the
+   * recommendation modal popup.
+   */
+  public static final String GROUPS_WITH_MEMBERS = "groupsWithMembers";
+
   @Resource(name = "providerService")
   private IdentityProviderService idpService;
 
@@ -199,10 +206,12 @@ public abstract class BaseController {
 
     return notificationMessages;
   }
-  
-  /** 
+
+  /**
    * Handler for RuntimeExceptions. We don't want a 500, but a 400
-   * @param e the exception
+   * 
+   * @param e
+   *          the exception
    * @return the response body
    */
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)

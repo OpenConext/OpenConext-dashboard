@@ -150,6 +150,10 @@ app.message = function() {
     "jsp.recommendations.email_required" : {
       en : "At least one valid email is required .",
       nl : "Tenminste 1 valide email adres is verplicht."
+    },
+    "jsp.recommendations.loading_contacts" : {
+      en : "Please wait, your group and member information is being loaded....",
+      nl : "Even geduld, uw groep en leden informatie wordt opgehaald...."
     }
   };
 

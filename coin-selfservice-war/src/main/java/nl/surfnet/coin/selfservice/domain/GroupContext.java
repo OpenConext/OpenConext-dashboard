@@ -15,24 +15,19 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import nl.surfnet.coin.api.client.domain.Group20;
-import nl.surfnet.coin.api.client.domain.Group20Entry;
 import nl.surfnet.coin.api.client.domain.Person;
-
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * Group20 has no members and we need both in the recommend app context
  * 
  */
-public class GroupContext {
+@SuppressWarnings("serial")
+public class GroupContext implements Serializable{
 
   private List<Group20Wrap> wraps = new ArrayList<Group20Wrap>();
 
@@ -48,7 +43,7 @@ public class GroupContext {
     return wraps;
   }
 
-  public class Group20Wrap {
+  public class Group20Wrap implements Serializable{
     public final String text;
     public final boolean group;
     public List<PersonWrap> children;
@@ -61,7 +56,7 @@ public class GroupContext {
 
   }
   
-  public class PersonWrap {
+  public class PersonWrap implements Serializable {
     public final String id;
     public final String text;
     public final boolean group;

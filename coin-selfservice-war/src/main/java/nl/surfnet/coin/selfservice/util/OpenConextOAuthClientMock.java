@@ -144,6 +144,10 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
    */
   @Override
   public List<Person> getGroupMembers(String groupId, String onBehalfOf) {
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+    }
     List<Person> persons = new ArrayList<Person>();
     String group = groupId.substring(groupId.lastIndexOf(":") + 1);
     persons.add(createPerson("John Doe", "john.doe@"+group));
