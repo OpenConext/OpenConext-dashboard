@@ -37,6 +37,7 @@ import nl.surfnet.coin.selfservice.domain.FieldString;
 import nl.surfnet.coin.selfservice.domain.Screenshot;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
+import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,7 +115,7 @@ public class SpLmngDataBindingController extends BaseController {
   private void validateCombination(Source source, Field field) {
     //Check the combination Field#Key and Field#Source
     if (!CompoundServiceProvider.isAllowedCombination(field.getKey(), source)) {
-      throw new ValidationException(String.format("Not allowed combination. Key %s and Source %s", field.getKey(), source));
+      throw new AjaxResponseException(String.format("Not allowed combination. Key %s and Source %s", field.getKey(), source));
     }
   }
 

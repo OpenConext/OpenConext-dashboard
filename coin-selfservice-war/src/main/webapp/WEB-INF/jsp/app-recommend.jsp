@@ -36,7 +36,7 @@
       <p>
         <spring:message code="jsp.app_recommendation.note_text" />
       </p>
-      <textarea name="recommendPersonalNote" class="recommendation-text-input" rows="12"/> 
+      <textarea name="recommendPersonalNote" class="recommendation-text-input" rows="7"/> 
     </form>
   </div>
 

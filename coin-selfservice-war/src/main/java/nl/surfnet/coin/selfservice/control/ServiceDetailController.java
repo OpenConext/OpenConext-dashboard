@@ -43,6 +43,7 @@ import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,7 +151,7 @@ public class ServiceDetailController extends BaseController {
         : recommendPersonalNote)
         : null;
     if (!StringUtils.hasText(emailSelect2)) {
-      throw new RuntimeException("Required field emails addresses");
+      throw new AjaxResponseException("Required field emails addresses");
     }
     String[] recipients = emailSelect2.split(",");
     Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en");

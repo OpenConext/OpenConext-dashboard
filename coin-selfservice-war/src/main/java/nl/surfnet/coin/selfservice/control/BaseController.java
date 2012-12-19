@@ -27,6 +27,7 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Abstract controller used to set model attributes to the request
@@ -124,7 +126,7 @@ public abstract class BaseController {
    * The name of the key under which we store the info if the notifications for
    * licenses/linked services were generated already
    */
-  public static final String NOTIFICATIONS_LINKED_LICENSE_GENERATED = "linkedLicenseNotificationsGenerated";
+  public static final String NOTIFICATION_POPUP_CLOSED = "notificationPopupClosed";
 
   /**
    * The name of the key under which we store the information from Api regarding
@@ -187,28 +189,24 @@ public abstract class BaseController {
    * and add to session.
    */
   @ModelAttribute(value = "notifications")
+  @SuppressWarnings("unchecked")
   public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-    Object notifications = request.getSession().getAttribute(NOTIFICATIONS);
+    List<NotificationMessage> notifications = (ArrayList<NotificationMessage>) request.getSession().getAttribute(NOTIFICATIONS);
     if (notifications == null) {
-      notifications = new ArrayList<NotificationMessage>();
+      IdentityProvider idp = getRequestedIdp(idpId, request);
+      notifications = notificationService.getNotifications(idp);
+      request.getSession().setAttribute(NOTIFICATIONS, notifications);
     }
-    @SuppressWarnings("unchecked")
-    List<NotificationMessage> notificationMessages = (ArrayList<NotificationMessage>) notifications;
+    return notifications;
+  }
 
-    IdentityProvider idp = getRequestedIdp(idpId, request);
-
-    if (request.getSession().getAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED) == null) {
-      notificationMessages = notificationService.getNotifications(idp);
-      request.getSession().setAttribute(NOTIFICATIONS_LINKED_LICENSE_GENERATED, Boolean.TRUE);
-    }
-
-    request.getSession().setAttribute(NOTIFICATIONS, notificationMessages);
-
-    return notificationMessages;
+  protected void notificationPopupClosed(HttpServletRequest request) {
+    request.getSession().setAttribute(NOTIFICATION_POPUP_CLOSED, Boolean.TRUE);
   }
 
   /**
-   * Handler for RuntimeExceptions. We don't want a 500, but a 400
+   * Handler for {@link AjaxResponseException}. We don't want a 500, but a 400
+   * and we want to stream the error message direct to the javaScript
    * 
    * @param e
    *          the exception
@@ -216,8 +214,8 @@ public abstract class BaseController {
    */
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
-  @ExceptionHandler(RuntimeException.class)
-  public Object handleException(RuntimeException e) {
+  @ExceptionHandler(AjaxResponseException.class)
+  public Object handleAjaxResponseException(AjaxResponseException e) {
     return e.getMessage();
   }
 

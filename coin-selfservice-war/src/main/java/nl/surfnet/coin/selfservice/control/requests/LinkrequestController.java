@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import nl.surfnet.coin.selfservice.command.LinkRequest;
@@ -66,8 +67,9 @@ public class LinkrequestController extends BaseController {
 
   @Resource(name = "actionsService")
   private ActionsService actionsService;
-  
-  private PersonAttributeLabelService personAttributeLabelService = new PersonAttributeLabelServiceJsonImpl("classpath:person_attributes.json"); 
+
+  private PersonAttributeLabelService personAttributeLabelService = new PersonAttributeLabelServiceJsonImpl(
+      "classpath:person_attributes.json");
 
   /**
    * Controller for request form page.
@@ -77,7 +79,8 @@ public class LinkrequestController extends BaseController {
    * @return ModelAndView
    */
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
@@ -89,9 +92,8 @@ public class LinkrequestController extends BaseController {
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
   public ModelAndView spRequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-                                    @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
-                                    @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                    SessionStatus sessionStatus) {
+      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, SessionStatus sessionStatus) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("sp", sp);
@@ -118,10 +120,13 @@ public class LinkrequestController extends BaseController {
       }
     }
   }
-  
+
   @RequestMapping(value = "requests-overview.shtml")
-  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp)
+  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request)
       throws IOException {
+    //if an user acutally links to requests-overview we can dismiss the popup
+    notificationPopupClosed(request);
+    
     Map<String, Object> model = new HashMap<String, Object>();
 
     actionsService.synchronizeWithJira(selectedidp.getId());

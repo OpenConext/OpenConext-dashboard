@@ -43,7 +43,7 @@ app.notifications = function() {
     e.preventDefault();
 
     var url = notificationsElm.attr('data-href');
-
+    
     if (url && url.length) {
       location.href = url;
     }
@@ -58,7 +58,7 @@ app.notifications = function() {
 		  url: hideUrl,
 	  });
 
-    notificationsElm.addClass('hide');
+    notificationsElm.remove();
   };
 
 
