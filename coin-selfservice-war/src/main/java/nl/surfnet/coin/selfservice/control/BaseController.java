@@ -120,7 +120,7 @@ public abstract class BaseController {
   /**
    * The name of the key under which we store the notifications
    */
-  public static final String NOTIFICATIONS = "notifications";
+  public static final String NOTIFICATIONS = "notificationMessage";
 
   /**
    * The name of the key under which we store the info if the notifications for
@@ -189,9 +189,8 @@ public abstract class BaseController {
    * and add to session.
    */
   @ModelAttribute(value = "notifications")
-  @SuppressWarnings("unchecked")
-  public List<NotificationMessage> getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-    List<NotificationMessage> notifications = (ArrayList<NotificationMessage>) request.getSession().getAttribute(NOTIFICATIONS);
+  public NotificationMessage getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+    NotificationMessage notifications = (NotificationMessage) request.getSession().getAttribute(NOTIFICATIONS);
     if (notifications == null) {
       IdentityProvider idp = getRequestedIdp(idpId, request);
       notifications = notificationService.getNotifications(idp);

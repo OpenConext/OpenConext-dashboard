@@ -17,32 +17,38 @@
 package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Message that is shown as a notification to a logged in user.
  * 
  */
+@SuppressWarnings("serial")
 public class NotificationMessage implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private List<String> messageKeys = new ArrayList<String>();
+  private List<CompoundServiceProvider> arguments = new ArrayList<CompoundServiceProvider>();
 
-  private String messageKey;
-  private List<CompoundServiceProvider> arguments;
-
-  public String getMessageKey() {
-    return messageKey;
+  public NotificationMessage() {
+    super();
   }
 
-  public void setMessageKey(String messageKey) {
-    this.messageKey = messageKey;
+  public List<String> getMessageKeys() {
+    return messageKeys;
+  }
+
+  public void addMessageKey(String messageKey) {
+    this.messageKeys.add(messageKey);
   }
 
   public List<CompoundServiceProvider> getArguments() {
     return arguments;
   }
 
-  public void setArguments(List<CompoundServiceProvider> arguments) {
-    this.arguments = arguments;
+  public void addArguments(List<CompoundServiceProvider> arguments) {
+    this.arguments.addAll(arguments);
   }
+
+
 }

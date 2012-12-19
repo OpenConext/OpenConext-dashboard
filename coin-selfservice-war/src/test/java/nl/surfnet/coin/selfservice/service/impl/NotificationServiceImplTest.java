@@ -69,7 +69,7 @@ public class NotificationServiceImplTest {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
 
     IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
-    
+
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, true));
     services.add(createCompoundServiceProvider("testSp2", false, true));
@@ -79,21 +79,12 @@ public class NotificationServiceImplTest {
 
     when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    NotificationMessage message = notificationServiceImpl.getNotifications(idp);
 
-    assertEquals(2, result.size());
-    NotificationMessage message = result.get(0);
-    
-    assertEquals(2, message.getArguments().size());
+    assertEquals(3, message.getArguments().size());
     assertEquals(services.get(2), message.getArguments().get(0));
     assertEquals(services.get(4), message.getArguments().get(1));
-    assertEquals("jsp.notifications.lcp.service.not.linked", message.getMessageKey());
-
-    message = result.get(1);
-    
-    assertEquals(1, message.getArguments().size());
-    assertEquals(services.get(1), message.getArguments().get(0));
-    assertEquals("jsp.notifications.lcp.license.not.available", message.getMessageKey());
+    assertEquals(NotificationServiceImpl.LCP_NOTIFICATIONS, message.getMessageKeys().get(0));
 
   }
 
@@ -102,7 +93,7 @@ public class NotificationServiceImplTest {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_SURFCONEXT_ADMIN });
 
     IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
-    
+
     List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
     services.add(createCompoundServiceProvider("testSp1", true, false));
     services.add(createCompoundServiceProvider("testSp2", false, true));
@@ -111,18 +102,13 @@ public class NotificationServiceImplTest {
 
     when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    NotificationMessage message = notificationServiceImpl.getNotifications(idp);
 
-    assertEquals(2, result.size());
-    NotificationMessage message = result.get(0);
-    assertEquals(1, message.getArguments().size());
+    assertEquals(2, message.getArguments().size());
     assertEquals(services.get(0), message.getArguments().get(0));
-    assertEquals("jsp.notifications.fcp.service.not.linked", message.getMessageKey());
+    assertEquals(services.get(1), message.getArguments().get(1));
 
-    message = result.get(1);
-    assertEquals(1, message.getArguments().size());
-    assertEquals(services.get(1), message.getArguments().get(0));
-    assertEquals("jsp.notifications.fcp.license.not.available", message.getMessageKey());
+    assertEquals(NotificationServiceImpl.FCP_NOTIFICATIONS, message.getMessageKeys().get(0));
   }
 
   @Test
@@ -139,9 +125,9 @@ public class NotificationServiceImplTest {
 
     when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    NotificationMessage result = notificationServiceImpl.getNotifications(idp);
 
-    assertEquals(0, result.size());
+    assertEquals(0, result.getArguments().size());
   }
 
   @Test
@@ -157,9 +143,9 @@ public class NotificationServiceImplTest {
 
     when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
 
-    List<NotificationMessage> result = notificationServiceImpl.getNotifications(idp);
+    NotificationMessage result = notificationServiceImpl.getNotifications(idp);
 
-    assertEquals(0, result.size());
+    assertEquals(0, result.getArguments().size());
   }
 
   private CompoundServiceProvider createCompoundServiceProvider(String spName, boolean hasLicense, boolean isLinked) {

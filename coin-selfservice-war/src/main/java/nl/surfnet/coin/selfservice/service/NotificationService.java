@@ -16,23 +16,20 @@
 
 package nl.surfnet.coin.selfservice.service;
 
-import java.util.List;
-
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 
 public interface NotificationService {
 
   /**
-   * Get a list of possible notifications for the given services. Notifications
-   * will be created for services that have a license but no linked service or
-   * vice-versa
-   * 
-   * @param services
+   * Get all possible notifications for the given services belonging to the
+   * IdentityProvider. Notifications will be created for services that have a
+   * license but no linked service or vice-versa
    * 
    * @param selectedidp
    *          the selected idp
+   *
    * @return list of possible notifications
    */
-  List<NotificationMessage> getNotifications(IdentityProvider selectedidp);
+  NotificationMessage getNotifications(IdentityProvider selectedidp);
 }

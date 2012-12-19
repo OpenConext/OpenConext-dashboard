@@ -22,17 +22,22 @@
 </jsp:include>
 
     <div class="column-center content-holder">
-      <c:if test="${not empty notifications}">
+      <c:if test="${not empty notificationMessage.arguments}">
         <section class="data-table-holder">
           <h1><spring:message code="jsp.notifications.title"/></h1>
           <div class="data-table-wrapper">
-            <c:forEach items="${notifications}" var="notificationMessage">
-              <p class="notificationMessage"><spring:message code="${notificationMessage.messageKey}"/></p>
-              <table class="table table-bordered table-striped table-above-pagination table-with-statuses">
+            <c:forEach items="${notificationMessage.messageKeys}" var="notificationMessage">
+              <p class="notificationMessage"><spring:message code="${notificationMessage}"/></p>
+            </c:forEach>
+              <c:set var="searchPlaceholderNotifications"><spring:message code="jsp.notifications.search.placeholder"/></c:set>
+              <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable"
+                  data-search-placeholder="${searchPlaceholderNotifications}">
                 <thead>
                   <tr>
                     <th><spring:message code="jsp.notifications.image"/></th>
-                    <th><spring:message code="jsp.notifications.name"/></th>
+                    <th class="html sorting_asc"><spring:message code="jsp.notifications.name"/></th>
+                    <th><spring:message code="jsp.notifications.haslicense"/></th>
+                    <th><spring:message code="jsp.notifications.islinked"/></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -52,14 +57,34 @@
                           ${spname}
                         </a>
                       </td>
+                      <td>
+                        <c:choose>
+                          <c:when test="${cspArgument.licenseAvailable}">
+                            <i class="icon-ok"/>
+                          </c:when>
+                          <c:otherwise>
+                            <i class="icon-remove icon-greyed-out"/>
+                          </c:otherwise>
+                        </c:choose>
+                      </td>
+                      <td>
+                        <c:choose>
+                          <c:when test="${compoundSp.sp.linked}">
+                            <i class="icon-ok"/>
+                          </c:when>
+                          <c:otherwise>
+                            <i class="icon-remove icon-greyed-out"/>
+                          </c:otherwise>
+                        </c:choose>
+                      </td>
                   </c:forEach>
                 </tbody>
               </table>
               <hr/>
-            </c:forEach>
           </div>
         </section>
       </c:if>
+      <c:if test="${not empty actionList}">
         <section class="data-table-holder">
 
           <h1><spring:message code="jsp.requests-overview.title"/></h1>
@@ -110,6 +135,7 @@
             </table>
           </div>
         </section>
+        </c:if> 
       </div>
 
 <jsp:include page="foot.jsp"/>
