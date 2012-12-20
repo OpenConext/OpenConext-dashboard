@@ -22,16 +22,21 @@
 </jsp:include>
 
     <div class="column-center content-holder">
-      <c:if test="${not empty notificationMessage.arguments}">
         <section class="data-table-holder">
-          <h1><spring:message code="jsp.notifications.title"/></h1>
-          <div class="data-table-wrapper">
+      <c:if test="${empty notificationMessage.arguments and empty actionList}">  
+        <h1><spring:message code="jsp.notifications.title"/></h1>
+        <p class="notificationMessage"><spring:message code="jsp.notifications.none.present.text"/></p>
+      </c:if>
+      <c:if test="${not empty notificationMessage.arguments}">
+        <h1><spring:message code="jsp.notifications.title"/></h1>
             <c:forEach items="${notificationMessage.messageKeys}" var="notificationMessage">
-              <p class="notificationMessage"><spring:message code="${notificationMessage}"/></p>
+              <p><spring:message code="${notificationMessage}"/></p>
             </c:forEach>
+          <div class="data-table-wrapper">
+      
               <c:set var="searchPlaceholderNotifications"><spring:message code="jsp.notifications.search.placeholder"/></c:set>
               <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable"
-                  data-search-placeholder="${searchPlaceholderNotifications}">
+                  id="request-overview-table" data-search-placeholder="${searchPlaceholderNotifications}">
                 <thead>
                   <tr>
                     <th><spring:message code="jsp.notifications.image"/></th>
@@ -69,7 +74,7 @@
                       </td>
                       <td>
                         <c:choose>
-                          <c:when test="${compoundSp.sp.linked}">
+                          <c:when test="${cspArgument.sp.linked}">
                             <i class="icon-ok"/>
                           </c:when>
                           <c:otherwise>
@@ -82,8 +87,8 @@
               </table>
               <hr/>
           </div>
-        </section>
       </c:if>
+        </section>
       <c:if test="${not empty actionList}">
         <section class="data-table-holder">
 

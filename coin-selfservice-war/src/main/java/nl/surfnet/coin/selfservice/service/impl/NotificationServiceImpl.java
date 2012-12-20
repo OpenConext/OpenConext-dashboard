@@ -91,7 +91,7 @@ public class NotificationServiceImpl implements NotificationService {
     if (!noLicenseCSPs.isEmpty()) {
       notificationMessage.addArguments(noLicenseCSPs);
     }
-
+   // notificationMessage.sort();
     return notificationMessage;
   }
 

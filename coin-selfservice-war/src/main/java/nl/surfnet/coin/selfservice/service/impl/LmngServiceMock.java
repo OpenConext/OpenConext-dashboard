@@ -52,14 +52,14 @@ public class LmngServiceMock implements LmngService {
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
-  private Article article;
+  private List<Article> articles;
   private License license;
 
   public LmngServiceMock() {
     try {
-      TypeReference<Article> articleTypeReference = new TypeReference<Article>() {
+      TypeReference<List<Article>> articleTypeReference = new TypeReference<List<Article>>() {
       };
-      this.article = (Article) parseJsonData(articleTypeReference, "lmng-json/articles.json");
+      this.articles = (List<Article>) parseJsonData(articleTypeReference, "lmng-json/articles.json");
       TypeReference<License> licenseTypeReference = new TypeReference<License>() {
       };
       this.license = (License) parseJsonData(licenseTypeReference, "lmng-json/licenses.json");
@@ -130,7 +130,7 @@ public class LmngServiceMock implements LmngService {
 
   @Override
   public List<Article> getArticlesForServiceProviders(List<String> serviceProviderEntityIds) {
-    return Arrays.asList(new Article[] {article});
+    return articles;
   }
 
 }

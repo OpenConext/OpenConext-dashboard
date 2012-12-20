@@ -27,42 +27,61 @@ app.table = function() {
       return ((x < y) ? 1 : ((x > y) ? -1 : 0));
     };
 
-    $('.table-sortable:not(#csp-statusses, #csp-statusses-short)').each(function(index, table) {
-      $(table).dataTable({
-        bPaginate : false,
-        bLengthChange : false,
-        bAutoWidth : false,
-        bInfo : false,
-        oLanguage : {
-          sSearch : '_INPUT_'
-        }
-      });
+    $('.table-sortable:not(#csp-statusses, #csp-statusses-short, #request-overview-table)').each(
+        function(index, table) {
+          $(table).dataTable({
+            bPaginate : false,
+            bLengthChange : false,
+            bAutoWidth : false,
+            bInfo : false,
+            oLanguage : {
+              sSearch : '_INPUT_'
+            }
+          });
+        });
+
+    $('#request-overview-table').dataTable({
+      bPaginate : false,
+      bLengthChange : false,
+      bAutoWidth : false,
+      bInfo : false,
+      oLanguage : {
+        sSearch : '_INPUT_'
+      },
+      aaSorting : [[ 1, "asc" ]],
+      aoColumns : [ {
+        'bSortable' : false,
+        'bVisible' : true
+      }, {
+        'sType' : 'spnames'
+      }, null, null ]
     });
 
     $('#csp-statusses').dataTable({
-        bPaginate : false,
-        bLengthChange : false,
-        bAutoWidth : false,
-        bInfo : false,
-        oLanguage : {
-          sSearch : '_INPUT_'
-        },
-        aoColumns : [ {
-          'sType' : 'spnames'
-        }, null, null, null, null, null ]
-      });
+      bPaginate : false,
+      bLengthChange : false,
+      bAutoWidth : false,
+      bInfo : false,
+      oLanguage : {
+        sSearch : '_INPUT_'
+      },
+      aoColumns : [ {
+        'sType' : 'spnames'
+      }, null, null, null, null, null ]
+    });
+
     $('#csp-statusses-short').dataTable({
-        bPaginate : false,
-        bLengthChange : false,
-        bAutoWidth : false,
-        bInfo : false,
-        oLanguage : {
-          sSearch : '_INPUT_'
-        },
-        aoColumns : [ {
-          'sType' : 'spnames'
-        }, null ]
-      });
+      bPaginate : false,
+      bLengthChange : false,
+      bAutoWidth : false,
+      bInfo : false,
+      oLanguage : {
+        sSearch : '_INPUT_'
+      },
+      aoColumns : [ {
+        'sType' : 'spnames'
+      }, null ]
+    });
   };
 
   var tableSearchPlaceholder = function() {

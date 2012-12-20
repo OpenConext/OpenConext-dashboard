@@ -18,6 +18,8 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -48,6 +50,15 @@ public class NotificationMessage implements Serializable {
 
   public void addArguments(List<CompoundServiceProvider> arguments) {
     this.arguments.addAll(arguments);
+  }
+
+  public void sort() {
+    Collections.sort(arguments, new Comparator<CompoundServiceProvider>(){
+      @Override
+      public int compare(CompoundServiceProvider o1, CompoundServiceProvider o2) {
+        return 0;
+      }});
+    
   }
 
 
