@@ -28,16 +28,16 @@
   </repositories>
 
   <properties>
-    <coin-shared.version>2.14.0</coin-shared.version>
+    <coin-shared.version>2.15.0</coin-shared.version>
     <coin-test.version>2.8.3</coin-test.version>
-    <coin-master.test-dependencies.version>2.15.1</coin-master.test-dependencies.version>
-    <coin-api.version>2.15.0-SNAPSHOT</coin-api.version>
-    <spring-security-opensaml.version>2.16</spring-security-opensaml.version>
+    <coin-master.test-dependencies.version>2.15.2</coin-master.test-dependencies.version>
+    <coin-api.version>2.15.0</coin-api.version>
+    <spring-security-opensaml.version>2.16.1</spring-security-opensaml.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
     <bonecp.version>0.7.1.RELEASE</bonecp.version>
-    <mujina-idp.version>2.15.0</mujina-idp.version>
+    <mujina-idp.version>2.15.1</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
     <selenium.version>2.25.0</selenium.version>
     <freemarker.version>[2.3.19,2.4)</freemarker.version>
