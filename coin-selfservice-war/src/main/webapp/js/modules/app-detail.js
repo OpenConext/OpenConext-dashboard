@@ -36,6 +36,18 @@ app.appDetail = function() {
     var html = $(jsp[0]);
     var data = groupsWithMembers[0];
 
+    html.find("a#close-recommend-modal").click(function() {
+      // Explicitly hide and remove modals, because when opening a new, next modal, we would get confused by
+      // the reuse of element ids etc.
+      html.modal('hide');
+      // wait for css transition to end before removing the modal.
+      $(html).on('hidden', function () {
+      html.remove();
+      loadingModal.modal('hide');
+      loadingModal.remove();
+      });
+    });
+
     html.find('#recommend-link').click(function() {
       var sel = $("#email-select2").select2("val");
       if (!sel || sel.length === 0) {
@@ -62,7 +74,7 @@ app.appDetail = function() {
           html.modal('hide');
           // have to completely remove the modal otherwise we get session token
           // problems
-          html.remove()
+          html.remove();
         }
       });
     });

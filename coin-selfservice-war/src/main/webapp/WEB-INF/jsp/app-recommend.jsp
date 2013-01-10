@@ -42,7 +42,7 @@
 
   <div class="modal-footer">
     <spring:url var="postRecommendApp" value="/do-app-recommend.shtml" />
-    <a id="recommend-link" class="btn btn-primary" data-post-url="${postRecommendApp}"><spring:message code="jsp.app_recommendation.recommend_app_submit" /></a> <a class="btn"
-      data-dismiss="modal"><spring:message code="jsp.app_recommendation.recommend_app_close" /></a>
+    <a id="recommend-link" class="btn btn-primary" data-post-url="${postRecommendApp}"><spring:message code="jsp.app_recommendation.recommend_app_submit" /></a>
+    <a class="btn" data-dismiss="modal" id="close-recommend-modal"><spring:message code="jsp.app_recommendation.recommend_app_close" /></a>
   </div>
 </div>
