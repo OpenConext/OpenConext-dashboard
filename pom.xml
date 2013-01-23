@@ -43,4 +43,17 @@
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
   </scm>
 
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <id>atlassian-contrib</id>
+      <url>https://maven.atlassian.com/contrib/</url>
+    </repository>
+  </repositories>
 </project>
