@@ -46,6 +46,29 @@
   <repositories>
     <repository>
       <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <id>openconext-snapshots</id>
+      <name>OpenConext public snapshot repository</name>
+      <url>https://build.surfconext.nl/repository/public/snapshots</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <id>openconext-releases</id>
+      <name>OpenConext public releases repository</name>
+      <url>https://build.surfconext.nl/repository/public/releases</url>
+    </repository>
+    <repository>
+      <snapshots>
         <enabled>false</enabled>
       </snapshots>
       <releases>
