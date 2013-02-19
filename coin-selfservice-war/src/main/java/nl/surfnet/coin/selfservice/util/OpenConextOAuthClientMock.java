@@ -15,8 +15,6 @@
  */
 package nl.surfnet.coin.selfservice.util;
 
-import static java.util.Arrays.asList;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +31,8 @@ import nl.surfnet.coin.api.client.domain.Person;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.Assert;
+
+import static java.util.Arrays.asList;
 
 /**
  * OpenConextOAuthClientMock.java
@@ -90,58 +89,25 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
   private String adminSurfConextIdPTeam;
   private String adminDistributionTeam;
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.api.client.OpenConextOAuthClient#isAccessTokenGranted(java
-   * .lang.String)
-   */
   @Override
   public boolean isAccessTokenGranted(String userId) {
     return true;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see nl.surfnet.coin.api.client.OpenConextOAuthClient#getAuthorizationUrl()
-   */
   @Override
   public String getAuthorizationUrl() {
     throw new RuntimeException("Not implemented");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.api.client.OpenConextOAuthClient#oauthCallback(javax.servlet
-   * .http.HttpServletRequest, java.lang.String)
-   */
   @Override
   public void oauthCallback(HttpServletRequest request, String onBehalfOf) {
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.api.client.OpenConextOAuthClient#getPerson(java.lang.String
-   * , java.lang.String)
-   */
   @Override
   public Person getPerson(String userId, String onBehalfOf) {
     throw new RuntimeException("Not implemented");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.api.client.OpenConextOAuthClient#getGroupMembers(java.lang
-   * .String, java.lang.String)
-   */
   @Override
   public List<Person> getGroupMembers(String groupId, String onBehalfOf) {
     try {
@@ -163,25 +129,11 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
     return p;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.api.client.OpenConextOAuthClient#getGroups(java.lang.String
-   * , java.lang.String)
-   */
   @Override
   public List<Group> getGroups(String userId, String onBehalfOf) {
     throw new RuntimeException("Not implemented");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.api.client.OpenConextOAuthClient#getGroups20(java.lang.
-   * String, java.lang.String)
-   */
   @Override
   public List<Group20> getGroups20(String userId, String onBehalfOf) {
     final Users user = Users.fromUser(userId);
@@ -208,13 +160,6 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
     return new Group20(id, id.substring(id.lastIndexOf(":") + 1), id);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * nl.surfnet.coin.api.client.OpenConextOAuthClient#getGroup20(java.lang.String
-   * , java.lang.String, java.lang.String)
-   */
   @Override
   public Group20 getGroup20(String userId, String groupId, String onBehalfOf) {
     throw new RuntimeException("Not implemented");

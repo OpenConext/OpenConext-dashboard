@@ -26,17 +26,24 @@
 		  <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
 		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${spname}"/></p>
 		  <c:forEach items="${arps}" var="arp">
-		    <ul>
+		    <table>
 		      <c:if test="${empty arp.fedAttributes and empty arp.conextAttributes}">
-		        <li><spring:message code="jsp.sp_detail.arp.nopolicy"/></li>
+		        <tr><td><spring:message code="jsp.sp_detail.arp.nopolicy"/></td></tr>
 		      </c:if>
 		      <c:forEach items="${arp.fedAttributes}" var="att">
-		        <li>
-		          <tags:arp-attribute-info attributeKey="${att}"/>
-		        </li>
+            <tr><td>&bull;</td>
+            <c:if test="${rawArpAttributesVisible}">
+              <td>${att}</td>
+            </c:if>
+		        <td>&bull; <tags:arp-attribute-info attributeKey="${att}"/></td></tr>
 		      </c:forEach>
 		      <c:forEach items="${arp.conextAttributes}" var="att">
-		        <li><tags:arp-attribute-info attributeKey="${att.key}"/>
+            <tr><td>&bull;</td>
+              <c:if test="${rawArpAttributesVisible}">
+                <td>${att.key}</td>
+              </c:if>
+              <td><tags:arp-attribute-info attributeKey="${att.key}"/>
+
 		          <%-- In ServiceRegistry the ARP can also contain an array of values to filter.
 		     By default it is ['*'] --%>
 		          <c:if test="${not(fn:length(att.value) eq 1 and att.value[0] eq '*')}">
@@ -47,9 +54,9 @@
 		              </c:forEach>
 		            </ul>
 		          </c:if>
-		        </li>
+		        </tr>
 		      </c:forEach>
-		    </ul>
+		    </table>
 		  </c:forEach>
 	  </c:when>
 	  <c:otherwise>

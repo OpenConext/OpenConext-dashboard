@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Abstract controller used to set model attributes to the request
@@ -134,6 +132,11 @@ public abstract class BaseController {
    * recommendation modal popup.
    */
   public static final String GROUPS_WITH_MEMBERS = "groupsWithMembers";
+
+  /**
+   * Key in which we store whether a user should see the technical attribute names of an ARP.
+   */
+  public static final String RAW_ARP_ATTRIBUTES_VISIBLE = "rawArpAttributesVisible";
 
   @Resource(name = "providerService")
   private IdentityProviderService idpService;

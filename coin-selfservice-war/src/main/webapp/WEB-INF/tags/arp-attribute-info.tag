@@ -19,26 +19,19 @@ limitations under the License.
              description="Key of the attribute, e.g. urn:mace:dir:attribute-def:displayName" %>
 <%--@elvariable id="personAttributeLabels" type="java.util.Map<nl.surfnet.coin.selfservice.domain.PersonAttributeLabel>"--%>
 <c:set var="labels" value="${personAttributeLabels[attributeKey]}"/>
-<c:choose>
 
-  <c:when test="${empty labels}">
-    <c:out value="${attributeKey}"/>
-  </c:when>
+<%-- only output something if we have labels at all --%>
+<c:if test="${not empty labels}">
+  <%--@elvariable id="locale" type="java.util.Locale"--%>
+  <c:set var="name" value="${labels.names[locale.language]}"/>
+  <c:set var="description" value="${labels.descriptions[locale.language]}"/>
 
-  <c:otherwise>
-    <%--@elvariable id="locale" type="java.util.Locale"--%>
-    <c:set var="name" value="${labels.names[locale.language]}"/>
-    <c:set var="description" value="${labels.descriptions[locale.language]}"/>
-
-    <c:choose>
-      <c:when test="${empty description}">
-        <c:out value="${name}"/>
-      </c:when>
-      <c:otherwise>
-        <span rel="tooltip" data-original-title="<c:out value="${description}"/>"><c:out value="${name}"/></span>
-      </c:otherwise>
-    </c:choose>
-
-
-  </c:otherwise>
-</c:choose>
+  <c:choose>
+    <c:when test="${empty description}">
+      <c:out value="${name}"/>
+    </c:when>
+    <c:otherwise>
+      <span rel="tooltip" data-original-title="<c:out value="${description}"/>"><c:out value="${name}"/></span>
+    </c:otherwise>
+  </c:choose>
+</c:if>
