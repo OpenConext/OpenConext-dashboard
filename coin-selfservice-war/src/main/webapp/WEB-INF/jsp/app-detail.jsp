@@ -114,7 +114,10 @@
         <c:choose>
           <c:when test="${not compoundSp.sp.linked}">
             <div class="service-not-connected">
-              <p><strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong></p>
+              <p>
+                <strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong>
+                <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}">?</a>
+              </p>
               <c:if test="${applyAllowed}">
 	              <a href="<c:url value="/requests/linkrequest.shtml">
 	                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
@@ -128,14 +131,16 @@
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
             <div class="service-connected">
-              <p><strong><spring:message code="jsp.app_detail.technical_connection"/></strong></p>
+              <p>
+                <strong><spring:message code="jsp.app_detail.technical_connection"/></strong>
+                <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}">?</a>
+              </p>
               <c:if test="${applyAllowed}">
 	              <a href="<c:url value="/requests/unlinkrequest.shtml">
 	                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
 	                <c:param name="compoundSpId" value="${compoundSp.id}" />
 	              </c:url>"
-	                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message
-	                  code="jsp.sp_detail.requestunlink"/></a>
+	                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message code="jsp.sp_detail.requestunlink"/></a>
 	            </c:if>
               <c:if test="${questionAllowed}">|
               <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
@@ -181,7 +186,6 @@
               <div class="license-not-needed">
                 <p><strong><spring:message code="jsp.app_detail.license_not_needed"/></strong></p>
                 <p><spring:message code="jsp.app_detail.license_not_needed_detail"/></p>
-                <br/>
               </div>
             </c:otherwise>
           </c:choose>

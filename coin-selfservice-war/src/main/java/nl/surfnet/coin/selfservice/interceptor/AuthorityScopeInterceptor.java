@@ -16,27 +16,6 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
-import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
-import static nl.surfnet.coin.selfservice.control.BaseController.IS_GOD;
-import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_CONNECTION_VISIBLE;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +37,28 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.collection.LambdaCollections.with;
 import ch.lambdaj.function.matcher.HasArgumentWithValue;
+import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
+import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
+import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
+import static nl.surfnet.coin.selfservice.control.BaseController.IS_GOD;
+import static nl.surfnet.coin.selfservice.control.BaseController.LMNG_ACTIVE_MODUS;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_CONNECTION_VISIBLE;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
+import static nl.surfnet.coin.selfservice.control.BaseController.RAW_ARP_ATTRIBUTES_VISIBLE;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
@@ -125,6 +125,7 @@ public class AuthorityScopeInterceptor extends LmngActiveAwareInterceptor {
     map.put(IS_ADMIN_USER, isAdmin);
     map.put(LMNG_ACTIVE_MODUS, isLmngActive());
     map.put(IS_GOD, isDistributionChannelGod(authorities));
+    map.put(RAW_ARP_ATTRIBUTES_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
   }
 
   /**

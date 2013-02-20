@@ -31,11 +31,18 @@
 		        <tr><td><spring:message code="jsp.sp_detail.arp.nopolicy"/></td></tr>
 		      </c:if>
 		      <c:forEach items="${arp.fedAttributes}" var="att">
-            <c:if test="${}"
-		        <tr><td>&bull; ${att}</td><td>&bull; <tags:arp-attribute-info attributeKey="${att}"/></td></tr>
+            <tr><td>&bull;</td>
+            <c:if test="${rawArpAttributesVisible}">
+              <td>${att}</td>
+            </c:if>
+		        <td>&bull; <tags:arp-attribute-info attributeKey="${att}"/></td></tr>
 		      </c:forEach>
 		      <c:forEach items="${arp.conextAttributes}" var="att">
-            <tr><td>&bull; ${att.key}</td><td><tags:arp-attribute-info attributeKey="${att.key}"/>
+            <tr><td>&bull;</td>
+              <c:if test="${rawArpAttributesVisible}">
+                <td>${att.key}</td>
+              </c:if>
+              <td><tags:arp-attribute-info attributeKey="${att.key}"/>
 
 		          <%-- In ServiceRegistry the ARP can also contain an array of values to filter.
 		     By default it is ['*'] --%>
