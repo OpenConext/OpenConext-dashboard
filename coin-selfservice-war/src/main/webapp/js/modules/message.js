@@ -79,22 +79,6 @@ app.message = function() {
       en : "Logins of #{sp} for #{range}",
       nl : "Logins van #{sp} over #{range}"
     },
-    "stats.menu.all" : {
-      en : "All",
-      nl : "Alles"
-    },
-    "stats.menu.quarter" : {
-      en : "Quarter",
-      nl : "Kwartaal"
-    },
-    "stats.menu.month" : {
-      en : "Month",
-      nl : "Maand"
-    },
-    "stats.menu.week" : {
-      en : "Week",
-      nl : "Week"
-    },
     "stats.menu.months" : {
       en : "January|February|March|April|May|June|July|August|September|October|November|December",
       nl : "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december"
@@ -102,6 +86,10 @@ app.message = function() {
     "stats.short_months" : {
       en : "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
       nl : "jan|feb|maa|apr|mei|jun|jul|aug|sep|okt|nov|dec"
+    },
+    "stats.menu.year" : {
+      en : "past year",
+      nl : "afgelopen jaar"
     },
     "stats.logins_per_day" : {
       en : "Logins per day",
@@ -123,22 +111,6 @@ app.message = function() {
       en : "Reset zoom",
       nl : "Zoom herstellen"
     },
-//    "jsp.notifications.lcp.service.not.linked" : {
-//      en : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Vraag de federatiecontactpersoon van uw instelling om deze koppeling te activeren.",
-//      nl : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Vraag de federatiecontactpersoon van uw instelling om deze koppeling te activeren."
-//    },
-//    "jsp.notifications.fcp.service.not.linked" : {
-//      en : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Bekijk deze applicatie en activeer de koppeling (link naar de detailpagina).",
-//      nl : "Voor {0} is wel een licentie aanwezig, maar er is nog geen SURFconext koppeling actief. Bekijk deze applicatie en activeer de koppeling (link naar de detailpagina)."
-//    },
-//    "jsp.notifications.fcp.license.not.available" : {
-//      en : "Voor {0} is wel een SURFconext koppeling aanwezig, maar er is nog geen licentie afgesloten. Bekijk deze applicatie en sluit direct een overeenkomst af bij SURFmarket.nl (link naar de detailpagina).",
-//      nl : "Voor {0} is wel een SURFconext koppeling aanwezig, maar er is nog geen licentie afgesloten. Bekijk deze applicatie en sluit direct een overeenkomst af bij SURFmarket.nl (link naar de detailpagina)."
-//    },
-//    "jsp.notifications.lcp.license.not.available" : {
-//      en : "Voor {0} is wel een SURFconextkoppeling aanwezig, maar er is nog geen licentie afgesloten. Vraag de licentiecontactpersoon van uw instelling om deze aan te schaffen via SURFmarket.nl.",
-//      nl : "Voor {0} is wel een SURFconextkoppeling aanwezig, maar er is nog geen licentie afgesloten. Vraag de licentiecontactpersoon van uw instelling om deze aan te schaffen via SURFmarket.nl."
-//    },
     "jsp.notifications.too_many" : {
       en : "Too many notifications.",
       nl : "Te veel notificaties."
