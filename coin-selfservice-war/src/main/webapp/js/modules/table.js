@@ -15,6 +15,19 @@ app.table = function() {
     return $.trim(str.replace(/(<([^>]+)>)/ig, ''));
   };
 
+
+  var dateFromNlDate = function(nlDate) {
+    var dateFormat = /(\d{2})-(\d{2})-(\d{4})/;
+    var fields = dateFormat.exec(nlDate);
+    if (!fields) {
+      return null;
+    }
+    return new Date(
+      (+fields[3]),
+      (+fields[2])-1, // Careful, month starts at 0!
+      (+fields[1]));
+  };
+
   var initDataTable = function() {
     jQuery.fn.dataTableExt.oSort['spnames-asc'] = function(x, y) {
       x = trimmer(x);
@@ -27,7 +40,19 @@ app.table = function() {
       return ((x < y) ? 1 : ((x > y) ? -1 : 0));
     };
 
-    $('.table-sortable:not(#csp-statusses, #csp-statusses-short, #request-overview-table)').each(
+    jQuery.fn.dataTableExt.oSort['nlDate-asc'] = function(x, y) {
+      var xDate = dateFromNlDate(x);
+      var yDate = dateFromNlDate(y);
+
+      return ((xDate < yDate) ? -1 : ((xDate > yDate) ? 1 : 0));
+    };
+    jQuery.fn.dataTableExt.oSort['nlDate-desc'] = function(x, y) {
+      var xDate = dateFromNlDate(x);
+      var yDate = dateFromNlDate(y);
+      return ((xDate < yDate) ? 1 : ((xDate > yDate) ? -1 : 0));
+    };
+
+    $('.table-sortable:not(#csp-statusses, #csp-statusses-short, #request-overview-table, #notifications-overview-table)').each(
         function(index, table) {
           $(table).dataTable({
             bPaginate : false,
@@ -40,6 +65,25 @@ app.table = function() {
           });
         });
 
+    $('#notifications-overview-table').dataTable({
+      bPaginate : false,
+      bLengthChange : false,
+      bAutoWidth : false,
+      bInfo : false,
+      oLanguage : {
+        sSearch : '_INPUT_'
+      },
+      aoColumns : [
+        {'bSortable': false},
+        { // title
+          'sType' : 'spnames'
+        },
+        null,
+        null
+      ],
+      aaSorting: [[1,'asc']]
+    });
+
     $('#request-overview-table').dataTable({
       bPaginate : false,
       bLengthChange : false,
@@ -48,13 +92,15 @@ app.table = function() {
       oLanguage : {
         sSearch : '_INPUT_'
       },
-      aaSorting : [[ 1, "asc" ]],
-      aoColumns : [ {
-        'bSortable' : false,
-        'bVisible' : true
-      }, {
-        'sType' : 'spnames'
-      }, null, null ]
+      aoColumns : [
+        {'sType': 'nlDate'},
+        { // title
+          'sType' : 'spnames'
+        },
+        null,
+        null
+      ],
+      aaSorting: [[0,'desc']] // sort on date desc
     });
 
     $('#csp-statusses').dataTable({
