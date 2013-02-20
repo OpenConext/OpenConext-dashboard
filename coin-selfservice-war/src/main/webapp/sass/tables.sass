@@ -66,19 +66,21 @@
       outline: none
       text-decoration: underline
 
-    &:after
-      background: url(../images/bg-toggle-read-more.png) 0 0
-      bottom: 2px
-      content: ''
-      display: inline-block
-      height: 7px
-      margin-left: 10px
-      position: relative
-      vertical-align: middle
-      width: 9px
-
+  thead .sorting_asc:after,
   thead .sorting_desc:after
-    background-position: 0 -7px
+    background: url(../images/bg-toggle-read-more.png) 0 0
+    bottom: 2px
+    content: ''
+    display: inline-block
+    height: 7px
+    margin-left: 10px
+    position: relative
+    vertical-align: middle
+    width: 9px
+
+  thead .sorting_asc:after
+    background-position: 0px -7px
+
 
 .table-discussion
   td

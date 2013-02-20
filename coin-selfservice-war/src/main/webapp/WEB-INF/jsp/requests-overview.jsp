@@ -36,7 +36,7 @@
       
               <c:set var="searchPlaceholderNotifications"><spring:message code="jsp.notifications.search.placeholder"/></c:set>
               <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable"
-                  id="request-overview-table" data-search-placeholder="${searchPlaceholderNotifications}">
+                     id="notifications-overview-table" data-search-placeholder="${searchPlaceholderNotifications}">
                 <thead>
                   <tr>
                     <th><spring:message code="jsp.notifications.image"/></th>
@@ -96,25 +96,28 @@
           <div class="data-table-wrapper">
             <c:set var="searchPlaceholderRequests"><spring:message code="jsp.requests-overview.search.placeholder"/></c:set>
             <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable"
-                      data-search-placeholder="${searchPlaceholderRequests}">
+                   id="request-overview-table" data-search-placeholder="${searchPlaceholderRequests}"
+              >
               <thead>
                 <tr>
+                  <th><spring:message code="jsp.requests-overview.date"/></th>
                   <th><spring:message code="jsp.requests-overview.type"/></th>
                   <th><spring:message code="jsp.requests-overview.status"/></th>
                   <th><spring:message code="jsp.requests-overview.by"/></th>
-                  <th><spring:message code="jsp.requests-overview.date"/></th>
                 </tr>
               </thead>
               <tbody>
                 <c:forEach items="${actionList}" var="action">
                   <c:set var="actionType">
                     <c:choose>
-                      <c:when test="${action.type == 'LINKREQUEST'}"><spring:message code="jsp.actions.typeLinkrequest"/></c:when>
-                      <c:when
-                          test="${action.type == 'UNLINKREQUEST'}"><spring:message code="jsp.actions.typeUnlinkrequest"/></c:when>
+                      <c:when test="${action.type == 'LINKREQUEST'}"><spring:message code="jsp.actions.typeLinkrequest" arguments="${action.sp.name}" /></c:when>
+                      <c:when test="${action.type == 'UNLINKREQUEST'}"><spring:message code="jsp.actions.typeUnlinkrequest" arguments="${action.sp.name}" /></c:when>
                     </c:choose>
                   </c:set>
                   <tr>
+                    <td>
+                      <fmt:formatDate value="${action.requestDate}" pattern="dd-MM-yyyy"/>
+                    </td>
                     <td>
                       <c:out value="${actionType}"/>
                     </td>
@@ -130,9 +133,6 @@
                     </td>
                     <td>
                       <c:out value="${action.userName}"/>
-                    </td>
-                    <td>
-                      <fmt:formatDate value="${action.requestDate}" pattern="dd-MM-yyyy"/>
                     </td>
                   </tr>
                 </c:forEach>
