@@ -65,11 +65,8 @@
 
     <nav class="statistics-filters">
       <div class="show">
-        <a href="#" data-show="all">
-          <spring:message code="jsp.stats.all" />
-        </a>
-        <a href="#" data-show="quarter">
-          <spring:message code="jsp.stats.quarter" />
+        <a href="#" data-show="year">
+          <spring:message code="jsp.stats.year" />
         </a>
         <a href="#" data-show="month">
           <spring:message code="jsp.stats.month" />

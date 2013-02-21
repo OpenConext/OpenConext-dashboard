@@ -327,7 +327,7 @@ app.graphs = function() {
         },
         series : [ {
           data : formattedData,
-          name : 'SPs'
+          name : 'Logins'
         } ],
         title : {
           text : title
@@ -505,44 +505,48 @@ app.graphs = function() {
     }
   };
 
-  var getDateOffset = function(firstDate, filterType) {
+  /**
+   * Get the first day of the timeframe (week/month/year) in which the given date falls
+   * @param referenceDateInMillis the date to find the timeframe for (in millis)
+   * @param filterType week/month/year
+   * @return Date
+   */
+  var getDateOffset = function(referenceDateInMillis, filterType) {
 //    console.log("firstDate: " + new Date(firstDate ) + ", filterType: " + filterType);
-    var date = new Date(firstDate), first, refDate;
+    var referenceDate = new Date(referenceDateInMillis),
+      firstDayInTimeFrameInMillis,
+      millisPerDay = 60 * 60 * 24 * 1000;
+
 
     switch (filterType) {
     case 'week':
-      first = date.getTime() - date.getDay() * 60 * 60 * 24 * 1000;
-      refDate = new Date(first);
+      firstDayInTimeFrameInMillis = referenceDate.getTime() - referenceDate.getDay() * millisPerDay;
       break;
     case 'month':
-      first = date.getTime() - (date.getDate() - 1) * 60 * 60 * 24 * 1000;
-      refDate = new Date(first);
+      firstDayInTimeFrameInMillis = referenceDate.getTime() - (referenceDate.getDate() - 1) * millisPerDay;
       break;
-    case 'quarter':
-      first = date.getTime() - (date.getDate() - 1) * 60 * 60 * 24 * 1000;
-      var newDate = new Date(first), newMonth = newDate.getMonth(), refMonth = 0;
-      if (newMonth > 2) {
-        refMonth = 3;
-      }
-      if (newMonth > 5) {
-        refMonth = 6;
-      }
-      if (newMonth > 8) {
-        refMonth = 9;
-      }
-      refDate = new Date(newDate.getFullYear(), refMonth, 1);
+      case 'year':
+      // For years, do not show per whole year, but show the past 365 days.
+      firstDayInTimeFrameInMillis = referenceDateInMillis - (millisPerDay * 365);
       break;
     default:
-      refDate = date;
+      firstDayInTimeFrameInMillis = referenceDateInMillis;
       break;
     }
-
-    return refDate;
+    return new Date(firstDayInTimeFrameInMillis);
   };
 
+
   var getMenuItems = function(dateOffset, filterType) {
-    var day = 24 * 60 * 60 * 1000, months = app.message.i18n('stats.menu.months').split('|'), today = new Date(), dates = {}, dateOffsetTime = dateOffset
-        .getTime(), display = true, newMonth, newYear;
+    var
+      millisPerDay = 24 * 60 * 60 * 1000,
+      months = app.message.i18n('stats.menu.months').split('|'),
+      today = new Date(),
+      dates = {},
+      dateOffsetTime = dateOffset.getTime(),
+      display = true,
+      newMonth,
+      newYear;
 
     switch (filterType) {
     case 'week':
@@ -550,7 +554,7 @@ app.graphs = function() {
         dateOffsetTime = dateOffset.getTime();
         dates[dateOffsetTime] = app.message.i18n('stats.weekof').replace('#{week}', dateOffset.getWeek()).replace(
             '#{year}', dateOffset.getFullYear());
-        dateOffset = new Date(dateOffsetTime + day * 7);
+        dateOffset = new Date(dateOffsetTime + millisPerDay * 7);
       }
       break;
     case 'month':
@@ -566,18 +570,10 @@ app.graphs = function() {
         dateOffset = new Date(newYear, newMonth, 1);
       }
       break;
-    case 'quarter':
-      while (dateOffset < today) {
-        dateOffsetTime = dateOffset.getTime();
-        dates[dateOffsetTime] = 'Q' + Math.floor((dateOffset.getMonth() + 3) / 3) + ' ' + dateOffset.getFullYear();
-        newMonth = dateOffset.getMonth() + 3;
-        newYear = dateOffset.getFullYear();
-        if (newMonth === 12) {
-          newMonth = 0;
-          ++newYear;
-        }
-        dateOffset = new Date(newYear, newMonth, 1);
-      }
+      case 'year':
+      // for year, only one option, the past year.
+      dates[dateOffset] = app.message.i18n('stats.menu.year');
+      display = true;
       break;
     default:
       display = false;
@@ -665,8 +661,8 @@ app.graphs = function() {
     case 'month':
       spliceFrom = 30;
       break;
-    case 'quarter':
-      spliceFrom = 90;
+    case 'year':
+      spliceFrom = 365;
       break;
     default:
       spliceFrom = Infinity;
@@ -710,7 +706,7 @@ app.graphs = function() {
     var newArray = [];
 
     for ( var i = 0, l = data.length; i < l; ++i) {
-      newArray.push(data[i][0].substring(0, 30));
+      newArray.push(data[i][0]);
     }
 
     return newArray;
