@@ -36,7 +36,7 @@
 
         <c:set var="sp" value="${sp}" scope="request" />
         <jsp:include page="arp.jsp" />
-
+        <hr />
 
         <p>
           <spring:message code="jsp.sp_linkrequest.termsintro" />

@@ -38,9 +38,12 @@
 		        <td>&bull; <tags:arp-attribute-info attributeKey="${att}"/></td></tr>
 		      </c:forEach>
 		      <c:forEach items="${arp.conextAttributes}" var="att">
-            <tr><td>&bull;</td>
+            <tr>
+              <c:if test="${not rawArpAttributesVisible}">
+                <td>&bull;</td>
+              </c:if>
               <c:if test="${rawArpAttributesVisible}">
-                <td>${att.key}</td>
+                <td>${att.key}</td><td>&nbsp;</td>
               </c:if>
               <td><tags:arp-attribute-info attributeKey="${att.key}"/>
 
