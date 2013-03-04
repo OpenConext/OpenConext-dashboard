@@ -101,7 +101,7 @@ ISSUE_INSTANT_CHECK_VALIDITY_TIME_IN_SECONDS=300
 jiraBaseUrl=https\://issues.surfnet.nl/jira
 jiraUsername=??
 jiraPassword=??
-jiraProjectKey=??
+jiraProjectKey=CXT
 
 
 # Location of the json file that contains the labels for the ARP attributes

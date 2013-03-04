@@ -116,7 +116,6 @@
             <div class="service-not-connected">
               <p>
                 <strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong>
-                <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}">?</a>
               </p>
               <c:if test="${applyAllowed}">
 	              <a href="<c:url value="/requests/linkrequest.shtml">
@@ -133,7 +132,6 @@
             <div class="service-connected">
               <p>
                 <strong><spring:message code="jsp.app_detail.technical_connection"/></strong>
-                <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}">?</a>
               </p>
               <c:if test="${applyAllowed}">
 	              <a href="<c:url value="/requests/unlinkrequest.shtml">
@@ -142,15 +140,13 @@
 	              </c:url>"
 	                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message code="jsp.sp_detail.requestunlink"/></a>
 	            </c:if>
-              <c:if test="${questionAllowed}">|
-              <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
+              <c:if test="${questionAllowed}">|<tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
+              <c:if test="${applyAllowed}">| <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></c:if>
             </div>
           </c:when>
         </c:choose>
         </c:if>
 
-
-        
         <c:if test="${lmngActiveModus}">    
           <c:choose>
             <c:when test="${compoundSp.articleLicenseAvailable}">
