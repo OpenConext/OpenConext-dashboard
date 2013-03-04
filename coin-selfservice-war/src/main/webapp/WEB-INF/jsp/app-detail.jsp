@@ -116,6 +116,7 @@
             <div class="service-not-connected">
               <p>
                 <strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong>
+                <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}">?</a>
               </p>
               <c:if test="${applyAllowed}">
 	              <a href="<c:url value="/requests/linkrequest.shtml">
