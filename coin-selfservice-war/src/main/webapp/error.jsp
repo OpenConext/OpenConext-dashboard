@@ -91,10 +91,18 @@
   </div>
 
 
-  <footer>
+  <footer class="footer">
     <div class="content-some-dense">
-      SURFnet | T +31 302 305 305 | <a href="mailto:surfconext-beheer@surfnet.nl">surfconext-beheer@surfnet.nl</a>
+      <a href="http://www.surfnet.nl" target="_blank">
+        SURFnet
+      </a>
+      |
+      <a href="mailto:help@surfnet.nl">
+        help@surfnet.nl
+      </a>
     </div>
   </footer>
+
+
 </body>
 </html>

@@ -72,15 +72,18 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
           menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spsconfig.shtml"));
           menu.addMenuItem(new MenuItem("jsp.cspstatus.title", "/shopadmin/csp-status-overview.shtml"));
         }
-        menu.addMenuItem(new MenuItem("jsp.notifications.title", "/requests/requests-overview.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
         menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       case ROLE_IDP_LICENSE_ADMIN:
-        menu.addMenuItem(new MenuItem("jsp.notifications.title", "/requests/requests-overview.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
         menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       case ROLE_IDP_SURFCONEXT_ADMIN:
-        menu.addMenuItem(new MenuItem("jsp.notifications.title", "/requests/requests-overview.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
+        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
         menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       default:
