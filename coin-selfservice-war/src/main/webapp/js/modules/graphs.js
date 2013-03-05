@@ -452,10 +452,12 @@ app.graphs = function() {
 
     var data = (selectedIdp && selectedIdp !== '') ? dataWrapper.getBySpAndIdp(spEntityId, selectedIdp) : dataWrapper.getBySp(spEntityId);
 
+    var filteredData = filterData([data], filterType, filterOffset)[0];
+
     var title;
     if (data.data) {
       title = app.message.i18n('stats.title.sp_overview').replace('#{sp}', data.name)
-        .replace('#{total}', data.total);
+        .replace('#{total}', filteredData.total);
     } else {
       title = "No data";
     }
@@ -465,7 +467,7 @@ app.graphs = function() {
     }
 
     // give filterData() [data] instead of data, because it only accepts (and returns) an array of data blocks.
-    renderDetailChart(filterData([data], filterType, filterOffset)[0], title);
+    renderDetailChart(filteredData, title);
   };
 
   var setTimeframe = function(e) {
@@ -501,6 +503,7 @@ app.graphs = function() {
       } else {
         title = app.message.i18n('stats.title.overview_zoomed').replace('#{range}', $('#choose-time-offset option:selected').text());
       }
+//      console.log("set timeframe() filtertype: " + filterType + ", offset: " + new Date(filterOffset) + ", filtered data: " + filterData(dataWrapper.getAllData(), filterType, filterOffset))
       renderOverview(filterData(dataWrapper.getAllData(), filterType, filterOffset), title);
     }
   };
@@ -525,15 +528,17 @@ app.graphs = function() {
     case 'month':
       firstDayInTimeFrameInMillis = referenceDate.getTime() - (referenceDate.getDate() - 1) * millisPerDay;
       break;
-      case 'year':
-      // For years, do not show per whole year, but show the past 365 days.
-      firstDayInTimeFrameInMillis = referenceDateInMillis - (millisPerDay * 365);
+    case 'year':
+        // New date with only the year set
+      firstDayInTimeFrameInMillis = new Date(referenceDate.getFullYear(), 0, 1).getTime();
       break;
     default:
       firstDayInTimeFrameInMillis = referenceDateInMillis;
       break;
     }
-    return new Date(firstDayInTimeFrameInMillis);
+    var date = new Date(firstDayInTimeFrameInMillis);
+//    console.log("getDateOffset(" + referenceDate + ", " + filterType + "): " + date);
+    return date;
   };
 
 
@@ -570,10 +575,12 @@ app.graphs = function() {
         dateOffset = new Date(newYear, newMonth, 1);
       }
       break;
-      case 'year':
-      // for year, only one option, the past year.
-      dates[dateOffset] = app.message.i18n('stats.menu.year');
-      display = true;
+    case 'year':
+      while (dateOffset < today) {
+        dateOffsetTime = dateOffset.getTime();
+        dates[dateOffsetTime] = dateOffset.getFullYear();
+        dateOffset = new Date(dateOffset.getFullYear() + 1, 0, 1);
+      }
       break;
     default:
       display = false;
@@ -647,10 +654,10 @@ app.graphs = function() {
 
   // Slice of data from the beginning and end of the arrays, to fit the
   // specified time filters
-  var filterData = function(data, filterType, filterOffset) {
+  var filterData = function(data, filterType, filterBeginTime) {
 
     firstDate = Infinity;
-    var mutableData, dataOffset, dataInterval, spliceTil, total, spliceFrom = Infinity;
+    var mutableData, firstDataPointTime, dataInterval, total, spliceFrom = Infinity;
 
     mutableData = $.extend(true, [], data);
 
@@ -668,22 +675,44 @@ app.graphs = function() {
       spliceFrom = Infinity;
     }
 
+//    console.log("filterData, filterBeginTime: " + new Date(filterBeginTime));
+
     for ( var i = 0, l = mutableData.length; i < l; ++i) {
       if (!mutableData[i].data) {
         continue;
       }
-      dataOffset = mutableData[i].pointStart, dataInterval = mutableData[i].pointInterval, spliceTil = 0;
+      firstDataPointTime = mutableData[i].pointStart;
+      dataInterval = mutableData[i].pointInterval;
 
-      // Calculate start offset from start date in data and filter date
-      if (dataOffset <= filterOffset) {
-        spliceTil = Math.round((filterOffset - dataOffset) / dataInterval);
+//      console.log("filterData, dataOffset: " + new Date(firstDataPointTime) + ", name: " + mutableData[i].name);
+
+
+      var thisItemSpliceFrom = spliceFrom; // use the 'regular' number of data points
+      if (firstDataPointTime <= filterBeginTime) {
+        // Cut off the first items that fall before the requested begin date.
+        var spliceTil = Math.round((filterBeginTime - firstDataPointTime) / dataInterval);
+        mutableData[i].data.splice(0, spliceTil);
+      } else {
+        /*
+          Correct the end of the data set.
+          In case the 'first data point' is later than the requested begin date, we do not want just 7/30/365 days of data,
+          but a corrected number of days.
+          Example:
+          First data point = January 15, 2013
+          filterBeginTime = January 1, 2013
+          filterType/spliceFrom = 30 (monthly graph)
+          In this case we want only 16 days: Jan 15 - Jan 31
+          (instead of Jan 15 - Feb 15)
+         */
+        var thisItemSpliceFrom = spliceFrom - Math.round((firstDataPointTime - filterBeginTime) / dataInterval);
+        if (thisItemSpliceFrom < 0)
+          thisItemSpliceFrom = 0;
+//        console.log("spliceFrom before: " + spliceFrom + ", after: " + thisItemSpliceFrom);
       }
 
 
-      mutableData[i].data.splice(0, spliceTil);
-      mutableData[i].data.splice(spliceFrom, Infinity);
+      mutableData[i].data.splice(thisItemSpliceFrom, Infinity);
 
-      // Calculate new totals
       // Calculate new totals
       total = 0;
       for ( var j = 0, m = mutableData[i].data.length; j < m; ++j) {
@@ -693,9 +722,7 @@ app.graphs = function() {
 
       if (firstDate > mutableData[i].pointStart) {
         firstDate = mutableData[i].pointStart;
-
       }
-
     }
     return mutableData;
   };

@@ -87,10 +87,7 @@ app.message = function() {
       en : "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
       nl : "jan|feb|maa|apr|mei|jun|jul|aug|sep|okt|nov|dec"
     },
-    "stats.menu.year" : {
-      en : "past year",
-      nl : "afgelopen jaar"
-    },
+
     "stats.logins_per_day" : {
       en : "Logins per day",
       nl : "Inloggen per dag"
