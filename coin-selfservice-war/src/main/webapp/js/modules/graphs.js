@@ -428,6 +428,8 @@ app.graphs = function() {
         shared : true
       },
       title : {
+        align: 'left',
+        x: 0,
         text : title
       },
       xAxis : {
