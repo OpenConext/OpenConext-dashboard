@@ -18,16 +18,13 @@ package nl.surfnet.coin.selfservice.control.requests;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.control.BaseController;
-import nl.surfnet.coin.selfservice.domain.Action;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
@@ -120,18 +117,6 @@ public class LinkrequestController extends BaseController {
     }
   }
 
-  @RequestMapping(value = "requests-overview.shtml")
-  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request)
-      throws IOException {
-    //if an user acutally links to requests-overview we can dismiss the popup
-    notificationPopupClosed(request);
-    
-    Map<String, Object> model = new HashMap<String, Object>();
 
-    actionsService.synchronizeWithJira(selectedidp.getId());
-    final List<Action> actions = actionsService.getActions(selectedidp.getId());
-    model.put("actionList", actions);
-    return new ModelAndView("requests-overview", model);
-  }
 
 }
