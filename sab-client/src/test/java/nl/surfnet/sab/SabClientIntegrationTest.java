@@ -16,25 +16,24 @@
 
 package nl.surfnet.sab;
 
-
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URI;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-public class SabResponseParserTest {
+public class SabClientIntegrationTest {
 
   @Test
-  public void testParse() throws IOException {
-    InputStream stream = this.getClass().getResourceAsStream("/response.xml");
-
-    SabRoleHolder srh = new SabResponseParser().parse(stream);
-
-    assertEquals("SURFNET", srh.getOrganisation());
-    assertTrue("roles should contain Infraverantwoordelijke", srh.getRoles().contains("Infraverantwoordelijke"));
-    assertEquals("roles should count 9", 9, srh.getRoles().size());
+  @Ignore
+  public void test() throws IOException {
+    SabClient sabClient = new SabClient();
+    HttpClientTransport transport = new HttpClientTransport();
+    transport.setSabEndpoint(URI.create("x"));
+    transport.setUsername("x");
+    transport.setPassword("x");
+    sabClient.setTransport(transport);
+    SabRoleHolder roles = sabClient.getRoles("x");
+    System.out.println(roles);
   }
 }

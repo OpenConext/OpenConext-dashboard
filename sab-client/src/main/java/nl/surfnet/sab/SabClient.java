@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class SabClient implements Sab {
 
   private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
   private static final String REQUEST_TEMPLATE_LOCATION = "/sab-request.xml";
-  private static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis();
+  protected static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.UTC);
 
   private SabTransport transport;
   private SabResponseParser sabResponseParser = new SabResponseParser();
@@ -48,7 +49,7 @@ public class SabClient implements Sab {
     try {
 
       SabRoleHolder sabRoleHolder = getRoles(userId);
-      return sabRoleHolder.getOrganization().equals(organisation) && sabRoleHolder.getRoles().contains(role);
+      return sabRoleHolder.getOrganisation().equals(organisation) && sabRoleHolder.getRoles().contains(role);
     } catch (IOException e) {
       LOG.error("IOException while doing request to SAB. Will return false.", e);
       return false;

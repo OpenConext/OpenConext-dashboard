@@ -20,23 +20,34 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class SabRoleHolder implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private final List<String> roles;
-  private final String organization;
+  private final String organisation;
 
   public SabRoleHolder(String organization, List<String> roles) {
-    this.organization = organization;
+    this.organisation = organization;
     this.roles = Collections.unmodifiableList(roles);
   }
 
-  public String getOrganization() {
-    return organization;
+  public String getOrganisation() {
+    return organisation;
   }
 
   public List<String> getRoles() {
     return roles;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+      .append("organisation", organisation)
+      .append("roles", roles)
+      .toString();
   }
 }
