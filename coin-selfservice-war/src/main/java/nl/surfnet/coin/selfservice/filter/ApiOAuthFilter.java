@@ -16,10 +16,6 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +45,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
+
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
@@ -182,7 +182,6 @@ public class ApiOAuthFilter implements Filter {
       }
       if (groupsContains(adminSurfConextIdPTeam, groups)) {
         authories.add(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-        coinUser.setAuthorities(Arrays.asList(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN)));
       }
       coinUser.setAuthorities(authories.isEmpty() ? Arrays.asList(new CoinAuthority(Authority.ROLE_USER)) : authories);
     }
