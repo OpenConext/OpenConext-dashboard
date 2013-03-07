@@ -43,6 +43,7 @@ import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DI
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -177,5 +178,16 @@ public class SabEntitlementsFilterTest {
     filter.doFilter(request, response, chain);
     SpringSecurityUtil.assertNoRoleIsGranted();
 
+  }
+
+  @Test
+  public void sabReturnsNada() throws IOException, ServletException {
+    SpringSecurityUtil.setAuthentication("theuser");
+    CoinUser user = SpringSecurity.getCurrentUser();
+    user.setSchacHomeOrganization("theorg");
+
+    when(sabClient.getRoles(anyString())).thenReturn(null);
+    filter.doFilter(request, response, chain);
+    SpringSecurityUtil.assertNoRoleIsGranted();
   }
 }

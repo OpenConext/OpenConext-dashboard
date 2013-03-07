@@ -21,10 +21,15 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
  */
 public class SabClientMock implements Sab {
+
+  private static final Logger LOG = LoggerFactory.getLogger(SabClientMock.class);
 
   /**
    * Mapping of userIds to roles
@@ -33,8 +38,8 @@ public class SabClientMock implements Sab {
 
 
   public SabClientMock() {
-    rolesMapping.put("urn:collab:person:example.com:user1", new SabRoleHolder("SURFNET", Arrays.asList("Foo", "Bar")));
-    rolesMapping.put("urn:collab:person:example.com:user2", new SabRoleHolder("SURFNET", Arrays.asList("Foo", "Baz")));
+    rolesMapping.put("user1", new SabRoleHolder("SURFNET", Arrays.asList("Foo", "Bar")));
+    rolesMapping.put("user2", new SabRoleHolder("SURFNET", Arrays.asList("Foo", "Baz")));
   }
 
   @Override
@@ -47,7 +52,9 @@ public class SabClientMock implements Sab {
 
   @Override
   public SabRoleHolder getRoles(String userId) throws IOException {
-    return rolesMapping.get(userId);
+    SabRoleHolder sabRoleHolder = rolesMapping.get(userId);
+    LOG.debug("Returning SAB role holder: {}", sabRoleHolder);
+    return sabRoleHolder;
   }
 
   public void setTransport(SabTransport transport) {

@@ -71,10 +71,15 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
       try {
         SabRoleHolder roleHolder = sab.getRoles(user.getUid());
-        LOG.debug("Roles of user {} in organisation {}: {}", user.getUid(), roleHolder.getOrganisation(), roleHolder.getRoles());
-        elevateUserIfApplicable(user, roleHolder);
-        session.setAttribute(PROCESSED, "true");
-        LOG.debug("Authorities of user {} after 'processing SAB entitlements: {}", user.getAuthorities());
+        if (roleHolder == null) {
+          LOG.debug("SAB returned no information about user '{}'. Will skip SAB entitlement.", user.getUid());
+          session.setAttribute(PROCESSED, "true");
+        } else {
+          LOG.debug("Roles of user '{}' in organisation {}: {}", user.getUid(), roleHolder.getOrganisation(), roleHolder.getRoles());
+          elevateUserIfApplicable(user, roleHolder);
+          session.setAttribute(PROCESSED, "true");
+          LOG.debug("Authorities of user '{}' after processing SAB entitlements: {}", user.getUid(), user.getAuthorityEnums());
+        }
       } catch (IOException e) {
         LOG.info("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
       }
