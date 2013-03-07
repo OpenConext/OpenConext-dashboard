@@ -16,11 +16,16 @@
 
 package nl.surfnet.sab;
 
+import java.io.IOException;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class SabClientTest {
 
@@ -43,5 +48,18 @@ public class SabClientTest {
     assertTrue(request.contains("<saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:unspecified\">userid</saml:NameID>"));
     assertTrue(request.contains("ID=\"234567890\""));
     assertTrue(request.contains("IssueInstant=\"" + new GregorianCalendar().get(GregorianCalendar.YEAR)));
+  }
+
+  @Test
+  public void exceptionWhileQueryingRole() throws IOException {
+    String userId = "foo";
+    String organisation = "SURFNET";
+    String role = "Infraverantwoordelijke";
+
+    SabClient sabClient = new SabClient();
+    SabTransport transport = mock(SabTransport.class);
+    sabClient.setTransport(transport);
+    when(transport.getResponse(anyString())).thenThrow(new IOException("On purpose in unit test"));
+    assertFalse(sabClient.hasRoleForOrganisation(userId, role, organisation));
   }
 }

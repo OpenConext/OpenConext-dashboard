@@ -21,27 +21,29 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * Client implementation for SAB.
  * Depends on an actual 'transport' for communication, most probably HttpClientTransport.
  *
  */
-@Component
 public class SabClient implements Sab {
 
   private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
   private static final String REQUEST_TEMPLATE_LOCATION = "/sab-request.xml";
   protected static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.UTC);
 
+  @Resource
   private SabTransport transport;
+
   private SabResponseParser sabResponseParser = new SabResponseParser();
 
   @Override

@@ -51,7 +51,7 @@ public class HttpClientTransport implements SabTransport {
 
     httpPost.addHeader("Authorization", "Basic " + encodeUserPass(username, password));
 
-    LOG.debug("Request to SAB: {}", request);
+    LOG.debug("Request to SAB at endpoint {}: {}", sabEndpoint, request);
 
     StringEntity stringEntity = new StringEntity(request);
     httpPost.setEntity(stringEntity);
