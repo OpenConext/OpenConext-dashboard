@@ -18,15 +18,14 @@ package nl.surfnet.coin.selfservice.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
@@ -37,30 +36,34 @@ import nl.surfnet.sab.SabRoleHolder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.filter.GenericFilterBean;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
 
 public class SabEntitlementsFilter extends GenericFilterBean {
 
   private static final Logger LOG = LoggerFactory.getLogger(SabEntitlementsFilter.class);
 
-  private static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter.PROCESSED";
+  protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter.PROCESSED";
 
   private boolean lmngActive;
 
+  @Resource
   private Sab sab;
+
   private String adminDistributionRole;
   private String adminLicentieIdPRole;
   private String adminSurfConextIdPRole;
+  private String viewerSurfConextIdPRole;
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
-    HttpServletResponse httpResponse = (HttpServletResponse) response;
     final HttpSession session = httpRequest.getSession(true);
 
     if (SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
@@ -83,17 +86,34 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
     if (roleHolder.getOrganisation().equals(user.getSchacHomeOrganization())) {
 
-      if (roleHolder.getRoles().contains(adminDistributionRole)) {
-        user.setAuthorities(Arrays.asList(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN)));
+      if (!adminDistributionRole.isEmpty() && roleHolder.getRoles().contains(adminDistributionRole)) {
+        user.setAuthorities(new ArrayList<CoinAuthority>());
+        user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
       } else {
-        List<CoinAuthority> authories = new ArrayList<CoinAuthority>();
-        if (roleHolder.getRoles().contains(adminLicentieIdPRole) && this.lmngActive) {
-          authories.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
+        List<GrantedAuthority> newAuthorities = new ArrayList<GrantedAuthority>();
+        if (!adminLicentieIdPRole.isEmpty() && roleHolder.getRoles().contains(adminLicentieIdPRole) && this.lmngActive) {
+          newAuthorities.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
         }
-        if (roleHolder.getRoles().contains(adminSurfConextIdPRole)) {
-          authories.add(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
+        if (!adminSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(adminSurfConextIdPRole)) {
+          newAuthorities.add(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
         }
-        user.setAuthorities(authories.isEmpty() ? Arrays.asList(new CoinAuthority(CoinAuthority.Authority.ROLE_USER)) : authories);
+        if (!viewerSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(viewerSurfConextIdPRole)) {
+          // BACKLOG-940: for now, only users having this role will be allowed access.
+          // No regular end users yet.
+          // In the future, this 'viewer' (SURFconextbeheerder) user probably deserves a role of its own, instead of the USER role.
+          newAuthorities.add(new CoinAuthority(CoinAuthority.Authority.ROLE_USER));
+        }
+
+        // Now merge with earlier assigned authorities
+        if (user.getAuthorityEnums().contains(ROLE_DISTRIBUTION_CHANNEL_ADMIN)) {
+          // nothing, highest role possible
+        } else if (user.getAuthorityEnums().contains(ROLE_IDP_LICENSE_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN))) {
+          user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
+        } else if (user.getAuthorityEnums().contains(ROLE_IDP_SURFCONEXT_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN))) {
+          user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
+        } else if (newAuthorities.contains(new CoinAuthority(ROLE_USER))) {
+          user.addAuthority(new CoinAuthority(ROLE_USER));
+        }
       }
     } else {
       LOG.debug("User ({})'s SchacHomeOrg ({}) does not match organisation in SAB ({}). Will not apply roles.",
@@ -117,12 +137,11 @@ public class SabEntitlementsFilter extends GenericFilterBean {
   public void setAdminSurfConextIdPRole(String adminSurfConextIdPRole) {
     this.adminSurfConextIdPRole = adminSurfConextIdPRole;
   }
+  public void setViewerSurfConextIdPRole(String viewerSurfConextIdPRole) {
+    this.viewerSurfConextIdPRole = viewerSurfConextIdPRole;
+  }
 
   public void setLmngActive(boolean lmngActive) {
     this.lmngActive = lmngActive;
-  }
-
-  public void setSab(Sab sab) {
-    this.sab = sab;
   }
 }

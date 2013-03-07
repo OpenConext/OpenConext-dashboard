@@ -119,6 +119,17 @@ api-consumerkey=https://selfservice.test.surfconext.nl/
 api-consumersecret=??
 api-callbackuri=https\://selfservice.test.surfconext.nl/apiOauthCallback?apiOauthCallback=true
 
+# SAB connection details
+sab.endpoint=https://sab-ng.surfnet.nl/simplesaml/module.php/attributes/server.php
+sab.username=??
+sab.password=??
+
+# SAB roles
+admin.licentie.idp.sabRole=
+admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
+viewer.surfconext.idp.sabRole=SURFconextbeheerder
+admin.distribution.channel.sabRole=
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features
@@ -143,6 +154,7 @@ lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
 keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
 cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager
+sabClientClass=nl.surfnet.sab.SabClient
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-api.jdbc.driver=com.mysql.jdbc.Driver

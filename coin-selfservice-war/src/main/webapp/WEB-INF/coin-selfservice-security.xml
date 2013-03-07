@@ -19,12 +19,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:opensaml="http://www.surfnet.nl/schema/security/opensaml"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd
        http://www.surfnet.nl/schema/security/opensaml
-       http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd">
+       http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner">
     <property name="identityProviderService" ref="providerService" />
@@ -38,6 +39,23 @@
     <property name="apiClient" ref="openConextApiClient" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
     <property name="lmngActive" value="${coin-lmng-active-mode}"/>
+  </bean>
+
+  <bean id="sabEntitlementsFilter" class="nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter">
+    <property name="adminDistributionRole" value="${admin.distribution.channel.sabRole}" />
+    <property name="adminLicentieIdPRole" value="${admin.licentie.idp.sabRole}" />
+    <property name="adminSurfConextIdPRole" value="${admin.surfconext.idp.sabRole}" />
+    <property name="viewerSurfConextIdPRole" value="${viewer.surfconext.idp.sabRole}" />
+    <property name="lmngActive" value="${coin-lmng-active-mode}" />
+  </bean>
+
+  <!-- this will be either the real SabClient or a Mock -->
+  <bean id="sabClient" class="${sabClientClass}" />
+
+  <bean class="nl.surfnet.sab.HttpClientTransport">
+    <property name="sabEndpoint" value="${sab.endpoint}" />
+    <property name="username" value="${sab.username}" />
+    <property name="password" value="${sab.password}" />
   </bean>
 
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.KeyStore">
@@ -61,6 +79,7 @@
 
     <security:custom-filter position="PRE_AUTH_FILTER" ref="samlPreAuthFilter"/>
     <security:custom-filter after="PRE_AUTH_FILTER" ref="apiOauthFilter"/>
+    <security:custom-filter after="ANONYMOUS_FILTER" ref="sabEntitlementsFilter"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Metadata" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
