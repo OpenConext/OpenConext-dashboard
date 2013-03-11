@@ -89,7 +89,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   private void elevateUserIfApplicable(CoinUser user, SabRoleHolder roleHolder) {
 
-    if (roleHolder.getOrganisation().equals(user.getSchacHomeOrganization())) {
+    if (roleHolder.getOrganisation() != null && roleHolder.getOrganisation().equals(user.getSchacHomeOrganization())) {
 
       if (!adminDistributionRole.isEmpty() && roleHolder.getRoles().contains(adminDistributionRole)) {
         user.setAuthorities(new ArrayList<CoinAuthority>());
