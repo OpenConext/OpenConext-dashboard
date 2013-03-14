@@ -21,9 +21,9 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -33,8 +33,8 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.service.ActionsService;
-import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.EmailService;
+import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
@@ -100,19 +100,45 @@ public class QuestionControllerTest {
 
   @Test
   public void questionPostHappy() throws IOException {
-    final String issueKey = "TEST-001";
-    when(jiraService.create(Matchers.<JiraTask>any(), Matchers.<CoinUser>any())).thenReturn(issueKey);
+    questionController.setCreateAdministrationJirraTicket(true);
+    questionController.setSendAdministrationEmail(true);
+    when(jiraService.create(Matchers.<JiraTask>any(), Matchers.<CoinUser>any())).thenReturn("ignoredIssueKey");
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
     verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
-    verify(emailService).sendMail(eq(issueKey), (String) anyObject(), (String) anyObject(), (String) anyObject());
+    verify(emailService).sendMail((String) anyObject(), (String) anyObject(), (String) anyObject());
+    assertTrue(mav.hasView());
+    assertThat(mav.getViewName(), is("requests/question-thanks"));
+  }
+  
+  @Test
+  public void questionPostHappyWithoutJiraTicket() throws IOException {
+    questionController.setSendAdministrationEmail(true);
+    Question question = new Question();
+    BindingResult result = new BeanPropertyBindingResult(question, "question");
+    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
+    verifyZeroInteractions(jiraService);
+    verify(emailService).sendMail((String) anyObject(), (String) anyObject(), (String) anyObject());
+    assertTrue(mav.hasView());
+    assertThat(mav.getViewName(), is("requests/question-thanks"));
+  }
+  
+  @Test
+  public void questionPostHappyWithoutEmail() throws IOException {
+    questionController.setCreateAdministrationJirraTicket(true);
+    Question question = new Question();
+    BindingResult result = new BeanPropertyBindingResult(question, "question");
+    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
+    verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
+    verifyZeroInteractions(emailService);
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("requests/question-thanks"));
   }
 
   @Test
   public void questionThrowsJiraError() throws IOException {
+    questionController.setCreateAdministrationJirraTicket(true);
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     when(jiraService.create((JiraTask) anyObject(), Matchers.<CoinUser>any())).thenThrow(new IOException("An IOException on purpose"));
