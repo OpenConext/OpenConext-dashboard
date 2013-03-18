@@ -31,7 +31,7 @@
     <h1><c:out value="${spname}"/></h1>
 
     <p>
-      <spring:message code="jsp.sp_unlinkrequest.thankstext" arguments="${issueKey}"/>
+      <spring:message code="jsp.sp_unlinkrequest.thankstext" />
     </p>
 
     <div class="actions">
