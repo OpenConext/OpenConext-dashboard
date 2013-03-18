@@ -17,10 +17,9 @@
 # RELEASE INFORMATION
 
     Project:           COIN-selfservice
-    Date:              2012-05-15
+    Date:              2013-03-18
 
     Content:
-
       1.  Unpack tarball
       2.  Prepare Tomcat
         2.1 Stop Tomcat
@@ -81,6 +80,7 @@ appropriate property file for your environment from the following directory:
 Copy the chosen property files to:
 `<<CATALINA_HOME>>/conf/classpath_properties/coin-selfservice.properties`
 `<<CATALINA_HOME>>/conf/classpath_properties/selfservice-ehcache.xml`
+`<<CATALINA_HOME>>/conf/classpath_properties/selfservice-logback.xml`
 
 Edit the values of the property files according to your environment.
 
