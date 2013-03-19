@@ -71,7 +71,7 @@ public class QuestionController extends BaseController {
   @Value("${administration.email.enabled:true}")
   private boolean sendAdministrationEmail;
 
-  @Value("${administration.jirra.ticket.enabled:false}")
+  @Value("${administration.jira.ticket.enabled:false}")
   private boolean createAdministrationJirraTicket;
 
   private static final Logger LOG = LoggerFactory.getLogger(QuestionController.class);
