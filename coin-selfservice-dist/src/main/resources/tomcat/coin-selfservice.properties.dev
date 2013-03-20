@@ -138,6 +138,12 @@ admin.distribution.channel.sabRole=
 # Defines if the site is in local dev mode or deployed on the server. Used for CSS/JS concatenation
 mode.dev=true
 
+#toggle the creation of an email when a question is asked or an entity is linked / unlinked
+administration.email.enabled=false
+
+#toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
+administration.jira.ticket.enabled=true
+
 ##########################################################################
 # The following properties are the responsibility of development.
 ##########################################################################

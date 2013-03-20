@@ -73,7 +73,7 @@ public class UnlinkRequestController extends BaseController {
   private boolean sendAdministrationEmail;
 
   @Value("${administration.jira.ticket.enabled:false}")
-  private boolean createAdministrationJirraTicket;
+  private boolean createAdministrationJiraTicket;
 
   /**
    * Controller for unlink request form page.
@@ -126,7 +126,7 @@ public class UnlinkRequestController extends BaseController {
       return new ModelAndView("requests/linkrequest-confirm", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      if (createAdministrationJirraTicket) {
+      if (createAdministrationJiraTicket) {
         try {
           final JiraTask task = new JiraTask.Builder()
               .body(currentUser.getEmail() + ("\n\n" + unlinkrequest.getNotes()))

@@ -75,7 +75,7 @@ public class LinkrequestController extends BaseController {
   private boolean sendAdministrationEmail;
 
   @Value("${administration.jira.ticket.enabled:false}")
-  private boolean createAdministrationJirraTicket;
+  private boolean createAdministrationJiraTicket;
 
   private PersonAttributeLabelService personAttributeLabelService = new PersonAttributeLabelServiceJsonImpl(
       "classpath:person_attributes.json");
@@ -113,7 +113,7 @@ public class LinkrequestController extends BaseController {
       return new ModelAndView("requests/linkrequest", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      if (createAdministrationJirraTicket) {
+      if (createAdministrationJiraTicket) {
         final JiraTask task = new JiraTask.Builder().body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
             .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId)
             .institution(currentUser.getInstitutionId()).issueType(JiraTask.Type.LINKREQUEST)

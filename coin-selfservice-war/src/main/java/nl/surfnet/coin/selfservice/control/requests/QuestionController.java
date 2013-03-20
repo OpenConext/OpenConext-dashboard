@@ -72,7 +72,7 @@ public class QuestionController extends BaseController {
   private boolean sendAdministrationEmail;
 
   @Value("${administration.jira.ticket.enabled:false}")
-  private boolean createAdministrationJirraTicket;
+  private boolean createAdministrationJiraTicket;
 
   private static final Logger LOG = LoggerFactory.getLogger(QuestionController.class);
 
@@ -113,7 +113,7 @@ public class QuestionController extends BaseController {
       return new ModelAndView("requests/question", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      if (createAdministrationJirraTicket) {
+      if (createAdministrationJiraTicket) {
         final JiraTask task = new JiraTask.Builder().body(question.getSubject() + ("\n\n" + question.getBody()))
             .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId)
             .institution(currentUser.getInstitutionId()).issueType(JiraTask.Type.QUESTION).status(JiraTask.Status.OPEN)
@@ -147,10 +147,10 @@ public class QuestionController extends BaseController {
 
   /**
    * Used from unit testing to change the behavior of this controller
-   * @param createAdministrationJirraTicket toggle the creation of a Jirra Ticket
+   * @param createAdministrationJirraTicket toggle the creation of a Jira Ticket
    */
-  void setCreateAdministrationJirraTicket(boolean createAdministrationJirraTicket) {
-    this.createAdministrationJirraTicket = createAdministrationJirraTicket;
+  void setCreateAdministrationJiraTicket(boolean createAdministrationJiraTicket) {
+    this.createAdministrationJiraTicket = createAdministrationJiraTicket;
   }
   
 }

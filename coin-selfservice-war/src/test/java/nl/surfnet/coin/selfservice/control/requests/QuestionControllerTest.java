@@ -100,7 +100,7 @@ public class QuestionControllerTest {
 
   @Test
   public void questionPostHappy() throws IOException {
-    questionController.setCreateAdministrationJirraTicket(true);
+    questionController.setCreateAdministrationJiraTicket(true);
     questionController.setSendAdministrationEmail(true);
     when(jiraService.create(Matchers.<JiraTask>any(), Matchers.<CoinUser>any())).thenReturn("ignoredIssueKey");
     Question question = new Question();
@@ -126,7 +126,7 @@ public class QuestionControllerTest {
   
   @Test
   public void questionPostHappyWithoutEmail() throws IOException {
-    questionController.setCreateAdministrationJirraTicket(true);
+    questionController.setCreateAdministrationJiraTicket(true);
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
@@ -138,7 +138,7 @@ public class QuestionControllerTest {
 
   @Test
   public void questionThrowsJiraError() throws IOException {
-    questionController.setCreateAdministrationJirraTicket(true);
+    questionController.setCreateAdministrationJiraTicket(true);
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     when(jiraService.create((JiraTask) anyObject(), Matchers.<CoinUser>any())).thenThrow(new IOException("An IOException on purpose"));
