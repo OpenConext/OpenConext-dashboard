@@ -26,21 +26,30 @@
     <ul class="app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActiveModus == true ? 'lmng-active' : ''}"> 
       <c:forEach items="${compoundSps}" var="compoundSp">
         <c:if test="${not empty compoundSp.id}">
+          <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
+          <c:set var="showConnectButton" value="${applyAllowed and (not compoundSp.sp.linked)}" />
           <li class="${compoundSp.sp.linked ? "connected" : "not-connected"} ${compoundSp.articleLicenseAvailable ? "licensed" : "not-licensed"}" data-id="${compoundSp.id}">
             <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
               <spring:param name="compoundSpId" value="${compoundSp.id}" />
             </spring:url>
-            <h2>
-              <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a><!--TODO: providername for compoundSp instead of SP -->
+            <c:set var="spTitleClass">
+              <c:choose>
+                <c:when test="${empty serviceDescription and not showConnectButton}">longer</c:when>
+                <c:when test="${empty serviceDescription or not showConnectButton}">long</c:when>
+                <c:otherwise>short</c:otherwise>
+              </c:choose>
+            </c:set>
+            <h2 class="${spTitleClass}">
+              <%--TODO: providername for compoundSp instead of SP --%>
+              <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a>
             </h2> 
             <c:if test="${not empty compoundSp.appStoreLogo}">
               <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
             </c:if>
             <p class="desc">
-              <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
               <c:out value="${fn:substring(serviceDescription, 0, 40)}" />
             </p>
-            <c:if test="${applyAllowed and (not compoundSp.sp.linked)}">
+            <c:if test="${showConnectButton}">
               <p class="connect-app">
                 <a href="<c:url value="/requests/linkrequest.shtml">
                         <c:param name="spEntityId" value="${compoundSp.sp.id}" />
