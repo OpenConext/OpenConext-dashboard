@@ -27,7 +27,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class CoinAuthority implements GrantedAuthority {
 
   private final Authority authority;
-  
+
   public enum Authority {
     ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_USER;
   }
@@ -49,5 +49,22 @@ public class CoinAuthority implements GrantedAuthority {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
         .append("authority", authority)
         .toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    CoinAuthority that = (CoinAuthority) o;
+
+    if (authority != that.authority) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return authority != null ? authority.hashCode() : 0;
   }
 }

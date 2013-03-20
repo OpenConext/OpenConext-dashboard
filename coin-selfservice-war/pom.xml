@@ -343,6 +343,11 @@
       <artifactId>context-logging</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.surfnet.coin</groupId>
+      <artifactId>sab-client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

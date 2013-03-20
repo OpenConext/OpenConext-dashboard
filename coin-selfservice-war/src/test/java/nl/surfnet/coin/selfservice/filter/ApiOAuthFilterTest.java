@@ -16,23 +16,8 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -41,10 +26,7 @@ import javax.servlet.http.HttpSession;
 
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsEqual;
@@ -57,8 +39,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertNoRoleIsGranted;
+import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertRoleIsGranted;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class ApiOAuthFilterTest {
 
@@ -150,7 +144,7 @@ public class ApiOAuthFilterTest {
 
     filter.doFilter(request, response, chain);
     assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
-    assertOnlyUserRoleIsGranted();
+    assertNoRoleIsGranted();
   }
 
   @Test
@@ -180,33 +174,33 @@ public class ApiOAuthFilterTest {
   @Test
   public void test_elevate_user_results_in_two_admins() throws IOException, ServletException {
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
-    assertRoleIsGranted( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+    assertRoleIsGranted(ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
   }
 
   @Test
   public void test_elevate_user_one_idp_admin() throws IOException, ServletException {
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
-    assertRoleIsGranted( ROLE_IDP_LICENSE_ADMIN);
+    assertRoleIsGranted(ROLE_IDP_LICENSE_ADMIN);
   }
 
   @Test
   public void test_elevate_user_results_in_one_admin_when_lmng_is_disabled() throws IOException, ServletException {
     filter.setLmngActive(false);
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
-    assertRoleIsGranted( ROLE_IDP_SURFCONEXT_ADMIN);
+    assertRoleIsGranted(ROLE_IDP_SURFCONEXT_ADMIN);
   }
 
   @Test
-  public void test_elevate_user_idp_license_admin_becomes_user_role_when_lmng_is_disabled() throws IOException, ServletException {
+  public void test_elevate_user_idp_license_admin_gets_no_role_when_lmng_is_disabled() throws IOException, ServletException {
     filter.setLmngActive(false);
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
-    assertRoleIsGranted( ROLE_USER);
+    assertNoRoleIsGranted();
   }
 
   @Test
-  public void test_elevate_user_results_in_user() throws IOException, ServletException {
+  public void test_elevate_user_results_in_no_authorities() throws IOException, ServletException {
     setUpForAuthoritiesCheck( new Authority[]{});
-    assertRoleIsGranted( ROLE_USER);
+    assertNoRoleIsGranted();
   }
 
   private void setUpForAuthoritiesCheck(Authority... groupMemberShips) throws IOException, ServletException {
@@ -244,25 +238,7 @@ public class ApiOAuthFilterTest {
   }
 
   private void setAuthentication() {
-    final CoinUser coinUser = new CoinUser();
-    coinUser.setUid(THE_USERS_UID);
-    coinUser.addAuthority(new CoinAuthority(ROLE_USER));
-
-    final TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");
-    token.setAuthenticated(true);
-
-    SecurityContextHolder.getContext().setAuthentication(token);
-  }
-
-  private void assertOnlyUserRoleIsGranted() {
-    assertRoleIsGranted(ROLE_USER);
-  }
-
-  private void assertRoleIsGranted(Authority... auths) {
-    CoinUser user = SpringSecurity.getCurrentUser();
-    List<Authority> authorities = user.getAuthorityEnums();
-    assertEquals(authorities.size(), auths.length);
-    assertTrue(authorities.containsAll(Arrays.asList(auths)));
+    SpringSecurityUtil.setAuthentication(THE_USERS_UID);
   }
 
 }
