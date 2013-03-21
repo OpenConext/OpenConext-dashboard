@@ -17,6 +17,8 @@
 package nl.surfnet.coin.selfservice.control.requests;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.ActionsService;
+import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
@@ -38,6 +41,7 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -61,8 +65,17 @@ public class LinkrequestController extends BaseController {
   @Resource(name = "jiraService")
   private JiraService jiraService;
 
+  @Resource(name = "emailService")
+  private EmailService emailService;
+
   @Resource(name = "actionsService")
   private ActionsService actionsService;
+
+  @Value("${administration.email.enabled:true}")
+  private boolean sendAdministrationEmail;
+
+  @Value("${administration.jira.ticket.enabled:false}")
+  private boolean createAdministrationJiraTicket;
 
   private PersonAttributeLabelService personAttributeLabelService = new PersonAttributeLabelServiceJsonImpl(
       "classpath:person_attributes.json");
@@ -100,23 +113,48 @@ public class LinkrequestController extends BaseController {
       return new ModelAndView("requests/linkrequest", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      final JiraTask task = new JiraTask.Builder().body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
-          .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId).institution(currentUser.getInstitutionId())
-          .issueType(JiraTask.Type.LINKREQUEST).status(JiraTask.Status.OPEN).build();
-      try {
-        final String issueKey = jiraService.create(task, currentUser);
-        actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
-        m.put("issueKey", issueKey);
-        sessionStatus.setComplete();
-        return new ModelAndView("requests/linkrequest-thanks", m);
-      } catch (IOException e) {
-        LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
-        m.put("jiraError", e.getMessage());
-        return new ModelAndView("requests/linkrequest", m);
+      if (createAdministrationJiraTicket) {
+        final JiraTask task = new JiraTask.Builder().body(currentUser.getEmail() + ("\n\n" + linkrequest.getNotes()))
+            .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId)
+            .institution(currentUser.getInstitutionId()).issueType(JiraTask.Type.LINKREQUEST)
+            .status(JiraTask.Status.OPEN).build();
+        try {
+          final String issueKey = jiraService.create(task, currentUser);
+          actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
+          m.put("issueKey", issueKey);
+          sessionStatus.setComplete();
+          return new ModelAndView("requests/linkrequest-thanks", m);
+        } catch (IOException e) {
+          LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
+          m.put("jiraError", e.getMessage());
+          return new ModelAndView("requests/linkrequest", m);
+        }
       }
+
+      if (sendAdministrationEmail) {
+        StringBuilder subject = new StringBuilder();
+        subject.append("[Self Service Portal request] New connection for IdP "); 
+        subject.append(selectedidp.getName());
+        subject.append(" to SP ");
+        subject.append(sp.getName());
+
+        StringBuilder body = new StringBuilder();
+        body.append("Domain of Reporter: " + currentUser.getSchacHomeOrganization() + "\n");
+        body.append("SP EntityID: " + spEntityId + "\n");
+        body.append("IdP EntityID: " + selectedidp.getId() + "\n");
+        body.append("\n");
+        body.append("Request: Link Request\n");
+        body.append("applicant name: " + currentUser.getDisplayName() + "\n");
+        body.append("applicant email: " + currentUser.getEmail() + " \n");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:MM");
+        body.append("Time: " + sdf.format(new Date()) + "\n");
+        body.append("Remark from User:\n");
+        body.append(linkrequest.getNotes());
+        emailService.sendMail("no-reply@surfconext.nl", subject.toString(), body.toString());
+      }
+
+      return new ModelAndView("requests/linkrequest-thanks", m);
     }
   }
-
-
 
 }

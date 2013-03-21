@@ -5,7 +5,13 @@ import java.util.Locale;
 import java.util.Map;
 
 public interface EmailService {
-  void sendMail(String issueKey, String from, String subject, String body);
+  /**
+   * Send an email message.
+   * @param from
+   * @param subject
+   * @param body
+   */
+  void sendMail(String from, String subject, String body);
 
   /**
    * Send a (multipart) email message using a (freemarker) template. This method
@@ -28,7 +34,7 @@ public interface EmailService {
    * @param templateVars
    *          a map with variables to use in the Freemarker template
    */
-  void sendTemplatedMultipartEmail(String subject, String templateName, Locale locale, List<String> recipients, String from,
-      Map<String, Object> templateVars);
+  void sendTemplatedMultipartEmail(String subject, String templateName, Locale locale, List<String> recipients,
+      String from, Map<String, Object> templateVars);
 
 }

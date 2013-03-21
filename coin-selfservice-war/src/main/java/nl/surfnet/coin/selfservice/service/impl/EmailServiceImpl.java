@@ -43,19 +43,17 @@ public class EmailServiceImpl implements EmailService {
   @Autowired
   private Configuration freemarkerConfiguration;
 
-  public void sendMail(String issueKey, String from, String subject, String body) {
-    StringBuilder emailSubject = new StringBuilder("(");
-    emailSubject.append(issueKey);
-    emailSubject.append(") ");
-    emailSubject.append(subject);
-
+  /**
+   * {@inheritDoc}
+   */
+  public void sendMail(String from, String subject, String body) {
     StringBuilder content = new StringBuilder("The following question was posted on self service portal:\n\n");
     content.append(body);
 
     SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
     simpleMailMessage.setFrom(from);
     simpleMailMessage.setTo(administrativeEmail);
-    simpleMailMessage.setSubject(emailSubject.toString());
+    simpleMailMessage.setSubject(subject);
     simpleMailMessage.setText(content.toString());
 
     mailService.sendAsync(simpleMailMessage);

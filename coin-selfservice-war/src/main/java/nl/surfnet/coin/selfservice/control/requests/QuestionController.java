@@ -38,6 +38,7 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -67,6 +68,12 @@ public class QuestionController extends BaseController {
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
+  @Value("${administration.email.enabled:true}")
+  private boolean sendAdministrationEmail;
+
+  @Value("${administration.jira.ticket.enabled:false}")
+  private boolean createAdministrationJiraTicket;
+
   private static final Logger LOG = LoggerFactory.getLogger(QuestionController.class);
 
   @ModelAttribute(value = "personAttributeLabels")
@@ -82,7 +89,8 @@ public class QuestionController extends BaseController {
    * @return ModelAndView
    */
   @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
-  public ModelAndView spQuestion(@RequestParam String spEntityId, @RequestParam Long compoundSpId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+  public ModelAndView spQuestion(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     m.put("question", new Question());
@@ -93,8 +101,8 @@ public class QuestionController extends BaseController {
 
   @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
   public ModelAndView spQuestionSubmit(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, @Valid @ModelAttribute("question") Question question,
-      BindingResult result) {
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+      @Valid @ModelAttribute("question") Question question, BindingResult result) {
 
     Map<String, Object> m = new HashMap<String, Object>();
     m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
@@ -105,25 +113,44 @@ public class QuestionController extends BaseController {
       return new ModelAndView("requests/question", m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      final JiraTask task = new JiraTask.Builder().body(question.getSubject() + ("\n\n" + question.getBody()))
-          .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId).institution(currentUser.getInstitutionId())
-          .issueType(JiraTask.Type.QUESTION).status(JiraTask.Status.OPEN).build();
-      try {
-        final String issueKey = jiraService.create(task, currentUser);
+      if (createAdministrationJiraTicket) {
+        final JiraTask task = new JiraTask.Builder().body(question.getSubject() + ("\n\n" + question.getBody()))
+            .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId)
+            .institution(currentUser.getInstitutionId()).issueType(JiraTask.Type.QUESTION).status(JiraTask.Status.OPEN)
+            .build();
 
-        final String emailFrom = currentUser.getEmail();
-
-        emailService.sendMail(issueKey, emailFrom, question.getSubject(), question.getBody());
-
-        m.put("issueKey", issueKey);
-        return new ModelAndView("requests/question-thanks", m);
-      } catch (IOException e) {
-        LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
-        m.put("jiraError", e.getMessage());
-        return new ModelAndView("requests/question", m);
+        try {
+          jiraService.create(task, currentUser);
+        } catch (IOException e) {
+          LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
+          m.put("jiraError", e.getMessage());
+          return new ModelAndView("requests/question", m);
+        }
       }
+
+      if (sendAdministrationEmail) {
+        final String emailFrom = currentUser.getEmail();
+        emailService.sendMail(emailFrom, question.getSubject(), question.getBody());
+      }
+      return new ModelAndView("requests/question-thanks", m);
 
     }
   }
 
+  /**
+   * Used from unit testing to change the behavior of this controller
+   * @param sendAdministrationEmail toggle the administration email
+   */
+  void setSendAdministrationEmail(boolean sendAdministrationEmail) {
+    this.sendAdministrationEmail = sendAdministrationEmail;
+  }
+
+  /**
+   * Used from unit testing to change the behavior of this controller
+   * @param createAdministrationJirraTicket toggle the creation of a Jira Ticket
+   */
+  void setCreateAdministrationJiraTicket(boolean createAdministrationJiraTicket) {
+    this.createAdministrationJiraTicket = createAdministrationJiraTicket;
+  }
+  
 }

@@ -30,7 +30,7 @@
 
     <h1><c:out value="${spname}"/></h1>
     <p>
-      <spring:message code="jsp.sp_linkrequest.thankstext" arguments="${issueKey}"/>
+      <spring:message code="jsp.sp_linkrequest.thankstext" />
     </p>
     <div class="actions">
       <spring:url value="../app-overview.shtml" var="overviewUrl" htmlEscape="true" />
