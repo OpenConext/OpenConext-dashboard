@@ -62,21 +62,6 @@ public class MenuInterceptorTest {
 
   }
 
-  @Test
-  public void notificationsOnlyWhenLmngActive() throws Exception {
-    menuInterceptor.setLmngActive(true);
-    Menu menuWhenLmngActive = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
-
-    menuInterceptor.setLmngActive(false);
-    Menu menuWhenLmngNotActive = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
-
-    assertEquals(4, menuWhenLmngActive.getMenuItems().size());
-    assertEquals(3, menuWhenLmngNotActive.getMenuItems().size());
-    assertEquals("jsp.notifications.title", menuWhenLmngActive.getMenuItems().get(1).getLabel());
-    assertEquals("jsp.requests-overview.title", menuWhenLmngNotActive.getMenuItems().get(1).getLabel());
-
-  }
-
   private Menu executeTestAndReturnMenu(String requestUri, Authority... authorities) throws Exception {
     setUpAuthorities(authorities);
     ModelAndView modelAndView = new ModelAndView();
