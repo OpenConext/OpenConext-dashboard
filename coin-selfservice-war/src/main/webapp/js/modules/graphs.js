@@ -198,9 +198,13 @@ app.graphs = function() {
   }
 
   var idpChange = function() {
+    var newIdp = '';
 
-    var newIdp = $("#idp-select2 option:selected").val();
-    selectedIdp = newIdp;
+
+    if ($("#idp-select2 option:selected").length) {
+      newIdp = $("#idp-select2 option:selected").val();
+      selectedIdp = newIdp;
+    }
 
     if (selectedSp) {
       initDetailRendering(selectedSp);

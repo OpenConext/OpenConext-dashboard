@@ -102,7 +102,7 @@ app.message = function() {
     },
     "stats.total_logins" : {
       en : "Total logins",
-      nl : "Aantal inloggen"
+      nl : "Aantal logins"
     },
     "stats.reset_zoom" : {
       en : "Reset zoom",
