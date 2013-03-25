@@ -89,41 +89,34 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   private void elevateUserIfApplicable(CoinUser user, SabRoleHolder roleHolder) {
 
-    if (roleHolder.getOrganisation() != null && roleHolder.getOrganisation().equals(user.getSchacHomeOrganization())) {
-
-      if (!adminDistributionRole.isEmpty() && roleHolder.getRoles().contains(adminDistributionRole)) {
-        user.setAuthorities(new ArrayList<CoinAuthority>());
-        user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-      } else {
-        List<GrantedAuthority> newAuthorities = new ArrayList<GrantedAuthority>();
-        if (!adminLicentieIdPRole.isEmpty() && roleHolder.getRoles().contains(adminLicentieIdPRole) && this.lmngActive) {
-          newAuthorities.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-        }
-        if (!adminSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(adminSurfConextIdPRole)) {
-          newAuthorities.add(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-        }
-        if (!viewerSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(viewerSurfConextIdPRole)) {
-          // BACKLOG-940: for now, only users having this role will be allowed access.
-          // No regular end users yet.
-          // In the future, this 'viewer' (SURFconextbeheerder) user probably deserves a role of its own, instead of the USER role.
-          newAuthorities.add(new CoinAuthority(CoinAuthority.Authority.ROLE_USER));
-        }
-
-        // Now merge with earlier assigned authorities
-        if (user.getAuthorityEnums().contains(ROLE_DISTRIBUTION_CHANNEL_ADMIN)) {
-          // nothing, highest role possible
-        } else if (user.getAuthorityEnums().contains(ROLE_IDP_LICENSE_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN))) {
-          user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-        } else if (user.getAuthorityEnums().contains(ROLE_IDP_SURFCONEXT_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN))) {
-          user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-        } else if (newAuthorities.contains(new CoinAuthority(ROLE_USER))) {
-          user.addAuthority(new CoinAuthority(ROLE_USER));
-        }
-      }
+    if (!adminDistributionRole.isEmpty() && roleHolder.getRoles().contains(adminDistributionRole)) {
+      user.setAuthorities(new ArrayList<CoinAuthority>());
+      user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     } else {
-      LOG.debug("User ({})'s SchacHomeOrg ({}) does not match organisation in SAB ({}). Will not apply roles.",
-        user.getUid(), user.getSchacHomeOrganization(), roleHolder.getOrganisation());
-      return;
+      List<GrantedAuthority> newAuthorities = new ArrayList<GrantedAuthority>();
+      if (!adminLicentieIdPRole.isEmpty() && roleHolder.getRoles().contains(adminLicentieIdPRole) && this.lmngActive) {
+        newAuthorities.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
+      }
+      if (!adminSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(adminSurfConextIdPRole)) {
+        newAuthorities.add(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
+      }
+      if (!viewerSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(viewerSurfConextIdPRole)) {
+        // BACKLOG-940: for now, only users having this role will be allowed access.
+        // No regular end users yet.
+        // In the future, this 'viewer' (SURFconextbeheerder) user probably deserves a role of its own, instead of the USER role.
+        newAuthorities.add(new CoinAuthority(CoinAuthority.Authority.ROLE_USER));
+      }
+
+      // Now merge with earlier assigned authorities
+      if (user.getAuthorityEnums().contains(ROLE_DISTRIBUTION_CHANNEL_ADMIN)) {
+        // nothing, highest role possible
+      } else if (user.getAuthorityEnums().contains(ROLE_IDP_LICENSE_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN))) {
+        user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
+      } else if (user.getAuthorityEnums().contains(ROLE_IDP_SURFCONEXT_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN))) {
+        user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
+      } else if (newAuthorities.contains(new CoinAuthority(ROLE_USER))) {
+        user.addAuthority(new CoinAuthority(ROLE_USER));
+      }
     }
   }
 

@@ -169,18 +169,6 @@ public class SabEntitlementsFilterTest {
   }
 
   @Test
-  public void unknownOrganisation() throws IOException, ServletException {
-    SpringSecurityUtil.setAuthentication("theuser");
-    CoinUser user = SpringSecurity.getCurrentUser();
-    user.setSchacHomeOrganization("someObscureOrganisation");
-
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "adminsc-role")));
-    filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertNoRoleIsGranted();
-
-  }
-
-  @Test
   public void sabReturnsNada() throws IOException, ServletException {
     SpringSecurityUtil.setAuthentication("theuser");
     CoinUser user = SpringSecurity.getCurrentUser();
