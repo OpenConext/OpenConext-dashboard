@@ -49,7 +49,7 @@
               <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
             </c:if>
             <p class="desc">
-              <c:out value="${fn:substring(serviceDescription, 0, 40)}" />
+              <c:out value="${serviceDescription}" />
             </p>
             <c:if test="${showConnectButton}">
               <p class="connect-app">
