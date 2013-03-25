@@ -33,10 +33,12 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.sab.Sab;
 import nl.surfnet.sab.SabRoleHolder;
+import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
@@ -79,6 +81,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
           elevateUserIfApplicable(user, roleHolder);
           session.setAttribute(PROCESSED, "true");
           LOG.debug("Authorities of user '{}' after processing SAB entitlements: {}", user.getUid(), user.getAuthorityEnums());
+          SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
         }
       } catch (IOException e) {
         LOG.info("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
@@ -114,6 +117,10 @@ public class SabEntitlementsFilter extends GenericFilterBean {
         user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
       } else if (user.getAuthorityEnums().contains(ROLE_IDP_SURFCONEXT_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN))) {
         user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
+      } else if (newAuthorities.contains(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN))) {
+        user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
+      } else if (newAuthorities.contains(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN))) {
+        user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
       } else if (newAuthorities.contains(new CoinAuthority(ROLE_USER))) {
         user.addAuthority(new CoinAuthority(ROLE_USER));
       }

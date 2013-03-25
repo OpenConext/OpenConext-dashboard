@@ -104,6 +104,30 @@ public class SabEntitlementsFilterTest {
   }
 
   @Test
+  public void adminScRole() throws IOException, ServletException {
+    SpringSecurityUtil.setAuthentication("theuser");
+    CoinUser user = SpringSecurity.getCurrentUser();
+    user.setSchacHomeOrganization("theOrg");
+
+    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "adminsc-role")));
+
+    filter.doFilter(request, response, chain);
+    SpringSecurityUtil.assertRoleIsGranted(ROLE_IDP_SURFCONEXT_ADMIN);
+  }
+
+  @Test
+  public void adminLicenseRole() throws IOException, ServletException {
+    SpringSecurityUtil.setAuthentication("theuser");
+    CoinUser user = SpringSecurity.getCurrentUser();
+    user.setSchacHomeOrganization("theOrg");
+
+    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "adminlicense-role")));
+
+    filter.doFilter(request, response, chain);
+    SpringSecurityUtil.assertRoleIsGranted(ROLE_IDP_LICENSE_ADMIN);
+  }
+
+  @Test
   public void viewerRole() throws IOException, ServletException {
     SpringSecurityUtil.setAuthentication("theuser");
     CoinUser user = SpringSecurity.getCurrentUser();
