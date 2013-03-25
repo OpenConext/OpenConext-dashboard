@@ -32,16 +32,18 @@
             <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
               <spring:param name="compoundSpId" value="${compoundSp.id}" />
             </spring:url>
-            <c:set var="spTitleClass">
-              <c:choose>
-                <c:when test="${empty serviceDescription and not showConnectButton}">longer</c:when>
-                <c:when test="${empty serviceDescription or not showConnectButton}">long</c:when>
-                <c:otherwise>short</c:otherwise>
-              </c:choose>
+
+            <c:set var="spTitle">
+              <tags:providername provider="${compoundSp.sp}" />
             </c:set>
-            <h2 class="${spTitleClass}">
+            <h2>
               <%--TODO: providername for compoundSp instead of SP --%>
-              <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a>
+              <a href="${detailUrl}">
+                <tags:truncatedSpName
+                    spName="${spTitle}"
+                    hasServiceDescription="${not empty serviceDescription}"
+                    hasConnectButton="${showConnectButton}" />
+              </a>
             </h2> 
             <c:if test="${not empty compoundSp.appStoreLogo}">
               <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
