@@ -116,7 +116,6 @@
             <div class="service-not-connected">
               <p>
                 <strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong>
-                <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}">?</a>
               </p>
               <ul>
               <c:if test="${applyAllowed}">
@@ -129,7 +128,7 @@
                 </li>
 	            </c:if>
               <c:if test="${questionAllowed}"><li><tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></li></c:if>
-              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
+              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
 
               </ul>
             </div>
@@ -150,7 +149,7 @@
                   </li>
                 </c:if>
               <c:if test="${questionAllowed}"><li><tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></li></c:if>
-              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
+              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
               </ul>
             </div>
           </c:when>
