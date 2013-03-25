@@ -118,15 +118,20 @@
                 <strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong>
                 <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}">?</a>
               </p>
+              <ul>
               <c:if test="${applyAllowed}">
+                <li>
 	              <a href="<c:url value="/requests/linkrequest.shtml">
 	                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
 	                <c:param name="compoundSpId" value="${compoundSp.id}" />
 	              </c:url>"
 	                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
+                </li>
 	            </c:if>
-              <c:if test="${questionAllowed}">|
-             <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
+              <c:if test="${questionAllowed}"><li><tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></li></c:if>
+              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
+
+              </ul>
             </div>
           </c:when>
           <c:when test="${compoundSp.sp.linked}">
@@ -134,15 +139,19 @@
               <p>
                 <strong><spring:message code="jsp.app_detail.technical_connection"/></strong>
               </p>
-              <c:if test="${applyAllowed}">
-	              <a href="<c:url value="/requests/unlinkrequest.shtml">
-	                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-	                <c:param name="compoundSpId" value="${compoundSp.id}" />
-	              </c:url>"
-	                 title="<spring:message code="jsp.sp_detail.requestunlink"/>"><spring:message code="jsp.sp_detail.requestunlink"/></a>
-	            </c:if>
-              <c:if test="${questionAllowed}">|<tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></c:if>
-              <c:if test="${applyAllowed}">| <a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></c:if>
+              <ul>
+                <c:if test="${applyAllowed}">
+                  <li>    <a href="<c:url value="/requests/unlinkrequest.shtml">
+                            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+                            <c:param name="compoundSpId" value="${compoundSp.id}" />
+                              </c:url>" title="<spring:message code="jsp.sp_detail.requestunlink"/>">
+                            <spring:message code="jsp.sp_detail.requestunlink"/>
+                          </a>
+                  </li>
+                </c:if>
+              <c:if test="${questionAllowed}"><li><tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></li></c:if>
+              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="The entity ID is: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
+              </ul>
             </div>
           </c:when>
         </c:choose>
