@@ -208,11 +208,15 @@ app.graphs = function() {
 
     if (selectedSp) {
       initDetailRendering(selectedSp);
-    } else if (newIdp === '') {
-      renderOverview(dataWrapper.getAllData(true));
-    } else {
-      renderOverview(dataWrapper.getByIdp(newIdp));
+      return;
     }
+
+    if (newIdp === '') {
+      var data = dataWrapper.getAllData(true);
+    } else {
+      var data = dataWrapper.getByIdp(newIdp);
+    }
+    renderOverview(filterData(data, filterType, filterOffset));
   }
 
   var filterOutIdp = function(data, newIdp, spEntityId) {
