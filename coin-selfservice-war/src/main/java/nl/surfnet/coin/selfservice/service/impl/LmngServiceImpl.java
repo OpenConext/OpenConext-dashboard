@@ -84,9 +84,6 @@ public class LmngServiceImpl implements LmngService {
 
   private boolean debug;
   private String endpoint;
-  private KeyStore keyStore;
-  private KeyStore trustStore;
-  private String keystorePassword;
   private boolean activeMode;
 
   private DefaultHttpClient httpclient;
@@ -379,20 +376,11 @@ public class LmngServiceImpl implements LmngService {
 
   private DefaultHttpClient getHttpClient() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
     if (httpclient == null) {
-      SchemeRegistry schemeRegistry = new SchemeRegistry();
-      
-      PlainSocketFactory sf = PlainSocketFactory.getSocketFactory();
-      schemeRegistry.register(new Scheme("http", 80, sf));
-      
-      SSLSocketFactory lSchemeSocketFactory = new SSLSocketFactory(keyStore.getJavaSecurityKeyStore(), keystorePassword,
-          trustStore.getJavaSecurityKeyStore());
-      schemeRegistry.register(new Scheme("https", 443, lSchemeSocketFactory));
-      
-      httpclient = new DefaultHttpClient(new BasicClientConnectionManager(schemeRegistry));
-      
-      httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
-      httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-      httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
+        httpclient = new DefaultHttpClient();
+
+        httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
+        httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+        httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
     }
     
     return httpclient;
@@ -405,18 +393,6 @@ public class LmngServiceImpl implements LmngService {
 
   public void setDebug(boolean debug) {
     this.debug = debug;
-  }
-
-  public void setKeyStore(KeyStore keyStore) {
-    this.keyStore = keyStore;
-  }
-
-  public void setKeystorePassword(String keystorePassword) {
-    this.keystorePassword = keystorePassword;
-  }
-
-  public void setTrustStore(KeyStore trustStore) {
-    this.trustStore = trustStore;
   }
 
   public void setLmngIdentifierDao(LmngIdentifierDao lmngIdentifierDao) {

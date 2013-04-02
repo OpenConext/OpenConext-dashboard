@@ -159,9 +159,6 @@
   <bean id="licensingService" class="${lmngServiceClass}">
     <property name="endpoint" value="${coin-lmng-endpoint}" />
     <property name="debug" value="${coin-lmng-debug}" />
-    <property name="keyStore" ref="lmngKeystore" />
-    <property name="trustStore" ref="lmngTruststore" />
-    <property name="keystorePassword" value="${coin-lmngClientCertificatePassword}"/>
     <property name="activeMode" value="${coin-lmng-active-mode}"/>
   </bean>
 
@@ -239,28 +236,6 @@
     class="org.springframework.orm.hibernate3.HibernateTransactionManager">
     <property name="sessionFactory">
       <ref local="selfServiceSessionFactory" />
-    </property>
-  </bean>
-  
-  <bean id="lmngKeystore" class="${keyStoreClass}">
-    <constructor-arg index="0" value="${coin-lmngClientCertificatePrivateKey}" />
-    <constructor-arg index="1" value="${coin-lmngClientCertificatePassword}" />
-    <constructor-arg index="2" value="${coin-lmngClientCertificate}" />
-    <constructor-arg index="3" value="${coin-lmng-active-mode}"/>
-    <property name="certificates">
-      <map>
-        <entry key="LmngRootCertificate" value="${coin-lmngRootCertificate}" />
-        <entry key="LmngClientCertificate" value="${coin-lmngClientCertificate}" />
-      </map>
-    </property>
-  </bean>
-  
-  <bean id="lmngTruststore" class="${keyStoreClass}">
-    <constructor-arg index="0" value="${coin-lmng-active-mode}"/>
-    <property name="certificates">
-      <map>
-        <entry key="LmngRootCertificate" value="${coin-lmngRootCertificate}" />
-      </map>
     </property>
   </bean>
 

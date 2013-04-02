@@ -46,16 +46,10 @@ coin-eb-db-password=
 
 #set to false to go to the surfconext version without licenses
 coin-lmng-active-mode=false
-keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
-#keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStoreMock
 lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
 #lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceMock
 coin-lmng-endpoint=
 coin-lmng-debug=false
-coin-lmngClientCertificatePassword=
-coin-lmngClientCertificatePrivateKey=
-coin-lmngClientCertificate=
-coin-lmngRootCertificate=
 
 coin-shindig-db-driver=org.hsqldb.jdbcDriver
 coin-shindig-db-url=jdbc:hsqldb:mem:coin
