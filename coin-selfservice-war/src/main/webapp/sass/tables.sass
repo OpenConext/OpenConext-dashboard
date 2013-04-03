@@ -1,6 +1,9 @@
 .data-table-holder
   position: relative
 
+  &:nth-child(2)
+    margin-top: 20px
+
 .data-table-wrapper
   overflow: auto
   width: 100%
@@ -183,10 +186,13 @@
       width: 55%
 
 #sp_overview_table,
-#idp_overview_table
+#idp_overview_table,
+#institutions_overview_table
   input
     width: 275px
 
+  th:nth-child(1)
+    width: 50%
 
 .notification-image
   width: 30px

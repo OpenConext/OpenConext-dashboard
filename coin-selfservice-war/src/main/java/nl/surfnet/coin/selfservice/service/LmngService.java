@@ -19,6 +19,7 @@ package nl.surfnet.coin.selfservice.service;
 import java.util.Date;
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.domain.Account;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
@@ -66,6 +67,13 @@ public interface LmngService {
    * @return
    */
   String getServiceName(String lmngId);
+
+  /**
+   * Get all institutions
+   *
+   * @return all accounts of the institutions known in LMNG
+   */
+  List<Account> getAccounts();
 
   /**
    * Is the LMNG service active? If not then no calls should be made and the

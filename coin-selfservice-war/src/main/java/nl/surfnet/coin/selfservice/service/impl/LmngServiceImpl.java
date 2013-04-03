@@ -16,6 +16,32 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
+import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
+import nl.surfnet.coin.selfservice.domain.Account;
+import nl.surfnet.coin.selfservice.domain.Article;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.service.LmngService;
+import nl.surfnet.coin.shared.domain.ErrorMail;
+import nl.surfnet.coin.shared.service.ErrorMessageMailer;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -25,46 +51,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-
-import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
-import nl.surfnet.coin.selfservice.domain.Article;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
-import nl.surfnet.coin.selfservice.service.LmngService;
-import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
-import nl.surfnet.coin.shared.domain.ErrorMail;
-import nl.surfnet.coin.shared.service.ErrorMessageMailer;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.BasicClientConnectionManager;
-import org.apache.http.params.CoreProtocolPNames;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.CollectionUtils;
+import java.util.*;
 
 /**
  * Implementation of a licensing service that get's it information from a
@@ -90,14 +77,14 @@ public class LmngServiceImpl implements LmngService {
 
   @Override
   public List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn)
-      throws LmngException {
+          throws LmngException {
     List<License> result = new ArrayList<License>();
     invariant();
     try {
       String lmngInstitutionId = IdentityProvider.NONE.equals(identityProvider) ? null : getLmngIdentityId(identityProvider);
 
       // validation, we need at least one serviceId/articleID and an institution ID (as licenses belong to an institute)
-      if (articleIdentifier == null || StringUtils.isEmpty(lmngInstitutionId))  {
+      if (articleIdentifier == null || StringUtils.isEmpty(lmngInstitutionId)) {
         return result;
       }
 
@@ -165,7 +152,7 @@ public class LmngServiceImpl implements LmngService {
     String result = null;
     try {
       // get the file with the soap request
-      String soapRequest = LmngUtil.getLmngSoapRequestForSps(Arrays.asList(new String[] { guid }), endpoint);
+      String soapRequest = LmngUtil.getLmngSoapRequestForSps(Arrays.asList(new String[]{guid}), endpoint);
       if (debug) {
         LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -182,6 +169,27 @@ public class LmngServiceImpl implements LmngService {
       sendErrorMail(guid, e.getMessage(), "getServiceName");
     }
     return result;
+  }
+
+  @Override
+  public List<Account> getAccounts() {
+    invariant();
+    List<Account> accounts = new ArrayList<Account>();
+    try {
+      // get the file with the soap request
+      String soapRequest = LmngUtil.getLmngSoapRequestForAllAccount(endpoint);
+      if (debug) {
+        LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
+      }
+      // call the webservice
+      String webserviceResult = getWebServiceResult(soapRequest);
+      // read/parse the XML response to Account objects
+      accounts = LmngUtil.parseAccountsResult(webserviceResult,debug);
+    } catch (Exception e) {
+      log.error("Exception while retrieving article/license", e);
+      sendErrorMail("n/a", e.getMessage(), "getAccounts");
+    }
+    return accounts;
   }
 
   @Override
@@ -224,9 +232,8 @@ public class LmngServiceImpl implements LmngService {
    * Get the response from the webservice call (using credentials and endpoint
    * address from this class settings) after execututing the given soapRequest
    * string.
-   * 
-   * @param soapRequest
-   *          A string representation of the soap request
+   *
+   * @param soapRequest A string representation of the soap request
    * @return an inputstream of the webservice response
    * @throws ClientProtocolException
    * @throws IOException
@@ -271,7 +278,7 @@ public class LmngServiceImpl implements LmngService {
 
   /**
    * Get the LMNG identifier for the given IDP
-   * 
+   *
    * @param identityProvider
    * @return
    */
@@ -285,8 +292,8 @@ public class LmngServiceImpl implements LmngService {
 
   /**
    * Get the LMNG identifier for the given SP
-   * 
-   * @param serviceProvider
+   *
+   * @param serviceProviderEntityId
    * @return
    */
   private String getLmngServiceId(String serviceProviderEntityId) {
@@ -298,8 +305,8 @@ public class LmngServiceImpl implements LmngService {
 
   /**
    * Get the LMNG identifiers for the given SP list
-   * 
-   * @param serviceProviders
+   *
+   * @param serviceProvidersEntityIds
    * @return a map with the LMNGID as key and serviceprovider entity ID as value
    */
   private Map<String, String> getLmngServiceIds(List<String> serviceProvidersEntityIds) {
@@ -329,8 +336,8 @@ public class LmngServiceImpl implements LmngService {
     String institutionId = idp == null ? "NULL" : idp.getInstitutionId();
 
     String formattedMessage = String.format(
-        "LMNG call for Identity Provider '%s' with institution ID '%s' and Article with Id's '%s' failed with the following message: '%s'",
-        idpEntityId, institutionId, articleIdentifier, message);
+            "LMNG call for Identity Provider '%s' with institution ID '%s' and Article with Id's '%s' failed with the following message: '%s'",
+            idpEntityId, institutionId, articleIdentifier, message);
     ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
     errorMail.setLocation(this.getClass().getName() + "#get" + method);
     errorMessageMailer.sendErrorMail(errorMail);
@@ -349,7 +356,7 @@ public class LmngServiceImpl implements LmngService {
     }
 
     String formattedMessage = String.format("LMNG call for Service Providers with id's '%s' failed with the following message: '%s'",
-        spEntityIds, message);
+            spEntityIds, message);
     ErrorMail errorMail = new ErrorMail(shortMessage, formattedMessage, formattedMessage, getHost(), "LMNG");
     errorMail.setLocation(this.getClass().getName() + "#get" + method);
     errorMessageMailer.sendErrorMail(errorMail);
@@ -376,13 +383,13 @@ public class LmngServiceImpl implements LmngService {
 
   private DefaultHttpClient getHttpClient() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
     if (httpclient == null) {
-        httpclient = new DefaultHttpClient();
+      httpclient = new DefaultHttpClient();
 
-        httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
-        httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-        httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
+      httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
+      httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+      httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
     }
-    
+
     return httpclient;
   }
   // GETTERS AND SETTERS BELOW

@@ -42,7 +42,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
 
   public enum Users {
     /*
-     * ROLE_IDP_SURFCONEXT_ADMIN=IdP Institution Administrator
+     * ROLE_IDP_SURFCONEXT_ADMIN=IdP Account Administrator
      */
     ADMIN_IDP_SURFCONEXT("adminidpsc"),
     /*

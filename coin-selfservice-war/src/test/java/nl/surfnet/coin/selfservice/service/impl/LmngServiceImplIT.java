@@ -23,9 +23,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.surfnet.coin.selfservice.domain.Account;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.service.LmngService;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,6 +79,11 @@ public class LmngServiceImplIT {
 
     assertEquals("Incorrect name for product", "Edugroepen", articles.get(2).getProductName());
 
+  }
+
+  @Test
+  public void testRetrievalAllAccounts() throws IOException {
+    List<Account> accounts = licensingService.getAccounts();
   }
 
   // we us this for a local integration test only

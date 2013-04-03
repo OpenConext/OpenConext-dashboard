@@ -19,7 +19,7 @@
 <%--@elvariable id="sps" type="java.util.List<nl.surfnet.coin.selfservice.domain.ServiceProvider>"--%>
 <spring:message var="title" code="jsp.allidplmng.title"/>
 
-<jsp:include page="../head.jsp">
+    <jsp:include page="../head.jsp">
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
@@ -31,7 +31,7 @@
     <div class="data-table-wrapper">
 
       <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.idp" /></c:set>
-      <table id="idp_overview_table" class="table table-bordered table-striped table-above-pagination table-sortable" 
+      <table id="idp_overview_table" class="table table-bordered table-striped table-above-pagination table-sortable"
               data-search-placeholder="${searchPlaceholder}">
         <thead>
         <tr>
@@ -77,6 +77,35 @@
 
     </div>
   </section>
+
+<section class="data-table-holder">
+
+    <spring:message var="title" code="jsp.allidplmng.accounts"/>
+    <h1>${title}</h1>
+    <div class="data-table-wrapper">
+
+    <c:set var="searchPlaceholderAccount"><spring:message code="jsp.search.placeholder.account" /></c:set>
+    <table id="institutions_overview_table" class="table table-bordered table-striped table-above-pagination table-sortable"
+            data-search-placeholder="${searchPlaceholder}">
+      <thead>
+      <tr>
+        <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
+        <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
+      </tr>
+      </thead>
+      <tbody>
+      <c:forEach items="${accounts}" var="account" varStatus="status">
+          <tr>
+            <td>${account.name}</td>
+            <td>${account.guid}</td>
+          </tr>
+      </c:forEach>
+
+      </tbody>
+    </table>
+
+  </div>
+</section>
 </div>
 
 <jsp:include page="../foot.jsp"/>

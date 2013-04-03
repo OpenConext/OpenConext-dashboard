@@ -22,10 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.surfnet.coin.selfservice.domain.Article;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.domain.*;
 import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
 
@@ -54,6 +51,7 @@ public class LmngServiceMock implements LmngService {
 
   private List<Article> articles;
   private License license;
+  private List<Account> accounts;
 
   public LmngServiceMock() {
     try {
@@ -63,6 +61,9 @@ public class LmngServiceMock implements LmngService {
       TypeReference<License> licenseTypeReference = new TypeReference<License>() {
       };
       this.license = (License) parseJsonData(licenseTypeReference, "lmng-json/licenses.json");
+      TypeReference<List<Account>> accountTypeReference = new TypeReference<List<Account>>() {
+      };
+      this.accounts = (List<Account>) parseJsonData(accountTypeReference, "lmng-json/accounts.json");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -113,14 +114,17 @@ public class LmngServiceMock implements LmngService {
 
   @Override
   public String getInstitutionName(String guid) {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getServiceName(String lmngId) {
-    // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public List<Account> getAccounts() {
+    return accounts;
   }
 
   @Override

@@ -16,27 +16,11 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import nl.surfnet.coin.selfservice.domain.Account;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.ArticleMedium;
 import nl.surfnet.coin.selfservice.domain.ArticleMedium.ArticleMediumType;
 import nl.surfnet.coin.selfservice.domain.License;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -54,10 +38,20 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 /**
  * Utility class for LMNG. This class contains some static methods used in the
  * {@link LmngServiceImpl}
- * 
  */
 public class LmngUtil {
 
@@ -79,6 +73,7 @@ public class LmngUtil {
   private static final String PATH_FETCH_QUERY_ARTICLES_FOR_SPS = "lmngqueries/lmngQueryArticlesForSps.xml";
   private static final String PATH_FETCH_QUERYCONDITION_ARTICLE = "lmngqueries/lmngArticleQueryConditionValue.xml";
   private static final String PATH_FETCH_QUERYCONDITION_INSTITUTION = "lmngqueries/lmngArticleQueryInstitutionCondition.xml";
+  private static final String PATH_FETCH_ALL_ACCOUNTS = "lmngqueries/lmngQueryAllAccounts.xml";
 
   private static final String RESULT_ELEMENT = "GetDataResult";
   private static final String FETCH_RESULT_VALID_FROM = "license.lmng_validfrom";
@@ -97,21 +92,20 @@ public class LmngUtil {
   private static final String FETCH_RESULT_INSTITUTE_NAME = "name";
   private static final String FETCH_RESULT_PRODUCT_ID = "product.lmng_productid";
   private static final String FETCH_RESULT_PRODUCT_NAME = "product.lmng_name";
-  
+
   private static final String FETCH_RESULT_MEDIUM_URL = "articlemedium.lmng_downloadurl";
-  private static final String FETCH_RESULT_MEDIUM_NAME = "articlemedium.lmng_name";  
+  private static final String FETCH_RESULT_MEDIUM_NAME = "articlemedium.lmng_name";
   private static final String FETCH_RESULT_MEDIUM_SUPPLIER_ID = "articlemedium.lmng_supplierid";
   private static final String FETCH_RESULT_MEDIUM_GOOGLE_ID = "{5859F910-5E12-DF11-A633-0019B9DE3AA4}";
   private static final String FETCH_RESULT_MEDIUM_APPLE_ID = "{5FF1FAB3-2410-DC11-A6C7-0019B9DE3AA4}";
-  
+
   private static final String GROUP_LICENSEMODEL = "3";
 
   /**
    * Parse the result to an article(list)
-   * 
    */
   public static List<Article> parseArticlesResult(String webserviceResult, boolean writeResponseToFile)
-      throws ParserConfigurationException, SAXException, IOException, ParseException {
+          throws ParserConfigurationException, SAXException, IOException, ParseException {
     List<Article> resultList = new ArrayList<Article>();
 
     NodeList nodes = parse(webserviceResult, writeResponseToFile);
@@ -148,7 +142,7 @@ public class LmngUtil {
    * Parse the result to a license(list)
    */
   public static List<License> parseLicensesResult(String webserviceResult, boolean writeResponseToFile)
-      throws ParserConfigurationException, SAXException, IOException, ParseException {
+          throws ParserConfigurationException, SAXException, IOException, ParseException {
     List<License> resultList = new ArrayList<License>();
 
     NodeList nodes = parse(webserviceResult, writeResponseToFile);
@@ -170,8 +164,35 @@ public class LmngUtil {
     return resultList;
   }
 
+  /**
+   * Parse the result to an account(list)
+   */
+  public static List<Account> parseAccountsResult(String webserviceResult, boolean writeResponseToFile)
+          throws ParserConfigurationException, SAXException, IOException, ParseException {
+    List<Account> resultList = new ArrayList<Account>();
+
+    NodeList nodes = parse(webserviceResult, writeResponseToFile);
+
+    if (nodes != null) {
+      int numberOfResults = nodes.getLength();
+      log.debug("Number of results in Fetch query:" + numberOfResults);
+      for (int i = 0; i < numberOfResults; i++) {
+        Node resultNode = nodes.item(i);
+        if (resultNode.getNodeType() == Node.ELEMENT_NODE) {
+          Element resultElement = (Element) resultNode;
+          Account account = createAccount(resultElement);
+          if (account != null) {
+            resultList.add(account);
+          }
+        }
+      }
+    }
+    return resultList;
+  }
+
+
   public static String parseResultInstitute(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException,
-      SAXException, IOException, ParseException {
+          SAXException, IOException, ParseException {
     NodeList nodes = parse(webserviceResult, writeResponseToFile);
     String result = null;
     if (nodes != null) {
@@ -189,7 +210,7 @@ public class LmngUtil {
   }
 
   private static NodeList parse(String webserviceResult, boolean writeResponseToFile) throws ParserConfigurationException, SAXException,
-      IOException, ParseException {
+          IOException, ParseException {
 
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -230,7 +251,7 @@ public class LmngUtil {
     article.setArticleName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_ARTICLE_NAME));
     article.setProductName(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_NAME));
     article.setLmngProductIdentifier(getFirstSubElementStringValue(resultElement, FETCH_RESULT_PRODUCT_ID));
-    
+
     String mediumSupplier = getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_SUPPLIER_ID);
     if (FETCH_RESULT_MEDIUM_GOOGLE_ID.equals(mediumSupplier)) {
       ArticleMedium articleMedium = new ArticleMedium();
@@ -245,9 +266,16 @@ public class LmngUtil {
       articleMedium.setUrl(getFirstSubElementStringValue(resultElement, FETCH_RESULT_MEDIUM_URL));
       article.setAppleAppStoreMedium(articleMedium);
     }
-    
+
     log.debug("Created new Article object:" + article.toString());
     return article;
+  }
+
+  private static Account createAccount(Element element) {
+    String name = getFirstSubElementStringValue(element,"name");
+    String status = getFirstSubElementStringValue(element,"statuscode");
+    String guid = getFirstSubElementStringValue(element, "accountid");
+    return new Account(name, status, guid);
   }
 
   private static License createLicense(Element resultElement) {
@@ -276,12 +304,9 @@ public class LmngUtil {
    * Get a child element with the given name and return the value of it as a
    * String This method will return the first (if available) item value,
    * possible multiple values will be ignored.
-   * 
-   * @param element
-   *          The element to get the subelement from
-   * 
-   * @param string
-   *          the string of the subelement
+   *
+   * @param element The element to get the subelement from
+   * @param subItemName  the string of the subelement
    * @return a string representation of the content of the subelement
    */
   private static String getFirstSubElementStringValue(Element element, String subItemName) {
@@ -302,7 +327,7 @@ public class LmngUtil {
   /**
    * Write the given content to a file with the given filename (and add a
    * datetime prefix). For debugging purposes
-   * 
+   *
    * @param filename
    * @param content
    */
@@ -320,7 +345,7 @@ public class LmngUtil {
   public static boolean isValidGuid(String guid) {
     return StringUtils.isEmpty(guid) || guid.matches("\\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\}");
   }
-  
+
 
   public static String getLmngSoapRequestForIdpAndSp(String institutionId, List<String> serviceIds, Date validOn, String endpoint) throws IOException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -358,7 +383,13 @@ public class LmngUtil {
 
     // html encode the string
     query = StringEscapeUtils.escapeHtml(query);
+    result = fillInVariables(endpoint, result, query);
 
+
+    return result;
+  }
+
+  private static String fillInVariables(String endpoint, String result, String query) {
     // Insert the query in the envelope and add a UID in the envelope
     result = result.replaceAll(QUERY_PLACEHOLDER, query);
     result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
@@ -372,7 +403,6 @@ public class LmngUtil {
     // Get the soap/fetch envelope
     String result = getLmngRequestEnvelope();
 
-    // TODO change path
     ClassPathResource queryResource = new ClassPathResource(PATH_FETCH_QUERY_ARTICLES_FOR_SPS);
 
     InputStream inputStream = queryResource.getInputStream();
@@ -393,9 +423,15 @@ public class LmngUtil {
     query = StringEscapeUtils.escapeHtml(query);
 
     // Insert the query in the envelope and add a UID in the envelope
-    result = result.replaceAll(QUERY_PLACEHOLDER, query);
-    result = result.replaceAll(ENDPOINT_PLACEHOLDER, endpoint);
-    result = result.replaceAll(UID_PLACEHOLDER, UUID.randomUUID().toString());
+    result = fillInVariables(endpoint, result, query);
+    return result;
+  }
+
+  public static String getLmngSoapRequestForAllAccount(String endpoint) throws IOException {
+    String result = getLmngRequestEnvelope();
+    String query = IOUtils.toString(new ClassPathResource(PATH_FETCH_ALL_ACCOUNTS).getInputStream());
+    query = StringEscapeUtils.escapeHtml(query);
+    result = fillInVariables(endpoint, result, query);
     return result;
   }
 

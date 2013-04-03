@@ -69,6 +69,8 @@ public class IdpLnmgListController extends BaseController {
       lmngIdpBindings.add(lmngIdentityBinding);
     }
 
+    model.put("accounts", licensingService.getAccounts());
+
     model.put("bindings", lmngIdpBindings);
     return new ModelAndView("shopadmin/idp-overview", model);
   }
