@@ -167,7 +167,7 @@ public class CompoundSPServiceTest {
     when(licensingService.getArticlesForServiceProviders(any(List.class))).thenReturn(articles);
     when(serviceProviderService.getServiceProvider("spId2")).thenReturn(sp2);
     when(compoundServiceProviderDao.findAll()).thenReturn(csps);
-    when(serviceProviderService.getAllServiceProviders()).thenReturn(sps);
+    when(serviceProviderService.getAllServiceProviders(false)).thenReturn(sps);
     when(serviceProviderService.getAllServiceProviders("idpId")).thenReturn(sps);
 
     now = new DateTime();

@@ -62,7 +62,7 @@ public class SpLnmgListController extends BaseController {
     }
 
     List<LmngServiceBinding> lmngServiceBindings = new ArrayList<LmngServiceBinding>();
-    for (ServiceProvider serviceProvider : providerService.getAllServiceProviders()) {
+    for (ServiceProvider serviceProvider : providerService.getAllServiceProviders(false)) {
       LmngServiceBinding lmngServiceBinding = new LmngServiceBinding();
       lmngServiceBinding.setServiceProvider(serviceProvider);
       String lmngId = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
@@ -81,7 +81,7 @@ public class SpLnmgListController extends BaseController {
     if (model == null) {
       model = new HashMap<String, Object>();
     }
-    List<ServiceProvider> allSps = providerService.getAllServiceProviders();
+    List<ServiceProvider> allSps = providerService.getAllServiceProviders(false);
     model.put("sps", allSps);
     return new ModelAndView("shopadmin/sp-only-overview", model);
   }

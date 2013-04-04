@@ -80,8 +80,19 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
 
   @Override
   @Cacheable("selfserviceDefault")
-  public List<ServiceProvider> getAllServiceProviders() {
-    return getAllServiceProvidersUnfiltered();
+  public List<ServiceProvider> getAllServiceProviders(boolean filterIdPOnly) {
+    List<ServiceProvider> allSPs = getAllServiceProvidersUnfiltered();
+    List<ServiceProvider> filteredList = new ArrayList<ServiceProvider>();
+    if (filterIdPOnly) {
+      for (ServiceProvider sp : allSPs) {
+        if (!sp.isIdpVisibleOnly()) {
+          filteredList.add(sp);
+        }
+      }
+    } else {
+      filteredList = allSPs;
+    }
+    return filteredList;
   }
 
   /**

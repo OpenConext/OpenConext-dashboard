@@ -82,11 +82,19 @@ public class CompoundSPService {
   @Resource
   private LmngService licensingService;
 
+  public List<CompoundServiceProvider> getAllPublicCSPs() {
+    List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(true);
+    return getCSPs(null, allServiceProviders);
+  }
+
   public List<CompoundServiceProvider> getCSPsByIdp(IdentityProvider identityProvider) {
 
     // Base: the list of all service providers for this IDP
     List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(identityProvider.getId());
+    return getCSPs(identityProvider, allServiceProviders);
+  }
 
+  private List<CompoundServiceProvider> getCSPs(IdentityProvider identityProvider, List<ServiceProvider> allServiceProviders) {
     // Reference data: all compound service providers
     List<CompoundServiceProvider> allBareCSPs = compoundServiceProviderDao.findAll();
     // Mapped by its SP entity ID
@@ -113,7 +121,9 @@ public class CompoundSPService {
     csp.setServiceProvider(sp);
     Article article = getCachedArticle(sp, false);
     csp.setArticle(article);
-    csp.setLicenses(getCachedLicenses(identityProvider, article));
+    if (identityProvider != null) {
+      csp.setLicenses(getCachedLicenses(identityProvider, article));
+    }
     return csp;
   }
 
@@ -127,7 +137,9 @@ public class CompoundSPService {
   private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
     Article article = getCachedArticle(sp, false);
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, article);
-    csp.setLicenses(getCachedLicenses(idp, article));
+    if (idp != null) {
+      csp.setLicenses(getCachedLicenses(idp, article));
+    }
     try {
       compoundServiceProviderDao.saveOrUpdate(csp);
       compoundServiceProviderDao.evict();
@@ -226,7 +238,7 @@ public class CompoundSPService {
     // Check and update (if needed) cache
     DateTime now = getNow();
     if (cachedArticles == null || refreshCache || cachedArticles.getKey().isBefore(now)) {
-      List<ServiceProvider> allSps = serviceProviderService.getAllServiceProviders();
+      List<ServiceProvider> allSps = serviceProviderService.getAllServiceProviders(false);
       List<String> allSpsIds = new ArrayList<String>();
       for (ServiceProvider serviceProvider : allSps) {
         allSpsIds.add(serviceProvider.getId());
