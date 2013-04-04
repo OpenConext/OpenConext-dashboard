@@ -55,7 +55,7 @@ app.notifications = function() {
 	  e.preventDefault();
 	  var hideUrl = $(this).attr('href');
 	  $.ajax({
-		  url: hideUrl,
+		  url: hideUrl
 	  });
 
     notificationsElm.remove();

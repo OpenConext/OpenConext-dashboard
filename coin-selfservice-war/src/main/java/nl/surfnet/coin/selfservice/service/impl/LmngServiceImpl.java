@@ -172,12 +172,12 @@ public class LmngServiceImpl implements LmngService {
   }
 
   @Override
-  public List<Account> getAccounts() {
+  public List<Account> getAccounts(boolean isInstitution) {
     invariant();
     List<Account> accounts = new ArrayList<Account>();
     try {
       // get the file with the soap request
-      String soapRequest = LmngUtil.getLmngSoapRequestForAllAccount(endpoint);
+      String soapRequest = LmngUtil.getLmngSoapRequestForAllAccount(isInstitution, endpoint);
       if (debug) {
         LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
       }
@@ -412,6 +412,21 @@ public class LmngServiceImpl implements LmngService {
 
   public boolean isActiveMode() {
     return activeMode;
+  }
+
+  @Override
+  public String performQuery(String rawQuery) {
+    try {
+      String soapRequest = LmngUtil.getLmngRequestEnvelope();
+      String query = StringEscapeUtils.escapeHtml(rawQuery);
+      soapRequest = soapRequest.replaceAll(LmngUtil.QUERY_PLACEHOLDER, query);
+      soapRequest = soapRequest.replaceAll(LmngUtil.ENDPOINT_PLACEHOLDER, endpoint);
+      soapRequest = soapRequest.replaceAll(LmngUtil.UID_PLACEHOLDER, UUID.randomUUID().toString());
+
+      return getWebServiceResult(soapRequest);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

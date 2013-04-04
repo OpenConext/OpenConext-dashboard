@@ -27,6 +27,8 @@ import nl.surfnet.coin.selfservice.domain.Account;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.service.LmngService;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -35,6 +37,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -83,7 +86,22 @@ public class LmngServiceImplIT {
 
   @Test
   public void testRetrievalAllAccounts() throws IOException {
-    List<Account> accounts = licensingService.getAccounts();
+    List<Account> accounts = licensingService.getAccounts(true);
+    System.out.println(accounts.size());
+
+    accounts = licensingService.getAccounts(false);
+    System.out.println(accounts.size());
+    ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+            .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+    System.out.println(objectMapper.writeValueAsString(accounts));
+
+  }
+
+  @Test
+  public void testPerformArticles() throws Exception {
+    String query = IOUtils.toString(new ClassPathResource("lmngqueries/lmngQueryAllArticles.xml").getInputStream());
+    String result = licensingService.performQuery(query);
+    System.out.println(StringEscapeUtils.unescapeHtml(result));
   }
 
   // we us this for a local integration test only

@@ -36,7 +36,7 @@ public interface LmngService {
    * identityProvider and services (lmngIdentifiers) which are valid on the given day
    * 
    * @param identityProvider the identityProvider to get the licenses for
-   * @param lmngIdentifier lmngIdentifier (belonging to SP's) where the licenses are for.
+   * @param articleIdentifier lmngIdentifier (belonging to SP's) where the licenses are for.
    * @param validOn Date on which the license should be valid
    * @return a (possible) list of licenses
    * @throws LmngException If connection or call fails (rethrows all exceptions)
@@ -71,9 +71,9 @@ public interface LmngService {
   /**
    * Get all institutions
    *
-   * @return all accounts of the institutions known in LMNG
+   * @return all accounts of the institutions / serviceproviders known in LMNG
    */
-  List<Account> getAccounts();
+  List<Account> getAccounts(boolean isInstitution);
 
   /**
    * Is the LMNG service active? If not then no calls should be made and the
@@ -82,6 +82,13 @@ public interface LmngService {
    * 
    * @return whether the LicensingService is active
    */
-  public boolean isActiveMode();
+  boolean isActiveMode();
+
+  /**
+   * Convenience method to run various queries
+   * @param rawQuery the fetch string
+   * @return the raw response
+   */
+  String performQuery(String rawQuery);
 
 }

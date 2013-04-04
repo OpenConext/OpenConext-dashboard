@@ -70,6 +70,8 @@ public class SpLnmgListController extends BaseController {
       lmngServiceBindings.add(lmngServiceBinding);
     }
 
+    //model.put("accounts", licensingService.getAccounts(false));
+
     model.put("bindings", lmngServiceBindings);
     return new ModelAndView("shopadmin/sp-overview", model);
   }

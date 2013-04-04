@@ -427,9 +427,10 @@ public class LmngUtil {
     return result;
   }
 
-  public static String getLmngSoapRequestForAllAccount(String endpoint) throws IOException {
+  public static String getLmngSoapRequestForAllAccount(boolean isInstitution, String endpoint) throws IOException {
     String result = getLmngRequestEnvelope();
     String query = IOUtils.toString(new ClassPathResource(PATH_FETCH_ALL_ACCOUNTS).getInputStream());
+    query = query.replaceAll("%IS_INSTITUTION%", (isInstitution ? "1" : "0"));
     query = StringEscapeUtils.escapeHtml(query);
     result = fillInVariables(endpoint, result, query);
     return result;

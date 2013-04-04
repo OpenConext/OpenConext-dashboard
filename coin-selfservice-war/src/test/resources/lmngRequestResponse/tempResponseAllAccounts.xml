@@ -1,0 +1,996 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+    <s:Header>
+        <a:Action s:mustUnderstand="1">http://Surfmarket.CRMProxyService/ICrmService/GetDataResponse</a:Action>
+        <a:RelatesTo>urn:uuid:88c34333-fa29-41dc-be27-9de74a0b4b6f</a:RelatesTo>
+        <ActivityId CorrelationId="a164c76e-bc82-4fb4-9830-7c90ec9e992f"
+                    xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">
+            00000000-0000-0000-0000-000000000000
+        </ActivityId>
+    </s:Header>
+    <s:Body>
+        <GetDataResponse xmlns="http://Surfmarket.CRMProxyService">
+            <GetDataResult>
+                <resultset morerecords="0"
+                           paging-cookie="&lt;cookie page=&quot;1&quot;&gt;&lt;name last=&quot;Xpression bv&quot; first=&quot;12Change&quot; /&gt;&lt;accountid last=&quot;{24D71B5E-1B41-E111-942E-0050569E3F41}&quot; first=&quot;{02913600-69B4-E111-B429-0050569E0013}&quot; /&gt;&lt;/cookie&gt;">
+                    <result>
+                        <name>12Change</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{02913600-69B4-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>20/20 Vision Europe BV</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{DC566607-0440-E011-A72C-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>2AT B.V.</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{5BD1568D-BDE5-E011-8890-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>4U Solutions B.V.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AB48C868-9C10-E211-88AC-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>AB Employment Services</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{C21A9B09-6A8B-DF11-8D13-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>ABBYY Europe GmbH</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{9B0E6A2A-A24D-E211-ADA8-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Absolute Software</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3931788D-AC73-DF11-A999-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Accucoms B.V.</name>
+                        <primarycontactid name="Banks, Agnes" yomi="Banks, Agnes" dsc="0">
+                            {C758BFC2-2921-DF11-BC0D-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{CFA9328A-2921-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Adobe - Thuisgebruik</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{A1EA4AF9-6C9E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Adobe Systems Belgium BVBA</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AA03FF9C-4EAA-E111-B862-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>ADP Nederland</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{00383C2A-1641-E111-942E-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Alientrick.com</name>
+                        <primarycontactid name="Keizers, Ivo" yomi="Ivo Keizers" dsc="0">
+                            {C1907263-9688-E111-854D-0050569E0011}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{87A29531-9688-E111-854D-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Alive Group</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3FF0BA6C-A372-E111-B377-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Apora</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{48A571F0-FEC3-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Apple Distribution International</name>
+                        <primarycontactid name="Levelt, Joachim" yomi="" dsc="0">
+                            {52F1F2EA-7E13-DC11-82F9-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{5FF1FAB3-2410-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Ars Aequi Juridische Uitgeverij</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{0B57DDC8-901C-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Artindex</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{996B4D33-32B7-DF11-9CE2-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>ATLAS.ti Scientific Software Development GmbH</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{ABBC4E98-EFA3-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>AV Europe bv</name>
+                        <primarycontactid name="Heijden, Ton van der" yomi="Ton van der Heijden" dsc="0">
+                            {44161FB7-6D22-E211-B29B-0050569E0011}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{13D53036-6D22-E211-B29B-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Battrex bv</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{EB8ADE07-80F2-E111-9A1F-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Beyond security</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{52DB0416-E58E-E111-BDB2-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>BitPress Games en Assessments B.V.</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{700139E9-C0B9-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Blinq Systems B.V.</name>
+                        <primarycontactid name="Schutte, Sander" yomi="Schutte, Sander" dsc="0">
+                            {EF2FA5E0-6FFD-DF11-BF11-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{E47E94BE-70FD-DF11-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Bloxx Europe bv</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{EC2DE5DB-AD73-DF11-A999-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Boom Uitgevers Amsterdam</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B656574C-DC3E-E211-ADA8-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Braint</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{954B2F2D-B14D-E111-9A85-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Bureau van Dijk</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{CFC87A4E-7A75-E011-9EB1-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Canon Business Center</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{F9C92CD9-4284-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>CC Academy</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{0861B973-FEC3-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Cedin</name>
+                        <primarycontactid name="Boersma, Frans" yomi="Frans Boersma" dsc="0">
+                            {EFDC6068-6F10-DC11-A6C7-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="Instelling" formattedvalue="15">15</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AFA5A057-900F-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Certiport</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{5B0FD184-73C6-E111-80EE-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Cisco</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{910A4BFC-00C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>CND Development</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3E73B45B-4684-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Codegear</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{59311535-6D9E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Copaco Nederland</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{D812D7C6-5A9F-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Cório</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{7CCB0DCF-4084-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>CRM Resultants</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Inactive">2</statuscode>
+                        <accountid>{5656F3D0-F618-DF11-AA7D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>CRM Resultants</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{EB1578FB-9B19-E011-9496-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Cubiss</name>
+                        <primarycontactid name="Neijenhoff, Roy van" yomi="Neijenhoff, Roy van" dsc="0">
+                            {36DEA318-D713-DC11-82F9-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="Instelling" formattedvalue="15">15</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{FD89AB4B-2E10-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Data Protection International</name>
+                        <primarycontactid name="Groeneboer, Ruud" yomi="Groeneboer, Ruud" dsc="0">
+                            {3D8FEE27-5E7D-E011-9EB1-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{CE4CE580-5C7D-E011-9EB1-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>De Rotterdamse Detachering en Selectie</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{25110EEE-4D8B-DF11-8D13-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Dedicon</name>
+                        <primarycontactid name="Hout, Arno van" yomi="" dsc="0">{E8874B9D-E313-DC11-82F9-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="Instelling" formattedvalue="15">15</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{1383666B-2E10-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>DicoLab BV</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{59EB9CB2-0864-DF11-8507-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Douglas Stewart</name>
+                        <primarycontactid name="Hedegaard, Stephen" yomi="Stephen Hedegaard" dsc="0">
+                            {FF986FB9-971E-E211-88AC-0050569E0013}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{86C1D82E-971E-E211-88AC-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Dragon</name>
+                        <statuscode name="Passief">3</statuscode>
+                        <accountid>{6A66DA2F-729E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>drielingh bv</name>
+                        <primarycontactid name="Velstra, Ary" yomi="Velstra, Ary" dsc="0">
+                            {0509A547-27F6-DF11-BF11-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{2527E08F-18F6-DF11-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Drillster BV</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{E8217FA2-DCDF-E111-83BD-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>DSD Europe</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AE8B287E-3309-E011-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Edia - Educatie Technologie</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{13B0BBFD-47A3-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Ellipsis</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{2DCB564D-66FC-DF11-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Eptimum</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{194D3CB6-3593-E011-9EB1-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Ergodirect Hardware</name>
+                        <primarycontactid name="Nendels, Niek" yomi="" dsc="0">{C388E20C-AD13-DC11-82F9-0019B9DE3AA4}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{CAD03E9A-729E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Ergodirect International</name>
+                        <primarycontactid name="Nendels, Niek" yomi="" dsc="0">{9D172A8B-301D-DE11-9C9D-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{D7F32D4B-7E3A-E011-8E54-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>ESRI Nederland</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Inactive">2</statuscode>
+                        <accountid>{7E81853D-902B-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Esri Nederland</name>
+                        <primarycontactid name="Verveer, Evert" yomi="Verveer, Evert" dsc="0">
+                            {79B94747-7A51-E111-9A85-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{25B4D351-7951-E111-9A85-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Eveoh</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{CE021BF0-D04C-E111-9A85-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Everett</name>
+                        <primarycontactid name="Doorenspleet, Menno" yomi="Doorenspleet, Menno" dsc="0">
+                            {CC1F764D-09C4-DF11-A4D7-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{42CDFB1C-09C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Evernote Corporation</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{BB4D2693-8C37-E111-886C-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Ex Libris</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{8796E9A1-6927-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Exclaimer Benelux B.V.</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{F2750164-912B-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>F &amp; L Publishing Group</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{C3C0AD36-E039-E011-8E54-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Flip Video</name>
+                        <statuscode name="Passief">3</statuscode>
+                        <accountid>{0EF4C8CA-729E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Florido Internet Services</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{8F3B5DDB-4E37-E211-BCF7-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>g-company</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{D5B64FE7-813A-E011-8E54-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>GeOne</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{EC3A125F-8D2B-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Graydon</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{F51D3F4A-4484-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>GreenQloud</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{16F7D98B-D917-E211-B29B-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Helder Inzicht B.V.</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B9796543-BB64-DF11-8507-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Het bestuur van UKB</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{8B72723B-AE9C-E011-B7F7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Improoving software</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{FF3D7723-FCC3-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>In Summa</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{02E06502-05C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Informa Healthcare</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{080C525C-3425-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>IntelliPen</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{1BC166FD-729E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>International Monetary Fund</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{DB5937C8-D551-DF11-8507-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>International Student Identity Card ISIC</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{703210C1-1274-E111-B377-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>INUITS bvba</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{10EBB598-782D-E211-B53D-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>IT syndicaat</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{694C9797-5AF9-DF11-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>itsLearning Nederland B.V.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{DA8CFC73-ECDB-E111-8363-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Kaspersky Lab bv</name>
+                        <primarycontactid name="Lambert, Remy" yomi="Remy Lambert" dsc="0">
+                            {15B31E8B-7A8F-E111-BDB3-0050569E0013}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{2CDBF20B-7A8F-E111-BDB3-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Kilroy Netherlands BV</name>
+                        <primarycontactid name="Schoenmakers, Twan" yomi="Twan Schoenmakers" dsc="0">
+                            {484123EC-1174-E111-B377-0050569E0011}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{C87984BA-1174-E111-B377-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Klomp</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{716CE8B4-CEB1-DF11-9CE2-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Kompanansi BV</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{A5C1DBD4-D64C-E111-9A85-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Koninklijke van Gorcum BV</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{299B5401-98D5-E111-A81F-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>KPMG Accountants N.V.</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3BB3A7FD-4684-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>KPN</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{14296C5E-3F03-E211-8D77-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Leanforms</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{4CD54B68-059C-E011-B7F7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Learning Valley</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{7E5476E8-32AF-DD11-BB2F-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Learning4U</name>
+                        <primarycontactid name="Doherty, Jim" yomi="Doherty, Jim" dsc="0">
+                            {381A44C7-09C4-DF11-A4D7-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B22469A5-09C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Leylines</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{BF701334-AC18-E011-9496-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>LiveScribe</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{62310522-739E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>M&amp;I Argitek</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{281A9429-03C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Magnaview BV</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{E4BCCA6C-04C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Media Mission</name>
+                        <primarycontactid name="Brouwer, Robert Jan" yomi="Brouwer, Robert Jan" dsc="0">
+                            {B07F2A77-07C4-DF11-A4D7-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{DFFA9F53-07C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Media Satellite</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{12BBE014-3193-DF11-8D13-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Media Security Network</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{F41CBF4C-E038-E011-8E54-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Micro Focus (Borland B.V.)</name>
+                        <primarycontactid name="Ashman, Hayley" yomi="" dsc="0">{A4236389-435D-DD11-A2CD-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{57E392B0-1C10-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>MicroWebEdu</name>
+                        <primarycontactid name="Noordermeer, Petra" yomi="Noordermeer, Petra" dsc="0">
+                            {A0609DAA-FAC3-DF11-A4D7-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{E6BCE428-FAC3-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Ministerie van EL&amp;I</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{1593D484-493D-E211-ADA8-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Ndigo Business bv</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{7E8687D9-DEE0-DF11-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Nero</name>
+                        <statuscode name="Inactive">2</statuscode>
+                        <accountid>{D3B8EB50-739E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Nero AG</name>
+                        <primarycontactid name="Liebhold, Thomas" yomi="Thomas Liebhold" dsc="0">
+                            {8E9F35BE-0D8A-E111-854D-0050569E0011}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{087EAB72-0D8A-E111-854D-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Norton - Thuisgebruik</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{7D43685B-739E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Océ</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{5052F8E8-8BED-E011-8890-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Omnicard</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Inactive">2</statuscode>
+                        <accountid>{5CD055D3-FA4B-E111-9A85-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Omnicard B.V.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B2332C27-ECBA-E111-B862-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>OneDev</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{323380C2-8F82-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Ongline</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{743EF8EF-03C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Oudstanding Group b.v.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{D819C5DE-3573-E111-B377-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Parantion</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{18E9BD0D-3F10-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>ParView BV</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{508A19D1-655B-E011-A72C-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Patricia van Petersen hr consultancy</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{D04246FE-1430-DF11-BC0D-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Pezy</name>
+                        <statuscode name="Inactive">2</statuscode>
+                        <accountid>{0159BA55-1008-E211-9156-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Pezy Product Innovation</name>
+                        <primarycontactid name="Klarenbeek, Mark" yomi="Klarenbeek, Mark" dsc="0">
+                            {0ABF20F4-980F-E111-9A16-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AB26A9C6-980F-E111-9A16-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Pinnacle</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{382E3819-739E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Piramide e-learning</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{16D42BD9-662F-E211-B53D-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Planon B.V.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AC0F8FA0-3F37-E211-BCF7-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>PNO Media</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{BD977D13-4584-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Proteon Communication Builders B.V</name>
+                        <primarycontactid name="Hangyi, Hendrik" yomi="Hangyi, Hendrik" dsc="0">
+                            {601BFD5B-CC7B-E011-9EB1-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3CA2E0DF-CB7B-E011-9EB1-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Qconferencing Ex'ovision b.v.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{62755D8F-9610-E211-88AC-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Qubis</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3248776D-2932-E111-886C-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>ReleaseTMS</name>
+                        <primarycontactid name="Kiewiet de Jonge, Jort" yomi="Kiewiet de Jonge, Jort" dsc="0">
+                            {DE129458-0AC4-DF11-A4D7-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{E0BCD62A-0AC4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Rubicon</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{14B54898-E897-E011-9EB1-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>SAS Institute B.V.</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AB4253D3-1D10-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Scope4mation BV</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{EE7D2C69-95AD-E111-B862-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Secunia</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{9A1EEEF1-B206-E011-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Seecr</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{79B4E232-AB1E-E111-9A16-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>SINC</name>
+                        <primarycontactid name="Lisman, Olivier" yomi="Olivier Lisman" dsc="0">
+                            {C8AAB1CC-1374-E111-B377-0050569E0011}
+                        </primarycontactid>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{9B8C2644-B44F-E011-A72C-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Sobit</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B44DEA31-BFE2-E011-8890-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Sonicfoundry</name>
+                        <primarycontactid name="Hassell, Ray" yomi="Hassell, Ray" dsc="0">
+                            {1087F44E-08C4-DF11-A4D7-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{52B9BE1C-08C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Sparksville</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B74C681D-115F-E211-B465-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Spell-it</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{973870C6-6D3B-E011-8E54-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>StatSoft (Europe) GmbH</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{70DD220A-1099-E111-B862-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Stichting CJP</name>
+                        <primarycontactid name="Groenen, Walter" yomi="Walter Groenen" dsc="0">
+                            {C07F4EF4-1074-E111-B377-0050569E0011}
+                        </primarycontactid>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{0844BCAC-1074-E111-B377-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Stichting Internet Domeinregistratie Nederland</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{6D82CD55-3D11-E211-88AC-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>StuGood</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{C689BD5E-645B-E011-A72C-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Sunday Afternoon b.v.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{15C5DD90-D3C5-E111-80EE-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>SURFnet bv</name>
+                        <primarycontactid name="Rexwinkel, Roel" yomi="" dsc="0">
+                            {08BA5E9F-8F13-DC11-82F9-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{D1CBEF84-2610-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>SurfRight bv</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{63CC1FAC-D707-E211-8D77-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Tech Data Nederland bv</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{01B6B82D-4981-E011-9EB1-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>ThiemeMeulenhoff BV</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B38D3C14-BC9C-E011-B7F7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>TMI3</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3B2144BD-91ED-E011-8890-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>TPG Academy</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{B3BEF679-B732-E011-8DA9-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Tunnissen Coaching &amp; Training</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{302BD219-A672-E111-B377-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Turning Technologies</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{605443F9-E041-E111-942E-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Tweakers.net</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{C2C7B349-DD7D-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>Universitair Platform Inkoop</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{E7FFB721-4C3D-E211-ADA8-0050569E0011}</accountid>
+                    </result>
+                    <result>
+                        <name>Van Dale - Thuisgebruik</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3D8469E2-729E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Van Lanschot Chabot</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{C0F176B7-4184-DF11-8D9B-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>VDL Enabling Technologies Group</name>
+                        <primarycontactid name="Lathouwers, Jeroen" yomi="Jeroen Lathouwers" dsc="0">
+                            {DAE952E0-CDFC-E111-9156-0050569E0013}
+                        </primarycontactid>
+                        <statuscode name="Passief">3</statuscode>
+                        <accountid>{6AE8F301-C8FC-E111-9156-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Ventoux</name>
+                        <customertypecode name="Toeleverancier" formattedvalue="14">14</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{E60D53C5-05C4-DF11-A4D7-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Viadesk B.V.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{689F64D4-26A3-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Visions Connected Netherlands b.v.</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{477694CC-C506-E211-9156-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Visiria - Thuisgebruik</name>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{CBD03E9A-729E-E111-B429-0050569E0013}</accountid>
+                    </result>
+                    <result>
+                        <name>Vlaamse Hogescholenraad</name>
+                        <primarycontactid name="Baute, Willy" yomi="" dsc="0">{AA9F7950-9C13-DC11-82F9-0019B9DE3AA4}
+                        </primarycontactid>
+                        <customertypecode name="Instelling" formattedvalue="15">15</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{AC256C93-2710-DC11-A6C7-0019B9DE3AA4}</accountid>
+                    </result>
+                    <result>
+                        <name>VSV International</name>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{7E70240E-DFFE-DF11-BF11-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Xebic</name>
+                        <primarycontactid name="Schreuder, Paul" yomi="Schreuder, Paul" dsc="0">
+                            {75715627-BEE2-E011-8890-0050569E3F41}
+                        </primarycontactid>
+                        <customertypecode name="ICT Aanbieder / Uitgever" formattedvalue="13">13</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{3A48C9B3-BDE2-E011-8890-0050569E3F41}</accountid>
+                    </result>
+                    <result>
+                        <name>Xpression bv</name>
+                        <customertypecode name="Overig" formattedvalue="17">17</customertypecode>
+                        <statuscode name="Active">1</statuscode>
+                        <accountid>{24D71B5E-1B41-E111-942E-0050569E3F41}</accountid>
+                    </result>
+                </resultset>
+            </GetDataResult>
+        </GetDataResponse>
+    </s:Body>
+</s:Envelope>

@@ -27,8 +27,11 @@
 
   <section class="data-table-holder">
 
-    <h1>${title}</h1>
-    <div class="data-table-wrapper">
+
+
+
+  <a class="more-down-less-up" href="#"><h1>${title}<i class="icon-arrow-down in-active"></i><i class="icon-arrow-up active"></i></h1></a>
+  <div class="data-table-wrapper">
 
       <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.idp" /></c:set>
       <table id="idp_overview_table" class="table table-bordered table-striped table-above-pagination table-sortable"
@@ -81,7 +84,7 @@
 <section class="data-table-holder">
 
     <spring:message var="title" code="jsp.allidplmng.accounts"/>
-    <h1>${title}</h1>
+    <a class="more-down-less-up" href="#"><h1>${title}<i class="icon-arrow-down in-active"></i><i class="icon-arrow-up active"></i></h1></a>
     <div class="data-table-wrapper">
 
     <c:set var="searchPlaceholderAccount"><spring:message code="jsp.search.placeholder.account" /></c:set>

@@ -15,26 +15,24 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import nl.surfnet.coin.selfservice.domain.*;
+import nl.surfnet.coin.selfservice.domain.Account;
+import nl.surfnet.coin.selfservice.domain.Article;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore;
-
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.core.io.ClassPathResource;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 /**
  * LicensingServiceMock.java
- * 
  */
 @SuppressWarnings("unused")
 public class LmngServiceMock implements LmngService {
@@ -47,11 +45,12 @@ public class LmngServiceMock implements LmngService {
   private boolean activeMode;
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-      .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+          .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
   private List<Article> articles;
   private License license;
-  private List<Account> accounts;
+  private List<Account> institutions;
+  private List<Account> services;
 
   public LmngServiceMock() {
     try {
@@ -63,7 +62,8 @@ public class LmngServiceMock implements LmngService {
       this.license = (License) parseJsonData(licenseTypeReference, "lmng-json/licenses.json");
       TypeReference<List<Account>> accountTypeReference = new TypeReference<List<Account>>() {
       };
-      this.accounts = (List<Account>) parseJsonData(accountTypeReference, "lmng-json/accounts.json");
+      this.institutions = (List<Account>) parseJsonData(accountTypeReference, "lmng-json/institutions.json");
+      this.services = (List<Account>) parseJsonData(accountTypeReference, "lmng-json/services.json");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -105,6 +105,11 @@ public class LmngServiceMock implements LmngService {
     return activeMode;
   }
 
+  @Override
+  public String performQuery(String rawQuery) {
+    throw new RuntimeException("performQuery not implemented by " + getClass().getName());
+  }
+
   private void invariant() {
     if (!activeMode) {
       throw new RuntimeException(this.getClass().getSimpleName() + " is not active. No calls can be made");
@@ -123,13 +128,13 @@ public class LmngServiceMock implements LmngService {
   }
 
   @Override
-  public List<Account> getAccounts() {
-    return accounts;
+  public List<Account> getAccounts(boolean isInstitution) {
+    return isInstitution ? institutions : services;
   }
 
   @Override
   public List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn) {
-    return Arrays.asList(new License[] {license});
+    return Arrays.asList(new License[]{license});
   }
 
   @Override
