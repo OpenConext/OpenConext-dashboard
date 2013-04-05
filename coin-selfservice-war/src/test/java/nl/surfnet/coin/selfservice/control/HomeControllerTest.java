@@ -68,7 +68,7 @@ public class HomeControllerTest {
   @Test
   public void testStart() throws Exception {
 
-    final ModelAndView mav = controller.home(new IdentityProvider(), new MockHttpServletRequest());
+    final ModelAndView mav = controller.home(new IdentityProvider(), "card", new MockHttpServletRequest());
     assertEquals("app-overview", mav.getViewName());
 
     final ModelMap modelMap = mav.getModelMap();

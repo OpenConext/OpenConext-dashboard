@@ -1,5 +1,31 @@
 @import "compass/typography/text/ellipsis"
 
+.view-option
+  display: block
+  float: right
+  padding: 5px 10px 5px 10px
+  margin-right: 10px
+  margin-bottom: 10px
+
+  background: #FFF
+  +background(linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(170, 170, 170, 0.3)), #FFF)
+  border: 1px solid #E5E5E5
+  +border-radius(3px)
+  color: #AAA
+
+  a
+    padding: 0px 5px
+
+    &.disabled
+      color: black
+      text-decoration: none
+      cursor: default
+      &:visited
+        color: black
+
+    &:visited
+      color: #4fb3cf
+
 .app-grid-holder
   position: relative
 
@@ -8,10 +34,12 @@
 
 .app-grid
   background: url(../images/bg-app-grid.png) repeat-x 0 100%
-  border-top: 1px solid $subtle_gray
   margin: 25px 0
   overflow: hidden
   width: 100%
+
+  &.card-view
+    border-top: 1px solid $subtle_gray
 
   &.app-grid-js
     li
@@ -22,7 +50,73 @@
         background: #F2F2F2
         +transition(background-color 0.3s)
 
-  li
+  li.list-view
+    border: 1px solid $subtle_gray
+    width: 99%
+    display: block
+    min-height: 40px
+    margin-bottom: 5px
+    position: relative
+
+    h2
+      display: inline-block
+      padding-top: 7px
+      font-size: 1em
+
+      a
+        &:visited, &:link, &:active
+          text-decoration: none
+        &:hover
+          color: #4fb3cf
+          text-decoration: none
+
+    p.desc
+      display: inline-block
+      position: absolute
+      top: 7px
+      left: 450px
+      font-size: 0.85em
+
+    p.connect-app
+      display: inline-block
+      position: absolute
+      top: 7px
+      left: 830px
+
+    div.app-meta-cta
+      display: inline-block
+      position: absolute
+      top: 8px
+      left: 800px
+
+      i:before
+        color: #999
+
+      a
+        text-decoration: none
+
+        i
+          cursor: pointer
+
+          &:before
+            color: #EC9900
+            cursor: pointer
+            font-size: 14px
+
+        &:hover,
+        &:focus
+          i:before
+            color: #A06802
+
+
+    img
+      display: inline-block
+      float: left
+      width: 40px
+      margin-right: 10px
+
+
+  li.card-view
     border: 1px solid $subtle_gray
     border-width: 0 1px 1px 0
     +box-sizing(border-box)
@@ -142,7 +236,7 @@
 .filter-grid
   position: absolute
   right: 50px
-  top: 50px
+  top: 43px
 
   div
     float: right
@@ -226,7 +320,7 @@
 
 @media (min-width: 1300px)
   .app-grid
-    li
+    li.card-view
       width: 24.8%
 
       &:nth-child(3n)
@@ -238,7 +332,7 @@
 
 @media (max-width: 1200px)
   .app-grid
-    li
+    li.card-view
       width: 49.8%
 
       &:nth-child(3n)
@@ -315,23 +409,23 @@
       display: table-row
       float: none
 
-    li
+    li.card-view
       display: table-cell
       float: none
 
+      &:first-child a
+        border-width: 0 1px 1px 1px
+        +border-radius(0)
+        +border-bottom-left-radius(0.75em)
+
+      &:last-child a
+        +border-radius(0)
+        +border-bottom-right-radius(0.75em)
     a
       border-width: 0 1px 1px 0
       display: block
       font-size: 0.85em
 
-    li:first-child a
-      border-width: 0 1px 1px 1px
-      +border-radius(0)
-      +border-bottom-left-radius(0.75em)
-
-    li:last-child a
-      +border-radius(0)
-      +border-bottom-right-radius(0.75em)
 
   .no-sticky-app-grid-wrapper-menu .hidden-phone
     display: none
@@ -349,14 +443,33 @@
     margin: 0 -25px 25px
     width: auto
 
+    li.list-view
+      min-height: 60px
+
+      img
+        width: 60px
+
+      p.connect-app
+        top: 34px
+        left: 120px
+
+      div.app-meta-cta
+        top: 35px
+        left: 70px
+
 
 @media (max-width: 560px)
   .app-grid
-    li
+    li.card-view
       border-right: none !important
       width: 100%
 
+    li.list-view
+      p.desc
+        display: none
+
 @media (max-width: 440px)
+
   .filter-grid
     overflow: hidden
 

@@ -35,6 +35,7 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -57,7 +58,8 @@ public class HomeController extends BaseController {
   }
 
   @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
+  public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                           @RequestParam(value = "view", defaultValue = "card") String view, HttpServletRequest request) {
     Map<String, Object> model = new HashMap<String, Object>();
 
     List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
@@ -65,6 +67,7 @@ public class HomeController extends BaseController {
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
+    model.put("view", view);
 
     return new ModelAndView("app-overview", model);
   }

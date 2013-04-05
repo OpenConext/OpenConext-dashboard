@@ -1,2 +1,293 @@
 /* Tickback, by Arjan Eising 2012. License: MIT. https://github.com/arjaneising/tickback */
-(function(){var e,t,n,r,i,s,o,u,a,f,l,c,h,p;e=window.jQuery;t={activeItemsFirst:!0,animationType:"move",duration:600,easing:"linear",itemInactiveClass:"tbhidden",sortDom:!0,sortItems:!0};p=[];f=!1;h=function(){var r,i,s,o,a;s=this;if(arguments.length===2){r=arguments[0];a=arguments[1]}else typeof arguments[0]=="string"?r=arguments[0]:a=arguments[0];i={};o=s.data("settings");e.extend(i,t,o,a);i.activeItemsFirst&&!i.sortItems&&(i.sortItems=!0);s.data("settings",i);r==null&&(r="render");switch(r){case"setDefaults":l(i);break;case"destroy":n(s,i);break;default:u(s,i)}return s};r=function(t,n){var r,i,s;if(n.filterCallback==null)throw"No specified filterCallback";for(i=0,s=t.length;i<s;i++){r=t[i];r=e(r);n.filterCallback.call(this,r)?r.addClass(n.itemInactiveClass):r.removeClass(n.itemInactiveClass)}return t};s=function(n,r){if(!t.sortItems)return n;n.sort(function(t,n){var i,s;try{t=e(t);n=e(n);i=t.hasClass(r.itemInactiveClass);s=n.hasClass(r.itemInactiveClass);return!r.activeItemsFirst||i===s?typeof r.sortCallback=="function"?r.sortCallback(t,n):0:i&&!s?1:-1}catch(o){return 0}});return n};u=function(t,n){var i,u,a,l,h,d,v,m,g,y,b,w,E,S,x,T,N;for(w=0,S=t.length;w<S;w++){v=t[w];v=e(v);if(v.data("busy")===!0)return;v.data("busy",!0);v.data("count",0);m=v.hasClass("tickback");if(!m){v.addClass("tickback");v.attr("aria-live","polite");v.css({position:"relative",overflow:"hidden",height:v.height()});v.children().css({"float":"none",position:"absolute"});p.push(v)}h=v.children();i=v.width();l=h.eq(0).outerWidth(!0);a=h.eq(0).outerHeight(!0);r(h,n);g=s(h,n);c(g,i,l,a);d=m&&!f?n.duration:0;(T=n.beforeAnimationCallback)!=null&&T.call(v);v.transition({height:e(g[g.length-1]).data("to-top")+a},d,n.easing);for(E=0,x=h.length;E<x;E++){u=h[E];u=e(u);if((N=n.animationType)==="fade"||N==="scale")b=e.extend({},n.itemViaStyles);y=e.extend({},u.hasClass(n.itemInactiveClass)?n.itemInactiveStyles:n.itemActiveStyles);switch(n.animationType){case"fade":e.extend(b,{opacity:0});e.extend(y,{opacity:1});break;case"scale":e.extend(b,{scale:0});e.extend(y,{scale:1});break;default:e.extend(y,{left:u.data("to-left")+"px",top:u.data("to-top")+"px"})}b!=null?u.stop().transition(b,d/2,n.easing).transition({left:u.data("to-left")+"px",top:u.data("to-top")+"px"},0).transition(y,d/2,n.easing,o):u.stop().transition(y,d,n.easing,o)}}};c=function(t,n,r,i){var s,o,u,a,f,l,c,h;f=Math.floor(n/r);o=0;h=[];for(l=0,c=t.length;l<c;l++){s=t[l];u=o%f;a=Math.floor(o/f);s=e(s);s.data({index:o,"to-left":u*r,"to-top":a*i});h.push(++o)}return h};a=function(t){var n,r,i,s,o,u;r=t.children();i=function(){var t,i,s;s=[];for(t=0,i=r.length;t<i;t++){n=r[t];n=e(n);s.push([n.data("index"),n])}return s}();i.sort(function(e,t){return e[0]===t[0]?0:e[0]<t[0]?-1:1});u=[];for(s=0,o=i.length;s<o;s++){n=i[s];u.push(t.append(n[1]))}return u};o=function(){var t,n,r,i,s;r=e(this).closest(".tickback");n=r.data("count");++n;r.data("count",n);t=r.children().length;if(n>=t){i=r.data("settings");i.sortDom&&a(r);r.data("busy",!1);f=!1;return(s=i.afterAnimationCallback)!=null?s.call(r):void 0}};l=function(n){return e.extend(t,n)};n=function(t,n){var r,i,s,o,u,a,f,l,c;o=e.extend({},n.itemInactiveStyles,n.itemActiveStyles);s={"float":"",position:"",top:"",left:""};for(i in o){u=o[i];s[i]=""}t.removeClass("tickback").removeAttr("aria-live");t.css({height:"",overflow:"",position:""});l=t.children().removeClass(n.itemInactiveClass);c=[];for(a=0,f=l.length;a<f;a++){r=l[a];c.push(e(r).css(s))}return c};i=function(){var e,t,n,r,i;i=[];for(n=0,r=p.length;n<r;n++){e=p[n];t=e.data("settings");f=!0;i.push(e.tickback(t))}return i};jQuery.fn.tickback=h;e(window).on("resize",i)}).call(this);
+(function() {
+  var $, defaultSettings, destroy, filter, handleResize, order, ready, render, reorderDom, resizeRender, setDefaults, setFuturePositions, tickback, tickbackElms;
+
+  $ = window.jQuery;
+
+  defaultSettings = {
+    activeItemsFirst: true,
+    animationType: 'move',
+    duration: 600,
+    easing: 'linear',
+    itemInactiveClass: 'tb-hidden',
+    sortDom: true,
+    sortItems: true
+  };
+
+  tickbackElms = [];
+
+  resizeRender = false;
+
+  tickback = function() {
+    var action, currentSettings, elms, oldSettings, options;
+    elms = this;
+    if (arguments.length === 2) {
+      action = arguments[0];
+      options = arguments[1];
+    } else {
+      if (typeof arguments[0] === 'string') {
+        action = arguments[0];
+      } else {
+        options = arguments[0];
+      }
+    }
+    currentSettings = {};
+    oldSettings = elms.data('settings');
+    $.extend(currentSettings, defaultSettings, oldSettings, options);
+    if (currentSettings.activeItemsFirst && !currentSettings.sortItems) {
+      currentSettings.sortItems = true;
+    }
+    elms.data('settings', currentSettings);
+    if (action == null) {
+      action = 'render';
+    }
+    switch (action) {
+      case 'setDefaults':
+        setDefaults(currentSettings);
+        break;
+      case 'destroy':
+        destroy(elms, currentSettings);
+        break;
+      default:
+        render(elms, currentSettings);
+    }
+    return elms;
+  };
+
+  filter = function(elms, options) {
+    var elm, _i, _len;
+    if (options.filterCallback == null) {
+      throw 'No specified filterCallback';
+    }
+    for (_i = 0, _len = elms.length; _i < _len; _i++) {
+      elm = elms[_i];
+      elm = $(elm);
+      if (options.filterCallback.call(this, elm)) {
+        elm.addClass(options.itemInactiveClass);
+      } else {
+        elm.removeClass(options.itemInactiveClass);
+      }
+    }
+    return elms;
+  };
+
+  order = function(elms, options) {
+    if (!defaultSettings.sortItems) {
+      return elms;
+    }
+    elms.sort(function(a, b) {
+      var aHas, bHas;
+      a = $(a);
+      b = $(b);
+      aHas = a.hasClass(options.itemInactiveClass);
+      bHas = b.hasClass(options.itemInactiveClass);
+      if (!options.activeItemsFirst || aHas === bHas) {
+        return (typeof options.sortCallback === "function" ? options.sortCallback(a, b) : void 0) || 0;
+      }
+      if (aHas && !bHas) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    return elms;
+  };
+
+  render = function(elms, options) {
+    var availableWidth, child, childHeight, childWidth, children, duration, elm, runBefore, sortedArrayWithchildren, stylesTo, stylesVia, _i, _j, _len, _len1, _ref, _ref1;
+    for (_i = 0, _len = elms.length; _i < _len; _i++) {
+      elm = elms[_i];
+      elm = $(elm);
+      if (elm.data('busy') === true) {
+        return;
+      }
+      elm.data('busy', true);
+      elm.data('count', 0);
+      runBefore = elm.hasClass('tickback');
+      if (!runBefore) {
+        elm.addClass('tickback');
+        elm.attr('aria-live', 'polite');
+        elm.css({
+          position: 'relative',
+          overflow: 'hidden',
+          height: elm.height()
+        });
+        elm.children().css({
+          float: 'none',
+          position: 'absolute'
+        });
+        tickbackElms.push(elm);
+      }
+      children = elm.children();
+      availableWidth = elm.width();
+      childWidth = children.eq(0).outerWidth(true);
+      childHeight = children.eq(0).outerHeight(true);
+      filter(children, options);
+      sortedArrayWithchildren = order(children, options);
+      setFuturePositions(sortedArrayWithchildren, availableWidth, childWidth, childHeight);
+      duration = runBefore && !resizeRender ? options.duration : 0;
+      if ((_ref = options.beforeAnimationCallback) != null) {
+        _ref.call(elm);
+      }
+      elm.transition({
+        height: $(sortedArrayWithchildren[sortedArrayWithchildren.length - 1]).data('to-top') + childHeight
+      }, duration, options.easing);
+      for (_j = 0, _len1 = children.length; _j < _len1; _j++) {
+        child = children[_j];
+        child = $(child);
+        if ((_ref1 = options.animationType) === 'fade' || _ref1 === 'scale') {
+          stylesVia = $.extend({}, options.itemViaStyles);
+        }
+        stylesTo = $.extend({}, (child.hasClass(options.itemInactiveClass) ? options.itemInactiveStyles : options.itemActiveStyles));
+        switch (options.animationType) {
+          case 'fade':
+            $.extend(stylesVia, {
+              opacity: 0
+            });
+            $.extend(stylesTo, {
+              opacity: 1
+            });
+            break;
+          case 'scale':
+            $.extend(stylesVia, {
+              scale: 0
+            });
+            $.extend(stylesTo, {
+              scale: 1
+            });
+            break;
+          default:
+            $.extend(stylesTo, {
+              left: child.data('to-left') + 'px',
+              top: child.data('to-top') + 'px'
+            });
+        }
+        if (stylesVia != null) {
+          child.stop().transition(stylesVia, duration / 2, options.easing).transition({
+            left: child.data('to-left') + 'px',
+            top: child.data('to-top') + 'px'
+          }, 0).transition(stylesTo, duration / 2, options.easing, ready);
+        } else {
+          child.stop().transition(stylesTo, duration, options.easing, ready);
+        }
+      }
+    }
+  };
+
+  setFuturePositions = function(elms, availableWidth, childWidth, childHeight) {
+    var elm, i, nthLeft, nthTop, perRow, _i, _len, _results;
+    perRow = Math.floor(availableWidth / childWidth);
+    i = 0;
+    _results = [];
+    for (_i = 0, _len = elms.length; _i < _len; _i++) {
+      elm = elms[_i];
+      nthLeft = i % perRow;
+      nthTop = Math.floor(i / perRow);
+      elm = $(elm);
+      elm.data({
+        'index': i,
+        'to-left': nthLeft * childWidth,
+        'to-top': nthTop * childHeight
+      });
+      _results.push(++i);
+    }
+    return _results;
+  };
+
+  reorderDom = function(elm) {
+    var child, children, toSort, _i, _len, _results;
+    children = elm.children();
+    toSort = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = children.length; _i < _len; _i++) {
+        child = children[_i];
+        child = $(child);
+        _results.push([child.data('index'), child]);
+      }
+      return _results;
+    })();
+    toSort.sort(function(a, b) {
+      if (a[0] === b[0]) {
+        return 0;
+      }
+      if (a[0] < b[0]) {
+        return -1;
+      }
+      return 1;
+    });
+    _results = [];
+    for (_i = 0, _len = toSort.length; _i < _len; _i++) {
+      child = toSort[_i];
+      _results.push(elm.append(child[1]));
+    }
+    return _results;
+  };
+
+  ready = function() {
+    var amountOfChildren, currentCount, elm, options, _ref;
+    elm = $(this).closest('.tickback');
+    currentCount = elm.data('count');
+    ++currentCount;
+    elm.data('count', currentCount);
+    amountOfChildren = elm.children().length;
+    if (currentCount >= amountOfChildren) {
+      options = elm.data('settings');
+      if (options.sortDom) {
+        reorderDom(elm);
+      }
+      elm.data('busy', false);
+      resizeRender = false;
+      return (_ref = options.afterAnimationCallback) != null ? _ref.call(elm) : void 0;
+    }
+  };
+
+  setDefaults = function(options) {
+    return $.extend(defaultSettings, options);
+  };
+
+  destroy = function(elms, options) {
+    var child, key, resetStyles, styles, val, _i, _len, _ref, _results;
+    styles = $.extend({}, options.itemInactiveStyles, options.itemActiveStyles);
+    resetStyles = {
+      float: '',
+      position: '',
+      top: '',
+      left: ''
+    };
+    for (key in styles) {
+      val = styles[key];
+      resetStyles[key] = '';
+    }
+    elms.removeClass('tickback').removeAttr('aria-live');
+    elms.css({
+      height: '',
+      overflow: '',
+      position: ''
+    });
+    _ref = elms.children().removeClass(options.itemInactiveClass);
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      child = _ref[_i];
+      _results.push($(child).css(resetStyles));
+    }
+    return _results;
+  };
+
+  handleResize = function() {
+    var elm, options, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = tickbackElms.length; _i < _len; _i++) {
+      elm = tickbackElms[_i];
+      options = elm.data('settings');
+      resizeRender = true;
+      _results.push(elm.tickback(options));
+    }
+    return _results;
+  };
+
+  jQuery.fn.tickback = tickback;
+
+  $(window).on('resize', handleResize);
+
+}).call(this);
