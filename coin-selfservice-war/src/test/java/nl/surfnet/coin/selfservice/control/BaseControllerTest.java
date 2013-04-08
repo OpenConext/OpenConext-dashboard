@@ -53,14 +53,7 @@ public class BaseControllerTest {
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
   
-  @Test 
-  public void deleteme() {
-    String s = "abcdef";
-    s += "1";
-    System.out.println(s);
-  }
-
-  @Test
+ @Test
   public void testMyIdentityProviders() throws Exception {
     IdentityProvider idp1 = new IdentityProvider();
     idp1.setId("idpId_1");

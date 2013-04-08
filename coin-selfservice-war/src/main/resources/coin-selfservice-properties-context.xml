@@ -22,5 +22,6 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
-  <context:property-placeholder location="classpath:coin-selfservice.properties"/>
+  <context:property-placeholder location="classpath:showroom.properties" ignore-resource-not-found="true"/>
+  <context:property-placeholder location="classpath:not-exists.properties" ignore-resource-not-found="true"/>
 </beans>

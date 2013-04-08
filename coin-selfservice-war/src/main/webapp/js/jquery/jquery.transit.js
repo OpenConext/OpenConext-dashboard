@@ -1,4 +1,4 @@
-/*!
+  /*!
  * jQuery Transit - CSS3 transitions and transformations
  * Copyright(c) 2011 Rico Sta. Cruz <rico@ricostacruz.com>
  * MIT Licensed.

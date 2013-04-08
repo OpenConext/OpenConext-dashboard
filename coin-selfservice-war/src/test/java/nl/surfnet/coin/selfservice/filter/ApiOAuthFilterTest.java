@@ -41,9 +41,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertNoRoleIsGranted;
 import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertRoleIsGranted;
 import static org.junit.Assert.assertThat;
@@ -135,6 +133,7 @@ public class ApiOAuthFilterTest {
 
   @Test
   public void filterAndUsePrefetchedAccessTokenButNoAdmin() throws Exception {
+    filter.setLmngActive(false);
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
 
     setAuthentication();
@@ -198,9 +197,16 @@ public class ApiOAuthFilterTest {
   }
 
   @Test
-  public void test_elevate_user_results_in_no_authorities() throws IOException, ServletException {
-    setUpForAuthoritiesCheck( new Authority[]{});
+  public void test_elevate_user_results_in_no_authorities_in_lmng_disactive_modus() throws IOException, ServletException {
+    filter.setLmngActive(false);
+    setUpForAuthoritiesCheck(new Authority[]{});
     assertNoRoleIsGranted();
+  }
+
+  @Test
+  public void test_elevate_user_results_in_user_authorities() throws IOException, ServletException {
+    setUpForAuthoritiesCheck( new Authority[]{});
+    assertRoleIsGranted(ROLE_USER);
   }
 
   private void setUpForAuthoritiesCheck(Authority... groupMemberShips) throws IOException, ServletException {

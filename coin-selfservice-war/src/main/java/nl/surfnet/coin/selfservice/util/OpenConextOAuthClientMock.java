@@ -44,19 +44,19 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
     /*
      * ROLE_IDP_SURFCONEXT_ADMIN=IdP Account Administrator
      */
-    ADMIN_IDP_SURFCONEXT("adminidpsc"),
+    ADMIN_IDP_SURFCONEXT("adminidpsc"), // admin from institution for dashboard
     /*
      * ROLE_IDP_LICENSE_ADMIN=IdP License Administrator
      */
-    ADMIN_IDP_LICENSE("adminidpli"),
+    ADMIN_IDP_LICENSE("adminidpli"), // admin from institution for showroom
     /*
      * ROLE_DISTRIBUTION_CHANNEL_ADMIN=Distribution Channel Administrator
      */
-    ADMIN_DISTRIBUTIE_CHANNEL("admindk"),
+    ADMIN_DISTRIBUTIE_CHANNEL("admindk"), // admin from surfmarket for showroom
     /*
      * ROLE_USER=Distribution Channel User
      */
-    USER("user"),
+    USER("user"),  //mere moratal end-user
     /*
      * Both IdP admins
      */
@@ -111,7 +111,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
   @Override
   public List<Person> getGroupMembers(String groupId, String onBehalfOf) {
     try {
-      Thread.sleep(2000);
+      Thread.sleep(500);
     } catch (InterruptedException e) {
     }
     List<Person> persons = new ArrayList<Person>();
@@ -189,7 +189,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
   @Override
   public void afterPropertiesSet() throws Exception {
     Properties prop = new Properties();
-    prop.load(new ClassPathResource("coin-selfservice.properties").getInputStream());
+    prop.load(new ClassPathResource("showroom.properties").getInputStream());
     adminLicentieIdPTeam = prop.getProperty("admin.licentie.idp.teamname");
     adminSurfConextIdPTeam = prop.getProperty("admin.surfconext.idp.teamname");
     adminDistributionTeam = prop.getProperty("admin.distribution.channel.teamname");

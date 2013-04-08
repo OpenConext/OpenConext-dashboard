@@ -26,84 +26,91 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <context:annotation-config/>
-  <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
+    <context:annotation-config/>
+    <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
 
-  <bean id="propertyResolver"
-        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="location" value="classpath:coin-selfservice.properties"/>
-  </bean>
+    <bean id="propertyResolver"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:showroom.properties</value>
+                <value>classpath:dashboard.properties</value>
+            </list>
+        </property>
+    </bean>
 
-  <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-    <property name="defaultViews">
-      <list>
-        <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
-      </list>
-    </property>
-    <property name="viewResolvers">
-      <list>
-        <bean id="jspViewResolver"
-              class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-          <property name="viewClass"
-                    value="org.springframework.web.servlet.view.JstlView"/>
-          <property name="prefix" value="/WEB-INF/jsp/"/>
-          <property name="suffix" value=".jsp"/>
+    <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+            </list>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <bean id="jspViewResolver"
+                      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="viewClass"
+                              value="org.springframework.web.servlet.view.JstlView"/>
+                    <property name="prefix" value="/WEB-INF/jsp/"/>
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!--Also use the messageSource as basis for JSR-303 validation messages -->
+    <bean name="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="lang"/>
+    </bean>
+
+    <mvc:annotation-driven/>
+    <mvc:interceptors>
+        <ref bean="featureInterceptor"/>
+        <!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
+        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor">
+            <property name="lmngActive" value="${coin-lmng-active-mode}"/>
         </bean>
-      </list>
-    </property>
-  </bean>
+        <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor">
+            <property name="lmngActive" value="${coin-lmng-active-mode}"/>
+        </bean>
+        <ref bean="localeChangeInterceptor"/>
+    </mvc:interceptors>
 
-  <bean id="messageSource"
-        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-    <property name="basename" value="classpath:messages"/>
-    <property name="defaultEncoding" value="UTF-8"/>
-  </bean>
-
-  <!--Also use the messageSource as basis for JSR-303 validation messages -->
-  <bean name="validator"
-        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-    <property name="validationMessageSource" ref="messageSource" />
-  </bean>
-
-  <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-    <property name="paramName" value="lang" />
-  </bean>
-
-  <mvc:annotation-driven />
-  <mvc:interceptors>
-    <ref bean="featureInterceptor" /><!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
-    <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor">
-      <property name="lmngActive" value="${coin-lmng-active-mode}"/>
+    <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
+        <property name="dev" value="${mode.dev}"/>
     </bean>
-    <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor">
-      <property name="lmngActive" value="${coin-lmng-active-mode}"/>
+
+    <bean id="messageAdapter"
+          class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <!-- Support JSON -->
+                <bean
+                        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+        <property name="alwaysUseFullPath" value="true"/>
     </bean>
-    <ref bean="localeChangeInterceptor" />
-  </mvc:interceptors>
-
-  <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
-    <property name="dev" value="${mode.dev}"/>
-  </bean>
-
-  <bean id="messageAdapter"
-        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-    <property name="messageConverters">
-      <list>
-        <!-- Support JSON -->
-        <bean
-            class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
-      </list>
-    </property>
-    <property name="alwaysUseFullPath" value="true"/>
-  </bean>
-  <bean id="exceptionMessageAdapter"
-        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
-    <property name="messageConverters">
-      <list>
-        <!-- Support JSON -->
-        <bean
-            class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
-      </list>
-    </property>
-  </bean>
+    <bean id="exceptionMessageAdapter"
+          class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+        <property name="messageConverters">
+            <list>
+                <!-- Support JSON -->
+                <bean
+                        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
 </beans>
