@@ -1,0 +1,33 @@
+ul {
+  width: 40%
+}
+
+li {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px 0px 10px 0px;
+  border: 1px solid #e5e5e5;
+  min-height: 50px;
+}
+
+p {
+  display: inline-block;
+  margin: 5px 1px 1px 10px;
+  padding: 0px;
+  line-height: 14px;
+
+}
+
+img {
+  height: 50px;
+  width: 82px;
+  float: left;
+}
+
+.license-connect span, .license-not-needed span {
+  margin-left: 10px;
+}
+
+.license-connect a, .license-not-needed a {
+  margin-left: 10px;
+}
