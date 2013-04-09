@@ -6,13 +6,18 @@ import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.util.comparator.NullSafeComparator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static java.util.Collections.sort;
 
 @Controller
 @RequestMapping(value = "/api/*")
@@ -37,8 +42,11 @@ public class ApiController {
       result.add(new PublicService(isEn ? csP.getServiceDescriptionEn() : csP.getServiceDescriptionNl(),
               getServiceLogo(csP) , csP.getServiceUrl(), csP.isArticleAvailable()));
     }
+    sort(result);
     return result;
   }
+
+
 
   private String getServiceLogo(CompoundServiceProvider csP) {
     String detailLogo = csP.getDetailLogo();

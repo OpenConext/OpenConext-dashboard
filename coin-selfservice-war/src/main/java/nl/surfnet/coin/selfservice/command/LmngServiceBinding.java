@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.command;
 
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 /**
@@ -26,55 +27,27 @@ public class LmngServiceBinding {
 
   private String lmngIdentifier;
   private ServiceProvider serviceProvider;
-  
-  /**
-   * Default constructor
-   */
-  public LmngServiceBinding(){
-    
-  }
-  
-  /**
-   * Constructor with initial fields
-   * 
-   * @param lmngIdentifier
-   * @param serviceId
-   * @param serviceName
-   * @param descriptions
-   */
-  public LmngServiceBinding(String lmngIdentifier, ServiceProvider serviceProvider) {
+
+  private CompoundServiceProvider compoundServiceProvider;
+
+  public LmngServiceBinding(String lmngIdentifier, ServiceProvider serviceProvider, CompoundServiceProvider compoundServiceProvider) {
     super();
     this.lmngIdentifier = lmngIdentifier;
     this.serviceProvider = serviceProvider;
+    this.compoundServiceProvider = compoundServiceProvider;
   }
   
-  /**
-   * Constructor with initial serviceProvider
-   * 
-   * @param serviceId
-   * @param serviceName
-   * @param descriptions
-   */
-  public LmngServiceBinding(ServiceProvider serviceProvider) {
-    super();
-    this.serviceProvider = serviceProvider;
-  }
-
   public String getLmngIdentifier() {
     return lmngIdentifier;
-  }
-
-  public void setLmngIdentifier(String lmngIdentifier) {
-    this.lmngIdentifier = lmngIdentifier;
   }
 
   public ServiceProvider getServiceProvider() {
     return serviceProvider;
   }
 
-  public void setServiceProvider(ServiceProvider serviceProvider) {
-    this.serviceProvider = serviceProvider;
+  public CompoundServiceProvider getCompoundServiceProvider() {
+    return compoundServiceProvider;
   }
-  
-  
+
+
 }

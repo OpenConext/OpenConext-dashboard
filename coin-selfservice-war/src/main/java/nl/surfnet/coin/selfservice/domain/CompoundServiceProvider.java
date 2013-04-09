@@ -65,7 +65,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-//import nl.surfnet.coin.selfservice.domain.Provider.Language;
 
 /**
  * CompoundServiceProvider.java
@@ -90,6 +89,9 @@ public class CompoundServiceProvider extends DomainObject {
 
   @Column
   private String lmngId;
+
+  @Column
+  private boolean hideInPublicShowroom;
 
   @Transient
   private AttributeScopeConstraints constraints;
@@ -116,6 +118,7 @@ public class CompoundServiceProvider extends DomainObject {
     CompoundServiceProvider provider = new CompoundServiceProvider();
     provider.setServiceProvider(serviceProvider);
     provider.setArticle(article);
+    provider.setHideInPublicShowroom(serviceProvider.isIdpVisibleOnly());
 
     buildFieldImage(Key.APPSTORE_LOGO, null, null, appStoreLogoImageBytes, provider);
     buildFieldString(Key.APP_URL, null, serviceProvider.getApplicationUrl(), todo, provider);
@@ -489,6 +492,15 @@ public class CompoundServiceProvider extends DomainObject {
   public boolean isArticleLicenseAvailable() {
     return isArticleAvailable() && isLicenseAvailable();
   }
+
+  public boolean isHideInPublicShowroom() {
+    return hideInPublicShowroom;
+  }
+
+  public void setHideInPublicShowroom(boolean hideInPublicShowroom) {
+    this.hideInPublicShowroom = hideInPublicShowroom;
+  }
+
 
   private static void buildFieldString(Key key, String lmng, String surfconext, String distributionChannel, CompoundServiceProvider provider) {
     FieldString fieldString;

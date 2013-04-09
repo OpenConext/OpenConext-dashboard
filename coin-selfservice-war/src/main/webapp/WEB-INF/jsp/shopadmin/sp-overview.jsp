@@ -34,6 +34,8 @@
         <thead>
         <tr>
           <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.idponly"/></th>
+          <th><spring:message code="jsp.lmng_binding_overview.idphide"/></th>
           <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
           <th><spring:message code="jsp.lmng_binding_overview.detail"/></th>
         </tr>
@@ -54,7 +56,16 @@
                 <a id="row${status.index}" />
                 <a href="${detailUrl}">
               		<tags:providername provider="${binding.serviceProvider}"/>
-              	</a></td>
+              	</a>
+              </td>
+              <td class="center">
+                ${binding.serviceProvider.idpVisibleOnly == true ? "<i class='icon-ok'> </i>" : "<i class='icon-remove icon-greyed-out'> </i>"}
+              </td>
+              <td class="center">
+                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+                <c:set var="checked" value="${binding.compoundServiceProvider.hideInPublicShowroom}"></c:set>
+                <input type="checkbox" name="hideInPublicShowroom" value="${checked}" data-compound-service-provider-id="${binding.compoundServiceProvider.id}" ${checked ? 'checked' : ''}>
+              </td>
               <td>
   			  <form:form id="form-${status.index}" method="post" action="save-splmng.shtml#row${status.index}" style="margin:0" cssClass="lmng-id-edit">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
@@ -73,7 +84,7 @@
                 <c:if test="${(status.index eq messageIndex) && (not empty infoMessage)}"><p class="info"><spring:message code="jsp.lmng_binding_overview.new.sp.guid" /><c:out value="${infoMessage}" /></p></c:if>
   			  </form:form>
               </td>
-              <td class="center">
+              <td>
                 <a href="${detailUrl}"><spring:message code="jsp.lmng_binding_overview.data_decision" /></a>
               </td>
             </tr>

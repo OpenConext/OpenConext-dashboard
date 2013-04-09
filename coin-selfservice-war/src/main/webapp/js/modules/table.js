@@ -52,7 +52,14 @@ app.table = function() {
       return ((xDate < yDate) ? 1 : ((xDate > yDate) ? -1 : 0));
     };
 
-    $('.table-sortable:not(#csp-statusses, #csp-statusses-short, #request-overview-table, #notifications-overview-table)').each(
+    jQuery.fn.dataTableExt.oSort['boolean-asc'] = function(x, y) {
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    };
+    jQuery.fn.dataTableExt.oSort['boolean-desc'] = function(x, y) {
+      return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+    };
+
+    $('.table-sortable:not(#csp-statusses, #sp_overview_table, #csp-statusses-short, #request-overview-table, #notifications-overview-table)').each(
         function(index, table) {
           $(table).dataTable({
             bPaginate : false,
@@ -101,6 +108,22 @@ app.table = function() {
         null
       ],
       aaSorting: [[0,'desc']] // sort on date desc
+    });
+
+    $('#sp_overview_table').dataTable({
+      bPaginate : false,
+      bLengthChange : false,
+      bAutoWidth : false,
+      bInfo : false,
+      oLanguage : {
+        sSearch : '_INPUT_'
+      },
+      aoColumns : [
+        {'sType' : 'spnames'},
+        {'sType' : 'boolean'},
+        {'bSortable': false},
+        {'bSortable': false},
+        {'bSortable': false} ]
     });
 
     $('#csp-statusses').dataTable({

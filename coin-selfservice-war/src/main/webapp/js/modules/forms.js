@@ -6,7 +6,6 @@ app.forms = function() {
     
   };
 
-
   var initIdpLmngList = function() {
     var buttonPressed = null;
 

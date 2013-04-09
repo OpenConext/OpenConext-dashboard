@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-public class PublicService {
+public class PublicService implements Comparable<PublicService> {
 
   private String name;
   @JsonProperty("logo_url_service")
@@ -54,4 +54,21 @@ public class PublicService {
   }
 
 
+  @Override
+  public int compareTo(PublicService other) {
+    if (other == null) {
+      return 1;
+    }
+    String otherName =  other.getName();
+    if (this.name == null && otherName == null ) {
+      return -1;
+    }
+    if (this.name == null) {
+      return -1;
+    }
+    if (otherName == null) {
+      return 1;
+    }
+    return this.name.compareTo(otherName);
+  }
 }

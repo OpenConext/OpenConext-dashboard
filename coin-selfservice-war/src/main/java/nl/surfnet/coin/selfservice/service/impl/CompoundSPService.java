@@ -83,8 +83,15 @@ public class CompoundSPService {
   private LmngService licensingService;
 
   public List<CompoundServiceProvider> getAllPublicCSPs() {
-    List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(true);
-    return getCSPs(null, allServiceProviders);
+    List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(false);
+    List<CompoundServiceProvider> csPs = getCSPs(null, allServiceProviders);
+    List<CompoundServiceProvider> result = new ArrayList<CompoundServiceProvider>();
+    for (CompoundServiceProvider csP : csPs) {
+      if (!csP.isHideInPublicShowroom()) {
+        result.add(csP);
+      }
+    }
+    return result;
   }
 
   public List<CompoundServiceProvider> getCSPsByIdp(IdentityProvider identityProvider) {

@@ -16,30 +16,32 @@
 
 package nl.surfnet.coin.selfservice.control.shopadmin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import nl.surfnet.coin.selfservice.command.LmngServiceBinding;
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.dao.CompoundServiceProviderDao;
 import nl.surfnet.coin.selfservice.dao.LmngIdentifierDao;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 import nl.surfnet.coin.selfservice.service.impl.LmngUtil;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/shopadmin/*")
@@ -55,6 +57,9 @@ public class SpLnmgListController extends BaseController {
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
+  @Autowired
+  private CompoundServiceProviderDao compoundServiceProviderDao;
+
   @RequestMapping(value = "/all-spslmng")
   public ModelAndView listAllSpsLmng(Map<String, Object> model) {
     if (model == null) {
@@ -63,14 +68,12 @@ public class SpLnmgListController extends BaseController {
 
     List<LmngServiceBinding> lmngServiceBindings = new ArrayList<LmngServiceBinding>();
     for (ServiceProvider serviceProvider : providerService.getAllServiceProviders(false)) {
-      LmngServiceBinding lmngServiceBinding = new LmngServiceBinding();
-      lmngServiceBinding.setServiceProvider(serviceProvider);
-      String lmngId = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
-      lmngServiceBinding.setLmngIdentifier(lmngId);
-      lmngServiceBindings.add(lmngServiceBinding);
+      String lmngIdentifier = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
+      CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByEntityId(serviceProvider.getId());
+      if (compoundServiceProvider != null) {
+        lmngServiceBindings.add(new LmngServiceBinding(lmngIdentifier, serviceProvider, compoundServiceProvider));
+      }
     }
-
-    //model.put("accounts", licensingService.getAccounts(false));
 
     model.put("bindings", lmngServiceBindings);
     return new ModelAndView("shopadmin/sp-overview", model);
@@ -96,11 +99,11 @@ public class SpLnmgListController extends BaseController {
 
     String isClearPressed = req.getParameter("clearbutton");
     if (StringUtils.isNotBlank(isClearPressed)) {
-      log.debug("Clearing lmng identifier for ServiceProvider with ID " + spId );
+      log.debug("Clearing lmng identifier for ServiceProvider with ID " + spId);
       lmngId = null;
     } else {
       // extra validation (also done in frontend/jquery)
-      if (!LmngUtil.isValidGuid(lmngId)) { 
+      if (!LmngUtil.isValidGuid(lmngId)) {
         model.put("errorMessage", "jsp.lmng_binding_overview.wrong.guid");
         model.put("messageIndex", index);
         return listAllSpsLmng(model);
@@ -114,10 +117,22 @@ public class SpLnmgListController extends BaseController {
         model.put("infoMessage", serviceLmngName);
         model.put("messageIndex", index);
       }
-      log.debug("Storing lmng identifier " + lmngId + " for ServiceProvider with ID " + spId );
+      log.debug("Storing lmng identifier " + lmngId + " for ServiceProvider with ID " + spId);
     }
     lmngIdentifierDao.saveOrUpdateLmngIdForServiceProviderId(spId, lmngId);
 
     return listAllSpsLmng(model);
   }
+
+  @RequestMapping(value = "/update-csp-public-api/{cspId}/{newValue}", method = RequestMethod.PUT)
+  public
+  @ResponseBody
+  String updateCspPublicApi(@PathVariable("cspId") Long cspId, @PathVariable("newValue") boolean newValue) {
+    CompoundServiceProvider csp = compoundServiceProviderDao.findById(cspId);
+    csp.setHideInPublicShowroom(newValue);
+    compoundServiceProviderDao.saveOrUpdate(csp);
+    log.info("Updated CompoundServiceProvider(" + cspId + ") to be included in public API:" + newValue);
+    return "ok";
+  }
+
 }
