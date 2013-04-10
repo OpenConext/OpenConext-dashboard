@@ -42,6 +42,6 @@ public class CSPInitializationTest {
       }
     });
     for (Integer oneResult : results) {
-      assertEquals("all results of getCSPsByIdp should be the same", 57, oneResult.intValue());
+      assertEquals("all results of getCSPsByIdp should be the same", 58, oneResult.intValue());
     }}
 }

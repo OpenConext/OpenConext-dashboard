@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.service;
 
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -29,6 +30,7 @@ import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.janus.domain.EntityMetadata;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService;
+import nl.surfnet.coin.selfservice.util.JanusRestClientMock;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -127,5 +129,17 @@ public class ServiceRegistryProviderServiceTest {
     when(janus.getSpList()).thenReturn(ems);
     final List<ServiceProvider> sps = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
     assertThat("nr of sps that have workflow state 'prodaccepted'", sps.size(), is(1));
+  }
+  
+  @Test
+  public void testNameAttributeRetrieval() {
+    JanusRestClientMock janusMock = new JanusRestClientMock();
+    EntityMetadata metadata = janusMock.getMetadataByEntityId("https://rave.beta.surfnet.nl");
+    ServiceProvider spFound = ServiceRegistryProviderService.buildServiceProviderByMetadata(metadata);
+    assertEquals("Braindrops Rave demo portal",spFound.getName());
+    
+    metadata = janusMock.getMetadataByEntityId("https://exampleService");
+    spFound = ServiceRegistryProviderService.buildServiceProviderByMetadata(metadata);
+    assertEquals("Service Title:en",spFound.getName());
   }
 }

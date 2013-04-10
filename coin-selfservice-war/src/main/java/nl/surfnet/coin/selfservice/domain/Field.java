@@ -15,10 +15,14 @@
  */
 package nl.surfnet.coin.selfservice.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import nl.surfnet.coin.shared.domain.DomainObject;
 
@@ -43,6 +47,24 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
   @ManyToOne
   @JoinColumn(name = "compound_service_provider_id", nullable = false)
   private CompoundServiceProvider compoundServiceProvider;
+  
+  @Transient
+  private Map<String,String> technicalOrigins = new HashMap<String, String>(){
+    {
+      // CRM specific values
+      put("LMNG_SERVICE_DESCRIPTION_NL", "artikel.lmng_description");
+      put("LMNG_DETAIL_LOGO", "image.lmng_url");
+      put("LMNG_INSTITUTION_DESCRIPTION", "lmng_descriptionlong");
+      
+      // SURFCONEXT specific values
+      put("SURFCONEXT_SERVICE_DESCRIPTION_NL", "names:nl");
+      put("SURFCONEXT_SERVICE_DESCRIPTION_EN", "names:en");
+      put("SURFCONEXT_APP_URL", "applicationUrl");
+      put("SURFCONEXT_DETAIL_LOGO", "appLogoUrl");
+      put("SURFCONEXT_SERVICE_URL","OrganizationURL");
+
+    }
+  };
 
   public Field() {
     super();
@@ -117,6 +139,14 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
 
   public void setCompoundServiceProvider(CompoundServiceProvider compoundServiceProvider) {
     this.compoundServiceProvider = compoundServiceProvider;
+  }
+  
+  public String getTechnicalOrigin(final String source) {
+    String result = "";
+    if (null != technicalOrigins.get(source+"_"+this.key)) {
+      result = technicalOrigins.get(source+"_"+this.key);
+    }
+    return result;
   }
   
   public abstract boolean isUnset();

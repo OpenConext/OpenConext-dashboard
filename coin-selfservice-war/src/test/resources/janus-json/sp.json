@@ -2088,8 +2088,8 @@
     },
     {
         "names":{
-            "en":"Braindrops Rave demo portal",
-            "nl":"Braindrops Rave demo portal"
+            "en":"Braindrops Rave demo portal names:en",
+            "nl":"Braindrops Rave demo portal names:nl"
         },
         "applicationUrl":"https://rave.beta.surfnet.nl/application_rul",
         "oauthConsumerKey":"https://rave.beta.surfnet.nl/.*",
@@ -2497,5 +2497,56 @@
         "name":"SURFconext Test SP | Dev | SURFnet",
         "description":"SURFconext Test SP | Dev | SURFnet",
         "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"Service Title:en",
+            "nl":"Service Titel:nl"
+        },
+        "applicationUrl":"http://applicationURL",
+        "oauthConsumerKey":"oathConsumerKey",
+        "appTitle":"App Title",
+        "appIcon":"AppIcon",
+        "appDescription":"App Description",
+        "appThumbNail":"appthumbnail",
+        "appEntityId":"https://exampleService",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"http://localhost:8280/selfservice/images/logo.png",
+        "appHomeUrls": {        
+          "en":"http://appHomeURL_EN/",
+          "nl":"http://appHomeURL_NL/"
+        },
+        "descriptions":{
+            "en":"Service Description:en",
+            "nl":"Service Beschrijving:nl"
+        },
+        "urls":{
+            "en":"http://home_url_en",
+            "nl":"http://home_url_nl"
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"Kabouter",
+                "surName":"Plop",
+                "emailAddress":"Plop@plopperdeplop.nl"
+            },
+            {
+                "type":"technical",
+                "givenName":"Henny",
+                "surName":"Bekker",
+                "emailAddress":"Henny.Bekker@surfnet.nl"
+            },
+            {
+                "type":"support",
+                "givenName":"help@surfnet.nl",
+                "surName":"Please",
+                "emailAddress":"help@surfnet.nl"
+            }
+        ],
+        "idpVisibleOnly":false,
+        "eula":"http://read.my/nice/EULA"
     }
 ]
