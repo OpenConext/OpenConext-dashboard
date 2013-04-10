@@ -26,6 +26,8 @@ public class ApiController {
   private @Value("${WEB_APPLICATION_CHANNEL}") String protocol;
   private @Value("${WEB_APPLICATION_HOST_AND_PORT}") String hostAndPort;
   private @Value("${WEB_APPLICATION_CONTEXT_PATH}") String contextPath;
+  private @Value("${coin-lmng-active-mode}") boolean lmngActive;
+  private @Value("${lmngDeepLinkBaseUrl}") String lmngDeepLinkBaseUrl;
 
   @Resource
   private CompoundSPService compoundSPService;
@@ -34,19 +36,19 @@ public class ApiController {
   public
   @ResponseBody
   List<PublicService> getPublicServices(@RequestParam(value = "lang", defaultValue = "en") String language) {
+    invariant();
     //made explicit here for tracebility
     List<CompoundServiceProvider> csPs = compoundSPService.getAllPublicCSPs();
     List<PublicService> result = new ArrayList<PublicService>();
     boolean isEn = language.equalsIgnoreCase("en");
     for (CompoundServiceProvider csP : csPs) {
+      String crmLink = csP.isArticleAvailable() ? (lmngDeepLinkBaseUrl + csP.getLmngId()) : null;
       result.add(new PublicService(isEn ? csP.getServiceDescriptionEn() : csP.getServiceDescriptionNl(),
-              getServiceLogo(csP) , csP.getServiceUrl(), csP.isArticleAvailable()));
+              getServiceLogo(csP) , csP.getServiceUrl(), csP.isArticleAvailable(), crmLink));
     }
     sort(result);
     return result;
   }
-
-
 
   private String getServiceLogo(CompoundServiceProvider csP) {
     String detailLogo = csP.getDetailLogo();
@@ -56,6 +58,12 @@ public class ApiController {
       }
     }
     return detailLogo;
+  }
+
+  private void invariant() {
+    if (!lmngActive) {
+      throw new RuntimeException("Only allowed in showroom, not in dashboard");
+    }
   }
 
 }

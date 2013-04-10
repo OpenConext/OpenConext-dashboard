@@ -2102,8 +2102,8 @@
         "consentNotRequired":false,
         "appLogoUrl":"https://beta.surfnet.nl/coin/SURFdrops.jpg",
         "appHomeUrls":{
-            "en":null,
-            "nl":null
+            "en":"https://rave-en",
+            "nl":"https://rave-en"
         },
         "descriptions":{
             "en":"Braindrops Rave demo portal",

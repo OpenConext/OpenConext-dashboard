@@ -17,7 +17,7 @@
 <ehcache updateCheck="false">
 
   <cache name="selfserviceDefault" maxElementsInMemory="100000" eternal="false"
-         timeToIdleSeconds="25" timeToLiveSeconds="25" overflowToDisk="false"
+         timeToIdleSeconds="1" timeToLiveSeconds="1" overflowToDisk="false"
          memoryStoreEvictionPolicy="LRU" />
 
 </ehcache>

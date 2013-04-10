@@ -5,6 +5,7 @@
         "supplierName": "Google",
         "serviceProviderEntityId": "https://rave.beta.surfnet.nl",
         "lmngIdentifier" : "{8833CEAE-960C-E211-B6B9-005056950050}",
+        "lmngProductIdentifier" : "1234567890",
         "appleAppStoreMedium" : {
           "name" : "Google app store medium",
           "url" : "http://appleAppStoreMedium.dummy",

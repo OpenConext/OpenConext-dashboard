@@ -13,12 +13,15 @@ public class PublicService implements Comparable<PublicService> {
   private String websiteUrl;
   @JsonProperty("is_surfmarket_connected")
   private boolean hasCrmLink;
+  @JsonProperty("surfmarket_url")
+  private String crmLink;
 
-  public PublicService(String name, String logoUrl, String websiteUrl, boolean hasCrmLink) {
+  public PublicService(String name, String logoUrl, String websiteUrl, boolean hasCrmLink, String crmLink) {
     this.name = name;
     this.logoUrl = logoUrl;
     this.websiteUrl = websiteUrl;
     this.hasCrmLink = hasCrmLink;
+    this.crmLink = crmLink;
   }
 
   public String getName() {
@@ -53,6 +56,13 @@ public class PublicService implements Comparable<PublicService> {
     this.hasCrmLink = hasCrmLink;
   }
 
+  public String getCrmLink() {
+    return crmLink;
+  }
+
+  public void setCrmLink(String crmLink) {
+    this.crmLink = crmLink;
+  }
 
   @Override
   public int compareTo(PublicService other) {
