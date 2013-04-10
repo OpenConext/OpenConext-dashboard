@@ -9,15 +9,15 @@ var apiServicesExample = {
         $.each(data, function (i, service) {
           var serviceItem = '<li>';
           serviceItem += "<img src='" + service.logo_url_service + "'>";
-          serviceItem += "<p><strong>" + service.name + "</strong></p>";
+          serviceItem += "<p>" + service.name + "</p>";
 
           var clazz = service.is_surfmarket_connected ? 'license-connect' : 'license-not-needed';
           var txt = service.is_surfmarket_connected ? 'Licentie aanwezig' : 'Geen licentie noodzakelijk';
           serviceItem += "<div class='" + clazz + "'>"
+          serviceItem += "<i class='icon-cloud-upload'></i><span>" + txt + "</span></div> ";
           if (service.website_service != undefined) {
-            serviceItem += "<a href='" + service.website_service + "'><i class='icon-external-link'></i></a>";
+            serviceItem += "<div class='website-service'><a href='" + service.website_service + "'><i class='icon-external-link'></i><span>" + service.website_service + "</span></a></div>";
           }
-          serviceItem += "<span>" + txt + "</span></div> ";
           serviceItem += '</li>';
           if (service.name) {
             services.push(serviceItem);
