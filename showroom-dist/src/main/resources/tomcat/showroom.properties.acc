@@ -114,6 +114,9 @@ admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 admin.distribution.channel.sabRole=
 
+administration.email.enabled=true
+administration.jira.ticket.enabled=false
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features
