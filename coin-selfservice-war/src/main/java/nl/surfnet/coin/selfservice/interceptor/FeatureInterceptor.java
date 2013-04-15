@@ -31,10 +31,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class FeatureInterceptor extends HandlerInterceptorAdapter {
   
   private boolean dev;
+  private boolean lmngActive;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     request.setAttribute("dev", dev); // for use on error page
+    request.setAttribute("lmngActive", lmngActive);
     return true;
   }
 
@@ -45,6 +47,7 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
       map.addAttribute("dev", dev);
+      map.addAttribute("lmngActive", lmngActive);
       map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
@@ -52,5 +55,18 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
   public void setDev(boolean dev) {
     this.dev = dev;
   }
- 
+
+  /**
+   * @param lmngActive the lmngActive to set
+   */
+  public void setLmngActive(boolean lmngActive) {
+    this.lmngActive = lmngActive;
+  }
+
+  /**
+   * @return the lmngActive
+   */
+  public boolean isLmngActive() {
+    return lmngActive;
+  }
 }

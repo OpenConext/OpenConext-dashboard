@@ -42,7 +42,7 @@ public class MenuInterceptorTest {
 
     @Test
     public void test_menu_for_user_has_home() throws Exception {
-        Menu menu = executeTestAndReturnMenu("/app-overview.shtml", ROLE_USER);
+        Menu menu = executeTestAndReturnMenu("/app-overview.shtml", false, ROLE_USER);
 
         assertEquals(1, menu.getMenuItems().size());
         assertTrue(menu.getMenuItems().get(0).isSelected());
@@ -51,7 +51,7 @@ public class MenuInterceptorTest {
 
     @Test
     public void test_menu_for_idp_admin_has_duplicates() throws Exception {
-        Menu menu = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
+        Menu menu = executeTestAndReturnMenu("who cares", true, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
 
         assertEquals(4, menu.getMenuItems().size());
         assertEquals("jsp.notifications.title", menu.getMenuItems().get(1).getLabel());
@@ -59,12 +59,10 @@ public class MenuInterceptorTest {
     }
 
     @Test
-    public void notificationsOnlyWhenLmngActive() throws Exception {
-        menuInterceptor.setLmngActive(true);
-        Menu menuWhenLmngActive = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
+    public void notificationsOnlyWhenLmngActive() throws Exception {        
+        Menu menuWhenLmngActive = executeTestAndReturnMenu("who cares", true, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
 
-        menuInterceptor.setLmngActive(false);
-        Menu menuWhenLmngNotActive = executeTestAndReturnMenu("who cares", ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
+        Menu menuWhenLmngNotActive = executeTestAndReturnMenu("who cares", false, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
 
         assertEquals(4, menuWhenLmngActive.getMenuItems().size());
         assertEquals(3, menuWhenLmngNotActive.getMenuItems().size());
@@ -73,10 +71,11 @@ public class MenuInterceptorTest {
 
     }
 
-    private Menu executeTestAndReturnMenu(String requestUri, Authority... authorities) throws Exception {
+    private Menu executeTestAndReturnMenu(String requestUri, Boolean lmngActive, Authority... authorities) throws Exception {
         setUpAuthorities(authorities);
         ModelAndView modelAndView = new ModelAndView();
         MockHttpServletRequest request = new MockHttpServletRequest("GET", requestUri);
+        request.setAttribute("lmngActive", lmngActive);
         menuInterceptor.postHandle(request, null, null, modelAndView);
 
         ModelMap modelMap = modelAndView.getModelMap();

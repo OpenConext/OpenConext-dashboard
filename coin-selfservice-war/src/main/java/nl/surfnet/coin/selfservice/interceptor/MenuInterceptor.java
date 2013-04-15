@@ -28,11 +28,12 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Interceptor to add the menu
  */
-public class MenuInterceptor extends LmngActiveAwareInterceptor {
+public class MenuInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
@@ -40,7 +41,7 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
-      Menu menu = createMenu();
+      Menu menu = createMenu(request);
       setSelected(request, menu);
       map.addAttribute("menu", menu);
     }
@@ -57,14 +58,14 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
     }
   }
   
-  private Menu createMenu() {
+  private Menu createMenu(final HttpServletRequest request) {
     Menu menu = new Menu();
     menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
     List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
     for (Authority authority : authorities) {
       switch (authority) {
       case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
-        if (isLmngActive()) {
+        if (isLmngActive(request)) {
           menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
           menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
           menu.addMenuItem(new MenuItem("jsp.cspstatus.title", "/shopadmin/csp-status-overview.shtml"));
@@ -77,14 +78,14 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
         menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       case ROLE_IDP_LICENSE_ADMIN:
-        if (isLmngActive()) {
+        if (isLmngActive(request)) {
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
         }
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
         menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         break;
       case ROLE_IDP_SURFCONEXT_ADMIN:
-        if (isLmngActive()) {
+        if (isLmngActive(request)) {
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
         }
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
@@ -95,6 +96,14 @@ public class MenuInterceptor extends LmngActiveAwareInterceptor {
       }
     }
     return menu;
+  }
+  
+  private Boolean isLmngActive(final HttpServletRequest request) {
+    Boolean result = Boolean.FALSE;
+    if (null != request.getAttribute("lmngActive")) {
+      result = (Boolean) request.getAttribute("lmngActive");
+    }
+    return result;
   }
 
 }

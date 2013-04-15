@@ -72,10 +72,10 @@ public class ApiOAuthFilterTest {
   @Before
   public void setUp() throws Exception {
     filter = new ApiOAuthFilter();
-    filter.setLmngActive(true);
     MockitoAnnotations.initMocks(this);
 
     request = new MockHttpServletRequest("GET", "/anyUrl");
+    request.setAttribute("lmngActive", Boolean.TRUE);
     response = new MockHttpServletResponse();
 
     SecurityContextHolder.getContext().setAuthentication(null);
@@ -133,7 +133,7 @@ public class ApiOAuthFilterTest {
 
   @Test
   public void filterAndUsePrefetchedAccessTokenButNoAdmin() throws Exception {
-    filter.setLmngActive(false);
+    request.setAttribute("lmngActive", Boolean.FALSE);
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
 
     setAuthentication();
@@ -184,21 +184,21 @@ public class ApiOAuthFilterTest {
 
   @Test
   public void test_elevate_user_results_in_one_admin_when_lmng_is_disabled() throws IOException, ServletException {
-    filter.setLmngActive(false);
+    request.setAttribute("lmngActive", Boolean.FALSE);
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
     assertRoleIsGranted(ROLE_IDP_SURFCONEXT_ADMIN);
   }
 
   @Test
   public void test_elevate_user_idp_license_admin_gets_no_role_when_lmng_is_disabled() throws IOException, ServletException {
-    filter.setLmngActive(false);
+    request.setAttribute("lmngActive", Boolean.FALSE);
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
     assertNoRoleIsGranted();
   }
 
   @Test
   public void test_elevate_user_results_in_no_authorities_in_lmng_disactive_modus() throws IOException, ServletException {
-    filter.setLmngActive(false);
+    request.setAttribute("lmngActive", Boolean.FALSE);
     setUpForAuthoritiesCheck(new Authority[]{});
     assertNoRoleIsGranted();
   }

@@ -65,7 +65,6 @@ public class ApiOAuthFilter implements Filter {
   private String adminSurfConextIdPTeam;
   private String adminDistributionTeam;
   private String callbackFlagParameter = "oauthCallback";
-  private boolean lmngActive;
 
   /**
    * No initialization needed.
@@ -92,7 +91,7 @@ public class ApiOAuthFilter implements Filter {
         // already authorized before (we have a token)
         LOG.debug("Access token was already granted.");
         try {
-          elevateUserIfApplicable(user);
+          elevateUserIfApplicable(user, httpRequest);
           LOG.debug("Processed elevation. User is now: {}.", user);
           session.setAttribute(PROCESSED, "true");
         } catch (InvalidTokenException e) {
@@ -111,7 +110,7 @@ public class ApiOAuthFilter implements Filter {
         apiClient.oauthCallback(httpRequest, user.getUid());
 
         try {
-          elevateUserIfApplicable(user);
+          elevateUserIfApplicable(user, httpRequest);
           session.setAttribute(PROCESSED, "true");
         } catch (InvalidTokenException e) {
           initiateOauthAuthorization(httpRequest, httpResponse, session);
@@ -159,8 +158,9 @@ public class ApiOAuthFilter implements Filter {
    *          the CoinUser representing the currently logged in user.
    * 
    */
-  private void elevateUserIfApplicable(CoinUser coinUser) {
+  private void elevateUserIfApplicable(CoinUser coinUser, final HttpServletRequest request) {
     List<Group20> groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
+    Boolean lmngActive = (Boolean) request.getAttribute("lmngActive");
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("Memberships of adminTeams '{}' for user '{}'", new Object[] { groups, coinUser.getUid() });
@@ -174,7 +174,7 @@ public class ApiOAuthFilter implements Filter {
       coinUser.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     } else {
       coinUser.setAuthorities(new ArrayList<CoinAuthority>());
-      if (groupsContains(adminLicentieIdPTeam, groups) && this.lmngActive) {
+      if (groupsContains(adminLicentieIdPTeam, groups) && lmngActive) {
         coinUser.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
       }
       if (groupsContains(adminSurfConextIdPTeam, groups)) {
@@ -223,9 +223,5 @@ public class ApiOAuthFilter implements Filter {
 
   public void setAdminDistributionTeam(String adminDistributionTeam) {
     this.adminDistributionTeam = adminDistributionTeam;
-  }
-
-  public void setLmngActive(boolean lmngActive) {
-    this.lmngActive = lmngActive;
   }
 }

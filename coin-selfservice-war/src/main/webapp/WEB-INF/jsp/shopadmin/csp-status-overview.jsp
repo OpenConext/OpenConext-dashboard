@@ -41,7 +41,7 @@
             </div>
   
             <c:choose>
-              <c:when test="${lmngActiveModus}">
+              <c:when test="${lmngActive}">
                 <c:set var="tableIdentifier" value="csp-statusses"></c:set>
               </c:when>
               <c:otherwise>
@@ -54,7 +54,7 @@
                   <thead>
                     <tr>
                       <th class="html sorting_asc"><spring:message code="jsp.cspstatus.csp.name"/></th>
-                      <c:if test="${lmngActiveModus}">
+                      <c:if test="${lmngActive}">
 	                      <th><spring:message code="jsp.cspstatus.csp.lmnglink"/></th>
 	                      <th><spring:message code="jsp.cspstatus.csp.haslicense"/></th>
 	                      <th><spring:message code="jsp.cspstatus.csp.grouplicense"/></th>
@@ -75,7 +75,7 @@
                         <td title="${serviceDescription} - ${compoundSp.sp.id}">
                           <a href="${detailUrl}"><tags:providername provider="${compoundSp.sp}" /></a>
                         </td>
-                        <c:if test="${lmngActiveModus}">
+                        <c:if test="${lmngActive}">
 	                        <td>
 	                          <c:choose>
 	                            <c:when test="${compoundSp.articleAvailable}">

@@ -156,7 +156,7 @@
         </c:choose>
         </c:if>
 
-        <c:if test="${lmngActiveModus}">    
+        <c:if test="${lmngActive}">    
           <c:choose>
             <c:when test="${compoundSp.articleLicenseAvailable}">
               <div class="license-available">

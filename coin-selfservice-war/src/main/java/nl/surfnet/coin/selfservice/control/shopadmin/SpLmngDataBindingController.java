@@ -78,12 +78,10 @@ public class SpLmngDataBindingController extends BaseController {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @RequestMapping(value = "/compoundSp-detail")
-  public ModelAndView get(@RequestParam("spEntityId") String entityId,
-      @RequestParam(value = "lmngActive", required = false, defaultValue = "true") String lmngActive) {
+  public ModelAndView get(@RequestParam("spEntityId") String entityId) {
     CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(entityId);
     Map model = new HashMap();
     model.put(BaseController.COMPOUND_SP, compoundServiceProvider);
-    model.put("lmngActive", Boolean.parseBoolean(lmngActive));
     return new ModelAndView("shopadmin/compoundSp-detail", model);
   }
 
