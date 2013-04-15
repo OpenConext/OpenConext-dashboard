@@ -138,6 +138,9 @@ admin.distribution.channel.sabRole=
 # Defines if the site is in local dev mode or deployed on the server. Used for CSS/JS concatenation
 mode.dev=false
 
+# coupling with API database for display of OAuth tokens
+mode.showOauthTokens=true
+
 #toggle the creation of an email when a question is asked or an entity is linked / unlinked
 administration.email.enabled=false
 

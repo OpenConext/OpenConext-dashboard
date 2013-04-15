@@ -222,7 +222,7 @@
     </div>
 
     <%--@elvariable id="oAuthTokens" type="java.util.List<nl.surfnet.coin.selfservice.domain.OAuthTokenInfo>"--%>
-    <c:if test="${fn:length(oAuthTokens) gt 0}">
+    <c:if test="${fn:length(oAuthTokens) gt 0}">    
       <div>
         <p>
       <spring:url value="revokekeys.shtml" htmlEscape="true" var="revokeUrl">

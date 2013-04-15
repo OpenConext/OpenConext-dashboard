@@ -29,14 +29,15 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * Interceptor to enable/disable (new) features
  */
 public class FeatureInterceptor extends HandlerInterceptorAdapter {
-  
   private boolean dev;
   private boolean lmngActive;
+  private boolean showOauthTokens;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     request.setAttribute("dev", dev); // for use on error page
     request.setAttribute("lmngActive", lmngActive);
+    request.setAttribute("showOauthTokens", showOauthTokens);
     return true;
   }
 
@@ -48,6 +49,7 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
       final ModelMap map = modelAndView.getModelMap();
       map.addAttribute("dev", dev);
       map.addAttribute("lmngActive", lmngActive);
+      map.addAttribute("showOauthTokens", showOauthTokens);
       map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
@@ -68,5 +70,19 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
    */
   public boolean isLmngActive() {
     return lmngActive;
+  }
+
+  /**
+   * @return the showOauthTokens
+   */
+  public boolean isShowOauthTokens() {
+    return showOauthTokens;
+  }
+
+  /**
+   * @param showOauthTokens the showOauthTokens to set
+   */
+  public void setShowOauthTokens(boolean showOauthTokens) {
+    this.showOauthTokens = showOauthTokens;
   }
 }

@@ -27,6 +27,8 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
@@ -43,6 +45,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -78,11 +81,16 @@ public class ServiceDetailControllerTest {
 
   @Mock
   private CompoundSPService compoundSPService;
+  
+  private HttpServletRequest request;
 
   @Before
   public void setUp() throws Exception {
     controller = new ServiceDetailController();
     MockitoAnnotations.initMocks(this);
+    
+    request = new MockHttpServletRequest();
+    request.setAttribute("showOauthTokens", Boolean.TRUE);
     when(coinUser.getUid()).thenReturn("urn:collab:person:example.edu:john.doe");
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
@@ -101,7 +109,7 @@ public class ServiceDetailControllerTest {
     List<OAuthTokenInfo> infos = Arrays.asList(info);
     when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenReturn(infos);
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, null, "false", idp);
+    final ModelAndView modelAndView = controller.serviceDetail(1, null, "false", idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(csp, modelAndView.getModelMap().get("compoundSp"));
     assertTrue(modelAndView.getModelMap().containsKey("revoked"));
@@ -125,5 +133,28 @@ public class ServiceDetailControllerTest {
 
   private Authentication getAuthentication() {
     return new TestingAuthenticationToken(coinUser, "");
+  }
+  
+  @Test
+  public void testWithoutOathTokens() {
+    //diable oathTokens
+    request.setAttribute("showOauthTokens", Boolean.FALSE);
+    
+    IdentityProvider idp = new IdentityProvider();
+    idp.setId("mockIdP");
+    CompoundServiceProvider csp = new CompoundServiceProvider();
+    when(compoundSPService.getCSPById(idp, 1L, false)).thenReturn(csp);
+    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
+
+    OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
+    info.setUserId(coinUser.getUid());
+    List<OAuthTokenInfo> infos = Arrays.asList(info);
+    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenReturn(infos);
+
+    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", "false", idp, request);
+    assertEquals("app-detail", modelAndView.getViewName());
+    assertEquals(csp, modelAndView.getModelMap().get("compoundSp"));
+    assertNull(modelAndView.getModelMap().get("oAuthTokens"));
+    assertNull(modelAndView.getModelMap().get("revoked"));
   }
 }

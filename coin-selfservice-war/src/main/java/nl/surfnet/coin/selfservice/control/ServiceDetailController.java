@@ -104,25 +104,28 @@ public class ServiceDetailController extends BaseController {
   public ModelAndView serviceDetail(@RequestParam(value = "compoundSpId") long compoundSpId,
       @RequestParam(required = false) String revoked,
       @RequestParam(value = "refreshCache", required = false, defaultValue = "false") String refreshCache,
-      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
     Map<String, Object> m = new HashMap<String, Object>();
-    CompoundServiceProvider compoundServiceProvider = compoundSPService
-        .getCSPById(selectedidp, compoundSpId, Boolean.valueOf(refreshCache));
+    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(selectedidp, compoundSpId,
+        Boolean.valueOf(refreshCache));
     m.put(COMPOUND_SP, compoundServiceProvider);
 
     String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
-    final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(), spEntityId);
+    final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
+        spEntityId);
     m.put("mayHaveGivenConsent", mayHaveGivenConsent);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     m.put("personAttributeLabels", attributeLabelMap);
 
-    final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser().getUid(),
-        compoundServiceProvider.getServiceProvider());
+    if ((Boolean) (request.getAttribute("showOauthTokens"))) {
+      final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser()
+          .getUid(), compoundServiceProvider.getServiceProvider());
 
-    m.put("oAuthTokens", oAuthTokens);
+      m.put("oAuthTokens", oAuthTokens);
 
-    m.put("revoked", revoked);
+      m.put("revoked", revoked);
+    }
 
     m.put("lmngDeepLinkUrl", lmngDeepLinkBaseUrl);
 
@@ -142,14 +145,15 @@ public class ServiceDetailController extends BaseController {
 
   @RequestMapping(value = "/do-app-recommend", method = RequestMethod.POST)
   public @ResponseBody
-  String doRecommendApp(@RequestParam(value = "compoundSpId") long compoundSpId,
+  String doRecommendApp(
+      @RequestParam(value = "compoundSpId") long compoundSpId,
       @RequestParam(value = "recommendPersonalNote", required = false) String recommendPersonalNote,
-      @RequestParam(value = "emailSelect2") String emailSelect2, @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
+      @RequestParam(value = "emailSelect2") String emailSelect2,
+      @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
       @CookieValue(value = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", required = false) String localeAbbr,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
-    recommendPersonalNote = StringUtils.hasText(recommendPersonalNote) ? ((recommendPersonalNote.replace("\n\r", "").trim().length() == 0) ? null
-        : recommendPersonalNote)
-        : null;
+    recommendPersonalNote = StringUtils.hasText(recommendPersonalNote) ? ((recommendPersonalNote.replace("\n\r", "")
+        .trim().length() == 0) ? null : recommendPersonalNote) : null;
     if (!StringUtils.hasText(emailSelect2)) {
       throw new AjaxResponseException("Required field emails addresses");
     }
@@ -170,8 +174,8 @@ public class ServiceDetailController extends BaseController {
 
     templateVars.put("appstoreURL", baseUrl + detailAppStoreLink);
 
-    emailService.sendTemplatedMultipartEmail(subject, EmailServiceImpl.RECOMMENTATION_EMAIL_TEMPLATE, locale, Arrays.asList(recipients),
-        coinUser.getEmail(), templateVars);
+    emailService.sendTemplatedMultipartEmail(subject, EmailServiceImpl.RECOMMENTATION_EMAIL_TEMPLATE, locale,
+        Arrays.asList(recipients), coinUser.getEmail(), templateVars);
     return "ok";
   }
 
@@ -208,7 +212,8 @@ public class ServiceDetailController extends BaseController {
 
   @RequestMapping(value = "revokekeys.shtml")
   public RedirectView revokeKeys(@RequestParam(value = "compoundSpId") long compoundSpId,
-      @RequestParam(value = "spEntityId") String spEntityId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+      @RequestParam(value = "spEntityId") String spEntityId,
+      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
     oAuthTokenService.revokeOAuthTokens(SpringSecurity.getCurrentUser().getUid(), sp);
     return new RedirectView("app-detail.shtml?compoundSpId=" + compoundSpId + "&revoked=true");

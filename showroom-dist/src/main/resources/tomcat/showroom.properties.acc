@@ -128,6 +128,9 @@ mode.dev=false
 #toggle the creation of an email when a question is asked or an entity is linked / unlinked
 administration.email.enabled=false
 
+# coupling with API database for display of OAuth tokens
+mode.showOauthTokens=false
+
 #toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
 administration.jira.ticket.enabled=true
 

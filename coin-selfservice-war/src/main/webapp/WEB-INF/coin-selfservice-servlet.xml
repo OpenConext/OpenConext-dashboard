@@ -87,6 +87,7 @@
     <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
         <property name="dev" value="${mode.dev}"/>
         <property name="lmngActive" value="${coin-lmng-active-mode}"/>
+        <property name="showOauthTokens" value="${mode.showOauthTokens}"/>
     </bean>
 
     <bean id="messageAdapter"
