@@ -16,6 +16,11 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +49,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
  * api.surfconext.nl and gets group information of the 'admin team'. Based on
@@ -65,6 +68,7 @@ public class ApiOAuthFilter implements Filter {
   private String adminSurfConextIdPTeam;
   private String adminDistributionTeam;
   private String callbackFlagParameter = "oauthCallback";
+  private boolean lmngActive;
 
   /**
    * No initialization needed.
@@ -91,7 +95,7 @@ public class ApiOAuthFilter implements Filter {
         // already authorized before (we have a token)
         LOG.debug("Access token was already granted.");
         try {
-          elevateUserIfApplicable(user, httpRequest);
+          elevateUserIfApplicable(user);
           LOG.debug("Processed elevation. User is now: {}.", user);
           session.setAttribute(PROCESSED, "true");
         } catch (InvalidTokenException e) {
@@ -110,7 +114,7 @@ public class ApiOAuthFilter implements Filter {
         apiClient.oauthCallback(httpRequest, user.getUid());
 
         try {
-          elevateUserIfApplicable(user, httpRequest);
+          elevateUserIfApplicable(user);
           session.setAttribute(PROCESSED, "true");
         } catch (InvalidTokenException e) {
           initiateOauthAuthorization(httpRequest, httpResponse, session);
@@ -158,9 +162,8 @@ public class ApiOAuthFilter implements Filter {
    *          the CoinUser representing the currently logged in user.
    * 
    */
-  private void elevateUserIfApplicable(CoinUser coinUser, final HttpServletRequest request) {
+  private void elevateUserIfApplicable(CoinUser coinUser) {
     List<Group20> groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
-    Boolean lmngActive = (Boolean) request.getAttribute("lmngActive");
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("Memberships of adminTeams '{}' for user '{}'", new Object[] { groups, coinUser.getUid() });
@@ -174,14 +177,14 @@ public class ApiOAuthFilter implements Filter {
       coinUser.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     } else {
       coinUser.setAuthorities(new ArrayList<CoinAuthority>());
-      if (groupsContains(adminLicentieIdPTeam, groups) && lmngActive) {
+      if (groupsContains(adminLicentieIdPTeam, groups) && this.lmngActive) {
         coinUser.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
       }
       if (groupsContains(adminSurfConextIdPTeam, groups)) {
         coinUser.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
       }
       // No default role for 'users' in non-lmng active modus: this will be handled by another filter.
-      if (lmngActive && CollectionUtils.isEmpty(groups)) {
+      if (this.lmngActive && CollectionUtils.isEmpty(groups)) {
         coinUser.addAuthority(new CoinAuthority(ROLE_USER));
       }
     }
@@ -223,5 +226,9 @@ public class ApiOAuthFilter implements Filter {
 
   public void setAdminDistributionTeam(String adminDistributionTeam) {
     this.adminDistributionTeam = adminDistributionTeam;
+  }
+  
+  public void setLmngActive(boolean lmngActive) {
+    this.lmngActive = lmngActive;
   }
 }
