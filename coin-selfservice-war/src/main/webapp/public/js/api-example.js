@@ -2,7 +2,7 @@ var apiServicesExample = {
 
   bootstrap:function () {
 
-    $.getJSON('/selfservice/api/public/services.json')
+    $.getJSON('/api/public/services.json')
       .done(function (data) {
         var content = '<ul>'
         var services = [];
