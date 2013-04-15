@@ -111,9 +111,11 @@ public class ServiceDetailController extends BaseController {
     m.put(COMPOUND_SP, compoundServiceProvider);
 
     String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
-    final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
-        spEntityId);
-    m.put("mayHaveGivenConsent", mayHaveGivenConsent);
+    if ((Boolean) (request.getAttribute("showConsent"))) {
+      final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
+          spEntityId);
+      m.put("mayHaveGivenConsent", mayHaveGivenConsent);
+    }
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     m.put("personAttributeLabels", attributeLabelMap);

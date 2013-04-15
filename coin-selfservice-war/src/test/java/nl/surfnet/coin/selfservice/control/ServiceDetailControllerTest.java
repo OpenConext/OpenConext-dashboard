@@ -17,6 +17,7 @@
 package nl.surfnet.coin.selfservice.control;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -91,6 +92,7 @@ public class ServiceDetailControllerTest {
     
     request = new MockHttpServletRequest();
     request.setAttribute("showOauthTokens", Boolean.TRUE);
+    request.setAttribute("showConsent", Boolean.TRUE);
     when(coinUser.getUid()).thenReturn("urn:collab:person:example.edu:john.doe");
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
@@ -137,7 +139,7 @@ public class ServiceDetailControllerTest {
   
   @Test
   public void testWithoutOathTokens() {
-    //diable oathTokens
+    //disable oathTokens
     request.setAttribute("showOauthTokens", Boolean.FALSE);
     
     IdentityProvider idp = new IdentityProvider();
@@ -145,6 +147,25 @@ public class ServiceDetailControllerTest {
     CompoundServiceProvider csp = new CompoundServiceProvider();
     when(compoundSPService.getCSPById(idp, 1L, false)).thenReturn(csp);
     when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
+    
+    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenThrow(new IllegalStateException("Illegal Call to API Database"));
+
+    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", "false", idp, request);
+    assertEquals("app-detail", modelAndView.getViewName());
+    assertEquals(csp, modelAndView.getModelMap().get("compoundSp"));
+    assertNull(modelAndView.getModelMap().get("oAuthTokens"));
+    assertNull(modelAndView.getModelMap().get("revoked"));
+  }
+  
+  @Test
+  public void testWithoutConsent() {
+    request.setAttribute("showConsent", Boolean.FALSE);
+    
+    IdentityProvider idp = new IdentityProvider();
+    idp.setId("mockIdP");
+    CompoundServiceProvider csp = new CompoundServiceProvider();
+    when(compoundSPService.getCSPById(idp, 1L, false)).thenReturn(csp);
+    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenThrow(new IllegalStateException("Illegal call to consent database"));
 
     OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
     info.setUserId(coinUser.getUid());
@@ -154,7 +175,7 @@ public class ServiceDetailControllerTest {
     final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", "false", idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(csp, modelAndView.getModelMap().get("compoundSp"));
-    assertNull(modelAndView.getModelMap().get("oAuthTokens"));
-    assertNull(modelAndView.getModelMap().get("revoked"));
+    assertNotNull(modelAndView.getModelMap().get("oAuthTokens"));
+    assertNull(modelAndView.getModelMap().get("mayHaveGivenConsent"));
   }
 }

@@ -32,12 +32,14 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
   private boolean dev;
   private boolean lmngActive;
   private boolean showOauthTokens;
+  private boolean showConsent;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     request.setAttribute("dev", dev); // for use on error page
     request.setAttribute("lmngActive", lmngActive);
     request.setAttribute("showOauthTokens", showOauthTokens);
+    request.setAttribute("showConsent", showConsent);
     return true;
   }
 
@@ -50,6 +52,7 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
       map.addAttribute("dev", dev);
       map.addAttribute("lmngActive", lmngActive);
       map.addAttribute("showOauthTokens", showOauthTokens);
+      map.addAttribute("showConsent", showConsent);
       map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
@@ -85,4 +88,19 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
   public void setShowOauthTokens(boolean showOauthTokens) {
     this.showOauthTokens = showOauthTokens;
   }
+
+  /**
+   * @return the showConsent
+   */
+  public boolean isShowConsent() {
+    return showConsent;
+  }
+
+  /**
+   * @param showConsent the showConsent to set
+   */
+  public void setShowConsent(boolean showConsent) {
+    this.showConsent = showConsent;
+  }
+  
 }
