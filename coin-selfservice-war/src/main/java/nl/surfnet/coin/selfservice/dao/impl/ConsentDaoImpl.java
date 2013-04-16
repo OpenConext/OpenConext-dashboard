@@ -28,7 +28,7 @@ import nl.surfnet.coin.selfservice.dao.ConsentDao;
 SQL implementation of ConsentDao
  */
 @Repository
-public class ConsentDaoImpl implements ConsentDao{
+public class ConsentDaoImpl implements ConsentDao {
 
   @Autowired
   private JdbcTemplate ebJdbcTemplate;

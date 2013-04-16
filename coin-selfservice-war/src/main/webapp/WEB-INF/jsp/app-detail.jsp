@@ -156,7 +156,7 @@
         </c:choose>
         </c:if>
 
-        <c:if test="${lmngActiveModus}">    
+        <c:if test="${lmngActive}">    
           <c:choose>
             <c:when test="${compoundSp.articleLicenseAvailable}">
               <div class="license-available">
@@ -222,7 +222,7 @@
     </div>
 
     <%--@elvariable id="oAuthTokens" type="java.util.List<nl.surfnet.coin.selfservice.domain.OAuthTokenInfo>"--%>
-    <c:if test="${fn:length(oAuthTokens) gt 0}">
+    <c:if test="${fn:length(oAuthTokens) gt 0}">    
       <div>
         <p>
       <spring:url value="revokekeys.shtml" htmlEscape="true" var="revokeUrl">

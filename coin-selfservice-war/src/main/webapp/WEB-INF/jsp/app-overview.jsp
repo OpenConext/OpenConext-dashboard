@@ -37,7 +37,7 @@
   </div>
   <div style="padding-top: 10px;">
   <div>
-    <ul class="${view}-view app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActiveModus == true ? 'lmng-active' : ''}">
+    <ul class="${view}-view app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActive == true ? 'lmng-active' : ''}">
     <c:forEach items="${compoundSps}" var="compoundSp">
           <c:if test="${not empty compoundSp.id}">
             <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>

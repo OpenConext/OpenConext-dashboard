@@ -79,17 +79,16 @@
     <mvc:interceptors>
         <ref bean="featureInterceptor"/>
         <!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
-        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor">
-            <property name="lmngActive" value="${coin-lmng-active-mode}"/>
-        </bean>
-        <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor">
-            <property name="lmngActive" value="${coin-lmng-active-mode}"/>
-        </bean>
+        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor" />
+        <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor" />
         <ref bean="localeChangeInterceptor"/>
     </mvc:interceptors>
 
     <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
         <property name="dev" value="${mode.dev}"/>
+        <property name="lmngActive" value="${coin-lmng-active-mode}"/>
+        <property name="showOauthTokens" value="${mode.showOauthTokens}"/>
+        <property name="ebLinkActive" value="${mode.ebLinkActive}" />
     </bean>
 
     <bean id="messageAdapter"

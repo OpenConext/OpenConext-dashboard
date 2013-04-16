@@ -98,12 +98,6 @@ public abstract class BaseController {
   public static final String DEEPLINK_TO_SURFMARKET_ALLOWED = "deepLinkToSurfMarketAllowed";
 
   /**
-   * The name of the key under which we store the info if LMNG is active (e.g.
-   * we use License Info)
-   */
-  public static final String LMNG_ACTIVE_MODUS = "lmngActiveModus";
-
-  /**
    * The name of the key under which we store the info if the logged in user is
    * Distribution Channel Admin (aka God)
    */
