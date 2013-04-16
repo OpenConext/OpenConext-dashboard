@@ -127,7 +127,7 @@ mode.dev=false
 mode.showOauthTokens=true
 
 # should the consent given by the user (this is coming from EB database)
-mode.showConsent=false
+mode.ebLinkActive=true
 
 #toggle the creation of an email when a question is asked or an entity is linked / unlinked
 administration.email.enabled=false

@@ -132,7 +132,7 @@ administration.email.enabled=false
 mode.showOauthTokens=false
 
 # should the consent given by the user (this is coming from EB database)
-mode.showConsent=false
+mode.ebLinkActive=false
 
 #toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
 administration.jira.ticket.enabled=true

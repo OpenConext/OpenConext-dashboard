@@ -111,7 +111,7 @@ public class ServiceDetailController extends BaseController {
     m.put(COMPOUND_SP, compoundServiceProvider);
 
     String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
-    if ((Boolean) (request.getAttribute("showConsent"))) {
+    if ((Boolean) (request.getAttribute("ebLinkActive"))) {
       final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
           spEntityId);
       m.put("mayHaveGivenConsent", mayHaveGivenConsent);

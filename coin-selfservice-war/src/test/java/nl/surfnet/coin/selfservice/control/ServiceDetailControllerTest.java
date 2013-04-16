@@ -92,7 +92,7 @@ public class ServiceDetailControllerTest {
     
     request = new MockHttpServletRequest();
     request.setAttribute("showOauthTokens", Boolean.TRUE);
-    request.setAttribute("showConsent", Boolean.TRUE);
+    request.setAttribute("ebLinkActive", Boolean.TRUE);
     when(coinUser.getUid()).thenReturn("urn:collab:person:example.edu:john.doe");
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
@@ -159,7 +159,7 @@ public class ServiceDetailControllerTest {
   
   @Test
   public void testWithoutConsent() {
-    request.setAttribute("showConsent", Boolean.FALSE);
+    request.setAttribute("ebLinkActive", Boolean.FALSE);
     
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");

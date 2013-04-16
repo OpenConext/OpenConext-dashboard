@@ -32,14 +32,14 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
   private boolean dev;
   private boolean lmngActive;
   private boolean showOauthTokens;
-  private boolean showConsent;
+  private boolean ebLinkActive;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     request.setAttribute("dev", dev); // for use on error page
     request.setAttribute("lmngActive", lmngActive);
     request.setAttribute("showOauthTokens", showOauthTokens);
-    request.setAttribute("showConsent", showConsent);
+    request.setAttribute("ebLinkActive", ebLinkActive);
     return true;
   }
 
@@ -52,7 +52,7 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
       map.addAttribute("dev", dev);
       map.addAttribute("lmngActive", lmngActive);
       map.addAttribute("showOauthTokens", showOauthTokens);
-      map.addAttribute("showConsent", showConsent);
+      map.addAttribute("ebLinkActive", ebLinkActive);
       map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
@@ -90,17 +90,17 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
   }
 
   /**
-   * @return the showConsent
+   * @return the ebLinkActive
    */
-  public boolean isShowConsent() {
-    return showConsent;
+  public boolean isEbLinkActive() {
+    return ebLinkActive;
   }
 
   /**
-   * @param showConsent the showConsent to set
+   * @param ebLinkActive the ebLinkActive to set
    */
-  public void setShowConsent(boolean showConsent) {
-    this.showConsent = showConsent;
+  public void setEbLinkActive(boolean ebLinkActive) {
+    this.ebLinkActive = ebLinkActive;
   }
   
 }
