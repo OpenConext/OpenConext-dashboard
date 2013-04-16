@@ -62,4 +62,17 @@ public class SabClientTest {
     when(transport.getResponse(anyString())).thenThrow(new IOException("On purpose in unit test"));
     assertFalse(sabClient.hasRoleForOrganisation(userId, role, organisation));
   }
+
+  @Test(expected = IOException.class)
+  public void invalidUser() throws IOException {
+    String userId = "foo";
+    String organisation = "SURFNET";
+    String role = "Infraverantwoordelijke";
+
+    SabClient sabClient = new SabClient();
+    sabClient.setTransport(new LocalFileTransport("/response-invaliduser.xml"));
+
+    // Expect an IOException
+    sabClient.getRoles(userId);
+  }
 }

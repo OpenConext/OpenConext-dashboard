@@ -48,6 +48,10 @@ public class SabResponseParser {
 
   public static final String XPATH_ORGANISATION = "//saml:Attribute[@Name='urn:oid:1.3.6.1.4.1.1076.20.100.10.50.1']/saml:AttributeValue";
   public static final String XPATH_ROLES = "//saml:Attribute[@Name='urn:oid:1.3.6.1.4.1.5923.1.1.1.7']/saml:AttributeValue";
+  public static final String XPATH_STATUSCODE = "//samlp:StatusCode/@Value";
+  public static final String XPATH_STATUSMESSAGE = "//samlp:StatusMessage";
+
+  public static final String SAMLP_SUCCESS = "urn:oasis:names:tc:SAML:2.0:status:Success";
 
   public SabRoleHolder parse(InputStream inputStream) throws IOException {
 
@@ -56,6 +60,8 @@ public class SabResponseParser {
     XPath xpath = getXPath();
     try {
       Document document = createDocument(inputStream);
+
+      validateStatus(document, xpath);
 
       // Extract organisation
       XPathExpression organisationExpr = xpath.compile(XPATH_ORGANISATION);
@@ -86,6 +92,21 @@ public class SabResponseParser {
       throw new IOException(e);
     }
     return new SabRoleHolder(organisation, roles);
+  }
+
+  /**
+   * Check that response contains the success status. Throw IOException with message otherwise.
+   */
+  private void validateStatus(Document document, XPath xpath) throws XPathExpressionException, IOException {
+
+    XPathExpression statusCodeExpression = xpath.compile(XPATH_STATUSCODE);
+    String statusCode = (String) statusCodeExpression.evaluate(document, XPathConstants.STRING);
+
+    if (!SAMLP_SUCCESS.equals(statusCode)) {
+      XPathExpression statusMessageExpression = xpath.compile(XPATH_STATUSMESSAGE);
+      String statusMessage = (String) statusMessageExpression.evaluate(document, XPathConstants.STRING);
+      throw new IOException("Unsuccessful status. Code: '" + statusCode + "', message: " + statusMessage);
+    }
   }
 
   private Document createDocument(InputStream documentStream) throws ParserConfigurationException, IOException, SAXException {
