@@ -217,6 +217,7 @@ public class CompoundSPService {
     } else {
       compoundServiceProvider.setServiceProvider(serviceProvider);
       compoundServiceProvider.setArticle(getCachedArticle(serviceProvider, false));
+      compoundServiceProvider.updateTransientOriginFields();
     }
     return compoundServiceProvider;
   }

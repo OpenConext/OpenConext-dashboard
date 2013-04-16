@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package nl.surfnet.coin.selfservice.domain;
-
+import static java.lang.Boolean.*;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
 import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
@@ -511,6 +511,8 @@ public class CompoundServiceProvider extends DomainObject {
     } else {
       fieldString = new FieldString(Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
     }
+    
+    updatePossibleFieldOrigin(fieldString);
     provider.addFieldString(fieldString);
   }
 
@@ -524,9 +526,35 @@ public class CompoundServiceProvider extends DomainObject {
     } else {
       fieldImage = new FieldImage(Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
     }
+    
+    updatePossibleFieldOrigin(fieldImage);
     provider.addFieldImage(fieldImage);
   }
+  
+  private static void updatePossibleFieldOrigin(Field field) {
+    // Cloud Distribution is always a possible origin for fields
+    if (isAllowedCombination(field.getKey(), Source.LMNG)) {
+      field.setAvailableInSurfMarket(TRUE);
+    } else {
+      field.setAvailableInSurfMarket(FALSE);
+    }
+    if (isAllowedCombination(field.getKey(), Source.SURFCONEXT)) {
+      field.setAvailableInSurfConext(TRUE);
+    } else {
+      field.setAvailableInSurfConext(FALSE);
+    }
+  }
 
+  public void updateTransientOriginFields() {
+    for (Field current : this.fields) {
+      updatePossibleFieldOrigin(current);
+    }
+    
+    for (Field current : this.fieldImages) {
+      updatePossibleFieldOrigin(current);
+    }
+  }
+  
   private static String getServiceUrl(ServiceProvider sp) {
     Map<String, String> homeUrls = sp.getHomeUrls();
     if (!CollectionUtils.isEmpty(homeUrls)) {

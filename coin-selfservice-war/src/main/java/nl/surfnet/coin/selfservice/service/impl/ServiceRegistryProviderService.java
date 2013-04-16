@@ -173,6 +173,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
         final boolean linked = janusClient.isConnectionAllowed(spEntityId, idpEntityId);
         serviceProvider.setLinked(linked);
       }
+      
       return serviceProvider;
     } catch (RestClientException e) {
       log.warn("Could not retrieve metadata from Janus client", e.getMessage());

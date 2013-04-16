@@ -36,6 +36,7 @@ public interface Sab {
    * Get the Role/organisation info for the given userId
    * @param userId the userId to query for
    * @return SabRoleHolder
+   * @throws IOException when IO fails or an error occurs (for example authentication failure)
    */
   SabRoleHolder getRoles(String userId) throws IOException;
 
