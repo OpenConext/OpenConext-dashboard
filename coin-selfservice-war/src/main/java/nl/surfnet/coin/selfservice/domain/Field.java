@@ -49,6 +49,12 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
   private CompoundServiceProvider compoundServiceProvider;
   
   @Transient
+  private Boolean availableInSurfMarket;
+  
+  @Transient
+  private Boolean availableInSurfConext;
+  
+  @Transient
   private Map<String,String> technicalOrigins = new HashMap<String, String>(){
     {
       // CRM specific values
@@ -165,5 +171,33 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
     return new CompareToBuilder()
       .append(this.key, that.key)
       .toComparison();
+  }
+
+  /**
+   * @return the availableInSurfMarket
+   */
+  public Boolean getAvailableInSurfMarket() {
+    return availableInSurfMarket;
+  }
+
+  /**
+   * @param availableInSurfMarket the availableInSurfMarket to set
+   */
+  public void setAvailableInSurfMarket(Boolean availableInSurfMarket) {
+    this.availableInSurfMarket = availableInSurfMarket;
+  }
+
+  /**
+   * @return the availableInSurfConext
+   */
+  public Boolean getAvailableInSurfConext() {
+    return availableInSurfConext;
+  }
+
+  /**
+   * @param availableInSurfConext the availableInSurfConext to set
+   */
+  public void setAvailableInSurfConext(Boolean availableInSurfConext) {
+    this.availableInSurfConext = availableInSurfConext;
   }
 }
