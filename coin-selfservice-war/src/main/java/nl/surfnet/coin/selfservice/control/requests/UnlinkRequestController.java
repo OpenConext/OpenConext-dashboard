@@ -136,8 +136,6 @@ public class UnlinkRequestController extends BaseController {
           final String issueKey = jiraService.create(task, currentUser);
           actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
           m.put("issueKey", issueKey);
-          sessionStatus.setComplete();
-          return new ModelAndView("requests/unlinkrequest-thanks", m);
         } catch (IOException e) {
           LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
           m.put("jiraError", e.getMessage());
@@ -167,6 +165,7 @@ public class UnlinkRequestController extends BaseController {
         emailService.sendMail("no-reply@surfconext.nl", subject.toString(), body.toString());
       }
     }
+    sessionStatus.setComplete();
     return new ModelAndView("requests/unlinkrequest-thanks", m);
   }
 }

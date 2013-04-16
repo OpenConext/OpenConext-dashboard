@@ -39,7 +39,6 @@
             </list>
         </property>
     </bean>
-
     <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="defaultViews">
             <list>

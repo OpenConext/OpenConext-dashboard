@@ -129,7 +129,7 @@ mode.showOauthTokens=true
 mode.ebLinkActive=true
 
 #toggle the creation of an email when a question is asked or an entity is linked / unlinked
-administration.email.enabled=false
+administration.email.enabled=true
 
 #toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
 administration.jira.ticket.enabled=true
