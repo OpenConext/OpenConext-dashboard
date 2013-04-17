@@ -55,32 +55,32 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
   private Boolean availableInSurfConext;
   
   @Transient
-  private Map<String,String> technicalOriginsLMNG = new HashMap<String, String>() {
+  private Map<Key, String> technicalOriginsLMNG = new HashMap<Key, String>() {
     {
       // CRM specific values
-      put("SERVICE_DESCRIPTION_NL", "In SurfMarket CRM: artikel.lmng_description");
-      put("DETAIL_LOGO", "In SurfMarket CRM: image.lmng_url");
-      put("INSTITUTION_DESCRIPTION_NL", "In SurfMarket CRM: lmng_descriptionlong");
-      put("ENDUSER_DESCRIPTION_NL", "In SurfMarket CRM: lmng_surfspotdescriptionlong");
+      put(Key.SERVICE_DESCRIPTION_NL,       "In SurfMarket CRM: artikel.lmng_description");
+      put(Key.DETAIL_LOGO,                  "In SurfMarket CRM: image.lmng_url");
+      put(Key.INSTITUTION_DESCRIPTION_NL,   "In SurfMarket CRM: lmng_descriptionlong");
+      put(Key.ENDUSER_DESCRIPTION_NL,       "In SurfMarket CRM: lmng_surfspotdescriptionlong");
     }
   };
       
   @Transient
-  private Map<String,String> technicalOriginsSurfConext = new HashMap<String, String>() {
+  private Map<Key, String> technicalOriginsSurfConext = new HashMap<Key, String>() {
     {
       // SURFCONEXT specific values
-      put("SERVICE_DESCRIPTION_NL", "In Service Registry: names:nl");
-      put("SERVICE_DESCRIPTION_EN", "In Service Registry: names:en");
-      put("ENDUSER_DESCRIPTION_EN", "In Service Registry: descriptions:en");
-      put("ENDUSER_DESCRIPTION_NL", "In Service Registry: descriptions:nl");
-      put("APP_URL", "In Service Registry: applicationUrl");
-      put("DETAIL_LOGO", "In Service Registry: appLogoUrl");
-      put("SERVICE_URL","In Service Registry: OrganizationURL");
-      put("EULA_URL","In Service Registry: coin:eula");
-      put("SUPPORT_URL_NL","In Service Registry: url:nl");
-      put("SUPPORT_URL_EN","In Service Registry: url:en");
-      put("SUPPORT_MAIL","In Service Registry: contact type support");
-      put("TECHNICAL_SUPPORTMAIL","In Service Registry: contact type technical");
+      put(Key.SERVICE_DESCRIPTION_NL,       "In Service Registry: names:nl");
+      put(Key.SERVICE_DESCRIPTION_EN,       "In Service Registry: names:en");
+      put(Key.ENDUSER_DESCRIPTION_EN,       "In Service Registry: descriptions:en");
+      put(Key.ENDUSER_DESCRIPTION_NL,       "In Service Registry: descriptions:nl");
+      put(Key.APP_URL,                      "In Service Registry: applicationUrl");
+      put(Key.DETAIL_LOGO,                  "In Service Registry: appLogoUrl");
+      put(Key.SERVICE_URL,                  "In Service Registry: OrganizationURL");
+      put(Key.EULA_URL,                     "In Service Registry: coin:eula");
+      put(Key.SUPPORT_URL_NL,               "In Service Registry: url:nl");
+      put(Key.SUPPORT_URL_EN,               "In Service Registry: url:en");
+      put(Key.SUPPORT_MAIL,                 "In Service Registry: contact type support");
+      put(Key.TECHNICAL_SUPPORTMAIL,        "In Service Registry: contact type technical");
 
     }
   };
