@@ -58,13 +58,32 @@
                       hasConnectButton="${showConnectButton}" />
                 </a>
               </h2>
+                <c:if test="${!isCard}">
+                <div class="app-meta-cta">
+                  <c:if test="${not empty compoundSp.appUrl}">
+                    <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                      <i class="icon-external-link"></i>
+                    </a>
+                  </c:if>
+                  <c:if test="${showConnectButton and !isCard}">
+                      <a href="<c:url value="/requests/linkrequest.shtml">
+                              <c:param name="spEntityId" value="${compoundSp.sp.id}" />
+                              <c:param name="compoundSpId" value="${compoundSp.id}" />
+                            </c:url>" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
+                        <i class='icon-cloud-upload'></i>
+                      </a>
+                  </c:if>
+
+                </div>
+              </c:if>
+
               <c:if test="${not empty compoundSp.appStoreLogo}">
                 <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
               </c:if>
               <p class="desc">
                 <c:out value="${serviceDescription}" />
               </p>
-              <c:if test="${showConnectButton}">
+              <c:if test="${showConnectButton and isCard}">
                 <p class="connect-app">
                   <a href="<c:url value="/requests/linkrequest.shtml">
                           <c:param name="spEntityId" value="${compoundSp.sp.id}" />
@@ -74,6 +93,7 @@
                   </a>
                 </p>
               </c:if>
+              <c:if test="${isCard}">
                 <div class="app-meta-cta">
                   <c:if test="${not empty compoundSp.appUrl}">
                     <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
@@ -81,6 +101,7 @@
                     </a>
                   </c:if>
                 </div>
+              </c:if>
           </li>
           </c:if>
         </c:forEach>
