@@ -20,8 +20,6 @@ public class CompoundSPDetailTestSelenium extends SeleniumSupport {
     driver.get(getSelfserviceBaseUrl() + bindingAdminUrl); // get lmng sp admin page
     clickOnPartialLink("Configure sources");
     clickOnPartialLink("URL EULA");
-    clickOnPartialLink("SURFmarket");
-    clickOnPartialLink("SURFconext");
     clickOnPartialLink("Distribution Channel");
     driver.findElement(By.tagName("textarea")).clear();
     driver.findElement(By.tagName("textarea")).sendKeys("http://example.org/this-is-an-example-url");

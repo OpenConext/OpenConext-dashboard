@@ -8,8 +8,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.PublicService;
+import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +36,12 @@ public class ApiController {
 
   @Resource
   private CompoundSPService compoundSPService;
+  
+  @Resource
+  private LmngService lmngService;
+  
+  @Value("${public.api.lmng.guids}")
+  private String[] guids;
 
   @RequestMapping(value = "/public/services.json")
   public @ResponseBody
@@ -48,6 +56,13 @@ public class ApiController {
         String crmLink = csP.isArticleAvailable() ? (lmngDeepLinkBaseUrl + csP.getLmngId()) : null;
         result.add(new PublicService(isEn ? csP.getServiceDescriptionEn() : csP.getServiceDescriptionNl(),
             getServiceLogo(csP), csP.getServiceUrl(), csP.isArticleAvailable(), crmLink));
+      }
+      
+      //add public service from LMNG directly
+      for (String guid : guids) {
+        Article currentArticle = lmngService.getService(guid);
+        PublicService currentPS = new PublicService(currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(), null, true, lmngDeepLinkBaseUrl + guid);
+        result.add(currentPS);
       }
       sort(result);
       return result;

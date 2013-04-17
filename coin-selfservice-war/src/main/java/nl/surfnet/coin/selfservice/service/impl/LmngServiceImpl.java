@@ -148,8 +148,14 @@ public class LmngServiceImpl implements LmngService {
 
   @Override
   public String getServiceName(String guid) {
+    Article article = getService(guid);
+    return article == null ? null : article.getArticleName();
+  }
+  
+  @Override
+  public Article getService(final String guid) {
     invariant();
-    String result = null;
+    Article result = null;
     try {
       // get the file with the soap request
       String soapRequest = LmngUtil.getLmngSoapRequestForSps(Arrays.asList(new String[]{guid}), endpoint);
@@ -162,7 +168,7 @@ public class LmngServiceImpl implements LmngService {
       // read/parse the XML response to License objects
       List<Article> resultList = LmngUtil.parseArticlesResult(webserviceResult, debug);
       if (resultList != null && resultList.size() > 0) {
-        result = resultList.get(0).getProductName();
+        result = resultList.get(0);
       }
     } catch (Exception e) {
       log.error("Exception while retrieving article/license", e);

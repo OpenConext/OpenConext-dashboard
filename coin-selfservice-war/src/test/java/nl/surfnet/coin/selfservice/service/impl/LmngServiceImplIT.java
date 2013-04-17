@@ -63,7 +63,7 @@ public class LmngServiceImplIT {
   }
 
   // we us this for a local integration test only
-  @Test
+//  @Test
   public void testRetrieveLmngGoogleEdugroepGreencloudSurfMarket() throws IOException, LmngException {
 
     List<String> spIds = new ArrayList<String>();
@@ -84,7 +84,7 @@ public class LmngServiceImplIT {
 
   }
 
-  @Test
+//  @Test
   public void testRetrievalAllAccounts() throws IOException {
     List<Account> accounts = licensingService.getAccounts(true);
     System.out.println(accounts.size());
@@ -97,7 +97,7 @@ public class LmngServiceImplIT {
 
   }
 
-  @Test
+//  @Test
   public void testPerformArticles() throws Exception {
     String query = IOUtils.toString(new ClassPathResource("lmngqueries/lmngQueryAllArticles.xml").getInputStream());
     String result = licensingService.performQuery(query);
@@ -113,6 +113,16 @@ public class LmngServiceImplIT {
 
     assertNotNull(instituteName);
     assertEquals("Incorrect institution name", "Open Universiteit Nederland", instituteName);
+  }
+
+  // we us this for a local integration test only
+  @Test
+  public void testRetrieveArticle() throws IOException {
+    String guid = "{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}";
+    
+    Article instituteName = licensingService.getService(guid);
+
+    assertNotNull(instituteName);
   }
 
 }

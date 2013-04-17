@@ -181,3 +181,6 @@ statisticsDaoClass=nl.surfnet.coin.selfservice.dao.impl.StatisticDaoImpl
 
 #the maximum of number mails to be send for recommendation
 maxRecommendationEmails=30
+
+# LMNG article that should be part of external API without reference in SR
+public.api.lmng.guids=

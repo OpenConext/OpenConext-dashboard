@@ -56,7 +56,7 @@
         "institutionDescriptionNl": "Google apps",
         "supplierName": "Google",
         "serviceProviderEntityId": "https://vomanage.dev.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
-        "lmngIdentifier" : "{8833CEAE-960C-E211-B6B9-005056950050}",
+        "lmngIdentifier" : "{9833CEAE-960C-E213-B6B9-115056950050}",
         "appleAppStoreMedium" : {
           "name" : "Google app store medium",
           "url" : "http://appleAppStoreMedium.dummy",

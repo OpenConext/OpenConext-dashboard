@@ -124,6 +124,17 @@ public class LmngServiceMock implements LmngService {
 
   @Override
   public String getServiceName(String lmngId) {
+    Article article = getService(lmngId);
+    return article == null ? null : article.getArticleName();
+  }
+  
+  @Override
+  public Article getService(String guid) {
+    for (Article current : articles) {
+      if (current.getLmngIdentifier().equals(guid)) {
+        return current;
+      }
+    }
     return null;
   }
 

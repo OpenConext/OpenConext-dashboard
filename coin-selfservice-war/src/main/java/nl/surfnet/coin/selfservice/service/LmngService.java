@@ -61,6 +61,15 @@ public interface LmngService {
   String getInstitutionName(String guid);
 
   /**
+   * Get LMNG article by article ID
+   * 
+   * @param guid
+   *          guid of the article
+   * @return the article found or null
+   */
+  Article getService(final String guid);
+  
+  /**
    * Get the name of the service/product in LMNG belonging to given GUID
    * 
    * @param lmngId
