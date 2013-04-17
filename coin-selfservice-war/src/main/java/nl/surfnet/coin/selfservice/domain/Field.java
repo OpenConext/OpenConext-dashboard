@@ -55,19 +55,32 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
   private Boolean availableInSurfConext;
   
   @Transient
-  private Map<String,String> technicalOrigins = new HashMap<String, String>(){
+  private Map<String,String> technicalOriginsLMNG = new HashMap<String, String>() {
     {
       // CRM specific values
-      put("LMNG_SERVICE_DESCRIPTION_NL", "artikel.lmng_description");
-      put("LMNG_DETAIL_LOGO", "image.lmng_url");
-      put("LMNG_INSTITUTION_DESCRIPTION", "lmng_descriptionlong");
+      put("SERVICE_DESCRIPTION_NL", "In SurfMarket CRM: artikel.lmng_description");
+      put("DETAIL_LOGO", "In SurfMarket CRM: image.lmng_url");
+      put("INSTITUTION_DESCRIPTION_NL", "In SurfMarket CRM: lmng_descriptionlong");
+      put("ENDUSER_DESCRIPTION_NL", "In SurfMarket CRM: lmng_surfspotdescriptionlong");
+    }
+  };
       
+  @Transient
+  private Map<String,String> technicalOriginsSurfConext = new HashMap<String, String>() {
+    {
       // SURFCONEXT specific values
-      put("SURFCONEXT_SERVICE_DESCRIPTION_NL", "names:nl");
-      put("SURFCONEXT_SERVICE_DESCRIPTION_EN", "names:en");
-      put("SURFCONEXT_APP_URL", "applicationUrl");
-      put("SURFCONEXT_DETAIL_LOGO", "appLogoUrl");
-      put("SURFCONEXT_SERVICE_URL","OrganizationURL");
+      put("SERVICE_DESCRIPTION_NL", "In Service Registry: names:nl");
+      put("SERVICE_DESCRIPTION_EN", "In Service Registry: names:en");
+      put("ENDUSER_DESCRIPTION_EN", "In Service Registry: descriptions:en");
+      put("ENDUSER_DESCRIPTION_NL", "In Service Registry: descriptions:nl");
+      put("APP_URL", "In Service Registry: applicationUrl");
+      put("DETAIL_LOGO", "In Service Registry: appLogoUrl");
+      put("SERVICE_URL","In Service Registry: OrganizationURL");
+      put("EULA_URL","In Service Registry: coin:eula");
+      put("SUPPORT_URL_NL","In Service Registry: url:nl");
+      put("SUPPORT_URL_EN","In Service Registry: url:en");
+      put("SUPPORT_MAIL","In Service Registry: contact type support");
+      put("TECHNICAL_SUPPORTMAIL","In Service Registry: contact type technical");
 
     }
   };
@@ -147,10 +160,18 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
     this.compoundServiceProvider = compoundServiceProvider;
   }
   
-  public String getTechnicalOrigin(final String source) {
+  public String getTechnicalOriginLmng() {
     String result = "";
-    if (null != technicalOrigins.get(source+"_"+this.key)) {
-      result = technicalOrigins.get(source+"_"+this.key);
+    if (null != technicalOriginsLMNG.get(this.key)) {
+      result = technicalOriginsLMNG.get(this.key);
+    }
+    return result;
+  }
+  
+  public String getTechnicalOriginSurfConext() {
+    String result = "";
+    if (null != technicalOriginsSurfConext.get(this.key)) {
+      result = technicalOriginsSurfConext.get(this.key);
     }
     return result;
   }

@@ -73,7 +73,7 @@
                 <input type="hidden" name="source" value="LMNG" />
                 <input type="hidden" name="fieldId" value="${field.id}" />
                 <button name="usethis" value="usethis" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
-                <span class="technical-info">${field.getTechnicalOrigin('LMNG')}</span>                
+                <p class="pull-right">${field.technicalOriginLmng}</p>
               </form>
             </c:if>
             <c:if test="${field.availableInSurfConext}">
@@ -83,7 +83,7 @@
                 <input type="hidden" name="source" value="SURFCONEXT" />
                 <input type="hidden" name="fieldId" value="${field.id}" />
                 <button name="usethis" value="usethis" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
-                <span class="technical-info">${field.getTechnicalOrigin('SURFCONEXT')}</span>
+                <p class="pull-right">${field.technicalOriginSurfConext}</p>
               </form>
             </c:if>
             <form class="tab-pane ${field.source=='DISTRIBUTIONCHANNEL' ? 'active' : ''}" id="form${fieldId}-distributionchannel">
@@ -134,7 +134,7 @@
               <input type="hidden" name="source" value="LMNG" />
               <input type="hidden" name="fieldId" value="${field.id}" />
               <button name="usethis" value="usethis-image" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
-              <span class="technical-info">${field.getTechnicalOrigin('LMNG')}</span>
+              <p class="pull-right">${field.technicalOriginLmng}</p>
             </form>
           </c:if>
           <c:if test="${field.availableInSurfConext}">
@@ -146,7 +146,7 @@
               <input type="hidden" name="source" value="SURFCONEXT" />
               <input type="hidden" name="fieldId" value="${field.id}" />
               <button name="usethis" value="usethis-image" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
-              <span class="technical-info">${field.getTechnicalOrigin('SURFCONEXT')}</span>
+              <p class="pull-right">${field.technicalOriginSurfConext}</p>
             </form>
           </c:if>
           <form class="tab-pane imageuploadform ${field.source=='DISTRIBUTIONCHANNEL' ? 'active' : ''}" id="form${fieldId}-distributionchannel"> 

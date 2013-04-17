@@ -84,7 +84,7 @@
           </a>
         </li>
       </c:if>
-      <c:if test="${isAdminUser}">
+      <c:if test="${isAdminUser && ebLinkActive}">
         <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
           <spring:param name="spEntityId" value="${compoundSp.sp.id}" />
         </spring:url>
@@ -155,7 +155,6 @@
           </c:when>
         </c:choose>
         </c:if>
-
         <c:if test="${lmngActive}">    
           <c:choose>
             <c:when test="${compoundSp.articleLicenseAvailable}">
