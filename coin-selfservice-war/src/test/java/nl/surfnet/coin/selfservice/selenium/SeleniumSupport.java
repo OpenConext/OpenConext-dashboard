@@ -40,7 +40,6 @@ public class SeleniumSupport {
 
   @Before
   public void initializeOnce() {
-    System.setProperty("webdriver.firefox.bin", "/Users/jmsnoeij/bin/firefox");
     if (driver == null) {
       if ("firefox".equals(System.getProperty("selenium.webdriver", "firefox"))) {
         initFirefoxDriver();
