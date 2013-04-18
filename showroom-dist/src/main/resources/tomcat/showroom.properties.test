@@ -130,9 +130,6 @@ admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 admin.distribution.channel.sabRole=
 
-administration.email.enabled=true
-administration.jira.ticket.enabled=false
-
 
 ####################################################################
 ##
@@ -149,10 +146,10 @@ mode.showOauthTokens=false
 mode.ebLinkActive=false
 
 #toggle the creation of an email when a question is asked or an entity is linked / unlinked
-administration.email.enabled=false
+administration.email.enabled=true
 
 #toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
-administration.jira.ticket.enabled=true
+administration.jira.ticket.enabled=false
 
 ##########################################################################
 # The following properties are the responsibility of development.

@@ -1,14 +1,14 @@
-service-name-en=Showroom
-service-name-nl=Showroom
-service-description-en=Showroom application 
-service-description-nl=Showroom applicatie
+service-name-en=SURFconext showroom
+service-name-nl=SURFconext showroom
+service-description-en=SURFconext showroom
+service-description-nl=SURFconext showroom
 
-contact-person-administrative-given-name=SURFConext
-contact-person-administrative-sur-name=SURFConext
-contact-person-administrative-email=beheer@surfconext.nl
+contact-person-administrative-given-name=SURFconext
+contact-person-administrative-sur-name=SURFconext
+contact-person-administrative-email=info@surfconext.nl
 
-contact-person-technical-given-name=SURFConext
-contact-person-technical-sur-name=SURFConext
+contact-person-technical-given-name=SURFconext
+contact-person-technical-sur-name=SURFconext
 contact-person-technical-email=beheer@surfconext.nl
 
 contact-person-support-given-name=SURFConext
