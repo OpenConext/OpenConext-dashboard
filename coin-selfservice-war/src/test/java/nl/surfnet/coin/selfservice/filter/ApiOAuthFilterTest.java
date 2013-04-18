@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -41,7 +42,10 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
 import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertNoRoleIsGranted;
 import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertRoleIsGranted;
 import static org.junit.Assert.assertThat;
@@ -109,7 +113,7 @@ public class ApiOAuthFilterTest {
     filter.doFilter(request, response, chain);
     LOG.debug("url: " + request.getRequestURL());
     assertThat("Originally requested url should be stored for later redirect (after oauth)",
-        (String) request.getSession().getAttribute(ApiOAuthFilter.ORIGINAL_REQUEST_URL), IsEqual.equalTo("http://localhost:80/anyUrl"));
+      (String) request.getSession().getAttribute(ApiOAuthFilter.ORIGINAL_REQUEST_URL), IsEqual.equalTo("http://localhost:80/anyUrl"));
     assertThat("redirect to oauth authorization url", response.getRedirectedUrl(), IsEqual.equalTo("http://authorization-url"));
   }
 
@@ -144,6 +148,24 @@ public class ApiOAuthFilterTest {
     filter.doFilter(request, response, chain);
     assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
     assertNoRoleIsGranted();
+  }
+
+
+  @Test
+  public void elevateUserNoAdminButHasSomeGroups() throws Exception {
+    // This tests whether a user gets the role 'user' when he is member of some random groups, but not any admin group.
+
+    filter.setLmngActive(true);
+    when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
+
+    setAuthentication();
+
+    filter.setAdminDistributionTeam("a-team");
+    when(apiClient.getGroups20(THE_USERS_UID, THE_USERS_UID)).thenReturn(Arrays.asList(new Group20("id1"), new Group20("id2")));
+
+    filter.doFilter(request, response, chain);
+    assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
+    assertRoleIsGranted(ROLE_USER);
   }
 
   @Test
@@ -181,6 +203,7 @@ public class ApiOAuthFilterTest {
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
     assertRoleIsGranted(ROLE_IDP_LICENSE_ADMIN);
   }
+
 
   @Test
   public void test_elevate_user_results_in_one_admin_when_lmng_is_disabled() throws IOException, ServletException {
