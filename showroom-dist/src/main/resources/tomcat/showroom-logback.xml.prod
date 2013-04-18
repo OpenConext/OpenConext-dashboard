@@ -17,10 +17,10 @@
   -->
 <configuration scan="true">
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>logs/selfservice.log</file>
+    <file>logs/showroom.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- daily rollover -->
-      <fileNamePattern>logs/selfservice-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <fileNamePattern>logs/showroom-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
         <maxHistory>60</maxHistory>
     </rollingPolicy>
     <encoder>
