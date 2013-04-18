@@ -501,8 +501,9 @@
                 <jsSourceFile>modules/notifications.js</jsSourceFile>
                 <jsSourceFile>modules/app-detail.js</jsSourceFile>
                 <jsSourceFile>modules/shop-admin.js</jsSourceFile>
+                <jsSourceFile>modules/sp-services.js</jsSourceFile>
 
-                  <jsSourceFile>tools/html5shiv.js</jsSourceFile>
+                <jsSourceFile>tools/html5shiv.js</jsSourceFile>
                 <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>
                 <jsSourceFile>tools/sizewatcher.js</jsSourceFile>
 

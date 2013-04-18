@@ -118,8 +118,8 @@ public class LmngServiceImplIT {
   // we us this for a local integration test only
   @Test
   public void testRetrieveArticle() throws IOException {
-    String guid = "{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}";
-    
+    String guid =
+                              "{A1EA4AF9-6C9E-E111-B429-0050569E0013}";
     Article instituteName = licensingService.getService(guid);
 
     assertNotNull(instituteName);
