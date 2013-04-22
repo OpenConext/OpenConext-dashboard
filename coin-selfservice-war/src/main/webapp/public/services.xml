@@ -26,8 +26,8 @@
   </ModulePrefs>
   <UserPref name="groupContext" />
   <Content type="html" view="default"><![CDATA[
-<script type="text/javascript" src="https://showroom.test.showroom.surfconext.nl/public/js/api-example.js"></script>
-<script type="text/javascript" src="https://showroom.test.showroom.surfconext.nl/public/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="https://raw.github.com/OpenConext/OpenConext-selfservice/master/coin-selfservice-war/src/main/webapp/public/js/services.js"></script>
+<script type="text/javascript" src="https://raw.github.com/OpenConext/OpenConext-selfservice/master/coin-selfservice-war/src/main/webapp/public/js/jquery-1.9.1.min.js"></script>
 <section class="api-example">
 </section>
 ]]></Content>
