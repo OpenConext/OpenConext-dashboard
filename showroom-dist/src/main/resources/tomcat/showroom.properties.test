@@ -151,6 +151,11 @@ administration.email.enabled=true
 #toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
 administration.jira.ticket.enabled=false
 
+# Info for communication with the APIS Authorization Server
+adminService.tokenVerificationUrl=https://apis.acc.showroom.surfconext.nl/v1/tokeninfo
+adminService.resourceServerKey=??
+adminService.resourceServerSecret=??
+
 ##########################################################################
 # The following properties are the responsibility of development.
 ##########################################################################
@@ -168,6 +173,7 @@ keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
 cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager
 sabClientClass=nl.surfnet.sab.SabClient
+authorizationServerFilter=org.surfnet.oaaas.auth.AuthorizationServerFilter
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-api.jdbc.driver=com.mysql.jdbc.Driver

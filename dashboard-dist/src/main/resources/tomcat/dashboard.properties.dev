@@ -153,6 +153,9 @@ jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
 cacheManagerClass=nl.surfnet.coin.shared.cache.ConextNoOpCacheManager
 sabClientClass=nl.surfnet.sab.SabClient
 
+#Dashboard does not communicate with the Authorization Server
+authorizationServerFilterClass=nl.surfnet.coin.selfservice.util.MockAuthorizationServerFilter
+
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-api.jdbc.driver=com.mysql.jdbc.Driver
 coin-eb-db-driver=com.mysql.jdbc.Driver

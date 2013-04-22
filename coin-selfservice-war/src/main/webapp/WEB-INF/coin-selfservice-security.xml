@@ -81,7 +81,7 @@
     <security:custom-filter after="PRE_AUTH_FILTER" ref="apiOauthFilter"/>
     <security:custom-filter after="ANONYMOUS_FILTER" ref="sabEntitlementsFilter"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
-    <security:intercept-url pattern="/api/public/**" access="permitAll"/>
+    <security:intercept-url pattern="/api/**" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Metadata" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
     <security:intercept-url pattern="${ASSERTION_CONSUMER_URI}"

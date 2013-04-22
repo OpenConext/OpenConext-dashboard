@@ -23,9 +23,5 @@
                            http://www.springframework.org/schema/task
                            http://www.springframework.org/schema/task/spring-task.xsd">
 
-<!--   <task:scheduled-tasks>
-    <task:scheduled ref="federationProviderService" method="loadConfiguration"
-                    fixed-delay="${federationconfig.reload.interval}"/>
-  </task:scheduled-tasks> -->
 
 </beans>
