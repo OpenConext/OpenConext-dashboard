@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.surfnet.oaaas.auth.AuthorizationServerFilter;
+import org.surfnet.oaaas.auth.principal.AuthenticatedPrincipal;
+import org.surfnet.oaaas.conext.SAMLAuthenticatedPrincipal;
 import org.surfnet.oaaas.model.VerifyTokenResponse;
 
 @Controller
@@ -89,7 +91,8 @@ public class ApiController {
   String getProtectedServices(@RequestParam(value = "lang", defaultValue = "en") String language,
                                         final HttpServletRequest request) {
     VerifyTokenResponse verifyTokenResponse = (VerifyTokenResponse) request.getAttribute(AuthorizationServerFilter.VERIFY_TOKEN_RESPONSE);
-    return "Hoi " +  verifyTokenResponse.getPrincipal().getDisplayName();
+    SAMLAuthenticatedPrincipal principal =  (SAMLAuthenticatedPrincipal) verifyTokenResponse.getPrincipal();
+    return "Hoi " +  principal.getDisplayName() + " ("+principal.getName()+") from IDP " + principal.getIdentityProvider();
   }
 
 }
