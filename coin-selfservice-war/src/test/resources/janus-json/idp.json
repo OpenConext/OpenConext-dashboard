@@ -812,5 +812,41 @@
         "name":"http://mock-idp",
         "description":"mockidp",
         "idpVisibleOnly":false
+    },
+    {
+        "names":{
+            "en":"https://mujina-idp.acc.showroom.surfconext.nl",
+            "nl":"https://mujina-idp.acc.showroom.surfconext.nl"
+        },
+        "appTitle":"mujina-idp.acc.showroom",
+        "appDescription":"mockidp",
+        "appThumbNail":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appEntityId":"https://mujina-idp.acc.showroom.surfconext.nl/",
+        "instutionId":"mock-institution-id",
+        "twoLeggedOauthAllowed":false,
+        "consentNotRequired":false,
+        "appLogoUrl":"https://static.surfconext.nl/media/surfnet_logo.gif",
+        "appHomeUrls":{
+            "en":null,
+            "nl":null
+        },
+        "descriptions":{
+            "en":"mujina mock idp from acc.showroom",
+            "nl":"mujina mock idp from acc showroom"
+        },
+        "urls":{
+            "en":null,
+            "nl":null
+        },
+        "workflowState":"prodaccepted",
+        "contacts":[
+            {
+                "type":"technical",
+                "givenName":"",
+                "surName":"",
+                "emailAddress":"a.veenstra@onehippo.com"
+            }
+        ],
+        "idpVisibleOnly":false
     }
 ]

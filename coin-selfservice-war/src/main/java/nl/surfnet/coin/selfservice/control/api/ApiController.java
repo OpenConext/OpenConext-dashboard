@@ -8,9 +8,11 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import nl.surfnet.coin.selfservice.domain.ApiService;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.PublicService;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.LmngService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.surfnet.oaaas.auth.AuthorizationServerFilter;
-import org.surfnet.oaaas.auth.principal.AuthenticatedPrincipal;
 import org.surfnet.oaaas.conext.SAMLAuthenticatedPrincipal;
 import org.surfnet.oaaas.model.VerifyTokenResponse;
 
@@ -44,28 +45,24 @@ public class ApiController {
   @Resource
   private LmngService lmngService;
   
+  @Resource
+  private IdentityProviderService idpService;
+  
   @Value("${public.api.lmng.guids}")
   private String[] guids;
 
   @RequestMapping(value = "/public/services.json")
   public @ResponseBody
-  List<PublicService> getPublicServices(@RequestParam(value = "lang", defaultValue = "en") String language,
+  List<ApiService> getPublicServices(@RequestParam(value = "lang", defaultValue = "en") String language,
       final HttpServletRequest request) {
     if ((Boolean) (request.getAttribute("lmngActive"))) {
-      // made explicit here for tracebility
       List<CompoundServiceProvider> csPs = compoundSPService.getAllPublicCSPs();
-      List<PublicService> result = new ArrayList<PublicService>();
-      boolean isEn = language.equalsIgnoreCase("en");
-      for (CompoundServiceProvider csP : csPs) {
-        String crmLink = csP.isArticleAvailable() ? (lmngDeepLinkBaseUrl + csP.getLmngId()) : null;
-        result.add(new PublicService(isEn ? csP.getServiceDescriptionEn() : csP.getServiceDescriptionNl(),
-            getServiceLogo(csP), csP.getServiceUrl(), csP.isArticleAvailable(), crmLink));
-      }
+      List<ApiService> result = buildApiServices(csPs, language);
       
       //add public service from LMNG directly
       for (String guid : guids) {
         Article currentArticle = lmngService.getService(guid);
-        PublicService currentPS = new PublicService(currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(), null, true, lmngDeepLinkBaseUrl + guid);
+        ApiService currentPS = new ApiService(currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(), null, true, lmngDeepLinkBaseUrl + guid);
         result.add(currentPS);
       }
       sort(result);
@@ -88,11 +85,48 @@ public class ApiController {
 
   @RequestMapping(value = "/protected/services.json")
   public @ResponseBody
-  String getProtectedServices(@RequestParam(value = "lang", defaultValue = "en") String language,
+  List<ApiService> getProtectedServices(@RequestParam(value = "lang", defaultValue = "en") String language,
                                         final HttpServletRequest request) {
+    if ((Boolean) (request.getAttribute("lmngActive"))) {
+      String ipdEntityId = getIdpEntityIdFromToken(request);
+      IdentityProvider identityProvider = idpService.getIdentityProvider(ipdEntityId);
+      List<CompoundServiceProvider> csPs = compoundSPService.getCSPsByIdp(identityProvider);
+      List<ApiService> result = buildApiServices(csPs, language);
+      
+      sort(result);
+      return result;
+    } else {
+      throw new RuntimeException("Only allowed in showroom, not in dashboard");
+    }
+  }
+
+  /**
+   * Retrieve IDP Entity ID from the oauth token stored in the request
+   * @param request httpServletRequest to look in.
+   * @return identityProvider of the principle
+   */
+  private String getIdpEntityIdFromToken(final HttpServletRequest request) {
     VerifyTokenResponse verifyTokenResponse = (VerifyTokenResponse) request.getAttribute(AuthorizationServerFilter.VERIFY_TOKEN_RESPONSE);
     SAMLAuthenticatedPrincipal principal =  (SAMLAuthenticatedPrincipal) verifyTokenResponse.getPrincipal();
-    return "Hoi " +  principal.getDisplayName() + " ("+principal.getName()+") from IDP " + principal.getIdentityProvider();
+    return principal.getIdentityProvider();
+  }
+
+  /**
+   * Convert the list of found services to a list of services that can be displayed in the API
+   * (either public or private)
+   * @param services list of services to convert (compound service providers)
+   * @param language language to use in the result
+   * @return a list of api services
+   */
+  private List<ApiService> buildApiServices(List<CompoundServiceProvider> services, String language) {
+    List<ApiService> result = new ArrayList<ApiService>();
+    boolean isEn = language.equalsIgnoreCase("en");
+    for (CompoundServiceProvider csP : services) {
+      String crmLink = csP.isArticleAvailable() ? (lmngDeepLinkBaseUrl + csP.getLmngId()) : null;
+      result.add(new ApiService(isEn ? csP.getServiceDescriptionEn() : csP.getServiceDescriptionNl(),
+          getServiceLogo(csP), csP.getServiceUrl(), csP.isArticleAvailable(), crmLink));
+    }
+    return result;
   }
 
 }
