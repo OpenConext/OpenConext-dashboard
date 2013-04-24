@@ -113,7 +113,12 @@
             </div>
           </li>
         <li class="help">
+        <c:if test="${lmngActive}">
+          <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.showroom.url"/></c:set>
+        </c:if>
+        <c:if test="${!lmngActive}">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
+        </c:if>
           <a href="${supporturl}"  target="_blank">
             <spring:message code="jsp.general.footertext.supportpages"/>
           </a>
