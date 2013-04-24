@@ -21,14 +21,38 @@
 <Module>
   <ModulePrefs
       title="Services Overview"
-      description="Shows available services">
+      description="Shows available services"
+      scrolling="true"
+      height="500"
+      width="250">
     <Require feature="osapi" />
   </ModulePrefs>
-  <UserPref name="groupContext" />
   <Content type="html" view="default"><![CDATA[
-<script type="text/javascript" src="https://raw.github.com/OpenConext/OpenConext-selfservice/master/coin-selfservice-war/src/main/webapp/public/js/services.js"></script>
-<script type="text/javascript" src="https://raw.github.com/OpenConext/OpenConext-selfservice/master/coin-selfservice-war/src/main/webapp/public/js/jquery-1.9.1.min.js"></script>
-<section class="api-example">
-</section>
+<link rel="stylesheet" type="text/css" href="http://openconext.github.io/OpenConext-selfservice/public/css/services.css">
+<link rel="stylesheet" type="text/css" href="http://openconext.github.io/OpenConext-selfservice/public/css/bootstrap-2.0.4.css">
+  <div class="tabbable">
+    <ul class="nav nav-tabs">
+      <li id="public-tab" class="active"><a href="#public"
+        data-toggle="tab">Public Services</a></li>
+      <li id="idp-tab"><a href="#idp" data-toggle="tab">Institution
+          Services</a></li>
+      <li id="personal-tab"><a href="#personal" data-toggle="tab">Personal
+          Services</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="public">
+        <section id="public" class="services-list"></section>
+      </div>
+      <div class="tab-pane" id="idp">
+        <section id="idp" class="services-list"></section>
+      </div>
+      <div class="tab-pane" id="personal">
+        <section id="personal" class="services-list"></section>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript" src="http://openconext.github.io/OpenConext-selfservice/public/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://openconext.github.io/OpenConext-selfservice/public/js/bootstrap-2.0.3.min.js"></script>
+<script type="text/javascript" src="http://openconext.github.io/OpenConext-selfservice/public/js/services.js"></script>
 ]]></Content>
 </Module>

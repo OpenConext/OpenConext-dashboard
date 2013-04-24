@@ -1,13 +1,9 @@
-body {
-  font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-
-ul {
+.services-list ul {
   margin: 20px;
   width: 95%
 }
 
-li {
+.services-list li {
   list-style-type: none;
   padding: 0px;
   margin: 0px 0px 5px 0px;
@@ -16,11 +12,11 @@ li {
   border-radius: 3px;
 }
 
-li:hover {
+.services-list li:hover {
   background-color: rgb(247, 251, 255);
 }
 
-p {  
+.services-list p {
   margin: 5px 1px 1px 10px;
   padding: 0px;
   line-height: 12px;
@@ -34,7 +30,7 @@ img.app-logo {
   padding: 1px 10px 1px 5px;
 }
 
-a, span {
+.services-list a, .services-list span {
   margin-left: 10px;
   color: rgb(75, 74, 74);
 }
