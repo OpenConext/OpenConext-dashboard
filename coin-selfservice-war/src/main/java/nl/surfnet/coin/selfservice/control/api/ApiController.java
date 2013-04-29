@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.surfnet.oaaas.auth.AuthorizationServerFilter;
+import org.surfnet.oaaas.auth.principal.AuthenticatedPrincipal;
 import org.surfnet.oaaas.conext.SAMLAuthenticatedPrincipal;
 import org.surfnet.oaaas.model.VerifyTokenResponse;
 
@@ -107,8 +108,12 @@ public class ApiController {
    */
   private String getIdpEntityIdFromToken(final HttpServletRequest request) {
     VerifyTokenResponse verifyTokenResponse = (VerifyTokenResponse) request.getAttribute(AuthorizationServerFilter.VERIFY_TOKEN_RESPONSE);
-    SAMLAuthenticatedPrincipal principal =  (SAMLAuthenticatedPrincipal) verifyTokenResponse.getPrincipal();
-    return principal.getIdentityProvider();
+    AuthenticatedPrincipal authenticatedPrincipal = verifyTokenResponse.getPrincipal();
+    if (authenticatedPrincipal instanceof SAMLAuthenticatedPrincipal) {
+      SAMLAuthenticatedPrincipal principal = (SAMLAuthenticatedPrincipal) authenticatedPrincipal;
+      return principal.getIdentityProvider();
+    }
+    throw new IllegalArgumentException("Only type of Principal supported is SAMLAuthenticatedPrincipal, not " + authenticatedPrincipal.getClass());
   }
 
   /**
