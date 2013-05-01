@@ -28,11 +28,11 @@
     <Require feature="osapi" />
   </ModulePrefs>
   <Content type="html" view="default"><![CDATA[
-<link rel="stylesheet" type="text/css" href="http://openconext.github.io/OpenConext-selfservice/public/css/services.css">
-<link rel="stylesheet" type="text/css" href="http://openconext.github.io/OpenConext-selfservice/public/css/bootstrap-2.0.4.css">
+  <link rel="stylesheet" href="https://showroom.test.showroom.surfconext.nl/css/bootstrap-2.0.4.css"/>
+  <link rel="stylesheet" href="https://showroom.test.showroom.surfconext.nl/public/css/services.css"/>
   <div class="tabbable">
     <ul class="nav nav-tabs">
-      <li id="public-tab" class="active"><a href="#public"
+      <li id="public-tab"><a href="#public"
         data-toggle="tab">Public Services</a></li>
       <li id="idp-tab"><a href="#idp" data-toggle="tab">Institution
           Services</a></li>
@@ -40,7 +40,7 @@
           Services</a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="public">
+      <div class="tab-pane" id="public">
         <section id="public" class="services-list"></section>
       </div>
       <div class="tab-pane" id="idp">
@@ -51,8 +51,9 @@
       </div>
     </div>
   </div>
-<script type="text/javascript" src="http://openconext.github.io/OpenConext-selfservice/public/js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="http://openconext.github.io/OpenConext-selfservice/public/js/bootstrap-2.0.3.min.js"></script>
-<script type="text/javascript" src="http://openconext.github.io/OpenConext-selfservice/public/js/services.js"></script>
+<script type="text/javascript" src="https://showroom.test.showroom.surfconext.nl/js/jquery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="https://showroom.test.showroom.surfconext.nl/js/bootstrap/bootstrap-2.0.3.min.js"></script>
+<script type="text/javascript" src="https://showroom.test.showroom.surfconext.nl/public/js/oauth.js"></script>
+<script type="text/javascript" src="https://showroom.test.showroom.surfconext.nl/public/js/services.js"></script>
 ]]></Content>
 </Module>

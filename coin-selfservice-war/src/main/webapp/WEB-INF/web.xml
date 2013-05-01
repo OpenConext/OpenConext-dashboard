@@ -72,6 +72,11 @@
       <param-value>showroom.properties</param-value>
     </init-param>
   </filter>
+  
+  <filter>
+    <filter-name>CORSHeaderFilter</filter-name>
+    <filter-class>nl.surfnet.coin.selfservice.filter.CorsHeaderFilter</filter-class>
+  </filter>
 
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -82,10 +87,20 @@
     <filter-name>authorizationServerFilter</filter-name>
     <url-pattern>/api/protected/*</url-pattern>
   </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>CORSHeaderFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <servlet>
     <servlet-name>coin-selfservice</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <!-- needed to handle CORS preflight requests -->
+      <param-name>dispatchOptionsRequest</param-name>
+      <param-value>true</param-value>
+    </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
 
