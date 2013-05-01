@@ -30,7 +30,11 @@
 
 
 
-  <a class="more-down-less-up" href="#"><h1>${title}<i class="icon-arrow-down in-active"></i><i class="icon-arrow-up active"></i></h1></a>
+  <a class="more-down-less-up" href="#"><h1>${title}
+    <i class="icon-arrow-down in-active"></i>
+    <i class="icon-arrow-up active"></i>
+    <i class="inlinehelp icon-question-sign" data-title="${title}" data-content="<spring:message htmlEscape="true" code="jsp.allidplmng.title.help" />"></i>
+  </h1></a>
   <div class="data-table-wrapper">
 
       <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.idp" /></c:set>
@@ -38,8 +42,14 @@
               data-search-placeholder="${searchPlaceholder}">
         <thead>
         <tr>
-          <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
-          <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.name"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.name" />" data-content="<spring:message htmlEscape="true" code="jsp.allidplmng.name.help" />"></i>
+          </th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.lmngid"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.lmngid" />" data-content="<spring:message htmlEscape="true" code="jsp.allidplmng.lmngid.help" />"></i>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -84,7 +94,12 @@
 <section class="data-table-holder">
 
     <spring:message var="title" code="jsp.allidplmng.accounts"/>
-    <a class="more-down-less-up" href="#"><h1>${title}<i class="icon-arrow-down in-active"></i><i class="icon-arrow-up active"></i></h1></a>
+    <a class="more-down-less-up" href="#"><h1>
+      ${title}
+        <i class="icon-arrow-down in-active"></i>
+        <i class="icon-arrow-up active"></i></h1>
+        <i class="inlinehelp icon-question-sign" data-title="${title}" data-content="<spring:message htmlEscape="true" code="jsp.allidlmng.accounts.title.help" />"></i>
+    </a>
     <div class="data-table-wrapper">
 
     <c:set var="searchPlaceholderAccount"><spring:message code="jsp.search.placeholder.account" /></c:set>
@@ -92,8 +107,14 @@
             data-search-placeholder="${searchPlaceholder}">
       <thead>
       <tr>
-        <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
-        <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
+        <th>
+          <spring:message code="jsp.lmng_binding_overview.name"/>
+          <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.name" />" data-content="<spring:message htmlEscape="true" code="jsp.allidplmng.accounts.name.help" />"></i>
+        </th>
+        <th>
+          <spring:message code="jsp.lmng_binding_overview.lmngid"/>
+          <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.lmngid" />" data-content="<spring:message htmlEscape="true" code="jsp.allidplmng.accounts.lmngid.help" />"></i>
+        </th>
       </tr>
       </thead>
       <tbody>

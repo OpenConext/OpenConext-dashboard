@@ -27,17 +27,31 @@
 
   <section class="data-table-holder">
 
-    <h1>${title}</h1>
+    <h1>${title}<i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="right" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.title.help" />"></i></h1>
     <div class="data-table-wrapper">
       <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.sp" /></c:set>
       <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination table-sortable" data-search-placeholder="${searchPlaceholder}">
         <thead>
         <tr>
-          <th><spring:message code="jsp.lmng_binding_overview.name"/></th>
-          <th><spring:message code="jsp.lmng_binding_overview.idponly"/></th>
-          <th><spring:message code="jsp.lmng_binding_overview.idphide"/></th>
-          <th><spring:message code="jsp.lmng_binding_overview.lmngid"/></th>
-          <th><spring:message code="jsp.lmng_binding_overview.detail"/></th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.name"/>
+          </th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.idponly"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idponly" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idponly.help" />"></i>
+          </th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.idphide"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idphide" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idphide.help" />"></i>
+          </th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.lmngid"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.lmngid" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.lmngid.help" />"></i>
+          </th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.detail"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.detail" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.detail.help" />"></i>
+          </th>
         </tr>
         </thead>
         <tbody>

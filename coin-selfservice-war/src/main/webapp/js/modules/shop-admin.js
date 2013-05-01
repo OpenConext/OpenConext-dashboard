@@ -10,6 +10,12 @@ app.shopAdmin = function () {
       $self.find('i').toggle();
     });
 
+    // Inline help for shop admin
+    $("i.inlinehelp").popover({
+      'trigger': 'hover',
+      'placement': 'top'});
+
+
   };
 
   return {
