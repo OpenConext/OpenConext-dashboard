@@ -99,7 +99,16 @@ public class ApiController {
       String ipdEntityId = getIdpEntityIdFromToken(request);
       IdentityProvider identityProvider = idpService.getIdentityProvider(ipdEntityId);
       List<CompoundServiceProvider> csPs = compoundSPService.getCSPsByIdp(identityProvider);
-      List<ApiService> result = buildApiServices(csPs, language);
+      List<CompoundServiceProvider> scopedSsPs = new ArrayList<CompoundServiceProvider>();
+      /*
+       * We only want the SP's that are currently linked to the IdP, not the also included SP's that are NOT IdP-only
+       */
+      for (CompoundServiceProvider current: csPs) {
+         if (current.getServiceProvider().isLinked()) {
+           scopedSsPs.add(current);
+         } 
+      }
+      List<ApiService> result = buildApiServices(scopedSsPs , language);
 
       sort(result);
       return result;
