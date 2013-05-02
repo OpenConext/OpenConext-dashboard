@@ -2,6 +2,7 @@ package nl.surfnet.coin.selfservice.selenium;
 
 import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +13,7 @@ public class CompoundSPDetailTestSelenium extends SeleniumSupport {
 
 
   @Test
+  @Ignore
   public void getLmngIdForIdpPageSuccess() {
     WebDriver driver = getRestartedWebDriver();
 
