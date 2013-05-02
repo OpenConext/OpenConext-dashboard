@@ -33,7 +33,7 @@
   <a class="more-down-less-up" href="#"><h1>${title}
     <i class="icon-arrow-down in-active"></i>
     <i class="icon-arrow-up active"></i>
-    <i class="inlinehelp icon-question-sign" data-title="${title}" data-content="<spring:message htmlEscape="true" code="jsp.allidplmng.title.help" />"></i>
+    <i class="inlinehelp icon-question-sign" data-placement="bottom" data-title="${title}" data-content="<spring:message htmlEscape="true" code="jsp.allidplmng.title.help" />"></i>
   </h1></a>
   <div class="data-table-wrapper">
 
@@ -97,8 +97,9 @@
     <a class="more-down-less-up" href="#"><h1>
       ${title}
         <i class="icon-arrow-down in-active"></i>
-        <i class="icon-arrow-up active"></i></h1>
+        <i class="icon-arrow-up active"></i>
         <i class="inlinehelp icon-question-sign" data-title="${title}" data-content="<spring:message htmlEscape="true" code="jsp.allidlmng.accounts.title.help" />"></i>
+    </h1>
     </a>
     <div class="data-table-wrapper">
 

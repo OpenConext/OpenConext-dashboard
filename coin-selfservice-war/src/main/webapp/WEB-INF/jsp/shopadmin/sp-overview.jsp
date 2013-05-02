@@ -27,7 +27,7 @@
 
   <section class="data-table-holder">
 
-    <h1>${title}<i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="right" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.title.help" />"></i></h1>
+    <h1>${title}<i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.title.help" />"></i></h1>
     <div class="data-table-wrapper">
       <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.sp" /></c:set>
       <table id="sp_overview_table" class="table table-bordered table-striped table-above-pagination table-sortable" data-search-placeholder="${searchPlaceholder}">
