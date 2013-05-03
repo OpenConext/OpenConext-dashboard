@@ -123,6 +123,7 @@ app.table = function() {
         {'sType' : 'boolean'},
         {'bSortable': false},
         {'bSortable': false},
+        {'bSortable': false},
         {'bSortable': false} ]
     });
 

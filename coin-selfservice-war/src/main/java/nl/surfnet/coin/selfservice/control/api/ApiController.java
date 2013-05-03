@@ -103,9 +103,9 @@ public class ApiController {
       /*
        * We only want the SP's that are currently linked to the IdP, not the also included SP's that are NOT IdP-only
        */
-      for (CompoundServiceProvider current: csPs) {
-         if (current.getServiceProvider().isLinked()) {
-           scopedSsPs.add(current);
+      for (CompoundServiceProvider csp : csPs) {
+         if (csp.getServiceProvider().isLinked() && !csp.isHideInProtectedShowroom()) {
+           scopedSsPs.add(csp);
          } 
       }
       List<ApiService> result = buildApiServices(scopedSsPs , language);

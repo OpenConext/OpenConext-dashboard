@@ -45,6 +45,10 @@
             <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idphide" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idphide.help" />"></i>
           </th>
           <th>
+            <spring:message code="jsp.lmng_binding_overview.idphide_protected"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idphide_protected" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.idphide_protected.help" />"></i>
+          </th>
+          <th>
             <spring:message code="jsp.lmng_binding_overview.lmngid"/>
             <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.lmngid" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.lmngid.help" />"></i>
           </th>
@@ -79,6 +83,11 @@
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
                 <c:set var="checked" value="${binding.compoundServiceProvider.hideInPublicShowroom}"></c:set>
                 <input type="checkbox" name="hideInPublicShowroom" value="${checked}" data-compound-service-provider-id="${binding.compoundServiceProvider.id}" ${checked ? 'checked' : ''}>
+              </td>
+              <td class="center">
+                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+                <c:set var="checked" value="${binding.compoundServiceProvider.hideInProtectedShowroom}"></c:set>
+                <input type="checkbox" name="hideInProtectedShowroom" value="${checked}" data-compound-service-provider-id="${binding.compoundServiceProvider.id}" ${checked ? 'checked' : ''}>
               </td>
               <td>
   			  <form:form id="form-${status.index}" method="post" action="save-splmng.shtml#row${status.index}" style="margin:0" cssClass="lmng-id-edit">

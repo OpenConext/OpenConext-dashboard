@@ -135,4 +135,15 @@ public class SpLnmgListController extends BaseController {
     return "ok";
   }
 
+  @RequestMapping(value = "/update-csp-protected-api/{cspId}/{newValue}", method = RequestMethod.PUT)
+  public
+  @ResponseBody
+  String updateCspProtectedApi(@PathVariable("cspId") Long cspId, @PathVariable("newValue") boolean newValue) {
+    CompoundServiceProvider csp = compoundServiceProviderDao.findById(cspId);
+    csp.setHideInProtectedShowroom(newValue);
+    compoundServiceProviderDao.saveOrUpdate(csp);
+    log.info("Updated CompoundServiceProvider(" + cspId + ") to be included in protected API:" + newValue);
+    return "ok";
+  }
+
 }

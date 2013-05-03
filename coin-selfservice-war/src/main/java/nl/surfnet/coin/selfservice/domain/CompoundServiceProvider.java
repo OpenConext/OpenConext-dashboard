@@ -93,6 +93,9 @@ public class CompoundServiceProvider extends DomainObject {
   @Column
   private boolean hideInPublicShowroom;
 
+  @Column
+  private boolean hideInProtectedShowroom;
+
   @Transient
   private AttributeScopeConstraints constraints;
 
@@ -611,4 +614,11 @@ public class CompoundServiceProvider extends DomainObject {
     }
   }
 
+  public void setHideInProtectedShowroom(boolean hideInProtectedShowroom) {
+    this.hideInProtectedShowroom = hideInProtectedShowroom;
+  }
+
+  public boolean isHideInProtectedShowroom() {
+    return hideInProtectedShowroom;
+  }
 }
