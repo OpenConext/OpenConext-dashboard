@@ -8,7 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import nl.surfnet.coin.selfservice.domain.ApiService;
+import nl.surfnet.coin.selfservice.api.model.Service;
 import nl.surfnet.coin.selfservice.domain.Article;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
@@ -60,16 +60,16 @@ public class ApiController {
 
   @RequestMapping(method = RequestMethod.GET,value = "/public/services.json")
   public @ResponseBody
-  List<ApiService> getPublicServices(@RequestParam(value = "lang", defaultValue = "en") String language,
+  List<Service> getPublicServices(@RequestParam(value = "lang", defaultValue = "en") String language,
       final HttpServletRequest request) {
     if ((Boolean) (request.getAttribute("lmngActive"))) {
       List<CompoundServiceProvider> csPs = compoundSPService.getAllPublicCSPs();
-      List<ApiService> result = buildApiServices(csPs, language);
+      List<Service> result = buildApiServices(csPs, language);
 
       // add public service from LMNG directly
       for (String guid : guids) {
         Article currentArticle = lmngService.getService(guid);
-        ApiService currentPS = new ApiService(currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(),
+        Service currentPS = new Service(currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(),
             null, true, lmngDeepLinkBaseUrl + guid);
         result.add(currentPS);
       }
@@ -93,7 +93,7 @@ public class ApiController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/protected/services.json")
   public @ResponseBody
-  List<ApiService> getProtectedServices(@RequestParam(value = "lang", defaultValue = "en") String language,
+  List<Service> getProtectedServices(@RequestParam(value = "lang", defaultValue = "en") String language,
       final HttpServletRequest request) {
     if ((Boolean) (request.getAttribute("lmngActive"))) {
       String ipdEntityId = getIdpEntityIdFromToken(request);
@@ -108,7 +108,7 @@ public class ApiController {
            scopedSsPs.add(csp);
          } 
       }
-      List<ApiService> result = buildApiServices(scopedSsPs , language);
+      List<Service> result = buildApiServices(scopedSsPs , language);
 
       sort(result);
       return result;
@@ -169,12 +169,12 @@ public class ApiController {
    *          language to use in the result
    * @return a list of api services
    */
-  private List<ApiService> buildApiServices(List<CompoundServiceProvider> services, String language) {
-    List<ApiService> result = new ArrayList<ApiService>();
+  private List<Service> buildApiServices(List<CompoundServiceProvider> services, String language) {
+    List<Service> result = new ArrayList<Service>();
     boolean isEn = language.equalsIgnoreCase("en");
     for (CompoundServiceProvider csP : services) {
       String crmLink = csP.isArticleAvailable() ? (lmngDeepLinkBaseUrl + csP.getLmngId()) : null;
-      result.add(new ApiService(isEn ? csP.getSp().getName(Language.EN) : csP.getSp().getName(Language.NL),
+      result.add(new Service(isEn ? csP.getSp().getName(Language.EN) : csP.getSp().getName(Language.NL),
           getServiceLogo(csP), csP.getServiceUrl(), csP.isArticleAvailable(), crmLink));
     }
     return result;

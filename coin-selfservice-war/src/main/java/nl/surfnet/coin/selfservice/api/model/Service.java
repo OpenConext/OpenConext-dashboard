@@ -1,10 +1,10 @@
-package nl.surfnet.coin.selfservice.domain;
+package nl.surfnet.coin.selfservice.api.model;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-public class ApiService implements Comparable<ApiService> {
+public class Service implements Comparable<Service> {
 
   private String name;
   @JsonProperty("logo_url_service")
@@ -16,7 +16,7 @@ public class ApiService implements Comparable<ApiService> {
   @JsonProperty("surfmarket_url")
   private String crmLink;
 
-  public ApiService(String name, String logoUrl, String websiteUrl, boolean hasCrmLink, String crmLink) {
+  public Service(String name, String logoUrl, String websiteUrl, boolean hasCrmLink, String crmLink) {
     this.name = name;
     this.logoUrl = logoUrl;
     this.websiteUrl = websiteUrl;
@@ -65,7 +65,7 @@ public class ApiService implements Comparable<ApiService> {
   }
 
   @Override
-  public int compareTo(ApiService other) {
+  public int compareTo(Service other) {
     if (other == null) {
       return 1;
     }
