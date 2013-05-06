@@ -3,12 +3,15 @@ package nl.surfnet.coin.selfservice.api.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+@JsonSerialize
 public class LicenseInformationResponse {
-  private final String idpEntityId;
+  private String idpEntityId;
   private List<LicenseInformation> licenses;
   
-  public LicenseInformationResponse(final String idpEntityId) {
-    this.idpEntityId = idpEntityId;
+  public LicenseInformationResponse() {
+    super();
   }
   
   public void addLicense(final LicenseInformation license) {
@@ -20,6 +23,10 @@ public class LicenseInformationResponse {
 
   public List<LicenseInformation> getLicenses() {
     return licenses;
+  }
+
+  public void setIdpEntityId(String idpEntityId) {
+    this.idpEntityId = idpEntityId;
   }
 
   public String getIdpEntityId() {

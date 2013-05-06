@@ -1,4 +1,4 @@
-package nl.surfnet.coin.selfservice.control.api;
+package nl.surfnet.coin.selfservice.api.control;
 
 import static java.util.Collections.sort;
 
