@@ -1,9 +1,10 @@
 package nl.surfnet.coin.selfservice.api.control;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import nl.surfnet.coin.selfservice.api.model.LicenseInformation;
-import nl.surfnet.coin.selfservice.api.model.LicenseInformationResponse;
 import nl.surfnet.coin.selfservice.api.model.LicenseStatus;
 import nl.surfnet.coin.selfservice.domain.License;
 
@@ -19,9 +20,8 @@ public class LicenseInformationController {
   
   @RequestMapping(method = RequestMethod.GET,value = "/licenses.json")
   public @ResponseBody
-  LicenseInformationResponse getLicenseInformation(@RequestParam final String idpEntityId) {
-    LicenseInformationResponse result = new LicenseInformationResponse();
-    result.setIdpEntityId(idpEntityId);
+  List<LicenseInformation> getLicenseInformation(@RequestParam final String idpEntityId) {
+    List<LicenseInformation> result = new ArrayList<LicenseInformation>();
     LicenseInformation licenseInformation = new LicenseInformation();
     License license = new License();
     license.setEndDate(new Date());
@@ -32,7 +32,7 @@ public class LicenseInformationController {
     licenseInformation.setLicense(license);
     licenseInformation.setSpEntityId("spEntityId");
     licenseInformation.setStatus(LicenseStatus.AVAILABLE);
-    result.addLicense(licenseInformation);
+    result.add(licenseInformation);
     return result;
   }
 }
