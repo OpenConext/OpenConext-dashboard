@@ -42,12 +42,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import nl.surfnet.coin.selfservice.domain.Field.Key;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
@@ -109,6 +104,15 @@ public class CompoundServiceProvider extends DomainObject {
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
   private Set<Screenshot> screenShotsImages = new HashSet<Screenshot>();
+
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinTable(name = "facet_value_compound_service_provider", joinColumns = {
+          @JoinColumn(name = "compound_service_provider_id", nullable = false, updatable = false) },
+          inverseJoinColumns = { @JoinColumn(name = "facet_value_id",
+                  nullable = false, updatable = false) })
+  @Sort(type = SortType.NATURAL)
+  private SortedSet<FacetValue> facetValues = new TreeSet<FacetValue>();
+
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Article article) {
     Assert.notNull(serviceProvider);
@@ -621,4 +625,21 @@ public class CompoundServiceProvider extends DomainObject {
   public boolean isHideInProtectedShowroom() {
     return hideInProtectedShowroom;
   }
+
+  public SortedSet<FacetValue> getFacetValues() {
+    return facetValues;
+  }
+
+  public void setFacetValues(SortedSet<FacetValue> facetValues) {
+    this.facetValues = facetValues;
+  }
+
+  public void addFacetValue(FacetValue facetValue) {
+    this.facetValues.add(facetValue);
+  }
+
+  public void removeFacetValue(FacetValue facetValue) {
+    this.facetValues.remove(facetValue);
+  }
+
 }

@@ -46,6 +46,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/shopadmin/*")
 public class SpLnmgListController extends BaseController {
+
   private static final Logger log = LoggerFactory.getLogger(SpLnmgListController.class);
 
   @Resource(name = "providerService")

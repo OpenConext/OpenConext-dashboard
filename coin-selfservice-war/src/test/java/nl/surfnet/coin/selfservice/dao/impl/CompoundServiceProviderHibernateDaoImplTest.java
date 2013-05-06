@@ -44,7 +44,6 @@ public class CompoundServiceProviderHibernateDaoImplTest {
   @Autowired
   private CompoundServiceProviderDao dao;
 
-  
   @Test
   public void test() {
     CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider("sp-id"), new Article());

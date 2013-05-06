@@ -40,6 +40,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -210,7 +211,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * session
    */
   private void addTokenToModelMap(HttpServletRequest request, ModelMap map) {
-    String token = RandomStringUtils.randomAlphanumeric(256);
+    String token = UUID.randomUUID().toString();
     map.addAttribute(TOKEN_CHECK, token);
     request.getSession().setAttribute(TOKEN_CHECK, token);
   }

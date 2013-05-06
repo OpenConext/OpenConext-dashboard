@@ -21,7 +21,7 @@ app.spServices = function () {
         .done(function (data) {
           var $mess = $("<span>" + app.message.i18n('success.save') + "</span>");
           $elm.before($mess);
-          $mess.fadeOut(750);
+          $mess.fadeOut(1750);
         })
         .fail(function (data) {
           var $mess = $("<span>" + app.message.i18n('failed.save') + "</span>");
