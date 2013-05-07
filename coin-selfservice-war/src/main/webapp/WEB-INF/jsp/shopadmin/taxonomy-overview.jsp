@@ -26,46 +26,75 @@
   </jsp:include>
 
 <div class="column-center content-holder">
-<section>
-
-  <h1>${title}</h1>
-
-  <div class="content">
+  <section>
+    <h1>${title}</h1>
+    <div id="taxonomy" class="content" data-token-check="${tokencheck}">
       <div class="accordion" id="fieldaccordion">
-      <c:forEach items="${facets}" var="facet">
-
-      <div class="accordion-group">
-        <div class="accordion-heading">
-
-          <c:set var="facetId" value="${facet.id}" />
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#fieldaccordion" href="#${facetId}-body">
-              <c:out value='${facet.name}'/>
-            </a>
-            <div class="actions">
-              <button type="button" id="addScope" class="btn btn-success"><i class="icon-plus icon-white"></i></button>
-              <button type="button" class="btn removeScope"><i class="icon-trash"></i></button>
+        <c:forEach items="${facets}" var="facet">
+          <div class="accordion-group" data-facet-id="${facet.id}">
+            <div class="accordion-heading">
+                <a class="accordion-toggle with-options" data-toggle="collapse" data-parent="#fieldaccordion" href="#${facet.id}-body">
+                  <c:out value='${facet.name}'/>
+                </a>
+                <div class="options">
+                  <button type="button" class="btn edit-facet"><i class="icon-edit icon-white"></i></button>
+                  <button type="button" class="btn remove-facet"><i class="icon-trash"></i></button>
+                </div>
             </div>
-        </div>
-        <div id="${facetId}-body" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <ul class="nav facet-values">
-              <c:forEach items="${facet.facetValues}" var="facetValue">
-                <li><c:out value='${facetValue.value}'/></li>
-              </c:forEach>
-            </ul>
+            <div id="${facet.id}-body" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <ul class="nav facet-values">
+                  <c:forEach items="${facet.facetValues}" var="facetValue">
+                    <li data-facet-value-id="${facetValue.id}"><span><c:out value='${facetValue.value}'/></span>
+                      <div class="options inner">
+                        <button type="button" class="btn edit-facet-value"><i class="icon-edit"></i></button>
+                        <button type="button" class="btn remove-facet-value"><i class="icon-trash"></i></button>
+                      </div>
+                    </li>
+                  </c:forEach>
+                </ul>
+                <a class="btn btn-primary btn-small" href="#" id="add_facet_value_${facet.id}">Add <i class="icon-plus icon-white"></i></a>
+              </div>
+            </div>
           </div>
-        </div>
+        </c:forEach>
       </div>
-      </c:forEach>
-
+      <a class="btn btn-primary-alt" href="#" id="add_facet">Add <i class="icon-plus icon-white"></i></a>
   </div>
-
-
+  </section>
 </div>
 
+<article id="new_facet_template" style="display: none;">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle with-options" data-toggle="collapse" data-parent="#fieldaccordion" href="" style="display: none;">
+      </a>
+      <input type="text" class="inline-edit" value="">
+      <div class="options">
+        <button type="button" class="btn edit-facet"><i class="icon-edit icon-white"></i></button>
+        <button type="button" class="btn remove-facet"><i class="icon-trash"></i></button>
+      </div>
+    </div>
+    <div id="" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav facet-values">
+        </ul>
+        <a class="btn btn-primary btn-small" href="#" id="add_facet_value-X">Add <i class="icon-plus icon-white"></i></a>
+      </div>
+    </div>
+  </div>
+</article>
 
-</section>
+<article id="new_facet_value_template" style="display: none;">
+  <li>
+    <span style="display: none;"></span>
+    <input type="text" class="inline-edit">
+    <div class="options inner">
+      <button type="button" class="btn edit-facet-value"><i class="icon-edit"></i></button>
+      <button type="button" class="btn remove-facet-value"><i class="icon-trash"></i></button>
+    </div>
+  </li>
+</article>
 
-</div>
 
 <jsp:include page="../foot.jsp"/>
