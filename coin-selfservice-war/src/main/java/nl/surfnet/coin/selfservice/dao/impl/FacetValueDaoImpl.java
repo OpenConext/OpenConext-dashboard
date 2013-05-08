@@ -18,12 +18,15 @@
  */
 package nl.surfnet.coin.selfservice.dao.impl;
 
-import nl.surfnet.coin.selfservice.dao.FacetDao;
 import nl.surfnet.coin.selfservice.dao.FacetValueDao;
-import nl.surfnet.coin.selfservice.domain.Facet;
 import nl.surfnet.coin.selfservice.domain.FacetValue;
 import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
+import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @Repository
 public class FacetValueDaoImpl extends GenericServiceHibernateImpl<FacetValue> implements FacetValueDao {
@@ -31,4 +34,28 @@ public class FacetValueDaoImpl extends GenericServiceHibernateImpl<FacetValue> i
   public FacetValueDaoImpl() {
     super(FacetValue.class);
   }
+
+  @Override
+  public void linkCompoundProviderServiceToFacetValue(final long compoundProviderServiceId, final long facetValueId) {
+    super.getSession().doWork(doExecute("INSERT INTO facet_value_compound_service_provider (compound_service_provider_id ,facet_value_id ) VALUES (?, ?)", compoundProviderServiceId, facetValueId));
+  }
+
+  @Override
+  public void unlinkCompoundProviderServiceToFacetValue(final long compoundProviderServiceId, final long facetValueId) {
+    super.getSession().doWork(doExecute("DELETE FROM facet_value_compound_service_provider WHERE compound_service_provider_id = ? AND facet_value_id = ?", compoundProviderServiceId, facetValueId));
+  }
+
+  private Work doExecute(final String sql, final long compoundProviderServiceId, final long facetValueId) {
+    return new Work() {
+      @Override
+      public void execute(Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setLong(1, compoundProviderServiceId);
+        ps.setLong(2, facetValueId);
+        ps.executeUpdate();
+      }
+    };
+  }
+
+
 }

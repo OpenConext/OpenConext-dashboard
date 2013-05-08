@@ -16,16 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package nl.surfnet.coin.selfservice.dao;
+package nl.surfnet.coin.selfservice.domain;
 
-import nl.surfnet.coin.selfservice.domain.FacetValue;
-import nl.surfnet.coin.shared.service.GenericService;
+public class IsLinkRequest {
 
+  private boolean value;
 
-public interface FacetValueDao extends GenericService<FacetValue> {
+  public boolean getValue() {
+    return value;
+  }
 
-  void linkCompoundProviderServiceToFacetValue(long compoundProviderServiceId, long facetValueId );
-
-  void unlinkCompoundProviderServiceToFacetValue(long compoundProviderServiceId, long facetValueId );
-
+  public void setValue(final boolean value) {
+    this.value = value;
+  }
 }

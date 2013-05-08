@@ -505,6 +505,7 @@
                 <jsSourceFile>modules/shop-admin.js</jsSourceFile>
                 <jsSourceFile>modules/sp-services.js</jsSourceFile>
                 <jsSourceFile>modules/taxonomy.js</jsSourceFile>
+                <jsSourceFile>modules/csp-taxonomy.js</jsSourceFile>
 
                 <jsSourceFile>tools/html5shiv.js</jsSourceFile>
                 <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>

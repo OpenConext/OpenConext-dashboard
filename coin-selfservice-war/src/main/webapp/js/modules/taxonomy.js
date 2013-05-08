@@ -24,7 +24,7 @@ app.taxonomy = function () {
       })
       .done(function (data) {
         inputField.remove();
-        link.html(inputField.val());
+        link.html("<i class='icon-arrow-down'></i>" + inputField.val());
         //if this a new facet then we need to bind the accordion
         if (facetId === undefined) {
           link.prop("href","#" + data + "-body");
@@ -150,7 +150,9 @@ app.taxonomy = function () {
       bindInput($input, $link);
       $heading.prepend($input);
       $input.focus();
-      $input.val($link.html().trim());
+      $clone = $link.clone();
+      $clone.find("i").remove();
+      $input.val($clone.html().trim());
     });
 
     $(".remove-facet").live("click",function () {
@@ -196,6 +198,10 @@ app.taxonomy = function () {
       bindInputForFacetValue($input, $html);
       $input.focus();
 
+    });
+
+    $("a.with-options").live("click",function() {
+      $(this).find("i").toggleClass("icon-arrow-down icon-arrow-up");
     });
   };
 

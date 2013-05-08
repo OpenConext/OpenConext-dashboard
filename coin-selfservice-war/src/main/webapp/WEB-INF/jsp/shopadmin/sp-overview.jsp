@@ -56,6 +56,10 @@
             <spring:message code="jsp.lmng_binding_overview.detail"/>
             <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.detail" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.detail.help" />"></i>
           </th>
+          <th>
+            <spring:message code="jsp.lmng_binding_overview.facets"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.facets" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.facets.help" />"></i>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -67,6 +71,9 @@
         <c:forEach items="${bindings}" var="binding" varStatus="status">
           <c:if test="${not empty binding.serviceProvider.id}">
             <spring:url value="compoundSp-detail.shtml" var="detailUrl" htmlEscape="true">
+              <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
+            </spring:url>
+            <spring:url value="service-taxonomy-configuration.shtml" var="facetsUrl" htmlEscape="true">
               <spring:param name="spEntityId" value="${binding.serviceProvider.id}" />
             </spring:url>
             <tr>
@@ -109,6 +116,9 @@
               </td>
               <td>
                 <a href="${detailUrl}"><spring:message code="jsp.lmng_binding_overview.data_decision" /></a>
+              </td>
+              <td>
+                <a href="${facetsUrl}"><spring:message code="jsp.lmng_binding_overview.facets" /></a>
               </td>
             </tr>
           </c:if>

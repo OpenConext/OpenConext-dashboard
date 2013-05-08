@@ -33,14 +33,7 @@ import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL
 import static org.springframework.util.StringUtils.hasText;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -105,7 +98,7 @@ public class CompoundServiceProvider extends DomainObject {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
   private Set<Screenshot> screenShotsImages = new HashSet<Screenshot>();
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "facet_value_compound_service_provider", joinColumns = {
           @JoinColumn(name = "compound_service_provider_id", nullable = false, updatable = false) },
           inverseJoinColumns = { @JoinColumn(name = "facet_value_id",

@@ -19,10 +19,7 @@ package nl.surfnet.coin.selfservice.control.shopadmin;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.FacetDao;
 import nl.surfnet.coin.selfservice.dao.FacetValueDao;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.Facet;
-import nl.surfnet.coin.selfservice.domain.FacetValue;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.*;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import org.springframework.stereotype.Controller;
@@ -45,6 +42,9 @@ public class TaxonomyController extends BaseController {
 
   @Resource
   private FacetValueDao facetValueDao;
+
+  @Resource
+  private CompoundSPService compoundSPService;
 
   @RequestMapping("taxonomy-overview.shtml")
   public String getAllFacets(ModelMap model) {
@@ -104,8 +104,30 @@ public class TaxonomyController extends BaseController {
   @ResponseBody
   String deleteFacetValue(@PathVariable("facetValueId") Long facetValueId) {
     FacetValue prev = facetValueDao.findById(facetValueId);
-    facetValueDao.saveOrUpdate(prev);
+    facetValueDao.delete(prev);
     return "ok";
   }
+
+  @RequestMapping(value = "/service-taxonomy-configuration", method = RequestMethod.GET)
+  public String facetConfiguraton(@RequestParam("spEntityId") String entityId, ModelMap modelMap) {
+    modelMap.addAttribute("facets", facetDao.findAll());
+    CompoundServiceProvider compoundSp = compoundSPService.getCSPById(entityId);
+    modelMap.addAttribute("compoundSp", compoundSp);
+    return "shopadmin/service-taxonomy-configuration";
+  }
+
+  @RequestMapping(value = "/facet-value-csp/{facetValueId}/{compoundServiceProviderId}", method = RequestMethod.POST)
+  public
+  @ResponseBody
+  String linkFacetValueCompoundServiceProvider(@PathVariable("facetValueId") Long facetValueId, @PathVariable("compoundServiceProviderId") Long compoundServiceProviderId, @ModelAttribute IsLinkRequest isLinkRequest) {
+    if (isLinkRequest.getValue()) {
+      facetValueDao.linkCompoundProviderServiceToFacetValue(compoundServiceProviderId, facetValueId);
+    } else {
+      facetValueDao.unlinkCompoundProviderServiceToFacetValue(compoundServiceProviderId, facetValueId);
+    }
+    return "ok";
+  }
+
+
 
 }

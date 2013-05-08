@@ -33,6 +33,11 @@ import static org.openqa.selenium.By.xpath;
 
 public class TaxonomyTestSelenium extends SeleniumSupport {
 
+  /*
+   TODO improve and add tests
+   http://sauceio.com/index.php/2010/01/selenium-totw-css-selectors-in-selenium-demystified/
+   */
+
   @Test
   public void createFacetWithValue() throws InterruptedException {
     WebDriver driver = getWebDriver();

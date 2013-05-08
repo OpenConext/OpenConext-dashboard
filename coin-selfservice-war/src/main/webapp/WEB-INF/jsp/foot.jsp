@@ -76,6 +76,7 @@
     <script src="<c:url value="/js/modules/shop-admin.js"/>"></script>
     <script src="<c:url value="/js/modules/sp-services.js"/>"></script>
     <script src="<c:url value="/js/modules/taxonomy.js"/>"></script>
+    <script src="<c:url value="/js/modules/csp-taxonomy.js"/>"></script>
     <script src="<c:url value="/js/tools/html5shiv.js"/>"></script>
     <script src="<c:url value="/js/tools/ios-orientationchange-fix.js"/>"></script>
     <script src="<c:url value="/js/tools/sizewatcher.js"/>"></script>

@@ -34,7 +34,7 @@
           <div class="accordion-group" data-facet-id="${facet.id}">
             <div class="accordion-heading">
                 <a class="accordion-toggle with-options" data-toggle="collapse" data-parent="#fieldaccordion" href="#${facet.id}-body">
-                  <c:out value='${facet.name}'/>
+                  <i class='icon-arrow-down'></i><c:out value='${facet.name}'/>
                 </a>
                 <div class="options">
                   <button type="button" class="btn edit-facet"><i class="icon-edit icon-white"></i></button>
@@ -53,13 +53,13 @@
                     </li>
                   </c:forEach>
                 </ul>
-                <a class="btn btn-primary btn-small" href="#" id="add_facet_value_${facet.id}">Add <i class="icon-plus icon-white"></i></a>
+                <a class="btn btn-primary btn-modest" href="#" id="add_facet_value_${facet.id}">Add <i class="icon-plus icon-white"></i></a>
               </div>
             </div>
           </div>
         </c:forEach>
       </div>
-      <a class="btn btn-primary-alt" href="#" id="add_facet">Add <i class="icon-plus icon-white"></i></a>
+      <a class="btn btn-primary-alt btn-small" href="#" id="add_facet">Add <i class="icon-plus icon-white"></i></a>
   </div>
   </section>
 </div>
@@ -79,7 +79,7 @@
       <div class="accordion-inner">
         <ul class="nav facet-values">
         </ul>
-        <a class="btn btn-primary btn-small" href="#" id="add_facet_value-X">Add <i class="icon-plus icon-white"></i></a>
+        <a class="btn btn-primary btn-modest" href="#" id="add_facet_value-X">Add <i class="icon-plus icon-white"></i></a>
       </div>
     </div>
   </div>
