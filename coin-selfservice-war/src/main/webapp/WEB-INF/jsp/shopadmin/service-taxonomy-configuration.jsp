@@ -46,7 +46,7 @@
               <c:if test="${not empty compoundSp.facetValues}">
                 <c:forEach items="${compoundSp.facetValues}" var="facetValue">
                   <li data-facet-value-id="${facetValue.id}">
-                    <a id="facet_value_pointer_${facetValue.id}" href="#"><i class="icon-arrow-right"></i><c:out value='${facetValue.value}'/></a>
+                    <a id="facet_value_pointer_${facetValue.id}" href="#" class="local-link"><c:out value='${facetValue.value}'/></a>
                   </li>
                 </c:forEach>
               </c:if>

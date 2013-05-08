@@ -100,6 +100,14 @@ public class Facet extends DomainObject implements Comparable<Facet> {
     this.parent = parent;
   }
 
+  public boolean isUsedFacetValues() {
+    for (FacetValue facetValue : facetValues) {
+      if (facetValue.getCount() > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   @Override
   public int compareTo(Facet that) {

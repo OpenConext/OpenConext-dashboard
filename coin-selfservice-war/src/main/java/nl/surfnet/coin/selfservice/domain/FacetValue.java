@@ -36,6 +36,9 @@ public class FacetValue extends DomainObject implements Comparable<FacetValue> {
   @Column(unique = true)
   private String value;
 
+  @Transient
+  private int count;
+
   public String getValue() {
     return value;
   }
@@ -50,6 +53,14 @@ public class FacetValue extends DomainObject implements Comparable<FacetValue> {
 
   public void setFacet(Facet facet) {
     this.facet = facet;
+  }
+
+  public int getCount() {
+    return count;
+  }
+
+  public void setCount(int count) {
+    this.count = count;
   }
 
   @Override

@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.dao.FacetDao;
+import nl.surfnet.coin.selfservice.domain.*;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
@@ -52,6 +51,9 @@ public class HomeController extends BaseController {
   @Resource
   private CompoundSPService compoundSPService;
 
+  @Resource
+  private FacetDao facetDao;
+
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
     return personAttributeLabelService.getAttributeLabelMap();
@@ -68,6 +70,10 @@ public class HomeController extends BaseController {
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
+    model.put("showFacetSearch", true);
+    List<Facet> facets = facetDao.findAll();
+    facets = this.filterFacetValues(services, facets);
+    model.put("facets",facets);
 
     return new ModelAndView("app-overview", model);
   }
@@ -79,11 +85,24 @@ public class HomeController extends BaseController {
     model.put("mainAttributes", new PersonMainAttributes(user.getAttributeMap()));
     return new ModelAndView("user", model);
   }
-  
 
   @RequestMapping(value = "/closeNotificationPopup.shtml")
   public void closeNotificationPopup(HttpServletRequest request) {
     notificationPopupClosed(request);
   }
 
+  private List<Facet> filterFacetValues(List<CompoundServiceProvider> services, List<Facet> facets) {
+    for (Facet facet : facets) {
+      for (FacetValue facetValue : facet.getFacetValues()) {
+        int count = 0;
+        for (CompoundServiceProvider service : services) {
+          if (service.getFacetValues().contains(facetValue)) {
+            ++count;
+          }
+        }
+        facetValue.setCount(count);
+      }
+    }
+    return facets;
+  }
 }

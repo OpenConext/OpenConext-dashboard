@@ -42,7 +42,7 @@ app.taxonomy = function () {
       var $facetValues = $("#selected_facet_values");
       if (link) {
         var html = "<li data-facet-value-id='" + facetValueId + "'>";
-        html += "<a id='facet_value_pointer_' + facetValueId + ' href='#'><i class='icon-arrow-right'></i>" + $elem.find("span").html().trim() + "</a></li>";
+        html += "<a id='facet_value_pointer_' + facetValueId + ' href='#' class='local-link'>" + $elem.find("span").html().trim() + "</a></li>";
         linkUnlink(facetValueId, true, function(){
           $facetValues.append(html);
         });

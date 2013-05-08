@@ -28,8 +28,7 @@
     <spring:url value="app-overview.shtml" var="cardUrl" htmlEscape="true">
       <spring:param name="view" value="card" />
     </spring:url>
-    <a href="${isCard ? '#' : cardUrl}" class="${isCard ? 'disabled' : ''}"><spring:message code="jsp.app_overview.card_view"/></a>
-    <i class="icon-eye-open"></i>
+    <a href="${isCard ? '#' : cardUrl}" class="${isCard ? 'disabled' : ''} card-view"><spring:message code="jsp.app_overview.card_view"/></a>
     <spring:url value="app-overview.shtml" var="listUrl" htmlEscape="true">
       <spring:param name="view" value="list" />
     </spring:url>
