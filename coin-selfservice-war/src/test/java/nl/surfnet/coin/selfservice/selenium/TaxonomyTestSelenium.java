@@ -40,7 +40,7 @@ public class TaxonomyTestSelenium extends SeleniumSupport {
 
   @Test
   public void createFacetWithValue() throws InterruptedException {
-    WebDriver driver = getWebDriver();
+    WebDriver driver = getRestartedWebDriver();
 
     driver.get(getSelfserviceBaseUrl()); // get homepage
     loginAtMujinaAs(OpenConextOAuthClientMock.Users.ADMIN_DISTRIBUTIE_CHANNEL); // login
