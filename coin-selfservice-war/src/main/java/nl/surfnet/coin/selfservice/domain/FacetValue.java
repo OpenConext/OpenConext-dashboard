@@ -63,6 +63,16 @@ public class FacetValue extends DomainObject implements Comparable<FacetValue> {
     this.count = count;
   }
 
+  /*
+   * The value of a FacetValue may contain spaces, but if we want to search in (any) clients, then we
+   * want to be able to have all the FacetValues of a Service separated by spaces therefore this method
+   * can be used to space-separate the different FacetValues
+   */
+  public String getSearchValue() {
+    String val = getValue();
+    return val != null ? val.replaceAll(" ", "_").toLowerCase() : val;
+  }
+
   @Override
   public int compareTo(FacetValue that) {
     return new CompareToBuilder()

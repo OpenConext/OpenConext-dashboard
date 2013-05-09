@@ -20,14 +20,15 @@
 <%--@elvariable id="facet" type="nl.surfnet.coin.selfservice.domain.Facet"--%>
 
 
-  <spring:message var="title" code="jsp.taxonomy.title"/>
-  <jsp:include page="../head.jsp">
-    <jsp:param name="title" value="${title}"/>
-  </jsp:include>
+<spring:message var="title" code="jsp.taxonomy.title"/>
+<jsp:include page="../head.jsp">
+  <jsp:param name="title" value="${title}"/>
+</jsp:include>
 
 <div class="column-center content-holder">
   <section>
-    <h1>${title}</h1>
+    <h1>${title}<i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.taxonomy_configuration.title.help" />"></i></h1>
+
     <div id="taxonomy" class="content" data-token-check="${tokencheck}">
       <div class="accordion" id="fieldaccordion">
         <c:forEach items="${facets}" var="facet">
@@ -53,13 +54,13 @@
                     </li>
                   </c:forEach>
                 </ul>
-                <a class="btn btn-primary btn-modest" href="#" id="add_facet_value_${facet.id}">Add <i class="icon-plus icon-white"></i></a>
+                <a class="btn btn-primary btn-modest" href="#" id="add_facet_value_${facet.id}"> Add Facet Value <i class="icon-plus icon-white"></i></a>
               </div>
             </div>
           </div>
         </c:forEach>
       </div>
-      <a class="btn btn-primary-alt btn-small" href="#" id="add_facet">Add <i class="icon-plus icon-white"></i></a>
+      <a class="btn btn-primary-alt btn-modest" href="#" id="add_facet"><span> Add Facet </span><i class="icon-plus icon-white"></i></a>
   </div>
   </section>
 </div>
@@ -79,7 +80,7 @@
       <div class="accordion-inner">
         <ul class="nav facet-values">
         </ul>
-        <a class="btn btn-primary btn-modest" href="#" id="add_facet_value-X">Add <i class="icon-plus icon-white"></i></a>
+        <a class="btn btn-primary btn-modest" href="#" id="add_facet_value-X"><span> Add Facet Value </span><i class="icon-plus icon-white"></i></a>
       </div>
     </div>
   </div>

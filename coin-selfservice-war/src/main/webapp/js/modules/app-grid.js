@@ -1,9 +1,10 @@
 var app = app || {};
 
 app.appgrid = function () {
-  var gridElm, keywords;
+  var gridElm, keywords, facetValues;
 
   keywords = [];
+  facetValues = [];
 
   var init = function () {
     gridElm = $('.app-grid');
@@ -35,7 +36,6 @@ app.appgrid = function () {
     });
   };
 
-
   var setSearch = function () {
     var placeholderText = app.message.i18n('appgrid.search.placeholder'),
       filters = '';
@@ -61,7 +61,8 @@ app.appgrid = function () {
     var searchElm = $('.app-grid-search'),
       filterLinks = $('.filter-grid a'),
       timer = null,
-      activeFilters = [];
+      activeFilters = [],
+      facetLinks = $(".facet-search a");
 
 
     function checkFocusKeyUp(e) {
@@ -93,7 +94,7 @@ app.appgrid = function () {
       }
 
       gridElm.tickback('filter', {
-        duration:time
+        duration: time
       });
     }
 
@@ -117,6 +118,20 @@ app.appgrid = function () {
       doSearch(250);
     }
 
+    function doFacetSearch(e) {
+      e.preventDefault();
+
+      var $elm = $(this);
+      $elm.toggleClass("active inactive");
+      var facetValue = $elm.data("facet-search-term");
+      var index = $.inArray(facetValue, facetValues);
+      if (index > -1) {
+        facetValues.splice(index, 1);
+      } else {
+        facetValues.push(facetValue);
+      }
+      doSearch(250);
+    }
 
     function mustDisplay(elm) {
       var display = true,
@@ -143,10 +158,19 @@ app.appgrid = function () {
 
         display = false;
 
+        //TODO use a data element to filter on and not the class name
         if (elm.hasClass(filter)) {
           display = true;
         }
       });
+
+      if (display) {
+        $.each(facetValues, function (i, facetValue) {
+          if (!elm.hasClass(facetValue)) {
+            display = false;
+          }
+        });
+      }
 
       return !display;
     }
@@ -193,27 +217,28 @@ app.appgrid = function () {
 
     searchElm.bind('keyup change', setTimer);
     filterLinks.on('click', doFilter);
+    facetLinks.live("click", doFacetSearch);
+
     $(window).keyup(checkFocusKeyUp);
 
-
     gridElm.tickback({
-      activeItemsFirst:true,
-      duration:250,
-      filterCallback:mustDisplay,
-      itemInactiveClass:'grid-item-hidden',
-      itemInactiveStyles:{
-        opacity:0.35
+      activeItemsFirst: true,
+      duration: 250,
+      filterCallback: mustDisplay,
+      itemInactiveClass: 'grid-item-hidden',
+      itemInactiveStyles: {
+        opacity: 0.35
       },
-      itemActiveStyles:{
-        opacity:1
+      itemActiveStyles: {
+        opacity: 1
       },
-      sortCallback:howToSort
+      sortCallback: howToSort
     });
 
   };
 
   return {
-    init:init
+    init: init
   };
 }();
 

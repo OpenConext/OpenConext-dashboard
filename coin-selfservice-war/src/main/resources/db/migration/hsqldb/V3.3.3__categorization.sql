@@ -1,6 +1,6 @@
 -- DELETE FROM facet WHERE id > 0;
 -- DELETE FROM facet_value WHERE id > 0;
---
+
 -- INSERT INTO facet (id, facet_parent_id, name) VALUES (1, null, 'Category');
 -- INSERT INTO facet (id, facet_parent_id, name) VALUES (2, null, 'Target Group');
 -- INSERT INTO facet (id, facet_parent_id, name) VALUES (3, null, 'Data location');

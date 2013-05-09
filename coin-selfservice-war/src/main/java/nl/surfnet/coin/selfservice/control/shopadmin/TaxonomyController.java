@@ -20,18 +20,13 @@ import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.FacetDao;
 import nl.surfnet.coin.selfservice.dao.FacetValueDao;
 import nl.surfnet.coin.selfservice.domain.*;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/shopadmin/*")
@@ -75,6 +70,7 @@ public class TaxonomyController extends BaseController {
   @ResponseBody
   String deleteFacet(@PathVariable("facetId") Long facetId) {
     Facet prev = facetDao.findById(facetId);
+    facetValueDao.unlinkAllCspFromFacet(facetId);
     facetDao.delete(prev);
     return "ok";
   }
@@ -104,6 +100,7 @@ public class TaxonomyController extends BaseController {
   @ResponseBody
   String deleteFacetValue(@PathVariable("facetValueId") Long facetValueId) {
     FacetValue prev = facetValueDao.findById(facetValueId);
+    facetValueDao.unlinkAllCspFromFacetValue(facetValueId);
     facetValueDao.delete(prev);
     return "ok";
   }
@@ -121,13 +118,23 @@ public class TaxonomyController extends BaseController {
   @ResponseBody
   String linkFacetValueCompoundServiceProvider(@PathVariable("facetValueId") Long facetValueId, @PathVariable("compoundServiceProviderId") Long compoundServiceProviderId, @ModelAttribute IsLinkRequest isLinkRequest) {
     if (isLinkRequest.getValue()) {
-      facetValueDao.linkCompoundProviderServiceToFacetValue(compoundServiceProviderId, facetValueId);
+      facetValueDao.linkCspToFacetValue(compoundServiceProviderId, facetValueId);
     } else {
-      facetValueDao.unlinkCompoundProviderServiceToFacetValue(compoundServiceProviderId, facetValueId);
+      facetValueDao.unlinkCspFromFacetValue(compoundServiceProviderId, facetValueId);
     }
     return "ok";
   }
 
+  @RequestMapping(value = "/facet-value-used/{facetValueId}", method = RequestMethod.GET)
+  public @ResponseBody
+  List<InUseFacetValue> facetValueUsed(@PathVariable("facetValueId") Long facetValueId) {
+    return facetValueDao.findInUseFacetValues(facetValueId);
+  }
 
+  @RequestMapping(value = "/facet-used/{facetId}", method = RequestMethod.GET)
+  public @ResponseBody
+  List<InUseFacetValue> facetUsed(@PathVariable("facetId") Long facetId) {
+    return facetValueDao.findInUseFacet(facetId);
+  }
 
 }

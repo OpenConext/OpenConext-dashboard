@@ -156,12 +156,10 @@
       </ul>
     </nav>
 
-    <nav class="disclaimer">
-      Work In Progress
-    </nav>
 
   <nav class="facet-search">
-      <c:if test="${showFacetSearch}">
+    <c:if test="${showFacetSearch}">
+      <nav class="disclaimer">Work In Progress</nav>
       <ul class="facets">
         <c:forEach items="${facets}" var="facet">
           <c:if test="${facet.usedFacetValues}">
@@ -169,7 +167,7 @@
               <ul class="facets-values">
                 <c:forEach items="${facet.facetValues}" var="facetValue">
                   <c:if test="${facetValue.count gt 0}">
-                    <li><a data-facet-search-term="${facetValue.value}" href="#">${facetValue.value} (${facetValue.count})</a></li>
+                    <li><a class="facet-value inactive" data-facet-search-term="${facetValue.searchValue}" href="#">${facetValue.value} (${facetValue.count})</a></li>
                   </c:if>
                 </c:forEach>
               </ul>

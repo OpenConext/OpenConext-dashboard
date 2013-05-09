@@ -16,27 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package nl.surfnet.coin.selfservice.dao;
+package nl.surfnet.coin.selfservice.domain;
 
-import nl.surfnet.coin.selfservice.domain.FacetValue;
-import nl.surfnet.coin.selfservice.domain.InUseFacetValue;
-import nl.surfnet.coin.shared.service.GenericService;
+public class InUseFacetValue {
 
-import java.util.List;
+  private String compoundServiceProviderName;
+  private String facetValueValue;
 
+  public InUseFacetValue(String compoundServiceProviderName, String facetValueValue ) {
+    this.compoundServiceProviderName = compoundServiceProviderName;
+    this.facetValueValue = facetValueValue;
+  }
 
-public interface FacetValueDao extends GenericService<FacetValue> {
+  public String getFacetValueValue() {
+    return facetValueValue;
+  }
 
-  void linkCspToFacetValue(long compoundProviderServiceId, long facetValueId);
+  public void setFacetValueValue(String facetValueValue) {
+    this.facetValueValue = facetValueValue;
+  }
 
-  void unlinkCspFromFacetValue(long compoundProviderServiceId, long facetValueId);
+  public String getCompoundServiceProviderName() {
+    return compoundServiceProviderName;
+  }
 
-  void unlinkAllCspFromFacetValue(long facetValueId);
-
-  void unlinkAllCspFromFacet(long facetId);
-
-  List<InUseFacetValue> findInUseFacetValues(long facetValueId);
-
-  List<InUseFacetValue> findInUseFacet(long facetId);
-
+  public void setCompoundServiceProviderName(String compoundServiceProviderName) {
+    this.compoundServiceProviderName = compoundServiceProviderName;
+  }
 }

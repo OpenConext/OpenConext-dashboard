@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 
+import nl.surfnet.coin.selfservice.dao.FacetDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.NotificationService;
@@ -57,6 +58,9 @@ public class HomeControllerTest {
 
   @Mock
   private CompoundSPService compoundSPService;
+
+  @Mock
+  private FacetDao facetDao;
 
   @Before
   public void setUp() throws Exception {

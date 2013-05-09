@@ -36,7 +36,7 @@ public class Facet extends DomainObject implements Comparable<Facet> {
   @Column(unique = true)
   private String name;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "facet")
+  @OneToMany(cascade = { CascadeType.ALL },  fetch = FetchType.EAGER, mappedBy = "facet")
   @Sort(type = SortType.NATURAL)
   private SortedSet<FacetValue> facetValues = new TreeSet<FacetValue>();
 

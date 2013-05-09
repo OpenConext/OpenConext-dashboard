@@ -635,4 +635,14 @@ public class CompoundServiceProvider extends DomainObject {
     this.facetValues.remove(facetValue);
   }
 
+  public String getSearchFacetValues() {
+    Collection<String> values = new ArrayList<String>();
+    if (!CollectionUtils.isEmpty(facetValues)) {
+      for (FacetValue facetValue : facetValues) {
+        values.add(facetValue.getSearchValue());
+      }
+    }
+    return StringUtils.join(values, " ");
+  }
+
 }

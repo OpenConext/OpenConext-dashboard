@@ -32,6 +32,8 @@ app.taxonomy = function () {
           group.data("facet-id",data);
           var $accordionBody = group.find(".accordion-body");
           $accordionBody.prop("id",data + "-body" );
+          $(".accordion-body.in").collapse('toggle');
+          $accordionBody.collapse('show');
         }
         link.fadeToggle();
       })
@@ -135,6 +137,17 @@ app.taxonomy = function () {
     });
   }
 
+  function getDeleteWarning(taxonomyType, usages) {
+    var msg = "Are you sure you want to delete this " + taxonomyType + "?</br></br>";
+    if (usages.length > 0) {
+      msg += "The following FacetValue(s) - Service links will also be deleted:</br></br>";
+      $.each(usages, function (i, usage) {
+        msg += usage.facetValueValue + " - " + usage.compoundServiceProviderName + "</br>";
+      });
+    }
+    return msg;
+  }
+
   var init = function () {
 
     if ($("#taxonomy").length === 0) {
@@ -158,9 +171,23 @@ app.taxonomy = function () {
     $(".remove-facet").live("click",function () {
       var $facetDiv = $(this).parents(".accordion-group");
       var facetId = $facetDiv.data("facet-id");
-      if (facetId !== undefined) {
-        deleteFacet($facetDiv, facetId);
+      if (facetId === undefined) {
+        return false;
       }
+      var facetUsages = $.ajax({
+          url : 'facet-used/' + facetId + '.shtml',
+          dataType : 'json'
+        });
+      $.when(facetUsages).done(function(usages){
+        var msg = getDeleteWarning("Facet", usages);
+        bootbox.confirm(msg, function (result) {
+          if (result) {
+            deleteFacet($facetDiv, facetId);
+          }
+        });
+
+      });
+
     });
 
     $("#add_facet").click(function(){
@@ -186,9 +213,22 @@ app.taxonomy = function () {
     $(".remove-facet-value").live("click",function () {
       var $li = $(this).parents("li");
       var facetValueId = $li.data("facet-value-id");
-      if (facetValueId !== undefined) {
-        deleteFacetValue($li, facetValueId);
+      if (facetValueId === undefined) {
+        return;
       }
+      var facetUsages = $.ajax({
+        url : 'facet-value-used/' + facetValueId + '.shtml',
+        dataType : 'json'
+      });
+      $.when(facetUsages).done(function(usages){
+        var msg = getDeleteWarning("FacetValue", usages);
+        bootbox.confirm(msg, function (result) {
+          if (result) {
+            deleteFacetValue($li, facetValueId);
+          }
+        });
+
+      });
     });
 
     $("a[id^='add_facet_value']").live("click",function() {

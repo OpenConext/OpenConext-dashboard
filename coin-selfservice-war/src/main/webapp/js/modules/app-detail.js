@@ -42,9 +42,9 @@ app.appDetail = function() {
       html.modal('hide');
       // wait for css transition to end before removing the modal.
       $(html).on('hidden', function () {
-      html.remove();
-      loadingModal.modal('hide');
-      loadingModal.remove();
+        html.remove();
+        loadingModal.modal('hide');
+        loadingModal.remove();
       });
     });
 

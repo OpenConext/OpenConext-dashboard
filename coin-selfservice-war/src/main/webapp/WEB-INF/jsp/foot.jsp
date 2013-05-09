@@ -51,6 +51,7 @@
     <script src="<c:url value="/js/bootstrap/bootstrap-tooltip.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-popover.js"/>"></script>
     <script src="<c:url value="/js/bootstrap/bootstrap-transition.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap/bootbox.min.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.1.9.4.min.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.datatables.columnfilter.1.4.7.js"/>"></script>
     <script src="<c:url value="/js/jquery/jquery.ui.widget.js"/>"></script>
