@@ -49,7 +49,7 @@
               </c:otherwise>
             </c:choose>
   
-            <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.idp" /></c:set>
+            <c:set var="searchPlaceholder"><spring:message code="jsp.search.placeholder.sp" /></c:set>
                 <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable" id="${tableIdentifier}" data-search-placeholder="${searchPlaceholder}">
                   <thead>
                     <tr>
