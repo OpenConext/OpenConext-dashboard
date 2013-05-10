@@ -158,7 +158,7 @@
 
 
   <nav class="facet-search">
-    <c:if test="${showFacetSearch}">
+    <c:if test="${showFacetSearch && facetsUsed}">
       <nav class="disclaimer">Work In Progress</nav>
       <ul class="facets">
         <c:forEach items="${facets}" var="facet">

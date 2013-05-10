@@ -1,17 +1,30 @@
-.disclaimer
-  top: 460px
-  left: -10px
-  padding: 5px
-  position: absolute
-  color: white
-  background-color: #4fb3cf
-  text-align: center
-  transform: rotate(-35deg)
-  -ms-transform: rotate(-35deg)
-  -webkit-transform: rotate(-35deg)
-
 .facet-search
-  margin: 80px 0 0 0
+  margin: 75px 0 0 0
+
+  &.sticky
+    left: 50px
+    position: fixed
+    top: 325px
+    width: 160px
+    z-index: 9999
+
+    .disclaimer
+      top: -20px
+      left: -60px
+
+  .disclaimer
+    top: 460px
+    left: -10px
+    padding: 5px
+    position: absolute
+    color: white
+    background-color: #4fb3cf
+    text-align: center
+    transform: rotate(-35deg)
+    -ms-transform: rotate(-35deg)
+    -webkit-transform: rotate(-35deg)
+
+
 
 ul.facets
   list-style: none

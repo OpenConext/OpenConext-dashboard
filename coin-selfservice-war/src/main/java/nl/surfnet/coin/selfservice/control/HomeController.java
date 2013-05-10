@@ -71,11 +71,20 @@ public class HomeController extends BaseController {
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
     model.put("showFacetSearch", true);
-    List<Facet> facets = facetDao.findAll();
-    facets = this.filterFacetValues(services, facets);
-    model.put("facets",facets);
+    List<Facet> facets = this.filterFacetValues(services, facetDao.findAll());
+    model.put("facets", facets);
+    model.put("facetsUsed", this.isFacetsUsed(facets) );
 
     return new ModelAndView("app-overview", model);
+  }
+
+  private boolean isFacetsUsed(List<Facet> facets) {
+    for (Facet facet : facets) {
+      if (facet.isUsedFacetValues()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @RequestMapping("/user.shtml")
