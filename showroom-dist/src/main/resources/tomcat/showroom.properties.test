@@ -134,6 +134,8 @@ admin.distribution.channel.sabRole=
 adminService.tokenVerificationUrl=https://apis.acc.showroom.surfconext.nl/v1/tokeninfo
 adminService.resourceServerKey=??
 adminService.resourceServerSecret=??
+adminService.cacheEnabled=false
+adminService.allowCorsRequests=true
 
 ####################################################################
 ##

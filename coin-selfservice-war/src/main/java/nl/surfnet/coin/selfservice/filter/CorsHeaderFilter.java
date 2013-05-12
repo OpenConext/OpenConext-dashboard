@@ -14,7 +14,6 @@ public class CorsHeaderFilter implements Filter {
 
   @Override
   public void destroy() {
-    // no destroy needed
   }
 
   @Override
@@ -27,7 +26,6 @@ public class CorsHeaderFilter implements Filter {
 
   @Override
   public void init(FilterConfig arg0) throws ServletException {
-    // no init needed
   }
 
 }

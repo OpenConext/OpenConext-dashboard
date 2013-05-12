@@ -20,7 +20,8 @@ app.taxonomy = function () {
     $.ajax(url,
       {
         type: type,
-        data: { name: facetName }
+        contentType: "application/json",
+        data: JSON.stringify({ name: facetName })
       })
       .done(function (data) {
         inputField.remove();
@@ -61,7 +62,8 @@ app.taxonomy = function () {
     $.ajax(url,
       {
         type: type,
-        data: { value: facetValue }
+        contentType: "application/json",
+        data: JSON.stringify({ value: facetValue })
       })
       .done(function (data) {
         inputField.remove();

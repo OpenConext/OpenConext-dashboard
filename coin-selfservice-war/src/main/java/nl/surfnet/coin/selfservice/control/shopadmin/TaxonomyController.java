@@ -26,7 +26,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/shopadmin/*")
@@ -50,7 +52,7 @@ public class TaxonomyController extends BaseController {
   @RequestMapping(value = "/facet/{facetId}", method = RequestMethod.PUT)
   public
   @ResponseBody
-  String updateFacet(@PathVariable("facetId") Long facetId, @ModelAttribute Facet facet) {
+  String updateFacet(HttpServletRequest request, @RequestBody Facet facet, @PathVariable("facetId") Long facetId) {
     Facet prev = facetDao.findById(facetId);
     prev.setName(facet.getName());
     facetDao.saveOrUpdate(prev);
@@ -60,7 +62,7 @@ public class TaxonomyController extends BaseController {
   @RequestMapping(value = "/facet", method = RequestMethod.POST)
   public
   @ResponseBody
-  Long createFacet(@ModelAttribute Facet facet) {
+  Long createFacet(@RequestBody Facet facet) {
     facetDao.saveOrUpdate(facet);
     return facet.getId();
   }
@@ -78,7 +80,7 @@ public class TaxonomyController extends BaseController {
   @RequestMapping(value = "/facet-value/{facetValueId}", method = RequestMethod.PUT)
   public
   @ResponseBody
-  String updateFacetValue(@PathVariable("facetValueId") Long facetValueId, @ModelAttribute FacetValue facetValue) {
+  String updateFacetValue(@PathVariable("facetValueId") Long facetValueId, @RequestBody FacetValue facetValue) {
     FacetValue prev = facetValueDao.findById(facetValueId);
     prev.setValue(facetValue.getValue());
     facetValueDao.saveOrUpdate(prev);
@@ -88,7 +90,7 @@ public class TaxonomyController extends BaseController {
   @RequestMapping(value = "{facetId}/facet-value", method = RequestMethod.POST)
   public
   @ResponseBody
-  Long createFacetValue(@PathVariable("facetId") Long facetId, @ModelAttribute FacetValue facetValue) {
+  Long createFacetValue(@PathVariable("facetId") Long facetId, @RequestBody FacetValue facetValue) {
     Facet facet = facetDao.findById(facetId);
     facetValue.setFacet(facet);
     facetValueDao.saveOrUpdate(facetValue);
