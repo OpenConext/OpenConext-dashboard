@@ -20,9 +20,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import nl.surfnet.coin.selfservice.api.model.LicenseInformation;
 import nl.surfnet.coin.selfservice.api.model.LicenseStatus;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.service.IdentityProviderService;
+import nl.surfnet.coin.selfservice.service.LmngService;
+import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +40,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/api/license/*")
 public class LicenseInformationController {
+  
+  @Resource
+  private LmngService lmngService;
 
+  @Resource
+  private IdentityProviderService idpService;
+  
+  @Resource
+  private CompoundSPService compoundSPService;
+  
   @RequestMapping(method = RequestMethod.GET,value = "/licenses.json")
   public @ResponseBody
   List<LicenseInformation> getLicenseInformation(@RequestParam final String idpEntityId) {
+    IdentityProvider identityProvider = idpService.getIdentityProvider(idpEntityId);
+    List<CompoundServiceProvider> csPs = compoundSPService.getCSPsByIdp(identityProvider);
+    
+    
     List<LicenseInformation> result = new ArrayList<LicenseInformation>();
     LicenseInformation licenseInformation = new LicenseInformation();
     License license = new License();

@@ -149,6 +149,12 @@ public class LmngServiceMock implements LmngService {
   }
 
   @Override
+  public List<License> getLicensesForIdpAndSps(IdentityProvider identityProvider, List<String> articleIdentifiers,
+      Date validOn) throws LmngException {
+    return Arrays.asList(new License[]{license});
+  }
+
+  @Override
   public List<Article> getArticlesForServiceProviders(List<String> serviceProviderEntityIds) {
     return articles;
   }
