@@ -385,7 +385,7 @@
         border-right: none
 
 
-@media (max-width: 1100px)
+@media (max-width: 767px)
   .app-grid-wrapper
     .column-left
       float: none
@@ -426,22 +426,23 @@
       margin-left: 0
       padding: 25px
 
-  .filter-grid
-    +box-sizing(border-box)
-    margin: 10px 0
-    position: static
-    width: 100%
-
-    input.app-grid-search
+    input.app-grid-search-2
       +border-radius(5em)
       +box-sizing(border-box)
       margin: 0 0 10px
       width: 100%
 
-    &.filters-available input.app-grid-search
-      +border-radius(0.75em)
-      +border-bottom-radius(0)
-      margin: 0
+    .search-grid-app-holder
+      margin: 40px 0px 0px 16px
+      padding: 0px 10px 0px 0px !important
+
+
+
+  .filter-grid
+    +box-sizing(border-box)
+    margin: 10px 0
+    position: static
+    width: 100%
 
     div
       display: table

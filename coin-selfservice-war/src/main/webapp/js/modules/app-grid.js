@@ -137,10 +137,9 @@ app.appgrid = function () {
          */
         var notHidden = $("ul.app-grid li:not(.grid-item-hidden)");
         $("ul.facets-values li a").each(function(i){
-          $elm = $(this);
+          var $elm = $(this);
           var count = 0;
           notHidden.each(function(j){
-            var classes = $(this).prop("class");
             if ($(this).hasClass($elm.data("facet-search-term"))) {
               count++;
             }
