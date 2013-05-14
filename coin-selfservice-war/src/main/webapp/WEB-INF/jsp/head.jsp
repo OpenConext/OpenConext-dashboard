@@ -44,15 +44,15 @@
   <script src="<c:url value="/js/tools/html5shiv.js"/>"></script>
   <![endif]-->
 </head>
+
 <body>
   <script>document.body.className = 'js-loading'</script>
   
   <spring:url value="/app-overview.shtml" var="homeUrl" htmlEscape="true" />
-
+<div id="swappable-menus">
   <header class="header">
     <a class="logo" href="${homeUrl}"> <img src="<c:url value="/images/surf-conext-logo.png"/>" alt="Surf Conext">
     </a>
-    
 
     <nav class="primary-navigation">
       <ul>
@@ -130,50 +130,17 @@
         </li>
       </ul>
     </nav>
-
   </header>
-
-  <c:choose>
-    <c:when test="${not empty param.wrapperAdditionalCssClass}">
-      <div class="wrapper ${param.wrapperAdditionalCssClass}">
-    </c:when>
-    <c:otherwise>
-      <div class="wrapper has-left">
-    </c:otherwise>
-  </c:choose>
-
-  <div class="column-left menu-holder">
-    <nav class="secondary-menu">
-      <ul>
-        <c:forEach items="${menu.menuItems}" var="menuItem">
-          <c:set var="index" value="${fn:indexOf(menuItem.label,'.title')}" />
-          <c:set var="classname" value="${fn:substring(menuItem.label, 4, index)}" />
-          <li class="${classname}<c:if test="${menuItem.selected}"> active</c:if>">
-            <spring:url value="${menuItem.url}" htmlEscape="true" var="url" /> 
-              <a href="${url}"><spring:message code="${menuItem.label}" /></a>
-          </li>
-        </c:forEach>
-      </ul>
-    </nav>
-
-
-  <nav class="facet-search">
-    <c:if test="${showFacetSearch && facetsUsed}">
-      <nav class="disclaimer">Work In Progress</nav>
-      <ul class="facets">
-        <c:forEach items="${facets}" var="facet">
-          <c:if test="${facet.usedFacetValues}">
-            <li>${facet.name}</li>
-              <ul class="facets-values">
-                <c:forEach items="${facet.facetValues}" var="facetValue">
-                  <c:if test="${facetValue.count gt 0}">
-                    <li><a class="facet-value inactive" data-facet-search-term="${facetValue.searchValue}" href="#">${facetValue.value} (${facetValue.count})</a></li>
-                  </c:if>
-                </c:forEach>
-              </ul>
-            </c:if>
-          </c:forEach>
-        </ul>
-      </c:if>
-    </nav>
-  </div>
+  <nav class="secondary-menu">
+    <ul>
+      <c:forEach items="${menu.menuItems}" var="menuItem">
+        <c:set var="index" value="${fn:indexOf(menuItem.label,'.title')}" />
+        <c:set var="classname" value="${fn:substring(menuItem.label, 4, index)}" />
+        <li class="${classname}<c:if test="${menuItem.selected}"> active</c:if>">
+          <spring:url value="${menuItem.url}" htmlEscape="true" var="url" />
+            <a href="${url}"><spring:message code="${menuItem.label}" /></a>
+        </li>
+      </c:forEach>
+    </ul>
+  </nav>
+<div>

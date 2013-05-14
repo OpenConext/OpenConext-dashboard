@@ -21,7 +21,7 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-    <div class="column-center content-holder">
+  <div class="column-center content-holder no-right-left">
         <section class="data-table-holder">
       <c:if test="${empty actionList}">
         <h1><spring:message code="jsp.requests-overview.title"/></h1>

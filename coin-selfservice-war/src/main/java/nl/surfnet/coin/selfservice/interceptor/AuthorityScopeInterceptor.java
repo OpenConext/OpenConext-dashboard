@@ -123,7 +123,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
     map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-    map.put(FILTER_APP_GRID_ALLOWED, isAdmin);
+    map.put(FILTER_APP_GRID_ALLOWED, false); //isAdmin);
     map.put(IS_ADMIN_USER, isAdmin);
     map.put(IS_GOD, isDistributionChannelGod(authorities));
     map.put(RAW_ARP_ATTRIBUTES_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));

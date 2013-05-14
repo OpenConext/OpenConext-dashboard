@@ -53,12 +53,12 @@ app.appgrid = function () {
         '</div>';
     }
 
-    gridElm.parents('section').prepend('<nav class="filter-grid' + (gridElm.hasClass('filters-available') ? ' filters-available' : '') + '">' +
-      '<input type="search" class="app-grid-search" placeholder="' + placeholderText + '">' +
-      filters +
-      '</nav>');
-
-    var searchElm = $('.app-grid-search'),
+//    gridElm.parents('section').prepend('<nav class="filter-grid' + (gridElm.hasClass('filters-available') ? ' filters-available' : '') + '">' +
+//      '<input type="search" class="app-grid-search" placeholder="' + placeholderText + '">' +
+//      filters +
+//      '</nav>');
+//
+    var searchElm = $('.app-grid-search-2'),
       filterLinks = $('.filter-grid a'),
       timer = null,
       activeFilters = [],
@@ -80,7 +80,7 @@ app.appgrid = function () {
     }
 
 
-    function doSearch(time) {
+    function doSearch(time, afterAnimationCallback) {
       var isSearch = searchElm.val().length !== 0;
 
       if (time === undefined) {
@@ -94,7 +94,8 @@ app.appgrid = function () {
       }
 
       gridElm.tickback('filter', {
-        duration: time
+        duration: time ,
+        afterAnimationCallback: afterAnimationCallback
       });
     }
 
@@ -130,7 +131,23 @@ app.appgrid = function () {
       } else {
         facetValues.push(facetValue);
       }
-      doSearch(250);
+      doSearch(250, function(){
+        /*
+         * We need to change the count label of each facet value to display the number that is 'left'
+         */
+        var notHidden = $("ul.app-grid li:not(.grid-item-hidden)");
+        $("ul.facets-values li a").each(function(i){
+          $elm = $(this);
+          var count = 0;
+          notHidden.each(function(j){
+            var classes = $(this).prop("class");
+            if ($(this).hasClass($elm.data("facet-search-term"))) {
+              count++;
+            }
+          });
+          $elm.find("span").html("(" + count + ")");
+        }) ;
+      });
     }
 
     function mustDisplay(elm) {

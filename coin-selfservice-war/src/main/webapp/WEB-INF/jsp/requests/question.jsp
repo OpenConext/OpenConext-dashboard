@@ -24,7 +24,7 @@
   <jsp:param name="title" value="${spname}"/>
 </jsp:include>
 
-  <div class="column-center content-holder">
+  <div class="column-center content-holder no-right-left">
 
     <section>
 

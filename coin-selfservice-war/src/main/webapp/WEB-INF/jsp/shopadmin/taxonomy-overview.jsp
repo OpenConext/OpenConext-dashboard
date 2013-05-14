@@ -25,8 +25,9 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-<div class="column-center content-holder">
-  <section>
+<div class="column-center content-holder no-right-left">
+
+  <section class="taxonomy-overview">
     <h1>${title}<i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.taxonomy_configuration.title.help" />"></i></h1>
 
     <div id="taxonomy" class="content" data-token-check="${tokencheck}">
@@ -54,13 +55,13 @@
                     </li>
                   </c:forEach>
                 </ul>
-                <a class="btn btn-primary btn-modest" href="#" id="add_facet_value_${facet.id}"> Add Facet Value <i class="icon-plus icon-white"></i></a>
+                <a class="btn btn-primary btn-modest" href="#" id="add_facet_value_${facet.id}"> Add category value <i class="icon-plus icon-white"></i></a>
               </div>
             </div>
           </div>
         </c:forEach>
       </div>
-      <a class="btn btn-primary-alt btn-modest" href="#" id="add_facet"><span> Add Facet </span><i class="icon-plus icon-white"></i></a>
+      <a class="btn btn-primary-alt btn-modest" href="#" id="add_facet"><span> Add main category </span><i class="icon-plus icon-white"></i></a>
   </div>
   </section>
 </div>
@@ -80,7 +81,7 @@
       <div class="accordion-inner">
         <ul class="nav facet-values">
         </ul>
-        <a class="btn btn-primary btn-modest" href="#" id="add_facet_value-X"><span> Add Facet Value </span><i class="icon-plus icon-white"></i></a>
+        <a class="btn btn-primary btn-modest" href="#" id="add_facet_value-X"><span> Add category value </span><i class="icon-plus icon-white"></i></a>
       </div>
     </div>
   </div>

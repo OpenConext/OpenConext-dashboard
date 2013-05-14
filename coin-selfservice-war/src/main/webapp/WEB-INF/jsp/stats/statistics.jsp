@@ -22,7 +22,8 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-<div class="column-center content-holder">
+<div class="column-center content-holder no-right-left">
+
   <h1>${title}</h1>
   
     <!-- Shorter then otherwise -->

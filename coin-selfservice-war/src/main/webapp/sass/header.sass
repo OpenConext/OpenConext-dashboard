@@ -1,22 +1,14 @@
 .header
   background: #FFF url(../images/bg-header.png) no-repeat 50% 100%
   +box-sizing(border-box)
-  clear: both
-  float: left
+  display:  inline-block
   margin-bottom: 0
   min-height: 0
-  padding: 19px 30px 19px 50px
+  padding: 19px 30px 5px 50px
   width: 100%
 
   body.js-loading &
     max-height: 74px
-
-  a
-    height: auto
-    left: auto
-    position: static
-    top: auto
-    width: auto
 
   .logo
     float: left
@@ -27,10 +19,10 @@
       +border-radius(5px)
       outline: 1px dashed #CCC
 
-  nav
+  .primary-navigation
     float: right
-    visibility: visible
-    width: auto
+
+  nav
 
     body.js-loading &
       visibility: hidden
@@ -55,12 +47,19 @@
         border-left: none
 
     a
+      height: auto
+      left: auto
+      position: static
+      top: auto
+      width: auto
+      text-decoration: none
+
       color: #626262
       +single-transition(color, 0.2s)
 
       &:hover,
       &:focus
-        color: #333
+        color: #52B2D2
         +single-transition(color, 0.2s)
 
     .inbox
@@ -259,26 +258,3 @@
         span
           padding: 0.3em
 
-@media (max-width: 767px)
-  .header
-    float: left
-    margin: 0
-    padding: 19px 5px 19px 25px
-    width: 100%
-
-    nav
-      width: 100%
-
-      li
-        border-left: none
-        float: none
-        height: auto
-        padding: 5px 0
-
-@media (max-width: 950px)
-  .no-sticky-app-grid-wrapper-menu
-    .header
-      float: left
-      margin: 0
-      padding: 19px 5px 19px 25px
-      width: 100%

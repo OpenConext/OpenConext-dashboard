@@ -25,8 +25,8 @@
 </jsp:include>
 
 <sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
-  
-  <div class="column-center content-holder">
+
+  <div class="column-center content-holder no-right-left">
 
     <section>
 

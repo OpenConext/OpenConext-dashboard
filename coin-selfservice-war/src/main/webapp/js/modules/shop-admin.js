@@ -15,11 +15,10 @@ app.shopAdmin = function () {
       'trigger': 'hover',
       'placement': 'top'});
 
-
   };
 
   return {
-    init:init
+    init: init
   };
 }();
 

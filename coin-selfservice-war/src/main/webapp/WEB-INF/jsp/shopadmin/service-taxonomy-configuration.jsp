@@ -27,16 +27,11 @@
 <jsp:include page="../head.jsp">
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
+<div class="wrapper has-left">
 
-<div class="column-center content-holder">
-  <section>
+  <section class="taxonomy-sp-configuration">
 
-    <h1>${title}
-      <i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.compoundsp_taxonomy_configuration.title.help" />"></i>
-    </h1>
-
-    <div id="taxonomy_sp_configuration" class="content" data-token-check="${tokencheck}" data-csp-id="${compoundSp.id}">
-      <div class="pull-left">
+    <div id="taxonomy_sp_configuration" class="content column-left" data-token-check="${tokencheck}" data-csp-id="${compoundSp.id}">
         <h3>The selected labels</h3>
         <section id="selected_facets">
           <c:if test="${empty compoundSp.facetValues}">
@@ -52,10 +47,14 @@
               </c:if>
             </ul>
         </section>
-      </div>
+    </div>
 
-      <div class="accordion pull-right" id="fieldaccordion">
-        <h3>The showroom taxonomy with all available categorized labels</h3>
+    <div class="accordion column-center" id="fieldaccordion">
+      <h1>${title}
+        <i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.compoundsp_taxonomy_configuration.title.help" />"></i>
+      </h1>
+
+      <h3>The showroom taxonomy with all available categorized labels</h3>
         <c:forEach items="${facets}" var="facet">
           <div class="accordion-group" data-facet-id="${facet.id}">
             <div class="accordion-heading">
@@ -86,7 +85,7 @@
           </div>
         </c:forEach>
       </div>
-  </div>
   </section>
 </div>
+
 <jsp:include page="../foot.jsp"/>

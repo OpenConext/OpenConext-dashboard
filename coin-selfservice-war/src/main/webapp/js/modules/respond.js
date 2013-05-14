@@ -42,7 +42,7 @@ app.respond = function() {
         });
 
 
-        var columnSizeWatcher = new SizeWatcher('.has-left-right');
+        var columnSizeWatcher = new SizeWatcher('.has-right, .has-left');
 
         columnSizeWatcher.breakpoint(0, 950, {
             className: 'narrow',

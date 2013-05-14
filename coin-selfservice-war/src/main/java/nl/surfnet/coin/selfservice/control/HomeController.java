@@ -70,12 +70,22 @@ public class HomeController extends BaseController {
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
+    addLicensedConnectedCounts(model, services);
     model.put("showFacetSearch", true);
     List<Facet> facets = this.filterFacetValues(services, facetDao.findAll());
     model.put("facets", facets);
     model.put("facetsUsed", this.isFacetsUsed(facets) );
 
     return new ModelAndView("app-overview", model);
+  }
+
+  private void addLicensedConnectedCounts(Map<String, Object> model, List<CompoundServiceProvider> services) {
+    int connectedCount = getConnectedCount(services);
+    model.put("connectedCount", connectedCount);
+    model.put("notConnectedCount", services.size() - connectedCount);
+    int licensedCount = getLicensedCount(services);
+    model.put("licensedCount", licensedCount);
+    model.put("notLicensedCount", services.size() - licensedCount);
   }
 
   private boolean isFacetsUsed(List<Facet> facets) {
@@ -85,6 +95,26 @@ public class HomeController extends BaseController {
       }
     }
     return false;
+  }
+
+  private int getLicensedCount(List<CompoundServiceProvider> services) {
+    int result = 0;
+    for (CompoundServiceProvider csp : services) {
+      if (csp.isArticleLicenseAvailable()) {
+        ++result;
+      }
+    }
+    return result;
+  }
+
+  private int getConnectedCount(List<CompoundServiceProvider> services) {
+    int result = 0;
+    for (CompoundServiceProvider csp : services) {
+      if (csp.getSp().isLinked()) {
+        ++result;
+      }
+    }
+    return result;
   }
 
   @RequestMapping("/user.shtml")

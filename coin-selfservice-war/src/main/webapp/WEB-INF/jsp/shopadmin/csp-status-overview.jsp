@@ -20,9 +20,9 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-    <div class="column-center content-holder">
-        <section class="data-table-holder">
-          <h1><spring:message code="jsp.cspstatus.title"/></h1>
+<div class="column-center content-holder no-right-left">
+       <section class="data-table-holder">
+         <h1><spring:message code="jsp.cspstatus.title"/></h1>
           <p><spring:message code="jsp.cspstatus.info"/></p>
           
           <div class="data-table-wrapper">

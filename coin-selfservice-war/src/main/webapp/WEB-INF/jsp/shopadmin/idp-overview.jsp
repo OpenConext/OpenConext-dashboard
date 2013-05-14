@@ -23,12 +23,9 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-<div class="column-center content-holder">
+<div class="column-center content-holder no-right-left">
 
   <section class="data-table-holder">
-
-
-
 
   <a class="more-down-less-up" href="#"><h1>${title}
     <i class="icon-arrow-down in-active"></i>

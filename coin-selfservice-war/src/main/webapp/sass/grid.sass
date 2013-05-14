@@ -1,11 +1,7 @@
-.has-left-right,
+.no-right-left
+  margin: 40px 25px 25px 25px
+
 .has-left
-  overflow: hidden
-  width: 100%
-
-  > div
-    +box-sizing(border-box)
-
   .column-left
     display: inline
     float: left
@@ -13,16 +9,29 @@
     width: 260px
 
   .column-center
-    border: 1px solid $subtle_gray
-    border-width: 0 1px
     margin: 0 300px 0 260px
-    padding: 43px 50px 50px
 
+.has-right
   .column-right
     display: inline
     float: right
     padding-top: 50px
     width: 250px
+
+  .column-center
+    margin: 0 300px 0 0px
+
+.has-left, .has-right
+  overflow: hidden
+  width: 100%
+
+  > div
+    +box-sizing(border-box)
+
+  .column-center
+    border: 1px solid $subtle_gray
+    border-width: 0 1px
+    padding: 43px 50px 50px
 
   &.narrow
     .column-center
@@ -77,8 +86,7 @@
 
 
 @media (max-width: 767px)
-  .has-left,
-  .has-left-right
+  .has-left, .has-right
     .column-left
       float: none
       overflow: hidden

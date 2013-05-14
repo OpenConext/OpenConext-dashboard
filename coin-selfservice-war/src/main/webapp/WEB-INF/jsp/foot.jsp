@@ -18,8 +18,6 @@
   limitations under the License.
   --%>
 
-</div>
-
 <footer class="footer">
   <div class="content-some-dense">
     <a href="http://www.surfnet.nl" target="_blank">

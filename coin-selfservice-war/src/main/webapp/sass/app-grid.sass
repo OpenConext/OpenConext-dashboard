@@ -1,5 +1,55 @@
 @import "compass/typography/text/ellipsis"
 
+.app-grid-wrapper
+
+  h1.hidden-phone
+    display: inline
+    margin: 0
+
+  nav.column-left
+    padding: 0
+
+  .search-grid-app-holder
+    margin: 40px 0px 0px 16px
+
+  .facet-search
+    display: inline-block
+    float: left
+    padding: 0
+    margin: 20px 0px 10px 40px
+    width: 220px
+
+    .facet-name
+      font-weight: bold
+
+  input.app-grid-search-2
+    background: #FFF url(../images/bg-icon-grid-search.png) no-repeat 96% 50%
+    +border-radius(5em)
+    +box-sizing(border-box)
+    height: 32px
+    line-height: 18px
+    padding: 6px 16px
+    width: 230px
+
+    &:focus
+      outline: none
+
+    &::-webkit-input-placeholder
+      color: #CACACA
+
+    &:-moz-placeholder
+      color: #CACACA
+
+    &:-ms-input-placeholder
+      color: #CACACA
+
+    .condensed &
+      right: 25px
+      top: 25px
+
+    &.filters-available input.app-grid-search
+      +border-left-radius(0)
+
 .view-option
   display: block
   float: right
@@ -31,6 +81,7 @@
 
 .app-grid-holder
   position: relative
+  padding: 32px 50px 50px
 
 .hidden-app-grid
   display: none
@@ -359,10 +410,10 @@
           margin: 0
 
           &:before
-            display: none
+            display: inline
 
           ul
-            display: none
+            display: inline
 
         a
           display: block
@@ -418,10 +469,9 @@
       display: block
       font-size: 0.85em
 
-
   .no-sticky-app-grid-wrapper-menu .hidden-phone
     display: none
-    
+
   .app-grid-holder
     margin: -1px 0 !important
     padding: 0 !important
@@ -459,6 +509,12 @@
     li.list-view
       p.desc
         display: none
+
+  .app-grid-wrapper
+    .facet-search
+      margin-left: auto
+      margin-right: auto
+      text-align: center
 
 @media (max-width: 440px)
 

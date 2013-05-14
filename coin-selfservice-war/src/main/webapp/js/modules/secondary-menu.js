@@ -8,9 +8,9 @@ app.secondarymenu = function () {
     if (!menuElm.length) {
       return;
     }
-    bindEvents();
-    foldInactive();
-    setSticky();
+    //bindEvents();
+    //foldInactive();
+    //setSticky();
   };
 
 
