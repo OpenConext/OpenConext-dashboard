@@ -22,8 +22,6 @@
   .primary-navigation
     float: right
 
-  nav
-
     body.js-loading &
       visibility: hidden
 
@@ -77,6 +75,7 @@
 
     .role-switch
       position: relative
+      width: 160px
 
       .user-dropdown
         background: #FFF
@@ -223,15 +222,20 @@
         top: -7px
         width: 0
 
+      .primary-navigation
+        float: none
+
       li
         border-bottom: 1px solid $subtle_gray
         height: 26px
         margin: 0 15px
         padding: 15px 0
+        float: none
 
       .role-switch
         height: auto
-        width: auto
+        margin: 0
+        width: 160px
 
       .user-dropdown
         background: transparent !important
