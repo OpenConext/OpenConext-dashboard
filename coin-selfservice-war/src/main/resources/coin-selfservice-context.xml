@@ -224,6 +224,8 @@
         <value>nl.surfnet.coin.selfservice.domain.Screenshot</value>
         <value>nl.surfnet.coin.selfservice.domain.Facet</value>
         <value>nl.surfnet.coin.selfservice.domain.FacetValue</value>
+        <value>nl.surfnet.coin.selfservice.domain.MultilingualString</value>
+        <value>nl.surfnet.coin.selfservice.domain.LocalizedString</value>
       </list>
     </property>
     <property name="namingStrategy">

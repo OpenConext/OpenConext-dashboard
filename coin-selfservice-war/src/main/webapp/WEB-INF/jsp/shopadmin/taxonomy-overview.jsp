@@ -61,8 +61,11 @@
           </div>
         </c:forEach>
       </div>
-      <a class="btn btn-primary-alt btn-modest" href="#" id="add_facet"><span> Add main category </span><i class="icon-plus icon-white"></i></a>
+      <a class="btn btn-primary btn-modest" href="#" id="add_facet"><span> Add main category </span><i class="icon-plus icon-white"></i></a>
   </div>
+  <nav class="nav-divider">
+    <a class="btn btn-primary-alt btn-modest" href="taxonomy-translations.shtml" ><span> Go to the taxonomy translations </span><i class="icon-angle-right icon-white"></i></a>
+  </nav>
   </section>
 </div>
 

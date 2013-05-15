@@ -152,7 +152,7 @@ app.taxonomy = function () {
 
   var init = function () {
 
-    if ($("#taxonomy").length === 0) {
+    if ($("#taxonomy").length === 0 && $("#taxonomy_translations").length === 0) {
       return;
     }
 
@@ -240,6 +240,13 @@ app.taxonomy = function () {
       bindInputForFacetValue($input, $html);
       $input.focus();
 
+    });
+
+    $(".edit-facet-translation").live("click", function(){
+      $elm = $(this);
+      var $input = $elm.parents('div.options').find('input');
+      $input.prop('disabled',false);
+      $input.focus();
     });
 
     $("a.with-options").live("click",function() {

@@ -19,6 +19,8 @@ package nl.surfnet.coin.selfservice.control.shopadmin;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.dao.FacetDao;
 import nl.surfnet.coin.selfservice.dao.FacetValueDao;
+import nl.surfnet.coin.selfservice.dao.LocalizedStringDao;
+import nl.surfnet.coin.selfservice.dao.MultilingualStringDao;
 import nl.surfnet.coin.selfservice.domain.*;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -41,12 +44,24 @@ public class TaxonomyController extends BaseController {
   private FacetValueDao facetValueDao;
 
   @Resource
+  private MultilingualStringDao multilingualStringDao;
+
+  @Resource
+  private LocalizedStringDao localizedStringDao;
+
+  @Resource
   private CompoundSPService compoundSPService;
 
   @RequestMapping("taxonomy-overview.shtml")
   public String getAllFacets(ModelMap model) {
     model.addAttribute("facets", facetDao.findAll());
     return "shopadmin/taxonomy-overview";
+  }
+
+  @RequestMapping("taxonomy-translations.shtml")
+  public String getFacetTranslations(ModelMap model) {
+    model.addAttribute("facets", facetDao.findAll());
+    return "shopadmin/taxonomy-translations";
   }
 
   @RequestMapping(value = "/facet/{facetId}", method = RequestMethod.PUT)
@@ -62,7 +77,9 @@ public class TaxonomyController extends BaseController {
   @RequestMapping(value = "/facet", method = RequestMethod.POST)
   public
   @ResponseBody
-  Long createFacet(@RequestBody Facet facet) {
+  Long createFacet(@RequestBody Facet newFacet) {
+    Facet facet = new Facet();
+    facet.setName(newFacet.getName());
     facetDao.saveOrUpdate(facet);
     return facet.getId();
   }
@@ -90,8 +107,10 @@ public class TaxonomyController extends BaseController {
   @RequestMapping(value = "{facetId}/facet-value", method = RequestMethod.POST)
   public
   @ResponseBody
-  Long createFacetValue(@PathVariable("facetId") Long facetId, @RequestBody FacetValue facetValue) {
+  Long createFacetValue(@PathVariable("facetId") Long facetId, @RequestBody FacetValue newFacetValue) {
     Facet facet = facetDao.findById(facetId);
+    FacetValue facetValue = new FacetValue();
+    facetValue.setValue(newFacetValue.getValue());
     facetValue.setFacet(facet);
     facetValueDao.saveOrUpdate(facetValue);
     return facetValue.getId();
@@ -137,6 +156,25 @@ public class TaxonomyController extends BaseController {
   public @ResponseBody
   List<InUseFacetValue> facetUsed(@PathVariable("facetId") Long facetId) {
     return facetValueDao.findInUseFacet(facetId);
+  }
+
+
+  @RequestMapping(value = "/taxonomy-translation/{multilingualStringId}", method = RequestMethod.POST)
+  public
+  @ResponseBody
+  Long addFacetValueTranslation(@PathVariable("multilingualStringId") Long multilingualStringId, @RequestBody LocalizedString localizedString) {
+    MultilingualString multilingualString = multilingualStringDao.findById(multilingualStringId);
+    multilingualString.addValue(new Locale(localizedString.getLocale()), localizedString.getValue());
+    return multilingualStringDao.saveOrUpdate(multilingualString);
+  }
+
+  @RequestMapping(value = "/taxonomy-translation/{localizedStringId}", method = RequestMethod.PUT)
+  public
+  @ResponseBody
+  String updateFacetValueTranslation(@PathVariable("localizedStringId") Long localizedStringId, @RequestBody LocalizedString update) {
+    LocalizedString localizedString = localizedStringDao.findById(localizedStringId);
+    localizedString.setValue(update.getValue());
+    return "ok" ;
   }
 
 }

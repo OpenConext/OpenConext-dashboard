@@ -131,16 +131,20 @@
       </ul>
     </nav>
   </header>
-  <nav class="secondary-menu">
-    <ul>
-      <c:forEach items="${menu.menuItems}" var="menuItem">
-        <c:set var="index" value="${fn:indexOf(menuItem.label,'.title')}" />
-        <c:set var="classname" value="${fn:substring(menuItem.label, 4, index)}" />
-        <li class="${classname}<c:if test="${menuItem.selected}"> active</c:if>">
-          <spring:url value="${menuItem.url}" htmlEscape="true" var="url" />
-            <a href="${url}"><spring:message code="${menuItem.label}" /></a>
-        </li>
-      </c:forEach>
-    </ul>
-  </nav>
+  <c:if test="${not empty menu.menuItems}">
+    <nav class="secondary-menu">
+      <ul>
+        <c:forEach items="${menu.menuItems}" var="menuItem">
+          <c:set var="index" value="${fn:indexOf(menuItem.label,'.title')}" />
+          <c:set var="classname" value="${fn:substring(menuItem.label, 4, index)}" />
+          <li class="${classname}<c:if test="${menuItem.selected}"> active</c:if>">
+            <spring:url value="${menuItem.url}" htmlEscape="true" var="url" />
+              <a href="${url}"><spring:message code="${menuItem.label}" /></a>
+          </li>
+        </c:forEach>
+      </ul>
+    </nav>
+  </c:if>
+
+  </div>
 <div>

@@ -25,12 +25,22 @@ import nl.surfnet.coin.selfservice.domain.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,7 +50,7 @@ import static org.junit.Assert.assertEquals;
         "classpath:coin-shared-context.xml"})
 @TransactionConfiguration(transactionManager = "selfServiceTransactionManager", defaultRollback = true)
 @Transactional
-public class FacetValueDaoImplTest {
+public class FacetValueDaoImplTest implements LocaleResolver {
 
   @Autowired
   private FacetValueDao facetValueDao;
@@ -50,6 +60,8 @@ public class FacetValueDaoImplTest {
 
   @Autowired
   private CompoundServiceProviderDao compoundServiceProviderDao;
+
+  private Locale currentLocale ;
 
   @Test
   public void testRetrieveFacetOnCompoundServicerProvider() {
@@ -137,12 +149,33 @@ public class FacetValueDaoImplTest {
   }
 
   @Test
-  public void testCreateFacet() {
-    createFacetWithValue();
+  public void testLocale() {
+    Facet facet = createFacetWithValue();
 
-    List<FacetValue> facetValues = facetValueDao.findAll();
-    assertEquals(2, facetValues.size()) ;
+    facet.addName(new Locale("nl"), "nederlandse_naam");
+    facetDao.saveOrUpdate(facet);
+    /*
+     * Set up the Locale in the Request (as Spring does)
+     */
+    HttpServletRequest request = new MockHttpServletRequest();
+    request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, this);
+    ServletRequestAttributes sra = new ServletRequestAttributes(request);
+    RequestContextHolder.setRequestAttributes(sra);
+    this.setLocale(null, null, new Locale("nl"));
 
+    assertEquals(facet.getName(), "nederlandse_naam");
+
+  }
+
+  @Test
+  public void testLocalePropagation() {
+    Facet facet = new Facet();
+    facet.setName("category");
+
+    facetDao.saveOrUpdate(facet);
+
+    List<Facet> facets = facetDao.findAll();
+    assertEquals(1, facets.size());
   }
 
   private Facet createFacetWithValue() {
@@ -169,4 +202,13 @@ public class FacetValueDaoImplTest {
   }
 
 
+  @Override
+  public Locale resolveLocale(HttpServletRequest request) {
+    return currentLocale;
+  }
+
+  @Override
+  public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+    this.currentLocale = locale;
+  }
 }

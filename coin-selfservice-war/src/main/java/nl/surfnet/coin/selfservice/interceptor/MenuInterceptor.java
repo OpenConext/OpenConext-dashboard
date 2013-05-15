@@ -98,6 +98,10 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
           menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         }
         break;
+      case ROLE_USER:
+        //no need for menu
+        menu.getMenuItems().clear();
+        break;
       default:
         break;
       }

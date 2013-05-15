@@ -32,11 +32,13 @@
             <li><a class="facet-value inactive" data-facet-search-term="licensed" href="#"><spring:message code="jsp.app_overview.license"/> <span>(${licensedCount})</span></a></li>
             <li><a class="facet-value inactive" data-facet-search-term="not-licensed" href="#"><spring:message code="jsp.app_overview.no_license"/> <span>(${notLicensedCount})</span></a></li>
           </ul>
-        <li class="facet-name"><spring:message code="jsp.app_overview.connection_info"/></li>
-          <ul class="facets-values">
-            <li><a class="facet-value inactive" data-facet-search-term="connected" href="#"><spring:message code="jsp.app_overview.connection"/> <span>(${connectedCount})</span></a></li>
-            <li><a class="facet-value inactive" data-facet-search-term="not-connected" href="#"><spring:message code="jsp.app_overview.no_connection"/> <span>(${notConnectedCount})</span></a></li>
-          </ul>
+        <c:if test="${facetConnectionVisible}">
+          <li class="facet-name"><spring:message code="jsp.app_overview.connection_info"/></li>
+            <ul class="facets-values">
+              <li><a class="facet-value inactive" data-facet-search-term="connected" href="#"><spring:message code="jsp.app_overview.connection"/> <span>(${connectedCount})</span></a></li>
+              <li><a class="facet-value inactive" data-facet-search-term="not-connected" href="#"><spring:message code="jsp.app_overview.no_connection"/> <span>(${notConnectedCount})</span></a></li>
+            </ul>
+        </c:if>
         <c:if test="${facetsUsed}">
           <c:forEach items="${facets}" var="facet">
             <c:if test="${facet.usedFacetValues}">
@@ -57,7 +59,7 @@
 
   </nav>
   <div class="column-center content-holder app-grid-holder">
-    <h1 class="hidden-phone"><spring:message code="jsp.home.title" /></h1>
+    <h1 class="hidden-phone">${title}<i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.appoverview.help" />"></i></h1>
     <div class="view-option">
       <c:set var="isCard" value="${view eq 'card'}" />
       <spring:url value="app-overview.shtml" var="cardUrl" htmlEscape="true">

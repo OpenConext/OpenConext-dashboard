@@ -80,6 +80,11 @@ public abstract class BaseController {
   public static final String SERVICE_CONNECTION_VISIBLE = "connectionVisible";
 
   /**
+   * The name of the key under which we store the info if the connection facet is visible to the current user.
+   */
+  public static final String FACET_CONNECTION_VISIBLE = "facetConnectionVisible";
+
+  /**
    * The name of the key under which we store the info if a logged user is
    * allowed to filter in the app grid
    */

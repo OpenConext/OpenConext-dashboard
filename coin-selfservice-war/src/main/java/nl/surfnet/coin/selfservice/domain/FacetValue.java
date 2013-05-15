@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.Locale;
 
 @SuppressWarnings("serial")
 @Entity
@@ -33,18 +34,31 @@ public class FacetValue extends DomainObject implements Comparable<FacetValue> {
   @JoinColumn(name = "facet_id", nullable = false)
   private Facet facet;
 
-  @Column(unique = true)
-  private String value;
-
   @Transient
   private int count;
 
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name="multilingual_string_id", nullable = false)
+  private MultilingualString multilingualString = new MultilingualString();
+
   public String getValue() {
-    return value;
+    return multilingualString.getValue();
   }
 
   public void setValue(String value) {
-    this.value = value;
+    this.multilingualString.setValue(value);
+  }
+
+  public void addValue(Locale locale, String value) {
+    this.multilingualString.addValue(locale, value);
+  }
+
+  public MultilingualString getMultilingualString() {
+    return multilingualString;
+  }
+
+  public void setMultilingualString(MultilingualString multilingualString) {
+    this.multilingualString = multilingualString;
   }
 
   public Facet getFacet() {
@@ -76,7 +90,7 @@ public class FacetValue extends DomainObject implements Comparable<FacetValue> {
   @Override
   public int compareTo(FacetValue that) {
     return new CompareToBuilder()
-            .append(this.value, that.value)
+            .append(this.getValue(), that.getValue())
             .toComparison();
   }
 }

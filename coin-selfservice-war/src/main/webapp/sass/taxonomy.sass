@@ -42,6 +42,12 @@ a.facet-value
     padding: 2px 0px
     margin-top: 5px
 
+    &.facet-value-translations
+      height: 40px
+
+      button
+        vertical-align: middle
+
     &:last-child
       border-bottom: none
       margin-bottom: 8px
@@ -57,13 +63,22 @@ a.with-options
 a.local-link
   color: #626262
 
-.taxonomy-overview
+.taxonomy-overview, .taxonomy-translations
 
   margin: 40px
 
   .content
     margin: 20px 0px
 
+  .nav-divider
+    margin: 40px 0px
+    border-top: 1px solid #e5e5e5
+    padding-top: 10px
+
+.taxonomy-translations
+  .accordion-body
+    clear: both
+  
 .taxonomy-sp-configuration
 
   .accordion

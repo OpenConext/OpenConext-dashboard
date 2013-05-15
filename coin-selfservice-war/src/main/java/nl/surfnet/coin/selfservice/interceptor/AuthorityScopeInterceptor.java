@@ -16,41 +16,11 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SP;
-import static nl.surfnet.coin.selfservice.control.BaseController.COMPOUND_SPS;
-import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
-import static nl.surfnet.coin.selfservice.control.BaseController.IS_GOD;
-import static nl.surfnet.coin.selfservice.control.BaseController.RAW_ARP_ATTRIBUTES_VISIBLE;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_CONNECTION_VISIBLE;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import ch.lambdaj.function.matcher.HasArgumentWithValue;
 import nl.surfnet.coin.selfservice.domain.AttributeScopeConstraints;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +30,19 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import ch.lambdaj.function.matcher.HasArgumentWithValue;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.collection.LambdaCollections.with;
+import static nl.surfnet.coin.selfservice.control.BaseController.*;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
@@ -122,6 +104,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
     map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
     map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+    map.put(FACET_CONNECTION_VISIBLE, isAdmin);
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     map.put(FILTER_APP_GRID_ALLOWED, false); //isAdmin);
     map.put(IS_ADMIN_USER, isAdmin);

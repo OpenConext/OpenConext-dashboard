@@ -25,6 +25,7 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
 import javax.persistence.*;
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -32,9 +33,6 @@ import java.util.TreeSet;
 @Entity
 @Proxy(lazy = false)
 public class Facet extends DomainObject implements Comparable<Facet> {
-
-  @Column(unique = true)
-  private String name;
 
   @OneToMany(cascade = { CascadeType.ALL },  fetch = FetchType.EAGER, mappedBy = "facet")
   @Sort(type = SortType.NATURAL)
@@ -48,12 +46,28 @@ public class Facet extends DomainObject implements Comparable<Facet> {
   @JoinColumn(name = "facet_parent_id", nullable = true)
   private Facet parent;
 
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name="multilingual_string_id", nullable = false)
+  private MultilingualString multilingualString = new MultilingualString();
+
   public String getName() {
-    return name;
+    return multilingualString.getValue();
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.multilingualString.setValue(name);
+  }
+
+  public void addName(Locale locale, String name) {
+    this.multilingualString.addValue(locale, name);
+  }
+
+  public MultilingualString getMultilingualString() {
+    return multilingualString;
+  }
+
+  public void setMultilingualString(MultilingualString multilingualString) {
+    this.multilingualString = multilingualString;
   }
 
   public SortedSet<FacetValue> getFacetValues() {
@@ -68,6 +82,7 @@ public class Facet extends DomainObject implements Comparable<Facet> {
     this.facetValues.add(facetValue);
     facetValue.setFacet(this);
   }
+
 
   public void removeFacetValue(FacetValue facetValue) {
     this.facetValues.remove(facetValue);
@@ -112,7 +127,7 @@ public class Facet extends DomainObject implements Comparable<Facet> {
   @Override
   public int compareTo(Facet that) {
     return new CompareToBuilder()
-            .append(this.name, that.name)
+            .append(this.getName(), that.getName())
             .toComparison();
   }
 }

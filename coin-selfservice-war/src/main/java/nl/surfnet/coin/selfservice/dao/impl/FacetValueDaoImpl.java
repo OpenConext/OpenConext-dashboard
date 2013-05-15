@@ -21,6 +21,7 @@ package nl.surfnet.coin.selfservice.dao.impl;
 import nl.surfnet.coin.selfservice.dao.FacetValueDao;
 import nl.surfnet.coin.selfservice.domain.FacetValue;
 import nl.surfnet.coin.selfservice.domain.InUseFacetValue;
+import nl.surfnet.coin.selfservice.domain.MultilingualString;
 import nl.surfnet.coin.shared.service.GenericServiceHibernateImpl;
 import org.springframework.stereotype.Repository;
 
@@ -56,26 +57,30 @@ public class FacetValueDaoImpl extends GenericServiceHibernateImpl<FacetValue> i
 
   @Override
   public List<InUseFacetValue> findInUseFacetValues(long facetValueId) {
-    String sql = "select compound_service_provider.service_provider_entity_id, facet_value.value from compound_service_provider " +
+    String sql = "select compound_service_provider.service_provider_entity_id, localized_string.value from compound_service_provider " +
             "inner join facet_value_compound_service_provider on compound_service_provider.id = facet_value_compound_service_provider.compound_service_provider_id " +
             "inner join facet_value on facet_value_compound_service_provider.facet_value_id = facet_value.id " +
-            "where facet_value.id = :identifier order by facet_value.id";
+            "inner join multilingual_string on facet_value.multilingual_string_id = multilingual_string.id " +
+            "inner join localized_string on multilingual_string.id = localized_string.multilingual_string_id " +
+            "where facet_value.id = :identifier and localized_string.locale = :locale order by facet_value.id";
     return doFindInUseFacetValue(sql, facetValueId);
   }
 
   @Override
   public List<InUseFacetValue> findInUseFacet(long facetId) {
-    String sql = "select compound_service_provider.service_provider_entity_id, facet_value.value from compound_service_provider " +
+    String sql = "select compound_service_provider.service_provider_entity_id, localized_string.value from compound_service_provider " +
             "inner join facet_value_compound_service_provider on compound_service_provider.id = facet_value_compound_service_provider.compound_service_provider_id " +
             "inner join facet_value on facet_value_compound_service_provider.facet_value_id = facet_value.id " +
+            "inner join multilingual_string on facet_value.multilingual_string_id = multilingual_string.id " +
+            "inner join localized_string on multilingual_string.id = localized_string.multilingual_string_id " +
             "inner join facet on facet_value.facet_id = facet.id " +
-            "where facet.id = :identifier order by facet_value.id";
+            "where facet.id = :identifier and localized_string.locale = :locale order by facet_value.id";
     return doFindInUseFacetValue(sql, facetId);
   }
 
   private List<InUseFacetValue> doFindInUseFacetValue(String sql, long identifier) {
     List<Object[]> dbResult = getSession().createSQLQuery(
-            sql).setLong("identifier", identifier).list();
+            sql).setLong("identifier", identifier).setString("locale", MultilingualString.defaultLocale.toString()).list();
     List<InUseFacetValue> result = new ArrayList<InUseFacetValue>();
     for (Object[] s : dbResult) {
       result.add(new InUseFacetValue((String) s[0], (String) s[1]));
