@@ -138,9 +138,10 @@ app.appgrid = function () {
         var notHidden = $("ul.app-grid li:not(.grid-item-hidden)");
         $("ul.facets-values li a").each(function(i){
           var $elm = $(this);
+          var facetSearchTerm = $elm.data("facet-search-term");
           var count = 0;
           notHidden.each(function(j){
-            if ($(this).hasClass($elm.data("facet-search-term"))) {
+            if ($(this).hasClass(facetSearchTerm)) {
               count++;
             }
           });
@@ -229,7 +230,6 @@ app.appgrid = function () {
       }
       return 0;
     }
-
 
     searchElm.bind('keyup change', setTimer);
     filterLinks.on('click', doFilter);
