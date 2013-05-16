@@ -162,10 +162,10 @@ public class TaxonomyController extends BaseController {
   @RequestMapping(value = "/taxonomy-translation/{multilingualStringId}", method = RequestMethod.POST)
   public
   @ResponseBody
-  Long addFacetValueTranslation(@PathVariable("multilingualStringId") Long multilingualStringId, @RequestBody LocalizedString localizedString) {
+  Long addFacetValueTranslation(@PathVariable("multilingualStringId") Long multilingualStringId, @RequestBody LocalizedString newLocalizedString) {
     MultilingualString multilingualString = multilingualStringDao.findById(multilingualStringId);
-    multilingualString.addValue(new Locale(localizedString.getLocale()), localizedString.getValue());
-    return multilingualStringDao.saveOrUpdate(multilingualString);
+    LocalizedString localizedString = new LocalizedString(newLocalizedString.getLocale(), newLocalizedString.getValue(), multilingualString);
+    return localizedStringDao.saveOrUpdate(localizedString);
   }
 
   @RequestMapping(value = "/taxonomy-translation/{localizedStringId}", method = RequestMethod.PUT)
@@ -174,6 +174,7 @@ public class TaxonomyController extends BaseController {
   String updateFacetValueTranslation(@PathVariable("localizedStringId") Long localizedStringId, @RequestBody LocalizedString update) {
     LocalizedString localizedString = localizedStringDao.findById(localizedStringId);
     localizedString.setValue(update.getValue());
+    localizedStringDao.saveOrUpdate(localizedString);
     return "ok" ;
   }
 

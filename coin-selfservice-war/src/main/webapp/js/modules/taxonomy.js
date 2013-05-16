@@ -117,6 +117,41 @@ app.taxonomy = function () {
       });
   }
 
+  var updateTranslation = function (inputField) {
+    var translation = inputField.val();
+    if (translation === undefined || translation.trim() === "") {
+      return;
+    }
+    var tokencheck = $('#taxonomy_translations').data('token-check');
+    var localizedStringId = inputField.data("localized-string-id");
+    var multilingualStringId = inputField.data("multilingual-string-id");
+    var type, url;
+    if (localizedStringId === undefined || localizedStringId.toString().trim() === "") {
+      //new translation
+      type = "POST";
+      url =  "taxonomy-translation/"+ multilingualStringId +" .shtml?tokencheck=" + tokencheck;
+    } else {
+      //existing translation
+      type = "PUT";
+      url =  "taxonomy-translation/"+ localizedStringId +" .shtml?tokencheck=" + tokencheck;
+    }
+    var locale = inputField.data("locale-value");
+    $.ajax(url,
+      {
+        type: type,
+        contentType: "application/json",
+        data: JSON.stringify({ value: translation, locale: locale })
+      })
+      .done(function (data) {
+        inputField.prop('disabled',true);
+      })
+      .fail(function (data) {
+        inputField.prop('disabled',true);
+        var $mess = $("<span>" + app.message.i18n('failed.save') + "</span>");
+        inputField.prepend($mess);
+      });
+  }
+
   function bindInput($input, $link) {
     $input.blur(function () {
       updateFacet($(this), $link);
@@ -135,6 +170,17 @@ app.taxonomy = function () {
     $input.keypress(function (event) {
       if (event.which == 13) {
         updateFacetValue($(this), $li);
+      }
+    });
+  }
+
+  function bindInputForTranslations($input) {
+    $input.blur(function () {
+      updateTranslation($(this));
+    });
+    $input.keypress(function (event) {
+      if (event.which == 13) {
+        updateTranslation($(this));
       }
     });
   }
@@ -246,6 +292,7 @@ app.taxonomy = function () {
       $elm = $(this);
       var $input = $elm.parents('div.options').find('input');
       $input.prop('disabled',false);
+      bindInputForTranslations($input);
       $input.focus();
     });
 

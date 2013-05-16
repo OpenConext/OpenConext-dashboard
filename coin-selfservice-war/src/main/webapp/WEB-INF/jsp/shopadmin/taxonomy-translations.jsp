@@ -40,10 +40,11 @@
                 </a>
                 <div class="options">
                       <c:forEach items="${facet.multilingualString.allowedLocalizedStrings}" var="localizedString">
-                        <span>${localizedString.locale}</span>
+                        <span class="label label-info">${localizedString.locale}</span>
                         <input id="facet_${facet.id}_loc_${localizedString.locale}" type='text' class='inline-edit'
                                 data-localized-string-id="${localizedString.id}"
                                 data-multilingual-string-id="${localizedString.multilingualString.id}"
+                                data-locale-value="${localizedString.locale}"
                                 value="${localizedString.value}" disabled>
                         <button type="button" class="btn edit-facet-translation"><i class="icon-edit icon-white"></i></button>
                       </c:forEach>
@@ -56,10 +57,10 @@
                     <li class="facet-value-translations" data-facet-value-id="${facetValue.id}"><span><c:out value='${facetValue.value}'/></span>
                       <div class="options inner">
                             <c:forEach items="${facetValue.multilingualString.allowedLocalizedStrings}" var="localizedString">
-                              <span>${localizedString.locale}</span>
                               <input id="facetvalue_${facetValue.id}_loc_${localizedString.locale}" type='text' class='inline-edit'
                                       data-localized-string-id="${localizedString.id}"
                                       data-multilingual-string-id="${localizedString.multilingualString.id}"
+                                      data-locale-value="${localizedString.locale}"
                                       value="${localizedString.value}" disabled>
                               <button type="button" class="btn edit-facet-translation"><i class="icon-edit icon-white"></i></button>
                             </c:forEach>

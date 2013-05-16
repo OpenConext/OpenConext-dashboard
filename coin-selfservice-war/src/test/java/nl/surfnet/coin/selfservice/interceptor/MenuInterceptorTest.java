@@ -43,10 +43,7 @@ public class MenuInterceptorTest {
     @Test
     public void test_menu_for_user_has_home() throws Exception {
         Menu menu = executeTestAndReturnMenu("/app-overview.shtml", false, ROLE_USER);
-
-        assertEquals(1, menu.getMenuItems().size());
-        assertTrue(menu.getMenuItems().get(0).isSelected());
-
+        assertEquals(0, menu.getMenuItems().size());
     }
 
     @Test
@@ -55,7 +52,6 @@ public class MenuInterceptorTest {
 
         assertEquals(4, menu.getMenuItems().size());
         assertEquals("jsp.notifications.title", menu.getMenuItems().get(1).getLabel());
-
     }
 
     @Test
@@ -68,7 +64,6 @@ public class MenuInterceptorTest {
         assertEquals(3, menuWhenLmngNotActive.getMenuItems().size());
         assertEquals("jsp.notifications.title", menuWhenLmngActive.getMenuItems().get(1).getLabel());
         assertEquals("jsp.requests-overview.title", menuWhenLmngNotActive.getMenuItems().get(1).getLabel());
-
     }
 
     private Menu executeTestAndReturnMenu(String requestUri, Boolean lmngActive, Authority... authorities) throws Exception {

@@ -73,7 +73,15 @@ public class MultilingualString extends DomainObject {
   }
 
   public String getValue() {
-    return getValue(getLocale());
+    Locale locale = getLocale();
+    LocalizedString localizedString = this.localizedStrings.get(locale.toString());
+    if (localizedString == null) {
+      localizedString = this.localizedStrings.get(defaultLocale.toString());
+    }
+    if (localizedString == null) {
+      throw new IllegalArgumentException("No LocalizedString configured for Locale " + locale.toString() + " and not for the default Locale");
+    }
+    return localizedString.getValue();
   }
 
   /*
@@ -92,16 +100,4 @@ public class MultilingualString extends DomainObject {
     return locale != null ? locale : defaultLocale;
 
   }
-
-  private String getValue(Locale locale) {
-    LocalizedString localizedString = this.localizedStrings.get(locale.toString());
-    if (localizedString == null) {
-      localizedString = this.localizedStrings.get(defaultLocale.toString());
-    }
-    if (localizedString == null) {
-      throw new IllegalArgumentException("No LocalizedString configured for Locale " + locale.toString() + " and not for the default Locale");
-    }
-    return localizedString.getValue();
-  }
-
 }
