@@ -78,10 +78,7 @@ public class TaxonomyController extends BaseController {
   public
   @ResponseBody
   Long createFacet(@RequestBody Facet newFacet) {
-    Facet facet = new Facet();
-    facet.setName(newFacet.getName());
-    facetDao.saveOrUpdate(facet);
-    return facet.getId();
+    return facetDao.saveOrUpdate(newFacet);
   }
 
   @RequestMapping(value = "/facet/{facetId}", method = RequestMethod.DELETE)
@@ -109,11 +106,8 @@ public class TaxonomyController extends BaseController {
   @ResponseBody
   Long createFacetValue(@PathVariable("facetId") Long facetId, @RequestBody FacetValue newFacetValue) {
     Facet facet = facetDao.findById(facetId);
-    FacetValue facetValue = new FacetValue();
-    facetValue.setValue(newFacetValue.getValue());
-    facetValue.setFacet(facet);
-    facetValueDao.saveOrUpdate(facetValue);
-    return facetValue.getId();
+    newFacetValue.setFacet(facet);
+    return facetValueDao.saveOrUpdate(newFacetValue);
   }
 
   @RequestMapping(value = "/facet-value/{facetValueId}", method = RequestMethod.DELETE)

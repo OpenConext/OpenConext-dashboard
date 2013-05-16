@@ -434,97 +434,109 @@
           <ajdtVersion>none</ajdtVersion>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>de.saumya.mojo</groupId>
-        <artifactId>gem-maven-plugin</artifactId>
-        <version>0.28.6</version>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            
-            <phase>generate-resources</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <execArgs>${project.build.directory}/rubygems/bin/compass
-            compile ${basedir}/src/main/webapp
-            ${basedir}/src/main/webapp/sass/screen.sass</execArgs>
-        </configuration>
-      </plugin>
-      
-      <plugin>
-        <groupId>com.samaxes.maven</groupId>
-        <artifactId>maven-minify-plugin</artifactId>
-        <version>1.3.5</version>
-        <executions>
-          <execution>
-             <phase>process-resources</phase>
-            <configuration>
-              <cssSourceDir>css</cssSourceDir>
-              <cssSourceIncludes>
-                <cssSourceInclude>*.css</cssSourceInclude>
-              </cssSourceIncludes>
-              <cssFinalFile>style.css</cssFinalFile>
-
-              <jsSourceDir>js</jsSourceDir>
-              <jsSourceFiles>
-                <!-- All javascript files are setup explicitly here, to conserve 
-                  their order in the minified version. -->
-                <jsSourceFile>jquery/jquery-1.8.3.min.js</jsSourceFile>
-                <jsSourceFile>bootstrap/bootstrap-2.0.3.min.js</jsSourceFile>
-                <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
-                <jsSourceFile>bootstrap/bootstrap-popover.js</jsSourceFile>
-                <jsSourceFile>bootstrap/bootstrap-transition.js</jsSourceFile>
-                <jsSourceFile>bootstrap/bootbox.min.js</jsSourceFile>
-
-                <jsSourceFile>jquery/jquery.datatables.1.9.4.min.js</jsSourceFile>
-                <jsSourceFile>jquery/jquery.datatables.columnfilter.1.4.7.js</jsSourceFile>
-                <jsSourceFile>jquery/jquery.ui.widget.js</jsSourceFile>
-                <jsSourceFile>jquery/jquery.fileupload.js</jsSourceFile>
-                <jsSourceFile>jquery/jquery.iframe-transport.js</jsSourceFile>
-                <jsSourceFile>jquery/select2.js</jsSourceFile>
-                <jsSourceFile>jquery/jquery.transit.js</jsSourceFile>
-                <jsSourceFile>jquery/jquery.tickback.min.js</jsSourceFile>
-
-                <jsSourceFile>main.js</jsSourceFile>
-
-                <jsSourceFile>modules/app-grid.js</jsSourceFile>
-                <jsSourceFile>modules/gallery.js</jsSourceFile>
-                <jsSourceFile>modules/global.js</jsSourceFile>
-                <jsSourceFile>modules/message.js</jsSourceFile>
-                <jsSourceFile>modules/graphs.js</jsSourceFile>
-                <jsSourceFile>modules/idp-status.js</jsSourceFile>
-                <jsSourceFile>modules/respond.js</jsSourceFile>
-                <jsSourceFile>modules/secondary-menu.js</jsSourceFile>
-                <jsSourceFile>modules/table.js</jsSourceFile>
-                <jsSourceFile>modules/compound-sp-edit.js</jsSourceFile>
-                <jsSourceFile>modules/notifications.js</jsSourceFile>
-                <jsSourceFile>modules/app-detail.js</jsSourceFile>
-                <jsSourceFile>modules/shop-admin.js</jsSourceFile>
-                <jsSourceFile>modules/sp-services.js</jsSourceFile>
-                <jsSourceFile>modules/taxonomy.js</jsSourceFile>
-                <jsSourceFile>modules/csp-taxonomy.js</jsSourceFile>
-
-                <jsSourceFile>tools/html5shiv.js</jsSourceFile>
-                <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>
-                <jsSourceFile>tools/sizewatcher.js</jsSourceFile>
-
-              </jsSourceFiles>
-              <jsFinalFile>script.js</jsFinalFile>
-            </configuration>
-            <goals>
-              <goal>minify</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
   <profiles>
+    <profile>
+      <id>css-javascript-minifier</id>
+      <activation>
+        <!--<activeByDefault>true</activeByDefault>-->
+        <property>
+          <name>!skipCssJs</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>de.saumya.mojo</groupId>
+            <artifactId>gem-maven-plugin</artifactId>
+            <version>0.28.6</version>
+            <extensions>true</extensions>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+
+                <phase>generate-resources</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <execArgs>${project.build.directory}/rubygems/bin/compass
+                compile ${basedir}/src/main/webapp
+                ${basedir}/src/main/webapp/sass/screen.sass</execArgs>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>com.samaxes.maven</groupId>
+            <artifactId>maven-minify-plugin</artifactId>
+            <version>1.3.5</version>
+            <executions>
+              <execution>
+                <phase>process-resources</phase>
+                <configuration>
+                  <cssSourceDir>css</cssSourceDir>
+                  <cssSourceIncludes>
+                    <cssSourceInclude>*.css</cssSourceInclude>
+                  </cssSourceIncludes>
+                  <cssFinalFile>style.css</cssFinalFile>
+
+                  <jsSourceDir>js</jsSourceDir>
+                  <jsSourceFiles>
+                    <!-- All javascript files are setup explicitly here, to conserve
+                      their order in the minified version. -->
+                    <jsSourceFile>jquery/jquery-1.8.3.min.js</jsSourceFile>
+                    <jsSourceFile>bootstrap/bootstrap-2.0.3.min.js</jsSourceFile>
+                    <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
+                    <jsSourceFile>bootstrap/bootstrap-popover.js</jsSourceFile>
+                    <jsSourceFile>bootstrap/bootstrap-transition.js</jsSourceFile>
+                    <jsSourceFile>bootstrap/bootbox.min.js</jsSourceFile>
+
+                    <jsSourceFile>jquery/jquery.datatables.1.9.4.min.js</jsSourceFile>
+                    <jsSourceFile>jquery/jquery.datatables.columnfilter.1.4.7.js</jsSourceFile>
+                    <jsSourceFile>jquery/jquery.ui.widget.js</jsSourceFile>
+                    <jsSourceFile>jquery/jquery.fileupload.js</jsSourceFile>
+                    <jsSourceFile>jquery/jquery.iframe-transport.js</jsSourceFile>
+                    <jsSourceFile>jquery/select2.js</jsSourceFile>
+                    <jsSourceFile>jquery/jquery.transit.js</jsSourceFile>
+                    <jsSourceFile>jquery/jquery.tickback.min.js</jsSourceFile>
+
+                    <jsSourceFile>main.js</jsSourceFile>
+
+                    <jsSourceFile>modules/app-grid.js</jsSourceFile>
+                    <jsSourceFile>modules/gallery.js</jsSourceFile>
+                    <jsSourceFile>modules/global.js</jsSourceFile>
+                    <jsSourceFile>modules/message.js</jsSourceFile>
+                    <jsSourceFile>modules/graphs.js</jsSourceFile>
+                    <jsSourceFile>modules/idp-status.js</jsSourceFile>
+                    <jsSourceFile>modules/respond.js</jsSourceFile>
+                    <jsSourceFile>modules/secondary-menu.js</jsSourceFile>
+                    <jsSourceFile>modules/table.js</jsSourceFile>
+                    <jsSourceFile>modules/compound-sp-edit.js</jsSourceFile>
+                    <jsSourceFile>modules/notifications.js</jsSourceFile>
+                    <jsSourceFile>modules/app-detail.js</jsSourceFile>
+                    <jsSourceFile>modules/shop-admin.js</jsSourceFile>
+                    <jsSourceFile>modules/sp-services.js</jsSourceFile>
+                    <jsSourceFile>modules/taxonomy.js</jsSourceFile>
+                    <jsSourceFile>modules/csp-taxonomy.js</jsSourceFile>
+
+                    <jsSourceFile>tools/html5shiv.js</jsSourceFile>
+                    <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>
+                    <jsSourceFile>tools/sizewatcher.js</jsSourceFile>
+
+                  </jsSourceFiles>
+                  <jsFinalFile>script.js</jsFinalFile>
+                </configuration>
+                <goals>
+                  <goal>minify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>selenium</id>
       <build>

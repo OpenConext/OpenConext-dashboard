@@ -78,7 +78,9 @@
     <mvc:interceptors>
         <ref bean="featureInterceptor"/>
         <!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
-        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor" />
+        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor">
+          <property name="exposeTokenCheckInCookie" value="${mode.dev}"/>
+        </bean>
         <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor" />
         <ref bean="localeChangeInterceptor"/>
     </mvc:interceptors>

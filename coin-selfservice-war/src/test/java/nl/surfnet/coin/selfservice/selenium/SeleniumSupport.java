@@ -16,23 +16,30 @@
 
 package nl.surfnet.coin.selfservice.selenium;
 
-import java.util.concurrent.TimeUnit;
-
+import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
-
 import org.junit.Before;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  *
  *
  */
 public class SeleniumSupport {
-  
+
   private static WebDriver driver;
+
+  /*
+   * Can be used to REST inject values
+   */
+  private String jsessionId;
+  private String tokenCheck;
 
   protected String getSelfserviceBaseUrl() {
     return System.getProperty("selenium.test.url", "http://localhost:8280/selfservice/");
@@ -52,7 +59,7 @@ public class SeleniumSupport {
   private void initHtmlUnitDriver() {
     SeleniumSupport.driver = new HtmlUnitDriver();
     SeleniumSupport.driver.manage().timeouts()
-        .implicitlyWait(3, TimeUnit.SECONDS);
+            .implicitlyWait(3, TimeUnit.SECONDS);
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override
       public void run() {
@@ -68,7 +75,7 @@ public class SeleniumSupport {
 
 
     SeleniumSupport.driver.manage().timeouts()
-        .implicitlyWait(3, TimeUnit.SECONDS);
+            .implicitlyWait(3, TimeUnit.SECONDS);
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override
       public void run() {
@@ -96,6 +103,7 @@ public class SeleniumSupport {
   public void clickOnPartialLink(String linkText) {
     driver.findElement(By.partialLinkText(linkText)).click();
   }
+
   public void clickOnButton(String textOnButton) {
     String xpathExpression = String.format("//button[contains(text(),\"%s\")]", textOnButton);
     driver.findElement(By.xpath(xpathExpression)).click();
@@ -106,5 +114,18 @@ public class SeleniumSupport {
     getWebDriver().findElement(By.name("j_username")).sendKeys(user.getUser());
     getWebDriver().findElement(By.name("j_password")).sendKeys("secret");
     getWebDriver().findElement(By.name("login")).submit();
+
+    this.jsessionId = driver.manage().getCookieNamed("JSESSIONID").getValue();
+    this.tokenCheck = driver.manage().getCookieNamed(BaseController.TOKEN_CHECK).getValue();
   }
+
+  public String getJsessionId() {
+    return jsessionId;
+  }
+
+  public String getTokenCheck() {
+    return tokenCheck;
+  }
+
+
 }

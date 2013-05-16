@@ -30,6 +30,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
@@ -57,6 +58,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
 
   private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(new String[] { POST.name(), DELETE.name(), PUT.name() });
+
+  private boolean exposeTokenCheckInCookie;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -95,7 +98,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
       scopeGeneralAuthCons(map, authorities, request);
 
-      addTokenToModelMap(request, map);
+      addTokenToModelMap(request, response,  map);
     }
   }
 
@@ -187,16 +190,23 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     return containsRole(SpringSecurity.getCurrentUser().getAuthorityEnums(), ROLE_DISTRIBUTION_CHANNEL_ADMIN);
   }
 
+  public void setExposeTokenCheckInCookie(boolean exposeTokenCheckInCookie) {
+    this.exposeTokenCheckInCookie = exposeTokenCheckInCookie;
+  }
+
   /*
    * Add a security token to the modelMap that is rendered as hidden value in
    * POST forms. In the preHandle we check if the request is a POST and expect
    * equality of the token send as request parameter and the token stored in the
    * session
    */
-  private void addTokenToModelMap(HttpServletRequest request, ModelMap map) {
+  private void addTokenToModelMap(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
     String token = UUID.randomUUID().toString();
     map.addAttribute(TOKEN_CHECK, token);
     request.getSession().setAttribute(TOKEN_CHECK, token);
+    if (exposeTokenCheckInCookie) {
+      response.addCookie(new Cookie(TOKEN_CHECK, token));
+    }
   }
 
 }

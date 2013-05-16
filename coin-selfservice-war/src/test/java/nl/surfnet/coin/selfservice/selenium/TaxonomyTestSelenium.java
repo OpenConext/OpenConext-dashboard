@@ -18,33 +18,57 @@
  */
 package nl.surfnet.coin.selfservice.selenium;
 
-import junit.framework.Assert;
+import nl.surfnet.coin.selfservice.domain.Facet;
 import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.xpath;
 
 public class TaxonomyTestSelenium extends SeleniumSupport {
 
+  private RestTemplate restTemplate = new RestTemplate();
+
+  @Ignore
+  @Test
+  public void testCreateTranslationThroughRestInterface() {
+    /*
+     * We test through the GUI as well, but this is WIP for injecting state to ease up the tests
+     */
+    login("taxonomy-overview");
+    String facet = "{\"name\":\"Pietje\"}";
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Cookie", "JSESSIONID=" + getJsessionId());
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    HttpEntity<String> requestEntity = new HttpEntity<String>(facet, headers);
+    ResponseEntity<Long> response = restTemplate.exchange(
+            getSelfserviceBaseUrl() + "shopadmin/facet.shtml?tokencheck={tokencheck}",
+            HttpMethod.POST,
+            requestEntity,
+            Long.class, getTokenCheck());
+
+    HttpStatus statusCode = response.getStatusCode();
+    assertEquals(200, statusCode.value());
+    Long res = response.getBody();
+
+  }
   /*
-   TODO improve and add tests
    http://sauceio.com/index.php/2010/01/selenium-totw-css-selectors-in-selenium-demystified/
    */
 
   @Test
   public void createFacetWithValue() throws InterruptedException {
-    WebDriver driver = getRestartedWebDriver();
+    WebDriver driver = login("taxonomy-overview");
 
-    driver.get(getSelfserviceBaseUrl()); // get homepage
-    loginAtMujinaAs(OpenConextOAuthClientMock.Users.ADMIN_DISTRIBUTIE_CHANNEL); // login
-    driver.get(getSelfserviceBaseUrl() + "shopadmin/taxonomy-overview.shtml");
     driver.findElement(By.id("add_facet")).click();
 
     WebElement newFacet = driver.findElement(xpath("//input[@class='inline-edit']"));
@@ -63,11 +87,18 @@ public class TaxonomyTestSelenium extends SeleniumSupport {
     newFacetValue.sendKeys(Keys.TAB);
 
     //ajax with fadein is asking for trouble
-    Thread.sleep(500);
+    Thread.sleep(1500);
     String text = ul.findElement(cssSelector("li span")).getText();
     assertEquals("NewFacetValue", text);
 
 
+  }
+
+  private WebDriver login(String location) {
+    WebDriver driver = getRestartedWebDriver();
+    driver.get(getSelfserviceBaseUrl() + "shopadmin/" + location + ".shtml");
+    loginAtMujinaAs(OpenConextOAuthClientMock.Users.ADMIN_DISTRIBUTIE_CHANNEL); // login
+    return driver;
   }
 
 }

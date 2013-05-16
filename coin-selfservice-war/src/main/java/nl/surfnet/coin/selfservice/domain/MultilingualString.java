@@ -36,6 +36,10 @@ public class MultilingualString extends DomainObject {
   @Transient
   public static final Locale defaultLocale = Locale.ENGLISH;
 
+  /*
+   * Add more locale abbreviations here to have more languages in the GUI to edit / add. The default 'en' should
+   * no be added as this is always included being the default.
+   */
   @Transient
   private static final List<String> availableLocales = Arrays.asList(new String[]{"nl"});
 
