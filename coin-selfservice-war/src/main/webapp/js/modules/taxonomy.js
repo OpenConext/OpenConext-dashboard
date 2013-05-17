@@ -144,6 +144,9 @@ app.taxonomy = function () {
       })
       .done(function (data) {
         inputField.prop('disabled',true);
+        if (type === "POST") {
+          inputField.data('localized-string-id',data);
+        }
       })
       .fail(function (data) {
         inputField.prop('disabled',true);
@@ -180,7 +183,7 @@ app.taxonomy = function () {
     });
     $input.keypress(function (event) {
       if (event.which == 13) {
-        updateTranslation($(this));
+        $(this).blur();
       }
     });
   }

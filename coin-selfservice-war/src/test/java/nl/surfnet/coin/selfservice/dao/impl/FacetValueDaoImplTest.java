@@ -168,14 +168,10 @@ public class FacetValueDaoImplTest implements LocaleResolver {
   }
 
   @Test
-  public void testLocalePropagation() {
-    Facet facet = new Facet();
-    facet.setName("category");
+  public void testDeletePropagation() {
+    Facet facet = createFacetWithValue();
 
-    facetDao.saveOrUpdate(facet);
-
-    List<Facet> facets = facetDao.findAll();
-    assertEquals(1, facets.size());
+    facetDao.delete(facet);
   }
 
   private Facet createFacetWithValue() {
