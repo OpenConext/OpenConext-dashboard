@@ -114,9 +114,6 @@ admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 admin.distribution.channel.sabRole=
 
-administration.email.enabled=true
-administration.jira.ticket.enabled=false
-
 # Info for communication with the APIS Authorization Server
 adminService.tokenVerificationUrl=https://apis.acc.showroom.surfconext.nl/v1/tokeninfo
 adminService.resourceServerKey=??

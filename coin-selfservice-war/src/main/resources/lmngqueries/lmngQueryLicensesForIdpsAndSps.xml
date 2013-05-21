@@ -8,6 +8,7 @@
     <link-entity name="lmng_sdnarticle_lmng_product" from="lmng_sdnarticleid" to="lmng_sdnarticleid" visible="false" intersect="true">
       <link-entity name="lmng_product" from="lmng_productid" to="lmng_productid" alias="product">
          <link-entity name="lmng_productvariation" from="lmng_productid" to="lmng_productid" alias="productvariation">
+          <attribute name="lmng_productid" />
           <attribute name="lmng_licensemodel"/>
           <link-entity name="lmng_licenseagreement" from="lmng_productvariationid" to="lmng_productvariationid" alias="license" >
             <attribute name="lmng_number"/>

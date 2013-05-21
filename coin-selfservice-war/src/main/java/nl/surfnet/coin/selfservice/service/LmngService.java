@@ -42,6 +42,8 @@ public interface LmngService {
    * @throws LmngException If connection or call fails (rethrows all exceptions)
    */
   List<License> getLicensesForIdpAndSp(IdentityProvider identityProvider, String articleIdentifier, Date validOn) throws LmngException;
+  
+  List<License> getLicensesForIdpAndSps(IdentityProvider identityProvider, List<String> articleIdentifiers, Date validOn) throws LmngException;
 
   /**
    * Get articles for the given serviceProviders.

@@ -21,15 +21,17 @@ import static junit.framework.Assert.assertNotNull;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import nl.surfnet.coin.selfservice.domain.Account;
 import nl.surfnet.coin.selfservice.domain.Article;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.service.LmngService;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -62,7 +64,7 @@ public class LmngServiceImplIT {
   public void init() throws FileNotFoundException, IOException {
   }
 
-  // we us this for a local integration test only
+//   we us this for a local integration test only
 //  @Test
   public void testRetrieveLmngGoogleEdugroepGreencloudSurfMarket() throws IOException, LmngException {
 
@@ -105,7 +107,7 @@ public class LmngServiceImplIT {
   }
 
   // we us this for a local integration test only
-  @Test
+//  @Test
   public void testRetrieveInstitutionName() throws IOException {
     String guid = "{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}";
     
@@ -116,13 +118,65 @@ public class LmngServiceImplIT {
   }
 
   // we us this for a local integration test only
-  @Test
+//  @Test
   public void testRetrieveArticle() throws IOException {
     String guid =
                               "{A1EA4AF9-6C9E-E111-B429-0050569E0013}";
     Article instituteName = licensingService.getService(guid);
-
+    
     assertNotNull(instituteName);
+  }
+  
+  @Test
+  public void testRetrieveAllLicensesForIdpAndSp() throws LmngException {
+    IdentityProvider identityProvider = new IdentityProvider();
+    identityProvider.setId("SurfNet");
+    identityProvider.setInstitutionId("SURFnet");
+    
+    List<String> articlesIdentifiers = new ArrayList<String>();
+    articlesIdentifiers.add("{F46CCB08-6135-E111-B32A-0050569E0007}");
+    articlesIdentifiers.add("{4EF1EE04-ED7C-E111-8393-0050569E0011}");
+    articlesIdentifiers.add("{FFA274E1-E5DA-E111-8363-0050569E0011}");
+    articlesIdentifiers.add("{6157077A-D933-E211-BCF7-0050569E0013}");
+
+    List<License> result = licensingService.getLicensesForIdpAndSps(identityProvider, articlesIdentifiers, new Date());
+    System.out.println(result);
+  }
+    
+    
+    
+    
+//    @Test
+    public void testRawQuery() {
+    licensingService.performQuery("<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"true\">"+
+  "<entity name=\"lmng_sdnarticle\">"+
+//"   <filter>"+
+//"     <condition attribute=\"lmng_sdnarticleid\" operator=\"in\">"+
+//"       <value>{099F8003-64A7-E211-9388-0050569E66E5}</value>"+
+//"     </condition>"+
+//"   </filter>"+
+"   <link-entity name=\"lmng_sdnarticle_lmng_product\" from=\"lmng_sdnarticleid\" to=\"lmng_sdnarticleid\" visible=\"false\" intersect=\"true\">"+
+"         <attribute name=\"lmng_sdnarticleid\"/>" +
+"     <link-entity name=\"lmng_product\" from=\"lmng_productid\" to=\"lmng_productid\" alias=\"product\">"+
+"        <link-entity name=\"lmng_productvariation\" from=\"lmng_productid\" to=\"lmng_productid\" alias=\"productvariation\">"+
+"         <attribute name=\"lmng_licensemodel\"/>"+
+"         <link-entity name=\"lmng_licenseagreement\" from=\"lmng_productvariationid\" to=\"lmng_productvariationid\" alias=\"license\" >"+
+"           <attribute name=\"lmng_number\"/>"+
+"           <attribute name=\"lmng_validfrom\"/>"+
+"           <attribute name=\"lmng_validto\"/>"+
+"           <attribute name=\"lmng_organisationid\"/>"+
+"           <filter type=\"and\">"+
+"             <condition attribute=\"lmng_validfrom\" operator=\"on-or-before\" value=\"2013-05-01\" />"+
+"             <condition attribute=\"lmng_validto\" operator=\"on-or-after\" value=\"2013-05-01\" />"+
+"             <condition attribute=\"statuscode\" operator=\"eq\" value=\"4\"/>"+
+"             <condition attribute=\"lmng_organisationid\" operator=\"eq\" value=\"{837326CA-1A10-DC11-A6C7-0019B9DE3AA4}\" />"+
+"           </filter>"+
+"         </link-entity>"+
+"       </link-entity>"+
+"     </link-entity>"+
+"   </link-entity>"+
+" </entity>"+
+"</fetch>");
   }
 
 }
