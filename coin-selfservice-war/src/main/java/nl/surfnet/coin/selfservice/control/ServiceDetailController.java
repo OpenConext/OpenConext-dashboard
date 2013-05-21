@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
+import nl.surfnet.coin.selfservice.api.model.LicenseInformation;
+import nl.surfnet.coin.selfservice.cdkclient.CdkClient;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
@@ -46,7 +48,8 @@ import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonI
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -66,6 +69,8 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping
 public class ServiceDetailController extends BaseController {
 
+  private static final Logger LOG = LoggerFactory.getLogger(ServiceDetailController.class);
+
   @Resource(name = "providerService")
   private ServiceProviderService providerService;
 
@@ -78,10 +83,10 @@ public class ServiceDetailController extends BaseController {
   @Resource(name = "emailService")
   private EmailService emailService;
 
-  @Autowired
+  @Resource
   private OpenConextOAuthClient apiClient;
 
-  @Autowired
+  @Resource
   private ConsentDao consentDao;
 
   @Resource(name = "personAttributeLabelService")
@@ -92,6 +97,9 @@ public class ServiceDetailController extends BaseController {
 
   @Value("${maxRecommendationEmails}")
   private int maxRecommendationEmails = 20;
+
+  @Resource
+  private CdkClient cdkClient;
 
   /**
    * Controller for detail page.
@@ -108,6 +116,7 @@ public class ServiceDetailController extends BaseController {
     Map<String, Object> m = new HashMap<String, Object>();
     CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(selectedidp, compoundSpId,
         Boolean.valueOf(refreshCache));
+    compoundServiceProvider = enrichWithLicense(compoundServiceProvider, selectedidp.getId());
     m.put(COMPOUND_SP, compoundServiceProvider);
 
     String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
@@ -132,6 +141,23 @@ public class ServiceDetailController extends BaseController {
     m.put("lmngDeepLinkUrl", lmngDeepLinkBaseUrl);
 
     return new ModelAndView("app-detail", m);
+  }
+
+  /**
+   * Given a CompoundServiceProvider, enrich it with license data, from the CDK API.
+   *
+   * @param compoundServiceProvider the CSP to enrich
+   * @return the same CompoundServiceProvider
+   */
+  private CompoundServiceProvider enrichWithLicense(CompoundServiceProvider compoundServiceProvider, String idpEntityId) {
+    List<LicenseInformation> licenseInformation = cdkClient.getLicenseInformation(idpEntityId);
+    for (LicenseInformation li : licenseInformation) {
+      if (li.getSpEntityId().equals(compoundServiceProvider.getSp().getId())) {
+        LOG.debug("Found license for CSP '{}' in list of license information from CDK: {}", compoundServiceProvider, li);
+        compoundServiceProvider.setLicenses(Arrays.asList(li.getLicense()));
+      }
+    }
+    return compoundServiceProvider;
   }
 
   @RequestMapping(value = "/app-recommend")

@@ -155,7 +155,7 @@
           </c:when>
         </c:choose>
         </c:if>
-        <c:if test="${lmngActive}">    
+
           <c:choose>
             <c:when test="${compoundSp.articleLicenseAvailable}">
               <div class="license-available">
@@ -193,7 +193,6 @@
               </div>
             </c:otherwise>
           </c:choose>
-       </c:if>   
 
         <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed and !applyAllowed}" />
       </div>

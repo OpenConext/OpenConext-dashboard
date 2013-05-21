@@ -109,6 +109,32 @@ public class LmngServiceImpl implements LmngService {
     }
     return result;
   }
+  
+  public List<License> getLicensesForIdpAndSps(IdentityProvider identityProvider, List<String> articleIdentifiers, Date validOn)
+          throws LmngException {
+    List<License> result = new ArrayList<License>();
+    invariant();
+    try {
+      String lmngInstitutionId = IdentityProvider.NONE.equals(identityProvider) ? null : getLmngIdentityId(identityProvider);
+
+      // get the file with the soap request
+      String soapRequest = LmngUtil.getLmngSoapRequestForIdpAndSp(lmngInstitutionId, articleIdentifiers, validOn, endpoint);
+      if (debug) {
+        LmngUtil.writeIO("lmngRequest", StringEscapeUtils.unescapeHtml(soapRequest));
+      }
+
+      // call the webservice
+      String webserviceResult = getWebServiceResult(soapRequest);
+      // read/parse the XML response to License objects
+      result = LmngUtil.parseLicensesResult(webserviceResult, debug);
+    } catch (Exception e) {
+      String exceptionMessage = "Exception while retrieving licenses" + e.getMessage();
+      log.error(exceptionMessage, e);
+      sendErrorMail(identityProvider, "articleIdentifier", e.getMessage(), "getLicensesForIdpAndSp");
+      throw new LmngException(exceptionMessage, e);
+    }
+    return result;
+  }
 
   @Override
   public List<Article> getArticlesForServiceProviders(List<String> serviceProvidersEntityIds) throws LmngException {

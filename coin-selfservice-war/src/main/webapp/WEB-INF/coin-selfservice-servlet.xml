@@ -28,6 +28,8 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
+    <context:component-scan base-package="nl.surfnet.coin.selfservice.api"/>
+    
 
     <bean id="propertyResolver"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
