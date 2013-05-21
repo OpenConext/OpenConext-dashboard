@@ -511,7 +511,6 @@
                     <jsSourceFile>modules/graphs.js</jsSourceFile>
                     <jsSourceFile>modules/idp-status.js</jsSourceFile>
                     <jsSourceFile>modules/respond.js</jsSourceFile>
-                    <jsSourceFile>modules/secondary-menu.js</jsSourceFile>
                     <jsSourceFile>modules/table.js</jsSourceFile>
                     <jsSourceFile>modules/compound-sp-edit.js</jsSourceFile>
                     <jsSourceFile>modules/notifications.js</jsSourceFile>

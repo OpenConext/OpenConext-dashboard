@@ -37,31 +37,10 @@ app.appgrid = function () {
   };
 
   var setSearch = function () {
-    var placeholderText = app.message.i18n('appgrid.search.placeholder'),
-      filters = '';
+    var placeholderText = app.message.i18n('appgrid.search.placeholder');
 
-    if (gridElm.hasClass('filters-available')) {
-      filters = '<div>' +
-        '<ul>';
-      if (gridElm.hasClass('lmng-active')) {
-        filters += '<li><a href="#" data-filter="licensed">' + app.message.i18n('appgrid.filter.license') + '</a></li>' +
-          '<li><a href="#" data-filter="not-licensed">' + app.message.i18n('appgrid.filter.no-license') + '</a></li>';
-      }
-      filters += '<li><a href="#" data-filter="connected">' + app.message.i18n('appgrid.filter.connected') + '</a></li>' +
-        '<li><a href="#" data-filter="not-connected">' + app.message.i18n('appgrid.filter.not-connected') + '</a></li>' +
-        '</ul>' +
-        '</div>';
-    }
-
-//    gridElm.parents('section').prepend('<nav class="filter-grid' + (gridElm.hasClass('filters-available') ? ' filters-available' : '') + '">' +
-//      '<input type="search" class="app-grid-search" placeholder="' + placeholderText + '">' +
-//      filters +
-//      '</nav>');
-//
     var searchElm = $('.app-grid-search-2'),
-      filterLinks = $('.filter-grid a'),
       timer = null,
-      activeFilters = [],
       facetLinks = $(".facet-search a");
 
 
@@ -100,25 +79,6 @@ app.appgrid = function () {
     }
 
 
-    function doFilter(e) {
-      e.preventDefault();
-
-      var clickedFilter = $(this),
-        theFilter = clickedFilter.data('filter'),
-        index = $.inArray(theFilter, activeFilters);
-
-      if (index === -1) {
-        activeFilters.push(theFilter);
-        clickedFilter.addClass('active-filter');
-      }
-      else {
-        activeFilters.splice(index, 1);
-        clickedFilter.removeClass('active-filter');
-      }
-
-      doSearch(250);
-    }
-
     function doFacetSearch(e) {
       e.preventDefault();
 
@@ -141,7 +101,8 @@ app.appgrid = function () {
           var facetSearchTerm = $elm.data("facet-search-term");
           var count = 0;
           notHidden.each(function(j){
-            if ($(this).hasClass(facetSearchTerm)) {
+            var arr = $(this).data("facet-values").trim().split(" ");
+            if ($.inArray(facetSearchTerm, arr) !== -1) {
               count++;
             }
           });
@@ -166,55 +127,16 @@ app.appgrid = function () {
         }
       });
 
-      filters = ignoreObsoleteFilters(activeFilters);
-
-      $.each(filters, function (i, filter) {
-        if (display === false) {
-          return;
-        }
-
-        display = false;
-
-        //TODO use a data element to filter on and not the class name
-        if (elm.hasClass(filter)) {
-          display = true;
-        }
-      });
-
       if (display) {
+        var arr = elm.data("facet-values").trim().split(" ");
         $.each(facetValues, function (i, facetValue) {
-          if (!elm.hasClass(facetValue)) {
+          if (display && $.inArray(facetValue, arr) === -1) {
             display = false;
           }
         });
       }
 
       return !display;
-    }
-
-
-    function ignoreObsoleteFilters(filters) {
-      var cantHaveBoth = [
-          ['connected', 'not-connected'],
-          ['licensed', 'not-licensed']
-        ],
-        inspecting = null,
-        pos0, pos1,
-        toReturn = $.extend(true, [], filters);
-
-      for (var l = cantHaveBoth.length - 1; l >= 0; --l) {
-        inspecting = cantHaveBoth[l];
-
-        pos0 = $.inArray(inspecting[0], toReturn);
-        pos1 = $.inArray(inspecting[1], toReturn);
-
-        if (pos0 !== -1 && pos1 !== -1) {
-          toReturn.splice(pos0, 1);
-          toReturn.splice($.inArray(inspecting[1], toReturn), 1);
-        }
-      }
-
-      return toReturn;
     }
 
 
@@ -232,7 +154,6 @@ app.appgrid = function () {
     }
 
     searchElm.bind('keyup change', setTimer);
-    filterLinks.on('click', doFilter);
     facetLinks.live("click", doFacetSearch);
 
     $(window).keyup(checkFocusKeyUp);

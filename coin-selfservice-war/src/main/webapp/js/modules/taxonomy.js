@@ -155,31 +155,9 @@ app.taxonomy = function () {
       });
   }
 
-  function bindInput($input, $link) {
+  function bindInput($input, onBlur) {
     $input.blur(function () {
-      updateFacet($(this), $link);
-    });
-    $input.keypress(function (event) {
-      if (event.which == 13) {
-        updateFacet($(this), $link);
-      }
-    });
-  }
-
-  function bindInputForFacetValue($input, $li) {
-    $input.blur(function () {
-      updateFacetValue($(this), $li);
-    });
-    $input.keypress(function (event) {
-      if (event.which == 13) {
-        updateFacetValue($(this), $li);
-      }
-    });
-  }
-
-  function bindInputForTranslations($input) {
-    $input.blur(function () {
-      updateTranslation($(this));
+      onBlur();
     });
     $input.keypress(function (event) {
       if (event.which == 13) {
@@ -211,7 +189,9 @@ app.taxonomy = function () {
       var $link = $heading.find("a.with-options");
       $link.toggle();
       var $input = $("<input type='text' class='inline-edit'>");
-      bindInput($input, $link);
+      bindInput($input, function () {
+        updateFacet($input, $link);
+      });
       $heading.prepend($input);
       $input.focus();
       $clone = $link.clone();
@@ -236,16 +216,17 @@ app.taxonomy = function () {
             deleteFacet($facetDiv, facetId);
           }
         });
-
       });
-
     });
 
     $("#add_facet").click(function(){
       var $html = $($("#new_facet_template").html());
       $("#fieldaccordion").append($html);
       var $input = $html.find("input.inline-edit");
-      bindInput($input, $html.find("a.with-options"));
+      var $link = $html.find("a.with-options");
+      bindInput($input, function () {
+        updateFacet($input, $link);
+      });
       $input.focus();
     });
 
@@ -255,7 +236,9 @@ app.taxonomy = function () {
       var $span = $li.find("span");
       $span.toggle();
       var $input = $("<input type='text' class='inline-edit'>");
-      bindInputForFacetValue($input, $li);
+      bindInput($input, function() {
+        updateFacetValue($input, $li);
+      });
       $li.prepend($input);
       $input.focus();
       $input.val($span.html().trim());
@@ -278,24 +261,26 @@ app.taxonomy = function () {
             deleteFacetValue($li, facetValueId);
           }
         });
-
       });
     });
 
     $("a[id^='add_facet_value']").live("click",function() {
-      var $html = $($("#new_facet_value_template").html());
-      $(this).parents(".accordion-inner").find("ul.facet-values").append($html);
-      var $input = $html.find("input.inline-edit");
-      bindInputForFacetValue($input, $html);
+      var $li = $($("#new_facet_value_template").html());
+      $(this).parents(".accordion-inner").find("ul.facet-values").append($li);
+      var $input = $li.find("input.inline-edit");
+      bindInput($input, function(){
+        updateFacetValue($input, $li);
+      });
       $input.focus();
-
     });
 
     $(".edit-facet-translation").live("click", function(){
       $elm = $(this);
       var $input = $elm.parents('div.options').find('input');
       $input.prop('disabled',false);
-      bindInputForTranslations($input);
+      bindInput($input, function(){
+        updateTranslation($input);
+      });
       $input.focus();
     });
 

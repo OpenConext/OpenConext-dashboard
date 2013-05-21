@@ -65,7 +65,6 @@
     <script src="<c:url value="/js/modules/global.js"/>"></script>
     <script src="<c:url value="/js/modules/message.js"/>"></script>
     <script src="<c:url value="/js/modules/respond.js"/>"></script>
-    <script src="<c:url value="/js/modules/secondary-menu.js"/>"></script>
     <script src="<c:url value="/js/modules/compound-sp-edit.js"/>"></script>
     <script src="<c:url value="/js/modules/table.js"/>"></script>
     <script src="<c:url value="/js/modules/graphs.js"/>"></script>

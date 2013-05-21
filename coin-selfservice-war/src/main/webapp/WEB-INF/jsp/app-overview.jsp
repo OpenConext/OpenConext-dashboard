@@ -79,7 +79,8 @@
             <c:if test="${not empty compoundSp.id}">
               <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
               <c:set var="showConnectButton" value="${applyAllowed and (not compoundSp.sp.linked)}" />
-              <li class="${view}-view ${compoundSp.sp.linked ? "connected" : "not-connected"} ${compoundSp.articleLicenseAvailable ? "licensed" : "not-licensed"} ${compoundSp.searchFacetValues}" data-id="${compoundSp.id}">
+              <li class="${view}-view" data-id="${compoundSp.id}"
+                          data-facet-values="${compoundSp.sp.linked ? "connected" : "not-connected"} ${compoundSp.articleLicenseAvailable ? "licensed" : "not-licensed"} ${compoundSp.searchFacetValues}">
                 <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
                   <spring:param name="compoundSpId" value="${compoundSp.id}" />
                 </spring:url>
