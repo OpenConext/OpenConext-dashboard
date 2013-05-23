@@ -16,15 +16,12 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
-
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.janus.domain.JanusEntity;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.IdentityProviderService;
@@ -85,7 +82,6 @@ public class SAMLProvisioner implements Provisioner {
     coinUser.setEmail(getValueFromAttributeStatements(assertion, EMAIL));
     coinUser.setSchacHomeOrganization(getValueFromAttributeStatements(assertion, SCHAC_HOME));
 
-    coinUser.addAuthority(new CoinAuthority(ROLE_USER));
     coinUser.setAttributeMap(PersonAttributeUtil.getAttributesAsMap(assertion));
 
     return coinUser;

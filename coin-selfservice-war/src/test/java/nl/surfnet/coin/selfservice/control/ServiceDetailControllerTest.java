@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.selfservice.api.model.LicenseInformation;
 import nl.surfnet.coin.selfservice.cdkclient.CdkClient;
+import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
@@ -47,6 +48,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import sun.misc.ProxyGenerator;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -206,4 +208,5 @@ public class ServiceDetailControllerTest {
     assertEquals(theLicense, compoundSp.getLicense());
 
   }
+
 }

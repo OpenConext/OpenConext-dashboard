@@ -25,6 +25,8 @@ public class LinkRequest {
   @AssertTrue
   private boolean agree;
 
+  private boolean unlinkRequest;
+
   public String getNotes() {
     return notes;
   }
@@ -39,5 +41,14 @@ public class LinkRequest {
 
   public void setAgree(boolean agree) {
     this.agree = agree;
+  }
+
+
+  public boolean isUnlinkRequest() {
+    return unlinkRequest;
+  }
+
+  public void setUnlinkRequest(boolean unlinkRequest) {
+    this.unlinkRequest = unlinkRequest;
   }
 }
