@@ -42,7 +42,7 @@
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
-            <input type="hidden" name="confirmed" value="true" />
+            <input type="hidden" name="agree" value="true" />
             <p>
               <i class="icon-info-sign"></i>
               <spring:message code="jsp.sp_unlinkrequestconfirm.message" />
