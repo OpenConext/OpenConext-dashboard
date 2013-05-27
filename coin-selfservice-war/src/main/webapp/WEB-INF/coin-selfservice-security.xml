@@ -81,7 +81,6 @@
     <security:custom-filter after="PRE_AUTH_FILTER" ref="apiOauthFilter"/>
     <security:custom-filter after="ANONYMOUS_FILTER" ref="sabEntitlementsFilter"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
-    <security:intercept-url pattern="/api/**" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Metadata" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
     <security:intercept-url pattern="${ASSERTION_CONSUMER_URI}"
@@ -94,7 +93,6 @@
     <security:intercept-url pattern="/fieldimages/**" access="permitAll"/>
     <security:intercept-url pattern="/js/**" access="permitAll"/>
     <security:intercept-url pattern="/*.ico" access="permitAll"/>
-    <security:intercept-url pattern="/shopadmin/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN')"/>
     <security:intercept-url pattern="/stats/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>
     <security:intercept-url pattern="/requests/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>
     <security:intercept-url pattern="/notifications/**" access="hasAnyRole('ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>

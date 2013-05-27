@@ -49,6 +49,8 @@ public abstract class BaseController {
    * stored
    */
   public static final String COMPOUND_SPS = "compoundSps";
+  public static final String SPS = "sps";
+
 
   /**
    * The name of the key under which all identityproviders are stored

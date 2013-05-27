@@ -21,14 +21,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import nl.surfnet.coin.selfservice.api.model.LicenseInformation;
-import nl.surfnet.coin.selfservice.cdkclient.CdkClient;
-import nl.surfnet.coin.selfservice.command.LinkRequest;
+import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
@@ -48,7 +45,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-import sun.misc.ProxyGenerator;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -91,7 +87,7 @@ public class ServiceDetailControllerTest {
   private HttpServletRequest request;
 
   @Mock
-  private CdkClient cdkClient;
+  private Csa csa;
 
   @Before
   public void setUp() throws Exception {
@@ -186,27 +182,4 @@ public class ServiceDetailControllerTest {
     assertNotNull(modelAndView.getModelMap().get("oAuthTokens"));
     assertNull(modelAndView.getModelMap().get("mayHaveGivenConsent"));
   }
-
-  @Test
-  public void enrichWithLicense() {
-
-    IdentityProvider idp = new IdentityProvider();
-    idp.setId("mockIdP");
-    CompoundServiceProvider csp = new CompoundServiceProvider();
-    csp.setServiceProvider(new ServiceProvider("theSpEntityId"));
-    when(compoundSPService.getCSPById(idp, 1L, false)).thenReturn(csp);
-
-    LicenseInformation licenseInformation = new LicenseInformation();
-    License theLicense = new License();
-    licenseInformation.setLicense(theLicense);
-    licenseInformation.setSpEntityId("theSpEntityId");
-    when(cdkClient.getLicenseInformation("mockIdP")).thenReturn(Arrays.asList(licenseInformation));
-
-    final ModelAndView modelAndView = controller.serviceDetail(1, null, "false", idp, request);
-    assertEquals("app-detail", modelAndView.getViewName());
-    CompoundServiceProvider compoundSp = (CompoundServiceProvider) modelAndView.getModelMap().get("compoundSp");
-    assertEquals(theLicense, compoundSp.getLicense());
-
-  }
-
 }

@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
-import nl.surfnet.coin.selfservice.api.model.LicenseInformation;
-import nl.surfnet.coin.selfservice.cdkclient.CdkClient;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.LicenseInformation;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
@@ -99,8 +99,7 @@ public class ServiceDetailController extends BaseController {
   private int maxRecommendationEmails = 20;
 
   @Resource
-  private CdkClient cdkClient;
-
+  private Csa csa;
   /**
    * Controller for detail page.
    * 
@@ -150,11 +149,12 @@ public class ServiceDetailController extends BaseController {
    * @return the same CompoundServiceProvider
    */
   private CompoundServiceProvider enrichWithLicense(CompoundServiceProvider compoundServiceProvider, String idpEntityId) {
-    List<LicenseInformation> licenseInformation = cdkClient.getLicenseInformation(idpEntityId);
+    List<LicenseInformation> licenseInformation = csa.getLicenseInformation(idpEntityId);
     for (LicenseInformation li : licenseInformation) {
       if (li.getSpEntityId().equals(compoundServiceProvider.getSp().getId())) {
         LOG.debug("Found license for CSP '{}' in list of license information from CDK: {}", compoundServiceProvider, li);
-        compoundServiceProvider.setLicenses(Arrays.asList(li.getLicense()));
+        // FIXME: License class not yet compatible
+//        compoundServiceProvider.setLicenses(Arrays.asList(li.getLicense()));
       }
     }
     return compoundServiceProvider;

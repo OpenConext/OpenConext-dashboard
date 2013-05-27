@@ -24,8 +24,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "/coin-selfservice-context.xml",
         "/coin-selfservice-properties-context.xml",
+        "/coin-selfservice-context.xml",
         "classpath:coin-shared-context.xml"})
 public class JiraServiceTest {
 

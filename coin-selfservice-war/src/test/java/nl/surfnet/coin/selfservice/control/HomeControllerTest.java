@@ -16,12 +16,9 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
 import java.util.HashMap;
 
+import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.selfservice.dao.FacetDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
@@ -38,6 +35,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for {@link HomeController}
@@ -62,6 +63,9 @@ public class HomeControllerTest {
   @Mock
   private FacetDao facetDao;
 
+  @Mock
+  private Csa csa;
+  
   @Before
   public void setUp() throws Exception {
     controller = new HomeController();

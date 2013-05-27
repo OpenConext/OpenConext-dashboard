@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +23,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.dao.FacetDao;
-import nl.surfnet.coin.selfservice.domain.*;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
+import nl.surfnet.coin.selfservice.domain.Facet;
+import nl.surfnet.coin.selfservice.domain.FacetValue;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
@@ -54,6 +60,9 @@ public class HomeController extends BaseController {
   @Resource
   private FacetDao facetDao;
 
+  @Resource
+  private Csa csa;
+
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
     return personAttributeLabelService.getAttributeLabelMap();
@@ -64,28 +73,32 @@ public class HomeController extends BaseController {
                            @RequestParam(value = "view", defaultValue = "card") String view, HttpServletRequest request) {
     Map<String, Object> model = new HashMap<String, Object>();
 
-    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-    model.put(COMPOUND_SPS, services);
+    List<Service> services = csa.getServicesForIdp(selectedidp.getId());
+    model.put(SPS, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
     addLicensedConnectedCounts(model, services);
     model.put("showFacetSearch", true);
-    List<Facet> facets = this.filterFacetValues(services, facetDao.findAll());
-    model.put("facets", facets);
-    model.put("facetsUsed", this.isFacetsUsed(facets) );
+
+// TODO: facets not yet delivered by Csa
+//    List<Facet> facets = this.filterFacetValues(services, facetDao.findAll());
+//    model.put("facets", facets);
+//    model.put("facetsUsed", this.isFacetsUsed(facets) );
 
     return new ModelAndView("app-overview", model);
   }
 
-  private void addLicensedConnectedCounts(Map<String, Object> model, List<CompoundServiceProvider> services) {
+  private void addLicensedConnectedCounts(Map<String, Object> model, List<Service> services) {
     int connectedCount = getConnectedCount(services);
     model.put("connectedCount", connectedCount);
     model.put("notConnectedCount", services.size() - connectedCount);
-    int licensedCount = getLicensedCount(services);
-    model.put("licensedCount", licensedCount);
-    model.put("notLicensedCount", services.size() - licensedCount);
+
+    // TODO: license info not yet delivered by Csa
+//    int licensedCount = getLicensedCount(services);
+//    model.put("licensedCount", licensedCount);
+//    model.put("notLicensedCount", services.size() - licensedCount);
   }
 
   private boolean isFacetsUsed(List<Facet> facets) {
@@ -107,10 +120,10 @@ public class HomeController extends BaseController {
     return result;
   }
 
-  private int getConnectedCount(List<CompoundServiceProvider> services) {
+  private int getConnectedCount(List<Service> services) {
     int result = 0;
-    for (CompoundServiceProvider csp : services) {
-      if (csp.getSp().isLinked()) {
+    for (Service service : services) {
+      if (service.isHasCrmLink()) {
         ++result;
       }
     }

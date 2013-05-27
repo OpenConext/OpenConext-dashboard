@@ -19,7 +19,7 @@
         http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 
-  <context:component-scan base-package="nl.surfnet.coin.selfservice" />
+  <context:component-scan base-package="nl.surfnet.coin.selfservice,nl.surfnet.coin.csa" />
   <cache:annotation-driven key-generator="methodNameAwareCacheKeyGenerator" />
 
   <!-- Our "own" database for tracking connect/disconnect requests -->
