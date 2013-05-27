@@ -19,7 +19,6 @@ package nl.surfnet.coin.selfservice.control;
 import java.util.HashMap;
 
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.selfservice.dao.FacetDao;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.NotificationService;
@@ -61,11 +60,8 @@ public class HomeControllerTest {
   private CompoundSPService compoundSPService;
 
   @Mock
-  private FacetDao facetDao;
-
-  @Mock
   private Csa csa;
-  
+
   @Before
   public void setUp() throws Exception {
     controller = new HomeController();

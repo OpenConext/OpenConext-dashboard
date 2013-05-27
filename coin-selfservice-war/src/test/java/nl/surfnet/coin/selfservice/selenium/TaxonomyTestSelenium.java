@@ -18,7 +18,6 @@
  */
 package nl.surfnet.coin.selfservice.selenium;
 
-import nl.surfnet.coin.selfservice.domain.Facet;
 import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
 import org.junit.Ignore;
 import org.junit.Test;

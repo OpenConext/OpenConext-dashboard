@@ -222,8 +222,6 @@
         <value>nl.surfnet.coin.selfservice.domain.FieldString</value>
         <value>nl.surfnet.coin.selfservice.domain.FieldImage</value>
         <value>nl.surfnet.coin.selfservice.domain.Screenshot</value>
-        <value>nl.surfnet.coin.selfservice.domain.Facet</value>
-        <value>nl.surfnet.coin.selfservice.domain.FacetValue</value>
         <value>nl.surfnet.coin.selfservice.domain.MultilingualString</value>
         <value>nl.surfnet.coin.selfservice.domain.LocalizedString</value>
       </list>
@@ -252,6 +250,10 @@
   </bean>
 
   <bean id="authorizationServerFilter" class="${authorizationServerFilterClass}">
+  </bean>
+
+  <bean id="csa" class="${csaClass}">
+    <property name="csaBaseLocation" value="${csaBaseLocation}" />
   </bean>
 
 </beans>

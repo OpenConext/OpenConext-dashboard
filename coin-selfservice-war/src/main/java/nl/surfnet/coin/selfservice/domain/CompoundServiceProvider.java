@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 package nl.surfnet.coin.selfservice.domain;
-import static java.lang.Boolean.*;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.EULA_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL_EN;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL_NL;
-import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
-import static org.springframework.util.StringUtils.hasText;
-
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import nl.surfnet.coin.selfservice.domain.Field.Key;
 import nl.surfnet.coin.selfservice.domain.Field.Source;
@@ -52,6 +49,25 @@ import org.hibernate.annotations.SortType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APPSTORE_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.APP_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.DETAIL_LOGO;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.ENDUSER_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.EULA_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.INSTITUTION_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_DESCRIPTION_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SERVICE_URL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_MAIL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL_EN;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.SUPPORT_URL_NL;
+import static nl.surfnet.coin.selfservice.domain.Field.Key.TECHNICAL_SUPPORTMAIL;
+import static org.springframework.util.StringUtils.hasText;
 
 
 /**
@@ -104,7 +120,7 @@ public class CompoundServiceProvider extends DomainObject {
           inverseJoinColumns = { @JoinColumn(name = "facet_value_id",
                   nullable = false, updatable = false) })
   @Sort(type = SortType.NATURAL)
-  private SortedSet<FacetValue> facetValues = new TreeSet<FacetValue>();
+//  private SortedSet<FacetValue> facetValues = new TreeSet<FacetValue>();
 
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Article article) {
@@ -619,30 +635,30 @@ public class CompoundServiceProvider extends DomainObject {
     return hideInProtectedShowroom;
   }
 
-  public SortedSet<FacetValue> getFacetValues() {
-    return facetValues;
-  }
-
-  public void setFacetValues(SortedSet<FacetValue> facetValues) {
-    this.facetValues = facetValues;
-  }
-
-  public void addFacetValue(FacetValue facetValue) {
-    this.facetValues.add(facetValue);
-  }
-
-  public void removeFacetValue(FacetValue facetValue) {
-    this.facetValues.remove(facetValue);
-  }
-
-  public String getSearchFacetValues() {
-    Collection<String> values = new ArrayList<String>();
-    if (!CollectionUtils.isEmpty(facetValues)) {
-      for (FacetValue facetValue : facetValues) {
-        values.add(facetValue.getSearchValue());
-      }
-    }
-    return StringUtils.join(values, " ");
-  }
+//  public SortedSet<FacetValue> getFacetValues() {
+//    return facetValues;
+//  }
+//
+//  public void setFacetValues(SortedSet<FacetValue> facetValues) {
+//    this.facetValues = facetValues;
+//  }
+//
+//  public void addFacetValue(FacetValue facetValue) {
+//    this.facetValues.add(facetValue);
+//  }
+//
+//  public void removeFacetValue(FacetValue facetValue) {
+//    this.facetValues.remove(facetValue);
+//  }
+//
+//  public String getSearchFacetValues() {
+//    Collection<String> values = new ArrayList<String>();
+//    if (!CollectionUtils.isEmpty(facetValues)) {
+//      for (FacetValue facetValue : facetValues) {
+//        values.add(facetValue.getSearchValue());
+//      }
+//    }
+//    return StringUtils.join(values, " ");
+//  }
 
 }

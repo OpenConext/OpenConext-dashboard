@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +25,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Category;
+import nl.surfnet.coin.csa.model.CategoryValue;
 import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.dao.FacetDao;
+import nl.surfnet.coin.csa.model.Taxonomy;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.Facet;
-import nl.surfnet.coin.selfservice.domain.FacetValue;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -53,12 +53,6 @@ public class HomeController extends BaseController {
 
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
-
-  @Resource
-  private CompoundSPService compoundSPService;
-
-  @Resource
-  private FacetDao facetDao;
 
   @Resource
   private Csa csa;
@@ -82,10 +76,9 @@ public class HomeController extends BaseController {
     addLicensedConnectedCounts(model, services);
     model.put("showFacetSearch", true);
 
-// TODO: facets not yet delivered by Csa
-//    List<Facet> facets = this.filterFacetValues(services, facetDao.findAll());
-//    model.put("facets", facets);
-//    model.put("facetsUsed", this.isFacetsUsed(facets) );
+    List<Category> facets = this.filterFacetValues(services, csa.getTaxonomy());
+    model.put("facets", facets);
+    model.put("facetsUsed", this.isCategoryValuesUsed(facets));
 
     return new ModelAndView("app-overview", model);
   }
@@ -101,9 +94,9 @@ public class HomeController extends BaseController {
 //    model.put("notLicensedCount", services.size() - licensedCount);
   }
 
-  private boolean isFacetsUsed(List<Facet> facets) {
-    for (Facet facet : facets) {
-      if (facet.isUsedFacetValues()) {
+  private boolean isCategoryValuesUsed(List<Category> categories) {
+    for (Category cat : categories) {
+      if (cat.isUsedFacetValues()) {
         return true;
       }
     }
@@ -143,18 +136,23 @@ public class HomeController extends BaseController {
     notificationPopupClosed(request);
   }
 
-  private List<Facet> filterFacetValues(List<CompoundServiceProvider> services, List<Facet> facets) {
-    for (Facet facet : facets) {
-      for (FacetValue facetValue : facet.getFacetValues()) {
+  private List<Category> filterFacetValues(List<Service> services, Taxonomy taxonomy) {
+    if (taxonomy == null || taxonomy.getCategories() == null) {
+      return Collections.emptyList();
+    }
+
+    for (Category category : taxonomy.getCategories()) {
+      for (CategoryValue value : category.getValues()) {
         int count = 0;
-        for (CompoundServiceProvider service : services) {
-          if (service.getFacetValues().contains(facetValue)) {
+        for (Service service : services) {
+          List<CategoryValue> categoryValues = service.getCategories().get(category);
+          if (categoryValues != null && categoryValues.contains(value)) {
             ++count;
           }
         }
-        facetValue.setCount(count);
+        value.setCount(count);
       }
     }
-    return facets;
+    return taxonomy.getCategories();
   }
 }
