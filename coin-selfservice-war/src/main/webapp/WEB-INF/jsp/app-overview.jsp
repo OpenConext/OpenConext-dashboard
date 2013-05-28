@@ -75,18 +75,17 @@
     <div style="padding-top: 10px;">
     <div>
       <ul class="${view}-view app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActive == true ? 'lmng-active' : ''}">
-      <c:forEach items="${compoundSps}" var="compoundSp">
-            <c:if test="${not empty compoundSp.id}">
-              <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
-              <c:set var="showConnectButton" value="${applyAllowed and (not compoundSp.sp.linked)}" />
-              <li class="${view}-view" data-id="${compoundSp.id}"
-                          data-facet-values="${compoundSp.sp.linked ? "connected" : "not-connected"} ${compoundSp.articleLicenseAvailable ? "licensed" : "not-licensed"} ${compoundSp.searchFacetValues}">
+      <c:forEach items="${sps}" var="sp">
+              <c:set var="serviceDescription" value="${sp.description}" />
+              <c:set var="showConnectButton" value="${applyAllowed and (not sp.connected)}" />
+              <li class="${view}-view" data-id="${sp.id}"
+                          data-facet-values="${sp.connected ? "connected" : "not-connected"} ${sp.license ? "licensed" : "not-licensed"} ${compoundSp.searchFacetValues}">
                 <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-                  <spring:param name="compoundSpId" value="${compoundSp.id}" />
+                  <spring:param name="id" value="${sp.id}" />
                 </spring:url>
 
-                <c:set var="spTitle">
-                  <tags:providername provider="${compoundSp.sp}" />
+                <c:set var="spTitle" >
+                  <c:out default="${sp.id}" value="${sp.name}" />
                 </c:set>
                 <h2>
                   <a href="${detailUrl}">
@@ -98,15 +97,15 @@
                 </h2>
                   <c:if test="${!isCard}">
                   <div class="app-meta-cta">
-                    <c:if test="${not empty compoundSp.appUrl}">
-                      <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                    <c:if test="${not empty sp.appUrl}">
+                      <a href="${sp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
                         <i class="icon-external-link"></i>
                       </a>
                     </c:if>
                     <c:if test="${showConnectButton and !isCard}">
                         <a href="<c:url value="/requests/linkrequest.shtml">
-                                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                                <c:param name="compoundSpId" value="${compoundSp.id}" />
+                                <c:param name="spEntityId" value="${sp.spEntityid}" />
+                                <c:param name="id" value="${sp.id}" />
                               </c:url>" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
                           <i class='icon-cloud-upload'></i>
                         </a>
@@ -115,8 +114,8 @@
                   </div>
                 </c:if>
 
-                <c:if test="${not empty compoundSp.appStoreLogo}">
-                  <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
+                <c:if test="${not empty sp.logoUrl}">
+                  <img src="<c:url value="${sp.logoUrl}"/>"/>
                 </c:if>
                 <p class="desc">
                   <c:out value="${serviceDescription}" />
@@ -124,8 +123,8 @@
                 <c:if test="${showConnectButton and isCard}">
                   <p class="connect-app">
                     <a href="<c:url value="/requests/linkrequest.shtml">
-                            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                            <c:param name="compoundSpId" value="${compoundSp.id}" />
+                                <c:param name="spEntityId" value="${sp.spEntityid}" />
+                                <c:param name="id" value="${sp.id}" />
                           </c:url>">
                       <spring:message code="jsp.sp_detail.requestlink"/>
                     </a>
@@ -133,7 +132,7 @@
                 </c:if>
                 <c:if test="${isCard}">
                   <div class="app-meta-cta">
-                    <c:if test="${not empty compoundSp.appUrl}">
+                    <c:if test="${not empty sp.appUrl}">
                       <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
                         <i class="icon-external-link"></i>
                       </a>
@@ -141,7 +140,6 @@
                   </div>
                 </c:if>
             </li>
-            </c:if>
           </c:forEach>
         </ul>
       </div>

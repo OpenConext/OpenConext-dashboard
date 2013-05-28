@@ -14,13 +14,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
-<%@attribute name="csp" description="A CompoundServcieProvider object" type="nl.surfnet.coin.selfservice.domain.CompoundServiceProvider"
+<%@attribute name="service" description="A Service object" type="nl.surfnet.coin.csa.model.Service"
     required="true" %>
 <%@attribute name="invariant" type="java.lang.Boolean" required="true" %>
 <c:if test="${invariant}">
   <a href="<c:url value="/requests/question.shtml">
-    <c:param name="spEntityId" value="${csp.sp.id}" />
-    <c:param name="compoundSpId" value="${csp.id}" />
+    <c:param name="spEntityId" value="${service.spEntityId}" />
+    <c:param name="compoundSpId" value="${service.id}" />
     </c:url>"
     title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
   </a>

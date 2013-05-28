@@ -165,7 +165,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
       // Get the ARP (if there is any)
       final ARP arp = getArp(spEntityId);
       if (arp != null) {
-        serviceProvider.addArp(arp);
+        serviceProvider.setArp(arp);
       }
 
       // Check if the IdP can connect to this service

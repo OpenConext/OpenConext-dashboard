@@ -18,7 +18,7 @@
 [#import "macros_htmlmail.ftl" as macros_htmlmail/]
 [#--
 Template variables:
-CompoundServiceprovider compoundSp
+Service service
 Personal-note recommendPersonalNote
 String invitername
 String appstoreURL
@@ -26,7 +26,7 @@ String appstoreURL
 [@macros_htmlmail.mailheader/]
         <p lang="en">
           I would like to share the following service on SURFconext with you:
-          ${compoundSp.sp.name?html}
+          ${service.name?html}
         </p>
 
         [#if recommendPersonalNote?has_content]
@@ -43,11 +43,11 @@ String appstoreURL
                 <span lang="en"><a href="${appstoreURL}" style="color:#0088CC;">Click here to see the service details</a></span>
                 <br/><span lang="nl"><a href="${appstoreURL}" style="color:#0088CC;">Klik hier voor details van de dienst</a></span>
             </td>
-            [#if compoundSp.appUrl?has_content]
+            [#if service.appUrl?has_content]
               <td bgcolor="#EDFFDE" style="mso-line-height-rule:exactly;line-height:18px;font-size:13px;font-family:Arial, sans-serif;border-radius:4px 4px 4px 4px;color:#489406;border-style:solid;border-width:1px;border-color:#489406;"
                   align="center" width="50%">
-                  <span lang="en"><a href="${compoundSp.appUrl}" style="color:#0088CC;">Go directly to the app</a></span>
-                  <br/><span lang="nl"><a href="${compoundSp.appUrl}" style="color:#0088CC;">Ga direct naar de app</a></span>
+                  <span lang="en"><a href="${service.appUrl}" style="color:#0088CC;">Go directly to the app</a></span>
+                  <br/><span lang="nl"><a href="${service.appUrl}" style="color:#0088CC;">Ga direct naar de app</a></span>
               </td>
             [#else]
               <td></td>

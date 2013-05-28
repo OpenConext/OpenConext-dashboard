@@ -16,7 +16,7 @@
   limitations under the License.
   --%>
 
-<c:set var="spname"><tags:providername provider="${compoundSp.sp}" /></c:set>
+<c:set var="spname"><c:out default="${sp.id}" value="${sp.name}" /></c:set>
 <spring:message var="title" code="jsp.home.title" />
 <jsp:include page="head.jsp">
   <jsp:param name="title" value="${title}" />
@@ -24,35 +24,35 @@
 <div class="wrapper has-right">
 <div class="column-right side-content-holder">
   <section>
-    <c:if test="${not empty compoundSp.detailLogo}">
-      <img src="${compoundSp.detailLogo}" alt="<c:out value=""/>" class="application-logo">
+    <c:if test="${not empty sp.detailLogoUrl}">
+      <img src="${sp.detailLogoUrl}" alt="<c:out value=""/>" class="application-logo">
     </c:if>
     <ul class="launch-icons">
-      <c:if test="${not empty compoundSp.appUrl}">
+      <c:if test="${not empty sp.appUrl}">
         <li>
-          <a class="btn btn-primary-alt start-app" href="${compoundSp.appUrl}" target="_blank">
+          <a class="btn btn-primary-alt start-app" href="${sp.appUrl}" target="_blank">
             <spring:message code="jsp.app_detail.app_url_label"/>
             <i class="icon-play"></i>
           </a>
         </li>
       </c:if>
-      <c:if test="${not empty compoundSp.article.appleAppStoreMedium}">
+      <c:if test="${not empty sp.crmArticle.appleAppStoreUrl}">
 	      <li>
-          <a href="${compoundSp.article.appleAppStoreMedium.url}">
+          <a href="${sp.article.appleAppStoreUrl}">
 	          <img src="<c:url value="/images/icon-app-store.png"/>" alt="iTunes App Store">
 	        </a>
 	      </li>
       </c:if>
-      <c:if test="${not empty compoundSp.article.androidPlayStoreMedium}">
+      <c:if test="${not empty sp.crmArticle.androidPlayStoreUrl}">
 	      <li>
-	        <a href="${compoundSp.article.androidPlayStoreMedium.url}">
+	        <a href="${sp.crmArticle.androidPlayStoreUrl}">
 	          <img src="<c:url value="/images/icon-google-play.png"/>" alt="Google Play Store">
 	        </a>
 	      </li>
 	    </c:if>
       <li>
         <spring:url var="recommendAppLink" value="/app-recommend.shtml">
-          <spring:param name="compoundSpId" value="${compoundSp.id}" />
+          <spring:param name="id" value="${sp.id}" />
         </spring:url>
         <a id="recommend-app" class="btn btn-primary recommend-app" href="${recommendAppLink}">
             <spring:message code="jsp.app_detail.recommend_app"/>
@@ -61,31 +61,30 @@
         </li>
     </ul>
     <ul class="action-list">
-      <c:if test="${not empty compoundSp.serviceUrl}">
+      <c:if test="${not empty service.serviceUrl}">
         <li>
-          <a href="${compoundSp.serviceUrl}" target="_blank">
+          <a href="${service.serviceUrl}" target="_blank">
             <spring:message code="jsp.app_detail.service_url_label" arguments="${spname}"/>
           </a>
         </li>
       </c:if>
-      <c:set var="supportUrl"><tags:locale-specific escapeXml="true" nlVariant="${compoundSp.supportUrlNl}" enVariant="${compoundSp.supportUrlEn}" /></c:set>
-      <c:if test="${not empty supportUrl}">
+      <c:if test="${not empty service.supportUrl}">
         <li>
-          <a href="${supportUrl}" target="_blank">
+          <a href="${service.supportUrl}" target="_blank">
             <spring:message code="jsp.app_detail.support_url_label" arguments="${spname}"/>
           </a>
         </li>
       </c:if>
-      <c:if test="${not empty compoundSp.eulaUrl}">
+      <c:if test="${not empty service.eulaUrl}">
         <li>
-          <a href="${compoundSp.eulaUrl}" target="_blank">
+          <a href="${service.eulaUrl}" target="_blank">
             <spring:message code="jsp.app_detail.terms_conditions" />
           </a>
         </li>
       </c:if>
       <c:if test="${isAdminUser && ebLinkActive}">
         <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
-          <spring:param name="spEntityId" value="${compoundSp.sp.id}" />
+          <spring:param name="spEntityId" value="${sp.spEntityId}" />
         </spring:url>
         <c:set var="tooltipStats"><spring:message code="jsp.sp_detail.statslink"/></c:set>
         <li>
@@ -94,11 +93,11 @@
         </li>
       </c:if>
       </ul>
-      <c:if test="${not empty compoundSp.supportMail}">
+      <c:if test="${not empty sp.supportMail}">
         <ul class="action-list email-addresses">
         <li>
           <spring:message code="jsp.app_detail.support_email" />
-          <a href="mailto:<c:out value="${compoundSp.supportMail}"/>"><c:out value="${compoundSp.supportMail}"/></a>
+          <a href="mailto:<c:out value="${sp.supportMail}"/>"><c:out value="${sp.supportMail}"/></a>
         </li>
       </ul>
       </c:if>
@@ -111,7 +110,7 @@
       <div class="license-connect">
         <c:if test="${connectionVisible}">
         <c:choose>
-          <c:when test="${not compoundSp.sp.linked}">
+          <c:when test="${not sp.connected}">
             <div class="service-not-connected">
               <p>
                 <strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong>
@@ -120,19 +119,19 @@
               <c:if test="${applyAllowed}">
                 <li>
 	              <a href="<c:url value="/requests/linkrequest.shtml">
-	                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-	                <c:param name="compoundSpId" value="${compoundSp.id}" />
+	                <c:param name="spEntityId" value="${sp.spEntityId}" />
+	                <c:param name="serviceId" value="${sp.id}" />
 	              </c:url>"
 	                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
                 </li>
 	            </c:if>
-              <c:if test="${questionAllowed}"><li><tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></li></c:if>
-              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
+              <c:if test="${questionAllowed}"><li><tags:ask-question service="${service}" invariant="${questionAllowed}" /></li></c:if>
+              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${service.spEntityId}"><i class="icon-info-sign"></i></a></li></c:if>
 
               </ul>
             </div>
           </c:when>
-          <c:when test="${compoundSp.sp.linked}">
+          <c:when test="${service.connected}">
             <div class="service-connected">
               <p>
                 <strong><spring:message code="jsp.app_detail.technical_connection"/></strong>
@@ -140,15 +139,15 @@
               <ul>
                 <c:if test="${applyAllowed}">
                   <li>    <a href="<c:url value="/requests/unlinkrequest.shtml">
-                            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                            <c:param name="compoundSpId" value="${compoundSp.id}" />
+                            <c:param name="spEntityId" value="${service.spEntityId}" />
+                            <c:param name="id" value="${service.id}" />
                               </c:url>" title="<spring:message code="jsp.sp_detail.requestunlink"/>">
                             <spring:message code="jsp.sp_detail.requestunlink"/>
                           </a>
                   </li>
                 </c:if>
-              <c:if test="${questionAllowed}"><li><tags:ask-question csp="${compoundSp}" invariant="${questionAllowed}" /></li></c:if>
-              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${compoundSp.sp.id}"><i class="icon-info-sign"></i></a></li></c:if>
+              <c:if test="${questionAllowed}"><li><tags:ask-question service="${service}" invariant="${questionAllowed}" /></li></c:if>
+              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${service.spEntityId}"><i class="icon-info-sign"></i></a></li></c:if>
               </ul>
             </div>
           </c:when>
@@ -156,10 +155,10 @@
         </c:if>
 
           <c:choose>
-            <c:when test="${compoundSp.articleLicenseAvailable}">
+            <c:when test="${service.hasCrmLink and service.license}">
               <div class="license-available">
                 <c:choose>
-                  <c:when test="${compoundSp.license.groupLicense}">
+                  <c:when test="${service.license.groupLicense}">
                     <p><strong><spring:message code="jsp.app_detail.group_license_available"/></strong></p>
                     <p><spring:message code="jsp.app_detail.group_license_available_detail"/></p>
                   </c:when>
@@ -167,20 +166,20 @@
                     <p><strong><spring:message code="jsp.app_detail.license_available"/></strong></p>
                   </c:otherwise>
                 </c:choose>
-                <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/></c:set>
+                <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${service.license.endDate}"/></c:set>
                 <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
 
                 <c:if test="${deepLinkToSurfMarketAllowed}">
-                  <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
+                  <c:set var="url" value="${lmngDeepLinkUrl}${service.crmArticle.guid}" />
                   <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
                 </c:if>
               </div>
             </c:when>
-            <c:when test="${compoundSp.articleAvailable}">
+            <c:when test="${service.hasCrmLink}">
               <div class="license-not-available">
                 <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
                 <c:if test="${deepLinkToSurfMarketAllowed}">
-                  <c:set var="url" value="${lmngDeepLinkUrl}${compoundSp.lmngId}" />
+                  <c:set var="url" value="${lmngDeepLinkUrl}${service.crmArticle.guid}" />
                   <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
                 </c:if>
               </div>
@@ -193,23 +192,19 @@
             </c:otherwise>
           </c:choose>
 
-        <tags:ask-question csp="${compoundSp}" invariant="${questionAllowed and !applyAllowed}" />
+        <tags:ask-question service="${service}" invariant="${questionAllowed and !applyAllowed}" />
       </div>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>"
               data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
-        <jsp:attribute name="input">
-            <tags:locale-specific escapeXml="false" nlVariant="${compoundSp.institutionDescriptionNl}" enVariant="${compoundSp.institutionDescriptionEn}" />
-        </jsp:attribute>
+        <jsp:attribute name="input"><c:out value="${service.institutionDescription}" /></jsp:attribute>
       </tags:html-format>
     </div>
 
     <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
       <tags:html-format>
-        <jsp:attribute name="input">
-          <tags:locale-specific escapeXml="false" nlVariant="${compoundSp.enduserDescriptionNl}" enVariant="${compoundSp.enduserDescriptionEn}" />
-        </jsp:attribute>
+        <jsp:attribute name="input"><c:out value="${service.enduserDescription}" /></jsp:attribute>
       </tags:html-format>
     </div>
 
@@ -223,8 +218,8 @@
       <div>
         <p>
       <spring:url value="revokekeys.shtml" htmlEscape="true" var="revokeUrl">
-        <spring:param name="compoundSpId" value="${compoundSp.id}"/>
-        <spring:param name="spEntityId" value="${compoundSp.serviceProviderEntityId}"/>
+        <spring:param name="id" value="${service.id}"/>
+        <spring:param name="spEntityId" value="${service.spEntityId}"/>
       </spring:url>
       <spring:message code="jsp.service_detail.oauth_present"/> (<a href="${revokeUrl}"><spring:message
           code="jsp.service_detail.oauth_revoke"/></a>)
@@ -241,15 +236,15 @@
 
     <hr>
 
-    <c:if test="${not empty compoundSp.screenShotsImages}">
+    <c:if test="${not empty service.screenshotUrls}">
       <h2><spring:message code="jsp.app_detail.screenshots_of" arguments="${spname}" htmlEscape="false"/></h2>
 
       <div class="screenshots-holder gallery-holder">
         <ul class="gallery">
-          <c:forEach items="${compoundSp.screenShotsImages}" var="screenshot">
+          <c:forEach items="${service.screenshotUrls}" var="screenshot">
             <li>
-              <a href="<spring:url value="${screenshot.fileUrl}" />">
-                <img src="<spring:url value="${screenshot.fileUrl}" />" alt="Screenshot <c:out value="${spname}"/>">
+              <a href="<spring:url value="${screenshot}" />">
+                <img src="<spring:url value="${screenshot}" />" alt="Screenshot <c:out value="${spname}"/>">
               </a>
             </li>
           </c:forEach>

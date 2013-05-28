@@ -29,25 +29,21 @@ import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.LicenseInformation;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.GroupContext;
 import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.OAuthTokenService;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,12 +66,6 @@ import org.springframework.web.servlet.view.RedirectView;
 public class ServiceDetailController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ServiceDetailController.class);
-
-  @Resource(name = "providerService")
-  private ServiceProviderService providerService;
-
-  @Resource
-  private CompoundSPService compoundSPService;
 
   @Resource(name = "oAuthTokenService")
   private OAuthTokenService oAuthTokenService;
@@ -103,22 +93,19 @@ public class ServiceDetailController extends BaseController {
   /**
    * Controller for detail page.
    * 
-   * @param compoundSpId
-   *          the compound service provider id
-   * @return ModelAndView
+   * @param serviceId
+   *          the service  id
    */
   @RequestMapping(value = "/app-detail")
-  public ModelAndView serviceDetail(@RequestParam(value = "compoundSpId") long compoundSpId,
+  public ModelAndView serviceDetail(@RequestParam(value = "id") long serviceId,
       @RequestParam(required = false) String revoked,
       @RequestParam(value = "refreshCache", required = false, defaultValue = "false") String refreshCache,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
     Map<String, Object> m = new HashMap<String, Object>();
-    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(selectedidp, compoundSpId,
-        Boolean.valueOf(refreshCache));
-    compoundServiceProvider = enrichWithLicense(compoundServiceProvider, selectedidp.getId());
-    m.put(COMPOUND_SP, compoundServiceProvider);
+    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    m.put(SERVICE, service);
 
-    String spEntityId = compoundServiceProvider.getServiceProviderEntityId();
+    String spEntityId = service.getSpEntityId();
     if ((Boolean) (request.getAttribute("ebLinkActive"))) {
       final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
           spEntityId);
@@ -129,10 +116,10 @@ public class ServiceDetailController extends BaseController {
     m.put("personAttributeLabels", attributeLabelMap);
 
     if ((Boolean) (request.getAttribute("showOauthTokens"))) {
-      final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser()
-          .getUid(), compoundServiceProvider.getServiceProvider());
-
-      m.put("oAuthTokens", oAuthTokens);
+      // FIXME integration with oauth token service using CSA
+//      final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser()
+//          .getUid(), compoundServiceProvider.getServiceProvider());
+//      m.put("oAuthTokens", oAuthTokens);
 
       m.put("revoked", revoked);
     }
@@ -142,31 +129,13 @@ public class ServiceDetailController extends BaseController {
     return new ModelAndView("app-detail", m);
   }
 
-  /**
-   * Given a CompoundServiceProvider, enrich it with license data, from the CDK API.
-   *
-   * @param compoundServiceProvider the CSP to enrich
-   * @return the same CompoundServiceProvider
-   */
-  private CompoundServiceProvider enrichWithLicense(CompoundServiceProvider compoundServiceProvider, String idpEntityId) {
-    List<LicenseInformation> licenseInformation = csa.getLicenseInformation(idpEntityId);
-    for (LicenseInformation li : licenseInformation) {
-      if (li.getSpEntityId().equals(compoundServiceProvider.getSp().getId())) {
-        LOG.debug("Found license for CSP '{}' in list of license information from CDK: {}", compoundServiceProvider, li);
-        // FIXME: License class not yet compatible
-//        compoundServiceProvider.setLicenses(Arrays.asList(li.getLicense()));
-      }
-    }
-    return compoundServiceProvider;
-  }
-
   @RequestMapping(value = "/app-recommend")
-  public ModelAndView recommendApp(@RequestParam(value = "compoundSpId") long compoundSpId,
+  public ModelAndView recommendApp(@RequestParam(value = "id") long serviceId,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
 
-    CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPById(selectedidp, compoundSpId, false);
-    m.put(COMPOUND_SP, compoundServiceProvider);
+    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    m.put(SERVICE, service);
     m.put("maxRecommendationEmails", maxRecommendationEmails);
     return new ModelAndView("app-recommend", m);
   }
@@ -174,7 +143,7 @@ public class ServiceDetailController extends BaseController {
   @RequestMapping(value = "/do-app-recommend", method = RequestMethod.POST)
   public @ResponseBody
   String doRecommendApp(
-      @RequestParam(value = "compoundSpId") long compoundSpId,
+      @RequestParam(value = "id") long serviceId,
       @RequestParam(value = "recommendPersonalNote", required = false) String recommendPersonalNote,
       @RequestParam(value = "emailSelect2") String emailSelect2,
       @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
@@ -189,12 +158,12 @@ public class ServiceDetailController extends BaseController {
     Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en");
     CoinUser coinUser = SpringSecurity.getCurrentUser();
 
-    CompoundServiceProvider csp = compoundSPService.getCSPById(selectedidp, compoundSpId, Boolean.FALSE);
+    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
 
-    String subject = coinUser.getDisplayName() + " would like to recommend " + csp.getSp().getName();
+    String subject = coinUser.getDisplayName() + " would like to recommend " + service.getName();
 
     Map<String, Object> templateVars = new HashMap<String, Object>();
-    templateVars.put("compoundSp", csp);
+    templateVars.put("service", service);
     templateVars.put("recommendPersonalNote", recommendPersonalNote);
     templateVars.put("invitername", coinUser.getDisplayName());
 
@@ -242,8 +211,10 @@ public class ServiceDetailController extends BaseController {
   public RedirectView revokeKeys(@RequestParam(value = "compoundSpId") long compoundSpId,
       @RequestParam(value = "spEntityId") String spEntityId,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
-    oAuthTokenService.revokeOAuthTokens(SpringSecurity.getCurrentUser().getUid(), sp);
-    return new RedirectView("app-detail.shtml?compoundSpId=" + compoundSpId + "&revoked=true");
+// FIXME implement this in CSA
+//    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
+//    oAuthTokenService.revokeOAuthTokens(SpringSecurity.getCurrentUser().getUid(), sp);
+    throw new NotImplementedException("Not implemented in CSA");
+//    return new RedirectView("app-detail.shtml?compoundSpId=" + compoundSpId + "&revoked=true");
   }
 }

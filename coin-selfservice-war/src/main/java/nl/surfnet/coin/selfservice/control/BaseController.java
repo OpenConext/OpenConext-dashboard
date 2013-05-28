@@ -62,6 +62,7 @@ public abstract class BaseController {
    * for the detail view
    */
   public static final String COMPOUND_SP = "compoundSp";
+  public static final String SERVICE = "service";
 
   /**
    * The name of the key under which we store the info if a logged user is

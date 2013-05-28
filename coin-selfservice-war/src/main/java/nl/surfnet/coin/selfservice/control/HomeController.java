@@ -142,6 +142,9 @@ public class HomeController extends BaseController {
     }
 
     for (Category category : taxonomy.getCategories()) {
+      if (category.getValues() == null) {
+        continue;
+      }
       for (CategoryValue value : category.getValues()) {
         int count = 0;
         for (Service service : services) {

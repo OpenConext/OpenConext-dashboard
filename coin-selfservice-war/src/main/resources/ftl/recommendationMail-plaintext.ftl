@@ -17,7 +17,7 @@
 [#import "macros_plaintextmail.ftl" as macros_plaintextmail/]
 [#--
 Template variables:
-CompoundServiceprovider compoundSp
+Service service
 Personal-note recommendPersonalNote
 String invitername
 String baseURL
@@ -25,7 +25,7 @@ String baseURL
 
 [@macros_plaintextmail.mailheader/]
 
-I would like to share the following service on SURFconext with you: *${compoundSp.sp.name?html}*.
+I would like to share the following service on SURFconext with you: *${service.name?html}*.
 
 [#if recommendPersonalNote?has_content]
   [#assign msg]${recommendPersonalNote?html}[/#assign]
@@ -35,9 +35,9 @@ I would like to share the following service on SURFconext with you: *${compoundS
 See here for the service details: ${appstoreURL}
 Bekijk hier de service details: ${appstoreURL}
 
-[#if compoundSp.appUrl?has_content]
-Go directly to the app: ${compoundSp.appUrl}
-Ga direct naar de app: ${compoundSp.appUrl}
+[#if service.appUrl?has_content]
+Go directly to the app: ${service.appUrl}
+Ga direct naar de app: ${service.appUrl}
 [/#if]
 
 [@macros_plaintextmail.mailfooter/]
