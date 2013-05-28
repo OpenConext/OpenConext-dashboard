@@ -15,6 +15,26 @@
  */
 package nl.surfnet.coin.selfservice.interceptor;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+
+import nl.surfnet.coin.csa.model.CrmArticle;
+import nl.surfnet.coin.csa.model.License;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
+
+import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
@@ -27,29 +47,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-
-import nl.surfnet.coin.selfservice.control.BaseController;
-import nl.surfnet.coin.selfservice.domain.Article;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.ContactPerson;
-import nl.surfnet.coin.selfservice.domain.ContactPersonType;
-import nl.surfnet.coin.selfservice.domain.License;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
-
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * AuthorityScopeInterceptorTest.java
@@ -72,17 +69,16 @@ public class AuthorityScopeInterceptorTest {
 
     CoinUser user = coinUser(ROLE_USER);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
-    CompoundServiceProvider sp = buildCompoundSeriveProvider();
-    sp.getServiceProvider().setLinked(true);
-    modelAndView.addObject(BaseController.COMPOUND_SP, sp);
-
-    String technicalSupportMail = sp.getTechnicalSupportMail();
+    Service sp = buildService();
+    sp.setConnected(true);
+    modelAndView.addObject(BaseController.SERVICE, sp);
+    String technicalSupportMail = sp.getSupportMail();
     // we have not intercepted yet, so everything is accessible
     assertNotNull(technicalSupportMail);
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
 
-    technicalSupportMail = sp.getTechnicalSupportMail();
+    technicalSupportMail = sp.getSupportMail();
     // intercepted...
     assertNull(technicalSupportMail);
 
@@ -100,9 +96,9 @@ public class AuthorityScopeInterceptorTest {
     CoinUser user = coinUser(ROLE_USER);
 
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
-    CompoundServiceProvider sp = buildCompoundSeriveProvider();
-    sp.getServiceProvider().setLinked(false);
-    mav.addObject(BaseController.COMPOUND_SP, sp);
+    Service sp = buildService();
+    sp.setConnected(false);
+    mav.addObject(BaseController.SERVICE, sp);
 
     interceptor.postHandle(null, null, null, mav);
 
@@ -122,12 +118,12 @@ public class AuthorityScopeInterceptorTest {
 
     CoinUser user = coinUser(ROLE_IDP_SURFCONEXT_ADMIN);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
-    CompoundServiceProvider sp = buildCompoundSeriveProvider();
-    modelAndView.addObject(BaseController.COMPOUND_SP, sp);
+    Service sp = buildService();
+    modelAndView.addObject(BaseController.SERVICE, sp);
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
 
-    String technicalSupportMail = sp.getTechnicalSupportMail();
+    String technicalSupportMail = sp.getSupportMail();
     assertNotNull(technicalSupportMail);
 
     // also allowed
@@ -143,29 +139,30 @@ public class AuthorityScopeInterceptorTest {
 
     CoinUser user = coinUser(ROLE_IDP_LICENSE_ADMIN);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
-    CompoundServiceProvider sp = buildCompoundSeriveProvider();
-    modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp));
+    Service sp = buildService();
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
-    Collection<CompoundServiceProvider> sps = (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(
-        BaseController.COMPOUND_SPS);
+    Collection<Service> sps = (Collection<Service>) modelAndView.getModelMap().get(
+        BaseController.SERVICES);
     assertEquals(0, sps.size());
 
-    CompoundServiceProvider sp1 = buildCompoundSeriveProvider();
-    sp1.setLicenses(Arrays.asList(new License()));
-    sp1.setArticle(new Article("test1"));
-    modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp, sp1));
+    Service sp1 = buildService();
+    sp1.setLicense(new License());
+    sp1.setCrmArticle(new CrmArticle());
+    sp1.setHasCrmLink(true);
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp, sp1));
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
-    sps = (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(BaseController.COMPOUND_SPS);
+    sps = (Collection<Service>) modelAndView.getModelMap().get(BaseController.SERVICES);
     assertEquals(1, sps.size());
 
-    CompoundServiceProvider sp2 = buildCompoundSeriveProvider();
-    sp2.getServiceProvider().setLinked(true);
-    modelAndView.addObject(BaseController.COMPOUND_SPS, Arrays.asList(sp, sp1, sp2));
+    Service sp2 = buildService();
+    sp2.setConnected(true);
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp, sp1, sp2));
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
-    sps = (Collection<CompoundServiceProvider>) modelAndView.getModelMap().get(BaseController.COMPOUND_SPS);
+    sps = (Collection<Service>) modelAndView.getModelMap().get(BaseController.SERVICES);
     assertEquals(2, sps.size());
   }
 
@@ -213,11 +210,10 @@ public class AuthorityScopeInterceptorTest {
     return coinUser;
   }
 
-  private CompoundServiceProvider buildCompoundSeriveProvider() {
-    ServiceProvider serviceProvider = new ServiceProvider(null);
-    serviceProvider.addContactPerson(new ContactPerson(ContactPersonType.technical, "we.dont.want.regular.user.to.see.this@wgaf"));
-    CompoundServiceProvider sp = CompoundServiceProvider.builder(serviceProvider, Article.NONE);
-    return sp;
+  private Service buildService() {
+    Service service = new Service(1L, "", "", "", false, null);
+    service.setSupportMail("somesupportmail");
+    return service;
   }
 
 }

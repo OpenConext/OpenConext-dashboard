@@ -44,7 +44,6 @@
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
-    <bonecp.version>0.7.1.RELEASE</bonecp.version>
     <mujina-idp.version>2.15.1</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
     <!--<selenium.version>2.25.0</selenium.version>-->
@@ -234,7 +233,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-    
+
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -271,11 +270,6 @@
       <groupId>cglib</groupId>
       <artifactId>cglib-nodep</artifactId>
       <version>2.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jolbox</groupId>
-      <artifactId>bonecp</artifactId>
-      <version>${bonecp.version}</version>
     </dependency>
 
     <dependency>
@@ -379,16 +373,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>com.googlecode.flyway</groupId>
-        <artifactId>flyway-maven-plugin</artifactId>
-        <version>1.6.1</version>
-        <configuration>
-          <user>foo</user>
-          <password>bar</password>
-          <url>jdbc:hsqldb:mem:coin</url>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>

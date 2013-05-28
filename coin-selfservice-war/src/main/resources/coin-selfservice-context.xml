@@ -22,99 +22,12 @@
   <context:component-scan base-package="nl.surfnet.coin.selfservice,nl.surfnet.coin.csa" />
   <cache:annotation-driven key-generator="methodNameAwareCacheKeyGenerator" />
 
-  <!-- Our "own" database for tracking connect/disconnect requests -->
-  <bean id="selfserviceDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
-    destroy-method="close">
-    <property name="driverClass" value="${coin-selfservice.jdbc.driver}" />
-    <property name="jdbcUrl" value="${coin-selfservice.jdbc.url}" />
-    <property name="username" value="${coin-selfservice.jdbc.user}" />
-    <property name="password" value="${coin-selfservice.jdbc.password}" />
-    <property name="idleConnectionTestPeriodInSeconds"
-      value="${coin-selfservice.database.idleConnectionTestPeriod}" />
-    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="5" />
-    <property name="minConnectionsPerPartition" value="1" />
-    <property name="partitionCount" value="2" />
-    <property name="statementsCacheSize" value="100" />
-  </bean>
-
-  <bean id="selfserviceJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-    <constructor-arg ref="selfserviceDataSource" />
-  </bean>
-
-  <!-- The api database for oauth keys -->
-  <bean id="apiDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
-    destroy-method="close">
-    <property name="driverClass" value="${coin-api.jdbc.driver}" />
-    <property name="jdbcUrl" value="${coin-api.jdbc.url}" />
-    <property name="username" value="${coin-api.jdbc.user}" />
-    <property name="password" value="${coin-api.jdbc.password}" />
-    <property name="idleConnectionTestPeriodInSeconds" value="${coin-selfservice.database.idleConnectionTestPeriod}" />
-    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="5" />
-    <property name="minConnectionsPerPartition" value="1" />
-    <property name="partitionCount" value="1" />
-    <property name="statementsCacheSize" value="100" />
-  </bean>
-
-  <!-- API and selfservice share the same datasource -->
-  <bean id="apiJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-    <constructor-arg ref="apiDataSource" />
-  </bean>
-
-  <!-- We go to EB for statistics and consent checks -->
-  <bean id="ebDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
-    destroy-method="close">
-    <property name="driverClass" value="${coin-eb-db-driver}" />
-    <property name="jdbcUrl" value="${coin-eb-db-url}" />
-    <property name="username" value="${coin-eb-db-username}" />
-    <property name="password" value="${coin-eb-db-password}" />
-    <property name="idleConnectionTestPeriodInSeconds"
-      value="${coin-selfservice.database.idleConnectionTestPeriod}" />
-    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="5" />
-    <property name="minConnectionsPerPartition" value="1" />
-    <property name="partitionCount" value="1" />
-    <property name="statementsCacheSize" value="100" />
-  </bean>
-
-  <bean id="ebJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-    <constructor-arg ref="ebDataSource" />
-  </bean>
-
-  <!-- shindigDataStore is to fetch OAuth keys for SPs that use os.surfconext.nl -->
-  <bean id="shindigDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
-    destroy-method="close">
-    <property name="driverClass" value="${coin-shindig-db-driver}" />
-    <property name="jdbcUrl" value="${coin-shindig-db-url}" />
-    <property name="username" value="${coin-shindig-db-username}" />
-    <property name="password" value="${coin-shindig-db-password}" />
-    <property name="idleConnectionTestPeriodInSeconds"
-      value="${coin-selfservice.database.idleConnectionTestPeriod}" />
-    <property name="idleMaxAgeInSeconds" value="${coin-selfservice.database.maxIdleTime}" />
-    <property name="maxConnectionsPerPartition" value="5" />
-    <property name="minConnectionsPerPartition" value="1" />
-    <property name="partitionCount" value="1" />
-    <property name="statementsCacheSize" value="100" />
-  </bean>
-
-  <bean id="shindigJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-    <constructor-arg ref="shindigDataSource" />
-  </bean>
 
   <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
     <property name="defaultLocale" value="en"/>
   </bean>
 
-  <bean class="com.googlecode.flyway.core.Flyway" init-method="migrate">
-    <property name="baseDir" value="${coin-selfservice.db.migrations.folder}" />
-    <property name="dataSource" ref="selfserviceDataSource" />
-    <property name="disableInitCheck" value="true" /><!-- skip because Hibernate creates its own table -->
-  </bean>
 
-  <bean id="providerService"
-    class="nl.surfnet.coin.selfservice.service.impl.ServiceRegistryProviderService">
-  </bean>
 
   <bean id="openConextApiClient" class="${openConextApiClient}">
     <property name="callbackUrl" value="${api-callbackuri}" />
@@ -123,14 +36,6 @@
     <property name="consumerSecret" value="${api-consumersecret}" />
     <property name="version" value="v2" />
   </bean>
-
-  <bean id="janusClient" class="${janus.class}">
-    <property name="janusUri" value="${janus.uri}" />
-    <property name="user" value="${janus.user}" />
-    <property name="secret" value="${janus.secret}" />
-  </bean>
-
-  <bean id="statisticDao" class="${statisticsDaoClass}"/>
 
   <bean id="cacheManager" class="${cacheManagerClass}">
     <property name="cacheManager" ref="ehcache" />
@@ -144,11 +49,11 @@
   <bean id="methodNameAwareCacheKeyGenerator"
     class="nl.surfnet.coin.shared.cache.MethodNameAwareCacheKeyGenerator" />
 
-  <bean id="jiraService" class="${jiraServiceClass}">
-    <property name="baseUrl" value="${jiraBaseUrl}" />
-    <property name="username" value="${jiraUsername}" />
-    <property name="password" value="${jiraPassword}" />
-    <property name="projectKey" value="${jiraProjectKey}" />
+  <bean id="jiraService" class="nl.surfnet.coin.selfservice.service.impl.JiraServiceMock">
+    <property name="baseUrl" value=" " />
+    <property name="username" value="x" />
+    <property name="password" value="y" />
+    <property name="projectKey" value="x" />
   </bean>
 
   <bean id="emailService"
@@ -156,89 +61,10 @@
     <property name="administrativeEmail" value="${coin-administrative-email}" />
   </bean>
 
-  <bean id="licensingService" class="${lmngServiceClass}">
-    <property name="endpoint" value="${coin-lmng-endpoint}" />
-    <property name="debug" value="${coin-lmng-debug}" />
-    <property name="activeMode" value="${coin-lmng-active-mode}"/>
-  </bean>
-
   <bean id="personAttributeLabelService"
     class="nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl">
     <constructor-arg name="attributeJsonFile"
       value="${personAttributesLabels.location}" />
-  </bean>
-
-  <bean id="oAuthTokenService"
-    class="nl.surfnet.coin.selfservice.service.impl.OAuthTokenServiceImpl">
-    <property name="oAuthTokenDaos">
-      <list>
-        <bean
-          class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoShindigImpl">
-          <constructor-arg ref="shindigJdbcTemplate" />
-        </bean>
-        <bean
-          class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoAPIv10aImpl">
-          <constructor-arg ref="apiJdbcTemplate" />
-        </bean>
-        <bean
-          class="nl.surfnet.coin.selfservice.dao.impl.OAuthTokenDaoAPIv2Impl">
-          <constructor-arg ref="apiJdbcTemplate" />
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="selfServiceSessionFactory"
-    class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-    <property name="dataSource">
-      <ref local="selfserviceDataSource" />
-    </property>
-    <property name="hibernateProperties">
-      <props>
-        <prop key="hibernate.dialect">${hibernate-selfservice.dialect}</prop>
-        <prop key="hibernate.query.substitutions">true 1, false 0</prop>
-        <prop key="hibernate.show_sql">${hibernate-selfservice.show_sql}</prop>
-        <prop key="hibernate.format_sql">${hibernate-selfservice.format_sql}</prop>
-        <prop key="hibernate.cache.use_second_level_cache">false</prop>
-        <prop key="hibernate.hbm2ddl.auto">${hibernate-selfservice.hbm2ddl.auto}</prop>
-        <prop key="hibernate.cache.use_query_cache">false</prop>
-        <prop key="hibernate.jdbc.wrap_result_sets">true</prop>
-        <prop key="hibernate.connection.release_mode">on_close</prop>
-        <prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider
-        </prop>
-        <prop key="hibernate.c3p0.min_size">2</prop>
-        <prop key="hibernate.c3p0.max_size">10</prop>
-
-        <prop key="hibernate.c3p0.acquireRetryAttempts">5</prop>
-        <prop key="hibernate.c3p0.acquireIncrement">2</prop>
-        <prop key="hibernate.c3p0.idleConnectionTestPeriod">15</prop>
-      </props>
-    </property>
-    <property name="annotatedClasses">
-      <list>
-        <value>nl.surfnet.coin.shared.domain.DomainObject</value>
-        <value>nl.surfnet.coin.selfservice.domain.CompoundServiceProvider</value>
-        <value>nl.surfnet.coin.selfservice.domain.Field</value>
-        <value>nl.surfnet.coin.selfservice.domain.FieldString</value>
-        <value>nl.surfnet.coin.selfservice.domain.FieldImage</value>
-        <value>nl.surfnet.coin.selfservice.domain.Screenshot</value>
-        <value>nl.surfnet.coin.selfservice.domain.MultilingualString</value>
-        <value>nl.surfnet.coin.selfservice.domain.LocalizedString</value>
-      </list>
-    </property>
-    <property name="namingStrategy">
-      <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
-    </property>
-    <property name="useTransactionAwareDataSource" value="true" />
-  </bean>
-
-  <tx:annotation-driven transaction-manager="selfServiceTransactionManager" />
-
-  <bean id="selfServiceTransactionManager"
-    class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-    <property name="sessionFactory">
-      <ref local="selfServiceSessionFactory" />
-    </property>
   </bean>
 
   <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

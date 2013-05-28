@@ -18,9 +18,9 @@ package nl.surfnet.coin.selfservice.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
+import nl.surfnet.coin.csa.model.Service;
 
 /**
  * Message that is shown as a notification to a logged in user.
@@ -30,7 +30,7 @@ import java.util.List;
 public class NotificationMessage implements Serializable {
 
   private List<String> messageKeys = new ArrayList<String>();
-  private List<CompoundServiceProvider> arguments = new ArrayList<CompoundServiceProvider>();
+  private List<Service> arguments = new ArrayList<Service>();
 
   public NotificationMessage() {
     super();
@@ -44,22 +44,11 @@ public class NotificationMessage implements Serializable {
     this.messageKeys.add(messageKey);
   }
 
-  public List<CompoundServiceProvider> getArguments() {
+  public List<Service> getArguments() {
     return arguments;
   }
 
-  public void addArguments(List<CompoundServiceProvider> arguments) {
+  public void addArguments(List<Service> arguments) {
     this.arguments.addAll(arguments);
   }
-
-  public void sort() {
-    Collections.sort(arguments, new Comparator<CompoundServiceProvider>(){
-      @Override
-      public int compare(CompoundServiceProvider o1, CompoundServiceProvider o2) {
-        return 0;
-      }});
-    
-  }
-
-
 }

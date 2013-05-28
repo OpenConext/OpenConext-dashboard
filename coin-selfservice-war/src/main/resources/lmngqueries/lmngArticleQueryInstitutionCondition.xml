@@ -1,2 +1,0 @@
-            <condition attribute="lmng_organisationid" operator="eq" value="%INSTITUTION_ID%" />
-              

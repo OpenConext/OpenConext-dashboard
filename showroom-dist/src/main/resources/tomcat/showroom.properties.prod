@@ -155,7 +155,6 @@ hibernate-selfservice.show_sql=false
 # Alle real implementations (and not local mocks for testing purposes)
 janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=nl.surfnet.coin.api.client.OpenConextOAuthClientImpl
-lmngServiceClass=nl.surfnet.coin.selfservice.service.impl.LmngServiceImpl
 keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
 cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager
@@ -181,8 +180,6 @@ lmngDeepLinkBaseUrl=https://www.surfmarket.nl/instelling/dlc/paginas/productomsc
 
 lmngArticleCacheSeconds=21600
 lmngLicenseCacheSeconds=1800
-
-statisticsDaoClass=nl.surfnet.coin.selfservice.dao.impl.StatisticDaoImpl
 
 #the maximum of number mails to be send for recommendation
 maxRecommendationEmails=30

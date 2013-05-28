@@ -16,26 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control.requests;
 
-import nl.surfnet.coin.selfservice.command.LinkRequest;
-import nl.surfnet.coin.selfservice.control.BaseController;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.JiraTask;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.*;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -44,6 +24,36 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.command.LinkRequest;
+import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.selfservice.domain.JiraTask;
+import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.selfservice.service.EmailService;
+import nl.surfnet.coin.selfservice.service.JiraService;
+import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
+
 @Controller
 @RequestMapping("/requests")
 @SessionAttributes(value = "linkrequest")
@@ -51,17 +61,14 @@ public class LinkrequestController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(LinkrequestController.class);
 
-  @Resource(name = "providerService")
-  private ServiceProviderService providerService;
+  @Resource
+  private Csa csa;
 
   @Resource(name = "jiraService")
   private JiraService jiraService;
 
   @Resource(name = "emailService")
   private EmailService emailService;
-
-  @Resource(name = "actionsService")
-  private ActionsService actionsService;
 
   @Value("${administration.email.enabled:true}")
   private boolean sendAdministrationEmail;
@@ -73,9 +80,9 @@ public class LinkrequestController extends BaseController {
       "classpath:person_attributes.json");
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+  public ModelAndView spLinkRequest(@RequestParam long serviceId, @RequestParam Long compoundSpId,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithSP(serviceId, selectedidp);
     m.put("linkrequest", new LinkRequest());
     m.put("personAttributeLabels", personAttributeLabelService.getAttributeLabelMap());
     return new ModelAndView("requests/linkrequest", m);
@@ -84,7 +91,7 @@ public class LinkrequestController extends BaseController {
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.GET)
   public ModelAndView spUnlinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithSP(compoundSpId, selectedidp);
     m.put("unlinkrequest", new LinkRequest());
     return new ModelAndView("requests/unlinkrequest", m);
   }
@@ -93,7 +100,7 @@ public class LinkrequestController extends BaseController {
   public ModelAndView spUnlinkrequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
                                           @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                           @Valid @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithSP(compoundSpId, selectedidp);
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("requests/unlinkrequest", m);
@@ -119,7 +126,7 @@ public class LinkrequestController extends BaseController {
   }
 
   private ModelAndView doSubmitConfirm(String spEntityId, Long compoundSpId, LinkRequest unlinkrequest, BindingResult result, IdentityProvider selectedidp, SessionStatus sessionStatus, String errorViewName, JiraTask.Type jiraType, String successViewName) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithSP(compoundSpId, selectedidp);
     ServiceProvider selectedSp = (ServiceProvider) m.get("sp");
 
     if (result.hasErrors()) {
@@ -136,7 +143,8 @@ public class LinkrequestController extends BaseController {
                   .institution(currentUser.getInstitutionId()).issueType(jiraType)
                   .status(JiraTask.Status.OPEN).build();
           issueKey = jiraService.create(task, currentUser);
-          actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
+          // FIXME: implement in CSA
+//          actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
           m.put("issueKey", issueKey);
         } catch (IOException e) {
           LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
@@ -181,11 +189,11 @@ public class LinkrequestController extends BaseController {
   }
 
 
-  private Map<String, Object> getModelMapWithSP(String spEntityId, Long compoundSpId, IdentityProvider selectedidp) {
+  private Map<String, Object> getModelMapWithSP(Long serviceId, IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
-    m.put("sp", sp);
-    m.put("compoundSpId", compoundSpId);
+    final Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    m.put("service", service);
+    m.put("serviceId", serviceId);
     return m;
   }
 

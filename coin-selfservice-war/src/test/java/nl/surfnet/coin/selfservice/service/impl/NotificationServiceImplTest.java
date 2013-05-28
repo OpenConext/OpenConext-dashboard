@@ -16,21 +16,17 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import nl.surfnet.coin.selfservice.domain.Article;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.License;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.License;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
-import nl.surfnet.coin.selfservice.domain.Provider.Language;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,13 +34,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 public class NotificationServiceImplTest {
 
   @InjectMocks
   private NotificationServiceImpl notificationServiceImpl;
 
   @Mock
-  private CompoundSPService compoundSPService;
+  private Csa csa;
 
   private List<Authority> authorities;
 
@@ -70,14 +69,14 @@ public class NotificationServiceImplTest {
 
     IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
 
-    List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
-    services.add(createCompoundServiceProvider("testSp1", true, true));
-    services.add(createCompoundServiceProvider("testSp2", false, true));
-    services.add(createCompoundServiceProvider("testSp3", true, false));
-    services.add(createCompoundServiceProvider("testSp4", false, false));
-    services.add(createCompoundServiceProvider("testSp5", true, false));
+    List<Service> services = new ArrayList<Service>();
+    services.add(createService("testSp1", true, true));
+    services.add(createService("testSp2", false, true));
+    services.add(createService("testSp3", true, false));
+    services.add(createService("testSp4", false, false));
+    services.add(createService("testSp5", true, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
 
     NotificationMessage message = notificationServiceImpl.getNotifications(idp);
 
@@ -94,13 +93,13 @@ public class NotificationServiceImplTest {
 
     IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
 
-    List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
-    services.add(createCompoundServiceProvider("testSp1", true, false));
-    services.add(createCompoundServiceProvider("testSp2", false, true));
-    services.add(createCompoundServiceProvider("testSp3", true, true));
-    services.add(createCompoundServiceProvider("testSp4", false, false));
+    List<Service> services = new ArrayList<Service>();
+    services.add(createService("testSp1", true, false));
+    services.add(createService("testSp2", false, true));
+    services.add(createService("testSp3", true, true));
+    services.add(createService("testSp4", false, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
 
     NotificationMessage message = notificationServiceImpl.getNotifications(idp);
 
@@ -117,13 +116,13 @@ public class NotificationServiceImplTest {
 
     IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
 
-    List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
-    services.add(createCompoundServiceProvider("testSp1", false, true));
-    services.add(createCompoundServiceProvider("testSp2", true, false));
-    services.add(createCompoundServiceProvider("testSp3", true, true));
-    services.add(createCompoundServiceProvider("testSp4", false, false));
+    List<Service> services = new ArrayList<Service>();
+    services.add(createService("testSp1", false, true));
+    services.add(createService("testSp2", true, false));
+    services.add(createService("testSp3", true, true));
+    services.add(createService("testSp4", false, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
 
     NotificationMessage result = notificationServiceImpl.getNotifications(idp);
 
@@ -136,36 +135,25 @@ public class NotificationServiceImplTest {
 
     IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
 
-    List<CompoundServiceProvider> services = new ArrayList<CompoundServiceProvider>();
-    services.add(createCompoundServiceProvider("testSp1", true, true));
-    services.add(createCompoundServiceProvider("testSp2", true, true));
-    services.add(createCompoundServiceProvider("testSp3", false, false));
+    List<Service> services = new ArrayList<Service>();
+    services.add(createService("testSp1", true, true));
+    services.add(createService("testSp2", true, true));
+    services.add(createService("testSp3", false, false));
 
-    when(compoundSPService.getCSPsByIdp(idp)).thenReturn(services);
+    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
 
     NotificationMessage result = notificationServiceImpl.getNotifications(idp);
 
     assertEquals(0, result.getArguments().size());
   }
 
-  private CompoundServiceProvider createCompoundServiceProvider(String spName, boolean hasLicense, boolean isLinked) {
-    ServiceProvider sp = new ServiceProvider(spName);
-    sp.addName(Language.NL.name().toLowerCase(), spName);
-
-    Article article = new Article();
-    article.setServiceProviderEntityId(spName);
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, article);
-    if (isLinked) {
-      sp.setLinked(true);
-    } else {
-      sp.setLinked(false);
-    }
-
+  private Service createService(String spName, boolean hasLicense, boolean isConnected) {
+    Service s = new Service(0L, spName, "", "", true, "");
     if (hasLicense) {
-      csp.setLicenses(Arrays.asList(new License[] { new License() }));
+      s.setLicense(new License(new Date(), new Date(), "", ""));
     }
-
-    return csp;
+    s.setConnected(isConnected);
+    return s;
   }
 
 }

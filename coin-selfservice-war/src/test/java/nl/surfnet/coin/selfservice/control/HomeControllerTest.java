@@ -22,8 +22,6 @@ import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.NotificationService;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
-import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import org.junit.Before;
@@ -50,14 +48,9 @@ public class HomeControllerTest {
   @Mock
   private PersonAttributeLabelServiceJsonImpl labelService;
 
-  @Mock
-  private ServiceProviderService sps;
 
   @Mock
   private NotificationService notificationService;
-
-  @Mock
-  private CompoundSPService compoundSPService;
 
   @Mock
   private Csa csa;

@@ -91,7 +91,7 @@
         <property name="dev" value="${mode.dev}"/>
         <property name="lmngActive" value="${coin-lmng-active-mode}"/>
         <property name="showOauthTokens" value="${mode.showOauthTokens}"/>
-        <property name="ebLinkActive" value="${mode.ebLinkActive}" />
+        <property name="ebLinkActive" value="false" />
     </bean>
 
     <bean id="messageAdapter"

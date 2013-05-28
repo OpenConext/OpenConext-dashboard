@@ -22,8 +22,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
@@ -42,7 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
   protected static final String LCP_NOTIFICATIONS = "jsp.notifications.lcp.text";
 
   @Resource
-  private CompoundSPService compoundSPService;
+  private Csa csa;
 
   @Override
   public NotificationMessage getNotifications(IdentityProvider selectedidp) {
@@ -63,21 +64,21 @@ public class NotificationServiceImpl implements NotificationService {
       notificationMessage.addMessageKey(LCP_NOTIFICATIONS);
     }
 
-    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-    List<CompoundServiceProvider> notLinkedCSPs = new ArrayList<CompoundServiceProvider>();
-    List<CompoundServiceProvider> noLicenseCSPs = new ArrayList<CompoundServiceProvider>();
+    List<Service> services = csa.getServicesForIdp(selectedidp.getId());
+    List<Service> notLinkedCSPs = new ArrayList<Service>();
+    List<Service> noLicenseCSPs = new ArrayList<Service>();
 
-    for (CompoundServiceProvider compoundServiceProvider : services) {
-      if (compoundServiceProvider.isLicenseAvailable() && !compoundServiceProvider.getSp().isLinked()) {
+    for (Service service : services) {
+      if (service.getLicense() != null && !service.isConnected()) {
         // if statement inside if statement for readability
-        if (isFcp || (isLcp && compoundServiceProvider.isArticleAvailable())) {
-          notLinkedCSPs.add(compoundServiceProvider);
+        if (isFcp || (isLcp && service.isHasCrmLink())) {
+          notLinkedCSPs.add(service);
         }
-      } else if (!compoundServiceProvider.isLicenseAvailable() && compoundServiceProvider.isArticleAvailable()
-          && compoundServiceProvider.getSp().isLinked()) {
+      } else if (service.getLicense() == null && service.isHasCrmLink()
+          && service.isConnected()) {
         // if statement inside if statement for readability
-        if (isFcp || (isLcp && compoundServiceProvider.isArticleAvailable())) {
-          noLicenseCSPs.add(compoundServiceProvider);
+        if (isFcp || (isLcp && service.isHasCrmLink())) {
+          noLicenseCSPs.add(service);
         }
       }
     }

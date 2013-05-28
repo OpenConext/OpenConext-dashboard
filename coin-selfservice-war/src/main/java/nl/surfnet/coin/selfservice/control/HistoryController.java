@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +23,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import nl.surfnet.coin.selfservice.domain.Action;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Action;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.service.ActionsService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,19 +36,18 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/requests")
 public class HistoryController extends BaseController {
 
-  @Resource(name = "actionsService")
-  private ActionsService actionsService;
+  @Resource
+  private Csa csa;
 
   @RequestMapping(value = "/history.shtml")
-  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request)
-    throws IOException {
+  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
     //if an user acutally links to requests-overview we can dismiss the popup
     notificationPopupClosed(request);
 
     Map<String, Object> model = new HashMap<String, Object>();
 
-    actionsService.synchronizeWithJira(selectedidp.getId());
-    final List<Action> actions = actionsService.getActions(selectedidp.getId());
+    // FIXME: according to server impl, the idp is deduced from access token. But we use Client Credentials, right?
+    final List<Action> actions = csa.getJiraActions();
     model.put("actionList", actions);
     return new ModelAndView("requests/history", model);
   }

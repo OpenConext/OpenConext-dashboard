@@ -23,16 +23,16 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.JiraTask;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.EmailService;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
+import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
@@ -56,8 +56,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/requests")
 public class QuestionController extends BaseController {
 
-  @Resource(name = "providerService")
-  private ServiceProviderService providerService;
+  @Resource
+  private Csa csa;
 
   @Resource(name = "jiraService")
   private JiraService jiraService;
@@ -83,30 +83,28 @@ public class QuestionController extends BaseController {
 
   /**
    * Controller for question form page.
-   * 
-   * @param spEntityId
-   *          the entity id
-   * @return ModelAndView
    */
   @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
-  public ModelAndView spQuestion(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+  public ModelAndView spQuestion(@RequestParam long serviceId,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
+    // FIXME: validate serviceId
+    final Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
     m.put("question", new Question());
-    m.put("sp", sp);
-    m.put("compoundSpId", compoundSpId);
+    m.put("service", service);
+    m.put("serviceId", serviceId);
     return new ModelAndView("requests/question", m);
   }
 
   @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
-  public ModelAndView spQuestionSubmit(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+  public ModelAndView spQuestionSubmit(@RequestParam long serviceId,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
       @Valid @ModelAttribute("question") Question question, BindingResult result) {
 
     Map<String, Object> m = new HashMap<String, Object>();
-    m.put("sp", providerService.getServiceProvider(spEntityId, selectedidp.getId()));
-    m.put("compoundSpId", compoundSpId);
+    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    m.put("sp", service);
+    m.put("serviceId", serviceId);
 
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
@@ -115,7 +113,7 @@ public class QuestionController extends BaseController {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
       if (createAdministrationJiraTicket) {
         final JiraTask task = new JiraTask.Builder().body(question.getSubject() + ("\n\n" + question.getBody()))
-            .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId)
+            .identityProvider(currentUser.getIdp()).serviceProvider(service.getSpEntityId())
             .institution(currentUser.getInstitutionId()).issueType(JiraTask.Type.QUESTION).status(JiraTask.Status.OPEN)
             .build();
 
@@ -147,7 +145,7 @@ public class QuestionController extends BaseController {
 
   /**
    * Used from unit testing to change the behavior of this controller
-   * @param createAdministrationJirraTicket toggle the creation of a Jira Ticket
+   * @param createAdministrationJiraTicket toggle the creation of a Jira Ticket
    */
   void setCreateAdministrationJiraTicket(boolean createAdministrationJiraTicket) {
     this.createAdministrationJiraTicket = createAdministrationJiraTicket;

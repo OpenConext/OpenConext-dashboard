@@ -30,14 +30,12 @@ import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.dao.ConsentDao;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.GroupContext;
 import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.EmailService;
-import nl.surfnet.coin.selfservice.service.OAuthTokenService;
 import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
@@ -67,17 +65,11 @@ public class ServiceDetailController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ServiceDetailController.class);
 
-  @Resource(name = "oAuthTokenService")
-  private OAuthTokenService oAuthTokenService;
-
   @Resource(name = "emailService")
   private EmailService emailService;
 
   @Resource
   private OpenConextOAuthClient apiClient;
-
-  @Resource
-  private ConsentDao consentDao;
 
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
@@ -107,9 +99,10 @@ public class ServiceDetailController extends BaseController {
 
     String spEntityId = service.getSpEntityId();
     if ((Boolean) (request.getAttribute("ebLinkActive"))) {
-      final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
-          spEntityId);
-      m.put("mayHaveGivenConsent", mayHaveGivenConsent);
+      // FIXME: integrate with CSA
+//      final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
+//          spEntityId);
+//      m.put("mayHaveGivenConsent", mayHaveGivenConsent);
     }
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();

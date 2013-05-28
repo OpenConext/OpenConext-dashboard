@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -45,23 +44,15 @@ import org.springframework.web.servlet.LocaleResolver;
 public abstract class BaseController {
 
   /**
-   * The name of the key under which all compoundSps (e.g. the services) are
+   * The name of the key under which all services are
    * stored
    */
-  public static final String COMPOUND_SPS = "compoundSps";
-  public static final String SPS = "sps";
-
+  public static final String SERVICES = "services";
 
   /**
-   * The name of the key under which all identityproviders are stored
-   */
-  public static final String ALL_IDPS = "allIdps";
-
-  /**
-   * The name of the key under which a compoundSps (e.g. the service) is stored
+   * The name of the key under which a service is stored
    * for the detail view
    */
-  public static final String COMPOUND_SP = "compoundSp";
   public static final String SERVICE = "service";
 
   /**
@@ -140,9 +131,6 @@ public abstract class BaseController {
    */
   public static final String RAW_ARP_ATTRIBUTES_VISIBLE = "rawArpAttributesVisible";
 
-  @Resource(name = "providerService")
-  private IdentityProviderService idpService;
-
   @Resource
   private NotificationService notificationService;
 
@@ -185,7 +173,9 @@ public abstract class BaseController {
         return idp;
       }
     }
-    throw new RuntimeException("There is no Selected IdP");
+    // FIXME: what to do? There is no IdentityProviderService anymore. See also: SAMLProvisioner
+    return new IdentityProvider(idpId, "", idpId);
+//    throw new RuntimeException("There is no Selected IdP");
   }
 
   /**

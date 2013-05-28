@@ -28,7 +28,6 @@
        http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner">
-    <property name="identityProviderService" ref="providerService" />
     <property name="uuidAttribute" value="${saml-uuid-attribute}"/>
   </bean>
 

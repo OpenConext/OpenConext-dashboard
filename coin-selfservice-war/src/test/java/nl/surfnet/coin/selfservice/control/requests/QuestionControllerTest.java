@@ -16,16 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control.requests;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
-
 import java.io.IOException;
 
 import nl.surfnet.coin.selfservice.command.Question;
@@ -36,7 +26,6 @@ import nl.surfnet.coin.selfservice.service.ActionsService;
 import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.JiraService;
 import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
-import nl.surfnet.coin.selfservice.service.ServiceProviderService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +42,16 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+
 public class QuestionControllerTest {
 
 
@@ -61,9 +60,6 @@ public class QuestionControllerTest {
 
   @Mock
   private JiraService jiraService;
-
-  @Mock
-  private ServiceProviderService sps;
 
   @Mock
   private ActionsService actionsService;
@@ -92,7 +88,7 @@ public class QuestionControllerTest {
   }
   @Test
   public void questionGET() {
-    final ModelAndView mav = questionController.spQuestion("foobar", 1L, getIdp());
+    final ModelAndView mav = questionController.spQuestion(1L, getIdp());
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("requests/question"));
     assertTrue(mav.getModel().containsKey("question"));
@@ -105,7 +101,7 @@ public class QuestionControllerTest {
     when(jiraService.create(Matchers.<JiraTask>any(), Matchers.<CoinUser>any())).thenReturn("ignoredIssueKey");
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit(1L, getIdp(), question, result);
     verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
     verify(emailService).sendMail((String) anyObject(), (String) anyObject(), (String) anyObject());
     assertTrue(mav.hasView());
@@ -117,7 +113,7 @@ public class QuestionControllerTest {
     questionController.setSendAdministrationEmail(true);
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit(1L, getIdp(), question, result);
     verifyZeroInteractions(jiraService);
     verify(emailService).sendMail((String) anyObject(), (String) anyObject(), (String) anyObject());
     assertTrue(mav.hasView());
@@ -129,7 +125,7 @@ public class QuestionControllerTest {
     questionController.setCreateAdministrationJiraTicket(true);
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit(1L, getIdp(), question, result);
     verify(jiraService).create((JiraTask) anyObject(), (CoinUser) anyObject());
     verifyZeroInteractions(emailService);
     assertTrue(mav.hasView());
@@ -142,7 +138,7 @@ public class QuestionControllerTest {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     when(jiraService.create((JiraTask) anyObject(), Matchers.<CoinUser>any())).thenThrow(new IOException("An IOException on purpose"));
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit(1L, getIdp(), question, result);
     verify(actionsService, never()).registerJiraIssueCreation(anyString(), (JiraTask) anyObject(), anyString(),
         anyString());
     assertTrue(mav.hasView());
@@ -154,7 +150,7 @@ public class QuestionControllerTest {
     Question question = new Question();
     BindingResult result = new BeanPropertyBindingResult(question, "question");
     result.addError(new ObjectError("question", "foo 123 is required"));
-    final ModelAndView mav = questionController.spQuestionSubmit("foobar", 1L, getIdp(), question, result);
+    final ModelAndView mav = questionController.spQuestionSubmit(1L, getIdp(), question, result);
     assertTrue(mav.hasView());
     assertThat(mav.getViewName(), is("requests/question"));
   }

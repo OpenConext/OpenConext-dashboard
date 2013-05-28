@@ -30,7 +30,6 @@ import nl.surfnet.coin.csa.model.CategoryValue;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.csa.model.Taxonomy;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -68,7 +67,7 @@ public class HomeController extends BaseController {
     Map<String, Object> model = new HashMap<String, Object>();
 
     List<Service> services = csa.getServicesForIdp(selectedidp.getId());
-    model.put(SPS, services);
+    model.put(SERVICES, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
@@ -88,10 +87,9 @@ public class HomeController extends BaseController {
     model.put("connectedCount", connectedCount);
     model.put("notConnectedCount", services.size() - connectedCount);
 
-    // TODO: license info not yet delivered by Csa
-//    int licensedCount = getLicensedCount(services);
-//    model.put("licensedCount", licensedCount);
-//    model.put("notLicensedCount", services.size() - licensedCount);
+    int licensedCount = getLicensedCount(services);
+    model.put("licensedCount", licensedCount);
+    model.put("notLicensedCount", services.size() - licensedCount);
   }
 
   private boolean isCategoryValuesUsed(List<Category> categories) {
@@ -103,10 +101,10 @@ public class HomeController extends BaseController {
     return false;
   }
 
-  private int getLicensedCount(List<CompoundServiceProvider> services) {
+  private int getLicensedCount(List<Service> services) {
     int result = 0;
-    for (CompoundServiceProvider csp : services) {
-      if (csp.isArticleLicenseAvailable()) {
+    for (Service service : services) {
+      if (service.getLicense() != null) {
         ++result;
       }
     }

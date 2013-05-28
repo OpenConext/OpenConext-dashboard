@@ -16,27 +16,18 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.saml2.core.Assertion;
@@ -48,10 +39,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-public class SAMLProvisionerTest {
+import static org.junit.Assert.assertEquals;
 
-  @Mock
-  private IdentityProviderService identityProviderService;
+public class SAMLProvisionerTest {
 
   @InjectMocks
   private SAMLProvisioner provisioner;
@@ -67,13 +57,6 @@ public class SAMLProvisionerTest {
 
     final Assertion a = readAssertionFromFile("assertion.xml");
 
-    IdentityProvider idp = new IdentityProvider("https://surfguest.nl", "institutionId", "idp-name");
-    IdentityProvider idp2 = new IdentityProvider("https://surfguest.nl/2", "institutionId", "idp-name2");
-    IdentityProvider idp3 = new IdentityProvider("https://surfguest.nl/3", "institutionId", "idp-name3");
-
-    when(identityProviderService.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
-    when(identityProviderService.getInstituteIdentityProviders("institutionId")).thenReturn(Arrays.asList(idp, idp2, idp3));
-
     CoinUser cu = (CoinUser) provisioner.provisionUser(a);
 
     assertEquals("urn:collab:person:surfguest.nl:gvanderploeg", cu.getUsername());
@@ -82,24 +65,6 @@ public class SAMLProvisionerTest {
     assertEquals("Geert van der Ploeg", cu.getDisplayName());
     assertEquals("gvanderploeg@iprofs.nl", cu.getEmail());
     assertEquals("urn:collab:person:surfguest.nl:gvanderploeg", cu.getUid());
-    assertThat(cu.getInstitutionId(), is("institutionId"));
-
-    assertThat("Multiple idps belonging to the same institution should be linked", cu.getInstitutionIdps().size(), is(3));
-  }
-
-  @Test
-  public void test_provision_no_institution_id() throws Exception {
-
-    final Assertion a = readAssertionFromFile("assertion.xml");
-
-    IdentityProvider idp = new IdentityProvider("https://surfguest.nl", null, "idp-name");
-
-    when(identityProviderService.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
-    when(identityProviderService.getInstituteIdentityProviders(null)).thenReturn(null);
-
-    CoinUser cu = (CoinUser) provisioner.provisionUser(a);
-    assertEquals(1,cu.getInstitutionIdps().size());
-    
   }
 
   private Assertion readAssertionFromFile(String filename) throws ConfigurationException, IOException, UnmarshallingException,

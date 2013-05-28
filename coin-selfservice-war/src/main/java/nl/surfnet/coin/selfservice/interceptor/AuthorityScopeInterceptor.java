@@ -16,11 +16,19 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import ch.lambdaj.function.matcher.HasArgumentWithValue;
-import nl.surfnet.coin.selfservice.domain.AttributeScopeConstraints;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,20 +38,28 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.collection.LambdaCollections.with;
-import static nl.surfnet.coin.selfservice.control.BaseController.*;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import ch.lambdaj.function.matcher.HasArgumentWithValue;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICES;
+import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.FACET_CONNECTION_VISIBLE;
+import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
+import static nl.surfnet.coin.selfservice.control.BaseController.IS_GOD;
+import static nl.surfnet.coin.selfservice.control.BaseController.RAW_ARP_ATTRIBUTES_VISIBLE;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_CONNECTION_VISIBLE;
+import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
+import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
@@ -83,17 +99,18 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
 
       final ModelMap map = modelAndView.getModelMap();
-      CompoundServiceProvider sp = (CompoundServiceProvider) map.get(COMPOUND_SP);
-      if (sp != null) {
-        scopeCompoundServiceProvider(map, sp, authorities);
+      Service service = (Service) map.get(SERVICE);
+      if (service != null) {
+        scopeService(map, service, authorities);
       }
-      Collection<CompoundServiceProvider> sps = (Collection<CompoundServiceProvider>) map.get(COMPOUND_SPS);
-      if (!CollectionUtils.isEmpty(sps)) {
-        sps = scopeListOfCompoundServiceProviders(sps, authorities);
-        for (CompoundServiceProvider compoundServiceProvider : sps) {
-          scopeCompoundServiceProvider(map, compoundServiceProvider, authorities);
+
+      Collection<Service> services = (Collection<Service>) map.get(SERVICES);
+      if (!CollectionUtils.isEmpty(services)) {
+        services = scopeListOfServices(services, authorities);
+        for (Service service1 : services) {
+          scopeService(map, service1, authorities);
         }
-        map.put(COMPOUND_SPS, sps);
+        map.put(SERVICES, services);
       }
 
       scopeGeneralAuthCons(map, authorities, request);
@@ -128,40 +145,42 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * 
    * @return a reduced list, or the same, if no changes.
    */
-  protected Collection<CompoundServiceProvider> scopeListOfCompoundServiceProviders(Collection<CompoundServiceProvider> cps,
-      List<Authority> authorities) {
-    HasArgumentWithValue<Object, Boolean> linkedSpsMatcher = having(on(CompoundServiceProvider.class).getServiceProvider().isLinked());
+  protected Collection<Service> scopeListOfServices(Collection<Service> services,
+                                                                    List<Authority> authorities) {
+    HasArgumentWithValue<Object, Boolean> linkedSpsMatcher = having(on(Service.class).isConnected());
     if (isRoleUser(authorities)) {
-      cps = with(cps).retain(having(on(CompoundServiceProvider.class).getServiceProvider().isLinked()));
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an enduser.", SpringSecurity.getCurrentUser().getUid());
+      services = with(services).retain(having(on(Service.class).isConnected()));
+      LOG.debug("Reduced the list of services to only linked services, because user '{}' is an enduser.", SpringSecurity.getCurrentUser().getUid());
     } else if (isRoleIdPLicenseAdmin(authorities)) {
-      HasArgumentWithValue<Object, Boolean> articleAvailableMatcher = having(on(CompoundServiceProvider.class).isArticleAvailable());
+      HasArgumentWithValue<Object, Boolean> articleAvailableMatcher = having(on(Service.class).isHasCrmLink());
 
-      cps = with(cps).retain(linkedSpsMatcher.or(articleAvailableMatcher));
+      services = with(services).retain(linkedSpsMatcher.or(articleAvailableMatcher));
 
-      LOG.debug("Reduced the list of CSPs to only linked CSPs, because user '{}' is an license IdP user", SpringSecurity.getCurrentUser()
+      LOG.debug("Reduced the list of services to only linked services, because user '{}' is an license IdP user", SpringSecurity.getCurrentUser()
           .getUid());
     }
-    return cps;
+    return services;
   }
 
   /*
    * Based on https://wiki.surfnetlabs.nl/display/services/App-omschrijving we
    * tell the Service to limit scope access based on the authority
    */
-  protected void scopeCompoundServiceProvider(ModelMap map, CompoundServiceProvider sp, List<Authority> authorities) {
+  protected void scopeService(ModelMap map, Service service, List<Authority> authorities) {
 
     // Do not allow normal users to view 'unlinked' services, even if requested
     // explicitly.
-    if (isRoleUser(authorities) && !sp.getServiceProvider().isLinked()) {
+    if (isRoleUser(authorities) && !service.isConnected()) {
       LOG.info(
-          "user requested CSP details of CSP with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
-          sp.getId());
+        "user requested service details of service with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
+        service.getId());
       throw new AccessDeniedException("Access denied");
     }
 
-    AttributeScopeConstraints constraints = AttributeScopeConstraints.builder(authorities);
-    sp.setConstraints(constraints);
+    // Remove all properties from service that user does not have access to.
+    if (isRoleUser(authorities)) {
+      service.setSupportMail(null);
+    }
   }
 
   protected boolean isRoleUser(List<Authority> authorities) {
