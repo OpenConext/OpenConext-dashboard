@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import nl.surfnet.coin.janus.Janus;
 import nl.surfnet.coin.janus.domain.ARP;
@@ -47,8 +48,9 @@ public class JanusRestClientMock implements Janus {
   private final static String SP_TYPE = "saml20-sp";
   private final static String IDP_TYPE = "saml20-idp";
 
-  private final ARP EMPTY_ARP = null;
-  private final ARP NON_EMPTY_ARP;
+  private final ARP SOME_ATTR_ARP;
+  private final ARP NO_ARP_ARP;
+  private final ARP NO_ATTR_ARP;
 
   @SuppressWarnings("unchecked")
   public JanusRestClientMock() {
@@ -60,8 +62,9 @@ public class JanusRestClientMock implements Janus {
       all = new ArrayList<EntityMetadata>();
       all.addAll(spList);
       all.addAll(idpList);
-      NON_EMPTY_ARP = (ARP) parseJsonData(new TypeReference<ARP>() {
-      }, "janus-json/arp.json");
+      SOME_ATTR_ARP = ARP.fromRestResponse((Map) parseJsonData(new TypeReference<Map>() {}, "janus-json/arp-some-attr.json"));
+      NO_ATTR_ARP = ARP.fromRestResponse((Map) parseJsonData(new TypeReference<Map>() {}, "janus-json/arp-no-attr.json"));
+      NO_ARP_ARP = ARP.fromRestResponse((Map) parseJsonData(new TypeReference<Map>() {}, "janus-json/arp-no-arp.json"));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -173,9 +176,9 @@ public class JanusRestClientMock implements Janus {
   @Override
   public ARP getArp(String entityId) {
     if (entityId != null && entityId.contains("surf")) {
-      return EMPTY_ARP;
+      return NO_ARP_ARP;
     }
-    return NON_EMPTY_ARP;
+    return NO_ATTR_ARP;
   }
 
   /*
