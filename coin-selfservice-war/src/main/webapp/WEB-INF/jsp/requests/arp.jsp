@@ -16,28 +16,24 @@
   ~ limitations under the License.
   --%>
 <jsp:useBean id="sp" scope="request" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"/>
-<sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
-<selfservice:arpFilter var="arps" idpId="${idp}" arpList="${sp.arps}"/>
+<c:set var="arp" value="${sp.arp}" />
 <div class="arp-info">
+
 	<c:choose>
-	  <c:when test="${fn:length(arps) gt 0}">
+	  <c:when test="${arp.noArp}">
+      <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
+      <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${spname}"/></p>
+    </c:when>
+    <c:when test="${arp.noAttrArp}">
+      <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
+      <p><spring:message code="jsp.sp_detail.arp.noattr.text" arguments="${spname}"/></p>
+    </c:when>
+    <c:otherwise>
 		  <h2><spring:message code="jsp.sp_detail.arp"/></h2>
-		
 		  <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
 		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${spname}"/></p>
-		  <c:forEach items="${arps}" var="arp">
 		    <table>
-		      <c:if test="${empty arp.fedAttributes and empty arp.conextAttributes}">
-		        <tr><td><spring:message code="jsp.sp_detail.arp.nopolicy"/></td></tr>
-		      </c:if>
-		      <c:forEach items="${arp.fedAttributes}" var="att">
-            <tr><td>&bull;</td>
-            <c:if test="${rawArpAttributesVisible}">
-              <td>${att}</td>
-            </c:if>
-		        <td>&bull; <tags:arp-attribute-info attributeKey="${att}"/></td></tr>
-		      </c:forEach>
-		      <c:forEach items="${arp.conextAttributes}" var="att">
+		      <c:forEach items="${arp.attributes}" var="att">
             <tr>
               <c:if test="${not rawArpAttributesVisible}">
                 <td>&bull;</td>
@@ -60,11 +56,6 @@
 		        </tr>
 		      </c:forEach>
 		    </table>
-		  </c:forEach>
-	  </c:when>
-	  <c:otherwise>
-	    <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
-      <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${spname}"/></p>
 	  </c:otherwise>
 	</c:choose>
 </div>
