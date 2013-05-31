@@ -154,21 +154,7 @@ app.graphs = function() {
       dataType : 'script'
     });
 
-    var jsonUrl = (isGod ? '/stats/loginsperspperday.json' : '/stats/loginsperspperdaybyidp.json')
-
-    var jqXhrDataCall = $.ajax({
-      url : contextPath + jsonUrl,
-      cache : true,
-      dataType : 'json'
-    });
-
-    $.ajax({
-      url : contextPath + '/stats/spcspcombis.json',
-      cache : true,
-      dataType : 'json'
-    }).done(function(csps){
-      compoundServiceProviders = csps; 
-    });
+    var jqXhrDataCall;
 
     // Get the (by controller provided) selected SP Entity ID.
     selectedSp = chartDetailElm.data("spentityid");
@@ -176,11 +162,13 @@ app.graphs = function() {
       selectedSp = null;
     }
 
-    $.when(highcharts, jqXhrDataCall).done(function(highcharts, jqXhrDataCall) {
-      dataWrapper.setData(jqXhrDataCall[0]);
+    $.when(highcharts).done(function(highcharts) {
+      dataWrapper.setData(login_stats);
       determineDateFilterOffset();
       initRendering();
     });
+    
+    
 
     initFilters();
   };

@@ -81,5 +81,8 @@
   <bean id="csa" class="${csaClass}">
     <property name="csaBaseLocation" value="${csaBaseLocation}" />
   </bean>
+  
+  <bean id="cruncher" class="${cruncherClass}">
+  </bean>
 
 </beans>

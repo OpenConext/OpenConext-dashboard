@@ -85,5 +85,7 @@
     <div id="sp-detail-chart" data-spEntityId="${spEntityId}"></div>
   </section>
 </div>
-
+<script>
+var login_stats = eval(<c:out escapeXml="false" value="${login_stats}"/>);
+</script>
 <jsp:include page="../foot.jsp"/>
