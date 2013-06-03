@@ -39,7 +39,7 @@
     <coin-shared.version>3.1.0</coin-shared.version>
     <coin-test.version>3.1.0</coin-test.version>
     <coin-master.test-dependencies.version>3.1.1</coin-master.test-dependencies.version>
-    <coin-api.version>3.2.0-SNAPSHOT</coin-api.version>
+    <coin-api.version>3.5.0</coin-api.version>
     <spring-security-opensaml.version>3.2.0</spring-security-opensaml.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
