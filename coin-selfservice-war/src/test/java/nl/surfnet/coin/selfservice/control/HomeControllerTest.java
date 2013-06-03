@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,7 +64,7 @@ public class HomeControllerTest {
   @Test
   public void testStart() throws Exception {
 
-    final ModelAndView mav = controller.home(new IdentityProvider(), "card", new MockHttpServletRequest());
+    final ModelAndView mav = controller.home(new IdentityProvider(), "card");
     assertEquals("app-overview", mav.getViewName());
 
     final ModelMap modelMap = mav.getModelMap();
