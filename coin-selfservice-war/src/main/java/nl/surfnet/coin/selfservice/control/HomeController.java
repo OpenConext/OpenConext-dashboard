@@ -63,7 +63,7 @@ public class HomeController extends BaseController {
 
   @RequestMapping("/app-overview.shtml")
   public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                           @RequestParam(value = "view", defaultValue = "card") String view, HttpServletRequest request) {
+                           @RequestParam(value = "view", defaultValue = "card") String view) {
     Map<String, Object> model = new HashMap<String, Object>();
 
     List<Service> services = csa.getServicesForIdp(selectedidp.getId());
@@ -114,7 +114,7 @@ public class HomeController extends BaseController {
   private int getConnectedCount(List<Service> services) {
     int result = 0;
     for (Service service : services) {
-      if (service.isHasCrmLink()) {
+      if (service.isConnected()) {
         ++result;
       }
     }
