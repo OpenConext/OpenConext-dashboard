@@ -80,9 +80,8 @@ public class LinkrequestController extends BaseController {
       "classpath:person_attributes.json");
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spLinkRequest(@RequestParam long serviceId, @RequestParam Long compoundSpId,
-      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = getModelMapWithSP(serviceId, selectedidp);
+  public ModelAndView spLinkRequest(@RequestParam long serviceId, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedidp);
     m.put("linkrequest", new LinkRequest());
     m.put("personAttributeLabels", personAttributeLabelService.getAttributeLabelMap());
     return new ModelAndView("requests/linkrequest", m);
@@ -91,7 +90,7 @@ public class LinkrequestController extends BaseController {
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.GET)
   public ModelAndView spUnlinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = getModelMapWithSP(compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithService(compoundSpId, selectedidp);
     m.put("unlinkrequest", new LinkRequest());
     return new ModelAndView("requests/unlinkrequest", m);
   }
@@ -100,7 +99,7 @@ public class LinkrequestController extends BaseController {
   public ModelAndView spUnlinkrequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
                                           @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                           @Valid @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result) {
-    Map<String, Object> m = getModelMapWithSP(compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithService(compoundSpId, selectedidp);
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("requests/unlinkrequest", m);
@@ -126,7 +125,7 @@ public class LinkrequestController extends BaseController {
   }
 
   private ModelAndView doSubmitConfirm(String spEntityId, Long compoundSpId, LinkRequest unlinkrequest, BindingResult result, IdentityProvider selectedidp, SessionStatus sessionStatus, String errorViewName, JiraTask.Type jiraType, String successViewName) {
-    Map<String, Object> m = getModelMapWithSP(compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithService(compoundSpId, selectedidp);
     ServiceProvider selectedSp = (ServiceProvider) m.get("sp");
 
     if (result.hasErrors()) {
@@ -189,11 +188,10 @@ public class LinkrequestController extends BaseController {
   }
 
 
-  private Map<String, Object> getModelMapWithSP(Long serviceId, IdentityProvider selectedidp) {
+  private Map<String, Object> getModelMapWithService(Long serviceId, IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
     final Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
     m.put("service", service);
-    m.put("serviceId", serviceId);
     return m;
   }
 

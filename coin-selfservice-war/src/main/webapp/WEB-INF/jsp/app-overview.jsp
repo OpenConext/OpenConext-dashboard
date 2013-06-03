@@ -104,8 +104,7 @@
                     </c:if>
                     <c:if test="${showConnectButton and !isCard}">
                         <a href="<c:url value="/requests/linkrequest.shtml">
-                                <c:param name="spEntityId" value="${service.spEntityid}" />
-                                <c:param name="id" value="${service.id}" />
+                                <c:param name="serviceId" value="${service.id}" />
                               </c:url>" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
                           <i class='icon-cloud-upload'></i>
                         </a>
@@ -123,8 +122,7 @@
                 <c:if test="${showConnectButton and isCard}">
                   <p class="connect-app">
                     <a href="<c:url value="/requests/linkrequest.shtml">
-                                <c:param name="spEntityId" value="${service.spEntityid}" />
-                                <c:param name="id" value="${service.id}" />
+                                <c:param name="serviceId" value="${service.id}" />
                           </c:url>">
                       <spring:message code="jsp.sp_detail.requestlink"/>
                     </a>

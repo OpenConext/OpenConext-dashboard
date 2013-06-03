@@ -15,15 +15,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
-<jsp:useBean id="service" scope="request" type="nl.surfnet.coin.csa.model.Service"/>
-<sec:authentication property="principal.idp" scope="request" htmlEscape="true" var="idp"/>
 <div class="arp-info">
 	<c:choose>
 	  <c:when test="${service.arp}">
 		  <h2><spring:message code="jsp.sp_detail.arp"/></h2>
 		
-		  <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
-		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${spname}"/></p>
+		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${service.name}"/></p>
 		    <table>
 		      <c:if test="${empty service.arp.conextAttributes}">
 		        <tr><td><spring:message code="jsp.sp_detail.arp.nopolicy"/></td></tr>
