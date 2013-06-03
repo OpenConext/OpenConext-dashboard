@@ -18,37 +18,40 @@ package nl.surfnet.coin.selfservice.control;
 
 import javax.annotation.Resource;
 
+import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.service.Cruncher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Controller for the detail view(s) of a service (provider)
+ * Controller for statistics
  */
 @Controller
-@RequestMapping
+@RequestMapping(value = "/stats/*")
 public class StatisticsController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(StatisticsController.class);
 
   @Resource
   private Cruncher cruncher;
-  
-  /**
-   * Controller for detail page.
-   * 
-   * @param serviceId
-   *          the service  id
-   */
-  @RequestMapping(value = "/stats.shtml")
-  public ModelAndView statistics() {
-    ModelAndView result = new ModelAndView("stats/statistics");
-    String JsonResponse = cruncher.getLogins();
-    result.addObject("login_stats", JsonResponse);
-    return result;
+
+  @RequestMapping("/stats.shtml")
+  public String stats(ModelMap model, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+      @RequestParam(value = "spEntityId", required = false) final String selectedSp) {
+    model.put("selectedidp", selectedidp);
+
+    // Get all idp's which are known in selfservice and available in the
+    // statistics database
+    model.put("spEntityId", selectedSp);
+    // TODO add allIDPs to model
+    
+    model.put("login_stats", cruncher.getLogins());
+    return "stats/statistics";
   }
 }

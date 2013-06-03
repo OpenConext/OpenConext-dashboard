@@ -4,8 +4,7 @@ app.graphs = function() {
 
 
   var dataWrapper, chartOverviewElm, chartDetailElm, filterElm, filterType, filterOffset,
-        firstDate = Infinity, selectedSp, wrapperElm, isGod, compoundServiceProviders,
-    selectedIdp;
+        firstDate = Infinity, selectedSp, wrapperElm, isGod, selectedIdp;
 
 
   var DataWrapper = function(isGod) {
@@ -381,13 +380,9 @@ app.graphs = function() {
   };
   
   var showLinkToDetail = function(data) {
-    for ( var i = 0, l = compoundServiceProviders.length; i < l; ++i) {
-      if (compoundServiceProviders[i].spEntityId === data.spEntityId) {
-        var forward = $('.forward', wrapperElm);
-        forward.attr('href',contextPath + '/app-detail.shtml?compoundSpId=' + compoundServiceProviders[i].compoundServiceProviderId);
-        forward.removeClass('hide');
-      }
-    }
+	  var forward = $('.forward', wrapperElm);
+      forward.attr('href',contextPath + '/app-detail.shtml?spEntityId=' + encodeURIComponent(data.spEntityId));
+      forward.removeClass('hide');
   };
 
   var createDetailChart = function(data, title) {
