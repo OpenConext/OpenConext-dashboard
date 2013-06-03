@@ -18,17 +18,15 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
-
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${spname}"/>
+  <jsp:param name="title" value="${service.name}"/>
 </jsp:include>
 
   <div class="column-center content-holder no-right-left">
 
     <section>
 
-      <h1><spring:message code="jsp.sp_question.pagetitle" arguments="${spname}"/></h1>
+      <h1><spring:message code="jsp.sp_question.pagetitle" arguments="${service.name}"/></h1>
 
       <div class="content">
 
@@ -49,7 +47,7 @@
               <label class="control-label"><spring:message code="jsp.sp_question.idp"/></label>
 
               <div class="controls">
-                <output><tags:providername provider="${selectedidp}"/></output>
+                <output>${selectedidp}</output>
               </div>
             </div>
 

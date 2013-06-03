@@ -61,7 +61,7 @@ public class EmailServiceImplTest {
     List<String> recipients = Arrays.asList(new String[] { "recipient1@test.test" });
     
     // create dummy CSP with service and article
-    Service service = new Service(1L, "name", "logourl", "websiteurl", false, null);
+    Service service = new Service(1L, "name", "logourl", "websiteurl", false, null, "http://mock-sp");
 
     // create map with variables for the template
     Map<String, Object> templateVars = new HashMap<String, Object>();

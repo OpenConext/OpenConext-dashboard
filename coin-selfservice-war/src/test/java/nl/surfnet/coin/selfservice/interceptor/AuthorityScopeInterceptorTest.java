@@ -211,7 +211,7 @@ public class AuthorityScopeInterceptorTest {
   }
 
   private Service buildService() {
-    Service service = new Service(1L, "", "", "", false, null);
+    Service service = new Service(1L, "", "", "", false, null, "http://mock-idp");
     service.setSupportMail("somesupportmail");
     return service;
   }

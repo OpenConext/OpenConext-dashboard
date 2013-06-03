@@ -88,7 +88,7 @@ public class ServiceDetailControllerTest {
 
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
-    Service service = new Service(1L, "", "", "", false, null);
+    Service service = getService();
     when(csa.getServiceForIdp("mockIdP", 1L)).thenReturn(service);
 
     OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
@@ -100,6 +100,10 @@ public class ServiceDetailControllerTest {
     assertEquals(service, modelAndView.getModelMap().get("service"));
     assertTrue(modelAndView.getModelMap().containsKey("revoked"));
     assertNull(modelAndView.getModelMap().get("revoked"));
+  }
+
+  private Service getService() {
+    return new Service(1L, "", "", "", false, null,"");
   }
 
   @Ignore("revoking not yet implemented in CSA")
@@ -130,7 +134,7 @@ public class ServiceDetailControllerTest {
     idp.setId("mockIdP");
 //    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 
-    Service service = new Service(1L, "", "", "", false, null);
+    Service service = getService();
     when(csa.getServiceForIdp("mockIdP", 1L)).thenReturn(service);
 
 //    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenThrow(new IllegalStateException("Illegal Call to API Database"));
@@ -149,7 +153,7 @@ public class ServiceDetailControllerTest {
     
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
-    Service service = new Service(1L, "", "", "", false, null);
+    Service service = getService();
     when(csa.getServiceForIdp("mockIdP", 1L)).thenReturn(service);
 
 //    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenThrow(new IllegalStateException("Illegal call to consent database"));

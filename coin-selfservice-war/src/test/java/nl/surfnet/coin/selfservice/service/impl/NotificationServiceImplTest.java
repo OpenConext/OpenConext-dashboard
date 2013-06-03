@@ -148,7 +148,7 @@ public class NotificationServiceImplTest {
   }
 
   private Service createService(String spName, boolean hasLicense, boolean isConnected) {
-    Service s = new Service(0L, spName, "", "", true, "");
+    Service s = new Service(0L, spName, "", "", true, "","");
     if (hasLicense) {
       s.setLicense(new License(new Date(), new Date(), "", ""));
     }

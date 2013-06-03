@@ -30,7 +30,6 @@
 
       <div class="content">
 
-        <c:set var="sp" value="${sp}" scope="request" />
         <jsp:include page="arp.jsp" />
         <hr />
 

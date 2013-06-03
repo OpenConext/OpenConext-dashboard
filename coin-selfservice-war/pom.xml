@@ -166,12 +166,6 @@
 
     <dependency>
       <groupId>org.surfnet.coin</groupId>
-      <artifactId>coin-api-serviceregistry-client</artifactId>
-      <version>${coin-api.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.surfnet.coin</groupId>
       <artifactId>coin-api-client</artifactId>
       <version>${coin-api.version}</version>
     </dependency>

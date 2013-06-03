@@ -18,10 +18,8 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
-
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${spname}"/>
+  <jsp:param name="title" value="${service.name}"/>
 </jsp:include>
 
 <sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
@@ -30,13 +28,13 @@
 
     <section>
 
-      <h1><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${spname}"/></h1>
+      <h1><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${service.name}"/></h1>
 
       <div class="content">
 
         <c:set var="sp" value="${sp}" scope="request" />
 
-        <p><spring:message code="jsp.sp_unlinkrequest.intro" arguments="${spname}"/></p>
+        <p><spring:message code="jsp.sp_unlinkrequest.intro" arguments="${service.name}"/></p>
 
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
@@ -44,7 +42,7 @@
             <div class="control-group <form:errors path="agree">error</form:errors>">
                <form:label path="agree" cssClass="checkbox">
                  <form:checkbox path="agree" id="agree" cssClass="required"/>
-                 <spring:message code="jsp.sp_unlinkrequest.agreefield" arguments="${spname}"/></form:label>
+                 <spring:message code="jsp.sp_unlinkrequest.agreefield" arguments="${service.name}"/></form:label>
                 <form:errors path="agree">
                   <p class="help-block"><form:errors path="agree"/></p>
                 </form:errors>

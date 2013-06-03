@@ -18,10 +18,8 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
-
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${spname}"/>
+  <jsp:param name="title" value="${service.name}"/>
 </jsp:include>
 
 <sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
@@ -29,7 +27,7 @@
   <div class="column-center content-holder no-right-left">
     <section>
 
-      <h1><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${spname}"/></h1>
+      <h1><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${service.name}"/></h1>
 
       <div class="content">
 

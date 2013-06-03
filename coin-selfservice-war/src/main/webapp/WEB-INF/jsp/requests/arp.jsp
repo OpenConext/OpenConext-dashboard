@@ -17,15 +17,15 @@
   --%>
 <div class="arp-info">
 	<c:choose>
-	  <c:when test="${service.arp}">
+	  <c:when test="${not empty service.arp}">
 		  <h2><spring:message code="jsp.sp_detail.arp"/></h2>
 		
 		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${service.name}"/></p>
 		    <table>
-		      <c:if test="${empty service.arp.conextAttributes}">
+		      <c:if test="${service.arp.noArp}">
 		        <tr><td><spring:message code="jsp.sp_detail.arp.nopolicy"/></td></tr>
 		      </c:if>
-		      <c:forEach items="${service.arp}" var="att">
+		      <c:forEach items="${service.arp.attributes}" var="att">
             <tr>
               <c:if test="${not rawArpAttributesVisible}">
                 <td>&bull;</td>
@@ -50,8 +50,7 @@
 		    </table>
 	  </c:when>
 	  <c:otherwise>
-	    <c:set var="spname"><c:out default="${service.spEntityId}" value="${service.name}" /></c:set>
-      <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${spname}"/></p>
+	    <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${service.name}"/></p>
 	  </c:otherwise>
 	</c:choose>
 </div>

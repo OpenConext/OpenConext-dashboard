@@ -19,16 +19,14 @@
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 <%--@elvariable id="issueKey" type="java.lang.String"--%>
 
-<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
-
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${spname}"/>
+  <jsp:param name="title" value="${service.name}"/>
 </jsp:include>
 
 <div class="column-center content-holder no-right-left">
   <section>
 
-    <h1><c:out value="${spname}"/></h1>
+    <h1><c:out value="${service.name}"/></h1>
 
     <p>
       <spring:message code="jsp.sp_unlinkrequest.thankstext" />
@@ -44,7 +42,7 @@
         <spring:message code="jsp.request.backtooverview" />
       </a>
       <a class="btn btn-small" href="${detailUrl}">
-        <spring:message code="jsp.request.backtodetail" arguments="${spname}" />
+        <spring:message code="jsp.request.backtodetail" arguments="${service.name}" />
       </a>
     </div>
   </section>

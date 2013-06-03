@@ -46,7 +46,6 @@
               </thead>
               <tbody>
                 <c:forEach items="${notificationMessage.arguments}" var="cspArgument">
-                  <c:set var="spname"><tags:providername provider="${cspArgument.sp}" /></c:set>
                   <spring:url value="/app-detail.shtml" var="detailUrl" htmlEscape="true">
                     <spring:param name="compoundSpId" value="${cspArgument.id}" />
                   </spring:url>
@@ -58,7 +57,7 @@
                     </td>
                     <td>
                       <a href="${detailUrl}">
-                        ${spname}
+                        ${service.name}
                       </a>
                     </td>
                     <td>
