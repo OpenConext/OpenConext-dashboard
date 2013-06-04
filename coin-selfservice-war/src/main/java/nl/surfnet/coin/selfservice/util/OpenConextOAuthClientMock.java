@@ -56,7 +56,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
     /*
      * ROLE_USER=Distribution Channel User
      */
-    USER("user"),  //mere moratal end-user
+    USER("user"),  //mere mortal end-user
     /*
      * Both IdP admins
      */

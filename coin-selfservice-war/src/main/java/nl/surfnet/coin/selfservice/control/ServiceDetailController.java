@@ -82,6 +82,7 @@ public class ServiceDetailController extends BaseController {
 
   @Resource
   private Csa csa;
+  
   /**
    * Controller for detail page.
    * 
@@ -89,15 +90,23 @@ public class ServiceDetailController extends BaseController {
    *          the service  id
    */
   @RequestMapping(value = "/app-detail")
-  public ModelAndView serviceDetail(@RequestParam(value = "id") long serviceId,
+  public ModelAndView serviceDetail(@RequestParam(value = "id", required = false) Long serviceId,
+      @RequestParam(value="spEntityId", required = false) String spEntityId,
       @RequestParam(required = false) String revoked,
-      @RequestParam(value = "refreshCache", required = false, defaultValue = "false") String refreshCache,
       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
+    if (null == serviceId && !StringUtils.hasText(spEntityId)) {
+      throw new IllegalArgumentException("either service id or sp entity id is required");
+    }
+    Service service = null;
+    if (null != spEntityId) {
+      service = csa.getServiceForIdp(selectedidp.getId(), spEntityId);
+    } else {
+      service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    }
     Map<String, Object> m = new HashMap<String, Object>();
-    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
     m.put(SERVICE, service);
 
-    String spEntityId = service.getSpEntityId();
+    spEntityId = service.getSpEntityId();
     if ((Boolean) (request.getAttribute("ebLinkActive"))) {
       // FIXME: integrate with CSA
 //      final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),

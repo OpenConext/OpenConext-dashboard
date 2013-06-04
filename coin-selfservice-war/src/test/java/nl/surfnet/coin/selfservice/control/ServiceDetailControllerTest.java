@@ -95,7 +95,7 @@ public class ServiceDetailControllerTest {
     info.setUserId(coinUser.getUid());
     List<OAuthTokenInfo> infos = Arrays.asList(info);
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, null, "false", idp, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1, null, idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
     assertTrue(modelAndView.getModelMap().containsKey("revoked"));
@@ -139,7 +139,7 @@ public class ServiceDetailControllerTest {
 
 //    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenThrow(new IllegalStateException("Illegal Call to API Database"));
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", "false", idp, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
     assertNull(modelAndView.getModelMap().get("oAuthTokens"));
@@ -163,7 +163,7 @@ public class ServiceDetailControllerTest {
     List<OAuthTokenInfo> infos = Arrays.asList(info);
 //    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenReturn(infos);
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", "false", idp, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
 
