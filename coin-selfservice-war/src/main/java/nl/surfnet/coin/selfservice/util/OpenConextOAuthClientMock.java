@@ -15,13 +15,6 @@
  */
 package nl.surfnet.coin.selfservice.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-
 import nl.surfnet.coin.api.client.OAuthVersion;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Email;
@@ -29,8 +22,10 @@ import nl.surfnet.coin.api.client.domain.Group;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.io.ClassPathResource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 
@@ -38,7 +33,7 @@ import static java.util.Arrays.asList;
  * OpenConextOAuthClientMock.java
  * 
  */
-public class OpenConextOAuthClientMock implements OpenConextOAuthClient, InitializingBean {
+public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
 
   public enum Users {
     /*
@@ -85,9 +80,10 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
     }
   }
 
-  private String adminLicentieIdPTeam;
-  private String adminSurfConextIdPTeam;
-  private String adminDistributionTeam;
+  // Used in showroom.properties
+  private static final String LICENSE_TEAM = "license-team";
+  private static final String SC_TEAM = "sc-team";
+  private static final String ADMIN_TEAM = "admin-team";
 
   @Override
   public boolean isAccessTokenGranted(String userId) {
@@ -139,17 +135,17 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
     final Users user = Users.fromUser(userId);
     switch (user) {
     case ADMIN_DISTRIBUTIE_CHANNEL:
-      return asList(createGroup20(adminDistributionTeam));
+      return asList(createGroup20(ADMIN_TEAM));
     case ADMIN_IDP_LICENSE:
-      return asList(createGroup20(adminLicentieIdPTeam));
+      return asList(createGroup20(LICENSE_TEAM));
     case ADMIN_IDP_SURFCONEXT:
-      return asList(createGroup20(adminSurfConextIdPTeam));
+      return asList(createGroup20(SC_TEAM));
     case ADMIN_IDP_ADMIN:
-      return asList(createGroup20(adminLicentieIdPTeam), createGroup20(adminSurfConextIdPTeam));
+      return asList(createGroup20(LICENSE_TEAM), createGroup20(SC_TEAM));
     case USER:
       return new ArrayList<Group20>();
     case ALL:
-      return asList(createGroup20(adminLicentieIdPTeam), createGroup20(adminSurfConextIdPTeam), createGroup20(adminDistributionTeam));
+      return asList(createGroup20(LICENSE_TEAM), createGroup20(SC_TEAM), createGroup20(ADMIN_TEAM));
     default:
       throw new RuntimeException("Unknown");
     }
@@ -157,7 +153,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
   }
 
   private Group20 createGroup20(String id) {
-    return new Group20(id, id.substring(id.lastIndexOf(":") + 1), id);
+    return new Group20(id, id, id);
   }
 
   @Override
@@ -184,15 +180,6 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient, Initial
   }
 
   public void setVersion(OAuthVersion v) {
-  }
-
-  @Override
-  public void afterPropertiesSet() throws Exception {
-    Properties prop = new Properties();
-    prop.load(new ClassPathResource("showroom.properties").getInputStream());
-    adminLicentieIdPTeam = prop.getProperty("admin.licentie.idp.teamname");
-    adminSurfConextIdPTeam = prop.getProperty("admin.surfconext.idp.teamname");
-    adminDistributionTeam = prop.getProperty("admin.distribution.channel.teamname");
   }
 
 }

@@ -69,14 +69,6 @@ coin-shindig-db-password=??
 
 # SMTP server settings for notifications
 coin-mailserver=s01.dev.coin.surf.net
-coin-mailserver-port=25
-
-# Email address that is the sender of invitations/requests
-systemEmail=SURFconext <no-reply@surfconext.nl>
-
-# Email address that recieves error notifications
-coin-errormail-to=
-coin-administrative-email=
 
 wayf.url.metadata=https://engine.test.surfconext.nl/authentication/idp/metadata
 wayf.url.sso=https://engine.test.surfconext.nl/authentication/idp/single-sign-on
@@ -85,27 +77,14 @@ wayf.certificate=MIID/jCCAuYCCQCs7BsDR2N8tjANBgkqhkiG9w0BAQUFADCBwDELMAkGA1UEBhM
 ## Properties for opensaml
 ISSUING_ENTITY_ID=https\://dashboard.test.surfconext.nl
 
-WEB_APPLICATION_CHANNEL=https
 WEB_APPLICATION_HOST_AND_PORT=dashboard.test.surfconext.nl
-WEB_APPLICATION_CONTEXT_PATH=
 
-ASSERTION_CONSUMER_URI=/AssertionConsumerService
-ASSERTION_CONSUMER_URL=${WEB_APPLICATION_CHANNEL}://${WEB_APPLICATION_HOST_AND_PORT}${WEB_APPLICATION_CONTEXT_PATH}${ASSERTION_CONSUMER_URI}
-
-MAX_PARSER_POOL_SIZE=2
-
-REPLAY_CACHE_LIFE_IN_MILLIS=14400000
-ISSUE_INSTANT_CHECK_CLOCK_SKEW_IN_SECONDS=90
-ISSUE_INSTANT_CHECK_VALIDITY_TIME_IN_SECONDS=300
 
 jiraBaseUrl=https\://issues.surfnet.nl/jira
 jiraUsername=??
 jiraPassword=??
 jiraProjectKey=TEST
 
-
-# Location of the json file that contains the labels for the ARP attributes
-personAttributesLabels.location=classpath\:person_attributes.json
 
 # Team id that is used as definition of who is a 'license contact person'.
 admin.licentie.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_license_admin
@@ -137,28 +116,23 @@ adminService.resourceServerSecret=??
 adminService.cacheEnabled=false
 adminService.allowCorsRequests=true
 
+# TODO: verify this location
+csaBaseLocation=https://cruncher.test.surfconext.nl/stats/v1/
+
+
 ####################################################################
 ##
 ## The following properties are used to enable/disable features
 ##
 ####################################################################
 # Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
-feature.development.mode=false
+feature.development.mode=true
 
 # coupling with API database for display of OAuth tokens
 feature.showOauthTokens=false
 
-#set to false to go to the surfconext version without licenses
-feature.crm_active=false
-
 #set to true to have statistics from the cruncher component
 feature.statistics=false
-
-#toggle the creation of an email when a question is asked or an entity is linked / unlinked
-administration.email.enabled=false
-
-#toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
-administration.jira.ticket.enabled=false
 
 
 ##########################################################################
@@ -175,9 +149,6 @@ janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=nl.surfnet.coin.api.client.OpenConextOAuthClientImpl
 keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
-cacheManagerClass=org.springframework.cache.ehcache.EhCacheCacheManager
-sabClientClass=nl.surfnet.sab.SabClient
-authorizationServerFilterClass=nl.surfnet.coin.selfservice.filter.AuthorizationServerFilter
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
 coin-api.jdbc.driver=com.mysql.jdbc.Driver
@@ -189,18 +160,3 @@ coin-selfservice.database.idleConnectionTestPeriod=900
 coin-selfservice.database.maxIdleTime=900
 
 coin-selfservice.db.migrations.folder=db/migration/mysql
-
-#which SAML attribute holds the UUID
-saml-uuid-attribute=urn:oid:1.3.6.1.4.1.1076.20.40.40.1
-
-# For deeplinks from detail pages to SURFmarket
-lmngDeepLinkBaseUrl=https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=
-
-lmngArticleCacheSeconds=21600
-lmngLicenseCacheSeconds=1800
-
-#the maximum of number mails to be send for recommendation
-maxRecommendationEmails=30
-
-# LMNG article that should be part of external API without reference in SR
-public.api.lmng.guids=

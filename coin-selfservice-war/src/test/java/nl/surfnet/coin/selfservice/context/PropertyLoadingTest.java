@@ -12,17 +12,21 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"classpath:coin-selfservice-properties-context.xml", "classpath:coin-selfservice-context.xml", "classpath:coin-shared-context.xml"})
 public class PropertyLoadingTest {
 
-  @Value("${testProp1}")
-  private String testProp1;
+  @Value("${feature.development.mode}")
+  private boolean developmentMode;
 
-  @Value("${testProp2}")
-  private String testProp2;
+  @Value("${feature.showOauthTokens}")
+  private boolean showOauthTokens;
 
-  // FIXME these dummy properties should be replaced with something that is actually in application.properties (and overridden in another file. But for now, no real properties are in place.
+  /**
+   * This tests whether properties from the default props file are overridden correctly by an external properties file.
+   * In this case, the 'local development' properties file, from src/test/resources.
+   *
+   */
   @Test
-  public void test1() {
-    assertEquals("application.properties", testProp1);
-    assertEquals("overridden_in_showroom.properties(src-test-resources-showroom.properties)", testProp2);
+  public void overrideProperties() {
+    assertEquals("false by default, but overridden to true in local development", true, developmentMode);
+    assertEquals("true by default, not defined in local development", true, showOauthTokens);
   }
 
 }

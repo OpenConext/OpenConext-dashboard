@@ -68,8 +68,6 @@
      <property name="templateLoaderPath" value="classpath:/ftl/"/>
   </bean>
 
-  <bean id="authorizationServerFilter" class="${authorizationServerFilterClass}">
-  </bean>
 
   <bean id="csa" class="${csaClass}">
     <property name="csaBaseLocation" value="${csaBaseLocation}" />

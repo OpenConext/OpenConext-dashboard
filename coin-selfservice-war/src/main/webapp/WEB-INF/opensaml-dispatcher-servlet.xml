@@ -17,18 +17,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="openSAMLDispatcherProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-      <property name="ignoreResourceNotFound" value="true"/>
-      <property name="locations">
-          <list>
-              <value>classpath:showroom.properties</value>
-              <value>classpath:dashboard.properties</value>
-          </list>
-      </property>
-  </bean>
+  <context:property-placeholder location="classpath:application.properties,classpath:showroom.properties,classpath:dashboard.properties" ignore-resource-not-found="true" />
 
   <mvc:annotation-driven/>
 
