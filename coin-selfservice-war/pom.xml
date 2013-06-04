@@ -386,7 +386,7 @@
           <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
           <connectors>
             <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>8280</port>
+              <port>${jetty.port}</port>
               <host>0.0.0.0</host>
             </connector>
           </connectors>
