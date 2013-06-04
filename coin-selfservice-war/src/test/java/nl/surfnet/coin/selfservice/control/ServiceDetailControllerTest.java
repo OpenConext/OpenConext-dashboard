@@ -76,8 +76,8 @@ public class ServiceDetailControllerTest {
     MockitoAnnotations.initMocks(this);
     
     request = new MockHttpServletRequest();
-    request.setAttribute("showOauthTokens", Boolean.TRUE);
-    request.setAttribute("ebLinkActive", Boolean.TRUE);
+    request.setAttribute("oauthTokensAvailable", Boolean.TRUE);
+    request.setAttribute("statisticsAvailable", Boolean.TRUE);
     when(coinUser.getUid()).thenReturn("urn:collab:person:example.edu:john.doe");
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
 
@@ -95,7 +95,7 @@ public class ServiceDetailControllerTest {
     info.setUserId(coinUser.getUid());
     List<OAuthTokenInfo> infos = Arrays.asList(info);
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, null, idp, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1L, null, null, idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
     assertTrue(modelAndView.getModelMap().containsKey("revoked"));
@@ -128,7 +128,7 @@ public class ServiceDetailControllerTest {
   @Ignore("revoking not yet implemented in CSA")
   public void testWithoutOathTokens() {
     //disable oathTokens
-    request.setAttribute("showOauthTokens", Boolean.FALSE);
+    request.setAttribute("oauthTokensAvailable", Boolean.FALSE);
     
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
@@ -139,7 +139,7 @@ public class ServiceDetailControllerTest {
 
 //    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenThrow(new IllegalStateException("Illegal Call to API Database"));
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", idp, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1L, "", "revoked", idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
     assertNull(modelAndView.getModelMap().get("oAuthTokens"));
@@ -149,7 +149,7 @@ public class ServiceDetailControllerTest {
   @Test
   @Ignore("revoking not yet implemented in CSA")
   public void testWithoutConsent() {
-    request.setAttribute("ebLinkActive", Boolean.FALSE);
+    request.setAttribute("statisticsAvailable", Boolean.FALSE);
     
     IdentityProvider idp = new IdentityProvider();
     idp.setId("mockIdP");
@@ -163,7 +163,7 @@ public class ServiceDetailControllerTest {
     List<OAuthTokenInfo> infos = Arrays.asList(info);
 //    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenReturn(infos);
 
-    final ModelAndView modelAndView = controller.serviceDetail(1, "revoked", idp, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1L, "", "revoked", idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
 

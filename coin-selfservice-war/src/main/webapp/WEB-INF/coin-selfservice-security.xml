@@ -37,7 +37,7 @@
     <property name="adminDistributionTeam" value="${admin.distribution.channel.teamname}" />
     <property name="apiClient" ref="openConextApiClient" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
-    <property name="lmngActive" value="${coin-lmng-active-mode}"/>
+    <property name="crmAvailable" value="${feature.crm_active:false}"/>
   </bean>
 
   <bean id="sabEntitlementsFilter" class="nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter">
@@ -45,7 +45,7 @@
     <property name="adminLicentieIdPRole" value="${admin.licentie.idp.sabRole}" />
     <property name="adminSurfConextIdPRole" value="${admin.surfconext.idp.sabRole}" />
     <property name="viewerSurfConextIdPRole" value="${viewer.surfconext.idp.sabRole}" />
-    <property name="lmngActive" value="${coin-lmng-active-mode}" />
+    <property name="crmAvailable" value="${feature.crm_active:false}" />
   </bean>
 
   <!-- this will be either the real SabClient or a Mock -->

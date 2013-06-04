@@ -131,14 +131,6 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     map.put(IS_GOD, isDistributionChannelGod(authorities));
     map.put(RAW_ARP_ATTRIBUTES_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
   }
-  
-  private Boolean isLmngActive(final HttpServletRequest request) {
-    Boolean result = Boolean.FALSE;
-    if (null != request.getAttribute("lmngActive")) {
-      result = (Boolean) request.getAttribute("lmngActive");
-    }
-    return result;
-  }
 
   /**
    * Reduce list based on whether the SP 'is linked' to the current IdP.

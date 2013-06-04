@@ -76,7 +76,7 @@ public class ApiOAuthFilterTest {
   @Before
   public void setUp() throws Exception {
     filter = new ApiOAuthFilter();
-    filter.setLmngActive(true);
+    filter.setCrmAvailable(true);
     MockitoAnnotations.initMocks(this);
 
     request = new MockHttpServletRequest("GET", "/anyUrl");
@@ -137,7 +137,7 @@ public class ApiOAuthFilterTest {
 
   @Test
   public void filterAndUsePrefetchedAccessTokenButNoAdmin() throws Exception {
-    filter.setLmngActive(false);
+    filter.setCrmAvailable(false);
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
 
     setAuthentication();
@@ -155,7 +155,7 @@ public class ApiOAuthFilterTest {
   public void elevateUserNoAdminButHasSomeGroups() throws Exception {
     // This tests whether a user gets the role 'user' when he is member of some random groups, but not any admin group.
 
-    filter.setLmngActive(true);
+    filter.setCrmAvailable(true);
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
 
     setAuthentication();
@@ -207,21 +207,21 @@ public class ApiOAuthFilterTest {
 
   @Test
   public void test_elevate_user_results_in_one_admin_when_lmng_is_disabled() throws IOException, ServletException {
-    filter.setLmngActive(false);
+    filter.setCrmAvailable(false);
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
     assertRoleIsGranted(ROLE_IDP_SURFCONEXT_ADMIN);
   }
 
   @Test
   public void test_elevate_user_idp_license_admin_gets_no_role_when_lmng_is_disabled() throws IOException, ServletException {
-    filter.setLmngActive(false);
+    filter.setCrmAvailable(false);
     setUpForAuthoritiesCheck( ROLE_IDP_LICENSE_ADMIN);
     assertNoRoleIsGranted();
   }
 
   @Test
   public void test_elevate_user_results_in_no_authorities_in_lmng_disactive_modus() throws IOException, ServletException {
-    filter.setLmngActive(false);
+    filter.setCrmAvailable(false);
     setUpForAuthoritiesCheck(new Authority[]{});
     assertNoRoleIsGranted();
   }

@@ -59,7 +59,7 @@
         <div id="${fieldId}-body" class="accordion-body collapse">
           <div class="accordion-inner">
             <ul class="nav nav-tabs">
-              <c:if test="${lmngActive && field.availableInSurfMarket}">
+              <c:if test="${crmAvailable && field.availableInSurfMarket}">
                 <li ${field.source=='LMNG' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
               </c:if>
               <c:if test="${field.availableInSurfConext}">
@@ -68,7 +68,7 @@
               <li ${field.source=='DISTRIBUTIONCHANNEL' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
             </ul>
             <div class="tab-content">
-            <c:if test="${lmngActive && field.availableInSurfMarket}">
+            <c:if test="${crmAvailable && field.availableInSurfMarket}">
               <form class="tab-pane ${field.source=='LMNG' ? 'active' : ''}" id="form${fieldId}-lmng">
                 <p>${compoundSp.lmngFieldValues[field.key]}</p>
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
@@ -118,7 +118,7 @@
     <div id="${fieldId}-body" class="accordion-body collapse">
       <div class="accordion-inner">
         <ul class="nav nav-tabs">
-          <c:if test="${lmngActive && field.availableInSurfMarket}">
+          <c:if test="${crmAvailable && field.availableInSurfMarket}">
             <li ${field.source=='LMNG' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
           </c:if>
           <c:if test="${field.availableInSurfConext}">
@@ -127,7 +127,7 @@
           <li ${field.source=='DISTRIBUTIONCHANNEL' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
         </ul>
         <div class="tab-content">
-          <c:if test="${lmngActive && field.availableInSurfMarket}">
+          <c:if test="${crmAvailable && field.availableInSurfMarket}">
             <form class="tab-pane ${field.source=='LMNG' ? 'active' : ''}" id="form${fieldId}-lmng">
               <c:if test="${!empty compoundSp.lmngFieldValues[field.key]}">
                 <img src="<spring:url value="${compoundSp.lmngFieldValues[field.key]}" />"/>

@@ -29,17 +29,17 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * Interceptor to enable/disable (new) features
  */
 public class FeatureInterceptor extends HandlerInterceptorAdapter {
-  private boolean dev;
-  private boolean lmngActive;
-  private boolean showOauthTokens;
-  private boolean ebLinkActive;
+  private boolean developmentMode;
+  private boolean crmAvailable;
+  private boolean oauthTokensAvailable;
+  private boolean statisticsAvailable;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    request.setAttribute("dev", dev); // for use on error page
-    request.setAttribute("lmngActive", lmngActive);
-    request.setAttribute("showOauthTokens", showOauthTokens);
-    request.setAttribute("ebLinkActive", ebLinkActive);
+    request.setAttribute("developmentMode", developmentMode); // for use on error page
+    request.setAttribute("crmAvailable", crmAvailable);
+    request.setAttribute("oauthTokensAvailable", oauthTokensAvailable);
+    request.setAttribute("statisticsAvailable", statisticsAvailable);
     return true;
   }
 
@@ -49,58 +49,52 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
-      map.addAttribute("dev", dev);
-      map.addAttribute("lmngActive", lmngActive);
-      map.addAttribute("showOauthTokens", showOauthTokens);
-      map.addAttribute("ebLinkActive", ebLinkActive);
+      map.addAttribute("developmentMode", developmentMode);
+      map.addAttribute("crmAvailable", crmAvailable);
+      map.addAttribute("oauthTokensAvailable", oauthTokensAvailable);
+      map.addAttribute("statisticsAvailable", statisticsAvailable);
       map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
 
-  public void setDev(boolean dev) {
-    this.dev = dev;
+  public void setDevelopmentMode(boolean devMode) {
+    this.developmentMode = devMode;
   }
 
-  /**
-   * @param lmngActive the lmngActive to set
-   */
-  public void setLmngActive(boolean lmngActive) {
-    this.lmngActive = lmngActive;
+  public void setCrmAvailable(boolean crmActive) {
+    this.crmAvailable = crmActive;
   }
 
-  /**
-   * @return the lmngActive
-   */
-  public boolean isLmngActive() {
-    return lmngActive;
+  public boolean isCrmAvailable() {
+    return crmAvailable;
   }
 
   /**
    * @return the showOauthTokens
    */
-  public boolean isShowOauthTokens() {
-    return showOauthTokens;
+  public boolean isOauthTokensAvailable() {
+    return oauthTokensAvailable;
   }
 
   /**
    * @param showOauthTokens the showOauthTokens to set
    */
-  public void setShowOauthTokens(boolean showOauthTokens) {
-    this.showOauthTokens = showOauthTokens;
+  public void setOauthTokensAvailable(boolean showOauthTokens) {
+    this.oauthTokensAvailable = showOauthTokens;
   }
 
   /**
    * @return the ebLinkActive
    */
-  public boolean isEbLinkActive() {
-    return ebLinkActive;
+  public boolean isStatisticsAvailable() {
+    return statisticsAvailable;
   }
 
   /**
-   * @param ebLinkActive the ebLinkActive to set
+   * @param statisticsActive the ebLinkActive to set
    */
-  public void setEbLinkActive(boolean ebLinkActive) {
-    this.ebLinkActive = ebLinkActive;
+  public void setStatisticsAvailable(boolean statisticsActive) {
+    this.statisticsAvailable = statisticsActive;
   }
   
 }

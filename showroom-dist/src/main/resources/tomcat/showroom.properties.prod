@@ -128,20 +128,24 @@ adminService.allowCorsRequests=true
 ## The following properties are used to enable/disable features
 ##
 ####################################################################
-# Defines if the site is in local dev mode or deployed on the server. Used for CSS/JS concatenation
-mode.dev=false
+# Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
+feature.development.mode=false
 
 # coupling with API database for display of OAuth tokens
-mode.showOauthTokens=false
+feature.showOauthTokens=false
 
-# should the consent given by the user (this is coming from EB database)
-mode.ebLinkActive=false
+#set to false to go to the surfconext version without licenses
+feature.crm_active=false
+
+#set to true to have statistics from the cruncher component
+feature.statistics=false
 
 #toggle the creation of an email when a question is asked or an entity is linked / unlinked
-administration.email.enabled=true
+administration.email.enabled=false
 
 #toggle the creation of a jira ticket when a question is asked or an entity is linked / unlinked
 administration.jira.ticket.enabled=false
+
 
 ##########################################################################
 # The following properties are the responsibility of development.

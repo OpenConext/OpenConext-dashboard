@@ -41,7 +41,7 @@
         <c:forEach items="${sps}" var="sp" varStatus="status">
             <spring:url value="compoundSp-detail.shtml" var="detailUrl" htmlEscape="true">
               <spring:param name="spEntityId" value="${sp.id}" />
-              <spring:param name="lmngActive" value="false" />
+              <spring:param name="crmAvailable" value="false" />
             </spring:url>
             <tr>
               <td title="${sp.id} - ${fn:substring(sp.descriptions[locale.language], 0, 40)}">

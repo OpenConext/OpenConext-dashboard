@@ -52,7 +52,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter.PROCESSED";
 
-  private boolean lmngActive;
+  private boolean crmAvailable;
 
   @Resource
   private Sab sab;
@@ -97,7 +97,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
       user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     } else {
       List<GrantedAuthority> newAuthorities = new ArrayList<GrantedAuthority>();
-      if (!adminLicentieIdPRole.isEmpty() && roleHolder.getRoles().contains(adminLicentieIdPRole) && this.lmngActive) {
+      if (!adminLicentieIdPRole.isEmpty() && roleHolder.getRoles().contains(adminLicentieIdPRole) && this.crmAvailable) {
         newAuthorities.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
       }
       if (!adminSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(adminSurfConextIdPRole)) {
@@ -146,7 +146,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
     this.viewerSurfConextIdPRole = viewerSurfConextIdPRole;
   }
 
-  public void setLmngActive(boolean lmngActive) {
-    this.lmngActive = lmngActive;
+  public void setCrmAvailable(boolean crmAvailable) {
+    this.crmAvailable = crmAvailable;
   }
 }

@@ -65,7 +65,7 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
     for (Authority authority : authorities) {
       switch (authority) {
       case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
-        if (isLmngActive(request)) {
+        if (isCrmAvailable(request)) {
           menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
           menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
           menu.addMenuItem(new MenuItem("jsp.cspstatus.title", "/shopadmin/csp-status-overview.shtml"));
@@ -76,25 +76,25 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
         }
         menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
-        if (isEbLinkActive(request)) {
+        if (isStatisticsAvailable(request)) {
           menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         }
         break;
       case ROLE_IDP_LICENSE_ADMIN:
-        if (isLmngActive(request)) {
+        if (isCrmAvailable(request)) {
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
         }
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
-        if (isEbLinkActive(request)) {
+        if (isStatisticsAvailable(request)) {
           menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         }
         break;
       case ROLE_IDP_SURFCONEXT_ADMIN:
-        if (isLmngActive(request)) {
+        if (isCrmAvailable(request)) {
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
         }
         menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
-        if (isEbLinkActive(request)) {
+        if (isStatisticsAvailable(request)) {
           menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
         }
         break;
@@ -109,18 +109,18 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
     return menu;
   }
   
-  private Boolean isLmngActive(final HttpServletRequest request) {
+  private Boolean isCrmAvailable(final HttpServletRequest request) {
     Boolean result = Boolean.FALSE;
-    if (null != request.getAttribute("lmngActive")) {
-      result = (Boolean) request.getAttribute("lmngActive");
+    if (null != request.getAttribute("crmAvailable")) {
+      result = (Boolean) request.getAttribute("crmAvailable");
     }
     return result;
   }
-  
-  private Boolean isEbLinkActive(final HttpServletRequest request) {
+ 
+  private Boolean isStatisticsAvailable(final HttpServletRequest request) {
     Boolean result = Boolean.FALSE;
-    if (null != request.getAttribute("ebLinkActive")) {
-      result = (Boolean) request.getAttribute("ebLinkActive");
+    if (null != request.getAttribute("statisticsAvailable")) {
+      result = (Boolean) request.getAttribute("statisticsAvailable");
     }
     return result;
   }

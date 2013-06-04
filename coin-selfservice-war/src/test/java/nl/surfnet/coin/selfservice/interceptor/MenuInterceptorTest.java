@@ -66,12 +66,12 @@ public class MenuInterceptorTest {
         assertEquals("jsp.requests-overview.title", menuWhenLmngNotActive.getMenuItems().get(1).getLabel());
     }
 
-    private Menu executeTestAndReturnMenu(String requestUri, Boolean lmngActive, Authority... authorities) throws Exception {
+    private Menu executeTestAndReturnMenu(String requestUri, Boolean crmActive, Authority... authorities) throws Exception {
         setUpAuthorities(authorities);
         ModelAndView modelAndView = new ModelAndView();
         MockHttpServletRequest request = new MockHttpServletRequest("GET", requestUri);
-        request.setAttribute("lmngActive", lmngActive);
-        request.setAttribute("ebLinkActive", Boolean.TRUE);
+        request.setAttribute("crmAvailable", crmActive);
+        request.setAttribute("statisticsAvailable", Boolean.TRUE);
         menuInterceptor.postHandle(request, null, null, modelAndView);
 
         ModelMap modelMap = modelAndView.getModelMap();

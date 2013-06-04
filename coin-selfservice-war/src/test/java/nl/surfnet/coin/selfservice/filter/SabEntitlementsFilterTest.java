@@ -68,7 +68,7 @@ public class SabEntitlementsFilterTest {
   public void setUp() throws Exception {
     filter = new SabEntitlementsFilter();
 
-    filter.setLmngActive(true);
+    filter.setCrmAvailable(true);
     filter.setAdminDistributionRole("admindk-role");
     filter.setAdminLicentieIdPRole("adminlicense-role");
     filter.setAdminSurfConextIdPRole("adminsc-role");

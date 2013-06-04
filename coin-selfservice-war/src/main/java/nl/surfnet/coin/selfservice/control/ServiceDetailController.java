@@ -107,7 +107,7 @@ public class ServiceDetailController extends BaseController {
     m.put(SERVICE, service);
 
     spEntityId = service.getSpEntityId();
-    if ((Boolean) (request.getAttribute("ebLinkActive"))) {
+    if ((Boolean) (request.getAttribute("statisticsAvailable"))) {
       // FIXME: integrate with CSA
 //      final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
 //          spEntityId);
@@ -117,7 +117,7 @@ public class ServiceDetailController extends BaseController {
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     m.put("personAttributeLabels", attributeLabelMap);
 
-    if ((Boolean) (request.getAttribute("showOauthTokens"))) {
+    if ((Boolean) (request.getAttribute("oauthTokensAvailable"))) {
       // FIXME integration with oauth token service using CSA
 //      final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser()
 //          .getUid(), compoundServiceProvider.getServiceProvider());

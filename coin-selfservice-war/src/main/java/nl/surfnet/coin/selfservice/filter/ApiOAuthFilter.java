@@ -68,7 +68,7 @@ public class ApiOAuthFilter implements Filter {
   private String adminSurfConextIdPTeam;
   private String adminDistributionTeam;
   private String callbackFlagParameter = "oauthCallback";
-  private boolean lmngActive;
+  private boolean crmAvailable;
 
   /**
    * No initialization needed.
@@ -177,14 +177,14 @@ public class ApiOAuthFilter implements Filter {
       coinUser.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     } else {
       coinUser.setAuthorities(new ArrayList<CoinAuthority>());
-      if (groupsContains(adminLicentieIdPTeam, groups) && this.lmngActive) {
+      if (groupsContains(adminLicentieIdPTeam, groups) && this.crmAvailable) {
         coinUser.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
       }
       if (groupsContains(adminSurfConextIdPTeam, groups)) {
         coinUser.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
       }
       // No default role for 'users' in non-lmng active modus: this will be handled by another filter.
-      if (this.lmngActive && CollectionUtils.isEmpty(coinUser.getAuthorities())) {
+      if (this.crmAvailable && CollectionUtils.isEmpty(coinUser.getAuthorities())) {
         coinUser.addAuthority(new CoinAuthority(ROLE_USER));
       }
     }
@@ -228,7 +228,7 @@ public class ApiOAuthFilter implements Filter {
     this.adminDistributionTeam = adminDistributionTeam;
   }
   
-  public void setLmngActive(boolean lmngActive) {
-    this.lmngActive = lmngActive;
+  public void setCrmAvailable(boolean crmAvailable) {
+    this.crmAvailable = crmAvailable;
   }
 }

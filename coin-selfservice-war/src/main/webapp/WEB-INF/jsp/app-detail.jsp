@@ -82,7 +82,7 @@
           </a>
         </li>
       </c:if>
-      <c:if test="${isAdminUser && ebLinkActive}">
+      <c:if test="${isAdminUser && statisticsAvailable}">
         <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
           <spring:param name="spEntityId" value="${sp.spEntityId}" />
         </spring:url>

@@ -68,9 +68,9 @@
 
       <p>${endUserMessage}</p>
 
-      <c:if test="${dev}">
+      <c:if test="${developmentMode}">
         <div class="well">
-        <h2>Details (shown only in dev mode)</h2>
+        <h2>Details (shown only in development mode)</h2>
         <dl>
           <dt>Requested uri</dt>
           <dd>${pageContext.errorData.requestURI}</dd>

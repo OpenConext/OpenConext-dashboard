@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
 
     <c:choose>
-      <c:when test="${dev eq true}">
+      <c:when test="${developmentMode eq true}">
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.4.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-button.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-datepicker.css"/>" />
@@ -93,10 +93,10 @@
             </div>
           </li>
         <li class="help">
-        <c:if test="${lmngActive}">
+        <c:if test="${crmAvailable}">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.showroom.url"/></c:set>
         </c:if>
-        <c:if test="${!lmngActive}">
+        <c:if test="${!crmAvailable}">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
         </c:if>
           <a href="${supporturl}"  target="_blank">
