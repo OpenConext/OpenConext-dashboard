@@ -18,7 +18,7 @@ package nl.surfnet.coin.selfservice.command;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Question {
+public class Question extends AbstractAction {
 
   @NotEmpty
   private String subject;

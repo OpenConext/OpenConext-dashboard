@@ -18,10 +18,12 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Action;
+import nl.surfnet.coin.csa.model.JiraTask;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.csa.model.Taxonomy;
 
@@ -39,6 +41,8 @@ public class CsaMock implements Csa {
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+
+  private List<Action> actionsCreated = new ArrayList<Action>();
 
   @Override
   public List<Service> getPublicServices() {
@@ -83,12 +87,21 @@ public class CsaMock implements Csa {
 
   @Override
   public List<Action> getJiraActions(String idpEntityId) {
-    return (List<Action>) parseJsonData(new TypeReference<List<Action>>(){}, "csa-json/actions.json");
+    List<Action> actions = (List<Action>) parseJsonData(new TypeReference<List<Action>>() {}, "csa-json/actions.json");
+    actions.addAll(actionsCreated);
+    return actions;
   }
 
   @Override
   public Action createAction(Action action) {
-    return (Action) parseJsonData(new TypeReference<Action>(){}, "csa-json/create-action.json");
+    action.setStatus(JiraTask.Status.OPEN);
+    action.setJiraKey("TEST-"+System.currentTimeMillis());
+    action.setId(System.currentTimeMillis());
+    action.setIdpName("Mock IdP");
+    action.setSpName("Mock SP");
+
+    actionsCreated.add(action);
+    return action;
   }
 
 

@@ -1,1 +1,50 @@
-[{"id":1,"jiraKey":"TEST-100","userId":"urn:collab:person:surfnet.nl:jdoe","userName":"John Doe","userEmail":null,"body":"Test data link request","idpId":"http://mock-idp","spId":"http://mock-sp","requestDate":1350560531000,"type":"LINKREQUEST","status":"OPEN","institutionId":"SURFNET"},{"id":2,"jiraKey":"TEST-101","userId":"urn:collab:person:surfnet.nl:jdoe","userName":"John Doe","userEmail":null,"body":"Test data unlink request","idpId":"http://mock-idp","spId":"http://mock-sp","requestDate":1350560531000,"type":"UNLINKREQUEST","status":"OPEN","institutionId":"SURFNET"},{"id":3,"jiraKey":"TEST-102","userId":"urn:collab:person:surfnet.nl:jdoe","userName":"John Doe","userEmail":null,"body":"Test data question","idpId":"http://mock-idp","spId":"http://mock-sp","requestDate":1350560531000,"type":"QUESTION","status":"CLOSED","institutionId":"SURFNET"}]
+[
+  {
+    "id": 1,
+    "jiraKey": "TEST-100",
+    "userId": "urn:collab:person:surfnet.nl:jdoe",
+    "userName": "John Doe",
+    "userEmail": null,
+    "body": "Test data link request",
+    "idpId": "http://mock-idp",
+    "spId": "http://mock-sp",
+    "idpName": "Mock Idp",
+    "spName": "Mock SP",
+    "requestDate": 1350560531000,
+    "type": "LINKREQUEST",
+    "status": "OPEN",
+    "institutionId": "SURFNET"
+  },
+  {
+    "id": 2,
+    "jiraKey": "TEST-101",
+    "userId": "urn:collab:person:surfnet.nl:jdoe",
+    "userName": "John Doe",
+    "userEmail": null,
+    "body": "Test data unlink request",
+    "idpId": "http://mock-idp",
+    "spId": "http://mock-sp",
+    "idpName": "Mock Idp",
+    "spName": "Mock SP",
+    "requestDate": 1350560531000,
+    "type": "UNLINKREQUEST",
+    "status": "OPEN",
+    "institutionId": "SURFNET"
+  },
+  {
+    "id": 3,
+    "jiraKey": "TEST-102",
+    "userId": "urn:collab:person:surfnet.nl:jdoe",
+    "userName": "John Doe",
+    "userEmail": null,
+    "body": "Test data question",
+    "idpId": "http://mock-idp",
+    "spId": "http://mock-sp",
+    "idpName": "Mock Idp",
+    "spName": "Mock SP",
+    "requestDate": 1350560531000,
+    "type": "QUESTION",
+    "status": "CLOSED",
+    "institutionId": "SURFNET"
+  }
+]

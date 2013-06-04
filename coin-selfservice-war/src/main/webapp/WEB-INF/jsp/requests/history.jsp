@@ -35,7 +35,7 @@
           <div class="data-table-wrapper">
             <c:set var="searchPlaceholderRequests"><spring:message code="jsp.requests-overview.search.placeholder"/></c:set>
             <table class="table table-bordered table-striped table-above-pagination table-with-statuses table-sortable"
-                   id="request-overview-table" data-search-placeholder="${searchPlaceholderRequests}"
+                     id="request-overview-table" data-search-placeholder="${searchPlaceholderRequests}"
               >
               <thead>
                 <tr>
@@ -49,8 +49,9 @@
                 <c:forEach items="${actionList}" var="action">
                   <c:set var="actionType">
                     <c:choose>
-                      <c:when test="${action.type == 'LINKREQUEST'}"><spring:message code="jsp.actions.typeLinkrequest" arguments="${action.sp.name}" /></c:when>
-                      <c:when test="${action.type == 'UNLINKREQUEST'}"><spring:message code="jsp.actions.typeUnlinkrequest" arguments="${action.sp.name}" /></c:when>
+                      <c:when test="${action.type == 'LINKREQUEST'}"><spring:message code="jsp.actions.typeLinkrequest" arguments="${action.spName}" /></c:when>
+                      <c:when test="${action.type == 'UNLINKREQUEST'}"><spring:message code="jsp.actions.typeUnlinkrequest" arguments="${action.spName}" /></c:when>
+                      <c:when test="${action.type == 'QUESTION'}"><spring:message code="jsp.sp_question.question"/></c:when>
                     </c:choose>
                   </c:set>
                   <tr>

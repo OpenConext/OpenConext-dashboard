@@ -3,19 +3,22 @@
     "id": 12,
     "logoUrl": "http://localhost:8282/csa/fieldimages/24.img",
     "connected": false,
-    "hasCrmLink": false
+    "hasCrmLink": false,
+    "connected": true
   },
   {
     "id": 10,
     "logoUrl": "http://localhost:8282/csa/fieldimages/20.img",
     "connected": false,
-    "hasCrmLink": false
+    "hasCrmLink": false,
+    "connected": true
   },
   {
     "id": 8,
     "logoUrl": "http://localhost:8282/csa/fieldimages/16.img",
     "connected": false,
-    "hasCrmLink": false
+    "hasCrmLink": false,
+    "connected": true
   },
   {
     "id": 4,

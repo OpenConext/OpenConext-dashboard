@@ -40,7 +40,7 @@
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
-            <input type="hidden" name="agree" value="true" />
+            <input type="hidden" name="confirmation" value="true" />
             <p>
               <i class="icon-info-sign"></i>
               <spring:message code="jsp.sp_unlinkrequestconfirm.message" />
@@ -49,7 +49,7 @@
               <button type="submit" class="btn btn-primary btn-small"><spring:message
                   code="jsp.sp_unlinkrequestconfirm.buttonsubmit"/></button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="compoundSpId" value="${compoundSpId}" />
+                <spring:param name="id" value="${service.id}" />
               </spring:url>
               <a class="btn btn-small" href="${detailUrl}"><spring:message code="jsp.sp_unlinkrequestconfirm.buttoncancel"/></a>
             </div>

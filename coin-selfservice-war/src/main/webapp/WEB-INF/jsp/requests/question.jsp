@@ -34,6 +34,10 @@
         <form:form cssClass="form form-horizontal" id="question" commandName="question">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+            <input type="hidden" name="serviceProviderId" value="<c:out value='${service.spEntityId}'/>"/>
+            <input type="hidden" name="serviceName" value="<c:out value='${service.name}'/>"/>
+            <input type="hidden" name="serviceId" value="<c:out value='${service.id}'/>"/>
+
             <div class="control-group">
               <label class="control-label"><spring:message code="jsp.sp_question.applicantname"/></label>
 
@@ -47,7 +51,7 @@
               <label class="control-label"><spring:message code="jsp.sp_question.idp"/></label>
 
               <div class="controls">
-                <output>${selectedidp}</output>
+                <output>${selectedidp.name}</output>
               </div>
             </div>
 
@@ -75,7 +79,7 @@
             <div class="actions">
               <button type="submit" class="btn btn-primary btn-small"><spring:message code="jsp.sp_question.buttonsubmit"/></button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="compoundSpId" value="${compoundSpId}" />
+                <spring:param name="id" value="${service.id}" />
               </spring:url>
               <a class="btn btn-small" href="${detailUrl}"><spring:message code="jsp.sp_question.buttoncancel"/></a>
             </div>

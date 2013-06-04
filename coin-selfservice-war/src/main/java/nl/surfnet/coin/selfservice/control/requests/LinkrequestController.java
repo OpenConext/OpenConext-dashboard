@@ -20,6 +20,7 @@ import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Action;
 import nl.surfnet.coin.csa.model.JiraTask;
 import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.command.AbstractAction;
 import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -97,45 +98,51 @@ public class LinkrequestController extends BaseController {
   public ModelAndView spQuestion(@RequestParam long serviceId,
                                  @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    // FIXME: validate serviceId
-    final Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
     m.put("question", new Question());
     m.put("service", service);
-    m.put("serviceId", serviceId);
     return new ModelAndView("requests/question", m);
   }
 
   @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
-  public ModelAndView spQuestionSubmit(@RequestParam long serviceId,
-                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                                       @Valid @ModelAttribute("question") Question question, BindingResult result) {
+  public ModelAndView spQuestionSubmit(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+                                       @Valid @ModelAttribute("question") Question question, BindingResult result, SessionStatus sessionStatus) {
 
     Map<String, Object> m = new HashMap<String, Object>();
-    return new ModelAndView("requests/question-thanks", m);
+    if (result.hasErrors()) {
+      LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
+      return new ModelAndView("requests/question", m);
+    } else {
+      question.setType(JiraTask.Type.QUESTION);
+      return doSubmitConfirm(question, result, selectedidp, sessionStatus, "requests/question", "requests/linkrequest-thanks", "jsp.sp_question.thankstext");
+    }
   }
 
 
-//  @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST, params = "agree=true")
-//  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-//                                             @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result,
-//                                             @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, SessionStatus sessionStatus) {
-//    unlinkrequest.setUnlinkRequest(true);
-//    return doSubmitConfirm(spEntityId, compoundSpId, unlinkrequest, result, selectedidp, sessionStatus, "requests/unlinkrequest-confirm", JiraTask.Type.UNLINKREQUEST, "requests/unlinkrequest-thanks");
-//  }
+  @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST, params = "confirmation=true")
+  public ModelAndView spRequestSubmitConfirm(@ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result,
+                                             @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, SessionStatus sessionStatus) {
+    unlinkrequest.setType(JiraTask.Type.UNLINKREQUEST);
+    return doSubmitConfirm(unlinkrequest, result, selectedidp, sessionStatus, "requests/unlinkrequest-confirm", "requests/linkrequest-thanks", "jsp.sp_unlinkrequest.thankstext");
+  }
 
-  private ModelAndView doSubmitConfirm(LinkRequest linkRequest, BindingResult result, IdentityProvider selectedidp, SessionStatus sessionStatus, String errorViewName, String successViewName, String thanksTextKey) {
+  private ModelAndView doSubmitConfirm(AbstractAction abstractAction, BindingResult result, IdentityProvider selectedidp, SessionStatus sessionStatus, String errorViewName, String successViewName, String thanksTextKey) {
     Map<String, Object> m = new HashMap<String, Object>();
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView(errorViewName, m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      Action action = new Action(currentUser.getUid(), currentUser.getEmail(), currentUser.getUsername(), linkRequest.getType(), linkRequest.getNotes(), selectedidp.getId(),
-              linkRequest.getServiceProviderId(), selectedidp.getInstitutionId());
+      String content = abstractAction instanceof LinkRequest ? ((LinkRequest) abstractAction).getNotes() : ((Question) abstractAction).getBody() ;
+      Action action = new Action(currentUser.getUid(), currentUser.getEmail(), currentUser.getUsername(), abstractAction.getType(), content, selectedidp.getId(),
+              abstractAction.getServiceProviderId(), selectedidp.getInstitutionId());
+      if (abstractAction.getType().equals(JiraTask.Type.QUESTION)) {
+        action.setSubject(((Question) abstractAction).getSubject());
+      }
       Action createdAction = csa.createAction(action);
       String issueKey = createdAction.getJiraKey();
       m.put("issueKey", issueKey);
-      m.put("linkRequest", linkRequest);
+      m.put("abstractAction", abstractAction);
       m.put("thanksTextKey", thanksTextKey);
     }
     sessionStatus.setComplete();

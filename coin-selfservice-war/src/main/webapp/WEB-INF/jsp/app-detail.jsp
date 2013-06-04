@@ -138,8 +138,7 @@
               <ul>
                 <c:if test="${applyAllowed}">
                   <li>    <a href="<c:url value="/requests/unlinkrequest.shtml">
-                            <c:param name="spEntityId" value="${service.spEntityId}" />
-                            <c:param name="id" value="${service.id}" />
+                            <c:param name="serviceId" value="${service.id}" />
                               </c:url>" title="<spring:message code="jsp.sp_detail.requestunlink"/>">
                             <spring:message code="jsp.sp_detail.requestunlink"/>
                           </a>

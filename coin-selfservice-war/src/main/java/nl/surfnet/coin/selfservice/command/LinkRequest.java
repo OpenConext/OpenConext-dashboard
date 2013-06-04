@@ -20,28 +20,12 @@ import nl.surfnet.coin.csa.model.JiraTask;
 
 import javax.validation.constraints.AssertTrue;
 
-public class LinkRequest {
+public class LinkRequest extends AbstractAction{
 
   private String notes;
 
   @AssertTrue
   private boolean agree;
-
-  private JiraTask.Type type;
-
-  private String serviceProviderId;
-
-  private String serviceName;
-
-  private Long serviceId;
-
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-  }
 
   public boolean isAgree() {
     return agree;
@@ -51,36 +35,12 @@ public class LinkRequest {
     this.agree = agree;
   }
 
-  public JiraTask.Type getType() {
-    return type;
+  public String getNotes() {
+    return notes;
   }
 
-  public void setType(JiraTask.Type type) {
-    this.type = type;
-  }
-
-  public String getServiceProviderId() {
-    return serviceProviderId;
-  }
-
-  public void setServiceProviderId(String serviceProviderId) {
-    this.serviceProviderId = serviceProviderId;
-  }
-
-  public String getServiceName() {
-    return serviceName;
-  }
-
-  public void setServiceName(String serviceName) {
-    this.serviceName = serviceName;
-  }
-
-  public Long getServiceId() {
-    return serviceId;
-  }
-
-  public void setServiceId(Long serviceId) {
-    this.serviceId = serviceId;
+  public void setNotes(String notes) {
+    this.notes = notes;
   }
 
 
