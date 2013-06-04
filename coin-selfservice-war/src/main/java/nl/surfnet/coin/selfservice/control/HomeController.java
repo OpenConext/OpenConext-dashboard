@@ -146,6 +146,9 @@ public class HomeController extends BaseController {
       for (CategoryValue value : category.getValues()) {
         int count = 0;
         for (Service service : services) {
+          if (service.getCategories() == null || service.getCategories().isEmpty()) {
+            continue;
+          }
           List<CategoryValue> categoryValues = service.getCategories().get(category);
           if (categoryValues != null && categoryValues.contains(value)) {
             ++count;
