@@ -19,8 +19,7 @@
 <%@attribute name="invariant" type="java.lang.Boolean" required="true" %>
 <c:if test="${invariant}">
   <a href="<c:url value="/requests/question.shtml">
-    <c:param name="spEntityId" value="${service.spEntityId}" />
-    <c:param name="compoundSpId" value="${service.id}" />
+    <c:param name="serviceId" value="${service.id}" />
     </c:url>"
     title="<spring:message code="jsp.sp_detail.askquestion"/>"><spring:message code="jsp.sp_detail.askquestion"/>
   </a>

@@ -63,18 +63,18 @@ public class LinkrequestController extends BaseController {
   }
 
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spUnlinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+  public ModelAndView spUnlinkRequest(@RequestParam long serviceId,
                                       @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = getModelMapWithService(compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedidp);
     m.put("unlinkrequest", new LinkRequest());
     return new ModelAndView("requests/unlinkrequest", m);
   }
 
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spUnlinkrequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
+  public ModelAndView spUnlinkrequestPost(@RequestParam Long serviceId,
                                           @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
                                           @Valid @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result) {
-    Map<String, Object> m = getModelMapWithService(compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedidp);
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("requests/unlinkrequest", m);
@@ -130,11 +130,6 @@ public class LinkrequestController extends BaseController {
       return new ModelAndView(errorViewName, m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      /*
-       *   public Action(String userId, String userEmail, String userName, JiraTask.Type type, String body, String idpId,
-                String spId, String institutionId) {
-
-       */
       Action action = new Action(currentUser.getUid(), currentUser.getEmail(), currentUser.getUsername(), linkRequest.getType(), linkRequest.getNotes(), selectedidp.getId(),
               linkRequest.getServiceProviderId(), selectedidp.getInstitutionId());
       Action createdAction = csa.createAction(action);

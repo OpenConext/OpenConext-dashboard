@@ -52,7 +52,7 @@
 	    </c:if>
       <li>
         <spring:url var="recommendAppLink" value="/app-recommend.shtml">
-          <spring:param name="id" value="${sp.id}" />
+          <spring:param name="id" value="${service.id}" />
         </spring:url>
         <a id="recommend-app" class="btn btn-primary recommend-app" href="${recommendAppLink}">
             <spring:message code="jsp.app_detail.recommend_app"/>
@@ -84,7 +84,7 @@
       </c:if>
       <c:if test="${isAdminUser && statisticsAvailable}">
         <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
-          <spring:param name="spEntityId" value="${sp.spEntityId}" />
+          <spring:param name="spEntityId" value="${service.spEntityId}" />
         </spring:url>
         <c:set var="tooltipStats"><spring:message code="jsp.sp_detail.statslink"/></c:set>
         <li>
@@ -110,7 +110,7 @@
       <div class="license-connect">
         <c:if test="${connectionVisible}">
         <c:choose>
-          <c:when test="${not sp.connected}">
+          <c:when test="${not service.connected}">
             <div class="service-not-connected">
               <p>
                 <strong><spring:message code="jsp.app_detail.no_technical_connection"/></strong>
@@ -119,8 +119,7 @@
               <c:if test="${applyAllowed}">
                 <li>
 	              <a href="<c:url value="/requests/linkrequest.shtml">
-	                <c:param name="spEntityId" value="${sp.spEntityId}" />
-	                <c:param name="serviceId" value="${sp.id}" />
+	                <c:param name="serviceId" value="${service.id}" />
 	              </c:url>"
 	                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
                 </li>
