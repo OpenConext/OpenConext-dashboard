@@ -28,19 +28,9 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
-    <context:component-scan base-package="nl.surfnet.coin.selfservice.api"/>
-    
 
-    <bean id="propertyResolver"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="ignoreResourceNotFound" value="true"/>
-        <property name="locations">
-            <list>
-                <value>classpath:showroom.properties</value>
-                <value>classpath:dashboard.properties</value>
-            </list>
-        </property>
-    </bean>
+    <context:property-placeholder location="classpath:application.properties,classpath:showroom.properties,classpath:dashboard.properties" ignore-resource-not-found="true" />
+
     <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="defaultViews">
             <list>
