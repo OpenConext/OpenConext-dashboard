@@ -37,9 +37,9 @@
           <spring:message code="jsp.sp_linkrequest.termsintro" />
         </p>
         <ul>
-          <li><spring:message code="jsp.sp_linkrequest.terms1" arguments="${spname}"/></li>
-          <li><spring:message code="jsp.sp_linkrequest.terms2" arguments="${spname}"/></li>
-          <li><spring:message code="jsp.sp_linkrequest.terms3" arguments="${spname}"/></li>
+          <li><spring:message code="jsp.sp_linkrequest.terms1" arguments="${service.name}"/></li>
+          <li><spring:message code="jsp.sp_linkrequest.terms2" arguments="${service.name}"/></li>
+          <li><spring:message code="jsp.sp_linkrequest.terms3" arguments="${service.name}"/></li>
         </ul>
 
         <c:if test="${not empty jiraError}">
@@ -51,6 +51,10 @@
         <form:form cssClass="form form-horizontal" commandName="linkrequest">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+            <input type="hidden" name="serviceProviderId" value="<c:out value='${service.spEntityId}'/>"/>
+            <input type="hidden" name="serviceName" value="<c:out value='${service.name}'/>"/>
+            <input type="hidden" name="serviceId" value="<c:out value='${service.id}'/>"/>
+
             <div class="control-group <form:errors path="agree">error</form:errors>">
                <form:label path="agree" cssClass="checkbox">
                  <form:checkbox path="agree" id="agree" cssClass="required"/>
@@ -75,7 +79,7 @@
                 <spring:message code="jsp.sp_linkrequest.buttonsubmit" />
               </button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="compoundSpId" value="${compoundSpId}" />
+                <spring:param name="id" value="${service.id}" />
               </spring:url>
               <a class="btn btn-small" href="${detailUrl}"><spring:message code="jsp.sp_linkrequest.buttoncancel"/></a>
             </div>

@@ -49,13 +49,6 @@
   <bean id="methodNameAwareCacheKeyGenerator"
     class="nl.surfnet.coin.shared.cache.MethodNameAwareCacheKeyGenerator" />
 
-  <bean id="jiraService" class="nl.surfnet.coin.selfservice.service.impl.JiraServiceMock">
-    <property name="baseUrl" value=" " />
-    <property name="username" value="x" />
-    <property name="password" value="y" />
-    <property name="projectKey" value="x" />
-  </bean>
-
   <bean id="emailService"
     class="nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl">
     <property name="administrativeEmail" value="${coin-administrative-email}" />

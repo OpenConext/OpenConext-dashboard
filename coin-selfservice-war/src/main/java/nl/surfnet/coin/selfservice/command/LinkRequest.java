@@ -16,6 +16,8 @@
 
 package nl.surfnet.coin.selfservice.command;
 
+import nl.surfnet.coin.csa.model.JiraTask;
+
 import javax.validation.constraints.AssertTrue;
 
 public class LinkRequest {
@@ -25,7 +27,13 @@ public class LinkRequest {
   @AssertTrue
   private boolean agree;
 
-  private boolean unlinkRequest;
+  private JiraTask.Type type;
+
+  private String serviceProviderId;
+
+  private String serviceName;
+
+  private Long serviceId;
 
   public String getNotes() {
     return notes;
@@ -43,12 +51,38 @@ public class LinkRequest {
     this.agree = agree;
   }
 
-
-  public boolean isUnlinkRequest() {
-    return unlinkRequest;
+  public JiraTask.Type getType() {
+    return type;
   }
 
-  public void setUnlinkRequest(boolean unlinkRequest) {
-    this.unlinkRequest = unlinkRequest;
+  public void setType(JiraTask.Type type) {
+    this.type = type;
   }
+
+  public String getServiceProviderId() {
+    return serviceProviderId;
+  }
+
+  public void setServiceProviderId(String serviceProviderId) {
+    this.serviceProviderId = serviceProviderId;
+  }
+
+  public String getServiceName() {
+    return serviceName;
+  }
+
+  public void setServiceName(String serviceName) {
+    this.serviceName = serviceName;
+  }
+
+  public Long getServiceId() {
+    return serviceId;
+  }
+
+  public void setServiceId(Long serviceId) {
+    this.serviceId = serviceId;
+  }
+
+
+
 }

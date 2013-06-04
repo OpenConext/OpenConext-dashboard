@@ -31,9 +31,9 @@
       <p id="stats-info-text"><spring:message code="jsp.stats.info.admin"/></p>
     </c:if>
     <c:if test="${isGod eq false}">
-      <c:set var="idpname"><tags:providername provider="${selectedidp}" /></c:set>
+
       <p id="stats-info-text">
-        <spring:message code="jsp.stats.info" arguments="${idpname}"/>
+        <spring:message code="jsp.stats.info" arguments="${selectedidp.name}"/>
       </p>
     </c:if>
     

@@ -46,8 +46,7 @@ public class HistoryController extends BaseController {
 
     Map<String, Object> model = new HashMap<String, Object>();
 
-    // FIXME: according to server impl, the idp is deduced from access token. But we use Client Credentials, right?
-    final List<Action> actions = csa.getJiraActions();
+    final List<Action> actions = csa.getJiraActions(selectedidp.getId());
     model.put("actionList", actions);
     return new ModelAndView("requests/history", model);
   }
