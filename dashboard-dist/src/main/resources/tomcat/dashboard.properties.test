@@ -14,11 +14,6 @@
 # limitations under the License.
 #
 
-##########################################################################
-# The following properties are the responsibility of Maintenance. The    #
-# values depend on the environment and are unknown to the developers     #
-##########################################################################
-
 
 # SMTP server settings for notifications
 coin-mailserver=s01.dev.coin.surf.net
