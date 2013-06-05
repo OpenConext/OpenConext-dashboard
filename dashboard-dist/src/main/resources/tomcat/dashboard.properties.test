@@ -19,53 +19,6 @@
 # values depend on the environment and are unknown to the developers     #
 ##########################################################################
 
-janus.user=??
-janus.secret=??
-janus.uri=https://serviceregistry.test.surfconext.nl/simplesaml/module.php/janus/services/rest/
-
-# "own" database
-coin-selfservice.jdbc.url=jdbc:mysql://db.test.surfconext.nl:3306/selfservice
-coin-selfservice.jdbc.user=??
-coin-selfservice.jdbc.password=??
-
-coin-api.jdbc.url=jdbc:mysql://db.test.surfconext.nl:3306/api
-coin-api.jdbc.user=??
-coin-api.jdbc.password=??
-
-coin-eb-db-url=jdbc:mysql://db.test.surfconext.nl:3306/eb
-coin-eb-db-username=ebrw
-coin-eb-db-password=??
-
-# Whether to try to fetch license information from LMNG.
-# Set to false to go to the surfconext version without licenses
-coin-lmng-active-mode=false
-
-# SOAP service endpoint for LMNG.
-# This is a complete URL to which requests will be posted.
-# Example: https://lmng01.dev.coin.surf.net:8444/CrmService.svc
-coin-lmng-endpoint=https://lmng01.dev.coin.surf.net:8444/CrmService.svc
-
-# If set to true, requests/responses will be written to a file in the java.io.tmpdir directory.
-coin-lmng-debug=false
-
-# Password that is used for protecting the client certificate
-coin-lmngClientCertificatePassword=??
-
-# Base64 encoded string of the client's private key.
-# One line, without the -----BEGIN RSA PRIVATE KEY--- and the ---- END RSA ... ----- parts.
-coin-lmngClientCertificatePrivateKey=??
-
-# Base64 encoded string of the client certificate.
-# One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
-coin-lmngClientCertificate=??
-
-# Base64 encoded string of the root certificate that was used to issue the client certificate and the server certificate.
-# One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
-coin-lmngRootCertificate=??
-
-coin-shindig-db-url=jdbc:mysql://db.test.surfconext.nl:3306/shindig
-coin-shindig-db-username=shindigrw
-coin-shindig-db-password=??
 
 # SMTP server settings for notifications
 coin-mailserver=s01.dev.coin.surf.net
@@ -80,11 +33,6 @@ ISSUING_ENTITY_ID=https\://dashboard.test.surfconext.nl
 
 WEB_APPLICATION_HOST_AND_PORT=dashboard.test.surfconext.nl
 
-
-jiraBaseUrl=https\://issues.surfnet.nl/jira
-jiraUsername=??
-jiraPassword=??
-jiraProjectKey=TEST
 
 
 # Team id that is used as definition of who is a 'license contact person'.
@@ -121,29 +69,3 @@ csaBaseLocation=https://cruncher.acc.surfconext.nl/stats/v1/
 # Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
 feature.development.mode=true
 
-
-
-##########################################################################
-# The following properties are the responsibility of development.
-##########################################################################
-
-hibernate-selfservice.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-hibernate-selfservice.hbm2ddl.auto=none
-hibernate-selfservice.format_sql=true
-hibernate-selfservice.show_sql=false
-
-# Alle real implementations (and not local mocks for testing purposes)
-janus.class=nl.surfnet.coin.janus.JanusRestClient
-openConextApiClient=nl.surfnet.coin.api.client.OpenConextOAuthClientImpl
-jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
-
-coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
-coin-api.jdbc.driver=com.mysql.jdbc.Driver
-coin-eb-db-driver=com.mysql.jdbc.Driver
-coin-shindig-db-driver=com.mysql.jdbc.Driver
-
-# global configuration of database properties, used for all data sources
-coin-selfservice.database.idleConnectionTestPeriod=900
-coin-selfservice.database.maxIdleTime=900
-
-coin-selfservice.db.migrations.folder=db/migration/mysql

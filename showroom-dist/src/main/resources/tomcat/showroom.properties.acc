@@ -14,28 +14,6 @@
 # limitations under the License.
 #
 
-##########################################################################
-# The following properties are the responsibility of Maintenance. The    #
-# values depend on the environment and are unknown to the developers     #
-##########################################################################
-
-
-# Whether to try to fetch license information from LMNG.
-# Set to false to go to the surfconext version without licenses
-coin-lmng-active-mode=true
-
-# SOAP service endpoint for LMNG.
-# This is a complete URL to which requests will be posted.
-# Example: https://lmng01.dev.coin.surf.net:8444/CrmService.svc
-coin-lmng-endpoint=https\://na.example.org
-
-# If set to true, requests/responses will be written to a file in the java.io.tmpdir directory.
-coin-lmng-debug=false
-
-coin-shindig-db-url=jdbc:mysql://db.acc.surfconext.nl:3306/shindig
-coin-shindig-db-username=shindigrw
-coin-shindig-db-password=??
-
 # Email address that recieves error notifications
 coin-errormail-to=coin-logs@list.surfnet.nl
 coin-administrative-email=coin-logs@list.surfnet.nl
@@ -49,11 +27,6 @@ ISSUING_ENTITY_ID=https\://dashboard.acc.surfconext.nl
 
 WEB_APPLICATION_HOST_AND_PORT=dashboard.acc.surfconext.nl
 
-
-jiraBaseUrl=https\://issues.surfnet.nl/jira
-jiraUsername=??
-jiraPassword=??
-jiraProjectKey=TEST
 
 # Team id that is used as definition of who is a 'license contact person'.
 admin.licentie.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_license_admin
@@ -78,15 +51,9 @@ admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 admin.distribution.channel.sabRole=
 
-# Info for communication with the APIS Authorization Server
-adminService.tokenVerificationUrl=https://apis.acc.showroom.surfconext.nl/v1/tokeninfo
-adminService.resourceServerKey=??
-adminService.resourceServerSecret=??
-adminService.cacheEnabled=true
-adminService.allowCorsRequests=true
 
 # TODO: verify this location
-csaBaseLocation=https://cruncher.acc.surfconext.nl/stats/v1/
+csaBaseLocation=https://csa.acc.showroom.surfconext.nl/csa/
 
 ####################################################################
 ##
@@ -101,28 +68,3 @@ feature.showOauthTokens=false
 #set to true to have statistics from the cruncher component
 feature.statistics=false
 
-
-##########################################################################
-# The following properties are the responsibility of development.
-##########################################################################
-
-hibernate-selfservice.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-hibernate-selfservice.hbm2ddl.auto=none
-hibernate-selfservice.format_sql=true
-hibernate-selfservice.show_sql=false
-
-# Alle real implementations (and not local mocks for testing purposes)
-janus.class=nl.surfnet.coin.janus.JanusRestClient
-openConextApiClient=nl.surfnet.coin.api.client.OpenConextOAuthClientImpl
-jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
-
-coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
-coin-api.jdbc.driver=com.mysql.jdbc.Driver
-coin-eb-db-driver=com.mysql.jdbc.Driver
-coin-shindig-db-driver=com.mysql.jdbc.Driver
-
-# global configuration of database properties, used for all data sources
-coin-selfservice.database.idleConnectionTestPeriod=900
-coin-selfservice.database.maxIdleTime=900
-
-coin-selfservice.db.migrations.folder=db/migration/mysql

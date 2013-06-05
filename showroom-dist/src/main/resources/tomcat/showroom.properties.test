@@ -12,78 +12,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-
-##########################################################################
-# The following properties are the responsibility of Maintenance. The    #
-# values depend on the environment and are unknown to the developers     #
-##########################################################################
-
-janus.user=??
-janus.secret=??
-janus.uri=https://serviceregistry.test.surfconext.nl/simplesaml/module.php/janus/services/rest/
-
-# "own" database
-coin-selfservice.jdbc.url=jdbc:mysql://db.test.surfconext.nl:3306/selfservice
-coin-selfservice.jdbc.user=??
-coin-selfservice.jdbc.password=??
-
-coin-api.jdbc.url=jdbc:mysql://db.test.surfconext.nl:3306/api
-coin-api.jdbc.user=??
-coin-api.jdbc.password=??
-
-coin-eb-db-url=jdbc:mysql://db.test.surfconext.nl:3306/eb
-coin-eb-db-username=ebrw
-coin-eb-db-password=??
-
-# Whether to try to fetch license information from LMNG.
-# Set to false to go to the surfconext version without licenses
-coin-lmng-active-mode=true
-
-# SOAP service endpoint for LMNG.
-# This is a complete URL to which requests will be posted.
-# Example: https://lmng01.dev.coin.surf.net:8444/CrmService.svc
-coin-lmng-endpoint=https://lmng01.dev.coin.surf.net:8444/CrmService.svc
-
-# If set to true, requests/responses will be written to a file in the java.io.tmpdir directory.
-coin-lmng-debug=false
-
-# Password that is used for protecting the client certificate
-coin-lmngClientCertificatePassword=??
-
-# Base64 encoded string of the client's private key.
-# One line, without the -----BEGIN RSA PRIVATE KEY--- and the ---- END RSA ... ----- parts.
-coin-lmngClientCertificatePrivateKey=??
-
-# Base64 encoded string of the client certificate.
-# One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
-coin-lmngClientCertificate=??
-
-# Base64 encoded string of the root certificate that was used to issue the client certificate and the server certificate.
-# One line, without the -----BEGIN CERTIFICATE--- and the ---- END CERTIFICATE----- parts.
-coin-lmngRootCertificate=??
-
-coin-shindig-db-url=jdbc:mysql://db.test.surfconext.nl:3306/shindig
-coin-shindig-db-username=shindigrw
-coin-shindig-db-password=??
 
 # SMTP server settings for notifications
-coin-mailserver=s01.dev.coin.surf.net
+coin-mailserver=localhost
 
-wayf.url.metadata=https://engine.test.surfconext.nl/authentication/idp/metadata
-wayf.url.sso=https://engine.test.surfconext.nl/authentication/idp/single-sign-on
-wayf.certificate=MIID/jCCAuYCCQCs7BsDR2N8tjANBgkqhkiG9w0BAQUFADCBwDELMAkGA1UEBhMCTkwxEDAOBgNVBAgTB1V0cmVjaHQxEDAOBgNVBAcTB1V0cmVjaHQxJTAjBgNVBAoTHFNVUkZuZXQgQlYgLSBUaGUgTmV0aGVybGFuZHMxHzAdBgNVBAsTFkNvbGxhYm9yYXRpb24gU2VydmljZXMxGDAWBgNVBAMTD1NVUkZjb25leHQtdGVzdDErMCkGCSqGSIb3DQEJARYcc3VyZmNvbmV4dC1iZWhlZXJAc3VyZm5ldC5ubDAeFw0xMTA2MjcxNTM0NDFaFw0yMTA2MjQxNTM0NDFaMIHAMQswCQYDVQQGEwJOTDEQMA4GA1UECBMHVXRyZWNodDEQMA4GA1UEBxMHVXRyZWNodDElMCMGA1UEChMcU1VSRm5ldCBCViAtIFRoZSBOZXRoZXJsYW5kczEfMB0GA1UECxMWQ29sbGFib3JhdGlvbiBTZXJ2aWNlczEYMBYGA1UEAxMPU1VSRmNvbmV4dC10ZXN0MSswKQYJKoZIhvcNAQkBFhxzdXJmY29uZXh0LWJlaGVlckBzdXJmbmV0Lm5sMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA27T+ALNpoU9PAvRYj2orOXaEVcy1fHSU/rZEakpgNzOFIEL9UB6BvtWdRbO5FT84yN+x2Qzpu6WLpwU7JFb36aRwPmBmabxUx95DhNQNFGA3ZkHu6DOA81GiG0Ll9p9S/EV2fmHGJdJjh5BP1v0/y7bJ/2JmvdzH+cFhEhFk0Ex9HNbC0Hmy9Sn8EXbg3RQO5/2e51wSv4uGALkyGM6lrOG/R1GenoAI8Ys7LNxj3NGkhKRUtpwHoIViWU5cOy26kG9VOG9bAVk51l0LNayMqyieX9UrCp1akQuP3Ir/ogtbKo2zg63Ho1cc43tHHdLZTHp2TWRRGEgnskvGZLddzwIDAQABMA0GCSqGSIb3DQEBBQUAA4IBAQB8eUq/0ArBGnPZHNn2o2ip+3i0U4r0swKXjuYL/o2VXqo3eI9j/bCvWw5NOLQVbk/Whc6dSeYIt1oVW/ND4iQZ7LHZr9814IOE3KLGIMeZgjPsXH15o9W4aLC0npPYilw96dfIAq49tOn44jhsRHrdR8z/NFPXE09ehAEb7fOIrxdlf7YDGYx+gXLEnsJo75E6LwCr/y/MBd13DDJNc1HUViiEz+Mkfo4FEKe/5HgEvDy2XjuE1juDCqJ/07pBPHBd0DtM7uaxGw+Zt/Fc4uE0NvtlCZqShFUvMmqHL5oENOlfTmBSWJMbBAGs2O/JQirG2aYcULqXYoCGIPUF49Z6
+wayf.url.metadata=https://engine.acc.showroom.surfconext.nl/authentication/idp/metadata
+wayf.url.sso=https://engine.acc.showroom.surfconext.nl/authentication/idp/single-sign-on
+wayf.certificate=MIIDYzCCAkugAwIBAgIJAJLbILWVSjicMA0GCSqGSIb3DQEBBQUAMEgxFDASBgNVBAMMC0VuZ2luZUJsb2NrMREwDwYDVQQLDAhTZXJ2aWNlczEQMA4GA1UECgwHU1VSRm5ldDELMAkGA1UEBhMCTkwwHhcNMTMwNDA5MTAxNTQ5WhcNMjMwNDA5MTAxNTQ5WjBIMRQwEgYDVQQDDAtFbmdpbmVCbG9jazERMA8GA1UECwwIU2VydmljZXMxEDAOBgNVBAoMB1NVUkZuZXQxCzAJBgNVBAYTAk5MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxfI8sjrD9lDyqDdDxm2984buOePdvLsDjB4ss4hC28TQ76yfI1MvFBrkNk9o1bJcI29k10HzR4EnrQeWl6/pJiy45rbRpyiOr/rBcPIjd2ED0rshNgFcK16ph9ndV1PwmwyuEqwo8NInwqLNuAb0yFphlgXsch/qSlTu6e9cKNjsOL9VOjjr8G0QSNfcZV6SxPwuVsrO44M8w2hKg4gJZztWJJd8sSBp0SVCy+dJydjhmd2uvgT/xQF3xb1NdgvcGbsW4RaW8xxFHuDFRv7KeYtot876mmAgqDHFfQXTeCQrLXyWOcQ4ldIb1kZskP+Aotg/Amegr4xSQEFDk2HTmQIDAQABo1AwTjAdBgNVHQ4EFgQUcynNAPbj9oS+zJ4Q4Z/Rh4lrZggwHwYDVR0jBBgwFoAUcynNAPbj9oS+zJ4Q4Z/Rh4lrZggwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAQEALRHyJbDX+pg6o4cmnU3LTQDUNKBppGUpXEKP6KTQr1qu92pfNfj4SipYYgYkeBZw3f25q2oR0QZGnqn6iEUwMRAeMnTxVIQNSHqCDzrRJAkPdPE9zm+BOmnEI6WV8bzuF8UekR+7dUpFeFqmWRDWDGZY+w52eWrmHpGr6KZVTsPzNVDNe7i85K5E9mOqaoQkO7ZZc9ev9GDIH1b2RccveR8UdxHFonGyEE1zcJBDqqYVS01ad0CkO0HCS3M3lx1283pBvOIlTg9fKB1s0TCjNYHqbpKVQFJdf8zuEaCX5USZUFhN3zpP8kheGL0qDCV7OzX4ALWh4YDkFWmKtrxh+A==
+
 
 ## Properties for opensaml
-ISSUING_ENTITY_ID=https\://dashboard.test.surfconext.nl
+ISSUING_ENTITY_ID=https\://showroom.test.showroom.surfconext.nl
 
-WEB_APPLICATION_HOST_AND_PORT=dashboard.test.surfconext.nl
-
-
-jiraBaseUrl=https\://issues.surfnet.nl/jira
-jiraUsername=??
-jiraPassword=??
-jiraProjectKey=TEST
+WEB_APPLICATION_HOST_AND_PORT=showroom.test.showroom.surfconext.nl
 
 
 # Team id that is used as definition of who is a 'license contact person'.
@@ -93,10 +34,10 @@ admin.surfconext.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\
 # Team id that is used as definition of who is a 'shop manager/shop admin'.
 admin.distribution.channel.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_shopmanager
 
-api-baseurl=https\://api.test.surfconext.nl/v1/
-api-consumerkey=https\://dashboard.test.surfconext.nl
+api-baseurl=https\://api.acc.showroom.surfconext.nl/v1/
+api-consumerkey=https://showroom.test.showroom.surfconext.nl
 api-consumersecret=??
-api-callbackuri=https\://dashboard.test.surfconext.nl/apiOauthCallback?apiOauthCallback\=true
+api-callbackuri=https\://showroom.test.showroom.surfconext.nl/apiOauthCallback?apiOauthCallback=true
 
 # SAB connection details
 sab.endpoint=https://sab-ng.surfnet.nl/simplesaml/module.php/attributes/server.php
@@ -109,15 +50,9 @@ admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 admin.distribution.channel.sabRole=
 
-# Info for communication with the APIS Authorization Server
-adminService.tokenVerificationUrl=https://apis.acc.showroom.surfconext.nl/v1/tokeninfo
-adminService.resourceServerKey=??
-adminService.resourceServerSecret=??
-adminService.cacheEnabled=false
-adminService.allowCorsRequests=true
 
 # TODO: verify this location
-csaBaseLocation=https://cruncher.test.surfconext.nl/stats/v1/
+csaBaseLocation=https://csa.test.showroom.surfconext.nl/csa/
 
 
 ####################################################################
@@ -133,29 +68,3 @@ feature.showOauthTokens=false
 
 #set to true to have statistics from the cruncher component
 feature.statistics=false
-
-
-##########################################################################
-# The following properties are the responsibility of development.
-##########################################################################
-
-hibernate-selfservice.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-hibernate-selfservice.hbm2ddl.auto=none
-hibernate-selfservice.format_sql=true
-hibernate-selfservice.show_sql=false
-
-# Alle real implementations (and not local mocks for testing purposes)
-janus.class=nl.surfnet.coin.janus.JanusRestClient
-openConextApiClient=nl.surfnet.coin.api.client.OpenConextOAuthClientImpl
-jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
-
-coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
-coin-api.jdbc.driver=com.mysql.jdbc.Driver
-coin-eb-db-driver=com.mysql.jdbc.Driver
-coin-shindig-db-driver=com.mysql.jdbc.Driver
-
-# global configuration of database properties, used for all data sources
-coin-selfservice.database.idleConnectionTestPeriod=900
-coin-selfservice.database.maxIdleTime=900
-
-coin-selfservice.db.migrations.folder=db/migration/mysql
