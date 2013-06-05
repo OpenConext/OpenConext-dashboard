@@ -97,10 +97,8 @@ public class LinkrequestController extends BaseController {
   @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
   public ModelAndView spQuestion(@RequestParam long serviceId,
                                  @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = new HashMap<String, Object>();
-    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedidp);
     m.put("question", new Question());
-    m.put("service", service);
     return new ModelAndView("requests/question", m);
   }
 
