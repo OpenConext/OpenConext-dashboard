@@ -53,8 +53,10 @@ admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 admin.distribution.channel.sabRole=
 
-# TODO: verify this location
-csaBaseLocation=https://cruncher.acc.surfconext.nl/stats/v1/
+csa.base.url=https://csa.test.surfconext.nl/csa/
+csa.client.key=??
+csa.client.secret=??
+csa.oauth2.authorization.url=https://apis.test.surfconext.nl/oauth2/token
 
 ####################################################################
 ##

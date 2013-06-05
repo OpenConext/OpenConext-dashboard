@@ -17,20 +17,17 @@
   -->
 <configuration scan="true">
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>logs/selfservice.log</file>
+    <file>logs/dashboard.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- daily rollover -->
-      <fileNamePattern>logs/selfservice-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <fileNamePattern>logs/dashboard-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
         <maxHistory>60</maxHistory>
     </rollingPolicy>
     <encoder>
       <pattern>%d{ISO8601} %5p [%t] %logger{40}:%L - %m%n</pattern>
     </encoder>
   </appender>
-  
-  <logger name="org.hibernate" level="warn">
-    <appender-ref ref="file" />
-  </logger>
+
   <logger name="org.springframework" level="warn">
     <appender-ref ref="file" />
   </logger>
