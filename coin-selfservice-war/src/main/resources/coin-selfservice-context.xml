@@ -70,9 +70,12 @@
 
 
   <bean id="csa" class="${csaClass}">
-    <property name="csaBaseLocation" value="${csaBaseLocation}" />
+    <constructor-arg name="csaBaseLocation" value="${csa.base.url}" />
+    <constructor-arg name="csaClientKey" value="${csa.client.key}" />
+    <constructor-arg name="csaClientSecret" value="${csa.client.secret}" />
+    <constructor-arg name="csaOAuth2AuthorizationUrl" value="${csa.oauth2.authorization.url}" />
   </bean>
-  
+
   <bean id="cruncher" class="${cruncherClass}">
   </bean>
 
