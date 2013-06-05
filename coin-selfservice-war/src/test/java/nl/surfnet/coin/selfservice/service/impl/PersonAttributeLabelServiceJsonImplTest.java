@@ -49,11 +49,4 @@ public class PersonAttributeLabelServiceJsonImplTest {
     assertEquals("your unique username within your organization", label.getDescriptions().get("en"));
   }
 
-  @Test
-  public void testParseEmptyJsonToAttributeLabels() throws Exception {
-    PersonAttributeLabelServiceJsonImpl serviceJsonImplPerson = new PersonAttributeLabelServiceJsonImpl("");
-    InputStream stream = new ByteArrayInputStream(new byte[]{});
-    Map<String, PersonAttributeLabel> labels = serviceJsonImplPerson.parseStreamToAttributeLabelMap(stream);
-    assertTrue(labels.isEmpty());
-  }
 }

@@ -70,15 +70,13 @@
                       <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
                         <spring:param name="idpId" value="${idp.id}" />
                       </spring:url>
-                      <a href="${toggleLink}">
-                        <tags:providername provider="${idp}" />
-                      </a>
+                      <a href="${toggleLink}">${idp.name}</a>
                 </li>
               </c:forEach>
             </ul>
           </c:if>
           <c:if test="${fn:length(idps) == 1}">
-            <tags:providername provider="${idps[0]}" />
+            ${idps[0].name}
           </c:if>
         </li>
 

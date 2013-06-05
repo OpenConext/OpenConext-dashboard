@@ -17,28 +17,25 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Default implementation of notification service
- * 
  */
 @Component
 public class NotificationServiceImpl implements NotificationService {
-  
+
   protected static final String FCP_NOTIFICATIONS = "jsp.notifications.fcp.text";
   protected static final String LCP_NOTIFICATIONS = "jsp.notifications.lcp.text";
 
@@ -46,16 +43,16 @@ public class NotificationServiceImpl implements NotificationService {
   private Csa csa;
 
   @Override
-  public NotificationMessage getNotifications(IdentityProvider selectedidp) {
+  public NotificationMessage getNotifications(InstitutionIdentityProvider selectedIdp) {
     NotificationMessage notificationMessage = new NotificationMessage();
 
     boolean isLcp = getAuthorities().contains(Authority.ROLE_IDP_LICENSE_ADMIN);
     boolean isFcp = getAuthorities().contains(Authority.ROLE_IDP_SURFCONEXT_ADMIN);
-    
+
     if (!isLcp && !isFcp) {
       return notificationMessage;
     }
-    
+
     //might that we have two text's but this is very rare and acceptable
     if (isFcp) {
       notificationMessage.addMessageKey(FCP_NOTIFICATIONS);
@@ -64,7 +61,7 @@ public class NotificationServiceImpl implements NotificationService {
       notificationMessage.addMessageKey(LCP_NOTIFICATIONS);
     }
 
-    List<Service> services = csa.getServicesForIdp(selectedidp.getId());
+    List<Service> services = csa.getServicesForIdp(selectedIdp.getId());
     List<Service> notLinkedCSPs = new ArrayList<Service>();
     List<Service> noLicenseCSPs = new ArrayList<Service>();
 
@@ -75,7 +72,7 @@ public class NotificationServiceImpl implements NotificationService {
           notLinkedCSPs.add(service);
         }
       } else if (service.getLicense() == null && service.isHasCrmLink()
-          && service.isConnected()) {
+              && service.isConnected()) {
         // if statement inside if statement for readability
         if (isFcp || (isLcp && service.isHasCrmLink())) {
           noLicenseCSPs.add(service);
@@ -92,7 +89,7 @@ public class NotificationServiceImpl implements NotificationService {
     if (!noLicenseCSPs.isEmpty()) {
       notificationMessage.addArguments(noLicenseCSPs);
     }
-   // notificationMessage.sort();
+    // notificationMessage.sort();
     return notificationMessage;
   }
 

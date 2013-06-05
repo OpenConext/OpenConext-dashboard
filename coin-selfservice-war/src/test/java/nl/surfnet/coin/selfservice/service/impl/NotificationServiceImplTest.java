@@ -22,10 +22,10 @@ import java.util.Date;
 import java.util.List;
 
 import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.License;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 
 import org.junit.Before;
@@ -67,7 +67,7 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesLcp() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
     List<Service> services = new ArrayList<Service>();
     services.add(createService("testSp1", true, true));
@@ -91,7 +91,7 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesFcp() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_SURFCONEXT_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
     List<Service> services = new ArrayList<Service>();
     services.add(createService("testSp1", true, false));
@@ -114,7 +114,7 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesShopmanager() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
     List<Service> services = new ArrayList<Service>();
     services.add(createService("testSp1", false, true));
@@ -133,7 +133,7 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithoutMessages() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
 
-    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
     List<Service> services = new ArrayList<Service>();
     services.add(createService("testSp1", true, true));

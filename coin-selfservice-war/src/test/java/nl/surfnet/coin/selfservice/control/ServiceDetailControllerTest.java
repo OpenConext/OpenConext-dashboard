@@ -16,19 +16,11 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.OAuthTokenInfo;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -41,11 +33,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 /**
@@ -74,7 +66,7 @@ public class ServiceDetailControllerTest {
   public void setUp() throws Exception {
     controller = new ServiceDetailController();
     MockitoAnnotations.initMocks(this);
-    
+
     request = new MockHttpServletRequest();
     request.setAttribute("oauthTokensAvailable", Boolean.TRUE);
     request.setAttribute("statisticsAvailable", Boolean.TRUE);
@@ -86,51 +78,31 @@ public class ServiceDetailControllerTest {
   @Test
   public void testSpDetail() throws Exception {
 
-    IdentityProvider idp = new IdentityProvider();
+    InstitutionIdentityProvider idp = new InstitutionIdentityProvider();
     idp.setId("mockIdP");
     Service service = getService();
     when(csa.getServiceForIdp("mockIdP", 1L)).thenReturn(service);
 
-    OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
-    info.setUserId(coinUser.getUid());
-    List<OAuthTokenInfo> infos = Arrays.asList(info);
-
     final ModelAndView modelAndView = controller.serviceDetail(1L, null, null, idp, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
-    assertTrue(modelAndView.getModelMap().containsKey("revoked"));
-    assertNull(modelAndView.getModelMap().get("revoked"));
   }
 
   private Service getService() {
-    return new Service(1L, "", "", "", false, null,"");
-  }
-
-  @Ignore("revoking not yet implemented in CSA")
-  @Test
-  public void revokeAccessTokens() {
-    IdentityProvider idp = new IdentityProvider();
-    idp.setId("mockIdP");
-
-    ServiceProvider sp = new ServiceProvider("mockSp");
-    sp.setLinked(true);
-
-    final RedirectView view = controller.revokeKeys(1, "mockSp", idp);
-//    verify(oAuthTokenService).revokeOAuthTokens(coinUser.getUid(), sp);
-    assertEquals("app-detail.shtml?compoundSpId=1&revoked=true", view.getUrl());
+    return new Service(1L, "", "", "", false, null, "");
   }
 
   private Authentication getAuthentication() {
     return new TestingAuthenticationToken(coinUser, "");
   }
-  
+
   @Test
   @Ignore("revoking not yet implemented in CSA")
   public void testWithoutOathTokens() {
     //disable oathTokens
     request.setAttribute("oauthTokensAvailable", Boolean.FALSE);
-    
-    IdentityProvider idp = new IdentityProvider();
+
+    InstitutionIdentityProvider idp = new InstitutionIdentityProvider();
     idp.setId("mockIdP");
 //    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
 
@@ -144,31 +116,5 @@ public class ServiceDetailControllerTest {
     assertEquals(service, modelAndView.getModelMap().get("service"));
     assertNull(modelAndView.getModelMap().get("oAuthTokens"));
     assertNull(modelAndView.getModelMap().get("revoked"));
-  }
-  
-  @Test
-  @Ignore("revoking not yet implemented in CSA")
-  public void testWithoutConsent() {
-    request.setAttribute("statisticsAvailable", Boolean.FALSE);
-    
-    IdentityProvider idp = new IdentityProvider();
-    idp.setId("mockIdP");
-    Service service = getService();
-    when(csa.getServiceForIdp("mockIdP", 1L)).thenReturn(service);
-
-//    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenThrow(new IllegalStateException("Illegal call to consent database"));
-
-    OAuthTokenInfo info = new OAuthTokenInfo("cafebabe-cafe-babe-cafe-babe-cafebabe", "mockDao");
-    info.setUserId(coinUser.getUid());
-    List<OAuthTokenInfo> infos = Arrays.asList(info);
-//    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenReturn(infos);
-
-    final ModelAndView modelAndView = controller.serviceDetail(1L, "", "revoked", idp, request);
-    assertEquals("app-detail", modelAndView.getViewName());
-    assertEquals(service, modelAndView.getModelMap().get("service"));
-
-    // FIXME: no integration with oauth token service yet in CSA
-//    assertNotNull(modelAndView.getModelMap().get("oAuthTokens"));
-    assertNull(modelAndView.getModelMap().get("mayHaveGivenConsent"));
   }
 }

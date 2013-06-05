@@ -18,6 +18,8 @@ package nl.surfnet.coin.selfservice.provisioner;
 
 import java.util.List;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.PersonAttributeUtil;
 import nl.surfnet.spring.security.opensaml.Provisioner;
@@ -30,6 +32,9 @@ import org.opensaml.saml2.core.AttributeStatement;
 import org.opensaml.saml2.core.AuthenticatingAuthority;
 import org.opensaml.saml2.core.AuthnStatement;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
 
 /**
  * implementation to return UserDetails from a SAML Assertion
@@ -42,15 +47,28 @@ public class SAMLProvisioner implements Provisioner {
   
   private String uuidAttribute = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
 
+  @Resource
+  private Csa csa;
+
   @Override
   public UserDetails provisionUser(Assertion assertion) {
 
     CoinUser coinUser = new CoinUser();
 
     final String idpId = getAuthenticatingAuthority(assertion);
-    coinUser.setIdp(idpId);
 
-
+    List<InstitutionIdentityProvider> institutionIdentityProviders = csa.getInstitutionIdentityProviders(idpId);
+    if (CollectionUtils.isEmpty(institutionIdentityProviders)) {
+      //duhh, fail fast, big problems
+      throw new IllegalArgumentException("Csa#getInstitutionIdentityProviders('"+idpId+"') returned zero result");
+    }
+    if (institutionIdentityProviders.size() == 1) {
+      //most common case
+      coinUser.setIdp(institutionIdentityProviders.get(0));
+    } else {
+      coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
+      coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
+    }
 
     coinUser.setUid(getValueFromAttributeStatements(assertion, uuidAttribute));
     coinUser.setDisplayName(getValueFromAttributeStatements(assertion, DISPLAY_NAME));
@@ -62,6 +80,14 @@ public class SAMLProvisioner implements Provisioner {
     return coinUser;
   }
 
+  private InstitutionIdentityProvider getCurrentIdp(String idpId, List<InstitutionIdentityProvider> institutionIdentityProviders) {
+    for (InstitutionIdentityProvider provider : institutionIdentityProviders) {
+      if (provider.getId().equals(idpId)) {
+        return provider;
+      }
+    }
+    throw new IllegalArgumentException("The Idp('"+idpId+"') is not present in the list of Idp's returned by the CsaClient");
+  }
 
   private String getAuthenticatingAuthority(final Assertion assertion) {
     final List<AuthnStatement> authnStatements = assertion.getAuthnStatements();

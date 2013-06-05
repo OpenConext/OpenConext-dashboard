@@ -22,10 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Action;
-import nl.surfnet.coin.csa.model.JiraTask;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.csa.model.Taxonomy;
+import nl.surfnet.coin.csa.model.*;
 
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -102,6 +99,11 @@ public class CsaMock implements Csa {
 
     actionsCreated.add(action);
     return action;
+  }
+
+  @Override
+  public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
+    return ( List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() { }, "csa-json/institution-identity-providers.json");
   }
 
 

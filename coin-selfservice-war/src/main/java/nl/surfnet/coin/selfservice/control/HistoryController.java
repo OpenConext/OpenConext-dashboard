@@ -16,21 +16,19 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Action;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/requests")
@@ -40,7 +38,7 @@ public class HistoryController extends BaseController {
   private Csa csa;
 
   @RequestMapping(value = "/history.shtml")
-  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request) {
+  public ModelAndView listActions(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp, HttpServletRequest request) {
     //if an user acutally links to requests-overview we can dismiss the popup
     notificationPopupClosed(request);
 

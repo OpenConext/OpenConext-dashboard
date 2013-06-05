@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -37,8 +38,8 @@ public class CoinUser implements UserDetails {
   private String uid;
   private String displayName;
   private String schacHomeOrganization;
-  private String idp;
-  private List<IdentityProvider> institutionIdps = new ArrayList<IdentityProvider>();
+  private InstitutionIdentityProvider currentIdp;
+  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<InstitutionIdentityProvider>();
   private String institutionId;
   private String email;
   private List<CoinAuthority> grantedAuthorities = new ArrayList<CoinAuthority>();
@@ -158,16 +159,16 @@ public class CoinUser implements UserDetails {
   }
 
   /**
-   * List of {@link IdentityProvider}'s of the institution for this users.
+   * List of {@link InstitutionIdentityProvider}'s of the institution for this users.
    * Usually contains only the IdP the user logs in with.
    * 
-   * @return List of {@link IdentityProvider}'s
+   * @return List of {@link InstitutionIdentityProvider}'s
    */
-  public List<IdentityProvider> getInstitutionIdps() {
+  public List<InstitutionIdentityProvider> getInstitutionIdps() {
     return institutionIdps;
   }
 
-  public void addInstitutionIdp(IdentityProvider idp) {
+  public void addInstitutionIdp(InstitutionIdentityProvider idp) {
     this.institutionIdps.add(idp);
   }
 
@@ -191,12 +192,12 @@ public class CoinUser implements UserDetails {
    * 
    * @return Identifier of the IdentityProvider the user has logged in with
    */
-  public String getIdp() {
-    return idp;
+  public InstitutionIdentityProvider getIdp() {
+    return currentIdp;
   }
 
-  public void setIdp(String idp) {
-    this.idp = idp;
+  public void setIdp(InstitutionIdentityProvider idp) {
+    this.currentIdp = idp;
   }
 
   /**
@@ -226,7 +227,7 @@ public class CoinUser implements UserDetails {
 
   @Override
   public String toString() {
-    return "CoinUser [uid=" + uid + ", displayName=" + displayName + ", schacHomeOrganization=" + schacHomeOrganization + ", idp=" + idp
+    return "CoinUser [uid=" + uid + ", displayName=" + displayName + ", schacHomeOrganization=" + schacHomeOrganization + ", idp=" + currentIdp
         + ", institutionIdps=" + institutionIdps + ", institutionId=" + institutionId + ", email=" + email + ", grantedAuthorities="
         + new ArrayList<CoinAuthority>(grantedAuthorities) + ", attributeMap=" + attributeMap + "]";
   }

@@ -16,11 +16,8 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import javax.annotation.Resource;
-
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.service.Cruncher;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,6 +25,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.annotation.Resource;
 
 /**
  * Controller for statistics
@@ -42,15 +41,15 @@ public class StatisticsController extends BaseController {
   private Cruncher cruncher;
 
   @RequestMapping("/stats.shtml")
-  public String stats(ModelMap model, @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-      @RequestParam(value = "spEntityId", required = false) final String selectedSp) {
-    model.put("selectedidp", selectedidp);
+  public String stats(ModelMap model, @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp,
+                      @RequestParam(value = "spEntityId", required = false) final String selectedSp) {
+    model.put(SELECTED_IDP, selectedidp);
 
     // Get all idp's which are known in selfservice and available in the
     // statistics database
     model.put("spEntityId", selectedSp);
     // TODO add allIDPs to model
-    
+
     model.put("login_stats", cruncher.getLogins());
     return "stats/statistics";
   }

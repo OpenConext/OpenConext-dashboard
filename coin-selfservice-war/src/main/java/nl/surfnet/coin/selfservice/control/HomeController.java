@@ -25,12 +25,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Category;
-import nl.surfnet.coin.csa.model.CategoryValue;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.csa.model.Taxonomy;
+import nl.surfnet.coin.csa.model.*;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
@@ -62,7 +58,7 @@ public class HomeController extends BaseController {
   }
 
   @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+  public ModelAndView home(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp,
                            @RequestParam(value = "view", defaultValue = "card") String view) {
     Map<String, Object> model = new HashMap<String, Object>();
 

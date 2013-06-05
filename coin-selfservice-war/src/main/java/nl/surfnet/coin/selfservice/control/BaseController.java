@@ -22,7 +22,7 @@ import java.util.Locale;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
@@ -131,6 +131,11 @@ public abstract class BaseController {
    */
   public static final String RAW_ARP_ATTRIBUTES_VISIBLE = "rawArpAttributesVisible";
 
+  /**
+   * Key for the selectedIdp in the session
+   */
+  public static final String SELECTED_IDP = "selectedIdp";
+
   @Resource
   private NotificationService notificationService;
 
@@ -138,7 +143,7 @@ public abstract class BaseController {
   protected LocaleResolver localeResolver;
 
   @ModelAttribute(value = "idps")
-  public List<IdentityProvider> getMyInstitutionIdps() {
+  public List<InstitutionIdentityProvider> getMyInstitutionIdps() {
     return SpringSecurity.getCurrentUser().getInstitutionIdps();
   }
 
@@ -158,24 +163,23 @@ public abstract class BaseController {
    * @return the IdentityProvider selected, or null in case of unknown/invalid
    *         idpId
    */
-  @ModelAttribute(value = "selectedidp")
-  public IdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-    final Object selectedidp = request.getSession().getAttribute("selectedidp");
+  @ModelAttribute(value = SELECTED_IDP)
+  public InstitutionIdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+    final InstitutionIdentityProvider selectedidp = (InstitutionIdentityProvider) request.getSession().getAttribute(SELECTED_IDP);
     if (idpId == null && selectedidp != null) {
-      return (IdentityProvider) selectedidp;
+      return selectedidp;
     }
     if (idpId == null) {
-      idpId = SpringSecurity.getCurrentUser().getIdp();
+      idpId = SpringSecurity.getCurrentUser().getIdp().getId();
     }
-    for (IdentityProvider idp : SpringSecurity.getCurrentUser().getInstitutionIdps()) {
+    for (InstitutionIdentityProvider idp : SpringSecurity.getCurrentUser().getInstitutionIdps()) {
       if (idp.getId().equals(idpId)) {
-        request.getSession().setAttribute("selectedidp", idp);
+        request.getSession().setAttribute(SELECTED_IDP, idp);
+        SpringSecurity.getCurrentUser().setIdp(idp);
         return idp;
       }
     }
-    // FIXME: what to do? There is no IdentityProviderService anymore. See also: SAMLProvisioner
-    return new IdentityProvider(idpId, "", idpId);
-//    throw new RuntimeException("There is no Selected IdP");
+    throw new RuntimeException("There is no Selected IdP");
   }
 
   /**
@@ -187,7 +191,7 @@ public abstract class BaseController {
   public NotificationMessage getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
     NotificationMessage notifications = (NotificationMessage) request.getSession().getAttribute(NOTIFICATIONS);
     if (notifications == null) {
-      IdentityProvider idp = getRequestedIdp(idpId, request);
+      InstitutionIdentityProvider idp = getRequestedIdp(idpId, request);
       notifications = notificationService.getNotifications(idp);
       request.getSession().setAttribute(NOTIFICATIONS, notifications);
     }
