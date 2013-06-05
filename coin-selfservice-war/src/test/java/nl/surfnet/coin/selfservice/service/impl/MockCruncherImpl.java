@@ -1,12 +1,13 @@
-  package nl.surfnet.coin.selfservice.service.impl;
+package nl.surfnet.coin.selfservice.service.impl;
+
+import org.springframework.core.io.ClassPathResource;
+import org.surfnet.cruncher.Cruncher;
+import org.surfnet.cruncher.model.SpStatistic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.springframework.core.io.ClassPathResource;
-
-import nl.surfnet.coin.selfservice.service.Cruncher;
+import java.util.List;
 
 public class MockCruncherImpl implements Cruncher {
 
@@ -28,6 +29,11 @@ public class MockCruncherImpl implements Cruncher {
   @Override
   public String getLoginsBySp(String spEntityId) {
     return getLoginStats();
+  }
+
+  @Override
+  public List<SpStatistic> getRecentLoginsForUser(String s, String s2) {
+    return null;
   }
 
   private String getLoginStats() {

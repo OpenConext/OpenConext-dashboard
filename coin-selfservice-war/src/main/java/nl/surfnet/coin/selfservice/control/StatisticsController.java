@@ -17,7 +17,6 @@
 package nl.surfnet.coin.selfservice.control;
 
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.selfservice.service.Cruncher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.surfnet.cruncher.Cruncher;
 
 import javax.annotation.Resource;
 
