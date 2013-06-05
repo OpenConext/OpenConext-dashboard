@@ -18,23 +18,24 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.*;
-
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.core.io.ClassPathResource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Mock implementation of CSA. To be filled with lots of data for local development. Perhaps JSON-local-file-backed.
  */
 public class CsaMock implements Csa {
 
+  public CsaMock(String csaBaseLocation, String csaOAuth2AuthorizationUrl, String csaClientKey, String csaClientSecret) {
+  }
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
