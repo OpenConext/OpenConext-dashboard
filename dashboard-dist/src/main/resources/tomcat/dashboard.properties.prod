@@ -117,7 +117,6 @@ hibernate-selfservice.show_sql=false
 # Alle real implementations (and not local mocks for testing purposes)
 janus.class=nl.surfnet.coin.janus.JanusRestClient
 openConextApiClient=nl.surfnet.coin.api.client.OpenConextOAuthClientImpl
-keyStoreClass=nl.surfnet.coin.selfservice.service.impl.ssl.KeyStore
 jiraServiceClass=nl.surfnet.coin.selfservice.service.impl.JiraServiceImpl
 
 coin-selfservice.jdbc.driver=com.mysql.jdbc.Driver
