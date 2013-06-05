@@ -79,15 +79,15 @@ public class ServiceDetailController extends BaseController {
   public ModelAndView serviceDetail(@RequestParam(value = "id", required = false) Long serviceId,
                                     @RequestParam(value = "spEntityId", required = false) String spEntityId,
                                     @RequestParam(required = false) String revoked,
-                                    @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp, HttpServletRequest request) {
+                                    @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, HttpServletRequest request) {
     if (null == serviceId && !StringUtils.hasText(spEntityId)) {
       throw new IllegalArgumentException("either service id or sp entity id is required");
     }
     Service service = null;
     if (null != spEntityId) {
-      service = csa.getServiceForIdp(selectedidp.getId(), spEntityId);
+      service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
     } else {
-      service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+      service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
     }
     Map<String, Object> m = new HashMap<String, Object>();
     m.put(SERVICE, service);
@@ -119,10 +119,10 @@ public class ServiceDetailController extends BaseController {
 
   @RequestMapping(value = "/app-recommend")
   public ModelAndView recommendApp(@RequestParam(value = "id") long serviceId,
-                                   @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp) {
+                                   @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp) {
     Map<String, Object> m = new HashMap<String, Object>();
 
-    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    Service service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
     m.put(SERVICE, service);
     m.put("maxRecommendationEmails", maxRecommendationEmails);
     return new ModelAndView("app-recommend", m);
@@ -137,7 +137,7 @@ public class ServiceDetailController extends BaseController {
           @RequestParam(value = "emailSelect2") String emailSelect2,
           @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
           @CookieValue(value = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", required = false) String localeAbbr,
-          @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp, HttpServletRequest request) {
+          @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, HttpServletRequest request) {
     recommendPersonalNote = StringUtils.hasText(recommendPersonalNote) ? ((recommendPersonalNote.replace("\n\r", "")
             .trim().length() == 0) ? null : recommendPersonalNote) : null;
     if (!StringUtils.hasText(emailSelect2)) {
@@ -147,7 +147,7 @@ public class ServiceDetailController extends BaseController {
     Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en");
     CoinUser coinUser = SpringSecurity.getCurrentUser();
 
-    Service service = csa.getServiceForIdp(selectedidp.getId(), serviceId);
+    Service service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
 
     String subject = coinUser.getDisplayName() + " would like to recommend " + service.getName();
 

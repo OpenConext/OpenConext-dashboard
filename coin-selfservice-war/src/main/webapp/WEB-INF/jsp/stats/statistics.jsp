@@ -33,7 +33,7 @@
     <c:if test="${isGod eq false}">
 
       <p id="stats-info-text">
-        <spring:message code="jsp.stats.info" arguments="${selectedidp.name}"/>
+        <spring:message code="jsp.stats.info" arguments="${selectedIdp.name}"/>
       </p>
     </c:if>
     
@@ -81,7 +81,7 @@
       </div>
     </nav>
     
-    <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedidp.id}" data-is-god="${isGod}"></div>
+    <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedIdp.id}" data-is-god="${isGod}"></div>
     <div id="sp-detail-chart" data-spEntityId="${spEntityId}"></div>
   </section>
 </div>

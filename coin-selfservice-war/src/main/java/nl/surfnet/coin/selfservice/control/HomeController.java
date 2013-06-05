@@ -58,11 +58,11 @@ public class HomeController extends BaseController {
   }
 
   @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp,
+  public ModelAndView home(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp,
                            @RequestParam(value = "view", defaultValue = "card") String view) {
     Map<String, Object> model = new HashMap<String, Object>();
 
-    List<Service> services = csa.getServicesForIdp(selectedidp.getId());
+    List<Service> services = csa.getServicesForIdp(selectedIdp.getId());
     model.put(SERVICES, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();

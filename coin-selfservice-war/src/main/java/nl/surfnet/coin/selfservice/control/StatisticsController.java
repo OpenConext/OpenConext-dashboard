@@ -41,9 +41,9 @@ public class StatisticsController extends BaseController {
   private Cruncher cruncher;
 
   @RequestMapping("/stats.shtml")
-  public String stats(ModelMap model, @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedidp,
+  public String stats(ModelMap model, @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp,
                       @RequestParam(value = "spEntityId", required = false) final String selectedSp) {
-    model.put(SELECTED_IDP, selectedidp);
+    model.put(SELECTED_IDP, selectedIdp);
 
     // Get all idp's which are known in selfservice and available in the
     // statistics database

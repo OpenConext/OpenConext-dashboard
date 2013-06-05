@@ -51,7 +51,7 @@
               <label class="control-label"><spring:message code="jsp.sp_question.idp"/></label>
 
               <div class="controls">
-                <output>${selectedidp.name}</output>
+                <output>${selectedIdp.name}</output>
               </div>
             </div>
 

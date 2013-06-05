@@ -165,9 +165,9 @@ public abstract class BaseController {
    */
   @ModelAttribute(value = SELECTED_IDP)
   public InstitutionIdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-    final InstitutionIdentityProvider selectedidp = (InstitutionIdentityProvider) request.getSession().getAttribute(SELECTED_IDP);
-    if (idpId == null && selectedidp != null) {
-      return selectedidp;
+    final InstitutionIdentityProvider selectedIdp = (InstitutionIdentityProvider) request.getSession().getAttribute(SELECTED_IDP);
+    if (idpId == null && selectedIdp != null) {
+      return selectedIdp;
     }
     if (idpId == null) {
       idpId = SpringSecurity.getCurrentUser().getIdp().getId();
