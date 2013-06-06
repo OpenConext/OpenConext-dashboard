@@ -16,25 +16,19 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
-import java.util.List;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.PersonAttributeUtil;
 import nl.surfnet.spring.security.opensaml.Provisioner;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.opensaml.saml2.core.Assertion;
-import org.opensaml.saml2.core.Attribute;
-import org.opensaml.saml2.core.AttributeStatement;
-import org.opensaml.saml2.core.AuthenticatingAuthority;
-import org.opensaml.saml2.core.AuthnStatement;
+import org.opensaml.saml2.core.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * implementation to return UserDetails from a SAML Assertion
@@ -65,6 +59,7 @@ public class SAMLProvisioner implements Provisioner {
     if (institutionIdentityProviders.size() == 1) {
       //most common case
       coinUser.setIdp(institutionIdentityProviders.get(0));
+      coinUser.addInstitutionIdp(institutionIdentityProviders.get(0));
     } else {
       coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
       coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
