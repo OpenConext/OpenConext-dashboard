@@ -56,11 +56,15 @@ admin.licentie.idp.sabRole=
 admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 
-csa.base.url=https://csa.test.showroom.surfconext.nl/csa/
+csa.base.url=https://csa.test.showroom.surfconext.nl
 csa.client.key=dashboardtestshowroomsurfconextnl
 csa.client.secret=??
 csa.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
 
+cruncher.base.url=https://cruncher.acc.showroom.surfconext.nl/stats/v1
+cruncher.client.key=dashboardtestshowroomsurfconextnl-to-cruncheracc
+cruncher.client.secret=
+cruncher.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
 
 ####################################################################
 ##
