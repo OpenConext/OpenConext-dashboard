@@ -77,6 +77,10 @@
   </bean>
 
   <bean id="cruncher" class="${cruncherClass}">
+    <constructor-arg name="cruncherBaseLocation" value="${cruncher.base.url}" />
+    <constructor-arg name="cruncherClientKey" value="${cruncher.client.key}" />
+    <constructor-arg name="cruncherClientSecret" value="${cruncher.client.secret}" />
+    <constructor-arg name="apisOAuth2AuthorizationUrl" value="${cruncher.oauth2.authorization.url}" />
   </bean>
 
 </beans>
