@@ -111,10 +111,14 @@
             </div>
           </li>
         <li class="help">
-        <c:if test="${crmAvailable}">
+
+  <%--
+  FixMe : must be handled generic : https://jira.surfconext.nl/jira/browse/CDK-98
+ --%>
+        <c:if test="${!isDashBoard}">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.showroom.url"/></c:set>
         </c:if>
-        <c:if test="${!crmAvailable}">
+        <c:if test="${isDashBoard}">
           <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
         </c:if>
           <a href="${supporturl}"  target="_blank">

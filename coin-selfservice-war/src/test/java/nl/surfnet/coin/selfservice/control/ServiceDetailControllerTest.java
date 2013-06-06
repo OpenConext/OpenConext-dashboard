@@ -68,8 +68,6 @@ public class ServiceDetailControllerTest {
     MockitoAnnotations.initMocks(this);
 
     request = new MockHttpServletRequest();
-    request.setAttribute("oauthTokensAvailable", Boolean.TRUE);
-    request.setAttribute("statisticsAvailable", Boolean.TRUE);
     when(coinUser.getUid()).thenReturn("urn:collab:person:example.edu:john.doe");
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
 
@@ -96,25 +94,4 @@ public class ServiceDetailControllerTest {
     return new TestingAuthenticationToken(coinUser, "");
   }
 
-  @Test
-  @Ignore("revoking not yet implemented in CSA")
-  public void testWithoutOathTokens() {
-    //disable oathTokens
-    request.setAttribute("oauthTokensAvailable", Boolean.FALSE);
-
-    InstitutionIdentityProvider idp = new InstitutionIdentityProvider();
-    idp.setId("mockIdP");
-//    when(consentDao.mayHaveGivenConsent(coinUser.getUid(), "mockSp")).thenReturn(null);
-
-    Service service = getService();
-    when(csa.getServiceForIdp("mockIdP", 1L)).thenReturn(service);
-
-//    when(oAuthTokenService.getOAuthTokenInfoList(eq(coinUser.getUid()), (ServiceProvider) any())).thenThrow(new IllegalStateException("Illegal Call to API Database"));
-
-    final ModelAndView modelAndView = controller.serviceDetail(1L, "", "revoked", idp, request);
-    assertEquals("app-detail", modelAndView.getViewName());
-    assertEquals(service, modelAndView.getModelMap().get("service"));
-    assertNull(modelAndView.getModelMap().get("oAuthTokens"));
-    assertNull(modelAndView.getModelMap().get("revoked"));
-  }
 }

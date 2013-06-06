@@ -21,6 +21,7 @@ import nl.surfnet.coin.api.client.domain.Email;
 import nl.surfnet.coin.api.client.domain.Group;
 import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -31,59 +32,39 @@ import static java.util.Arrays.asList;
 
 /**
  * OpenConextOAuthClientMock.java
- * 
  */
 public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
 
   public enum Users {
-    /*
-     * ROLE_IDP_SURFCONEXT_ADMIN=IdP Account Administrator
-     */
-    ADMIN_IDP_SURFCONEXT("adminidpsc"), // admin from institution for dashboard
-    /*
-     * ROLE_IDP_LICENSE_ADMIN=IdP License Administrator
-     */
-    ADMIN_IDP_LICENSE("adminidpli"), // admin from institution for showroom
-    /*
-     * ROLE_DISTRIBUTION_CHANNEL_ADMIN=Distribution Channel Administrator
-     */
-    ADMIN_DISTRIBUTIE_CHANNEL("admindk"), // admin from surfmarket for showroom
-    /*
-     * ROLE_USER=Distribution Channel User
-     */
-    USER("user"),  //mere mortal end-user
-    /*
-     * Both IdP admins
-     */
-    ADMIN_IDP_ADMIN("adminidp"),
 
-    ALL("NA");
+    dashboard_admin(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN),
+    dashboard_viewer(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER),
+    showroom_admin(CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN),
+    showroom_user(CoinAuthority.Authority.ROLE_SHOWROOM_USER);
 
-    private String user;
+    private CoinAuthority.Authority user;
 
-    private Users(String user) {
+    private Users(CoinAuthority.Authority user) {
       this.user = user;
     }
 
-    public String getUser() {
+    public CoinAuthority.Authority getUser() {
       return user;
     }
 
     public static Users fromUser(String userName) {
       Users[] values = Users.values();
       for (Users user : values) {
-        if (user.getUser().equalsIgnoreCase(userName)) {
+        if (user.name().equalsIgnoreCase(userName)) {
           return user;
         }
       }
-      return ALL;
+      throw new RuntimeException("User unknown")   ;
     }
   }
 
   // Used in showroom.properties
-  private static final String LICENSE_TEAM = "license-team";
-  private static final String SC_TEAM = "sc-team";
-  private static final String ADMIN_TEAM = "admin-team";
+
 
   @Override
   public boolean isAccessTokenGranted(String userId) {
@@ -106,15 +87,11 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
 
   @Override
   public List<Person> getGroupMembers(String groupId, String onBehalfOf) {
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-    }
     List<Person> persons = new ArrayList<Person>();
     String group = groupId.substring(groupId.lastIndexOf(":") + 1);
-    persons.add(createPerson("John Doe", "john.doe@"+group));
-    persons.add(createPerson("Pitje Puck", "p.p@"+group));
-    persons.add(createPerson("Yan Yoe", "yan@"+group));
+    persons.add(createPerson("John Doe", "john.doe@" + group));
+    persons.add(createPerson("Pitje Puck", "p.p@" + group));
+    persons.add(createPerson("Yan Yoe", "yan@" + group));
     return persons;
   }
 
@@ -134,20 +111,16 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
   public List<Group20> getGroups20(String userId, String onBehalfOf) {
     final Users user = Users.fromUser(userId);
     switch (user) {
-    case ADMIN_DISTRIBUTIE_CHANNEL:
-      return asList(createGroup20(ADMIN_TEAM));
-    case ADMIN_IDP_LICENSE:
-      return asList(createGroup20(LICENSE_TEAM));
-    case ADMIN_IDP_SURFCONEXT:
-      return asList(createGroup20(SC_TEAM));
-    case ADMIN_IDP_ADMIN:
-      return asList(createGroup20(LICENSE_TEAM), createGroup20(SC_TEAM));
-    case USER:
-      return new ArrayList<Group20>();
-    case ALL:
-      return asList(createGroup20(LICENSE_TEAM), createGroup20(SC_TEAM), createGroup20(ADMIN_TEAM));
-    default:
-      throw new RuntimeException("Unknown");
+      case dashboard_admin:
+        return asList(createGroup20("dashboard.admin"));
+      case dashboard_viewer:
+        return asList(createGroup20("dashboard.viewer"));
+      case showroom_admin:
+        return asList(createGroup20("showroom.admin"));
+      case showroom_user:
+        return asList(createGroup20("showroom.user"));
+      default:
+        throw new RuntimeException("Unknown");
     }
 
   }

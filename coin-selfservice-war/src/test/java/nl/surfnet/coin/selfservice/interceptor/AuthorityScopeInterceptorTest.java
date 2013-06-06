@@ -38,9 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -67,7 +65,7 @@ public class AuthorityScopeInterceptorTest {
   public void test_regular_user_may_not_see_technical_mail_address() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
 
-    CoinUser user = coinUser(ROLE_USER);
+    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     Service sp = buildService();
     sp.setConnected(true);
@@ -93,7 +91,7 @@ public class AuthorityScopeInterceptorTest {
   public void user_cannot_view_unlinked_services() throws Exception {
     ModelAndView mav = new ModelAndView();
 
-    CoinUser user = coinUser(ROLE_USER);
+    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
 
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     Service sp = buildService();
@@ -116,7 +114,7 @@ public class AuthorityScopeInterceptorTest {
   public void test_power_user_may_see_technical_mail_address() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
 
-    CoinUser user = coinUser(ROLE_IDP_SURFCONEXT_ADMIN);
+    CoinUser user = coinUser(ROLE_DASHBOARD_ADMIN);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     Service sp = buildService();
     modelAndView.addObject(BaseController.SERVICE, sp);
@@ -137,7 +135,7 @@ public class AuthorityScopeInterceptorTest {
   public void idp_license_admin_may_only_see_licensed_services() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
 
-    CoinUser user = coinUser(ROLE_IDP_LICENSE_ADMIN);
+    CoinUser user = coinUser(ROLE_SHOWROOM_ADMIN);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     Service sp = buildService();
     modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
@@ -169,7 +167,7 @@ public class AuthorityScopeInterceptorTest {
   @Test
   public void token_session_does_not_equal_request_param_token() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
-    CoinUser user = coinUser(ROLE_IDP_LICENSE_ADMIN);
+    CoinUser user = coinUser(ROLE_SHOWROOM_ADMIN);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
 
     MockHttpServletRequest request = new MockHttpServletRequest();

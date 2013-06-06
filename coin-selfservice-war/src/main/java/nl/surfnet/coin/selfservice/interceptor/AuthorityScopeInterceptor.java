@@ -45,24 +45,19 @@ import ch.lambdaj.function.matcher.HasArgumentWithValue;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICES;
 import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.FACET_CONNECTION_VISIBLE;
-import static nl.surfnet.coin.selfservice.control.BaseController.FILTER_APP_GRID_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.IS_ADMIN_USER;
-import static nl.surfnet.coin.selfservice.control.BaseController.IS_GOD;
 import static nl.surfnet.coin.selfservice.control.BaseController.RAW_ARP_ATTRIBUTES_VISIBLE;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_CONNECTION_VISIBLE;
 import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
 import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /**
- * Interceptor to de-scope the visibility {@link CompoundServiceProvider}
+ * Interceptor to de-scope the visibility
  * objects for display
  * 
  * See <a
@@ -74,8 +69,6 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
 
   private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(new String[] { POST.name(), DELETE.name(), PUT.name() });
-
-  private boolean exposeTokenCheckInCookie;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -120,16 +113,12 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   }
 
   protected void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities, final HttpServletRequest request) {
-    boolean isAdmin = containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN, ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
-    map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
-    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
-    map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-    map.put(FACET_CONNECTION_VISIBLE, isAdmin);
-    map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_IDP_LICENSE_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-    map.put(FILTER_APP_GRID_ALLOWED, false); //isAdmin);
-    map.put(IS_ADMIN_USER, isAdmin);
-    map.put(IS_GOD, isDistributionChannelGod(authorities));
-    map.put(RAW_ARP_ATTRIBUTES_VISIBLE, containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN));
+    map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
+    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
+    map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
+    map.put(FACET_CONNECTION_VISIBLE, !containsRole(authorities, ROLE_SHOWROOM_USER));
+    map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER));
+    map.put(RAW_ARP_ATTRIBUTES_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
   }
 
   /**
@@ -143,7 +132,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     if (isRoleUser(authorities)) {
       services = with(services).retain(having(on(Service.class).isConnected()));
       LOG.debug("Reduced the list of services to only linked services, because user '{}' is an enduser.", SpringSecurity.getCurrentUser().getUid());
-    } else if (isRoleIdPLicenseAdmin(authorities)) {
+    } else if (containsRole(authorities, ROLE_SHOWROOM_USER, ROLE_SHOWROOM_ADMIN)) {
       HasArgumentWithValue<Object, Boolean> articleAvailableMatcher = having(on(Service.class).isHasCrmLink());
 
       services = with(services).retain(linkedSpsMatcher.or(articleAvailableMatcher));
@@ -176,12 +165,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   }
 
   protected boolean isRoleUser(List<Authority> authorities) {
-    return CollectionUtils.isEmpty(authorities) || ((authorities.size() == 1 && authorities.get(0).equals(Authority.ROLE_USER)));
-  }
-
-  protected boolean isRoleIdPLicenseAdmin(List<Authority> authorities) {
-    return containsRole(authorities, ROLE_IDP_LICENSE_ADMIN)
-        && !containsRole(authorities, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+    return ((authorities.size() == 1 && authorities.get(0).equals(Authority.ROLE_SHOWROOM_USER)));
   }
 
   protected static boolean containsRole(List<Authority> authorities, Authority... authority) {
@@ -193,18 +177,6 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     return false;
   }
   
-  protected boolean isDistributionChannelGod(List<Authority> authorities) {
-    return containsRole(authorities, ROLE_DISTRIBUTION_CHANNEL_ADMIN);
-  }
-
-  public static boolean isDistributionChannelAdmin() {
-    return containsRole(SpringSecurity.getCurrentUser().getAuthorityEnums(), ROLE_DISTRIBUTION_CHANNEL_ADMIN);
-  }
-
-  public void setExposeTokenCheckInCookie(boolean exposeTokenCheckInCookie) {
-    this.exposeTokenCheckInCookie = exposeTokenCheckInCookie;
-  }
-
   /*
    * Add a security token to the modelMap that is rendered as hidden value in
    * POST forms. In the preHandle we check if the request is a POST and expect
@@ -215,9 +187,6 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     String token = UUID.randomUUID().toString();
     map.addAttribute(TOKEN_CHECK, token);
     request.getSession().setAttribute(TOKEN_CHECK, token);
-    if (exposeTokenCheckInCookie) {
-      response.addCookie(new Cookie(TOKEN_CHECK, token));
-    }
   }
 
 }

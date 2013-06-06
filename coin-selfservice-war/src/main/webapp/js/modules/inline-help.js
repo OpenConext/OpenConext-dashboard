@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.shopAdmin = function () {
+app.inlineHelp = function () {
 
   var init = function () {
 
@@ -22,4 +22,4 @@ app.shopAdmin = function () {
   };
 }();
 
-app.register(app.shopAdmin);
+app.register(app.inlineHelp);

@@ -16,12 +16,7 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
@@ -42,7 +37,7 @@ public class CoinUser implements UserDetails {
   private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<InstitutionIdentityProvider>();
   private String institutionId;
   private String email;
-  private List<CoinAuthority> grantedAuthorities = new ArrayList<CoinAuthority>();
+  private Set<CoinAuthority> grantedAuthorities = new HashSet<CoinAuthority>();
   private Map<String, List<String>> attributeMap = new HashMap<String, List<String>>();
 
   /**
@@ -141,7 +136,7 @@ public class CoinUser implements UserDetails {
     return grantedAuthorities;
   }
 
-  public void setAuthorities(List<CoinAuthority> grantedAuthorities) {
+  public void setAuthorities(Set<CoinAuthority> grantedAuthorities) {
     this.grantedAuthorities = grantedAuthorities;
   }
 
@@ -149,13 +144,8 @@ public class CoinUser implements UserDetails {
     this.grantedAuthorities.add(grantedAuthority);
   }
 
-  public void removeUserAuthority() {
-    for (Iterator<CoinAuthority> iterator = this.grantedAuthorities.iterator(); iterator.hasNext();) {
-      CoinAuthority auth = iterator.next();
-      if (auth.getEnumAuthority().equals(Authority.ROLE_USER)) {
-        iterator.remove();
-      }
-    }
+  public void hasAuthority(Authority grantedAuthority) {
+    this.grantedAuthorities.contains(grantedAuthority);
   }
 
   /**

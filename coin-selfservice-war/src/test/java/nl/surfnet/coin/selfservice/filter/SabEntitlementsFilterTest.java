@@ -16,18 +16,10 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import java.io.IOException;
-import java.util.Arrays;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.sab.Sab;
 import nl.surfnet.sab.SabRoleHolder;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -39,14 +31,14 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.Arrays;
+
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SabEntitlementsFilterTest {
 
@@ -68,11 +60,10 @@ public class SabEntitlementsFilterTest {
   public void setUp() throws Exception {
     filter = new SabEntitlementsFilter();
 
-    filter.setCrmAvailable(true);
-    filter.setAdminDistributionRole("admindk-role");
-    filter.setAdminLicentieIdPRole("adminlicense-role");
-    filter.setAdminSurfConextIdPRole("adminsc-role");
-    filter.setViewerSurfConextIdPRole("viewer-role");
+    filter.setIsDashboard(true);
+    filter.setAdminLicentieIdPRole(ROLE_SHOWROOM_ADMIN.name());
+    filter.setAdminSurfConextIdPRole(ROLE_DASHBOARD_ADMIN.name());
+    filter.setViewerSurfConextIdPRole(ROLE_DASHBOARD_VIEWER.name());
 
     MockitoAnnotations.initMocks(this);
 
@@ -109,10 +100,10 @@ public class SabEntitlementsFilterTest {
     CoinUser user = SpringSecurity.getCurrentUser();
     user.setSchacHomeOrganization("theOrg");
 
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "adminsc-role")));
+    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_ADMIN.name())));
 
     filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_IDP_SURFCONEXT_ADMIN);
+    SpringSecurityUtil.assertRoleIsGranted(ROLE_DASHBOARD_ADMIN);
   }
 
   @Test
@@ -121,10 +112,11 @@ public class SabEntitlementsFilterTest {
     CoinUser user = SpringSecurity.getCurrentUser();
     user.setSchacHomeOrganization("theOrg");
 
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "adminlicense-role")));
-
+    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_SHOWROOM_ADMIN.name())));
+    filter.setIsDashboard(false);
     filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_IDP_LICENSE_ADMIN);
+    filter.setIsDashboard(false);
+    SpringSecurityUtil.assertRoleIsGranted(ROLE_SHOWROOM_ADMIN);
   }
 
   @Test
@@ -133,63 +125,10 @@ public class SabEntitlementsFilterTest {
     CoinUser user = SpringSecurity.getCurrentUser();
     user.setSchacHomeOrganization("theOrg");
 
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "viewer-role")));
+    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_VIEWER.name())));
 
     filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_USER);
-  }
-
-  @Test
-  public void previouslyGrantedAuthoritiesByApiAreRetained_1() throws IOException, ServletException {
-
-
-    // User has Distribution channel admin authority already
-    SpringSecurityUtil.setAuthentication("theuser");
-    CoinUser user = SpringSecurity.getCurrentUser();
-    user.setSchacHomeOrganization("theOrg");
-
-    user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "viewer-role")));
-    filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
-  }
-
-    @Test
-    public void previouslyGrantedAuthoritiesByApiAreRetained_2() throws IOException, ServletException {
-    // User has idp license authority already
-    SpringSecurityUtil.setAuthentication("theuser");
-    CoinUser user = SpringSecurity.getCurrentUser();
-    user.setSchacHomeOrganization("theOrg");
-
-    user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "adminsc-role")));
-    filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
-  }
-  @Test
-  public void previouslyGrantedAuthoritiesByApiAreRetained_3() throws IOException, ServletException {
-    // User has surfconext-admin role from Api, but gets DK-admin from SAB
-    SpringSecurityUtil.setAuthentication("theuser");
-    CoinUser user = SpringSecurity.getCurrentUser();
-    user.setSchacHomeOrganization("theOrg");
-
-    user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "admindk-role")));
-    filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
-  }
-
-  @Test
-  public void previouslyGrantedAuthoritiesByApiAreRetained_4() throws IOException, ServletException {
-    // User has conext-admin role from Api, but also gets license-admin from SAB
-    SpringSecurityUtil.setAuthentication("theuser");
-    CoinUser user = SpringSecurity.getCurrentUser();
-    user.setSchacHomeOrganization("theOrg");
-
-    user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "adminlicense-role")));
-    filter.doFilter(request, response, chain);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN);
+    SpringSecurityUtil.assertRoleIsGranted(ROLE_DASHBOARD_VIEWER);
   }
 
   @Test

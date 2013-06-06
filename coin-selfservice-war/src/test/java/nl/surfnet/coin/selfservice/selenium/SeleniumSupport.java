@@ -111,7 +111,7 @@ public class SeleniumSupport {
 
 
   public void loginAtMujinaAs(OpenConextOAuthClientMock.Users user) {
-    getWebDriver().findElement(By.name("j_username")).sendKeys(user.getUser());
+    getWebDriver().findElement(By.name("j_username")).sendKeys(user.getUser().name());
     getWebDriver().findElement(By.name("j_password")).sendKeys("secret");
     getWebDriver().findElement(By.name("login")).submit();
 

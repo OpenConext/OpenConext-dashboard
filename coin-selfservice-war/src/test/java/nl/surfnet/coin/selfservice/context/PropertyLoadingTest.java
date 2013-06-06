@@ -15,9 +15,6 @@ public class PropertyLoadingTest {
   @Value("${feature.development.mode}")
   private boolean developmentMode;
 
-  @Value("${feature.showOauthTokens}")
-  private boolean showOauthTokens;
-
   /**
    * This tests whether properties from the default props file are overridden correctly by an external properties file.
    * In this case, the 'local development' properties file, from src/test/resources.
@@ -26,7 +23,6 @@ public class PropertyLoadingTest {
   @Test
   public void overrideProperties() {
     assertEquals("false by default, but overridden to true in local development", true, developmentMode);
-    assertEquals("true by default, not defined in local development", true, showOauthTokens);
   }
 
 }

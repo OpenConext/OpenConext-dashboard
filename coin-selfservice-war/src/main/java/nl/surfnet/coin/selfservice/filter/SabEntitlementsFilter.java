@@ -39,12 +39,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
 public class SabEntitlementsFilter extends GenericFilterBean {
 
@@ -52,12 +50,11 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter.PROCESSED";
 
-  private boolean crmAvailable;
+  private boolean isDashboard;
 
   @Resource
   private Sab sab;
 
-  private String adminDistributionRole;
   private String adminLicentieIdPRole;
   private String adminSurfConextIdPRole;
   private String viewerSurfConextIdPRole;
@@ -91,48 +88,21 @@ public class SabEntitlementsFilter extends GenericFilterBean {
   }
 
   private void elevateUserIfApplicable(CoinUser user, SabRoleHolder roleHolder) {
-
-    if (!adminDistributionRole.isEmpty() && roleHolder.getRoles().contains(adminDistributionRole)) {
-      user.setAuthorities(new ArrayList<CoinAuthority>());
-      user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-    } else {
-      List<GrantedAuthority> newAuthorities = new ArrayList<GrantedAuthority>();
-      if (!adminLicentieIdPRole.isEmpty() && roleHolder.getRoles().contains(adminLicentieIdPRole) && this.crmAvailable) {
-        newAuthorities.add(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-      }
-      if (!adminSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(adminSurfConextIdPRole)) {
-        newAuthorities.add(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-      }
-      if (!viewerSurfConextIdPRole.isEmpty() && roleHolder.getRoles().contains(viewerSurfConextIdPRole)) {
-        // BACKLOG-940: for now, only users having this role will be allowed access.
-        // No regular end users yet.
-        // In the future, this 'viewer' (SURFconextbeheerder) user probably deserves a role of its own, instead of the USER role.
-        newAuthorities.add(new CoinAuthority(CoinAuthority.Authority.ROLE_USER));
-      }
-
-      // Now merge with earlier assigned authorities
-      if (user.getAuthorityEnums().contains(ROLE_DISTRIBUTION_CHANNEL_ADMIN)) {
-        // nothing, highest role possible
-      } else if (user.getAuthorityEnums().contains(ROLE_IDP_LICENSE_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN))) {
-        user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-      } else if (user.getAuthorityEnums().contains(ROLE_IDP_SURFCONEXT_ADMIN) && newAuthorities.contains(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN))) {
-        user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-      } else if (newAuthorities.contains(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN))) {
-        user.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-      } else if (newAuthorities.contains(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN))) {
-        user.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-      } else if (newAuthorities.contains(new CoinAuthority(ROLE_USER))) {
-        user.addAuthority(new CoinAuthority(ROLE_USER));
-      }
+    if (!isDashboard && needToAddRole(roleHolder, adminLicentieIdPRole)) {
+      user.addAuthority(new CoinAuthority(ROLE_SHOWROOM_ADMIN));
+    } else if (isDashboard && needToAddRole(roleHolder, adminSurfConextIdPRole)) {
+      user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+    } else if (isDashboard && needToAddRole(roleHolder, viewerSurfConextIdPRole)) {
+      user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
     }
+  }
+
+  private boolean needToAddRole(SabRoleHolder roleHolder, String adminLicentieIdPRole) {
+    return StringUtils.hasText(adminLicentieIdPRole) && roleHolder.getRoles().contains(adminLicentieIdPRole);
   }
 
   @Override
   public void destroy() {
-  }
-
-  public void setAdminDistributionRole(String adminDistributionRole) {
-    this.adminDistributionRole = adminDistributionRole;
   }
 
   public void setAdminLicentieIdPRole(String adminLicentieIdPRole) {
@@ -146,7 +116,8 @@ public class SabEntitlementsFilter extends GenericFilterBean {
     this.viewerSurfConextIdPRole = viewerSurfConextIdPRole;
   }
 
-  public void setCrmAvailable(boolean crmAvailable) {
-    this.crmAvailable = crmAvailable;
+  public void setIsDashboard(boolean dashboard) {
+    isDashboard = dashboard;
   }
+
 }

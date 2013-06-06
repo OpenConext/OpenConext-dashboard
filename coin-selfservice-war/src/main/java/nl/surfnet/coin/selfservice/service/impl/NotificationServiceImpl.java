@@ -46,8 +46,8 @@ public class NotificationServiceImpl implements NotificationService {
   public NotificationMessage getNotifications(InstitutionIdentityProvider selectedIdp) {
     NotificationMessage notificationMessage = new NotificationMessage();
 
-    boolean isLcp = getAuthorities().contains(Authority.ROLE_IDP_LICENSE_ADMIN);
-    boolean isFcp = getAuthorities().contains(Authority.ROLE_IDP_SURFCONEXT_ADMIN);
+    boolean isLcp = getAuthorities().contains(Authority.ROLE_SHOWROOM_ADMIN);
+    boolean isFcp = getAuthorities().contains(Authority.ROLE_DASHBOARD_ADMIN) || getAuthorities().contains(Authority.ROLE_DASHBOARD_VIEWER);
 
     if (!isLcp && !isFcp) {
       return notificationMessage;

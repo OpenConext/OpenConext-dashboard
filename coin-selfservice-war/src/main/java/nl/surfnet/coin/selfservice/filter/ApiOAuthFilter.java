@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -44,10 +45,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_LICENSE_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_IDP_SURFCONEXT_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_USER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
@@ -64,11 +62,13 @@ public class ApiOAuthFilter implements Filter {
 
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
   protected static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" + ".ORIGINAL_REQUEST_URL";
-  private String adminLicentieIdPTeam;
-  private String adminSurfConextIdPTeam;
-  private String adminDistributionTeam;
+
+  private String showroomAdmin;
+  private String dashboardAdmin;
+  private String dashboardViewer;
+  private boolean isDashboard;
+
   private String callbackFlagParameter = "oauthCallback";
-  private boolean crmAvailable;
 
   /**
    * No initialization needed.
@@ -169,23 +169,20 @@ public class ApiOAuthFilter implements Filter {
       LOG.debug("Memberships of adminTeams '{}' for user '{}'", new Object[] { groups, coinUser.getUid() });
     }
     /*
-     * We want to end up with only one role, the one exception is that an user
-     * has two roles: ROLE_IDP_LICENSE_ADMIN, ROLE_IDP_SURFCONEXT_ADMIN
+     * We want to end up with only one role
      */
-    if (groupsContains(adminDistributionTeam, groups)) {
-      coinUser.setAuthorities(new ArrayList<CoinAuthority>());
-      coinUser.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+    coinUser.setAuthorities(new HashSet<CoinAuthority>());
+    if (isDashboard) {
+      if (groupsContains(dashboardAdmin, groups)) {
+        coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+      } else if (groupsContains(dashboardViewer, groups)) {
+        coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+      }
     } else {
-      coinUser.setAuthorities(new ArrayList<CoinAuthority>());
-      if (groupsContains(adminLicentieIdPTeam, groups) && this.crmAvailable) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_IDP_LICENSE_ADMIN));
-      }
-      if (groupsContains(adminSurfConextIdPTeam, groups)) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_IDP_SURFCONEXT_ADMIN));
-      }
-      // No default role for 'users' in non-lmng active modus: this will be handled by another filter.
-      if (this.crmAvailable && CollectionUtils.isEmpty(coinUser.getAuthorities())) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_USER));
+      if (groupsContains(showroomAdmin, groups)) {
+        coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_ADMIN));
+      } else {
+        coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_USER));
       }
     }
 
@@ -216,19 +213,20 @@ public class ApiOAuthFilter implements Filter {
     this.callbackFlagParameter = callbackFlagParameter;
   }
 
-  public void setAdminLicentieIdPTeam(String adminLicentieIdPTeam) {
-    this.adminLicentieIdPTeam = adminLicentieIdPTeam;
+  public void setShowroomAdmin(String showroomAdmin) {
+    this.showroomAdmin = showroomAdmin;
   }
 
-  public void setAdminSurfConextIdPTeam(String adminSurfConextIdPTeam) {
-    this.adminSurfConextIdPTeam = adminSurfConextIdPTeam;
+  public void setDashboardAdmin(String dashboardAdmin) {
+    this.dashboardAdmin = dashboardAdmin;
   }
 
-  public void setAdminDistributionTeam(String adminDistributionTeam) {
-    this.adminDistributionTeam = adminDistributionTeam;
+  public void setDashboardViewer(String dashboardViewer) {
+    this.dashboardViewer = dashboardViewer;
   }
-  
-  public void setCrmAvailable(boolean crmAvailable) {
-    this.crmAvailable = crmAvailable;
+
+  public void setIsDashboard(boolean dashboard) {
+    isDashboard = dashboard;
   }
+
 }

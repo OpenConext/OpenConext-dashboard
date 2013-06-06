@@ -26,67 +26,60 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * TestMenuInterceptorTest.java
  */
 public class MenuInterceptorTest {
 
-    private MenuInterceptor menuInterceptor = new MenuInterceptor();
+  private MenuInterceptor menuInterceptor = new MenuInterceptor();
 
-    @Test
-    public void test_menu_for_user_has_home() throws Exception {
-        Menu menu = executeTestAndReturnMenu("/app-overview.shtml", false, ROLE_USER);
-        assertEquals(0, menu.getMenuItems().size());
+  @Test
+  public void test_menu_for_user_has_none() throws Exception {
+    Menu menu = executeTestAndReturnMenu(false, ROLE_SHOWROOM_USER);
+    assertEquals(0, menu.getMenuItems().size());
+  }
+
+  @Test
+  public void test_menu_for_dashboard_admin_equals_admin_viewer_has_none() throws Exception {
+    Menu menuAdmin = executeTestAndReturnMenu(false, ROLE_DASHBOARD_ADMIN);
+    Menu menuViewer = executeTestAndReturnMenu(false, ROLE_DASHBOARD_VIEWER);
+    assertEquals(menuAdmin.getMenuItems().size(), menuViewer.getMenuItems().size());
+    assertEquals(4, menuViewer.getMenuItems().size());
+  }
+
+  @Test
+  public void test_menu_for_showroom_admin() throws Exception {
+    Menu menuAdmin = executeTestAndReturnMenu(false, ROLE_SHOWROOM_ADMIN);
+    assertEquals(2, menuAdmin.getMenuItems().size());
+  }
+
+
+  private Menu executeTestAndReturnMenu(Boolean isDashBoard, Authority... authorities) throws Exception {
+    setUpAuthorities(authorities);
+    ModelAndView modelAndView = new ModelAndView();
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setAttribute("isDashBoard", isDashBoard);
+    menuInterceptor.postHandle(request, null, null, modelAndView);
+
+    ModelMap modelMap = modelAndView.getModelMap();
+
+    Menu menu = (Menu) modelMap.get("menu");
+    return menu;
+  }
+
+  private void setUpAuthorities(Authority... authorities) {
+    CoinUser coinUser = new CoinUser();
+    Set<CoinAuthority> grantedAuthorities = new HashSet<CoinAuthority>();
+    for (Authority authority : authorities) {
+      grantedAuthorities.add(new CoinAuthority(authority));
     }
-
-    @Test
-    public void test_menu_for_idp_admin_has_duplicates() throws Exception {
-        Menu menu = executeTestAndReturnMenu("who cares", true, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
-
-        assertEquals(4, menu.getMenuItems().size());
-        assertEquals("jsp.notifications.title", menu.getMenuItems().get(1).getLabel());
-    }
-
-    @Test
-    public void notificationsOnlyWhenLmngActive() throws Exception {        
-        Menu menuWhenLmngActive = executeTestAndReturnMenu("who cares", true, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
-
-        Menu menuWhenLmngNotActive = executeTestAndReturnMenu("who cares", false, ROLE_IDP_SURFCONEXT_ADMIN, ROLE_IDP_LICENSE_ADMIN);
-
-        assertEquals(4, menuWhenLmngActive.getMenuItems().size());
-        assertEquals(3, menuWhenLmngNotActive.getMenuItems().size());
-        assertEquals("jsp.notifications.title", menuWhenLmngActive.getMenuItems().get(1).getLabel());
-        assertEquals("jsp.requests-overview.title", menuWhenLmngNotActive.getMenuItems().get(1).getLabel());
-    }
-
-    private Menu executeTestAndReturnMenu(String requestUri, Boolean crmActive, Authority... authorities) throws Exception {
-        setUpAuthorities(authorities);
-        ModelAndView modelAndView = new ModelAndView();
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", requestUri);
-        request.setAttribute("crmAvailable", crmActive);
-        request.setAttribute("statisticsAvailable", Boolean.TRUE);
-        menuInterceptor.postHandle(request, null, null, modelAndView);
-
-        ModelMap modelMap = modelAndView.getModelMap();
-
-        Menu menu = (Menu) modelMap.get("menu");
-        return menu;
-    }
-
-    private void setUpAuthorities(Authority... authorities) {
-        CoinUser coinUser = new CoinUser();
-        List<CoinAuthority> grantedAuthorities = new ArrayList<CoinAuthority>();
-        for (Authority authority : authorities) {
-            grantedAuthorities.add(new CoinAuthority(authority));
-        }
-        coinUser.setAuthorities(grantedAuthorities);
-        SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
-    }
+    coinUser.setAuthorities(grantedAuthorities);
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
+  }
 }

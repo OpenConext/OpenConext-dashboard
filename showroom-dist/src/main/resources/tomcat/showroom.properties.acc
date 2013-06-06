@@ -27,13 +27,14 @@ ISSUING_ENTITY_ID=https\://dashboard.acc.surfconext.nl
 
 WEB_APPLICATION_HOST_AND_PORT=dashboard.acc.surfconext.nl
 
-
-# Team id that is used as definition of who is a 'license contact person'.
-admin.licentie.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_license_admin
-# Team id that is used as definition of who is a 'conext contact person'.
-admin.surfconext.idp.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_surfconext_admin
-# Team id that is used as definition of who is a 'shop manager/shop admin'.
-admin.distribution.channel.teamname=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_shopmanager
+# Team id that is used as definition of who is a 'showroom_admin'.
+showroom.admin=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_license_admin
+# Team id that is used as definition of who is a 'dashboard_admin'.
+dashboard.admin=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_surfconext_admin
+# Team id that is used as definition of who is a 'dashboard.viewer'.
+dashboard.viewer=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_surfconext_admin
+# Is this the dashboard instance
+is.dashboard=false
 
 api-baseurl=https\://api.acc.surfconext.nl/v1/
 api-consumerkey=https\://dashboard.acc.surfconext.nl
@@ -49,8 +50,6 @@ sab.password=??
 admin.licentie.idp.sabRole=
 admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
-admin.distribution.channel.sabRole=
-
 
 # TODO: verify this location
 csaBaseLocation=https://csa.acc.showroom.surfconext.nl/csa/
@@ -60,11 +59,5 @@ csaBaseLocation=https://csa.acc.showroom.surfconext.nl/csa/
 ## The following properties are used to enable/disable features
 ##
 ####################################################################
-
-
-# coupling with API database for display of OAuth tokens
-feature.showOauthTokens=false
-
-#set to true to have statistics from the cruncher component
-feature.statistics=false
-
+# Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
+feature.development.mode=false

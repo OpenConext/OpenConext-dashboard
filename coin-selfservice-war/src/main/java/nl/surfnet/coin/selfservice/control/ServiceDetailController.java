@@ -92,25 +92,8 @@ public class ServiceDetailController extends BaseController {
     Map<String, Object> m = new HashMap<String, Object>();
     m.put(SERVICE, service);
 
-    spEntityId = service.getSpEntityId();
-    if ((Boolean) (request.getAttribute("statisticsAvailable"))) {
-      // FIXME: integrate with CSA
-//      final Boolean mayHaveGivenConsent = consentDao.mayHaveGivenConsent(SpringSecurity.getCurrentUser().getUid(),
-//          spEntityId);
-//      m.put("mayHaveGivenConsent", mayHaveGivenConsent);
-    }
-
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     m.put("personAttributeLabels", attributeLabelMap);
-
-    if ((Boolean) (request.getAttribute("oauthTokensAvailable"))) {
-      // FIXME integration with oauth token service using CSA
-//      final List<OAuthTokenInfo> oAuthTokens = oAuthTokenService.getOAuthTokenInfoList(SpringSecurity.getCurrentUser()
-//          .getUid(), compoundServiceProvider.getServiceProvider());
-//      m.put("oAuthTokens", oAuthTokens);
-
-      m.put("revoked", revoked);
-    }
 
     m.put("lmngDeepLinkUrl", lmngDeepLinkBaseUrl);
 

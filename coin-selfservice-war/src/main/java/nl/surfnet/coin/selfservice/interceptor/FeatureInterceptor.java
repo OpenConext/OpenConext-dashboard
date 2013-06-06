@@ -30,16 +30,13 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class FeatureInterceptor extends HandlerInterceptorAdapter {
   private boolean developmentMode;
-  private boolean crmAvailable;
-  private boolean oauthTokensAvailable;
-  private boolean statisticsAvailable;
+
+  private boolean isDashBoard;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     request.setAttribute("developmentMode", developmentMode); // for use on error page
-    request.setAttribute("crmAvailable", crmAvailable);
-    request.setAttribute("oauthTokensAvailable", oauthTokensAvailable);
-    request.setAttribute("statisticsAvailable", statisticsAvailable);
+    request.setAttribute("isDashBoard", isDashBoard);
     return true;
   }
 
@@ -50,9 +47,7 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
       map.addAttribute("developmentMode", developmentMode);
-      map.addAttribute("crmAvailable", crmAvailable);
-      map.addAttribute("oauthTokensAvailable", oauthTokensAvailable);
-      map.addAttribute("statisticsAvailable", statisticsAvailable);
+      map.addAttribute("isDashBoard", isDashBoard);
       map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
@@ -61,40 +56,8 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
     this.developmentMode = devMode;
   }
 
-  public void setCrmAvailable(boolean crmActive) {
-    this.crmAvailable = crmActive;
+  public void setIsDashBoard(boolean dashBoard) {
+    isDashBoard = dashBoard;
   }
 
-  public boolean isCrmAvailable() {
-    return crmAvailable;
-  }
-
-  /**
-   * @return the showOauthTokens
-   */
-  public boolean isOauthTokensAvailable() {
-    return oauthTokensAvailable;
-  }
-
-  /**
-   * @param showOauthTokens the showOauthTokens to set
-   */
-  public void setOauthTokensAvailable(boolean showOauthTokens) {
-    this.oauthTokensAvailable = showOauthTokens;
-  }
-
-  /**
-   * @return the ebLinkActive
-   */
-  public boolean isStatisticsAvailable() {
-    return statisticsAvailable;
-  }
-
-  /**
-   * @param statisticsActive the ebLinkActive to set
-   */
-  public void setStatisticsAvailable(boolean statisticsActive) {
-    this.statisticsAvailable = statisticsActive;
-  }
-  
 }

@@ -79,28 +79,10 @@ public abstract class BaseController {
   public static final String FACET_CONNECTION_VISIBLE = "facetConnectionVisible";
 
   /**
-   * The name of the key under which we store the info if a logged user is
-   * allowed to filter in the app grid
-   */
-  public static final String FILTER_APP_GRID_ALLOWED = "filterAppGridAllowed";
-
-  /**
-   * The name of the key under which we store the info if a logged user is a
-   * kind of admin
-   */
-  public static final String IS_ADMIN_USER = "isAdminUser";
-
-  /**
    * The name of the key that defines whether a deeplink to SURFMarket should be
    * shown.
    */
   public static final String DEEPLINK_TO_SURFMARKET_ALLOWED = "deepLinkToSurfMarketAllowed";
-
-  /**
-   * The name of the key under which we store the info if the logged in user is
-   * Distribution Channel Admin (aka God)
-   */
-  public static final String IS_GOD = "isGod";
 
   /**
    * The name of the key under which we store the token used to prevent session

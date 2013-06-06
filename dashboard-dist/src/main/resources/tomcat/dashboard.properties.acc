@@ -32,14 +32,14 @@ ISSUING_ENTITY_ID=https\://dashboard.acc.surfconext.nl
 
 WEB_APPLICATION_HOST_AND_PORT=dashboard.acc.surfconext.nl
 
-
-
-# Team id that is used as definition of who is a 'license contact person'.
-admin.licentie.idp.teamname=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:licentiecontactpersonen
-# Team id that is used as definition of who is a 'conext contact person'.
-admin.surfconext.idp.teamname=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
-# Team id that is used as definition of who is a 'shop manager/shop admin'.
-admin.distribution.channel.teamname=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:shopmanager_cdk
+# Team id that is used as definition of who is a 'showroom_admin'.
+showroom.admin=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:licentiecontactpersonen
+# Team id that is used as definition of who is a 'dashboard_admin'.
+dashboard.admin=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
+# Team id that is used as definition of who is a 'dashboard.viewer'.
+dashboard.viewer=urn\:collab\:group\:acc.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
+# Is this the dashboard instance
+is.dashboard=true
 
 api-baseurl=https\://api.acc.surfconext.nl/v1/
 api-consumerkey=https\://dashboard.acc.surfconext.nl
@@ -55,7 +55,6 @@ sab.password=??
 admin.licentie.idp.sabRole=
 admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
-admin.distribution.channel.sabRole=
 
 # TODO: verify this location
 csa.base.url=https://csa.acc.surfconext.nl/stats/v1/

@@ -82,7 +82,7 @@
           </a>
         </li>
       </c:if>
-      <c:if test="${isAdminUser && statisticsAvailable}">
+      <c:if test="${isDashBoard}">
         <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
           <spring:param name="spEntityId" value="${service.spEntityId}" />
         </spring:url>
@@ -125,7 +125,7 @@
                 </li>
 	            </c:if>
               <c:if test="${questionAllowed}"><li><tags:ask-question service="${service}" invariant="${questionAllowed}" /></li></c:if>
-              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${service.spEntityId}"><i class="icon-info-sign"></i></a></li></c:if>
+              <c:if test="${applyAllowed}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${service.spEntityId}"><i class="icon-info-sign"></i></a></li></c:if>
 
               </ul>
             </div>
@@ -145,7 +145,7 @@
                   </li>
                 </c:if>
               <c:if test="${questionAllowed}"><li><tags:ask-question service="${service}" invariant="${questionAllowed}" /></li></c:if>
-              <c:if test="${applyAllowed or isGod}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${service.spEntityId}"><i class="icon-info-sign"></i></a></li></c:if>
+              <c:if test="${applyAllowed}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${service.spEntityId}"><i class="icon-info-sign"></i></a></li></c:if>
               </ul>
             </div>
           </c:when>

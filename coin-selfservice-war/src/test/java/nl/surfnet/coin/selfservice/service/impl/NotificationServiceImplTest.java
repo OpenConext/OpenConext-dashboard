@@ -65,7 +65,7 @@ public class NotificationServiceImplTest {
 
   @Test
   public void testGetNotificationsWithMessagesLcp() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
+    authorities = Arrays.asList(new Authority[] { Authority.ROLE_SHOWROOM_ADMIN });
 
     InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
@@ -89,7 +89,7 @@ public class NotificationServiceImplTest {
 
   @Test
   public void testGetNotificationsWithMessagesFcp() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_SURFCONEXT_ADMIN });
+    authorities = Arrays.asList(new Authority[] { Authority.ROLE_DASHBOARD_ADMIN});
 
     InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
@@ -111,8 +111,8 @@ public class NotificationServiceImplTest {
   }
 
   @Test
-  public void testGetNotificationsWithMessagesShopmanager() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN });
+  public void testGetNoNotifications() {
+    authorities = Arrays.asList(new Authority[] { Authority.ROLE_SHOWROOM_USER});
 
     InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
@@ -131,7 +131,7 @@ public class NotificationServiceImplTest {
 
   @Test
   public void testGetNotificationsWithoutMessages() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_IDP_LICENSE_ADMIN });
+    authorities = Arrays.asList(new Authority[] { Authority.ROLE_SHOWROOM_ADMIN });
 
     InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 

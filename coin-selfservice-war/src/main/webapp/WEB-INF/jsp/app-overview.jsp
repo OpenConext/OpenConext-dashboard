@@ -74,7 +74,7 @@
     <section>
     <div style="padding-top: 10px;">
     <div>
-      <ul class="${view}-view app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${crmAvailable == true ? 'crmAvailable' : ''}">
+      <ul class="${view}-view app-grid ${isDashBoard == false ? 'crmAvailable' : ''}">
       <c:forEach items="${services}" var="service">
               <c:set var="serviceDescription" value="${service.description}" />
               <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
