@@ -11,6 +11,9 @@ import java.util.List;
 
 public class MockCruncherImpl implements Cruncher {
 
+  public MockCruncherImpl(String cruncherClientKey, String cruncherClientSecret, String cruncherBaseLocation, String apisOAuth2AuthorizationUrl) {
+  }
+
   @Override
   public String getLogins() {
     return getLoginStats();
