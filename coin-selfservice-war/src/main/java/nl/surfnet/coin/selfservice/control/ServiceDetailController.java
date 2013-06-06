@@ -76,7 +76,7 @@ public class ServiceDetailController extends BaseController {
    * @param serviceId the service  id
    */
   @RequestMapping(value = "/app-detail")
-  public ModelAndView serviceDetail(@RequestParam(value = "id", required = false) Long serviceId,
+  public ModelAndView serviceDetail(@RequestParam(value = "serviceId", required = false) Long serviceId,
                                     @RequestParam(value = "spEntityId", required = false) String spEntityId,
                                     @RequestParam(required = false) String revoked,
                                     @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, HttpServletRequest request) {
@@ -118,7 +118,7 @@ public class ServiceDetailController extends BaseController {
   }
 
   @RequestMapping(value = "/app-recommend")
-  public ModelAndView recommendApp(@RequestParam(value = "id") long serviceId,
+  public ModelAndView recommendApp(@RequestParam(value = "serviceId") long serviceId,
                                    @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp) {
     Map<String, Object> m = new HashMap<String, Object>();
 
@@ -132,7 +132,7 @@ public class ServiceDetailController extends BaseController {
   public
   @ResponseBody
   String doRecommendApp(
-          @RequestParam(value = "id") long serviceId,
+          @RequestParam(value = "serviceId") long serviceId,
           @RequestParam(value = "recommendPersonalNote", required = false) String recommendPersonalNote,
           @RequestParam(value = "emailSelect2") String emailSelect2,
           @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,

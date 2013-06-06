@@ -16,7 +16,7 @@
   limitations under the License.
   --%>
 
-<c:set var="spname"><c:out default="${sp.id}" value="${sp.name}" /></c:set>
+<c:set var="spname"><c:out default="${service.id}" value="${service.name}" /></c:set>
 <spring:message var="title" code="jsp.home.title" />
 <jsp:include page="head.jsp">
   <jsp:param name="title" value="${title}" />
@@ -24,35 +24,35 @@
 <div class="wrapper has-right">
 <div class="column-right side-content-holder">
   <section>
-    <c:if test="${not empty sp.detailLogoUrl}">
-      <img src="${sp.detailLogoUrl}" alt="<c:out value=""/>" class="application-logo">
+    <c:if test="${not empty service.detailLogoUrl}">
+      <img src="${service.detailLogoUrl}" alt="<c:out value=""/>" class="application-logo">
     </c:if>
     <ul class="launch-icons">
-      <c:if test="${not empty sp.appUrl}">
+      <c:if test="${not empty service.appUrl}">
         <li>
-          <a class="btn btn-primary-alt start-app" href="${sp.appUrl}" target="_blank">
+          <a class="btn btn-primary-alt start-app" href="${service.appUrl}" target="_blank">
             <spring:message code="jsp.app_detail.app_url_label"/>
             <i class="icon-play"></i>
           </a>
         </li>
       </c:if>
-      <c:if test="${not empty sp.crmArticle.appleAppStoreUrl}">
+      <c:if test="${not empty service.crmArticle.appleAppStoreUrl}">
 	      <li>
-          <a href="${sp.article.appleAppStoreUrl}">
+          <a href="${service.crmArticle.appleAppStoreUrl}">
 	          <img src="<c:url value="/images/icon-app-store.png"/>" alt="iTunes App Store">
 	        </a>
 	      </li>
       </c:if>
-      <c:if test="${not empty sp.crmArticle.androidPlayStoreUrl}">
+      <c:if test="${not empty service.crmArticle.androidPlayStoreUrl}">
 	      <li>
-	        <a href="${sp.crmArticle.androidPlayStoreUrl}">
+	        <a href="${service.crmArticle.androidPlayStoreUrl}">
 	          <img src="<c:url value="/images/icon-google-play.png"/>" alt="Google Play Store">
 	        </a>
 	      </li>
 	    </c:if>
       <li>
         <spring:url var="recommendAppLink" value="/app-recommend.shtml">
-          <spring:param name="id" value="${service.id}" />
+          <spring:param name="serviceId" value="${service.id}" />
         </spring:url>
         <a id="recommend-app" class="btn btn-primary recommend-app" href="${recommendAppLink}">
             <spring:message code="jsp.app_detail.recommend_app"/>
@@ -93,11 +93,11 @@
         </li>
       </c:if>
       </ul>
-      <c:if test="${not empty sp.supportMail}">
+      <c:if test="${not empty service.supportMail}">
         <ul class="action-list email-addresses">
         <li>
           <spring:message code="jsp.app_detail.support_email" />
-          <a href="mailto:<c:out value="${sp.supportMail}"/>"><c:out value="${sp.supportMail}"/></a>
+          <a href="mailto:<c:out value="${service.supportMail}"/>"><c:out value="${service.supportMail}"/></a>
         </li>
       </ul>
       </c:if>
@@ -153,7 +153,7 @@
         </c:if>
 
           <c:choose>
-            <c:when test="${service.hasCrmLink and service.license}">
+            <c:when test="${service.hasCrmLink and !empty service.license}">
               <div class="license-available">
                 <c:choose>
                   <c:when test="${service.license.groupLicense}">
@@ -206,7 +206,6 @@
       </tags:html-format>
     </div>
 
-    <c:set var="sp" value="${compoundSp.sp}" scope="request" />
     <div class="arp">
       <jsp:include page="requests/arp.jsp" />
     </div>

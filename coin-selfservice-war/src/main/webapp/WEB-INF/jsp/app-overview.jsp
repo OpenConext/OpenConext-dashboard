@@ -79,9 +79,9 @@
               <c:set var="serviceDescription" value="${service.description}" />
               <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
               <li class="${view}-view" data-id="${service.id}"
-                          data-facet-values="${service.connected ? "connected" : "not-connected"} ${service.license ? "licensed" : "not-licensed"} ${service.searchFacetValues}">
+                          data-facet-values="${service.connected ? "connected" : "not-connected"} ${!empty service.license ? "licensed" : "not-licensed"} ${service.searchFacetValues}">
                 <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-                  <spring:param name="id" value="${service.id}" />
+                  <spring:param name="serviceId" value="${service.id}" />
                 </spring:url>
 
                 <c:set var="spTitle" >
