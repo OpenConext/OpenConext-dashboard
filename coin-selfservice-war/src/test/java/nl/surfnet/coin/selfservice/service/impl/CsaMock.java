@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class CsaMock implements Csa {
 
-  public CsaMock(String csaBaseLocation, String csaOAuth2AuthorizationUrl, String csaClientKey, String csaClientSecret) {
+  public CsaMock(String csaBaseLocation, String apisOAuth2AuthorizationUrl, String csaClientKey, String csaClientSecret) {
   }
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
