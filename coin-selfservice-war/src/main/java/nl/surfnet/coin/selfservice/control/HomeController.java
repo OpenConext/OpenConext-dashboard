@@ -16,14 +16,6 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.*;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
@@ -31,12 +23,19 @@ import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller of the homepage showing 'my apps' (or my services, meaning the
@@ -89,9 +88,11 @@ public class HomeController extends BaseController {
   }
 
   private boolean isCategoryValuesUsed(List<Category> categories) {
-    for (Category cat : categories) {
-      if (cat.isUsedFacetValues()) {
-        return true;
+    if (CollectionUtils.isNotEmpty(categories)) {
+      for (Category cat : categories) {
+        if (cat.isUsedFacetValues()) {
+          return true;
+        }
       }
     }
     return false;
@@ -139,18 +140,19 @@ public class HomeController extends BaseController {
       if (category.getValues() == null) {
         continue;
       }
-      for (CategoryValue value : category.getValues()) {
+      for (CategoryValue categoryValue : category.getValues()) {
         int count = 0;
         for (Service service : services) {
           if (service.getCategories() == null || service.getCategories().isEmpty()) {
             continue;
           }
-          List<CategoryValue> categoryValues = service.getCategories().get(category);
-          if (categoryValues != null && categoryValues.contains(value)) {
-            ++count;
+          for (Category c : service.getCategories()) {
+            if (c.containsValue(categoryValue.getValue())) {
+              ++count;
+            }
           }
         }
-        value.setCount(count);
+        categoryValue.setCount(count);
       }
     }
     return taxonomy.getCategories();
