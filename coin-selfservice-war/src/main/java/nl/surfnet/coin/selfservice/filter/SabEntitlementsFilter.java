@@ -16,9 +16,17 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabRoleHolder;
+import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -27,20 +35,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabRoleHolder;
-import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import java.io.IOException;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
@@ -65,7 +60,8 @@ public class SabEntitlementsFilter extends GenericFilterBean {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     final HttpSession session = httpRequest.getSession(true);
 
-    if (SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
+    // Only applicable for dashboard incarnation.
+    if (isDashboard && SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
       CoinUser user = SpringSecurity.getCurrentUser();
 
       try {

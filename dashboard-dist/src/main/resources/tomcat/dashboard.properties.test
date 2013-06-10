@@ -29,8 +29,6 @@ ISSUING_ENTITY_ID=https\://dashboard.test.surfconext.nl
 WEB_APPLICATION_HOST_AND_PORT=dashboard.test.surfconext.nl
 
 
-# Team id that is used as definition of who is a 'showroom_admin'.
-showroom.admin=urn\:collab\:group\:test.surfteams.nl\:nl\:surfnet\:diensten\:licentiecontactpersonen
 # Team id that is used as definition of who is a 'dashboard_admin'.
 dashboard.admin=urn\:collab\:group\:test.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
 # Team id that is used as definition of who is a 'dashboard.viewer'.
