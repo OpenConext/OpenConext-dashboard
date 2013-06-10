@@ -1,13 +1,14 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
-import org.springframework.core.io.ClassPathResource;
-import org.surfnet.cruncher.Cruncher;
-import org.surfnet.cruncher.model.SpStatistic;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.core.io.ClassPathResource;
+import org.surfnet.cruncher.Cruncher;
+import org.surfnet.cruncher.model.SpStatistic;
 
 public class MockCruncherImpl implements Cruncher {
 
@@ -15,22 +16,22 @@ public class MockCruncherImpl implements Cruncher {
   }
 
   @Override
-  public String getLogins() {
+  public String getLogins(Date startDate, Date endDate) {
     return getLoginStats();
   }
 
   @Override
-  public String getLoginsByIdpAndSp(String idpEntityId, String spEntityId) {
+  public String getLoginsByIdpAndSp(Date startDate, Date endDate, String idpEntityId, String spEntityId) {
     return getLoginStats();
   }
 
   @Override
-  public String getLoginsByIdp(String idpEntityId) {
+  public String getLoginsByIdp(Date startDate, Date endDate, String idpEntityId) {
     return getLoginStats();
   }
 
   @Override
-  public String getLoginsBySp(String spEntityId) {
+  public String getLoginsBySp(Date startDate, Date endDate, String spEntityId) {
     return getLoginStats();
   }
 

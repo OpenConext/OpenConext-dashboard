@@ -16,7 +16,16 @@
 
 package nl.surfnet.coin.selfservice.control;
 
+import static java.util.Calendar.YEAR;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.annotation.Resource;
+
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,8 +34,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.surfnet.cruncher.Cruncher;
-
-import javax.annotation.Resource;
 
 /**
  * Controller for statistics
@@ -45,12 +52,14 @@ public class StatisticsController extends BaseController {
                       @RequestParam(value = "spEntityId", required = false) final String selectedSp) {
     model.put(SELECTED_IDP, selectedIdp);
 
-    // Get all idp's which are known in selfservice and available in the
-    // statistics database
-    model.put("spEntityId", selectedSp);
-    // TODO add allIDPs to model
-
-    model.put("login_stats", cruncher.getLogins());
+    // default return all statistics for the last two years
+    Calendar twoYearsBack = Calendar.getInstance();
+    twoYearsBack.roll(YEAR, -2);
+    if (StringUtils.isNotBlank(selectedSp)) {
+      model.put("login_stats", cruncher.getLoginsByIdpAndSp(twoYearsBack.getTime(), new Date(), selectedIdp.getId(), selectedSp));
+    } else {
+      model.put("login_stats", cruncher.getLoginsByIdp(twoYearsBack.getTime(), new Date(), selectedIdp.getId()));      
+    }
     return "stats/statistics";
   }
 }

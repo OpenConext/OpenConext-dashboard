@@ -82,6 +82,7 @@
           </a>
         </li>
       </c:if>
+
       <c:if test="${isDashBoard}">
         <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
           <spring:param name="spEntityId" value="${service.spEntityId}" />
