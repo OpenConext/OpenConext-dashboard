@@ -300,7 +300,7 @@
     "eulaUrl": "http://www.surfnet.nl/en/pages/disclaimer.aspx",
     "supportMail": "help@surfconext.nl",
     "enduserDescription": "Csa portal to manage connections to services",
-    "connected": true,
+    "connected": false,
     "hasCrmLink": false,
     "spEntityId": "https://csa.dev.surfconext.nl"
   },
@@ -311,7 +311,7 @@
     "logoUrl": "http://localhost:8282/csa/fieldimages/61.img",
     "detailLogoUrl": "http://localhost:8282/csa/fieldimages/62.img",
     "enduserDescription": "Wordpress laptop | Development",
-    "connected": true,
+    "connected": false,
     "hasCrmLink": false,
     "spEntityId": "http://wordpress.conext.dev/wordpress-conext/trunk/simplesaml/module.php/saml/sp/metadata.php/default-sp"
   },
