@@ -71,9 +71,14 @@
 
   <bean id="csa" class="${csaClass}">
     <constructor-arg name="csaBaseLocation" value="${csa.base.url}" />
-    <constructor-arg name="csaClientKey" value="${csa.client.key}" />
-    <constructor-arg name="csaClientSecret" value="${csa.client.secret}" />
-    <constructor-arg name="apisOAuth2AuthorizationUrl" value="${csa.oauth2.authorization.url}" />
+
+    <property name="oauthClient">
+      <bean class="nl.surfnet.coin.shared.oauth.ClientCredentialsClient">
+        <property name="clientKey" value="${csa.client.key}" />
+        <property name="clientSecret" value="${csa.client.secret}" />
+        <property name="oauthAuthorizationUrl" value="${csa.oauth2.authorization.url}" />
+      </bean>
+    </property>
   </bean>
 
   <bean id="cruncher" class="${cruncherClass}">

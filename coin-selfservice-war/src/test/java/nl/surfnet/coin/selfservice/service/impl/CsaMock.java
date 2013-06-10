@@ -20,6 +20,7 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.*;
+import nl.surfnet.coin.shared.oauth.OauthClient;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 public class CsaMock implements Csa {
 
-  public CsaMock(String csaBaseLocation, String apisOAuth2AuthorizationUrl, String csaClientKey, String csaClientSecret) {
+  public CsaMock(String csaBaseLocation) {
   }
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
@@ -121,4 +122,8 @@ public class CsaMock implements Csa {
       throw new RuntimeException(e);
     }
   }
+
+  public void setOauthClient(OauthClient oauthClient) {
+  }
+
 }
