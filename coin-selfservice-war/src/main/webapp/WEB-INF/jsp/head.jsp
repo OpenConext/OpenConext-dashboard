@@ -7,7 +7,7 @@
 <html lang="${locale.language}">
   <head>
     <meta charset="UTF-8">
-    <title><spring:message code="jsp.general.pageTitle" arguments="${param.title}" /></title>
+    <title><tags:context-specific messageKey="jsp.general.pageTitle" isDashBoard="${isDashBoard}"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
 
@@ -111,16 +111,7 @@
             </div>
           </li>
         <li class="help">
-
-  <%--
-  FixMe : must be handled generic : https://jira.surfconext.nl/jira/browse/CDK-98
- --%>
-        <c:if test="${!isDashBoard}">
-          <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.showroom.url"/></c:set>
-        </c:if>
-        <c:if test="${isDashBoard}">
-          <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
-        </c:if>
+          <c:set var="supporturl"><tags:context-specific messageKey="jsp.general.footertext.supportpages.url" isDashBoard="${isDashBoard}"/></c:set>
           <a href="${supporturl}"  target="_blank">
             <spring:message code="jsp.general.footertext.supportpages"/>
           </a>

@@ -116,9 +116,6 @@
                 <c:if test="${not empty service.logoUrl}">
                   <img src="<c:url value="${service.logoUrl}"/>"/>
                 </c:if>
-                <p class="desc">
-                  <c:out value="${serviceDescription}" />
-                </p>
                 <c:if test="${showConnectButton and isCard}">
                   <p class="connect-app">
                     <a href="<c:url value="/requests/linkrequest.shtml">

@@ -24,7 +24,9 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SURFconext - Selfservice - An error occurred</title>
+    <c:set var="errorMessage"><tags:context-specific messageKey="jsp.general.errordescription" isDashBoard="${isDashBoard}"/></c:set>
+
+    <title>${errorMessage}</title>
 
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.4.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-alert.css"/>" />
@@ -55,7 +57,7 @@
   <div class="wrapper has-left">
     <div class="column-center content-wrapper">
 
-      <h1>SURFconext Self service</h1>
+      <h1>${errorMessage}</h1>
 
       <c:set var="endUserMessage">
         <c:choose>
