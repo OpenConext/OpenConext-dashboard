@@ -16,14 +16,11 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.HashMap;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -31,6 +28,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+import org.surfnet.cruncher.Cruncher;
+
+import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -53,6 +53,9 @@ public class HomeControllerTest {
 
   @Mock
   private Csa csa;
+
+  @Mock
+  private Cruncher cruncher;
 
   @Before
   public void setUp() throws Exception {
