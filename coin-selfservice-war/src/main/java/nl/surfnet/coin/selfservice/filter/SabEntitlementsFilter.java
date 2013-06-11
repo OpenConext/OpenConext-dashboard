@@ -60,8 +60,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     final HttpSession session = httpRequest.getSession(true);
 
-    // Only applicable for dashboard incarnation.
-    if (isDashboard && SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
+    if (SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
       CoinUser user = SpringSecurity.getCurrentUser();
 
       try {
