@@ -62,12 +62,8 @@ public class EmailServiceImpl implements EmailService {
   public void sendTemplatedMultipartEmail(final String subject, final String templateName, final Locale locale,
       final List<String> recipients, final String from, final Map<String, Object> templateVars) {
 
-    // TODO add validation (at least one to/from address etc)
-
     final String html = composeMailMessage(templateName, templateVars, locale, "html");
     final String plainText = composeMailMessage(templateName, templateVars, locale, "plaintext");
-
-    // TODO add validation html and plaintext available?
 
     final InternetAddress[] recipientAddressess = new InternetAddress[recipients.size()];
     int i = 0;

@@ -100,7 +100,6 @@ app.graphs = function() {
       },
 
       // Put the data in a new array, with the name, total, spEntityId and index; order it.
-      // TODO can we use objects instead of plain arrays here?
       formatForOverview: function(data) {
         var newArray = [];
 
@@ -632,7 +631,6 @@ app.graphs = function() {
    * 
    * We could use jQuery extend, but it would be overkill
    * 
-   * TODO jQuery.extend(true, {}, dataInstance)
    */
   var copySpDataObject = function(dataInstance) {
     return {
