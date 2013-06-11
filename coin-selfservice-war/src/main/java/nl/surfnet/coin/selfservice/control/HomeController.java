@@ -29,13 +29,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.surfnet.cruncher.Cruncher;
+import org.surfnet.cruncher.model.SpStatistic;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller of the homepage showing 'my apps' (or my services, meaning the
@@ -51,6 +50,9 @@ public class HomeController extends BaseController {
   @Resource
   private Csa csa;
 
+  @Resource
+  private Cruncher cruncher;
+
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
     return personAttributeLabelService.getAttributeLabelMap();
@@ -62,12 +64,13 @@ public class HomeController extends BaseController {
     Map<String, Object> model = new HashMap<String, Object>();
 
     List<Service> services = csa.getServicesForIdp(selectedIdp.getId());
+    addLastLoginDateToServices(services, selectedIdp.getId());
     model.put(SERVICES, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
-    addLicensedConnectedCounts(model, services);
+    addLicensedConnectedLoginCounts(model, services);
     model.put("showFacetSearch", true);
 
     List<Category> facets = this.filterFacetValues(services, csa.getTaxonomy());
@@ -77,7 +80,27 @@ public class HomeController extends BaseController {
     return new ModelAndView("app-overview", model);
   }
 
-  private void addLicensedConnectedCounts(Map<String, Object> model, List<Service> services) {
+  private void addLastLoginDateToServices(List<Service> services, String selectedIdpId) {
+    List<SpStatistic> loginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), selectedIdpId);
+    for (SpStatistic spStatistic : loginsForUser) {
+      Service service = getServiceBySpEntityId(services, spStatistic.getSpEntityId());
+      if (service != null) {
+        service.setLastLoginDate(new Date(spStatistic.getEntryTime()));
+      }
+    }
+  }
+
+  private Service getServiceBySpEntityId(List<Service> services, String spEntityId) {
+    for (Service service : services) {
+      if (service.getSpEntityId().equalsIgnoreCase(spEntityId)) {
+        return service;
+      }
+    }
+    //corner-case, but can happen in theory
+    return null;
+  }
+
+  private void addLicensedConnectedLoginCounts(Map<String, Object> model, List<Service> services) {
     int connectedCount = getConnectedCount(services);
     model.put("connectedCount", connectedCount);
     model.put("notConnectedCount", services.size() - connectedCount);
@@ -85,6 +108,11 @@ public class HomeController extends BaseController {
     int licensedCount = getLicensedCount(services);
     model.put("licensedCount", licensedCount);
     model.put("notLicensedCount", services.size() - licensedCount);
+
+    int recentlyLoggedInCount = getRecentlyLoggedInCount(services);
+
+    model.put("recentLoginCount", recentlyLoggedInCount);
+    model.put("noRecentLoginCount", services.size()  - recentlyLoggedInCount);
   }
 
   private boolean isCategoryValuesUsed(List<Category> categories) {
@@ -112,6 +140,16 @@ public class HomeController extends BaseController {
     int result = 0;
     for (Service service : services) {
       if (service.isConnected()) {
+        ++result;
+      }
+    }
+    return result;
+  }
+
+  private int getRecentlyLoggedInCount(List<Service> services) {
+    int result = 0;
+    for (Service service : services) {
+      if (service.getLastLoginDate() != null) {
         ++result;
       }
     }

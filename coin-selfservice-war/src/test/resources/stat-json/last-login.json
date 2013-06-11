@@ -1,0 +1,15 @@
+[
+  {
+    "spEntityId": "http://mujina-sp-1077",
+    "entryTime": 1335088121000
+  },
+  {
+    "spEntityId": "http://wordpress.conext.dev/wordpress-conext/trunk/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+    "entryTime": 1335088121000
+  },
+  {
+    "spEntityId": "https://beta.foodl.org/gadget/activity.xml",
+    "entryTime": 1335088121000
+
+  }
+]

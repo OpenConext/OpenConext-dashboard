@@ -6,11 +6,20 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
+import nl.surfnet.coin.csa.model.Service;
+import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.core.io.ClassPathResource;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
 
 public class MockCruncherImpl implements Cruncher {
+
+  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+          .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
   public MockCruncherImpl(String cruncherClientKey, String cruncherClientSecret, String cruncherBaseLocation, String apisOAuth2AuthorizationUrl) {
   }
@@ -37,23 +46,19 @@ public class MockCruncherImpl implements Cruncher {
 
   @Override
   public List<SpStatistic> getRecentLoginsForUser(String s, String s2) {
-    return null;
+    try {
+      return objectMapper.readValue(new ClassPathResource("stat-json/last-login.json").getInputStream(), new TypeReference<List<SpStatistic>>() {});
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private String getLoginStats() {
-    ClassPathResource statsFile = new ClassPathResource("stat-json/stats.json");
-    ByteArrayOutputStream output = null;
     try {
-      InputStream input = statsFile.getInputStream();
-      output = new ByteArrayOutputStream();
-      while (input.available() > 0) {
-        output.write(input.read());
-      }
+      return IOUtils.toString(new ClassPathResource("stat-json/stats.json").getInputStream());
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return output.toString();
   }
 
 }
