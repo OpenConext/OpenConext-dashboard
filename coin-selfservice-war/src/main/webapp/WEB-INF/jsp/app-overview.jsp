@@ -122,7 +122,7 @@
                   <img src="<c:url value="${service.logoUrl}"/>"/>
                 </c:if>
                 <c:if test="${not empty service.lastLoginDate and isCard}">
-                  <p class="recent-login">
+                  <p class="recent-login" data-title="${spTitle}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.app_overview.recent_login_popover" />">
                     <i class="icon-user"></i>
                     <fmt:formatDate value="${service.lastLoginDate}" pattern="dd-MM-yyyy HH:mm" />
                   </p>

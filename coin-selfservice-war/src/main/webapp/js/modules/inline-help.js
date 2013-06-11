@@ -11,7 +11,7 @@ app.inlineHelp = function () {
     });
 
     // Inline help for shop admin
-    $("i.inlinehelp").popover({
+    $("i.inlinehelp,p.recent-login").popover({
       'trigger': 'hover',
       'placement': 'top'});
 
