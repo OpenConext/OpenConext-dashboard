@@ -45,12 +45,14 @@ public class CsaMock implements Csa {
 
   @Override
   public List<Service> getPublicServices() {
-    return (List<Service>) parseJsonData(new TypeReference<List<Service>>(){}, "csa-json/public-services.json");
+    List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>() {}, "csa-json/public-services.json");
+    return restoreCategoryReferences(services);
   }
 
   @Override
   public List<Service> getProtectedServices() {
-    return (List<Service>) parseJsonData(new TypeReference<List<Service>>(){}, "csa-json/protected-services.json");
+    List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>(){}, "csa-json/protected-services.json");
+    return restoreCategoryReferences(services);
   }
 
   @Override
@@ -87,7 +89,16 @@ public class CsaMock implements Csa {
 
   @Override
   public Taxonomy getTaxonomy() {
-    return (Taxonomy) parseJsonData(new TypeReference<Taxonomy>(){}, "csa-json/taxonomy.json");
+    Taxonomy taxonomy = (Taxonomy) parseJsonData(new TypeReference<Taxonomy>() {}, "csa-json/taxonomy.json");
+    List<Category> categories = taxonomy.getCategories();
+    for (Category category : categories) {
+      List<CategoryValue> values = category.getValues();
+      for (CategoryValue value : values) {
+        value.setCategory(category);
+      }
+    }
+    return taxonomy;
+
   }
 
   @Override
@@ -125,5 +136,13 @@ public class CsaMock implements Csa {
 
   public void setOauthClient(OauthClient oauthClient) {
   }
+
+  private List<Service> restoreCategoryReferences(List<Service> services) {
+    for (Service service : services) {
+      service.restoreCategoryReferences();
+    }
+    return services;
+  }
+
 
 }

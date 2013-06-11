@@ -302,7 +302,25 @@
     "enduserDescription": "Csa portal to manage connections to services",
     "connected": false,
     "hasCrmLink": false,
-    "spEntityId": "https://csa.dev.surfconext.nl"
+    "spEntityId": "https://csa.dev.surfconext.nl",
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": 31,
@@ -313,7 +331,25 @@
     "enduserDescription": "Wordpress laptop | Development",
     "connected": false,
     "hasCrmLink": false,
-    "spEntityId": "http://wordpress.conext.dev/wordpress-conext/trunk/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    "spEntityId": "http://wordpress.conext.dev/wordpress-conext/trunk/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": 55,
@@ -324,6 +360,24 @@
     "enduserDescription": "http://mujina-sp-1077",
     "connected": true,
     "hasCrmLink": false,
-    "spEntityId": "http://mujina-sp-1077"
+    "spEntityId": "http://mujina-sp-1077",
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ]
   }
 ]

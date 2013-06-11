@@ -44,7 +44,7 @@
             <c:if test="${facet.usedFacetValues}">
               <li class="facet-name">${facet.name}</li>
               <ul class="facets-values">
-                <c:forEach items="${facet.facetValues}" var="facetValue">
+                <c:forEach items="${facet.values}" var="facetValue">
                   <c:if test="${facetValue.count gt 0}">
                     <li><a class="facet-value inactive" data-facet-search-term="${facetValue.searchValue}" href="#">${facetValue.value} <span>(${facetValue.count})</span></a></li>
                   </c:if>
