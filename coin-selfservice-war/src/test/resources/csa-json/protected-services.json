@@ -1,366 +1,41 @@
 [
   {
-    "id": 12,
-    "logoUrl": "http://localhost:8282/csa/fieldimages/23.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/24.img",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "SNlabs"
-  },
-  {
-    "id": 10,
-    "logoUrl": "http://localhost:8282/csa/fieldimages/19.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/20.img",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://cms.surfmedia.local/admin/saml-metadata.php"
-  },
-  {
-    "id": 8,
-    "logoUrl": "http://localhost:8282/csa/fieldimages/15.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/16.img",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "Foodle External Groups"
-  },
-  {
-    "id": 4,
-    "logoUrl": "http://localhost:8282/csa/fieldimages/7.img",
-    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=null",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/8.img",
-    "connected": true,
-    "hasCrmLink": true,
-    "crmArticle": {
-      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
-      "appleAppStoreUrl": "http://appleAppStoreMedium.dummy",
-      "androidPlayStoreUrl": "http://androidPlayStoreMedium.dummy"
-    },
-    "license": {
-      "startDate": 1333885898711,
-      "endDate": 1365421898639,
-      "institutionName": "office365_pro",
-      "groupLicense": true
-    },
-    "spEntityId": "http://www.google.com"
-  },
-  {
     "id": 1,
-    "logoUrl": "http://localhost:8282/csa/fieldimages/1.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/2.img",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://admin.ebdev.local/simplesaml/module.php/saml/sp/metadata.php/default-sp"
-  },
-  {
-    "id": 29,
-    "name": "",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/57.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/58.img",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://gadgets.steinwelberg.nl"
-  },
-  {
-    "id": 33,
-    "name": "",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/65.img",
-    "detailLogoUrl": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Glider.svg/140px-Glider.svg.png",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://mock-sp2"
-  },
-  {
-    "id": 36,
-    "name": "",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/71.img",
-    "detailLogoUrl": "https://.png",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://frkosp.wind.surfnet.nl/fts/"
-  },
-  {
-    "id": 42,
-    "name": "",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/83.img",
-    "detailLogoUrl": "https://.png",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://rave.dev.surfconext.nl"
-  },
-  {
-    "id": 51,
-    "name": "",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/101.img",
-    "detailLogoUrl": "https://.png",
-    "supportUrl": "http://localhost:8020/csa/?lang=en",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://local-csa"
-  },
-  {
-    "id": 53,
-    "name": "",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/105.img",
-    "detailLogoUrl": "https://.png",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://oaaas-dev"
-  },
-  {
-    "id": 56,
-    "name": "",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/111.img",
-    "detailLogoUrl": "https://.png",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://api.dev.surfconext.nl/"
-  },
-  {
-    "id": 39,
-    "name": "Foodle | Development",
-    "description": "Foodle | Development",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/77.img",
-    "detailLogoUrl": "https://wayf.surfnet.nl/federate/surfnet/img/logo/foodle.png",
-    "enduserDescription": "Bacon ipsum dolor sit amet shank capicola speck shankle. Jowl ball tip shoulder, corned beef biltong turkey shank ham beef meatball kielbasa jerky strip steak tri-tip. Ham hock capicola bacon, t-bone shank strip steak salami jowl turducken. Swine tail spare ribs jowl, pig tongue pork loin capicola fatback short loin ham hock brisket strip steak venison pastrami.",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://beta.foodl.org/gadget/activity.xml"
-  },
-  {
-    "id": 16,
-    "name": "Gadgets Jasha (oAuth)",
-    "description": "Gadgets Jasha (oAuth)",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/31.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/32.img",
-    "supportUrl": "gadgets.jasha.eu",
-    "enduserDescription": "Gadgets Jasha (oAuth)",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://gadgets.jasha.eu"
-  },
-  {
-    "id": 6,
-    "name": "Google Apps for apps.surfnet.nl",
-    "description": "Google Apps for apps.surfnet.nl",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/11.img",
-    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=null",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/12.img",
-    "enduserDescription": "Google Apps for apps.surfnet.nl",
+    "name": "Full service",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
     "connected": true,
     "hasCrmLink": true,
     "crmArticle": {
       "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
-      "appleAppStoreUrl": "http://appleAppStoreMedium.dummy",
-      "androidPlayStoreUrl": "http://androidPlayStoreMedium.dummy"
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
     },
     "license": {
-      "startDate": 1333885898711,
-      "endDate": 1365421898639,
-      "institutionName": "office365_pro",
+      "startDate": 1339365600000,
+      "endDate": 1402437600000,
+      "licenseNumber": "the license number",
+      "institutionName": "Mock Institution Name",
       "groupLicense": true
     },
-    "spEntityId": "google.com/a/apps.surfnet.nl"
-  },
-  {
-    "id": 19,
-    "name": "Grouper - peterc.local",
-    "description": "Grouper - peterc.local",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/37.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/38.img",
-    "enduserDescription": "Grouper - peterc.local",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://grouper.dom.loc/shibboleth"
-  },
-  {
-    "id": 27,
-    "name": "SURFconext LimeSurvey | Experimenteel | SURFnet",
-    "description": "SURFconext LimeSurvey | Experimenteel | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/53.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/54.img",
-    "enduserDescription": "SURFconext LimeSurvey | Experimenteel | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://limesurvey.conext.surfnetlabs.nl/limesurvey/simplesaml/module.php/saml/sp/metadata.php/default-sp"
-  },
-  {
-    "id": 14,
-    "name": "SURFconext Manage | Dev | SURFnet",
-    "description": "SURFconext Manage | Dev | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/27.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/28.img",
-    "supportUrl": "https://manage.dev.surfconext.nl",
-    "enduserDescription": "SURFconext Manage | Dev | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://manage.dev.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
-  },
-  {
-    "id": 25,
-    "name": "SURFconext Mediawiki Mark Dev | Experimenteel | SURFnet",
-    "description": "SURFconext Mediawiki Mark Dev | Experimenteel | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/49.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/50.img",
-    "enduserDescription": "SURFconext Mediawiki Mark Dev | Experimenteel | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://mediawiki.conext.dev/MediaWiki/simplesaml/module.php/saml/sp/metadata.php/default-sp"
-  },
-  {
-    "id": 37,
-    "name": "SURFconext Profile | Dev | SURFnet",
-    "description": "SURFconext Profile | Dev | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/73.img",
-    "detailLogoUrl": "https://.png",
-    "enduserDescription": "SURFconext Profile | Dev | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://profile.dev.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
-  },
-  {
-    "id": 41,
-    "name": "SURFconext Rave Shindig | Dev | Surfnet",
-    "description": "SURFconext Rave Shindig | Dev | Surfnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/81.img",
-    "detailLogoUrl": "https://.png",
-    "supportUrl": "https://rave-shindig.dev.surfconext.nl",
-    "enduserDescription": "SURFconext Rave Shindig | Dev | Surfnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://rave-shindig.dev.surfconext.nl/shibboleth"
-  },
-  {
-    "id": 21,
-    "name": "SURFconext Rave | Dev | SURFnet",
-    "description": "SURFconext Rave | Dev | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/41.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/42.img",
-    "supportUrl": "https://rave.dev.surfconext.nl/portal",
-    "enduserDescription": "SURFconext Rave | Dev | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://rave.dev.surfconext.nl/shibboleth"
-  },
-  {
-    "id": 2,
-    "name": "SURFconext Serviceregistry | Dev | SURFnet",
-    "description": "SURFconext Serviceregistry | Dev | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/3.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/4.img",
-    "supportUrl": "https://servicregistry.dev.surfconext.nl",
-    "supportMail": "boy+support@ibuildings.nl",
-    "enduserDescription": "SURFconext Serviceregistry | Dev | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://serviceregistry.dev.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
-  },
-  {
-    "id": 23,
-    "name": "SURFconext Shindig | Dev | SURFnet",
-    "description": "SURFconext Shindig | Dev | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/45.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/46.img",
-    "enduserDescription": "SURFconext Shindig | Dev | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://os.dev.surfconext.nl/shibboleth"
-  },
-  {
-    "id": 46,
-    "name": "SURFconext Teams | Dev | SURFnet",
-    "description": "SURFconext Teams | Dev | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/91.img",
-    "detailLogoUrl": "https://static.surfconext.nl/media/surfconext.png",
-    "supportUrl": "https://teams.dev.surfconext.nl",
-    "enduserDescription": "Web application to manage teams for the SURFconext platform",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://teams.dev.surfconext.nl/shibboleth"
-  },
-  {
-    "id": 57,
-    "name": "SURFconext Test SP | Dev | SURFnet",
-    "description": "SURFconext Test SP | Dev | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/113.img",
-    "detailLogoUrl": "https://wiki.surfnetlabs.nl/wayf/images/fedlogos/surfconext.png",
-    "supportUrl": "https://testsp.dev.surfconext.nl",
-    "eulaUrl": "https://wiki.surfnetlabs.nl/display/OpenConext/Licenses",
-    "enduserDescription": "SURFconext Test SP | Dev | SURFnet",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "https://testsp.dev.surfconext.nl/shibboleth"
-  },
-  {
-    "id": 49,
-    "name": "SURFconext | Self service | SURFnet",
-    "description": "SURFconext | Self service | SURFnet",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/97.img",
-    "detailLogoUrl": "https://static.surfconext.nl/media/surfconext.png",
-    "supportUrl": "http://www.surfnet.nl/en/Thema/coin/Pages/default.aspx",
-    "eulaUrl": "http://www.surfnet.nl/en/pages/disclaimer.aspx",
-    "supportMail": "help@surfconext.nl",
-    "enduserDescription": "Csa portal to manage connections to services",
-    "connected": false,
-    "hasCrmLink": false,
-    "spEntityId": "https://csa.dev.surfconext.nl",
-    "categories": [
-      {
-        "name": "Location",
-        "values": [
-          {
-            "value": "Netherlands"
-          }
-        ]
-      },
-      {
-        "name": "Target Group",
-        "values": [
-          {
-            "value": "Researchers"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 31,
-    "name": "Wordpress laptop | Development",
-    "description": "Wordpress laptop | Development",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/61.img",
-    "detailLogoUrl": "http://localhost:8282/csa/fieldimages/62.img",
-    "enduserDescription": "Wordpress laptop | Development",
-    "connected": false,
-    "hasCrmLink": false,
-    "spEntityId": "http://wordpress.conext.dev/wordpress-conext/trunk/simplesaml/module.php/saml/sp/metadata.php/default-sp",
-    "categories": [
-      {
-        "name": "Location",
-        "values": [
-          {
-            "value": "Netherlands"
-          }
-        ]
-      },
-      {
-        "name": "Target Group",
-        "values": [
-          {
-            "value": "Researchers"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 55,
-    "name": "http://mujina-sp-1077",
-    "description": "http://mujina-sp-1077",
-    "logoUrl": "http://localhost:8282/csa/fieldimages/109.img",
-    "detailLogoUrl": "https://.png",
-    "enduserDescription": "http://mujina-sp-1077",
-    "connected": true,
-    "hasCrmLink": false,
-    "spEntityId": "http://mujina-sp-1077",
     "categories": [
       {
         "name": "Location",
@@ -378,6 +53,358 @@
           }
         ]
       }
-    ]
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+        "urn:mace:dir:attribute-def:uid": [
+          "*"
+        ],
+        "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:mail": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:preferredLanguage": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:displayName": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+          "*"
+        ],
+        "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+          "*"
+        ],
+        "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:cn": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:sn": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:givenName": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": [
+          "*"
+        ]
+      },
+      "noArp": false,
+      "noAttrArp": false
+    }
+  },
+  {
+    "id": 2,
+    "name": "No ARP",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "license": {
+      "startDate": 1339365600000,
+      "endDate": 1402437600000,
+      "licenseNumber": "the license number",
+      "institutionName": "Mock Institution Name",
+      "groupLicense": true
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true,
+      "noAttrArp": false
+    }
+  },
+  {
+    "id": 3,
+    "name": "ARP with no attributes",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "license": {
+      "startDate": 1339365600000,
+      "endDate": 1402437600000,
+      "licenseNumber": "the license number",
+      "institutionName": "Mock Institution Name",
+      "groupLicense": true
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": false,
+      "noAttrArp": true
+    }
+  },
+  {
+    "id": 4,
+    "name": "No CRM information",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": false,
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true
+    }
+  },
+  {
+    "id": 5,
+    "name": "No License",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true,
+      "noAttrArp": false
+    }
+  },
+  {
+    "id": 6,
+    "name": "Not recently used",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "connected": false,
+    "hasCrmLink": false,
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true
+    }
   }
+
+
+
 ]
