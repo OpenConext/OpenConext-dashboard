@@ -1,12 +1,6 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.List;
-
-import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.oauth.OauthClient;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -16,12 +10,16 @@ import org.springframework.core.io.ClassPathResource;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
 
-public class MockCruncherImpl implements Cruncher {
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+public class CruncherMock implements Cruncher {
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
-  public MockCruncherImpl(String cruncherClientKey, String cruncherClientSecret, String cruncherBaseLocation, String apisOAuth2AuthorizationUrl) {
+  public CruncherMock(String cruncherBaseLocation) {
   }
 
   @Override
@@ -61,4 +59,7 @@ public class MockCruncherImpl implements Cruncher {
     }
   }
 
+  @Override
+  public void setOauthClient(OauthClient oc) {
+  }
 }
