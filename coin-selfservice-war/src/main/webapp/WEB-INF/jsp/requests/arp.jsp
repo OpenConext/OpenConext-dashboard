@@ -16,15 +16,18 @@
   ~ limitations under the License.
   --%>
 <div class="arp-info">
+
 	<c:choose>
-	  <c:when test="${not empty service.arp}">
+	  <c:when test="${service.arp.noArp}">
+      <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${service.name}"/></p>
+    </c:when>
+    <c:when test="${service.arp.noAttrArp}">
+      <p><spring:message code="jsp.sp_detail.arp.noattr.text" arguments="${service.name}"/></p>
+    </c:when>
+    <c:otherwise>
 		  <h2><spring:message code="jsp.sp_detail.arp"/></h2>
-		
 		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${service.name}"/></p>
 		    <table>
-		      <c:if test="${service.arp.noArp}">
-		        <tr><td><spring:message code="jsp.sp_detail.arp.nopolicy"/></td></tr>
-		      </c:if>
 		      <c:forEach items="${service.arp.attributes}" var="att">
             <tr>
               <c:if test="${not rawArpAttributesVisible}">
@@ -48,9 +51,6 @@
 		        </tr>
 		      </c:forEach>
 		    </table>
-	  </c:when>
-	  <c:otherwise>
-	    <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${service.name}"/></p>
 	  </c:otherwise>
 	</c:choose>
 </div>
