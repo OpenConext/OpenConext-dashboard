@@ -45,14 +45,14 @@
                 </tr>
               </thead>
               <tbody>
-                <c:forEach items="${notificationMessage.arguments}" var="cspArgument">
+                <c:forEach items="${notificationMessage.arguments}" var="service">
                   <spring:url value="/app-detail.shtml" var="detailUrl" htmlEscape="true">
-                    <spring:param name="compoundSpId" value="${cspArgument.id}" />
+                    <spring:param name="serviceId" value="${service.id}" />
                   </spring:url>
                   <tr>
                     <td class="notification-image">
-                      <c:if test="${not empty cspArgument.appStoreLogo}">
-                        <img src="<c:url value="${cspArgument.appStoreLogo}"/>" width="30" height="30" alt="">
+                      <c:if test="${not empty service.logoUrl}">
+                        <img src="<c:url value="${service.logoUrl}"/>" width="30" height="30" alt="">
                       </c:if>
                     </td>
                     <td>
@@ -62,7 +62,7 @@
                     </td>
                     <td>
                       <c:choose>
-                        <c:when test="${cspArgument.licenseAvailable}">
+                        <c:when test="${not empty service.license}">
                           <i class="icon-ok"/>
                         </c:when>
                         <c:otherwise>
@@ -72,7 +72,7 @@
                     </td>
                     <td>
                       <c:choose>
-                        <c:when test="${cspArgument.sp.linked}">
+                        <c:when test="${service.connected}">
                           <i class="icon-ok"/>
                         </c:when>
                         <c:otherwise>
