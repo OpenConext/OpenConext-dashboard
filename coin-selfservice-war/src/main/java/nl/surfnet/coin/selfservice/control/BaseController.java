@@ -121,7 +121,7 @@ public abstract class BaseController {
    * Key for the selectedIdp in the session
    */
   protected static final String SELECTED_IDP = "selectedIdp";
-
+  
   @Resource
   private NotificationService notificationService;
 
