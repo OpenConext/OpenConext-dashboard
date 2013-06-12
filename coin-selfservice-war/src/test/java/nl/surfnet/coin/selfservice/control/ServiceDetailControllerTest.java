@@ -31,6 +31,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,9 +50,6 @@ public class ServiceDetailControllerTest {
   private ServiceDetailController controller;
 
   @Mock
-  private CoinUser coinUser;
-
-  @Mock
   private LocaleResolver localeResolver;
 
   @Mock
@@ -68,20 +66,15 @@ public class ServiceDetailControllerTest {
     MockitoAnnotations.initMocks(this);
 
     request = new MockHttpServletRequest();
-    when(coinUser.getUid()).thenReturn("urn:collab:person:example.edu:john.doe");
-    SecurityContextHolder.getContext().setAuthentication(getAuthentication());
+    request.getSession().setAttribute(BaseController.SELECTED_IDP, new InstitutionIdentityProvider("id", "name", "inst"));
 
   }
 
   @Test
   public void testSpDetail() throws Exception {
-
-    InstitutionIdentityProvider idp = new InstitutionIdentityProvider();
-    idp.setId("mockIdP");
     Service service = getService();
-    when(csa.getServiceForIdp("mockIdP", 1L)).thenReturn(service);
-
-    final ModelAndView modelAndView = controller.serviceDetail(1L, null, null, idp, request);
+    when(csa.getServiceForIdp("id", 1L)).thenReturn(service);
+    final ModelAndView modelAndView = controller.serviceDetail(1L, null, null, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
   }
@@ -90,8 +83,5 @@ public class ServiceDetailControllerTest {
     return new Service(1L, "", "", "", false, null, "");
   }
 
-  private Authentication getAuthentication() {
-    return new TestingAuthenticationToken(coinUser, "");
-  }
 
 }

@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 
@@ -30,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.surfnet.cruncher.Cruncher;
@@ -48,9 +48,10 @@ public class StatisticsController extends BaseController {
   private Cruncher cruncher;
 
   @RequestMapping("/stats.shtml")
-  public String stats(ModelMap model, @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp,
-                      @RequestParam(value = "spEntityId", required = false) final String selectedSp) {
-    model.put(SELECTED_IDP, selectedIdp);
+  public String stats(ModelMap model,
+                      @RequestParam(value = "spEntityId", required = false) final String selectedSp, HttpServletRequest request) {
+
+    InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
 
     // default return all statistics for the last two years
     Calendar twoYearsBack = Calendar.getInstance();

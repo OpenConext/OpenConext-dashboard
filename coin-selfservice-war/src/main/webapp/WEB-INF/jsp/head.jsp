@@ -67,7 +67,7 @@
               <c:forEach items="${idps}" var="idp">
                 <li class="user-role-manager ${selectedIdp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
                       <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
-                        <spring:param name="idpId" value="${idp.id}" />
+                        <spring:param name="switchIdpId" value="${idp.id}" />
                       </spring:url>
                       <a href="${toggleLink}">${idp.name}</a>
                 </li>

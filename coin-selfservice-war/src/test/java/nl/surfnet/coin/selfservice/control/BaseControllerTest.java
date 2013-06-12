@@ -74,7 +74,7 @@ public class BaseControllerTest {
     idp2.setId("idpId_2");
     when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp1, idp2));
 
-    final InstitutionIdentityProvider identityProvider = baseController.getRequestedIdp("idpId_2", request);
+    final InstitutionIdentityProvider identityProvider = baseController.switchIdp(request,"idpId_2");
     assertEquals(idp2, identityProvider);
   }
 
@@ -85,7 +85,7 @@ public class BaseControllerTest {
     MockHttpServletRequest request = new MockHttpServletRequest();
     request.getSession().setAttribute(BaseController.SELECTED_IDP, idp2);
 
-    final InstitutionIdentityProvider identityProvider = baseController.getRequestedIdp(null, request);
+    final InstitutionIdentityProvider identityProvider = baseController.getSelectedIdp(request);
     assertEquals(idp2, identityProvider);
   }
 

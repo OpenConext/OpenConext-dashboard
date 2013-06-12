@@ -32,7 +32,7 @@ public class NotificationController extends BaseController {
 
 
   @RequestMapping(value = "notifications.shtml")
-  public ModelAndView listActions(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, HttpServletRequest request)
+  public ModelAndView listActions(HttpServletRequest request)
           throws IOException {
     //if an user acutally links to notifications we can dismiss the popup
     notificationPopupClosed(request);

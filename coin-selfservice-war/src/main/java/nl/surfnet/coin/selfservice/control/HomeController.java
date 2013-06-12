@@ -25,6 +25,7 @@ import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,12 +60,18 @@ public class HomeController extends BaseController {
   }
 
   @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp,
-                           @RequestParam(value = "view", defaultValue = "card") String view) {
+  public ModelAndView home(@RequestParam(value = "switchIdpId", required = false) String switchIdpId,
+                           @RequestParam(value = "view", defaultValue = "card") String view, HttpServletRequest request) {
     Map<String, Object> model = new HashMap<String, Object>();
-
-    List<Service> services = csa.getServicesForIdp(selectedIdp.getId());
-    addLastLoginDateToServices(services, selectedIdp.getId());
+    InstitutionIdentityProvider identityProvider;
+    if (StringUtils.hasText(switchIdpId)) {
+      identityProvider = switchIdp(request, switchIdpId);
+    } else {
+      identityProvider = getSelectedIdp(request);
+    }
+    getSelectedIdp(request);
+    List<Service> services = csa.getServicesForIdp(identityProvider.getId());
+    addLastLoginDateToServices(services, identityProvider.getId());
     model.put(SERVICES, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
