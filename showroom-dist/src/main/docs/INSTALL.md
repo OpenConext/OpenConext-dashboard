@@ -70,8 +70,6 @@ Out-of-the-box the tarball comes with a number of different property files.
 A number of property files are delivered:
 
 - showroom.properties.<<ENV>>
-- selfservice-ehcache.xml.<<ENV>>
-
 
 For different environments different property files are delivered. Pick the
 appropriate property file for your environment from the following directory:
@@ -79,7 +77,6 @@ appropriate property file for your environment from the following directory:
 
 Copy the chosen property files to:
 `<<CATALINA_HOME>>/conf/classpath_properties/showroom.properties`
-`<<CATALINA_HOME>>/conf/classpath_properties/selfservice-ehcache.xml`
 `<<CATALINA_HOME>>/conf/classpath_properties/showroom-logback.xml`
 
 Edit the values of the property files according to your environment.
