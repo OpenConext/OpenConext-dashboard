@@ -61,7 +61,7 @@ app.graphs = function() {
 
       getSpEntityIdByName: function(str) {
         var dataElement = $.grep(masterData, function(n) {
-          return n.name.substring(0, str.length) === str;
+          return n.spName.substring(0, str.length) === str;
         });
         return dataElement[0].spEntityId;
       },
@@ -104,7 +104,7 @@ app.graphs = function() {
         var newArray = [];
 
         for ( var i = 0, l = data.length; i < l; ++i) {
-          newArray.push([ data[i].name, data[i].total, data[i].spEntityId,  i ]);
+          newArray.push([ data[i].spName, data[i].total, data[i].spEntityId,  i ]);
         }
 
         newArray.sort(function(a, b) {
@@ -448,7 +448,7 @@ app.graphs = function() {
 
     var title;
     if (data.data) {
-      title = app.message.i18n('stats.title.sp_overview').replace('#{sp}', data.name)
+      title = app.message.i18n('stats.title.sp_overview').replace('#{sp}', data.spName)
         .replace('#{total}', filteredData.total);
     } else {
       title = "No data";
@@ -634,7 +634,7 @@ app.graphs = function() {
    */
   var copySpDataObject = function(dataInstance) {
     return {
-      'name' : dataInstance.name,
+      'name' : dataInstance.spName,
       'pointInterval' : dataInstance.pointInterval,
       'pointStart' : dataInstance.pointStart,
       'spEntityId' : dataInstance.spEntityId,

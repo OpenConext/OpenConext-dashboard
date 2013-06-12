@@ -61,7 +61,7 @@
     </nav>
     
     <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedIdp.id}" data-is-god="false"></div>
-    <div id="sp-detail-chart" data-spEntityId="${spEntityId}"></div>
+    <div id="sp-detail-chart" data-spEntityId="${selectedSp}"></div>
   </section>
 </div>
 <script>
