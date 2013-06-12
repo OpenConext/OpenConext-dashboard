@@ -16,26 +16,24 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class NotificationController extends BaseController {
 
 
   @RequestMapping(value = "notifications.shtml")
-  public ModelAndView listActions(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, HttpServletRequest request)
-    throws IOException {
+  public ModelAndView listActions(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, HttpServletRequest request)
+          throws IOException {
     //if an user acutally links to notifications we can dismiss the popup
     notificationPopupClosed(request);
 

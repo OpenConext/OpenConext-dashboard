@@ -16,24 +16,16 @@
 
 package nl.surfnet.coin.selfservice.command;
 
+import nl.surfnet.coin.csa.model.JiraTask;
+
 import javax.validation.constraints.AssertTrue;
 
-public class LinkRequest {
+public class LinkRequest extends AbstractAction{
 
   private String notes;
 
   @AssertTrue
   private boolean agree;
-
-  private boolean unlinkRequest;
-
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-  }
 
   public boolean isAgree() {
     return agree;
@@ -43,12 +35,14 @@ public class LinkRequest {
     this.agree = agree;
   }
 
-
-  public boolean isUnlinkRequest() {
-    return unlinkRequest;
+  public String getNotes() {
+    return notes;
   }
 
-  public void setUnlinkRequest(boolean unlinkRequest) {
-    this.unlinkRequest = unlinkRequest;
+  public void setNotes(String notes) {
+    this.notes = notes;
   }
+
+
+
 }

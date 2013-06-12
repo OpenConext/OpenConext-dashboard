@@ -6,11 +6,8 @@
 <div class="modal hide fade">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <c:set var="spname">
-      <tags:providername provider="${compoundSp.sp}" />
-    </c:set>
     <p class="recommendation-header">
-      <spring:message code="jsp.app_recommendation.header" arguments="${spname}" />
+      <spring:message code="jsp.app_recommendation.header" arguments="${service.name}" />
     </p>
   </div>
   <div class="modal-body">
@@ -21,7 +18,7 @@
         <spring:param name="compoundSpId" value="${compoundSp.id}" />
       </spring:url>
       <input type="hidden" name="detailAppStoreLink" value="${detailAppLink}" />
-      <p><spring:message code="jsp.app_recommendation.email_selection_text" arguments="${spname}" />
+      <p><spring:message code="jsp.app_recommendation.email_selection_text" arguments="${service.name}" />
       </p>
       <div class="error hide">
       </div>

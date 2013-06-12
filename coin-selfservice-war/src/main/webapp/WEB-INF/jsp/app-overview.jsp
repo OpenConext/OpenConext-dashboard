@@ -39,12 +39,17 @@
               <li><a class="facet-value inactive" data-facet-search-term="not-connected" href="#"><spring:message code="jsp.app_overview.no_connection"/> <span>(${notConnectedCount})</span></a></li>
             </ul>
         </c:if>
+        <li class="facet-name"><spring:message code="jsp.app_overview.recently_login_info"/></li>
+          <ul class="facets-values">
+            <li><a class="facet-value inactive" data-facet-search-term="recently-logged-in" href="#"><spring:message code="jsp.app_overview.recent_login"/> <span>(${recentLoginCount})</span></a></li>
+            <li><a class="facet-value inactive" data-facet-search-term="not-recently-logged-in" href="#"><spring:message code="jsp.app_overview.no_recent_login"/> <span>(${noRecentLoginCount})</span></a></li>
+          </ul>
         <c:if test="${facetsUsed}">
           <c:forEach items="${facets}" var="facet">
             <c:if test="${facet.usedFacetValues}">
               <li class="facet-name">${facet.name}</li>
               <ul class="facets-values">
-                <c:forEach items="${facet.facetValues}" var="facetValue">
+                <c:forEach items="${facet.values}" var="facetValue">
                   <c:if test="${facetValue.count gt 0}">
                     <li><a class="facet-value inactive" data-facet-search-term="${facetValue.searchValue}" href="#">${facetValue.value} <span>(${facetValue.count})</span></a></li>
                   </c:if>
@@ -74,19 +79,18 @@
     <section>
     <div style="padding-top: 10px;">
     <div>
-      <ul class="${view}-view app-grid ${filterAppGridAllowed == true ? 'filters-available' : ''} ${lmngActive == true ? 'lmng-active' : ''}">
-      <c:forEach items="${compoundSps}" var="compoundSp">
-            <c:if test="${not empty compoundSp.id}">
-              <c:set var="serviceDescription"><tags:locale-specific nlVariant="${compoundSp.serviceDescriptionNl}" enVariant="${compoundSp.serviceDescriptionEn}" /></c:set>
-              <c:set var="showConnectButton" value="${applyAllowed and (not compoundSp.sp.linked)}" />
-              <li class="${view}-view" data-id="${compoundSp.id}"
-                          data-facet-values="${compoundSp.sp.linked ? "connected" : "not-connected"} ${compoundSp.articleLicenseAvailable ? "licensed" : "not-licensed"} ${compoundSp.searchFacetValues}">
+      <ul class="${view}-view app-grid ${isDashBoard == false ? 'crmAvailable' : ''}">
+      <c:forEach items="${services}" var="service">
+              <c:set var="serviceDescription" value="${service.description}" />
+              <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
+              <li class="${view}-view" data-id="${service.id}"
+                          data-facet-values="${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
                 <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-                  <spring:param name="compoundSpId" value="${compoundSp.id}" />
+                  <spring:param name="serviceId" value="${service.id}" />
                 </spring:url>
 
-                <c:set var="spTitle">
-                  <tags:providername provider="${compoundSp.sp}" />
+                <c:set var="spTitle" >
+                  <c:out default="${service.id}" value="${service.name}" />
                 </c:set>
                 <h2>
                   <a href="${detailUrl}">
@@ -95,37 +99,38 @@
                         hasServiceDescription="${not empty serviceDescription}"
                         hasConnectButton="${showConnectButton}" />
                   </a>
+                  <span>
                 </h2>
                   <c:if test="${!isCard}">
-                  <div class="app-meta-cta">
-                    <c:if test="${not empty compoundSp.appUrl}">
-                      <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
-                        <i class="icon-external-link"></i>
-                      </a>
-                    </c:if>
-                    <c:if test="${showConnectButton and !isCard}">
-                        <a href="<c:url value="/requests/linkrequest.shtml">
-                                <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                                <c:param name="compoundSpId" value="${compoundSp.id}" />
-                              </c:url>" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
-                          <i class='icon-cloud-upload'></i>
+                    <div class="app-meta-cta">
+                      <c:if test="${not empty service.appUrl}">
+                        <a href="${service.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                          <i class="icon-external-link"></i>
                         </a>
-                    </c:if>
+                      </c:if>
+                        <c:if test="${showConnectButton and !isCard}">
+                          <a href="<c:url value="/requests/linkrequest.shtml">
+                                  <c:param name="serviceId" value="${service.id}" />
+                                </c:url>" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
+                            <i class='icon-cloud-upload'></i>
+                          </a>
+                      </c:if>
+                    </div>
+                  </c:if>
 
-                  </div>
+                <c:if test="${not empty service.logoUrl}">
+                  <img src="<c:url value="${service.logoUrl}"/>"/>
                 </c:if>
-
-                <c:if test="${not empty compoundSp.appStoreLogo}">
-                  <img src="<c:url value="${compoundSp.appStoreLogo}"/>"/>
+                <c:if test="${not empty service.lastLoginDate and isCard}">
+                  <p class="recent-login" data-title="${spTitle}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.app_overview.recent_login_popover" />">
+                    <i class="icon-user"></i>
+                    <fmt:formatDate value="${service.lastLoginDate}" pattern="dd-MM-yyyy HH:mm" />
+                  </p>
                 </c:if>
-                <p class="desc">
-                  <c:out value="${serviceDescription}" />
-                </p>
                 <c:if test="${showConnectButton and isCard}">
                   <p class="connect-app">
-                    <a href="<c:url value="/requests/linkrequest.shtml">
-                            <c:param name="spEntityId" value="${compoundSp.sp.id}" />
-                            <c:param name="compoundSpId" value="${compoundSp.id}" />
+                        <a href="<c:url value="/requests/linkrequest.shtml">
+                                <c:param name="serviceId" value="${service.id}" />
                           </c:url>">
                       <spring:message code="jsp.sp_detail.requestlink"/>
                     </a>
@@ -133,7 +138,7 @@
                 </c:if>
                 <c:if test="${isCard}">
                   <div class="app-meta-cta">
-                    <c:if test="${not empty compoundSp.appUrl}">
+                    <c:if test="${not empty service.appUrl}">
                       <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
                         <i class="icon-external-link"></i>
                       </a>
@@ -141,7 +146,6 @@
                   </div>
                 </c:if>
             </li>
-            </c:if>
           </c:forEach>
         </ul>
       </div>

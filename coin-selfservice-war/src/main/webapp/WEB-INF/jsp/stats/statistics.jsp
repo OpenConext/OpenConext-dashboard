@@ -26,17 +26,10 @@
 
   <h1>${title}</h1>
   
-    <!-- Shorter then otherwise -->
-    <c:if test="${isGod eq true}">
-      <p id="stats-info-text"><spring:message code="jsp.stats.info.admin"/></p>
-    </c:if>
-    <c:if test="${isGod eq false}">
-      <c:set var="idpname"><tags:providername provider="${selectedidp}" /></c:set>
-      <p id="stats-info-text">
-        <spring:message code="jsp.stats.info" arguments="${idpname}"/>
-      </p>
-    </c:if>
-    
+    <p id="stats-info-text">
+      <spring:message code="jsp.stats.info" arguments="${selectedIdp.name}"/>
+    </p>
+
   <section class="statistics-holder" >
 
     <nav class="statistics-navigation"> 
@@ -49,20 +42,6 @@
         </a>
       </div>
     </nav>
-
-    <c:if test="${isGod eq true}">
-      <nav class="statistics-idp-filter">
-        <div class="show">
-          <select id="idp-select2">
-            <option></option>
-            <option value=""><spring:message code="jsp.stats.all_idps"/></option>
-            <c:forEach items="${allIdps}" var="idp">
-              <option value="${idp.entityId}">${idp.name}</option>
-            </c:forEach>
-          </select>
-        </div>
-      </nav>
-    </c:if>
 
     <nav class="statistics-filters">
       <div class="show">
@@ -81,9 +60,11 @@
       </div>
     </nav>
     
-    <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedidp.id}" data-is-god="${isGod}"></div>
+    <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedIdp.id}" data-is-god="false"></div>
     <div id="sp-detail-chart" data-spEntityId="${spEntityId}"></div>
   </section>
 </div>
-
+<script>
+var login_stats = eval(<c:out escapeXml="false" value="${login_stats}"/>);
+</script>
 <jsp:include page="../foot.jsp"/>

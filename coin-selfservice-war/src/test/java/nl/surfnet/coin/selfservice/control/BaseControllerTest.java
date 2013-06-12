@@ -16,20 +16,8 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.List;
-
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.Facet;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.TypeFactory;
-import org.codehaus.jackson.type.JavaType;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -39,7 +27,12 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.surfnet.oaaas.auth.ObjectMapperProvider;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link BaseController}
@@ -58,16 +51,16 @@ public class BaseControllerTest {
     MockitoAnnotations.initMocks(this);
     SecurityContextHolder.getContext().setAuthentication(getAuthentication());
   }
-  
- @Test
-  public void testMyIdentityProviders() throws Exception {
-    IdentityProvider idp1 = new IdentityProvider();
+
+  @Test
+  public void testMyInstitutionIdentityProviders() throws Exception {
+    InstitutionIdentityProvider idp1 = new InstitutionIdentityProvider();
     idp1.setId("idpId_1");
-    IdentityProvider idp2 = new IdentityProvider();
+    InstitutionIdentityProvider idp2 = new InstitutionIdentityProvider();
     idp1.setId("idpId_2");
     when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp1, idp2));
 
-    final List<IdentityProvider> identityProviders = baseController.getMyInstitutionIdps();
+    final List<InstitutionIdentityProvider> identityProviders = baseController.getMyInstitutionIdps();
     assertEquals(2, identityProviders.size());
   }
 
@@ -75,24 +68,24 @@ public class BaseControllerTest {
   public void testSelectedIdP() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
 
-    IdentityProvider idp1 = new IdentityProvider();
+    InstitutionIdentityProvider idp1 = new InstitutionIdentityProvider();
     idp1.setId("idpId_1");
-    IdentityProvider idp2 = new IdentityProvider();
+    InstitutionIdentityProvider idp2 = new InstitutionIdentityProvider();
     idp2.setId("idpId_2");
     when(coinUser.getInstitutionIdps()).thenReturn(Arrays.asList(idp1, idp2));
 
-    final IdentityProvider identityProvider = baseController.getRequestedIdp("idpId_2", request);
+    final InstitutionIdentityProvider identityProvider = baseController.getRequestedIdp("idpId_2", request);
     assertEquals(idp2, identityProvider);
   }
 
   @Test
   public void testSelectedIdP_alreadySet() throws Exception {
-    IdentityProvider idp2 = new IdentityProvider();
+    InstitutionIdentityProvider idp2 = new InstitutionIdentityProvider();
     idp2.setId("idpId_2");
     MockHttpServletRequest request = new MockHttpServletRequest();
-    request.getSession().setAttribute("selectedidp", idp2);
+    request.getSession().setAttribute(BaseController.SELECTED_IDP, idp2);
 
-    final IdentityProvider identityProvider = baseController.getRequestedIdp(null, request);
+    final InstitutionIdentityProvider identityProvider = baseController.getRequestedIdp(null, request);
     assertEquals(idp2, identityProvider);
   }
 

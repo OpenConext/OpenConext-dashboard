@@ -22,5 +22,5 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
-  <context:property-placeholder  location="classpath:showroom.properties,classpath:dashboard.properties" ignore-resource-not-found="true"/>
+  <context:property-placeholder location="classpath:application.properties,classpath:showroom.properties,classpath:dashboard.properties" ignore-resource-not-found="true"/>
 </beans>

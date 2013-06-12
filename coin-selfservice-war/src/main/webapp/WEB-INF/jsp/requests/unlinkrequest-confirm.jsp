@@ -18,10 +18,8 @@
 
 <%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
 
-<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
-
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${spname}"/>
+  <jsp:param name="title" value="${service.name}"/>
 </jsp:include>
 
 <sec:authentication property="principal" scope="request" htmlEscape="true" var="principal"/>
@@ -29,7 +27,7 @@
   <div class="column-center content-holder no-right-left">
     <section>
 
-      <h1><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${spname}"/></h1>
+      <h1><spring:message code="jsp.sp_unlinkrequest.pagetitle" arguments="${service.name}"/></h1>
 
       <div class="content">
 
@@ -42,7 +40,7 @@
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
-            <input type="hidden" name="agree" value="true" />
+            <input type="hidden" name="confirmation" value="true" />
             <p>
               <i class="icon-info-sign"></i>
               <spring:message code="jsp.sp_unlinkrequestconfirm.message" />
@@ -51,7 +49,7 @@
               <button type="submit" class="btn btn-primary btn-small"><spring:message
                   code="jsp.sp_unlinkrequestconfirm.buttonsubmit"/></button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="compoundSpId" value="${compoundSpId}" />
+                <spring:param name="id" value="${service.id}" />
               </spring:url>
               <a class="btn btn-small" href="${detailUrl}"><spring:message code="jsp.sp_unlinkrequestconfirm.buttoncancel"/></a>
             </div>

@@ -16,22 +16,18 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,13 +44,17 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-public class SAMLProvisionerTest {
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-  @Mock
-  private IdentityProviderService identityProviderService;
+public class SAMLProvisionerTest {
 
   @InjectMocks
   private SAMLProvisioner provisioner;
+
+  @Mock
+  private Csa csa;
+
 
   @Before
   public void before() {
@@ -64,42 +64,18 @@ public class SAMLProvisionerTest {
 
   @Test
   public void test_provision_happy_flow() throws Exception {
-
+    when(csa.getInstitutionIdentityProviders("https://surfguest.nl")).thenReturn(Collections.singletonList(new InstitutionIdentityProvider("https://surfguest.nl", "SURFguest", null)));
     final Assertion a = readAssertionFromFile("assertion.xml");
-
-    IdentityProvider idp = new IdentityProvider("https://surfguest.nl", "institutionId", "idp-name");
-    IdentityProvider idp2 = new IdentityProvider("https://surfguest.nl/2", "institutionId", "idp-name2");
-    IdentityProvider idp3 = new IdentityProvider("https://surfguest.nl/3", "institutionId", "idp-name3");
-
-    when(identityProviderService.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
-    when(identityProviderService.getInstituteIdentityProviders("institutionId")).thenReturn(Arrays.asList(idp, idp2, idp3));
 
     CoinUser cu = (CoinUser) provisioner.provisionUser(a);
 
     assertEquals("urn:collab:person:surfguest.nl:gvanderploeg", cu.getUsername());
-    assertEquals("https://surfguest.nl", cu.getIdp());
+    assertEquals("https://surfguest.nl", cu.getIdp().getId());
+    assertEquals("SURFguest", cu.getIdp().getName());
     assertEquals("surfguest.nl", cu.getSchacHomeOrganization());
     assertEquals("Geert van der Ploeg", cu.getDisplayName());
     assertEquals("gvanderploeg@iprofs.nl", cu.getEmail());
     assertEquals("urn:collab:person:surfguest.nl:gvanderploeg", cu.getUid());
-    assertThat(cu.getInstitutionId(), is("institutionId"));
-
-    assertThat("Multiple idps belonging to the same institution should be linked", cu.getInstitutionIdps().size(), is(3));
-  }
-
-  @Test
-  public void test_provision_no_institution_id() throws Exception {
-
-    final Assertion a = readAssertionFromFile("assertion.xml");
-
-    IdentityProvider idp = new IdentityProvider("https://surfguest.nl", null, "idp-name");
-
-    when(identityProviderService.getIdentityProvider("https://surfguest.nl")).thenReturn(idp);
-    when(identityProviderService.getInstituteIdentityProviders(null)).thenReturn(null);
-
-    CoinUser cu = (CoinUser) provisioner.provisionUser(a);
-    assertEquals(1,cu.getInstitutionIdps().size());
-    
   }
 
   private Assertion readAssertionFromFile(String filename) throws ConfigurationException, IOException, UnmarshallingException,

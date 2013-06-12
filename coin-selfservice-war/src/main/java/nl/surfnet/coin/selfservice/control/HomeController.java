@@ -16,26 +16,25 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import nl.surfnet.coin.selfservice.dao.FacetDao;
-import nl.surfnet.coin.selfservice.domain.*;
-import nl.surfnet.coin.selfservice.service.impl.CompoundSPService;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.*;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.surfnet.cruncher.Cruncher;
+import org.surfnet.cruncher.model.SpStatistic;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * Controller of the homepage showing 'my apps' (or my services, meaning the
@@ -49,10 +48,10 @@ public class HomeController extends BaseController {
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
   @Resource
-  private CompoundSPService compoundSPService;
+  private Csa csa;
 
   @Resource
-  private FacetDao facetDao;
+  private Cruncher cruncher;
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
@@ -60,57 +59,97 @@ public class HomeController extends BaseController {
   }
 
   @RequestMapping("/app-overview.shtml")
-  public ModelAndView home(@ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
-                           @RequestParam(value = "view", defaultValue = "card") String view, HttpServletRequest request) {
+  public ModelAndView home(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp,
+                           @RequestParam(value = "view", defaultValue = "card") String view) {
     Map<String, Object> model = new HashMap<String, Object>();
 
-    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-    model.put(COMPOUND_SPS, services);
+    List<Service> services = csa.getServicesForIdp(selectedIdp.getId());
+    addLastLoginDateToServices(services, selectedIdp.getId());
+    model.put(SERVICES, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
-    addLicensedConnectedCounts(model, services);
+    addLicensedConnectedLoginCounts(model, services);
     model.put("showFacetSearch", true);
-    List<Facet> facets = this.filterFacetValues(services, facetDao.findAll());
+
+    List<Category> facets = this.filterFacetValues(services, csa.getTaxonomy());
     model.put("facets", facets);
-    model.put("facetsUsed", this.isFacetsUsed(facets) );
+    model.put("facetsUsed", this.isCategoryValuesUsed(facets));
 
     return new ModelAndView("app-overview", model);
   }
 
-  private void addLicensedConnectedCounts(Map<String, Object> model, List<CompoundServiceProvider> services) {
+  private void addLastLoginDateToServices(List<Service> services, String selectedIdpId) {
+    List<SpStatistic> loginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), selectedIdpId);
+    for (SpStatistic spStatistic : loginsForUser) {
+      Service service = getServiceBySpEntityId(services, spStatistic.getSpEntityId());
+      if (service != null) {
+        service.setLastLoginDate(new Date(spStatistic.getEntryTime()));
+      }
+    }
+  }
+
+  private Service getServiceBySpEntityId(List<Service> services, String spEntityId) {
+    for (Service service : services) {
+      if (service.getSpEntityId().equalsIgnoreCase(spEntityId)) {
+        return service;
+      }
+    }
+    //corner-case, but can happen in theory
+    return null;
+  }
+
+  private void addLicensedConnectedLoginCounts(Map<String, Object> model, List<Service> services) {
     int connectedCount = getConnectedCount(services);
     model.put("connectedCount", connectedCount);
     model.put("notConnectedCount", services.size() - connectedCount);
+
     int licensedCount = getLicensedCount(services);
     model.put("licensedCount", licensedCount);
     model.put("notLicensedCount", services.size() - licensedCount);
+
+    int recentlyLoggedInCount = getRecentlyLoggedInCount(services);
+
+    model.put("recentLoginCount", recentlyLoggedInCount);
+    model.put("noRecentLoginCount", services.size()  - recentlyLoggedInCount);
   }
 
-  private boolean isFacetsUsed(List<Facet> facets) {
-    for (Facet facet : facets) {
-      if (facet.isUsedFacetValues()) {
-        return true;
+  private boolean isCategoryValuesUsed(List<Category> categories) {
+    if (CollectionUtils.isNotEmpty(categories)) {
+      for (Category cat : categories) {
+        if (cat.isUsedFacetValues()) {
+          return true;
+        }
       }
     }
     return false;
   }
 
-  private int getLicensedCount(List<CompoundServiceProvider> services) {
+  private int getLicensedCount(List<Service> services) {
     int result = 0;
-    for (CompoundServiceProvider csp : services) {
-      if (csp.isArticleLicenseAvailable()) {
+    for (Service service : services) {
+      if (service.getLicense() != null) {
         ++result;
       }
     }
     return result;
   }
 
-  private int getConnectedCount(List<CompoundServiceProvider> services) {
+  private int getConnectedCount(List<Service> services) {
     int result = 0;
-    for (CompoundServiceProvider csp : services) {
-      if (csp.getSp().isLinked()) {
+    for (Service service : services) {
+      if (service.isConnected()) {
+        ++result;
+      }
+    }
+    return result;
+  }
+
+  private int getRecentlyLoggedInCount(List<Service> services) {
+    int result = 0;
+    for (Service service : services) {
+      if (service.getLastLoginDate() != null) {
         ++result;
       }
     }
@@ -130,18 +169,30 @@ public class HomeController extends BaseController {
     notificationPopupClosed(request);
   }
 
-  private List<Facet> filterFacetValues(List<CompoundServiceProvider> services, List<Facet> facets) {
-    for (Facet facet : facets) {
-      for (FacetValue facetValue : facet.getFacetValues()) {
+  private List<Category> filterFacetValues(List<Service> services, Taxonomy taxonomy) {
+    if (taxonomy == null || taxonomy.getCategories() == null) {
+      return Collections.emptyList();
+    }
+
+    for (Category category : taxonomy.getCategories()) {
+      if (category.getValues() == null) {
+        continue;
+      }
+      for (CategoryValue categoryValue : category.getValues()) {
         int count = 0;
-        for (CompoundServiceProvider service : services) {
-          if (service.getFacetValues().contains(facetValue)) {
-            ++count;
+        for (Service service : services) {
+          if (service.getCategories() == null || service.getCategories().isEmpty()) {
+            continue;
+          }
+          for (Category c : service.getCategories()) {
+            if (c.containsValue(categoryValue.getValue())) {
+              ++count;
+            }
           }
         }
-        facetValue.setCount(count);
+        categoryValue.setCount(count);
       }
     }
-    return facets;
+    return taxonomy.getCategories();
   }
 }

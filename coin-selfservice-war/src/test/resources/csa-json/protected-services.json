@@ -1,0 +1,476 @@
+[
+  {
+    "id": 1,
+    "name": "Full service",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "license": {
+      "startDate": 1339365600000,
+      "endDate": 1402437600000,
+      "licenseNumber": "the license number",
+      "institutionName": "Mock Institution Name",
+      "groupLicense": true
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+        "urn:mace:dir:attribute-def:uid": [
+          "*"
+        ],
+        "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:mail": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:preferredLanguage": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:displayName": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+          "*"
+        ],
+        "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+          "*"
+        ],
+        "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:cn": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:sn": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+          "*"
+        ],
+        "urn:mace:dir:attribute-def:givenName": [
+          "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": [
+          "*"
+        ]
+      },
+      "noArp": false,
+      "noAttrArp": false
+    }
+  },
+  {
+    "id": 2,
+    "name": "No ARP",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "license": {
+      "startDate": 1339365600000,
+      "endDate": 1402437600000,
+      "licenseNumber": "the license number",
+      "institutionName": "Mock Institution Name",
+      "groupLicense": true
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true,
+      "noAttrArp": false
+    }
+  },
+  {
+    "id": 3,
+    "name": "ARP with no attributes",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "license": {
+      "startDate": 1339365600000,
+      "endDate": 1402437600000,
+      "licenseNumber": "the license number",
+      "institutionName": "Mock Institution Name",
+      "groupLicense": true
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": false,
+      "noAttrArp": true
+    }
+  },
+  {
+    "id": 4,
+    "name": "No CRM information",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": false,
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true
+    }
+  },
+  {
+    "id": 5,
+    "name": "No License, but connected",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": true,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true,
+      "noAttrArp": false
+    }
+  },
+  {
+    "id": 6,
+    "name": "Not recently used",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "connected": false,
+    "hasCrmLink": false,
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "Netherlands"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Researchers"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true
+    }
+  } ,
+  {
+    "id": 7,
+    "name": "Not connected, but License",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": false,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "license": {
+      "startDate": 1339365600000,
+      "endDate": 1402437600000,
+      "licenseNumber": "the license number",
+      "institutionName": "Mock Institution Name",
+      "groupLicense": true
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://mock-sp",
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true,
+      "noAttrArp": false
+    }
+  }
+
+
+
+
+]

@@ -27,6 +27,7 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SpringSecurityUtil {
@@ -41,6 +42,14 @@ public class SpringSecurityUtil {
     List<CoinAuthority.Authority> actualAuthorities = user.getAuthorityEnums();
     assertEquals("expected roles: " + Arrays.asList(expectedAuthorities) + ", actual roles: " + actualAuthorities, expectedAuthorities.length, actualAuthorities.size());
     assertTrue("expected roles: " + Arrays.asList(expectedAuthorities) + ", actual roles: " + actualAuthorities, actualAuthorities.containsAll(Arrays.asList(expectedAuthorities)));
+  }
+
+  protected static void assertRoleIsNotGranted(CoinAuthority.Authority... expectedAuthorities) {
+    CoinUser user = SpringSecurity.getCurrentUser();
+    List<CoinAuthority.Authority> actualAuthorities = user.getAuthorityEnums();
+    for (CoinAuthority.Authority expectedAuthority : expectedAuthorities) {
+      assertFalse("Role not to be expected: " + expectedAuthority, actualAuthorities.contains(expectedAuthorities));
+    }
   }
 
   public static void setAuthentication(String theUsersUid) {

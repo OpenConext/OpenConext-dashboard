@@ -4,8 +4,7 @@ app.graphs = function() {
 
 
   var dataWrapper, chartOverviewElm, chartDetailElm, filterElm, filterType, filterOffset,
-        firstDate = Infinity, selectedSp, wrapperElm, isGod, compoundServiceProviders,
-    selectedIdp;
+        firstDate = Infinity, selectedSp, wrapperElm, isGod, selectedIdp;
 
 
   var DataWrapper = function(isGod) {
@@ -101,7 +100,6 @@ app.graphs = function() {
       },
 
       // Put the data in a new array, with the name, total, spEntityId and index; order it.
-      // TODO can we use objects instead of plain arrays here?
       formatForOverview: function(data) {
         var newArray = [];
 
@@ -154,21 +152,7 @@ app.graphs = function() {
       dataType : 'script'
     });
 
-    var jsonUrl = (isGod ? '/stats/loginsperspperday.json' : '/stats/loginsperspperdaybyidp.json')
-
-    var jqXhrDataCall = $.ajax({
-      url : contextPath + jsonUrl,
-      cache : true,
-      dataType : 'json'
-    });
-
-    $.ajax({
-      url : contextPath + '/stats/spcspcombis.json',
-      cache : true,
-      dataType : 'json'
-    }).done(function(csps){
-      compoundServiceProviders = csps; 
-    });
+    var jqXhrDataCall;
 
     // Get the (by controller provided) selected SP Entity ID.
     selectedSp = chartDetailElm.data("spentityid");
@@ -176,11 +160,13 @@ app.graphs = function() {
       selectedSp = null;
     }
 
-    $.when(highcharts, jqXhrDataCall).done(function(highcharts, jqXhrDataCall) {
-      dataWrapper.setData(jqXhrDataCall[0]);
+    $.when(highcharts).done(function(highcharts) {
+      dataWrapper.setData(login_stats);
       determineDateFilterOffset();
       initRendering();
     });
+    
+    
 
     initFilters();
   };
@@ -393,13 +379,9 @@ app.graphs = function() {
   };
   
   var showLinkToDetail = function(data) {
-    for ( var i = 0, l = compoundServiceProviders.length; i < l; ++i) {
-      if (compoundServiceProviders[i].spEntityId === data.spEntityId) {
-        var forward = $('.forward', wrapperElm);
-        forward.attr('href',contextPath + '/app-detail.shtml?compoundSpId=' + compoundServiceProviders[i].compoundServiceProviderId);
-        forward.removeClass('hide');
-      }
-    }
+	  var forward = $('.forward', wrapperElm);
+      forward.attr('href',contextPath + '/app-detail.shtml?spEntityId=' + encodeURIComponent(data.spEntityId));
+      forward.removeClass('hide');
   };
 
   var createDetailChart = function(data, title) {
@@ -649,7 +631,6 @@ app.graphs = function() {
    * 
    * We could use jQuery extend, but it would be overkill
    * 
-   * TODO jQuery.extend(true, {}, dataInstance)
    */
   var copySpDataObject = function(dataInstance) {
     return {

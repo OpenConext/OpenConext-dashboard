@@ -22,9 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import nl.surfnet.coin.selfservice.domain.Article;
-import nl.surfnet.coin.selfservice.domain.CompoundServiceProvider;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.shared.service.MailService;
 
 import org.junit.Before;
@@ -63,14 +61,11 @@ public class EmailServiceImplTest {
     List<String> recipients = Arrays.asList(new String[] { "recipient1@test.test" });
     
     // create dummy CSP with service and article
-    ServiceProvider serviceProvider = new ServiceProvider("testid");
-    serviceProvider.setName("testname");
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(serviceProvider, new Article("testArticleId"));
-    csp.setId(1l);
+    Service service = new Service(1L, "name", "logourl", "websiteurl", false, null, "http://mock-sp");
 
     // create map with variables for the template
     Map<String, Object> templateVars = new HashMap<String, Object>();
-    templateVars.put("compoundSp", csp);
+    templateVars.put("service", service);
     templateVars.put("appstoreURL", "https://selfservice.test.surfconext.nl/");
     templateVars.put("recommendPersonalNote", "This is a personal note");
     templateVars.put("invitername", "testname");

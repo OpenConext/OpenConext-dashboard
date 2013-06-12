@@ -16,13 +16,11 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +28,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Parses a json file into {@link nl.surfnet.coin.selfservice.domain.PersonAttributeLabel}
@@ -49,34 +50,23 @@ public class PersonAttributeLabelServiceJsonImpl implements PersonAttributeLabel
 
   public PersonAttributeLabelServiceJsonImpl(String attributeJsonFile) {
     this.attributeJsonFile = attributeJsonFile;
-    populate();
+    try {
+      populate();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private void populate() {
+  private void populate() throws IOException {
     Resource jsonResource;
     if (attributeJsonFile.startsWith("classpath:")) {
       jsonResource = new ClassPathResource(attributeJsonFile.substring("classpath:".length()));
     } else {
       jsonResource = new FileSystemResource(attributeJsonFile);
     }
-    InputStream inputStream = null;
-    try {
-      inputStream = jsonResource.getInputStream();
-      labelMap = parseStreamToAttributeLabelMap(inputStream);
-    } catch (IOException e) {
-      log.error("Could not populate Person Attribute Labels", e);
-      labelMap = new HashMap<String, PersonAttributeLabel>();
-    } finally {
-      if (inputStream != null) {
-        try {
-          inputStream.close();
-        } catch (IOException e) {
-          log.error("Could not close inputstream after parsing person attributes", e);
-        }
-      }
-    }
-
+    labelMap = parseStreamToAttributeLabelMap(IOUtils.toString(jsonResource.getInputStream()));
   }
+
 
   public Map<String, PersonAttributeLabel> getAttributeLabelMap() {
     return labelMap;
@@ -86,17 +76,11 @@ public class PersonAttributeLabelServiceJsonImpl implements PersonAttributeLabel
    * @param src {@link InputStream} of the Json data
    * @return {@link Map}
    */
-  Map<String, PersonAttributeLabel> parseStreamToAttributeLabelMap(InputStream src) {
+  Map<String, PersonAttributeLabel> parseStreamToAttributeLabelMap(String src) throws IOException {
     Map<String, PersonAttributeLabel> m = new HashMap<String, PersonAttributeLabel>();
     ObjectMapper mapper = new ObjectMapper();
 
-    JsonNode rootNode;
-    try {
-      rootNode = mapper.readValue(src, JsonNode.class);
-    } catch (IOException e) {
-      log.warn("Could not parse InputStream to JsonNode", e);
-      return m;
-    }
+    JsonNode rootNode = mapper.readValue(src, JsonNode.class);
     final Iterator<Map.Entry<String, JsonNode>> fields = rootNode.getFields();
 
     while (fields.hasNext()) {

@@ -28,19 +28,9 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
-    <context:component-scan base-package="nl.surfnet.coin.selfservice.api"/>
-    
 
-    <bean id="propertyResolver"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="ignoreResourceNotFound" value="true"/>
-        <property name="locations">
-            <list>
-                <value>classpath:showroom.properties</value>
-                <value>classpath:dashboard.properties</value>
-            </list>
-        </property>
-    </bean>
+    <context:property-placeholder location="classpath:application.properties,classpath:showroom.properties,classpath:dashboard.properties" ignore-resource-not-found="true" />
+
     <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="defaultViews">
             <list>
@@ -80,18 +70,14 @@
     <mvc:interceptors>
         <ref bean="featureInterceptor"/>
         <!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
-        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor">
-          <property name="exposeTokenCheckInCookie" value="${mode.dev}"/>
-        </bean>
+        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor"/>
         <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor" />
         <ref bean="localeChangeInterceptor"/>
     </mvc:interceptors>
 
     <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
-        <property name="dev" value="${mode.dev}"/>
-        <property name="lmngActive" value="${coin-lmng-active-mode}"/>
-        <property name="showOauthTokens" value="${mode.showOauthTokens}"/>
-        <property name="ebLinkActive" value="${mode.ebLinkActive}" />
+        <property name="developmentMode" value="${feature.development.mode}"/>
+        <property name="isDashBoard" value="${is.dashboard}"/>
     </bean>
 
     <bean id="messageAdapter"

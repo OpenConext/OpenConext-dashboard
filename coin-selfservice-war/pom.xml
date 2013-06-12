@@ -36,7 +36,7 @@
   </repositories>
 
   <properties>
-    <coin-shared.version>3.1.0</coin-shared.version>
+    <coin-shared.version>3.5.0-SNAPSHOT</coin-shared.version>
     <coin-test.version>3.1.0</coin-test.version>
     <coin-master.test-dependencies.version>3.1.1</coin-master.test-dependencies.version>
     <coin-api.version>3.2.0-SNAPSHOT</coin-api.version>
@@ -44,7 +44,6 @@
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
-    <bonecp.version>0.7.1.RELEASE</bonecp.version>
     <mujina-idp.version>2.15.1</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
     <!--<selenium.version>2.25.0</selenium.version>-->
@@ -167,12 +166,6 @@
 
     <dependency>
       <groupId>org.surfnet.coin</groupId>
-      <artifactId>coin-api-serviceregistry-client</artifactId>
-      <version>${coin-api.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.surfnet.coin</groupId>
       <artifactId>coin-api-client</artifactId>
       <version>${coin-api.version}</version>
     </dependency>
@@ -234,7 +227,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-    
+
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -271,11 +264,6 @@
       <groupId>cglib</groupId>
       <artifactId>cglib-nodep</artifactId>
       <version>2.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jolbox</groupId>
-      <artifactId>bonecp</artifactId>
-      <version>${bonecp.version}</version>
     </dependency>
 
     <dependency>
@@ -369,20 +357,22 @@
       <artifactId>sab-client</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.surfnet.coin</groupId>
+      <artifactId>csa-client</artifactId>
+      <version>3.4.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.surfnet</groupId>
+      <artifactId>cruncher-client</artifactId>
+      <version>3.5.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>com.googlecode.flyway</groupId>
-        <artifactId>flyway-maven-plugin</artifactId>
-        <version>1.6.1</version>
-        <configuration>
-          <user>foo</user>
-          <password>bar</password>
-          <url>jdbc:hsqldb:mem:coin</url>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
@@ -402,7 +392,7 @@
           <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
           <connectors>
             <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>8280</port>
+              <port>${jetty.port}</port>
               <host>0.0.0.0</host>
             </connector>
           </connectors>
@@ -509,16 +499,11 @@
                     <jsSourceFile>modules/global.js</jsSourceFile>
                     <jsSourceFile>modules/message.js</jsSourceFile>
                     <jsSourceFile>modules/graphs.js</jsSourceFile>
-                    <jsSourceFile>modules/idp-status.js</jsSourceFile>
                     <jsSourceFile>modules/respond.js</jsSourceFile>
                     <jsSourceFile>modules/table.js</jsSourceFile>
-                    <jsSourceFile>modules/compound-sp-edit.js</jsSourceFile>
                     <jsSourceFile>modules/notifications.js</jsSourceFile>
                     <jsSourceFile>modules/app-detail.js</jsSourceFile>
-                    <jsSourceFile>modules/shop-admin.js</jsSourceFile>
-                    <jsSourceFile>modules/sp-services.js</jsSourceFile>
-                    <jsSourceFile>modules/taxonomy.js</jsSourceFile>
-                    <jsSourceFile>modules/csp-taxonomy.js</jsSourceFile>
+                    <jsSourceFile>modules/inline-help.js</jsSourceFile>
 
                     <jsSourceFile>tools/html5shiv.js</jsSourceFile>
                     <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>

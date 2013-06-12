@@ -16,33 +16,28 @@
   ~ limitations under the License.
   --%>
 
-<%--@elvariable id="sp" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"--%>
-<%--@elvariable id="issueKey" type="java.lang.String"--%>
-
-<c:set var="spname"><tags:providername provider="${sp}"/></c:set>
-
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${spname}"/>
+  <jsp:param name="title" value="${linkRequest.serviceName}"/>
 </jsp:include>
 
 <div class="column-center content-holder no-right-left">
   <section>
 
-    <h1><c:out value="${spname}"/></h1>
+    <h1><c:out value="${linkRequest.serviceName}"/></h1>
     <p>
-      <spring:message code="jsp.sp_linkrequest.thankstext" />
+      <spring:message code="${thanksTextKey}" />
     </p>
     <div class="actions">
       <spring:url value="../app-overview.shtml" var="overviewUrl" htmlEscape="true" />
       <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-        <spring:param name="compoundSpId" value="${compoundSpId}" />
+        <spring:param name="id" value="${linkRequest.serviceId}" />
       </spring:url>
 
       <a class="btn btn-primary btn-small" href="${overviewUrl}">
         <spring:message code="jsp.request.backtooverview" />
       </a>
       <a class="btn btn-small" href="${detailUrl}">
-        <spring:message code="jsp.request.backtodetail" arguments="${spname}" />
+        <spring:message code="jsp.request.backtodetail" arguments="${linkRequest.serviceName}" />
       </a>
     </div>
   </section>

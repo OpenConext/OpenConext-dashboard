@@ -28,25 +28,24 @@
        http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner">
-    <property name="identityProviderService" ref="providerService" />
     <property name="uuidAttribute" value="${saml-uuid-attribute}"/>
   </bean>
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
-    <property name="adminLicentieIdPTeam" value="${admin.licentie.idp.teamname}" />
-    <property name="adminSurfConextIdPTeam" value="${admin.surfconext.idp.teamname}" />
-    <property name="adminDistributionTeam" value="${admin.distribution.channel.teamname}" />
+    <property name="showroomAdmin" value="${showroom.admin}" />
+    <property name="dashboardAdmin" value="${dashboard.admin}" />
+    <property name="dashboardViewer" value="${dashboard.viewer}" />
+    <property name="isDashboard" value="${is.dashboard}" />
+
     <property name="apiClient" ref="openConextApiClient" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
-    <property name="lmngActive" value="${coin-lmng-active-mode}"/>
   </bean>
 
   <bean id="sabEntitlementsFilter" class="nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter">
-    <property name="adminDistributionRole" value="${admin.distribution.channel.sabRole}" />
     <property name="adminLicentieIdPRole" value="${admin.licentie.idp.sabRole}" />
     <property name="adminSurfConextIdPRole" value="${admin.surfconext.idp.sabRole}" />
     <property name="viewerSurfConextIdPRole" value="${viewer.surfconext.idp.sabRole}" />
-    <property name="lmngActive" value="${coin-lmng-active-mode}" />
+    <property name="isDashboard" value="${is.dashboard}" />
   </bean>
 
   <!-- this will be either the real SabClient or a Mock -->
@@ -81,11 +80,10 @@
     <security:custom-filter after="PRE_AUTH_FILTER" ref="apiOauthFilter"/>
     <security:custom-filter after="ANONYMOUS_FILTER" ref="sabEntitlementsFilter"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
-    <security:intercept-url pattern="/api/**" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Metadata" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
     <security:intercept-url pattern="${ASSERTION_CONSUMER_URI}"
-                               access="hasAnyRole('ROLE_ANONYMOUS','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN', 'ROLE_DISTRIBUTION_CHANNEL_ADMIN', 'ROLE_USER')"/>
+                               access="hasAnyRole('ROLE_ANONYMOUS','ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN','ROLE_SHOWROOM_USER')"/>
 
     <security:intercept-url pattern="/css/**" access="permitAll"/>
     <security:intercept-url pattern="/font/**" access="permitAll"/>
@@ -94,11 +92,10 @@
     <security:intercept-url pattern="/fieldimages/**" access="permitAll"/>
     <security:intercept-url pattern="/js/**" access="permitAll"/>
     <security:intercept-url pattern="/*.ico" access="permitAll"/>
-    <security:intercept-url pattern="/shopadmin/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN')"/>
-    <security:intercept-url pattern="/stats/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>
-    <security:intercept-url pattern="/requests/**" access="hasAnyRole('ROLE_DISTRIBUTION_CHANNEL_ADMIN','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>
-    <security:intercept-url pattern="/notifications/**" access="hasAnyRole('ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN')"/>
-    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_IDP_SURFCONEXT_ADMIN', 'ROLE_IDP_LICENSE_ADMIN', 'ROLE_DISTRIBUTION_CHANNEL_ADMIN')"/>
+    <security:intercept-url pattern="/stats/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER')"/>
+    <security:intercept-url pattern="/requests/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN')"/>
+    <security:intercept-url pattern="/notifications/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN')"/>
+    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN','ROLE_SHOWROOM_USER')"/>
 
     <security:form-login login-page="/OpenSAML.sso/Login?target=${wayf.url.sso}" default-target-url="/" />
     <security:anonymous/>

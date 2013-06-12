@@ -1,0 +1,407 @@
+[
+  {
+    "id": 44,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/88.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 13,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/26.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 12,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/24.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 11,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/22.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 10,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/20.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 9,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/18.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 8,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/16.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 7,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/14.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 4,
+    "logoUrl": "http://localhost:8282/csa/fieldimages/8.img",
+    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=null",
+    "connected": false,
+    "hasCrmLink": true
+  },
+  {
+    "id": 18,
+    "name": "",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/36.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 28,
+    "name": "",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/56.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 29,
+    "name": "",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/58.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 32,
+    "name": "",
+    "logoUrl": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Mimus_polyglottos1.jpg/250px-Mimus_polyglottos1.jpg",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 33,
+    "name": "",
+    "logoUrl": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Glider.svg/140px-Glider.svg.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 36,
+    "name": "",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 42,
+    "name": "",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 43,
+    "name": "",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 45,
+    "name": "",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 51,
+    "name": "",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 52,
+    "name": "",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 53,
+    "name": "",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 50,
+    "name": "Braindrops Rave demo portal",
+    "logoUrl": "https://beta.surfnet.nl/coin/SURFdrops.jpg",
+    "websiteUrl": "https://rave-en",
+    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=1234567890",
+    "connected": false,
+    "hasCrmLink": true
+  },
+  {
+    "id": 48,
+    "name": "Canvas SP",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 54,
+    "name": "DIY profile",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 39,
+    "name": "Foodle | Development",
+    "logoUrl": "https://wayf.surfnet.nl/federate/surfnet/img/logo/foodle.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 16,
+    "name": "Gadgets Jasha (oAuth)",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/32.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 6,
+    "name": "Google Apps for apps.surfnet.nl",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/12.img",
+    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=null",
+    "connected": false,
+    "hasCrmLink": true
+  },
+  {
+    "id": 0,
+    "name": "Google apps for education",
+    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid={8833CEAE-960C-E211-B6B9-005056950050}",
+    "connected": false,
+    "hasCrmLink": true
+  },
+  {
+    "id": 0,
+    "name": "Google apps for education",
+    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid={9833CEAE-960C-E213-B6B9-115056950050}",
+    "connected": false,
+    "hasCrmLink": true
+  },
+  {
+    "id": 19,
+    "name": "Grouper - peterc.local",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/38.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 40,
+    "name": "OAuth Test | Experimental | François",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 22,
+    "name": "SURFconext Etherpad Lite | Experimenteel | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/44.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 20,
+    "name": "SURFconext Grouper | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/40.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 27,
+    "name": "SURFconext LimeSurvey | Experimenteel | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/54.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 14,
+    "name": "SURFconext Manage | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/28.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 26,
+    "name": "SURFconext Mediawiki Dev | Experimenteel | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/52.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 25,
+    "name": "SURFconext Mediawiki Mark Dev | Experimenteel | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/50.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 24,
+    "name": "SURFconext Portal | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/48.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 37,
+    "name": "SURFconext Profile | Dev | SURFnet",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 41,
+    "name": "SURFconext Rave Shindig | Dev | Surfnet",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 21,
+    "name": "SURFconext Rave | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/42.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 2,
+    "name": "SURFconext Serviceregistry | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/4.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 23,
+    "name": "SURFconext Shindig | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/46.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 46,
+    "name": "SURFconext Teams | Dev | SURFnet",
+    "logoUrl": "https://static.surfconext.nl/media/surfconext.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 57,
+    "name": "SURFconext Test SP | Dev | SURFnet",
+    "logoUrl": "https://wiki.surfnetlabs.nl/wayf/images/fedlogos/surfconext.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 15,
+    "name": "SURFconext VO Manage | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/30.img",
+    "crmUrl": "https://www.surfmarket.nl/instelling/dlc/paginas/productomschrijving.aspx?pid=null",
+    "connected": false,
+    "hasCrmLink": true
+  },
+  {
+    "id": 49,
+    "name": "SURFconext | Self service | SURFnet",
+    "logoUrl": "https://static.surfconext.nl/media/surfconext.png",
+    "websiteUrl": "http://www.surfnet.nl",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 47,
+    "name": "SURFconext | Test SP | Mock | SURFnet",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 34,
+    "name": "SURFmedia",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/68.img",
+    "websiteUrl": "http://www.surfnet.nl/",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 5,
+    "name": "SURFmedia mobile (beta)",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/10.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 17,
+    "name": "SURFmedia | Dev | SURFnet",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/34.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 3,
+    "name": "SURFmedia.debug",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/6.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 58,
+    "name": "Service Title:en",
+    "logoUrl": "http://localhost:8282/csa/images/logo.png",
+    "websiteUrl": "http://appHomeURL_NL/",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 31,
+    "name": "Wordpress laptop | Development",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/62.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 30,
+    "name": "Wordpress | Experimental",
+    "logoUrl": "http://localhost:8282/csa/fieldimages/60.img",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 55,
+    "name": "http://mujina-sp-1077",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 38,
+    "name": "http://mujina-sp-1082",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  },
+  {
+    "id": 35,
+    "name": "mytestsp1",
+    "logoUrl": "https://.png",
+    "connected": false,
+    "hasCrmLink": false
+  }
+]

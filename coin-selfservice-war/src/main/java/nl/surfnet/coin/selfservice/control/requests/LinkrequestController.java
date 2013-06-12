@@ -16,18 +16,21 @@
 
 package nl.surfnet.coin.selfservice.control.requests;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Action;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.JiraTask;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.command.AbstractAction;
 import nl.surfnet.coin.selfservice.command.LinkRequest;
+import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.domain.JiraTask;
-import nl.surfnet.coin.selfservice.domain.ServiceProvider;
-import nl.surfnet.coin.selfservice.service.*;
+import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +39,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,49 +49,33 @@ public class LinkrequestController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(LinkrequestController.class);
 
-  @Resource(name = "providerService")
-  private ServiceProviderService providerService;
-
-  @Resource(name = "jiraService")
-  private JiraService jiraService;
-
-  @Resource(name = "emailService")
-  private EmailService emailService;
-
-  @Resource(name = "actionsService")
-  private ActionsService actionsService;
-
-  @Value("${administration.email.enabled:true}")
-  private boolean sendAdministrationEmail;
-
-  @Value("${administration.jira.ticket.enabled:false}")
-  private boolean createAdministrationJiraTicket;
+  @Resource
+  private Csa csa;
 
   private PersonAttributeLabelService personAttributeLabelService = new PersonAttributeLabelServiceJsonImpl(
-      "classpath:person_attributes.json");
+          "classpath:person_attributes.json");
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spLinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
+  public ModelAndView spLinkRequest(@RequestParam long serviceId, @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp) {
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedIdp);
     m.put("linkrequest", new LinkRequest());
     m.put("personAttributeLabels", personAttributeLabelService.getAttributeLabelMap());
     return new ModelAndView("requests/linkrequest", m);
   }
 
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.GET)
-  public ModelAndView spUnlinkRequest(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-                                      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
+  public ModelAndView spUnlinkRequest(@RequestParam long serviceId,
+                                      @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp) {
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedIdp);
     m.put("unlinkrequest", new LinkRequest());
     return new ModelAndView("requests/unlinkrequest", m);
   }
 
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spUnlinkrequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-                                          @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp,
+  public ModelAndView spUnlinkrequestPost(@RequestParam Long serviceId,
+                                          @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp,
                                           @Valid @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedIdp);
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("requests/unlinkrequest", m);
@@ -103,99 +85,73 @@ public class LinkrequestController extends BaseController {
   }
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spRequestPost(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-      @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
-      @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, SessionStatus sessionStatus) {
-
-    return doSubmitConfirm(spEntityId, compoundSpId, linkrequest, result, selectedidp, sessionStatus, "requests/linkrequest", JiraTask.Type.LINKREQUEST, "requests/linkrequest-thanks");
+  public ModelAndView spRequestPost(@Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
+                                    @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, SessionStatus sessionStatus) {
+    linkrequest.setType(JiraTask.Type.LINKREQUEST);
+    return doSubmitConfirm(linkrequest, result, selectedIdp, sessionStatus, "requests/linkrequest", "requests/linkrequest-thanks", "jsp.sp_linkrequest.thankstext");
   }
 
-  @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST, params = "agree=true")
-  public ModelAndView spRequestSubmitConfirm(@RequestParam String spEntityId, @RequestParam Long compoundSpId,
-                                             @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result,
-                                             @ModelAttribute(value = "selectedidp") IdentityProvider selectedidp, SessionStatus sessionStatus) {
-    unlinkrequest.setUnlinkRequest(true);
-    return doSubmitConfirm(spEntityId, compoundSpId, unlinkrequest, result, selectedidp, sessionStatus, "requests/unlinkrequest-confirm", JiraTask.Type.UNLINKREQUEST, "requests/unlinkrequest-thanks");
+  /**
+   * Controller for question form page.
+   */
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.GET)
+  public ModelAndView spQuestion(@RequestParam long serviceId,
+                                 @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp) {
+    Map<String, Object> m = getModelMapWithService(serviceId, selectedIdp);
+    m.put("question", new Question());
+    return new ModelAndView("requests/question", m);
   }
 
-  private ModelAndView doSubmitConfirm(String spEntityId, Long compoundSpId, LinkRequest unlinkrequest, BindingResult result, IdentityProvider selectedidp, SessionStatus sessionStatus, String errorViewName, JiraTask.Type jiraType, String successViewName) {
-    Map<String, Object> m = getModelMapWithSP(spEntityId, compoundSpId, selectedidp);
-    ServiceProvider selectedSp = (ServiceProvider) m.get("sp");
+  @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
+  public ModelAndView spQuestionSubmit(@ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp,
+                                       @Valid @ModelAttribute("question") Question question, BindingResult result, SessionStatus sessionStatus) {
 
+    Map<String, Object> m = new HashMap<String, Object>();
+    if (result.hasErrors()) {
+      LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
+      return new ModelAndView("requests/question", m);
+    } else {
+      question.setType(JiraTask.Type.QUESTION);
+      return doSubmitConfirm(question, result, selectedIdp, sessionStatus, "requests/question", "requests/linkrequest-thanks", "jsp.sp_question.thankstext");
+    }
+  }
+
+
+  @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST, params = "confirmation=true")
+  public ModelAndView spRequestSubmitConfirm(@ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result,
+                                             @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, SessionStatus sessionStatus) {
+    unlinkrequest.setType(JiraTask.Type.UNLINKREQUEST);
+    return doSubmitConfirm(unlinkrequest, result, selectedIdp, sessionStatus, "requests/unlinkrequest-confirm", "requests/linkrequest-thanks", "jsp.sp_unlinkrequest.thankstext");
+  }
+
+  private ModelAndView doSubmitConfirm(AbstractAction abstractAction, BindingResult result, InstitutionIdentityProvider selectedIdp, SessionStatus sessionStatus, String errorViewName, String successViewName, String thanksTextKey) {
+    Map<String, Object> m = new HashMap<String, Object>();
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView(errorViewName, m);
     } else {
       final CoinUser currentUser = SpringSecurity.getCurrentUser();
-      String issueKey = null;
-      if (createAdministrationJiraTicket) {
-        try {
-          final JiraTask task = new JiraTask.Builder()
-                  .body(currentUser.getEmail() + ("\n\n" + unlinkrequest.getNotes()))
-                  .identityProvider(currentUser.getIdp()).serviceProvider(spEntityId)
-                  .institution(currentUser.getInstitutionId()).issueType(jiraType)
-                  .status(JiraTask.Status.OPEN).build();
-          issueKey = jiraService.create(task, currentUser);
-          actionsService.registerJiraIssueCreation(issueKey, task, currentUser.getUid(), currentUser.getDisplayName());
-          m.put("issueKey", issueKey);
-        } catch (IOException e) {
-          LOG.debug("Error while trying to create Jira issue. Will return to form view", e);
-          m.put("jiraError", e.getMessage());
-          return new ModelAndView(errorViewName, m);
-        }
+      String content = abstractAction instanceof LinkRequest ? ((LinkRequest) abstractAction).getNotes() : ((Question) abstractAction).getBody();
+      Action action = new Action(currentUser.getUid(), currentUser.getEmail(), currentUser.getUsername(), abstractAction.getType(), content, selectedIdp.getId(),
+              abstractAction.getServiceProviderId(), selectedIdp.getInstitutionId());
+      if (abstractAction.getType().equals(JiraTask.Type.QUESTION)) {
+        action.setSubject(((Question) abstractAction).getSubject());
       }
-
-      if (sendAdministrationEmail) {
-        sendAdministrationEmail(unlinkrequest, selectedidp, selectedSp, currentUser, issueKey);
-      }
+      Action createdAction = csa.createAction(action);
+      String issueKey = createdAction.getJiraKey();
+      m.put("issueKey", issueKey);
+      m.put("abstractAction", abstractAction);
+      m.put("thanksTextKey", thanksTextKey);
     }
     sessionStatus.setComplete();
     return new ModelAndView(successViewName, m);
   }
 
-  private void sendAdministrationEmail(LinkRequest unlinkrequest, IdentityProvider idp, ServiceProvider sp, CoinUser currentUser, String issueKey) {
-    String action = unlinkrequest.isUnlinkRequest() ? "Delete" : "New";
-    String subject = String.format("[Dashboard (" + getHost() + ") request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
-            action, idp.getName(), sp.getName(), issueKey);
-
-    StringBuilder body = new StringBuilder();
-    body.append("Domain of Reporter: " + currentUser.getSchacHomeOrganization() + "\n");
-    body.append("SP EntityID: " + sp.getId() + "\n");
-    body.append("SP Name: " + sp.getName() + "\n");
-
-    body.append("IdP EntityID: " + idp.getId() + "\n");
-    body.append("IdP Name: " + idp.getName() + "\n");
-
-
-    String requestType = unlinkrequest.isUnlinkRequest() ? "Disconnect" : "Connect";
-    body.append("Request: " + requestType + "\n");
-    body.append("Applicant name: " + currentUser.getDisplayName() + "\n");
-    body.append("Applicant email: " + currentUser.getEmail() + " \n");
-    body.append("Mail applicant: mailto:"+currentUser.getEmail()+"?CC=surfconext-beheer@surfnet.nl&SUBJECT=["+issueKey+"]%20"+requestType+"%20to%20"+sp.getName()+"&BODY=Beste%20" + currentUser.getDisplayName() + " \n");
-
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:MM");
-    body.append("Time: " + sdf.format(new Date()) + "\n");
-    body.append("Remark from User:\n");
-    body.append(unlinkrequest.getNotes());
-    emailService.sendMail(currentUser.getEmail(), subject.toString(), body.toString());
-  }
-
-
-  private Map<String, Object> getModelMapWithSP(String spEntityId, Long compoundSpId, IdentityProvider selectedidp) {
+  private Map<String, Object> getModelMapWithService(Long serviceId, InstitutionIdentityProvider selectedIdp) {
     Map<String, Object> m = new HashMap<String, Object>();
-    final ServiceProvider sp = providerService.getServiceProvider(spEntityId, selectedidp.getId());
-    m.put("sp", sp);
-    m.put("compoundSpId", compoundSpId);
+    final Service service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
+    m.put("service", service);
     return m;
   }
-
-  private String getHost() {
-    try {
-      return InetAddress.getLocalHost().toString();
-    } catch (UnknownHostException e) {
-      return "UNKNOWN";
-    }
-  }
-
 
 }

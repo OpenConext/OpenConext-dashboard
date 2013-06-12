@@ -7,12 +7,12 @@
 <html lang="${locale.language}">
   <head>
     <meta charset="UTF-8">
-    <title><spring:message code="jsp.general.pageTitle" arguments="${param.title}" /></title>
+    <title><tags:context-specific messageKey="jsp.general.pageTitle" isDashBoard="${isDashBoard}"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
 
     <c:choose>
-      <c:when test="${dev eq true}">
+      <c:when test="${developmentMode eq true}">
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.4.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-button.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/bootstrap-datepicker.css"/>" />
@@ -61,26 +61,24 @@
             <sec:authentication property="principal.displayName" scope="request" htmlEscape="true" />
           </a>
         </li>
-
-        <li class="role-switch">
+          <li class="role-switch">
           <c:if test="${fn:length(idps) gt 1}">
             <ul class="user-dropdown">
               <c:forEach items="${idps}" var="idp">
-                <li class="user-role-manager ${selectedidp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
+                <li class="user-role-manager ${selectedIdp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
                       <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
                         <spring:param name="idpId" value="${idp.id}" />
                       </spring:url>
-                      <a href="${toggleLink}">
-                        <tags:providername provider="${idp}" />
-                      </a>
+                      <a href="${toggleLink}">${idp.name}</a>
                 </li>
               </c:forEach>
             </ul>
           </c:if>
           <c:if test="${fn:length(idps) == 1}">
-            <tags:providername provider="${idps[0]}" />
+            ${idps[0].name}
           </c:if>
         </li>
+
 
         <spring:url value="" var="langNL" htmlEscape="true">
           <c:forEach var="par" items="${paramValues}">
@@ -113,12 +111,7 @@
             </div>
           </li>
         <li class="help">
-        <c:if test="${lmngActive}">
-          <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.showroom.url"/></c:set>
-        </c:if>
-        <c:if test="${!lmngActive}">
-          <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url"/></c:set>
-        </c:if>
+          <c:set var="supporturl"><tags:context-specific messageKey="jsp.general.footertext.supportpages.url" isDashBoard="${isDashBoard}"/></c:set>
           <a href="${supporturl}"  target="_blank">
             <spring:message code="jsp.general.footertext.supportpages"/>
           </a>

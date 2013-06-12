@@ -15,25 +15,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
-<jsp:useBean id="sp" scope="request" type="nl.surfnet.coin.selfservice.domain.ServiceProvider"/>
-<c:set var="arp" value="${sp.arp}" />
 <div class="arp-info">
 
 	<c:choose>
-	  <c:when test="${arp.noArp}">
-      <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
-      <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${spname}"/></p>
+	  <c:when test="${service.arp.noArp}">
+      <p><spring:message code="jsp.sp_detail.arp.noarp.text" arguments="${service.name}"/></p>
     </c:when>
-    <c:when test="${arp.noAttrArp}">
-      <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
-      <p><spring:message code="jsp.sp_detail.arp.noattr.text" arguments="${spname}"/></p>
+    <c:when test="${service.arp.noAttrArp}">
+      <p><spring:message code="jsp.sp_detail.arp.noattr.text" arguments="${service.name}"/></p>
     </c:when>
     <c:otherwise>
 		  <h2><spring:message code="jsp.sp_detail.arp"/></h2>
-		  <c:set var="spname"><tags:providername provider="${sp}" /></c:set>
-		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${spname}"/></p>
+		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${service.name}"/></p>
 		    <table>
-		      <c:forEach items="${arp.attributes}" var="att">
+		      <c:forEach items="${service.arp.attributes}" var="att">
             <tr>
               <c:if test="${not rawArpAttributesVisible}">
                 <td>&bull;</td>

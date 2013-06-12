@@ -16,19 +16,17 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.coin.selfservice.domain.MenuItem;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Interceptor to add the menu
@@ -37,7 +35,7 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
-      throws Exception {
+          throws Exception {
 
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
@@ -57,72 +55,32 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
       }
     }
   }
-  
+
   private Menu createMenu(final HttpServletRequest request) {
     Menu menu = new Menu();
-    menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
     List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
     for (Authority authority : authorities) {
       switch (authority) {
-      case ROLE_DISTRIBUTION_CHANNEL_ADMIN:
-        if (isLmngActive(request)) {
-          menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spslmng.shtml"));
-          menu.addMenuItem(new MenuItem("jsp.allidplmng.title", "/shopadmin/all-idpslmng.shtml"));
-          menu.addMenuItem(new MenuItem("jsp.cspstatus.title", "/shopadmin/csp-status-overview.shtml"));
-          menu.addMenuItem(new MenuItem("jsp.taxonomy.title", "/shopadmin/taxonomy-overview.shtml"));
-        } else {
-          menu.addMenuItem(new MenuItem("jsp.allsplmng.title", "/shopadmin/all-spsconfig.shtml"));
-          menu.addMenuItem(new MenuItem("jsp.cspstatus.title", "/shopadmin/csp-status-overview.shtml"));
-        }
-        menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
-        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
-        if (isEbLinkActive(request)) {
-          menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
-        }
-        break;
-      case ROLE_IDP_LICENSE_ADMIN:
-        if (isLmngActive(request)) {
+        //same menu items, but different rights
+        case ROLE_DASHBOARD_ADMIN:
+        case ROLE_DASHBOARD_VIEWER:
+          menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
-        }
-        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
-        if (isEbLinkActive(request)) {
+          menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
           menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
-        }
-        break;
-      case ROLE_IDP_SURFCONEXT_ADMIN:
-        if (isLmngActive(request)) {
+          break;
+        case ROLE_SHOWROOM_ADMIN:
+          menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
-        }
-        menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
-        if (isEbLinkActive(request)) {
-          menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
-        }
-        break;
-      case ROLE_USER:
-        //no need for menu
-        menu.getMenuItems().clear();
-        break;
-      default:
-        break;
+          break;
+        case ROLE_SHOWROOM_USER:
+          break;
+        default:
+          break;
       }
     }
     return menu;
   }
-  
-  private Boolean isLmngActive(final HttpServletRequest request) {
-    Boolean result = Boolean.FALSE;
-    if (null != request.getAttribute("lmngActive")) {
-      result = (Boolean) request.getAttribute("lmngActive");
-    }
-    return result;
-  }
-  
-  private Boolean isEbLinkActive(final HttpServletRequest request) {
-    Boolean result = Boolean.FALSE;
-    if (null != request.getAttribute("ebLinkActive")) {
-      result = (Boolean) request.getAttribute("ebLinkActive");
-    }
-    return result;
-  }
+
 
 }

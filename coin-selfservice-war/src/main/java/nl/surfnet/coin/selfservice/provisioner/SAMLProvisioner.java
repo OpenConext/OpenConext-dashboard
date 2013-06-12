@@ -16,27 +16,19 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import nl.surfnet.coin.janus.Janus;
-import nl.surfnet.coin.janus.domain.JanusEntity;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentityProvider;
-import nl.surfnet.coin.selfservice.service.IdentityProviderService;
 import nl.surfnet.coin.selfservice.util.PersonAttributeUtil;
 import nl.surfnet.spring.security.opensaml.Provisioner;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.opensaml.saml2.core.Assertion;
-import org.opensaml.saml2.core.Attribute;
-import org.opensaml.saml2.core.AttributeStatement;
-import org.opensaml.saml2.core.AuthenticatingAuthority;
-import org.opensaml.saml2.core.AuthnStatement;
+import org.opensaml.saml2.core.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * implementation to return UserDetails from a SAML Assertion
@@ -49,10 +41,8 @@ public class SAMLProvisioner implements Provisioner {
   
   private String uuidAttribute = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
 
-  private IdentityProviderService identityProviderService;
-
-  @Resource(name = "janusClient")
-  private Janus janusClient;
+  @Resource
+  private Csa csa;
 
   @Override
   public UserDetails provisionUser(Assertion assertion) {
@@ -60,21 +50,19 @@ public class SAMLProvisioner implements Provisioner {
     CoinUser coinUser = new CoinUser();
 
     final String idpId = getAuthenticatingAuthority(assertion);
-    coinUser.setIdp(idpId);
 
-    coinUser.setInstitutionId(getInstitutionId(idpId));
-
-    List<IdentityProvider> instituteIdPs = identityProviderService.getInstituteIdentityProviders(coinUser.getInstitutionId());
-    if (!CollectionUtils.isEmpty(instituteIdPs)) {
-      for (IdentityProvider idp : instituteIdPs) {
-        coinUser.addInstitutionIdp(idp);
-      }
+    List<InstitutionIdentityProvider> institutionIdentityProviders = csa.getInstitutionIdentityProviders(idpId);
+    if (CollectionUtils.isEmpty(institutionIdentityProviders)) {
+      //duhh, fail fast, big problems
+      throw new IllegalArgumentException("Csa#getInstitutionIdentityProviders('"+idpId+"') returned zero result");
     }
-    // Add the one the user is currently identified by if it's not in the list
-    // already.
-    if (coinUser.getInstitutionIdps().isEmpty()) {
-      IdentityProvider idp = getInstitutionIdP(idpId);
-      coinUser.addInstitutionIdp(idp);
+    if (institutionIdentityProviders.size() == 1) {
+      //most common case
+      coinUser.setIdp(institutionIdentityProviders.get(0));
+      coinUser.addInstitutionIdp(institutionIdentityProviders.get(0));
+    } else {
+      coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
+      coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
     }
 
     coinUser.setUid(getValueFromAttributeStatements(assertion, uuidAttribute));
@@ -87,29 +75,13 @@ public class SAMLProvisioner implements Provisioner {
     return coinUser;
   }
 
-  private String getInstitutionId(String idpId) {
-    final IdentityProvider identityProvider = identityProviderService.getIdentityProvider(idpId);
-    if (identityProvider != null) {
-      final String institutionId = identityProvider.getInstitutionId();
-      if (!StringUtils.isBlank(institutionId)) {
-        return institutionId;
+  private InstitutionIdentityProvider getCurrentIdp(String idpId, List<InstitutionIdentityProvider> institutionIdentityProviders) {
+    for (InstitutionIdentityProvider provider : institutionIdentityProviders) {
+      if (provider.getId().equals(idpId)) {
+        return provider;
       }
     }
-    //corner case, but possible
-    return null;
-  }
-
-  private IdentityProvider getInstitutionIdP(String idpId) {
-    IdentityProvider idp = identityProviderService.getIdentityProvider(idpId);
-    if (idp == null) {
-      final JanusEntity entity = janusClient.getEntity(idpId);
-      if (entity == null) {
-        idp = new IdentityProvider(idpId, null, idpId);
-      } else {
-        idp = new IdentityProvider(entity.getEntityId(), null, entity.getPrettyName());
-      }
-    }
-    return idp;
+    throw new IllegalArgumentException("The Idp('"+idpId+"') is not present in the list of Idp's returned by the CsaClient");
   }
 
   private String getAuthenticatingAuthority(final Assertion assertion) {
@@ -138,9 +110,6 @@ public class SAMLProvisioner implements Provisioner {
     return "";
   }
 
-  public void setIdentityProviderService(IdentityProviderService identityProviderService) {
-    this.identityProviderService = identityProviderService;
-  }
 
   public void setUuidAttribute(String uuidAttribute) {
     this.uuidAttribute = uuidAttribute;
