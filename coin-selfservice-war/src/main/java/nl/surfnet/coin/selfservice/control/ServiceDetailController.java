@@ -79,10 +79,11 @@ public class ServiceDetailController extends BaseController {
   public ModelAndView serviceDetail(@RequestParam(value = "serviceId", required = false) Long serviceId,
                                     @RequestParam(value = "spEntityId", required = false) String spEntityId,
                                     @RequestParam(required = false) String revoked,
-                                    @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, HttpServletRequest request) {
+                                    HttpServletRequest request) {
     if (null == serviceId && !StringUtils.hasText(spEntityId)) {
       throw new IllegalArgumentException("either service id or sp entity id is required");
     }
+    InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
     Service service = null;
     if (null != spEntityId) {
       service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
@@ -101,10 +102,9 @@ public class ServiceDetailController extends BaseController {
   }
 
   @RequestMapping(value = "/app-recommend")
-  public ModelAndView recommendApp(@RequestParam(value = "serviceId") long serviceId,
-                                   @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp) {
+  public ModelAndView recommendApp(@RequestParam(value = "serviceId") long serviceId, HttpServletRequest request) {
     Map<String, Object> m = new HashMap<String, Object>();
-
+    InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
     Service service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
     m.put(SERVICE, service);
     m.put("maxRecommendationEmails", maxRecommendationEmails);
@@ -120,7 +120,7 @@ public class ServiceDetailController extends BaseController {
           @RequestParam(value = "emailSelect2") String emailSelect2,
           @RequestParam(value = "detailAppStoreLink") String detailAppStoreLink,
           @CookieValue(value = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", required = false) String localeAbbr,
-          @ModelAttribute(value = SELECTED_IDP) InstitutionIdentityProvider selectedIdp, HttpServletRequest request) {
+          HttpServletRequest request) {
     recommendPersonalNote = StringUtils.hasText(recommendPersonalNote) ? ((recommendPersonalNote.replace("\n\r", "")
             .trim().length() == 0) ? null : recommendPersonalNote) : null;
     if (!StringUtils.hasText(emailSelect2)) {
@@ -129,7 +129,7 @@ public class ServiceDetailController extends BaseController {
     String[] recipients = emailSelect2.split(",");
     Locale locale = StringUtils.hasText(localeAbbr) ? new Locale(localeAbbr) : new Locale("en");
     CoinUser coinUser = SpringSecurity.getCurrentUser();
-
+    InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
     Service service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
 
     String subject = coinUser.getDisplayName() + " would like to recommend " + service.getName();

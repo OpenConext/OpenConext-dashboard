@@ -30,11 +30,15 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
 /**
@@ -116,7 +120,7 @@ public abstract class BaseController {
   /**
    * Key for the selectedIdp in the session
    */
-  public static final String SELECTED_IDP = "selectedIdp";
+  protected static final String SELECTED_IDP = "selectedIdp";
 
   @Resource
   private NotificationService notificationService;
@@ -134,26 +138,21 @@ public abstract class BaseController {
     return localeResolver.resolveLocale(request);
   }
 
-  /**
-   * Exposes the requested IdP for use in RequestMapping methods.
-   * 
-   * @param idpId
-   *          the idp selected in the view
-   * @param request
-   *          HttpServletRequest, for storing/retrieving the selected idp in the
-   *          http session.
-   * @return the IdentityProvider selected, or null in case of unknown/invalid
-   *         idpId
-   */
-  @ModelAttribute(value = SELECTED_IDP)
-  public InstitutionIdentityProvider getRequestedIdp(@RequestParam(required = false) String idpId, HttpServletRequest request) {
-    final InstitutionIdentityProvider selectedIdp = (InstitutionIdentityProvider) request.getSession().getAttribute(SELECTED_IDP);
-    if (idpId == null && selectedIdp != null) {
+  protected InstitutionIdentityProvider getSelectedIdp(HttpServletRequest request) {
+    final InstitutionIdentityProvider selectedIdp = (InstitutionIdentityProvider)  request.getSession().getAttribute(SELECTED_IDP);
+    if (selectedIdp != null) {
       return selectedIdp;
     }
-    if (idpId == null) {
-      idpId = SpringSecurity.getCurrentUser().getIdp().getId();
-    }
+    return selectProvider(request, SpringSecurity.getCurrentUser().getIdp().getId());
+  }
+
+  protected InstitutionIdentityProvider switchIdp(HttpServletRequest request, String switchIdpId) {
+    Assert.hasText(switchIdpId);
+    return selectProvider(request, switchIdpId);
+  }
+
+  private InstitutionIdentityProvider selectProvider(HttpServletRequest request, String idpId) {
+    Assert.hasText(idpId);
     for (InstitutionIdentityProvider idp : SpringSecurity.getCurrentUser().getInstitutionIdps()) {
       if (idp.getId().equals(idpId)) {
         request.getSession().setAttribute(SELECTED_IDP, idp);
@@ -161,8 +160,9 @@ public abstract class BaseController {
         return idp;
       }
     }
-    throw new RuntimeException("There is no Selected IdP");
+    throw new RuntimeException(idpId + " is unknown for " + SpringSecurity.getCurrentUser().getUsername());
   }
+
 
   /**
    * Get notifications from the session (if available) and place as model
@@ -170,10 +170,10 @@ public abstract class BaseController {
    * and add to session.
    */
   @ModelAttribute(value = "notifications")
-  public NotificationMessage getNotifications(@RequestParam(required = false) String idpId, HttpServletRequest request) {
+  public NotificationMessage getNotifications(HttpServletRequest request) {
     NotificationMessage notifications = (NotificationMessage) request.getSession().getAttribute(NOTIFICATIONS);
     if (notifications == null) {
-      InstitutionIdentityProvider idp = getRequestedIdp(idpId, request);
+      InstitutionIdentityProvider idp = getSelectedIdp(request);
       notifications = notificationService.getNotifications(idp);
       request.getSession().setAttribute(NOTIFICATIONS, notifications);
     }
