@@ -45,7 +45,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/requests")
-@SessionAttributes(value = "linkrequest")
+@SessionAttributes(value = {"linkrequest", "unlinkrequest"})
 public class LinkrequestController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(LinkrequestController.class);
@@ -75,6 +75,7 @@ public class LinkrequestController extends BaseController {
   public ModelAndView spUnlinkrequestPost(@RequestParam Long serviceId,
                                           @Valid @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result, HttpServletRequest request) {
     Map<String, Object> m = getModelMapWithService(serviceId, request);
+    m.put("unLinkRequest", unlinkrequest);
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("requests/unlinkrequest", m);

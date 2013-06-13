@@ -17,27 +17,27 @@
   --%>
 
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${linkRequest.serviceName}"/>
+  <jsp:param name="title" value="${abstractAction.serviceName}"/>
 </jsp:include>
 
 <div class="column-center content-holder no-right-left">
   <section>
 
-    <h1><c:out value="${linkRequest.serviceName}"/></h1>
+    <h1><c:out value="${abstractAction.serviceName}"/></h1>
     <p>
       <spring:message code="${thanksTextKey}" />
     </p>
     <div class="actions">
       <spring:url value="../app-overview.shtml" var="overviewUrl" htmlEscape="true" />
       <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-        <spring:param name="id" value="${linkRequest.serviceId}" />
+        <spring:param name="serviceId" value="${abstractAction.serviceId}" />
       </spring:url>
 
       <a class="btn btn-primary btn-small" href="${overviewUrl}">
         <spring:message code="jsp.request.backtooverview" />
       </a>
       <a class="btn btn-small" href="${detailUrl}">
-        <spring:message code="jsp.request.backtodetail" arguments="${linkRequest.serviceName}" />
+        <spring:message code="jsp.request.backtodetail" arguments="${abstractAction.serviceName}" />
       </a>
     </div>
   </section>

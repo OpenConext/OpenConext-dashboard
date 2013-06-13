@@ -39,6 +39,10 @@
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+            <input type="hidden" name="serviceProviderId" value="<c:out value='${service.spEntityId}'/>"/>
+            <input type="hidden" name="serviceName" value="<c:out value='${service.name}'/>"/>
+            <input type="hidden" name="serviceId" value="<c:out value='${service.id}'/>"/>
+
             <div class="control-group <form:errors path="agree">error</form:errors>">
                <form:label path="agree" cssClass="checkbox">
                  <form:checkbox path="agree" id="agree" cssClass="required"/>

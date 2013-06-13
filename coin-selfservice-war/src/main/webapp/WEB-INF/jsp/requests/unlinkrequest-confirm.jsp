@@ -40,7 +40,11 @@
         <form:form cssClass="form form-horizontal" commandName="unlinkrequest">
           <fieldset>
             <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+            <input type="hidden" name="serviceProviderId" value="<c:out value='${unLinkRequest.serviceProviderId}'/>"/>
+            <input type="hidden" name="serviceName" value="<c:out value='${unLinkRequest.serviceName}'/>"/>
+            <input type="hidden" name="serviceId" value="<c:out value='${unLinkRequest.serviceId}'/>"/>
             <input type="hidden" name="confirmation" value="true" />
+            <input type="hidden" name="notes" value="<c:out value='${unLinkRequest.notes}'/>"/>
             <p>
               <i class="icon-info-sign"></i>
               <spring:message code="jsp.sp_unlinkrequestconfirm.message" />
