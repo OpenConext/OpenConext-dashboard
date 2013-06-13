@@ -16,10 +16,12 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -43,9 +45,6 @@ import org.opensaml.xml.io.UnmarshallingException;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 public class SAMLProvisionerTest {
 

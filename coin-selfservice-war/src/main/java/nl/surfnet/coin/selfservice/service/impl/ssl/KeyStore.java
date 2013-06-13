@@ -103,9 +103,4 @@ public class KeyStore {
   private void addCertificate(String alias, String certificate) {
     KeyStoreUtil.appendCertificateToKeyStore(keyStore, alias, certificate);
   }
-
-  private Map<String, String> getPrivateKeyPasswords() {
-    return passwords;
-  }
-
 }

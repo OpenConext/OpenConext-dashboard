@@ -16,8 +16,12 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_USER;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -44,8 +48,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
-
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against

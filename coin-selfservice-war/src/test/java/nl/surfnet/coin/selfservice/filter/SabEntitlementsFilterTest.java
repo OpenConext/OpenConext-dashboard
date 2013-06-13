@@ -16,33 +16,35 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.sab.Sab;
 import nl.surfnet.sab.SabRoleHolder;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import java.io.IOException;
-import java.util.Arrays;
-
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
-
 public class SabEntitlementsFilterTest {
-
-  private static final Logger LOG = LoggerFactory.getLogger(ApiOAuthFilterTest.class);
 
   @InjectMocks
   private SabEntitlementsFilter filter;

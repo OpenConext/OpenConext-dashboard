@@ -16,20 +16,17 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 
-import org.junit.Test;
+import java.io.IOException;
+import java.util.Map;
 
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * Test class for {@code PersonAttributeLabelServiceJsonImpl}

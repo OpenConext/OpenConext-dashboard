@@ -18,18 +18,24 @@
  */
 package nl.surfnet.coin.selfservice.util;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.FileUtils;
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
+import static junit.framework.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static junit.framework.Assert.assertTrue;
+import org.apache.commons.io.FileUtils;
+import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
 
 public class ResourceBundleUtils {
 

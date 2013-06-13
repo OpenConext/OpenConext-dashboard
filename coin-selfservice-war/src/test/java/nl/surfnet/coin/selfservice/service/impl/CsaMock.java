@@ -18,17 +18,24 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.*;
+import nl.surfnet.coin.csa.model.Action;
+import nl.surfnet.coin.csa.model.Category;
+import nl.surfnet.coin.csa.model.CategoryValue;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.JiraTask;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.csa.model.Taxonomy;
 import nl.surfnet.coin.oauth.OauthClient;
+
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.core.io.ClassPathResource;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Mock implementation of CSA. To be filled with lots of data for local development. Perhaps JSON-local-file-backed.

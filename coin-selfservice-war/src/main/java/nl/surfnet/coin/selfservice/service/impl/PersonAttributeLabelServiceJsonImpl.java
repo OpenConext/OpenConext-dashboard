@@ -16,29 +16,26 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
+
+import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
 /**
  * Parses a json file into {@link nl.surfnet.coin.selfservice.domain.PersonAttributeLabel}
  */
 public class PersonAttributeLabelServiceJsonImpl implements PersonAttributeLabelService {
-  private static final Logger log = LoggerFactory.getLogger(PersonAttributeLabelServiceJsonImpl.class);
 
   private static final String NAME = "Name";
   private static final String DESCRIPTION = "Description";

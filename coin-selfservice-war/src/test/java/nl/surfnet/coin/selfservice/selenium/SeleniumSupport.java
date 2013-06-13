@@ -16,16 +16,16 @@
 
 package nl.surfnet.coin.selfservice.selenium;
 
+import java.util.concurrent.TimeUnit;
+
 import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.util.OpenConextOAuthClientMock;
+
 import org.junit.Before;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  *
