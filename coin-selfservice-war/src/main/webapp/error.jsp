@@ -62,7 +62,7 @@
       <c:set var="endUserMessage">
         <c:choose>
           <c:when test="${pageContext.errorData.statusCode == 400}">Bad request. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
-          <c:when test="${pageContext.errorData.statusCode == 403}">Access denied. Go to the <a href="<c:url value="/"/>">homepage</a>.<br />Need help? Please contact <a href="mailto:help@surfconext.nl">help@surfconext.nl</a>.</c:when>
+          <c:when test="${pageContext.errorData.statusCode == 403}">Unfortunately you don't have the permission to access the requested url.<br> You can visit the <a href="<c:url value="/"/>">homepage</a> instead or send an email to <a href="mailto:help@surfconext.nl">help@surfconext.nl</a></c:when>
           <c:when test="${pageContext.errorData.statusCode == 404}">Page not found. Go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
           <c:when test="${pageContext.errorData.statusCode == 500}">An error occurred. Please try to reload the page or go to the <a href="<c:url value="/"/>">homepage</a>.</c:when>
         </c:choose>
