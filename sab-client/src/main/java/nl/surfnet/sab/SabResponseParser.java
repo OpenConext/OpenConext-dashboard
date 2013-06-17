@@ -16,11 +16,14 @@
 
 package nl.surfnet.sab;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -31,13 +34,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * XPath parser for SAB responses.
@@ -46,12 +47,20 @@ import org.xml.sax.SAXException;
 @Component
 public class SabResponseParser {
 
+  private static final Logger LOG = LoggerFactory.getLogger(SabResponseParser.class);
+
   public static final String XPATH_ORGANISATION = "//saml:Attribute[@Name='urn:oid:1.3.6.1.4.1.1076.20.100.10.50.1']/saml:AttributeValue";
   public static final String XPATH_ROLES = "//saml:Attribute[@Name='urn:oid:1.3.6.1.4.1.5923.1.1.1.7']/saml:AttributeValue";
   public static final String XPATH_STATUSCODE = "//samlp:StatusCode/@Value";
   public static final String XPATH_STATUSMESSAGE = "//samlp:StatusMessage";
 
   public static final String SAMLP_SUCCESS = "urn:oasis:names:tc:SAML:2.0:status:Success";
+  private static final String SAMLP_RESPONDER = "urn:oasis:names:tc:SAML:2.0:status:Responder";
+
+  /**
+   * Prefix of the status message if a user is queried that cannot be found.
+   */
+  private static final String NOT_FOUND_MESSAGE_PREFIX = "Could not find any roles for given NameID";
 
   public SabRoleHolder parse(InputStream inputStream) throws IOException {
 
@@ -60,7 +69,6 @@ public class SabResponseParser {
     XPath xpath = getXPath();
     try {
       Document document = createDocument(inputStream);
-
       validateStatus(document, xpath);
 
       // Extract organisation
@@ -102,10 +110,20 @@ public class SabResponseParser {
     XPathExpression statusCodeExpression = xpath.compile(XPATH_STATUSCODE);
     String statusCode = (String) statusCodeExpression.evaluate(document, XPathConstants.STRING);
 
-    if (!SAMLP_SUCCESS.equals(statusCode)) {
+    if (SAMLP_SUCCESS.equals(statusCode)) {
+      // Success, validation returns.
+      return;
+    } else {
+      // Status message is only set if status code not 'success'.
       XPathExpression statusMessageExpression = xpath.compile(XPATH_STATUSMESSAGE);
       String statusMessage = (String) statusMessageExpression.evaluate(document, XPathConstants.STRING);
-      throw new IOException("Unsuccessful status. Code: '" + statusCode + "', message: " + statusMessage);
+
+      if (SAMLP_RESPONDER.equals(statusCode) && statusMessage.startsWith(NOT_FOUND_MESSAGE_PREFIX)) {
+        LOG.debug("Given nameId not found in SAB. Is regarded by us as 'valid' response, although server response indicates a server error.");
+        return;
+      } else {
+        throw new IOException("Unsuccessful status. Code: '" + statusCode + "', message: " + statusMessage);
+      }
     }
   }
 

@@ -17,13 +17,12 @@
 package nl.surfnet.sab;
 
 
+import org.junit.Test;
+
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SabResponseParserTest {
 
@@ -36,5 +35,20 @@ public class SabResponseParserTest {
     assertEquals("SURFNET", srh.getOrganisation());
     assertTrue("roles should contain Infraverantwoordelijke", srh.getRoles().contains("Infraverantwoordelijke"));
     assertEquals("roles should count 9", 9, srh.getRoles().size());
+  }
+
+  @Test
+  public void nameIdNotFoundShouldNotThrowException() throws IOException {
+    InputStream stream = this.getClass().getResourceAsStream("/response-nameidnotfound.xml");
+
+    SabRoleHolder srh = new SabResponseParser().parse(stream);
+    assertNotNull(srh);
+    assertEquals(0, srh.getRoles().size());
+  }
+
+  @Test(expected = IOException.class)
+  public void blockedByAclShouldThrowException() throws IOException {
+    InputStream stream = this.getClass().getResourceAsStream("/response-aclblocked.xml");
+    new SabResponseParser().parse(stream);
   }
 }
