@@ -54,7 +54,7 @@
         ]
       }
     ],
-    "spEntityId": "https://mock-sp",
+    "spEntityId": "https://full-servicee-mock-sp",
     "arp": {
       "name": "All attributes",
       "description": "All known attributes",
@@ -170,7 +170,7 @@
         ]
       }
     ],
-    "spEntityId": "https://mock-sp",
+    "spEntityId": "https://no-arp-mock-sp",
     "arp": {
       "name": "All attributes",
       "description": "All known attributes",
@@ -235,7 +235,7 @@
         ]
       }
     ],
-    "spEntityId": "https://mock-sp",
+    "spEntityId": "https://arp-attr-mock-sp",
     "arp": {
       "name": "All attributes",
       "description": "All known attributes",
@@ -287,7 +287,7 @@
         ]
       }
     ],
-    "spEntityId": "https://mock-sp",
+    "spEntityId": "https://no-crm-mock-sp",
     "arp": {
       "name": "All attributes",
       "description": "All known attributes",
@@ -344,7 +344,7 @@
         ]
       }
     ],
-    "spEntityId": "https://mock-sp",
+    "spEntityId": "https://no-license-connected-mock-sp",
     "arp": {
       "name": "All attributes",
       "description": "All known attributes",
@@ -395,7 +395,7 @@
         ]
       }
     ],
-    "spEntityId": "https://mock-sp",
+    "spEntityId": "https://unused-mock-sp",
     "arp": {
       "name": "All attributes",
       "description": "All known attributes",
@@ -459,7 +459,7 @@
         ]
       }
     ],
-    "spEntityId": "https://mock-sp",
+    "spEntityId": "https://license-no-connect-mock-sp",
     "arp": {
       "name": "All attributes",
       "description": "All known attributes",
@@ -469,8 +469,4 @@
       "noAttrArp": false
     }
   }
-
-
-
-
 ]
