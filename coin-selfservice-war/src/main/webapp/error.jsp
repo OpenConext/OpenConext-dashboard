@@ -24,7 +24,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <c:set var="errorMessage"><spring:message code="jsp.general.errordescription" text="SURFconext - An unexpected error occurred"/></c:set>
+    <c:set var="errorMessage"><spring:message code="jsp.general.errordescription" text="SURFconext - An error occurred"/></c:set>
 
     <title>${errorMessage}</title>
 
