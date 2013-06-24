@@ -132,12 +132,14 @@ public class AuthorityScopeInterceptorTest {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void idp_license_admin_may_only_see_licensed_services() throws Exception {
+  public void showroom_admin_may_only_see_end_user_available_services() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
 
     CoinUser user = coinUser(ROLE_SHOWROOM_ADMIN);
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     Service sp = buildService();
+    sp.setAvailableForEndUser(false);
+    sp.setConnected(false);
     modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
@@ -145,23 +147,45 @@ public class AuthorityScopeInterceptorTest {
         BaseController.SERVICES);
     assertEquals(0, sps.size());
 
-    Service sp1 = buildService();
-    sp1.setLicense(new License());
-    sp1.setCrmArticle(new CrmArticle());
-    sp1.setHasCrmLink(true);
-    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp, sp1));
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
+
+    Service availableForEndUserSp = buildService();
+    availableForEndUserSp.setAvailableForEndUser(true);
+    sp.setConnected(false);
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp, availableForEndUserSp));
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
     sps = (Collection<Service>) modelAndView.getModelMap().get(BaseController.SERVICES);
     assertEquals(1, sps.size());
+  }
 
-    Service sp2 = buildService();
-    sp2.setConnected(true);
-    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp, sp1, sp2));
+  @Test
+  @SuppressWarnings("unchecked")
+  public void showroom_user_may_only_see_end_user_available_services_and_connected() throws Exception {
+    ModelAndView modelAndView = new ModelAndView();
+
+    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    Service sp = buildService();
+    sp.setAvailableForEndUser(true);
+    sp.setConnected(false);
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
+
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+    Collection<Service> sps = (Collection<Service>) modelAndView.getModelMap().get(
+            BaseController.SERVICES);
+    assertEquals(0, sps.size());
+
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
+
+    Service availableForEndUserSp = buildService();
+    availableForEndUserSp.setAvailableForEndUser(true);
+    availableForEndUserSp.setConnected(true);
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp, availableForEndUserSp));
 
     interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
     sps = (Collection<Service>) modelAndView.getModelMap().get(BaseController.SERVICES);
-    assertEquals(2, sps.size());
+    assertEquals(1, sps.size());
   }
 
   @Test
@@ -211,6 +235,7 @@ public class AuthorityScopeInterceptorTest {
   private Service buildService() {
     Service service = new Service(1L, "", "", "", false, null, "http://mock-idp");
     service.setSupportMail("somesupportmail");
+    service.setAvailableForEndUser(true);
     return service;
   }
 

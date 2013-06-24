@@ -16,38 +16,9 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static nl.surfnet.coin.selfservice.control.BaseController.DEEPLINK_TO_SURFMARKET_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.FACET_CONNECTION_VISIBLE;
-import static nl.surfnet.coin.selfservice.control.BaseController.RAW_ARP_ATTRIBUTES_VISIBLE;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICES;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_CONNECTION_VISIBLE;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_USER;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,12 +28,19 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import ch.lambdaj.function.matcher.HasArgumentWithValue;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+
+import static nl.surfnet.coin.selfservice.control.BaseController.*;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 
 /**
  * Interceptor to de-scope the visibility
  * objects for display
- * 
+ * <p/>
  * See <a
  * href="https://wiki.surfnetlabs.nl/display/services/App-omschrijving">https
  * ://wiki.surfnetlabs.nl/display/services/App-omschrijving</a>
@@ -71,7 +49,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
   private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
 
-  private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(new String[] { POST.name(), DELETE.name(), PUT.name() });
+  private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(new String[]{POST.name(), DELETE.name(), PUT.name()});
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -88,7 +66,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   @SuppressWarnings("unchecked")
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
-      throws Exception {
+          throws Exception {
 
     if (modelAndView != null) {
 
@@ -111,7 +89,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
       scopeGeneralAuthCons(map, authorities, request);
 
-      addTokenToModelMap(request, response,  map);
+      addTokenToModelMap(request, response, map);
     }
   }
 
@@ -126,24 +104,40 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
   /**
    * Reduce list based on whether the SP 'is linked' to the current IdP.
-   * 
+   *
    * @return a reduced list, or the same, if no changes.
    */
   protected Collection<Service> scopeListOfServices(Collection<Service> services,
-                                                                    List<Authority> authorities) {
-    HasArgumentWithValue<Object, Boolean> linkedSpsMatcher = having(on(Service.class).isConnected());
-    if (isRoleUser(authorities)) {
-      services = with(services).retain(having(on(Service.class).isConnected()));
+                                                    List<Authority> authorities) {
+    if (isRoleShowroomUser(authorities)) {
+      services = removeNonConnectedServices(services);
       LOG.debug("Reduced the list of services to only linked services, because user '{}' is an enduser.", SpringSecurity.getCurrentUser().getUid());
-    } else if (containsRole(authorities, ROLE_SHOWROOM_USER, ROLE_SHOWROOM_ADMIN)) {
-      HasArgumentWithValue<Object, Boolean> articleAvailableMatcher = having(on(Service.class).isHasCrmLink());
-
-      services = with(services).retain(linkedSpsMatcher.or(articleAvailableMatcher));
-
-      LOG.debug("Reduced the list of services to only linked services, because user '{}' is an license IdP user", SpringSecurity.getCurrentUser()
-          .getUid());
+    }
+    if (containsRole(authorities, ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER)) {
+      services = removeNonEndUserAvailableServices(services);
+      LOG.debug("Reduced the list of services to only public available services, because user '{}' is an showroom admin / user", SpringSecurity.getCurrentUser().getUid());
     }
     return services;
+  }
+
+  private Collection<Service> removeNonConnectedServices(Collection<Service> services) {
+    Collection<Service> result = new ArrayList<Service>();
+    for (Service service : services) {
+      if (service.isConnected()) {
+        result.add(service);
+      }
+    }
+    return result;
+  }
+
+  private Collection<Service> removeNonEndUserAvailableServices(Collection<Service> services) {
+    Collection<Service> result = new ArrayList<Service>();
+    for (Service service : services) {
+      if (service.isAvailableForEndUser()) {
+        result.add(service);
+      }
+    }
+    return result;
   }
 
   /*
@@ -151,23 +145,22 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * tell the Service to limit scope access based on the authority
    */
   protected void scopeService(ModelMap map, Service service, List<Authority> authorities) {
-
     // Do not allow normal users to view 'unlinked' services, even if requested
     // explicitly.
-    if (isRoleUser(authorities) && !service.isConnected()) {
+    if (isRoleShowroomUser(authorities) && !service.isConnected()) {
       LOG.info(
-        "user requested service details of service with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
-        service.getId());
+              "user requested service details of service with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
+              service.getId());
       throw new AccessDeniedException("Access denied");
     }
 
     // Remove all properties from service that user does not have access to.
-    if (isRoleUser(authorities)) {
+    if (isRoleShowroomUser(authorities)) {
       service.setSupportMail(null);
     }
   }
 
-  protected boolean isRoleUser(List<Authority> authorities) {
+  protected boolean isRoleShowroomUser(List<Authority> authorities) {
     return ((authorities.size() == 1 && authorities.get(0).equals(Authority.ROLE_SHOWROOM_USER)));
   }
 
@@ -179,7 +172,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     }
     return false;
   }
-  
+
   /*
    * Add a security token to the modelMap that is rendered as hidden value in
    * POST forms. In the preHandle we check if the request is a POST and expect
