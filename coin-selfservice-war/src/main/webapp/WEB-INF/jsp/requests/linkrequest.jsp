@@ -28,8 +28,17 @@
 
       <h1><spring:message code="jsp.sp_linkrequest.pagetitle" arguments="${service.name}"/></h1>
 
+        <c:choose>
+        <c:when test="${service.hasCrmLink && empty service.license}">
+        <div class="content">
+        <p>
+          <spring:message code="jsp.sp_linkrequest.no_license_available" />
+        </p>
+          </div> 
+        </c:when>
+        <c:otherwise>
       <div class="content">
-
+        
         <jsp:include page="arp.jsp" />
         <hr />
 
@@ -86,6 +95,8 @@
           </fieldset>
         </form:form>
       </div>
+      </c:otherwise>
+        </c:choose>
     </section>
   </div>
 </div>

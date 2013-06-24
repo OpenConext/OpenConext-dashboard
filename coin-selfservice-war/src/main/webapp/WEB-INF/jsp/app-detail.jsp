@@ -119,10 +119,16 @@
               <ul>
               <c:if test="${applyAllowed}">
                 <li>
-	              <a href="<c:url value="/requests/linkrequest.shtml">
-	                <c:param name="serviceId" value="${service.id}" />
-	              </c:url>"
-	                 title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
+                <c:choose>
+                <c:when test="${service.hasCrmLink && empty service.license}">
+                  <spring:message code="jsp.sp_detail.requestlink"/>
+                </c:when>
+                <c:otherwise>
+		              <a href="<c:url value="/requests/linkrequest.shtml">
+		                <c:param name="serviceId" value="${service.id}" />
+		              </c:url>"title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
+                </c:otherwise>
+                </c:choose>
                 </li>
 	            </c:if>
               <c:if test="${questionAllowed}"><li><tags:ask-question service="${service}" invariant="${questionAllowed}" /></li></c:if>
