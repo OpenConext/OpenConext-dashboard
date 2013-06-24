@@ -533,5 +533,66 @@
     ],
     "spEntityId": "https://not-available-for-end-user",
     "availableForEndUser": false
+  },
+  {
+    "id": 9,
+    "name": "Not connected, no License, but CRM link",
+    "description": "The description of the Service",
+    "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "websiteUrl": "https://website.url",
+    "appUrl": "https://app.url",
+    "serviceUrl": "https://service.url",
+    "crmUrl": "https://crm.url",
+    "detailLogoUrl": "https://www.google.nl/images/srpr/logo4w.png",
+    "supportUrl": "https://support.url",
+    "eulaUrl": "https://eula.url",
+    "screenshotUrls": [
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png",
+      "https://www.google.nl/images/srpr/logo4w.png"
+    ],
+    "supportMail": "support@mail.com",
+    "enduserDescription": "The enduser description of the Service",
+    "institutionDescription": "The insitution description of this service",
+    "lastLoginDate": 1370955629221,
+    "connected": false,
+    "hasCrmLink": true,
+    "crmArticle": {
+      "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+      "appleAppStoreUrl": "https://appleAppStoreUrl",
+      "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+    },
+    "categories": [
+      {
+        "name": "Location",
+        "values": [
+          {
+            "value": "USA"
+          }
+        ]
+      },
+      {
+        "name": "Target Group",
+        "values": [
+          {
+            "value": "Students"
+          }
+        ]
+      }
+    ],
+    "spEntityId": "https://license-not-connected-license-required-mock-sp",
+    "availableForEndUser": true,
+    "arp": {
+      "name": "All attributes",
+      "description": "All known attributes",
+      "attributes": {
+      },
+      "noArp": true,
+      "noAttrArp": false
+    }
   }
+
+
 ]
