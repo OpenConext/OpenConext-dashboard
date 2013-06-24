@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ Copyright 2013 SURFnet bv, The Netherlands
   ~
@@ -21,17 +19,17 @@
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- daily rollover -->
       <fileNamePattern>logs/showroom-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-        <maxHistory>60</maxHistory>
+      <maxHistory>60</maxHistory>
     </rollingPolicy>
     <encoder>
       <pattern>%d{ISO8601} %5p [%t] %logger{40}:%L - %m%n</pattern>
     </encoder>
   </appender>
 
-  <logger name="org.springframework" level="warn">
+  <logger name="org.springframework" level="warn" additivity="false">
     <appender-ref ref="file" />
   </logger>
-  <logger name="nl.surfnet.coin" level="info">
+  <logger name="nl.surfnet.coin" level="debug" additivity="false">
     <appender-ref ref="file" />
   </logger>
   <root level="warn">

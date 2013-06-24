@@ -20,30 +20,33 @@ coin-administrative-email=surfconext-beheer@surfnet.nl
 
 wayf.url.metadata=https://engine.surfconext.nl/authentication/idp/metadata
 wayf.url.sso=https://engine.surfconext.nl/authentication/idp/single-sign-on
-wayf.certificate=??
+wayf.certificate=MIIDyzCCArOgAwIBAgIJAMzixtXMUH1NMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNVBAYTAk5MMRAwDgYDVQQIDAdVdHJlY2h0MRAwDgYDVQQHDAdVdHJlY2h0MRUwEwYDVQQKDAxTVVJGbmV0IEIuVi4xEzARBgNVBAsMClNVUkZjb25leHQxHTAbBgNVBAMMFGVuZ2luZS5zdXJmY29uZXh0Lm5sMB4XDTExMDEyNDEwMTg1N1oXDTIxMDEyMzEwMTg1N1owfDELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxFTATBgNVBAoMDFNVUkZuZXQgQi5WLjETMBEGA1UECwwKU1VSRmNvbmV4dDEdMBsGA1UEAwwUZW5naW5lLnN1cmZjb25leHQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJ6v+f3owS3KR5IXSil+3XFwGvCVeYx3jDOFKAnwvXlDpTu+t730b8/spHtlopyJVAlb6qBIPN7R4TGTLqiu0zebYsYx/PtqCk5cbu9qs3h+p2BBoTXVwXA/ZYi0tqtxp04hcNrRj1TAgLyC0S+KASTF+zzccAcjTBid5EMioo+YllgSEobWJ4X33XVRqNrikAPDsNmDrdKUi257JSO2xhVIG5lbtmDaL5ORCD56oRmVdp7VQTEQ3Yass8J5Rn+Ub6WmRBYeG+KzFBvtyBput2o0/gvtJn9L+NWeDB0LyUPaUYG/X4GF14FcmFQfz7I5jBCNHtPcLJbPYbZKQNhz/AgMBAAGjUDBOMB0GA1UdDgQWBBS9QqP8gtMM6nm4oYzNbgqhEDP1aDAfBgNVHSMEGDAWgBS9QqP8gtMM6nm4oYzNbgqhEDP1aDAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4IBAQBH2qyYwLwesIOxUTj+NJ0VXRBDH8VecNLiUUs9Np4x8A0pxLvlNnv5TdJAruEg1LSVmAqqPUdAB2m7CKDeUVM9cwOB7vqelV2GNgOfevXi+DZRMffyyE8qyIcnTqvDOgcR8qGTPSVT+SIsOkV9bYrjltrbnal7cJermsA8SC5w/pjLaOHI1xIZHquZzymWoN3Zfz2CQg2r5o+AURYd74GrHhHqVa9VrdWtcimB+vTQQihoLt8YciehpJjOMpx2D66eFfpC8ix31RRdjAVIo1y33h1yU3gEHePDbOthZE+lpXi2WJqO85H85LqJOtgn2WPI3P2Tx32Cq1WXCYkxLaPI
 
 ## Properties for opensaml
-ISSUING_ENTITY_ID=https\://dashboard.surfconext.nl
+ISSUING_ENTITY_ID=https\://showroom.surfconext.nl
 
-WEB_APPLICATION_HOST_AND_PORT=dashboard.surfconext.nl
+WEB_APPLICATION_HOST_AND_PORT=showroom.surfconext.nl
 
 
 # Team id that is used as definition of who is a 'showroom_admin'.
-showroom.admin=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_license_admin
+showroom.admin=urn\:collab\:group\:surfteams.nl\:nl\:surfnet\:diensten\:showroom_license_admin
+
 
 api-baseurl=https\://api.surfconext.nl/v1/
-api-consumerkey=https\://dashboard.surfconext.nl
-api-consumersecret=??
-api-callbackuri=https\://dashboard.surfconext.nl/apiOauthCallback?apiOauthCallback\=true
+api-consumerkey=https\://showroom.surfconext.nl
+api-consumersecret=J0BU1qjJudc1lYZD
+api-callbackuri=https\://showroom.surfconext.nl/apiOauthCallback?apiOauthCallback\=true
 
-csa.base.url=https://csa.test.showroom.surfconext.nl
-csa.client.key=showroomtestshowroomsurfconextnl
-csa.client.secret=feb2cc85-d11e-44e6-b6b4-084a509a5949
-csa.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
+csa.base.url=https://csa.showroom.surfconext.nl
+csa.client.key=showroomsurfconextnl
+csa.client.secret=??
+csa.oauth2.authorization.url=https://apis.showroom.surfconext.nl/oauth2/token
 
+cruncher.base.url=https://cruncher.acc.showroom.surfconext.nl/stats/v1
+cruncher.client.key=showroomsurfconextnl-to-cruncher
+cruncher.client.secret=??
+cruncher.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
 
-csa.base.url=https://csa.test.showroom.surfconext.nl
-csa.client.key=showroomtestshowroomsurfconextnl
-csa.client.secret=feb2cc85-d11e-44e6-b6b4-084a509a5949
-csa.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
-
+sab.endpoint=https://sab.surfnet.nl/simplesaml/module.php/attributes/server.php
+sab.username=??
+sab.password=??

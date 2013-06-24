@@ -40,8 +40,7 @@ csa.client.key=showroomtestshowroomsurfconextnl
 csa.client.secret=feb2cc85-d11e-44e6-b6b4-084a509a5949
 csa.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
 
-
-csa.base.url=https://csa.test.showroom.surfconext.nl
-csa.client.key=showroomtestshowroomsurfconextnl
-csa.client.secret=feb2cc85-d11e-44e6-b6b4-084a509a5949
-csa.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
+cruncher.base.url=https://cruncher.test.showroom.surfconext.nl/stats/v1
+cruncher.client.key=showroomtestshowroomsurfconextnl
+cruncher.client.secret=??
+cruncher.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
