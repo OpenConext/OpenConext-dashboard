@@ -99,7 +99,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
     map.put(FACET_CONNECTION_VISIBLE, !containsRole(authorities, ROLE_SHOWROOM_USER));
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER));
-    map.put(RAW_ARP_ATTRIBUTES_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
+    map.put(RAW_ARP_ATTRIBUTES_VISIBLE, true);
   }
 
   /**

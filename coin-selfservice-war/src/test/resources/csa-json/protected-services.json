@@ -110,6 +110,9 @@
         ],
         "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": [
           "*"
+        ],
+        "urn:mace:surffederatie.nl:attribute-def:unknownAttributeByAttributeManipulation": [
+          "*"
         ]
       },
       "noArp": false,
