@@ -110,12 +110,14 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   protected Collection<Service> scopeListOfServices(Collection<Service> services,
                                                     List<Authority> authorities) {
     if (isRoleShowroomUser(authorities)) {
+      int sizeBeforeFilter = services.size();
       services = removeNonConnectedServices(services);
-      LOG.debug("Reduced the list of services to only linked services, because user '{}' is an enduser.", SpringSecurity.getCurrentUser().getUid());
+      LOG.debug("Reduced the list of services to only linked services ({} of total {}), because user '{}' is an enduser.",  services.size(), sizeBeforeFilter, SpringSecurity.getCurrentUser().getUid());
     }
     if (containsRole(authorities, ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER)) {
+      int sizeBeforeFilter = services.size();
       services = removeNonEndUserAvailableServices(services);
-      LOG.debug("Reduced the list of services to only public available services, because user '{}' is an showroom admin / user", SpringSecurity.getCurrentUser().getUid());
+      LOG.debug("Reduced the list of services to only public available services ({} of total {}), because user '{}' is an showroom admin / user", services.size(), sizeBeforeFilter, SpringSecurity.getCurrentUser().getUid());
     }
     return services;
   }
