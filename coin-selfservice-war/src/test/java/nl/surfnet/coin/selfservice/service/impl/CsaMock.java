@@ -131,6 +131,11 @@ public class CsaMock implements Csa {
   public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
     return ( List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() { }, "csa-json/institution-identity-providers.json");
   }
+  
+  @Override
+  public List<InstitutionIdentityProvider> getAllInstitutionIdentityProviders() {
+    return ( List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() { }, "csa-json/institution-identity-providers.json");
+  }
 
 
   public Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {
