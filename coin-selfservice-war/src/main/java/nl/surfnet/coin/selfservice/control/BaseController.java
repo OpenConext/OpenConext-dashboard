@@ -16,18 +16,11 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -36,6 +29,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.LocaleResolver;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Abstract controller used to set model attributes to the request
@@ -108,11 +106,7 @@ public abstract class BaseController {
    */
   public static final String GROUPS_WITH_MEMBERS = "groupsWithMembers";
 
-  /**
-   * Key in which we store whether a user should see the technical attribute names of an ARP.
-   */
-  public static final String RAW_ARP_ATTRIBUTES_VISIBLE = "rawArpAttributesVisible";
-
+  public static final String SHOW_ARP_MATCHES_PROVIDED_ATTRS = "showArpMatchesProvidedAttrs";
   /**
    * Key for the selectedIdp in the session
    */
