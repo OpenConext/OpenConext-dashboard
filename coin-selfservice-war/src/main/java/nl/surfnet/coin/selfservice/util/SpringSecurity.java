@@ -16,12 +16,18 @@
 
 package nl.surfnet.coin.selfservice.util;
 
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-
 public class SpringSecurity {
+
+  /*
+     * For a super users to be able to switch back to his / hers original identity (including
+     * the InstitutionIdentityProvider) we need to store the reference.
+     */
+  private static InstitutionIdentityProvider impersonatedIdentityProvider;
 
   /**
    * Get the  currently logged in user from the security context.
@@ -42,11 +48,19 @@ public class SpringSecurity {
   }
 
   /**
-   *
    * @return
    */
   public static boolean isFullyAuthenticated() {
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CoinUser;
   }
+
+  public static InstitutionIdentityProvider getImpersonatedIdentityProvider() {
+    return impersonatedIdentityProvider;
+  }
+
+  public static void setImpersonatedIdentityProvider(InstitutionIdentityProvider impersonatedIdentityProvider) {
+    SpringSecurity.impersonatedIdentityProvider = impersonatedIdentityProvider;
+  }
+
 }

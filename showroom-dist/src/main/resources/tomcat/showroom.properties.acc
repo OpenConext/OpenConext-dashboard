@@ -29,6 +29,7 @@ WEB_APPLICATION_HOST_AND_PORT=dashboard.acc.surfconext.nl
 
 # Team id that is used as definition of who is a 'showroom_admin'.
 showroom.admin=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:showroom_admin
+showroom.super.user=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:csa_shopmanager
 
 sab.endpoint=https://sab-ng.surfnet.nl/simplesaml/module.php/attributes/server.php
 sab.username=guest

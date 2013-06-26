@@ -16,8 +16,11 @@
 
 package nl.surfnet.coin.selfservice.interceptor;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import nl.surfnet.coin.selfservice.domain.IdentitySwitch;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +31,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -50,6 +54,9 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
 
   private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(new String[]{POST.name(), DELETE.name(), PUT.name()});
+
+  @Resource
+  private Csa csa;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -90,6 +97,23 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       scopeGeneralAuthCons(map, authorities, request);
 
       addTokenToModelMap(request, response, map);
+
+      addSwitchIdentity(map, authorities, request);
+    }
+  }
+
+  private void addSwitchIdentity(ModelMap map, List<Authority> authorities, HttpServletRequest request) {
+    if (containsRole(authorities, ROLE_SHOWROOM_SUPER_USER, ROLE_DASHBOARD_SUPER_USER)) {
+      List<InstitutionIdentityProvider> idps = (List<InstitutionIdentityProvider>) request.getSession().getAttribute(INSTITUTION_IDENTITY_PROVIDERS);
+      if (idps == null) {
+        idps = csa.getAllInstitutionIdentityProviders();
+        request.getSession().setAttribute(INSTITUTION_IDENTITY_PROVIDERS, idps);
+      }
+      map.put(INSTITUTION_IDENTITY_PROVIDERS, idps);
+    }
+    IdentitySwitch identitySwitch = (IdentitySwitch) request.getSession().getAttribute(SWITCHED_IDENTITY_SWITCH);
+    if (identitySwitch == null) {
+      request.getSession().setAttribute(SWITCHED_IDENTITY_SWITCH, new IdentitySwitch());
     }
   }
 
@@ -109,7 +133,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    */
   protected Collection<Service> scopeListOfServices(Collection<Service> services,
                                                     List<Authority> authorities) {
-    if (isRoleShowroomUser(authorities)) {
+    if (containsRole(authorities, ROLE_SHOWROOM_USER)) {
       int sizeBeforeFilter = services.size();
       services = removeNonConnectedServices(services);
       LOG.debug("Reduced the list of services to only linked services ({} of total {}), because user '{}' is an enduser.",  services.size(), sizeBeforeFilter, SpringSecurity.getCurrentUser().getUid());
@@ -149,7 +173,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   protected void scopeService(ModelMap map, Service service, List<Authority> authorities) {
     // Do not allow normal users to view 'unlinked' services, even if requested
     // explicitly.
-    if (isRoleShowroomUser(authorities) && !service.isConnected()) {
+    boolean  isRoleShowroomUser = containsRole(authorities, ROLE_SHOWROOM_USER);
+    if (isRoleShowroomUser && !service.isConnected()) {
       LOG.info(
               "user requested service details of service with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
               service.getId());
@@ -157,13 +182,9 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     }
 
     // Remove all properties from service that user does not have access to.
-    if (isRoleShowroomUser(authorities)) {
+    if (isRoleShowroomUser) {
       service.setSupportMail(null);
     }
-  }
-
-  protected boolean isRoleShowroomUser(List<Authority> authorities) {
-    return ((authorities.size() == 1 && authorities.get(0).equals(Authority.ROLE_SHOWROOM_USER)));
   }
 
   protected static boolean containsRole(List<Authority> authorities, Authority... authority) {

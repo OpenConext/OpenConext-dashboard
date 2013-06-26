@@ -33,8 +33,10 @@
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
     <property name="showroomAdmin" value="${showroom.admin}" />
+    <property name="showroomSuperUser" value="${showroom.super.user}" />
     <property name="dashboardAdmin" value="${dashboard.admin}" />
     <property name="dashboardViewer" value="${dashboard.viewer}" />
+    <property name="dashboardSuperUser" value="${dashboard.super.user}" />
     <property name="isDashboard" value="${is.dashboard}" />
 
     <property name="apiClient" ref="openConextApiClient" />
@@ -83,7 +85,7 @@
     <security:intercept-url pattern="/OpenSAML.sso/Metadata" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
     <security:intercept-url pattern="${ASSERTION_CONSUMER_URI}"
-                               access="hasAnyRole('ROLE_ANONYMOUS','ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN','ROLE_SHOWROOM_USER')"/>
+                               access="hasAnyRole('ROLE_ANONYMOUS','ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_SUPER_USER','ROLE_SHOWROOM_ADMIN','ROLE_SHOWROOM_USER','ROLE_SHOWROOM_SUPER_USER')"/>
 
     <security:intercept-url pattern="/css/**" access="permitAll"/>
     <security:intercept-url pattern="/font/**" access="permitAll"/>
@@ -93,9 +95,10 @@
     <security:intercept-url pattern="/js/**" access="permitAll"/>
     <security:intercept-url pattern="/*.ico" access="permitAll"/>
     <security:intercept-url pattern="/stats/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER')"/>
+    <security:intercept-url pattern="/identity/**" access="hasAnyRole('ROLE_SHOWROOM_SUPER_USER','ROLE_DASHBOARD_SUPER_USER')"/>
     <security:intercept-url pattern="/requests/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN')"/>
     <security:intercept-url pattern="/notifications/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN')"/>
-    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_SHOWROOM_ADMIN','ROLE_SHOWROOM_USER')"/>
+    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_DASHBOARD_ADMIN','ROLE_DASHBOARD_VIEWER','ROLE_DASHBOARD_SUPER_USER','ROLE_SHOWROOM_ADMIN','ROLE_SHOWROOM_USER','ROLE_SHOWROOM_SUPER_USER')"/>
 
     <security:form-login login-page="/OpenSAML.sso/Login?target=${wayf.url.sso}" default-target-url="/" />
     <security:anonymous/>

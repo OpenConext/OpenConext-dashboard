@@ -144,6 +144,10 @@ public class CoinUser implements UserDetails {
     this.grantedAuthorities.add(grantedAuthority);
   }
 
+  public void removeAuthority(CoinAuthority grantedAuthority) {
+    this.grantedAuthorities.remove(grantedAuthority);
+  }
+
   public void hasAuthority(Authority grantedAuthority) {
     this.grantedAuthorities.contains(grantedAuthority);
   }

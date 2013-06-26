@@ -495,6 +495,7 @@
                     <jsSourceFile>modules/table.js</jsSourceFile>
                     <jsSourceFile>modules/notifications.js</jsSourceFile>
                     <jsSourceFile>modules/app-detail.js</jsSourceFile>
+                    <jsSourceFile>modules/identity-switch.js</jsSourceFile>
                     <jsSourceFile>modules/inline-help.js</jsSourceFile>
 
                     <jsSourceFile>tools/html5shiv.js</jsSourceFile>

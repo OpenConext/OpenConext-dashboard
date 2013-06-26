@@ -69,7 +69,6 @@ public class HomeController extends BaseController {
     } else {
       identityProvider = getSelectedIdp(request);
     }
-    getSelectedIdp(request);
     List<Service> services = csa.getServicesForIdp(identityProvider.getId());
     addLastLoginDateToServices(services, identityProvider.getId());
     model.put(SERVICES, services);

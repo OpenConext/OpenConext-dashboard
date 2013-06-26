@@ -47,7 +47,7 @@
 
 <body>
   <script>document.body.className = 'js-loading'</script>
-  
+
   <spring:url value="/app-overview.shtml" var="homeUrl" htmlEscape="true" />
 <div id="swappable-menus">
   <header class="header">
@@ -56,11 +56,29 @@
 
     <nav class="primary-navigation">
       <ul>
+        <c:if test="${fn:length(institutionIdentityProviders) gt 0}">
+
+          <c:if test="${not empty switchedIdentitySwitch.role}">
+          <li class="identity-disclaimer">
+            Your current role is '<spring:message code="jsp.role.information.key.${switchedIdentitySwitch.role}"/>' from the institution '${selectedIdp.name}'
+          </li>
+        </c:if>
+
+            <li>  <spring:url var="switchIdentityLink" value="/identity/switch.shtml"/>
+              <a id="switch-identity" href="${switchIdentityLink}">
+                <spring:message code="jsp.identity.switch"/>
+                <i class="inlinehelp icon-question-sign" data-title="<spring:message code="jsp.identity.switch"/>"
+                    data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.identity.help" />"></i>
+              </a>
+            </li>
+       </c:if>
         <li class="user">
           <spring:message code="jsp.general.welcome" /> <a href="<spring:url value="/user.shtml" htmlEscape="true" />">
             <sec:authentication property="principal.displayName" scope="request" htmlEscape="true" />
           </a>
         </li>
+
+      <c:if test="${empty switchedIdentitySwitch.role}">
           <li class="role-switch">
           <c:if test="${fn:length(idps) gt 1}">
             <ul class="user-dropdown">
@@ -78,7 +96,7 @@
             ${idps[0].name}
           </c:if>
         </li>
-
+      </c:if>
 
         <spring:url value="" var="langNL" htmlEscape="true">
           <c:forEach var="par" items="${paramValues}">

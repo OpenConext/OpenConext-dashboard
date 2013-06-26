@@ -16,11 +16,6 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_USER;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +44,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
+
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
  * api.surfconext.nl and gets group information of the 'admin team'. Based on
@@ -68,9 +65,11 @@ public class ApiOAuthFilter implements Filter {
   private String showroomAdmin;
   private String dashboardAdmin;
   private String dashboardViewer;
+  private String showroomSuperUser;
   private boolean isDashboard;
 
   private String callbackFlagParameter = "oauthCallback";
+  private String dashboardSuperUser;
 
   /**
    * No initialization needed.
@@ -179,15 +178,18 @@ public class ApiOAuthFilter implements Filter {
         coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
       } else if (groupsContains(dashboardViewer, groups)) {
         coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+      } else if (groupsContains(dashboardSuperUser, groups)) {
+        coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
       }
     } else {
       if (groupsContains(showroomAdmin, groups)) {
         coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_ADMIN));
+      } else if (groupsContains(showroomSuperUser, groups)) {
+        coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_SUPER_USER));
       } else {
         coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_USER));
       }
     }
-
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
   }
 
@@ -229,6 +231,14 @@ public class ApiOAuthFilter implements Filter {
 
   public void setIsDashboard(boolean dashboard) {
     isDashboard = dashboard;
+  }
+
+  public void setShowroomSuperUser(String showroomSuperUser) {
+    this.showroomSuperUser = showroomSuperUser;
+  }
+
+  public void setDashboardSuperUser(String dashboardSuperUser) {
+    this.dashboardSuperUser = dashboardSuperUser;
   }
 
 }

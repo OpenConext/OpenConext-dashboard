@@ -21,6 +21,9 @@ import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -39,7 +42,7 @@ import java.util.Locale;
  * Abstract controller used to set model attributes to the request
  */
 @Controller
-public abstract class BaseController {
+public abstract class BaseController implements ApplicationContextAware {
 
   /**
    * The name of the key under which all services are
@@ -52,6 +55,17 @@ public abstract class BaseController {
    * for the detail view
    */
   public static final String SERVICE = "service";
+
+  /**
+   * The name of the key under which all the identity providers are stored
+   * for the identity switch view
+   */
+  public static final String INSTITUTION_IDENTITY_PROVIDERS = "institutionIdentityProviders";
+
+  /**
+   * The name of the key under which the switched identity is stored
+   */
+  public static final String SWITCHED_IDENTITY_SWITCH = "switchedIdentitySwitch";
 
   /**
    * The name of the key under which we store the info if a logged user is
@@ -111,12 +125,14 @@ public abstract class BaseController {
    * Key for the selectedIdp in the session
    */
   protected static final String SELECTED_IDP = "selectedIdp";
-  
+
   @Resource
   private NotificationService notificationService;
 
   @Resource(name = "localeResolver")
   protected LocaleResolver localeResolver;
+
+  protected ApplicationContext context;
 
   @ModelAttribute(value = "idps")
   public List<InstitutionIdentityProvider> getMyInstitutionIdps() {
@@ -129,7 +145,7 @@ public abstract class BaseController {
   }
 
   protected InstitutionIdentityProvider getSelectedIdp(HttpServletRequest request) {
-    final InstitutionIdentityProvider selectedIdp = (InstitutionIdentityProvider)  request.getSession().getAttribute(SELECTED_IDP);
+    final InstitutionIdentityProvider selectedIdp = (InstitutionIdentityProvider) request.getSession().getAttribute(SELECTED_IDP);
     if (selectedIdp != null) {
       return selectedIdp;
     }
@@ -152,7 +168,6 @@ public abstract class BaseController {
     }
     throw new RuntimeException(idpId + " is unknown for " + SpringSecurity.getCurrentUser().getUsername());
   }
-
 
   /**
    * Get notifications from the session (if available) and place as model
@@ -177,9 +192,8 @@ public abstract class BaseController {
   /**
    * Handler for {@link AjaxResponseException}. We don't want a 500, but a 400
    * and we want to stream the error message direct to the javaScript
-   * 
-   * @param e
-   *          the exception
+   *
+   * @param e the exception
    * @return the response body
    */
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -187,6 +201,10 @@ public abstract class BaseController {
   @ExceptionHandler(AjaxResponseException.class)
   public Object handleAjaxResponseException(AjaxResponseException e) {
     return e.getMessage();
+  }
+
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.context = applicationContext;
   }
 
 }

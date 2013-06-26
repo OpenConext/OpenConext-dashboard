@@ -69,6 +69,7 @@
     <script src="<c:url value="/js/modules/graphs.js"/>"></script>
     <script src="<c:url value="/js/modules/notifications.js"/>"></script>
     <script src="<c:url value="/js/modules/app-detail.js"/>"></script>
+    <script src="<c:url value="/js/modules/identity-switch.js"/>"></script>
     <script src="<c:url value="/js/modules/inline-help.js"/>"></script>
     <script src="<c:url value="/js/tools/html5shiv.js"/>"></script>
     <script src="<c:url value="/js/tools/ios-orientationchange-fix.js"/>"></script>

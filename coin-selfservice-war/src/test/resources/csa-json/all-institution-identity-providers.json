@@ -1,0 +1,22 @@
+[
+  {
+    "id": "https://mock-idp-1",
+    "name": "Open University Students",
+    "institutionId": "mock-institution-id"
+  },
+  {
+    "id": "https://mock-idp-2",
+    "name": "Open University Teachers",
+    "institutionId": "mock-institution-id"
+  },
+  {
+    "id": "https://mock-idp-3",
+    "name": "Open University Library",
+    "institutionId": "mock-institution-id"
+  },
+  {
+    "id": "https://mock-idp-4",
+    "name": "Open University Externals"
+  }
+
+]
