@@ -39,17 +39,16 @@
     <coin-shared.version>3.5.0</coin-shared.version>
     <coin-test.version>3.1.0</coin-test.version>
     <coin-master.test-dependencies.version>3.5.0</coin-master.test-dependencies.version>
-    <coin-api.version>3.2.0-SNAPSHOT</coin-api.version>
+    <coin-api.version>3.6.0</coin-api.version>
     <spring-security-opensaml.version>3.2.0</spring-security-opensaml.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
     <mujina-idp.version>2.15.1</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
-    <!--<selenium.version>2.25.0</selenium.version>-->
     <selenium.version>2.32.0</selenium.version>
     <freemarker.version>[2.3.19,2.4)</freemarker.version>
-    <api-secure.version>1.1.1-SNAPSHOT</api-secure.version>
+    <api-secure.version>1.2.4</api-secure.version>
     <selenium.test.url>http://localhost:8280/selfservice/</selenium.test.url>
     <jetty.port>8280</jetty.port>
 
@@ -354,13 +353,13 @@
     <dependency>
       <groupId>org.surfnet.coin</groupId>
       <artifactId>csa-client</artifactId>
-      <version>3.4.0-SNAPSHOT</version>
+      <version>3.6.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.surfnet</groupId>
       <artifactId>cruncher-client</artifactId>
-      <version>3.5.0-SNAPSHOT</version>
+      <version>3.6.0</version>
     </dependency>
   </dependencies>
 
