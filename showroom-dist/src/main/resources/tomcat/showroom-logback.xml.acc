@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright 2013 SURFnet bv, The Netherlands
   ~
@@ -29,7 +30,7 @@
   <logger name="org.springframework" level="warn" additivity="false">
     <appender-ref ref="file" />
   </logger>
-  <logger name="nl.surfnet.coin" level="debug" additivity="false">
+  <logger name="nl.surfnet.coin" level="info" additivity="false">
     <appender-ref ref="file" />
   </logger>
   <root level="warn">

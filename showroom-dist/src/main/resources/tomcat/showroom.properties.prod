@@ -29,7 +29,11 @@ WEB_APPLICATION_HOST_AND_PORT=showroom.surfconext.nl
 
 
 # Team id that is used as definition of who is a 'showroom_admin'.
-showroom.admin=urn\:collab\:group\:surfteams.nl\:nl\:surfnet\:diensten\:showroom_license_admin
+showroom.admin=urn\:collab\:group\:surfteams.nl\:nl\:surfnet\:diensten\:showroom_admin
+
+sab.endpoint=?????https://sab-ng.surfnet.nl/simplesaml/module.php/attributes/server.php
+sab.username=??
+sab.password=??
 
 
 api-baseurl=https\://api.surfconext.nl/v1/
