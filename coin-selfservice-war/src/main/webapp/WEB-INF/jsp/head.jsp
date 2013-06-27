@@ -77,7 +77,6 @@
             <sec:authentication property="principal.displayName" scope="request" htmlEscape="true" />
           </a>
         </li>
-
       <c:if test="${empty switchedIdentitySwitch.role}">
           <li class="role-switch">
           <c:if test="${fn:length(idps) gt 1}">

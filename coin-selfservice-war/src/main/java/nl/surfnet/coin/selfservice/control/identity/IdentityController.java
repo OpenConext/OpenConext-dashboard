@@ -23,6 +23,7 @@ import nl.surfnet.coin.selfservice.control.BaseController;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.IdentitySwitch;
+import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -64,8 +66,7 @@ public class IdentityController extends BaseController {
     SpringSecurity.setImpersonatedIdentityProvider(currentUser.getIdp());
     currentUser.setIdp(provider);
 
-    request.getSession().setAttribute(SELECTED_IDP, provider);
-    request.getSession().setAttribute(SWITCHED_IDENTITY_SWITCH, identitySwitch);
+    newIdentity(identitySwitch, request, provider);
 
     clearAuthorities(currentUser, isDashBoard(request));
 
@@ -78,10 +79,19 @@ public class IdentityController extends BaseController {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     InstitutionIdentityProvider provider = SpringSecurity.getImpersonatedIdentityProvider();
     currentUser.setIdp(provider);
+
+    newIdentity(null, request, provider);
+
     clearAuthorities(currentUser, isDashBoard(request));
-    request.getSession().setAttribute(SWITCHED_IDENTITY_SWITCH, null);
-    request.getSession().setAttribute(SELECTED_IDP, provider);
+
     return new RedirectView("/app-overview.shtml", true);
+  }
+
+  private void newIdentity(IdentitySwitch identitySwitch, HttpServletRequest request, InstitutionIdentityProvider provider) {
+    HttpSession session = request.getSession();
+    session.setAttribute(SELECTED_IDP, provider);
+    session.setAttribute(SWITCHED_IDENTITY_SWITCH, identitySwitch);
+    session.setAttribute(NOTIFICATIONS, null);
   }
 
   private InstitutionIdentityProvider idpToInstitutionIdentityProvider(HttpServletRequest request, String idp) {

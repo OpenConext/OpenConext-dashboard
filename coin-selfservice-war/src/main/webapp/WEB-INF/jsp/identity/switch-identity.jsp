@@ -10,7 +10,8 @@
       Switch the identity within the application
     </p>
   </div>
-  <form:form method="post" action="identity/do-switch.shtml">
+  <spring:url var="postSwitchIdentity" value="/identity/do-switch.shtml" />
+  <form:form method="post" action="${postSwitchIdentity}">
     <div class="modal-body modal-no-overflow">
         <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>" />
         <p><spring:message code="jsp.identity.institution" /> </p>
@@ -24,10 +25,9 @@
     </div>
 
     <div class="modal-footer">
-      <spring:url var="postRecommendApp" value="/do-app-recommend.shtml" />
       <button class="btn btn-primary btn-small" type="submit" name="submit" value="true">Switch</button>
       <button class="btn btn-primary-alt btn-small" type="submit" name="reset" value="true">Reset</button>
-      <a class="btn btn-small" data-dismiss="modal" id="close-recommend-modal">Cancel</a>
+      <a class="btn btn-small" data-dismiss="modal">Cancel</a>
     </div>
   </form:form>
 

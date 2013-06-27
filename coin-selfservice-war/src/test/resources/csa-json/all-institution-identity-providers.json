@@ -1,6 +1,6 @@
 [
   {
-    "id": "https://mock-idp-1",
+    "id": "http://mock-idp",
     "name": "Open University Students",
     "institutionId": "mock-institution-id"
   },
@@ -11,8 +11,7 @@
   },
   {
     "id": "https://mock-idp-3",
-    "name": "Open University Library",
-    "institutionId": "mock-institution-id"
+    "name": "Open University Library"
   },
   {
     "id": "https://mock-idp-4",

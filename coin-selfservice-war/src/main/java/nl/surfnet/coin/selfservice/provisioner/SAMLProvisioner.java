@@ -38,7 +38,7 @@ public class SAMLProvisioner implements Provisioner {
   private static final String DISPLAY_NAME = "urn:mace:dir:attribute-def:displayName";
   private static final String EMAIL = "urn:mace:dir:attribute-def:mail";
   private static final String SCHAC_HOME = "urn:mace:terena.org:attribute-def:schacHomeOrganization";
-  
+
   private String uuidAttribute = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
 
   @Resource
@@ -54,12 +54,13 @@ public class SAMLProvisioner implements Provisioner {
     List<InstitutionIdentityProvider> institutionIdentityProviders = csa.getInstitutionIdentityProviders(idpId);
     if (CollectionUtils.isEmpty(institutionIdentityProviders)) {
       //duhh, fail fast, big problems
-      throw new IllegalArgumentException("Csa#getInstitutionIdentityProviders('"+idpId+"') returned zero result");
+      throw new IllegalArgumentException("Csa#getInstitutionIdentityProviders('" + idpId + "') returned zero result");
     }
     if (institutionIdentityProviders.size() == 1) {
       //most common case
-      coinUser.setIdp(institutionIdentityProviders.get(0));
-      coinUser.addInstitutionIdp(institutionIdentityProviders.get(0));
+      InstitutionIdentityProvider idp = institutionIdentityProviders.get(0);
+      coinUser.setIdp(idp);
+      coinUser.addInstitutionIdp(idp);
     } else {
       coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
       coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
@@ -81,7 +82,7 @@ public class SAMLProvisioner implements Provisioner {
         return provider;
       }
     }
-    throw new IllegalArgumentException("The Idp('"+idpId+"') is not present in the list of Idp's returned by the CsaClient");
+    throw new IllegalArgumentException("The Idp('" + idpId + "') is not present in the list of Idp's returned by the CsaClient");
   }
 
   private String getAuthenticatingAuthority(final Assertion assertion) {
@@ -115,5 +116,5 @@ public class SAMLProvisioner implements Provisioner {
     this.uuidAttribute = uuidAttribute;
   }
 
- 
+
 }

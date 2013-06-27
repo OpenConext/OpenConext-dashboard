@@ -1,17 +1,12 @@
 [
   {
-    "id": "http://adfs.myhz.nl/adfs/services/trust",
+    "id": "http://mock-idp",
     "name": "Open University Students",
     "institutionId": "mock-institution-id"
   },
   {
-    "id": "http://mock-idp",
+    "id": "https://mock-idp-2",
     "name": "Open University Teachers",
-    "institutionId": "mock-institution-id"
-  },
-  {
-    "id": "https://mujina-idp.acc.csa.surfconext.nl/",
-    "name": "Open University Library",
     "institutionId": "mock-institution-id"
   }
 ]
