@@ -135,6 +135,11 @@
               <c:if test="${applyAllowed}"><li><a href="#" rel="tooltip" data-placement="top" title="Entity ID: ${service.spEntityId}"><i class="icon-info-sign"></i></a></li></c:if>
 
               </ul>
+              <c:if test="${service.hasCrmLink && empty service.license}">
+              <p>
+                <spring:message code="jsp.sp_linkrequest.no_license_available" />
+              </p>
+              </c:if>
             </div>
           </c:when>
           <c:when test="${service.connected}">
