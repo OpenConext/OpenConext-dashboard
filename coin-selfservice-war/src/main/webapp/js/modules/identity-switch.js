@@ -18,25 +18,12 @@ app.identitySwitch = function() {
 
   var renderModal = function(jsp) {
     var html = $(jsp);
-
-//    html.find("a#close-switch-identity-modal").click(function() {
-//      // Explicitly hide and remove modals, because when opening a new, next modal, we would get confused by
-//      // the reuse of element ids etc.
-//      html.modal('hide');
-//      // wait for css transition to end before removing the modal.
-//      html.on('hidden', function () {
-//        html.remove();
-//      });
-//    });
-//
     html.find("#referenceIdentityProviders").select2();
-
     html.modal({
       backdrop : "static",
       keyboard : "false"
     });
   }
-
 
   return {
     init : init
