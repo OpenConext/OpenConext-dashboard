@@ -39,11 +39,7 @@ public class HistoryController extends BaseController {
 
   @RequestMapping(value = "/history.shtml")
   public ModelAndView listActions(HttpServletRequest request) {
-    //if an user acutally links to requests-overview we can dismiss the popup
-    notificationPopupClosed(request);
-
     Map<String, Object> model = new HashMap<String, Object>();
-
     final List<Action> actions = csa.getJiraActions(getSelectedIdp(request).getId());
     model.put("actionList", actions);
     return new ModelAndView("requests/history", model);

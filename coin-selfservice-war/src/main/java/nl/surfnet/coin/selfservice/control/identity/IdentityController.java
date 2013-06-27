@@ -92,6 +92,7 @@ public class IdentityController extends BaseController {
     session.setAttribute(SELECTED_IDP, provider);
     session.setAttribute(SWITCHED_IDENTITY_SWITCH, identitySwitch);
     session.setAttribute(NOTIFICATIONS, null);
+    session.setAttribute(NOTIFICATION_POPUP_CLOSED, null);
   }
 
   private InstitutionIdentityProvider idpToInstitutionIdentityProvider(HttpServletRequest request, String idp) {
