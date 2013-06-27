@@ -19,6 +19,7 @@ package nl.surfnet.coin.selfservice.interceptor;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.control.HomeController;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.IdentitySwitch;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -85,9 +86,9 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
         scopeService(map, service, authorities);
       }
 
-      Collection<Service> services = (Collection<Service>) map.get(SERVICES);
+      List<Service> services = (List<Service>) map.get(SERVICES);
       if (!CollectionUtils.isEmpty(services)) {
-        services = scopeListOfServices(services, authorities);
+        services = scopeListOfServices(services);
         for (Service service1 : services) {
           scopeService(map, service1, authorities);
         }
@@ -117,7 +118,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     }
   }
 
-  protected void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities, final HttpServletRequest request) {
+  private void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities, final HttpServletRequest request) {
     map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
     map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
     map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
@@ -131,8 +132,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    *
    * @return a reduced list, or the same, if no changes.
    */
-  protected Collection<Service> scopeListOfServices(Collection<Service> services,
-                                                    List<Authority> authorities) {
+  public static List<Service> scopeListOfServices(List<Service> services) {
+    List<Authority> authorities = SpringSecurity.getCurrentUser().getAuthorityEnums();
     if (containsRole(authorities, ROLE_SHOWROOM_USER)) {
       int sizeBeforeFilter = services.size();
       services = removeNonConnectedServices(services);
@@ -146,8 +147,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     return services;
   }
 
-  private Collection<Service> removeNonConnectedServices(Collection<Service> services) {
-    Collection<Service> result = new ArrayList<Service>();
+  private static List<Service> removeNonConnectedServices(Collection<Service> services) {
+    List<Service> result = new ArrayList<Service>();
     for (Service service : services) {
       if (service.isConnected()) {
         result.add(service);
@@ -156,8 +157,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     return result;
   }
 
-  private Collection<Service> removeNonEndUserAvailableServices(Collection<Service> services) {
-    Collection<Service> result = new ArrayList<Service>();
+  private static List<Service> removeNonEndUserAvailableServices(Collection<Service> services) {
+    List<Service> result = new ArrayList<Service>();
     for (Service service : services) {
       if (service.isAvailableForEndUser()) {
         result.add(service);
@@ -207,5 +208,4 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     map.addAttribute(TOKEN_CHECK, token);
     request.getSession().setAttribute(TOKEN_CHECK, token);
   }
-
 }

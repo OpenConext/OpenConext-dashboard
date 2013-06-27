@@ -20,6 +20,7 @@ import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.*;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -40,7 +41,6 @@ import java.util.*;
 /**
  * Controller of the homepage showing 'my apps' (or my services, meaning the
  * services that belong to you as a user with a specific role)
- * 
  */
 @Controller
 public class HomeController extends BaseController {
@@ -70,19 +70,26 @@ public class HomeController extends BaseController {
       identityProvider = getSelectedIdp(request);
     }
     List<Service> services = csa.getServicesForIdp(identityProvider.getId());
+
+    /*
+     * Strange but we need to do this to get the facet / connected / licensed numbers. Alternative is worst and let the AuthorityScopeInterceptor call the HomeController
+     */
+    services = AuthorityScopeInterceptor.scopeListOfServices(services);
+
     addLastLoginDateToServices(services, identityProvider.getId());
-    model.put(SERVICES, services);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
-    addLicensedConnectedLoginCounts(model, services);
     model.put("showFacetSearch", true);
+
+    addLicensedConnectedLoginCounts(model, services);
 
     List<Category> facets = this.filterFacetValues(services, csa.getTaxonomy());
     model.put("facets", facets);
     model.put("facetsUsed", this.isCategoryValuesUsed(facets));
 
+    model.put(SERVICES, services);
     return new ModelAndView("app-overview", model);
   }
 
@@ -106,21 +113,6 @@ public class HomeController extends BaseController {
     return null;
   }
 
-  private void addLicensedConnectedLoginCounts(Map<String, Object> model, List<Service> services) {
-    int connectedCount = getConnectedCount(services);
-    model.put("connectedCount", connectedCount);
-    model.put("notConnectedCount", services.size() - connectedCount);
-
-    int licensedCount = getLicensedCount(services);
-    model.put("licensedCount", licensedCount);
-    model.put("notLicensedCount", services.size() - licensedCount);
-
-    int recentlyLoggedInCount = getRecentlyLoggedInCount(services);
-
-    model.put("recentLoginCount", recentlyLoggedInCount);
-    model.put("noRecentLoginCount", services.size()  - recentlyLoggedInCount);
-  }
-
   private boolean isCategoryValuesUsed(List<Category> categories) {
     if (CollectionUtils.isNotEmpty(categories)) {
       for (Category cat : categories) {
@@ -130,36 +122,6 @@ public class HomeController extends BaseController {
       }
     }
     return false;
-  }
-
-  private int getLicensedCount(List<Service> services) {
-    int result = 0;
-    for (Service service : services) {
-      if (service.getLicense() != null) {
-        ++result;
-      }
-    }
-    return result;
-  }
-
-  private int getConnectedCount(List<Service> services) {
-    int result = 0;
-    for (Service service : services) {
-      if (service.isConnected()) {
-        ++result;
-      }
-    }
-    return result;
-  }
-
-  private int getRecentlyLoggedInCount(List<Service> services) {
-    int result = 0;
-    for (Service service : services) {
-      if (service.getLastLoginDate() != null) {
-        ++result;
-      }
-    }
-    return result;
   }
 
   @RequestMapping("/user.shtml")
@@ -201,4 +163,51 @@ public class HomeController extends BaseController {
     }
     return taxonomy.getCategories();
   }
+
+  private void addLicensedConnectedLoginCounts(Map<String, Object> model, Collection<Service> services) {
+    int connectedCount = getConnectedCount(services);
+    model.put("connectedCount", connectedCount);
+    model.put("notConnectedCount", services.size() - connectedCount);
+
+    int licensedCount = getLicensedCount(services);
+    model.put("licensedCount", licensedCount);
+    model.put("notLicensedCount", services.size() - licensedCount);
+
+    int recentlyLoggedInCount = getRecentlyLoggedInCount(services);
+
+    model.put("recentLoginCount", recentlyLoggedInCount);
+    model.put("noRecentLoginCount", services.size() - recentlyLoggedInCount);
+  }
+
+  private int getLicensedCount(Collection<Service> services) {
+    int result = 0;
+    for (Service service : services) {
+      if (service.getLicense() != null) {
+        ++result;
+      }
+    }
+    return result;
+  }
+
+  private int getConnectedCount(Collection<Service> services) {
+    int result = 0;
+    for (Service service : services) {
+      if (service.isConnected()) {
+        ++result;
+      }
+    }
+    return result;
+  }
+
+  private int getRecentlyLoggedInCount(Collection<Service> services) {
+    int result = 0;
+    for (Service service : services) {
+      if (service.getLastLoginDate() != null) {
+        ++result;
+      }
+    }
+    return result;
+  }
+
+
 }
