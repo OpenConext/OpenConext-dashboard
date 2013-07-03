@@ -13,9 +13,9 @@
   <div class="modal-body">
     <form id="recommend-form">
       <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>" /> 
-      <input type="hidden" name="compoundSpId" value="${compoundSp.id}" />
+      <input type="hidden" name="serviceId" value="${service.id}" />
       <spring:url context="${pageContext.request.contextPath}" var="detailAppLink" value="app-detail.shtml">
-        <spring:param name="compoundSpId" value="${compoundSp.id}" />
+        <spring:param name="serviceId" value="${service.id}" />
       </spring:url>
       <input type="hidden" name="detailAppStoreLink" value="${detailAppLink}" />
       <p><spring:message code="jsp.app_recommendation.email_selection_text" arguments="${service.name}" />
