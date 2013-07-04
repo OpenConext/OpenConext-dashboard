@@ -359,7 +359,7 @@
     <dependency>
       <groupId>org.surfnet</groupId>
       <artifactId>cruncher-client</artifactId>
-      <version>3.6.0</version>
+      <version>3.6.1</version>
     </dependency>
   </dependencies>
 
