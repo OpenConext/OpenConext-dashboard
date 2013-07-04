@@ -16,20 +16,6 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import nl.surfnet.coin.api.client.InvalidTokenException;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
@@ -37,12 +23,19 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
@@ -106,7 +99,7 @@ public class ApiOAuthFilter implements Filter {
           if (LOG.isDebugEnabled()) {
             LOG.error("Failed to check user membership elevation", e);
           } else {
-            LOG.error("Failed to check user membership elevation", e.getMessage());
+            LOG.error("Failed to check user membership elevation: {}", e.getMessage());
           }
         }
       } else if (httpRequest.getParameter(callbackFlagParameter) != null) {
