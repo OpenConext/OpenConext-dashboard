@@ -20,7 +20,9 @@
 
 <footer class="footer">
   <div class="content-some-dense">
-    <a href="http://www.surfnet.nl" target="_blank">
+  <c:set var="homesurl"><spring:message code="jsp.general.footertext.url"/></c:set>
+
+    <a href="${homesurl}" target="_blank">
       <spring:message code="jsp.general.footertext.name"/>
     </a>
     |

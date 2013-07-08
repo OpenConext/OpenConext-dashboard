@@ -68,7 +68,7 @@
                 <spring:message code="jsp.sp_unlinkrequest.buttonsubmit"/>
               </button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="compoundSpId" value="${compoundSpId}" />
+                <spring:param name="serviceId" value="${service.id}" />
               </spring:url>
               <a class="btn btn-small" href="${detailUrl}"><spring:message code="jsp.sp_unlinkrequest.buttoncancel"/></a>
             </div>
