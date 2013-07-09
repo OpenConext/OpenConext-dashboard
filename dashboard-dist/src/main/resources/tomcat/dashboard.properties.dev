@@ -14,10 +14,6 @@
 # limitations under the License.
 #
 
-##########################################################################
-# The following properties are the responsibility of Maintenance. The    #
-# values depend on the environment and are unknown to the developers     #
-##########################################################################
 
 # SMTP server settings for notifications
 coin-mailserver=s01.dev.coin.surf.net
@@ -31,6 +27,7 @@ wayf.certificate=MIID/jCCAuYCCQCs7BsDR2N8tjANBgkqhkiG9w0BAQUFADCBwDELMAkGA1UEBhM
 ISSUING_ENTITY_ID=https\://dashboard.dev.surfconext.nl
 
 WEB_APPLICATION_HOST_AND_PORT=dashboard.dev.surfconext.nl
+
 
 # Team id that is used as definition of who is a 'dashboard_admin'.
 dashboard.admin=urn\:collab\:group\:dev.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
@@ -59,12 +56,11 @@ csa.client.key=??
 csa.client.secret=??
 csa.oauth2.authorization.url=https://apis.dev.surfconext.nl/oauth2/token
 
+cruncher.base.url=https://cruncher.dev.surfconext.nl/stats/v1
+cruncher.client.key=??
+cruncher.client.secret=??
+cruncher.oauth2.authorization.url=https://apis.dev.surfconext.nl/oauth2/token
 
-####################################################################
-##
-## The following properties are used to enable/disable features
-##
-####################################################################
 # Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
 feature.development.mode=true
 

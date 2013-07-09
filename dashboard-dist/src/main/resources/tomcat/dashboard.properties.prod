@@ -14,10 +14,10 @@
 # limitations under the License.
 #
 
-##########################################################################
-# The following properties are the responsibility of Maintenance. The    #
-# values depend on the environment and are unknown to the developers     #
-##########################################################################
+
+# Email address that recieves error notifications
+coin-errormail-to=coin-logs@list.surfnet.nl
+coin-administrative-email=coin-logs@list.surfnet.nl
 
 wayf.url.metadata=https://engine.surfconext.nl/authentication/idp/metadata
 wayf.url.sso=https://engine.surfconext.nl/authentication/idp/single-sign-on
@@ -54,3 +54,10 @@ csa.base.url=https://csa.surfconext.nl/csa/
 csa.client.key=??
 csa.client.secret=??
 csa.oauth2.authorization.url=https://apis.surfconext.nl/oauth2/token
+
+cruncher.base.url=https://cruncher.surfconext.nl/stats/v1
+cruncher.client.key=??
+cruncher.client.secret=??
+cruncher.oauth2.authorization.url=https://apis.surfconext.nl/oauth2/token
+
+

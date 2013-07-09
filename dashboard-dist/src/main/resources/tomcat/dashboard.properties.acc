@@ -14,10 +14,6 @@
 # limitations under the License.
 #
 
-##########################################################################
-# The following properties are the responsibility of Maintenance. The    #
-# values depend on the environment and are unknown to the developers     #
-##########################################################################
 
 # Email address that recieves error notifications
 coin-errormail-to=coin-logs@list.surfnet.nl
@@ -54,12 +50,14 @@ admin.licentie.idp.sabRole=
 admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 
-# TODO: verify this location
-csa.base.url=https://csa.acc.surfconext.nl/stats/v1/
+csa.base.url=https://csa.acc.surfconext.nl/csa/
+csa.client.key=??
+csa.client.secret=??
+csa.oauth2.authorization.url=https://apis.acc.surfconext.nl/oauth2/token
 
-####################################################################
-##
-## The following properties are used to enable/disable features
-##
-####################################################################
+cruncher.base.url=https://cruncher.acc.surfconext.nl/stats/v1
+cruncher.client.key=??
+cruncher.client.secret=??
+cruncher.oauth2.authorization.url=https://apis.acc.surfconext.nl/oauth2/token
+
 
