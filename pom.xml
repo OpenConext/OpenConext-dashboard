@@ -30,7 +30,6 @@
     <version>3.5.0</version>
   </parent>
 
-  <groupId>org.surfnet.coin</groupId>
   <artifactId>coin-selfservice-parent</artifactId>
   <version>3.6.2-SNAPSHOT</version>
 
