@@ -79,7 +79,7 @@
             <div class="actions">
               <button type="submit" class="btn btn-primary btn-small"><spring:message code="jsp.sp_question.buttonsubmit"/></button>
               <spring:url value="../app-detail.shtml" var="detailUrl" htmlEscape="true">
-                <spring:param name="id" value="${service.id}" />
+                <spring:param name="serviceId" value="${service.id}" />
               </spring:url>
               <a class="btn btn-small" href="${detailUrl}"><spring:message code="jsp.sp_question.buttoncancel"/></a>
             </div>
