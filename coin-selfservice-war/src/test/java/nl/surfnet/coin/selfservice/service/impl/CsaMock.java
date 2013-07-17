@@ -116,6 +116,10 @@ public class CsaMock implements Csa {
   }
 
   @Override
+  public void clearProviderCache() {
+  }
+
+  @Override
   public Action createAction(Action action) {
     action.setStatus(JiraTask.Status.OPEN);
     action.setJiraKey("TEST-"+System.currentTimeMillis());

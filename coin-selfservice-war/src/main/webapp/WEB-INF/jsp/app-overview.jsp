@@ -93,7 +93,7 @@
                   <c:out default="${service.id}" value="${service.name}" />
                 </c:set>
                 <h2>
-                  <a href="${detailUrl}">
+                  <a id="detail-${service.spEntityId}" href="${detailUrl}">
                     <tags:truncatedSpName
                         spName="${spTitle}"
                         hasServiceDescription="${not empty serviceDescription}"
