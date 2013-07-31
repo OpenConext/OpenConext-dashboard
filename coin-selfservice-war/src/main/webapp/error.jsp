@@ -99,8 +99,8 @@
         SURFnet
       </a>
       |
-      <a href="mailto:help@surfnet.nl">
-        help@surfnet.nl
+      <a href="mailto:help@surfconext.nl ">
+          help@surfconext.nl
       </a>
     </div>
   </footer>

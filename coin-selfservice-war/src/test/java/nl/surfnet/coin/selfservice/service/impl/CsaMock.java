@@ -20,6 +20,7 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Action;
@@ -36,6 +37,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Mock implementation of CSA. To be filled with lots of data for local development. Perhaps JSON-local-file-backed.
@@ -52,13 +58,15 @@ public class CsaMock implements Csa {
 
   @Override
   public List<Service> getPublicServices() {
-    List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>() {}, "csa-json/public-services.json");
+    List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>() {
+    }, "csa-json/public-services.json");
     return restoreCategoryReferences(services);
   }
 
   @Override
   public List<Service> getProtectedServices() {
-    List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>(){}, "csa-json/protected-services.json");
+    List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>() {
+    }, "csa-json/protected-services.json");
     return restoreCategoryReferences(services);
   }
 
@@ -96,7 +104,8 @@ public class CsaMock implements Csa {
 
   @Override
   public Taxonomy getTaxonomy() {
-    Taxonomy taxonomy = (Taxonomy) parseJsonData(new TypeReference<Taxonomy>() {}, "csa-json/taxonomy.json");
+    Taxonomy taxonomy = (Taxonomy) parseJsonData(new TypeReference<Taxonomy>() {
+    }, "csa-json/taxonomy_" + getLocale() + ".json");
     List<Category> categories = taxonomy.getCategories();
     for (Category category : categories) {
       List<CategoryValue> values = category.getValues();
@@ -110,7 +119,8 @@ public class CsaMock implements Csa {
 
   @Override
   public List<Action> getJiraActions(String idpEntityId) {
-    List<Action> actions = (List<Action>) parseJsonData(new TypeReference<List<Action>>() {}, "csa-json/actions.json");
+    List<Action> actions = (List<Action>) parseJsonData(new TypeReference<List<Action>>() {
+    }, "csa-json/actions.json");
     actions.addAll(actionsCreated);
     return actions;
   }
@@ -122,7 +132,7 @@ public class CsaMock implements Csa {
   @Override
   public Action createAction(Action action) {
     action.setStatus(JiraTask.Status.OPEN);
-    action.setJiraKey("TEST-"+System.currentTimeMillis());
+    action.setJiraKey("TEST-" + System.currentTimeMillis());
     action.setId(System.currentTimeMillis());
     action.setIdpName("Mock IdP");
     action.setSpName("Mock SP");
@@ -133,12 +143,14 @@ public class CsaMock implements Csa {
 
   @Override
   public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
-    return ( List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() { }, "csa-json/institution-identity-providers.json");
+    return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
+    }, "csa-json/institution-identity-providers.json");
   }
-  
+
   @Override
   public List<InstitutionIdentityProvider> getAllInstitutionIdentityProviders() {
-    return ( List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() { }, "csa-json/all-institution-identity-providers.json");
+    return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
+    }, "csa-json/all-institution-identity-providers.json");
   }
 
 
@@ -158,6 +170,19 @@ public class CsaMock implements Csa {
       service.restoreCategoryReferences();
     }
     return services;
+  }
+
+  private String getLocale() {
+    Locale locale = null;
+    ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    if (sra != null) {
+      HttpServletRequest request = sra.getRequest();
+      if (request != null) {
+        locale = RequestContextUtils.getLocale(request);
+      }
+    }
+    return locale != null ? locale.toString() : "en";
+
   }
 
 

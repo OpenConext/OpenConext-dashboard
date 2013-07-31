@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "name": "Locatie",
+      "values": [
+        {
+          "count": 0,
+          "value": "Nederlands"
+        },
+        {
+          "count": 0,
+          "value": "USA"
+        }
+      ]
+    },
+    {
+      "name": "Doelgroep",
+      "values": [
+        {
+          "count": 0,
+          "value": "Onderzoekers"
+        },
+        {
+          "count": 0,
+          "value": "Studenten"
+        }
+      ]
+    }
+  ]
+}
