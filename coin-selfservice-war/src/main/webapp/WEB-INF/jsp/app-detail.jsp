@@ -205,25 +205,25 @@
         <tags:ask-question service="${service}" invariant="${questionAllowed and !applyAllowed}" />
       </div>
 
-    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>"
-              data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
-      <tags:html-format>
-        <jsp:attribute name="input"><c:out value="${service.description}" /></jsp:attribute>
-      </tags:html-format>
-    </div>
+      <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>"
+           data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+          <tags:html-format>
+              <jsp:attribute name="input">${service.description}</jsp:attribute>
+          </tags:html-format>
+      </div>
 
-    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>"
-              data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
-      <tags:html-format>
-        <jsp:attribute name="input"><c:out value="${service.institutionDescription}" /></jsp:attribute>
-      </tags:html-format>
-    </div>
+      <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>"
+           data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+          <tags:html-format>
+              <jsp:attribute name="input">${service.institutionDescription}</jsp:attribute>
+          </tags:html-format>
+      </div>
 
-    <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
-      <tags:html-format>
-        <jsp:attribute name="input"><c:out value="${service.enduserDescription}" /></jsp:attribute>
-      </tags:html-format>
-    </div>
+      <div class="with-read-more" data-read-more-text="<spring:message code="jsp.app_detail.read_more"/>" data-read-less-text="<spring:message code="jsp.app_detail.read_less"/>">
+          <tags:html-format>
+              <jsp:attribute name="input">${service.enduserDescription}</jsp:attribute>
+          </tags:html-format>
+      </div>
 
     <div class="arp">
       <jsp:include page="requests/arp.jsp" />
