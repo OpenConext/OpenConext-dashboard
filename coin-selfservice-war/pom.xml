@@ -51,7 +51,7 @@
     <selenium.test.url>http://localhost:8280/selfservice/</selenium.test.url>
     <jetty.port>8280</jetty.port>
     <cruncher-client.version>3.6.3</cruncher-client.version>
-    <csa-client.version>3.6.4-SNAPSHOT</csa-client.version>
+    <csa-client.version>3.6.4</csa-client.version>
 
 
 
