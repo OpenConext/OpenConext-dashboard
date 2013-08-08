@@ -137,7 +137,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     if (containsRole(authorities, ROLE_SHOWROOM_USER)) {
       int sizeBeforeFilter = services.size();
       services = removeNonConnectedServices(services);
-      LOG.debug("Reduced the list of services to only linked services ({} of total {}), because user '{}' is an enduser.",  services.size(), sizeBeforeFilter, SpringSecurity.getCurrentUser().getUid());
+      services = removeLicenseRequiredServices(services);
+      LOG.debug("Reduced the list of services to only linked services ({} of total {}), because user '{}' is an enduser.", services.size(), sizeBeforeFilter, SpringSecurity.getCurrentUser().getUid());
     }
     if (containsRole(authorities, ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER)) {
       int sizeBeforeFilter = services.size();
@@ -145,6 +146,17 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       LOG.debug("Reduced the list of services to only public available services ({} of total {}), because user '{}' is an showroom admin / user", services.size(), sizeBeforeFilter, SpringSecurity.getCurrentUser().getUid());
     }
     return services;
+  }
+
+
+  private static List<Service> removeLicenseRequiredServices(Collection<Service> services) {
+    List<Service> result = new ArrayList<Service>();
+    for (Service service : services) {
+      if (!service.isHasCrmLink() || (service.isHasCrmLink() && service.getLicense() != null && service.getLicense().isValid())) {
+        result.add(service);
+      }
+    }
+    return result;
   }
 
   private static List<Service> removeNonConnectedServices(Collection<Service> services) {
@@ -174,7 +186,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   protected void scopeService(ModelMap map, Service service, List<Authority> authorities) {
     // Do not allow normal users to view 'unlinked' services, even if requested
     // explicitly.
-    boolean  isRoleShowroomUser = containsRole(authorities, ROLE_SHOWROOM_USER);
+    boolean isRoleShowroomUser = containsRole(authorities, ROLE_SHOWROOM_USER);
     if (isRoleShowroomUser && !service.isConnected()) {
       LOG.info(
               "user requested service details of service with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",

@@ -189,6 +189,43 @@ public class AuthorityScopeInterceptorTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
+  public void showroom_user_may_only_see_end_non_crm_and_crm_licensed_services() throws Exception {
+    ModelAndView modelAndView = new ModelAndView();
+
+    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    Service sp = buildService();
+    sp.setAvailableForEndUser(true);
+    sp.setConnected(true);
+    sp.setHasCrmLink(true);
+    sp.setLicense(null);
+
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
+
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+    Collection<Service> sps = (Collection<Service>) modelAndView.getModelMap().get(
+            BaseController.SERVICES);
+    assertEquals(0, sps.size());
+
+    sp.setLicense(new License());
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
+
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+    sps = (Collection<Service>) modelAndView.getModelMap().get(BaseController.SERVICES);
+    assertEquals(1, sps.size());
+
+    user = coinUser(ROLE_SHOWROOM_ADMIN);
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+
+    sp.setLicense(null);
+    modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+    sps = (Collection<Service>) modelAndView.getModelMap().get(BaseController.SERVICES);
+    assertEquals(1, sps.size());
+  }
+
+  @Test
   public void token_session_does_not_equal_request_param_token() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
     CoinUser user = coinUser(ROLE_SHOWROOM_ADMIN);

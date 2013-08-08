@@ -31,7 +31,7 @@
         },
         "license": {
             "startDate": 1339365600000,
-            "endDate": 1402437600000,
+            "endDate": 2402437600000,
             "licenseNumber": "the license number",
             "institutionName": "Mock Institution Name",
             "groupLicense": true
@@ -121,7 +121,7 @@
     },
     {
         "id": 2,
-        "name": "No ARP",
+        "name": "No ARP and License historical enddate",
         "description": "The description of the Service",
         "logoUrl": "https://www.google.nl/images/srpr/logo4w.png",
         "websiteUrl": "https://website.url",
@@ -150,8 +150,8 @@
             "androidPlayStoreUrl": "https://androidPlayStoreUrl"
         },
         "license": {
-            "startDate": 1339365600000,
-            "endDate": 1402437600000,
+            "startDate": 839365600000,
+            "endDate": 839365600001,
             "licenseNumber": "the license number",
             "institutionName": "Mock Institution Name",
             "groupLicense": true
@@ -448,7 +448,7 @@
             "endDate": 1402437600000,
             "licenseNumber": "the license number",
             "institutionName": "Mock Institution Name",
-            "groupLicense": true
+            "groupLicense": false
         },
         "categories": [
             {
