@@ -65,7 +65,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       String token = request.getParameter(TOKEN_CHECK);
       String sessionToken = (String) request.getSession().getAttribute(TOKEN_CHECK);
       if (StringUtils.isBlank(token) || !token.equals(sessionToken)) {
-        throw new SecurityException(String.format("Token from session '%s' sdoes not match token '%s' from request", sessionToken, token));
+        throw new SecurityException(String.format("Token from session '%s' does not match token '%s' from request", sessionToken, token));
       }
     }
     return true;
@@ -184,12 +184,24 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * tell the Service to limit scope access based on the authority
    */
   protected void scopeService(ModelMap map, Service service, List<Authority> authorities) {
-    // Do not allow normal users to view 'unlinked' services, even if requested
-    // explicitly.
+    /*
+     * Do not allow normal users to view 'unlinked' services, even if requested
+     * explicitly.
+     */
     boolean isRoleShowroomUser = containsRole(authorities, ROLE_SHOWROOM_USER);
     if (isRoleShowroomUser && !service.isConnected()) {
       LOG.info(
               "user requested service details of service with id {} although this SP is not 'linked'. Will throw AccessDeniedException('Access denied').",
+              service.getId());
+      throw new AccessDeniedException("Access denied");
+    }
+    /*
+     * Do not allow normal users to view services linked to CRM but without a license, even if requested
+     * explicitly.
+     */
+    if (isRoleShowroomUser && service.isHasCrmLink() && (service.getLicense() == null || !service.getLicense().isValid())) {
+      LOG.info(
+              "user requested service details of service with id {} although this SP is CRM-linked without License. Will throw AccessDeniedException('Access denied').",
               service.getId());
       throw new AccessDeniedException("Access denied");
     }

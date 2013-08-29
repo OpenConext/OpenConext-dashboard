@@ -28,6 +28,7 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.access.AccessDeniedException;
@@ -99,8 +100,23 @@ public class AuthorityScopeInterceptorTest {
     mav.addObject(BaseController.SERVICE, sp);
 
     interceptor.postHandle(null, null, null, mav);
+  }
 
-    fail("an AccessDeniedException should be thrown by now");
+  @Test(expected = AccessDeniedException.class)
+  public void user_cannot_view_crm_linked_service_without_license() throws Exception {
+    ModelAndView mav = new ModelAndView();
+
+    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
+
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    Service sp = buildService();
+    sp.setConnected(true);
+    sp.setHasCrmLink(true);
+    License license =  new License();
+    license.setEndDate(new LocalDate(1999,1,1).toDate());
+    sp.setLicense(license);
+    mav.addObject(BaseController.SERVICE, sp);
+    interceptor.postHandle(null, null, null, mav);
   }
 
   /**
