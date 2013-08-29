@@ -59,12 +59,8 @@ app.appgrid = function () {
     }
 
 
-    function doSearch(time, afterAnimationCallback) {
+    function doSearch() {
       var isSearch = searchElm.val().length !== 0;
-
-      if (time === undefined) {
-        time = 250;
-      }
 
       keywords = [];
 
@@ -73,11 +69,29 @@ app.appgrid = function () {
       }
 
       gridElm.tickback('filter', {
-        duration: time ,
-        afterAnimationCallback: afterAnimationCallback
+        duration: 250
       });
     }
 
+    function afterAnimationCallBack() {
+      /*
+       * We need to change the count label of each facet value to display the number that is 'left'
+       */
+      var notHidden = $("ul.app-grid li:not(.grid-item-hidden)");
+      $("ul.facets-values li a").each(function (i) {
+        var $elm = $(this);
+        var facetSearchTerm = $elm.data("facet-search-term");
+        var count = 0;
+        notHidden.each(function (j) {
+          var arr = $(this).data("facet-values").trim().split(" ");
+          if ($.inArray(facetSearchTerm, arr) !== -1) {
+            count++;
+          }
+        });
+        $elm.find("span").html("(" + count + ")");
+      });
+
+    }
 
     function doFacetSearch(e) {
       e.preventDefault();
@@ -91,24 +105,7 @@ app.appgrid = function () {
       } else {
         facetValues.push(facetValue);
       }
-      doSearch(250, function(){
-        /*
-         * We need to change the count label of each facet value to display the number that is 'left'
-         */
-        var notHidden = $("ul.app-grid li:not(.grid-item-hidden)");
-        $("ul.facets-values li a").each(function(i){
-          var $elm = $(this);
-          var facetSearchTerm = $elm.data("facet-search-term");
-          var count = 0;
-          notHidden.each(function(j){
-            var arr = $(this).data("facet-values").trim().split(" ");
-            if ($.inArray(facetSearchTerm, arr) !== -1) {
-              count++;
-            }
-          });
-          $elm.find("span").html("(" + count + ")");
-        }) ;
-      });
+      doSearch();
     }
 
     function mustDisplay(elm) {
@@ -144,13 +141,7 @@ app.appgrid = function () {
       var aText = $.trim(a.find('h2').text().toLowerCase()),
         bText = $.trim(b.find('h2').text().toLowerCase());
 
-      if (aText < bText) {
-        return -1;
-      }
-      if (aText > bText) {
-        return 1;
-      }
-      return 0;
+      return aText.localeCompare(bText);
     }
 
     searchElm.bind('keyup change', setTimer);
@@ -169,7 +160,8 @@ app.appgrid = function () {
       itemActiveStyles: {
         opacity: 1
       },
-      sortCallback: howToSort
+      sortCallback: howToSort,
+      afterAnimationCallback: afterAnimationCallBack
     });
 
   };
