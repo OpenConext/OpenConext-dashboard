@@ -139,7 +139,7 @@
                 <c:if test="${isCard}">
                   <div class="app-meta-cta">
                     <c:if test="${not empty service.appUrl}">
-                      <a href="${compoundSp.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                      <a href="${service.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
                         <i class="icon-external-link"></i>
                       </a>
                     </c:if>
