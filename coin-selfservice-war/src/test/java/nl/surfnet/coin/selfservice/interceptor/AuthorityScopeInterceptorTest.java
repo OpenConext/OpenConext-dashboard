@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import nl.surfnet.coin.csa.model.CrmArticle;
+import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.License;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.control.BaseController;
@@ -29,7 +29,11 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
 import org.joda.time.LocalDate;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,21 +57,21 @@ import static org.junit.Assert.fail;
  */
 public class AuthorityScopeInterceptorTest {
 
-  private AuthorityScopeInterceptor interceptor = new AuthorityScopeInterceptor();
+  @InjectMocks
+  private AuthorityScopeInterceptor interceptor;
 
-  /**
-   * Test method for
-   * {@link nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor#postHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.web.servlet.ModelAndView)}
-   * .
-   * 
-   * @throws Exception
-   */
+  @Mock
+  private Csa csa;
+
+  @Before
+  public void setUp() throws Exception {
+    interceptor = new AuthorityScopeInterceptor();
+    MockitoAnnotations.initMocks(this);
+  }
+
   @Test
   public void test_regular_user_may_not_see_technical_mail_address() throws Exception {
-    ModelAndView modelAndView = new ModelAndView();
-
-    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    ModelAndView modelAndView = buildSecurityContext(ROLE_SHOWROOM_USER);
     Service sp = buildService();
     sp.setConnected(true);
     modelAndView.addObject(BaseController.SERVICE, sp);
@@ -90,11 +94,7 @@ public class AuthorityScopeInterceptorTest {
 
   @Test(expected = AccessDeniedException.class)
   public void user_cannot_view_unlinked_services() throws Exception {
-    ModelAndView mav = new ModelAndView();
-
-    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
-
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    ModelAndView mav = buildSecurityContext(ROLE_SHOWROOM_USER);
     Service sp = buildService();
     sp.setConnected(false);
     mav.addObject(BaseController.SERVICE, sp);
@@ -104,11 +104,7 @@ public class AuthorityScopeInterceptorTest {
 
   @Test(expected = AccessDeniedException.class)
   public void user_cannot_view_crm_linked_service_without_license() throws Exception {
-    ModelAndView mav = new ModelAndView();
-
-    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
-
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    ModelAndView mav = buildSecurityContext(ROLE_SHOWROOM_USER);
     Service sp = buildService();
     sp.setConnected(true);
     sp.setHasCrmLink(true);
@@ -119,13 +115,6 @@ public class AuthorityScopeInterceptorTest {
     interceptor.postHandle(null, null, null, mav);
   }
 
-  /**
-   * Test method for
-   * {@link nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor#postHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.web.servlet.ModelAndView)}
-   * .
-   * 
-   * @throws Exception
-   */
   @Test
   public void test_power_user_may_see_technical_mail_address() throws Exception {
     ModelAndView modelAndView = new ModelAndView();
@@ -147,12 +136,30 @@ public class AuthorityScopeInterceptorTest {
   }
 
   @Test
+  public void test_super_dashboard_user_may_not_connect_services_or_ask_questions() throws Exception {
+    ModelAndView modelAndView = buildSecurityContext(ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_SUPER_USER);
+
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+
+    Map<String, Object> model = modelAndView.getModel();
+    assertFalse((Boolean) model.get(SERVICE_APPLY_ALLOWED));
+    assertFalse((Boolean) model.get(SERVICE_QUESTION_ALLOWED));
+
+    modelAndView = buildSecurityContext(ROLE_DASHBOARD_ADMIN);
+
+    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
+
+    model = modelAndView.getModel();
+    assertTrue((Boolean) model.get(SERVICE_APPLY_ALLOWED));
+    assertTrue((Boolean) model.get(SERVICE_QUESTION_ALLOWED));
+  }
+
+
+  @Test
   @SuppressWarnings("unchecked")
   public void showroom_admin_may_only_see_end_user_available_services() throws Exception {
-    ModelAndView modelAndView = new ModelAndView();
+    ModelAndView modelAndView = buildSecurityContext(ROLE_SHOWROOM_ADMIN);
 
-    CoinUser user = coinUser(ROLE_SHOWROOM_ADMIN);
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
     Service sp = buildService();
     sp.setAvailableForEndUser(false);
     sp.setConnected(false);
@@ -178,10 +185,7 @@ public class AuthorityScopeInterceptorTest {
   @Test
   @SuppressWarnings("unchecked")
   public void showroom_user_may_only_see_end_user_available_services_and_connected() throws Exception {
-    ModelAndView modelAndView = new ModelAndView();
-
-    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    ModelAndView modelAndView = buildSecurityContext(ROLE_SHOWROOM_USER);
     Service sp = buildService();
     sp.setAvailableForEndUser(true);
     sp.setConnected(false);
@@ -207,10 +211,7 @@ public class AuthorityScopeInterceptorTest {
   @Test
   @SuppressWarnings("unchecked")
   public void showroom_user_may_only_see_end_non_crm_and_crm_licensed_services() throws Exception {
-    ModelAndView modelAndView = new ModelAndView();
-
-    CoinUser user = coinUser(ROLE_SHOWROOM_USER);
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    ModelAndView modelAndView = buildSecurityContext(ROLE_SHOWROOM_USER);
     Service sp = buildService();
     sp.setAvailableForEndUser(true);
     sp.setConnected(true);
@@ -231,8 +232,7 @@ public class AuthorityScopeInterceptorTest {
     sps = (Collection<Service>) modelAndView.getModelMap().get(BaseController.SERVICES);
     assertEquals(1, sps.size());
 
-    user = coinUser(ROLE_SHOWROOM_ADMIN);
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    modelAndView = buildSecurityContext(ROLE_SHOWROOM_ADMIN);
 
     sp.setLicense(null);
     modelAndView.addObject(BaseController.SERVICES, Arrays.asList(sp));
@@ -243,9 +243,7 @@ public class AuthorityScopeInterceptorTest {
 
   @Test
   public void token_session_does_not_equal_request_param_token() throws Exception {
-    ModelAndView modelAndView = new ModelAndView();
-    CoinUser user = coinUser(ROLE_SHOWROOM_ADMIN);
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    ModelAndView modelAndView = buildSecurityContext(ROLE_SHOWROOM_ADMIN);
 
     MockHttpServletRequest request = new MockHttpServletRequest();
     interceptor.postHandle(request, null, null, modelAndView);
@@ -291,5 +289,12 @@ public class AuthorityScopeInterceptorTest {
     service.setAvailableForEndUser(true);
     return service;
   }
+
+  private ModelAndView buildSecurityContext(Authority... roles) {
+    CoinUser user = coinUser(roles);
+    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+    return new ModelAndView();
+  }
+
 
 }

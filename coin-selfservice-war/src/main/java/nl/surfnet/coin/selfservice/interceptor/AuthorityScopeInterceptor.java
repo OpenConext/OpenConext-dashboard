@@ -119,8 +119,9 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   }
 
   private void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities, final HttpServletRequest request) {
-    map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
-    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
+    boolean trueDashboardAdmin = containsRole(authorities, ROLE_DASHBOARD_ADMIN) && !containsRole(authorities, ROLE_DASHBOARD_SUPER_USER);
+    map.put(SERVICE_QUESTION_ALLOWED, trueDashboardAdmin);
+    map.put(SERVICE_APPLY_ALLOWED, trueDashboardAdmin);
     map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
     map.put(FACET_CONNECTION_VISIBLE, !containsRole(authorities, ROLE_SHOWROOM_USER));
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER));
