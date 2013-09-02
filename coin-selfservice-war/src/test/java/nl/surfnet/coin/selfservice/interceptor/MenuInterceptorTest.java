@@ -40,9 +40,9 @@ public class MenuInterceptorTest {
   private MenuInterceptor menuInterceptor = new MenuInterceptor();
 
   @Test
-  public void test_menu_for_user_has_none() throws Exception {
+  public void test_menu_for_user_has_one() throws Exception {
     Menu menu = executeTestAndReturnMenu(false, ROLE_SHOWROOM_USER);
-    assertEquals(0, menu.getMenuItems().size());
+    assertEquals(1, menu.getMenuItems().size());
   }
 
   @Test
