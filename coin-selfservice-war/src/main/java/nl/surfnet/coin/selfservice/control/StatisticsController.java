@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
