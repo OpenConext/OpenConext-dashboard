@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.jetty.util.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +42,7 @@ import org.surfnet.cruncher.Cruncher;
 @Controller
 @RequestMapping(value = "/stats/*")
 public class StatisticsController extends BaseController {
-  
+  private static final Logger LOG = LoggerFactory.getLogger(StatisticsController.class);
   /**
    * Key for the selectedSp in the model
    */
@@ -58,10 +61,15 @@ public class StatisticsController extends BaseController {
     // default return all statistics for the last two years
     Calendar twoYearsBack = Calendar.getInstance();
     twoYearsBack.roll(YEAR, -2);
-    if (StringUtils.isNotBlank(selectedSp)) {
-      model.put("login_stats", cruncher.getLoginsByIdpAndSp(twoYearsBack.getTime(), new Date(), selectedIdp.getId(), selectedSp));
-    } else {
-      model.put("login_stats", cruncher.getLoginsByIdp(twoYearsBack.getTime(), new Date(), selectedIdp.getId()));      
+    try {
+      if (StringUtils.isNotBlank(selectedSp)) {
+        model.put("login_stats", cruncher.getLoginsByIdpAndSp(twoYearsBack.getTime(), new Date(), selectedIdp.getId(), selectedSp));
+      } else {
+        model.put("login_stats", cruncher.getLoginsByIdp(twoYearsBack.getTime(), new Date(), selectedIdp.getId()));      
+      }
+    } catch (RuntimeException e) {
+      LOG.warn("exception while contacting cruncher", e);
+      return "stats/nostats";
     }
     return "stats/statistics";
   }
