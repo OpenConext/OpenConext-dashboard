@@ -19,7 +19,9 @@
         <p><spring:message code="jsp.identity.role" /> </p>
         <select id="referenceRoles" name="role">
           <c:forEach items="${referenceRoles}" var="role">
-            <option value="${role}"><spring:message code="jsp.role.information.key.${role}"/></option>
+            <option value="${role}" <c:if test="${command.role eq role}">selected="selected"</c:if>>
+                <spring:message code="jsp.role.information.key.${role}"/>
+            </option>
           </c:forEach>
         </select>
     </div>

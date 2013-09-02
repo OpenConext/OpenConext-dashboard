@@ -50,6 +50,10 @@ public class IdentityController extends BaseController {
     modelMap.addAttribute("referenceRoles", referenceRoles(isDashBoard(request)));
 
     modelMap.addAttribute("command", new IdentitySwitch());
+
+    IdentitySwitch current = (IdentitySwitch) request.getSession().getAttribute(SWITCHED_IDENTITY_SWITCH);
+    modelMap.addAttribute("command", current != null ? current : new IdentitySwitch());
+
     return new ModelAndView("identity/switch-identity", modelMap);
   }
 
