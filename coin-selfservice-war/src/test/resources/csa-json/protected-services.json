@@ -21,7 +21,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": true,
         "hasCrmLink": true,
         "crmArticle": {
@@ -141,7 +140,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": true,
         "hasCrmLink": true,
         "crmArticle": {
@@ -207,7 +205,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": true,
         "hasCrmLink": true,
         "crmArticle": {
@@ -272,7 +269,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": true,
         "hasCrmLink": false,
         "categories": [
@@ -325,7 +321,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": true,
         "hasCrmLink": true,
         "crmArticle": {
@@ -435,7 +430,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": false,
         "hasCrmLink": true,
         "crmArticle": {
@@ -501,7 +495,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": true,
         "hasCrmLink": true,
         "crmArticle": {
@@ -559,7 +552,6 @@
         "supportMail": "support@mail.com",
         "enduserDescription": "The enduser description of the Service",
         "institutionDescription": "The insitution description of this service",
-        "lastLoginDate": 1370955629221,
         "connected": false,
         "hasCrmLink": true,
         "crmArticle": {
