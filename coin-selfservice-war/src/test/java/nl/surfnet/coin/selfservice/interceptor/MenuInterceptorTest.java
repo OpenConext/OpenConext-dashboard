@@ -42,7 +42,7 @@ public class MenuInterceptorTest {
   @Test
   public void test_menu_for_user_has_one() throws Exception {
     Menu menu = executeTestAndReturnMenu(false, ROLE_SHOWROOM_USER);
-    assertEquals(1, menu.getMenuItems().size());
+    assertEquals(0, menu.getMenuItems().size());
   }
 
   @Test

@@ -74,7 +74,6 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
           break;
         case ROLE_SHOWROOM_USER:
-          menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));
           break;
         default:
           break;
