@@ -15,10 +15,6 @@
  */
 package nl.surfnet.coin.selfservice.interceptor;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.License;
 import nl.surfnet.coin.csa.model.Service;
@@ -27,7 +23,6 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
-
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,16 +35,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_APPLY_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.SERVICE_QUESTION_ALLOWED;
-import static nl.surfnet.coin.selfservice.control.BaseController.TOKEN_CHECK;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+
+import static nl.surfnet.coin.selfservice.control.BaseController.*;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * AuthorityScopeInterceptorTest.java
@@ -134,26 +126,6 @@ public class AuthorityScopeInterceptorTest {
     assertTrue((Boolean) model.get(SERVICE_APPLY_ALLOWED));
 
   }
-
-  @Test
-  public void test_super_dashboard_user_may_not_connect_services_or_ask_questions() throws Exception {
-    ModelAndView modelAndView = buildSecurityContext(ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_SUPER_USER);
-
-    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
-
-    Map<String, Object> model = modelAndView.getModel();
-    assertFalse((Boolean) model.get(SERVICE_APPLY_ALLOWED));
-    assertFalse((Boolean) model.get(SERVICE_QUESTION_ALLOWED));
-
-    modelAndView = buildSecurityContext(ROLE_DASHBOARD_ADMIN);
-
-    interceptor.postHandle(new MockHttpServletRequest(), null, null, modelAndView);
-
-    model = modelAndView.getModel();
-    assertTrue((Boolean) model.get(SERVICE_APPLY_ALLOWED));
-    assertTrue((Boolean) model.get(SERVICE_QUESTION_ALLOWED));
-  }
-
 
   @Test
   @SuppressWarnings("unchecked")

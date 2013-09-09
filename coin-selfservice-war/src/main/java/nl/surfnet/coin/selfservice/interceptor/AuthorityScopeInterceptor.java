@@ -19,7 +19,6 @@ package nl.surfnet.coin.selfservice.interceptor;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.control.HomeController;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.IdentitySwitch;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -119,9 +118,8 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   }
 
   private void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities, final HttpServletRequest request) {
-    boolean trueDashboardAdmin = containsRole(authorities, ROLE_DASHBOARD_ADMIN) && !containsRole(authorities, ROLE_DASHBOARD_SUPER_USER);
-    map.put(SERVICE_QUESTION_ALLOWED, trueDashboardAdmin);
-    map.put(SERVICE_APPLY_ALLOWED, trueDashboardAdmin);
+    map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
+    map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
     map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
     map.put(FACET_CONNECTION_VISIBLE, !containsRole(authorities, ROLE_SHOWROOM_USER));
     map.put(DEEPLINK_TO_SURFMARKET_ALLOWED, containsRole(authorities, ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER));

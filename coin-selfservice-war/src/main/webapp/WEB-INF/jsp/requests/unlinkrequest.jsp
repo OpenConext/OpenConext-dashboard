@@ -63,6 +63,9 @@
               </div>
             </div>
 
+            <%-- errors not specifically displayed otherwise are displayed here. For example, the super-user trying to submit this form --%>
+            <form:errors  cssStyle="color: #cc0000" path="" />
+
             <div class="actions">
               <button type="submit" class="btn btn-primary btn-small">
                 <spring:message code="jsp.sp_unlinkrequest.buttonsubmit"/>

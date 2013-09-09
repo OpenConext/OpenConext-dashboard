@@ -25,6 +25,7 @@ import nl.surfnet.coin.selfservice.command.AbstractAction;
 import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.service.PersonAttributeLabelService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -33,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -85,11 +87,17 @@ public class LinkrequestController extends BaseController {
   }
 
   @RequestMapping(value = "/linkrequest.shtml", method = RequestMethod.POST)
-  public ModelAndView spRequestPost(@Valid @ModelAttribute("linkrequest") LinkRequest linkrequest, BindingResult result,
+  public ModelAndView spRequestPost(
+                                    @Valid @ModelAttribute("linkrequest") LinkRequest linkrequest,
+                                    BindingResult result,
+                                    @RequestParam long serviceId,
                                     SessionStatus sessionStatus, HttpServletRequest request) {
+    Map<String, Object> m = getModelMapWithService(serviceId, request);
+    denySuperUser(result);
+
     linkrequest.setType(JiraTask.Type.LINKREQUEST);
     InstitutionIdentityProvider identityProvider = getSelectedIdp(request);
-    return doSubmitConfirm(linkrequest, result, identityProvider, sessionStatus, "requests/linkrequest", "requests/linkrequest-thanks", "jsp.sp_linkrequest.thankstext");
+    return doSubmitConfirm(m, linkrequest, result, identityProvider, sessionStatus, "requests/linkrequest", "requests/linkrequest-thanks", "jsp.sp_linkrequest.thankstext");
   }
 
   /**
@@ -103,30 +111,40 @@ public class LinkrequestController extends BaseController {
   }
 
   @RequestMapping(value = "/question.shtml", method = RequestMethod.POST)
-  public ModelAndView spQuestionSubmit(@Valid @ModelAttribute("question") Question question, BindingResult result, SessionStatus sessionStatus, HttpServletRequest request) {
+  public ModelAndView spQuestionSubmit(@Valid @ModelAttribute("question") Question question,
+                                     BindingResult result,
+                                     @RequestParam long serviceId,
+                                     SessionStatus sessionStatus,
+                                     HttpServletRequest request) {
+    denySuperUser(result);
 
-    Map<String, Object> m = new HashMap<String, Object>();
+    Map<String, Object> m = getModelMapWithService(serviceId, request);
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView("requests/question", m);
     } else {
       InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
       question.setType(JiraTask.Type.QUESTION);
-      return doSubmitConfirm(question, result, selectedIdp, sessionStatus, "requests/question", "requests/linkrequest-thanks", "jsp.sp_question.thankstext");
+      return doSubmitConfirm(m, question, result, selectedIdp, sessionStatus, "requests/question", "requests/linkrequest-thanks", "jsp.sp_question.thankstext");
     }
   }
 
 
   @RequestMapping(value = "/unlinkrequest.shtml", method = RequestMethod.POST, params = "confirmation=true")
-  public ModelAndView spRequestSubmitConfirm(@ModelAttribute("unlinkrequest") LinkRequest unlinkrequest, BindingResult result,
-                                             SessionStatus sessionStatus, HttpServletRequest request) {
+  public ModelAndView spRequestSubmitConfirm(
+                                        @ModelAttribute("unlinkrequest") LinkRequest unlinkrequest,
+                                        BindingResult result,
+                                        @RequestParam long serviceId,
+                                        SessionStatus sessionStatus, HttpServletRequest request) {
+    denySuperUser(result);
+
     unlinkrequest.setType(JiraTask.Type.UNLINKREQUEST);
     InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
-    return doSubmitConfirm(unlinkrequest, result, selectedIdp, sessionStatus, "requests/unlinkrequest-confirm", "requests/linkrequest-thanks", "jsp.sp_unlinkrequest.thankstext");
+    Map<String, Object> m = getModelMapWithService(serviceId, request);
+    return doSubmitConfirm(m, unlinkrequest, result, selectedIdp, sessionStatus, "requests/unlinkrequest-confirm", "requests/linkrequest-thanks", "jsp.sp_unlinkrequest.thankstext");
   }
 
-  private ModelAndView doSubmitConfirm(AbstractAction abstractAction, BindingResult result, InstitutionIdentityProvider selectedIdp, SessionStatus sessionStatus, String errorViewName, String successViewName, String thanksTextKey) {
-    Map<String, Object> m = new HashMap<String, Object>();
+  private ModelAndView doSubmitConfirm(Map<String, Object> m, AbstractAction abstractAction, BindingResult result, InstitutionIdentityProvider selectedIdp, SessionStatus sessionStatus, String errorViewName, String successViewName, String thanksTextKey) {
     if (result.hasErrors()) {
       LOG.debug("Errors in data binding, will return to form view: {}", result.getAllErrors());
       return new ModelAndView(errorViewName, m);
@@ -146,6 +164,17 @@ public class LinkrequestController extends BaseController {
     }
     sessionStatus.setComplete();
     return new ModelAndView(successViewName, m);
+  }
+
+  /**
+   * BACKLOG-1128: Impersonating users (as a 'super user') cannot really submit the request/question they're about to submit.
+   * Those are caught here, adding an error to the BindingResult, resulting in the error displayed in the view.
+   * @param result the BindingResult, to which an error will be added if needed
+   */
+  private void denySuperUser(BindingResult result) {
+    if (SpringSecurity.getCurrentUser().getAuthorityEnums().contains(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER)) {
+      result.addError(new ObjectError("superuser.impersonation", new String[]{"superuser.impersonation"}, null, "Impersonated: cannot submit"));
+    }
   }
 
   private Map<String, Object> getModelMapWithService(Long serviceId, HttpServletRequest request) {

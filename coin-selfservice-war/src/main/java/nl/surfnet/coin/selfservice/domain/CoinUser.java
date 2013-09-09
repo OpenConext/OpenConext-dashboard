@@ -16,13 +16,12 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
-import java.util.*;
-
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.*;
 
 /**
  * Simple conext user
@@ -148,8 +147,8 @@ public class CoinUser implements UserDetails {
     this.grantedAuthorities.remove(grantedAuthority);
   }
 
-  public void hasAuthority(Authority grantedAuthority) {
-    this.grantedAuthorities.contains(grantedAuthority);
+  public boolean hasAuthority(CoinAuthority grantedAuthority) {
+    return this.grantedAuthorities.contains(grantedAuthority);
   }
 
   /**
