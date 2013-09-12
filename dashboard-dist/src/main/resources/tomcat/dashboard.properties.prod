@@ -32,6 +32,9 @@ WEB_APPLICATION_HOST_AND_PORT=dashboard.surfconext.nl
 dashboard.admin=urn\:collab\:group\:surfteams.nl\:nl\:surfnet\:diensten\:dashboard_admin
 # Team id that is used as definition of who is a 'dashboard.viewer'.
 dashboard.viewer=urn\:collab\:group\:surfteams.nl\:nl\:surfnet\:diensten\:dashboard_viewer
+# Team id that is used as definition of who is a 'dashboard_super_user'.
+dashboard.super.user=urn:collab:group:surfteams.nl:nl:surfnet:diensten:dashboard_super_user
+
 # Is this the dashboard instance
 is.dashboard=true
 

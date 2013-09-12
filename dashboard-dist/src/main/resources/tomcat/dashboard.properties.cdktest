@@ -37,6 +37,9 @@ WEB_APPLICATION_HOST_AND_PORT=dashboard.test.showroom.surfconext.nl
 dashboard.admin=urn\:collab\:group\:test.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
 # Team id that is used as definition of who is a 'dashboard.viewer'.
 dashboard.viewer=urn\:collab\:group\:test.surfteams.nl\:nl\:surfnet\:diensten\:federatiecontactpersonen
+# Team id that is used as definition of who is a 'dashboard_super_user'.
+dashboard.super.user=urn:collab:group:dev.surfteams.nl:nl:surfnet:diensten:dashboard_super_user
+
 is.dashboard=true
 
 api-baseurl=https\://api.acc.showroom.surfconext.nl/v1/
