@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -158,13 +157,7 @@ public class ApiOAuthFilter implements Filter {
    * 
    */
   private void elevateUserIfApplicable(CoinUser coinUser) {
-    List<Group20> groups;
-    try {
-      groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
-    } catch (RuntimeException e) {
-      LOG.warn("Unable to retrieve groups from API", e);
-      groups = new ArrayList<Group20>();
-    }
+    List<Group20> groups = apiClient.getGroups20(coinUser.getUid(), coinUser.getUid());
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("Memberships of adminTeams '{}' for user '{}'", new Object[] { groups, coinUser.getUid() });
