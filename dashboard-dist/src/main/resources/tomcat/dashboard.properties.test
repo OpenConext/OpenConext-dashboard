@@ -53,7 +53,7 @@ admin.licentie.idp.sabRole=
 admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
 viewer.surfconext.idp.sabRole=SURFconextbeheerder
 
-csa.base.url=https://csa.test.surfconext.nl/csa/
+csa.base.url=https\://csa.test.surfconext.nl
 csa.client.key=??
 csa.client.secret=??
 csa.oauth2.authorization.url=https://apis.test.surfconext.nl/oauth2/token

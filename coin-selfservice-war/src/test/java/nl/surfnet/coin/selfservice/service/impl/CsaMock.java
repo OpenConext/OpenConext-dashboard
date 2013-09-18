@@ -18,20 +18,10 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Action;
-import nl.surfnet.coin.csa.model.Category;
-import nl.surfnet.coin.csa.model.CategoryValue;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.JiraTask;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.csa.model.Taxonomy;
+import nl.surfnet.coin.csa.model.*;
 import nl.surfnet.coin.oauth.OauthClient;
-
+import org.apache.commons.lang.NotImplementedException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -42,6 +32,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Mock implementation of CSA. To be filled with lots of data for local development. Perhaps JSON-local-file-backed.
@@ -100,6 +93,11 @@ public class CsaMock implements Csa {
 
   @Override
   public void setCsaBaseLocation(String location) {
+  }
+
+  @Override
+  public Statistics getStatistics(int month, int year) {
+    throw new NotImplementedException();
   }
 
   @Override
