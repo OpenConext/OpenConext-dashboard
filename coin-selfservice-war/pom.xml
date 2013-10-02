@@ -356,7 +356,18 @@
       <version>${cruncher-client.version}</version>
     </dependency>
   </dependencies>
-
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>sass</artifactId>
+        <!-- 3.2.11 has problems: http://stackoverflow.com/questions/19068382/sass-compile-error-stalenesscheckermutex-nameerror -->
+        <version>3.2.10</version>
+        <type>gem</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
   <build>
     <plugins>
       <plugin>
