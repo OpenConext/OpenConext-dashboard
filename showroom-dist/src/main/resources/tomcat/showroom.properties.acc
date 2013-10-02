@@ -49,3 +49,6 @@ cruncher.base.url=https://cruncher.test.showroom.surfconext.nl/stats/v1
 cruncher.client.key=showroomtestshowroomsurfconextnl
 cruncher.client.secret=??
 cruncher.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth2/token
+
+# Properties file that contains metadata values for outputting SAML metadata
+saml-metadata-properties-file=metadata.showroom.properties

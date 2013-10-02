@@ -76,3 +76,5 @@ cruncher.oauth2.authorization.url=https://apis.test.showroom.surfconext.nl/oauth
 feature.development.mode=true
 
 
+# Properties file that contains metadata values for outputting SAML metadata
+saml-metadata-properties-file=metadata.dashboard.properties

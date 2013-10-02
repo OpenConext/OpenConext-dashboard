@@ -67,3 +67,5 @@ cruncher.oauth2.authorization.url=https://apis.dev.surfconext.nl/oauth2/token
 # Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
 feature.development.mode=true
 
+# Properties file that contains metadata values for outputting SAML metadata
+saml-metadata-properties-file=metadata.dashboard.properties

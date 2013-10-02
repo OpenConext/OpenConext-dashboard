@@ -55,10 +55,9 @@ sab.endpoint=https://sab-ng.surfnet.nl/simplesaml/module.php/attributes/server.p
 sab.username=guest
 sab.password=??
 
-####################################################################
-##
-## The following properties are used to enable/disable features
-##
-####################################################################
 # Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
 feature.development.mode=true
+
+
+# Properties file that contains metadata values for outputting SAML metadata
+saml-metadata-properties-file=metadata.showroom.properties

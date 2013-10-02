@@ -64,3 +64,5 @@ cruncher.client.secret=??
 cruncher.oauth2.authorization.url=https://apis.acc.surfconext.nl/oauth2/token
 
 
+# Properties file that contains metadata values for outputting SAML metadata
+saml-metadata-properties-file=metadata.dashboard.properties
