@@ -81,7 +81,7 @@
      --%>
   </c:when>
   <c:otherwise>
-    <script src="<c:url value="/js/script.min.js"/>"></script>
+    <script src="<c:url value="/js/script.min.js?t=20131009"/>"></script>
   </c:otherwise>
 </c:choose>
 <script>
