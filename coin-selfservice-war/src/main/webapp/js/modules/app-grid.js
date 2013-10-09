@@ -43,6 +43,7 @@ app.appgrid = function () {
       timer = null,
       facetLinks = $(".facet-search a");
 
+    searchElm.attr("placeholder", placeholderText);
 
     function checkFocusKeyUp(e) {
       if (e.which === 191 && !$(e.target).is('input,textarea,a,submit,button')) {
