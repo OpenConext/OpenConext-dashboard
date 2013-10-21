@@ -28,7 +28,7 @@
     <c:otherwise>
 		  <h2><spring:message code="jsp.sp_detail.arp"/></h2>
 		  <p><spring:message code="jsp.sp_detail.arp.intro" arguments="${service.name}"/></p>
-		    <table class="table">
+		    <table class="arp">
           <tr>
             <th><spring:message code="jsp.sp_detail.arp_table.attribute"/></th>
             <th><spring:message code="jsp.sp_detail.arp_table.explanation"/></th>
