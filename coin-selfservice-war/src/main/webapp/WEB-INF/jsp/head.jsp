@@ -36,7 +36,7 @@
 
       </c:when>
       <c:otherwise>
-        <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/style.min.css?t=20131021"/>" />
       </c:otherwise>
     </c:choose>
 
