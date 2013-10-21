@@ -93,11 +93,11 @@
                   <c:out default="${service.id}" value="${service.name}" />
                 </c:set>
                 <c:if test="${not empty service.logoUrl}">
-                  <img src="<c:url value="${service.logoUrl}"/>"/>
+                  <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
                 </c:if>
                 <div class="service-info-${view}">
                 <h2>
-                  <a id="detail-${service.spEntityId}" href="${detailUrl}">
+                  <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
                     <tags:truncatedSpName
                         spName="${spTitle}"
                         hasServiceDescription="${not empty serviceDescription}"

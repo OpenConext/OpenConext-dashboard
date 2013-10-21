@@ -34,6 +34,10 @@ app.appgrid = function () {
 
       location.href = link.attr('href');
     });
+
+    // Enable tooltips on grid images and titles
+    gridElm.find('li img').tooltip();
+    gridElm.find('li h2 a').tooltip();
   };
 
   var setSearch = function () {
