@@ -61,7 +61,6 @@ li
 p,
 ul,
 ol,
-.with-read-more,
 .arp
   margin-bottom: 25px
 
@@ -342,60 +341,6 @@ a
       .btn
         margin-right: 0
 
-.wrapper .with-read-more
-  .toggle-read-more:after
-    background: url(../images/bg-toggle-read-more.png) 0 -7px
-    content: ''
-    display: inline-block
-    height: 7px
-    margin-left: 10px
-    width: 9px
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  ul,
-  ol,
-  blockquote,
-  pre
-    color: #666 !important
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important
-    font-size: 14px !important
-    font-weight: normal !important
-
-  &.folded
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    ul,
-    ol,
-    blockquote,
-    pre
-      +transition(none)
-
-      + * ~ h1,
-      + * ~ h2,
-      + * ~ h3,
-      + * ~ h4,
-      + * ~ h5,
-      + * ~ h6,
-      + * ~ p,
-      + * ~ ul,
-      + * ~ ol,
-      + * ~ blockquote,
-      + * ~ pre
-        display: none
-
-    .toggle-read-more:after
-      background-position: 0 0
 
 .alert-success
   background-color: #DBF4EB

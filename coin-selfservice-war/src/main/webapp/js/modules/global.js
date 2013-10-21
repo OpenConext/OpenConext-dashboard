@@ -12,7 +12,6 @@ app.global = function() {
 
         initUserSelection();
         initTextSearch();
-        initReadMore();
         initRequiredCheckbox();
         initDetailedAttributes();
     };
@@ -56,50 +55,6 @@ app.global = function() {
     }
 
 
-    var initReadMore = function() {
-        var readMoreElms = $('.with-read-more').each(function(index, elm) {
-            elm = $(elm);
-
-            var pElm, pElms = elm.children('h1,h2,h3,h4,h5,h6,p,ul,ol,blockquote,pre');
-
-            for (var i = 0, l = pElms.length; i < l; ++i) {
-                pElm = $(pElms[i]);
-
-                if ($.trim(pElm.text()).length === 0) {
-                    pElm.remove();
-                }
-            }
-
-            pElms = elm.find('p');
-
-            if (pElms.length < 2) {
-                pElm = pElms.first();
-                if (pElm.length === 0 || $.trim(pElm.text()).length === 0) {
-                    elm.remove();
-                }
-                return;
-            }
-
-            var linkText = elm.data('readMoreText');
-
-            elm.append('<a class="toggle-read-more" href="#">' + linkText + '</a>');
-            elm.addClass('folded');
-        });
-
-        readMoreElms.on('click', '.toggle-read-more', function(e) {
-            e.preventDefault();
-
-            var elm = $(this),
-                wrapper = elm.closest('.with-read-more').toggleClass('folded');
-
-            if (wrapper.hasClass('folded')) {
-                elm.html(wrapper.data('readMoreText'));
-            }
-            else {
-                elm.html(wrapper.data('readLessText'));
-            }
-        });
-    }
 
 
     function search (event) {
