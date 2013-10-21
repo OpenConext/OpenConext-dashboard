@@ -205,18 +205,18 @@
         <tags:ask-question service="${service}" invariant="${questionAllowed and !applyAllowed}" />
       </div>
 
+      <c:choose>
+        <c:when test="${isDashBoard}">
           <tags:html-format>
-              <jsp:attribute name="input">${service.description}</jsp:attribute>
+            <jsp:attribute name="input">${service.institutionDescription}</jsp:attribute>
           </tags:html-format>
-
+        </c:when>
+        <c:otherwise>
           <tags:html-format>
-              <jsp:attribute name="input">${service.institutionDescription}</jsp:attribute>
+            <jsp:attribute name="input">${service.enduserDescription}</jsp:attribute>
           </tags:html-format>
-
-          <tags:html-format>
-              <jsp:attribute name="input">${service.enduserDescription}</jsp:attribute>
-          </tags:html-format>
-
+        </c:otherwise>
+      </c:choose>
 
     <div class="arp">
       <jsp:include page="requests/arp.jsp" />
