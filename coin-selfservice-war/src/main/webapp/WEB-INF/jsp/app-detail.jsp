@@ -124,7 +124,8 @@
                   <spring:message code="jsp.sp_detail.requestlink"/>
                 </c:when>
                 <c:otherwise>
-		              <a href="<c:url value="/requests/linkrequest.shtml">
+
+		              <a class="btn btn-small btn-primary" href="<c:url value="/requests/linkrequest.shtml">
 		                <c:param name="serviceId" value="${service.id}" />
 		              </c:url>"title="<spring:message code="jsp.sp_detail.requestlink"/>"><spring:message code="jsp.sp_detail.requestlink"/></a>
                 </c:otherwise>
@@ -149,7 +150,7 @@
               </p>
               <ul>
                 <c:if test="${applyAllowed}">
-                  <li>    <a href="<c:url value="/requests/unlinkrequest.shtml">
+                  <li>    <a class="btn btn-small btn-primary" href="<c:url value="/requests/unlinkrequest.shtml">
                             <c:param name="serviceId" value="${service.id}" />
                               </c:url>" title="<spring:message code="jsp.sp_detail.requestunlink"/>">
                             <spring:message code="jsp.sp_detail.requestunlink"/>
