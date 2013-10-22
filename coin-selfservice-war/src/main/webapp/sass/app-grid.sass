@@ -70,11 +70,16 @@ p.recent-login
   +border-radius(3px)
   color: #AAA
 
+  i:before
+    font-size: 14px
+
   a
     padding: 0px 5px
 
     &:first-child
       border-right: 1px solid grey
+    &:visited, &:link, &:active
+      text-decoration: none
 
     &.disabled
       color: black

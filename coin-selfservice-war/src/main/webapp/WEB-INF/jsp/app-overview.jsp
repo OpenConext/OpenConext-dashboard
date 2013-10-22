@@ -64,17 +64,16 @@
 
   </nav>
   <div class="column-center content-holder app-grid-holder">
-    <h1 class="hidden-phone">${title}<i class="inlinehelp icon-question-sign" data-title="${title}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.appoverview.help" />"></i></h1>
     <div class="view-option">
       <c:set var="isCard" value="${view eq 'card'}" />
       <spring:url value="app-overview.shtml" var="cardUrl" htmlEscape="true">
         <spring:param name="view" value="card" />
       </spring:url>
-      <a href="${isCard ? '#' : cardUrl}" class="${isCard ? 'disabled' : ''} card-view"><spring:message code="jsp.app_overview.card_view"/></a>
+      <a href="${isCard ? '#' : cardUrl}" class="${isCard ? 'disabled' : ''} card-view"><i class="icon-th-large"></i></a>
       <spring:url value="app-overview.shtml" var="listUrl" htmlEscape="true">
         <spring:param name="view" value="list" />
       </spring:url>
-      <a href="${isCard ? listUrl : '#'}" class="${isCard ? '' : 'disabled'}"><spring:message code="jsp.app_overview.list_view"/></a>
+      <a href="${isCard ? listUrl : '#'}" class="${isCard ? '' : 'disabled'}"><i class="icon-th-list"></i></a>
     </div>
     <section>
     <div style="padding-top: 10px;">
