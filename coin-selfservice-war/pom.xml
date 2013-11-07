@@ -35,15 +35,15 @@
   </repositories>
 
   <properties>
-    <coin-shared.version>3.10.0-SNAPSHOT</coin-shared.version>
-    <coin-test.version>3.10.0-SNAPSHOT</coin-test.version>
-    <coin-master.test-dependencies.version>3.10.0-SNAPSHOT</coin-master.test-dependencies.version>
-    <coin-api.version>3.10.0-SNAPSHOT</coin-api.version>
+    <coin-shared.version>3.11.0</coin-shared.version>
+    <coin-test.version>3.11.0</coin-test.version>
+    <coin-master.test-dependencies.version>3.11.0</coin-master.test-dependencies.version>
+    <coin-api.version>3.11.0</coin-api.version>
     <spring-security-opensaml.version>3.2.0</spring-security-opensaml.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
-    <mujina-idp.version>3.10.0-SNAPSHOT</mujina-idp.version>
+    <mujina-idp.version>3.11.0</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
     <selenium.version>2.32.0</selenium.version>
     <freemarker.version>[2.3.19,2.4)</freemarker.version>
@@ -51,7 +51,7 @@
     <selenium.test.url>http://localhost:8280/selfservice/</selenium.test.url>
     <jetty.port>8280</jetty.port>
     <cruncher-client.version>3.7.0</cruncher-client.version>
-    <csa-client.version>3.10.0-SNAPSHOT</csa-client.version>
+    <csa-client.version>3.11.0</csa-client.version>
 
     <!-- default webdriver for selenium tests. To be overridden on a per
       profile base -->
