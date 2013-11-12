@@ -40,8 +40,8 @@ dashboard.super.user=urn:collab:group:_OPENCONEXT_DOMAIN_:nl:surfnet:diensten:da
 is.dashboard=true
 
 api-baseurl=https\://api._OPENCONEXT_DOMAIN_/v1/
-api-consumerkey=vm-dashboard
-api-consumersecret=??
+api-consumerkey=https://dashboard._OPENCONEXT_DOMAIN_
+api-consumersecret=secret
 api-callbackuri=https\://dashboard._OPENCONEXT_DOMAIN_/apiOauthCallback?apiOauthCallback\=true
 
 # SAB connection details
@@ -54,14 +54,14 @@ admin.licentie.idp.sabRole=?
 admin.surfconext.idp.sabRole=?
 viewer.surfconext.idp.sabRole=?
 
-csa.base.url=https\://csa._OPENCONEXT_DOMAIN_
-csa.client.key=??
-csa.client.secret=??
+csa.base.url=https://csa._OPENCONEXT_DOMAIN_
+csa.client.key=dashboard-csa-client
+csa.client.secret=70c2d0ef-1848-4cfb-b9e1-d69bba442cdf
 csa.oauth2.authorization.url=https://apis._OPENCONEXT_DOMAIN_/oauth2/token
 
 cruncher.base.url=https://cruncher._OPENCONEXT_DOMAIN_/stats/v1
-cruncher.client.key=??
-cruncher.client.secret=??
+cruncher.client.key=dashboard-cruncher-client
+cruncher.client.secret=7ff37fe7-161c-4f71-bb8f-8c9ad0f23ee3
 cruncher.oauth2.authorization.url=https://apis._OPENCONEXT_DOMAIN_/oauth2/token
 
 # Defines if the site is in local dev mode or deployed on the server. Needed for CSS/JS concatenation
