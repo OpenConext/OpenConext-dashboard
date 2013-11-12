@@ -1,0 +1,16 @@
+service-name-en=Dashboard
+service-name-nl=Dashboard
+service-description-en=Dashboard application
+service-description-nl=Dashboard applicatie
+
+contact-person-administrative-given-name=OpenConext
+contact-person-administrative-sur-name=OpenConext
+contact-person-administrative-email=root@localhost
+
+contact-person-technical-given-name=OpenConext
+contact-person-technical-sur-name=OpenConext
+contact-person-technical-email=root@localhost
+
+contact-person-support-given-name=OpenConext
+contact-person-support-sur-name=OpenConext
+contact-person-support-email=root@localhost
