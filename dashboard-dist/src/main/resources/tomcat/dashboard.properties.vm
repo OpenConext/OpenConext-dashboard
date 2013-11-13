@@ -24,25 +24,25 @@ wayf.url.sso=https://engine._OPENCONEXT_DOMAIN_/authentication/idp/single-sign-o
 wayf.certificate=???
 
 ## Properties for opensaml
-ISSUING_ENTITY_ID=https\://dashboard._OPENCONEXT_DOMAIN_/
+ISSUING_ENTITY_ID=https://dashboard._OPENCONEXT_DOMAIN_/
 
 WEB_APPLICATION_HOST_AND_PORT=dashboard._OPENCONEXT_DOMAIN_
 
 
 # Team id that is used as definition of who is a 'dashboard_admin'.
-dashboard.admin=urn:collab:group:_OPENCONEXT_DOMAIN_:nl:surfnet:diensten:dashboard_admin
+dashboard.admin=urn:collab:group:teams._OPENCONEXT_DOMAIN_:nl:surfnet:diensten:dashboard_admin
 # Team id that is used as definition of who is a 'dashboard.viewer'.
-dashboard.viewer=urn:collab:group:_OPENCONEXT_DOMAIN_:nl:surfnet:diensten:dashboard_viewer
+dashboard.viewer=urn:collab:group:teams._OPENCONEXT_DOMAIN_:nl:surfnet:diensten:dashboard_viewer
 # Team id that is used as definition of who is a 'dashboard_super_user'.
-dashboard.super.user=urn:collab:group:_OPENCONEXT_DOMAIN_:nl:surfnet:diensten:dashboard_super_user
+dashboard.super.user=urn:collab:group:teams._OPENCONEXT_DOMAIN_:nl:surfnet:diensten:dashboard_super_user
 
 # Is this the dashboard instance
 is.dashboard=true
 
-api-baseurl=https\://api._OPENCONEXT_DOMAIN_/v1/
+api-baseurl=https://api._OPENCONEXT_DOMAIN_/v1/
 api-consumerkey=https://dashboard._OPENCONEXT_DOMAIN_
 api-consumersecret=secret
-api-callbackuri=https\://dashboard._OPENCONEXT_DOMAIN_/apiOauthCallback?apiOauthCallback\=true
+api-callbackuri=https://dashboard._OPENCONEXT_DOMAIN_/apiOauthCallback?apiOauthCallback=true
 
 # we do not want SAB on the VM
 sabClientClass=nl.surfnet.sab.SabClientMock
