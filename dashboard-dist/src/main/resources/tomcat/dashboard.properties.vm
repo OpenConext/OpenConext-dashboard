@@ -24,7 +24,7 @@ wayf.url.sso=https://engine._OPENCONEXT_DOMAIN_/authentication/idp/single-sign-o
 wayf.certificate=???
 
 ## Properties for opensaml
-ISSUING_ENTITY_ID=https\://dashboard._OPENCONEXT_DOMAIN_
+ISSUING_ENTITY_ID=https\://dashboard._OPENCONEXT_DOMAIN_/
 
 WEB_APPLICATION_HOST_AND_PORT=dashboard._OPENCONEXT_DOMAIN_
 
@@ -43,6 +43,9 @@ api-baseurl=https\://api._OPENCONEXT_DOMAIN_/v1/
 api-consumerkey=https://dashboard._OPENCONEXT_DOMAIN_
 api-consumersecret=secret
 api-callbackuri=https\://dashboard._OPENCONEXT_DOMAIN_/apiOauthCallback?apiOauthCallback\=true
+
+# we do not want SAB on the VM
+sabClientClass=nl.surfnet.sab.SabClientMock
 
 # SAB connection details
 sab.endpoint=??
