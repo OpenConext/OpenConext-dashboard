@@ -105,12 +105,12 @@
                 </h2>
                   <c:if test="${!isCard}">
                     <div class="app-meta-cta">
-                      <c:if test="${not empty service.appUrl}">
+                      <c:if test="${not isDashBoard and not empty service.appUrl}">
                         <a href="${service.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
                           <i class="icon-external-link"></i>
                         </a>
                       </c:if>
-                        <c:if test="${showConnectButton and !isCard}">
+                        <c:if test="${showConnectButton}">
                           <a href="<c:url value="/requests/linkrequest.shtml">
                                   <c:param name="serviceId" value="${service.id}" />
                                 </c:url>" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
@@ -122,18 +122,18 @@
                 </div>
                 <c:if test="${isCard}">
                   <div class="app-meta-cta">
-                    <c:if test="${not empty service.appUrl}">
+                    <c:if test="${not isDashBoard and not empty service.appUrl}">
                       <a href="${service.appUrl}" class="external-link" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
                         <i class="icon-external-link"></i>
                       </a>
                     </c:if>
-                    <c:if test="${not empty service.lastLoginDate and isCard}">
+                    <c:if test="${not isDashBoard and not empty service.lastLoginDate}">
                        <p class="recent-login" data-title="${spTitle}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.app_overview.recent_login_popover" />">
                             <i class="icon-user"></i>
                             <fmt:formatDate value="${service.lastLoginDate}" pattern="dd-MM-yyyy HH:mm" />
                        </p>
                    </c:if>
-                    <c:if test="${showConnectButton and isCard}">
+                    <c:if test="${showConnectButton}">
                        <p class="connect-app">
                           <a href="<c:url value="/requests/linkrequest.shtml"><c:param name="serviceId" value="${service.id}" /></c:url>">
                             <spring:message code="jsp.sp_detail.requestlink"/>
