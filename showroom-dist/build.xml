@@ -26,13 +26,4 @@
       </filterset>
     </copy>
   </target>
-
-  <!-- Usage:  ant -f showroom-dist/build.xml -Dmachine=t04.dev.coin.surf.net scp -->
-  <!-- Cannot directly call executable 'scp', because ant does not support the wildcard use -->
-  <target name="scp" description="SecureCoPies the tar.gz to the configured machine">
-    <exec executable="sh" failonerror="true" failifexecutionfails="true">
-      <arg line="-cv 'scp ${basedir}/target/showroom-dist-*.tar.gz ${machine}:/home/bamboo/dist/'"/>
-    </exec>
-  </target>
-
 </project>
