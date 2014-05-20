@@ -41,6 +41,7 @@
                 <tr>
                   <th><spring:message code="jsp.requests-overview.date"/></th>
                   <th><spring:message code="jsp.requests-overview.type"/></th>
+                  <th><spring:message code="jsp.requests-overview.key"/></th>
                   <th><spring:message code="jsp.requests-overview.status"/></th>
                   <th><spring:message code="jsp.requests-overview.by"/></th>
                 </tr>
@@ -60,6 +61,9 @@
                     </td>
                     <td>
                       <c:out value="${actionType}"/>
+                    </td>
+                    <td>
+                      <c:out value="${action.jiraKey}" />
                     </td>
                     <td>
                       <c:choose>
