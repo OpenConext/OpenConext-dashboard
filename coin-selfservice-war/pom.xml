@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-selfservice-parent</artifactId>
@@ -74,14 +75,6 @@
       <groupId>org.imgscalr</groupId>
       <artifactId>imgscalr-lib</artifactId>
       <version>4.2</version>
-    </dependency>
-    <!-- Check the available versions using 
-    http://rubygems-proxy.torquebox.org/releases/rubygems/compass/maven-metadata.xml -->
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>compass</artifactId>
-      <version>0.12.2</version>
-      <type>gem</type>
     </dependency>
     <dependency>
       <groupId>org.surfnet.coin</groupId>
@@ -356,18 +349,7 @@
       <version>${cruncher-client.version}</version>
     </dependency>
   </dependencies>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>sass</artifactId>
-        <!-- 3.2.11 has problems: http://stackoverflow.com/questions/19068382/sass-compile-error-stalenesscheckermutex-nameerror -->
-        <version>3.2.10</version>
-        <type>gem</type>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -428,7 +410,6 @@
     <profile>
       <id>css-javascript-minifier</id>
       <activation>
-        <!--<activeByDefault>true</activeByDefault>-->
         <property>
           <name>!skipCssJs</name>
         </property>
@@ -436,24 +417,34 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>de.saumya.mojo</groupId>
-            <artifactId>gem-maven-plugin</artifactId>
-            <version>0.28.6</version>
-            <extensions>true</extensions>
+            <groupId>org.jasig.maven</groupId>
+            <artifactId>sass-maven-plugin</artifactId>
+            <version>1.1.1</version>
             <executions>
               <execution>
+                <id>compile</id>
+                <phase>prepare-package</phase>
                 <goals>
-                  <goal>exec</goal>
+                  <goal>update-stylesheets</goal>
                 </goals>
-
-                <phase>generate-resources</phase>
               </execution>
             </executions>
             <configuration>
-              <execArgs>${project.build.directory}/rubygems/bin/compass
-                compile ${basedir}/src/main/webapp
-                ${basedir}/src/main/webapp/sass/screen.sass</execArgs>
+              <sassSourceDirectory>${basedir}/src/main/sass</sassSourceDirectory>
+              <useCompass>true</useCompass>
+              <resources>
+                <resource>
+                  <source>
+                    <directory>${basedir}/src/main/webapp/sass</directory>
+                    <includes>
+                      <include>*.sass</include>
+                    </includes>
+                  </source>
+                  <destination>${project.build.directory}/${project.build.finalName}/css</destination>
+                </resource>
+              </resources>
             </configuration>
+
           </plugin>
           <plugin>
             <groupId>com.samaxes.maven</groupId>
