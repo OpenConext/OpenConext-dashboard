@@ -84,19 +84,18 @@ public class ServiceDetailController extends BaseController {
   @RequestMapping(value = "/app-detail")
   public ModelAndView serviceDetail(@RequestParam(value = "serviceId", required = false) Long serviceId,
                                     @RequestParam(value = "spEntityId", required = false) String spEntityId,
-                                    @RequestParam(required = false) String revoked,
                                     HttpServletRequest request) {
     if (null == serviceId && !StringUtils.hasText(spEntityId)) {
       throw new IllegalArgumentException("either service id or sp entity id is required");
     }
     InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
-    Service service = null;
+    Service service;
     if (null != spEntityId) {
       service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
     } else {
       service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
     }
-    Map<String, Object> m = new HashMap<String, Object>();
+    Map<String, Object> m = new HashMap<>();
     m.put(SERVICE, service);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
@@ -109,7 +108,7 @@ public class ServiceDetailController extends BaseController {
 
   @RequestMapping(value = "/app-recommend")
   public ModelAndView recommendApp(@RequestParam(value = "serviceId") long serviceId, HttpServletRequest request) {
-    Map<String, Object> m = new HashMap<String, Object>();
+    Map<String, Object> m = new HashMap<>();
     InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
     Service service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
     m.put(SERVICE, service);
@@ -140,7 +139,7 @@ public class ServiceDetailController extends BaseController {
 
     String subject = coinUser.getDisplayName() + " would like to recommend " + service.getName();
 
-    Map<String, Object> templateVars = new HashMap<String, Object>();
+    Map<String, Object> templateVars = new HashMap<>();
     templateVars.put("service", service);
     templateVars.put("recommendPersonalNote", recommendPersonalNote);
     templateVars.put("invitername", coinUser.getDisplayName());

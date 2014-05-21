@@ -36,7 +36,7 @@ public class LogoutController {
   @RequestMapping("/logout.shtml")
   public ModelAndView logout(HttpServletRequest request, SessionStatus status) {
     status.setComplete();
-    Map<String, Object> m = new HashMap<String, Object>();
+    Map<String, Object> m = new HashMap<>();
     request.getSession().invalidate();
     SecurityContextHolder.getContext().setAuthentication(null);
     return new ModelAndView("logout", m);

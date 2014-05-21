@@ -62,7 +62,7 @@ public class HomeController extends BaseController {
   @RequestMapping("/app-overview.shtml")
   public ModelAndView home(@RequestParam(value = "switchIdpId", required = false) String switchIdpId,
                            @RequestParam(value = "view", defaultValue = "card") String view, HttpServletRequest request) {
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     InstitutionIdentityProvider identityProvider;
     if (StringUtils.hasText(switchIdpId)) {
       identityProvider = switchIdp(request, switchIdpId);
@@ -126,7 +126,7 @@ public class HomeController extends BaseController {
 
   @RequestMapping("/user.shtml")
   public ModelAndView user() {
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     CoinUser user = SpringSecurity.getCurrentUser();
     model.put("mainAttributes", new PersonMainAttributes(user.getAttributeMap()));
     return new ModelAndView("user", model);

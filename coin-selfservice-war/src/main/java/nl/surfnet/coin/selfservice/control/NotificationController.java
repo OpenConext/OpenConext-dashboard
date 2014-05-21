@@ -36,7 +36,7 @@ public class NotificationController extends BaseController {
     //if an user acutally links to notifications we can dismiss the popup
     notificationPopupClosed(request);
 
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     return new ModelAndView("notifications", model);
   }
 
