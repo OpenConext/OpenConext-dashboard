@@ -57,6 +57,13 @@
     <!-- default webdriver for selenium tests. To be overridden on a per
       profile base -->
     <selenium.webdriver>firefox</selenium.webdriver>
+    <assertj-core.version>1.5.0</assertj-core.version>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-guava</artifactId>
+      <version>1.1.0</version>
+      <scope>test</scope>
+    </dependency>
   </properties>
 
   <dependencies>
@@ -262,6 +269,12 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj-core.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
