@@ -444,7 +444,6 @@
               </execution>
             </executions>
             <configuration>
-              <sassSourceDirectory>${basedir}/src/main/sass</sassSourceDirectory>
               <useCompass>true</useCompass>
               <resources>
                 <resource>
