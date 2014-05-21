@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -20,7 +19,6 @@ import com.google.common.collect.ImmutableList;
 import nl.surfnet.coin.selfservice.service.EdugainApp;
 import nl.surfnet.coin.selfservice.service.EdugainService;
 
-@Service
 public class EdugainServiceImpl implements EdugainService {
 
   private AtomicReference<List<EdugainApp>> apps = new AtomicReference(new ArrayList<EdugainApp>());
