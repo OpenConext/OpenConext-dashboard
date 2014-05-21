@@ -15,6 +15,13 @@
  */
 package nl.surfnet.coin.selfservice.util;
 
+import static java.util.Arrays.asList;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
 import nl.surfnet.coin.api.client.OAuthVersion;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Email;
@@ -23,16 +30,6 @@ import nl.surfnet.coin.api.client.domain.Group20;
 import nl.surfnet.coin.api.client.domain.Person;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static java.util.Arrays.asList;
-
-/**
- * OpenConextOAuthClientMock.java
- */
 public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
 
   public enum Users {
