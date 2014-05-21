@@ -68,7 +68,7 @@ public class ServiceDetailControllerTest {
   public void testSpDetail() throws Exception {
     Service service = getService();
     when(csa.getServiceForIdp("id", 1L)).thenReturn(service);
-    final ModelAndView modelAndView = controller.serviceDetail(1L, null, null, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1L, null, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
   }
