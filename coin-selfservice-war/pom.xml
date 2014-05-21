@@ -53,7 +53,7 @@
     <jetty.port>8280</jetty.port>
     <cruncher-client.version>3.7.0</cruncher-client.version>
     <csa-client.version>4.0.0</csa-client.version>
-
+    <jetty.version>9.1.5.v20140505</jetty.version>
     <!-- default webdriver for selenium tests. To be overridden on a per
       profile base -->
     <selenium.webdriver>firefox</selenium.webdriver>
