@@ -53,7 +53,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
   private static final Logger LOG = LoggerFactory.getLogger(AuthorityScopeInterceptor.class);
 
-  private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(new String[]{POST.name(), DELETE.name(), PUT.name()});
+  private static List<String> TOKEN_CHECK_METHODS = Arrays.asList(POST.name(), DELETE.name(), PUT.name());
 
   @Resource
   private Csa csa;
@@ -82,19 +82,19 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       final ModelMap map = modelAndView.getModelMap();
       Service service = (Service) map.get(SERVICE);
       if (service != null) {
-        scopeService(map, service, authorities);
+        scopeService(service, authorities);
       }
 
       List<Service> services = (List<Service>) map.get(SERVICES);
       if (!CollectionUtils.isEmpty(services)) {
         services = scopeListOfServices(services);
         for (Service service1 : services) {
-          scopeService(map, service1, authorities);
+          scopeService(service1, authorities);
         }
         map.put(SERVICES, services);
       }
 
-      scopeGeneralAuthCons(map, authorities, request);
+      scopeGeneralAuthCons(map, authorities);
 
       addTokenToModelMap(request, response, map);
 
@@ -102,7 +102,9 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private void addSwitchIdentity(ModelMap map, List<Authority> authorities, HttpServletRequest request) {
+
     if (containsRole(authorities, ROLE_SHOWROOM_SUPER_USER, ROLE_DASHBOARD_SUPER_USER)) {
       List<InstitutionIdentityProvider> idps = (List<InstitutionIdentityProvider>) request.getSession().getAttribute(INSTITUTION_IDENTITY_PROVIDERS);
       if (idps == null) {
@@ -117,7 +119,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
     }
   }
 
-  private void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities, final HttpServletRequest request) {
+  private void scopeGeneralAuthCons(ModelMap map, List<Authority> authorities) {
     map.put(SERVICE_QUESTION_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
     map.put(SERVICE_APPLY_ALLOWED, containsRole(authorities, ROLE_DASHBOARD_ADMIN));
     map.put(SERVICE_CONNECTION_VISIBLE, containsRole(authorities, ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_VIEWER));
@@ -149,9 +151,9 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
 
 
   private static List<Service> removeLicenseRequiredServices(Collection<Service> services) {
-    List<Service> result = new ArrayList<Service>();
+    List<Service> result = new ArrayList<>();
     for (Service service : services) {
-      if (!service.isHasCrmLink() || (service.isHasCrmLink() && service.getLicense() != null && service.getLicense().isValid())) {
+      if (!service.isHasCrmLink() || (service.getLicense() != null && service.getLicense().isValid())) {
         result.add(service);
       }
     }
@@ -159,7 +161,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   }
 
   private static List<Service> removeNonConnectedServices(Collection<Service> services) {
-    List<Service> result = new ArrayList<Service>();
+    List<Service> result = new ArrayList<>();
     for (Service service : services) {
       if (service.isConnected()) {
         result.add(service);
@@ -169,7 +171,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
   }
 
   private static List<Service> removeNonEndUserAvailableServices(Collection<Service> services) {
-    List<Service> result = new ArrayList<Service>();
+    List<Service> result = new ArrayList<>();
     for (Service service : services) {
       if (service.isAvailableForEndUser()) {
         result.add(service);
@@ -182,7 +184,7 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
    * Based on https://wiki.surfnetlabs.nl/display/services/App-omschrijving we
    * tell the Service to limit scope access based on the authority
    */
-  protected void scopeService(ModelMap map, Service service, List<Authority> authorities) {
+  protected void scopeService(Service service, List<Authority> authorities) {
     /*
      * Do not allow normal users to view 'unlinked' services, even if requested
      * explicitly.
