@@ -42,6 +42,9 @@ import java.util.Locale;
 @SuppressWarnings("unchecked")
 public class CsaMock implements Csa {
 
+  public CsaMock(String csaBaseLocation) {
+  }
+
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
