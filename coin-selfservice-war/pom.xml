@@ -351,49 +351,63 @@
   </dependencies>
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <configuration>
-          <contextHandlers>
-            <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
-              <contextPath>/mujina-idp</contextPath>
-              <war>${settings.localRepository}/org/surfnet/coin/mujina-idp/${mujina-idp.version}/mujina-idp-${mujina-idp.version}.war</war>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>${jetty.version}</version>
+          <configuration>
+            <contextHandlers>
+              <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
+                <contextPath>/mujina-idp</contextPath>
+                <war>
+                  ${settings.localRepository}/org/surfnet/coin/mujina-idp/${mujina-idp.version}/mujina-idp-${mujina-idp.version}.war
+                </war>
+                <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
+              </contextHandler>
+            </contextHandlers>
+            <webAppConfig>
+              <contextPath>/selfservice</contextPath>
               <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
-            </contextHandler>
-          </contextHandlers>
-          <webAppConfig>
-            <contextPath>/selfservice</contextPath>
-            <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
-            <defaultsDescriptor>${basedir}/src/test/resources/jettywebdefault.xml</defaultsDescriptor>
-          </webAppConfig>
-          <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
-          <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+              <defaultsDescriptor>${basedir}/src/test/resources/jettywebdefault.xml</defaultsDescriptor>
+              <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
+                <resourcesAsCSV>${basedir}/src/main/webapp,${project.build.directory}/${project.build.finalName}
+                </resourcesAsCSV>
+              </baseResource>
+            </webAppConfig>
+            <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
+            <httpConnector>
               <port>${jetty.port}</port>
               <host>0.0.0.0</host>
-            </connector>
-          </connectors>
-          <stopKey>stopselfservice</stopKey>
-          <stopPort>9280</stopPort>
-          <reload>manual</reload>
-          <useTestClasspath>true</useTestClasspath>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.surfnet.coin</groupId>
-            <artifactId>coin-master-test-dependencies</artifactId>
-            <version>${coin-master.test-dependencies.version}</version>
-            <type>pom</type>
-          </dependency>
-          <dependency>
-            <groupId>org.surfnet.coin</groupId>
-            <artifactId>mujina-idp</artifactId>
-            <type>war</type>
-            <version>${mujina-idp.version}</version>
-          </dependency>
-        </dependencies>
+            </httpConnector>
+            <stopKey>stopselfservice</stopKey>
+            <stopPort>9280</stopPort>
+            <reload>manual</reload>
+            <useTestClasspath>true</useTestClasspath>
+          </configuration>
+        </plugin>
+      </plugins>
+
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+          <dependencies>
+            <dependency>
+              <groupId>org.surfnet.coin</groupId>
+              <artifactId>coin-master-test-dependencies</artifactId>
+              <version>${coin-master.test-dependencies.version}</version>
+              <type>pom</type>
+            </dependency>
+            <dependency>
+              <groupId>org.surfnet.coin</groupId>
+              <artifactId>mujina-idp</artifactId>
+              <type>war</type>
+              <version>${mujina-idp.version}</version>
+            </dependency>
+          </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -423,7 +437,7 @@
             <executions>
               <execution>
                 <id>compile</id>
-                <phase>prepare-package</phase>
+                <phase>process-resources</phase>
                 <goals>
                   <goal>update-stylesheets</goal>
                 </goals>
@@ -515,8 +529,9 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.12</version>
+            <version>2.17</version>
             <executions>
               <execution>
                 <goals>
@@ -546,36 +561,8 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.mortbay.jetty</groupId>
+            <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-maven-plugin</artifactId>
-            <version>${jetty.version}</version>
-            <configuration>
-              <scanIntervalSeconds>0</scanIntervalSeconds>
-              <contextHandlers>
-                <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
-                  <contextPath>/mujina-idp</contextPath>
-                  <war>${settings.localRepository}/org/surfnet/coin/mujina-idp/${mujina-idp.version}/mujina-idp-${mujina-idp.version}.war</war>
-                  <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
-                </contextHandler>
-              </contextHandlers>
-              <webAppConfig>
-                <contextPath>/selfservice</contextPath>
-                <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
-                <defaultsDescriptor>${basedir}/src/test/resources/jettywebdefault.xml</defaultsDescriptor>
-              </webAppConfig>
-              <contextXml>${basedir}/src/test/resources/jetty-context.xml</contextXml>
-              <connectors>
-                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                  <port>${jetty.port}</port>
-                  <host>0.0.0.0</host>
-                </connector>
-              </connectors>
-              <daemon>true</daemon>
-              <scanIntervalSeconds>0</scanIntervalSeconds>
-              <stopKey>stopselfservice</stopKey>
-              <stopPort>9280</stopPort>
-              <useTestClasspath>true</useTestClasspath>
-            </configuration>
             <executions>
               <execution>
                 <id>start-jetty</id>
@@ -583,6 +570,10 @@
                 <goals>
                   <goal>run</goal>
                 </goals>
+                <configuration>
+                  <scanIntervalSeconds>0</scanIntervalSeconds>
+                  <daemon>true</daemon>
+                </configuration>
               </execution>
               <execution>
                 <id>stop-jetty</id>
