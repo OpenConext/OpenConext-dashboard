@@ -80,70 +80,70 @@
     <div>
       <ul class="${view}-view app-grid ${isDashBoard == false ? 'crmAvailable' : ''}">
       <c:forEach items="${services}" var="service">
-              <c:set var="serviceDescription" value="${service.description}" />
-              <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
-              <li class="${view}-view" data-id="${service.id}"
-                          data-facet-values="${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
-                <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-                  <spring:param name="serviceId" value="${service.id}" />
-                </spring:url>
+        <c:set var="serviceDescription" value="${service.description}" />
+        <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
+        <li class="${view}-view" data-id="${service.id}"
+                    data-facet-values="${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
+          <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
+            <spring:param name="serviceId" value="${service.id}" />
+          </spring:url>
 
-                <c:set var="spTitle" >
-                  <c:out default="${service.id}" value="${service.name}" />
-                </c:set>
-                <c:if test="${not empty service.logoUrl}">
-                  <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
-                </c:if>
-                <div class="service-info-${view}">
-                <h2>
-                  <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
-                    <tags:truncatedSpName
-                        spName="${spTitle}"
-                        hasServiceDescription="${not empty serviceDescription}"
-                        hasConnectButton="${showConnectButton}" />
+          <c:set var="spTitle" >
+            <c:out default="${service.id}" value="${service.name}" />
+          </c:set>
+          <c:if test="${not empty service.logoUrl}">
+            <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
+          </c:if>
+          <div class="service-info-${view}">
+          <h2>
+            <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
+              <tags:truncatedSpName
+                  spName="${spTitle}"
+                  hasServiceDescription="${not empty serviceDescription}"
+                  hasConnectButton="${showConnectButton}" />
+            </a>
+          </h2>
+            <c:if test="${!isCard}">
+              <div class="app-meta-cta">
+                <c:if test="${not isDashBoard and not empty service.appUrl}">
+                  <a href="${service.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                    <i class="icon-external-link"></i>
                   </a>
-                </h2>
-                  <c:if test="${!isCard}">
-                    <div class="app-meta-cta">
-                      <c:if test="${not isDashBoard and not empty service.appUrl}">
-                        <a href="${service.appUrl}" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
-                          <i class="icon-external-link"></i>
-                        </a>
-                      </c:if>
-                        <c:if test="${showConnectButton}">
-                          <a href="<c:url value="/requests/linkrequest.shtml">
-                                  <c:param name="serviceId" value="${service.id}" />
-                                </c:url>" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
-                            <i class='icon-cloud-upload'></i>
-                          </a>
-                      </c:if>
-                    </div>
-                  </c:if>
-                </div>
-                <c:if test="${isCard}">
-                  <div class="app-meta-cta">
-                    <c:if test="${not isDashBoard and not empty service.appUrl}">
-                      <a href="${service.appUrl}" class="external-link" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
-                        <i class="icon-external-link"></i>
-                      </a>
-                    </c:if>
-                    <c:if test="${not isDashBoard and not empty service.lastLoginDate}">
-                       <p class="recent-login" data-title="${spTitle}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.app_overview.recent_login_popover" />">
-                            <i class="icon-user"></i>
-                            <fmt:formatDate value="${service.lastLoginDate}" pattern="dd-MM-yyyy HH:mm" />
-                       </p>
-                   </c:if>
-                    <c:if test="${showConnectButton}">
-                       <p class="connect-app">
-                          <a href="<c:url value="/requests/linkrequest.shtml"><c:param name="serviceId" value="${service.id}" /></c:url>">
-                            <spring:message code="jsp.sp_detail.requestlink"/>
-                          </a>
-                       </p>
-                    </c:if>
-                  </div>
                 </c:if>
-            </li>
-          </c:forEach>
+                  <c:if test="${showConnectButton}">
+                    <a href="<c:url value="/requests/linkrequest.shtml">
+                            <c:param name="serviceId" value="${service.id}" />
+                          </c:url>" rel="tooltip" title="<spring:message code="jsp.sp_detail.requestlink"/>">
+                      <i class='icon-cloud-upload'></i>
+                    </a>
+                </c:if>
+              </div>
+            </c:if>
+          </div>
+          <c:if test="${isCard}">
+            <div class="app-meta-cta">
+              <c:if test="${not isDashBoard and not empty service.appUrl}">
+                <a href="${service.appUrl}" class="external-link" target="_blank" rel="tooltip" title="<spring:message code="jsp.sp_overview.gotoapp" />">
+                  <i class="icon-external-link"></i>
+                </a>
+              </c:if>
+              <c:if test="${not isDashBoard and not empty service.lastLoginDate}">
+                 <p class="recent-login" data-title="${spTitle}" data-placement="bottom" data-content="<spring:message htmlEscape="true" code="jsp.app_overview.recent_login_popover" />">
+                      <i class="icon-user"></i>
+                      <fmt:formatDate value="${service.lastLoginDate}" pattern="dd-MM-yyyy HH:mm" />
+                 </p>
+             </c:if>
+              <c:if test="${showConnectButton}">
+                 <p class="connect-app">
+                    <a href="<c:url value="/requests/linkrequest.shtml"><c:param name="serviceId" value="${service.id}" /></c:url>">
+                      <spring:message code="jsp.sp_detail.requestlink"/>
+                    </a>
+                 </p>
+              </c:if>
+            </div>
+          </c:if>
+          </li>
+        </c:forEach>
         </ul>
       </div>
     </div>
