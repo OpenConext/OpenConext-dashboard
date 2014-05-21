@@ -18,13 +18,14 @@
  */
 package nl.surfnet.coin.selfservice.control.identity;
 
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.selfservice.control.BaseController;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.IdentitySwitch;
-import nl.surfnet.coin.selfservice.domain.NotificationMessage;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,9 +34,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.*;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.control.BaseController;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.IdentitySwitch;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 @Controller
 @RequestMapping("/identity")
@@ -44,6 +48,7 @@ public class IdentityController extends BaseController {
 
   @RequestMapping(value = "/switch.shtml")
   public ModelAndView switchIdentity(HttpServletRequest request, ModelMap modelMap) {
+    @SuppressWarnings("unchecked")
     List<InstitutionIdentityProvider> idps = (List<InstitutionIdentityProvider>) request.getSession().getAttribute(INSTITUTION_IDENTITY_PROVIDERS);
 
     modelMap.addAttribute("referenceIdentityProviders", referenceIdentityProviders(idps));
@@ -100,6 +105,7 @@ public class IdentityController extends BaseController {
   }
 
   private InstitutionIdentityProvider idpToInstitutionIdentityProvider(HttpServletRequest request, String idp) {
+    @SuppressWarnings("unchecked")
     List<InstitutionIdentityProvider> idps = (List<InstitutionIdentityProvider>) request.getSession().getAttribute(INSTITUTION_IDENTITY_PROVIDERS);
     for (InstitutionIdentityProvider identityProvider : idps) {
       if (identityProvider.getId().equalsIgnoreCase(idp)) {
@@ -115,7 +121,7 @@ public class IdentityController extends BaseController {
   }
 
   private Map<String, String> referenceIdentityProviders(List<InstitutionIdentityProvider> idps) {
-    Map<String, String> result = new LinkedHashMap<String, String>();
+    Map<String, String> result = new LinkedHashMap<>();
     for (InstitutionIdentityProvider idp : idps) {
       result.put(idp.getId(), idp.getName());
     }
@@ -126,7 +132,7 @@ public class IdentityController extends BaseController {
    * Maybe not as fancy as possible but explicit and dry so acceptable
    */
   private Collection<String> referenceRoles(Boolean isDashBoard) {
-    List<String> roles = new ArrayList<String>();
+    List<String> roles = new ArrayList<>();
     if (isDashBoard) {
       roles.add(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER.name());
       roles.add(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN.name());

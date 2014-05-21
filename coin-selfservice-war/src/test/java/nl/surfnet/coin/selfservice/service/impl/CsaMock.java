@@ -39,18 +39,17 @@ import java.util.Locale;
 /**
  * Mock implementation of CSA. To be filled with lots of data for local development. Perhaps JSON-local-file-backed.
  */
+@SuppressWarnings("unchecked")
 public class CsaMock implements Csa {
-
-  public CsaMock(String csaBaseLocation) {
-  }
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
-  private List<Action> actionsCreated = new ArrayList<Action>();
+  private List<Action> actionsCreated = new ArrayList<>();
 
   @Override
   public List<Service> getPublicServices() {
+
     List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>() {
     }, "csa-json/public-services.json");
     return restoreCategoryReferences(services);
@@ -152,7 +151,7 @@ public class CsaMock implements Csa {
   }
 
 
-  public Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {
+  public Object parseJsonData(TypeReference<?> typeReference, String jsonFile) {
     try {
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);
     } catch (Exception e) {
