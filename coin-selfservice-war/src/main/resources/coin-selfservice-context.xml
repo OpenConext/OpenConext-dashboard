@@ -51,7 +51,9 @@
   <bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
      <property name="templateLoaderPath" value="classpath:/ftl/"/>
   </bean>
-
+  <bean id="edugainService" class="nl.surfnet.coin.selfservice.service.impl.EdugainServiceImpl">
+    <constructor-arg type="java.net.URI" value="http://mds.edugain.org/" />
+  </bean>
 
   <bean id="csa" class="${csaClass}">
     <constructor-arg name="csaBaseLocation" value="${csa.base.url}" />

@@ -21,6 +21,7 @@ import nl.surfnet.coin.csa.model.*;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
+import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -53,6 +54,9 @@ public class HomeController extends BaseController {
 
   @Resource
   private Cruncher cruncher;
+
+  @Resource
+  EdugainService edugainService;
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {

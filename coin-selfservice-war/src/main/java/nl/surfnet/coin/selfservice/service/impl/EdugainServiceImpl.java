@@ -3,6 +3,7 @@ package nl.surfnet.coin.selfservice.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -18,6 +19,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -62,9 +68,14 @@ public class EdugainServiceImpl implements EdugainService {
 
   @Scheduled(fixedDelay = 1000 * 60 * 60) // refresh after an hour
   public void refreshApps() {
-    List<EdugainApp> newApps = new ArrayList<>();
 
-    try(InputStream inputStream = webSource.isPresent()? getContents(webSource.get()) : getContents(fileSource.get())) {
+    final Optional<InputStream> inputStreamOptional = webSource.isPresent() ? getContents(webSource.get()) : getContents(fileSource.get());
+    if (!inputStreamOptional.isPresent()) {
+      return; // we could not read, we leave everything as it is
+    }
+
+    try(InputStream inputStream = inputStreamOptional.get()){
+      List<EdugainApp> newApps = new ArrayList<>();
       final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
       documentBuilderFactory.setNamespaceAware(true);
       DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
@@ -74,7 +85,6 @@ public class EdugainServiceImpl implements EdugainService {
       NodeList nodeList = (NodeList) xPath.evaluate(XPATH_EXPRESSION, document, XPathConstants.NODESET);
       LOG.debug("Found {} items.", nodeList.getLength());
 
-
       for (int i = 0; i < nodeList.getLength(); i++) {
         // items appear as md:EntityDescriptor and just EntityDescriptor.
         Node entryNode = nodeList.item(i);
@@ -82,12 +92,10 @@ public class EdugainServiceImpl implements EdugainService {
 
         String id = (String) xPath.evaluate("@entityID", entryNode, XPathConstants.STRING);
         edugainApp.setAppUrl(id);
-
-
         edugainApp.setName((String) xPath.evaluate(UIINFO_PREFIX + "mdui:DisplayName[@xml:lang='en']", entryNode, XPathConstants.STRING));
-
         edugainApp.setDescription((String) xPath.evaluate(UIINFO_PREFIX + "mdui:Description[@xml:lang='en']", entryNode, XPathConstants.STRING));
         edugainApp.setLogoUrl((String) xPath.evaluate(UIINFO_PREFIX + "mdui:Logo/text()", entryNode, XPathConstants.STRING));
+
         newApps.add(edugainApp);
       }
       apps.set(newApps);
@@ -95,20 +103,33 @@ public class EdugainServiceImpl implements EdugainService {
       LOG.warn("Exception occurred while refreshing edugain apps. Not replacing the current set of apps, which has  " + apps.get().size() +" entries. Exception info: ", e);
     }
 
-
   }
 
-  private static InputStream getContents(File file) {
+  private static Optional<InputStream> getContents(File file) {
     try {
-      return new FileInputStream(file);
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
+      final FileInputStream fileInputStream = new FileInputStream(file);
+      return Optional.of((InputStream) fileInputStream);
+    } catch (Exception e) {
+      LOG.error("Unable to open file, no items will be read", e);
     }
+    return Optional.absent();
   }
 
-  private static InputStream getContents(URI webUri) {
-    // use httpclient
-    return null;
+  private static Optional<InputStream> getContents(URI webUri) {
+    try {
+      HttpClient httpclient = new DefaultHttpClient();
+      // read it in at most 20 seconds or give up
+      httpclient.getParams().setParameter("http.socket.timeout", new Integer(20000));
+      HttpGet httpget = new HttpGet(webUri);
+      HttpResponse response = httpclient.execute(httpget);
+      HttpEntity entity = response.getEntity();
+      if (entity != null) {
+        return Optional.of(entity.getContent());
+      }
+    } catch (Exception e) {
+      LOG.warn("Could no read edugain apps from {}, no items will be read", webUri);
+    }
+    return Optional.absent();
   }
 
 
