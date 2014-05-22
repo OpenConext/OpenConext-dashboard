@@ -25,6 +25,6 @@ public class EdugainServiceImplTest {
     assertThat(subject.getApps()).isEmpty();
     subject.refreshApps();
     final List<EdugainApp> edugainApps = subject.getApps();
-    //assertThat(edugainApps).isNotEmpty();
+    assertThat(edugainApps).isNotEmpty();
   }
 }
