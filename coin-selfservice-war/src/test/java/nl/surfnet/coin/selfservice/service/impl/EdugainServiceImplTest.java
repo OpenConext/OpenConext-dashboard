@@ -26,7 +26,6 @@ public class EdugainServiceImplTest {
   }
 
   @Test
-  @Ignore
   public void testRefreshAppsFromWeb() throws Exception {
     EdugainServiceImpl subject = new EdugainServiceImpl(new URI("http://mds.edugain.org/"));
     assertThat(subject.getApps()).isEmpty();

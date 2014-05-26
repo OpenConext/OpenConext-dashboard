@@ -35,6 +35,8 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.GroupContext;
 import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.EdugainApp;
+import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
@@ -50,6 +52,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.common.base.Optional;
 
 /**
  * Controller for the detail view(s) of a service (provider)
@@ -76,6 +80,9 @@ public class ServiceDetailController extends BaseController {
   @Resource
   private Csa csa;
 
+  @Resource
+  private EdugainService edugainService;
+
   /**
    * Controller for detail page.
    *
@@ -84,16 +91,26 @@ public class ServiceDetailController extends BaseController {
   @RequestMapping(value = "/app-detail")
   public ModelAndView serviceDetail(@RequestParam(value = "serviceId", required = false) Long serviceId,
                                     @RequestParam(value = "spEntityId", required = false) String spEntityId,
+                                    @RequestParam(value = "isEdugain", required = false) boolean isEdugain,
                                     HttpServletRequest request) {
     if (null == serviceId && !StringUtils.hasText(spEntityId)) {
       throw new IllegalArgumentException("either service id or sp entity id is required");
     }
     InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
     Service service;
-    if (null != spEntityId) {
-      service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
-    } else {
-      service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
+
+    if (isEdugain) {
+      final Optional<EdugainApp> app = edugainService.getApp(serviceId);
+      if (!app.isPresent()) {
+        throw new IllegalArgumentException("No such edugain app exists");
+      }
+      service = app.get();
+    }else {
+      if (null != spEntityId) {
+        service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
+      } else {
+        service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
+      }
     }
     Map<String, Object> m = new HashMap<>();
     m.put(SERVICE, service);

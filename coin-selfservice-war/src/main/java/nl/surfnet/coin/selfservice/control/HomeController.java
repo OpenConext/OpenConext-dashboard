@@ -21,6 +21,7 @@ import nl.surfnet.coin.csa.model.*;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
+import nl.surfnet.coin.selfservice.service.EdugainApp;
 import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
@@ -79,7 +80,8 @@ public class HomeController extends BaseController {
      * Strange but we need to do this to get the facet / connected / licensed numbers. Alternative is worst and let the AuthorityScopeInterceptor call the HomeController
      */
     services = AuthorityScopeInterceptor.scopeListOfServices(services);
-
+    final List<EdugainApp> apps = edugainService.getApps();
+    services.addAll(apps);
     addLastLoginDateToServices(services, identityProvider.getId());
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
@@ -96,6 +98,8 @@ public class HomeController extends BaseController {
     model.put(SERVICES, services);
     return new ModelAndView("app-overview", model);
   }
+
+
 
   private void addLastLoginDateToServices(List<Service> services, String selectedIdpId) {
     List<SpStatistic> loginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), selectedIdpId);

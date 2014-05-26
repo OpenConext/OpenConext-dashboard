@@ -85,6 +85,9 @@
         <li class="${view}-view" data-id="${service.id}"
                     data-facet-values="${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
           <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
+            <c:if test="${service.getClass().name == 'nl.surfnet.coin.selfservice.service.EdugainApp'}">
+              <spring:param name="isEdugain" value="${true}" />
+            </c:if>
             <spring:param name="serviceId" value="${service.id}" />
           </spring:url>
 

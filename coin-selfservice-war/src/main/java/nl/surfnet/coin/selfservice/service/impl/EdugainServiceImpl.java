@@ -35,6 +35,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
+import nl.surfnet.coin.janus.domain.ARP;
 import nl.surfnet.coin.selfservice.service.EdugainApp;
 import nl.surfnet.coin.selfservice.service.EdugainService;
 
@@ -66,6 +67,16 @@ public class EdugainServiceImpl implements EdugainService {
     return ImmutableList.copyOf(apps.get());
   }
 
+  @Override
+  public Optional<EdugainApp> getApp(Long id) {
+    for (EdugainApp edugainApp: this.apps.get()) {
+      if (id.equals(edugainApp.getId())){
+        return Optional.of(edugainApp);
+      }
+    }
+    return Optional.absent();
+  }
+
   @Scheduled(fixedDelay = 1000 * 60 * 60) // refresh after an hour
   public void refreshApps() {
 
@@ -94,8 +105,14 @@ public class EdugainServiceImpl implements EdugainService {
         edugainApp.setAppUrl(id);
         edugainApp.setName((String) xPath.evaluate(UIINFO_PREFIX + "mdui:DisplayName[@xml:lang='en']", entryNode, XPathConstants.STRING));
         edugainApp.setDescription((String) xPath.evaluate(UIINFO_PREFIX + "mdui:Description[@xml:lang='en']", entryNode, XPathConstants.STRING));
-        edugainApp.setLogoUrl((String) xPath.evaluate(UIINFO_PREFIX + "mdui:Logo/text()", entryNode, XPathConstants.STRING));
 
+        // assign an id based on name,description and appUrl
+        edugainApp.setId(edugainApp.getAppUrl().hashCode() + edugainApp.getName().hashCode() + edugainApp.getDescription().hashCode());
+
+        ARP arp = new ARP();
+        arp.setNoArp(true);
+        arp.setNoAttrArp(true);
+        edugainApp.setArp(arp);
         newApps.add(edugainApp);
       }
       apps.set(newApps);
