@@ -102,7 +102,13 @@ public class EdugainServiceImpl implements EdugainService {
 
         String id = (String) xPath.evaluate("@entityID", entryNode, XPathConstants.STRING);
         edugainApp.setAppUrl(id);
-        edugainApp.setName((String) xPath.evaluate(UIINFO_PREFIX + "mdui:DisplayName[@xml:lang='en']", entryNode, XPathConstants.STRING));
+        final String name = (String) xPath.evaluate(UIINFO_PREFIX + "mdui:DisplayName[@xml:lang='en']", entryNode, XPathConstants.STRING);
+        if (name.trim().length() < 1) {
+          // skip it if it isn't properly named
+          continue;
+        }
+
+        edugainApp.setName(name);
         edugainApp.setDescription((String) xPath.evaluate(UIINFO_PREFIX + "mdui:Description[@xml:lang='en']", entryNode, XPathConstants.STRING));
 
         // assign an id based on name,description and appUrl
