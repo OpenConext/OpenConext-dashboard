@@ -30,9 +30,11 @@ import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonI
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,14 +43,14 @@ import org.surfnet.cruncher.Cruncher;
 /**
  * Test for {@link HomeController}
  */
+@RunWith(MockitoJUnitRunner.class)
 public class HomeControllerTest {
 
   @InjectMocks
-  private HomeController controller;
+  private HomeController controller = new HomeController();
 
   @Mock
   private PersonAttributeLabelServiceJsonImpl labelService;
-
 
   @Mock
   private NotificationService notificationService;
@@ -61,8 +63,6 @@ public class HomeControllerTest {
 
   @Before
   public void setUp() throws Exception {
-    controller = new HomeController();
-    MockitoAnnotations.initMocks(this);
     when(labelService.getAttributeLabelMap()).thenReturn(new HashMap<String, PersonAttributeLabel>());
   }
 
