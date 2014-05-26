@@ -6,6 +6,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import nl.surfnet.coin.selfservice.service.DashboardApp;
@@ -24,6 +25,7 @@ public class EdugainServiceImplTest {
   }
 
   @Test
+  @Ignore
   public void testRefreshAppsFromWeb() throws Exception {
     EdugainServiceImpl subject = new EdugainServiceImpl(new URI("http://mds.edugain.org/"));
     assertThat(subject.getApps()).isEmpty();
