@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.service.EdugainApp;
+import nl.surfnet.coin.selfservice.service.DashboardApp;
 import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.LocaleResolver;
@@ -81,7 +80,7 @@ public class ServiceDetailControllerTest {
 
   @Test
   public void testEdugain() throws Exception {
-    final EdugainApp edugainApp = new EdugainApp();
+    final DashboardApp edugainApp = new DashboardApp();
     when(edugainService.getApp(1L)).thenReturn(Optional.of(edugainApp));
     final ModelAndView modelAndView = controller.serviceDetail(1L, null, true, request);
     assertEquals("app-detail", modelAndView.getViewName());

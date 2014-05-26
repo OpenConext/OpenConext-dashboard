@@ -35,7 +35,7 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.GroupContext;
 import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.EdugainApp;
+import nl.surfnet.coin.selfservice.service.DashboardApp;
 import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
@@ -100,7 +100,7 @@ public class ServiceDetailController extends BaseController {
     Service service;
 
     if (isEdugain) {
-      final Optional<EdugainApp> app = edugainService.getApp(serviceId);
+      final Optional<DashboardApp> app = edugainService.getApp(serviceId);
       if (!app.isPresent()) {
         throw new IllegalArgumentException("No such edugain app exists");
       }

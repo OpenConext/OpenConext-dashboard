@@ -6,7 +6,7 @@ import com.google.common.base.Optional;
 
 public interface EdugainService {
 
-  List<EdugainApp> getApps();
+  List<DashboardApp> getApps();
 
-  Optional<EdugainApp> getApp(Long id);
+  Optional<DashboardApp> getApp(Long id);
 }

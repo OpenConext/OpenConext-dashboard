@@ -2,8 +2,6 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -36,12 +34,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import nl.surfnet.coin.janus.domain.ARP;
-import nl.surfnet.coin.selfservice.service.EdugainApp;
+import nl.surfnet.coin.selfservice.service.DashboardApp;
 import nl.surfnet.coin.selfservice.service.EdugainService;
 
 public class EdugainServiceImpl implements EdugainService {
 
-  private AtomicReference<List<EdugainApp>> apps = new AtomicReference(new ArrayList<EdugainApp>());
+  private AtomicReference<List<DashboardApp>> apps = new AtomicReference(new ArrayList<DashboardApp>());
   private static final Logger LOG = LoggerFactory.getLogger(EdugainServiceImpl.class);
 
   private final Optional<URI> webSource;
@@ -63,13 +61,13 @@ public class EdugainServiceImpl implements EdugainService {
   }
 
   @Override
-  public List<EdugainApp> getApps() {
+  public List<DashboardApp> getApps() {
     return ImmutableList.copyOf(apps.get());
   }
 
   @Override
-  public Optional<EdugainApp> getApp(Long id) {
-    for (EdugainApp edugainApp: this.apps.get()) {
+  public Optional<DashboardApp> getApp(Long id) {
+    for (DashboardApp edugainApp: this.apps.get()) {
       if (id.equals(edugainApp.getId())){
         return Optional.of(edugainApp);
       }
@@ -86,7 +84,7 @@ public class EdugainServiceImpl implements EdugainService {
     }
 
     try(InputStream inputStream = inputStreamOptional.get()){
-      List<EdugainApp> newApps = new ArrayList<>();
+      List<DashboardApp> newApps = new ArrayList<>();
       final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
       documentBuilderFactory.setNamespaceAware(true);
       DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
@@ -99,7 +97,8 @@ public class EdugainServiceImpl implements EdugainService {
       for (int i = 0; i < nodeList.getLength(); i++) {
         // items appear as md:EntityDescriptor and just EntityDescriptor.
         Node entryNode = nodeList.item(i);
-        EdugainApp edugainApp = new EdugainApp();
+        DashboardApp edugainApp = new DashboardApp();
+        edugainApp.setEdugain(true);
 
         String id = (String) xPath.evaluate("@entityID", entryNode, XPathConstants.STRING);
         edugainApp.setAppUrl(id);

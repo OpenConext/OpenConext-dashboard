@@ -4,13 +4,11 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
 import java.net.URI;
-import java.net.URL;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import nl.surfnet.coin.selfservice.service.EdugainApp;
+import nl.surfnet.coin.selfservice.service.DashboardApp;
 
 public class EdugainServiceImplTest {
 
@@ -21,7 +19,7 @@ public class EdugainServiceImplTest {
 
     assertThat(subject.getApps()).isEmpty();
     subject.refreshApps();
-    final List<EdugainApp> edugainApps = subject.getApps();
+    final List<DashboardApp> edugainApps = subject.getApps();
     assertThat(edugainApps).isNotEmpty();
   }
 
@@ -30,7 +28,7 @@ public class EdugainServiceImplTest {
     EdugainServiceImpl subject = new EdugainServiceImpl(new URI("http://mds.edugain.org/"));
     assertThat(subject.getApps()).isEmpty();
     subject.refreshApps();
-    final List<EdugainApp> edugainApps = subject.getApps();
+    final List<DashboardApp> edugainApps = subject.getApps();
     assertThat(edugainApps).isNotEmpty();
   }
 

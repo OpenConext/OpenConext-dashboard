@@ -58,6 +58,11 @@
             </c:if>
           </c:forEach>
         </c:if>
+        <li class="facet-name"><spring:message code="jsp.app_overview.origin"/></li>
+        <ul class="facets-values">
+          <li><a class="facet-value inactive" data-facet-search-term="origin-surfnet" href="#"><spring:message code="jsp.app_overview.origin.surfnet"/> <span>(${surfnetCount})</span></a></li>
+          <li><a class="facet-value inactive" data-facet-search-term="origin-edugain" href="#"><spring:message code="jsp.app_overview.origin.edugain"/> <span>(${edugainCount})</span></a></li>
+        </ul>
       </ul>
     </section>
     </c:if>
@@ -83,9 +88,9 @@
         <c:set var="serviceDescription" value="${service.description}" />
         <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
         <li class="${view}-view" data-id="${service.id}"
-                    data-facet-values="${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
+                    data-facet-values="${service.edugain? "origin-edugain": "origin-surfnet"} ${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
           <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-            <c:if test="${service.getClass().name == 'nl.surfnet.coin.selfservice.service.EdugainApp'}">
+            <c:if test="${service.edugain}">
               <spring:param name="isEdugain" value="${true}" />
             </c:if>
             <spring:param name="serviceId" value="${service.id}" />
