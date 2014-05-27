@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -133,9 +134,20 @@ public class EdugainServiceImpl implements EdugainService {
         edugainApp.setId(edugainApp.getAppUrl().hashCode() + edugainApp.getName().hashCode() + edugainApp.getDescription().hashCode());
 
         ARP arp = new ARP();
-        // TODO parse from AssertionConsumingService => RequestedAttribute, but only those with required=true
         arp.setNoArp(true);
         arp.setNoAttrArp(true);
+        boolean hasAttr = false;
+        NodeList arpAttributeNodes = (NodeList) xPath.evaluate("md:SPSSODescriptor/md:AttributeConsumingService/md:RequestedAttribute[@isRequired='true']/@Name", entryNode, XPathConstants.NODESET);
+        for (int j = 0; j < arpAttributeNodes.getLength(); j++) {
+          Node attrNode = arpAttributeNodes.item(j);
+          final String propertyName = attrNode.getNodeValue();
+          arp.getAttributes().put(propertyName, Arrays.<Object>asList("*"));
+          hasAttr = true;
+        }
+        if (hasAttr) {
+          arp.setNoArp(false);
+          arp.setNoAttrArp(false);
+        }
         edugainApp.setArp(arp);
         newApps.add(edugainApp);
       }
