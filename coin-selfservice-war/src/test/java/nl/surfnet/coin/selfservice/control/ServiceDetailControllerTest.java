@@ -24,30 +24,39 @@ import javax.servlet.http.HttpServletRequest;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.service.DashboardApp;
+import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Optional;
+
 /**
  * Test for {@link nl.surfnet.coin.selfservice.control.ServiceDetailController}
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ServiceDetailControllerTest {
 
   @InjectMocks
-  private ServiceDetailController controller;
+  private ServiceDetailController controller = new ServiceDetailController();
 
   @Mock
   private LocaleResolver localeResolver;
 
   @Mock
   private PersonAttributeLabelServiceJsonImpl labelService;
+
+  @Mock
+  private EdugainService edugainService;
 
   private HttpServletRequest request;
 
@@ -56,21 +65,26 @@ public class ServiceDetailControllerTest {
 
   @Before
   public void setUp() throws Exception {
-    controller = new ServiceDetailController();
-    MockitoAnnotations.initMocks(this);
-
     request = new MockHttpServletRequest();
     request.getSession().setAttribute(BaseController.SELECTED_IDP, new InstitutionIdentityProvider("id", "name", "inst"));
-
   }
 
   @Test
   public void testSpDetail() throws Exception {
     Service service = getService();
     when(csa.getServiceForIdp("id", 1L)).thenReturn(service);
-    final ModelAndView modelAndView = controller.serviceDetail(1L, null, request);
+    final ModelAndView modelAndView = controller.serviceDetail(1L, null, false, request);
     assertEquals("app-detail", modelAndView.getViewName());
     assertEquals(service, modelAndView.getModelMap().get("service"));
+  }
+
+  @Test
+  public void testEdugain() throws Exception {
+    final DashboardApp edugainApp = new DashboardApp();
+    when(edugainService.getApp(1L)).thenReturn(Optional.of(edugainApp));
+    final ModelAndView modelAndView = controller.serviceDetail(1L, null, true, request);
+    assertEquals("app-detail", modelAndView.getViewName());
+    assertEquals(edugainApp, modelAndView.getModelMap().get("service"));
   }
 
   private Service getService() {

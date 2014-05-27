@@ -108,6 +108,9 @@
 <div class="column-center content-holder">
   <section>
       <h1>${spname}</h1>
+      <p class="detailDescription">
+        <c:out value="${service.description}" />
+      </p>
       <div class="license-connect">
         <c:if test="${connectionVisible}">
         <c:choose>

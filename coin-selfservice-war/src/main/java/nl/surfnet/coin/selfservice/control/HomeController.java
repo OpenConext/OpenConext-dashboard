@@ -16,17 +16,19 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.*;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabPersonsInRole;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,9 +38,22 @@ import org.springframework.web.servlet.ModelAndView;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Category;
+import nl.surfnet.coin.csa.model.CategoryValue;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.csa.model.Taxonomy;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
+import nl.surfnet.coin.selfservice.service.DashboardApp;
+import nl.surfnet.coin.selfservice.service.EdugainService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabPersonsInRole;
 
 /**
  * Controller of the homepage showing 'my apps' (or my services, meaning the
@@ -58,6 +73,9 @@ public class HomeController extends BaseController {
 
   @Resource
   private Sab sabClient;
+
+  @Resource
+  private EdugainService edugainService;
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
@@ -81,20 +99,36 @@ public class HomeController extends BaseController {
      */
     services = AuthorityScopeInterceptor.scopeListOfServices(services);
 
+    model.put("surfnetCount", services.size());
+
     addLastLoginDateToServices(services, identityProvider.getId());
+    final List<DashboardApp> dashboardApps = new ArrayList<>();
+
+    Set<String> entityIds = new HashSet<>();
+    for (Service service: services) {
+      DashboardApp dashboardApp = new DashboardApp();
+      BeanUtils.copyProperties(service, dashboardApp);
+      dashboardApps.add(dashboardApp);
+      entityIds.add(service.getSpEntityId());
+    }
+
+    final List<DashboardApp> edugainApps = edugainService.getApps(entityIds);
+    model.put("edugainCount", edugainApps.size());
+    dashboardApps.addAll(edugainApps);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
     model.put("showFacetSearch", true);
 
-    addLicensedConnectedLoginCounts(model, services);
+    addLicensedConnectedLoginCounts(model, dashboardApps);
 
-    List<Category> facets = this.filterFacetValues(services, csa.getTaxonomy());
+    List<Category> facets = csa.getTaxonomy().getCategories();
+    this.filterFacetValues(dashboardApps, facets);
     model.put("facets", facets);
     model.put("facetsUsed", this.isCategoryValuesUsed(facets));
 
-    model.put(SERVICES, services);
+    model.put(SERVICES, dashboardApps);
     return new ModelAndView("app-overview", model);
   }
 
@@ -154,12 +188,9 @@ public class HomeController extends BaseController {
   }
 
 
-  private List<Category> filterFacetValues(List<Service> services, Taxonomy taxonomy) {
-    if (taxonomy == null || taxonomy.getCategories() == null) {
-      return Collections.emptyList();
-    }
+  private void filterFacetValues(List<? extends Service> services, List<Category> categories) {
 
-    for (Category category : taxonomy.getCategories()) {
+    for (Category category : categories) {
       if (category.getValues() == null) {
         continue;
       }
@@ -178,10 +209,9 @@ public class HomeController extends BaseController {
         categoryValue.setCount(count);
       }
     }
-    return taxonomy.getCategories();
   }
 
-  private void addLicensedConnectedLoginCounts(Map<String, Object> model, Collection<Service> services) {
+  private void addLicensedConnectedLoginCounts(Map<String, Object> model, Collection<? extends Service> services) {
     int connectedCount = getConnectedCount(services);
     model.put("connectedCount", connectedCount);
     model.put("notConnectedCount", services.size() - connectedCount);
@@ -196,7 +226,7 @@ public class HomeController extends BaseController {
     model.put("noRecentLoginCount", services.size() - recentlyLoggedInCount);
   }
 
-  private int getLicensedCount(Collection<Service> services) {
+  private int getLicensedCount(Collection<? extends Service> services) {
     int result = 0;
     for (Service service : services) {
       if (service.getLicense() != null) {
@@ -206,7 +236,7 @@ public class HomeController extends BaseController {
     return result;
   }
 
-  private int getConnectedCount(Collection<Service> services) {
+  private int getConnectedCount(Collection<? extends Service> services) {
     int result = 0;
     for (Service service : services) {
       if (service.isConnected()) {
@@ -216,7 +246,7 @@ public class HomeController extends BaseController {
     return result;
   }
 
-  private int getRecentlyLoggedInCount(Collection<Service> services) {
+  private int getRecentlyLoggedInCount(Collection<? extends Service> services) {
     int result = 0;
     for (Service service : services) {
       if (service.getLastLoginDate() != null) {
