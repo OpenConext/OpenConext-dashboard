@@ -16,18 +16,14 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabPerson;
+import nl.surfnet.sab.SabPersonsInRole;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -37,6 +33,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.surfnet.cruncher.Cruncher;
+
+import java.util.Collections;
+import java.util.HashMap;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for {@link HomeController}
@@ -58,23 +61,42 @@ public class HomeControllerTest {
 
   @Mock
   private Cruncher cruncher;
+  
+  @Mock
+  private Sab sabClient;
+  private MockHttpServletRequest request;
 
   @Before
   public void setUp() throws Exception {
     controller = new HomeController();
     MockitoAnnotations.initMocks(this);
     when(labelService.getAttributeLabelMap()).thenReturn(new HashMap<String, PersonAttributeLabel>());
+    request = new MockHttpServletRequest();
+    request.getSession().setAttribute(BaseController.SELECTED_IDP, new InstitutionIdentityProvider("id", "name", "inst"));
   }
 
   @Test
   public void testStart() throws Exception {
-
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    request.getSession().setAttribute(BaseController.SELECTED_IDP, new InstitutionIdentityProvider("id", "name", "inst"));
-    final ModelAndView mav = controller.home(null, "card", request);
+    ModelAndView mav = controller.home(null, "card", request);
     assertEquals("app-overview", mav.getViewName());
 
-    final ModelMap modelMap = mav.getModelMap();
+    ModelMap modelMap = mav.getModelMap();
     assertTrue(modelMap.containsKey("personAttributeLabels"));
   }
+
+  @Test
+  public void testIdp() throws Exception {
+    SabPersonsInRole maintainers = new SabPersonsInRole(Collections.<SabPerson>emptyList(), "SURFconextbeheerder");
+    when(sabClient.getPersonsInRoleForOrganization("name", "SURFconextbeheerder")).thenReturn(maintainers);
+    SabPersonsInRole responsibles = new SabPersonsInRole(Collections.<SabPerson>emptyList(), "SURFconextverantwoordelijke");
+    when(sabClient.getPersonsInRoleForOrganization("name", "SURFconextverantwoordelijke")).thenReturn(responsibles);
+
+    ModelAndView modelAndView = controller.idp(request);
+
+    assertEquals("idp", modelAndView.getViewName());
+    assertEquals(maintainers, modelAndView.getModelMap().get("maintainers"));
+    assertEquals(responsibles, modelAndView.getModelMap().get("responsibles"));
+
+  }
+
 }

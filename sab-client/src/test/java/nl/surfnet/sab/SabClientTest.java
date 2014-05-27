@@ -85,7 +85,13 @@ public class SabClientTest {
     SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "OperationeelBeheerder");
     assertEquals(4, actual.getSabPersons().size());
     assertEquals("OperationeelBeheerder", actual.getRole());
+  }
 
+  @Test
+  public void testNoResultsFromRestInterface() throws Exception {
+    sabClient = new SabClient(new LocalFileTransport("/response.xml", "/sab-json/minimal-roles.json"));
+    SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextbeheerder");
+    assertEquals(0, actual.getSabPersons().size());
   }
 
 }
