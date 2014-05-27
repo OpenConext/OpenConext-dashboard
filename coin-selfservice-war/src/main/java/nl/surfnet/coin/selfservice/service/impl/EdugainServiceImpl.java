@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -44,7 +45,8 @@ public class EdugainServiceImpl implements EdugainService {
 
   private final Optional<URI> webSource;
   private final Optional<File> fileSource;
-  private static final String XPATH_EXPRESSION = "/md:EntitiesDescriptor/md:EntityDescriptor/*[md:AssertionConsumerService]/..";
+
+  private static final String ENTRY_XPATH_EXPRESSION = "/md:EntitiesDescriptor/md:EntityDescriptor/*[md:AssertionConsumerService]/..";
   private static final String UIINFO_PREFIX = "md:SPSSODescriptor/md:Extensions/mdui:UIInfo/";
 
   public EdugainServiceImpl(URI webSource) {
@@ -61,8 +63,16 @@ public class EdugainServiceImpl implements EdugainService {
   }
 
   @Override
-  public List<DashboardApp> getApps() {
-    return ImmutableList.copyOf(apps.get());
+  public List<DashboardApp> getApps(Set<String> spEntityIdsToFilterOut) {
+    List<DashboardApp> results = new ArrayList<>();
+    List<DashboardApp> candidates = ImmutableList.copyOf(apps.get());
+
+    for (DashboardApp candidate: candidates) {
+      if (!spEntityIdsToFilterOut.contains(candidate.getSpEntityId())) {
+        results.add(candidate);
+      }
+    }
+    return results;
   }
 
   @Override
@@ -91,7 +101,7 @@ public class EdugainServiceImpl implements EdugainService {
       Document document = builder.parse(inputStream);
       XPath xPath =  XPathFactory.newInstance().newXPath();
       xPath.setNamespaceContext(NAMESPACE_CONTEXT);
-      NodeList nodeList = (NodeList) xPath.evaluate(XPATH_EXPRESSION, document, XPathConstants.NODESET);
+      NodeList nodeList = (NodeList) xPath.evaluate(ENTRY_XPATH_EXPRESSION, document, XPathConstants.NODESET);
       LOG.debug("Found {} items.", nodeList.getLength());
 
       for (int i = 0; i < nodeList.getLength(); i++) {
@@ -100,21 +110,30 @@ public class EdugainServiceImpl implements EdugainService {
         DashboardApp edugainApp = new DashboardApp();
         edugainApp.setEdugain(true);
 
-        String id = (String) xPath.evaluate("@entityID", entryNode, XPathConstants.STRING);
-        edugainApp.setAppUrl(id);
-        final String name = (String) xPath.evaluate(UIINFO_PREFIX + "mdui:DisplayName[@xml:lang='en']", entryNode, XPathConstants.STRING);
+        String entityId = (String) xPath.evaluate("@entityID", entryNode, XPathConstants.STRING);
+        edugainApp.setSpEntityId(entityId);
+        edugainApp.setAppUrl(entityId);
+        String name = (String) xPath.evaluate(UIINFO_PREFIX + "mdui:DisplayName[@xml:lang='en']", entryNode, XPathConstants.STRING);
         if (name.trim().length() < 1) {
-          // skip it if it isn't properly named
+          // skip this entry, looking at the source xml has led us to conclude that there is no hope of finding a display-name somewhere else in the document;
           continue;
         }
 
         edugainApp.setName(name);
         edugainApp.setDescription((String) xPath.evaluate(UIINFO_PREFIX + "mdui:Description[@xml:lang='en']", entryNode, XPathConstants.STRING));
 
-        // assign an id based on name,description and appUrl
+        // attempt to find the first support info
+        Node supportNode = (Node) xPath.evaluate("md:ContactPerson[@contactType='support'][1]", entryNode, XPathConstants.NODE);
+        if (supportNode != null) {
+          String roughEmail = (String) xPath.evaluate("md:EmailAddress", supportNode, XPathConstants.STRING);
+          // some of them have "mailto:" prepended
+          String email = roughEmail.toLowerCase().replaceAll("mailto:", "");
+          edugainApp.setSupportMail(email);
+        }
         edugainApp.setId(edugainApp.getAppUrl().hashCode() + edugainApp.getName().hashCode() + edugainApp.getDescription().hashCode());
 
         ARP arp = new ARP();
+        // TODO parse from AssertionConsumingService => RequestedAttribute, but only those with required=true
         arp.setNoArp(true);
         arp.setNoAttrArp(true);
         edugainApp.setArp(arp);

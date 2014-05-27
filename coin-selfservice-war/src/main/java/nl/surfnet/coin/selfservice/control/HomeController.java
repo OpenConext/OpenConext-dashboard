@@ -18,11 +18,12 @@ package nl.surfnet.coin.selfservice.control;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,7 +43,6 @@ import nl.surfnet.coin.csa.model.Category;
 import nl.surfnet.coin.csa.model.CategoryValue;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.csa.model.Taxonomy;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
@@ -92,18 +92,21 @@ public class HomeController extends BaseController {
      * Strange but we need to do this to get the facet / connected / licensed numbers. Alternative is worst and let the AuthorityScopeInterceptor call the HomeController
      */
     services = AuthorityScopeInterceptor.scopeListOfServices(services);
+
     model.put("surfnetCount", services.size());
 
     addLastLoginDateToServices(services, identityProvider.getId());
     final List<DashboardApp> dashboardApps = new ArrayList<>();
 
+    Set<String> entityIds = new HashSet<>();
     for (Service service: services) {
       DashboardApp dashboardApp = new DashboardApp();
       BeanUtils.copyProperties(service, dashboardApp);
       dashboardApps.add(dashboardApp);
+      entityIds.add(service.getSpEntityId());
     }
 
-    final List<DashboardApp> edugainApps = edugainService.getApps();
+    final List<DashboardApp> edugainApps = edugainService.getApps(entityIds);
     model.put("edugainCount", edugainApps.size());
     dashboardApps.addAll(edugainApps);
 
