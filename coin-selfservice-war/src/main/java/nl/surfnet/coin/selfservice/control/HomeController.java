@@ -69,7 +69,7 @@ public class HomeController extends BaseController {
   private Cruncher cruncher;
 
   @Resource
-  EdugainService edugainService;
+  private EdugainService edugainService;
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
