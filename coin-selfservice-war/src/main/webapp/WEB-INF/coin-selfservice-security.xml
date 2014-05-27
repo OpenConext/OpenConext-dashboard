@@ -50,15 +50,6 @@
     <property name="isDashboard" value="${is.dashboard}" />
   </bean>
 
-  <!-- this will be either the real SabClient or a Mock -->
-  <bean id="sabClient" class="${sabClientClass}" />
-
-  <bean class="nl.surfnet.sab.HttpClientTransport">
-    <property name="sabEndpoint" value="${sab.endpoint}" />
-    <property name="username" value="${sab.username}" />
-    <property name="password" value="${sab.password}" />
-  </bean>
-
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.KeyStore">
     <property name="certificates">
       <map>

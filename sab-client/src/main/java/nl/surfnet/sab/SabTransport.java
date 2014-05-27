@@ -28,4 +28,6 @@ public interface SabTransport {
    * @return a stream containing the response
    */
   public InputStream getResponse(String request) throws IOException;
+
+  public InputStream getRestResponse(String organisationAbbreviation, String role);
 }

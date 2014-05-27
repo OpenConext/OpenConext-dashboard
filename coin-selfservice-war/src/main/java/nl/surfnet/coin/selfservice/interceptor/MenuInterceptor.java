@@ -68,6 +68,7 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
           menu.addMenuItem(new MenuItem("jsp.notifications.title", "/notifications.shtml"));
           menu.addMenuItem(new MenuItem("jsp.requests-overview.title", "/requests/history.shtml"));
           menu.addMenuItem(new MenuItem("jsp.stats.title", "/stats/stats.shtml"));
+          menu.addMenuItem(new MenuItem("jsp.idp.title", "/idp.shtml"));
           break;
         case ROLE_SHOWROOM_ADMIN:
           menu.addMenuItem(new MenuItem("jsp.home.title", "/app-overview.shtml"));

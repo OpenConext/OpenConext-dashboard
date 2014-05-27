@@ -16,68 +16,81 @@
 
 package nl.surfnet.sab;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+
+import static java.lang.String.format;
 
 @Component
 public class HttpClientTransport implements SabTransport {
 
   private static final Logger LOG = LoggerFactory.getLogger(HttpClientTransport.class);
 
-
+  private static final Integer TIMEOUT = new Integer(10000);
   private HttpClient httpClient = new DefaultHttpClient(new PoolingClientConnectionManager());
 
-  private String username;
-  private String password;
-  private URI sabEndpoint;
+  private final UsernamePasswordCredentials samlCredentials;
+  private final UsernamePasswordCredentials restCredentials;
+  private final URI sabEndpoint;
+  private final URI restEndPoint;
+
+  @Autowired
+  public HttpClientTransport(@Qualifier("samlCredentials") UsernamePasswordCredentials samlCredentials,
+                             @Qualifier("restCredentials") UsernamePasswordCredentials restCredentials,
+                             @Value("${sab.endpoint}") URI sabEndpoint,
+                             @Value("${sab-rest.endpoint") URI restEndPoint) {
+    this.samlCredentials = samlCredentials;
+    this.restCredentials = restCredentials;
+    this.sabEndpoint = sabEndpoint;
+    this.restEndPoint = restEndPoint;
+    httpClient.getParams().setParameter("http.socket.timeout", TIMEOUT);
+  }
+
 
   @Override
-  public InputStream getResponse(String request) throws IOException {
+  public InputStream getResponse(final String request) throws IOException {
     HttpPost httpPost = new HttpPost(sabEndpoint);
-
-    httpPost.addHeader("Authorization", "Basic " + encodeUserPass(username, password));
-
-    LOG.debug("Request to SAB at endpoint {}: {}", sabEndpoint, request);
-
     StringEntity stringEntity = new StringEntity(request);
     httpPost.setEntity(stringEntity);
-    HttpResponse response = httpClient.execute(httpPost);
-    InputStream responseAsStream = response.getEntity().getContent();
-    String responseAsString = IOUtils.toString(responseAsStream);
-    LOG.debug("Response from SAB: {}", responseAsString);
-
-    return new ByteArrayInputStream(responseAsString.getBytes());
-
+    return handleRequest(httpPost, samlCredentials);
   }
 
-  String encodeUserPass(String username, String password) {
-    return new String(Base64.encodeBase64((username + ":" + password).getBytes()));
+  @Override
+  public InputStream getRestResponse(String organisationAbbreviation, String role) {
+    HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, organisationAbbreviation, role));
+    return handleRequest(httpGet, restCredentials);
   }
 
-
-  public void setSabEndpoint(URI sabEndpoint) {
-    this.sabEndpoint = sabEndpoint;
+  private InputStream handleRequest(HttpRequestBase request, UsernamePasswordCredentials credentials) {
+    try {
+      request.addHeader("Authorization", "Basic " + encodeUserPass(credentials));
+      HttpResponse httpResponse = httpClient.execute(request);
+      return httpResponse.getEntity().getContent();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  private String encodeUserPass(UsernamePasswordCredentials credentials) {
+    return new String(Base64.encodeBase64(format("%s:%s", credentials.getUserName(), credentials.getPassword()).getBytes()));
   }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
 }

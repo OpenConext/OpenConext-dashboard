@@ -16,23 +16,22 @@
 
 package nl.surfnet.sab;
 
-import java.io.IOException;
-import java.net.URI;
-
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.net.URI;
 
 public class SabClientIntegrationTest {
 
   @Test
   @Ignore
   public void test() throws IOException {
-    SabClient sabClient = new SabClient();
-    HttpClientTransport transport = new HttpClientTransport();
-    transport.setSabEndpoint(URI.create("x"));
-    transport.setUsername("x");
-    transport.setPassword("x");
-    sabClient.setTransport(transport);
+
+    UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("x", "x");
+    HttpClientTransport transport = new HttpClientTransport(credentials, credentials, URI.create("x"), URI.create("y"));
+    SabClient sabClient = new SabClient(transport);
     SabRoleHolder roles = sabClient.getRoles("x");
     System.out.println(roles);
   }

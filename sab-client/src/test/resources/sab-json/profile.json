@@ -1,0 +1,270 @@
+{"message": "OK", "code": 0, "profiles": [
+    {
+        "firstname": "Joost",
+        "surname": "van Dijk",
+        "idp": "surfguest.nl",
+        "uid": "joostd",
+        "organisation": {
+            "abbrev": "SURFNET",
+            "name": "SURFnet bv"
+        },
+        "authorisations": [
+            {
+                "short": "OB",
+                "role": "OperationeelBeheerder"
+            },
+            {
+                "short": "CONVER",
+                "role": "SURFconextverantwoordelijke"
+            },
+            {
+                "short": "CONBEH",
+                "role": "SURFconextbeheerder"
+            },
+            {
+                "short": "SUPRO",
+                "role": "SuperuserRO"
+            }
+        ]
+    },
+    {
+        "firstname": "Henny",
+        "surname": "Bekker",
+        "idp": "surfnet.nl",
+        "uid": "henny",
+        "organisation": {
+            "abbrev": "SURFNET",
+            "name": "SURFnet bv"
+        },
+        "authorisations": [
+            {
+                "short": "AAI",
+                "role": "AAIverantwoordelijke"
+            },
+            {
+                "short": "SUP",
+                "role": "Superuser"
+            },
+            {
+                "short": "IBV",
+                "role": "Instellingsbevoegde"
+            },
+            {
+                "short": "OB",
+                "role": "OperationeelBeheerder"
+            },
+            {
+                "short": "CONVER",
+                "role": "SURFconextverantwoordelijke"
+            },
+            {
+                "short": "DNS",
+                "role": "DNS-Beheerder"
+            },
+            {
+                "short": "DOM",
+                "role": "Domeinnamenverantwoordelijke"
+            },
+            {
+                "short": "BVW",
+                "role": "Beveiligingsverantwoordelijke"
+            },
+            {
+                "short": "MAIL",
+                "role": "Mailverantwoordelijke"
+            },
+            {
+                "short": "IVW",
+                "role": "Infraverantwoordelijke"
+            },
+            {
+                "short": "BEH-CON",
+                "role": "Beheerder-Conext"
+            },
+            {
+                "short": "TPM-CON",
+                "role": "TPM-Conext"
+            },
+            {
+                "short": "BEH-RAP",
+                "role": "Beheerder-Rapportage"
+            },
+            {
+                "short": "TPM-RAP",
+                "role": "TPM-Rapportage"
+            },
+            {
+                "short": "BEH-MAIL",
+                "role": "Beheerder-Mailfilter"
+            },
+            {
+                "short": "TPM-MAIL",
+                "role": "TPM-Mailfilter"
+            },
+            {
+                "short": "CONBEH",
+                "role": "SURFconextbeheerder"
+            }
+        ]
+    },
+    {
+        "firstname": "Joost",
+        "surname": "van Dijk",
+        "idp": "surfnet.nl",
+        "uid": "jodi",
+        "organisation": {
+            "abbrev": "SURFNET",
+            "name": "SURFnet bv"
+        },
+        "authorisations": [
+            {
+                "short": "SUP",
+                "role": "Superuser"
+            },
+            {
+                "short": "DNS",
+                "role": "DNS-Beheerder"
+            },
+            {
+                "short": "DOM",
+                "role": "Domeinnamenverantwoordelijke"
+            },
+            {
+                "short": "CONBEH",
+                "role": "SURFconextbeheerder"
+            },
+            {
+                "short": "CONVER",
+                "role": "SURFconextverantwoordelijke"
+            }
+        ]
+    },
+    {
+        "firstname": "Sabita",
+        "surname": "Behari",
+        "idp": "surfnet.nl",
+        "uid": "sabita",
+        "organisation": {
+            "abbrev": "SURFNET",
+            "name": "SURFnet bv"
+        },
+        "authorisations": [
+            {
+                "short": "IBV",
+                "role": "Instellingsbevoegde"
+            },
+            {
+                "short": "DOM",
+                "role": "Domeinnamenverantwoordelijke"
+            },
+            {
+                "short": "DNS",
+                "role": "DNS-Beheerder"
+            },
+            {
+                "short": "SUP",
+                "role": "Superuser"
+            },
+            {
+                "short": "CONVER",
+                "role": "SURFconextverantwoordelijke"
+            }
+        ]
+    },
+    {
+        "firstname": "Wesley",
+        "surname": "van Rossum",
+        "idp": "surfguest.nl",
+        "uid": "wesley2",
+        "organisation": {
+            "abbrev": "SURFNET",
+            "name": "SURFnet bv"
+        },
+        "authorisations": [
+            {
+                "short": "SUP",
+                "role": "Superuser"
+            },
+            {
+                "short": "CONVER",
+                "role": "SURFconextverantwoordelijke"
+            },
+            {
+                "short": "CONBEH",
+                "role": "SURFconextbeheerder"
+            },
+            {
+                "short": "TPM-MAIL",
+                "role": "TPM-Mailfilter"
+            },
+            {
+                "short": "AAI",
+                "role": "AAIverantwoordelijke"
+            },
+            {
+                "short": "BVW",
+                "role": "Beveiligingsverantwoordelijke"
+            },
+            {
+                "short": "DNS",
+                "role": "DNS-Beheerder"
+            },
+            {
+                "short": "DOM",
+                "role": "Domeinnamenverantwoordelijke"
+            },
+            {
+                "short": "MAIL",
+                "role": "Mailverantwoordelijke"
+            },
+            {
+                "short": "OB",
+                "role": "OperationeelBeheerder"
+            },
+            {
+                "short": "IVW",
+                "role": "Infraverantwoordelijke"
+            },
+            {
+                "short": "BEH-CON",
+                "role": "Beheerder-Conext"
+            },
+            {
+                "short": "TPM-CON",
+                "role": "TPM-Conext"
+            },
+            {
+                "short": "BEH-RAP",
+                "role": "Beheerder-Rapportage"
+            },
+            {
+                "short": "TPM-RAP",
+                "role": "TPM-Rapportage"
+            },
+            {
+                "short": "BEH-MAIL",
+                "role": "Beheerder-Mailfilter"
+            }
+        ]
+    },
+    {
+        "firstname": "Wim",
+        "surname": "Reijm",
+        "idp": "surfnet.nl",
+        "uid": "reijm",
+        "organisation": {
+            "abbrev": "SURFNET",
+            "name": "SURFnet bv"
+        },
+        "authorisations": [
+            {
+                "short": "CONVER",
+                "role": "SURFconextverantwoordelijke"
+            },
+            {
+                "short": "OB",
+                "role": "OperationeelBeheerder"
+            }
+        ]
+    }
+]}

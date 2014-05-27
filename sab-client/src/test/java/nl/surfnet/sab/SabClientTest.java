@@ -16,18 +16,25 @@
 
 package nl.surfnet.sab;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.util.GregorianCalendar;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class SabClientTest {
+
+  private SabClient sabClient;
+
+  @Before
+  public void setUp() throws Exception {
+    sabClient = new SabClient(new LocalFileTransport("/response.xml", "/sab-json/profile.json"));
+  }
 
   @Test
   public void testHasRoleForOrganisation() {
@@ -35,16 +42,12 @@ public class SabClientTest {
     String organisation = "SURFNET";
     String role = "Infraverantwoordelijke";
 
-    SabClient sabClient = new SabClient();
-    sabClient.setTransport(new LocalFileTransport("/response.xml"));
-
     assertTrue(sabClient.hasRoleForOrganisation(userId, role, organisation));
   }
 
   @Test
   public void createRequest() {
-    String request = new SabClient().createRequest("userid", "234567890");
-//    System.out.println(request);
+    String request = sabClient.createRequest("userid", "234567890");
     assertTrue(request.contains("<saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:unspecified\">userid</saml:NameID>"));
     assertTrue(request.contains("ID=\"234567890\""));
     assertTrue(request.contains("IssueInstant=\"" + new GregorianCalendar().get(GregorianCalendar.YEAR)));
@@ -56,9 +59,8 @@ public class SabClientTest {
     String organisation = "SURFNET";
     String role = "Infraverantwoordelijke";
 
-    SabClient sabClient = new SabClient();
     SabTransport transport = mock(SabTransport.class);
-    sabClient.setTransport(transport);
+    sabClient = new SabClient(transport);
     when(transport.getResponse(anyString())).thenThrow(new IOException("On purpose in unit test"));
     assertFalse(sabClient.hasRoleForOrganisation(userId, role, organisation));
   }
@@ -66,13 +68,30 @@ public class SabClientTest {
   @Test(expected = IOException.class)
   public void invalidUser() throws IOException {
     String userId = "foo";
-    String organisation = "SURFNET";
-    String role = "Infraverantwoordelijke";
 
-    SabClient sabClient = new SabClient();
-    sabClient.setTransport(new LocalFileTransport("/response-invaliduser.xml"));
-
-    // Expect an IOException
+    sabClient = new SabClient(new LocalFileTransport("/response-invaliduser.xml", "/sab-json/profile.json"));
     sabClient.getRoles(userId);
   }
+
+  @Test
+  public void testGetPersonsInRoleForOrganization() throws Exception {
+    SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextverantwoordelijke");
+    assertEquals(6, actual.getSabPersons().size());
+    assertEquals("SURFconextverantwoordelijke", actual.getRole());
+  }
+
+  @Test
+  public void testOnlyReturnsPersonsWithTheGivenRole() throws Exception {
+    SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "OperationeelBeheerder");
+    assertEquals(4, actual.getSabPersons().size());
+    assertEquals("OperationeelBeheerder", actual.getRole());
+  }
+
+  @Test
+  public void testNoResultsFromRestInterface() throws Exception {
+    sabClient = new SabClient(new LocalFileTransport("/response.xml", "/sab-json/minimal-roles.json"));
+    SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextbeheerder");
+    assertEquals(0, actual.getSabPersons().size());
+  }
+
 }

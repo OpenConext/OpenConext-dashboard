@@ -40,4 +40,12 @@ public interface Sab {
    */
   SabRoleHolder getRoles(String userId) throws IOException;
 
+
+  /**
+   * Get all persons within the given organisation that have the given role.
+   * @param organisationAbbreviation
+   * @param role
+   * @return SabPersonsInRole
+   */
+  SabPersonsInRole getPersonsInRoleForOrganization(String organisationAbbreviation, String role);
 }
