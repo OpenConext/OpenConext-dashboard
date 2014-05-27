@@ -16,42 +16,47 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.NotificationService;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabPerson;
-import nl.surfnet.sab.SabPersonsInRole;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.surfnet.cruncher.Cruncher;
 
-import java.util.Collections;
-import java.util.HashMap;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.when;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Category;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.Taxonomy;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.EdugainService;
+import nl.surfnet.coin.selfservice.service.NotificationService;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabPerson;
+import nl.surfnet.sab.SabPersonsInRole;
 
 /**
  * Test for {@link HomeController}
  */
+@RunWith(MockitoJUnitRunner.class)
 public class HomeControllerTest {
 
   @InjectMocks
-  private HomeController controller;
+  private HomeController controller = new HomeController();
 
   @Mock
   private PersonAttributeLabelServiceJsonImpl labelService;
-
 
   @Mock
   private NotificationService notificationService;
@@ -61,16 +66,22 @@ public class HomeControllerTest {
 
   @Mock
   private Cruncher cruncher;
-  
+
   @Mock
   private Sab sabClient;
+
+  @Mock
+  private EdugainService edugainService;
+
   private MockHttpServletRequest request;
+
 
   @Before
   public void setUp() throws Exception {
-    controller = new HomeController();
-    MockitoAnnotations.initMocks(this);
     when(labelService.getAttributeLabelMap()).thenReturn(new HashMap<String, PersonAttributeLabel>());
+    Taxonomy taxonomy = new Taxonomy();
+    taxonomy.setCategories(Collections.<Category>emptyList());
+    when(csa.getTaxonomy()).thenReturn(taxonomy);
     request = new MockHttpServletRequest();
     request.getSession().setAttribute(BaseController.SELECTED_IDP, new InstitutionIdentityProvider("id", "name", "inst"));
   }
