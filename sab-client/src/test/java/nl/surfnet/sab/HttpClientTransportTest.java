@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
@@ -95,6 +96,22 @@ public class HttpClientTransportTest {
 
     String response = IOUtils.toString(transport.getResponse("foobarRequest"));
     assertEquals("Authorized!", response);
+  }
+
+  @Test
+  public void testGetRestResponse() throws Exception {
+    final String expectedResult = "{\"message\": \"OK\", \"code\": 0, \"profiles\": []}";
+    server.register("/test/profile", new HttpRequestHandler() {
+      @Override
+      public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
+        assertTrue(request.getRequestLine().getUri().contains("abbrev=organisation&role=theRole"));
+        response.setEntity(new StringEntity(expectedResult));
+        response.setStatusCode(200);
+      }
+    });
+    InputStream inputStream = transport.getRestResponse("organisation", "theRole");
+    assertEquals(expectedResult, IOUtils.toString(inputStream));
+
   }
 
 

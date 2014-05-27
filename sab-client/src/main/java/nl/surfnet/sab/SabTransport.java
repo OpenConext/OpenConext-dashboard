@@ -29,5 +29,5 @@ public interface SabTransport {
    */
   public InputStream getResponse(String request) throws IOException;
 
-  public InputStream getRestResponse(String url);
+  public InputStream getRestResponse(String organisationAbbreviation, String role);
 }

@@ -79,7 +79,7 @@ public class SabClient implements Sab {
   @Override
   public SabPersonsInRole getPersonsInRoleForOrganization(final String organisationAbbreviation, final String role) {
     try {
-      InputStream responseAsStream = sabTransport.getRestResponse(format("/profile?abbrev=%s&role=%s", organisationAbbreviation, role));
+      InputStream responseAsStream = sabTransport.getRestResponse(organisationAbbreviation, role);
       HashMap<String, Object> result =
               new ObjectMapper().readValue(responseAsStream, HashMap.class);
       List<SabPerson> allSabPersons = Lists.transform((List<Map>) result.get("profiles"), new Function<Map, SabPerson>() {

@@ -23,7 +23,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
@@ -69,27 +68,20 @@ public class HttpClientTransport implements SabTransport {
   @Override
   public InputStream getResponse(final String request) throws IOException {
     HttpPost httpPost = new HttpPost(sabEndpoint);
-    return handleRequest(httpPost, samlCredentials, new HttpRequestPreProcessor<HttpPost>() {
-      @Override
-      public void preProcess(HttpPost post) throws Exception {
-        StringEntity stringEntity = new StringEntity(request);
-        post.setEntity(stringEntity);
-      }
-    });
+    StringEntity stringEntity = new StringEntity(request);
+    httpPost.setEntity(stringEntity);
+    return handleRequest(httpPost, samlCredentials);
   }
 
   @Override
-  public InputStream getRestResponse(String url) {
-    HttpGet httpGet = new HttpGet(format("%s/%s", restEndPoint, url));
-    return handleRequest(httpGet, restCredentials, null);
+  public InputStream getRestResponse(String organisationAbbreviation, String role) {
+    HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, organisationAbbreviation, role));
+    return handleRequest(httpGet, restCredentials);
   }
 
-  private InputStream handleRequest(HttpRequestBase request, UsernamePasswordCredentials credentials, HttpRequestPreProcessor preProcessor) {
+  private InputStream handleRequest(HttpRequestBase request, UsernamePasswordCredentials credentials) {
     try {
       request.addHeader("Authorization", "Basic " + encodeUserPass(credentials));
-      if (preProcessor != null) {
-        preProcessor.preProcess(request);
-      }
       HttpResponse httpResponse = httpClient.execute(request);
       return httpResponse.getEntity().getContent();
     } catch (Exception e) {
@@ -99,10 +91,6 @@ public class HttpClientTransport implements SabTransport {
 
   private String encodeUserPass(UsernamePasswordCredentials credentials) {
     return new String(Base64.encodeBase64(format("%s:%s", credentials.getUserName(), credentials.getPassword()).getBytes()));
-  }
-
-  private static interface HttpRequestPreProcessor<T extends HttpUriRequest> {
-    void preProcess(T request) throws Exception;
   }
 
 }
