@@ -50,7 +50,7 @@ public class MenuInterceptorTest {
     Menu menuAdmin = executeTestAndReturnMenu(false, ROLE_DASHBOARD_ADMIN);
     Menu menuViewer = executeTestAndReturnMenu(false, ROLE_DASHBOARD_VIEWER);
     assertEquals(menuAdmin.getMenuItems().size(), menuViewer.getMenuItems().size());
-    assertEquals(4, menuViewer.getMenuItems().size());
+    assertEquals(5, menuViewer.getMenuItems().size());
   }
 
   @Test

@@ -76,4 +76,18 @@
     </property>
   </bean>
 
+  <!-- this will be either the real SabClient or a Mock -->
+  <bean id="sabClient" class="${sabClientClass}" />
+
+  <bean id="samlCredentials" class="org.apache.http.auth.UsernamePasswordCredentials">
+    <constructor-arg index="0" value="${sab.username}"/>
+    <constructor-arg index="1" value="${sab.password}"/>
+  </bean>
+
+  <bean id="restCredentials" class="org.apache.http.auth.UsernamePasswordCredentials">
+    <constructor-arg index="0" value="${sab-rest.username}"/>
+    <constructor-arg index="1" value="${sab-rest.password}"/>
+  </bean>
+
+
 </beans>

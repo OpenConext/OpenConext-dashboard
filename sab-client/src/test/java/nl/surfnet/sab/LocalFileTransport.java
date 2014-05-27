@@ -22,13 +22,20 @@ import java.io.InputStream;
 public class LocalFileTransport implements SabTransport {
 
   private String filename;
+  private final String restFileName;
 
-  public LocalFileTransport(String filename) {
+  public LocalFileTransport(String filename, String restFileName) {
     this.filename = filename;
+    this.restFileName = restFileName;
   }
 
   @Override
   public InputStream getResponse(String request) throws IOException {
     return this.getClass().getResourceAsStream(filename);
+  }
+
+  @Override
+  public InputStream getRestResponse(String url) {
+    return this.getClass().getResourceAsStream(restFileName);
   }
 }

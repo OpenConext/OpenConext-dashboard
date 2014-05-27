@@ -24,6 +24,8 @@ import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabPersonsInRole;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -53,6 +55,9 @@ public class HomeController extends BaseController {
 
   @Resource
   private Cruncher cruncher;
+
+  @Resource
+  private Sab sabClient;
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
@@ -136,6 +141,18 @@ public class HomeController extends BaseController {
   public void closeNotificationPopup(HttpServletRequest request) {
     notificationPopupClosed(request);
   }
+
+  @RequestMapping("/idp.shtml")
+  public ModelAndView idp(HttpServletRequest httpServletRequest) {
+    InstitutionIdentityProvider currentIdp = getSelectedIdp(httpServletRequest);
+    SabPersonsInRole beheerders = sabClient.getPersonsInRoleForOrganization(currentIdp.getName(), "SURFconextbeheerder");
+    SabPersonsInRole verantwoordelijken = sabClient.getPersonsInRoleForOrganization(currentIdp.getName(), "SURFconextverantwoordelijke");
+    Map<String, SabPersonsInRole> model = new HashMap<>();
+    model.put("maintainers", beheerders);
+    model.put("responsibles", verantwoordelijken);
+    return new ModelAndView("idp", model);
+  }
+
 
   private List<Category> filterFacetValues(List<Service> services, Taxonomy taxonomy) {
     if (taxonomy == null || taxonomy.getCategories() == null) {

@@ -16,13 +16,15 @@
 
 package nl.surfnet.sab;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.Arrays.asList;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -38,16 +40,16 @@ public class SabClientMock implements Sab {
 
 
   public SabClientMock() {
-    rolesMapping.put("user1", new SabRoleHolder("SURFNET", Arrays.asList("Foo", "Bar")));
-    rolesMapping.put("user2", new SabRoleHolder("SURFNET", Arrays.asList("Foo", "Baz")));
+    rolesMapping.put("user1", new SabRoleHolder("SURFNET", asList("Foo", "Bar")));
+    rolesMapping.put("user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")));
   }
 
   @Override
   public boolean hasRoleForOrganisation(String userId, String role, String organisation) {
     return
-      rolesMapping.containsKey(userId) &&
-      rolesMapping.get(userId).getOrganisation().equals(organisation) &&
-      rolesMapping.get(userId).getRoles().contains(role);
+            rolesMapping.containsKey(userId) &&
+                    rolesMapping.get(userId).getOrganisation().equals(organisation) &&
+                    rolesMapping.get(userId).getRoles().contains(role);
   }
 
   @Override
@@ -57,7 +59,16 @@ public class SabClientMock implements Sab {
     return sabRoleHolder;
   }
 
-  public void setTransport(SabTransport transport) {
-    // added this method to be able to use it as a full replacement for the regular SabClient.
+  @Override
+  public SabPersonsInRole getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
+    List<SabRole> sabRoles = asList(
+            new SabRole("CONVER", "SURFconextverantwoordelijke"),
+            new SabRole("CONBEH", "SURFconextbeheerder")
+    );
+    List<SabPerson> sabPersons = asList(
+            new SabPerson("Hans", "Janssen", "hjanssen", sabRoles),
+            new SabPerson("Frans", "Franssen", "ffransen", sabRoles)
+    );
+    return new SabPersonsInRole(sabPersons, role);
   }
 }

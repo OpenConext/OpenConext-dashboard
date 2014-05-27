@@ -16,14 +16,12 @@
 
 package nl.surfnet.sab;
 
-import java.io.IOException;
-import java.net.URI;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.localserver.LocalTestServer;
 import org.apache.http.protocol.HttpContext;
@@ -33,6 +31,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.net.URI;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -40,9 +41,13 @@ public class HttpClientTransportTest {
   private static final Logger LOG = LoggerFactory.getLogger(HttpClientTransportTest.class);
 
   private LocalTestServer server;
+  private HttpClientTransport transport;
+  private UsernamePasswordCredentials credentials;
+  private URI endPoint;
+
 
   @Before
-  public void setupServer() throws Exception {
+  public void setUp() throws Exception {
     server = new LocalTestServer(null, null);
 
     server.register("/test", new HttpRequestHandler() {
@@ -54,31 +59,22 @@ public class HttpClientTransportTest {
     });
 
     server.start();
+    endPoint = URI.create("http:/" + server.getServiceAddress().toString() + "/test");
+    credentials = new UsernamePasswordCredentials("theuser", "thepass");
+    transport = new HttpClientTransport(credentials, credentials, endPoint, endPoint);
   }
+
 
   @Test
   public void testGetResponse() throws IOException {
-
-    HttpClientTransport transport = new HttpClientTransport();
-    transport.setSabEndpoint(URI.create("http:/" + server.getServiceAddress().toString() + "/test"));
     String response = IOUtils.toString(transport.getResponse("foobarRequest"));
     assertTrue(response.contains("This is the response"));
   }
 
-
-  @Test
-  public void encodeUserPass() {
-    String encoded = new HttpClientTransport().encodeUserPass("foo", "bar");
-
-    assertEquals("foo:bar", new String(Base64.decodeBase64(encoded)));
-  }
-
   @Test
   public void testAuthorizationHeader() throws IOException {
-    HttpClientTransport transport = new HttpClientTransport();
-    transport.setUsername("theuser");
-    transport.setPassword("thepass");
-    transport.setSabEndpoint(URI.create("http:/" + server.getServiceAddress().toString() + "/authorization"));
+    URI authUri = URI.create("http:/" + server.getServiceAddress().toString() + "/authorization");
+    HttpClientTransport transport = new HttpClientTransport(credentials, credentials, authUri, authUri);
 
 
     server.register("/authorization", new HttpRequestHandler() {
