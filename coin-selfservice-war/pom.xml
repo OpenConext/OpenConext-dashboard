@@ -28,13 +28,6 @@
   <packaging>war</packaging>
   <name>OpenConext : coin-selfservice-war</name>
 
-  <repositories>
-    <repository>
-      <id>rubygems-releases</id>
-      <url>http://rubygems-proxy.torquebox.org/releases</url>
-    </repository>
-  </repositories>
-
   <properties>
     <coin-shared.version>3.11.0</coin-shared.version>
     <coin-test.version>3.11.0</coin-test.version>
