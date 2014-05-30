@@ -16,25 +16,24 @@
 
 package nl.surfnet.coin.selfservice.control;
 
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import javax.servlet.http.HttpServletRequest;
-
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.Helpers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import javax.servlet.http.HttpServletRequest;
+
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 
 /**
  * Test for {@link nl.surfnet.coin.selfservice.control.ServiceDetailController}
@@ -58,8 +57,7 @@ public class ServiceDetailControllerTest {
 
   @Before
   public void setUp() throws Exception {
-    request = new MockHttpServletRequest();
-    request.getSession().setAttribute(BaseController.SELECTED_IDP, new InstitutionIdentityProvider("id", "name", "inst"));
+    request = Helpers.defaultMockRequest();
   }
 
   @Test

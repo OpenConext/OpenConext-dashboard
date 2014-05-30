@@ -19,52 +19,55 @@
 <spring:message var="title" code="jsp.stats.title"/>
 
 <jsp:include page="../head.jsp">
-  <jsp:param name="title" value="${title}"/>
+    <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
 <div class="column-center content-holder no-right-left">
 
-  <h1>${title}</h1>
-  
+    <h1>${title}</h1>
+
     <p id="stats-info-text">
-      <spring:message code="jsp.stats.info" arguments="${selectedIdp.name}"/>
+        <spring:message code="jsp.stats.info" arguments="${selectedIdp.name}"/>
     </p>
 
-  <section class="statistics-holder" >
+    <section class="statistics-holder">
 
-    <nav class="statistics-navigation"> 
-      <div class="show">
-      <a href="#" class="back hide">
-        <i class="icon-arrow-left"></i> <spring:message code="jsp.stats.back_to_overview"/>
-      </a>
-        <a href="#" class="forward hide">
-          <i class="icon-arrow-right"></i> <spring:message code="jsp.stats.back_to_sp"/>
-        </a>
-      </div>
-    </nav>
+        <nav class="statistics-navigation">
+            <div class="show">
+                <a href="#" class="back hide">
+                    <i class="icon-arrow-left"></i> <spring:message code="jsp.stats.back_to_overview"/>
+                </a>
+                <a href="#" class="forward hide">
+                    <i class="icon-arrow-right"></i> <spring:message code="jsp.stats.back_to_sp"/>
+                </a>
+            </div>
+        </nav>
 
-    <nav class="statistics-filters">
-      <div class="show">
-        <a href="#" data-show="year">
-          <spring:message code="jsp.stats.year" />
-        </a>
-        <a href="#" data-show="month">
-          <spring:message code="jsp.stats.month" />
-        </a>
-        <a href="#" data-show="week">
-          <spring:message code="jsp.stats.week" />
-        </a>
-      </div>
-      <div class="time-offset">
-        <select id="choose-time-offset" title="<spring:message code="jsp.stats.select_offset" />"></select>
-      </div>
-    </nav>
-    
-    <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedIdp.id}" data-is-god="false"></div>
-    <div id="sp-detail-chart" data-spEntityId="${selectedSp}"></div>
-  </section>
+        <nav class="statistics-filters">
+            <div class="show">
+                <a href="#" data-show="year">
+                    <spring:message code="jsp.stats.year"/>
+                </a>
+                <a href="#" data-show="month">
+                    <spring:message code="jsp.stats.month"/>
+                </a>
+                <a href="#" data-show="week">
+                    <spring:message code="jsp.stats.week"/>
+                </a>
+                <a class="csv" href="<c:url value="/stats/stats.csv"/>">
+                    CSV
+                </a>
+            </div>
+            <div class="time-offset">
+                <select id="choose-time-offset" title="<spring:message code="jsp.stats.select_offset" />"></select>
+            </div>
+        </nav>
+
+        <div id="sp-overview-chart" class="ajax-loader" data-idp="${selectedIdp.id}" data-is-god="false"></div>
+        <div id="sp-detail-chart" data-spEntityId="${selectedSp}"></div>
+    </section>
 </div>
 <script>
-var login_stats = eval(<c:out escapeXml="false" value="${login_stats}"/>);
+    var login_stats = eval(<c:out escapeXml="false" value="${login_stats}"/>);
 </script>
 <jsp:include page="../foot.jsp"/>

@@ -18,12 +18,16 @@ package nl.surfnet.coin.selfservice.control;
 
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.surfnet.cruncher.Cruncher;
 
 import javax.annotation.Resource;
@@ -62,12 +66,25 @@ public class StatisticsController extends BaseController {
       if (StringUtils.isNotBlank(selectedSp)) {
         model.put("login_stats", cruncher.getLoginsByIdpAndSp(twoYearsBack.getTime(), new Date(), selectedIdp.getId(), selectedSp));
       } else {
-        model.put("login_stats", cruncher.getLoginsByIdp(twoYearsBack.getTime(), new Date(), selectedIdp.getId()));      
+        model.put("login_stats", cruncher.getLoginsByIdp(twoYearsBack.getTime(), new Date(), selectedIdp.getId()));
       }
     } catch (RuntimeException e) {
       LOG.warn("exception while contacting cruncher", e);
       return "stats/nostats";
     }
     return "stats/statistics";
+  }
+
+  @RequestMapping(value = "/stats.csv", method = RequestMethod.GET, consumes = "text/csv")
+  @ResponseBody
+  public LoginDataResponse csvStats(@RequestParam(value = "startDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
+                       @RequestParam(value = "startDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate,
+                       @RequestParam(value = "spEntityId", required = false) final String selectedSp,
+                       HttpServletRequest request) {
+    InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
+
+    String statistics = cruncher.getLoginsByIdp(startDate.toDate(), endDate.toDate(), selectedIdp.getId());
+    return new LoginDataResponse(statistics, "statistics.csv");
+
   }
 }
