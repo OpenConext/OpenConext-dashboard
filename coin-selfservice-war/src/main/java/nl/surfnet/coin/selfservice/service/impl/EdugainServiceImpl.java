@@ -117,6 +117,7 @@ public class EdugainServiceImpl implements EdugainService {
         String name = (String) xPath.evaluate(UIINFO_PREFIX + "mdui:DisplayName[@xml:lang='en']", entryNode, XPathConstants.STRING);
         if (name.trim().length() < 1) {
           // skip this entry, looking at the source xml has led us to conclude that there is no hope of finding a display-name somewhere else in the document;
+          LOG.debug("Skipping entity {}, no display name found", entityId);
           continue;
         }
 
@@ -151,6 +152,7 @@ public class EdugainServiceImpl implements EdugainService {
         edugainApp.setArp(arp);
         newApps.add(edugainApp);
       }
+      LOG.debug("Caching edugain apps, currently holding {} entries", newApps.size());
       apps.set(newApps);
     } catch (Exception e) {
       LOG.warn("Exception occurred while refreshing edugain apps. Not replacing the current set of apps, which has  " + apps.get().size() +" entries. Exception info: ", e);
