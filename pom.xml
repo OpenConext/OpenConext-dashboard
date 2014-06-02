@@ -79,5 +79,17 @@
       <id>atlassian-contrib</id>
       <url>https://maven.atlassian.com/contrib/</url>
     </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <id>openconext-third-party-releases</id>
+      <name>OpenConext third-party repository</name>
+      <url>https://build.surfconext.nl/repository/public/third-party</url>
+    </repository>
   </repositories>
 </project>
