@@ -25,7 +25,7 @@
 
     <h1>${title}</h1>
 
-    <p><tags:context-specific messageKey="jsp.role.information.header" isDashBoard="${isDashBoard}"/></p>
+    <p><spring:message code="jsp.role.information.header"/></p>
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
       <tr>
