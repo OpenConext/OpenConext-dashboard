@@ -21,27 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-import nl.surfnet.coin.api.client.OpenConextOAuthClient;
-import nl.surfnet.coin.api.client.domain.Group20;
-import nl.surfnet.coin.api.client.domain.Person;
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.domain.GroupContext;
-import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
-import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.DashboardApp;
-import nl.surfnet.coin.selfservice.service.EdugainService;
-import nl.surfnet.coin.selfservice.service.EmailService;
-import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
-import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
-import nl.surfnet.coin.selfservice.util.AjaxResponseException;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -53,7 +34,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.common.base.Optional;
+import nl.surfnet.coin.api.client.OpenConextOAuthClient;
+import nl.surfnet.coin.api.client.domain.Group20;
+import nl.surfnet.coin.api.client.domain.Person;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.GroupContext;
+import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
+import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
+import nl.surfnet.coin.selfservice.service.EmailService;
+import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
+import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
+import nl.surfnet.coin.selfservice.util.AjaxResponseException;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
 
 /**
  * Controller for the detail view(s) of a service (provider)
@@ -80,9 +75,6 @@ public class ServiceDetailController extends BaseController {
   @Resource
   private Csa csa;
 
-  @Resource
-  private EdugainService edugainService;
-
   /**
    * Controller for detail page.
    *
@@ -99,18 +91,11 @@ public class ServiceDetailController extends BaseController {
     InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
     Service service;
 
-    if (isEdugain) {
-      final Optional<DashboardApp> app = edugainService.getApp(serviceId);
-      if (!app.isPresent()) {
-        throw new IllegalArgumentException("No such edugain app exists");
-      }
-      service = app.get();
-    }else {
-      if (null != spEntityId) {
-        service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
-      } else {
-        service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
-      }
+
+    if (null != spEntityId) {
+      service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
+    } else {
+      service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
     }
     Map<String, Object> m = new HashMap<>();
     m.put(SERVICE, service);

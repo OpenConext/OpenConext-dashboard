@@ -40,7 +40,6 @@ import nl.surfnet.coin.csa.model.Category;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Taxonomy;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.sab.Sab;
@@ -69,9 +68,6 @@ public class HomeControllerTest {
 
   @Mock
   private Sab sabClient;
-
-  @Mock
-  private EdugainService edugainService;
 
   private MockHttpServletRequest request;
 

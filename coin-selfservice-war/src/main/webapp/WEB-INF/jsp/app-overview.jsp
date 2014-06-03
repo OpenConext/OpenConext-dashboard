@@ -58,11 +58,6 @@
             </c:if>
           </c:forEach>
         </c:if>
-        <li class="facet-name"><spring:message code="jsp.app_overview.origin"/></li>
-        <ul class="facets-values">
-          <li><a class="facet-value inactive" data-facet-search-term="origin-surfnet" href="#"><spring:message code="jsp.app_overview.origin.surfnet"/> <span>(${surfnetCount})</span></a></li>
-          <li><a class="facet-value inactive" data-facet-search-term="origin-edugain" href="#"><spring:message code="jsp.app_overview.origin.edugain"/> <span>(${edugainCount})</span></a></li>
-        </ul>
       </ul>
     </section>
     </c:if>
@@ -79,7 +74,6 @@
         <spring:param name="view" value="list" />
       </spring:url>
       <a href="${isCard ? listUrl : '#'}" class="${isCard ? '' : 'disabled'}"><i class="icon-th-list"></i></a>
-      <spring:url value="images/eduGAIN_190x45.jpg" var="edugainDefaultLogoUrl"/>
     </div>
     <section>
     <div style="padding-top: 10px;">
@@ -89,11 +83,8 @@
         <c:set var="serviceDescription" value="${service.description}" />
         <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
         <li class="${view}-view" data-id="${service.id}"
-                    data-facet-values="${service.edugain? "origin-edugain": "origin-surfnet"} ${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
+                    data-facet-values="${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
           <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-            <c:if test="${service.edugain}">
-              <spring:param name="isEdugain" value="${true}" />
-            </c:if>
             <spring:param name="serviceId" value="${service.id}" />
           </spring:url>
 
@@ -105,14 +96,7 @@
               <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
             </c:when>
             <c:otherwise>
-              <c:choose>
-                <c:when test="${service.edugain}">
-                  <img src="<c:url value="${edugainDefaultLogoUrl}"/>" width="190" height="45" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
-                </c:when>
-                <c:otherwise>
-                  <div class="no-logo-available img-rounded"><spring:message code="jsp.app_overview.no_logo"/></div>
-                </c:otherwise>
-              </c:choose>
+              <div class="no-logo-available img-rounded"><spring:message code="jsp.app_overview.no_logo"/></div>
             </c:otherwise>
           </c:choose>
 

@@ -22,15 +22,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -53,8 +50,6 @@ import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
-import nl.surfnet.coin.selfservice.service.DashboardApp;
-import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -81,9 +76,6 @@ public class HomeController extends BaseController {
   @Resource
   private Sab sabClient;
 
-  @Resource
-  private EdugainService edugainService;
-
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
     return personAttributeLabelService.getAttributeLabelMap();
@@ -109,33 +101,20 @@ public class HomeController extends BaseController {
     model.put("surfnetCount", services.size());
 
     addLastLoginDateToServices(services, identityProvider.getId());
-    final List<DashboardApp> dashboardApps = new ArrayList<>();
-
-    Set<String> entityIds = new HashSet<>();
-    for (Service service: services) {
-      DashboardApp dashboardApp = new DashboardApp();
-      BeanUtils.copyProperties(service, dashboardApp);
-      dashboardApps.add(dashboardApp);
-      entityIds.add(service.getSpEntityId());
-    }
-
-    final List<DashboardApp> edugainApps = edugainService.getApps(entityIds);
-    model.put("edugainCount", edugainApps.size());
-    dashboardApps.addAll(edugainApps);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
     model.put("personAttributeLabels", attributeLabelMap);
     model.put("view", view);
     model.put("showFacetSearch", true);
 
-    addLicensedConnectedLoginCounts(model, dashboardApps);
+    addLicensedConnectedLoginCounts(model, services);
 
     List<Category> facets = csa.getTaxonomy().getCategories();
-    this.filterFacetValues(dashboardApps, facets);
+    this.filterFacetValues(services, facets);
     model.put("facets", facets);
     model.put("facetsUsed", this.isCategoryValuesUsed(facets));
 
-    model.put(SERVICES, dashboardApps);
+    model.put(SERVICES, services);
     return new ModelAndView("app-overview", model);
   }
 
