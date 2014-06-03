@@ -117,14 +117,14 @@
           </c:choose>
 
           <div class="service-info-${view}">
-          <h2>
-            <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
-              <tags:truncatedSpName
-                  spName="${spTitle}"
-                  hasServiceDescription="${not empty serviceDescription}"
-                  hasConnectButton="${showConnectButton}" />
-            </a>
-          </h2>
+            <h2>
+              <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
+                <tags:truncatedSpName
+                    spName="${spTitle}"
+                    hasServiceDescription="${not empty serviceDescription}"
+                    hasConnectButton="${showConnectButton}" />
+              </a>
+            </h2>
             <c:if test="${!isCard}">
               <div class="app-meta-cta">
                 <c:if test="${not isDashBoard and not empty service.appUrl}">
