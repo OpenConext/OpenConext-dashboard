@@ -25,27 +25,22 @@
 
     <h1>${title}</h1>
 
-    <p><tags:context-specific messageKey="jsp.role.information.header" isDashBoard="${isDashBoard}"/></p>
+    <p><spring:message code="jsp.role.information.header"/></p>
     <table class="table table-bordered table-striped table-above-pagination">
       <thead>
       <tr>
-        <th><spring:message code="jsp.role.information.user"/></th>
         <th><spring:message code="jsp.role.information.role"/></th>
+        <th><spring:message code="jsp.role.information.users"/></th>
       </tr>
       </thead>
       <tbody>
-        <c:forEach items="${maintainers.sabPersons}" var="sabPerson" varStatus="vs">
+        <c:forEach items="${roleAssignments}" var="entry" varStatus="vs">
           <tr>
-            <td><c:out value="${sabPerson.fullname()}"/> </td>
-            <td><c:out value="${maintainers.role}"/> </td>
+            <td><c:out value="${entry.key}"/> </td>
+            <td><c:out value="${entry.value}"/> </td>
           </tr>
         </c:forEach>
-        <c:forEach items="${responsibles.sabPersons}" var="sabPerson" varStatus="vs">
-          <tr>
-            <td><c:out value="${sabPerson.fullname()}"/> </td>
-            <td><c:out value="${responsibles.role}"/> </td>
-          </tr>
-        </c:forEach>
+
       </tbody>
     </table>
 

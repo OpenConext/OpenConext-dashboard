@@ -28,7 +28,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import com.google.common.primitives.Ints;
 
 /**
  * implementation to return UserDetails from a SAML Assertion
@@ -41,6 +45,7 @@ public class SAMLProvisioner implements Provisioner {
 
   private String uuidAttribute = "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
 
+
   @Resource
   private Csa csa;
 
@@ -52,6 +57,7 @@ public class SAMLProvisioner implements Provisioner {
     final String idpId = getAuthenticatingAuthority(assertion);
 
     List<InstitutionIdentityProvider> institutionIdentityProviders = csa.getInstitutionIdentityProviders(idpId);
+
     if (CollectionUtils.isEmpty(institutionIdentityProviders)) {
       //duhh, fail fast, big problems
       throw new IllegalArgumentException("Csa#getInstitutionIdentityProviders('" + idpId + "') returned zero result");
@@ -64,6 +70,12 @@ public class SAMLProvisioner implements Provisioner {
     } else {
       coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
       coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
+      Collections.sort(coinUser.getInstitutionIdps(), new Comparator<InstitutionIdentityProvider>() {
+        @Override
+        public int compare(final InstitutionIdentityProvider lh, final InstitutionIdentityProvider rh) {
+          return lh.getName().compareTo(rh.getName());
+        }
+      });
     }
 
     coinUser.setUid(getValueFromAttributeStatements(assertion, uuidAttribute));

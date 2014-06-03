@@ -17,7 +17,9 @@
 package nl.surfnet.coin.selfservice.control;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +41,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Collections2;
+
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Category;
 import nl.surfnet.coin.csa.model.CategoryValue;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.csa.model.Taxonomy;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
@@ -53,7 +59,7 @@ import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonI
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabPersonsInRole;
+import nl.surfnet.sab.SabPerson;
 
 /**
  * Controller of the homepage showing 'my apps' (or my services, meaning the
@@ -62,6 +68,7 @@ import nl.surfnet.sab.SabPersonsInRole;
 @Controller
 public class HomeController extends BaseController {
 
+  public static final List<String> INTERESTING_ROLES = Arrays.asList("SURFconextbeheerder", "SURFconextverantwoordelijke");
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
@@ -179,11 +186,23 @@ public class HomeController extends BaseController {
   @RequestMapping("/idp.shtml")
   public ModelAndView idp(HttpServletRequest httpServletRequest) {
     InstitutionIdentityProvider currentIdp = getSelectedIdp(httpServletRequest);
-    SabPersonsInRole beheerders = sabClient.getPersonsInRoleForOrganization(currentIdp.getName(), "SURFconextbeheerder");
-    SabPersonsInRole verantwoordelijken = sabClient.getPersonsInRoleForOrganization(currentIdp.getName(), "SURFconextverantwoordelijke");
-    Map<String, SabPersonsInRole> model = new HashMap<>();
-    model.put("maintainers", beheerders);
-    model.put("responsibles", verantwoordelijken);
+
+    ModelMap model = new ModelMap();
+
+    Map<String, String> roleAssignments = new HashMap<>();
+    for (final String role: INTERESTING_ROLES) {
+      final Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(currentIdp.getName(), role);
+      Collection<String> fullNames = Collections2.transform(personsInRoleForOrganization, new Function<SabPerson,String>() {
+        public String apply(SabPerson person) {
+          return person.fullname();
+        }
+      });
+
+      final List<String> sortedFullnames = new ArrayList<>(fullNames);
+      Collections.sort(sortedFullnames);
+      roleAssignments.put(role, Joiner.on(", ").join(sortedFullnames));
+    }
+    model.put("roleAssignments", roleAssignments);
     return new ModelAndView("idp", model);
   }
 

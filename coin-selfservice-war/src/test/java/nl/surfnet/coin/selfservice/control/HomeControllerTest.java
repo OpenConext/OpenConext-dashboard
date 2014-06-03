@@ -20,6 +20,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -44,7 +45,6 @@ import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.sab.Sab;
 import nl.surfnet.sab.SabPerson;
-import nl.surfnet.sab.SabPersonsInRole;
 
 /**
  * Test for {@link HomeController}
@@ -97,17 +97,15 @@ public class HomeControllerTest {
 
   @Test
   public void testIdp() throws Exception {
-    SabPersonsInRole maintainers = new SabPersonsInRole(Collections.<SabPerson>emptyList(), "SURFconextbeheerder");
+    Collection<SabPerson> maintainers = Collections.emptyList();
     when(sabClient.getPersonsInRoleForOrganization("name", "SURFconextbeheerder")).thenReturn(maintainers);
-    SabPersonsInRole responsibles = new SabPersonsInRole(Collections.<SabPerson>emptyList(), "SURFconextverantwoordelijke");
+    Collection<SabPerson>  responsibles = Collections.emptyList();
     when(sabClient.getPersonsInRoleForOrganization("name", "SURFconextverantwoordelijke")).thenReturn(responsibles);
 
     ModelAndView modelAndView = controller.idp(request);
 
     assertEquals("idp", modelAndView.getViewName());
-    assertEquals(maintainers, modelAndView.getModelMap().get("maintainers"));
-    assertEquals(responsibles, modelAndView.getModelMap().get("responsibles"));
-
+    assertTrue(modelAndView.getModel().containsKey("roleAssignments"));
   }
 
 }

@@ -59,12 +59,11 @@
         <c:if test="${fn:length(institutionIdentityProviders) gt 0}">
 
           <c:if test="${not empty switchedIdentitySwitch.role}">
-          <li class="identity-disclaimer">
-            Your current role is '<spring:message code="jsp.role.information.key.${switchedIdentitySwitch.role}"/>' from the institution '${selectedIdp.name}'
-          </li>
-        </c:if>
-
-            <li>  <spring:url var="switchIdentityLink" value="/identity/switch.shtml"/>
+            <li class="identity-disclaimer">
+              Your current role is '<spring:message code="jsp.role.information.key.${switchedIdentitySwitch.role}"/>', institution: '${selectedIdp.name}'
+            </li>
+          </c:if>
+            <li> <spring:url var="switchIdentityLink" value="/identity/switch.shtml"/>
               <a id="switch-identity" href="${switchIdentityLink}">
                 <spring:message code="jsp.identity.switch"/>
                 <i class="inlinehelp icon-question-sign" data-title="<spring:message code="jsp.identity.switch"/>"
