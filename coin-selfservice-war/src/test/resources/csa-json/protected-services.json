@@ -187,7 +187,8 @@
         "id": 3,
         "name": "ARP with no attributes",
         "description": "The description of the Service",
-        "logoUrl": "https://static.surfconext.nl/media/idp/ru.png",
+
+        "logoUrl": "",
         "websiteUrl": "https://website.url",
         "appUrl": "https://app.url",
         "serviceUrl": "https://service.url",
