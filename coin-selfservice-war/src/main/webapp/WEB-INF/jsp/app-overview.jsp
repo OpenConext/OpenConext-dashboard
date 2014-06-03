@@ -96,7 +96,7 @@
               <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
             </c:when>
             <c:otherwise>
-              <div class="no-logo-available img-rounded"><spring:message code="jsp.app_overview.no_logo"/></div>
+              <div class="no-logo-available"><spring:message code="jsp.app_overview.no_logo"/></div>
             </c:otherwise>
           </c:choose>
 
