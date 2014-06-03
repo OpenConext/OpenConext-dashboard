@@ -79,6 +79,7 @@
         <spring:param name="view" value="list" />
       </spring:url>
       <a href="${isCard ? listUrl : '#'}" class="${isCard ? '' : 'disabled'}"><i class="icon-th-list"></i></a>
+      <spring:url value="images/eduGAIN_190x45.jpg" var="edugainDefaultLogoUrl"/>
     </div>
     <section>
     <div style="padding-top: 10px;">
@@ -99,18 +100,31 @@
           <c:set var="spTitle" >
             <c:out default="${service.id}" value="${service.name}" />
           </c:set>
-          <c:if test="${not empty service.logoUrl}">
-            <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
-          </c:if>
+          <c:choose>
+            <c:when test="${not empty service.logoUrl}">
+              <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
+            </c:when>
+            <c:otherwise>
+              <c:choose>
+                <c:when test="${service.edugain}">
+                  <img src="<c:url value="${edugainDefaultLogoUrl}"/>" width="190" height="45" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
+                </c:when>
+                <c:otherwise>
+                  <div class="no-logo-available img-rounded"><spring:message code="jsp.app_overview.no_logo"/></div>
+                </c:otherwise>
+              </c:choose>
+            </c:otherwise>
+          </c:choose>
+
           <div class="service-info-${view}">
-          <h2>
-            <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
-              <tags:truncatedSpName
-                  spName="${spTitle}"
-                  hasServiceDescription="${not empty serviceDescription}"
-                  hasConnectButton="${showConnectButton}" />
-            </a>
-          </h2>
+            <h2>
+              <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
+                <tags:truncatedSpName
+                    spName="${spTitle}"
+                    hasServiceDescription="${not empty serviceDescription}"
+                    hasConnectButton="${showConnectButton}" />
+              </a>
+            </h2>
             <c:if test="${!isCard}">
               <div class="app-meta-cta">
                 <c:if test="${not isDashBoard and not empty service.appUrl}">
