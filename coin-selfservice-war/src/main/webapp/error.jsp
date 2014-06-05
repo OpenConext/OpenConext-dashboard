@@ -29,15 +29,12 @@
     <title>${errorMessage}</title>
 
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.4.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-alert.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-button.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-dropdown.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-generic.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-modal.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-responsive.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/generic.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/layout.css"/>" />
     <link rel="stylesheet" href="<c:url value="/css/screen.css"/>" />
 
     <!--[if lt IE 9]>
