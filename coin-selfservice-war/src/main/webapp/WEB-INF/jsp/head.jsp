@@ -82,10 +82,17 @@
             <ul class="user-dropdown">
               <c:forEach items="${idps}" var="idp">
                 <li class="user-role-manager ${selectedIdp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
-                      <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
-                        <spring:param name="switchIdpId" value="${idp.id}" />
-                      </spring:url>
-                      <a href="${toggleLink}">${idp.name}</a>
+                  <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
+                    <spring:param name="switchIdpId" value="${idp.id}" />
+                  </spring:url>
+                    <c:choose>
+                      <c:when test="${fn:length(idp.name) gt 23}">
+                        <a href="${toggleLink}" title="${idp.name}"><c:out value="${fn:substring(idp.name, 0, 23)}"/>...</a>
+                      </c:when>
+                      <c:otherwise>
+                        <a href="${toggleLink}" title="${idp.name}"><c:out value="${idp.name}"/></a>
+                      </c:otherwise>
+                    </c:choose>
                 </li>
               </c:forEach>
             </ul>
