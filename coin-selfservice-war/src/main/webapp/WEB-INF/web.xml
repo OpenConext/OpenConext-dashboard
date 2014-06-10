@@ -76,6 +76,7 @@
     <url-pattern>*.shtml</url-pattern>
     <url-pattern>*.json</url-pattern>
     <url-pattern>*.img</url-pattern>
+    <url-pattern>*.csv</url-pattern>
   </servlet-mapping>
 
   <session-config>

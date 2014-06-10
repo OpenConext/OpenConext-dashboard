@@ -124,7 +124,7 @@ public abstract class BaseController implements ApplicationContextAware {
   /**
    * Key for the selectedIdp in the session
    */
-  protected static final String SELECTED_IDP = "selectedIdp";
+  public static final String SELECTED_IDP = "selectedIdp";
 
   @Resource
   private NotificationService notificationService;
