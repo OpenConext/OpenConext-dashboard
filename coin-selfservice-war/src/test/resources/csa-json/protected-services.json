@@ -80,6 +80,9 @@
                 "urn:mace:dir:attribute-def:eduPersonAffiliation": [
                     "*"
                 ],
+                "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+                    "*"
+                ],
                 "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
                     "*"
                 ],

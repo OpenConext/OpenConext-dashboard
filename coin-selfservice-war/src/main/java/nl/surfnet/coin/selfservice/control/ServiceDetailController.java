@@ -21,11 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.common.collect.ImmutableSet;
 
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
@@ -75,6 +79,9 @@ public class ServiceDetailController extends BaseController {
   @Resource
   private Csa csa;
 
+  // if the collection of ignored labels below starts to change over time, make it configurable
+  private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
+
   /**
    * Controller for detail page.
    *
@@ -83,7 +90,6 @@ public class ServiceDetailController extends BaseController {
   @RequestMapping(value = "/app-detail")
   public ModelAndView serviceDetail(@RequestParam(value = "serviceId", required = false) Long serviceId,
                                     @RequestParam(value = "spEntityId", required = false) String spEntityId,
-                                    @RequestParam(value = "isEdugain", required = false) boolean isEdugain,
                                     HttpServletRequest request) {
     if (null == serviceId && !StringUtils.hasText(spEntityId)) {
       throw new IllegalArgumentException("either service id or sp entity id is required");
@@ -97,10 +103,18 @@ public class ServiceDetailController extends BaseController {
     } else {
       service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
     }
-    Map<String, Object> m = new HashMap<>();
+    // remove arp-labels that are explicitly unused
+    for (String ignoredLabel: IGNORED_ARP_LABELS) {
+      if (service.getArp() != null) {
+        service.getArp().getAttributes().remove(ignoredLabel);
+      }
+    }
+
+    ModelMap m = new ModelMap();
     m.put(SERVICE, service);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
+
     m.put("personAttributeLabels", attributeLabelMap);
 
     m.put("lmngDeepLinkUrl", lmngDeepLinkBaseUrl);
