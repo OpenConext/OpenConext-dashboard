@@ -26,6 +26,6 @@
   </c:choose>
 </c:set>
 <c:choose>
-  <c:when test="${maxLength > fn:length(spName)}"><c:out value="${spName}" /></c:when>
-  <c:otherwise><c:out value="${fn:substring(spName, 0, maxLength)}" />...</c:otherwise>
+  <c:when test="${maxLength > fn:length(spName)}">${spName}</c:when>
+  <c:otherwise>${fn:substring(spName, 0, maxLength)}...</c:otherwise>
 </c:choose>

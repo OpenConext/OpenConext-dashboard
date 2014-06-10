@@ -86,5 +86,5 @@
     <constructor-arg index="1" value="${sab-rest.password}"/>
   </bean>
 
-
+  <bean class="nl.surfnet.coin.selfservice.util.BuildTimestampKeeper" />
 </beans>
