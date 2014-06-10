@@ -58,11 +58,6 @@
             </c:if>
           </c:forEach>
         </c:if>
-        <li class="facet-name"><spring:message code="jsp.app_overview.origin"/></li>
-        <ul class="facets-values">
-          <li><a class="facet-value inactive" data-facet-search-term="origin-surfnet" href="#"><spring:message code="jsp.app_overview.origin.surfnet"/> <span>(${surfnetCount})</span></a></li>
-          <li><a class="facet-value inactive" data-facet-search-term="origin-edugain" href="#"><spring:message code="jsp.app_overview.origin.edugain"/> <span>(${edugainCount})</span></a></li>
-        </ul>
       </ul>
     </section>
     </c:if>
@@ -88,29 +83,32 @@
         <c:set var="serviceDescription" value="${service.description}" />
         <c:set var="showConnectButton" value="${applyAllowed and (not service.connected)}" />
         <li class="${view}-view" data-id="${service.id}"
-                    data-facet-values="${service.edugain? "origin-edugain": "origin-surfnet"} ${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
+                    data-facet-values="${service.connected ? "connected" : "not-connected"} ${empty service.license ? "not-licensed" : "licensed"} ${empty service.lastLoginDate ? "not-recently-logged-in" : "recently-logged-in"} ${service.searchFacetValues}">
           <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-            <c:if test="${service.edugain}">
-              <spring:param name="isEdugain" value="${true}" />
-            </c:if>
             <spring:param name="serviceId" value="${service.id}" />
           </spring:url>
 
           <c:set var="spTitle" >
             <c:out default="${service.id}" value="${service.name}" />
           </c:set>
-          <c:if test="${not empty service.logoUrl}">
-            <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
-          </c:if>
+          <c:choose>
+            <c:when test="${not empty service.logoUrl}">
+              <img src="<c:url value="${service.logoUrl}"/>" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />" />
+            </c:when>
+            <c:otherwise>
+              <div class="no-logo-available"><spring:message code="jsp.app_overview.no_logo"/></div>
+            </c:otherwise>
+          </c:choose>
+
           <div class="service-info-${view}">
-          <h2>
-            <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
-              <tags:truncatedSpName
-                  spName="${spTitle}"
-                  hasServiceDescription="${not empty serviceDescription}"
-                  hasConnectButton="${showConnectButton}" />
-            </a>
-          </h2>
+            <h2>
+              <a id="detail-${service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${serviceDescription}" />">
+                <tags:truncatedSpName
+                    spName="${spTitle}"
+                    hasServiceDescription="${not empty serviceDescription}"
+                    hasConnectButton="${showConnectButton}" />
+              </a>
+            </h2>
             <c:if test="${!isCard}">
               <div class="app-meta-cta">
                 <c:if test="${not isDashBoard and not empty service.appUrl}">

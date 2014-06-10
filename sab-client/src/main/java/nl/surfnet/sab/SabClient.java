@@ -77,7 +77,7 @@ public class SabClient implements Sab {
   }
 
   @Override
-  public SabPersonsInRole getPersonsInRoleForOrganization(final String organisationAbbreviation, final String role) {
+  public Collection<SabPerson> getPersonsInRoleForOrganization(final String organisationAbbreviation, final String role) {
     try {
       InputStream responseAsStream = sabTransport.getRestResponse(organisationAbbreviation, role);
       HashMap<String, Object> result =
@@ -98,7 +98,7 @@ public class SabClient implements Sab {
           return person.hasRole(role);
         }
       });
-      return new SabPersonsInRole(sabPersons, role);
+      return sabPersons;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

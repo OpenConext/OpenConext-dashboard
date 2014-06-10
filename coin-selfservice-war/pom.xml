@@ -28,13 +28,6 @@
   <packaging>war</packaging>
   <name>OpenConext : coin-selfservice-war</name>
 
-  <repositories>
-    <repository>
-      <id>rubygems-releases</id>
-      <url>http://rubygems-proxy.torquebox.org/releases</url>
-    </repository>
-  </repositories>
-
   <properties>
     <coin-shared.version>3.11.0</coin-shared.version>
     <coin-test.version>3.11.0</coin-test.version>
@@ -157,6 +150,16 @@
       <artifactId>coin-api-client</artifactId>
       <version>${coin-api.version}</version>
     </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>2.3</version>
+    </dependency>
 
     <!-- test local -->
     <dependency>
@@ -245,11 +248,6 @@
       <groupId>cglib</groupId>
       <artifactId>cglib-nodep</artifactId>
       <version>2.2.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
     </dependency>
 
     <dependency>
