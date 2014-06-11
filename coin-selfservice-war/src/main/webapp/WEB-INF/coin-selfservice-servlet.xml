@@ -103,4 +103,7 @@
             </list>
         </property>
     </bean>
+
+  <bean class="nl.surfnet.coin.selfservice.util.BuildTimestampKeeper" />
+
 </beans>
