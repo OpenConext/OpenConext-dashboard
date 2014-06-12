@@ -35,9 +35,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
 import static java.lang.String.format;
+import static java.net.URLEncoder.encode;
 
 @Component
 public class HttpClientTransport implements SabTransport {
@@ -75,7 +77,12 @@ public class HttpClientTransport implements SabTransport {
 
   @Override
   public InputStream getRestResponse(String organisationAbbreviation, String role) {
-    HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, organisationAbbreviation, role));
+    HttpGet httpGet = null;
+    try {
+      httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, encode(organisationAbbreviation, "UTF-8"), encode(role, "UTF-8")));
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
     return handleRequest(httpGet, restCredentials);
   }
 
