@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-  <context:component-scan base-package="nl.surfnet.coin.selfservice,nl.surfnet.coin.csa" />
+  <context:component-scan base-package="nl.surfnet.coin.selfservice,nl.surfnet.coin.csa,nl.surfnet.sab" />
 
   <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
     <property name="defaultLocale" value="en"/>

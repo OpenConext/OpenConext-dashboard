@@ -56,7 +56,7 @@ public class HttpClientTransport implements SabTransport {
   public HttpClientTransport(@Qualifier("samlCredentials") UsernamePasswordCredentials samlCredentials,
                              @Qualifier("restCredentials") UsernamePasswordCredentials restCredentials,
                              @Value("${sab.endpoint}") URI sabEndpoint,
-                             @Value("${sab-rest.endpoint") URI restEndPoint) {
+                             @Value("${sab-rest.endpoint}") URI restEndPoint) {
     this.samlCredentials = samlCredentials;
     this.restCredentials = restCredentials;
     this.sabEndpoint = sabEndpoint;
