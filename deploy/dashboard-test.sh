@@ -52,7 +52,6 @@ tar xvfz "dashboard-dist-\${FULL_VERSION}-bin.tar.gz"
 sudo /etc/init.d/tomcat6-low stop
 sudo -u tomcat mv \${TOMCAT_DIR}/wars/dashboard-war-* /opt/tomcat-low/backups
 sudo -u tomcat rm -Rf \${TOMCAT_DIR}/work/Catalina/dashboard.test.surfconext.nl
-sudo -u tomcat mv "\${WORK_DIR}/dashboard-dist-${version}/tomcat/conf/classpath_properties/dashboard.properties.test" "\${TOMCAT_DIR}/conf/classpath_properties/dashboard.properties"
 sudo -u tomcat cp \${TOMCAT_DIR}/
 CMD
 )
