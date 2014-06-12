@@ -57,6 +57,7 @@ sudo mv \${TOMCAT_DIR}/wars/dashboard-war-* /opt/tomcat-low/backups
 
 echo "Delete current app"
 sudo rm -Rf \${TOMCAT_DIR}/work/Catalina/\${APP_NAME}
+sudo -u tomcat rm -Rf \${TOMCAT_DIR}/webapps/dashboard.test.surfconext.nl/*
 
 echo "Copy new ROOT.xml"
 sudo cp \${WORK_DIR}/dashboard-dist-${version}/tomcat/conf/context/ROOT.xml \${TOMCAT_DIR}/conf/Catalina/\${APP_NAME}
