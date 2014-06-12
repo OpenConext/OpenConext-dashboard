@@ -455,11 +455,10 @@
                       <include>*.sass</include>
                     </includes>
                   </source>
-                  <destination>${project.build.directory}/${project.build.finalName}/css</destination>
+                  <destination>${basedir}/src/main/webapp/css</destination>
                 </resource>
               </resources>
             </configuration>
-
           </plugin>
           <plugin>
             <groupId>com.samaxes.maven</groupId>
@@ -469,7 +468,6 @@
               <execution>
                 <phase>process-resources</phase>
                 <configuration>
-                  <cssSourceDir>../../../target/${project.build.finalName}/css</cssSourceDir>
                   <cssSourceIncludes>
                     <cssSourceInclude>*.css</cssSourceInclude>
                   </cssSourceIncludes>
