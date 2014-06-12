@@ -463,13 +463,13 @@
           </plugin>
           <plugin>
             <groupId>com.samaxes.maven</groupId>
-            <artifactId>maven-minify-plugin</artifactId>
-            <version>1.3.5</version>
+            <artifactId>minify-maven-plugin</artifactId>
+            <version>1.7.2</version>
             <executions>
               <execution>
                 <phase>process-resources</phase>
                 <configuration>
-                  <cssSourceDir>css</cssSourceDir>
+                  <cssSourceDir>../../../target/${project.build.finalName}/css</cssSourceDir>
                   <cssSourceIncludes>
                     <cssSourceInclude>*.css</cssSourceInclude>
                   </cssSourceIncludes>
