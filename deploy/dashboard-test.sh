@@ -65,6 +65,7 @@ sudo cp \${WORK_DIR}/dashboard-dist-${version}/tomcat/conf/context/ROOT.xml \${T
 echo "Copy new WAR"
 sudo cp \${WORK_DIR}/dashboard-dist-${version}/tomcat/webapps/dashboard-war-${version}.war \${TOMCAT_DIR}/wars
 
+sudo /etc/init.d/tomcat6-low start
 echo "Done!"
 CMD
 )
