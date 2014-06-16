@@ -10,9 +10,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
   <context:component-scan base-package="nl.surfnet.coin.selfservice,nl.surfnet.coin.csa,nl.surfnet.sab" />
@@ -20,8 +21,6 @@
   <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
     <property name="defaultLocale" value="en"/>
   </bean>
-
-
 
   <bean id="openConextApiClient" class="${openConextApiClient}">
     <property name="callbackUrl" value="${api-callbackuri}" />
@@ -86,4 +85,5 @@
     <constructor-arg index="1" value="${sab-rest.password}"/>
   </bean>
 
+  <util:properties id="applicationProperties" location="classpath:application.properties"/>
 </beans>

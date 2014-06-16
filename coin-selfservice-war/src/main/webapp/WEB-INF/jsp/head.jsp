@@ -36,6 +36,7 @@
 
       </c:when>
       <c:otherwise>
+        <spring:eval expression="@applicationProperties['app.timestamp']" var="buildTimestamp"/>
         <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>?t=${buildTimestamp}" />
       </c:otherwise>
     </c:choose>
