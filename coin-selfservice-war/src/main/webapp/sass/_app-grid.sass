@@ -169,7 +169,6 @@ p.recent-login
       max-height: 60px
       padding: 10px
 
-
   li.card-view
     border: 1px solid $subtle_gray
     border-width: 0 1px 1px 0
@@ -178,9 +177,9 @@ p.recent-login
     float: left
     height: 127px
     overflow: hidden
-    padding: 22px 30px 22px 114px
     position: relative
     width: 33%
+    padding: 18px
 
     &:nth-child(3n)
       border-right: none
@@ -192,6 +191,15 @@ p.recent-login
       left: 18px
       position: absolute
       top: 80px
+
+    .no-logo-available
+      border: 1px solid black
+      border-radius: 4px
+      color: #000000
+      background-color: #aaaaaa
+      width: 80px
+      padding: 2px
+      text-align: center
 
     h2
       font: bold 14px 'Helvetica Neue', Helvetica, Arial, sans-serif
@@ -369,6 +377,19 @@ p.recent-login
   &.filters-available input.app-grid-search
     +border-left-radius(0)
 
+li.list-view
+  .no-logo-available
+    border: 1px solid black
+    border-radius: 4px
+    color: #000000
+    background-color: #aaaaaa
+    width: 100px
+    height: 50px
+    padding: 2px
+    display: inline-block
+    float: left
+    margin: 5px
+    text-align: center
 
 @media (min-width: 1300px)
   .app-grid

@@ -17,6 +17,7 @@
 package nl.surfnet.sab;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Interface for SAB, the SURFnet Authorisation Beheer interface
@@ -45,7 +46,6 @@ public interface Sab {
    * Get all persons within the given organisation that have the given role.
    * @param organisationAbbreviation
    * @param role
-   * @return SabPersonsInRole
    */
-  SabPersonsInRole getPersonsInRoleForOrganization(String organisationAbbreviation, String role);
+  Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role);
 }

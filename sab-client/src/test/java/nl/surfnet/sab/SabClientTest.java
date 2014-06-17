@@ -16,16 +16,17 @@
 
 package nl.surfnet.sab;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.util.GregorianCalendar;
-
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class SabClientTest {
 
@@ -75,23 +76,21 @@ public class SabClientTest {
 
   @Test
   public void testGetPersonsInRoleForOrganization() throws Exception {
-    SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextverantwoordelijke");
-    assertEquals(6, actual.getSabPersons().size());
-    assertEquals("SURFconextverantwoordelijke", actual.getRole());
+    Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextverantwoordelijke");
+    assertEquals(6, actual.size());
   }
 
   @Test
   public void testOnlyReturnsPersonsWithTheGivenRole() throws Exception {
-    SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "OperationeelBeheerder");
-    assertEquals(4, actual.getSabPersons().size());
-    assertEquals("OperationeelBeheerder", actual.getRole());
+    Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "OperationeelBeheerder");
+    assertEquals(4, actual.size());
   }
 
   @Test
   public void testNoResultsFromRestInterface() throws Exception {
     sabClient = new SabClient(new LocalFileTransport("/response.xml", "/sab-json/minimal-roles.json"));
-    SabPersonsInRole actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextbeheerder");
-    assertEquals(0, actual.getSabPersons().size());
+    Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextbeheerder");
+    assertEquals(0, actual.size());
   }
 
 }

@@ -29,14 +29,15 @@
         <link rel="stylesheet" href="<c:url value="/css/component-datatables.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/select2.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/screen.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/screen.css"/>"/>
         <%--
         Reminder: if you change this list in any way, remember to update the corresponding list in the POM (for the minify-plugin.
        --%>
 
       </c:when>
       <c:otherwise>
-        <link rel="stylesheet" href="<c:url value="/css/style.min.css?t=20131021"/>" />
+        <spring:eval expression="@applicationProperties['app.timestamp']" var="buildTimestamp"/>
+        <link rel="stylesheet" href="<c:url value="/css/style.min.css"/>?t=${buildTimestamp}" />
       </c:otherwise>
     </c:choose>
 
@@ -59,12 +60,11 @@
         <c:if test="${fn:length(institutionIdentityProviders) gt 0}">
 
           <c:if test="${not empty switchedIdentitySwitch.role}">
-          <li class="identity-disclaimer">
-            Your current role is '<spring:message code="jsp.role.information.key.${switchedIdentitySwitch.role}"/>' from the institution '${selectedIdp.name}'
-          </li>
-        </c:if>
-
-            <li>  <spring:url var="switchIdentityLink" value="/identity/switch.shtml"/>
+            <li class="identity-disclaimer">
+              Your current role is '<spring:message code="jsp.role.information.key.${switchedIdentitySwitch.role}"/>', institution: '${selectedIdp.name}'
+            </li>
+          </c:if>
+            <li> <spring:url var="switchIdentityLink" value="/identity/switch.shtml"/>
               <a id="switch-identity" href="${switchIdentityLink}">
                 <spring:message code="jsp.identity.switch"/>
                 <i class="inlinehelp icon-question-sign" data-title="<spring:message code="jsp.identity.switch"/>"
@@ -83,10 +83,17 @@
             <ul class="user-dropdown">
               <c:forEach items="${idps}" var="idp">
                 <li class="user-role-manager ${selectedIdp.id == idp.id ? 'active' : ''}" data-roleId="${idp.id}">
-                      <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
-                        <spring:param name="switchIdpId" value="${idp.id}" />
-                      </spring:url>
-                      <a href="${toggleLink}">${idp.name}</a>
+                  <spring:url var="toggleLink" value="/app-overview.shtml" htmlEscape="true">
+                    <spring:param name="switchIdpId" value="${idp.id}" />
+                  </spring:url>
+                    <c:choose>
+                      <c:when test="${fn:length(idp.name) gt 23}">
+                        <a href="${toggleLink}" title="${idp.name}"><c:out value="${fn:substring(idp.name, 0, 23)}"/>...</a>
+                      </c:when>
+                      <c:otherwise>
+                        <a href="${toggleLink}" title="${idp.name}"><c:out value="${idp.name}"/></a>
+                      </c:otherwise>
+                    </c:choose>
                 </li>
               </c:forEach>
             </ul>

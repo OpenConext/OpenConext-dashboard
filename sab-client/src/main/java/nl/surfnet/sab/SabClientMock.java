@@ -20,11 +20,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Arrays.asList;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -32,11 +39,17 @@ import static java.util.Arrays.asList;
 public class SabClientMock implements Sab {
 
   private static final Logger LOG = LoggerFactory.getLogger(SabClientMock.class);
+  private static final SabRole ROLE_BEHEERDER = new SabRole("CONBEH", "SURFconextbeheerder");
+  private static final SabRole ROLE_VERANTWOORDELIJKE = new SabRole("CONVER", "SURFconextverantwoordelijke");
+  private final List<SabPerson> sabPersons = asList(
+    new SabPerson("Hans", "Janssen", "hjanssen", Arrays.asList(ROLE_BEHEERDER)),
+    new SabPerson("Frans", "Franssen", "ffransen", Arrays.asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE))
+  );
 
   /**
    * Mapping of userIds to roles
    */
-  private Map<String, SabRoleHolder> rolesMapping = new ConcurrentHashMap<String, SabRoleHolder>();
+  private Map<String, SabRoleHolder> rolesMapping = new ConcurrentHashMap<>();
 
 
   public SabClientMock() {
@@ -60,15 +73,21 @@ public class SabClientMock implements Sab {
   }
 
   @Override
-  public SabPersonsInRole getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
-    List<SabRole> sabRoles = asList(
-            new SabRole("CONVER", "SURFconextverantwoordelijke"),
-            new SabRole("CONBEH", "SURFconextbeheerder")
-    );
-    List<SabPerson> sabPersons = asList(
-            new SabPerson("Hans", "Janssen", "hjanssen", sabRoles),
-            new SabPerson("Frans", "Franssen", "ffransen", sabRoles)
-    );
-    return new SabPersonsInRole(sabPersons, role);
+  public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
+    List<SabPerson> result = new ArrayList<>();
+
+    for (SabPerson sabPerson: sabPersons) {
+      Collection<String> roleNames = Collections2.transform(sabPerson.getRoles(), new Function<SabRole, String>() {
+        @Override
+        public String apply(SabRole input) {
+          return input.roleName;
+        }
+      });
+
+      if (roleNames.contains(role)) {
+        result.add(sabPerson);
+      }
+    }
+    return result;
   }
 }

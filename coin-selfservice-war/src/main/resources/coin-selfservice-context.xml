@@ -8,22 +8,19 @@
   the specific language governing permissions and limitations under the License. -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xmlns:tx="http://www.springframework.org/schema/tx"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-  <context:component-scan base-package="nl.surfnet.coin.selfservice,nl.surfnet.coin.csa" />
+  <context:component-scan base-package="nl.surfnet.coin.selfservice,nl.surfnet.coin.csa,nl.surfnet.sab" />
 
   <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
     <property name="defaultLocale" value="en"/>
   </bean>
-
-
 
   <bean id="openConextApiClient" class="${openConextApiClient}">
     <property name="callbackUrl" value="${api-callbackuri}" />
@@ -50,9 +47,6 @@
 
   <bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
      <property name="templateLoaderPath" value="classpath:/ftl/"/>
-  </bean>
-  <bean id="edugainService" class="nl.surfnet.coin.selfservice.service.impl.EdugainServiceImpl">
-    <constructor-arg type="java.net.URI" value="http://mds.edugain.org/" />
   </bean>
 
   <bean id="csa" class="${csaClass}">
@@ -91,5 +85,5 @@
     <constructor-arg index="1" value="${sab-rest.password}"/>
   </bean>
 
-
+  <util:properties id="applicationProperties" location="classpath:application.properties"/>
 </beans>

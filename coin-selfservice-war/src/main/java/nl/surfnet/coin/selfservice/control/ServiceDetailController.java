@@ -21,9 +21,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.common.collect.ImmutableSet;
 
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
@@ -35,25 +48,11 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.GroupContext;
 import nl.surfnet.coin.selfservice.domain.GroupContext.Group20Wrap;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.service.DashboardApp;
-import nl.surfnet.coin.selfservice.service.EdugainService;
 import nl.surfnet.coin.selfservice.service.EmailService;
 import nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.AjaxResponseException;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.google.common.base.Optional;
 
 /**
  * Controller for the detail view(s) of a service (provider)
@@ -80,8 +79,8 @@ public class ServiceDetailController extends BaseController {
   @Resource
   private Csa csa;
 
-  @Resource
-  private EdugainService edugainService;
+  // if the collection of ignored labels below starts to change over time, make it configurable
+  private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
 
   /**
    * Controller for detail page.
@@ -91,7 +90,6 @@ public class ServiceDetailController extends BaseController {
   @RequestMapping(value = "/app-detail")
   public ModelAndView serviceDetail(@RequestParam(value = "serviceId", required = false) Long serviceId,
                                     @RequestParam(value = "spEntityId", required = false) String spEntityId,
-                                    @RequestParam(value = "isEdugain", required = false) boolean isEdugain,
                                     HttpServletRequest request) {
     if (null == serviceId && !StringUtils.hasText(spEntityId)) {
       throw new IllegalArgumentException("either service id or sp entity id is required");
@@ -99,23 +97,24 @@ public class ServiceDetailController extends BaseController {
     InstitutionIdentityProvider selectedIdp = getSelectedIdp(request);
     Service service;
 
-    if (isEdugain) {
-      final Optional<DashboardApp> app = edugainService.getApp(serviceId);
-      if (!app.isPresent()) {
-        throw new IllegalArgumentException("No such edugain app exists");
-      }
-      service = app.get();
-    }else {
-      if (null != spEntityId) {
-        service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
-      } else {
-        service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
+
+    if (null != spEntityId) {
+      service = csa.getServiceForIdp(selectedIdp.getId(), spEntityId);
+    } else {
+      service = csa.getServiceForIdp(selectedIdp.getId(), serviceId);
+    }
+    // remove arp-labels that are explicitly unused
+    for (String ignoredLabel: IGNORED_ARP_LABELS) {
+      if (service.getArp() != null) {
+        service.getArp().getAttributes().remove(ignoredLabel);
       }
     }
-    Map<String, Object> m = new HashMap<>();
+
+    ModelMap m = new ModelMap();
     m.put(SERVICE, service);
 
     final Map<String, PersonAttributeLabel> attributeLabelMap = personAttributeLabelService.getAttributeLabelMap();
+
     m.put("personAttributeLabels", attributeLabelMap);
 
     m.put("lmngDeepLinkUrl", lmngDeepLinkBaseUrl);

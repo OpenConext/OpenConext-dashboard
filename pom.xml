@@ -27,11 +27,11 @@
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-master</artifactId>
-    <version>3.11.0</version>
+    <version>3.11.1</version>
   </parent>
 
   <artifactId>coin-selfservice-parent</artifactId>
-  <version>4.0.1-SNAPSHOT</version>
+  <version>4.0.1</version>
 
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
@@ -42,6 +42,7 @@
     <connection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</connection>
     <url>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</url>
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
+    <tag>coin-selfservice-parent-4.0.1</tag>
   </scm>
 
   <repositories>
@@ -78,6 +79,18 @@
       </releases>
       <id>atlassian-contrib</id>
       <url>https://maven.atlassian.com/contrib/</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <id>openconext-third-party-releases</id>
+      <name>OpenConext third-party repository</name>
+      <url>https://build.surfconext.nl/repository/public/third-party</url>
     </repository>
   </repositories>
 </project>

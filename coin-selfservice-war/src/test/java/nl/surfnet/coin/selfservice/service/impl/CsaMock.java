@@ -181,7 +181,7 @@ public class CsaMock implements Csa {
         locale = RequestContextUtils.getLocale(request);
       }
     }
-    return locale != null ? locale.toString() : "en";
+    return locale != null ? locale.getLanguage() : "en";
 
   }
 

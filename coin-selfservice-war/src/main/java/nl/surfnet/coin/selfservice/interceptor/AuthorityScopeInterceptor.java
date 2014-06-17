@@ -109,6 +109,12 @@ public class AuthorityScopeInterceptor extends HandlerInterceptorAdapter {
       List<InstitutionIdentityProvider> idps = (List<InstitutionIdentityProvider>) request.getSession().getAttribute(INSTITUTION_IDENTITY_PROVIDERS);
       if (idps == null) {
         idps = csa.getAllInstitutionIdentityProviders();
+        Collections.sort(idps, new Comparator<InstitutionIdentityProvider>() {
+          @Override
+          public int compare(final InstitutionIdentityProvider lh, final InstitutionIdentityProvider rh) {
+            return lh.getName().compareTo(rh.getName());
+          }
+        });
         request.getSession().setAttribute(INSTITUTION_IDENTITY_PROVIDERS, idps);
       }
       map.put(INSTITUTION_IDENTITY_PROVIDERS, idps);

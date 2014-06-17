@@ -1,12 +1,12 @@
 [
   {
-    "id": "http://mock-idp",
-    "name": "Open University Students",
+    "id": "https://mock-idp-2",
+    "name": "Open University Teachers some long name that wraps.",
     "institutionId": "mock-institution-id"
   },
   {
-    "id": "https://mock-idp-2",
-    "name": "Open University Teachers",
+    "id": "http://mock-idp",
+    "name": "Open University Students which will wrap as well",
     "institutionId": "mock-institution-id"
   }
 ]

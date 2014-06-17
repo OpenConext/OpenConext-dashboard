@@ -68,6 +68,13 @@
           </a>
         </li>
       </c:if>
+      <c:if test="${not empty service.websiteUrl}">
+        <li>
+          <a href="${service.websiteUrl}" target="_blank">
+            <spring:message code="jsp.app_detail.website_url_label"/>
+          </a>
+        </li>
+      </c:if>
       <c:if test="${not empty service.supportUrl}">
         <li>
           <a href="${service.supportUrl}" target="_blank">
