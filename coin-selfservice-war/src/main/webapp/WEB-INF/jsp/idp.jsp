@@ -25,9 +25,9 @@
 
     <h1>${title}</h1>
 
-    <p><spring:message code="jsp.role.information.header"/><span class="roleExplanationLink icon-info-sign"><a href="${explanationLink}" target="_blank"><spring:message code="jsp.role.explanation.linkDescription"/></a></span></p>
     <spring:eval expression="@applicationProperties['jsp.role.explanation.link']" var="explanationLink"/>
-    <table class="role-listing table table-bordered table-striped table-above-pagination">
+    <h2><spring:message code="jsp.role.information.header"/><span class="roleExplanationLink icon-info-sign"><a href="${explanationLink}" target="_blank"><spring:message code="jsp.role.explanation.linkDescription"/></a></span></h2>
+    <table class="role-listing table table-striped table-above-pagination">
       <thead>
       <tr>
         <th><spring:message code="jsp.role.information.role"/></th>
@@ -44,8 +44,32 @@
 
       </tbody>
     </table>
-
-
+    <p/>
+    <h2><spring:message code="jsp.my.idp.apps.header"/></h2>
+    <table class="my-idp-apps-listing table table-striped table-above-pagination">
+      <thead>
+      <tr>
+        <th><spring:message code="jsp.my.idp.apps.title"/></th>
+        <th><spring:message code="jsp.my.idp.apps.used.by"/></th>
+      </tr>
+      </thead>
+      <tbody>
+      <c:forEach items="${idpApps}" var="entry" varStatus="vs">
+        <tr>
+          <td><c:out value="${entry.key}"/> </td>
+          <td><c:out value="${entry.value}"/> </td>
+        </tr>
+      </c:forEach>
+        <tr>
+          <td>Service Bar</td>
+          <td>Erasmus, TuDelft</td>
+        </tr>
+        <tr>
+          <td>Service Foo</td>
+          <td>Radboud, UniMaas</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
   </div>
 
