@@ -31,7 +31,12 @@
   </parent>
 
   <artifactId>coin-selfservice-parent</artifactId>
+<<<<<<< HEAD
   <version>4.0.2-SNAPSHOT</version>
+=======
+  <version>4.0.1.1</version>
+
+>>>>>>> [maven-release-plugin] prepare release coin-selfservice-parent-4.0.1.1
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 
@@ -41,7 +46,11 @@
     <connection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</connection>
     <url>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</url>
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
+<<<<<<< HEAD
     <tag>HEAD</tag>
+=======
+    <tag>coin-selfservice-parent-4.0.1.1</tag>
+>>>>>>> [maven-release-plugin] prepare release coin-selfservice-parent-4.0.1.1
   </scm>
 
   <repositories>
