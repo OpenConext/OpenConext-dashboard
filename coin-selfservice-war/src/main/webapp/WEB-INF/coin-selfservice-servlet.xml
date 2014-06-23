@@ -62,7 +62,11 @@
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+    <bean id="localeResolver" class="nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver">
+      <property name="cookieName" value="dashboardLang" /> <!-- the default 'lang' might clash with other surfconext cookies -->
+      <property name="defaultLocale" value="nl" />
+      <property name="cookieMaxAge" value="315360000" /><!-- 10 years: never expire-->
+    </bean>
 
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
         <property name="paramName" value="lang"/>
