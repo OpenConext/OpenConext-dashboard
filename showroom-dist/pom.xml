@@ -25,6 +25,7 @@
 
   <groupId>org.surfnet.coin</groupId>
   <artifactId>showroom-dist</artifactId>
+  <version>4.0.1</version>
   <name>OpenConext : showroom distribution package</name>
   <packaging>pom</packaging>
 
@@ -75,9 +76,4 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
-
-
-  <scm>
-    <tag>coin-selfservice-parent-4.0.1.1</tag>
-  </scm>
 </project>
