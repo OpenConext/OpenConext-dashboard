@@ -40,7 +40,7 @@
 <c:if test="${not empty notificationMessage.arguments and empty notificationPopupClosed}">
   <div class="notifications-popup hide" data-href="<spring:url value="/notifications.shtml" htmlEscape="true" />">
     <spring:message code="jsp.notifications.popupmessage" arguments="${fn:length(notificationMessage.arguments)}" />
-    <a class="close-notifications" href="<spring:url value="/closeNotificationPopup.shtml" htmlEscape="true" />" title="Close">×</a>
+    <a class="close-notifications" htmlEscape="true" title="Close">×</a>
   </div>
 </c:if>
 
