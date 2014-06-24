@@ -33,6 +33,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,6 +70,15 @@ public class CsaMock implements Csa {
   public List<Service> getServicesForIdp(String idpEntityId) {
     return getProtectedServices();
 
+  }
+
+  @Override
+  public List<OfferedService> findOfferedServicesFor(String idpEntityId) {
+    List<OfferedService> result = new ArrayList<>();
+    for (Service service : getProtectedServices()) {
+      result.add(new OfferedService(service, Arrays.asList(new InstitutionIdentityProvider(idpEntityId, idpEntityId, idpEntityId))));
+    }
+    return result;
   }
 
   @Override

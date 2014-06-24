@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import nl.surfnet.coin.csa.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,10 +44,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
 
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Category;
-import nl.surfnet.coin.csa.model.CategoryValue;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
 import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
@@ -165,13 +162,24 @@ public class HomeController extends BaseController {
   @RequestMapping("/idp.shtml")
   public ModelAndView idp(HttpServletRequest httpServletRequest) {
     InstitutionIdentityProvider currentIdp = getSelectedIdp(httpServletRequest);
-
     ModelMap model = new ModelMap();
 
+    addRoleAssignmentsToModel(currentIdp, model);
+    addOfferedServiceToModel(currentIdp, model);
+
+    return new ModelAndView("idp", model);
+  }
+
+  private void addOfferedServiceToModel(InstitutionIdentityProvider currentIdp, ModelMap model) {
+    List<OfferedService> offeredServices = csa.findOfferedServicesFor(currentIdp.getId());
+    model.addAttribute("offeredServicePresenter", new OfferedServicePresenter(offeredServices));
+  }
+
+  private void addRoleAssignmentsToModel(InstitutionIdentityProvider currentIdp, ModelMap model) {
     Map<String, String> roleAssignments = new HashMap<>();
     for (final String role: INTERESTING_ROLES) {
       final Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(currentIdp.getName(), role);
-      Collection<String> fullNames = Collections2.transform(personsInRoleForOrganization, new Function<SabPerson,String>() {
+      Collection<String> fullNames = Collections2.transform(personsInRoleForOrganization, new Function<SabPerson, String>() {
         public String apply(SabPerson person) {
           return person.fullname();
         }
@@ -182,7 +190,6 @@ public class HomeController extends BaseController {
       roleAssignments.put(role, Joiner.on(", ").join(sortedFullnames));
     }
     model.put("roleAssignments", roleAssignments);
-    return new ModelAndView("idp", model);
   }
 
 

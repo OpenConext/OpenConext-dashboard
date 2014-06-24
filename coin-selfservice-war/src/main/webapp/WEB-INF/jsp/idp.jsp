@@ -54,20 +54,25 @@
       </tr>
       </thead>
       <tbody>
-      <c:forEach items="${idpApps}" var="entry" varStatus="vs">
+      <c:forEach items="${offeredServicePresenter.offeredServiceViews}" var="offeredServiceView" varStatus="vs">
         <tr>
-          <td><c:out value="${entry.key}"/> </td>
-          <td><c:out value="${entry.value}"/> </td>
+          <td>
+            <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
+              <spring:param name="serviceId" value="${offeredServiceView.offeredService.service.id}" />
+            </spring:url>
+            <c:set var="spTitle" >
+              <c:out default="${offeredServiceView.offeredService.service.id}" value="${offeredServiceView.offeredService.service.name}" />
+            </c:set>
+            <a id="detail-${offeredServiceView.offeredService.service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${offeredServiceView.offeredService.service.name}" />">
+              <tags:truncatedSpName
+                spName="${spTitle}"
+                hasServiceDescription="${not empty offeredServiceView.offeredService.service.description}"
+                hasConnectButton="false" />
+            </a>
+          </td>
+          <td><c:out value="${offeredServiceView.sortedIdps}"/> </td>
         </tr>
       </c:forEach>
-        <tr>
-          <td>Service Bar</td>
-          <td>Erasmus, TuDelft</td>
-        </tr>
-        <tr>
-          <td>Service Foo</td>
-          <td>Radboud, UniMaas</td>
-        </tr>
       </tbody>
     </table>
   </section>
