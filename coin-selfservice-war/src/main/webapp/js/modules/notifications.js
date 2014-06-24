@@ -53,11 +53,6 @@ app.notifications = function() {
   var hideNotifications = function(e) {
 	  e.stopPropagation();
 	  e.preventDefault();
-	  var hideUrl = $(this).attr('href');
-	  $.ajax({
-		  url: hideUrl
-	  });
-
     notificationsElm.remove();
   };
 
