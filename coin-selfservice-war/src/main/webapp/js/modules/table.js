@@ -105,6 +105,7 @@ app.table = function() {
           'sType' : 'spnames'
         },
         null,
+        null,
         null
       ],
       aaSorting: [[0,'desc']] // sort on date desc
