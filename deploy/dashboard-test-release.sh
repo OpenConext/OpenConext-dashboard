@@ -29,7 +29,7 @@ SSH_COMMANDS=$(cat <<CMD
 
 set -e
 
-DASHBOARD_MAVEN_REPO="https://build.surfconext.nl/repository/public/releases/org/surfnet/coin/dashboard-dist"
+DASHBOARD_MAVEN_REPO="https://build.surfconext.nl/repository/public/releases/org/surfnet/coin/coin-selfservice-war"
 WORK_DIR="/tmp/dashboard"
 MAVEN_METADATA_XML="maven-metadata.xml"
 TOMCAT_DIR="/opt/tomcat-low"
@@ -44,8 +44,8 @@ cd "\${WORK_DIR}"
 FULL_VERSION="${version}"
 echo "Installing dashboard \${FULL_VERSION}..."
 
-sudo -u tomcat curl "\${DASHBOARD_MAVEN_REPO}/${version}/dashboard-dist-\${FULL_VERSION}-bin.tar.gz" -o "dashboard-dist-\${FULL_VERSION}-bin.tar.gz"
-sudo -u tomcat tar xvfz "dashboard-dist-\${FULL_VERSION}-bin.tar.gz"
+sudo -u tomcat curl "\${DASHBOARD_MAVEN_REPO}/${version}/coin-selfservice-war-\${FULL_VERSION}-dashboard-dist.tar.gz" -o "dashboard-dist-\${FULL_VERSION}.tar.gz"
+sudo -u tomcat tar xvfz "dashboard-dist-\${FULL_VERSION}.tar.gz"
 
 sudo /etc/init.d/tomcat6-low stop
 

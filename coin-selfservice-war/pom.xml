@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-selfservice-parent</artifactId>
@@ -24,7 +25,6 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>coin-selfservice-war</artifactId>
-  <version>4.0.1</version>
   <packaging>war</packaging>
   <name>OpenConext : coin-selfservice-war</name>
 
@@ -337,12 +337,6 @@
 
     <dependency>
       <groupId>org.surfnet.coin</groupId>
-      <artifactId>sab-client</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.surfnet.coin</groupId>
       <artifactId>csa-client</artifactId>
       <version>${csa-client.version}</version>
     </dependency>
@@ -352,6 +346,22 @@
       <artifactId>cruncher-client</artifactId>
       <version>${cruncher-client.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.3.3</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -404,21 +414,84 @@
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>org.surfnet.coin</groupId>
-              <artifactId>coin-master-test-dependencies</artifactId>
-              <version>${coin-master.test-dependencies.version}</version>
-              <type>pom</type>
-            </dependency>
-            <dependency>
-              <groupId>org.surfnet.coin</groupId>
-              <artifactId>mujina-idp</artifactId>
-              <type>war</type>
-              <version>${mujina-idp.version}</version>
-            </dependency>
-          </dependencies>
+        <dependencies>
+          <dependency>
+            <groupId>org.surfnet.coin</groupId>
+            <artifactId>coin-master-test-dependencies</artifactId>
+            <version>${coin-master.test-dependencies.version}</version>
+            <type>pom</type>
+          </dependency>
+          <dependency>
+            <groupId>org.surfnet.coin</groupId>
+            <artifactId>mujina-idp</artifactId>
+            <type>war</type>
+            <version>${mujina-idp.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>make-dashboard</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <finalName>dashboard-dist-${project.version}</finalName>
+              <descriptors>
+                <descriptor>src/main/assembly/dashboard.xml</descriptor>
+              </descriptors>
+              <attach>true</attach>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-showroom</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <finalName>showroom-dist-${project.version}</finalName>
+              <descriptors>
+                <descriptor>src/main/assembly/showroom.xml</descriptor>
+              </descriptors>
+              <attach>true</attach>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>org.codehaus.mojo</groupId>-->
+        <!--<artifactId>build-helper-maven-plugin</artifactId>-->
+        <!--<version>1.9</version>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>attach-artifacts</id>-->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+              <!--<goal>attach-artifact</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<artifacts>-->
+                <!--<artifact>-->
+                  <!--<file>${project.build.directory}/dashboard-dist-${project.version}.tar.gz</file>-->
+                  <!--<classifier>dashboard</classifier>-->
+                  <!--<type>tar.gz</type>-->
+                <!--</artifact>-->
+                <!--<artifact>-->
+                  <!--<file>${project.build.directory}/showroom-dist-${project.version}.tar.gz</file>-->
+                  <!--<classifier>showroom</classifier>-->
+                  <!--<type>tar.gz</type>-->
+                <!--</artifact>-->
+              <!--</artifacts>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
+
     </plugins>
   </build>
 

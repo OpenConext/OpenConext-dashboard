@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Copyright 2012 SURFnet bv, The Netherlands
 
@@ -14,16 +13,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-
-<project name="showroom-dist-build" default="build" basedir=".">
-
-  <!-- Ant for replacing the property version in the spring config -->
-  <target name="build" description="Replace the version token with the pom-version">
-    <copy file="${basedir}/src/main/resources/context/ROOT.xml"
-          tofile="${basedir}/target/resources/context/ROOT.xml" overwrite="true">
-      <filterset>
-        <filter token="VERSION" value="${coin-version}"/>
-      </filterset>
-    </copy>
-  </target>
-</project>
+<Context path="/" docBase="/opt/tomcat/wars/showroom-war-${project.version}.war">
+  <Parameter name="logbackConfigurationFilePrefix" value="showroom" override="false"/>
+</Context>
