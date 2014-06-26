@@ -466,7 +466,8 @@
             <version>1.7.2</version>
             <executions>
               <execution>
-                <phase>process-resources</phase>
+                <id>default-minify</id>
+                <phase>prepare-package</phase>
                 <configuration>
                   <cssSourceIncludes>
                     <cssSourceInclude>*.css</cssSourceInclude>
