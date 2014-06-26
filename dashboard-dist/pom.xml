@@ -25,7 +25,6 @@
 
   <groupId>org.surfnet.coin</groupId>
   <artifactId>dashboard-dist</artifactId>
-  <version>4.0.1</version>
   <name>OpenConext : dashboard distribution package</name>
   <packaging>pom</packaging>
 
