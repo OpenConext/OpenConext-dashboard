@@ -1,0 +1,21 @@
+.service-connected i.icon-info-sign,
+.service-not-connected i.icon-info-sign {
+  vertical-align: middle;
+}
+.service-connected li:before,
+.service-not-connected li:before {
+  content: "| ";
+}
+.service-connected li:first-child:before,
+.service-not-connected li:first-child:before {
+  content: "";
+}
+.service-connected ul,
+.service-not-connected ul {
+  margin: 0;
+}
+.service-connected li,
+.service-not-connected li {
+  display: inline;
+  font-size: 0.9em;
+}

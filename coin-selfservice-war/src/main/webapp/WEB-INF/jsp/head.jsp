@@ -29,7 +29,21 @@
         <link rel="stylesheet" href="<c:url value="/css/component-datatables.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/select2.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/css/screen.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/header.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/app-grid.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/app-detail.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/forms.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/graphs.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/gallery.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/header.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/idp.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/modals.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/notifications.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/pagination.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/secondary-menu.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/tables.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/taxonomy.css"/>"/>
+        <link rel="stylesheet" href="<c:url value="/css/grid.css"/>"/>
         <%--
         Reminder: if you change this list in any way, remember to update the corresponding list in the POM (for the minify-plugin.
        --%>
