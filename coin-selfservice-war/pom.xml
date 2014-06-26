@@ -43,7 +43,7 @@
     <jetty.port>8280</jetty.port>
     <cruncher-client.version>3.7.0</cruncher-client.version>
     <csa-client.version>4.0.2</csa-client.version>
-    <jetty.version>9.1.5.v20140505</jetty.version>
+    <jetty.version>9.2.1.v20140609</jetty.version>
     <!--<javax.servlet.version>3.1.0</javax.servlet.version>-->
     <!--<javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>-->
     <!-- default webdriver for selenium tests. To be overridden on a per
