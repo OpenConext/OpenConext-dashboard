@@ -31,8 +31,6 @@
   <properties>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
     <coin-shared.version>3.11.0</coin-shared.version>
-    <coin-test.version>3.11.0</coin-test.version>
-    <coin-master.test-dependencies.version>3.11.0</coin-master.test-dependencies.version>
     <coin-api.version>4.0.0</coin-api.version>
     <spring-security-opensaml.version>4.0.0</spring-security-opensaml.version>
     <flyway.version>1.5</flyway.version>
@@ -40,19 +38,19 @@
     <xstream.version>1.4.2</xstream.version>
     <mujina-idp.version>4.0.0</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
-    <selenium.version>2.32.0</selenium.version>
     <freemarker.version>[2.3.19,2.4)</freemarker.version>
     <api-secure.version>1.3.5</api-secure.version>
-    <selenium.test.url>http://localhost:8280/selfservice/</selenium.test.url>
     <jetty.port>8280</jetty.port>
     <cruncher-client.version>3.7.0</cruncher-client.version>
     <csa-client.version>4.0.2</csa-client.version>
     <jetty.version>9.1.5.v20140505</jetty.version>
+    <!--<javax.servlet.version>3.1.0</javax.servlet.version>-->
+    <!--<javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>-->
     <!-- default webdriver for selenium tests. To be overridden on a per
       profile base -->
-    <selenium.webdriver>firefox</selenium.webdriver>
-    <assertj-core.version>1.5.0</assertj-core.version>
-    <assertj-guava.version>1.1.0</assertj-guava.version>
+    <!--<selenium.webdriver>firefox</selenium.webdriver>-->
+    <!--<assertj-core.version>1.5.0</assertj-core.version>-->
+    <!--<assertj-guava.version>1.1.0</assertj-guava.version>-->
   </properties>
 
   <dependencies>
@@ -60,11 +58,6 @@
       <groupId>nl.surfnet.apis</groupId>
       <artifactId>apis-resource-server-library</artifactId>
       <version>${api-secure.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.googlecode.lambdaj</groupId>
-      <artifactId>lambdaj</artifactId>
-      <version>2.3.3</version>
     </dependency>
     <dependency>
       <groupId>org.imgscalr</groupId>
@@ -115,17 +108,18 @@
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>${hsqldb.version}</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.hsqldb</groupId>-->
+      <!--<artifactId>hsqldb</artifactId>-->
+      <!--<version>${hsqldb.version}</version>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>com.googlecode.flyway</groupId>
       <artifactId>flyway-core</artifactId>
@@ -156,43 +150,6 @@
       <artifactId>opencsv</artifactId>
       <version>2.3</version>
     </dependency>
-    <!-- test local -->
-    <dependency>
-      <groupId>org.surfnet.coin</groupId>
-      <artifactId>coin-test</artifactId>
-      <version>${coin-test.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.surfnet.coin</groupId>
-      <artifactId>coin-master-test-dependencies</artifactId>
-      <version>${coin-master.test-dependencies.version}</version>
-      <type>pom</type>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>hsqldb</groupId>
-          <artifactId>hsqldb</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.java.dev.stax-utils</groupId>
-      <artifactId>stax-utils</artifactId>
-      <version>20060502</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.bea.xml</groupId>
-          <artifactId>jsr173-ri</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
     <dependency>
       <groupId>org.swift.common</groupId>
       <artifactId>jira-soap</artifactId>
@@ -256,73 +213,9 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-guava</artifactId>
-      <version>${assertj-guava.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
       <version>1.2.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>1.5.9</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- Begin Selenium -->
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-firefox-driver</artifactId>
-      <version>${selenium.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-support</artifactId>
-      <version>${selenium.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-htmlunit-driver</artifactId>
-      <version>${selenium.version}</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.icegreen</groupId>
-      <artifactId>greenmail</artifactId>
-      <version>1.3.1b</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>dumbster</groupId>
-      <artifactId>dumbster</artifactId>
-      <version>${dumbster.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- End Selenium -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.20</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.freemarker</groupId>
@@ -359,6 +252,13 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty.aggregate</groupId>
+      <artifactId>jetty-all</artifactId>
+      <version>${jetty.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -411,24 +311,24 @@
 
     </pluginManagement>
     <plugins>
-      <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>org.surfnet.coin</groupId>
-            <artifactId>coin-master-test-dependencies</artifactId>
-            <version>${coin-master.test-dependencies.version}</version>
-            <type>pom</type>
-          </dependency>
-          <dependency>
-            <groupId>org.surfnet.coin</groupId>
-            <artifactId>mujina-idp</artifactId>
-            <type>war</type>
-            <version>${mujina-idp.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>org.eclipse.jetty</groupId>-->
+        <!--<artifactId>jetty-maven-plugin</artifactId>-->
+        <!--<dependencies>-->
+          <!--<dependency>-->
+            <!--<groupId>org.surfnet.coin</groupId>-->
+            <!--<artifactId>coin-master-test-dependencies</artifactId>-->
+            <!--<version>${coin-master.test-dependencies.version}</version>-->
+            <!--<type>pom</type>-->
+          <!--</dependency>-->
+          <!--<dependency>-->
+            <!--<groupId>org.surfnet.coin</groupId>-->
+            <!--<artifactId>mujina-idp</artifactId>-->
+            <!--<type>war</type>-->
+            <!--<version>${mujina-idp.version}</version>-->
+          <!--</dependency>-->
+        <!--</dependencies>-->
+      <!--</plugin>-->
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.2.1</version>
@@ -463,34 +363,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--<plugin>-->
-        <!--<groupId>org.codehaus.mojo</groupId>-->
-        <!--<artifactId>build-helper-maven-plugin</artifactId>-->
-        <!--<version>1.9</version>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>attach-artifacts</id>-->
-            <!--<phase>package</phase>-->
-            <!--<goals>-->
-              <!--<goal>attach-artifact</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<artifacts>-->
-                <!--<artifact>-->
-                  <!--<file>${project.build.directory}/dashboard-dist-${project.version}.tar.gz</file>-->
-                  <!--<classifier>dashboard</classifier>-->
-                  <!--<type>tar.gz</type>-->
-                <!--</artifact>-->
-                <!--<artifact>-->
-                  <!--<file>${project.build.directory}/showroom-dist-${project.version}.tar.gz</file>-->
-                  <!--<classifier>showroom</classifier>-->
-                  <!--<type>tar.gz</type>-->
-                <!--</artifact>-->
-              <!--</artifacts>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
 
     </plugins>
   </build>
@@ -595,78 +467,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <profile>
-      <id>selenium</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.17</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-                <configuration>
-                  <excludes>
-                    <exclude>none</exclude>
-                  </excludes>
-                  <includes>
-                    <include>**/*TestSelenium.java</include>
-                    <include>**/*TestIntegration.java</include>
-                  </includes>
-                  <systemProperties>
-                    <property>
-                      <name>selenium.test.url</name>
-                      <value>${selenium.test.url}</value>
-                    </property>
-                    <property>
-                      <name>selenium.webdriver</name>
-                      <value>${selenium.webdriver}</value>
-                    </property>
-                  </systemProperties>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>start-jetty</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <scanIntervalSeconds>0</scanIntervalSeconds>
-                  <daemon>true</daemon>
-                </configuration>
-              </execution>
-              <execution>
-                <id>stop-jetty</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>selenium-headless</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <selenium.webdriver>htmlunit</selenium.webdriver>
-      </properties>
     </profile>
   </profiles>
 </project>
