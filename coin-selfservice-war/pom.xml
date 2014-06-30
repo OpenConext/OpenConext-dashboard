@@ -367,40 +367,13 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.jasig.maven</groupId>
-            <artifactId>sass-maven-plugin</artifactId>
-            <version>1.1.1</version>
-            <executions>
-              <execution>
-                <id>compile</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>update-stylesheets</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <useCompass>true</useCompass>
-              <resources>
-                <resource>
-                  <source>
-                    <directory>${basedir}/src/main/webapp/sass</directory>
-                    <includes>
-                      <include>*.sass</include>
-                    </includes>
-                  </source>
-                  <destination>${basedir}/src/main/webapp/css</destination>
-                </resource>
-              </resources>
-            </configuration>
-          </plugin>
-          <plugin>
             <groupId>com.samaxes.maven</groupId>
             <artifactId>minify-maven-plugin</artifactId>
             <version>1.7.2</version>
             <executions>
               <execution>
-                <phase>process-resources</phase>
+                <id>default-minify</id>
+                <phase>prepare-package</phase>
                 <configuration>
                   <cssSourceIncludes>
                     <cssSourceInclude>*.css</cssSourceInclude>
