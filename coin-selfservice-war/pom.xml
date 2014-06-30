@@ -32,6 +32,8 @@
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
     <coin-shared.version>3.11.0</coin-shared.version>
     <coin-api.version>4.0.0</coin-api.version>
+    <coin-test.version>3.11.0</coin-test.version>
+    <coin-master.test-dependencies.version>3.11.0</coin-master.test-dependencies.version>
     <spring-security-opensaml.version>4.0.0</spring-security-opensaml.version>
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
@@ -43,14 +45,7 @@
     <jetty.port>8280</jetty.port>
     <cruncher-client.version>3.7.0</cruncher-client.version>
     <csa-client.version>4.0.2</csa-client.version>
-    <jetty.version>9.2.1.v20140609</jetty.version>
-    <!--<javax.servlet.version>3.1.0</javax.servlet.version>-->
-    <!--<javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>-->
-    <!-- default webdriver for selenium tests. To be overridden on a per
-      profile base -->
-    <!--<selenium.webdriver>firefox</selenium.webdriver>-->
-    <!--<assertj-core.version>1.5.0</assertj-core.version>-->
-    <!--<assertj-guava.version>1.1.0</assertj-guava.version>-->
+    <jetty.version>9.1.5.v20140505</jetty.version>
   </properties>
 
   <dependencies>
@@ -108,18 +103,12 @@
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
+      <artifactId>servlet-api</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.hsqldb</groupId>-->
-      <!--<artifactId>hsqldb</artifactId>-->
-      <!--<version>${hsqldb.version}</version>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>com.googlecode.flyway</groupId>
       <artifactId>flyway-core</artifactId>
@@ -311,24 +300,24 @@
 
     </pluginManagement>
     <plugins>
-      <!--<plugin>-->
-        <!--<groupId>org.eclipse.jetty</groupId>-->
-        <!--<artifactId>jetty-maven-plugin</artifactId>-->
-        <!--<dependencies>-->
-          <!--<dependency>-->
-            <!--<groupId>org.surfnet.coin</groupId>-->
-            <!--<artifactId>coin-master-test-dependencies</artifactId>-->
-            <!--<version>${coin-master.test-dependencies.version}</version>-->
-            <!--<type>pom</type>-->
-          <!--</dependency>-->
-          <!--<dependency>-->
-            <!--<groupId>org.surfnet.coin</groupId>-->
-            <!--<artifactId>mujina-idp</artifactId>-->
-            <!--<type>war</type>-->
-            <!--<version>${mujina-idp.version}</version>-->
-          <!--</dependency>-->
-        <!--</dependencies>-->
-      <!--</plugin>-->
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.surfnet.coin</groupId>
+            <artifactId>coin-master-test-dependencies</artifactId>
+            <version>${coin-master.test-dependencies.version}</version>
+            <type>pom</type>
+          </dependency>
+          <dependency>
+            <groupId>org.surfnet.coin</groupId>
+            <artifactId>mujina-idp</artifactId>
+            <type>war</type>
+            <version>${mujina-idp.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.2.1</version>
