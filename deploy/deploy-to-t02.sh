@@ -76,17 +76,17 @@ sudo -u tomcat tar xvfz "${app_name}-dist-\${FULL_VERSION}-bin.tar.gz"
 sudo /etc/init.d/tomcat6-low stop
 
 echo "Backup current installation"
-sudo mv \${TOMCAT_DIR}/wars/${app_name}-war-* /opt/tomcat-low/backups
+sudo -u tomcat mv \${TOMCAT_DIR}/wars/${app_name}-war-* /opt/tomcat-low/backups
 
 echo "Delete current app"
-sudo rm -Rf \${TOMCAT_DIR}/work/Catalina/\${APP_NAME}
+sudo -u tomcat rm -Rf \${TOMCAT_DIR}/work/Catalina/\${APP_NAME}
 sudo -u tomcat rm -Rf \${TOMCAT_DIR}/webapps/${app_name}.test.surfconext.nl/*
 
 echo "Copy new ROOT.xml"
-sudo cp \${WORK_DIR}/${app_name}-dist-${version}/tomcat/conf/context/ROOT.xml \${TOMCAT_DIR}/conf/Catalina/\${APP_NAME}
+sudo -u tomcat cp \${WORK_DIR}/${app_name}-dist-${version}/tomcat/conf/context/ROOT.xml \${TOMCAT_DIR}/conf/Catalina/\${APP_NAME}
 
 echo "Copy new WAR"
-sudo cp \${WORK_DIR}/${app_name}-dist-${version}/tomcat/webapps/${app_name}-war-${version}.war \${TOMCAT_DIR}/wars
+sudo -u tomcat cp \${WORK_DIR}/${app_name}-dist-${version}/tomcat/webapps/${app_name}-war-${version}.war \${TOMCAT_DIR}/wars
 
 sudo /etc/init.d/tomcat6-low start
 echo "Done!"
