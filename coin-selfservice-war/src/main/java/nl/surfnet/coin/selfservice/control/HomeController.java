@@ -35,6 +35,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
@@ -155,8 +156,10 @@ public class HomeController extends BaseController {
   }
 
   @RequestMapping(value = "/closeNotificationPopup.shtml")
-  public void closeNotificationPopup(HttpServletRequest request) {
+  @ResponseBody
+  public String closeNotificationPopup(HttpServletRequest request) {
     notificationPopupClosed(request);
+    return ""; // prevents further view-resolution
   }
 
   @RequestMapping("/idp.shtml")

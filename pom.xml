@@ -19,9 +19,6 @@
   <modelVersion>4.0.0</modelVersion>
   <modules>
     <module>coin-selfservice-war</module>
-    <module>dashboard-dist</module>
-    <module>showroom-dist</module>
-    <module>sab-client</module>
   </modules>
 
   <parent>
@@ -32,7 +29,6 @@
 
   <artifactId>coin-selfservice-parent</artifactId>
   <version>4.0.2-SNAPSHOT</version>
-
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 

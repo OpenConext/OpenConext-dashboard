@@ -26,8 +26,12 @@
     <h1>${title}</h1>
 
     <spring:eval expression="@applicationProperties['jsp.role.explanation.link']" var="explanationLink"/>
-    <h2><spring:message code="jsp.role.information.header"/><span class="roleExplanationLink icon-info-sign"><a href="${explanationLink}" target="_blank"><spring:message code="jsp.role.explanation.linkDescription"/></a></span></h2>
-    <table class="role-listing table table-striped table-above-pagination">
+    <h2><spring:message code="jsp.role.information.header"/></h2>
+    <p>
+      <spring:message code="jsp.role.information.header"/>
+      (<a href="${explanationLink}" target="_blank"><spring:message code="jsp.role.explanation.linkDescription"/></a>)
+    </p>
+    <table class="role-listing table table-bordered table-striped table-above-pagination">
       <thead>
       <tr>
         <th><spring:message code="jsp.role.information.role"/></th>
