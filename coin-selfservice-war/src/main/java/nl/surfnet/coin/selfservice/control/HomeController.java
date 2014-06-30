@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import nl.surfnet.coin.csa.model.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -62,6 +64,8 @@ import nl.surfnet.sab.SabPerson;
 public class HomeController extends BaseController {
 
   public static final List<String> INTERESTING_ROLES = Arrays.asList("SURFconextbeheerder", "SURFconextverantwoordelijke");
+  private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
+
   @Resource(name = "personAttributeLabelService")
   private PersonAttributeLabelServiceJsonImpl personAttributeLabelService;
 
@@ -73,6 +77,7 @@ public class HomeController extends BaseController {
 
   @Resource
   private Sab sabClient;
+
 
   @ModelAttribute(value = "personAttributeLabels")
   public Map<String, PersonAttributeLabel> getPersonAttributeLabels() {
@@ -175,6 +180,7 @@ public class HomeController extends BaseController {
 
   private void addOfferedServiceToModel(InstitutionIdentityProvider currentIdp, ModelMap model) {
     List<OfferedService> offeredServices = csa.findOfferedServicesFor(currentIdp.getId());
+    LOG.debug("CSA returned {} offered services", offeredServices.size());
     model.addAttribute("offeredServicePresenter", new OfferedServicePresenter(offeredServices));
   }
 
