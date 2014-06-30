@@ -1,5 +1,5 @@
 <%@ page isErrorPage="true" %>
-<%@ include file="WEB-INF/jsp/include.jsp"%>
+<%@ include file="include.jsp"%>
 <%--
   Copyright 2012 SURFnet bv, The Netherlands
 

@@ -19,6 +19,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/mvc
@@ -26,87 +27,93 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:annotation-config/>
-    <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
+  <context:annotation-config/>
+  <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
 
-    <context:property-placeholder location="classpath:application.properties,classpath:showroom.properties,classpath:dashboard.properties" ignore-resource-not-found="true" />
+  <context:property-placeholder
+    location="classpath:application.properties,classpath:showroom.properties,classpath:dashboard.properties"
+    ignore-resource-not-found="true"/>
 
-    <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-        <property name="defaultViews">
-            <list>
-                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
-            </list>
-        </property>
-        <property name="viewResolvers">
-            <list>
-                <bean id="jspViewResolver"
-                      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-                    <property name="viewClass"
-                              value="org.springframework.web.servlet.view.JstlView"/>
-                    <property name="prefix" value="/WEB-INF/jsp/"/>
-                    <property name="suffix" value=".jsp"/>
-                </bean>
-            </list>
-        </property>
-    </bean>
+  <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <property name="defaultViews">
+      <list>
+        <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+      </list>
+    </property>
+    <property name="viewResolvers">
+      <list>
+        <bean id="jspViewResolver"
+              class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+          <property name="viewClass"
+                    value="org.springframework.web.servlet.view.JstlView"/>
+          <property name="prefix" value="/WEB-INF/jsp/"/>
+          <property name="suffix" value=".jsp"/>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-    <bean id="messageSource"
-          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages"/>
-        <property name="defaultEncoding" value="UTF-8"/>
-    </bean>
+  <bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename" value="classpath:messages"/>
+    <property name="defaultEncoding" value="UTF-8"/>
+  </bean>
 
-    <!--Also use the messageSource as basis for JSR-303 validation messages -->
-    <bean name="validator"
-          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <property name="validationMessageSource" ref="messageSource"/>
-    </bean>
+  <!--Also use the messageSource as basis for JSR-303 validation messages -->
+  <bean name="validator"
+        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    <property name="validationMessageSource" ref="messageSource"/>
+  </bean>
 
-    <bean id="localeResolver" class="nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver">
-      <property name="cookieName" value="dashboardLang" /> <!-- the default 'lang' might clash with other surfconext cookies -->
-      <property name="defaultLocale" value="nl" />
-      <property name="cookieMaxAge" value="315360000" /><!-- 10 years: never expire-->
-    </bean>
+  <bean id="localeResolver" class="nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver">
+    <property name="cookieName" value="dashboardLang"/>
+    <!-- the default 'lang' might clash with other surfconext cookies -->
+    <property name="defaultLocale" value="nl"/>
+    <property name="cookieMaxAge" value="315360000"/>
+    <!-- 10 years: never expire-->
+  </bean>
 
-    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="lang"/>
-    </bean>
+  <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+    <property name="paramName" value="lang"/>
+  </bean>
 
-    <mvc:annotation-driven/>
-    <mvc:interceptors>
-        <ref bean="featureInterceptor"/>
-        <!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
-        <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor"/>
-        <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor" />
-        <ref bean="localeChangeInterceptor"/>
-    </mvc:interceptors>
+  <mvc:annotation-driven/>
+  <mvc:interceptors>
+    <ref bean="featureInterceptor"/>
+    <!-- mentioned first to have properties available on error page, in case subsequent interceptors throw an exception -->
+    <bean class="nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor"/>
+    <bean class="nl.surfnet.coin.selfservice.interceptor.MenuInterceptor"/>
+    <ref bean="localeChangeInterceptor"/>
+  </mvc:interceptors>
 
-    <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
-        <property name="developmentMode" value="${feature.development.mode}"/>
-        <property name="isDashBoard" value="${is.dashboard}"/>
-    </bean>
+  <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
+    <property name="developmentMode" value="${feature.development.mode}"/>
+    <property name="isDashBoard" value="${is.dashboard}"/>
+  </bean>
 
-    <bean id="messageAdapter"
-          class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <!-- Support JSON -->
-                <bean
-                        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
-            </list>
-        </property>
-        <property name="alwaysUseFullPath" value="true"/>
-    </bean>
-    <bean id="exceptionMessageAdapter"
-          class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
-        <property name="messageConverters">
-            <list>
-                <!-- Support JSON -->
-                <bean
-                        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
-            </list>
-        </property>
-    </bean>
+  <bean id="messageAdapter"
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <property name="messageConverters">
+      <list>
+        <!-- Support JSON -->
+        <bean
+          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+      </list>
+    </property>
+    <property name="alwaysUseFullPath" value="true"/>
+  </bean>
+  <bean id="exceptionMessageAdapter"
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+    <property name="messageConverters">
+      <list>
+        <!-- Support JSON -->
+        <bean
+          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+      </list>
+    </property>
+  </bean>
 
+  <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:defaultErrorView="error"
+        p:defaultStatusCode="500" p:warnLogCategory=""/>
 
 </beans>
