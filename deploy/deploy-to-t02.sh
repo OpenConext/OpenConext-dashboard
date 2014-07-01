@@ -33,11 +33,13 @@ then
   usage
 fi
 
+PROJECT_NAME="coin-selfservice-war"
+
 if [ "${type}" == "s" ]
 then
-    MAVEN_REPO="https://build.surfconext.nl/repository/public/snapshots/org/surfnet/coin/${app_name}-dist"
+    MAVEN_REPO="https://build.surfconext.nl/repository/public/snapshots/org/surfnet/coin/${PROJECT_NAME}"
 else
-    MAVEN_REPO="https://build.surfconext.nl/repository/public/releases/org/surfnet/coin/${app_name}-dist"
+    MAVEN_REPO="https://build.surfconext.nl/repository/public/releases/org/surfnet/coin/${PROJECT_NAME}"
 fi
 
 
@@ -68,7 +70,8 @@ fi
 
 echo "Installing ${app_name} \${FULL_VERSION}..."
 
-sudo -u tomcat curl "${MAVEN_REPO}/${version}/${app_name}-dist-\${FULL_VERSION}-bin.tar.gz" -o "${app_name}-dist-\${FULL_VERSION}-bin.tar.gz"
+
+sudo -u tomcat curl "${MAVEN_REPO}/${version}/${PROJECT_NAME}-${app_name}-dist-\${FULL_VERSION}-bin.tar.gz" -o "${app_name}-dist-\${FULL_VERSION}-bin.tar.gz"
 sudo -u tomcat tar xvfz "${app_name}-dist-\${FULL_VERSION}-bin.tar.gz"
 
 sudo /etc/init.d/tomcat6-low stop
