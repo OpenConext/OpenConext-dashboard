@@ -26,8 +26,6 @@
     <h1>${title}</h1>
 
     <spring:eval expression="@applicationProperties['jsp.role.explanation.link']" var="explanationLink"/>
-    <h2><spring:message code="jsp.role.information.header"/></h2>
-
     <p>
       <spring:message code="jsp.role.information.header"/>
       (<a href="${explanationLink}" target="_blank"><spring:message code="jsp.role.explanation.linkDescription"/></a>)
