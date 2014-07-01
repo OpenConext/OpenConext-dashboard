@@ -20,13 +20,14 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-  <div class="column-center content-holder no-right-left">
-    <section class="data-table-holder">
+<div class="column-center content-holder no-right-left">
+  <section class="data-table-holder">
 
     <h1>${title}</h1>
 
     <spring:eval expression="@applicationProperties['jsp.role.explanation.link']" var="explanationLink"/>
     <h2><spring:message code="jsp.role.information.header"/></h2>
+
     <p>
       <spring:message code="jsp.role.information.header"/>
       (<a href="${explanationLink}" target="_blank"><spring:message code="jsp.role.explanation.linkDescription"/></a>)
@@ -39,47 +40,49 @@
       </tr>
       </thead>
       <tbody>
-        <c:forEach items="${roleAssignments}" var="entry" varStatus="vs">
-          <tr>
-            <td><c:out value="${entry.key}"/> </td>
-            <td><c:out value="${entry.value}"/> </td>
-          </tr>
-        </c:forEach>
+      <c:forEach items="${roleAssignments}" var="entry" varStatus="vs">
+        <tr>
+          <td><c:out value="${entry.key}"/></td>
+          <td><c:out value="${entry.value}"/></td>
+        </tr>
+      </c:forEach>
 
       </tbody>
     </table>
     <p/>
+
     <h2><spring:message code="jsp.my.idp.apps.header"/></h2>
-    <table class="my-idp-apps-listing table table-striped table-above-pagination">
-      <thead>
-      <tr>
-        <th><spring:message code="jsp.my.idp.apps.title"/></th>
-        <th><spring:message code="jsp.my.idp.apps.used.by"/></th>
-      </tr>
-      </thead>
-      <tbody>
+
+    <div class="accordion" id="accordion2">
       <c:forEach items="${offeredServicePresenter.offeredServiceViews}" var="offeredServiceView" varStatus="vs">
-        <tr>
-          <td>
-            <spring:url value="app-detail.shtml" var="detailUrl" htmlEscape="true">
-              <spring:param name="serviceId" value="${offeredServiceView.offeredService.service.id}" />
-            </spring:url>
-            <c:set var="spTitle" >
-              <c:out default="${offeredServiceView.offeredService.service.id}" value="${offeredServiceView.offeredService.service.name}" />
-            </c:set>
-            <a id="detail-${offeredServiceView.offeredService.service.spEntityId}" href="${detailUrl}" data-toggle="tooltip" data-placement="top" title="<c:out value="${offeredServiceView.offeredService.service.name}" />">
-              <tags:truncatedSpName
-                spName="${spTitle}"
-                hasServiceDescription="${not empty offeredServiceView.offeredService.service.description}"
-                hasConnectButton="false" />
-            </a>
-          </td>
-          <td><c:out value="${offeredServiceView.sortedIdps}"/> </td>
-        </tr>
-      </c:forEach>
-      </tbody>
-    </table>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+             href="#collapse-<c:out value="${vs.count}"/>">
+            <c:out default="${offeredServiceView.offeredService.service.id}"
+                   value="${offeredServiceView.offeredService.service.name}"/>
+          </a>
+        </div>
+        <c:choose>
+        <c:when test="${vs.count == 1}">
+        <div id="collapse-<c:out value="${vs.count}"/>" class="accordion-body collapse in">
+          </c:when>
+          <c:otherwise>
+          <div id="collapse-<c:out value="${vs.count}"/>" class="accordion-body collapse">
+            </c:otherwise>
+            </c:choose>
+            <div class="accordion-inner">
+              <ul>
+                <c:forEach items="${offeredServiceView.sortedIdps}" var="idp">
+                  <li><c:out value="${idp}"/> </li>
+                </c:forEach>
+              </ul>
+            </div>
+          </div>
+        </div>
+        </c:forEach>
+      </div>
   </section>
-  </div>
+</div>
 
 <jsp:include page="foot.jsp"/>

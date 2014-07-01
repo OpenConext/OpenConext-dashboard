@@ -2,6 +2,7 @@ package nl.surfnet.coin.selfservice.control;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -26,15 +27,22 @@ public class OfferedServicePresenter {
       return offeredService;
     }
 
-    public String getSortedIdps() {
-      return Joiner.on(",").skipNulls().join(Ordering.natural().sortedCopy(Lists.transform(offeredService.getIdentityProviders(), new Function<InstitutionIdentityProvider, String>() {
+    public List<String> getSortedIdps() {
+      return Ordering.natural().sortedCopy(Lists.transform(offeredService.getIdentityProviders(), new Function<InstitutionIdentityProvider, String>() {
         @Override
         public String apply(InstitutionIdentityProvider input) {
           return input.getName();
         }
-      })));
+      }));
     }
   }
+
+  private Ordering<OfferedServiceView> byName = new Ordering<OfferedServiceView>() {
+    @Override
+    public int compare(OfferedServiceView left, OfferedServiceView right) {
+      return left.getOfferedService().getService().getName().compareTo(right.getOfferedService().getService().getName());
+    }
+  };
 
   private final Collection<OfferedServiceView> offeredServiceViews;
 
@@ -48,6 +56,6 @@ public class OfferedServicePresenter {
   }
 
   public Collection<OfferedServiceView> getOfferedServiceViews() {
-    return offeredServiceViews;
+    return byName.sortedCopy(offeredServiceViews);
   }
 }

@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -26,19 +27,19 @@ public class OfferedServicePresenterTest {
 
   @Test
   public void testDisplaysNoIdpNamesIfNone() throws Exception {
-    assertEquals("", view.getSortedIdps());
+    assertEquals(0, view.getSortedIdps().size());
   }
 
   @Test
   public void testDisplaysSingleIdpName() throws Exception {
     identityProviders.add(new InstitutionIdentityProvider("id", "name", "institutionId"));
-    assertEquals("name", view.getSortedIdps());
+    assertEquals("name", view.getSortedIdps().get(0));
   }
 
   @Test
   public void testDisplaysMultipleIdpNamesSortedAlphabatically() throws Exception {
     identityProviders.add(new InstitutionIdentityProvider("id", "name2", "institutionId"));
     identityProviders.add(new InstitutionIdentityProvider("id", "name1", "institutionId"));
-    assertEquals("name1,name2", view.getSortedIdps());
+    assertEquals(Arrays.asList("name1", "name2"), view.getSortedIdps());
   }
 }
