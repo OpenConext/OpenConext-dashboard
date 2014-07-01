@@ -70,8 +70,9 @@ fi
 
 echo "Installing ${app_name} \${FULL_VERSION}..."
 
+echo "Downloading ${MAVEN_REPO}/${version}/${PROJECT_NAME}-\${FULL_VERSION}-${app_name}-dist.tar.gz"
 
-sudo -u tomcat curl "${MAVEN_REPO}/${version}/${PROJECT_NAME}-${app_name}-dist-\${FULL_VERSION}-bin.tar.gz" -o "${app_name}-dist-\${FULL_VERSION}-bin.tar.gz"
+sudo -u tomcat curl "${MAVEN_REPO}/${version}/${PROJECT_NAME}-\${FULL_VERSION}-${app_name}-dist.tar.gz" -o "${app_name}-dist-\${FULL_VERSION}-bin.tar.gz"
 sudo -u tomcat tar xvfz "${app_name}-dist-\${FULL_VERSION}-bin.tar.gz"
 
 sudo /etc/init.d/tomcat6-low stop
