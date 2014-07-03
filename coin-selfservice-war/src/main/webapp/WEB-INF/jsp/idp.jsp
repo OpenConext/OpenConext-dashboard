@@ -53,33 +53,26 @@
 
     <div class="accordion" id="accordion2">
       <c:forEach items="${offeredServicePresenter.offeredServiceViews}" var="offeredServiceView" varStatus="vs">
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
-             href="#collapse-<c:out value="${vs.count}"/>">
-            <c:out default="${offeredServiceView.offeredService.service.id}"
-                   value="${offeredServiceView.offeredService.service.name}"/>
-          </a>
-        </div>
-        <c:choose>
-        <c:when test="${vs.count == 1}">
-        <div id="collapse-<c:out value="${vs.count}"/>" class="accordion-body collapse in">
-          </c:when>
-          <c:otherwise>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+               href="#collapse-<c:out value="${vs.count}"/>">
+              <c:out default="${offeredServiceView.offeredService.service.id}"
+                     value="${offeredServiceView.offeredService.service.name}"/>
+            </a>
+          </div>
           <div id="collapse-<c:out value="${vs.count}"/>" class="accordion-body collapse">
-            </c:otherwise>
-            </c:choose>
             <div class="accordion-inner">
               <ul>
                 <c:forEach items="${offeredServiceView.sortedIdps}" var="idp">
-                  <li><c:out value="${idp}"/> </li>
+                  <li><c:out value="${idp}"/></li>
                 </c:forEach>
               </ul>
             </div>
           </div>
         </div>
-        </c:forEach>
-      </div>
+      </c:forEach>
+    </div>
   </section>
 </div>
 
