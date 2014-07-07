@@ -81,28 +81,27 @@ public class SabClient implements Sab {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public Collection<SabPerson> getPersonsInRoleForOrganization(final String organisationAbbreviation, final String role) {
     try {
       InputStream responseAsStream = sabTransport.getRestResponse(organisationAbbreviation, role);
-      HashMap<String, Object> result =
-              new ObjectMapper().readValue(responseAsStream, HashMap.class);
-      List<SabPerson> allSabPersons = Lists.transform((List<Map>) result.get("profiles"), new Function<Map, SabPerson>() {
+      Map<String, Object> result = new ObjectMapper().readValue(responseAsStream, HashMap.class);
+      List<SabPerson> allSabPersons = Lists.transform((List<Map<String, String>>) result.get("profiles"), new Function<Map<String, String>, SabPerson>() {
         public SabPerson apply(Map person) {
-          List<SabRole> sabRoles = Lists.transform((List<Map>) person.get("authorisations"), new Function<Map, SabRole>() {
-            public SabRole apply(Map role) {
-              return new SabRole((String) role.get("short"), (String) role.get("role"));
+          List<SabRole> sabRoles = Lists.transform((List<Map<String, String>>) person.get("authorisations"), new Function<Map<String, String>, SabRole>() {
+            public SabRole apply(Map<String, String> role) {
+              return new SabRole(role.get("short"), role.get("role"));
             }
           });
           return new SabPerson((String) person.get("firstname"), (String) person.get("surname"), (String) person.get("uid"), sabRoles);
         }
       });
-      Collection<SabPerson> sabPersons = Collections2.filter(allSabPersons, new Predicate<SabPerson>() {
+      return Collections2.filter(allSabPersons, new Predicate<SabPerson>() {
         @Override
         public boolean apply(SabPerson person) {
           return person.hasRole(role);
         }
       });
-      return sabPersons;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
