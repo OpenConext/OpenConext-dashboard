@@ -62,7 +62,7 @@ public class SabClientTest {
 
     SabTransport transport = mock(SabTransport.class);
     sabClient = new SabClient(transport);
-    when(transport.getResponse(anyString())).thenThrow(new IOException("On purpose in unit test"));
+    when(transport.getResponse(anyString())).thenThrow(new IOException("Intentionally"));
     assertFalse(sabClient.hasRoleForOrganisation(userId, role, organisation));
   }
 
