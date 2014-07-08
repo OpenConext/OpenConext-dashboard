@@ -644,6 +644,7 @@ body.js-loading .header .primary-navigation {
   border-left: none;
   display: none;
   padding: 0;
+  width: 180px;
 }
 .header .primary-navigation .role-switch .user-dropdown li.active {
   display: block;
