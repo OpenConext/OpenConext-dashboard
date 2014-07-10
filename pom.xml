@@ -42,7 +42,6 @@
     <connection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</connection>
     <url>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</url>
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
-    <tag>coin-selfservice-parent-4.0.1.3</tag>
   </scm>
 
   <repositories>

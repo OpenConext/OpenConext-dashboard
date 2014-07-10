@@ -76,8 +76,4 @@
     </dependency>
   </dependencies>
 
-
-  <scm>
-    <tag>coin-selfservice-parent-4.0.1.3</tag>
-  </scm>
 </project>
