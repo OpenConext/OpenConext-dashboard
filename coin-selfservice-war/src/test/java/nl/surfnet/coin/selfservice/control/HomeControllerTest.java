@@ -73,6 +73,7 @@ public class HomeControllerTest {
 
   private MockHttpServletRequest request;
 
+  private final InstitutionIdentityProvider institutionIdentityProvider = new InstitutionIdentityProvider("id", "name", "inst");
 
   @Before
   public void setUp() throws Exception {
@@ -81,7 +82,7 @@ public class HomeControllerTest {
     taxonomy.setCategories(Collections.<Category>emptyList());
     when(csa.getTaxonomy()).thenReturn(taxonomy);
     request = new MockHttpServletRequest();
-    request.getSession().setAttribute(BaseController.SELECTED_IDP, new InstitutionIdentityProvider("id", "name", "inst"));
+    request.getSession().setAttribute(BaseController.SELECTED_IDP, institutionIdentityProvider);
   }
 
   @Test
@@ -96,9 +97,9 @@ public class HomeControllerTest {
   @Test
   public void testIdp() throws Exception {
     Collection<SabPerson> maintainers = Collections.emptyList();
-    when(sabClient.getPersonsInRoleForOrganization("name", "SURFconextbeheerder")).thenReturn(maintainers);
-    Collection<SabPerson>  responsibles = Collections.emptyList();
-    when(sabClient.getPersonsInRoleForOrganization("name", "SURFconextverantwoordelijke")).thenReturn(responsibles);
+    when(sabClient.getPersonsInRoleForOrganization(institutionIdentityProvider.getInstitutionId(), "SURFconextbeheerder")).thenReturn(maintainers);
+    Collection<SabPerson> responsibles = Collections.emptyList();
+    when(sabClient.getPersonsInRoleForOrganization(institutionIdentityProvider.getInstitutionId(), "SURFconextverantwoordelijke")).thenReturn(responsibles);
 
     ModelAndView modelAndView = controller.idp(request);
 
