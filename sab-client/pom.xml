@@ -2,7 +2,7 @@
   <parent>
     <artifactId>coin-selfservice-parent</artifactId>
     <groupId>org.surfnet.coin</groupId>
-    <version>4.0.1.3</version>
+    <version>4.0.1.4</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -56,7 +56,8 @@
     </dependency>
   </dependencies>
 
+
   <scm>
-    <tag>coin-selfservice-parent-4.0.1.3</tag>
+    <tag>coin-selfservice-parent-4.0.1.4</tag>
   </scm>
 </project>

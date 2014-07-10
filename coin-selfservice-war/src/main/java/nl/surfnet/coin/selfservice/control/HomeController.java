@@ -173,7 +173,7 @@ public class HomeController extends BaseController {
 
     Map<String, String> roleAssignments = new HashMap<>();
     for (final String role: INTERESTING_ROLES) {
-      final Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(currentIdp.getName(), role);
+      final Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(currentIdp.getInstitutionId(), role);
       Collection<String> fullNames = Collections2.transform(personsInRoleForOrganization, new Function<SabPerson,String>() {
         public String apply(SabPerson person) {
           return person.fullname();
