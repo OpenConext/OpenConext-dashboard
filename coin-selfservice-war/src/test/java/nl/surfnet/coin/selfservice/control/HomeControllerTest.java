@@ -109,7 +109,7 @@ public class HomeControllerTest {
 
   @Test
   public void testAddsOfferedServicesToModel() throws Exception {
-    ArrayList<OfferedService> expected = new ArrayList<OfferedService>();
+    ArrayList<OfferedService> expected = new ArrayList<>();
     when(csa.findOfferedServicesFor("id")).thenReturn(expected);
 
     ModelAndView modelAndView = controller.idp(request);
