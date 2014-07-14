@@ -39,7 +39,8 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
     dashboard_super_user(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER),
     showroom_admin(CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN),
     showroom_user(CoinAuthority.Authority.ROLE_SHOWROOM_USER),
-    showroom_super_user(CoinAuthority.Authority.ROLE_SHOWROOM_SUPER_USER);
+    showroom_super_user(CoinAuthority.Authority.ROLE_SHOWROOM_SUPER_USER),
+    noroles(null);
 
     private CoinAuthority.Authority user;
 
@@ -86,7 +87,7 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
 
   @Override
   public List<Person> getGroupMembers(String groupId, String onBehalfOf) {
-    List<Person> persons = new ArrayList<Person>();
+    List<Person> persons = new ArrayList<>();
     String group = groupId.substring(groupId.lastIndexOf(":") + 1);
     persons.add(createPerson("John Doe", "john.doe@" + group));
     persons.add(createPerson("Pitje Puck", "p.p@" + group));
@@ -122,6 +123,8 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
         return asList(createGroup20("showroom.user"));
       case showroom_super_user:
         return asList(createGroup20("showroom.super.user"));
+      case noroles:
+        return Collections.emptyList();
       default:
         throw new RuntimeException("Unknown");
     }
