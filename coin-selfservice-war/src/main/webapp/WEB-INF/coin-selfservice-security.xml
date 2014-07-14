@@ -58,7 +58,6 @@
     </property>
   </bean>
 
-  <bean class="nl.surfnet.coin.selfservice.util.ForwardingAccessDeniedHandler" id="accessDeniedHandler"/>
   <opensaml:service-provider id="samlAuthenticationProvider"
                              message-handler-ref="samlMessageHandler"
                              preauth-filter-ref="samlPreAuthFilter"
