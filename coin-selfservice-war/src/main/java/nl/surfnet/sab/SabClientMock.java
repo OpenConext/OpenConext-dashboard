@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,6 +56,7 @@ public class SabClientMock implements Sab {
   public SabClientMock() {
     rolesMapping.put("user1", new SabRoleHolder("SURFNET", asList("Foo", "Bar")));
     rolesMapping.put("user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")));
+    rolesMapping.put("noroles", new SabRoleHolder("SURFNET", Collections.EMPTY_LIST));
   }
 
   @Override
