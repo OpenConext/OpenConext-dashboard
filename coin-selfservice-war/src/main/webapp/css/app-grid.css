@@ -732,7 +732,7 @@ p.recent-login i:before {
   position: absolute;
   top: 80px;
 }
-.app-grid .no-logo-available {
+.app-grid li.card-view .no-logo-available {
   border-radius: 4px;
   background-color: #BFBFBF;
   font-size: 0.9em;

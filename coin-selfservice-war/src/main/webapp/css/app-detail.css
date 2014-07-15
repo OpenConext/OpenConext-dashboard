@@ -20,7 +20,8 @@
   font-size: 0.9em;
 }
 
-.no-logo-available {
+.app-detail .no-logo-available {
+  color: rgb(125, 125, 125);
   border-radius: 4px;
   background-color: #BFBFBF;
   font-size: 0.9em;

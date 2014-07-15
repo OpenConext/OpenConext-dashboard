@@ -22,7 +22,7 @@
   <jsp:param name="title" value="${title}" />
 </jsp:include>
 <div class="wrapper has-right">
-<div class="column-right side-content-holder">
+<div class="column-right side-content-holder app-detail">
   <section>
     <c:if test="${not empty service.detailLogoUrl}">
       <img src="${service.detailLogoUrl}" alt="<c:out value=""/>" >
