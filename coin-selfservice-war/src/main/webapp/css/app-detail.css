@@ -19,3 +19,12 @@
   display: inline;
   font-size: 0.9em;
 }
+
+.no-logo-available {
+  border-radius: 4px;
+  background-color: #BFBFBF;
+  font-size: 0.9em;
+  width: 170px;
+  line-height: 49px;
+  text-align: center;
+}

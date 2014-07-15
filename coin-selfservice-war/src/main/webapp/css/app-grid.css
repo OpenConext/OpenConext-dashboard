@@ -732,13 +732,12 @@ p.recent-login i:before {
   position: absolute;
   top: 80px;
 }
-.app-grid li.card-view .no-logo-available {
-  border: 1px solid black;
+.app-grid .no-logo-available {
   border-radius: 4px;
-  color: black;
-  background-color: #aaaaaa;
-  width: 80px;
-  padding: 2px;
+  background-color: #BFBFBF;
+  font-size: 0.9em;
+  width: 200px;
+  line-height: 49px;
   text-align: center;
 }
 .app-grid li.card-view h2 {
@@ -972,16 +971,15 @@ p.recent-login i:before {
 }
 
 li.list-view .no-logo-available {
-  border: 1px solid black;
-  border-radius: 4px;
-  color: black;
-  background-color: #aaaaaa;
-  width: 100px;
-  height: 50px;
-  padding: 2px;
   display: inline-block;
   float: left;
   margin: 5px;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #BFBFBF;
+  font-size: 0.9em;
+  width: 200px;
+  line-height: 49px;
   text-align: center;
 }
 
