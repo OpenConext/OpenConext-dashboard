@@ -16,8 +16,7 @@
 
 package nl.surfnet.sab;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.Arrays.asList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,11 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static java.util.Arrays.asList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableList;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -56,7 +55,7 @@ public class SabClientMock implements Sab {
   public SabClientMock() {
     rolesMapping.put("user1", new SabRoleHolder("SURFNET", asList("Foo", "Bar")));
     rolesMapping.put("user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")));
-    rolesMapping.put("noroles", new SabRoleHolder("SURFNET", Collections.EMPTY_LIST));
+    rolesMapping.put("noroles", new SabRoleHolder("SURFNET", Collections.<String>emptyList()));
   }
 
   @Override

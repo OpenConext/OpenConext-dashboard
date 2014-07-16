@@ -31,7 +31,7 @@
   <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
 
   <context:property-placeholder
-    location="classpath:application.properties,classpath:showroom.properties,classpath:dashboard.properties"
+    location="classpath:application.properties,classpath:dashboard.properties"
     ignore-resource-not-found="true"/>
 
   <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
@@ -88,7 +88,6 @@
 
   <bean id="featureInterceptor" class="nl.surfnet.coin.selfservice.interceptor.FeatureInterceptor">
     <property name="developmentMode" value="${feature.development.mode}"/>
-    <property name="isDashBoard" value="true"/>
   </bean>
 
   <bean id="messageAdapter"

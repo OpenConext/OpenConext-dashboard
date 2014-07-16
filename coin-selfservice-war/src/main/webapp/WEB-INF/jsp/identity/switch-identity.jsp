@@ -7,7 +7,7 @@
   <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
     <p class="switch-identity-header">
-        <tags:context-specific messageKey="jsp.identity.switch.header" isDashBoard="${isDashBoard}"/>
+        <spring:message code="jsp.identity.switch.header.dashboard" />
     </p>
   </div>
   <spring:url var="postSwitchIdentity" value="/identity/do-switch.shtml" />

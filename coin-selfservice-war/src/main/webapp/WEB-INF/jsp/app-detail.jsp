@@ -195,19 +195,11 @@
                 <c:set var="endDate"><fmt:formatDate pattern="dd-MM-yyyy" value="${service.license.endDate}"/></c:set>
                 <p><spring:message code="jsp.app_detail.license_validity" arguments="${endDate}"/></p>
 
-                <c:if test="${deepLinkToSurfMarketAllowed}">
-                  <c:set var="url" value="${lmngDeepLinkUrl}${service.crmArticle.guid}" />
-                  <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
-                </c:if>
               </div>
             </c:when>
             <c:when test="${service.hasCrmLink}">
               <div class="license-not-available">
                 <p><strong><spring:message code="jsp.app_detail.license_not_available"/></strong></p>
-                <c:if test="${deepLinkToSurfMarketAllowed}">
-                  <c:set var="url" value="${lmngDeepLinkUrl}${service.crmArticle.guid}" />
-                  <p><spring:message code="jsp.app_detail.license_deeplink_text" arguments="${url}"/></p>
-                </c:if>
               </div>
             </c:when>
             <c:otherwise>

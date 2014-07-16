@@ -18,22 +18,13 @@ package nl.surfnet.coin.selfservice.filter;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.util.Arrays;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabRoleHolder;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +34,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabRoleHolder;
 
 public class SabEntitlementsFilterTest {
 
@@ -62,8 +58,6 @@ public class SabEntitlementsFilterTest {
   public void setUp() throws Exception {
     filter = new SabEntitlementsFilter();
 
-    filter.setIsDashboard(true);
-    filter.setAdminLicentieIdPRole(ROLE_SHOWROOM_ADMIN.name());
     filter.setAdminSurfConextIdPRole(ROLE_DASHBOARD_ADMIN.name());
     filter.setViewerSurfConextIdPRole(ROLE_DASHBOARD_VIEWER.name());
 
@@ -106,19 +100,6 @@ public class SabEntitlementsFilterTest {
 
     filter.doFilter(request, response, chain);
     SpringSecurityUtil.assertRoleIsGranted(ROLE_DASHBOARD_ADMIN);
-  }
-
-  @Test
-  public void adminLicenseRole() throws IOException, ServletException {
-    SpringSecurityUtil.setAuthentication("theuser");
-    CoinUser user = SpringSecurity.getCurrentUser();
-    user.setSchacHomeOrganization("theOrg");
-
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_SHOWROOM_ADMIN.name())));
-    filter.setIsDashboard(false);
-    filter.doFilter(request, response, chain);
-    filter.setIsDashboard(false);
-    SpringSecurityUtil.assertRoleIsGranted(ROLE_SHOWROOM_ADMIN);
   }
 
   @Test
