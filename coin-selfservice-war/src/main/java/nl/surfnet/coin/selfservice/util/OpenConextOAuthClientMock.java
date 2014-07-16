@@ -37,9 +37,6 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
     dashboard_admin(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN),
     dashboard_viewer(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER),
     dashboard_super_user(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER),
-    showroom_admin(CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN),
-    showroom_user(CoinAuthority.Authority.ROLE_SHOWROOM_USER),
-    showroom_super_user(CoinAuthority.Authority.ROLE_SHOWROOM_SUPER_USER),
     noroles(null);
 
     private CoinAuthority.Authority user;
@@ -59,12 +56,9 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
           return user;
         }
       }
-      throw new RuntimeException("User unknown")   ;
+      throw new RuntimeException("User unknown");
     }
   }
-
-  // Used in showroom.properties
-
 
   @Override
   public boolean isAccessTokenGranted(String userId) {
@@ -117,12 +111,6 @@ public class OpenConextOAuthClientMock implements OpenConextOAuthClient {
         return asList(createGroup20("dashboard.viewer"));
       case dashboard_super_user:
         return asList(createGroup20("dashboard.super.user"));
-      case showroom_admin:
-        return asList(createGroup20("showroom.admin"));
-      case showroom_user:
-        return asList(createGroup20("showroom.user"));
-      case showroom_super_user:
-        return asList(createGroup20("showroom.super.user"));
       case noroles:
         return Collections.emptyList();
       default:

@@ -7,7 +7,7 @@
 <html lang="${locale.language}">
   <head>
     <meta charset="UTF-8">
-    <title><tags:context-specific messageKey="jsp.general.pageTitle" isDashBoard="${isDashBoard}"/></title>
+    <title><spring:message code="jsp.general.pageTitle.dashboard"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
 
@@ -149,7 +149,7 @@
             </div>
           </li>
         <li class="help">
-          <c:set var="supporturl"><tags:context-specific messageKey="jsp.general.footertext.supportpages.url" isDashBoard="${isDashBoard}"/></c:set>
+          <c:set var="supporturl"><spring:message code="jsp.general.footertext.supportpages.url.dashboard" /></c:set>
           <a href="${supporturl}"  target="_blank">
             <spring:message code="jsp.general.footertext.supportpages"/>
           </a>
