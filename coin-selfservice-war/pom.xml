@@ -336,20 +336,6 @@
               <attach>true</attach>
             </configuration>
           </execution>
-          <execution>
-            <id>make-showroom</id>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <finalName>showroom-dist-${project.version}</finalName>
-              <descriptors>
-                <descriptor>src/main/assembly/showroom.xml</descriptor>
-              </descriptors>
-              <attach>true</attach>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
 
