@@ -16,18 +16,10 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabRoleHolder;
-import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 
+import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -35,9 +27,19 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.GenericFilterBean;
+
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabRoleHolder;
+import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
 public class SabEntitlementsFilter extends GenericFilterBean {
 
@@ -45,12 +47,9 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter.PROCESSED";
 
-  private boolean isDashboard;
-
   @Resource
   private Sab sab;
 
-  private String adminLicentieIdPRole;
   private String adminSurfConextIdPRole;
   private String viewerSurfConextIdPRole;
 
@@ -83,11 +82,9 @@ public class SabEntitlementsFilter extends GenericFilterBean {
   }
 
   private void elevateUserIfApplicable(CoinUser user, SabRoleHolder roleHolder) {
-    if (!isDashboard && needToAddRole(roleHolder, adminLicentieIdPRole)) {
-      user.addAuthority(new CoinAuthority(ROLE_SHOWROOM_ADMIN));
-    } else if (isDashboard && needToAddRole(roleHolder, adminSurfConextIdPRole)) {
+    if (needToAddRole(roleHolder, adminSurfConextIdPRole)) {
       user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
-    } else if (isDashboard && needToAddRole(roleHolder, viewerSurfConextIdPRole)) {
+    } else if (needToAddRole(roleHolder, viewerSurfConextIdPRole)) {
       user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
     }
   }
@@ -100,19 +97,13 @@ public class SabEntitlementsFilter extends GenericFilterBean {
   public void destroy() {
   }
 
-  public void setAdminLicentieIdPRole(String adminLicentieIdPRole) {
-    this.adminLicentieIdPRole = adminLicentieIdPRole;
-  }
-
   public void setAdminSurfConextIdPRole(String adminSurfConextIdPRole) {
     this.adminSurfConextIdPRole = adminSurfConextIdPRole;
   }
+
   public void setViewerSurfConextIdPRole(String viewerSurfConextIdPRole) {
     this.viewerSurfConextIdPRole = viewerSurfConextIdPRole;
   }
 
-  public void setIsDashboard(boolean dashboard) {
-    isDashboard = dashboard;
-  }
 
 }

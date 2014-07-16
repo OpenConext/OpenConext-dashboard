@@ -19,24 +19,26 @@ package nl.surfnet.coin.selfservice.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
 /**
- * Interceptor to enable/disable (new) features
+ * Interceptor to enable/disable (new) features.
+ *
+ * @deprecated should be replaced with a Spring-profile
  */
+@Deprecated
 public class FeatureInterceptor extends HandlerInterceptorAdapter {
+
   private boolean developmentMode;
 
-  private boolean isDashBoard;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     request.setAttribute("developmentMode", developmentMode); // for use on error page
-    request.setAttribute("isDashBoard", isDashBoard);
     return true;
   }
 
@@ -47,7 +49,6 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
     if (modelAndView != null) {
       final ModelMap map = modelAndView.getModelMap();
       map.addAttribute("developmentMode", developmentMode);
-      map.addAttribute("isDashBoard", isDashBoard);
       map.addAttribute("roles", SpringSecurity.getCurrentUser().getAuthorities());
     }
   }
@@ -56,8 +57,5 @@ public class FeatureInterceptor extends HandlerInterceptorAdapter {
     this.developmentMode = devMode;
   }
 
-  public void setIsDashBoard(boolean dashBoard) {
-    isDashBoard = dashBoard;
-  }
 
 }

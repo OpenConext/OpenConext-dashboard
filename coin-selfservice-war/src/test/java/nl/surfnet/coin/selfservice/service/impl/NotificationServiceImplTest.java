@@ -16,17 +16,13 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.License;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,8 +30,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.License;
+import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 
 public class NotificationServiceImplTest {
 
@@ -64,36 +64,12 @@ public class NotificationServiceImplTest {
   };
 
   @Test
-  public void testGetNotificationsWithMessagesLcp() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_SHOWROOM_ADMIN });
-
-    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
-
-    List<Service> services = new ArrayList<Service>();
-    services.add(createService("testSp1", true, true));
-    services.add(createService("testSp2", false, true));
-    services.add(createService("testSp3", true, false));
-    services.add(createService("testSp4", false, false));
-    services.add(createService("testSp5", true, false));
-
-    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
-
-    NotificationMessage message = notificationServiceImpl.getNotifications(idp);
-
-    assertEquals(3, message.getArguments().size());
-    assertEquals(services.get(2), message.getArguments().get(0));
-    assertEquals(services.get(4), message.getArguments().get(1));
-    assertEquals(NotificationServiceImpl.LCP_NOTIFICATIONS, message.getMessageKeys().get(0));
-
-  }
-
-  @Test
   public void testGetNotificationsWithMessagesFcp() {
     authorities = Arrays.asList(new Authority[] { Authority.ROLE_DASHBOARD_ADMIN});
 
     InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
-    List<Service> services = new ArrayList<Service>();
+    List<Service> services = new ArrayList<>();
     services.add(createService("testSp1", true, false));
     services.add(createService("testSp2", false, true));
     services.add(createService("testSp3", true, true));
@@ -108,43 +84,6 @@ public class NotificationServiceImplTest {
     assertEquals(services.get(1), message.getArguments().get(1));
 
     assertEquals(NotificationServiceImpl.FCP_NOTIFICATIONS, message.getMessageKeys().get(0));
-  }
-
-  @Test
-  public void testGetNoNotifications() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_SHOWROOM_USER});
-
-    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
-
-    List<Service> services = new ArrayList<Service>();
-    services.add(createService("testSp1", false, true));
-    services.add(createService("testSp2", true, false));
-    services.add(createService("testSp3", true, true));
-    services.add(createService("testSp4", false, false));
-
-    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
-
-    NotificationMessage result = notificationServiceImpl.getNotifications(idp);
-
-    assertEquals(0, result.getArguments().size());
-  }
-
-  @Test
-  public void testGetNotificationsWithoutMessages() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_SHOWROOM_ADMIN });
-
-    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
-
-    List<Service> services = new ArrayList<Service>();
-    services.add(createService("testSp1", true, true));
-    services.add(createService("testSp2", true, true));
-    services.add(createService("testSp3", false, false));
-
-    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
-
-    NotificationMessage result = notificationServiceImpl.getNotifications(idp);
-
-    assertEquals(0, result.getArguments().size());
   }
 
   private Service createService(String spName, boolean hasLicense, boolean isConnected) {

@@ -19,35 +19,28 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:opensaml="http://www.surfnet.nl/schema/security/opensaml"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd
        http://www.surfnet.nl/schema/security/opensaml
-       http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.surfnet.nl/schema/security/spring-security-opensaml.xsd">
 
   <bean id="samlProvisioner" class="nl.surfnet.coin.selfservice.provisioner.SAMLProvisioner">
     <property name="uuidAttribute" value="${saml-uuid-attribute}"/>
   </bean>
 
   <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
-    <property name="showroomAdmin" value="${showroom.admin}" />
-    <property name="showroomSuperUser" value="${showroom.super.user}" />
     <property name="dashboardAdmin" value="${dashboard.admin}" />
     <property name="dashboardViewer" value="${dashboard.viewer}" />
     <property name="dashboardSuperUser" value="${dashboard.super.user}" />
-    <property name="isDashboard" value="${is.dashboard}" />
-
     <property name="apiClient" ref="openConextApiClient" />
     <property name="callbackFlagParameter" value="apiOauthCallback" />
   </bean>
 
   <bean id="sabEntitlementsFilter" class="nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter">
-    <property name="adminLicentieIdPRole" value="${admin.licentie.idp.sabRole}" />
     <property name="adminSurfConextIdPRole" value="${admin.surfconext.idp.sabRole}" />
     <property name="viewerSurfConextIdPRole" value="${viewer.surfconext.idp.sabRole}" />
-    <property name="isDashboard" value="${is.dashboard}" />
   </bean>
 
   <bean id="samlCertificateStore" class="nl.surfnet.spring.security.opensaml.KeyStore">
