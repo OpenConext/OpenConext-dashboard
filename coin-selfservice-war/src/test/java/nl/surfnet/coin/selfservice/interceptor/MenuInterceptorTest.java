@@ -20,6 +20,7 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.Menu;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
+
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,39 +33,23 @@ import java.util.Set;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 import static org.junit.Assert.assertEquals;
 
-/**
- * TestMenuInterceptorTest.java
- */
 public class MenuInterceptorTest {
 
   private MenuInterceptor menuInterceptor = new MenuInterceptor();
 
   @Test
-  public void test_menu_for_user_has_one() throws Exception {
-    Menu menu = executeTestAndReturnMenu(false, ROLE_SHOWROOM_USER);
-    assertEquals(0, menu.getMenuItems().size());
-  }
-
-  @Test
   public void test_menu_for_dashboard_admin_equals_admin_viewer_has_none() throws Exception {
-    Menu menuAdmin = executeTestAndReturnMenu(false, ROLE_DASHBOARD_ADMIN);
-    Menu menuViewer = executeTestAndReturnMenu(false, ROLE_DASHBOARD_VIEWER);
+    Menu menuAdmin = executeTestAndReturnMenu(ROLE_DASHBOARD_ADMIN);
+    Menu menuViewer = executeTestAndReturnMenu(ROLE_DASHBOARD_VIEWER);
     assertEquals(menuAdmin.getMenuItems().size(), menuViewer.getMenuItems().size());
     assertEquals(5, menuViewer.getMenuItems().size());
   }
 
-  @Test
-  public void test_menu_for_showroom_admin() throws Exception {
-    Menu menuAdmin = executeTestAndReturnMenu(false, ROLE_SHOWROOM_ADMIN);
-    assertEquals(2, menuAdmin.getMenuItems().size());
-  }
 
-
-  private Menu executeTestAndReturnMenu(Boolean isDashBoard, Authority... authorities) throws Exception {
+  private Menu executeTestAndReturnMenu(Authority... authorities) throws Exception {
     setUpAuthorities(authorities);
     ModelAndView modelAndView = new ModelAndView();
     MockHttpServletRequest request = new MockHttpServletRequest();
-    request.setAttribute("isDashBoard", isDashBoard);
     menuInterceptor.postHandle(request, null, null, modelAndView);
 
     ModelMap modelMap = modelAndView.getModelMap();
@@ -75,7 +60,7 @@ public class MenuInterceptorTest {
 
   private void setUpAuthorities(Authority... authorities) {
     CoinUser coinUser = new CoinUser();
-    Set<CoinAuthority> grantedAuthorities = new HashSet<CoinAuthority>();
+    Set<CoinAuthority> grantedAuthorities = new HashSet<>();
     for (Authority authority : authorities) {
       grantedAuthorities.add(new CoinAuthority(authority));
     }

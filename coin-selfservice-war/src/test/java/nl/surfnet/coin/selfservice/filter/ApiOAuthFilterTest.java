@@ -16,18 +16,23 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertNoRoleIsGranted;
+import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertRoleIsGranted;
+import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertRoleIsNotGranted;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-
-import nl.surfnet.coin.api.client.OpenConextOAuthClient;
-import nl.surfnet.coin.api.client.domain.Group20;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsEqual;
@@ -42,17 +47,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
-import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertNoRoleIsGranted;
-import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertRoleIsGranted;
-import static nl.surfnet.coin.selfservice.filter.SpringSecurityUtil.assertRoleIsNotGranted;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import nl.surfnet.coin.api.client.OpenConextOAuthClient;
+import nl.surfnet.coin.api.client.domain.Group20;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 
 public class ApiOAuthFilterTest {
 
@@ -79,7 +76,6 @@ public class ApiOAuthFilterTest {
     response = new MockHttpServletResponse();
 
     SecurityContextHolder.getContext().setAuthentication(null);
-    filter.setIsDashboard(false);
   }
 
   @Test
@@ -139,12 +135,13 @@ public class ApiOAuthFilterTest {
     when(apiClient.isAccessTokenGranted(anyString())).thenReturn(true);
 
     setAuthentication();
-
+    setUpForAuthoritiesCheck(ROLE_DASHBOARD_VIEWER);
     when(apiClient.getGroups20(THE_USERS_UID, THE_USERS_UID)).thenReturn(Arrays.asList(new Group20("id1"), new Group20("id2")));
 
     filter.doFilter(request, response, chain);
     assertThat((String) request.getSession().getAttribute(ApiOAuthFilter.PROCESSED), Is.is("true"));
-    assertRoleIsGranted(ROLE_SHOWROOM_USER);
+    assertRoleIsGranted(ROLE_DASHBOARD_VIEWER);
+    assertRoleIsNotGranted(ROLE_DASHBOARD_ADMIN);
   }
 
   @Test
@@ -157,7 +154,6 @@ public class ApiOAuthFilterTest {
 
     this.setUpGroupMembersShips(ROLE_DASHBOARD_ADMIN);
 
-    filter.setIsDashboard(true);
     filter.doFilter(request, response, chain);
 
     assertRoleIsGranted(ROLE_DASHBOARD_ADMIN);
@@ -168,30 +164,15 @@ public class ApiOAuthFilterTest {
 
   @Test
   public void test_elevate_user_results_in_two_admins() throws IOException, ServletException {
-    filter.setIsDashboard(true);
-    setUpForAuthoritiesCheck(ROLE_DASHBOARD_ADMIN, ROLE_SHOWROOM_ADMIN);
+    setUpForAuthoritiesCheck(ROLE_DASHBOARD_ADMIN);
     assertRoleIsGranted(ROLE_DASHBOARD_ADMIN);
-    assertRoleIsNotGranted(ROLE_SHOWROOM_ADMIN)  ;
   }
 
-  @Test
-  public void test_elevate_user_results_in_one_admin_when_lmng_is_disabled() throws IOException, ServletException {
-    filter.setIsDashboard(true);
-    setUpForAuthoritiesCheck(ROLE_SHOWROOM_ADMIN, ROLE_SHOWROOM_USER);
-    assertNoRoleIsGranted();
-  }
 
   @Test
   public void test_elevate_user_results_in_no_authorities_in_lmng_disactive_modus() throws IOException, ServletException {
-    filter.setIsDashboard(true);
     setUpForAuthoritiesCheck(new Authority[]{});
     assertNoRoleIsGranted();
-  }
-
-  @Test
-  public void test_elevate_user_results_in_user_authorities() throws IOException, ServletException {
-    setUpForAuthoritiesCheck( new Authority[]{});
-    assertRoleIsGranted(ROLE_SHOWROOM_USER);
   }
 
   private void setUpForAuthoritiesCheck(Authority... groupMemberShips) throws IOException, ServletException {
@@ -207,7 +188,7 @@ public class ApiOAuthFilterTest {
   }
 
   private void setUpGroupMembersShips(Authority... authorities) {
-    List<Group20> groups = new ArrayList<Group20>();
+    List<Group20> groups = new ArrayList<>();
     for (Authority authority : authorities) {
       switch (authority) {
       case ROLE_DASHBOARD_ADMIN:
@@ -216,10 +197,6 @@ public class ApiOAuthFilterTest {
         break;
       case ROLE_DASHBOARD_VIEWER:
         filter.setDashboardViewer(authority.name());
-        groups.add(new Group20(authority.name()));
-        break;
-      case ROLE_SHOWROOM_ADMIN:
-        filter.setShowroomAdmin(authority.name());
         groups.add(new Group20(authority.name()));
         break;
       default:

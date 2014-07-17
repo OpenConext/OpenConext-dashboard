@@ -24,6 +24,7 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
+
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -37,7 +38,6 @@ import java.util.List;
 public class NotificationServiceImpl implements NotificationService {
 
   protected static final String FCP_NOTIFICATIONS = "jsp.notifications.fcp.text";
-  protected static final String LCP_NOTIFICATIONS = "jsp.notifications.lcp.text";
 
   @Resource
   private Csa csa;
@@ -46,35 +46,28 @@ public class NotificationServiceImpl implements NotificationService {
   public NotificationMessage getNotifications(InstitutionIdentityProvider selectedIdp) {
     NotificationMessage notificationMessage = new NotificationMessage();
 
-    boolean isLcp = getAuthorities().contains(Authority.ROLE_SHOWROOM_ADMIN);
     boolean isFcp = getAuthorities().contains(Authority.ROLE_DASHBOARD_ADMIN) || getAuthorities().contains(Authority.ROLE_DASHBOARD_VIEWER);
 
-    if (!isLcp && !isFcp) {
+    if (!isFcp) {
       return notificationMessage;
-    }
-
-    //might that we have two text's but this is very rare and acceptable
-    if (isFcp) {
+    } else {
       notificationMessage.addMessageKey(FCP_NOTIFICATIONS);
-    }
-    if (isLcp) {
-      notificationMessage.addMessageKey(LCP_NOTIFICATIONS);
     }
 
     List<Service> services = csa.getServicesForIdp(selectedIdp.getId());
-    List<Service> notLinkedCSPs = new ArrayList<Service>();
-    List<Service> noLicenseCSPs = new ArrayList<Service>();
+    List<Service> notLinkedCSPs = new ArrayList<>();
+    List<Service> noLicenseCSPs = new ArrayList<>();
 
     for (Service service : services) {
       if (service.getLicense() != null && !service.isConnected()) {
         // if statement inside if statement for readability
-        if (isFcp || (isLcp && service.isHasCrmLink())) {
+        if (isFcp) {
           notLinkedCSPs.add(service);
         }
       } else if (service.getLicense() == null && service.isHasCrmLink()
-              && service.isConnected()) {
+        && service.isConnected()) {
         // if statement inside if statement for readability
-        if (isFcp || (isLcp && service.isHasCrmLink())) {
+        if (isFcp) {
           noLicenseCSPs.add(service);
         }
       }

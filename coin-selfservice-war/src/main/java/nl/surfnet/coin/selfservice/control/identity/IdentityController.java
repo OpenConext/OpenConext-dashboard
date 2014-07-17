@@ -18,8 +18,7 @@
  */
 package nl.surfnet.coin.selfservice.control.identity;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +51,7 @@ public class IdentityController extends BaseController {
     List<InstitutionIdentityProvider> idps = (List<InstitutionIdentityProvider>) request.getSession().getAttribute(INSTITUTION_IDENTITY_PROVIDERS);
 
     modelMap.addAttribute("referenceIdentityProviders", referenceIdentityProviders(idps));
-    modelMap.addAttribute("referenceRoles", referenceRoles(isDashBoard(request)));
-
+    modelMap.addAttribute("referenceRoles", Arrays.asList(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER.name(),CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN.name() ));
     modelMap.addAttribute("command", new IdentitySwitch());
 
     IdentitySwitch current = (IdentitySwitch) request.getSession().getAttribute(SWITCHED_IDENTITY_SWITCH);
@@ -117,7 +115,7 @@ public class IdentityController extends BaseController {
 
   private void clearAuthorities(CoinUser currentUser, Boolean isDashBoard) {
     currentUser.getAuthorities().clear();
-    currentUser.addAuthority(new CoinAuthority(isDashBoard ? CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER : CoinAuthority.Authority.ROLE_SHOWROOM_SUPER_USER));
+    currentUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER));
   }
 
   private Map<String, String> referenceIdentityProviders(List<InstitutionIdentityProvider> idps) {
@@ -127,21 +125,5 @@ public class IdentityController extends BaseController {
     }
     return result;
   }
-
-  /*
-   * Maybe not as fancy as possible but explicit and dry so acceptable
-   */
-  private Collection<String> referenceRoles(Boolean isDashBoard) {
-    List<String> roles = new ArrayList<>();
-    if (isDashBoard) {
-      roles.add(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER.name());
-      roles.add(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN.name());
-    } else {
-      roles.add(CoinAuthority.Authority.ROLE_SHOWROOM_USER.name());
-      roles.add(CoinAuthority.Authority.ROLE_SHOWROOM_ADMIN.name());
-    }
-    return roles;
-  }
-
 
 }

@@ -27,7 +27,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import nl.surfnet.coin.csa.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,9 +46,13 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
 
 import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Category;
+import nl.surfnet.coin.csa.model.CategoryValue;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.OfferedService;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.PersonAttributeLabel;
-import nl.surfnet.coin.selfservice.interceptor.AuthorityScopeInterceptor;
 import nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl;
 import nl.surfnet.coin.selfservice.util.PersonMainAttributes;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
@@ -95,11 +98,6 @@ public class HomeController extends BaseController {
       identityProvider = getSelectedIdp(request);
     }
     List<Service> services = csa.getServicesForIdp(identityProvider.getId());
-
-    /*
-     * Strange but we need to do this to get the facet / connected / licensed numbers. Alternative is worst and let the AuthorityScopeInterceptor call the HomeController
-     */
-    services = AuthorityScopeInterceptor.scopeListOfServices(services);
 
     model.put("surfnetCount", services.size());
 

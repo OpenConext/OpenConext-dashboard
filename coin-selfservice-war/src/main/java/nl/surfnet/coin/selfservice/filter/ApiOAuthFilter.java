@@ -16,6 +16,27 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.CollectionUtils;
+
 import nl.surfnet.coin.api.client.InvalidTokenException;
 import nl.surfnet.coin.api.client.OpenConextOAuthClient;
 import nl.surfnet.coin.api.client.domain.Group20;
@@ -23,21 +44,6 @@ import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.CollectionUtils;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
@@ -55,14 +61,10 @@ public class ApiOAuthFilter implements Filter {
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
   protected static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" + ".ORIGINAL_REQUEST_URL";
 
-  private String showroomAdmin;
   private String dashboardAdmin;
   private String dashboardViewer;
-  private String showroomSuperUser;
-  private boolean isDashboard;
-
-  private String callbackFlagParameter = "oauthCallback";
   private String dashboardSuperUser;
+  private String callbackFlagParameter = "oauthCallback";
 
   /**
    * No initialization needed.
@@ -166,23 +168,14 @@ public class ApiOAuthFilter implements Filter {
      * We want to end up with only one role
      */
     coinUser.setAuthorities(new HashSet<CoinAuthority>());
-    if (isDashboard) {
-      if (groupsContains(dashboardAdmin, groups)) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
-      } else if (groupsContains(dashboardViewer, groups)) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
-      } else if (groupsContains(dashboardSuperUser, groups)) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
-      }
-    } else {
-      if (groupsContains(showroomAdmin, groups)) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_ADMIN));
-      } else if (groupsContains(showroomSuperUser, groups)) {
-        coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_SUPER_USER));
-      } else {
-        coinUser.addAuthority(new CoinAuthority(ROLE_SHOWROOM_USER));
-      }
+    if (groupsContains(dashboardAdmin, groups)) {
+      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+    } else if (groupsContains(dashboardViewer, groups)) {
+      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+    } else if (groupsContains(dashboardSuperUser, groups)) {
+      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
     }
+
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
   }
 
@@ -210,24 +203,12 @@ public class ApiOAuthFilter implements Filter {
     this.callbackFlagParameter = callbackFlagParameter;
   }
 
-  public void setShowroomAdmin(String showroomAdmin) {
-    this.showroomAdmin = showroomAdmin;
-  }
-
   public void setDashboardAdmin(String dashboardAdmin) {
     this.dashboardAdmin = dashboardAdmin;
   }
 
   public void setDashboardViewer(String dashboardViewer) {
     this.dashboardViewer = dashboardViewer;
-  }
-
-  public void setIsDashboard(boolean dashboard) {
-    isDashboard = dashboard;
-  }
-
-  public void setShowroomSuperUser(String showroomSuperUser) {
-    this.showroomSuperUser = showroomSuperUser;
   }
 
   public void setDashboardSuperUser(String dashboardSuperUser) {

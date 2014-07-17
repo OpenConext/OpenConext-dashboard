@@ -32,13 +32,11 @@
             <li><a class="facet-value inactive" data-facet-search-term="licensed" href="#"><spring:message code="jsp.app_overview.license"/> <span>(${licensedCount})</span></a></li>
             <li><a class="facet-value inactive" data-facet-search-term="not-licensed" href="#"><spring:message code="jsp.app_overview.no_license"/> <span>(${notLicensedCount})</span></a></li>
           </ul>
-        <c:if test="${facetConnectionVisible}">
-          <li class="facet-name"><spring:message code="jsp.app_overview.connection_info"/></li>
-            <ul class="facets-values">
-              <li><a class="facet-value inactive" data-facet-search-term="connected" href="#"><spring:message code="jsp.app_overview.connection"/> <span>(${connectedCount})</span></a></li>
-              <li><a class="facet-value inactive" data-facet-search-term="not-connected" href="#"><spring:message code="jsp.app_overview.no_connection"/> <span>(${notConnectedCount})</span></a></li>
-            </ul>
-        </c:if>
+        <li class="facet-name"><spring:message code="jsp.app_overview.connection_info"/></li>
+          <ul class="facets-values">
+            <li><a class="facet-value inactive" data-facet-search-term="connected" href="#"><spring:message code="jsp.app_overview.connection"/> <span>(${connectedCount})</span></a></li>
+            <li><a class="facet-value inactive" data-facet-search-term="not-connected" href="#"><spring:message code="jsp.app_overview.no_connection"/> <span>(${notConnectedCount})</span></a></li>
+          </ul>
         <li class="facet-name"><spring:message code="jsp.app_overview.recently_login_info"/></li>
           <ul class="facets-values">
             <li><a class="facet-value inactive" data-facet-search-term="recently-logged-in" href="#"><spring:message code="jsp.app_overview.recent_login"/> <span>(${recentLoginCount})</span></a></li>
