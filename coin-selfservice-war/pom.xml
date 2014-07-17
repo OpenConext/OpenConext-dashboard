@@ -44,7 +44,7 @@
     <api-secure.version>1.3.5</api-secure.version>
     <jetty.port>8280</jetty.port>
     <cruncher-client.version>3.7.0</cruncher-client.version>
-    <csa-client.version>4.0.3-SNAPSHOT</csa-client.version>
+    <csa-client.version>4.0.3</csa-client.version>
     <jetty.version>9.1.5.v20140505</jetty.version>
   </properties>
 
