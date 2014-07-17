@@ -1,0 +1,72 @@
+#
+# Copyright 2012 SURFnet bv, The Netherlands
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+
+# SMTP server settings for notifications
+coin-mailserver=s01.dev.coin.surf.net
+
+wayf.url.metadata=https://engine.test.surfconext.nl/authentication/idp/metadata
+wayf.url.sso=https://engine.test.surfconext.nl/authentication/idp/single-sign-on
+wayf.certificate=MIIESzCCAzOgAwIBAgIJAIbjZLbIpAxQMA0GCSqGSIb3DQEBBQUAMIG7MQswCQYDVQQGEwItLTESMBAGA1UECAwJU29tZVN0YXRlMREwDwYDVQQHDAhTb21lQ2l0eTEZMBcGA1UECgwQU29tZU9yZ2FuaXphdGlvbjEfMB0GA1UECwwWU29tZU9yZ2FuaXphdGlvbmFsVW5pdDEeMBwGA1UEAwwVbG9jYWxob3N0LmxvY2FsZG9tYWluMSkwJwYJKoZIhvcNAQkBFhpyb290QGxvY2FsaG9zdC5sb2NhbGRvbWFpbjAeFw0xNDA0MTQwOTE1MDBaFw0xNTA0MTQwOTE1MDBaMIG7MQswCQYDVQQGEwItLTESMBAGA1UECAwJU29tZVN0YXRlMREwDwYDVQQHDAhTb21lQ2l0eTEZMBcGA1UECgwQU29tZU9yZ2FuaXphdGlvbjEfMB0GA1UECwwWU29tZU9yZ2FuaXphdGlvbmFsVW5pdDEeMBwGA1UEAwwVbG9jYWxob3N0LmxvY2FsZG9tYWluMSkwJwYJKoZIhvcNAQkBFhpyb290QGxvY2FsaG9zdC5sb2NhbGRvbWFpbjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM38You8gdExyrGhXRnCstcoUcpec+jCgJ6u81ruBDOX3dwsFZaRJAW9/r9tuGSHF5yXq7c39DDovCLSxmvAm10UXRQROv2NNrG1qFsyyCdB4jC8wO9aGxfiIj8ETpiYCqB/KbHzFqZeq21y3fWSVfdqcSTemqPBAGDJNJ6HqRKpMtGrK69MolA95SD2HTWw0kVxH6Cjp8BUL+ppevSnsWg8lZAObDVLkuQX6UmeqHEN4RD/PGngv1pMN46lnLgRFs+bd/MOdSkPx5nVImdmm1WErOyziO7RRJQzsggGmO426eLgs8oEdAbmHJRI83ijMwnlVPDFnsUDgKTnrngo/N8CAwEAAaNQME4wHQYDVR0OBBYEFKI5/5EYYjzXnu+aW+dsmL+VfYXDMB8GA1UdIwQYMBaAFKI5/5EYYjzXnu+aW+dsmL+VfYXDMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAH+PZRW8IY6RZLBVY1tiLtWgwe3yfuRQTQo6zc0a1imZ3OFG6j7cL3jnFhlP7B1VKpGrFFGnoz1Oarq9kUAx8w54R4wUIDAf7teq09v+U5NOAyM4Nnkm0c18PAHY0fg6DlbfDm3qpV/fFm+p/fWyxCbwo4DsdKuVIi7UjxQ9OZkGLi6q2OwfYDJTMLcoctr1Ja70AzzV565AQbB/L47owaw2E6GU/MXLGlJH96vquBorf75wZ+kCcxQhyRfYDHjh/k8GbecDJepo9mxb1ZmZ7Luv/5q4OS38b3mAdvfqWcY9tW8OwEoC/+eMYnwqbzQUMWYmB/ynvtcYRiSF+28kgCY=
+
+## Properties for opensaml
+ISSUING_ENTITY_ID=https\://dashboard.test.surfconext.nl
+
+WEB_APPLICATION_HOST_AND_PORT=dashboard.test.surfconext.nl
+
+
+# Team id that is used as definition of who is a 'dashboard_admin'.
+dashboard.admin=urn\:collab\:group\:test.surfteams.nl\:nl\:surfnet\:diensten\:dashboard_admin
+# Team id that is used as definition of who is a 'dashboard.viewer'.
+dashboard.viewer=urn\:collab\:group\:test.surfteams.nl\:nl\:surfnet\:diensten\:dashboard_viewer
+# Team id that is used as definition of who is a 'dashboard_super_user'.
+dashboard.super.user=urn:collab:group:test.surfteams.nl:nl:surfnet:diensten:dashboard_super_user
+
+# Is this the dashboard instance
+is.dashboard=true
+
+api-baseurl=https\://api.test.surfconext.nl/v1/
+api-consumerkey=https\://dashboard.test.surfconext.nl
+api-consumersecret=??
+api-callbackuri=https\://dashboard.test.surfconext.nl/apiOauthCallback?apiOauthCallback\=true
+
+# SAB connection details
+sab.endpoint=https://sab-ng.surfnet.nl/simplesaml/module.php/attributes/server.php
+sab.username=??
+sab.password=??
+
+sab-rest.endpoint=https://sab-ng.surfnet.nl/api
+sab-rest.username=??
+sab-rest.password=??
+
+# SAB roles
+admin.licentie.idp.sabRole=
+admin.surfconext.idp.sabRole=SURFconextverantwoordelijke
+viewer.surfconext.idp.sabRole=SURFconextbeheerder
+
+csa.base.url=https\://csa.test.surfconext.nl
+csa.client.key=??
+csa.client.secret=??
+csa.oauth2.authorization.url=https://apis.test.surfconext.nl/oauth2/token
+
+cruncher.base.url=https://cruncher.test.surfconext.nl/stats/v1
+cruncher.client.key=??
+cruncher.client.secret=??
+cruncher.oauth2.authorization.url=https://apis.test.surfconext.nl/oauth2/token
+
+# Properties file that contains metadata values for outputting SAML metadata
+saml-metadata-properties-file=metadata.dashboard.properties
+

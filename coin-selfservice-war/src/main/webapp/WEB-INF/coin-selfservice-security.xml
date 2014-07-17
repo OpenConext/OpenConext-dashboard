@@ -68,10 +68,11 @@
                              authentication-manager-ref="authenticationManager"/>
 
   <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
-
+    <security:access-denied-handler error-page="/accessDenied.jsp"/>
     <security:custom-filter position="PRE_AUTH_FILTER" ref="samlPreAuthFilter"/>
     <security:custom-filter after="PRE_AUTH_FILTER" ref="apiOauthFilter"/>
     <security:custom-filter after="ANONYMOUS_FILTER" ref="sabEntitlementsFilter"/>
+    <security:intercept-url pattern="/accessDenied.shtml" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Metadata" access="permitAll"/>
     <security:intercept-url pattern="/logout.shtml" access="permitAll"/>
@@ -99,4 +100,5 @@
   <security:authentication-manager alias="authenticationManager">
     <security:authentication-provider ref="samlAuthenticationProvider"/>
   </security:authentication-manager>
+
 </beans>

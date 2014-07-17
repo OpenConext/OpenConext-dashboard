@@ -196,7 +196,7 @@
         "appUrl": "https://app.url",
         "serviceUrl": "https://service.url",
         "crmUrl": "https://crm.url",
-        "detailLogoUrl": "https://static.surfconext.nl/media/idp/ru.png",
+        "detailLogoUrl": "",
         "supportUrl": "https://support.url",
         "eulaUrl": "https://eula.url",
         "screenshotUrls": [

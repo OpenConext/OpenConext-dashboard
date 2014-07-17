@@ -20,8 +20,8 @@
   <jsp:param name="title" value="${title}"/>
 </jsp:include>
 
-  <div class="column-center content-holder no-right-left">
-    <section class="data-table-holder">
+<div class="column-center content-holder no-right-left">
+  <section class="data-table-holder">
 
     <h1>${title}</h1>
 
@@ -38,18 +38,48 @@
       </tr>
       </thead>
       <tbody>
-        <c:forEach items="${roleAssignments}" var="entry" varStatus="vs">
-          <tr>
-            <td><c:out value="${entry.key}"/> </td>
-            <td><c:out value="${entry.value}"/> </td>
-          </tr>
-        </c:forEach>
+      <c:forEach items="${roleAssignments}" var="entry" varStatus="vs">
+        <tr>
+          <td><c:out value="${entry.key}"/></td>
+          <td><c:out value="${entry.value}"/></td>
+        </tr>
+      </c:forEach>
 
       </tbody>
     </table>
+    <p/>
 
-
+    <h2><spring:message code="jsp.my.idp.apps.header"/></h2>
+    <c:choose>
+      <c:when test="${not empty offeredServicePresenter.offeredServiceViews}">
+        <div class="accordion" id="accordion2">
+          <c:forEach items="${offeredServicePresenter.offeredServiceViews}" var="offeredServiceView" varStatus="vs">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                   href="#collapse-<c:out value="${vs.count}"/>">
+                  <c:out default="${offeredServiceView.offeredService.service.id}"
+                         value="${offeredServiceView.offeredService.service.name}"/>
+                </a>
+              </div>
+              <div id="collapse-<c:out value="${vs.count}"/>" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <ul>
+                    <c:forEach items="${offeredServiceView.sortedIdps}" var="idp">
+                      <li><c:out value="${idp}"/></li>
+                    </c:forEach>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </c:forEach>
+        </div>
+      </c:when>
+      <c:otherwise>
+        <p><spring:message code="jsp.my.idp.apps.noappsfound"/></p>
+      </c:otherwise>
+    </c:choose>
   </section>
-  </div>
+</div>
 
 <jsp:include page="foot.jsp"/>

@@ -20,10 +20,12 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
+import nl.surfnet.coin.csa.model.OfferedService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -105,4 +107,13 @@ public class HomeControllerTest {
     assertTrue(modelAndView.getModel().containsKey("roleAssignments"));
   }
 
+  @Test
+  public void testAddsOfferedServicesToModel() throws Exception {
+    ArrayList<OfferedService> expected = new ArrayList<>();
+    when(csa.findOfferedServicesFor("id")).thenReturn(expected);
+
+    ModelAndView modelAndView = controller.idp(request);
+    assertEquals("idp", modelAndView.getViewName());
+    assertTrue(modelAndView.getModel().containsKey("offeredServicePresenter"));
+  }
 }

@@ -19,9 +19,6 @@
   <modelVersion>4.0.0</modelVersion>
   <modules>
     <module>coin-selfservice-war</module>
-    <module>dashboard-dist</module>
-    <module>showroom-dist</module>
-    <module>sab-client</module>
   </modules>
 
   <parent>
@@ -31,8 +28,7 @@
   </parent>
 
   <artifactId>coin-selfservice-parent</artifactId>
-  <version>4.0.1.4</version>
-
+  <version>4.0.2</version>
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 
@@ -42,7 +38,7 @@
     <connection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</connection>
     <url>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</url>
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
-    <tag>coin-selfservice-parent-4.0.1.4</tag>
+    <tag>coin-selfservice-parent-4.0.2</tag>
   </scm>
 
   <repositories>
