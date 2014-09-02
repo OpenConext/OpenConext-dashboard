@@ -17,11 +17,11 @@
 package nl.surfnet.coin.selfservice.control;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -172,7 +172,7 @@ public class StatisticsController extends BaseController {
     public String[] toCsv() {
       List<String> headerRow = new ArrayList<>();
       headerRow.addAll(Arrays.asList("idpEntityId", "idpName", "spEntityId", "startDate", "endDate"));
-      if(!loginDatas.isEmpty()) {
+      if (!loginDatas.isEmpty()) {
 
         LocalDate startDate = toLocalDate(loginDatas.get(0).getPointStart());
         LocalDate endDate = toLocalDate(loginDatas.get(0).getPointEnd());
