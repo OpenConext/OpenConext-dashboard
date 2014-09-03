@@ -29,13 +29,17 @@
   <logger name="org.mortbay" level="warn" additivity="false">
     <appender-ref ref="console" />
   </logger>
-  <logger name="org.eclipse.jetty" level="warn" additivity="false">
+  <logger name="org.eclipse.jetty" level="debug" additivity="false">
     <appender-ref ref="console" />
   </logger>
   <logger name="nl.surfnet.coin" level="debug" additivity="false">
     <appender-ref ref="console" />
   </logger>
   <logger name="nl.surfnet.sab" level="debug" additivity="false">
+    <appender-ref ref="console" />
+  </logger>
+
+  <logger name="org.springframework" level="debug" additivity="false">
     <appender-ref ref="console" />
   </logger>
 

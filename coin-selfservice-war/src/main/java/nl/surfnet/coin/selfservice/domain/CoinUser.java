@@ -18,6 +18,7 @@ package nl.surfnet.coin.selfservice.domain;
 
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -43,6 +44,7 @@ public class CoinUser implements UserDetails {
    * It is not allowed to call this method {@inheritDoc}
    */
   @Override
+  @JsonIgnore
   public String getPassword() {
     throw new SecurityException("Self service interface does not contain passwords");
   }

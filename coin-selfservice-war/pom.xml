@@ -28,6 +28,7 @@
   <name>OpenConext : coin-selfservice-war</name>
 
   <properties>
+    <spring.version>3.2.10.RELEASE</spring.version>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
     <coin-shared.version>3.11.0</coin-shared.version>
     <coin-api.version>4.0.0</coin-api.version>
@@ -78,11 +79,28 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
+      <version>3.1.3.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>3.1.3.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>3.1.3.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path</artifactId>
+      <version>0.9.1</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-taglibs</artifactId>
+      <version>3.1.3.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.surfnet.coin</groupId>

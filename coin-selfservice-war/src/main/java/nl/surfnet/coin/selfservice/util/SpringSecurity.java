@@ -16,10 +16,15 @@
 
 package nl.surfnet.coin.selfservice.util;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.Assert;
+
+import java.util.List;
 
 public class SpringSecurity {
 
@@ -61,6 +66,24 @@ public class SpringSecurity {
 
   public static void setImpersonatedIdentityProvider(InstitutionIdentityProvider impersonatedIdentityProvider) {
     SpringSecurity.impersonatedIdentityProvider = impersonatedIdentityProvider;
+  }
+
+  public static void setCurrentIdp(final String idpEntityId) {
+    Assert.hasText(idpEntityId);
+    List<InstitutionIdentityProvider> institutionIdps = SpringSecurity.getCurrentUser().getInstitutionIdps();
+    InstitutionIdentityProvider currentInstitutionIdentityProvider = Iterables.find(institutionIdps, new Predicate<InstitutionIdentityProvider>() {
+      @Override
+      public boolean apply(InstitutionIdentityProvider input) {
+        return input.getId().equals(idpEntityId);
+      }
+    }, null);
+
+    if (currentInstitutionIdentityProvider != null) {
+      SpringSecurity.getCurrentUser().setIdp(currentInstitutionIdentityProvider);
+    } else {
+      throw new SecurityException(idpEntityId + " is unknown for " + SpringSecurity.getCurrentUser().getUsername());
+    }
+
   }
 
 }
