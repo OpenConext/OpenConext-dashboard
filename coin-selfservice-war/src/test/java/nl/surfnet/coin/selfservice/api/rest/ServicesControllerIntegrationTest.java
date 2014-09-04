@@ -1,4 +1,4 @@
-package nl.surfnet.coin.selfservice.control.rest;
+package nl.surfnet.coin.selfservice.api.rest;
 
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
@@ -25,8 +25,8 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static nl.surfnet.coin.selfservice.control.rest.Constants.HTTP_X_IDP_ENTITY_ID;
-import static nl.surfnet.coin.selfservice.control.rest.RestDataFixture.*;
+import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
+import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;

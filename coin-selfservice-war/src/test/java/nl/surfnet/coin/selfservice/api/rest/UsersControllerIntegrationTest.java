@@ -1,4 +1,4 @@
-package nl.surfnet.coin.selfservice.control.rest;
+package nl.surfnet.coin.selfservice.api.rest;
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 
 import static java.lang.String.format;
-import static nl.surfnet.coin.selfservice.control.rest.Constants.HTTP_X_IDP_ENTITY_ID;
-import static nl.surfnet.coin.selfservice.control.rest.RestDataFixture.coinUser;
+import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
+import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.coinUser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

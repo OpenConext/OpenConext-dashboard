@@ -1,4 +1,4 @@
-package nl.surfnet.coin.selfservice.control.rest;
+package nl.surfnet.coin.selfservice.api.rest;
 
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Category;

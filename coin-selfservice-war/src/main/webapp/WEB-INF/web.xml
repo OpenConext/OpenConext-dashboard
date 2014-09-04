@@ -15,11 +15,11 @@
   limitations under the License.
   -->
 <web-app
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    metadata-complete="true"
-    version="2.5">
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  metadata-complete="true"
+  version="2.5">
 
   <display-name>coin-selfservice</display-name>
 
@@ -66,9 +66,20 @@
   </filter-mapping>
 
   <servlet>
-    <servlet-name>coin-selfservice</servlet-name>
+    <servlet-name>api-dashboard</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>api-dashboard</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>coin-selfservice</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>3</load-on-startup>
   </servlet>
 
   <servlet-mapping>

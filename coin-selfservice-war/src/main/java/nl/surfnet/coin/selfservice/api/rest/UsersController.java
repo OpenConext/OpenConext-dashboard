@@ -1,4 +1,4 @@
-package nl.surfnet.coin.selfservice.control.rest;
+package nl.surfnet.coin.selfservice.api.rest;
 
 
 import nl.surfnet.coin.selfservice.domain.CoinUser;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static nl.surfnet.coin.selfservice.control.rest.Constants.HTTP_X_IDP_ENTITY_ID;
+import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
 @Controller
-@RequestMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsersController {
 
   @RequestMapping("/me")
   public ResponseEntity<RestResponse<CoinUser>> me() {
-    return new ResponseEntity<>(new RestResponse<>(SpringSecurity.getCurrentUser()), HttpStatus.OK);
+    return new ResponseEntity<>(new RestResponse<>(SpringSecurity.getCurrentUser()).withSelfRel("/users/me"), HttpStatus.OK);
   }
 
   @RequestMapping("/me/switch-to-idp/{switchToIdp}")

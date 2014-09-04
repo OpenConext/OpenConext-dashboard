@@ -1,4 +1,4 @@
-package nl.surfnet.coin.selfservice.control.rest;
+package nl.surfnet.coin.selfservice.api.rest;
 
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Service;
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import static nl.surfnet.coin.selfservice.control.rest.Constants.HTTP_X_IDP_ENTITY_ID;
+import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
 @Controller
 @RequestMapping(value = "/services", consumes = MediaType.APPLICATION_JSON_VALUE)
