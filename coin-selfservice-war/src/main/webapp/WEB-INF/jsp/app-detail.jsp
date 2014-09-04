@@ -98,16 +98,14 @@
         </li>
       </c:if>
 
-      <c:if test="${isDashBoard}">
-        <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
-          <spring:param name="spEntityId" value="${service.spEntityId}" />
-        </spring:url>
-        <c:set var="tooltipStats"><spring:message code="jsp.sp_detail.statslink"/></c:set>
-        <li>
-          <a class="service-stats" rel="tooltip" data-type="info" data-original-title="${tooltipStats}"
-              href="${statsLink}"></a>
-        </li>
-      </c:if>
+      <spring:url var="statsLink" value="/stats/stats.shtml" htmlEscape="true">
+        <spring:param name="spEntityId" value="${service.spEntityId}" />
+      </spring:url>
+      <c:set var="tooltipStats"><spring:message code="jsp.sp_detail.statslink"/></c:set>
+      <li>
+        <a class="service-stats" rel="tooltip" data-type="info" data-original-title="${tooltipStats}"
+            href="${statsLink}"></a>
+      </li>
       </ul>
       <c:if test="${not empty service.supportMail}">
         <ul class="action-list email-addresses">
@@ -216,18 +214,9 @@
         <tags:ask-question service="${service}" invariant="${questionAllowed and !applyAllowed}" />
       </div>
 
-      <c:choose>
-        <c:when test="${isDashBoard}">
-          <tags:html-format>
-            <jsp:attribute name="input">${service.institutionDescription}</jsp:attribute>
-          </tags:html-format>
-        </c:when>
-        <c:otherwise>
-          <tags:html-format>
-            <jsp:attribute name="input">${service.enduserDescription}</jsp:attribute>
-          </tags:html-format>
-        </c:otherwise>
-      </c:choose>
+    <tags:html-format>
+      <jsp:attribute name="input">${service.institutionDescription}</jsp:attribute>
+    </tags:html-format>
 
     <div class="arp">
       <jsp:include page="requests/arp.jsp" />
