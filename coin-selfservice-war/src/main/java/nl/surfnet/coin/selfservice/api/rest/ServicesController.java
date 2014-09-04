@@ -29,7 +29,7 @@ public class ServicesController {
   private Cruncher cruncher;
 
   @RequestMapping
-  public ResponseEntity<RestResponse<ListHolder<Service>>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+  public ResponseEntity<RestResponse<List<Service>>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
     List<SpStatistic> recentLoginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), idpEntityId);
     for (SpStatistic spStatistic : recentLoginsForUser) {
@@ -39,7 +39,7 @@ public class ServicesController {
       }
     }
 
-    return new ResponseEntity<>(new RestResponse<ListHolder<Service>>(new ListHolder(services)), HttpStatus.OK);
+    return new ResponseEntity<>(new RestResponse<>(services), HttpStatus.OK);
   }
 
   private Service getServiceBySpEntityId(List<Service> services, String spEntityId) {

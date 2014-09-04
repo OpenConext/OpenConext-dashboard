@@ -85,9 +85,9 @@ public class ServicesControllerIntegrationTest {
       get("/services").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
     )
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.payload.result").isArray())
-      .andExpect(jsonPath("$.payload.result[0].name").value(service.getName()))
-      .andExpect(jsonPath("$.payload.result[0].lastLoginDate").value(statisticDate.getTime()))
+      .andExpect(jsonPath("$.payload").isArray())
+      .andExpect(jsonPath("$.payload[0].name").value(service.getName()))
+      .andExpect(jsonPath("$.payload[0].lastLoginDate").value(statisticDate.getTime()))
     ;
   }
 

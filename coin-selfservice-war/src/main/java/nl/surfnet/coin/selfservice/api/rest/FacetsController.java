@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,8 +20,8 @@ public class FacetsController {
   private Csa csa;
 
   @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<RestResponse<ListHolder<Category>>> index() {
+  public ResponseEntity<RestResponse<List<Category>>> index() {
     List<Category> categories = csa.getTaxonomy().getCategories();
-    return new ResponseEntity<>(new RestResponse<ListHolder<Category>>(new ListHolder(categories)), HttpStatus.OK);
+    return new ResponseEntity<>(new RestResponse<>(categories), HttpStatus.OK);
   }
 }

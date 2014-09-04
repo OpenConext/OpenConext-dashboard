@@ -49,8 +49,8 @@ public class FacetsControllerIntegrationTest {
     this.mockMvc.perform(
       get("/facets").contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.payload.result").isArray())
-      .andExpect(jsonPath("$.payload.result[0].name").value("foo"))
+      .andExpect(jsonPath("$.payload").isArray())
+      .andExpect(jsonPath("$.payload[0].name").value("foo"))
     ;
   }
 }
