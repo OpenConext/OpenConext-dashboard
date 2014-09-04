@@ -15,6 +15,7 @@ import org.surfnet.cruncher.model.SpStatistic;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
@@ -32,24 +33,16 @@ public class ServicesController {
   public ResponseEntity<RestResponse<List<Service>>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
     List<SpStatistic> recentLoginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), idpEntityId);
-    for (SpStatistic spStatistic : recentLoginsForUser) {
-      Service service = getServiceBySpEntityId(services, spStatistic.getSpEntityId());
-      if (service != null) {
-        service.setLastLoginDate(new Date(spStatistic.getEntryTime()));
-      }
-    }
+    recentLoginsForUser
+      .stream()
+      .forEach(stat -> getServiceBySpEntityId(services, stat.getSpEntityId())
+        .ifPresent(service -> service.setLastLoginDate(new Date(stat.getEntryTime()))));
 
-    return new ResponseEntity<>(new RestResponse<>(services), HttpStatus.OK);
+    return new ResponseEntity(new RestResponse(services), HttpStatus.OK);
   }
 
-  private Service getServiceBySpEntityId(List<Service> services, String spEntityId) {
-    for (Service service : services) {
-      if (service.getSpEntityId().equalsIgnoreCase(spEntityId)) {
-        return service;
-      }
-    }
-    //corner-case, but can happen in theory
-    return null;
+  private Optional<Service> getServiceBySpEntityId(List<Service> services, String spEntityId) {
+    return services.stream().filter(s -> s.getSpEntityId().equalsIgnoreCase(spEntityId)).findFirst();
   }
 
 }

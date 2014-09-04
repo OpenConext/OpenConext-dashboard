@@ -1,6 +1,7 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonUnwrapped;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class RestResponse<T> {
     }
   }
 
+  @JsonUnwrapped
   public T getPayload() {
     return payload;
   }

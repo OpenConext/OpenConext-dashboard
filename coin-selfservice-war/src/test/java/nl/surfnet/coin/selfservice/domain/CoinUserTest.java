@@ -1,6 +1,7 @@
 package nl.surfnet.coin.selfservice.domain;
 
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.api.rest.RestResponse;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class CoinUserTest {
     coinUser.addInstitutionIdp(new InstitutionIdentityProvider("id", "name", "institutionId"));
     coinUser.setDisplayName("foobar");
 
-    String json = mapper.writeValueAsString(coinUser);
+    String json = mapper.writeValueAsString(new RestResponse<>(coinUser));
     assertNotNull(json);
   }
 }
