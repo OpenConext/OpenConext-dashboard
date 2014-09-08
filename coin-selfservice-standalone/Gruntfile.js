@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             'src/javascripts/lib/react-with-addons.js',
             'tmp/*.js',
             'src/javascripts/*',
-            '!src/javascripts/*.jsx',
+            '!src/javascripts/*.jsx'
           ]
         }
       }
@@ -22,10 +22,15 @@ module.exports = function(grunt) {
       }
     },
     sass: {
+      options: {
+        compass: true,
+        require: 'sass-globbing'
+      },
       dev: {
         options: {
           style: 'expanded',
-          lineNumbers: true
+          lineNumbers: true,
+          trace: true
         },
         files: {
           'dist/application-<%= now %>.css': 'src/stylesheets/application.sass'
@@ -52,7 +57,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['src/**/*'],
+      files: ['src/**/*', 'Gruntfile.js'],
       tasks: ['default'],
       options: {
         atBegin: true
