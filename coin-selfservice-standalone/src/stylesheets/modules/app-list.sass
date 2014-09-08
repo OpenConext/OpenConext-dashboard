@@ -1,0 +1,29 @@
+.mod-app-list
+  @extend %box
+  table
+    width: 100%
+  th, td
+    border-bottom: 1px solid $border
+    line-height: 60px
+    padding: 0 20px
+    &:first-child
+      padding-left: 30px
+    &:last-child
+      padding-right: 30px
+
+  th
+    font-weight: bold
+
+  .date,
+  .number
+    text-align: right
+
+  .yes
+    color: $green
+
+  .no
+    color: $red
+
+  @for $i from 1 through 20
+    .percent_#{$i * 5}
+      width: #{$i * 5%}

@@ -11,7 +11,7 @@
 <body>
   <div class="l-header">
 
-    <!-- Header -->
+    <!-- Header module -->
     <div class="mod-header">
       <h1 class="title">SurfConext Dashboard</h1>
       <div class="meta">
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- Navigation module -->
     <div class="mod-navigation">
       <ul>
         <li><a href="#">Apps</a></li>
@@ -40,6 +40,7 @@
 
   <div class="l-main">
     <div class="l-left">
+      <!-- filter module -->
       <div class="mod-filters">
         <h1>Filters</h1>
         <form>
@@ -62,6 +63,7 @@
       </div>
     </div>
     <div class="l-right">
+      <!-- search app module -->
       <div class="mod-app-search">
         <form>
           <fieldset>
@@ -70,15 +72,17 @@
           </fieldset>
         </form>
       </div>
+      <!-- app list module -->
       <div class="mod-app-list">
         <table>
           <thead>
             <tr>
-              <th>Application</th>
-              <th>Provider</th>
-              <th>License</th>
-              <th>Connection</th>
-              <th>Added</th>
+              <th class="percent_25">Application</th>
+              <th class="percent_25">Provider</th>
+              <th class="percent_10">License</th>
+              <th class="percent_10">Connection</th>
+              <th class="percent_15 date">Last used</th>
+              <th class="percent_15 date">Added</th>
             </tr>
           </thead>
           <tbody>
@@ -87,28 +91,32 @@
               <td>Tu Delft</td>
               <td class="yes">Yes</td>
               <td class="no">Yes</td>
-              <td>29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
             </tr>
             <tr>
               <td>3TU.datacentre</td>
               <td>Tu Delft</td>
               <td class="yes">Yes</td>
               <td class="no">Yes</td>
-              <td>29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
             </tr>
             <tr>
               <td>3TU.datacentre</td>
               <td>Tu Delft</td>
               <td class="yes">Yes</td>
               <td class="no">Yes</td>
-              <td>29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
             </tr>
             <tr>
               <td>3TU.datacentre</td>
               <td>Tu Delft</td>
               <td class="yes">Yes</td>
               <td class="no">Yes</td>
-              <td>29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
             </tr>
           </body>
         </table>
@@ -117,7 +125,8 @@
   </div>
 
   </div>
-  <div class="l-footer">
+  <!-- footer module -->
+  <div class="mod-footer">
     <ul>
       <li><a href="#">SURFnet</a></li>
       <li><a href="#">Terms of Service</a></li>
