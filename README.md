@@ -57,7 +57,7 @@ To build:
 
 To run locally:
 
-    grunt connect
+    grunt server
 
 
 

@@ -4,7 +4,7 @@ App.Components.Body = React.createClass({
   render: function () {
     return (
       <div className="body">
-        foobar234
+        <App.Components.User />
       </div>
       );
   }

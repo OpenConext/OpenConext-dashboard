@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
 var App = {
-  Components: {}
+  Components: {},
+  BaseUrl: "/selfservice/api"
 };
