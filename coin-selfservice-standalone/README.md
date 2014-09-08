@@ -1,3 +1,0 @@
-# Dashboard Standalone
-
-TODO document
