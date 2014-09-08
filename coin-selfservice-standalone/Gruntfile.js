@@ -7,7 +7,8 @@ module.exports = function(grunt) {
         files: {
           'dist/application-<%= now %>.js': [
             'src/javascripts/lib/react-with-addons.js',
-            'tmp/*.js',
+            'tmp/init.js',
+            'tmp/**/*.js',
             'src/javascripts/*',
             '!src/javascripts/*.jsx'
           ]
@@ -50,7 +51,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/javascripts',
-          src: ['**/*.jsx'],
+          src: ['init.jsx', '**/*.jsx'],
           dest: 'tmp',
           ext: '.js'
         }]
