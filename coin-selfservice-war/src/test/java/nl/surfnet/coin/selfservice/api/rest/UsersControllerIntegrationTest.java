@@ -33,7 +33,7 @@ public class UsersControllerIntegrationTest {
   public void setup() {
     controller = new UsersController();
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new MappingJacksonHttpMessageConverter())
+      .setMessageConverters(new GsonHttpMessageConverter())
       .addInterceptors(new EnsureCurrentIdpSet())
       .build();
     coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);
@@ -51,7 +51,7 @@ public class UsersControllerIntegrationTest {
       get(format("/users/me")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
     )
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.uid").value(coinUser.getUid()));
+      .andExpect(jsonPath("$.payload.uid").value(coinUser.getUid()));
   }
 
   @Test

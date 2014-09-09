@@ -20,7 +20,7 @@ public class UsersController {
 
   @RequestMapping("/me")
   public ResponseEntity<RestResponse<CoinUser>> me() {
-    return new ResponseEntity(new RestResponse(SpringSecurity.getCurrentUser()).withSelfRel("/users/me"), HttpStatus.OK);
+    return new ResponseEntity(new RestResponse(SpringSecurity.getCurrentUser()), HttpStatus.OK);
   }
 
   @RequestMapping("/me/switch-to-idp/{switchToIdp}")

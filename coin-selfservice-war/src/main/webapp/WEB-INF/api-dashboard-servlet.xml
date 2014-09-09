@@ -36,7 +36,7 @@
 
   <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
     <mvc:message-converters>
-      <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+      <bean class="nl.surfnet.coin.selfservice.api.rest.GsonHttpMessageConverter"/>
     </mvc:message-converters>
   </mvc:annotation-driven>
   <mvc:interceptors>

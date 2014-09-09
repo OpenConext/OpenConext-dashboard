@@ -16,7 +16,7 @@ public class RestResponseTest {
     mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
     CoinUser coinUser = new CoinUser();
     coinUser.setDisplayName("foobar");
-    RestResponse<CoinUser> response = new RestResponse<>(coinUser).withSelfRel("http://foo");
+    RestResponse<CoinUser> response = new RestResponse<>(coinUser);
 
     String json = mapper.writeValueAsString(response);
     assertNotNull(json);
