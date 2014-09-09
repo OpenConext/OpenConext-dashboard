@@ -59,6 +59,7 @@ To run locally:
 
     grunt server
 
+**For the NEW client open http://localhost:8000/selfservice/dashboard.jsp in order to load the client**
 
 
 When you browse to the [application homepage](http://localhost:8082/selfservice) you will be prompted for a login.
