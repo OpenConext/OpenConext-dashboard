@@ -113,7 +113,7 @@ module.exports = function(grunt) {
         },
         proxies: [
           {
-            context: ['/selfservice'],
+            context: ['/selfservice', '/mujina-idp'],
             host: 'localhost',
             port: 8280,
             https: false,

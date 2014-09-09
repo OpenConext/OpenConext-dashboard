@@ -14,7 +14,6 @@ App.Components.User = React.createClass({
       url: App.BaseUrl + "/users/me",
       method: "GET",
       success: function(data) {
-
         this.setState({user: data});
         console.log(data);
       }.bind(this),
