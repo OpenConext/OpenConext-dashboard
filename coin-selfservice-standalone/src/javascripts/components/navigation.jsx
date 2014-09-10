@@ -5,10 +5,10 @@ App.Components.Navigation = React.createClass({
     return (
       <div className="mod-navigation">
         <ul>
-          <li><a href="#">Apps</a></li>
-          <li><a href="#">Notifications</a></li>
-          <li><a href="#">History</a></li>
-          <li><a href="#">Statistics</a></li>
+          <li><a href="/apps">Apps</a></li>
+          <li><a href="/notifications">Notifications</a></li>
+          <li><a href="/history">History</a></li>
+          <li><a href="/statistics">Statistics</a></li>
         </ul>
       </div>
     );
