@@ -9,10 +9,224 @@
   <link href="@@@CSS@@@" media="screen" rel="stylesheet"/>
 </head>
 <body>
-<div id="body">
-  foobar 2d
-</div>
+  <div class="l-header">
 
-<script src="@@@JS@@@"></script>
+    <!-- Header module -->
+    <div class="mod-header">
+      <h1 class="title">SurfConext Dashboard</h1>
+      <div class="meta">
+        <p class="name">Welcome, Frans Ward</p>
+        <ul class="language">
+          <li class="selected"><a href="#">EN</a></li>
+          <li><a href="#">NL</a></li>
+        </ul>
+        <ul class="links">
+          <li><a href="#">Help</a></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Navigation module -->
+    <div class="mod-navigation">
+      <ul>
+        <li><a href="#">Apps</a></li>
+        <li><a href="#">Notifications</a></li>
+        <li><a href="#">History</a></li>
+        <li><a href="#">Statistics</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- app detail page -->
+   <div class="l-center">
+
+    <div class="l-left">
+      <!-- module: app navigation -->
+      <div class="mod-app-nav">
+        <ul>
+          <li><a href="#">Overview</a></li>
+          <li><a href="#">License info</a></li>
+          <li><a href="#">Application usage</a></li>
+          <li><a href="#">Attribute policy</a></li>
+          <li><a href="#">How to connect</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="l-right">
+      <!-- module: meta info -->
+      <div class="mod-app-meta">
+        <div class="logo">
+          <img src="http://placehold.it/200x150" />
+        </div>
+        <div class="contact">
+          <h2>Administrative contact</h2>
+          <address>
+            Frans Ward<br>
+            06 50 868 666<br>
+            <a href="mailto:fransward@surfconext.nl">fransward@surfconext.nl</a>
+          </address>
+        </div>
+        <div class="contact">
+          <h2>Administrative contact</h2>
+          <address>
+            Frans Ward<br>
+            06 50 868 666<br>
+            <a href="mailto:fransward@surfconext.nl">fransward@surfconext.nl</a>
+          </address>
+        </div>
+        <div class="contact">
+          <h2>Administrative contact</h2>
+          <address>
+            Frans Ward<br>
+            06 50 868 666<br>
+            <a href="mailto:fransward@surfconext.nl">fransward@surfconext.nl</a>
+          </address>
+        </div>
+      </div>
+    </div>
+
+    <div class="l-middle">
+      <!-- module: title -->
+      <div class="mod-title">
+        <h1>3TU Datacentrum</h1>
+        <h2>Application by TU Delft</h2>
+      </div>
+
+      <!-- module: connection -->
+      <div class="mod-connection">
+        <!-- classes technical / license + yes / no / unknown -->
+        <div class="technical yes">
+          <h2>No technical connection</h2>
+          <p>Read <a href="#">how to connect</a></p>
+        </div>
+        <div class="license no">
+          <h2>License information unknown</h2>
+          <p>Read <a href="#">how to connect</a></p>
+        </div>
+      </div>
+
+      <!-- module: text and description -->
+      <div class="mod-description">
+        <h2>Description</h2>
+        <p>3TU.datacentrum offers the knowledge, experience and the tools to archive research data in a standardized, secure and well-documented manner. It provides the research community with:  </p>
+        <ul>
+          <li>A long term archive for strogin scientificidata </li>
+          <li>Permanent access to and tools for reuse of research data </li>
+          <li>Advice and support on data management  </li>
+        </ul>
+        <p>3TU.Datacentrum currently hosts about 5000 datasets. To see examples please visit: http://data.3tu.nl</p>
+      </div>
+
+      <!-- module: screenshots -->
+      <div class="mod-screenshots">
+        <a href="#"><img src="http://placehold.it/400x300"></a>
+        <a href="#"><img src="http://placehold.it/400x300"></a>
+        <a href="#"><img src="http://placehold.it/400x300"></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- app overview page -->
+  <div class="l-main">
+    <div class="l-left">
+      <!-- filter module -->
+      <div class="mod-filters">
+        <h1>Filters</h1>
+        <form action="">
+          <fieldset>
+            <h2>License</h2>
+            <label><input type="checkbox" name="license_information"> Has license</label>
+            <label><input type="checkbox" name="license_information"> No license</label>
+          </fieldset>
+          <fieldset>
+            <h2>Connection</h2>
+            <label class="inactive"><input type="checkbox" name="connection_information"> Has connection</label>
+            <label><input type="checkbox" name="connection_information"> No connection</label>
+          </fieldset>
+          <fieldset>
+            <h2>Usage</h2>
+            <label><input type="checkbox" name="usage_information"> Used in last 3 months</label>
+            <label><input type="checkbox" name="usage_information"> Never used</label>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="l-right">
+      <!-- search app module -->
+      <div class="mod-app-search">
+        <form action="">
+          <fieldset>
+            <input type="search" placeholder="Filter by name, company or keyword">
+            <button type="submit">Search</button>
+          </fieldset>
+        </form>
+      </div>
+      <!-- app list module -->
+      <div class="mod-app-list">
+        <table>
+          <thead>
+            <tr>
+              <th class="percent_25">Application</th>
+              <th class="percent_25">Provider</th>
+              <th class="percent_10">License</th>
+              <th class="percent_10">Connection</th>
+              <th class="percent_15 date">Last used</th>
+              <th class="percent_15 date">Added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>3TU.datacentre</td>
+              <td>Tu Delft</td>
+              <td class="yes">Yes</td>
+              <td class="no">Yes</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+            </tr>
+            <tr>
+              <td>3TU.datacentre</td>
+              <td>Tu Delft</td>
+              <td class="yes">Yes</td>
+              <td class="no">Yes</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+            </tr>
+            <tr>
+              <td>3TU.datacentre</td>
+              <td>Tu Delft</td>
+              <td class="yes">Yes</td>
+              <td class="no">Yes</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+            </tr>
+            <tr>
+              <td>3TU.datacentre</td>
+              <td>Tu Delft</td>
+              <td class="yes">Yes</td>
+              <td class="no">Yes</td>
+              <td class="date">29 aug 2014</td>
+              <td class="date">29 aug 2014</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer module -->
+  <div class="mod-footer">
+    <ul>
+      <li><a href="#">SURFnet</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">help@surfconext.nl</a></li>
+    </ul>
+  </div>
+
+  <script src="@@@JS@@@"></script>
 </body>
 </html>

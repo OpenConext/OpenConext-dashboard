@@ -1,0 +1,50 @@
+.mod-header
+  padding: 20px 30px
+  +clearfix
+  background: #fff
+
+  // Main app title
+  .title
+    float: left
+    font-size: 20px
+    line-height: 30px
+
+  // Meta = right aligned stuff
+  .meta
+    float: right
+
+  // Styling for elements
+  ul,
+  p
+    float: left
+    margin-left: 40px
+    line-height: 30px
+
+  li
+    float: left
+    list-style: none
+
+    a
+      display: block
+      padding: 0 14px
+      text-decoration: none
+      border-right: 1px solid $light-grey
+      &:hover
+        color: $blue
+
+    &:last-child
+      a
+        border-right: 0
+
+  // EN / NL language switch
+  .language
+    overflow: hidden
+    border-radius: $br
+
+    a
+      background: $light-grey
+      border-color: #fff
+      &:hover
+        background: $blue
+        color: #fff
+
