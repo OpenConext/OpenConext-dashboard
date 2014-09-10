@@ -1,11 +1,10 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
     now: Date.now(),
     concat: {
       js: {
         files: {
-          'dist/application-<%= now %>.js': [
+          'build/application.js': [
             'src/javascripts/lib/react-with-addons.js',
             'tmp/init.js',
             'tmp/**/*.js',
@@ -18,31 +17,28 @@ module.exports = function(grunt) {
     uglify: {
       js: {
         files: {
-          'dist/application-<%= now %>.min.js': 'dist/application-<%= now %>.js'
+          'build/application.min.js': 'build/application.js'
+        }
+      }
+    },
+    cssmin: {
+      dist: {
+        files: {
+          'build/application.min.css': 'build/application.css'
         }
       }
     },
     sass: {
       options: {
         compass: true,
-        require: 'sass-globbing'
-      },
-      dev: {
-        options: {
-          style: 'expanded',
-          lineNumbers: true,
-          trace: true
-        },
-        files: {
-          'dist/application-<%= now %>.css': 'src/stylesheets/application.sass'
-        }
+        require: 'sass-globbing',
+        style: 'expanded',
+        lineNumbers: true,
+        trace: true
       },
       dist: {
-        options: {
-          style: 'compressed'
-        },
         files: {
-          'dist/application-<%= now %>.min.css': 'src/stylesheets/application.sass'
+          'build/application.css': 'src/stylesheets/application.sass'
         }
       }
     },
@@ -59,28 +55,29 @@ module.exports = function(grunt) {
     },
     watch: {
       files: ['src/**/*', 'Gruntfile.js'],
-      tasks: ['default'],
+      tasks: ['prod'],
       options: {
         atBegin: true
       }
     },
     clean: {
       tmp: ['tmp/*'],
-      dist: ['dist/*']
+      dist: ['dist/*'],
+      build: ['build/*']
     },
     'string-replace': {
       dev: {
         files: {
-          'dist/index.html': 'src/index.html'
+          'build/index.html': 'src/index.html'
         },
         options: {
           replacements: [{
             pattern: '@@@JS@@@',
-            replacement: 'application-<%= now %>.js'
+            replacement: 'application.js'
           },
           {
             pattern: '@@@CSS@@@',
-            replacement: 'application-<%= now %>.css'
+            replacement: 'application.css'
           }]
         }
       },
@@ -97,6 +94,14 @@ module.exports = function(grunt) {
             pattern: '@@@CSS@@@',
             replacement: 'application-<%= now %>.min.css'
           }]
+        }
+      }
+    },
+    copy: {
+      dist: {
+        files: {
+          'dist/application-<%= now %>.min.js': 'build/application.min.js',
+          'dist/application-<%= now %>.min.css': 'build/application.min.css'
         }
       }
     },
@@ -134,10 +139,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-react');
   grunt.loadNpmTasks('grunt-connect-proxy');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask('server', [ 'configureProxies:dev', 'connect:dev']);
 
-  grunt.registerTask('prod', ['clean', 'react', 'sass:dist', 'concat:js', 'uglify:js', 'string-replace:dist']);
-
-  grunt.registerTask('default', ['clean', 'react', 'sass:dev', 'concat:js', 'string-replace:dev']);
+  grunt.registerTask('default', ['clean:tmp', 'react', 'sass', 'concat', 'string-replace:dev']);
+  grunt.registerTask('prod', ['default', 'clean:dist', 'string-replace:dist', 'cssmin', 'uglify', 'copy']);
 };
