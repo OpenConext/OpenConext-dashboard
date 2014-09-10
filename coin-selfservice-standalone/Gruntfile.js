@@ -8,6 +8,7 @@ module.exports = function(grunt) {
             'src/javascripts/lib/react-with-addons.js',
             'src/javascripts/lib/jquery-2.1.1.js',
             'src/javascripts/lib/page.js',
+            'src/javascripts/lib/i18n.js',
             'tmp/init.js',                    // initializes the namespaces
             'tmp/**/*.js',                    // compiled jsx files from tmp
             'src/javascripts/*/**/*',         // all files from subfolders

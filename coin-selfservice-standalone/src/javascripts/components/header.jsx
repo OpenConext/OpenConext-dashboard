@@ -4,9 +4,9 @@ App.Components.Header = React.createClass({
   render: function () {
     return (
       <div className="mod-header">
-        <h1 className="title">SurfConext Dashboard</h1>
+        <h1 className="title">{I18n.t("header.title")}</h1>
         <div className="meta">
-          <p className="name">{"Welcome, " + App.currentUser.displayName}</p>
+          <p className="name">{I18n.t("header.welcome", { name: App.currentUser.displayName } )}</p>
           <ul className="language">
             <li className="selected"><a href="#">EN</a></li>
             <li><a href="#">NL</a></li>
