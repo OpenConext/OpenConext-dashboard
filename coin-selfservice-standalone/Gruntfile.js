@@ -6,6 +6,7 @@ module.exports = function(grunt) {
         files: {
           'build/application.js': [
             'src/javascripts/lib/react-with-addons.js',
+            'src/javascripts/lib/jquery-2.1.1.js',
             'tmp/init.js',
             'tmp/**/*.js',
             'src/javascripts/*',
@@ -108,7 +109,7 @@ module.exports = function(grunt) {
     connect: {
       dev: {
         options: {
-          base: "dist",
+          base: "build",
           keepalive: true,
           logger: "dev",
           middleware: function (connect, options, middlewares) {

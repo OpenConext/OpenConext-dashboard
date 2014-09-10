@@ -1,1 +1,3 @@
-React.renderComponent(App.Components.Body(null), document.getElementById("body"));
+var BASE_URL = "/selfservice/api";
+
+App.initialize();

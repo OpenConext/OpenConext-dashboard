@@ -2,5 +2,11 @@
 
 var App = {
   Components: {},
-  BaseUrl: "/selfservice/api"
+  Pages: {},
+
+  initialize: function() {
+    this.mainComponent = App.Components.Main({page: App.Pages.AppOverview()});
+
+    React.renderComponent(this.mainComponent, document.getElementById("app"));
+  }
 };
