@@ -116,7 +116,9 @@ module.exports = function(grunt) {
           logger: "dev",
           middleware: function (connect, options, middlewares) {
             var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
-            return [proxy, connect.static(options.base[0]), connect.directory(options.base[0])];
+            var modRewrite = require('connect-modrewrite');
+            var rewriteThis = modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png$ /index.html [L]']);
+            return [proxy, rewriteThis, connect.static(options.base[0]), connect.directory(options.base[0])];
           }
         },
         proxies: [
