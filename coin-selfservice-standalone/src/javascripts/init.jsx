@@ -6,19 +6,20 @@ var App = {
   Controllers: {},
 
   initialize: function() {
-    this.mainComponent = App.Components.Main();
-    this.mainComponent = React.renderComponent(this.mainComponent, document.getElementById("app"));
+    this.fetchUserData(function(user) {
+      this.currentUser = user;
 
-    for (controller in App.Controllers) {
-      App.Controllers[controller].initialize();
-    }
+      this.mainComponent = App.Components.Main();
+      this.mainComponent = React.renderComponent(this.mainComponent, document.getElementById("app"));
 
-    page("*", this.actionNotFound.bind(this));
+      for (controller in App.Controllers) {
+        App.Controllers[controller].initialize();
+      }
 
-    // this.fetchUserData(function(user) {
-      // this.currentUser = user;
+      page("*", this.actionNotFound.bind(this));
+
       page.start();
-    // }.bind(this));
+    }.bind(this));
   },
 
   render: function(page) {
@@ -28,7 +29,6 @@ var App = {
   },
 
   apiUrl: function(value) {
-    console.log(BASE_URL + value);
     return BASE_URL + value;
   },
 
