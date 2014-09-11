@@ -8,8 +8,10 @@ App.Components.Header = React.createClass({
         <div className="meta">
           <p className="name">{I18n.t("header.welcome", { name: App.currentUser.displayName } )}</p>
           <ul className="language">
-            <li className="selected"><a href="#">EN</a></li>
-            <li><a href="#">NL</a></li>
+            {[
+              this.renderLocaleChooser("en"),
+              this.renderLocaleChooser("nl")
+            ]}
           </ul>
           <ul className="links">
             <li><a href="#">Help</a></li>
@@ -18,5 +20,27 @@ App.Components.Header = React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderLocaleChooser: function(locale) {
+    return (
+      <li key={locale} className={I18n.currentLocale() == locale ? "selected" : ""}>
+        <a
+          href="#"
+          title={I18n.t("select_locale", {locale: locale})}
+          onClick={this.handleChooseLocale(locale)}>
+          {I18n.t("code", {locale: locale})}
+        </a>
+      </li>
+    );
+  },
+
+  handleChooseLocale: function(locale) {
+    return function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.search = "lang=" + locale;
+    }
   }
+
 });

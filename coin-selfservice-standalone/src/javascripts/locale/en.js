@@ -6,6 +6,10 @@
 
 
 I18n.translations.en = {
+  code: "EN",
+  name: "English",
+  select_locale: "Select English",
+
   header: {
     title: "SurfConext Dashboard",
     welcome: "Welcome, {{name}}"

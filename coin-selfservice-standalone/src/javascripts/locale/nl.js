@@ -6,6 +6,10 @@
 
 
 I18n.translations.nl = {
+  code: "NL",
+  name: "Nederlands",
+  select_locale: "Selecteer Nederlands",
+
   header: {
     title: "SurfConext Dashboard",
     welcome: "Welkom, {{name}}"
