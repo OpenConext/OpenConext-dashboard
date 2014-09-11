@@ -71,6 +71,7 @@ public class SpringSecurity {
   public static void setCurrentIdp(final String idpEntityId) {
     if (idpEntityId != null) {
       List<InstitutionIdentityProvider> institutionIdps = SpringSecurity.getCurrentUser().getInstitutionIdps();
+      // TODO: Make this Java 8
       InstitutionIdentityProvider currentInstitutionIdentityProvider = Iterables.find(institutionIdps, new Predicate<InstitutionIdentityProvider>() {
         @Override
         public boolean apply(InstitutionIdentityProvider input) {

@@ -15,9 +15,9 @@ import static java.lang.String.format;
 */
 public class AddRestLinks {
 
-  private Map<Class<?>, Consumer<JsonObject>> mapping = new HashMap();
+  private Map<Class<?>, Consumer<JsonElement>> mapping = new HashMap();
 
-  private static Consumer<JsonObject> NOOP = jsonObject -> {
+  private static Consumer<JsonElement> NOOP = jsonObject -> {
   };
 
   private static Consumer<JsonObject> AddLinksToInstitutionIdentityProvider = idp -> {
@@ -31,9 +31,10 @@ public class AddRestLinks {
   public AddRestLinks(JsonElement json) {
     this.json = json;
 
-    mapping.put(CoinUser.class, coinUser -> {
+    mapping.put(CoinUser.class, coinUserJsonElement -> {
       JsonObject links = new JsonObject();
       links.addProperty("self", "/users/me");
+      JsonObject coinUser = coinUserJsonElement.getAsJsonObject();
       coinUser.add("_links", links);
       coinUser.getAsJsonArray("institutionIdps").forEach(idp -> AddLinksToInstitutionIdentityProvider.accept(idp.getAsJsonObject()));
     });
@@ -44,9 +45,7 @@ public class AddRestLinks {
   }
 
   public void forClass(Class<?> aClass) {
-    JsonObject payload = json.getAsJsonObject().getAsJsonObject("payload");
-
+    JsonElement payload = json.getAsJsonObject().get("payload");
     mapping.getOrDefault(aClass, NOOP).accept(payload);
-
   }
 }
