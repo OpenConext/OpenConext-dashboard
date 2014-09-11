@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Locale;
 
 import static java.lang.String.format;
 import static org.junit.Assert.assertNotNull;
@@ -35,7 +36,7 @@ public class CoinUserTest {
 
   @Test
   public void testSerializeToJson() throws IOException {
-    JsonElement json = gson.toJsonTree(new RestResponse<>(coinUser));
+    JsonElement json = gson.toJsonTree(new RestResponse(Locale.ENGLISH, coinUser));
     AddRestLinks.to(json).forClass(coinUser.getClass());
     System.out.println(json);
     assertNotNull(json);

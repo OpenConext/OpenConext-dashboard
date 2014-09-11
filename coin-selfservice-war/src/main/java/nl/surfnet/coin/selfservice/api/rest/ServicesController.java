@@ -13,6 +13,7 @@ import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_I
 
 @Controller
 @RequestMapping(value = "/services", consumes = MediaType.APPLICATION_JSON_VALUE)
-public class ServicesController {
+public class ServicesController extends BaseController {
 
   @Resource
   private Csa csa;
@@ -30,7 +31,7 @@ public class ServicesController {
   private Cruncher cruncher;
 
   @RequestMapping
-  public ResponseEntity<RestResponse<List<Service>>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+  public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, HttpServletRequest request) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
     List<SpStatistic> recentLoginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), idpEntityId);
     recentLoginsForUser
@@ -38,7 +39,7 @@ public class ServicesController {
       .forEach(stat -> getServiceBySpEntityId(services, stat.getSpEntityId())
         .ifPresent(service -> service.setLastLoginDate(new Date(stat.getEntryTime()))));
 
-    return new ResponseEntity(new RestResponse(services), HttpStatus.OK);
+    return new ResponseEntity(new RestResponse(this.getLocale(request), services), HttpStatus.OK);
   }
 
   private Optional<Service> getServiceBySpEntityId(List<Service> services, String spEntityId) {

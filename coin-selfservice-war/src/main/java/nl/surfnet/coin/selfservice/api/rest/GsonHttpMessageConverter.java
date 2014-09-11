@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.List;
 
-public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse<Object>> {
+public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse> {
     private Gson gson = new Gson();
 
     @Override
@@ -40,12 +40,12 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
     }
 
     @Override
-    protected RestResponse<Object> readInternal(Class<? extends RestResponse<Object>> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+    protected RestResponse readInternal(Class<? extends RestResponse> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
         throw new UnsupportedOperationException("nyi");
     }
 
     @Override
-    protected void writeInternal(RestResponse<Object> objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+    protected void writeInternal(RestResponse objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         JsonElement json = gson.toJsonTree(objectRestResponse);
         AddRestLinks.to(json).forClass(objectRestResponse.getPayload().getClass());
         JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(outputMessage.getBody(), "UTF-8"));

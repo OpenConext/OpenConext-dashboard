@@ -34,6 +34,19 @@
     location="classpath:application.properties,classpath:dashboard.properties"
     ignore-resource-not-found="true"/>
 
+
+  <bean id="localeResolver" class="nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver">
+    <property name="cookieName" value="dashboardLang"/>
+    <!-- the default 'lang' might clash with other surfconext cookies -->
+    <property name="defaultLocale" value="nl"/>
+    <property name="cookieMaxAge" value="315360000"/>
+    <!-- 10 years: never expire-->
+  </bean>
+
+  <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+    <property name="paramName" value="lang"/>
+  </bean>
+
   <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
     <mvc:message-converters>
       <bean class="nl.surfnet.coin.selfservice.api.rest.GsonHttpMessageConverter"/>
@@ -41,8 +54,8 @@
   </mvc:annotation-driven>
   <mvc:interceptors>
     <bean class="nl.surfnet.coin.selfservice.interceptor.EnsureCurrentIdpSet"/>
+    <ref bean="localeChangeInterceptor"/>
   </mvc:interceptors>
-
 
   <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
     <property name="mediaTypes">

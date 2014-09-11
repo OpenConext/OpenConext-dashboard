@@ -6,6 +6,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -16,7 +17,7 @@ public class RestResponseTest {
     mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
     CoinUser coinUser = new CoinUser();
     coinUser.setDisplayName("foobar");
-    RestResponse<CoinUser> response = new RestResponse<>(coinUser);
+    RestResponse response = new RestResponse(Locale.ENGLISH, coinUser);
 
     String json = mapper.writeValueAsString(response);
     assertNotNull(json);

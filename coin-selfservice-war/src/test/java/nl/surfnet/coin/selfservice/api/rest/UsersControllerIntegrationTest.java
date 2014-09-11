@@ -3,6 +3,7 @@ package nl.surfnet.coin.selfservice.api.rest;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
 import nl.surfnet.coin.selfservice.interceptor.EnsureCurrentIdpSet;
+import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,8 @@ public class UsersControllerIntegrationTest {
   @Before
   public void setup() {
     controller = new UsersController();
+    controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
+
     this.mockMvc = standaloneSetup(controller)
       .setMessageConverters(new GsonHttpMessageConverter())
       .addInterceptors(new EnsureCurrentIdpSet())

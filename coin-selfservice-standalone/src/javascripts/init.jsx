@@ -33,7 +33,8 @@ var App = {
   },
 
   fetchUserData: function(callback) {
-    $.get(App.apiUrl("/users/me"), function (data) {
+    $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
+      I18n.locale = data.language;
       callback(data.payload);
     });
   },

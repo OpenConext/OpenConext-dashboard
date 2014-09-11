@@ -6,6 +6,7 @@ import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
 import nl.surfnet.coin.selfservice.interceptor.EnsureCurrentIdpSet;
+import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,6 +58,8 @@ public class ServicesControllerIntegrationTest {
   @Before
   public void setup() {
     controller = new ServicesController();
+    controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
+
     MockitoAnnotations.initMocks(this);
     service = serviceWithSpEntityId(SP_ENTITY_ID);
     services = asList(service);

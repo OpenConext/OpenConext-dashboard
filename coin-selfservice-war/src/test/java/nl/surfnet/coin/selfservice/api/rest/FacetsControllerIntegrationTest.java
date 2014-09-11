@@ -3,6 +3,7 @@ package nl.surfnet.coin.selfservice.api.rest;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Category;
 import nl.surfnet.coin.csa.model.Taxonomy;
+import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -33,6 +34,8 @@ public class FacetsControllerIntegrationTest {
   @Before
   public void setup() {
     controller = new FacetsController();
+    controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
+
     MockitoAnnotations.initMocks(this);
 
     this.mockMvc = standaloneSetup(controller)
