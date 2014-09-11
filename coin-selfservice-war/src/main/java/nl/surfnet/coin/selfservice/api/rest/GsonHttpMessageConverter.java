@@ -51,7 +51,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   @Override
   protected void writeInternal(RestResponse objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
     JsonElement json = gson.toJsonTree(objectRestResponse);
-    AddRestLinks.to(json).forClass(objectRestResponse.getPayload().getClass());
+    AddRestLinks.to(json).forPayload(objectRestResponse.getPayload());
     JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(outputMessage.getBody(), "UTF-8"));
     try {
       gson.toJson(json, jsonWriter);

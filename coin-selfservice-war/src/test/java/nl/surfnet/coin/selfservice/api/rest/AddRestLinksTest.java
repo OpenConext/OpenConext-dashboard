@@ -6,6 +6,7 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
@@ -25,7 +26,7 @@ public class AddRestLinksTest {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    new AddRestLinks(jsonElement).forClass(CoinUser.class);
+    new AddRestLinks(jsonElement).forPayload(coinUser);
 
     assertEquals(getLinksFromRoot(jsonElement).getAsJsonPrimitive("self").getAsString(), "/users/me");
 
@@ -36,8 +37,9 @@ public class AddRestLinksTest {
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1");
     Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", service -> service.setId(2l));
 
-    JsonElement jsonElement = createJsonResponse(asList(service1, service2));
-    new AddRestLinks(jsonElement).forClass(Service.class);
+    List<Service> payload = asList(service1, service2);
+    JsonElement jsonElement = createJsonResponse(payload);
+    new AddRestLinks(jsonElement).forPayload(payload);
 
     assertEquals("/services/id/1", getFirstServiceFromRoot(jsonElement).getAsJsonObject("_links").getAsJsonPrimitive("self").getAsString());
   }
@@ -47,7 +49,7 @@ public class AddRestLinksTest {
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", service -> service.setId(10l));
 
     JsonElement jsonElement = createJsonResponse(service1);
-    new AddRestLinks(jsonElement).forClass(Service.class);
+    new AddRestLinks(jsonElement).forPayload(service1);
 
     assertEquals("/services/id/10", getLinksFromRoot(jsonElement).getAsJsonPrimitive("self").getAsString());
 

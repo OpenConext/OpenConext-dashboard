@@ -7,13 +7,11 @@ import nl.surfnet.coin.selfservice.domain.CoinUser;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.function.Consumer;
 
 import static java.lang.String.format;
 
-/**
-* Created by lars on 09/09/14.
-*/
 public class AddRestLinks {
 
   private Map<Class<?>, Consumer<JsonElement>> mapping = new HashMap();
@@ -51,12 +49,13 @@ public class AddRestLinks {
     return new AddRestLinks(json);
   }
 
-  public void forClass(Class<?> aClass) {
-    JsonElement payload = json.getAsJsonObject().get("payload");
-    if(payload.isJsonObject()) {
-      mapping.getOrDefault(aClass, NOOP).accept(payload);
+  public void forPayload(Object payload) {
+    JsonElement payloadAsJsonElement = json.getAsJsonObject().get("payload");
+    if(payloadAsJsonElement.isJsonObject()) {
+      mapping.getOrDefault(payload.getClass(), NOOP).accept(payloadAsJsonElement);
     } else {
-      payload.getAsJsonArray().forEach(jsonElement -> mapping.getOrDefault(aClass, NOOP).accept(jsonElement));
+      Class<?> classOfPayloadElement = ((List) payload).get(0).getClass();
+      payloadAsJsonElement.getAsJsonArray().forEach(jsonElementInArray -> mapping.getOrDefault(classOfPayloadElement, NOOP).accept(jsonElementInArray));
     }
   }
 }

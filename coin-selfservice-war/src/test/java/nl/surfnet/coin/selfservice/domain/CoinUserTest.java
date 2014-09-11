@@ -37,7 +37,7 @@ public class CoinUserTest {
   @Test
   public void testSerializeToJson() throws IOException {
     JsonElement json = gson.toJsonTree(new RestResponse(Locale.ENGLISH, coinUser));
-    AddRestLinks.to(json).forClass(coinUser.getClass());
+    AddRestLinks.to(json).forPayload(coinUser);
     System.out.println(json);
     assertNotNull(json);
   }
