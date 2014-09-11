@@ -2,7 +2,6 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -16,16 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse> {
-  private static class ExcludeJsonIgnore implements ExclusionStrategy {
-    public boolean shouldSkipField(FieldAttributes f) {
-      return f.getAnnotation(JsonIgnore.class) != null;
-    }
-
-    @Override
-    public boolean shouldSkipClass(Class<?> clazz) {
-      return clazz.isAnnotationPresent(JsonIgnore.class);
-    }
-  }
 
   private Gson gson;
 

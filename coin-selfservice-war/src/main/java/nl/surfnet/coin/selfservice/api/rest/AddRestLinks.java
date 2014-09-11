@@ -2,6 +2,7 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 
 import java.util.HashMap;
@@ -38,6 +39,12 @@ public class AddRestLinks {
       coinUser.add("_links", links);
       coinUser.getAsJsonArray("institutionIdps").forEach(idp -> AddLinksToInstitutionIdentityProvider.accept(idp.getAsJsonObject()));
     });
+    mapping.put(Service.class, serviceJsonElement -> {
+      JsonObject links = new JsonObject();
+      JsonObject serviceAsJsonObject = serviceJsonElement.getAsJsonObject();
+      links.addProperty("self", format("/services/id/%s", serviceAsJsonObject.getAsJsonPrimitive("id").getAsLong()));
+      serviceAsJsonObject.add("_links", links);
+    });
   }
 
   public static AddRestLinks to(JsonElement json) {
@@ -46,6 +53,10 @@ public class AddRestLinks {
 
   public void forClass(Class<?> aClass) {
     JsonElement payload = json.getAsJsonObject().get("payload");
-    mapping.getOrDefault(aClass, NOOP).accept(payload);
+    if(payload.isJsonObject()) {
+      mapping.getOrDefault(aClass, NOOP).accept(payload);
+    } else {
+      payload.getAsJsonArray().forEach(jsonElement -> mapping.getOrDefault(aClass, NOOP).accept(jsonElement));
+    }
   }
 }
