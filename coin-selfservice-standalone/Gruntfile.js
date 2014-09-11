@@ -71,9 +71,12 @@ module.exports = function(grunt) {
     },
     'string-replace': {
       dev: {
-        files: {
-          'build/index.html': 'src/index.html'
-        },
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: ['*.html'],
+          dest: 'build'
+        }],
         options: {
           replacements: [{
             pattern: '@@@JS@@@',
