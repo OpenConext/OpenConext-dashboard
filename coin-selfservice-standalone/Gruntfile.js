@@ -59,7 +59,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: ['src/**/*', 'Gruntfile.js'],
-      tasks: ['prod'],
+      tasks: ['default'],
       options: {
         atBegin: true
       }
@@ -147,9 +147,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-newer');
 
   grunt.registerTask('server', [ 'configureProxies:dev', 'connect:dev']);
 
-  grunt.registerTask('default', ['clean:tmp', 'react', 'sass', 'concat', 'string-replace:dev']);
-  grunt.registerTask('prod', ['default', 'clean:dist', 'string-replace:dist', 'cssmin', 'uglify', 'copy']);
+  grunt.registerTask('default', ['clean:tmp', 'react', 'newer:sass', 'newer:concat', 'newer:string-replace:dev']);
+  grunt.registerTask('prod', ['default', 'clean:dist', 'newer:string-replace:dist', 'newer:cssmin', 'newer:uglify', 'newer:copy']);
 };
