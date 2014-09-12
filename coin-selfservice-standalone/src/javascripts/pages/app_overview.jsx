@@ -10,18 +10,30 @@ App.Pages.AppOverview = React.createClass({
             <form action="">
               <fieldset>
                 <h2>License</h2>
-                <label><input type="checkbox" name="license_information" /> Has license</label>
-                <label><input type="checkbox" name="license_information" /> No license</label>
+                <label>
+                  <input type="checkbox" name="license_information" />
+                Has license</label>
+                <label>
+                  <input type="checkbox" name="license_information" />
+                No license</label>
               </fieldset>
               <fieldset>
                 <h2>Connection</h2>
-                <label className="inactive"><input type="checkbox" name="connection_information" /> Has connection</label>
-                <label><input type="checkbox" name="connection_information" /> No connection</label>
+                <label className="inactive">
+                  <input type="checkbox" name="connection_information" />
+                Has connection</label>
+                <label>
+                  <input type="checkbox" name="connection_information" />
+                No connection</label>
               </fieldset>
               <fieldset>
                 <h2>Usage</h2>
-                <label><input type="checkbox" name="usage_information" /> Used in last 3 months</label>
-                <label><input type="checkbox" name="usage_information" /> Never used</label>
+                <label>
+                  <input type="checkbox" name="usage_information" />
+                Used in last 3 months</label>
+                <label>
+                  <input type="checkbox" name="usage_information" />
+                Never used</label>
               </fieldset>
             </form>
           </div>
@@ -48,43 +60,23 @@ App.Pages.AppOverview = React.createClass({
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>3TU.datacentre</td>
-                  <td>Tu Delft</td>
-                  <td className="yes">Yes</td>
-                  <td className="no">Yes</td>
-                  <td className="date">29 aug 2014</td>
-                  <td className="date">29 aug 2014</td>
-                </tr>
-                <tr>
-                  <td>3TU.datacentre</td>
-                  <td>Tu Delft</td>
-                  <td className="yes">Yes</td>
-                  <td className="no">Yes</td>
-                  <td className="date">29 aug 2014</td>
-                  <td className="date">29 aug 2014</td>
-                </tr>
-                <tr>
-                  <td>3TU.datacentre</td>
-                  <td>Tu Delft</td>
-                  <td className="yes">Yes</td>
-                  <td className="no">Yes</td>
-                  <td className="date">29 aug 2014</td>
-                  <td className="date">29 aug 2014</td>
-                </tr>
-                <tr>
-                  <td>3TU.datacentre</td>
-                  <td>Tu Delft</td>
-                  <td className="yes">Yes</td>
-                  <td className="no">Yes</td>
-                  <td className="date">29 aug 2014</td>
-                  <td className="date">29 aug 2014</td>
-                </tr>
+              {
+                this.props.apps.map(function (app) {
+                  return <tr>
+                    <td>3TU.datacentre</td>
+                    <td>Tu Delft</td>
+                    <td className="yes">Yes</td>
+                    <td className="no">Yes</td>
+                    <td className="date">29 aug 2014</td>
+                    <td className="date">29 aug 2014</td>
+                  </tr>;
+                })
+                }
               </tbody>
             </table>
           </div>
         </div>
       </div>
-    );
+      );
   }
 });
