@@ -7,9 +7,9 @@ App.Controllers.Apps = {
 
   loadApps: function(ctx, next) {
     $.get(App.apiUrl("/services"), function(data) {
-        ctx.apps = data.payload;
-        next();
-      });
+      ctx.apps = data.payload;
+      next();
+    });
   },
 
   overview: function(ctx) {
@@ -21,10 +21,10 @@ App.Controllers.Apps = {
   },
 
   loadApp: function(ctx, next) {
-    // fetch app with ajax request, id is in: ctx.params.id
-    ctx.app = {
-      name: "test"
-    }
-    next();
+    $.get(App.apiUrl("/services/id/" + ctx.params.id), function(data) {
+      console.log(data.payload);
+      ctx.app = data.payload;
+      next();
+    });
   }
 }

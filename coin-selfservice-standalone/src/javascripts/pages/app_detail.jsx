@@ -51,8 +51,8 @@ App.Pages.AppDetail = React.createClass({
 
         <div className="l-middle">
           <div className="mod-title">
-            <h1>3TU Datacentrum</h1>
-            <h2>Application by TU Delft</h2>
+            <h1>{this.props.app.name}</h1>
+            <h2>Application by {this.props.app.spName}</h2>
           </div>
 
           <div className="mod-connection">

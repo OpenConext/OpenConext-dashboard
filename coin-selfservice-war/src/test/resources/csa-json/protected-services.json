@@ -54,6 +54,7 @@
             }
         ],
         "spEntityId": "https://full-servicee-mock-sp",
+        "spName": "Full Servicee Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -176,6 +177,7 @@
             }
         ],
         "spEntityId": "https://no-arp-mock-sp",
+        "spName": "No Arp Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -242,6 +244,7 @@
             }
         ],
         "spEntityId": "https://arp-attr-mock-sp",
+        "spName": "Arp Attr Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -294,6 +297,7 @@
             }
         ],
         "spEntityId": "https://no-crm-mock-sp",
+        "spName": "No CRM Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -351,6 +355,7 @@
             }
         ],
         "spEntityId": "https://no-license-connected-mock-sp",
+        "spName": "No License Connected Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -403,6 +408,7 @@
             }
         ],
         "spEntityId": "https://unused-mock-sp",
+        "spName": "Unused Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -467,6 +473,7 @@
             }
         ],
         "spEntityId": "https://license-no-connect-mock-sp",
+        "spName": "License No Connect Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -532,6 +539,7 @@
             }
         ],
         "spEntityId": "https://not-available-for-end-user",
+        "spName": "Not Available Mock",
         "availableForEndUser": false
     },
     {
@@ -582,6 +590,7 @@
             }
         ],
         "spEntityId": "https://license-not-connected-license-required-mock-sp",
+        "spName": "License Not Connected But Required Mock",
         "availableForEndUser": true,
         "arp": {
             "name": "All attributes",
@@ -614,6 +623,7 @@
         },
         "categories": [],
         "spEntityId": "http://sts.edugroepen.nl/adfs/services/trust",
+        "spName": "STS ADFS",
         "arp": {
             "name": "eduGroepen | 2AT",
             "description": "This is the edugroepen ARP",
