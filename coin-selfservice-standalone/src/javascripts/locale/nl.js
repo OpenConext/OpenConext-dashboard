@@ -10,8 +10,28 @@ I18n.translations.nl = {
   name: "Nederlands",
   select_locale: "Selecteer Nederlands",
 
+  boolean: {
+    yes: "Ja",
+    no: "Nee"
+  },
+
   header: {
     title: "SurfConext Dashboard",
     welcome: "Welkom, {{name}}"
+  },
+
+  apps: {
+    overview: {
+      application: "Applicatie",
+      provider: "Provider",
+      license: "Licentie",
+      connection: "Connectie",
+      added: "Toegevoegd",
+      search_hint: "Zoek op naam, bedrijf, of trefwoord",
+      search: "Zoek"
+    },
+    detail: {
+
+    }
   }
 };

@@ -10,8 +10,28 @@ I18n.translations.en = {
   name: "English",
   select_locale: "Select English",
 
+  boolean: {
+    yes: "Yes",
+    no: "No"
+  },
+
   header: {
     title: "SurfConext Dashboard",
     welcome: "Welcome, {{name}}"
+  },
+
+  apps: {
+    overview: {
+      application: "Application",
+      provider: "Provider",
+      license: "License",
+      connection: "Connection",
+      added: "Added",
+      search_hint: "Filter by name, company, or keyword",
+      search: "Search"
+    },
+    detail: {
+
+    }
   }
 };
