@@ -154,6 +154,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('server', [ 'configureProxies:dev', 'connect:dev']);
 
-  grunt.registerTask('default', ['clean:tmp', 'react', 'newer:sass', 'newer:concat', 'newer:string-replace:dev']);
+  grunt.registerTask('default', ['clean:tmp', 'react', 'sass', 'newer:concat', 'newer:string-replace:dev']);
   grunt.registerTask('prod', ['default', 'clean:dist', 'string-replace:dist', 'cssmin', 'uglify', 'copy']);
 };
