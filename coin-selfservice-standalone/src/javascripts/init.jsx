@@ -34,6 +34,15 @@ var App = {
 
   fetchUserData: function(callback) {
     $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
+      // can't check the response status because it always returns a 200
+      if (!data.payload) {
+        window.location =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          "/selfservice/dashboard.jsp";
+        return;
+      }
       I18n.locale = data.language;
       callback(data.payload);
     });
