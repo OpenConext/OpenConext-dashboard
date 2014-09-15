@@ -4,7 +4,7 @@ App.Components.Header = React.createClass({
   render: function () {
     return (
       <div className="mod-header">
-        <h1 className="title">{I18n.t("header.title")}</h1>
+        <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
         <div className="meta">
           <p className="name">{I18n.t("header.welcome", { name: App.currentUser.displayName } )}</p>
           <ul className="language">

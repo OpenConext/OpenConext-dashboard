@@ -16,10 +16,18 @@ var App = {
         App.Controllers[controller].initialize();
       }
 
+      page("/", this.rootPath.bind(this));
       page("*", this.actionNotFound.bind(this));
-
       page.start();
     }.bind(this));
+  },
+
+  actionNotFound: function() {
+    console.error("Page not found");
+  },
+
+  rootPath: function() {
+    page.redirect('/apps');
   },
 
   render: function(page) {
@@ -56,9 +64,5 @@ var App = {
       default:
         console.error("Ajax request failed");
     }
-  },
-
-  actionNotFound: function() {
-    console.error("Page not found");
   }
 };

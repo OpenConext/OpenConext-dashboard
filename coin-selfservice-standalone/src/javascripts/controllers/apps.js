@@ -1,7 +1,6 @@
 App.Controllers.Apps = {
 
   initialize: function() {
-    page("/", this.overview.bind(this));
     page("/apps", this.loadApps.bind(this), this.overview.bind(this));
     page("/apps/:id", this.loadApp.bind(this), this.detail.bind(this));
   },
