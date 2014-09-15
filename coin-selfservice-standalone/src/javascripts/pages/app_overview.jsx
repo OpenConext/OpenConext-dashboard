@@ -13,7 +13,7 @@ App.Pages.AppOverview = React.createClass({
     return (
       <div className="l-main">
         <div className="l-left">
-          <App.Components.Filters />
+          <App.Components.Facets facets={this.props.facets} />
         </div>
         <div className="l-right">
           <div className="mod-app-search">

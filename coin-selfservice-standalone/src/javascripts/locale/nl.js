@@ -20,6 +20,22 @@ I18n.translations.nl = {
     welcome: "Welkom, {{name}}"
   },
 
+  facets: {
+    title: "Filters",
+    static: {
+      connection: {
+        name: "Connectie",
+        has_connection: "Met connectie",
+        no_connection: "Geen connection"
+      },
+      license: {
+        name: "Licentie",
+        has_license: "Met licentie",
+        no_license: "Zonder licentie"
+      }
+    }
+  },
+
   apps: {
     overview: {
       application: "Applicatie",

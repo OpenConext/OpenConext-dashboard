@@ -20,6 +20,22 @@ I18n.translations.en = {
     welcome: "Welcome, {{name}}"
   },
 
+  facets: {
+    title: "Filters",
+    static: {
+      connection: {
+        name: "Connection",
+        has_connection: "Has connection",
+        no_connection: "No connection"
+      },
+      license: {
+        name: "License",
+        has_license: "Has license",
+        no_license: "No license"
+      }
+    }
+  },
+
   apps: {
     overview: {
       application: "Application",

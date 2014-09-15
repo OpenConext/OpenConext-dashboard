@@ -19,7 +19,7 @@ public class FacetsController extends BaseController {
   @Resource
   private Csa csa;
 
-  @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<RestResponse> index(HttpServletRequest request) {
     List<Category> categories = csa.getTaxonomy().getCategories();
     return new ResponseEntity(new RestResponse(this.getLocale(request), categories), HttpStatus.OK);
