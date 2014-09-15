@@ -5,7 +5,8 @@ App.Pages.AppOverview = React.createClass({
 
   getInitialState: function() {
     return {
-      search: ""
+      search: "",
+      activeFacets: {}
     }
   },
 
@@ -13,7 +14,10 @@ App.Pages.AppOverview = React.createClass({
     return (
       <div className="l-main">
         <div className="l-left">
-          <App.Components.Facets facets={this.props.facets} />
+          <App.Components.Facets
+            facets={this.props.facets}
+            selectedFacets={this.state.activeFacets}
+            onChange={this.handleFacetChange} />
         </div>
         <div className="l-right">
           <div className="mod-app-search">
@@ -48,9 +52,14 @@ App.Pages.AppOverview = React.createClass({
   },
 
   renderFilteredApps: function() {
-    var filteredApps = this.props.apps.filter(function(app) {
-      return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
-    }.bind(this));
+    var filteredApps = this.props.apps;
+    filteredApps = filteredApps.filter(this.filterBySearchQuery);
+
+    if (!$.isEmptyObject(this.state.activeFacets)) {
+      filteredApps = filteredApps.filter(this.filterByFacets);
+      filteredApps = filteredApps.filter(this.filterConnectionFacet);
+      filteredApps = filteredApps.filter(this.filterLicenseFacet);
+    }
 
     return filteredApps.map(this.renderApp);
   },
@@ -78,5 +87,75 @@ App.Pages.AppOverview = React.createClass({
       e.stopPropagation();
       page("/apps/:id", {id: app.id});
     }
+  },
+
+  handleFacetChange: function(facet, facetValue) {
+    var selectedFacet = $.extend({}, this.state.activeFacets);
+    if (selectedFacet[facet] == facetValue) {
+      delete selectedFacet[facet];
+    } else {
+      selectedFacet[facet] = facetValue;
+    }
+    setTimeout(function() {
+      this.setState({activeFacets: selectedFacet});
+      // give the browser some time to finish the change event for the checkbox
+    }.bind(this), 0);
+  },
+
+  filterBySearchQuery: function(app) {
+    return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
+  },
+
+  filterConnectionFacet: function(app) {
+    if (this.state.activeFacets["connection"]) {
+      var check = this.state.activeFacets["connection"] == "yes";
+      if (app.connected != check) {
+        return false;
+      }
+    }
+
+    return true;
+  },
+
+  filterLicenseFacet: function(app) {
+    if (this.state.activeFacets["license"]) {
+      if (this.state.activeFacets["license"] == "yes") {
+        if (!app.license) {
+          return false;
+        }
+      } else {
+        if (app.license) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  },
+
+  filterByFacets: function(app) {
+    var normalizedCategories = this.normalizeCategories(app);
+    var match = true;
+
+    for (facet in this.state.activeFacets) {
+      if (normalizedCategories[facet]) {
+        if (normalizedCategories[facet].indexOf(this.state.activeFacets[facet]) < 0) {
+          match = false;
+        }
+      }
+    }
+
+    return match;
+  },
+
+  normalizeCategories: function(app) {
+    var normalizedCategories = {}
+    app.categories.forEach(function(category) {
+      normalizedCategories[category.name] = category.values.map(function(categoryValue) {
+        return categoryValue.value;
+      });
+    });
+    return normalizedCategories;
   }
+
 });
