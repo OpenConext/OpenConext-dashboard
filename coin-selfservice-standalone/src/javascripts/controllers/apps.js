@@ -6,16 +6,10 @@ App.Controllers.Apps = {
   },
 
   loadApps: function(ctx, next) {
-    $.ajax({
-      headers: {"X-IDP-ENTITY-ID": App.currentUser.currentIdp.id},
-      method: "GET",
-      url: BASE_URL + "/services",
-      type: "json",
-      success: function (data) {
+    $.get(App.apiUrl("/services"), function(data) {
         ctx.apps = data.payload;
         next();
-      }
-    });
+      });
   },
 
   overview: function(ctx) {
