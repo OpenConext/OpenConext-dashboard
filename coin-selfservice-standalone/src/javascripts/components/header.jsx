@@ -15,7 +15,7 @@ App.Components.Header = React.createClass({
           </ul>
           <ul className="links">
             <li><a href="#">Help</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
           </ul>
         </div>
       </div>

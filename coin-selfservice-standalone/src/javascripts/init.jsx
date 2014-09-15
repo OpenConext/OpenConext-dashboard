@@ -9,8 +9,7 @@ var App = {
     this.fetchUserData(function(user) {
       this.currentUser = user;
 
-      this.mainComponent = App.Components.Main();
-      this.mainComponent = React.renderComponent(this.mainComponent, document.getElementById("app"));
+      this.mainComponent = React.renderComponent(App.Components.Main(), document.getElementById("app"));
 
       for (controller in App.Controllers) {
         App.Controllers[controller].initialize();
@@ -34,6 +33,12 @@ var App = {
     this.mainComponent.setProps({
       page: page
     });
+  },
+
+  stop: function() {
+    var node = document.getElementById("app");
+    React.unmountComponentAtNode(node);
+    React.renderComponent(App.Pages.Logout(), node);
   },
 
   apiUrl: function(value) {
