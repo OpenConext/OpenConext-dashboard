@@ -47,7 +47,13 @@ I18n.translations.en = {
       search: "Search"
     },
     detail: {
-      support_contact_description: "Support Email"
+      support_contact_description: "Support Email",
+      application_by: "Application by",
+      overview: "Overview",
+      license_info: "License info",
+      application_usage: "Application usage",
+      attribute_policy: "Attribute policy",
+      how_to_connect: "How to connect"
     }
   }
 };

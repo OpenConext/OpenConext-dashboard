@@ -2,26 +2,29 @@
 
 App.Pages.AppDetail = React.createClass({
   render: function () {
+
+    var logo = "";
+    if (this.props.app.detailLogoUrl) {
+      logo = "<div className='logo'><img src='" + this.props.app.detailLogoUrl +"'/></div>"
+    }
     return (
       <div className="l-center">
 
         <div className="l-left">
           <div className="mod-app-nav">
             <ul>
-              <li><a href="#">Overview</a></li>
-              <li><a href="#">License info</a></li>
-              <li><a href="#">Application usage</a></li>
-              <li><a href="#">Attribute policy</a></li>
-              <li><a href="#">How to connect</a></li>
+              <li><a href="#">{I18n.t("apps.detail.overview")}</a></li>
+              <li><a href="#">{I18n.t("apps.detail.license_info")}</a></li>
+              <li><a href="#">{I18n.t("apps.detail.application_usage")}</a></li>
+              <li><a href="#">{I18n.t("apps.detail.attribute_policy")}</a></li>
+              <li><a href="#">{I18n.t("apps.detail.how_to_connect")}</a></li>
             </ul>
           </div>
         </div>
 
         <div className="l-right">
           <div className="mod-app-meta">
-            <div className="logo">
-              <img src="http://placehold.it/200x150" />
-            </div>
+            {logo}
             <App.Components.Contact description={I18n.t("apps.detail.support_contact_description")} email={this.props.app.supportMail} />
           </div>
         </div>
@@ -54,11 +57,7 @@ App.Pages.AppDetail = React.createClass({
             <p>3TU.Datacentrum currently hosts about 5000 datasets. To see examples please visit: http://data.3tu.nl</p>
           </div>
 
-          <div className="mod-screenshots">
-            <a href="#"><img src="http://placehold.it/400x300" /></a>
-            <a href="#"><img src="http://placehold.it/400x300" /></a>
-            <a href="#"><img src="http://placehold.it/400x300" /></a>
-          </div>
+          <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls} />
         </div>
 
       </div>
