@@ -22,30 +22,7 @@ App.Pages.AppDetail = React.createClass({
             <div className="logo">
               <img src="http://placehold.it/200x150" />
             </div>
-            <div className="contact">
-              <h2>Administrative contact</h2>
-              <address>
-                Frans Ward<br />
-                06 50 868 666<br />
-                <a href="mailto:fransward@surfconext.nl">fransward@surfconext.nl</a>
-              </address>
-            </div>
-            <div className="contact">
-              <h2>Administrative contact</h2>
-              <address>
-                Frans Ward<br />
-                06 50 868 666<br />
-                <a href="mailto:fransward@surfconext.nl">fransward@surfconext.nl</a>
-              </address>
-            </div>
-            <div className="contact">
-              <h2>Administrative contact</h2>
-              <address>
-                Frans Ward<br />
-                06 50 868 666<br />
-                <a href="mailto:fransward@surfconext.nl">fransward@surfconext.nl</a>
-              </address>
-            </div>
+            <App.Components.Contact description={I18n.t("apps.detail.support_contact_description")} email={this.props.app.supportMail} />
           </div>
         </div>
 

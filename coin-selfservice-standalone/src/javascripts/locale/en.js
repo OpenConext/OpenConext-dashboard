@@ -47,7 +47,7 @@ I18n.translations.en = {
       search: "Search"
     },
     detail: {
-
+      support_contact_description: "Support Email"
     }
   }
 };

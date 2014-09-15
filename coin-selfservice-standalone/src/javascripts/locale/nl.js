@@ -47,7 +47,7 @@ I18n.translations.nl = {
       search: "Zoek"
     },
     detail: {
-
+      support_contact_description: "Support Mail"
     }
   }
 };
