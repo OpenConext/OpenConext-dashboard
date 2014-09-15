@@ -1,26 +1,33 @@
 body
-  font: 14px/20px "Roboto"
-  -webkit-font-smoothing: antialiased
+  font-family: "Roboto"
   font-weight: 400
-
-// h1
-//   font-size: 30px
-//   line-height: 40px
-
-h2
-  font-size: 16px
-  line-height: 30px
-
-// h3
-//   font-size: 20px
-//   font-weight: bold
-//   line-height: 30px
+  @extend %body
+  color: $dark-grey
+  -webkit-font-smoothing: antialiased
 
 blockquote
   margin-bottom: 2rem
 
 a
-  color: #000
+  color: $blue
 
   &:hover
     text-decoration: underline
+
+%h1
+  font-size: 30px
+  line-height: 40px
+
+%h2
+  font-size: 20px
+  line-height: 30px
+
+%h3
+  font-size: 16px
+  font-weight: 500
+  line-height: 25px
+  margin-bottom: 5px
+
+%body
+  font-size: 14px
+  line-height: 20px
