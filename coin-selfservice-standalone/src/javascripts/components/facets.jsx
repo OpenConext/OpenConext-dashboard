@@ -60,7 +60,6 @@ App.Components.Facets = React.createClass({
 
   handleSelectFacet: function(facet, facetValue) {
     return function(e) {
-      e.preventDefault();
       e.stopPropagation();
       this.props.onChange(facet, facetValue);
     }.bind(this);

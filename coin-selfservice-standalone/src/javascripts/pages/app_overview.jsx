@@ -96,10 +96,7 @@ App.Pages.AppOverview = React.createClass({
     } else {
       selectedFacet[facet] = facetValue;
     }
-    setTimeout(function() {
-      this.setState({activeFacets: selectedFacet});
-      // give the browser some time to finish the change event for the checkbox
-    }.bind(this), 0);
+    this.setState({activeFacets: selectedFacet});
   },
 
   filterBySearchQuery: function(app) {
