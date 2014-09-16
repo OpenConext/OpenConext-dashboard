@@ -11,12 +11,16 @@ App.Pages.AppOverview = React.createClass({
   },
 
   render: function () {
+    var filteredApps = this.filteredApps();
+
     return (
       <div className="l-main">
         <div className="l-left">
           <App.Components.Facets
             facets={this.props.facets}
             selectedFacets={this.state.activeFacets}
+            filteredCount={filteredApps.length}
+            totalCount={this.props.apps.length}
             onChange={this.handleFacetChange} />
         </div>
         <div className="l-right">
@@ -42,26 +46,13 @@ App.Pages.AppOverview = React.createClass({
                 </tr>
               </thead>
               <tbody>
-              {this.renderFilteredApps()}
+              {filteredApps.map(this.renderApp)}
               </tbody>
             </table>
           </div>
         </div>
       </div>
       );
-  },
-
-  renderFilteredApps: function() {
-    var filteredApps = this.props.apps;
-    filteredApps = filteredApps.filter(this.filterBySearchQuery);
-
-    if (!$.isEmptyObject(this.state.activeFacets)) {
-      filteredApps = filteredApps.filter(this.filterByFacets);
-      filteredApps = filteredApps.filter(this.filterConnectionFacet);
-      filteredApps = filteredApps.filter(this.filterLicenseFacet);
-    }
-
-    return filteredApps.map(this.renderApp);
   },
 
   renderApp: function(app) {
@@ -97,6 +88,19 @@ App.Pages.AppOverview = React.createClass({
       selectedFacet[facet] = facetValue;
     }
     this.setState({activeFacets: selectedFacet});
+  },
+
+  filteredApps: function() {
+    var filteredApps = this.props.apps;
+    filteredApps = filteredApps.filter(this.filterBySearchQuery);
+
+    if (!$.isEmptyObject(this.state.activeFacets)) {
+      filteredApps = filteredApps.filter(this.filterByFacets);
+      filteredApps = filteredApps.filter(this.filterConnectionFacet);
+      filteredApps = filteredApps.filter(this.filterLicenseFacet);
+    }
+
+    return filteredApps;
   },
 
   filterBySearchQuery: function(app) {

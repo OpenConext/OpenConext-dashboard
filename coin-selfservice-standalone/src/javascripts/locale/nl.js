@@ -22,6 +22,10 @@ I18n.translations.nl = {
 
   facets: {
     title: "Filters",
+    totals: {
+      all: "Alle {{total}} apps worden weergegeven.",
+      filtered: "{{count}} uit {{total}} apps worden weergegeven."
+    },
     static: {
       connection: {
         name: "Connectie",

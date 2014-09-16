@@ -8,8 +8,22 @@ App.Components.Facets = React.createClass({
       <div className="mod-filters">
         <h1>{I18n.t("facets.title")}</h1>
         {facets.map(this.renderFacet)}
+        <fieldset>
+          {this.renderTotals()}
+        </fieldset>
       </div>
     );
+  },
+
+  renderTotals: function() {
+    var count = this.props.filteredCount;
+    var total = this.props.totalCount;
+
+    if (count == total) {
+      return I18n.t("facets.totals.all", { total: total })
+    } else {
+      return I18n.t("facets.totals.filtered", { count: count, total: total })
+    }
   },
 
   renderFacet: function(facet) {
