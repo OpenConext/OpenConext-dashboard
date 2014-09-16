@@ -5,12 +5,20 @@ App.Components.Navigation = React.createClass({
     return (
       <div className="mod-navigation">
         <ul>
-          <li><a href="/apps">Apps</a></li>
-          <li><a href="/notifications">Notifications</a></li>
-          <li><a href="/history">History</a></li>
-          <li><a href="/statistics">Statistics</a></li>
+          {this.renderItem("/apps", "apps")}
+          {this.renderItem("/notifications", "notifications")}
+          {this.renderItem("/history", "history")}
+          {this.renderItem("/statistics", "stats")}
         </ul>
       </div>
+    );
+  },
+
+  renderItem: function(href, value) {
+    var className = (this.props.active == value ? "active" : "");
+
+    return (
+      <li className={className}><a href={href}>{I18n.t("navigation." + value)}</a></li>
     );
   }
 });

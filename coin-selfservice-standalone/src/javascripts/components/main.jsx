@@ -6,7 +6,7 @@ App.Components.Main = React.createClass({
       <div>
         <div className="l-header">
           <App.Components.Header />
-          <App.Components.Navigation />
+          <App.Components.Navigation active={this.props.page.props.key} />
         </div>
 
         {this.props.page}

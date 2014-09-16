@@ -20,6 +20,13 @@ I18n.translations.en = {
     welcome: "Welcome, {{name}}"
   },
 
+  navigation: {
+    apps: "Apps",
+    notifications: "Notifications",
+    history: "History",
+    stats: "Statistics"
+  },
+
   facets: {
     title: "Filters",
     reset: "reset",

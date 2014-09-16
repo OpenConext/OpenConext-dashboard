@@ -20,6 +20,13 @@ I18n.translations.nl = {
     welcome: "Welkom, {{name}}"
   },
 
+  navigation: {
+    apps: "Apps",
+    notifications: "Notificaties",
+    history: "Historie",
+    stats: "Statistieken"
+  },
+
   facets: {
     title: "Filters",
     reset: "reset",

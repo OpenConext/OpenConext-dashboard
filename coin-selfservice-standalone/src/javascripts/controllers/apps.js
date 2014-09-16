@@ -35,10 +35,10 @@ App.Controllers.Apps = {
   },
 
   overview: function(ctx) {
-    App.render(App.Pages.AppOverview({apps: ctx.apps, facets: ctx.facets}));
+    App.render(App.Pages.AppOverview({key: "apps", apps: ctx.apps, facets: ctx.facets}));
   },
 
   detail: function(ctx) {
-    App.render(App.Pages.AppDetail({app: ctx.app}));
+    App.render(App.Pages.AppDetail({key: "apps", app: ctx.app}));
   }
 }

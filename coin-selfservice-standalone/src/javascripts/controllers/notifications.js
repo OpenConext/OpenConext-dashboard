@@ -5,6 +5,6 @@ App.Controllers.Notifications = {
   },
 
   index: function() {
-    App.render(App.Pages.Notifications());
+    App.render(App.Pages.Notifications({key: "notifications"}));
   }
 }
