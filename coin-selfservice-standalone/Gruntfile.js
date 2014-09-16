@@ -105,11 +105,24 @@ module.exports = function(grunt) {
       }
     },
     copy: {
+      dev: {
+        files: [{
+          expand: true,
+          cwd: 'src/images/',
+          src: ['**/*'],
+          dest: 'build/images/'
+        }],
+      },
       dist: {
-        files: {
+        files: [{
+          expand: true,
+          cwd: 'src/images/',
+          src: ['**/*'],
+          dest: 'dist/images/'
+        }, {
           'dist/application-<%= now %>.min.js': 'build/application.min.js',
           'dist/application-<%= now %>.min.css': 'build/application.min.css'
-        }
+        }]
       }
     },
     connect: {
@@ -154,6 +167,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('server', [ 'configureProxies:dev', 'connect:dev']);
 
-  grunt.registerTask('default', ['clean:tmp', 'react', 'sass', 'newer:concat', 'newer:string-replace:dev']);
-  grunt.registerTask('prod', ['default', 'clean:dist', 'string-replace:dist', 'cssmin', 'uglify', 'copy']);
+  grunt.registerTask('default', ['clean:tmp', 'react', 'sass', 'newer:concat', 'newer:string-replace:dev', 'copy:dev']);
+  grunt.registerTask('prod', ['default', 'clean:dist', 'string-replace:dist', 'cssmin', 'uglify', 'copy:dist']);
 };
