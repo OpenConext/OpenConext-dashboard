@@ -5,9 +5,9 @@ App.Components.Footer = React.createClass({
     return (
       <div className="mod-footer">
         <ul>
-          <li><a href="#">SURFnet</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">help@surfconext.nl</a></li>
+          <li dangerouslySetInnerHTML={{__html: I18n.t("footer.surfnet_html") }}></li>
+          <li dangerouslySetInnerHTML={{__html: I18n.t("footer.terms_html") }}></li>
+          <li dangerouslySetInnerHTML={{__html: I18n.t("footer.contact_html") }}></li>
         </ul>
       </div>
     );

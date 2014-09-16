@@ -59,5 +59,11 @@ I18n.translations.nl = {
       attribute_policy: "Applicatie gebruik",
       how_to_connect: "Hoe aan te sluiten"
     }
+  },
+
+  footer: {
+    surfnet_html: "<a href=\"http://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
+    terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28NL%29\" target=\"_blank\">Gebruikersvoorwaarden</a>",
+    contact_html: "<a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>"
   }
 };
