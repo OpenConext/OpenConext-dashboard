@@ -14,8 +14,8 @@ App.Components.Header = React.createClass({
             ]}
           </ul>
           <ul className="links">
-            <li><a href="#">Help</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html") }}></li>
+            <li><a href="/logout">{I18n.t("header.links.logout")}</a></li>
           </ul>
         </div>
       </div>

@@ -17,7 +17,11 @@ I18n.translations.en = {
 
   header: {
     title: "SurfConext Dashboard",
-    welcome: "Welcome, {{name}}"
+    welcome: "Welcome, {{name}}",
+    links: {
+      help_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Dashboard+van+SURFconext+%28EN%29\" target=\"_blank\">Help</a>",
+      logout: "Logout"
+    }
   },
 
   navigation: {
