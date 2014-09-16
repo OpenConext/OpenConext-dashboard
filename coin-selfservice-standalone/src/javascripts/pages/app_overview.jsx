@@ -43,7 +43,6 @@ App.Pages.AppOverview = React.createClass({
                   <th className="percent_25">{I18n.t("apps.overview.provider")}</th>
                   <th className="percent_10">{I18n.t("apps.overview.license")}</th>
                   <th className="percent_10">{I18n.t("apps.overview.connection")}</th>
-                  <th className="percent_15 date">{I18n.t("apps.overview.added")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -60,10 +59,9 @@ App.Pages.AppOverview = React.createClass({
     return (
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
         <td>{app.name}</td>
-        <td>###</td>
+        <td>{app.spName}</td>
         {this.renderYesNo(app.license)}
         {this.renderYesNo(app.connected)}
-        <td className="date">###</td>
       </tr>
     );
   },

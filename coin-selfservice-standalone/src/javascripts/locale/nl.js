@@ -47,7 +47,6 @@ I18n.translations.nl = {
       provider: "Provider",
       license: "Licentie",
       connection: "Connectie",
-      added: "Toegevoegd",
       search_hint: "Zoek op naam, bedrijf, of trefwoord",
       search: "Zoek"
     },

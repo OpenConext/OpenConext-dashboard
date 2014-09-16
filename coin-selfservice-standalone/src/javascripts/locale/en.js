@@ -47,7 +47,6 @@ I18n.translations.en = {
       provider: "Provider",
       license: "License",
       connection: "Connection",
-      added: "Added",
       search_hint: "Filter by name, company, or keyword",
       search: "Search"
     },
