@@ -7,12 +7,7 @@ App.Components.Header = React.createClass({
         <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
         <div className="meta">
           <p className="name">{I18n.t("header.welcome", { name: App.currentUser.displayName } )}</p>
-          <ul className="language">
-            {[
-              this.renderLocaleChooser("en"),
-              this.renderLocaleChooser("nl")
-            ]}
-          </ul>
+          <App.Components.LanguageSelector />
           <ul className="links">
             <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html") }}></li>
             <li><a href="/logout">{I18n.t("header.links.logout")}</a></li>
@@ -20,27 +15,5 @@ App.Components.Header = React.createClass({
         </div>
       </div>
     );
-  },
-
-  renderLocaleChooser: function(locale) {
-    return (
-      <li key={locale} className={I18n.currentLocale() == locale ? "selected" : ""}>
-        <a
-          href="#"
-          title={I18n.t("select_locale", {locale: locale})}
-          onClick={this.handleChooseLocale(locale)}>
-          {I18n.t("code", {locale: locale})}
-        </a>
-      </li>
-    );
-  },
-
-  handleChooseLocale: function(locale) {
-    return function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.search = "lang=" + locale;
-    }
   }
-
 });
