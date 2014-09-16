@@ -6,8 +6,15 @@ var App = {
   Controllers: {},
 
   initialize: function() {
+    I18n.locale = "en";
+    $(document).ajaxError(this.ajaxError);
+
     this.fetchUserData(function(user) {
       this.currentUser = user;
+
+      $(document).ajaxSend(function(event, jqxhr, settings) {
+        jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentUser.currentIdp.id);
+      }.bind(this));
 
       for (controller in App.Controllers) {
         App.Controllers[controller].initialize();
