@@ -60,7 +60,7 @@ public class UsersControllerIntegrationTest {
   @Test
   public void thatIdpCanBeSwitched() throws Exception {
     this.mockMvc.perform(
-      get(format("/users/me/switch-to-idp/%s", BAR_IDP_ENTITY_ID)).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
+      get(format("/users/me/switch-to-idp?idpId=%s", BAR_IDP_ENTITY_ID)).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
     )
       .andExpect(status().isOk())
       .andExpect(header().string(HTTP_X_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID))
@@ -72,7 +72,7 @@ public class UsersControllerIntegrationTest {
   public void cannotSwitchToIdpWithoutAccessToIt() throws Exception {
     try {
       this.mockMvc.perform(
-        get(format("/users/me/switch-to-idp/%s", "no access")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
+        get(format("/users/me/switch-to-idp?idpId=%s", "no access")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
       );
       fail("expected SecurityException");
     } catch (NestedServletException e) {

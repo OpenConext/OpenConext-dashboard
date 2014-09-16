@@ -10,7 +10,7 @@ App.Controllers.User = {
   },
 
   switchToIdp: function(idp) {
-    $.get(App.apiUrl("/users/me/switch-to-idp/" + encodeURIComponent(idp.id)), function() {
+    $.get(App.apiUrl("/users/me/switch-to-idp?idpId=" + encodeURIComponent(idp.id)), function() {
       window.location = window.location;
     });
   }
