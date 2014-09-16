@@ -22,6 +22,7 @@ I18n.translations.nl = {
 
   facets: {
     title: "Filters",
+    reset: "reset",
     totals: {
       all: "Alle {{total}} apps worden weergegeven.",
       filtered: "{{count}} uit {{total}} apps worden weergegeven."

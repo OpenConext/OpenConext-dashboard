@@ -21,7 +21,8 @@ App.Pages.AppOverview = React.createClass({
             selectedFacets={this.state.activeFacets}
             filteredCount={filteredApps.length}
             totalCount={this.props.apps.length}
-            onChange={this.handleFacetChange} />
+            onChange={this.handleFacetChange}
+            onReset={this.handleResetFilters} />
         </div>
         <div className="l-right">
           <div className="mod-app-search">
@@ -88,6 +89,13 @@ App.Pages.AppOverview = React.createClass({
       selectedFacet[facet] = facetValue;
     }
     this.setState({activeFacets: selectedFacet});
+  },
+
+  handleResetFilters: function() {
+    this.setState({
+      search: "",
+      activeFacets: {}
+    });
   },
 
   filteredApps: function() {

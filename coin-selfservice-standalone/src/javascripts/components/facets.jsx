@@ -6,12 +6,23 @@ App.Components.Facets = React.createClass({
 
     return (
       <div className="mod-filters">
-        <h1>{I18n.t("facets.title")}</h1>
+        <h1 className="ugly">{this.renderResetFilters()}</h1>
         {facets.map(this.renderFacet)}
         <fieldset>
           {this.renderTotals()}
         </fieldset>
       </div>
+    );
+  },
+
+  renderResetFilters: function() {
+    return (
+      <span>
+        {I18n.t("facets.title")}
+        <small>
+          &nbsp;(<a href="#" onClick={this.handleResetFilters}>{I18n.t("facets.reset")}</a>)
+        </small>
+      </span>
     );
   },
 
@@ -54,6 +65,19 @@ App.Components.Facets = React.createClass({
     );
   },
 
+  handleSelectFacet: function(facet, facetValue) {
+    return function(e) {
+      e.stopPropagation();
+      this.props.onChange(facet, facetValue);
+    }.bind(this);
+  },
+
+  handleResetFilters: function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onReset();
+  },
+
   staticFacets: function() {
     return [{
       name: I18n.t("facets.static.connection.name"),
@@ -72,10 +96,4 @@ App.Components.Facets = React.createClass({
     }];
   },
 
-  handleSelectFacet: function(facet, facetValue) {
-    return function(e) {
-      e.stopPropagation();
-      this.props.onChange(facet, facetValue);
-    }.bind(this);
-  }
 });

@@ -22,6 +22,7 @@ I18n.translations.en = {
 
   facets: {
     title: "Filters",
+    reset: "reset",
     totals: {
       all: "Showing all {{total}} apps.",
       filtered: "Showing {{count}} of {{total}} apps."
