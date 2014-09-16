@@ -7,6 +7,7 @@ App.Components.Header = React.createClass({
         <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
         <div className="meta">
           <p className="name">{I18n.t("header.welcome", { name: App.currentUser.displayName } )}</p>
+          <App.Components.IDPSelector />
           <App.Components.LanguageSelector />
           <ul className="links">
             <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html") }}></li>

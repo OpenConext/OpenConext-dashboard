@@ -7,5 +7,11 @@ App.Controllers.User = {
     $.get(App.apiUrl("/logout"), function() {
       App.stop();
     });
+  },
+
+  switchToIdp: function(idp) {
+    $.get(App.apiUrl("/users/me/switch-to-idp/" + encodeURIComponent(idp.id)), function() {
+      window.location = window.location;
+    });
   }
 }

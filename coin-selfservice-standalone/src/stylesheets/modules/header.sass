@@ -13,7 +13,8 @@
 
   // Styling for elements
   ul,
-  p
+  p,
+  .idp
     float: left
     margin-left: 40px
     line-height: 30px
@@ -33,6 +34,53 @@
     &:last-child
       a
         border-right: 0
+
+  // IDP switch
+  .idp
+    &.active
+      .toggle
+        background: $blue
+        color: #fff
+
+    a
+      display: inline-block
+      text-decoration: none
+      padding: 0 14px
+      background: $light-grey
+      text-align: center
+      border: 0
+      border-bottom: 1px solid #fff
+      border-radius: $br
+
+      &:hover
+        background: $blue
+        color: #fff
+
+    ul
+      margin-top: 5px
+      position: absolute
+      border-radius: $br
+      background: $light-grey
+      margin-left: 0
+      float: none
+      border: 1px solid #fff
+
+      li
+        float: none
+        text-overflow: ellipses
+
+        a
+          border-radius: 0
+          width: 100%
+
+        &:first-child
+          a
+            border-radius: $br $br 0 0
+
+        &:last-child
+          a
+            border-radius: 0 0 $br $br
+            border-bottom: 0
 
   // EN / NL language switch
   .language
