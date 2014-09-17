@@ -24,6 +24,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+
 /**
  * Simple conext user
  */
@@ -77,6 +79,10 @@ public class CoinUser implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public boolean isSuperUser() {
+    return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
   }
 
   /**

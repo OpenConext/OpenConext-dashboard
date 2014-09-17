@@ -12,7 +12,7 @@ import java.util.Locale;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-public class AddRestLinksTest {
+public class EnrichJsonTest {
 
   private Gson gson;
 
@@ -26,7 +26,7 @@ public class AddRestLinksTest {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    new AddRestLinks(jsonElement).forPayload(coinUser);
+    new EnrichJson(jsonElement).forPayload(coinUser);
 
     assertEquals(getLinksFromRoot(jsonElement).getAsJsonPrimitive("self").getAsString(), "/users/me");
 
@@ -39,7 +39,7 @@ public class AddRestLinksTest {
 
     List<Service> payload = asList(service1, service2);
     JsonElement jsonElement = createJsonResponse(payload);
-    new AddRestLinks(jsonElement).forPayload(payload);
+    new EnrichJson(jsonElement).forPayload(payload);
 
     assertEquals("/services/id/1", getFirstServiceFromRoot(jsonElement).getAsJsonObject("_links").getAsJsonPrimitive("self").getAsString());
   }
@@ -49,7 +49,7 @@ public class AddRestLinksTest {
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", service -> service.setId(10l));
 
     JsonElement jsonElement = createJsonResponse(service1);
-    new AddRestLinks(jsonElement).forPayload(service1);
+    new EnrichJson(jsonElement).forPayload(service1);
 
     assertEquals("/services/id/10", getLinksFromRoot(jsonElement).getAsJsonPrimitive("self").getAsString());
 
