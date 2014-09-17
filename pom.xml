@@ -28,7 +28,7 @@
   </parent>
 
   <artifactId>coin-selfservice-parent</artifactId>
-  <version>4.0.2.2-SNAPSHOT</version>
+  <version>4.0.2.2</version>
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 
@@ -38,7 +38,7 @@
     <connection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</connection>
     <url>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</url>
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>coin-selfservice-parent-4.0.2.2</tag>
   </scm>
 
   <repositories>
