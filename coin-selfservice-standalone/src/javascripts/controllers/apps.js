@@ -7,7 +7,7 @@ App.Controllers.Apps = {
       this.overview.bind(this)
     );
 
-    page("/apps/:id",
+    page("/apps/:id/:active_panel?",
       this.loadApp.bind(this),
       this.detail.bind(this)
     );
@@ -39,6 +39,6 @@ App.Controllers.Apps = {
   },
 
   detail: function(ctx) {
-    App.render(App.Pages.AppDetail({key: "apps", app: ctx.app}));
+    App.render(App.Pages.AppDetail({key: "apps", app: ctx.app, activePanel: ctx.params.active_panel}));
   }
 }
