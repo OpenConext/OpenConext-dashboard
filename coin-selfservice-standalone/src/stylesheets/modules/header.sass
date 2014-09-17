@@ -14,7 +14,8 @@
   // Styling for elements
   ul,
   p,
-  .idp
+  .idp,
+  .identity
     float: left
     margin-left: 40px
     line-height: 30px
@@ -81,6 +82,20 @@
           a
             border-radius: 0 0 $br $br
             border-bottom: 0
+
+  .identity
+    a
+      display: inline-block
+      text-decoration: none
+      padding: 0 14px
+      background: $light-grey
+      text-align: center
+      border: 0
+      border-radius: $br
+
+      &:hover
+        background: $blue
+        color: #fff
 
   // EN / NL language switch
   .language
