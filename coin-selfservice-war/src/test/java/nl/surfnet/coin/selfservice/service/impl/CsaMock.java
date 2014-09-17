@@ -76,7 +76,7 @@ public class CsaMock implements Csa {
   public List<OfferedService> findOfferedServicesFor(String idpEntityId) {
     List<OfferedService> result = new ArrayList<>();
     for (Service service : getProtectedServices()) {
-      result.add(new OfferedService(service, Arrays.asList(new InstitutionIdentityProvider(idpEntityId, idpEntityId, idpEntityId))));
+      result.add(new OfferedService(service));
     }
     return result;
   }
