@@ -52,28 +52,11 @@
     <h2><spring:message code="jsp.my.idp.apps.header"/></h2>
     <c:choose>
       <c:when test="${not empty offeredServicePresenter.offeredServiceViews}">
-        <div class="accordion" id="accordion2">
-          <c:forEach items="${offeredServicePresenter.offeredServiceViews}" var="offeredServiceView" varStatus="vs">
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
-                   href="#collapse-<c:out value="${vs.count}"/>">
-                  <c:out default="${offeredServiceView.offeredService.service.id}"
-                         value="${offeredServiceView.offeredService.service.name}"/>
-                </a>
-              </div>
-              <div id="collapse-<c:out value="${vs.count}"/>" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <ul>
-                    <c:forEach items="${offeredServiceView.sortedIdps}" var="idp">
-                      <li><c:out value="${idp}"/></li>
-                    </c:forEach>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </c:forEach>
-        </div>
+        <c:forEach items="${offeredServicePresenter.offeredServiceViews}" var="offeredServiceView" varStatus="vs">
+        <li>
+          <c:out default="${offeredServiceView.offeredService.service.id}" value="${offeredServiceView.offeredService.service.name}"/>
+        </li>
+        </c:forEach>
       </c:when>
       <c:otherwise>
         <p><spring:message code="jsp.my.idp.apps.noappsfound"/></p>
