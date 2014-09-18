@@ -40,4 +40,7 @@ public class RestDataFixture {
     return coinUser;
   }
 
+  public static InstitutionIdentityProvider idp(String idp) {
+    return new InstitutionIdentityProvider(idp, "name", "institution id");
+  }
 }

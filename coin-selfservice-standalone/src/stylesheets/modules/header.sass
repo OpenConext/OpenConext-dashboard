@@ -1,20 +1,26 @@
 .mod-header
-  padding: 20px 30px
   +clearfix
+  padding: 20px 30px
   background: #fff
 
   // Main app title
   .title
     float: left
     @extend %h2
+
   // Meta = right aligned stuff
   .meta
     float: right
 
   // Styling for elements
+  a
+    text-decoration: none
+    &:hover
+      text-decoration: underline
   ul,
   p,
-  .idp
+  .idp,
+  .identity
     float: left
     margin-left: 40px
     line-height: 30px
@@ -26,7 +32,6 @@
     a
       display: block
       padding: 0 14px
-      text-decoration: none
       border-right: 1px solid $light-grey
       &:hover
         color: $blue
@@ -81,6 +86,20 @@
           a
             border-radius: 0 0 $br $br
             border-bottom: 0
+
+  .identity
+    a
+      display: inline-block
+      text-decoration: none
+      padding: 0 14px
+      background: $light-grey
+      text-align: center
+      border: 0
+      border-radius: $br
+
+      &:hover
+        background: $blue
+        color: #fff
 
   // EN / NL language switch
   .language

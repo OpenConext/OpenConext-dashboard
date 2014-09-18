@@ -62,14 +62,21 @@ I18n.translations.nl = {
       search: "Zoek"
     },
     detail: {
-      support_contact_description: "Support Mail",
-      application_by: "Beschikbaar gesteld door",
       overview: "Overzicht",
       license_info: "Licentie informatie",
       application_usage: "Applicatie gebruik",
-      attribute_policy: "Applicatie gebruik",
+      attribute_policy: "Attribuut beleid",
       how_to_connect: "Hoe aan te sluiten"
     }
+  },
+
+  overview_panel: {
+    provider: "Beschikbaar gesteld door {{name}}",
+    description: "Beschrijving"
+  },
+
+  contact: {
+    email: "Support email"
   },
 
   footer: {

@@ -6,7 +6,7 @@ App.Components.Main = React.createClass({
       <div>
         <div className="l-header">
           <App.Components.Header />
-          <App.Components.Navigation active={this.props.page.props.key} />
+          {this.renderNavigation()}
         </div>
 
         {this.props.page}
@@ -14,5 +14,11 @@ App.Components.Main = React.createClass({
         <App.Components.Footer />
       </div>
     );
+  },
+
+  renderNavigation: function() {
+    if (!App.currentUser.superUser) {
+      return <App.Components.Navigation active={this.props.page.props.key} />;
+    }
   }
 });

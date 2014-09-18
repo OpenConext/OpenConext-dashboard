@@ -1,5 +1,8 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
+import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
 import nl.surfnet.coin.selfservice.interceptor.EnsureCurrentIdpSet;
@@ -7,17 +10,26 @@ import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static java.lang.String.format;
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.coinUser;
+import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.idp;
+import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.serviceWithSpEntityId;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -27,13 +39,21 @@ public class UsersControllerIntegrationTest {
   private static final String BAR_IDP_ENTITY_ID = "bar";
   private MockMvc mockMvc;
 
+  @InjectMocks
   private UsersController controller;
+
   private CoinUser coinUser;
+  private List<InstitutionIdentityProvider> idps;
+
+  @Mock
+  private Csa csa;
 
   @Before
   public void setup() {
     controller = new UsersController();
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
+
+    MockitoAnnotations.initMocks(this);
 
     this.mockMvc = standaloneSetup(controller)
       .setMessageConverters(new GsonHttpMessageConverter())
@@ -41,6 +61,7 @@ public class UsersControllerIntegrationTest {
       .build();
     coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);
     SpringSecurityUtil.setAuthentication(coinUser);
+    idps = Arrays.asList(idp("test"));
   }
 
   @After
@@ -55,6 +76,18 @@ public class UsersControllerIntegrationTest {
     )
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload.uid").value(coinUser.getUid()));
+  }
+
+  @Test
+  public void returnsIdps() throws Exception {
+    when(csa.getAllInstitutionIdentityProviders()).thenReturn(idps);
+
+    this.mockMvc.perform(
+      get(format("/users/super/idps")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
+    )
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.payload.idps").exists())
+      .andExpect(jsonPath("$.payload.roles").exists());
   }
 
   @Test
