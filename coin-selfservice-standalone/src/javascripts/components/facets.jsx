@@ -6,7 +6,7 @@ App.Components.Facets = React.createClass({
 
     return (
       <div className="mod-filters">
-        <h1 className="ugly">{this.renderResetFilters()}</h1>
+        <h1>{this.renderTitle()}</h1>
         {facets.map(this.renderFacet)}
         <fieldset>
           {this.renderTotals()}
@@ -15,15 +15,23 @@ App.Components.Facets = React.createClass({
     );
   },
 
-  renderResetFilters: function() {
+  renderTitle: function() {
     return (
       <span>
         {I18n.t("facets.title")}
-        <small>
-          &nbsp;(<a href="#" onClick={this.handleResetFilters}>{I18n.t("facets.reset")}</a>)
-        </small>
+        {this.renderResetFilters()}
       </span>
     );
+  },
+
+  renderResetFilters: function() {
+    if (this.props.filteredCount < this.props.totalCount) {
+      return (
+        <small>
+          <a href="#" onClick={this.handleResetFilters}>{I18n.t("facets.reset")}</a>
+        </small>
+      );
+    }
   },
 
   renderTotals: function() {
