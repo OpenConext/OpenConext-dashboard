@@ -27,14 +27,6 @@ public class OfferedServicePresenter {
       return offeredService;
     }
 
-    public List<String> getSortedIdps() {
-      return Ordering.natural().sortedCopy(Lists.transform(offeredService.getIdentityProviders(), new Function<InstitutionIdentityProvider, String>() {
-        @Override
-        public String apply(InstitutionIdentityProvider input) {
-          return input.getName();
-        }
-      }));
-    }
   }
 
   private Ordering<OfferedServiceView> byName = new Ordering<OfferedServiceView>() {
