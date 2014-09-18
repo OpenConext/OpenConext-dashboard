@@ -1,12 +1,16 @@
 %table
+
   table
     width: 100%
+
   th, td
     border-bottom: 1px solid $border
-    line-height: 60px
-    padding: 0 20px
+    line-height: 20px
+    padding: 20px
+
     &:first-child
       padding-left: 30px
+
     &:last-child
       padding-right: 30px
 
@@ -17,7 +21,8 @@
         border: 0
 
   th
-    font-weight: bold
+    @extend %h3
+    padding: 15px 20px
 
   .date,
   .number
