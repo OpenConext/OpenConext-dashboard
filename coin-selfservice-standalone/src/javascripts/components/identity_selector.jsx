@@ -2,11 +2,15 @@
 
 App.Components.IdentitySelector = React.createClass({
   render: function () {
-    return (
-      <span className="ugly identity">
-        <a href="/users/switch">Switch idendity</a>
-      </span>
-    );
+    if (App.currentUser.superUser) {
+      return (
+        <span className="ugly identity">
+          <a href="/users/switch">Switch idendity</a>
+        </span>
+      );
+    } else {
+      return null;
+    }
   }
 
 });
