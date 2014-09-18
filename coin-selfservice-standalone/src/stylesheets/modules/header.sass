@@ -1,17 +1,22 @@
 .mod-header
-  padding: 20px 30px
   +clearfix
+  padding: 20px 30px
   background: #fff
 
   // Main app title
   .title
     float: left
     @extend %h2
+
   // Meta = right aligned stuff
   .meta
     float: right
 
   // Styling for elements
+  a
+    text-decoration: none
+    &:hover
+      text-decoration: underline
   ul,
   p,
   .idp,
@@ -27,7 +32,6 @@
     a
       display: block
       padding: 0 14px
-      text-decoration: none
       border-right: 1px solid $light-grey
       &:hover
         color: $blue
