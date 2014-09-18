@@ -1,0 +1,19 @@
+.mod-usage
+  @extend %box
+  margin-bottom: 20px
+
+  .title
+    +clearfix
+    padding: 20px
+    border-bottom: 1px solid $border
+
+    h2
+      float: left
+      @extend %h3
+      line-height: 20px
+
+    select
+      float: right
+
+  .body
+    padding: 20px
