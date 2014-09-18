@@ -18,7 +18,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
@@ -39,25 +38,34 @@ public class ServicesController extends BaseController {
   public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, HttpServletRequest request) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
     List<SpStatistic> recentLoginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), idpEntityId);
-    recentLoginsForUser
-      .stream()
-      .forEach(stat -> getServiceBySpEntityId(services, stat.getSpEntityId())
-        .ifPresent(service -> service.setLastLoginDate(new Date(stat.getEntryTime()))));
+    for (SpStatistic spStatistic: recentLoginsForUser) {
+      Service serviceBySpEntityId = getServiceBySpEntityId(services, spStatistic.getSpEntityId());
+      if(serviceBySpEntityId != null) {
+        serviceBySpEntityId.setLastLoginDate(new Date(spStatistic.getEntryTime()));
+      }
+    }
 
     return new ResponseEntity(new RestResponse(this.getLocale(request), services), HttpStatus.OK);
   }
 
-  private Optional<Service> getServiceBySpEntityId(List<Service> services, String spEntityId) {
-    return services.stream().filter(s -> s.getSpEntityId().equalsIgnoreCase(spEntityId)).findFirst();
+  private Service getServiceBySpEntityId(List<Service> services, String spEntityId) {
+    for (Service service: services) {
+      if(service.getSpEntityId().equalsIgnoreCase((spEntityId))) {
+        return service;
+      }
+    }
+    return null;
   }
 
   @RequestMapping(value = "/id/{id}")
   public ResponseEntity<RestResponse> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
     Service service = csa.getServiceForIdp(idpEntityId, id);
     // remove arp-labels that are explicitly unused
-    IGNORED_ARP_LABELS.stream().filter(ignoredLabel -> service.getArp() != null).forEach(ignoredLabel -> {
-      service.getArp().getAttributes().remove(ignoredLabel);
-    });
+    for(String label: IGNORED_ARP_LABELS) {
+      if (service.getArp() != null) {
+        service.getArp().getAttributes().remove(label);
+      }
+    }
 
     return new ResponseEntity<>(createRestResponse(service), HttpStatus.OK);
   }

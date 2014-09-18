@@ -35,7 +35,12 @@ public class AddRestLinksTest {
   @Test
   public void testAddLinksToListOfServices() throws Exception {
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1");
-    Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", service -> service.setId(2l));
+    Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", new RestDataFixture.ServiceUpdater() {
+      @Override
+      public void apply(Service service) {
+        service.setId(2l);
+      }
+    });
 
     List<Service> payload = asList(service1, service2);
     JsonElement jsonElement = createJsonResponse(payload);
@@ -46,7 +51,12 @@ public class AddRestLinksTest {
 
   @Test
   public void testAddLinksToSingleService() throws Exception {
-    Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", service -> service.setId(10l));
+    Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", new RestDataFixture.ServiceUpdater() {
+      @Override
+      public void apply(Service service) {
+        service.setId(10l);
+      }
+    });
 
     JsonElement jsonElement = createJsonResponse(service1);
     new AddRestLinks(jsonElement).forPayload(service1);
