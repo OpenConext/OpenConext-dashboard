@@ -153,8 +153,14 @@ public class CsaMock implements Csa {
 
   @Override
   public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
-    return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
-    }, "csa-json/institution-identity-providers.json");
+    if(identityProviderId.endsWith("-3") || identityProviderId.endsWith("-4")) {
+      return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
+      }, "csa-json/institution-identity-providers-2.json");
+
+    } else {
+      return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
+      }, "csa-json/institution-identity-providers.json");
+    }
   }
 
   @Override
