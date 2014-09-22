@@ -9,11 +9,23 @@
     float: left
     width: 50%
 
-  .yes h2
-    color: $green
+  .yes
+    h2, i
+      color: $green
 
-  .no h2
-    color: $red
+  .no
+    h2, i
+      color: $red
+
+  .unknown
+    h2, i
+      color: $medium-grey
 
   h2
     @extend %h3
+    margin-bottom: 0
+
+  i
+    font-size: 3.3em
+    float: left
+    margin-right: 15px

@@ -111,6 +111,11 @@ module.exports = function(grunt) {
           cwd: 'src/images/',
           src: ['**/*'],
           dest: 'build/images/'
+        }, {
+          expand: true,
+          cwd: 'src/fonts/',
+          src: ['**/*'],
+          dest: 'build/fonts/'
         }],
       },
       dist: {
@@ -119,6 +124,11 @@ module.exports = function(grunt) {
           cwd: 'src/images/',
           src: ['**/*'],
           dest: 'dist/images/'
+        }, {
+          expand: true,
+          cwd: 'src/fonts/',
+          src: ['**/*'],
+          dest: 'dist/fonts/'
         }, {
           'dist/application-<%= now %>.min.js': 'build/application.min.js',
           'dist/application-<%= now %>.min.css': 'build/application.min.css'
