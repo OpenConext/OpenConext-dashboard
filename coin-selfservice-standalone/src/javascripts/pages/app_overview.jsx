@@ -41,8 +41,9 @@ App.Pages.AppOverview = React.createClass({
                 <tr>
                   <th className="percent_25">{I18n.t("apps.overview.application")}</th>
                   <th className="percent_25">{I18n.t("apps.overview.provider")}</th>
-                  <th className="percent_10">{I18n.t("apps.overview.license")}</th>
-                  <th className="percent_10">{I18n.t("apps.overview.connection")}</th>
+                  <th className="percent_15">{I18n.t("apps.overview.license")}</th>
+                  <th className="percent_15">{I18n.t("apps.overview.connection")}</th>
+                  <th className="percent_10 right">{I18n.t("apps.overview.connect")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -58,10 +59,13 @@ App.Pages.AppOverview = React.createClass({
   renderApp: function(app) {
     return (
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
-        <td>{app.name}</td>
+        <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td>
         <td>{app.spName}</td>
         {this.renderYesNo(app.license)}
         {this.renderYesNo(app.connected)}
+        <td className="right">
+          <a href={page.uri("/apps/:id/how_to_connect", {id: app.id})} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>
+        </td>
       </tr>
     );
   },

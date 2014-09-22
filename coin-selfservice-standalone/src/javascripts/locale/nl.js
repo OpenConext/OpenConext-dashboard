@@ -59,7 +59,8 @@ I18n.translations.nl = {
       license: "Licentie",
       connection: "Connectie",
       search_hint: "Zoek op naam, bedrijf, of trefwoord",
-      search: "Zoek"
+      search: "Zoek",
+      connect: "Aansluiten"
     },
     detail: {
       overview: "Overzicht",
