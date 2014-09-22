@@ -20,7 +20,8 @@ I18n.translations.en = {
     welcome: "Welcome, {{name}}",
     links: {
       help_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Dashboard+van+SURFconext+%28EN%29\" target=\"_blank\">Help</a>",
-      logout: "Logout"
+      logout: "Logout",
+      exit: "Exit"
     }
   },
 
@@ -58,7 +59,7 @@ I18n.translations.en = {
       provider: "Provider",
       license: "License",
       connection: "Connection",
-      search_hint: "Filter by name, company, or keyword",
+      search_hint: "Filter by name",
       search: "Search",
       connect: "Connect"
     },
@@ -78,6 +79,17 @@ I18n.translations.en = {
 
   contact: {
     email: "Support email"
+  },
+
+  search_user: {
+    switch_identity: "Switch identity",
+    search: "Filter by name",
+    name: "Name",
+    switch_to: "Switch to role",
+    switch: {
+      role_dashboard_viewer: "Viewer",
+      role_dashboard_admin: "Admin"
+    }
   },
 
   footer: {

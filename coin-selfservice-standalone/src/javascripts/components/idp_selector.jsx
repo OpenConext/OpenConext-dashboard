@@ -8,12 +8,21 @@ App.Components.IDPSelector = React.createClass({
   },
 
   render: function () {
-    return (
-      <span className={"ugly idp" + (this.state.active ? " active" : "")}>
-        <a href="#" className="toggle" onClick={this.handleToggle}>{App.currentUser.currentIdp.name}</a>
-        {this.renderMenu()}
-      </span>
-    );
+    if (App.superUserNotSwitched()) {
+      return null;
+    } else {
+      return (
+        <span className={"ugly idp" + (this.state.active ? " active" : "")}>
+          <a href="#" className="toggle" onClick={this.handleToggle}>{this.renderSelectedIdp()}</a>
+          {this.renderMenu()}
+        </span>
+      );
+    }
+  },
+
+  renderSelectedIdp: function() {
+    var idp = (App.currentUser.switchedToIdp || App.currentUser.currentIdp);
+    return idp.name;
   },
 
   renderMenu: function() {
@@ -42,8 +51,10 @@ App.Components.IDPSelector = React.createClass({
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      App.Controllers.User.switchToIdp(idp);
-    }
+      App.Controllers.User.switchToIdp(idp, null, function() {
+        this.setState({active: false});
+      }.bind(this));
+    }.bind(this)
   }
 });
 

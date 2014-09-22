@@ -18,11 +18,11 @@ package nl.surfnet.coin.selfservice.util;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -68,24 +68,45 @@ public class SpringSecurity {
     SpringSecurity.impersonatedIdentityProvider = impersonatedIdentityProvider;
   }
 
-  public static void setCurrentIdp(final String idpEntityId) {
-    if (idpEntityId != null) {
+  public static void setSwitchedToIdp(Csa csa, final String idpId) {
+    InstitutionIdentityProvider idp = (idpId != null ? validateIdp(getIdpFromId(csa, idpId)) : null);
+    SpringSecurity.getCurrentUser().setSwitchedToIdp(idp);
+  }
+
+  public static void setCurrentIdp(Csa csa, final String idpId) {
+    if (idpId != null) {
+      SpringSecurity.getCurrentUser().setIdp(validateIdp(getIdpFromId(csa, idpId)));
+    }
+  }
+
+  public static InstitutionIdentityProvider validateIdp(final InstitutionIdentityProvider idp) {
+    if (SpringSecurity.getCurrentUser().isSuperUser()) {
+      return idp;
+    } else {
       List<InstitutionIdentityProvider> institutionIdps = SpringSecurity.getCurrentUser().getInstitutionIdps();
-      // TODO: Make this Java 8
+
       InstitutionIdentityProvider currentInstitutionIdentityProvider = Iterables.find(institutionIdps, new Predicate<InstitutionIdentityProvider>() {
         @Override
         public boolean apply(InstitutionIdentityProvider input) {
-          return input.getId().equals(idpEntityId);
+          return input.getId().equals(idp.getId());
         }
       }, null);
 
       if (currentInstitutionIdentityProvider != null) {
-        SpringSecurity.getCurrentUser().setIdp(currentInstitutionIdentityProvider);
+        return currentInstitutionIdentityProvider;
       } else {
-        throw new SecurityException(idpEntityId + " is unknown for " + SpringSecurity.getCurrentUser().getUsername());
+        throw new SecurityException(idp.getId() + " is unknown for " + SpringSecurity.getCurrentUser().getUsername());
       }
     }
-
   }
 
+  public static InstitutionIdentityProvider getIdpFromId(Csa csa, String idp) {
+    List<InstitutionIdentityProvider> idps = csa.getAllInstitutionIdentityProviders();
+    for (InstitutionIdentityProvider identityProvider : idps) {
+      if (identityProvider.getId().equalsIgnoreCase(idp)) {
+        return identityProvider;
+      }
+    }
+    return null;
+  }
 }

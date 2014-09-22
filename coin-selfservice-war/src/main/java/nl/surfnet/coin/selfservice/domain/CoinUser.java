@@ -36,11 +36,12 @@ public class CoinUser implements UserDetails {
   private String displayName;
   private String schacHomeOrganization;
   private InstitutionIdentityProvider currentIdp;
-  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<InstitutionIdentityProvider>();
+  private InstitutionIdentityProvider switchedToIdp;
+  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<>();
   private String institutionId;
   private String email;
-  private Set<CoinAuthority> grantedAuthorities = new HashSet<CoinAuthority>();
-  private Map<String, List<String>> attributeMap = new HashMap<String, List<String>>();
+  private Set<CoinAuthority> grantedAuthorities = new HashSet<>();
+  private Map<String, List<String>> attributeMap = new HashMap<>();
 
   /**
    * It is not allowed to call this method {@inheritDoc}
@@ -199,6 +200,15 @@ public class CoinUser implements UserDetails {
 
   public void setIdp(InstitutionIdentityProvider idp) {
     this.currentIdp = idp;
+  }
+
+
+  public InstitutionIdentityProvider getSwitchedToIdp() {
+    return switchedToIdp;
+  }
+
+  public void setSwitchedToIdp(InstitutionIdentityProvider switchedToIdp) {
+    this.switchedToIdp = switchedToIdp;
   }
 
   /**

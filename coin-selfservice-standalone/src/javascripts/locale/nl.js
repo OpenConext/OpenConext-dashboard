@@ -20,7 +20,8 @@ I18n.translations.nl = {
     welcome: "Welkom, {{name}}",
     links: {
       help_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Dashboard+van+SURFconext+%28NL%29\" target=\"_blank\">Help</a>",
-      logout: "Uitloggen"
+      logout: "Uitloggen",
+      exit: "Exit"
     }
   },
 
@@ -58,7 +59,7 @@ I18n.translations.nl = {
       provider: "Provider",
       license: "Licentie",
       connection: "Connectie",
-      search_hint: "Zoek op naam, bedrijf, of trefwoord",
+      search_hint: "Filter op naam",
       search: "Zoek",
       connect: "Aansluiten"
     },
@@ -78,6 +79,17 @@ I18n.translations.nl = {
 
   contact: {
     email: "Support email"
+  },
+
+  search_user: {
+    switch_identity: "Switch identiteit",
+    search: "Filter op naam",
+    name: "Naam",
+    switch_to: "Switch naar rol",
+    switch: {
+      role_dashboard_viewer: "Viewer",
+      role_dashboard_admin: "Admin"
+    }
   },
 
   footer: {

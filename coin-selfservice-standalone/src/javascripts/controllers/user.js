@@ -1,10 +1,24 @@
 App.Controllers.User = {
   initialize: function() {
     if (App.currentUser.superUser) {
-      page("/users/switch", this.switchUser.bind(this));
+      page(
+        "/users/search",
+        this.loadUsers.bind(this),
+        this.searchUser.bind(this)
+      );
+
+      page("/exit", this.exitUser.bind(this));
     }
 
     page("/logout", this.logoutUser.bind(this));
+  },
+
+  loadUsers: function(ctx, next) {
+    $.get(App.apiUrl("/users/super/idps"), function(data) {
+      ctx.idps = data.payload.idps;
+      ctx.roles = data.payload.roles;
+      next();
+    });
   },
 
   logoutUser: function() {
@@ -13,13 +27,22 @@ App.Controllers.User = {
     });
   },
 
-  switchToIdp: function(idp) {
-    $.get(App.apiUrl("/users/me/switch-to-idp?idpId=" + encodeURIComponent(idp.id)), function() {
-      window.location = window.location;
+  exitUser: function() {
+    $.get(App.apiUrl("/users/me/switch-to-idp"), function(data) {
+      App.currentUser.switchedToIdp = null;
+      page("/");
     });
   },
 
-  switchUser: function() {
-    App.render(App.Pages.SwitchUser());
+  switchToIdp: function(idp, role, callback) {
+    $.get(App.apiUrl("/users/me/switch-to-idp?idpId=" + encodeURIComponent(idp.id)), function(data) {
+      App.currentUser.switchedToIdp = idp;
+      page("/");
+      if (callback) callback();
+    });
+  },
+
+  searchUser: function(ctx) {
+    App.render(App.Pages.SearchUser({idps: ctx.idps, roles: ctx.roles}));
   }
 }

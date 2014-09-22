@@ -33,7 +33,6 @@ public class UsersController extends BaseController {
 
   @RequestMapping("/super/idps")
   public ResponseEntity<RestResponse> idps() {
-
     List<InstitutionIdentityProvider> idps = csa.getAllInstitutionIdentityProviders();
     Collections.sort(idps, new Comparator<InstitutionIdentityProvider>() {
       @Override
@@ -51,13 +50,10 @@ public class UsersController extends BaseController {
     return new ResponseEntity(this.createRestResponse(payload), HttpStatus.OK);
   }
 
-
   @RequestMapping("/me/switch-to-idp")
-  public ResponseEntity currentIdp(@RequestParam("idpId") String switchToIdp, HttpServletResponse response) {
-    SpringSecurity.setCurrentIdp(switchToIdp);
-    response.setHeader(HTTP_X_IDP_ENTITY_ID, switchToIdp);
+  public ResponseEntity currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, HttpServletResponse response) {
+    SpringSecurity.setSwitchedToIdp(csa, switchToIdp);
+    // TODO also set roles.
     return new ResponseEntity(HttpStatus.OK);
   }
-
-
 }

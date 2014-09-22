@@ -13,7 +13,13 @@ var App = {
       this.currentUser = user;
 
       $(document).ajaxSend(function(event, jqxhr, settings) {
-        jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentUser.currentIdp.id);
+        if (this.currentUser.superUser && this.currentUser.switchedToIdp) {
+          var id = this.currentUser.switchedToIdp.id;
+        } else {
+          var id = (this.currentUser.switchedToIdp || this.currentUser.currentIdp).id;
+        }
+
+        jqxhr.setRequestHeader("X-IDP-ENTITY-ID", id);
       }.bind(this));
 
       for (controller in App.Controllers) {
@@ -22,7 +28,13 @@ var App = {
 
       page("/", this.rootPath.bind(this));
       page("*", this.actionNotFound.bind(this));
-      page.start();
+
+      if (this.superUserNotSwitched()) {
+        page.start({dispatch: false});
+        page("/users/search");
+      } else {
+        page.start();
+      }
     }.bind(this));
   },
 
@@ -30,8 +42,16 @@ var App = {
     console.error("Page not found");
   },
 
+  superUserNotSwitched: function() {
+    return this.currentUser.superUser && !this.currentUser.switchedToIdp;
+  },
+
   rootPath: function() {
-    page.redirect('/apps');
+    if (this.superUserNotSwitched()) {
+      page.redirect("/users/search");
+    } else {
+      page.redirect("/apps");
+    }
   },
 
   render: function(page) {
