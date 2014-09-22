@@ -61,18 +61,13 @@ App.Pages.AppOverview = React.createClass({
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
         <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td>
         <td>{app.spName}</td>
-        {this.renderYesNo(app.license)}
-        {this.renderYesNo(app.connected)}
+        {App.renderYesNo(app.license)}
+        {App.renderYesNo(app.connected)}
         <td className="right">
           <a href={page.uri("/apps/:id/how_to_connect", {id: app.id})} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>
         </td>
       </tr>
     );
-  },
-
-  renderYesNo: function(value) {
-    var word = value ? "yes" : "no";
-    return <td className={word}>{I18n.t("boolean." + word)}</td>;
   },
 
   handleShowAppDetail: function(app) {

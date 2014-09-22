@@ -54,6 +54,11 @@ var App = {
     return BASE_URL + value;
   },
 
+  renderYesNo: function(value) {
+    var word = value ? "yes" : "no";
+    return <td className={word}>{I18n.t("boolean." + word)}</td>;
+  },
+
   fetchUserData: function(callback) {
     $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
       // can't check the response status because it always returns a 200
