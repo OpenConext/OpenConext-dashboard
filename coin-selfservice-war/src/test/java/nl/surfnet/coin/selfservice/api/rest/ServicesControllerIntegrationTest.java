@@ -5,7 +5,7 @@ import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
-import nl.surfnet.coin.selfservice.interceptor.EnsureCurrentIdpSet;
+import nl.surfnet.coin.selfservice.interceptor.EnsureAccessToIdp;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.After;
 import org.junit.Before;
@@ -21,6 +21,7 @@ import org.springframework.web.util.NestedServletException;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -64,14 +65,19 @@ public class ServicesControllerIntegrationTest {
     service = serviceWithSpEntityId(SP_ENTITY_ID);
     services = asList(service);
     spStatistics = asList(spStatisticFor(SP_ENTITY_ID, statisticDate.getTime()));
+    EnsureAccessToIdp ensureAccessToIdp = new EnsureAccessToIdp();
+    ensureAccessToIdp.setCsa(csa);
+
     this.mockMvc = standaloneSetup(controller)
       .setMessageConverters(new MappingJacksonHttpMessageConverter())
-      .addInterceptors(new EnsureCurrentIdpSet())
+      .addInterceptors(ensureAccessToIdp)
       .build();
     coinUser = coinUser("user");
-    coinUser.addInstitutionIdp(new InstitutionIdentityProvider(IDP_ENTITY_ID, "name", "institution id"));
+    InstitutionIdentityProvider institutionIdentityProvider = new InstitutionIdentityProvider(IDP_ENTITY_ID, "name", "institution id");
+    coinUser.addInstitutionIdp(institutionIdentityProvider);
 
     SpringSecurityUtil.setAuthentication(coinUser);
+    when(csa.getAllInstitutionIdentityProviders()).thenReturn(Arrays.asList(institutionIdentityProvider));
   }
 
   @After

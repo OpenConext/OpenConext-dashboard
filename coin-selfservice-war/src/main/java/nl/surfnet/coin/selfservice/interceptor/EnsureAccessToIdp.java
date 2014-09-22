@@ -13,15 +13,20 @@ import java.util.List;
 
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
-public class EnsureCurrentIdpSet extends HandlerInterceptorAdapter {
+public class EnsureAccessToIdp extends HandlerInterceptorAdapter {
 
   @Resource
   private Csa csa;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    // TODO not needed anymore? Remove.
-//    SpringSecurity.setCurrentIdp(csa, request.getHeader(HTTP_X_IDP_ENTITY_ID));
+    if(!request.getPathInfo().endsWith("/users/me")) {
+      SpringSecurity.ensureAccess(csa, request.getHeader(HTTP_X_IDP_ENTITY_ID));
+    }
     return true;
+  }
+
+  public void setCsa(Csa csa) {
+    this.csa = csa;
   }
 }

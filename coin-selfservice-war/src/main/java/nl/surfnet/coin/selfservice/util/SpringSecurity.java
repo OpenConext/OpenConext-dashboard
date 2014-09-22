@@ -68,15 +68,13 @@ public class SpringSecurity {
     SpringSecurity.impersonatedIdentityProvider = impersonatedIdentityProvider;
   }
 
+  public static void ensureAccess(Csa csa, final String idpId) {
+    validateIdp(getIdpFromId(csa, idpId));
+  }
+
   public static void setSwitchedToIdp(Csa csa, final String idpId) {
     InstitutionIdentityProvider idp = (idpId != null ? validateIdp(getIdpFromId(csa, idpId)) : null);
     SpringSecurity.getCurrentUser().setSwitchedToIdp(idp);
-  }
-
-  public static void setCurrentIdp(Csa csa, final String idpId) {
-    if (idpId != null) {
-      SpringSecurity.getCurrentUser().setIdp(validateIdp(getIdpFromId(csa, idpId)));
-    }
   }
 
   public static InstitutionIdentityProvider validateIdp(final InstitutionIdentityProvider idp) {
@@ -107,6 +105,6 @@ public class SpringSecurity {
         return identityProvider;
       }
     }
-    return null;
+    throw new SecurityException(idp + " does not exist");
   }
 }
