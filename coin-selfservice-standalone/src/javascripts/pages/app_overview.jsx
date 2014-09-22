@@ -39,11 +39,24 @@ App.Pages.AppOverview = React.createClass({
             <table>
               <thead>
                 <tr>
-                  <th className="percent_25">{I18n.t("apps.overview.application")}</th>
-                  <th className="percent_25">{I18n.t("apps.overview.provider")}</th>
-                  <th className="percent_15">{I18n.t("apps.overview.license")}</th>
-                  <th className="percent_15">{I18n.t("apps.overview.connection")}</th>
-                  <th className="percent_10 right">{I18n.t("apps.overview.connect")}</th>
+                  <th className="percent_25">
+                    {I18n.t("apps.overview.application")}
+                    <i className="fa fa-caret-down"></i>
+                  </th>
+                  <th className="percent_25">
+                    {I18n.t("apps.overview.provider")}
+                    <i className="fa fa-sort"></i>
+                  </th>
+                  <th className="percent_15">
+                    {I18n.t("apps.overview.license")}
+                    <i className="fa fa-caret-up"></i>
+                  </th>
+                  <th className="percent_15">
+                    {I18n.t("apps.overview.connection")}
+                  </th>
+                  <th className="percent_10 right">
+                    {I18n.t("apps.overview.connect")}
+                  </th>
                 </tr>
               </thead>
               <tbody>

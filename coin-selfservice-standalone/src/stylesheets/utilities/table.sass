@@ -24,17 +24,29 @@
     @extend %h3
     padding: 15px 20px
 
+  // Font awesome
+  .fa
+    color: $medium-grey
+    margin: 0 15px
+
+    &.fa-caret-down,
+    &.fa-caret-up
+      color: $blue
+
+  // For dates, numbers or last cols
   .date,
   .number,
   .right
     text-align: right
 
+  // Yes or no stuff :)
   .yes
     color: $green
 
   .no
     color: $red
 
+  // Size classes:
   @for $i from 1 through 20
     .percent_#{$i * 5}
       width: #{$i * 5%}
