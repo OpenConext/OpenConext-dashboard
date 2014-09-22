@@ -22,7 +22,10 @@ I18n.translations.nl = {
       help_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Dashboard+van+SURFconext+%28NL%29\" target=\"_blank\">Help</a>",
       logout: "Uitloggen",
       exit: "Exit"
-    }
+    },
+    you: "Jij",
+    profile: "Profiel",
+    switch_idp: "Kies IDP"
   },
 
   navigation: {
