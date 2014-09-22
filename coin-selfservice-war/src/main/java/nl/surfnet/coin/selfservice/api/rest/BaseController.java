@@ -1,6 +1,5 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,13 +10,10 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 @Controller
 public class BaseController {
@@ -44,4 +40,5 @@ public class BaseController {
     SecurityContextHolder.getContext().setAuthentication(null);
     return new ResponseEntity(HttpStatus.OK);
   }
+
 }

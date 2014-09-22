@@ -84,5 +84,17 @@ I18n.translations.en = {
     surfnet_html: "<a href=\"http://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",
     contact_html: "<a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>"
+  },
+
+  notifications: {
+    title: "Notifications",
+    icon: "Icon",
+    name: "Name",
+    license: "License present",
+    connection: "Connected",
+    messages: {
+      fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection. Please contact the license contactperson of your institute.",
+    }
   }
+
 };

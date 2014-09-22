@@ -168,7 +168,7 @@ public abstract class BaseController implements ApplicationContextAware {
     NotificationMessage notifications = (NotificationMessage) request.getSession().getAttribute(NOTIFICATIONS);
     if (notifications == null) {
       InstitutionIdentityProvider idp = getSelectedIdp(request);
-      notifications = notificationService.getNotifications(idp);
+      notifications = notificationService.getNotifications(idp.getId());
       request.getSession().setAttribute(NOTIFICATIONS, notifications);
     }
     return notifications;

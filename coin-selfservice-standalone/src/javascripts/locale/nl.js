@@ -84,5 +84,16 @@ I18n.translations.nl = {
     surfnet_html: "<a href=\"http://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28NL%29\" target=\"_blank\">Gebruikersvoorwaarden</a>",
     contact_html: "<a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>"
+  },
+
+  notifications: {
+    title: "Notificaties",
+    icon: "Icoon",
+    name: "Naam",
+    license: "Licentie aanwezig",
+    connection: "Verbonden",
+    messages: {
+      fcp: "Onderstaande diensten zijn mogelijkerwijs nog niet beschikbaar, omdat de licentie of de technische connectie nog niet aanwezig is. Neem contact op met de licentie contactpersoon van uw instelling."
+    }
   }
 };
