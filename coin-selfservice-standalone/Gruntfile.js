@@ -141,6 +141,7 @@ module.exports = function(grunt) {
           base: "build",
           keepalive: true,
           logger: "dev",
+          port: 8001,
           middleware: function (connect, options, middlewares) {
             var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
             var modRewrite = require('connect-modrewrite');
