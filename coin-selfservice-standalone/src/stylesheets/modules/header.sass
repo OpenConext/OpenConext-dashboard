@@ -1,5 +1,5 @@
 .mod-header
-  +clearfix
+  +pie-clearfix
   padding: 20px 30px
   background: #fff
   border-bottom: 2px solid $blue
@@ -18,89 +18,27 @@
     text-decoration: none
     &:hover
       text-decoration: underline
-  ul,
-  p,
-  .idp,
-  .identity
+
+  .language,
+  .links
     float: left
     margin-left: 40px
     line-height: 30px
 
-  li
-    float: left
-    list-style: none
+    li
+      float: left
+      list-style: none
 
-    a
-      display: block
-      padding: 0 14px
-      border-right: 1px solid $light-grey
-      &:hover
-        color: $blue
-
-    &:last-child
       a
-        border-right: 0
+        display: block
+        padding: 0 14px
+        border-right: 1px solid $light-grey
+        &:hover
+          color: $blue
 
-  // IDP switch
-  .idp
-    &.active
-      .toggle
-        background: $blue
-        color: #fff
-
-    a
-      display: inline-block
-      text-decoration: none
-      padding: 0 14px
-      background: $light-grey
-      text-align: center
-      border: 0
-      border-bottom: 1px solid #fff
-      border-radius: $br
-
-      &:hover
-        background: $blue
-        color: #fff
-
-    ul
-      margin-top: 5px
-      position: absolute
-      border-radius: $br
-      background: $light-grey
-      margin-left: 0
-      float: none
-      border: 1px solid #fff
-
-      li
-        float: none
-        text-overflow: ellipses
-
+      &:last-child
         a
-          border-radius: 0
-          width: 100%
-
-        &:first-child
-          a
-            border-radius: $br $br 0 0
-
-        &:last-child
-          a
-            border-radius: 0 0 $br $br
-            border-bottom: 0
-
-  .identity
-    a
-      display: inline-block
-      text-decoration: none
-      padding: 0 14px
-      background: $light-grey
-      text-align: center
-      border: 0
-      border-radius: $br
-
-      &:hover
-        background: $blue
-        color: #fff
+          border-right: 0
 
   // EN / NL language switch
   .language
@@ -119,3 +57,24 @@
         background: $blue
         color: #fff
 
+  .name
+    float: left
+    line-height: 30px
+
+    > ul
+      @extend %box, %z2
+      position: absolute
+      z-index: 100
+      padding: 20px 20px 0
+      width: 200px
+      top: 60px
+
+      &.show
+        display: block
+
+    li li,
+    h2
+      border-bottom: 1px solid $border
+
+    ul ul
+      margin-bottom: 20px
