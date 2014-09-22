@@ -1,20 +1,20 @@
 /** @jsx React.DOM */
 
 App.Components.Header = React.createClass({
+  getInitialState: function() {
+    return {
+      dropDownActive: false
+    }
+  },
+
   render: function () {
     return (
       <div className="mod-header">
         <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
         <div className="meta">
           <div className="name">
-          {I18n.t("header.welcome", { name: App.currentUser.displayName } )}
-            <ul>
-              <h2>{I18n.t("header.you")}</h2>
-              <ul>
-                <li><a href="#">{I18n.t("header.profile")}</a></li>
-              </ul>
-              {this.renderIdpSelector()}
-            </ul>
+            <a href="#" onClick={this.handleToggle}>{I18n.t("header.welcome", { name: App.currentUser.displayName } )}</a>
+            {this.renderDropDown()}
           </div>
           <App.Components.LanguageSelector />
           <ul className="links">
@@ -24,6 +24,20 @@ App.Components.Header = React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderDropDown: function() {
+    if(this.state.dropDownActive) {
+      return (
+        <ul>
+          <h2>{I18n.t("header.you")}</h2>
+          <ul>
+            <li><a href="#">{I18n.t("header.profile")}</a></li>
+          </ul>
+          {this.renderIdpSelector()}
+        </ul>
+      )
+    }
   },
 
   renderExitLogout: function() {
@@ -42,5 +56,11 @@ App.Components.Header = React.createClass({
     if(!App.currentUser.superUser) {
       return <App.Components.IDPSelector />
     }
+  },
+
+  handleToggle: function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({dropDownActive: !this.state.dropDownActive});
   }
 });
