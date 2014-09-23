@@ -124,6 +124,24 @@ I18n.translations.en = {
     service_name: "Service name"
   },
 
+  history: {
+    title: "History",
+    date: "Date",
+    type: "Type",
+    ticket: "Ticket ID",
+    status: "Status",
+    by: "By",
+    action_types: {
+      LINKREQUEST: "Connect to {serviceName}",
+      UNLINKREQUEST: "Disconnect from {serviceName}",
+      QUESTION: "Question"
+    },
+    statusses: {
+      OPEN: "The request is pending",
+      CLOSED: "The request is closed"
+    }
+  },
+
   profile: {
     title: "Profile",
     sub_title: "The following profile data has been provided by your home institution. This data as well as your group membership data (e.g.SURFteams) will be stored in SURFconext and shared with services accessed via SURFconext.",

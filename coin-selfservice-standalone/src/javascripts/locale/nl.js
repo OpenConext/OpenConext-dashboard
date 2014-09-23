@@ -31,7 +31,7 @@ I18n.translations.nl = {
   navigation: {
     apps: "Apps",
     notifications: "Notificaties",
-    history: "Historie",
+    history: "Logboek",
     stats: "Statistieken",
     my_idp: "Mijn instelling"
   },
@@ -122,6 +122,24 @@ I18n.translations.nl = {
     "Dashboard supergebruiker": "Dashboard supergebruiker",
     services_title: "Deze Services worden aangeboden door uw instelling:",
     service_name: "Naam service"
+  },
+
+  history: {
+    title: "Logboek",
+    date: "Datum",
+    type: "Type",
+    ticket: "Ticket ID",
+    status: "Status",
+    by: "Door",
+    action_types: {
+      LINKREQUEST: "Verbinden met {{serviceName}}",
+      UNLINKREQUEST: "Ontbinden met {{serviceName}}",
+      QUESTION: "Vraag"
+    },
+    statusses: {
+      OPEN: "Het verzoek staat uit",
+      CLOSED: "Het verzoek is gesloten"
+    }
   },
 
   profile: {
