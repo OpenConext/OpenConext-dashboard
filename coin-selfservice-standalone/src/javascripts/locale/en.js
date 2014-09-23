@@ -59,7 +59,6 @@ I18n.translations.en = {
   apps: {
     overview: {
       application: "Application",
-      provider: "Provider",
       license: "License",
       connection: "Connection",
       search_hint: "Filter by name",
