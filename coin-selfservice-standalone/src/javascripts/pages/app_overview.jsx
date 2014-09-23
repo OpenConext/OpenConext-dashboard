@@ -72,7 +72,7 @@ App.Pages.AppOverview = React.createClass({
         {App.renderYesNo(app.license)}
         {App.renderYesNo(app.connected)}
         <td className="right">
-          <a href={page.uri("/apps/:id/how_to_connect", {id: app.id})} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>
+          <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>
         </td>
       </tr>
     );
@@ -83,6 +83,14 @@ App.Pages.AppOverview = React.createClass({
       e.preventDefault();
       e.stopPropagation();
       page("/apps/:id", {id: app.id});
+    }
+  },
+
+  handleShowHowToConnect: function(app) {
+    return function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      page("/apps/:id/how_to_connect", {id: app.id});
     }
   },
 
