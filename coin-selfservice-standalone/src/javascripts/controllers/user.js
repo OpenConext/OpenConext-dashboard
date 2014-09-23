@@ -37,7 +37,7 @@ App.Controllers.User = {
   switchToIdp: function(idp, role, callback) {
     $.get(App.apiUrl("/users/me/switch-to-idp?idpId=" + encodeURIComponent(idp.id)), function(data) {
       App.currentUser.switchedToIdp = idp;
-      page("/");
+      page.replace(window.history.state.path);
       if (callback) callback();
     });
   },
