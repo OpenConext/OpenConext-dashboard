@@ -2,11 +2,26 @@
 
 App.Pages.AppDetail = React.createClass({
   panelMap: {
-    "overview": App.Components.OverviewPanel,
-    "license_info": App.Components.LicenseInfoPanel,
-    "application_usage": App.Components.ApplicationUsagePanel,
-    "attribute_policy": App.Components.AttributePolicyPanel,
-    "how_to_connect": App.Components.HowToConnectPanel
+    "overview": {
+      component: App.Components.OverviewPanel,
+      icon: "fa-list"
+    },
+    "license_info": {
+      component: App.Components.LicenseInfoPanel,
+      icon: "fa-file-text"
+    },
+    "application_usage": {
+      component: App.Components.ApplicationUsagePanel,
+      icon: "fa-area-chart"
+    },
+    "attribute_policy": {
+      component: App.Components.AttributePolicyPanel,
+      icon: "fa-table"
+    },
+    "how_to_connect": {
+      component: App.Components.HowToConnectPanel,
+      icon: "fa-chain"
+    }
   },
 
   getInitialState: function() {
@@ -40,15 +55,21 @@ App.Pages.AppDetail = React.createClass({
     );
   },
 
-  renderNavItem: function(panel) {
+  renderNavItem: function(panelKey) {
+    var panel = this.panelMap[panelKey];
     return (
-      <li key={panel}><a href="#" onClick={this.handleSwitchPanel(panel)}>{I18n.t("apps.detail." + panel)}</a></li>
+      <li key={panelKey}>
+        <a href="#" onClick={this.handleSwitchPanel(panelKey)}>
+          <i className={"fa " + panel.icon}></i>
+          {I18n.t("apps.detail." + panelKey)}
+        </a>
+      </li>
     );
   },
 
   renderActivePanel: function() {
-    var component = this.panelMap[this.state.activePanel];
-    return component({onSwitchPanel: this.handleSwitchPanel, app: this.props.app});
+    var panel = this.panelMap[this.state.activePanel];
+    return panel.component({onSwitchPanel: this.handleSwitchPanel, app: this.props.app});
   },
 
   handleSwitchPanel: function(panel) {
