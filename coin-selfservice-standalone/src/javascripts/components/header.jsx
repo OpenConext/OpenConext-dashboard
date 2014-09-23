@@ -13,10 +13,7 @@ App.Components.Header = React.createClass({
         <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
         <div className="meta">
           <div className="name">
-            <a href="#" onClick={this.handleToggle}>
-              {I18n.t("header.welcome", { name: App.currentUser.displayName } )}
-              {this.renderDropDownIndicator()}
-            </a>
+            {this.renderProfileLink()}
             {this.renderDropDown()}
           </div>
           <App.Components.LanguageSelector />
@@ -29,6 +26,21 @@ App.Components.Header = React.createClass({
     );
   },
 
+  renderProfileLink: function() {
+    var title = I18n.t("header.welcome", { name: App.currentUser.displayName });
+
+    if (!App.currentUser.superUser) {
+      return (
+        <a href="#" onClick={this.handleToggle}>
+          {title}
+          {this.renderDropDownIndicator()}
+        </a>
+      );
+    } else {
+      return title;
+    }
+  },
+
   renderDropDownIndicator: function() {
     if (this.state.dropDownActive) {
       return <i className="fa fa-caret-up" />;
@@ -38,16 +50,16 @@ App.Components.Header = React.createClass({
   },
 
   renderDropDown: function() {
-    if(this.state.dropDownActive) {
+    if (!App.currentUser.superUser && this.state.dropDownActive) {
       return (
         <ul>
           <h2>{I18n.t("header.you")}</h2>
           <ul>
             <li><a href="/profile">{I18n.t("header.profile")}</a></li>
           </ul>
-          {this.renderIdpSelector()}
+          <App.Components.IDPSelector />
         </ul>
-      )
+      );
     }
   },
 
@@ -60,12 +72,6 @@ App.Components.Header = React.createClass({
       return (
         <li><a href="/logout">{I18n.t("header.links.logout")}</a></li>
       );
-    }
-  },
-
-  renderIdpSelector: function() {
-    if(!App.currentUser.superUser) {
-      return <App.Components.IDPSelector />
     }
   },
 

@@ -65,7 +65,9 @@ App.Pages.SearchUser = React.createClass({
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      App.Controllers.User.switchToIdp(idp, role);
+      App.Controllers.User.switchToIdp(idp, role, function() {
+        page("/");
+      });
     }
   },
 

@@ -8,12 +8,16 @@ App.Components.IDPSelector = React.createClass({
   },
 
   render: function () {
-    return (
-      <li className="select-idp">
-        <h2>{I18n.t("header.switch_idp")}</h2>
-        {this.renderMenu()}
-      </li>
-    );
+    if (App.currentUser.institutionIdps.length > 0) {
+      return (
+        <li className="select-idp">
+          <h2>{I18n.t("header.switch_idp")}</h2>
+          {this.renderMenu()}
+        </li>
+      );
+    } else {
+      return null;
+    }
   },
 
   renderMenu: function() {
@@ -51,6 +55,7 @@ App.Components.IDPSelector = React.createClass({
       e.stopPropagation();
       App.Controllers.User.switchToIdp(idp, null, function() {
         this.setState({ activeIdp: idp.id });
+        page.replace(window.history.state.path);
       }.bind(this));
     }.bind(this)
   }
