@@ -1,23 +1,19 @@
 /** @jsx React.DOM */
 
 App.Components.IDPSelector = React.createClass({
-
-  render: function () {
-    if (App.superUserNotSwitched()) {
-      return null;
-    } else {
-      return (
-        <li>
-          <h2>{I18n.t("header.switch_idp")}</h2>
-          {this.renderMenu()}
-        </li>
-      );
+  getInitialState: function() {
+    return {
+      activeIdp: (App.currentUser.switchedToIdp || App.currentUser.currentIdp).id
     }
   },
 
-  renderSelectedIdp: function() {
-    var idp = (App.currentUser.switchedToIdp || App.currentUser.currentIdp);
-    return idp.name;
+  render: function () {
+    return (
+      <li className="select-idp">
+        <h2>{I18n.t("header.switch_idp")}</h2>
+        {this.renderMenu()}
+      </li>
+    );
   },
 
   renderMenu: function() {
@@ -30,16 +26,32 @@ App.Components.IDPSelector = React.createClass({
 
   renderItem: function(idp) {
     return (
-      <li key={idp.id}><a href="#" onClick={this.handleChooseIdp(idp)}>{idp.name}</a></li>
+      <li key={idp.id}>
+        <a href="#" onClick={this.handleChooseIdp(idp)}>
+          {this.renderActiveIndicator(idp)}
+          {idp.name}
+        </a>
+      </li>
     );
+  },
+
+  renderActiveIndicator: function(idp) {
+    if (this.state.activeIdp == idp.id) {
+      return (
+        <i className="fa fa-caret-right" />
+      );
+    } else {
+      return "";
+    }
   },
 
   handleChooseIdp: function(idp) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      App.Controllers.User.switchToIdp(idp);
+      App.Controllers.User.switchToIdp(idp, null, function() {
+        this.setState({ activeIdp: idp.id });
+      }.bind(this));
     }.bind(this)
   }
 });
-
