@@ -32,7 +32,7 @@ App.Components.Header = React.createClass({
         <ul>
           <h2>{I18n.t("header.you")}</h2>
           <ul>
-            <li><a href="#">{I18n.t("header.profile")}</a></li>
+            <li><a href="/profile">{I18n.t("header.profile")}</a></li>
           </ul>
           {this.renderIdpSelector()}
         </ul>

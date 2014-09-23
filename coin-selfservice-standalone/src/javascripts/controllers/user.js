@@ -9,7 +9,7 @@ App.Controllers.User = {
 
       page("/exit", this.exitUser.bind(this));
     }
-
+    page("/profile", this.profile.bind(this));
     page("/logout", this.logoutUser.bind(this));
   },
 
@@ -44,5 +44,10 @@ App.Controllers.User = {
 
   searchUser: function(ctx) {
     App.render(App.Pages.SearchUser({idps: ctx.idps, roles: ctx.roles}));
+  },
+
+  profile: function() {
+    App.render(App.Pages.Profile());
   }
-}
+
+};
