@@ -55,12 +55,16 @@
     float: left
     line-height: 30px
 
+    .fa-caret-down,
+    .fa-caret-up
+      padding-left: 10px
+
     > ul
       @extend %box, %z2
       position: absolute
       z-index: 100
       padding: 20px 20px 0
-      width: 200px
+      max-width: 400px
       top: 60px
 
       &.show

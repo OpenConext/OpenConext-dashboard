@@ -13,7 +13,10 @@ App.Components.Header = React.createClass({
         <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
         <div className="meta">
           <div className="name">
-            <a href="#" onClick={this.handleToggle}>{I18n.t("header.welcome", { name: App.currentUser.displayName } )}</a>
+            <a href="#" onClick={this.handleToggle}>
+              {I18n.t("header.welcome", { name: App.currentUser.displayName } )}
+              {this.renderDropDownIndicator()}
+            </a>
             {this.renderDropDown()}
           </div>
           <App.Components.LanguageSelector />
@@ -24,6 +27,14 @@ App.Components.Header = React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderDropDownIndicator: function() {
+    if (this.state.dropDownActive) {
+      return <i className="fa fa-caret-up" />;
+    } else {
+      return <i className="fa fa-caret-down" />;
+    }
   },
 
   renderDropDown: function() {
