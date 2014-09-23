@@ -32,7 +32,8 @@ I18n.translations.en = {
     apps: "Apps",
     notifications: "Notifications",
     history: "History",
-    stats: "Statistics"
+    stats: "Statistics",
+    my_idp: "My institute"
   },
 
   facets: {
@@ -109,6 +110,18 @@ I18n.translations.en = {
     messages: {
       fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection. Please contact the license contactperson of your institute.",
     }
+  },
+
+  my_idp: {
+    title: "My institute",
+    sub_title_html: "The following roles have been assigned: (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">Roles info</a>)",
+    role: "Role",
+    users: "User(s)",
+    SURFconextverantwoordelijke: "SURFconext owner",
+    SURFconextbeheerder: "SURFconext maintainer",
+    "Dashboard supergebruiker": "Dashboard Super User",
+    services_title: "Services provided by your institute:",
+    service_name: "Service name"
   },
 
   profile: {

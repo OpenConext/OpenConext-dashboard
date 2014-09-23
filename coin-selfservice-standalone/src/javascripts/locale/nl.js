@@ -32,7 +32,8 @@ I18n.translations.nl = {
     apps: "Apps",
     notifications: "Notificaties",
     history: "Historie",
-    stats: "Statistieken"
+    stats: "Statistieken",
+    my_idp: "Mijn instelling"
   },
 
   facets: {
@@ -109,6 +110,18 @@ I18n.translations.nl = {
     messages: {
       fcp: "Onderstaande diensten zijn mogelijkerwijs nog niet beschikbaar, omdat de licentie of de technische connectie nog niet aanwezig is. Neem contact op met de licentie contactpersoon van uw instelling."
     }
+  },
+
+  my_idp: {
+    title: "Mijn instelling",
+    sub_title_html: "De volgende rollen zijn toegekend: (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">Uitleg rollen</a>)",
+    role: "Rol",
+    users: "Gebruiker(s)",
+    SURFconextverantwoordelijke: "SURFconextverantwoordelijke",
+    SURFconextbeheerder: "SURFconextbeheerder",
+    "Dashboard supergebruiker": "Dashboard supergebruiker",
+    services_title: "Deze Services worden aangeboden door uw instelling:",
+    service_name: "Naam service"
   },
 
   profile: {

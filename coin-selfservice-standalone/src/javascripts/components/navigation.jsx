@@ -9,6 +9,7 @@ App.Components.Navigation = React.createClass({
           {this.renderItem("/notifications", "notifications")}
           {this.renderItem("/history", "history")}
           {this.renderItem("/statistics", "stats")}
+          {this.renderItem("/my-idp", "my_idp")}
         </ul>
       </div>
     );
