@@ -8,7 +8,7 @@ App.Pages.AppDetail = React.createClass({
     },
     "license_info": {
       component: App.Components.LicenseInfoPanel,
-      icon: "fa-file-text"
+      icon: "fa-file-text-o"
     },
     "application_usage": {
       component: App.Components.ApplicationUsagePanel,
