@@ -47,7 +47,7 @@
     <property name="paramName" value="lang"/>
   </bean>
 
-  <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+  <mvc:annotation-driven>
     <mvc:message-converters>
       <bean class="nl.surfnet.coin.selfservice.api.rest.GsonHttpMessageConverter"/>
     </mvc:message-converters>
@@ -56,12 +56,4 @@
     <bean class="nl.surfnet.coin.selfservice.interceptor.EnsureAccessToIdp"/>
     <ref bean="localeChangeInterceptor"/>
   </mvc:interceptors>
-
-  <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
-    <property name="mediaTypes">
-      <value>
-        json=application/json
-      </value>
-    </property>
-  </bean>
 </beans>
