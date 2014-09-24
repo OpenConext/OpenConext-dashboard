@@ -4,6 +4,7 @@ var App = {
   Components: {},
   Pages: {},
   Controllers: {},
+  Mixins: {},
 
   initialize: function() {
     I18n.locale = "en";

@@ -128,9 +128,9 @@ I18n.translations.nl = {
     title: "Logboek",
     date: "Datum",
     type: "Type",
-    ticket: "Ticket ID",
+    jiraKey: "Ticket ID",
     status: "Status",
-    by: "Door",
+    userName: "Door",
     action_types: {
       LINKREQUEST: "Verbinden met {{serviceName}}",
       UNLINKREQUEST: "Ontbinden met {{serviceName}}",

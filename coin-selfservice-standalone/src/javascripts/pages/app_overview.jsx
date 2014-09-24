@@ -1,14 +1,15 @@
 /** @jsx React.DOM */
 
 App.Pages.AppOverview = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [
+    React.addons.LinkedStateMixin,
+    App.Mixins.SortableTable("apps.overview", "name")
+  ],
 
   getInitialState: function() {
     return {
       search: "",
-      activeFacets: {},
-      sortAttribute: "name",
-      sortAscending: false
+      activeFacets: {}
     }
   },
 
@@ -59,31 +60,6 @@ App.Pages.AppOverview = React.createClass({
       );
   },
 
-  renderSortableHeader: function(className, attribute) {
-    if (this.state.sortAttribute == attribute) {
-      var icon = this.renderSortDirection();
-    } else {
-      var icon = <i className="fa fa-sort"></i>;
-    }
-
-    return (
-      <th className={className}>
-        <a href="#" onClick={this.handleSort(attribute)}>
-          {I18n.t("apps.overview." + attribute)}
-          {icon}
-        </a>
-      </th>
-    );
-  },
-
-  renderSortDirection: function() {
-    if (this.state.sortAscending) {
-      return <i className="fa fa-sort-asc"></i>;
-    } else {
-      return <i className="fa fa-sort-desc"></i>;
-    }
-  },
-
   renderApp: function(app) {
     return (
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
@@ -101,21 +77,6 @@ App.Pages.AppOverview = React.createClass({
     if (!app.connected) {
       return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>;
     }
-  },
-
-  handleSort: function(attribute) {
-    return function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (this.state.sortAttribute == attribute) {
-        this.setState({sortAscending: !this.state.sortAscending});
-      } else {
-        this.setState({
-          sortAttribute: attribute,
-          sortAscending: false
-        });
-      }
-    }.bind(this);
   },
 
   handleShowAppDetail: function(app) {
@@ -149,40 +110,6 @@ App.Pages.AppOverview = React.createClass({
       search: "",
       activeFacets: {}
     });
-  },
-
-  sort: function(apps) {
-    return apps.sort(function(a, b) {
-      var aAttr = a[this.state.sortAttribute];
-      var bAttr = b[this.state.sortAttribute];
-
-      switch (this.state.sortAttribute) {
-        case "name":
-          aAttr = aAttr.toLowerCase();
-          bAttr = bAttr.toLowerCase();
-          break;
-        case "license":
-          aAttr = !!aAttr;
-          bAttr = !!bAttr;
-          break;
-      }
-
-      var result = this.compare(aAttr, bAttr);
-
-      if (this.state.sortAscending) {
-        return result * -1;
-      }
-      return result;
-    }.bind(this));
-  },
-
-  compare: function(a, b) {
-    if (a < b) {
-      return -1;
-    } else if (a > b) {
-      return 1;
-    }
-    return 0;
   },
 
   filteredApps: function() {
@@ -252,6 +179,13 @@ App.Pages.AppOverview = React.createClass({
       });
     });
     return normalizedCategories;
-  }
+  },
 
+  convertLicenseForSort: function(value) {
+    return !!value;
+  },
+
+  convertNameForSort: function(value) {
+    return value.toLowerCase();
+  }
 });

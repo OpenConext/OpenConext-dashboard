@@ -1,8 +1,9 @@
 /** @jsx React.DOM */
 
 App.Pages.History = React.createClass({
+  mixins: [App.Mixins.SortableTable("history", "date", true)],
+
   render: function() {
-    var actions = this.props.actions;
     return (
       <div className="l-mini">
 
@@ -12,32 +13,35 @@ App.Pages.History = React.createClass({
           <table>
             <thead>
               <tr>
-                <th className="percent_15">{I18n.t("history.date")}</th>
-                <th className="percent_25">{I18n.t("history.type")}</th>
-                <th className="percent_15">{I18n.t("history.ticket")}</th>
-                <th className="percent_25">{I18n.t("history.status")}</th>
-                <th className="percent_20">{I18n.t("history.by")}</th>
+                {this.renderSortableHeader("percent_15", "date")}
+                {this.renderSortableHeader("percent_25", "type")}
+                {this.renderSortableHeader("percent_20", "jiraKey")}
+                {this.renderSortableHeader("percent_25", "status")}
+                {this.renderSortableHeader("percent_15", "userName")}
               </tr>
             </thead>
             <tbody>
-            {actions.map(this.renderAction)}
+            {this.sort(this.props.actions).map(this.renderAction)}
             </tbody>
           </table>
-
         </div>
       </div>
-      );
+    );
   },
+
   renderAction: function(action) {
     return (
       <tr key={action.id}>
-        <td>{new Date(Date.parse(action.requestDate)).format("dd-MM-yyyy")}</td>
+        <td>{new Date(action.requestDate).format("dd-MM-yyyy")}</td>
         <td>{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
         <td>{action.jiraKey}</td>
         <td>{I18n.t("history.statusses." + action.status)}</td>
         <td>{action.userName}</td>
       </tr>
-      );
-  }
+    );
+  },
 
+  convertDateForSort: function(value) {
+    return Date.parse(value);
+  }
 });

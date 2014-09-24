@@ -128,9 +128,9 @@ I18n.translations.en = {
     title: "History",
     date: "Date",
     type: "Type",
-    ticket: "Ticket ID",
+    jiraKey: "Ticket ID",
     status: "Status",
-    by: "By",
+    userName: "By",
     action_types: {
       LINKREQUEST: "Connect to {serviceName}",
       UNLINKREQUEST: "Disconnect from {serviceName}",
