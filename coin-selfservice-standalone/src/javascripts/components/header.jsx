@@ -55,7 +55,7 @@ App.Components.Header = React.createClass({
         <ul>
           <h2>{I18n.t("header.you")}</h2>
           <ul>
-            <li><a href="/profile">{I18n.t("header.profile")}</a></li>
+            <li><a href="/profile" onClick={this.handleClose}>{I18n.t("header.profile")}</a></li>
           </ul>
           <App.Components.IDPSelector />
         </ul>
@@ -73,6 +73,10 @@ App.Components.Header = React.createClass({
         <li><a href="/logout">{I18n.t("header.links.logout")}</a></li>
       );
     }
+  },
+
+  handleClose: function() {
+    this.setState({dropDownActive: false});
   },
 
   handleToggle: function(e) {
