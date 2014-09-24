@@ -132,8 +132,8 @@ I18n.translations.en = {
     status: "Status",
     userName: "By",
     action_types: {
-      LINKREQUEST: "Connect to {serviceName}",
-      UNLINKREQUEST: "Disconnect from {serviceName}",
+      LINKREQUEST: "Connect to {{serviceName}}",
+      UNLINKREQUEST: "Disconnect from {{serviceName}}",
       QUESTION: "Question"
     },
     statusses: {
