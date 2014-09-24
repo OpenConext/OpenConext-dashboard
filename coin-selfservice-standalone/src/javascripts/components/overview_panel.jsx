@@ -30,7 +30,7 @@ App.Components.OverviewPanel = React.createClass({
 
   renderHasConnection: function() {
     return (
-      <div className="technical yes">
+      <div className="technical yes split">
         <h2>Has technical connection</h2>
       </div>
     );
@@ -38,7 +38,7 @@ App.Components.OverviewPanel = React.createClass({
 
   renderNoConnection: function() {
     return (
-      <div className="technical no">
+      <div className="technical no split">
         <h2>No technical connection</h2>
         <p>Read <a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>how to connect</a></p>
       </div>
@@ -51,7 +51,7 @@ App.Components.OverviewPanel = React.createClass({
 
   renderHasLicense: function() {
     return (
-      <div className="license yes">
+      <div className="license yes split">
         <h2>Has license</h2>
       </div>
     );
@@ -59,7 +59,7 @@ App.Components.OverviewPanel = React.createClass({
 
   renderNoLicense: function() {
     return (
-      <div className="license no">
+      <div className="license no split">
         <h2>License information unknown</h2>
         <p>Read <a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>how to connect</a></p>
       </div>
