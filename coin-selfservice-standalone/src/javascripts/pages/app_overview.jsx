@@ -72,10 +72,16 @@ App.Pages.AppOverview = React.createClass({
         {App.renderYesNo(app.license)}
         {App.renderYesNo(app.connected)}
         <td className="right">
-          <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>
+          {this.renderConnectButton(app)}
         </td>
       </tr>
     );
+  },
+
+  renderConnectButton: function(app) {
+    if (!app.connected) {
+      return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>;
+    }
   },
 
   handleShowAppDetail: function(app) {
