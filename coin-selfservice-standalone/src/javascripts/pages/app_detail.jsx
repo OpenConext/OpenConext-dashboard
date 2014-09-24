@@ -59,7 +59,7 @@ App.Pages.AppDetail = React.createClass({
     var panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
-        <a href="#" onClick={this.handleSwitchPanel(panelKey)}>
+        <a href="#" onClick={this.handleSwitchPanel(panelKey)} className={panelKey == this.state.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + panelKey)}
         </a>
