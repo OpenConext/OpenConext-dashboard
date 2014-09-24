@@ -34,12 +34,12 @@ public class IdpController extends BaseController {
     for (final String role : INTERESTING_ROLES) {
       roleAssignments.put(role, sabClient.getPersonsInRoleForOrganization(idpEntityId, role));
     }
-    return new ResponseEntity(this.createRestResponse(roleAssignments), HttpStatus.OK);
+    return new ResponseEntity(createRestResponse(roleAssignments), HttpStatus.OK);
   }
 
   @RequestMapping("/current/services")
   public ResponseEntity<RestResponse> services(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     List<OfferedService> offeredServices = csa.findOfferedServicesFor(idpEntityId);
-    return new ResponseEntity(this.createRestResponse(offeredServices), HttpStatus.OK);
+    return new ResponseEntity(createRestResponse(offeredServices), HttpStatus.OK);
   }
 }
