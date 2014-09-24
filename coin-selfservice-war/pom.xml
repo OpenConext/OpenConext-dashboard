@@ -29,6 +29,7 @@
   <name>OpenConext : coin-selfservice-war</name>
 
   <properties>
+    <jetty.host>localhost</jetty.host>
     <java.version>1.7</java.version>
     <spring.version>3.2.10.RELEASE</spring.version>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
@@ -324,6 +325,16 @@
             <stopPort>9280</stopPort>
             <reload>manual</reload>
             <useTestClasspath>true</useTestClasspath>
+            <systemProperties>
+              <systemProperty>
+                <name>WEB_APPLICATION_HOST_AND_PORT</name>
+                <value>${jetty.host}:8280</value>
+              </systemProperty>
+              <systemProperty>
+                <name>wayf.url.sso</name>
+                <value>http://${jetty.host}:8280/mujina-idp/SingleSignOnService</value>
+              </systemProperty>
+            </systemProperties>
           </configuration>
         </plugin>
       </plugins>
