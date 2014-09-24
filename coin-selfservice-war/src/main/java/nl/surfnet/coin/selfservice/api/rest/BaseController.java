@@ -38,7 +38,7 @@ public class BaseController {
     status.setComplete();
     request.getSession().invalidate();
     SecurityContextHolder.getContext().setAuthentication(null);
-    return new ResponseEntity(HttpStatus.OK);
+    return new ResponseEntity(HttpStatus.NO_CONTENT);
   }
 
 }
