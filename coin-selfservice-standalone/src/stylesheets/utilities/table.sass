@@ -24,13 +24,24 @@
     @extend %h3
     padding: 15px 20px
 
-  // Font awesome
+    // Sorting
+    a
+      color: inherit
+      text-decoration: none
+
+      &:hover
+        color: $blue
+        text-decoration: underline
+
+        .fa
+          color: $blue
+
   .fa
     color: $medium-grey
-    margin: 0 15px
+    padding: 0 15px
 
-    &.fa-caret-down,
-    &.fa-caret-up
+    &.fa-sort-asc,
+    &.fa-sort-desc
       color: $blue
 
   // For dates, numbers or last cols

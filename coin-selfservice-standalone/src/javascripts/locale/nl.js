@@ -59,9 +59,9 @@ I18n.translations.nl = {
 
   apps: {
     overview: {
-      application: "Applicatie",
+      name: "Applicatie",
       license: "Licentie",
-      connection: "Connectie",
+      connected: "Connectie",
       search_hint: "Filter op naam",
       search: "Zoek",
       connect: "Aansluiten"
