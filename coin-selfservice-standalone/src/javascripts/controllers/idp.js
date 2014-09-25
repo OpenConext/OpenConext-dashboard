@@ -4,7 +4,7 @@ App.Controllers.MyIdp = {
   },
 
   myIdp: function(ctx) {
-    App.render(App.Pages.MyIdp({roles: ctx.roles, services: ctx.services}));
+    App.render(App.Pages.MyIdp({key: "my_idp", roles: ctx.roles, services: ctx.services}));
   },
 
   loadIdpRolesWithUsers: function(ctx, next) {
