@@ -12,11 +12,11 @@ App.Pages.Notifications = React.createClass({
           <p>
             {notificationMessage.messageKeys.map(this.renderNotificationMessage)}
           </p>
+          <br />
           <table>
             <thead>
               <tr>
-                <th className="percent_10">{I18n.t("notifications.icon")}</th>
-                <th className="percent_35">{I18n.t("notifications.name")}</th>
+                <th className="percent_60">{I18n.t("notifications.name")}</th>
                 <th className="percent_20">{I18n.t("notifications.license")}</th>
                 <th className="percent_20">{I18n.t("notifications.connection")}</th>
               </tr>
@@ -32,15 +32,14 @@ App.Pages.Notifications = React.createClass({
       </div>
       );
   },
+
   renderNotificationMessage: function(messageKey) {
     return <p key={messageKey}>{I18n.t(messageKey)}</p>
   },
+
   renderNotification: function(notificationArgument) {
     return (
       <tr key={notificationArgument.id}>
-        <td>
-          {this.renderServiceLogo(notificationArgument)}
-        </td>
         <td>
         {notificationArgument.name}
         </td>
@@ -48,11 +47,6 @@ App.Pages.Notifications = React.createClass({
         {App.renderYesNo(notificationArgument.connection)}
       </tr>
       );
-  },
-  renderServiceLogo: function(service) {
-    if (service.logoUrl) {
-      return <img src={service.logoUrl} width="30" height="30" alt=""/>
-    }
   }
 
 });
