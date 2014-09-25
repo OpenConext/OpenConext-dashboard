@@ -108,7 +108,7 @@ I18n.translations.en = {
     license: "License present",
     connection: "Connected",
     messages: {
-      fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection. Please contact the license contactperson of your institute.",
+      fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection. Please contact the license contactperson of your institute."
     }
   },
 
