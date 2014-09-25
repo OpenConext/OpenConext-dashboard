@@ -24,11 +24,6 @@ App.Pages.MyIdp = React.createClass({
 
           <h2>{I18n.t("my_idp.services_title")}</h2>
           <table>
-            <thead>
-              <tr>
-                <th className="percent_100">{I18n.t("my_idp.service_name")}</th>
-              </tr>
-            </thead>
             <tbody>
             {services.map(function(s) {
               return s.service;
