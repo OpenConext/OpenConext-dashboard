@@ -41,7 +41,9 @@ App.Pages.Notifications = React.createClass({
     return (
       <tr key={notificationArgument.id}>
         <td>
-        {notificationArgument.name}
+          <a href={"/apps/" + notificationArgument.id}>
+            {notificationArgument.name}
+          </a>
         </td>
         {App.renderYesNo(notificationArgument.license)}
         {App.renderYesNo(notificationArgument.connection)}
