@@ -40,8 +40,8 @@ I18n.translations.nl = {
     title: "Filters",
     reset: "reset",
     totals: {
-      all: "Alle {{total}} apps worden weergegeven.",
-      filtered: "{{count}} uit {{total}} apps worden weergegeven."
+      all: "Alle {{total}} apps worden weergegeven",
+      filtered: "{{count}} uit {{total}} apps worden weergegeven"
     },
     static: {
       connection: {
