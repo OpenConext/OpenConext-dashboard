@@ -80,6 +80,48 @@ I18n.translations.en = {
     description: "Description"
   },
 
+  how_to_connect_panel: {
+    info_title: "How to connect",
+    info_sub_title: "You can establish a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you connect.",
+    connect_title: "Connect {{app}}",
+    checklist: "General checklist",
+    check: "Check the",
+    read: "Read the",
+    license_info: "license information",
+    attributes_policy: "attribute policy",
+    wiki: "wiki for this application",
+    wiki_link: "http://www.google.com/",
+    specific: {
+      title: "Specific information",
+      description: "some text"
+    },
+    connect: "Connect application",
+    connect_hint: "(will take you to the form to establish the connection)",
+    cancel: "Cancel",
+    terms_title: "By requesting a connection you accept these terms",
+    comments_title: "Any additional comments?",
+    comments_description: "Comments will be sent to SURFconext and the application provider.",
+    comments_placeholder: "Enter comments here...",
+    provide_attributes: {
+      before: "It is the responsibility of my institution to provide the required ",
+      after: "."
+    },
+    forward_permission: {
+      before: "SURFnet has permission to forward the ",
+      after: " to {{app}}."
+    },
+    obtain_license: {
+      before: "It is the responsibility of my institution to obtain a ",
+      after: " for using {{app}}."
+    },
+    attributes: "attributes",
+    license: "license",
+    accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",
+    back_to_apps: "Back to all applications",
+    done_title: "Connection made!",
+    done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+  },
+
   contact: {
     email: "Support email"
   },

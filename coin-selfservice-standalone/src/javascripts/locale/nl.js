@@ -80,6 +80,48 @@ I18n.translations.nl = {
     description: "Beschrijving"
   },
 
+  how_to_connect_panel: {
+    info_title: "Hoe verbinding maken",
+    info_sub_title: "Je kunt een verbinding maken vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze applicatie door te nemen voordat je verbinding maakt.",
+    connect_title: "Verbind {{app}}",
+    checklist: "Algemene checklist",
+    check: "Controleer de",
+    read: "Lees de",
+    license_info: "licentie informatie",
+    attributes_policy: "attribuut beleid",
+    wiki: "wiki voor deze applicatie",
+    wiki_link: "http://www.google.com/",
+    specific: {
+      title: "Specifieke informatie",
+      description: "bla bla bla"
+    },
+    connect: "Verbind application",
+    connect_hint: "(opent het formulier om een verbinding te maken)",
+    cancel: "Annuleren",
+    terms_title: "Door het maken van een verbinding ga je akkoord met de volgende voorwaarden",
+    comments_title: "Eventuele opmerkingen?",
+    comments_description: "Opmerkingen worden verstuurd naar SURFconect en de aanbieder van de applicatie.",
+    comments_placeholder: "Voer hier je opmerkingen in...",
+    provide_attributes: {
+      before: "Het is de verantwoordelijkheid van mijn instelling om de vereiste ",
+      after: " aan te leveren."
+    },
+    forward_permission: {
+      before: "SURFnet heeft toestemming om de ",
+      after: " door te sturen naar {{app}}."
+    },
+    obtain_license: {
+      before: "Het is de verantwoordelijkheid van mijn instelling om een ",
+      after: " aan te schaffen voor het gebruik van {{app}}."
+    },
+    attributes: "attributen",
+    license: "licentie",
+    accept: "Bij deze bevestig ik dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling, accepteer.",
+    back_to_apps: "Terug naar alle applicaties",
+    done_title: "Verbinding gemaakt!",
+    done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+  },
+
   contact: {
     email: "Support email"
   },

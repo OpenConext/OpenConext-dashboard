@@ -40,5 +40,10 @@ App.Controllers.Apps = {
 
   detail: function(ctx) {
     App.render(App.Pages.AppDetail({key: "apps", app: ctx.app, activePanel: ctx.params.active_panel}));
+  },
+
+  makeConnection: function(comments, callback) {
+    // make call to backend
+    if (callback) callback();
   }
 }
