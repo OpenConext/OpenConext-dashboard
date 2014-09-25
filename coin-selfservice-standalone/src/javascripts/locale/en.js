@@ -76,7 +76,6 @@ I18n.translations.en = {
   },
 
   overview_panel: {
-    provider: "Application by {{name}}",
     description: "Description"
   },
 

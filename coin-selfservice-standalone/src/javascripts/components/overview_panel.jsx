@@ -6,7 +6,6 @@ App.Components.OverviewPanel = React.createClass({
       <div className="l-middle">
         <div className="mod-title">
           <h1>{this.props.app.name}</h1>
-          <h2>{I18n.t("overview_panel.provider", {name: this.props.app.spName})}</h2>
         </div>
 
         <div className="mod-connection">

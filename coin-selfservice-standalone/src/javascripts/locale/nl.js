@@ -76,7 +76,6 @@ I18n.translations.nl = {
   },
 
   overview_panel: {
-    provider: "Beschikbaar gesteld door {{name}}",
     description: "Beschrijving"
   },
 
