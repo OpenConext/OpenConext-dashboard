@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 App.Pages.History = React.createClass({
-  mixins: [App.Mixins.SortableTable("history", "date", true)],
+  mixins: [App.Mixins.SortableTable("history", "requestDate", true)],
 
   render: function() {
     return (
@@ -13,7 +13,7 @@ App.Pages.History = React.createClass({
           <table>
             <thead>
               <tr>
-                {this.renderSortableHeader("percent_15", "date")}
+                {this.renderSortableHeader("percent_15", "requestDate")}
                 {this.renderSortableHeader("percent_25", "type")}
                 {this.renderSortableHeader("percent_20", "jiraKey")}
                 {this.renderSortableHeader("percent_25", "status")}

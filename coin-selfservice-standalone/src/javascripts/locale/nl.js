@@ -184,7 +184,7 @@ I18n.translations.nl = {
 
   history: {
     title: "Logboek",
-    date: "Datum",
+    requestDate: "Datum",
     type: "Type",
     jiraKey: "Ticket ID",
     status: "Status",

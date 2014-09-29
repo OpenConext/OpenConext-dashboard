@@ -184,7 +184,7 @@ I18n.translations.en = {
 
   history: {
     title: "History",
-    date: "Date",
+    requestDate: "Date",
     type: "Type",
     jiraKey: "Ticket ID",
     status: "Status",
