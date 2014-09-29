@@ -29,7 +29,7 @@ I18n.translations.en = {
   },
 
   navigation: {
-    apps: "Apps",
+    apps: "Services",
     notifications: "Notifications",
     history: "History",
     stats: "Statistics",
@@ -40,8 +40,8 @@ I18n.translations.en = {
     title: "Filters",
     reset: "reset",
     totals: {
-      all: "Showing all {{total}} apps",
-      filtered: "Showing {{count}} of {{total}} apps"
+      all: "Showing all {{total}} services",
+      filtered: "Showing {{count}} of {{total}} services"
     },
     static: {
       connection: {
@@ -60,7 +60,7 @@ I18n.translations.en = {
 
   apps: {
     overview: {
-      name: "Application",
+      name: "Service",
       license: "License",
       license_unknown: "Unknown",
       connected: "Connection",
@@ -71,7 +71,7 @@ I18n.translations.en = {
     detail: {
       overview: "Overview",
       license_info: "License info",
-      application_usage: "Application usage",
+      application_usage: "Service usage",
       attribute_policy: "Attribute policy",
       how_to_connect: "How to connect"
     }
@@ -90,18 +90,18 @@ I18n.translations.en = {
     read: "Read the",
     license_info: "license information",
     attributes_policy: "attribute policy",
-    wiki: "wiki for this application",
+    wiki: "wiki for this service",
     wiki_link: "http://www.google.com/",
     specific: {
       title: "Specific information",
       description: "some text"
     },
-    connect: "Connect application",
+    connect: "Connect service",
     connect_hint: "(will take you to the form to establish the connection)",
     cancel: "Cancel",
     terms_title: "By requesting a connection you accept these terms",
     comments_title: "Any additional comments?",
-    comments_description: "Comments will be sent to SURFconext and the application provider.",
+    comments_description: "Comments will be sent to SURFconext and the service provider.",
     comments_placeholder: "Enter comments here...",
     provide_attributes: {
       before: "It is the responsibility of my institution to provide the required ",
@@ -118,7 +118,7 @@ I18n.translations.en = {
     attributes: "attributes",
     license: "license",
     accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",
-    back_to_apps: "Back to all applications",
+    back_to_apps: "Back to all services",
     done_title: "Connection made!",
     done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
   },
