@@ -81,6 +81,14 @@ I18n.translations.nl = {
     description: "Beschrijving"
   },
 
+  attributes_policy_panel: {
+    title: "Attributen",
+    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: als er attributen missen, zullen er extra stappen moeten worden ondernomen om een werkende connectie te kunnen creëren.",
+    attribute: "Attribuut",
+    your_value: "Jouw waarde",
+    hint: "Dit is een voorbeeld waarde van dit attribuut uit je eigen account, zodat je een idee krijgt wat voor waarde dit zal zijn. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling."
+  },
+
   how_to_connect_panel: {
     info_title: "Hoe verbinding maken",
     info_sub_title: "Je kunt een verbinding maken vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je verbinding maakt.",

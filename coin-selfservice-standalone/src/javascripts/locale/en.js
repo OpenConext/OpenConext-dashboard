@@ -81,6 +81,14 @@ I18n.translations.en = {
     description: "Description"
   },
 
+  attributes_policy_panel: {
+    title: "Attributes",
+    subtitle: "The following attributes will be exchanged with {{name}}. Please note: If keys are missing, additional steps might be needed to ensure a working connection.",
+    attribute: "Attribute",
+    your_value: "Your value",
+    hint: "We show you an example of this key for your own person account so you get an idea of that this actually is. This might not be representative for other accounts within your organization."
+  },
+
   how_to_connect_panel: {
     info_title: "How to connect",
     info_sub_title: "You can establish a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you connect.",
