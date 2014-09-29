@@ -163,8 +163,8 @@ I18n.translations.en = {
     title: "Notifications",
     icon: "Icon",
     name: "Name",
-    license: "License present",
-    connection: "Connected",
+    license: "License",
+    connection: "Connection",
     messages: {
       fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection. Please contact the license contactperson of your institute."
     }

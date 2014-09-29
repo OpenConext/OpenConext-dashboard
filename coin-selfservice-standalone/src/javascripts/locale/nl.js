@@ -163,8 +163,8 @@ I18n.translations.nl = {
     title: "Notificaties",
     icon: "Icoon",
     name: "Naam",
-    license: "Licentie aanwezig",
-    connection: "Verbonden",
+    license: "Licentie",
+    connection: "Connectie",
     messages: {
       fcp: "Onderstaande diensten zijn mogelijkerwijs nog niet beschikbaar, omdat de licentie of de technische connectie nog niet aanwezig is. Neem contact op met de licentie contactpersoon van uw instelling."
     }

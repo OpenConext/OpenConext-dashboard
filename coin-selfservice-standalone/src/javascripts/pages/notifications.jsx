@@ -46,7 +46,7 @@ App.Pages.Notifications = React.createClass({
           </a>
         </td>
         {App.renderYesNo(notificationArgument.license)}
-        {App.renderYesNo(notificationArgument.connection)}
+        {App.renderYesNo(notificationArgument.connected)}
       </tr>
       );
   }
