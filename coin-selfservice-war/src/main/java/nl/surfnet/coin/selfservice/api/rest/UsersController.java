@@ -4,6 +4,7 @@ package nl.surfnet.coin.selfservice.api.rest;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +34,11 @@ public class UsersController extends BaseController {
 
   @RequestMapping("/super/idps")
   public ResponseEntity<RestResponse> idps() {
+    CoinUser currentUser = SpringSecurity.getCurrentUser();
+    if (!currentUser.isSuperUser()) {
+      return new ResponseEntity(HttpStatus.FORBIDDEN);
+    }
+
     List<InstitutionIdentityProvider> idps = csa.getAllInstitutionIdentityProviders();
     Collections.sort(idps, new Comparator<InstitutionIdentityProvider>() {
       @Override

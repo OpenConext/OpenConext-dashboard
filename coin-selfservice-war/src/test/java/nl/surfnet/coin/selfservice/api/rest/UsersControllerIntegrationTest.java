@@ -2,6 +2,7 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
 import nl.surfnet.coin.selfservice.interceptor.EnsureAccessToIdp;
@@ -18,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -80,6 +83,7 @@ public class UsersControllerIntegrationTest {
 
   @Test
   public void returnsIdps() throws Exception {
+    coinUser.setAuthorities(Collections.singleton(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER)));
 
     this.mockMvc.perform(
       get(format("/users/super/idps")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
@@ -90,13 +94,22 @@ public class UsersControllerIntegrationTest {
   }
 
   @Test
+  public void adminUserCantAccessIdps() throws Exception {
+    coinUser.setAuthorities(Collections.singleton(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN)));
+
+    this.mockMvc.perform(
+      get(format("/users/super/idps")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
+    )
+      .andExpect(status().isForbidden());
+  }
+
+  @Test
   public void thatIdpCanBeSwitched() throws Exception {
 
     this.mockMvc.perform(
       get(format("/users/me/switch-to-idp?idpId=%s", BAR_IDP_ENTITY_ID)).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID)
     )
       .andExpect(status().isNoContent());
-
   }
 
   @Test
