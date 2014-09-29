@@ -78,7 +78,14 @@ I18n.translations.nl = {
   },
 
   overview_panel: {
-    description: "Beschrijving"
+    description: "Beschrijving",
+    unknown_license: "Licentie onbekend",
+    has_license: "Licentie beschikbaar",
+    no_license: "Geen licentie",
+    license_info: "Lees hoe je een licentie kunt verkrijgen",
+    has_connection: "Heeft een connectie",
+    no_connection: "Geen connectie",
+    how_to_connect: "Lees hoe je een connectie maakt"
   },
 
   attributes_policy_panel: {

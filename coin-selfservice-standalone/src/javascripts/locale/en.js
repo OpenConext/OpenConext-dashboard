@@ -78,7 +78,14 @@ I18n.translations.en = {
   },
 
   overview_panel: {
-    description: "Description"
+    description: "Description",
+    unknown_license: "License information unknown",
+    has_license: "License available",
+    no_license: "No license",
+    license_info: "Read how to obtain a license",
+    has_connection: "Has connection",
+    no_connection: "No connection",
+    how_to_connect: "Read how to connect"
   },
 
   attributes_policy_panel: {

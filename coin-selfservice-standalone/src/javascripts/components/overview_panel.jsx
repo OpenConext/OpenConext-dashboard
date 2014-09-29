@@ -30,7 +30,7 @@ App.Components.OverviewPanel = React.createClass({
   renderHasConnection: function() {
     return (
       <div className="technical yes split">
-        <h2>Has technical connection</h2>
+        <h2>{I18n.t("overview_panel.has_connection")}</h2>
       </div>
     );
   },
@@ -38,20 +38,24 @@ App.Components.OverviewPanel = React.createClass({
   renderNoConnection: function() {
     return (
       <div className="technical no split">
-        <h2>No technical connection</h2>
-        <p>Read <a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>how to connect</a></p>
+        <h2>{I18n.t("overview_panel.no_connection")}</h2>
+        <p><a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a></p>
       </div>
     );
   },
 
   renderLicense: function() {
-    return this.props.app.license ? this.renderHasLicense() : this.renderNoLicense();
+    if (this.props.app.hasCrmLink) {
+      return this.props.app.license ? this.renderHasLicense() : this.renderNoLicense();
+    } else {
+      return this.renderUnknownLicense();
+    }
   },
 
   renderHasLicense: function() {
     return (
       <div className="license yes split">
-        <h2>Has license</h2>
+        <h2>{I18n.t("overview_panel.has_license")}</h2>
       </div>
     );
   },
@@ -59,9 +63,17 @@ App.Components.OverviewPanel = React.createClass({
   renderNoLicense: function() {
     return (
       <div className="license no split">
-        <h2>License information unknown</h2>
-        <p>Read <a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>how to connect</a></p>
+        <h2>{I18n.t("overview_panel.no_license")}</h2>
+        <p><a href="#" onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("overview_panel.license_info")}</a></p>
       </div>
     );
-  }
+  },
+
+  renderUnknownLicense: function() {
+    return (
+      <div className="license unknown split">
+        <h2>{I18n.t("overview_panel.unknown_license")}</h2>
+      </div>
+    );
+  },
 });
