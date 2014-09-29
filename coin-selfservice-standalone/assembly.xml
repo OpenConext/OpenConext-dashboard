@@ -7,13 +7,6 @@
   </formats>
   <fileSets>
     <fileSet>
-      <directory>node_modules</directory>
-      <outputDirectory>node_modules</outputDirectory>
-      <includes>
-        <include>**/*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
       <directory>dist</directory>
       <outputDirectory>public</outputDirectory>
       <includes>
