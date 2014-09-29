@@ -64,13 +64,23 @@ App.Pages.AppOverview = React.createClass({
     return (
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
         <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td>
-        {App.renderYesNo(app.license)}
+        {this.renderLicenseStatus(app)}
         {App.renderYesNo(app.connected)}
         <td className="right">
           {this.renderConnectButton(app)}
         </td>
       </tr>
     );
+  },
+
+  renderLicenseStatus: function(app) {
+    if (app.hasCrmLink) {
+      return App.renderYesNo(app.license);
+    } else {
+      return (
+        <td>{I18n.t("apps.overview.license_unknown")}</td>
+      );
+    }
   },
 
   renderConnectButton: function(app) {
@@ -142,14 +152,22 @@ App.Pages.AppOverview = React.createClass({
 
   filterLicenseFacet: function(app) {
     if (this.state.activeFacets["license"]) {
-      if (this.state.activeFacets["license"] == "yes") {
-        if (!app.license) {
-          return false;
-        }
-      } else {
-        if (app.license) {
-          return false;
-        }
+      switch (this.state.activeFacets["license"]) {
+        case "yes":
+          if (!app.license) {
+            return false;
+          }
+          break;
+        case "no":
+          if (app.license || !app.hasCrmLink) {
+            return false;
+          }
+          break;
+        case "unknown":
+          if (app.hasCrmLink) {
+            return false;
+          }
+          break;
       }
     }
 
@@ -181,8 +199,16 @@ App.Pages.AppOverview = React.createClass({
     return normalizedCategories;
   },
 
-  convertLicenseForSort: function(value) {
-    return !!value;
+  convertLicenseForSort: function(value, app) {
+    if (app.hasCrmLink) {
+      if (value) {
+        return 2;
+      } else {
+        return 1;
+      }
+    } else {
+      return 0;
+    }
   },
 
   convertNameForSort: function(value) {

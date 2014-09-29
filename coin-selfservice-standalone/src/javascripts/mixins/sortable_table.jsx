@@ -30,8 +30,8 @@ App.Mixins.SortableTable = function(localeKey, attr, sortAscending) {
 
         var converter = converterForAttribute.call(this, this.state.sortAttribute);
         if (converter) {
-          aAttr = converter.call(this, aAttr);
-          bAttr = converter.call(this, bAttr);
+          aAttr = converter.call(this, aAttr, a);
+          bAttr = converter.call(this, bAttr, b);
         }
 
         var result = compare(aAttr, bAttr);

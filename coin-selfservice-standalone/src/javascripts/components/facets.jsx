@@ -99,7 +99,8 @@ App.Components.Facets = React.createClass({
       searchValue: "license",
       values: [
         { value: I18n.t("facets.static.license.has_license"), searchValue: "yes" },
-        { value: I18n.t("facets.static.license.no_license"), searchValue: "no" }
+        { value: I18n.t("facets.static.license.no_license"), searchValue: "no" },
+        { value: I18n.t("facets.static.license.unknown_license"), searchValue: "unknown" }
       ]
     }];
   },

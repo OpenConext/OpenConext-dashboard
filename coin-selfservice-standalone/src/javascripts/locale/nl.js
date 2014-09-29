@@ -52,7 +52,8 @@ I18n.translations.nl = {
       license: {
         name: "Licentie",
         has_license: "Met licentie",
-        no_license: "Zonder licentie"
+        no_license: "Zonder licentie",
+        unknown_license: "Onbekende licentie"
       }
     }
   },
@@ -61,6 +62,7 @@ I18n.translations.nl = {
     overview: {
       name: "Applicatie",
       license: "Licentie",
+      license_unknown: "Onbekend",
       connected: "Connectie",
       search_hint: "Filter op naam",
       search: "Zoek",

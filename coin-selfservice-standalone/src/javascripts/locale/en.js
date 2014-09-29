@@ -52,7 +52,8 @@ I18n.translations.en = {
       license: {
         name: "License",
         has_license: "Has license",
-        no_license: "No license"
+        no_license: "No license",
+        unknown_license: "Unknown license"
       }
     }
   },
@@ -61,6 +62,7 @@ I18n.translations.en = {
     overview: {
       name: "Application",
       license: "License",
+      license_unknown: "Unknown",
       connected: "Connection",
       search_hint: "Filter by name",
       search: "Search",
