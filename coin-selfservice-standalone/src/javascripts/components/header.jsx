@@ -27,14 +27,15 @@ App.Components.Header = React.createClass({
   },
 
   renderProfileLink: function() {
-    var title = I18n.t("header.welcome", { name: App.currentUser.displayName });
-
     if (!App.currentUser.superUser) {
       return (
-        <a href="#" onClick={this.handleToggle}>
-          {title}
-          {this.renderDropDownIndicator()}
-        </a>
+        <span>
+          {I18n.t("header.welcome")}&nbsp;
+          <a href="#" onClick={this.handleToggle}>
+            {App.currentUser.displayName}
+            {this.renderDropDownIndicator()}
+          </a>
+        </span>
       );
     } else {
       return title;

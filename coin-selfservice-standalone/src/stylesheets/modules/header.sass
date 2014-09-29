@@ -9,6 +9,12 @@
     float: left
     @extend %h2
 
+    a
+      color: $dark-grey
+
+      &:hover
+        color: $blue
+
   // Meta = right aligned stuff
   .meta
     float: right
@@ -51,13 +57,16 @@
         background: $blue
         color: #fff
 
+      &.selected:hover
+        text-decoration: none
+
   .name
     float: left
     line-height: 30px
 
     .fa-caret-down,
     .fa-caret-up
-      padding-left: 10px
+      padding-left: 5px
 
     > ul
       @extend %box, %z2
