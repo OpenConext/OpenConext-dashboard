@@ -42,8 +42,9 @@ App.Controllers.Apps = {
     App.render(App.Pages.AppDetail({key: "apps", app: ctx.app, activePanel: ctx.params.active_panel}));
   },
 
-  makeConnection: function(comments, callback) {
-    // make call to backend
-    if (callback) callback();
+  makeConnection: function(id, comments, callback) {
+    $.post(App.apiUrl("/services/id/" + id + "/connect"), { comments: comments }, function() {
+      if (callback) callback();
+    });
   }
 }

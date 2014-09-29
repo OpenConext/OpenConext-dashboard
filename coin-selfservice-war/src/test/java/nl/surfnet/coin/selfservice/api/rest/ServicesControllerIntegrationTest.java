@@ -3,6 +3,7 @@ package nl.surfnet.coin.selfservice.api.rest;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
 import nl.surfnet.coin.selfservice.interceptor.EnsureAccessToIdp;
@@ -33,6 +34,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -110,5 +112,23 @@ public class ServicesControllerIntegrationTest {
     } catch (NestedServletException e) {
       assertEquals(SecurityException.class, e.getRootCause().getClass());
     }
+  }
+
+  @Test
+  public void thatALinkRequestCanBeMade() throws Exception {
+    this.mockMvc.perform(
+      post("/services/id/" + service.getId() + "/connect").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+    )
+      .andExpect(status().isOk());
+  }
+
+  @Test
+  public void thatALinkRequestCantBeMadeByASuperUser() throws Exception {
+    coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER));
+
+    this.mockMvc.perform(
+      post("/services/id/" + service.getId() + "/connect").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+    )
+      .andExpect(status().isForbidden());
   }
 }

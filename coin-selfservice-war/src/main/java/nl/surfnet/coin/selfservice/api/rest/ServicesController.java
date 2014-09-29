@@ -2,15 +2,18 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import com.google.common.collect.ImmutableSet;
 import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.csa.model.Action;
+import nl.surfnet.coin.csa.model.JiraTask;
 import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.command.LinkRequest;
+import nl.surfnet.coin.selfservice.command.Question;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.SpStatistic;
 
@@ -67,7 +70,29 @@ public class ServicesController extends BaseController {
       }
     }
 
-    return new ResponseEntity<>(createRestResponse(service), HttpStatus.OK);
+    return new ResponseEntity(createRestResponse(service), HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
+  public ResponseEntity<RestResponse> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam(value = "comments", required = false) String comments, @PathVariable String id) {
+    CoinUser currentUser = SpringSecurity.getCurrentUser();
+    if (currentUser.isSuperUser()) {
+      return new ResponseEntity(HttpStatus.FORBIDDEN);
+    }
+
+    Action action = new Action(
+      currentUser.getUid(),
+      currentUser.getEmail(),
+      currentUser.getUsername(),
+      JiraTask.Type.LINKREQUEST,
+      comments,
+      idpEntityId,
+      id,
+      currentUser.getInstitutionId()
+    );
+
+    csa.createAction(action);
+
+    return new ResponseEntity(HttpStatus.OK);
+  }
 }

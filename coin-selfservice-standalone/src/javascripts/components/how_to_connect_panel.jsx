@@ -164,7 +164,7 @@ App.Components.HowToConnectPanel = React.createClass({
 
   handleMakeConnection: function() {
     if (this.state.accepted) {
-      App.Controllers.Apps.makeConnection(this.state.comments, function() {
+      App.Controllers.Apps.makeConnection(this.props.app.id, this.state.comments, function() {
         console.log("make connection", this.state.comments);
         this.setState({currentStep: "done"});
       }.bind(this));
