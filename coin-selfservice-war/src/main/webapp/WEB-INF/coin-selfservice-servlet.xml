@@ -30,9 +30,7 @@
   <context:annotation-config/>
   <context:component-scan base-package="nl.surfnet.coin.selfservice.control"/>
 
-  <context:property-placeholder
-    location="classpath:application.properties,classpath:dashboard.properties"
-    ignore-resource-not-found="true"/>
+  <context:property-placeholder location="classpath:application.properties,classpath:dashboard.properties" />
 
   <bean id="resolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
     <property name="defaultViews">

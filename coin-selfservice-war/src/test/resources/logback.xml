@@ -43,6 +43,10 @@
     <appender-ref ref="console" />
   </logger>
 
+  <logger name="org.springframework.beans.factory.config" level="debug" additivity="false">
+    <appender-ref ref="console" />
+  </logger>
+
   <logger name="org.springframework.web" level="debug" additivity="false">
     <appender-ref ref="console" />
   </logger>

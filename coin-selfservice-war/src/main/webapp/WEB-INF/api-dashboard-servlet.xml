@@ -30,10 +30,7 @@
   <context:annotation-config/>
   <context:component-scan base-package="nl.surfnet.coin.selfservice.api"/>
 
-  <context:property-placeholder
-    location="classpath:application.properties,classpath:dashboard.properties"
-    ignore-resource-not-found="true"/>
-
+  <context:property-placeholder location="classpath:application.properties,classpath:dashboard.properties" />
 
   <bean id="localeResolver" class="nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver">
     <property name="cookieName" value="dashboardLang"/>

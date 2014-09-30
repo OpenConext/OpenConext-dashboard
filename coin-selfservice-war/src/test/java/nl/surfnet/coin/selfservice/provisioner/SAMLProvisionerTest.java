@@ -16,21 +16,9 @@
 
 package nl.surfnet.coin.selfservice.provisioner;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -45,6 +33,17 @@ import org.opensaml.xml.io.UnmarshallingException;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class SAMLProvisionerTest {
 
@@ -77,8 +76,18 @@ public class SAMLProvisionerTest {
     assertEquals("urn:collab:person:surfguest.nl:gvanderploeg", cu.getUid());
   }
 
+  @Test
+  public void testMultipleAttributeValues() throws Exception {
+    when(csa.getInstitutionIdentityProviders("https://surfguest.nl")).thenReturn(Collections.singletonList(new InstitutionIdentityProvider("https://surfguest.nl", "SURFguest", null)));
+    final Assertion a = readAssertionFromFile("assertion.xml");
+
+    CoinUser cu = (CoinUser) provisioner.provisionUser(a);
+    List<String> values = cu.getAttributeMap().get("urn:mace:dir:attribute-def:eduPersonEntitlement");
+    assertEquals(4, values.size());
+  }
+
   private Assertion readAssertionFromFile(String filename) throws ConfigurationException, IOException, UnmarshallingException,
-      SAXException, ParserConfigurationException {
+    SAXException, ParserConfigurationException {
     DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
     f.setNamespaceAware(true);
     DefaultBootstrap.bootstrap();

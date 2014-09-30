@@ -62,7 +62,7 @@ To run locally:
 **For the NEW client open http://localhost:8000 in order to load the client**
 
 
-When you browse to the [application homepage](http://localhost:8082/selfservice) you will be prompted for a login.
+When you browse to the [application homepage](http://localhost:8082/dashboard) you will be prompted for a login.
 
 A list of available log-ins can be found in the mocked [`Users` enum here](coin-selfservice-war/src/main/java/nl/surfnet/coin/selfservice/util/OpenConextOAuthClientMock.java).
 

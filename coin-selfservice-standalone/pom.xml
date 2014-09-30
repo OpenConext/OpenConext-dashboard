@@ -23,8 +23,12 @@
             <goals>
               <goal>exec</goal>
             </goals>
+            <phase>package</phase>
           </execution>
         </executions>
+        <configuration>
+          <executable>./build.sh</executable>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>

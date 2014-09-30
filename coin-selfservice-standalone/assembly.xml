@@ -8,7 +8,7 @@
   <fileSets>
     <fileSet>
       <directory>dist</directory>
-      <outputDirectory>public</outputDirectory>
+      <outputDirectory>.</outputDirectory>
       <includes>
         <include>**/*.*</include>
       </includes>

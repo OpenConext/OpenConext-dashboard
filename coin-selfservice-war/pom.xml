@@ -308,7 +308,7 @@
               </contextHandler>
             </contextHandlers>
             <webAppConfig>
-              <contextPath>/selfservice</contextPath>
+              <contextPath>/dashboard</contextPath>
               <extraClasspath>${basedir}/src/test/resources/</extraClasspath>
               <defaultsDescriptor>${basedir}/src/test/resources/jettywebdefault.xml</defaultsDescriptor>
               <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">

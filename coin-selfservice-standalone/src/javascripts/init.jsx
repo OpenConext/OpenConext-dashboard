@@ -88,7 +88,7 @@ var App = {
           window.location.protocol +
           "//" +
           window.location.host +
-          "/selfservice/dashboard.jsp";
+          "/dashboard/dashboard.jsp";
         return;
       }
       I18n.locale = data.language;
