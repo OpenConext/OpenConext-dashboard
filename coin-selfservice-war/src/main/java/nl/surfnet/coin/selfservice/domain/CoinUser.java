@@ -26,6 +26,7 @@ import java.util.*;
 
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 
 /**
  * Simple conext user
@@ -89,6 +90,10 @@ public class CoinUser implements UserDetails {
 
   public boolean isDashboardAdmin() {
     return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+  }
+
+  public boolean isDashboardViewer() {
+    return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
   }
 
   /**

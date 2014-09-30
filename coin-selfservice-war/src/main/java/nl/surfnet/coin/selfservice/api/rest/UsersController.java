@@ -57,9 +57,8 @@ public class UsersController extends BaseController {
   }
 
   @RequestMapping("/me/switch-to-idp")
-  public ResponseEntity currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, HttpServletResponse response) {
-    SpringSecurity.setSwitchedToIdp(csa, switchToIdp);
-    // TODO also set roles.
+  public ResponseEntity currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, @RequestParam(value="role", required = false) String role, HttpServletResponse response) {
+    SpringSecurity.setSwitchedToIdp(csa, switchToIdp, role);
     return new ResponseEntity(HttpStatus.NO_CONTENT);
   }
 }

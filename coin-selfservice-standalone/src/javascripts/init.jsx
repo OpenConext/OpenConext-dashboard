@@ -71,8 +71,8 @@ var App = {
     React.renderComponent(App.Pages.Logout(), node);
   },
 
-  apiUrl: function(value) {
-    return BASE_URL + value;
+  apiUrl: function(value, params) {
+    return page.uri(BASE_URL + value, params);
   },
 
   renderYesNo: function(value) {

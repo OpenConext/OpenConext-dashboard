@@ -20,10 +20,13 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class SpringSecurity {
@@ -72,8 +75,16 @@ public class SpringSecurity {
     validateIdp(getIdpFromId(csa, idpId));
   }
 
-  public static void setSwitchedToIdp(Csa csa, final String idpId) {
+  public static void setSwitchedToIdp(Csa csa, final String idpId, final String role) {
     InstitutionIdentityProvider idp = (idpId != null ? validateIdp(getIdpFromId(csa, idpId)) : null);
+    CoinUser currentUser = SpringSecurity.getCurrentUser();
+
+    if (idp == null) {
+      currentUser.setAuthorities(new HashSet<>(Collections.singleton(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER))));
+    } else {
+      currentUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.valueOf(role)));
+    }
+
     SpringSecurity.getCurrentUser().setSwitchedToIdp(idp);
   }
 

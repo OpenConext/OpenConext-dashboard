@@ -35,9 +35,11 @@ App.Controllers.User = {
   },
 
   switchToIdp: function(idp, role, callback) {
-    $.get(App.apiUrl("/users/me/switch-to-idp?idpId=" + encodeURIComponent(idp.id)), function(data) {
-      App.currentUser.switchedToIdp = idp;
-      if (callback) callback();
+    $.get(App.apiUrl("/users/me/switch-to-idp", { idpId: idp.id, role: role }), function(data) {
+      App.fetchUserData(function(user) {
+        App.currentUser = user;
+        if (callback) callback();
+      });
     });
   },
 

@@ -76,7 +76,7 @@ public class ServicesController extends BaseController {
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
   public ResponseEntity<RestResponse> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam(value = "comments", required = false) String comments, @PathVariable String id) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
-    if (!currentUser.isDashboardAdmin()) {
+    if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
       return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
