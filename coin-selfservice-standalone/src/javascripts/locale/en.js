@@ -77,6 +77,10 @@ I18n.translations.en = {
     }
   },
 
+  app_meta: {
+    question: "Got a question?"
+  },
+
   overview_panel: {
     description: "Description",
     unknown_license: "License information unknown",
@@ -139,7 +143,7 @@ I18n.translations.en = {
   },
 
   contact: {
-    email: "Support email"
+    email: "Service support email"
   },
 
   search_user: {

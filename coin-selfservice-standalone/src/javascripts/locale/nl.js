@@ -77,6 +77,10 @@ I18n.translations.nl = {
     }
   },
 
+  app_meta: {
+    question: "Heb je een vraag?"
+  },
+
   overview_panel: {
     description: "Beschrijving",
     unknown_license: "Licentie onbekend",
@@ -139,7 +143,7 @@ I18n.translations.nl = {
   },
 
   contact: {
-    email: "Support email"
+    email: "Service support email"
   },
 
   search_user: {
