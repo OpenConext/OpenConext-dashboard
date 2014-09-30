@@ -43,8 +43,10 @@ App.Controllers.Apps = {
   },
 
   makeConnection: function(id, comments, callback) {
-    $.post(App.apiUrl("/services/id/" + id + "/connect"), { comments: comments }, function() {
-      if (callback) callback();
-    });
+    if (App.currentUser.dashboardAdmin) {
+      $.post(App.apiUrl("/services/id/" + id + "/connect"), { comments: comments }, function() {
+        if (callback) callback();
+      });
+    }
   }
 }

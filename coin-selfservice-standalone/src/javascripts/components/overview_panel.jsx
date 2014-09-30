@@ -36,10 +36,14 @@ App.Components.OverviewPanel = React.createClass({
   },
 
   renderNoConnection: function() {
+    if (App.currentUser.dashboardAdmin) {
+      var connect = <p><a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a></p>;
+    }
+
     return (
       <div className="technical no split">
         <h2>{I18n.t("overview_panel.no_connection")}</h2>
-        <p><a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a></p>
+        {connect}
       </div>
     );
   },

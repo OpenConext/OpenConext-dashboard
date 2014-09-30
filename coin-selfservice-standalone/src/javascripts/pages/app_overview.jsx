@@ -16,6 +16,14 @@ App.Pages.AppOverview = React.createClass({
   render: function () {
     var filteredApps = this.filteredApps();
 
+    if (App.currentUser.dashboardAdmin) {
+      var connect = (
+        <th className="percent_10 right">
+          {I18n.t("apps.overview.connect")}
+        </th>
+      );
+    }
+
     return (
       <div className="l-main">
         <div className="l-left">
@@ -45,9 +53,7 @@ App.Pages.AppOverview = React.createClass({
                   {this.renderSortableHeader("percent_25", "name")}
                   {this.renderSortableHeader("percent_15", "license")}
                   {this.renderSortableHeader("percent_15", "connected")}
-                  <th className="percent_10 right">
-                    {I18n.t("apps.overview.connect")}
-                  </th>
+                  {connect}
                 </tr>
               </thead>
               <tbody>
@@ -61,14 +67,20 @@ App.Pages.AppOverview = React.createClass({
   },
 
   renderApp: function(app) {
+    if (App.currentUser.dashboardAdmin) {
+      var connect = (
+        <td className="right">
+          {this.renderConnectButton(app)}
+        </td>
+      );
+    }
+
     return (
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
         <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td>
         {this.renderLicenseStatus(app)}
         {App.renderYesNo(app.connected)}
-        <td className="right">
-          {this.renderConnectButton(app)}
-        </td>
+        {connect}
       </tr>
     );
   },

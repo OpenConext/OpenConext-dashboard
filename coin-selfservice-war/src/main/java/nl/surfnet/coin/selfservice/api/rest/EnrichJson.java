@@ -42,6 +42,7 @@ public class EnrichJson {
         JsonObject coinUser = coinUserJsonElement.getAsJsonObject();
         coinUser.add("_links", links);
         coinUser.addProperty("superUser", ((CoinUser) payload).isSuperUser());
+        coinUser.addProperty("dashboardAdmin", ((CoinUser) payload).isDashboardAdmin());
         for (JsonElement idp : coinUser.getAsJsonArray("institutionIdps")) {
           AddLinksToInstitutionIdentityProvider.apply(idp, payload);
         }

@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
 import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
 
 /**
@@ -84,6 +85,10 @@ public class CoinUser implements UserDetails {
 
   public boolean isSuperUser() {
     return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
+  }
+
+  public boolean isDashboardAdmin() {
+    return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
   }
 
   /**

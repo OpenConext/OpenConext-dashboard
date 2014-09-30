@@ -56,6 +56,10 @@ App.Pages.AppDetail = React.createClass({
   },
 
   renderNavItem: function(panelKey) {
+    if (panelKey == "how_to_connect" && !App.currentUser.dashboardAdmin) {
+      return;
+    }
+
     var panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
@@ -69,6 +73,9 @@ App.Pages.AppDetail = React.createClass({
 
   renderActivePanel: function() {
     var panel = this.panelMap[this.state.activePanel];
+    if (!panel || (this.state.activePanel == "how_to_connect" && !App.currentUser.dashboardAdmin)) {
+      panel = this.panelMap["overview"];
+    }
     return panel.component({onSwitchPanel: this.handleSwitchPanel, app: this.props.app});
   },
 

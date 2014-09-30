@@ -38,7 +38,11 @@ App.Components.Header = React.createClass({
         </span>
       );
     } else {
-      return title;
+      return (
+        <span>
+          {I18n.t("header.welcome")}&nbsp;{App.currentUser.displayName}
+        </span>
+      );
     }
   },
 
