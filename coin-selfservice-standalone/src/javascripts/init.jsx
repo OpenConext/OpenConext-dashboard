@@ -8,7 +8,9 @@ var App = {
 
   initialize: function() {
     I18n.locale = "en";
-    $(document).ajaxError(this.ajaxError);
+    $(document).ajaxError(this.ajaxError.bind(this));
+    $(document).ajaxStart(this.showSpinner.bind(this));
+    $(document).ajaxStop(this.hideSpinner.bind(this));
 
     this.fetchUserData(function(user) {
       this.currentUser = user;
@@ -94,6 +96,18 @@ var App = {
       I18n.locale = data.language;
       callback(data.payload);
     });
+  },
+
+  showSpinner: function() {
+    if (this.mainComponent) {
+      this.mainComponent.setProps({loading: true});
+    }
+  },
+
+  hideSpinner: function() {
+    if (this.mainComponent) {
+      this.mainComponent.setProps({loading: false});
+    }
   },
 
   ajaxError: function(event, xhr) {

@@ -18,7 +18,7 @@ App.Components.Main = React.createClass({
 
   renderNavigation: function() {
     if (!App.superUserNotSwitched()) {
-      return <App.Components.Navigation active={this.props.page.props.key} />;
+      return <App.Components.Navigation active={this.props.page.props.key} loading={this.props.loading} />;
     }
   }
 });
