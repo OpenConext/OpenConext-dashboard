@@ -91,7 +91,8 @@
                     "*"
                 ],
                 "urn:mace:dir:attribute-def:eduPersonEntitlement": [
-                    "*"
+                    "urn:mace:terena.org:tcs:personal-user",
+                    "urn:mace:terena.org:tcs:personal-admin"
                 ],
                 "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
                     "*"
@@ -118,6 +119,7 @@
                     "*"
                 ]
             },
+
             "noArp": false,
             "noAttrArp": false
         }

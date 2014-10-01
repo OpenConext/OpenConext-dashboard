@@ -41,7 +41,7 @@
     <flyway.version>1.5</flyway.version>
     <jackson.version>1.9.5</jackson.version>
     <xstream.version>1.4.2</xstream.version>
-    <mujina-idp.version>4.0.0</mujina-idp.version>
+    <mujina-idp.version>4.0.2-SNAPSHOT</mujina-idp.version>
     <dumbster.version>1.6</dumbster.version>
     <freemarker.version>[2.3.19,2.4)</freemarker.version>
     <api-secure.version>1.3.5</api-secure.version>
