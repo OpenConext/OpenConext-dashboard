@@ -1,67 +1,84 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.util.AttributeMapFilter;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.String.format;
-
+/**
+ * Class that will enrich json we send back to clients.
+ * Since dashboard does not control all classes that are serialized into
+ * JSON this class can be used to add properties to json.
+ * <p/>
+ * <b>This class can not be an instance variable on a spring managed bean since it uses the current user.</b>
+ */
 public class EnrichJson {
+
+  public static final String FILTERED_USER_ATTRIBUTES = "filteredUserAttributes";
+  public static final String SUPER_USER = "superUser";
+  public static final String DASHBOARD_ADMIN = "dashboardAdmin";
+  private Map<Class<?>, JsonApplier> mapping = new HashMap();
+
+  private final CoinUser currentUser;
+  private JsonElement json;
+
 
   private static interface JsonApplier {
     public void apply(JsonElement element, Object payload);
   }
 
-  private Map<Class<?>, JsonApplier> mapping = new HashMap();
-
-  private static JsonApplier AddLinksToInstitutionIdentityProvider = new JsonApplier() {
-    @Override
-    public void apply(JsonElement element, Object payload) {
-      JsonObject links = new JsonObject();
-      links.addProperty("switch", format("/idp/current/%s", element.getAsJsonObject().getAsJsonPrimitive("id").getAsString()));
-      element.getAsJsonObject().add("_links", links);
-    }
-  };
-
-  private final JsonElement json;
-
-  public EnrichJson(JsonElement json) {
-    this.json = json;
-
+  private EnrichJson(CoinUser coinUser) {
+    this.currentUser = coinUser;
+    final Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
 
     mapping.put(CoinUser.class, new JsonApplier() {
       @Override
       public void apply(JsonElement coinUserJsonElement, Object payload) {
-        JsonObject links = new JsonObject();
-        links.addProperty("self", "/users/me");
         JsonObject coinUser = coinUserJsonElement.getAsJsonObject();
-        coinUser.add("_links", links);
-        coinUser.addProperty("superUser", ((CoinUser) payload).isSuperUser());
-        coinUser.addProperty("dashboardAdmin", ((CoinUser) payload).isDashboardAdmin());
-        for (JsonElement idp : coinUser.getAsJsonArray("institutionIdps")) {
-          AddLinksToInstitutionIdentityProvider.apply(idp, payload);
-        }
+        coinUser.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
+        coinUser.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
       }
     });
 
     mapping.put(Service.class, new JsonApplier() {
       @Override
       public void apply(JsonElement serviceJsonElement, Object payload) {
-        JsonObject links = new JsonObject();
+        Service service = (Service) payload;
+        JsonArray filteredUserAttributes = new JsonArray();
+        if (service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
+          Collection<JsonElement> jsonElements = Collections2.transform(AttributeMapFilter.filterAttributes(service.getArp().getAttributes(), currentUser.getAttributeMap()), new Function<AttributeMapFilter.ServiceAttribute, JsonElement>() {
+            @Override
+            public JsonElement apply(AttributeMapFilter.ServiceAttribute input) {
+              return gson.toJsonTree(input);
+            }
+          });
+          for (JsonElement jsonElement : jsonElements) {
+            filteredUserAttributes.add(jsonElement);
+          }
+        }
         JsonObject serviceAsJsonObject = serviceJsonElement.getAsJsonObject();
-        links.addProperty("self", format("/services/id/%s", serviceAsJsonObject.getAsJsonPrimitive("id").getAsLong()));
-        serviceAsJsonObject.add("_links", links);
+        serviceAsJsonObject.add(FILTERED_USER_ATTRIBUTES, filteredUserAttributes);
       }
     });
   }
 
-  public static EnrichJson with(JsonElement json) {
-    return new EnrichJson(json);
+  public EnrichJson json(JsonElement json) {
+    this.json = json;
+    return this;
+  }
+
+  public static EnrichJson forUser(CoinUser currentUser) {
+    return new EnrichJson(currentUser);
   }
 
   public void forPayload(Object payload) {
@@ -72,9 +89,10 @@ public class EnrichJson {
       }
     } else {
       Class<?> classOfPayloadElement = ((List) payload).get(0).getClass();
-      for (JsonElement jsonElement : payloadAsJsonElement.getAsJsonArray()) {
+      JsonArray jsonArray = payloadAsJsonElement.getAsJsonArray();
+      for (int i = 0; i < jsonArray.size(); i++) {
         if (mapping.containsKey(classOfPayloadElement)) {
-          mapping.get(classOfPayloadElement).apply(jsonElement, payload);
+          mapping.get(classOfPayloadElement).apply(jsonArray.get(i), ((List) payload).get(i));
         }
       }
     }

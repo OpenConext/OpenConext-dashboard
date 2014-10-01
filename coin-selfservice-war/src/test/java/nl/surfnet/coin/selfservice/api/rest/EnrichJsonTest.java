@@ -1,9 +1,13 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.gson.*;
 import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.janus.domain.ARP;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,62 +15,84 @@ import java.util.Locale;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class EnrichJsonTest {
 
   private Gson gson;
+  private CoinUser coinUser;
 
   @Before
   public void setUp() throws Exception {
     gson = new GsonBuilder().setExclusionStrategies(new ExcludeJsonIgnore()).create();
+    coinUser = RestDataFixture.coinUser("ben");
   }
 
   @Test
-  public void testAddLinksToCoinUser() throws Exception {
-    CoinUser coinUser = RestDataFixture.coinUser("ben");
+  public void testSuperUserToCoinUser() throws Exception {
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    new EnrichJson(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(coinUser).json(jsonElement).forPayload(coinUser);
 
-    assertEquals(getLinksFromRoot(jsonElement).getAsJsonPrimitive("self").getAsString(), "/users/me");
-
+    assertFalse(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("superUser").getAsBoolean());
   }
 
   @Test
-  public void testAddLinksToListOfServices() throws Exception {
+  public void testAddDashboardAdminToCoinUser() throws Exception {
+    JsonElement jsonElement = createJsonResponse(coinUser);
+
+    EnrichJson.forUser(coinUser).json(jsonElement).forPayload(coinUser);
+
+    assertFalse(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("dashboardAdmin").getAsBoolean());
+  }
+
+  @Test
+  public void testAddFilteredUserAttributesToListOfServices() throws Exception {
+    coinUser.addAttribute("service", asList("bar"));
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1");
     Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", new RestDataFixture.ServiceUpdater() {
       @Override
       public void apply(Service service) {
         service.setId(2l);
+        ARP arp = new ARP();
+        arp.setNoArp(false);
+        arp.setNoAttrArp(false);
+        arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
+        service.setArp(arp);
       }
     });
 
     List<Service> payload = asList(service1, service2);
     JsonElement jsonElement = createJsonResponse(payload);
-    new EnrichJson(jsonElement).forPayload(payload);
+    EnrichJson.forUser(coinUser).json(jsonElement).forPayload(payload);
 
-    assertEquals("/services/id/1", getFirstServiceFromRoot(jsonElement).getAsJsonObject("_links").getAsJsonPrimitive("self").getAsString());
+    assertEquals(0, getServiceFromRoot(jsonElement, 0).getAsJsonArray(EnrichJson.FILTERED_USER_ATTRIBUTES).size());
+    assertEquals(1, getServiceFromRoot(jsonElement, 1).getAsJsonArray(EnrichJson.FILTERED_USER_ATTRIBUTES).size());
   }
 
   @Test
-  public void testAddLinksToSingleService() throws Exception {
+  public void testAddFilteredUserAttributesToService() throws Exception {
+    coinUser.addAttribute("service", asList("bar"));
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", new RestDataFixture.ServiceUpdater() {
       @Override
       public void apply(Service service) {
         service.setId(10l);
+        ARP arp = new ARP();
+        arp.setNoArp(false);
+        arp.setNoAttrArp(false);
+        arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
+        service.setArp(arp);
       }
     });
 
     JsonElement jsonElement = createJsonResponse(service1);
-    new EnrichJson(jsonElement).forPayload(service1);
+    EnrichJson.forUser(coinUser).json(jsonElement).forPayload(service1);
 
-    assertEquals("/services/id/10", getLinksFromRoot(jsonElement).getAsJsonPrimitive("self").getAsString());
-
+    assertEquals(1, getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray(EnrichJson.FILTERED_USER_ATTRIBUTES).size());
   }
 
-  private JsonObject getFirstServiceFromRoot(JsonElement jsonElement) {
-    return getPayloadAsJsonArrayFromRoot(jsonElement).get(0).getAsJsonObject();
+  private JsonObject getServiceFromRoot(JsonElement jsonElement, int index) {
+    return getPayloadAsJsonArrayFromRoot(jsonElement).get(index).getAsJsonObject();
   }
 
   private JsonArray getPayloadAsJsonArrayFromRoot(JsonElement jsonElement) {
@@ -75,10 +101,6 @@ public class EnrichJsonTest {
 
   private JsonElement createJsonResponse(Object object) {
     return gson.toJsonTree(new RestResponse(Locale.ENGLISH, object));
-  }
-
-  private JsonObject getLinksFromRoot(JsonElement jsonElement) {
-    return getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonObject("_links");
   }
 
   private JsonElement getPayloadFromRoot(JsonElement jsonElement) {

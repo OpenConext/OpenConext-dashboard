@@ -14,26 +14,38 @@ App.Components.AttributePolicyPanel = React.createClass({
             <thead>
               <tr>
                 <th>{I18n.t("attributes_policy_panel.attribute")}</th>
-                <th>{I18n.t("attributes_policy_panel.your_value")} <span className="star">*</span></th>
+                <th>{I18n.t("attributes_policy_panel.your_value")}
+                  <span className="star">*</span>
+                </th>
               </tr>
             </thead>
             <tbody>
-              {Object.keys(this.props.app.arp.attributes).map(this.renderAttribute)}
+              {this.props.app.filteredUserAttributes.map(this.renderAttribute)}
             </tbody>
           </table>
-          <p><span className="star">*</span> {I18n.t("attributes_policy_panel.hint")}</p>
+          <p>
+            <span className="star">*</span> {I18n.t("attributes_policy_panel.hint")}</p>
         </div>
       </div>
-    );
+      );
   },
 
-  renderAttribute: function(key) {
-    var attribute = this.props.app.arp.attributes[key];
+  renderAttribute: function(attribute) {
     return (
-      <tr key={key}>
-        <td>{key}</td>
-        <td>{App.currentUser.attributeMap[key]}</td>
+      <tr key={attribute.name}>
+        <td>{attribute.name}</td>
+        <td>
+          <ul>
+          {attribute.userValues.map(this.renderAttributeValue)}
+          </ul>
+        </td>
       </tr>
-    );
+      );
+  },
+
+  renderAttributeValue: function(attributeValue) {
+    return (
+      <li key={attributeValue}>{attributeValue}</li>
+      );
   }
 });
