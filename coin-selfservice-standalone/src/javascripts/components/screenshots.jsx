@@ -2,9 +2,13 @@
 
 App.Components.Screenshots = React.createClass({
   render: function() {
+    var screenshotsUrls = this.props.screenshotUrls;
+    if(!screenshotsUrls) {
+      screenshotsUrls = [];
+    }
     return (
       <div className="mod-screenshots">
-        {this.props.screenshotUrls.map(this.renderScreenshot)}
+        {screenshotsUrls.map(this.renderScreenshot)}
       </div>
     );
   },
