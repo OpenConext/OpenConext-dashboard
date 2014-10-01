@@ -97,7 +97,11 @@ I18n.translations.en = {
     subtitle: "The following attributes will be exchanged with {{name}}. Please note: If keys are missing, additional steps might be needed to ensure a working connection.",
     attribute: "Attribute",
     your_value: "Your value",
-    hint: "We show you an example of this key for your own person account so you get an idea of that this actually is. This might not be representative for other accounts within your organization."
+    hint: "We show you an example of this key for your own person account so you get an idea of that this actually is. This might not be representative for other accounts within your organization.",
+    arp: {
+      noarp: "There is no 'Attribute Release Policy' specified. All known attributes will be exchanged with {{name}}.",
+      noattr: "No attributes will be exchanged with {{name}}."
+    }
   },
 
   how_to_connect_panel: {

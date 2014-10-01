@@ -2,13 +2,29 @@
 
 App.Components.AttributePolicyPanel = React.createClass({
   render: function() {
+
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("attributes_policy_panel.title")}</h1>
           <p>{I18n.t("attributes_policy_panel.subtitle", { name: this.props.app.name })}</p>
         </div>
+        {this.renderAttributeReleasePolicy(this.props.app)}
+      </div>
+      );
+  },
 
+  renderAttributeReleasePolicy: function(app) {
+    if (app.arp.noArp) {
+      return (
+        <p>{I18n.t("attributes_policy_panel.arp.noarp", { name: app.name })}</p>
+      );
+    } else if (app.arp.noAttrArp) {
+      return (
+        <p>{I18n.t("attributes_policy_panel.arp.noattr", { name: app.name })}</p>
+      );
+    } else {
+      return (
         <div className="mod-attributes">
           <table>
             <thead>
@@ -20,14 +36,15 @@ App.Components.AttributePolicyPanel = React.createClass({
               </tr>
             </thead>
             <tbody>
-              {this.props.app.filteredUserAttributes.map(this.renderAttribute)}
+          {app.filteredUserAttributes.map(this.renderAttribute)}
             </tbody>
           </table>
           <p>
             <span className="star">*</span> {I18n.t("attributes_policy_panel.hint")}</p>
         </div>
-      </div>
-      );
+
+        );
+    }
   },
 
   renderAttribute: function(attribute) {

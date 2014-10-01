@@ -97,7 +97,11 @@ I18n.translations.nl = {
     subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: als er attributen missen, zullen er extra stappen moeten worden ondernomen om een werkende connectie te kunnen creëren.",
     attribute: "Attribuut",
     your_value: "Jouw waarde",
-    hint: "Dit is een voorbeeld waarde van dit attribuut uit je eigen account, zodat je een idee krijgt wat voor waarde dit zal zijn. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling."
+    hint: "Dit is een voorbeeld waarde van dit attribuut uit je eigen account, zodat je een idee krijgt wat voor waarde dit zal zijn. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling.",
+    arp: {
+      noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen zullen worden uitgewisseld met {{name}}.",
+      noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}."
+    }
   },
 
   how_to_connect_panel: {
