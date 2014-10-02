@@ -1,9 +1,7 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import nl.surfnet.coin.oauth.OauthClient;
 
@@ -14,6 +12,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.*;
 import org.springframework.core.io.ClassPathResource;
 import org.surfnet.cruncher.Cruncher;
 import org.surfnet.cruncher.model.LoginData;
@@ -34,27 +33,25 @@ public class CruncherMock implements Cruncher {
 
   @Override
   public String getLoginsByIdpAndSp(Date startDate, Date endDate, String idpEntityId, String spEntityId) {
+    LoginData loginData = new LoginData();
+    loginData.setPointStart(startDate.getTime());
+    loginData.setPointEnd(endDate.getTime());
+    loginData.setPointInterval(Duration.standardDays(1).getMillis());
+    loginData.setTotal(Days.daysBetween(new LocalDate(startDate), new LocalDate(endDate)).getDays());
+    List<Integer> data = loginData.getData();
+    data.clear();
+
+    Random random = new Random();
+    for (int i = 0; i < loginData.getTotal(); i++) {
+      data.add(random.nextInt(20) + 50);
+    }
+
     ObjectMapper mapper = new ObjectMapper();
     try {
-      List<LoginData> result = result = mapper.readValue(getLoginStatsByIdpSp(), new TypeReference<List<LoginData>>() { });
-      Iterator<LoginData> iter = result.iterator();
-      while (iter.hasNext()) {
-        if (!(iter.next().getSpEntityId().equals(spEntityId))) {
-          iter.remove();
-        }
-      }
-      return mapper.writeValueAsString(result);
-    } catch (JsonParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (JsonMappingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      return mapper.writeValueAsString(Arrays.asList(loginData));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-    return getLoginStatsByIdpSp();
   }
 
   @Override

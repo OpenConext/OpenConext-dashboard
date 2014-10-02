@@ -15,6 +15,10 @@ I18n.translations.nl = {
     no: "Nee"
   },
 
+  date: {
+    month_names: [null, "januari", "fabruari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "ocktober", "november", "december"]
+  },
+
   header: {
     title: "SURFconext Dashboard",
     welcome: "Welkom,",
@@ -144,6 +148,17 @@ I18n.translations.nl = {
     back_to_apps: "Terug naar alle services",
     done_title: "Verbinding gemaakt!",
     done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+  },
+
+  application_usage_panel: {
+    title: "Service gebruik",
+    description: "Aantal logins",
+    logins: "Logins",
+    last_week: "Afgelopen week",
+    last_month: "Afgelopen maand",
+    last_three_months: "Afgelopen 3 maanden",
+    last_year: "Afgelopen jaar",
+    download: "Download"
   },
 
   contact: {

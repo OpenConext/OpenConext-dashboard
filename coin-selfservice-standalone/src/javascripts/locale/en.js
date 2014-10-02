@@ -15,6 +15,10 @@ I18n.translations.en = {
     no: "No"
   },
 
+  date: {
+    month_names: [null, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  },
+
   header: {
     title: "SURFconext Dashboard",
     welcome: "Welcome,",
@@ -144,6 +148,17 @@ I18n.translations.en = {
     back_to_apps: "Back to all services",
     done_title: "Connection made!",
     done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+  },
+
+  application_usage_panel: {
+    title: "Service usage",
+    description: "Number of logins",
+    logins: "Logins",
+    last_week: "Last week",
+    last_month: "Last month",
+    last_three_months: "Last 3 months",
+    last_year: "Last year",
+    download: "Download"
   },
 
   contact: {

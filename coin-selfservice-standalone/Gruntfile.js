@@ -10,6 +10,8 @@ module.exports = function(grunt) {
             'src/javascripts/lib/page.js',
             'src/javascripts/lib/i18n.js',
             'src/javascripts/lib/spin.js',
+            'src/javascripts/lib/d3.js',
+            'src/javascripts/lib/rickshaw.js',
             'tmp/init.js',                    // initializes the namespaces
             'tmp/**/*.js',                    // compiled jsx files from tmp
             'src/javascripts/*/**/*',         // all files from subfolders
