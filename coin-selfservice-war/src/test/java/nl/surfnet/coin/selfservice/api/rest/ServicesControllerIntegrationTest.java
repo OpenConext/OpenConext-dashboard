@@ -98,7 +98,6 @@ public class ServicesControllerIntegrationTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload").isArray())
       .andExpect(jsonPath("$.payload[0].name").value(service.getName()))
-      .andExpect(jsonPath("$.payload[0].lastLoginDate").value(statisticDate.getTime()))
     ;
   }
 
