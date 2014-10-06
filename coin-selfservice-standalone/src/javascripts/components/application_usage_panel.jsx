@@ -28,7 +28,6 @@ App.Components.ApplicationUsagePanel = React.createClass({
 
   componentDidUpdate: function() {
     this.graph.dataURL = this.dataURL();
-    // this.updateTimeScale(this.state.period);
     this.graph.request();
   },
 
@@ -94,21 +93,6 @@ App.Components.ApplicationUsagePanel = React.createClass({
     this.graph.render();
   },
 
-  // updateTimeScale: function(period) {
-  //   switch (period) {
-  //     case "last_week":
-  //       this.xAxis.timeUnit = new Rickshaw.Fixtures.Time().unit("day");
-  //       break;
-  //     case "last_month":
-  //       break;
-  //     case "last_three_months":
-  //       break;
-  //     case "last_year":
-  //       break;
-  //   }
-  //   this.xAxis.render();
-  // },
-
   dataURL: function() {
     return App.apiUrl("/stats/id/:id", {
       id: this.props.app.id,
@@ -157,8 +141,7 @@ App.Components.ApplicationUsagePanel = React.createClass({
 
         if (!self.xAxis) {
           self.xAxis = new Rickshaw.Graph.Axis.Time({
-            graph: graph,
-            // timeUnit: new Rickshaw.Fixtures.Time().unit("week")
+            graph: graph
           });
         }
 
