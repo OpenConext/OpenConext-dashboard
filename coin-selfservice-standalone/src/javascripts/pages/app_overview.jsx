@@ -33,7 +33,8 @@ App.Pages.AppOverview = React.createClass({
             filteredCount={filteredApps.length}
             totalCount={this.props.apps.length}
             onChange={this.handleFacetChange}
-            onReset={this.handleResetFilters} />
+            onReset={this.handleResetFilters}
+            onDownload={this.handleDownloadOverview} />
         </div>
         <div className="l-right">
           <div className="mod-app-search">
@@ -132,6 +133,10 @@ App.Pages.AppOverview = React.createClass({
       search: "",
       activeFacets: {}
     });
+  },
+
+  handleDownloadOverview: function() {
+    App.Controllers.Apps.downloadOverview(this.filteredApps());
   },
 
   filteredApps: function() {

@@ -11,6 +11,9 @@ App.Components.Facets = React.createClass({
         <fieldset>
           {this.renderTotals()}
         </fieldset>
+        <fieldset>
+          {this.renderDownloadButton()}
+        </fieldset>
       </div>
     );
   },
@@ -71,6 +74,19 @@ App.Components.Facets = React.createClass({
         {facetValue.value}
       </label>
     );
+  },
+
+  renderDownloadButton: function() {
+    return (
+      <a href="#" className={"c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")} onClick={this.handleDownload}>{I18n.t("facets.download")}</a>
+    );
+  },
+
+  handleDownload: function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.onDownload();
   },
 
   handleSelectFacet: function(facet, facetValue) {

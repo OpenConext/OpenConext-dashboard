@@ -48,5 +48,13 @@ App.Controllers.Apps = {
         if (callback) callback();
       });
     }
+  },
+
+  downloadOverview: function(apps) {
+    var ids = apps.map(function(app) {
+      return app.id;
+    });
+
+    window.open(App.apiUrl("/services/download", { idpEntityId: App.currentIdpId(), id: ids }));
   }
 }

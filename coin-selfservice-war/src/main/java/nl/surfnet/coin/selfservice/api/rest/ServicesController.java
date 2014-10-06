@@ -1,5 +1,6 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.collect.ImmutableSet;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Action;
@@ -9,6 +10,9 @@ import nl.surfnet.coin.selfservice.command.LinkRequest;
 import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +23,18 @@ import org.surfnet.cruncher.model.SpStatistic;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.*;
 
+import static java.lang.String.format;
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
 @Controller
 @RequestMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ServicesController extends BaseController {
-
+  private static final Logger LOG = LoggerFactory.getLogger(ServicesController.class);
   private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
 
   @Resource
@@ -40,24 +46,40 @@ public class ServicesController extends BaseController {
   @RequestMapping
   public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
-    List<SpStatistic> recentLoginsForUser = cruncher.getRecentLoginsForUser(SpringSecurity.getCurrentUser().getUid(), idpEntityId);
-    for (SpStatistic spStatistic: recentLoginsForUser) {
-      Service serviceBySpEntityId = getServiceBySpEntityId(services, spStatistic.getSpEntityId());
-      if(serviceBySpEntityId != null) {
-        serviceBySpEntityId.setLastLoginDate(new Date(spStatistic.getEntryTime()));
-      }
-    }
-
     return new ResponseEntity(createRestResponse(services), HttpStatus.OK);
   }
 
-  private Service getServiceBySpEntityId(List<Service> services, String spEntityId) {
+  private Service getServiceBySpEntityId(List<Service> services, String id) {
+    long longId = Long.parseLong(id);
     for (Service service: services) {
-      if(service.getSpEntityId().equalsIgnoreCase((spEntityId))) {
+      if(service.getId() == longId) {
         return service;
       }
     }
     return null;
+  }
+
+  @RequestMapping(value = "/download")
+  public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<String> ids, HttpServletResponse response) {
+    List<Service> services = csa.getServicesForIdp(idpEntityId);
+
+    List<String[]> rows = new ArrayList<>();
+    rows.add(Arrays.asList("id", "spName", "spEntityId", "connected").toArray(new String[4]));
+
+    for (String id : ids) {
+      Service service = getServiceBySpEntityId(services, id);
+      rows.add(Arrays.asList(id, service.getName(), service.getSpEntityId(), String.valueOf(service.isConnected())).toArray(new String[4]));
+    }
+
+    response.setHeader("Content-Disposition", format("attachment; filename=service-overview.csv"));
+
+    try (CSVWriter writer = new CSVWriter(new OutputStreamWriter(response.getOutputStream()))) {
+      writer.writeAll(rows);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    return new ResponseEntity(HttpStatus.OK);
   }
 
   @RequestMapping(value = "/id/{id}")

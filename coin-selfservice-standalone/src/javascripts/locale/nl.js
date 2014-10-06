@@ -43,6 +43,7 @@ I18n.translations.nl = {
   facets: {
     title: "Filters",
     reset: "reset",
+    download: "Download overzicht",
     totals: {
       all: "Alle {{total}} services worden weergegeven",
       filtered: "{{count}} uit {{total}} services worden weergegeven"

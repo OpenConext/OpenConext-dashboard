@@ -43,6 +43,7 @@ I18n.translations.en = {
   facets: {
     title: "Filters",
     reset: "reset",
+    download: "Download overview",
     totals: {
       all: "Showing all {{total}} services",
       filtered: "Showing {{count}} of {{total}} services"
