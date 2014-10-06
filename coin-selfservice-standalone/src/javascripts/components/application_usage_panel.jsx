@@ -7,13 +7,14 @@ App.Components.ApplicationUsagePanel = React.createClass({
 
   getInitialState: function() {
     return {
-      period: "last_three_months"
+      period: "last_three_months",
+      error: false
     }
   },
 
   shouldComponentUpdate: function(nextProps, nextState) {
-    // only rerender when the period state is changed
-    return nextState.period != this.state.period;
+    // only rerender when the period or error state is changed
+    return nextState.period != this.state.period || nextState.error != this.state.error;
   },
 
   componentDidMount: function() {
@@ -27,8 +28,10 @@ App.Components.ApplicationUsagePanel = React.createClass({
   },
 
   componentDidUpdate: function() {
-    this.graph.dataURL = this.dataURL();
-    this.graph.request();
+    if (!this.state.error) {
+      this.graph.dataURL = this.dataURL();
+      this.graph.request();
+    }
   },
 
   render: function() {
@@ -50,6 +53,7 @@ App.Components.ApplicationUsagePanel = React.createClass({
             </select>
           </div>
           <div className="body">
+            {this.renderError()}
             <div className="chart-container">
               <div className="y" ref="y" />
               <div className="chart" ref="chart" />
@@ -58,6 +62,12 @@ App.Components.ApplicationUsagePanel = React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderError: function() {
+    if (this.state.error) {
+      return <span dangerouslySetInnerHTML={{ __html: I18n.t("application_usage_panel.error_html") }} />;
+    }
   },
 
   renderOption: function(key) {
@@ -122,6 +132,9 @@ App.Components.ApplicationUsagePanel = React.createClass({
       height: this.chartHeight,
       renderer: "line",
       dataURL: this.dataURL(),
+      onError: function() {
+        self.setState({error: true});
+      },
       onData: function(d) {
         var data = [];
         for (timestamp in d.payload) {

@@ -158,7 +158,8 @@ I18n.translations.en = {
     last_month: "Last month",
     last_three_months: "Last 3 months",
     last_year: "Last year",
-    download: "Download"
+    download: "Download",
+    error_html: "Stats are currently unavailable. <a href=\"mailto:support@surfconext.nl\">Contact support</a> for more information."
   },
 
   contact: {

@@ -158,7 +158,8 @@ I18n.translations.nl = {
     last_month: "Afgelopen maand",
     last_three_months: "Afgelopen 3 maanden",
     last_year: "Afgelopen jaar",
-    download: "Download"
+    download: "Download",
+    error_html: "Op dit moment zijn de statistieken niet beschikbaar. <a href=\"mailto:support@surfconext.nl\">Neem contact op</a> met de support afdeling, voor meer informatie."
   },
 
   contact: {
