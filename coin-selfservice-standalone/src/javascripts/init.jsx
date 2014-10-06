@@ -16,13 +16,7 @@ var App = {
       this.currentUser = user;
 
       $(document).ajaxSend(function(event, jqxhr, settings) {
-        if (this.currentUser.superUser && this.currentUser.switchedToIdp) {
-          var id = this.currentUser.switchedToIdp.id;
-        } else {
-          var id = (this.currentUser.switchedToIdp || this.currentUser.currentIdp).id;
-        }
-
-        jqxhr.setRequestHeader("X-IDP-ENTITY-ID", id);
+        jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentIdpId());
       }.bind(this));
 
       for (controller in App.Controllers) {
@@ -117,6 +111,14 @@ var App = {
         break;
       default:
         console.error("Ajax request failed");
+    }
+  },
+
+  currentIdpId: function() {
+    if (this.currentUser.superUser && this.currentUser.switchedToIdp) {
+      return this.currentUser.switchedToIdp.id;
+    } else {
+      return (this.currentUser.switchedToIdp || this.currentUser.currentIdp).id;
     }
   }
 };

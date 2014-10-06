@@ -41,7 +41,7 @@ App.Components.ApplicationUsagePanel = React.createClass({
         <div className="mod-usage">
           <div className="header">
             <h2>{I18n.t("application_usage_panel.description")}</h2>
-            <a href="#" className="c-button">{I18n.t("application_usage_panel.download")}</a>
+            <a href={this.downloadURL()} className="c-button" target="_blank">{I18n.t("application_usage_panel.download")}</a>
             <select valueLink={this.linkState("period")}>
               {this.renderOption("last_week")}
               {this.renderOption("last_month")}
@@ -96,6 +96,15 @@ App.Components.ApplicationUsagePanel = React.createClass({
   dataURL: function() {
     return App.apiUrl("/stats/id/:id", {
       id: this.props.app.id,
+      start: I18n.strftime(this.startDateForPeriod(this.state.period), "%Y%m%d"),
+      end: I18n.strftime(new Date(), "%Y%m%d")
+    });
+  },
+
+  downloadURL: function() {
+    return App.apiUrl("/stats/id/:id/download", {
+      id: this.props.app.id,
+      idpEntityId: App.currentIdpId(),
       start: I18n.strftime(this.startDateForPeriod(this.state.period), "%Y%m%d"),
       end: I18n.strftime(new Date(), "%Y%m%d")
     });

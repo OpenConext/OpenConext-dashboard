@@ -20,8 +20,13 @@ public class EnsureAccessToIdp extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    String idpEntityId = request.getHeader(HTTP_X_IDP_ENTITY_ID);
+    if (idpEntityId == null) {
+      idpEntityId = request.getParameter("idpEntityId");
+    }
+
     if(!request.getPathInfo().endsWith("/users/me")) {
-      SpringSecurity.ensureAccess(csa, request.getHeader(HTTP_X_IDP_ENTITY_ID));
+      SpringSecurity.ensureAccess(csa, idpEntityId);
     }
     return true;
   }

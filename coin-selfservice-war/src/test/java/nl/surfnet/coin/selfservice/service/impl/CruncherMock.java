@@ -34,6 +34,8 @@ public class CruncherMock implements Cruncher {
   @Override
   public String getLoginsByIdpAndSp(Date startDate, Date endDate, String idpEntityId, String spEntityId) {
     LoginData loginData = new LoginData();
+    loginData.setIdpEntityId(idpEntityId);
+    loginData.setSpEntityId(spEntityId);
     loginData.setPointStart(startDate.getTime());
     loginData.setPointEnd(endDate.getTime());
     loginData.setPointInterval(Duration.standardDays(1).getMillis());
