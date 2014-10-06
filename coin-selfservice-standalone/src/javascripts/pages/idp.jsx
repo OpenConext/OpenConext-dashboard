@@ -34,7 +34,7 @@ App.Pages.MyIdp = React.createClass({
           </table>
         </div>
       </div>
-      );
+    );
   },
 
   renderRole: function(role) {
@@ -47,15 +47,15 @@ App.Pages.MyIdp = React.createClass({
         <td>{roleName}</td>
         <td>{names}</td>
       </tr>
-      );
+    );
   },
 
   renderService: function(service) {
     return (
       <tr key={service.id}>
-        <td>{service.name}</td>
+        <td><a href={page.uri("/apps/:id", { id: service.id })}>{service.name}</a></td>
       </tr>
-      );
+    );
   }
 
 });
