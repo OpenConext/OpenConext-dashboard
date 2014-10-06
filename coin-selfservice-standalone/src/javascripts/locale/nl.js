@@ -177,6 +177,11 @@ I18n.translations.nl = {
     }
   },
 
+  not_found: {
+    title: "Deze pagina kon niet worden gevonden.",
+    description_html: "Controleer of het adres correct gespeld is of ga terug naar de <a href=\"/\">homepage</a>."
+  },
+
   footer: {
     surfnet_html: "<a href=\"http://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28NL%29\" target=\"_blank\">Gebruikersvoorwaarden</a>",

@@ -177,6 +177,11 @@ I18n.translations.en = {
     }
   },
 
+  not_found: {
+    title: "The requested page could not be found.",
+    description_html: "Please check the spelling of the URL or go to the <a href=\"/\">homepage</a>."
+  },
+
   footer: {
     surfnet_html: "<a href=\"http://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",

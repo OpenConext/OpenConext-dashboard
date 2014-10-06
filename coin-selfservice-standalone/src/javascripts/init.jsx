@@ -36,7 +36,7 @@ var App = {
   },
 
   actionNotFound: function() {
-    console.error("Page not found");
+    this.render(App.Pages.NotFound());
   },
 
   superUserNotSwitched: function() {
