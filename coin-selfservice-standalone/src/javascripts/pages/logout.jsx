@@ -4,8 +4,8 @@ App.Pages.Logout = React.createClass({
   render: function () {
     return (
       <div className="mod-logout">
-        Logout completed successfully.<br />
-        You <strong>MUST</strong> Close your browser to complete the logout process.
+        {I18n.t("logout.title")}<br />
+        <span dangerouslySetInnerHTML={{ __html: I18n.t("logout.description_html")}} />
       </div>
     );
   }

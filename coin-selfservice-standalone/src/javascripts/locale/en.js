@@ -182,6 +182,11 @@ I18n.translations.en = {
     description_html: "Please check the spelling of the URL or go to the <a href=\"/\">homepage</a>."
   },
 
+  logout: {
+    title: "Logout completed successfully.",
+    description_html: "You <strong>MUST</strong> close your browser to complete the logout process."
+  },
+
   footer: {
     surfnet_html: "<a href=\"http://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",

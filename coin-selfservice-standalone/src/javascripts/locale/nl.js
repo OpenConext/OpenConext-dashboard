@@ -182,6 +182,11 @@ I18n.translations.nl = {
     description_html: "Controleer of het adres correct gespeld is of ga terug naar de <a href=\"/\">homepage</a>."
   },
 
+  logout: {
+    title: "Succesvul uitgelogd.",
+    description_html: "Je <strong>MOET</strong> de browser afsluiten om het uitlogproces af te ronden."
+  },
+
   footer: {
     surfnet_html: "<a href=\"http://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28NL%29\" target=\"_blank\">Gebruikersvoorwaarden</a>",
