@@ -6,6 +6,8 @@ var App = {
   Controllers: {},
   Mixins: {},
 
+  store: {}, // in memory key/value store, to save temporary settings
+
   initialize: function() {
     I18n.locale = "en";
     $(document).ajaxError(this.ajaxError.bind(this));

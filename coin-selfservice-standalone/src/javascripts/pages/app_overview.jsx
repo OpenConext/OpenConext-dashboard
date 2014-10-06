@@ -9,7 +9,7 @@ App.Pages.AppOverview = React.createClass({
   getInitialState: function() {
     return {
       search: "",
-      activeFacets: {}
+      activeFacets: App.store.activeFacets || {}
     }
   },
 
@@ -126,6 +126,7 @@ App.Pages.AppOverview = React.createClass({
       selectedFacet[facet] = facetValue;
     }
     this.setState({activeFacets: selectedFacet});
+    App.store.activeFacets = selectedFacet;
   },
 
   handleResetFilters: function() {
@@ -133,6 +134,8 @@ App.Pages.AppOverview = React.createClass({
       search: "",
       activeFacets: {}
     });
+
+    App.store.activeFacets = null;
   },
 
   handleDownloadOverview: function() {
