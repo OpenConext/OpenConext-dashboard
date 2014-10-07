@@ -1,9 +1,13 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Service;
+import nl.surfnet.coin.selfservice.domain.GraphData;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -42,6 +46,31 @@ public class StatsController extends BaseController {
   @Resource
   private Csa csa;
 
+  @RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<RestResponse> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                          @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") Date start,
+                                          @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") Date end) {
+    LocalDate startDate = new LocalDate(start);
+    LocalDate endDate = new LocalDate(end);
+
+    List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId);
+
+    return new ResponseEntity(createRestResponse(graphData), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/download", produces = "text/csv")
+  public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId,
+                                               @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") Date start,
+                                               @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") Date end,
+                                               HttpServletResponse response) {
+    LocalDate startDate = new LocalDate(start);
+    LocalDate endDate = new LocalDate(end);
+
+    List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId);
+
+    return respondWithCsv(response, graphData, format("%s-%s.csv", startDate.toString(DATE_PATTERN), endDate.toString(DATE_PATTERN)));
+  }
+
   @RequestMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<RestResponse> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                           @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") Date start,
@@ -51,14 +80,7 @@ public class StatsController extends BaseController {
     LocalDate endDate = new LocalDate(end);
 
     Service service = csa.getServiceForIdp(idpEntityId, id);
-    LoginData loginData = getLoginDataFromCruncher(startDate, endDate, idpEntityId, service.getSpEntityId());
-
-    Map<Long, Integer> graphData = new LinkedHashMap<>();
-    int microsecondsInSecond = 1000;
-
-    for (int i = 0; i < loginData.getTotal(); i++) {
-      graphData.put((loginData.getPointStart() + i * loginData.getPointInterval()) / microsecondsInSecond, loginData.getData().get(i));
-    }
+    List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId, service.getSpEntityId());
 
     return new ResponseEntity(createRestResponse(graphData), HttpStatus.OK);
   }
@@ -73,22 +95,25 @@ public class StatsController extends BaseController {
     LocalDate endDate = new LocalDate(end);
 
     Service service = csa.getServiceForIdp(idpEntityId, id);
-    LoginData loginData = getLoginDataFromCruncher(startDate, endDate, idpEntityId, service.getSpEntityId());
+    List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId, service.getSpEntityId());
 
-    List<String> headerRow = new ArrayList<>();
-    List<String> valueRow = new ArrayList<>();
-    headerRow.addAll(Arrays.asList("idpEntityId", "idpName", "spEntityId", "startDate", "endDate"));
-    valueRow.addAll(Arrays.asList(idpEntityId, service.getName(), service.getSpEntityId(), startDate.toString(DATE_PATTERN), endDate.toString(DATE_PATTERN)));
+    return respondWithCsv(response, graphData, format("%s-%s.csv", startDate.toString(DATE_PATTERN), endDate.toString(DATE_PATTERN)));
+  }
 
-    for (int i = 0; i < loginData.getTotal(); i++) {
-      headerRow.add(new LocalDate(loginData.getPointStart() + i * loginData.getPointInterval()).toString(DATE_PATTERN));
-      valueRow.add(loginData.getData().get(i).toString());
-    }
-
-    response.setHeader("Content-Disposition", format("attachment; filename=%s-%s.csv", startDate.toString(DATE_PATTERN), endDate.toString(DATE_PATTERN)));
+  private ResponseEntity respondWithCsv(HttpServletResponse response, List<GraphData> graphData, String filename) {
+    response.setHeader("Content-Disposition", format("attachment; filename=%s", filename));
 
     try (CSVWriter writer = new CSVWriter(new OutputStreamWriter(response.getOutputStream()))) {
-      writer.writeAll(Arrays.asList(headerRow.toArray(new String[headerRow.size()]), valueRow.toArray(new String[valueRow.size()])));
+      if (!graphData.isEmpty()) {
+        writer.writeNext(graphData.get(0).getCsvHeaders());
+
+        writer.writeAll(Lists.transform(graphData, new Function<GraphData, String[]>() {
+          @Override
+          public String[] apply(GraphData graphData) {
+            return graphData.getCsvRow();
+          }
+        }));
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -96,11 +121,28 @@ public class StatsController extends BaseController {
     return new ResponseEntity(HttpStatus.OK);
   }
 
-  private LoginData getLoginDataFromCruncher(LocalDate start, LocalDate end, String idpEntityId, String spEntityId) {
+  private List<GraphData> getGraphDataFromCruncher(LocalDate start, LocalDate end, String idpEntityId) {
+    return getGraphDataFromCruncher(start, end, idpEntityId, null);
+  }
+
+  private List<GraphData> getGraphDataFromCruncher(LocalDate start, LocalDate end, String idpEntityId, String spEntityId) {
     LOG.debug("Getting cruncher data for idp {} and sp {} - from {} to {}", idpEntityId, spEntityId, start.toString("yyyyMMdd"), end.toString("yyyyMMdd"));
 
-    String crazyJsonString = cruncher.getLoginsByIdpAndSp(start.toDate(), end.toDate(), idpEntityId, spEntityId);
+    String crazyJsonString;
+    if (spEntityId == null) {
+      crazyJsonString = cruncher.getLoginsByIdp(start.toDate(), end.toDate(), idpEntityId);
+    } else {
+      crazyJsonString = cruncher.getLoginsByIdpAndSp(start.toDate(), end.toDate(), idpEntityId, spEntityId);
+    }
+
     LOG.debug("JSON data from cruncher: {}", crazyJsonString);
-    return new Gson().fromJson(crazyJsonString, LoginData[].class)[0];
+    LoginData[] loginData = new Gson().fromJson(crazyJsonString, LoginData[].class);
+
+    return Lists.transform(Arrays.asList(loginData), new Function<LoginData, GraphData>() {
+      @Override
+      public GraphData apply(LoginData loginData) {
+        return GraphData.forLoginData(loginData);
+      }
+    });
   }
 }

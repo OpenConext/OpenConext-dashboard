@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-App.Components.ApplicationUsagePanel = React.createClass({
+App.Pages.Stats = React.createClass({
   mixins: [
     React.addons.LinkedStateMixin,
     App.Mixins.Chart,
@@ -8,12 +8,13 @@ App.Components.ApplicationUsagePanel = React.createClass({
 
   render: function() {
     return (
-      <div className="l-middle">
-        <div className="mod-title">
-          <h1>{I18n.t("application_usage_panel.title")}</h1>
+      <div className="l-main">
+        <div className="l-left">
+          <div className="mod-legend" ref="legend">
+            <h1>{I18n.t("stats.legend")}</h1>
+          </div>
         </div>
-
-        <div className="mod-usage">
+        <div className="l-right">
           <div className="mod-usage">
             <div className="header">
               <h2>{I18n.t("application_usage_panel.description")}</h2>
@@ -28,13 +29,10 @@ App.Components.ApplicationUsagePanel = React.createClass({
   },
 
   dataURL: function(params) {
-    return App.apiUrl("/stats/id/:id", $.extend({ id: this.props.app.id }, params));
+    return App.apiUrl("/stats", params);
   },
 
   downloadURL: function(params) {
-    return App.apiUrl("/stats/id/:id/download", $.extend({
-      id: this.props.app.id,
-      idpEntityId: App.currentIdpId()
-    }, params));
+    return App.apiUrl("/stats/download", $.extend({ idpEntityId: App.currentIdpId() }, params));
   }
 });

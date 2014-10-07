@@ -90,7 +90,6 @@ public class ServicesControllerIntegrationTest {
   @Test
   public void thatAllServicesAreReturned() throws Exception {
     when(csa.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
-    when(cruncher.getRecentLoginsForUser(coinUser.getUid(), IDP_ENTITY_ID)).thenReturn(spStatistics);
 
     this.mockMvc.perform(
       get("/services").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)

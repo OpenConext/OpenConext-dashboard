@@ -1917,6 +1917,7 @@ Rickshaw.Graph.Behavior.Series.Toggle = function(args) {
 	this.addAnchor = function(line) {
 
 		var anchor = document.createElement('a');
+    anchor.href = '#';
 		anchor.innerHTML = '&#10004;';
 		anchor.classList.add('action');
 		line.element.insertBefore(anchor, line.element.firstChild);

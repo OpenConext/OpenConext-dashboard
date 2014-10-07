@@ -13,6 +13,7 @@ module.exports = function(grunt) {
             'src/javascripts/lib/d3.js',
             'src/javascripts/lib/rickshaw.js',
             'tmp/init.js',                    // initializes the namespaces
+            'tmp/mixins/*.js',                // all mixins first
             'tmp/**/*.js',                    // compiled jsx files from tmp
             'src/javascripts/*/**/*',         // all files from subfolders
             '!src/javascripts/**/*.jsx',      // no jsx files

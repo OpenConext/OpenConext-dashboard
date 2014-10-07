@@ -178,6 +178,11 @@ I18n.translations.en = {
     }
   },
 
+  stats: {
+    logins_for: "Logins for {{service}}",
+    legend: "Legend"
+  },
+
   not_found: {
     title: "The requested page could not be found.",
     description_html: "Please check the spelling of the URL or go to the <a href=\"/\">homepage</a>."
