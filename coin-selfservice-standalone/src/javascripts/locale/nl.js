@@ -94,7 +94,8 @@ I18n.translations.nl = {
     license_info: "Lees hoe je een licentie kunt verkrijgen",
     has_connection: "Heeft een connectie",
     no_connection: "Geen connectie",
-    how_to_connect: "Lees hoe je een connectie maakt"
+    how_to_connect: "Lees hoe je een connectie maakt",
+    disconnect: "Verbreek verbinding"
   },
 
   attributes_policy_panel: {
@@ -148,7 +149,12 @@ I18n.translations.nl = {
     accept: "Bij deze bevestig ik dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling, accepteer.",
     back_to_apps: "Terug naar alle services",
     done_title: "Verbinding gemaakt!",
-    done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+    done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>.",
+    disconnect_title: "Verbreek verbinding met {{app}}",
+    accept_disconnect: "Ja, ik ga akkoord dat {{app}} niet meer beschikbaar zal zijn voor mijn organisatie",
+    disconnect: "Verbreek verbinding",
+    done_disconnect_title: "Verzoek om verbinding te verbreken is aangevraagd!",
+    done_disconnect_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
   },
 
   application_usage_panel: {
@@ -176,6 +182,11 @@ I18n.translations.nl = {
       role_dashboard_viewer: "Viewer",
       role_dashboard_admin: "Admin"
     }
+  },
+
+  stats: {
+    logins_for: "Logins voor {{service}}",
+    legend: "Legenda"
   },
 
   not_found: {

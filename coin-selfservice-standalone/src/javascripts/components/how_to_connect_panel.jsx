@@ -7,7 +7,7 @@ App.Components.HowToConnectPanel = React.createClass({
 
   getInitialState: function() {
     return {
-      currentStep: "info",
+      currentStep: this.props.app.connected ? "disconnect" : "info",
       accepted: false,
       comments: ""
     }
@@ -15,10 +15,14 @@ App.Components.HowToConnectPanel = React.createClass({
 
   render: function() {
     switch (this.state.currentStep) {
+      case "disconnect":
+        return this.renderDisconnectStep();
       case "connect":
         return this.renderConnectStep();
       case "done":
         return this.renderDoneStep();
+      case "done-disconnect":
+        return this.renderDoneDisconnectStep();
       default:
         return this.renderInfoStep();
     }
@@ -154,6 +158,49 @@ App.Components.HowToConnectPanel = React.createClass({
     );
   },
 
+  renderDoneDisconnectStep: function() {
+    return (
+      <div className="l-middle">
+        <div className="mod-title">
+          <h1>{I18n.t("how_to_connect_panel.done_disconnect_title")}</h1>
+          <p dangerouslySetInnerHTML={{ __html: I18n.t("how_to_connect_panel.done_disconnect_subtitle_html") }} />
+          <br />
+          <p className="cta">
+            <a href="/apps" className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
+          </p>
+        </div>
+      </div>
+    );
+  },
+
+  renderDisconnectStep: function() {
+    return (
+      <div className="l-middle">
+        <div className="mod-title">
+          <h1>{I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name})}</h1>
+        </div>
+
+        <div className="mod-connect">
+          <div className="box">
+            <div className="content">
+              <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
+              <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
+              <textarea valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <label>
+                <input type="checkbox" checkedLink={this.linkState("accepted")} />
+
+                {I18n.t("how_to_connect_panel.accept_disconnect", {app: this.props.app.name})}
+              </label>
+            </div>
+          </div>
+          <p className="cta">
+            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleDisconnect}>{I18n.t("how_to_connect_panel.disconnect")}</a>
+          </p>
+        </div>
+      </div>
+    );
+  },
+
   handleGotoStep: function(step) {
     return function(e) {
       e.preventDefault();
@@ -165,8 +212,15 @@ App.Components.HowToConnectPanel = React.createClass({
   handleMakeConnection: function() {
     if (this.state.accepted) {
       App.Controllers.Apps.makeConnection(this.props.app.id, this.state.comments, function() {
-        console.log("make connection", this.state.comments);
         this.setState({currentStep: "done"});
+      }.bind(this));
+    }
+  },
+
+  handleDisconnect: function() {
+    if (this.state.accepted) {
+      App.Controllers.Apps.disconnect(this.props.app.id, this.state.comments, function() {
+        this.setState({currentStep: "done-disconnect"});
       }.bind(this));
     }
   }

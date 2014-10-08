@@ -6,11 +6,8 @@ import nl.surfnet.coin.csa.Csa;
 import nl.surfnet.coin.csa.model.Action;
 import nl.surfnet.coin.csa.model.JiraTask;
 import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.command.LinkRequest;
-import nl.surfnet.coin.selfservice.command.Question;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,10 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.surfnet.cruncher.Cruncher;
-import org.surfnet.cruncher.model.SpStatistic;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -97,16 +92,29 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
   public ResponseEntity<RestResponse> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam(value = "comments", required = false) String comments, @PathVariable String id) {
+    if (!createAction(idpEntityId, comments, id, JiraTask.Type.LINKREQUEST)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+    return new ResponseEntity(HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/id/{id}/disconnect", method = RequestMethod.POST)
+  public ResponseEntity<RestResponse> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam(value = "comments", required = false) String comments, @PathVariable String id) {
+    if (!createAction(idpEntityId, comments, id, JiraTask.Type.UNLINKREQUEST)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+    return new ResponseEntity(HttpStatus.OK);
+  }
+
+  private boolean createAction(String idpEntityId, String comments, String id, JiraTask.Type jiraType) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
-      return new ResponseEntity(HttpStatus.FORBIDDEN);
+      return false;
     }
 
     Action action = new Action(
       currentUser.getUid(),
       currentUser.getEmail(),
       currentUser.getUsername(),
-      JiraTask.Type.LINKREQUEST,
+      jiraType,
       comments,
       idpEntityId,
       id,
@@ -114,7 +122,6 @@ public class ServicesController extends BaseController {
     );
 
     csa.createAction(action);
-
-    return new ResponseEntity(HttpStatus.OK);
+    return true;
   }
 }

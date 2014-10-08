@@ -123,6 +123,16 @@ public class ServicesControllerIntegrationTest {
   }
 
   @Test
+  public void thatADisconnectRequestCanBeMade() throws Exception {
+    coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
+
+    this.mockMvc.perform(
+      post("/services/id/" + service.getId() + "/disconnect").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+    )
+      .andExpect(status().isOk());
+  }
+
+  @Test
   public void thatALinkRequestCantBeMadeByASuperUser() throws Exception {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER));
 

@@ -94,7 +94,8 @@ I18n.translations.en = {
     license_info: "Read how to obtain a license",
     has_connection: "Has connection",
     no_connection: "No connection",
-    how_to_connect: "Read how to connect"
+    how_to_connect: "Read how to connect",
+    disconnect: "Disconnect"
   },
 
   attributes_policy_panel: {
@@ -148,7 +149,12 @@ I18n.translations.en = {
     accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",
     back_to_apps: "Back to all services",
     done_title: "Connection made!",
-    done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+    done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>.",
+    disconnect_title: "Disconnect {{app}}",
+    accept_disconnect: "Yes, I agree that {{app}} will no longer be available to my organization",
+    disconnect: "Disconnect service",
+    done_disconnect_title: "Disconnect requested!",
+    done_disconnect_subtitle_html: "You will be contacted about the further steps needed to finalize this disconnect. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
   },
 
   application_usage_panel: {
@@ -387,5 +393,4 @@ I18n.translations.en = {
       }
     }
   }
-
 };

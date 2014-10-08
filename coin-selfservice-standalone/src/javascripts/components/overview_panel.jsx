@@ -28,9 +28,14 @@ App.Components.OverviewPanel = React.createClass({
   },
 
   renderHasConnection: function() {
+    if (App.currentUser.dashboardAdmin) {
+      var disconnect = <p><a href="#" onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a></p>;
+    }
+
     return (
       <div className="technical yes split">
         <h2>{I18n.t("overview_panel.has_connection")}</h2>
+        {disconnect}
       </div>
     );
   },

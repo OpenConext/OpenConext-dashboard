@@ -50,6 +50,14 @@ App.Controllers.Apps = {
     }
   },
 
+  disconnect: function(id, comments, callback) {
+    if (App.currentUser.dashboardAdmin) {
+      $.post(App.apiUrl("/services/id/" + id + "/disconnect"), { comments: comments }, function() {
+        if (callback) callback();
+      });
+    }
+  },
+
   downloadOverview: function(apps) {
     var ids = apps.map(function(app) {
       return app.id;
