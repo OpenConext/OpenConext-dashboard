@@ -48,10 +48,8 @@ public class StatsController extends BaseController {
 
   @RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<RestResponse> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                          @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") Date start,
-                                          @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") Date end) {
-    LocalDate startDate = new LocalDate(start);
-    LocalDate endDate = new LocalDate(end);
+                                          @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate startDate,
+                                          @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate endDate) {
 
     List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId);
 
@@ -60,11 +58,9 @@ public class StatsController extends BaseController {
 
   @RequestMapping(value = "/download", produces = "text/csv")
   public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId,
-                                               @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") Date start,
-                                               @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") Date end,
+                                               @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate startDate,
+                                               @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate endDate,
                                                HttpServletResponse response) {
-    LocalDate startDate = new LocalDate(start);
-    LocalDate endDate = new LocalDate(end);
 
     List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId);
 
@@ -73,11 +69,9 @@ public class StatsController extends BaseController {
 
   @RequestMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<RestResponse> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                          @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") Date start,
-                                          @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") Date end,
+                                          @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate startDate,
+                                          @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate endDate,
                                           @PathVariable long id) {
-    LocalDate startDate = new LocalDate(start);
-    LocalDate endDate = new LocalDate(end);
 
     Service service = csa.getServiceForIdp(idpEntityId, id);
     List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId, service.getSpEntityId());
@@ -87,12 +81,10 @@ public class StatsController extends BaseController {
 
   @RequestMapping(value = "/id/{id}/download", produces = "text/csv")
   public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId,
-                                               @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") Date start,
-                                               @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") Date end,
+                                               @RequestParam("start") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate startDate,
+                                               @RequestParam("end") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate endDate,
                                                @PathVariable long id,
                                                HttpServletResponse response) {
-    LocalDate startDate = new LocalDate(start);
-    LocalDate endDate = new LocalDate(end);
 
     Service service = csa.getServiceForIdp(idpEntityId, id);
     List<GraphData> graphData = getGraphDataFromCruncher(startDate, endDate, idpEntityId, service.getSpEntityId());
