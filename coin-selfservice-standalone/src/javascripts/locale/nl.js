@@ -58,7 +58,7 @@ I18n.translations.nl = {
         name: "Licentie",
         has_license: "Met licentie",
         no_license: "Zonder licentie",
-        unknown_license: "Onbekende licentie"
+        unknown_license: "Licentie onbekend"
       }
     }
   },
@@ -83,7 +83,10 @@ I18n.translations.nl = {
   },
 
   app_meta: {
-    question: "Heb je een vraag?"
+    question: "Heb je een vraag?",
+    eula: "Algemene voorwaarden",
+    website: "Website",
+    support: "Support pagina"
   },
 
   overview_panel: {
@@ -95,7 +98,7 @@ I18n.translations.nl = {
     has_connection: "Heeft een connectie",
     no_connection: "Geen connectie",
     how_to_connect: "Lees hoe je een connectie maakt",
-    disconnect: "Verbreek verbinding"
+    disconnect: "Lees hoe je een verbinding verbreekt"
   },
 
   attributes_policy_panel: {

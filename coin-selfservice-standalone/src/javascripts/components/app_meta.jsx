@@ -15,9 +15,25 @@ App.Components.AppMeta = React.createClass({
           </div>
 
           <App.Components.Contact email={this.props.app.supportMail} />
+
+          {this.renderUrl("eula", this.props.app.eulaUrl)}
+          {this.renderUrl("website", this.props.app.websiteUrl)}
+          {this.renderUrl("support", this.props.app.supportUrl)}
         </div>
       </div>
     );
+  },
+
+  renderUrl: function(key, link) {
+    if (link) {
+      return (
+        <div className="contact">
+          <address>
+            <a href={link} target="_blank">{I18n.t("app_meta." + key)}</a>
+          </address>
+        </div>
+      );
+    }
   },
 
   renderLogo: function() {

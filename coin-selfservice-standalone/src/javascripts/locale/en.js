@@ -58,7 +58,7 @@ I18n.translations.en = {
         name: "License",
         has_license: "Has license",
         no_license: "No license",
-        unknown_license: "Unknown license"
+        unknown_license: "License unknown"
       }
     }
   },
@@ -83,7 +83,10 @@ I18n.translations.en = {
   },
 
   app_meta: {
-    question: "Got a question?"
+    question: "Got a question?",
+    eula: "Terms & Conditions",
+    website: "Website",
+    support: "Support pages"
   },
 
   overview_panel: {
@@ -95,7 +98,7 @@ I18n.translations.en = {
     has_connection: "Has connection",
     no_connection: "No connection",
     how_to_connect: "Read how to connect",
-    disconnect: "Disconnect"
+    disconnect: "Read how to disconnect"
   },
 
   attributes_policy_panel: {
