@@ -75,14 +75,15 @@ public class CruncherMock implements Cruncher {
     loginData.setPointStart(startDate.getTime());
     loginData.setPointEnd(endDate.getTime());
     loginData.setPointInterval(Duration.standardDays(1).getMillis());
-    loginData.setTotal(Days.daysBetween(new LocalDate(startDate), new LocalDate(endDate)).getDays());
+    loginData.setTotal(0);
     List<Integer> data = loginData.getData();
     data.clear();
 
     Random random = new Random();
-    for (int i = 0; i < loginData.getTotal(); i++) {
+    for (int i = 0; i < Days.daysBetween(new LocalDate(startDate), new LocalDate(endDate)).getDays(); i++) {
       data.add(random.nextInt(20) + 50);
     }
+
     return loginData;
   }
 

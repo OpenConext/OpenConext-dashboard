@@ -32,7 +32,7 @@ public class GraphData {
     List<String> csvHeaders = new ArrayList<>();
     csvHeaders.addAll(Arrays.asList("idpEntityId", "idpName", "spEntityId", "startDate", "endDate"));
 
-    for (int i = 0; i < loginData.getTotal(); i++) {
+    for (int i = 0; i < loginData.getData().size(); i++) {
       long timestamp = loginData.getPointStart() + i * loginData.getPointInterval();
 
       data.put(timestamp / MICROSECONDS_IN_SECOND, loginData.getData().get(i));
