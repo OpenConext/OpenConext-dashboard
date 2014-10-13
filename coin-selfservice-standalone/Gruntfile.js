@@ -154,7 +154,7 @@ module.exports = function(grunt) {
           middleware: function (connect, options, middlewares) {
             var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
             var modRewrite = require('connect-modrewrite');
-            var rewriteThis = modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png$ /index.html [L]']);
+            var rewriteThis = modRewrite(['!\\.ttf|\\.woff|\\.html|\\.js|\\.svg|\\.css|\\.png$ /index.html [L]']);
             return [proxy, rewriteThis, connect.static(options.base[0]), connect.directory(options.base[0])];
           }
         },
