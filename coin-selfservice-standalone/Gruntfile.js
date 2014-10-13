@@ -23,6 +23,11 @@ module.exports = function(grunt) {
       }
     },
     uglify: {
+      options: {
+        mangle: {
+          except: ["$super"]
+        }
+      },
       js: {
         files: {
           'build/application.min.js': 'build/application.js'
