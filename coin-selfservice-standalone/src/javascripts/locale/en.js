@@ -87,7 +87,8 @@ I18n.translations.en = {
     question: "Got a question?",
     eula: "Terms & Conditions",
     website: "Website",
-    support: "Support pages"
+    support: "Support pages",
+    login: "Login page"
   },
 
   overview_panel: {
@@ -96,6 +97,7 @@ I18n.translations.en = {
     has_license: "License available",
     no_license: "No license",
     license_info: "Read how to obtain a license",
+    license_unknown_info: "Read more",
     has_connection: "Has connection",
     no_connection: "No connection",
     how_to_connect: "Read how to connect",

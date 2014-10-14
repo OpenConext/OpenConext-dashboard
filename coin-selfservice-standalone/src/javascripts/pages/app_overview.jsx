@@ -39,6 +39,7 @@ App.Pages.AppOverview = React.createClass({
         <div className="l-right">
           <div className="mod-app-search">
             <fieldset>
+              <i className="fa fa-search" />
               <input
                 type="search"
                 valueLink={this.linkState("search")}

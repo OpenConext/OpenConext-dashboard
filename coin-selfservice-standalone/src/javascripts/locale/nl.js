@@ -87,7 +87,8 @@ I18n.translations.nl = {
     question: "Heb je een vraag?",
     eula: "Algemene voorwaarden",
     website: "Website",
-    support: "Support pagina"
+    support: "Support pagina",
+    login: "Login pagina"
   },
 
   overview_panel: {
@@ -96,6 +97,7 @@ I18n.translations.nl = {
     has_license: "Licentie beschikbaar",
     no_license: "Licentie is niet aanwezig",
     license_info: "Lees hoe je een licentie kunt verkrijgen",
+    license_unknown_info: "Lees meer",
     has_connection: "Connectie actief",
     no_connection: "Connectie niet actief",
     how_to_connect: "Lees hoe je een connectie maakt",

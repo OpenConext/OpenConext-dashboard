@@ -46,7 +46,7 @@ App.Components.OverviewPanel = React.createClass({
     }
 
     return (
-      <div className="technical no split">
+      <div className="technical unknown split">
         <h2>{I18n.t("overview_panel.no_connection")}</h2>
         {connect}
       </div>
@@ -82,6 +82,7 @@ App.Components.OverviewPanel = React.createClass({
     return (
       <div className="license unknown split">
         <h2>{I18n.t("overview_panel.unknown_license")}</h2>
+        <p><a href="#" onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("overview_panel.license_unknown_info")}</a></p>
       </div>
     );
   },
