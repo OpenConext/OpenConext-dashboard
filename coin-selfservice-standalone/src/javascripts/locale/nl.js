@@ -50,15 +50,15 @@ I18n.translations.nl = {
     },
     static: {
       connection: {
-        name: "Connectie",
-        has_connection: "Met connectie",
-        no_connection: "Geen connection"
+        name: "Connectie actief",
+        has_connection: "Ja",
+        no_connection: "Nee"
       },
       license: {
         name: "Licentie",
-        has_license: "Met licentie",
-        no_license: "Zonder licentie",
-        unknown_license: "Licentie onbekend"
+        has_license: "Ja",
+        no_license: "Nee",
+        unknown_license: "Onbekend"
       }
     }
   },
@@ -68,10 +68,11 @@ I18n.translations.nl = {
       name: "Service",
       license: "Licentie",
       license_unknown: "Onbekend",
-      connected: "Connectie",
-      search_hint: "Filter op naam",
+      connected: "Connectie actief",
+      search_hint: "Zoeken",
       search: "Zoek",
-      connect: "Aansluiten"
+      connect: "",
+      connect_button: "Activeren"
     },
     detail: {
       overview: "Overzicht",
@@ -91,19 +92,19 @@ I18n.translations.nl = {
 
   overview_panel: {
     description: "Beschrijving",
-    unknown_license: "Licentie onbekend",
+    unknown_license: "Geen licentieinformatie beschikbaar",
     has_license: "Licentie beschikbaar",
-    no_license: "Geen licentie",
+    no_license: "Licentie is niet aanwezig",
     license_info: "Lees hoe je een licentie kunt verkrijgen",
-    has_connection: "Heeft een connectie",
-    no_connection: "Geen connectie",
+    has_connection: "Connectie actief",
+    no_connection: "Connectie niet actief",
     how_to_connect: "Lees hoe je een connectie maakt",
     disconnect: "Lees hoe je een verbinding verbreekt"
   },
 
   attributes_policy_panel: {
     title: "Attributen",
-    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: als er attributen missen, zullen er extra stappen moeten worden ondernomen om een werkende connectie te kunnen creëren.",
+    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn, anders zijn er extra stappen nodig om de connectie te kunnen activeren.",
     attribute: "Attribuut",
     your_value: "Jouw waarde",
     hint: "Dit is een voorbeeld waarde van dit attribuut uit je eigen account, zodat je een idee krijgt wat voor waarde dit zal zijn. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling.",
@@ -173,7 +174,7 @@ I18n.translations.nl = {
   },
 
   contact: {
-    email: "Service support email"
+    email: "Service support e-mail"
   },
 
   search_user: {

@@ -98,7 +98,7 @@ App.Pages.AppOverview = React.createClass({
 
   renderConnectButton: function(app) {
     if (!app.connected) {
-      return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect")}</a>;
+      return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect_button")}</a>;
     }
   },
 

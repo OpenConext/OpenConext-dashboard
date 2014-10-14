@@ -71,7 +71,8 @@ I18n.translations.en = {
       connected: "Connection",
       search_hint: "Filter by name",
       search: "Search",
-      connect: "Connect"
+      connect: "",
+      connect_button: "Connect"
     },
     detail: {
       overview: "Overview",
