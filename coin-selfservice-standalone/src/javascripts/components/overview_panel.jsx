@@ -15,7 +15,7 @@ App.Components.OverviewPanel = React.createClass({
 
         <div className="mod-description">
           <h2>{I18n.t("overview_panel.description")}</h2>
-          <p>{this.props.app.enduserDescription}</p>
+          <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription}} />
         </div>
 
         <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls} />
