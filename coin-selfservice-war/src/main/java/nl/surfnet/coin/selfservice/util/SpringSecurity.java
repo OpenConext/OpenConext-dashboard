@@ -81,7 +81,7 @@ public class SpringSecurity {
 
     if (idp == null) {
       currentUser.setAuthorities(new HashSet<>(Collections.singleton(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER))));
-    } else {
+    } else if (!role.isEmpty()) {
       currentUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.valueOf(role)));
     }
 
