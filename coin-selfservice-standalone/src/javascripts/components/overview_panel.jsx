@@ -10,11 +10,11 @@ App.Components.OverviewPanel = React.createClass({
 
         <div className="mod-connection">
           {this.renderConnection()}
-          {this.renderLicense()}
+          <App.Components.LicenseInfo app={this.props.app} onSwitchPanel={this.props.onSwitchPanel} />
         </div>
 
-        <div className="mod-description">
-          <p dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.wiki_info_html", { link: "http://www.google.com"}) }} />
+        <div className="mod-title">
+          <h3 dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.wiki_info_html", { link: "http://www.google.com"}) }} />
         </div>
 
         <div className="mod-description">
@@ -38,6 +38,7 @@ App.Components.OverviewPanel = React.createClass({
 
     return (
       <div className="technical yes split">
+        <i className="fa fa-chain" />
         <h2>{I18n.t("overview_panel.has_connection")}</h2>
         {disconnect}
       </div>
@@ -51,43 +52,10 @@ App.Components.OverviewPanel = React.createClass({
 
     return (
       <div className="technical unknown split">
+        <i className="fa fa-chain-broken" />
         <h2>{I18n.t("overview_panel.no_connection")}</h2>
         {connect}
       </div>
     );
-  },
-
-  renderLicense: function() {
-    if (this.props.app.hasCrmLink) {
-      return this.props.app.license ? this.renderHasLicense() : this.renderNoLicense();
-    } else {
-      return this.renderUnknownLicense();
-    }
-  },
-
-  renderHasLicense: function() {
-    return (
-      <div className="license yes split">
-        <h2>{I18n.t("overview_panel.has_license")}</h2>
-      </div>
-    );
-  },
-
-  renderNoLicense: function() {
-    return (
-      <div className="license no split">
-        <h2>{I18n.t("overview_panel.no_license")}</h2>
-        <p><a href="#" onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("overview_panel.license_info")}</a></p>
-      </div>
-    );
-  },
-
-  renderUnknownLicense: function() {
-    return (
-      <div className="license unknown split">
-        <h2>{I18n.t("overview_panel.unknown_license")}</h2>
-        <p><a href="#" onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("overview_panel.license_unknown_info")}</a></p>
-      </div>
-    );
-  },
+  }
 });

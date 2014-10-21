@@ -8,12 +8,6 @@ App.Components.AppMeta = React.createClass({
           {this.renderLogo()}
 
           <div className="contact">
-            <address>
-              <a href="#" onClick={this.props.onSwitchPanel("application_usage")}>{I18n.t("app_meta.app_usage")}</a>
-            </address>
-          </div>
-
-          <div className="contact">
             <h2>{I18n.t("app_meta.question")}</h2>
             <address>
               <a href={"mailto:support@surfconext.nl?subject=Question about " + this.props.app.name}>support@surfconext.nl</a>

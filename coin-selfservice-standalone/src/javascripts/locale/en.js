@@ -79,7 +79,8 @@ I18n.translations.en = {
       license_info: "License info",
       attribute_policy: "Attribute policy",
       how_to_connect: "Activate connection",
-      how_to_disconnect: "Deactivate connection"
+      how_to_disconnect: "Deactivate connection",
+      application_usage: "Service usage"
     }
   },
 
@@ -88,18 +89,40 @@ I18n.translations.en = {
     eula: "Terms & Conditions",
     website: "Website",
     support: "Support pages",
-    login: "Login page",
-    app_usage: "Service usage"
+    login: "Login page"
+  },
+
+  license_info_panel: {
+    title: "Licentie informatie",
+    has_license_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
+    no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    unknown_license: "Het is onbekend welke licentie voor deze dienst geldt.",
+    no_license_description_html: "" +
+      "<ul>" +
+      "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> of</li>" +
+      "   <li>In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten. Geef dit alsjeblieft aan bij het activeren van de connectie.</li>" +
+      "</ul>",
+    unknown_license_description_html: "Er zijn verschillende opties:" +
+      "<ul>" +
+      "   <li>SURF of een andere instelling biedt deze dienst gratis aan.</li>" +
+      "   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>" +
+      "   <li>De service is nog niet opgevoerd in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
+      "</ul>" +
+      "<p>SURFnet zal waar nodig contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
+  },
+
+  license_info: {
+    unknown_license: "No license information available",
+    has_license: "License available",
+    no_license: "No license available",
+    license_info: "Read how to obtain a license",
+    license_unknown_info: "Read more",
+    valid: "License is valid untill {{date}}"
   },
 
   overview_panel: {
     wiki_info_html: "For this is service extra information is available in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
     description: "Description",
-    unknown_license: "License information unknown",
-    has_license: "License available",
-    no_license: "No license",
-    license_info: "Read how to obtain a license",
-    license_unknown_info: "Read more",
     has_connection: "Has connection",
     no_connection: "No connection",
     how_to_connect: "Read how to connect",
@@ -119,8 +142,8 @@ I18n.translations.en = {
   },
 
   how_to_connect_panel: {
-    info_title: "How to connect",
-    info_sub_title: "You can establish a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you connect.",
+    info_title: "Activate connection",
+    info_sub_title: "You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.",
     connect_title: "Connect {{app}}",
     checklist: "General checklist",
     check: "Check the",
@@ -133,10 +156,10 @@ I18n.translations.en = {
       title: "Specific information",
       description: "some text"
     },
-    connect: "Connect service",
-    connect_hint: "(will take you to the form to establish the connection)",
+    connect: "Activate service",
+    connect_hint: "(will take you to the form to request activation)",
     cancel: "Cancel",
-    terms_title: "By requesting a connection you accept these terms",
+    terms_title: "By requesting a activation you accept these terms",
     comments_title: "Any additional comments?",
     comments_description: "Comments will be sent to SURFconext.",
     comments_placeholder: "Enter comments here...",

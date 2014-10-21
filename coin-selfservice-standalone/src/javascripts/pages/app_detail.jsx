@@ -45,6 +45,12 @@ App.Pages.AppDetail = React.createClass({
               {Object.keys(this.panelMap).map(this.renderNavItem)}
             </ul>
           </div>
+          <br />
+          <div className="mod-app-nav">
+            <ul>
+              {this.renderNavItem("application_usage", true)}
+            </ul>
+          </div>
         </div>
 
         <App.Components.AppMeta app={this.props.app} onSwitchPanel={this.handleSwitchPanel} />
@@ -55,9 +61,9 @@ App.Pages.AppDetail = React.createClass({
     );
   },
 
-  renderNavItem: function(panelKey) {
-    // do not include app usage in the left menu
-    if (panelKey == "application_usage") {
+  renderNavItem: function(panelKey, force) {
+    // do not include app usage in the top left menu
+    if (panelKey == "application_usage" && force != true) {
       return;
     }
 

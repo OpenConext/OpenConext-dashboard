@@ -62,16 +62,6 @@ App.Components.HowToConnectPanel = React.createClass({
                   </a>
                 </li>
               </ul>
-              <h2>{I18n.t("how_to_connect_panel.specific.title")}</h2>
-              <p>{I18n.t("how_to_connect_panel.specific.description")}</p>
-              <ul>
-                <li>
-                  {I18n.t("how_to_connect_panel.read")}&nbsp;
-                  <a href={I18n.t("how_to_connect_panel.wiki_link")} target="_blank">
-                    {I18n.t("how_to_connect_panel.wiki")}
-                  </a>
-                </li>
-              </ul>
             </div>
           </div>
           <p className="cta">

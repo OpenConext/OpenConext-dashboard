@@ -79,7 +79,8 @@ I18n.translations.nl = {
       license_info: "Licentie informatie",
       attribute_policy: "Attribuut beleid",
       how_to_connect: "Connectie activeren",
-      how_to_disconnect: "Connectie deactiveren"
+      how_to_disconnect: "Connectie deactiveren",
+      application_usage: "Service gebruik"
     }
   },
 
@@ -88,18 +89,40 @@ I18n.translations.nl = {
     eula: "Algemene voorwaarden",
     website: "Website",
     support: "Support pagina",
-    login: "Login pagina",
-    app_usage: "Service gebruik"
+    login: "Login pagina"
   },
 
-  overview_panel: {
-    wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
-    description: "Beschrijving",
+  license_info_panel: {
+    title: "Licentie informatie",
+    has_license_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
+    no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    unknown_license: "Het is onbekend welke licentie voor deze dienst geldt.",
+    no_license_description_html: "" +
+      "<ul>" +
+      "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> of</li>" +
+      "   <li>In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten. Geef dit alsjeblieft aan bij het activeren van de connectie.</li>" +
+      "</ul>",
+    unknown_license_description_html: "Er zijn verschillende opties:" +
+      "<ul>" +
+      "   <li>SURF of een andere instelling biedt deze dienst gratis aan.</li>" +
+      "   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>" +
+      "   <li>De service is nog niet opgevoerd in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
+      "</ul>" +
+      "<p>SURFnet zal waar nodig contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
+  },
+
+  license_info: {
     unknown_license: "Geen licentieinformatie beschikbaar",
     has_license: "Licentie beschikbaar",
     no_license: "Licentie is niet aanwezig",
     license_info: "Lees hoe je een licentie kunt verkrijgen",
     license_unknown_info: "Lees meer",
+    valid: "Licentie is geldig t/m {{date}}"
+  },
+
+  overview_panel: {
+    wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+    description: "Beschrijving",
     has_connection: "Connectie actief",
     no_connection: "Connectie niet actief",
     how_to_connect: "Lees hoe je een connectie maakt",
@@ -119,26 +142,26 @@ I18n.translations.nl = {
   },
 
   how_to_connect_panel: {
-    info_title: "Hoe verbinding maken",
-    info_sub_title: "Je kunt een verbinding maken vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je verbinding maakt.",
-    connect_title: "Verbind {{app}}",
+    info_title: "Verbinding activeren",
+    info_sub_title: "Je kunt een verbinding activeren vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
+    connect_title: "Activeer {{app}}",
     checklist: "Algemene checklist",
-    check: "Controleer de",
+    check: "Controleer",
     read: "Lees de",
-    license_info: "licentie informatie",
-    attributes_policy: "attribuut beleid",
+    license_info: "de licentie informatie",
+    attributes_policy: "het attribuut beleid",
     wiki: "wiki voor deze service",
     wiki_link: "http://www.google.com/",
     specific: {
       title: "Specifieke informatie",
       description: "bla bla bla"
     },
-    connect: "Verbind application",
-    connect_hint: "(opent het formulier om een verbinding te maken)",
+    connect: "Activeer application",
+    connect_hint: "(opent het formulier om een activatie aan te vragen)",
     cancel: "Annuleren",
     terms_title: "Door het maken van een verbinding ga je akkoord met de volgende voorwaarden",
     comments_title: "Eventuele opmerkingen?",
-    comments_description: "Opmerkingen worden verstuurd naar SURFconect.",
+    comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
     comments_placeholder: "Voer hier je opmerkingen in...",
     provide_attributes: {
       before: "Het is de verantwoordelijkheid van mijn instelling om de vereiste ",
@@ -160,8 +183,8 @@ I18n.translations.nl = {
     done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>.",
     disconnect_title: "Verbreek verbinding met {{app}}",
     accept_disconnect: "Ja, ik ga akkoord dat {{app}} niet meer beschikbaar zal zijn voor mijn organisatie",
-    disconnect: "Verbreek verbinding",
-    done_disconnect_title: "Verzoek om verbinding te verbreken is aangevraagd!",
+    disconnect: "Verbinding deactiveren",
+    done_disconnect_title: "Verzoek om verbinding te deactiveren is aangevraagd!",
     done_disconnect_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
   },
 
