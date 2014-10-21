@@ -20,7 +20,7 @@ I18n.translations.nl = {
   },
 
   header: {
-    title: "SURFconext Dashboard",
+    title: "Dashboard",
     welcome: "Welkom,",
     links: {
       help_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Dashboard+van+SURFconext+%28NL%29\" target=\"_blank\">Help</a>",

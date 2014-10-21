@@ -1,16 +1,20 @@
 .mod-header
   +pie-clearfix
-  padding: 20px 30px
+  padding: 25px 30px 10px
   background: #fff
   border-bottom: 2px solid $blue
 
   // Main app title
   .title
+    background: url("/images/logo@2x.png") no-repeat left center
+    background-size: 161px 50px
+    height: 50px
     float: left
     @extend %h2
 
     a
       color: $dark-grey
+      padding-left: 170px
 
       &:hover
         color: $blue
