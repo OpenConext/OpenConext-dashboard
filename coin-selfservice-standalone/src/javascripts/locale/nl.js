@@ -77,9 +77,9 @@ I18n.translations.nl = {
     detail: {
       overview: "Overzicht",
       license_info: "Licentie informatie",
-      application_usage: "Service gebruik",
       attribute_policy: "Attribuut beleid",
-      how_to_connect: "Hoe aan te sluiten"
+      how_to_connect: "Connectie activeren",
+      how_to_disconnect: "Connectie deactiveren"
     }
   },
 
@@ -88,10 +88,12 @@ I18n.translations.nl = {
     eula: "Algemene voorwaarden",
     website: "Website",
     support: "Support pagina",
-    login: "Login pagina"
+    login: "Login pagina",
+    app_usage: "Service gebruik"
   },
 
   overview_panel: {
+    wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
     description: "Beschrijving",
     unknown_license: "Geen licentieinformatie beschikbaar",
     has_license: "Licentie beschikbaar",
@@ -136,7 +138,7 @@ I18n.translations.nl = {
     cancel: "Annuleren",
     terms_title: "Door het maken van een verbinding ga je akkoord met de volgende voorwaarden",
     comments_title: "Eventuele opmerkingen?",
-    comments_description: "Opmerkingen worden verstuurd naar SURFconect en de aanbieder van de service.",
+    comments_description: "Opmerkingen worden verstuurd naar SURFconect.",
     comments_placeholder: "Voer hier je opmerkingen in...",
     provide_attributes: {
       before: "Het is de verantwoordelijkheid van mijn instelling om de vereiste ",

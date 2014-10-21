@@ -47,7 +47,7 @@ App.Pages.AppDetail = React.createClass({
           </div>
         </div>
 
-        <App.Components.AppMeta app={this.props.app} />
+        <App.Components.AppMeta app={this.props.app} onSwitchPanel={this.handleSwitchPanel} />
 
         {this.renderActivePanel()}
 
@@ -56,8 +56,23 @@ App.Pages.AppDetail = React.createClass({
   },
 
   renderNavItem: function(panelKey) {
-    if (panelKey == "how_to_connect" && !App.currentUser.dashboardAdmin) {
+    // do not include app usage in the left menu
+    if (panelKey == "application_usage") {
       return;
+    }
+
+    if (panelKey == "how_to_connect") {
+      if (!App.currentUser.dashboardAdmin) {
+        return;
+      }
+
+      if (this.props.app.connected) {
+        key = "how_to_disconnect";
+      } else {
+        key = "how_to_connect";
+      }
+    } else {
+      key = panelKey;
     }
 
     var panel = this.panelMap[panelKey];
@@ -65,7 +80,7 @@ App.Pages.AppDetail = React.createClass({
       <li key={panelKey}>
         <a href="#" onClick={this.handleSwitchPanel(panelKey)} className={panelKey == this.state.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
-          {I18n.t("apps.detail." + panelKey)}
+          {I18n.t("apps.detail." + key)}
         </a>
       </li>
     );

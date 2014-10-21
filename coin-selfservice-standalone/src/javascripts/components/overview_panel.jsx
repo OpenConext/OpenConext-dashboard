@@ -14,6 +14,10 @@ App.Components.OverviewPanel = React.createClass({
         </div>
 
         <div className="mod-description">
+          <p dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.wiki_info_html", { link: "http://www.google.com"}) }} />
+        </div>
+
+        <div className="mod-description">
           <h2>{I18n.t("overview_panel.description")}</h2>
           <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription}} />
         </div>

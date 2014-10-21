@@ -77,9 +77,9 @@ I18n.translations.en = {
     detail: {
       overview: "Overview",
       license_info: "License info",
-      application_usage: "Service usage",
       attribute_policy: "Attribute policy",
-      how_to_connect: "How to connect"
+      how_to_connect: "Activate connection",
+      how_to_disconnect: "Deactivate connection"
     }
   },
 
@@ -88,10 +88,12 @@ I18n.translations.en = {
     eula: "Terms & Conditions",
     website: "Website",
     support: "Support pages",
-    login: "Login page"
+    login: "Login page",
+    app_usage: "Service usage"
   },
 
   overview_panel: {
+    wiki_info_html: "For this is service extra information is available in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
     description: "Description",
     unknown_license: "License information unknown",
     has_license: "License available",
@@ -136,7 +138,7 @@ I18n.translations.en = {
     cancel: "Cancel",
     terms_title: "By requesting a connection you accept these terms",
     comments_title: "Any additional comments?",
-    comments_description: "Comments will be sent to SURFconext and the service provider.",
+    comments_description: "Comments will be sent to SURFconext.",
     comments_placeholder: "Enter comments here...",
     provide_attributes: {
       before: "It is the responsibility of my institution to provide the required ",

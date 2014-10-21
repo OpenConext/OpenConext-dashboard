@@ -8,6 +8,12 @@ App.Components.AppMeta = React.createClass({
           {this.renderLogo()}
 
           <div className="contact">
+            <address>
+              <a href="#" onClick={this.props.onSwitchPanel("application_usage")}>{I18n.t("app_meta.app_usage")}</a>
+            </address>
+          </div>
+
+          <div className="contact">
             <h2>{I18n.t("app_meta.question")}</h2>
             <address>
               <a href={"mailto:support@surfconext.nl?subject=Question about " + this.props.app.name}>support@surfconext.nl</a>
@@ -24,12 +30,15 @@ App.Components.AppMeta = React.createClass({
     );
   },
 
-  renderUrl: function(key, link) {
+  renderUrl: function(key, link, target) {
     if (link) {
+      if (!target) {
+        target = "_blank";
+      }
       return (
         <div className="contact">
           <address>
-            <a href={link} target="_blank">{I18n.t("app_meta." + key)}</a>
+            <a href={link} target={target}>{I18n.t("app_meta." + key)}</a>
           </address>
         </div>
       );
