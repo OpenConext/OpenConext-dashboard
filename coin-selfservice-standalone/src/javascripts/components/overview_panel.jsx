@@ -19,12 +19,20 @@ App.Components.OverviewPanel = React.createClass({
 
         <div className="mod-description">
           <h2>{I18n.t("overview_panel.description")}</h2>
-          <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription}} />
+          {this.renderDescription()}
         </div>
 
         <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls} />
       </div>
     );
+  },
+
+  renderDescription: function() {
+    if (this.props.app.enduserDescription && this.props.app.enduserDescription.length > 0) {
+      return <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription}} />;
+    } else {
+      return <p>{I18n.t("overview_panel.no_description")}</p>;
+    }
   },
 
   renderConnection: function() {

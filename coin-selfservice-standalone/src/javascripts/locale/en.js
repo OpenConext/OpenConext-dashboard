@@ -50,15 +50,15 @@ I18n.translations.en = {
     },
     static: {
       connection: {
-        name: "Connection",
-        has_connection: "Has connection",
-        no_connection: "No connection"
+        name: "Connection active",
+        has_connection: "Yes",
+        no_connection: "No"
       },
       license: {
         name: "License",
-        has_license: "Has license",
-        no_license: "No license",
-        unknown_license: "License unknown"
+        has_license: "Yes",
+        no_license: "No",
+        unknown_license: "Unknown"
       }
     }
   },
@@ -76,8 +76,8 @@ I18n.translations.en = {
     },
     detail: {
       overview: "Overview",
-      license_info: "License info",
-      attribute_policy: "Attribute policy",
+      license_info: "License",
+      attribute_policy: "Attributes",
       how_to_connect: "Activate connection",
       how_to_disconnect: "Deactivate connection",
       application_usage: "Service usage"
@@ -93,22 +93,22 @@ I18n.translations.en = {
   },
 
   license_info_panel: {
-    title: "Licentie informatie",
-    has_license_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
-    no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
-    unknown_license: "Het is onbekend welke licentie voor deze dienst geldt.",
+    title: "License information",
+    has_license_html: "There is a valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    no_license_html: "Your institution has no valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    unknown_license: "It is unknown whether a license is required or not.",
     no_license_description_html: "" +
       "<ul>" +
-      "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> of</li>" +
-      "   <li>In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten. Geef dit alsjeblieft aan bij het activeren van de connectie.</li>" +
-      "</ul>",
-    unknown_license_description_html: "Er zijn verschillende opties:" +
-      "<ul>" +
-      "   <li>SURF of een andere instelling biedt deze dienst gratis aan.</li>" +
-      "   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>" +
-      "   <li>De service is nog niet opgevoerd in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
+      "   <li>Your institution can obtain a license from <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
       "</ul>" +
-      "<p>SURFnet zal waar nodig contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
+      "<br />In some cases this license needs to be obtained directly from the service supplier.",
+    unknown_license_description_html: "There are multiple reasons:" +
+      "<ul>" +
+      "   <li>SURF or another institution is offering this service for free.</li>" +
+      "   <li>The license needs to be obtained directly from the service supplier.</li>" +
+      "   <li>The license hasn't been added to <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>'s administration.</li>" +
+      "</ul>" +
+      "<p>Before activating the connection, SURFnet will, if necessary, contact the service supplier or <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</p>"
   },
 
   license_info: {
@@ -122,11 +122,12 @@ I18n.translations.en = {
 
   overview_panel: {
     wiki_info_html: "For this is service extra information is available in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+    no_description: "The description of this service is not available.",
     description: "Description",
-    has_connection: "Has connection",
-    no_connection: "No connection",
-    how_to_connect: "Read how to connect",
-    disconnect: "Read how to disconnect"
+    has_connection: "Active connection",
+    no_connection: "Inactive connection",
+    how_to_connect: "Read how to activate",
+    disconnect: "Read how to deactivate the connection"
   },
 
   attributes_policy_panel: {
@@ -145,26 +146,21 @@ I18n.translations.en = {
     info_title: "Activate connection",
     info_sub_title: "You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.",
     connect_title: "Connect {{app}}",
-    checklist: "General checklist",
+    checklist: "Finish this checklist before activating the connection:",
     check: "Check the",
     read: "Read the",
     license_info: "license information",
     attributes_policy: "attribute policy",
     wiki: "wiki for this service",
     wiki_link: "http://www.google.com/",
-    specific: {
-      title: "Specific information",
-      description: "some text"
-    },
     connect: "Activate service",
-    connect_hint: "(will take you to the form to request activation)",
     cancel: "Cancel",
     terms_title: "By requesting a activation you accept these terms",
     comments_title: "Any additional comments?",
     comments_description: "Comments will be sent to SURFconext.",
     comments_placeholder: "Enter comments here...",
     provide_attributes: {
-      before: "It is the responsibility of my institution to provide the required ",
+      before: "It is the responsibility of my institution to provide the correct ",
       after: "."
     },
     forward_permission: {
@@ -181,11 +177,11 @@ I18n.translations.en = {
     back_to_apps: "Back to all services",
     done_title: "Connection made!",
     done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>.",
-    disconnect_title: "Disconnect {{app}}",
+    disconnect_title: "Deactivate connection with {{app}}",
     accept_disconnect: "Yes, I agree that {{app}} will no longer be available to my organization",
-    disconnect: "Disconnect service",
-    done_disconnect_title: "Disconnect requested!",
-    done_disconnect_subtitle_html: "You will be contacted about the further steps needed to finalize this disconnect. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+    disconnect: "Deactivate service",
+    done_disconnect_title: "Deactivation requested!",
+    done_disconnect_subtitle_html: "You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
   },
 
   application_usage_panel: {
@@ -243,13 +239,13 @@ I18n.translations.en = {
     license: "License",
     connection: "Connection",
     messages: {
-      fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection. Please contact the license contactperson of your institute."
+      fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection."
     }
   },
 
   my_idp: {
     title: "My institute",
-    sub_title_html: "The following roles have been assigned: (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">Roles info</a>)",
+    sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">more info</a>):",
     role: "Role",
     users: "User(s)",
     SURFconextverantwoordelijke: "SURFconext owner",
@@ -272,8 +268,8 @@ I18n.translations.en = {
       QUESTION: "Question"
     },
     statusses: {
-      OPEN: "The request is pending",
-      CLOSED: "The request is closed"
+      OPEN: "Pending",
+      CLOSED: "Closed"
     }
   },
 

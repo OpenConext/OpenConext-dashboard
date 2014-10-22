@@ -76,8 +76,8 @@ I18n.translations.nl = {
     },
     detail: {
       overview: "Overzicht",
-      license_info: "Licentie informatie",
-      attribute_policy: "Attribuut beleid",
+      license_info: "Licentie",
+      attribute_policy: "Attributen",
       how_to_connect: "Connectie activeren",
       how_to_disconnect: "Connectie deactiveren",
       application_usage: "Service gebruik"
@@ -96,19 +96,19 @@ I18n.translations.nl = {
     title: "Licentie informatie",
     has_license_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
     no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
-    unknown_license: "Het is onbekend welke licentie voor deze dienst geldt.",
+    unknown_license: "Het is onbekend welke licentie voor deze service geldt.",
     no_license_description_html: "" +
       "<ul>" +
-      "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> of</li>" +
-      "   <li>In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten. Geef dit alsjeblieft aan bij het activeren van de connectie.</li>" +
-      "</ul>",
+      "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
+      "</ul>" +
+      "<br />In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten.",
     unknown_license_description_html: "Er zijn verschillende opties:" +
       "<ul>" +
-      "   <li>SURF of een andere instelling biedt deze dienst gratis aan.</li>" +
+      "   <li>SURF of een andere instelling biedt deze service gratis aan.</li>" +
       "   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>" +
-      "   <li>De service is nog niet opgevoerd in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
+      "   <li>De licentie is nog niet bijgewerkt in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
       "</ul>" +
-      "<p>SURFnet zal waar nodig contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
+      "<p>SURFnet zal, indien nodig, contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
   },
 
   license_info: {
@@ -122,16 +122,17 @@ I18n.translations.nl = {
 
   overview_panel: {
     wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+    no_description: "Er is geen beschijving voor deze service.",
     description: "Beschrijving",
     has_connection: "Connectie actief",
     no_connection: "Connectie niet actief",
-    how_to_connect: "Lees hoe je een connectie maakt",
-    disconnect: "Lees hoe je een verbinding verbreekt"
+    how_to_connect: "Lees hoe je een connectie activeert",
+    disconnect: "Lees hoe je een verbinding deactiveert"
   },
 
   attributes_policy_panel: {
     title: "Attributen",
-    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn, anders zijn er extra stappen nodig om de connectie te kunnen activeren.",
+    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn. Als dit niet het geval is, zijn er extra stappen nodig om de connectie te activeren.",
     attribute: "Attribuut",
     your_value: "Jouw waarde",
     hint: "Dit is een voorbeeld waarde van dit attribuut uit je eigen account, zodat je een idee krijgt wat voor waarde dit zal zijn. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling.",
@@ -145,26 +146,21 @@ I18n.translations.nl = {
     info_title: "Verbinding activeren",
     info_sub_title: "Je kunt een verbinding activeren vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
     connect_title: "Activeer {{app}}",
-    checklist: "Algemene checklist",
+    checklist: "Loop deze checklist na voordat je een connectie activeert:",
     check: "Controleer",
     read: "Lees de",
-    license_info: "de licentie informatie",
-    attributes_policy: "het attribuut beleid",
+    license_info: "de licentieinformatie",
+    attributes_policy: "het attribuutbeleid",
     wiki: "wiki voor deze service",
     wiki_link: "http://www.google.com/",
-    specific: {
-      title: "Specifieke informatie",
-      description: "bla bla bla"
-    },
-    connect: "Activeer application",
-    connect_hint: "(opent het formulier om een activatie aan te vragen)",
+    connect: "Activeer connectie",
     cancel: "Annuleren",
-    terms_title: "Door het maken van een verbinding ga je akkoord met de volgende voorwaarden",
+    terms_title: "Met het activeren van de connectie ga je akkoord met de volgende voorwaarden:",
     comments_title: "Eventuele opmerkingen?",
     comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
     comments_placeholder: "Voer hier je opmerkingen in...",
     provide_attributes: {
-      before: "Het is de verantwoordelijkheid van mijn instelling om de vereiste ",
+      before: "Het is de verantwoordelijkheid van mijn instelling om de juiste ",
       after: " aan te leveren."
     },
     forward_permission: {
@@ -172,16 +168,16 @@ I18n.translations.nl = {
       after: " door te sturen naar {{app}}."
     },
     obtain_license: {
-      before: "Het is de verantwoordelijkheid van mijn instelling om een ",
+      before: "Het is de verantwoordelijkheid van mijn instelling om eventueel een ",
       after: " aan te schaffen voor het gebruik van {{app}}."
     },
     attributes: "attributen",
     license: "licentie",
-    accept: "Bij deze bevestig ik dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling, accepteer.",
+    accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
     back_to_apps: "Terug naar alle services",
     done_title: "Verbinding gemaakt!",
     done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>.",
-    disconnect_title: "Verbreek verbinding met {{app}}",
+    disconnect_title: "Deactiveer connectie met {{app}}",
     accept_disconnect: "Ja, ik ga akkoord dat {{app}} niet meer beschikbaar zal zijn voor mijn organisatie",
     disconnect: "Verbinding deactiveren",
     done_disconnect_title: "Verzoek om verbinding te deactiveren is aangevraagd!",
@@ -243,19 +239,19 @@ I18n.translations.nl = {
     license: "Licentie",
     connection: "Connectie",
     messages: {
-      fcp: "Onderstaande diensten zijn mogelijkerwijs nog niet beschikbaar, omdat de licentie of de technische connectie nog niet aanwezig is. Neem contact op met de licentie contactpersoon van uw instelling."
+      fcp: "Onderstaande diensten zijn mogelijkerwijs nog niet beschikbaar, omdat de licentie of de technische connectie nog niet aanwezig is."
     }
   },
 
   my_idp: {
     title: "Mijn instelling",
-    sub_title_html: "De volgende rollen zijn toegekend: (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">Uitleg rollen</a>)",
+    sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">toelichting</a>):",
     role: "Rol",
     users: "Gebruiker(s)",
     SURFconextverantwoordelijke: "SURFconextverantwoordelijke",
     SURFconextbeheerder: "SURFconextbeheerder",
     "Dashboard supergebruiker": "Dashboard supergebruiker",
-    services_title: "Deze Services worden aangeboden door uw instelling:",
+    services_title: "Deze services worden aangeboden door jouw instelling:",
     service_name: "Naam service"
   },
 
@@ -272,8 +268,8 @@ I18n.translations.nl = {
       QUESTION: "Vraag"
     },
     statusses: {
-      OPEN: "Het verzoek staat uit",
-      CLOSED: "Het verzoek is gesloten"
+      OPEN: "In behandeling",
+      CLOSED: "Afgehandeld"
     }
   },
 
@@ -284,7 +280,7 @@ I18n.translations.nl = {
     attribute: "Attribuut",
     value: "Waarde",
     my_roles: "Mijn rollen",
-    my_roles_description: "De volgende rollen zijn toegekend:",
+    my_roles_description: "De volgende rollen zijn toegekend",
     role: "Rol",
     role_description: "Omschrijving",
     roles: {
