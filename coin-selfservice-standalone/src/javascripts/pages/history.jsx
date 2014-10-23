@@ -14,10 +14,10 @@ App.Pages.History = React.createClass({
             <thead>
               <tr>
                 {this.renderSortableHeader("percent_15", "requestDate")}
+                {this.renderSortableHeader("percent_15", "userName")}
                 {this.renderSortableHeader("percent_25", "type")}
                 {this.renderSortableHeader("percent_20", "jiraKey")}
                 {this.renderSortableHeader("percent_25", "status")}
-                {this.renderSortableHeader("percent_15", "userName")}
               </tr>
             </thead>
             <tbody>
@@ -33,10 +33,10 @@ App.Pages.History = React.createClass({
     return (
       <tr key={action.id}>
         <td>{new Date(action.requestDate).format("dd-MM-yyyy")}</td>
+        <td>{action.userName}</td>
         <td>{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
         <td>{action.jiraKey}</td>
         <td>{I18n.t("history.statusses." + action.status)}</td>
-        <td>{action.userName}</td>
       </tr>
     );
   },
