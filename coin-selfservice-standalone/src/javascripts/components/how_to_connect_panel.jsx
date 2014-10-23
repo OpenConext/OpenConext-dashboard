@@ -54,12 +54,7 @@ App.Components.HowToConnectPanel = React.createClass({
                   </a>
                 </li>
 
-                <li>
-                  {I18n.t("how_to_connect_panel.read")}&nbsp;
-                  <a href={I18n.t("how_to_connect_panel.wiki_link")} target="_blank">
-                    {I18n.t("how_to_connect_panel.wiki")}
-                  </a>
-                </li>
+                {this.renderWikiUrl()}
               </ul>
             </div>
             <hr />
@@ -114,6 +109,19 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderWikiUrl: function() {
+    if (this.props.app.wikiUrl) {
+      return (
+        <li>
+          {I18n.t("how_to_connect_panel.read")}&nbsp;
+          <a href={this.props.app.wikiUrl} target="_blank">
+            {I18n.t("how_to_connect_panel.wiki")}
+          </a>
+        </li>
+      );
+    }
   },
 
   renderDoneStep: function() {

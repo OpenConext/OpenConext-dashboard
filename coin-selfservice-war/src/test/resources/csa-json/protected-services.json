@@ -11,6 +11,7 @@
         "detailLogoUrl": "https://static.surfconext.nl/media/idp/avans.png",
         "supportUrl": "https://support.url",
         "eulaUrl": "https://eula.url",
+        "wikiUrl": "https://wiki.url",
         "screenshotUrls": [
             "https://www.google.nl/images/srpr/logo4w.png",
             "https://www.google.nl/images/srpr/logo4w.png",
@@ -378,6 +379,7 @@
         "serviceUrl": "https://service.url",
         "detailLogoUrl": "https://static.surfconext.nl/media/idp/windesheim.png",
         "supportUrl": "https://support.url",
+        "wikiUrl": "https://wiki.url/",
         "eulaUrl": "https://eula.url",
         "screenshotUrls": [
             "https://www.google.nl/images/srpr/logo4w.png",

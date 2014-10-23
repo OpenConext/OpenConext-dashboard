@@ -13,9 +13,7 @@ App.Components.OverviewPanel = React.createClass({
           <App.Components.LicenseInfo app={this.props.app} onSwitchPanel={this.props.onSwitchPanel} />
         </div>
 
-        <div className="mod-title">
-          <h3 dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.wiki_info_html", { link: "http://www.google.com"}) }} />
-        </div>
+        {this.renderWikiUrl()}
 
         <div className="mod-description">
           <h2>{I18n.t("overview_panel.description")}</h2>
@@ -25,6 +23,16 @@ App.Components.OverviewPanel = React.createClass({
         <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls} />
       </div>
     );
+  },
+
+  renderWikiUrl: function() {
+    if (this.props.app.wikiUrl) {
+      return (
+        <div className="mod-title">
+          <h3 dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.wiki_info_html", { link: this.props.app.wikiUrl }) }} />
+        </div>
+      );
+    }
   },
 
   renderDescription: function() {

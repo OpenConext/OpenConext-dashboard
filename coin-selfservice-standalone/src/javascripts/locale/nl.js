@@ -152,7 +152,6 @@ I18n.translations.nl = {
     license_info: "de licentieinformatie",
     attributes_policy: "het attribuutbeleid",
     wiki: "wiki voor deze service",
-    wiki_link: "http://www.google.com/",
     connect: "Activeer connectie",
     cancel: "Annuleren",
     terms_title: "Met het activeren van de connectie ga je akkoord met de volgende voorwaarden:",

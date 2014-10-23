@@ -121,7 +121,7 @@ I18n.translations.en = {
   },
 
   overview_panel: {
-    wiki_info_html: "For this is service extra information is available in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+    wiki_info_html: "For this service is extra information available in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
     no_description: "The description of this service is not available.",
     description: "Description",
     has_connection: "Active connection",
@@ -152,7 +152,6 @@ I18n.translations.en = {
     license_info: "license information",
     attributes_policy: "attribute policy",
     wiki: "wiki for this service",
-    wiki_link: "http://www.google.com/",
     connect: "Activate service",
     cancel: "Cancel",
     terms_title: "By requesting a activation you accept these terms",
