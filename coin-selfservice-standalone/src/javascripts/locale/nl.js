@@ -216,6 +216,11 @@ I18n.translations.nl = {
     legend: "Legenda"
   },
 
+  server_error: {
+    title: "Er is iets misgegaan tijdens het openen van de pagina.",
+    description_html: "Probeer het later nog eens of neem contract op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
+  },
+
   not_found: {
     title: "Deze pagina kon niet worden gevonden.",
     description_html: "Controleer of het adres correct gespeld is of ga terug naar de <a href=\"/\">homepage</a>."

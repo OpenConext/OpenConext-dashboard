@@ -112,6 +112,7 @@ var App = {
         App.actionNotFound();
         break;
       default:
+        this.render(App.Pages.ServerError());
         console.error("Ajax request failed");
     }
   },

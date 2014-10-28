@@ -221,6 +221,11 @@ I18n.translations.en = {
     description_html: "Please check the spelling of the URL or go to the <a href=\"/\">homepage</a>."
   },
 
+  server_error: {
+    title: "Something went wrong when opening this page.",
+    description_html: "Please try again later or contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
+  },
+
   logout: {
     title: "Logout completed successfully.",
     description_html: "You <strong>MUST</strong> close your browser to complete the logout process."
