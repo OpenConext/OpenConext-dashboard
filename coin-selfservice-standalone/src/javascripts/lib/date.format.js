@@ -17,4 +17,4 @@ Date.prototype.format = function(format) //author: meizz
         RegExp.$1.length==1 ? o[k] :
         ("00"+ o[k]).substr((""+ o[k]).length));
   return format;
-}
+};
