@@ -59,13 +59,17 @@ App.Pages.AppOverview = React.createClass({
                 </tr>
               </thead>
               <tbody>
-              {this.sort(filteredApps).map(this.renderApp)}
+                {filteredApps.length > 0 ? this.sort(filteredApps).map(this.renderApp) : this.renderEmpty()}
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      );
+    );
+  },
+
+  renderEmpty: function() {
+    return <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>;
   },
 
   renderApp: function(app) {

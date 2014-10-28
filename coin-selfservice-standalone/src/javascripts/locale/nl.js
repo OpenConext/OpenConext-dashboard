@@ -72,7 +72,8 @@ I18n.translations.nl = {
       search_hint: "Zoeken",
       search: "Zoek",
       connect: "",
-      connect_button: "Activeren"
+      connect_button: "Activeren",
+      no_results: "Geen services beschikbaar"
     },
     detail: {
       overview: "Overzicht",

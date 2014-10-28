@@ -2,5 +2,10 @@
   @extend %box, %table
   tbody td
     cursor: pointer
+
+    &.empty
+      cursor: auto
+      font-style: italic
+
     a
       word-break: break-all

@@ -72,7 +72,8 @@ I18n.translations.en = {
       search_hint: "Filter by name",
       search: "Search",
       connect: "",
-      connect_button: "Connect"
+      connect_button: "Connect",
+      no_results: "No services available"
     },
     detail: {
       overview: "Overview",
