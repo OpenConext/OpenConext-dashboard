@@ -136,7 +136,7 @@ I18n.translations.nl = {
     subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn. Als dit niet het geval is, zijn er extra stappen nodig om de connectie te activeren.",
     attribute: "Attribuut",
     your_value: "Jouw waarde",
-    hint: "Dit is een voorbeeld waarde van dit attribuut uit je eigen account, zodat je een idee krijgt wat voor waarde dit zal zijn. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling.",
+    hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling.",
     arp: {
       noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen zullen worden uitgewisseld met {{name}}.",
       noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}."
@@ -176,12 +176,12 @@ I18n.translations.nl = {
     accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
     back_to_apps: "Terug naar alle services",
     done_title: "Verbinding gemaakt!",
-    done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>.",
+    done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
     disconnect_title: "Deactiveer connectie met {{app}}",
     accept_disconnect: "Ja, ik ga akkoord dat {{app}} niet meer beschikbaar zal zijn voor mijn organisatie",
     disconnect: "Verbinding deactiveren",
     done_disconnect_title: "Verzoek om verbinding te deactiveren is aangevraagd!",
-    done_disconnect_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+    done_disconnect_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
   },
 
   application_usage_panel: {
@@ -193,7 +193,7 @@ I18n.translations.nl = {
     last_three_months: "Afgelopen 3 maanden",
     last_year: "Afgelopen jaar",
     download: "Download",
-    error_html: "Op dit moment zijn de statistieken niet beschikbaar. <a href=\"mailto:support@surfconext.nl\">Neem contact op</a> met de support afdeling, voor meer informatie."
+    error_html: "Op dit moment zijn de statistieken niet beschikbaar. <a href=\"mailto:support@surfconext.nl\">Neem contact op</a> met de supportafdeling, voor meer informatie."
   },
 
   contact: {
@@ -234,7 +234,7 @@ I18n.translations.nl = {
   footer: {
     surfnet_html: "<a href=\"http://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28NL%29\" target=\"_blank\">Gebruikersvoorwaarden</a>",
-    contact_html: "<a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>"
+    contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
   },
 
   notifications: {
@@ -393,15 +393,15 @@ I18n.translations.nl = {
       },
       "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1": {
         name: "Accountstatus",
-        description: "Status van deze account in de SURFfederatie"
+        description: "Status van deze account in SURFconext"
       },
       "urn:oid:1.3.6.1.4.1.5923.1.1.1.1": {
         name: "Accountstatus",
-        description: "Status van deze account in de SURFfederatie"
+        description: "Status van deze account in SURFconext"
       },
       "nameid": {
         name: "Identifier",
-        description: "Status van deze account in de SURFfederatie"
+        description: "Status van deze account in SURFconext"
       },
       "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2": {
         name: "Naam Virtuele Organisatie",
@@ -409,11 +409,11 @@ I18n.translations.nl = {
       },
       "urn:oid:1.3.6.1.4.1.1076.20.40.40.1": {
         name: "Identifier",
-        description: "Status van deze account in de SURFfederatie"
+        description: "Status van deze account in SURFconext"
       },
       "urn:oid:1.3.6.1.4.1.5923.1.1.1.10": {
         name: "Identifier",
-        description: "Status van deze account in de SURFfederatie"
+        description: "Status van deze account in SURFconext"
       },
       "urn:nl.surfconext.licenseInfo": {
         name: "Licentieinformatie",
@@ -421,7 +421,7 @@ I18n.translations.nl = {
       },
       "urn:oid:1.3.6.1.4.1.5923.1.5.1.1": {
         name: "Lidmaatschap",
-        description: "Lidmaatschap van virtuele organisaties en de SURFfederatie"
+        description: "Lidmaatschap van virtuele organisaties en SURFconext"
       }
     }
   }

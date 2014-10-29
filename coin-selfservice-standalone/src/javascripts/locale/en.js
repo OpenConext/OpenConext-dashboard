@@ -103,13 +103,13 @@ I18n.translations.en = {
       "   <li>Your institution can obtain a license from <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
       "</ul>" +
       "<br />In some cases this license needs to be obtained directly from the service supplier.",
-    unknown_license_description_html: "There are multiple reasons:" +
+    unknown_license_description_html: "There could be multiple reasons:" +
       "<ul>" +
       "   <li>SURF or another institution is offering this service for free.</li>" +
       "   <li>The license needs to be obtained directly from the service supplier.</li>" +
-      "   <li>The license hasn't been added to <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>'s administration.</li>" +
+      "   <li>The license hasn't been added to <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>'s administration yet.</li>" +
       "</ul>" +
-      "<p>Before activating the connection, SURFnet will, if necessary, contact the service supplier or <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</p>"
+      "<p>If necessary, SURFnet will contact the service supplier or <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> before activating the connection.</p>"
   },
 
   license_info: {
@@ -122,7 +122,7 @@ I18n.translations.en = {
   },
 
   overview_panel: {
-    wiki_info_html: "For this service is extra information available in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+    wiki_info_html: "Extra information is available for this services in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
     no_description: "The description of this service is not available.",
     description: "Description",
     has_connection: "Active connection",
@@ -133,10 +133,10 @@ I18n.translations.en = {
 
   attributes_policy_panel: {
     title: "Attributes",
-    subtitle: "The following attributes will be exchanged with {{name}}. Please note: If keys are missing, additional steps might be needed to ensure a working connection.",
+    subtitle: "The following attributes will be exchanged with {{name}}. Please note: All attributes should contain the right value(s). If attributes are missing, additional steps might be needed to ensure a working connection.",
     attribute: "Attribute",
     your_value: "Your value",
-    hint: "We show you an example of this key for your own person account so you get an idea of that this actually is. This might not be representative for other accounts within your organization.",
+    hint: "The attributes and their values ​​for your personal account are displayed. This might not be representative for other accounts within your organization.",
     arp: {
       noarp: "There is no 'Attribute Release Policy' specified. All known attributes will be exchanged with {{name}}.",
       noattr: "No attributes will be exchanged with {{name}}."
@@ -155,7 +155,7 @@ I18n.translations.en = {
     wiki: "wiki for this service",
     connect: "Activate service",
     cancel: "Cancel",
-    terms_title: "By requesting a activation you accept these terms",
+    terms_title: "By requesting an activation you accept these terms",
     comments_title: "Any additional comments?",
     comments_description: "Comments will be sent to SURFconext.",
     comments_placeholder: "Enter comments here...",
@@ -176,12 +176,12 @@ I18n.translations.en = {
     accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",
     back_to_apps: "Back to all services",
     done_title: "Connection made!",
-    done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>.",
+    done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
     disconnect_title: "Deactivate connection with {{app}}",
     accept_disconnect: "Yes, I agree that {{app}} will no longer be available to my organization",
     disconnect: "Deactivate service",
     done_disconnect_title: "Deactivation requested!",
-    done_disconnect_subtitle_html: "You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>."
+    done_disconnect_subtitle_html: "You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
   },
 
   application_usage_panel: {
@@ -234,7 +234,7 @@ I18n.translations.en = {
   footer: {
     surfnet_html: "<a href=\"http://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",
-    contact_html: "<a href=\"mailto:help@surfconext.nl\">help@surfconext.nl</a>"
+    contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
   },
 
   notifications: {
@@ -291,11 +291,11 @@ I18n.translations.en = {
     roles: {
       ROLE_DASHBOARD_ADMIN: {
         name: "SURFconext owner",
-        description: "You are authorized on behalf of your institution to manage the various service connections"
+        description: "You are authorized on behalf of your institution to manage the service connections"
       },
       ROLE_DASHBOARD_VIEWER: {
         name: "SURFconext maintainer",
-        description: "You are authorized on behalf of your institution to view the information for the various service connections"
+        description: "You are authorized on behalf of your institution to view the information about the services"
       },
       ROLE_DASHBOARD_SUPER_USER: {
         name: "Dashboard Super User",
@@ -393,15 +393,15 @@ I18n.translations.en = {
       },
       "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1": {
         name: "Accountstatus",
-        description: "Status of this account in the SURFfederation"
+        description: "Status of this account in SURFconext"
       },
       "urn:oid:1.3.6.1.4.1.5923.1.1.1.1": {
         name: "Accountstatus",
-        description: "Status of this account in the SURFfederation"
+        description: "Status of this account in SURFconext"
       },
       "nameid": {
         name: "Identifier",
-        description: "Status of this account in the SURFfederation"
+        description: "Status of this account in SURFconext"
       },
       "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2": {
         name: "Virtual Organisation Name",
@@ -409,11 +409,11 @@ I18n.translations.en = {
       },
       "urn:oid:1.3.6.1.4.1.1076.20.40.40.1": {
         name: "Identifier",
-        description: "Status of this account in the SURFfederation"
+        description: "Status of this account in SURFconext"
       },
       "urn:oid:1.3.6.1.4.1.5923.1.1.1.10": {
         name: "Identifier",
-        description: "Status of this account in the SURFfederation"
+        description: "Status of this account in SURFconext"
       },
       "urn:nl.surfconext.licenseInfo": {
         name: "License information",
@@ -421,7 +421,7 @@ I18n.translations.en = {
       },
       "urn:oid:1.3.6.1.4.1.5923.1.5.1.1": {
         name: "Membership",
-        description: "Membership of Virtual Organizations and the SURFfederation."
+        description: "Membership of Virtual Organizations and SURFconext."
       }
     }
   }
