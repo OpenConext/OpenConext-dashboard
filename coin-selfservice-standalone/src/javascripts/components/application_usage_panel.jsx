@@ -16,9 +16,11 @@ App.Components.ApplicationUsagePanel = React.createClass({
         <div className="mod-usage">
           <div className="mod-usage">
             <div className="header">
-              <h2>{I18n.t("application_usage_panel.description")}</h2>
-              {this.renderDownloadButton()}
-              {this.renderPeriodSelect()}
+              {this.renderTitle()}
+              <div className="options">
+                {this.renderPeriodSelect()}
+                {this.renderDownloadButton()}
+              </div>
             </div>
             {this.renderChartContainer()}
           </div>

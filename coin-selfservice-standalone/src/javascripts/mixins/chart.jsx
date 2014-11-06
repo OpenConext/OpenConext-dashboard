@@ -1,8 +1,6 @@
 /** @jsx React.DOM */
 
 App.Mixins.Chart = {
-  chartHeight: 400,
-
   getInitialState: function() {
     return {
       period: "last_three_months",
@@ -16,12 +14,26 @@ App.Mixins.Chart = {
   },
 
   componentDidMount: function() {
-    $(window).on("resize", this.resizeGraph);
-    this.initChart();
+    this.chart = new SurfChart({
+      lang: I18n.locale,
+
+      chartElement: this.refs.chart.getDOMNode(),
+      periodElement: this.refs.period.getDOMNode(),
+      downloadElement: this.refs.download.getDOMNode(),
+      titleElement: this.refs.title.getDOMNode(),
+
+      onError: this.handleError
+    });
+
+    window.test = this.chart;
+  },
+
+  handleError: function() {
+    this.setState({error: true});
   },
 
   componentWillUnmount: function() {
-    $(window).off("resize", this.resizeGraph);
+    this.chart.destroy();
     this.chart = null;
   },
 
@@ -40,18 +52,19 @@ App.Mixins.Chart = {
 
   renderPeriodSelect: function() {
     return (
-      <select valueLink={this.linkState("period")}>
-        {this.renderOption("last_week")}
-        {this.renderOption("last_month")}
-        {this.renderOption("last_three_months")}
-        {this.renderOption("last_year")}
-      </select>
+      <div ref="period" />
     );
   },
 
   renderDownloadButton: function() {
     return (
-      <a href={this.getDownloadURL()} className="c-button" target="_blank">{I18n.t("application_usage_panel.download")}</a>
+      <div ref="download" />
+    );
+  },
+
+  renderTitle: function() {
+    return (
+      <div ref="title" />
     );
   },
 
@@ -116,8 +129,6 @@ App.Mixins.Chart = {
   },
 
   initChart: function() {
-    var data = [ { x: 0, y: 40 }, { x: 1, y: 49 }, { x: 2, y: 17 }, { x: 3, y: 42 } ];
-
     var self = this;
 
     this.chart = new Rickshaw.Graph.Ajax({

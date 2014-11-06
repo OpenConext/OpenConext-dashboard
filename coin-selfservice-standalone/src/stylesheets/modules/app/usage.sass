@@ -7,16 +7,22 @@
     padding: 20px
     border-bottom: 1px solid $border
 
-    h2
+    h1
       float: left
       @extend %h3
 
-    select
+    .options
       float: right
 
-    a
-      float: right
-      margin-left: 20px
+      & > div
+        display: inline-block
+        margin-left: 20px
+
+      .surf_chart.download
+        @extend .c-button
+
+      .surf_chart.period_select
+        margin-left: 10px
 
   .body
     padding: 20px
