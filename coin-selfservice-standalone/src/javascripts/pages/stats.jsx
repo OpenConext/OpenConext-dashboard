@@ -17,22 +17,16 @@ App.Pages.Stats = React.createClass({
         <div className="l-right">
           <div className="mod-usage">
             <div className="header">
-              <h2>{I18n.t("application_usage_panel.description")}</h2>
-              {this.renderDownloadButton()}
-              {this.renderPeriodSelect()}
+              {this.renderTitle()}
+              <div className="options">
+                {this.renderPeriodSelect()}
+                {this.renderDownloadButton()}
+              </div>
             </div>
-            {this.renderChartContainer()}
+            {this.renderChart()}
           </div>
         </div>
       </div>
     );
-  },
-
-  dataURL: function(params) {
-    return App.apiUrl("/stats", params);
-  },
-
-  downloadURL: function(params) {
-    return App.apiUrl("/stats/download", $.extend({ idpEntityId: App.currentIdpId() }, params));
   }
 });

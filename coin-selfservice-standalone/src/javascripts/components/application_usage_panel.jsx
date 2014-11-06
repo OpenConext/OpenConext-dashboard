@@ -22,21 +22,10 @@ App.Components.ApplicationUsagePanel = React.createClass({
                 {this.renderDownloadButton()}
               </div>
             </div>
-            {this.renderChartContainer()}
+            {this.renderChart()}
           </div>
         </div>
       </div>
     );
-  },
-
-  dataURL: function(params) {
-    return App.apiUrl("/stats/id/:id", $.extend({ id: this.props.app.id }, params));
-  },
-
-  downloadURL: function(params) {
-    return App.apiUrl("/stats/id/:id/download", $.extend({
-      id: this.props.app.id,
-      idpEntityId: App.currentIdpId()
-    }, params));
   }
 });

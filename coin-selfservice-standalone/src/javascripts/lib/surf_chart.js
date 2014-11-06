@@ -13,6 +13,8 @@
       hoverDetail: true,
       xAxis: true,
       yAxis: true,
+      legendHighlight: true,
+      legendToggle: true,
       title: true,
       downloadURL: true,
       dataURL: _dataURL(),
@@ -132,12 +134,17 @@
       if (options.hoverDetail) _initHoverDetail(graph);
       if (options.xAxis) _initXAxis(graph);
       if (options.yAxis) _initYAxis(graph);
-
-      if (options.onLoad) options.onLoad(graph);
-
       if (options.periodElement) _initPeriodSelect();
       if (options.downloadElement && options.downloadURL) _initDownloadButton();
       if (options.titleElement && options.title) _initTitle();
+
+      if (options.legendElement) {
+        var legend = _initLegend(graph);
+        if (options.legendHighlight) _initLegendHighlight(graph, legend);
+        if (options.legendToggle) _initLegendToggle(graph, legend);
+      }
+
+      if (options.onLoad) options.onLoad(graph);
 
       graph.graph.update();
     };
@@ -228,6 +235,27 @@
       var dateString = '<span class="date">' + date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + '</span>';
       var content = "Logins " + series.name + ": " + parseInt(y) + '<br>' + dateString;
       return content;
+    };
+
+    function _initLegend(graph) {
+      return new Rickshaw.Graph.Legend({
+        graph: graph.graph,
+        element: options.legendElement
+      });
+    };
+
+    function _initLegendHighlight(graph, legend) {
+      return new Rickshaw.Graph.Behavior.Series.Highlight({
+        graph: graph.graph,
+        legend: legend
+      });
+    };
+
+    function _initLegendToggle(graph, legend) {
+      return new Rickshaw.Graph.Behavior.Series.Toggle({
+        graph: graph.graph,
+        legend: legend
+      });
     };
 
     function _i18n(key) {
