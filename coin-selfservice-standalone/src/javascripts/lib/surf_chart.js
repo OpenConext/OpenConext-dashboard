@@ -6,9 +6,23 @@
       return new SurfChart(args);
     }
 
+    function _format(subject) {
+      var str = subject, len = arguments.length+1;
+
+      // For each {0} {1} {n...} replace with the argument in that position.  If
+      // the argument is an object or an array it will be stringified to JSON.
+      for (var i=0, arg; i < len; arg = arguments[i++ + 1]) {
+        var safe = typeof arg === 'object' ? JSON.stringify(arg) : arg;
+        str = str.replace(RegExp('\\{'+(i-1)+'\\}', 'g'), safe);
+      }
+      return str;
+    }
+
+    var today = new Date();
     var Defaults = {
       lang: "en",
       height: 400,
+      autoresize: true,
       renderer: "line",
       hoverDetail: true,
       xAxis: true,
@@ -17,7 +31,10 @@
       legendToggle: true,
       title: true,
       downloadURL: true,
-      dataURL: _dataURL(),
+      periodType: "year",
+      periodYear: today.getFullYear(),
+      periodNum: today.getMonth(),
+      dataURLFormat: "https://stats.surfconext.nl/api/v1/logins/sp/{0}/{1}.json?from={2}&to={3}",
 
       hoverFormatter: _hoverFormatter,
 
@@ -48,6 +65,9 @@
           10: "Oktober",
           11: "November",
           12: "December",
+        },
+        titles: {
+          "logins/sp/month": "Logins per maand"
         }
       },
       en: {
@@ -70,17 +90,57 @@
           10: "October",
           11: "November",
           12: "December",
+        },
+        titles: {
+          "logins/sp/month": "Logins per month"
         }
       }
     };
 
     var $numSelect;
     var $typeSelect;
+    var $yearSelect;
+    var initialized = false;
     var options = $.extend({}, Defaults, args);
     options.element = options.chartElement || options.element; // alias option
+    options.spId = [].concat(options.spId);
+    options.dataURL = options.dataURL || _dataURL(); // build data url if none defined
 
     function _dataURL() {
-      return "http://localhost:8001/test.html";
+      var period = _currentDateRange();
+      return _format(options.dataURLFormat, options.spId.join(","), options.periodType == "month" ? "day" : "week", period.from, period.to);
+    };
+
+    function _currentDateRange() {
+      var from, to;
+      switch (options.periodType) {
+        case "month":
+          from = new Date(options.periodYear, options.periodNum - 1, 1);
+          to = new Date(options.periodYear, options.periodNum, 1);
+          break;
+        case "quarter":
+          from = new Date(options.periodYear, options.periodNum * 3 - 3, 1);
+          to = new Date(from.getTime());
+          to.setMonth(to.getMonth() + 3);
+          break;
+        case "year":
+          from = new Date(options.periodYear, 0, 1);
+          to = new Date(parseInt(options.periodYear) + 1, 0, 1);
+          break;
+      };
+
+      return {
+        from: _formatDate(from),
+        to: _formatDate(to)
+      }
+    };
+
+    function _formatDate(date) {
+      if (date) {
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      } else {
+        return "";
+      };
     };
 
     function _stringToColour(str) {
@@ -100,7 +160,7 @@
       var series = [];
 
       if (options.title === true) {
-        options.title = d.request.displayName;
+        options.title = _i18n("titles." + d.request.type);
       }
 
       if (options.downloadURL === true) {
@@ -131,69 +191,101 @@
     };
 
     function _onComplete(graph) {
-      if (options.hoverDetail) _initHoverDetail(graph);
-      if (options.xAxis) _initXAxis(graph);
-      if (options.yAxis) _initYAxis(graph);
-      if (options.periodElement) _initPeriodSelect();
-      if (options.downloadElement && options.downloadURL) _initDownloadButton();
-      if (options.titleElement && options.title) _initTitle();
+      if (!initialized) {
+        if (options.hoverDetail) _initHoverDetail(graph);
+        if (options.xAxis) _initXAxis(graph);
+        if (options.yAxis) _initYAxis(graph);
+        if (options.periodElement) _initPeriodSelect(graph);
+        if (options.downloadElement && options.downloadURL) _initDownloadButton();
+        if (options.titleElement && options.title) _initTitle();
 
-      if (options.legendElement) {
-        var legend = _initLegend(graph);
-        if (options.legendHighlight) _initLegendHighlight(graph, legend);
-        if (options.legendToggle) _initLegendToggle(graph, legend);
+        if (options.legendElement) {
+          var legend = _initLegend(graph);
+          if (options.legendHighlight) _initLegendHighlight(graph, legend);
+          if (options.legendToggle) _initLegendToggle(graph, legend);
+        }
+
+        if (options.onLoad) options.onLoad(graph);
+
+        initialized = true;
       }
-
-      if (options.onLoad) options.onLoad(graph);
 
       graph.graph.update();
     };
 
-    function _initPeriodSelect() {
+    function _initPeriodSelect(graph) {
       var $label = $("<span class=\"surf_chart period_select show\"/>").text(_i18n("show"));
 
       $typeSelect = $("<select class=\"surf_chart period_select type_select\" />").
-        append(new Option(_i18n("month"), "month", true, true)).
+        append(new Option(_i18n("month"), "month")).
         append(new Option(_i18n("quarter"), "quarter")).
         append(new Option(_i18n("year"), "year")).
-        on("change", _renderNumberOptions);
+        on("change", _renderNumberOptions).
+        on("change", _refreshGraph(graph));
 
-      $numSelect = $("<select class=\"surf_chart period_select num_select\" />");
+      $yearSelect = $("<select class=\"surf_chart period_select year_select\" />").
+        on("change", _refreshGraph(graph));
+      $numSelect = $("<select class=\"surf_chart period_select num_select\" />").
+        on("change", _refreshGraph(graph));
+
+      $typeSelect.val(options.periodType);
+
       _renderNumberOptions();
+
+      $yearSelect.val(options.periodYear);
+      $numSelect.val(options.periodNum);
 
       $(options.periodElement).
         append($label).
         append($typeSelect).
+        append($yearSelect).
         append($numSelect);
     };
 
     function _renderNumberOptions() {
-      var newOptions;
+      var numOptions = [];
+      var yearOptions = [];
+
+      var year = new Date().getFullYear();
+      yearOptions.push(new Option(year, year));
+      yearOptions.push(new Option(year - 1, year - 1));
+      yearOptions.push(new Option(year - 2, year - 2));
+
       switch ($typeSelect.val()) {
         case "month":
-          newOptions = Text[options.lang]["months"];
+          for (var month in Text[options.lang]["months"]) {
+            var name = Text[options.lang]["months"][month];
+            numOptions.push(new Option(name, month));
+          }
+          $numSelect.show();
           break;
         case "quarter":
-          newOptions = {
-            "1": "Q1",
-            "2": "Q2",
-            "3": "Q3",
-            "4": "Q4"
-          }
+          numOptions.push(new Option("Q1", "1"));
+          numOptions.push(new Option("Q2", "2"));
+          numOptions.push(new Option("Q3", "3"));
+          numOptions.push(new Option("Q4", "4"));
+          $numSelect.show();
           break;
         case "year":
-          var year = new Date().getFullYear();
-          newOptions = {}
-          newOptions[year] = year;
-          newOptions[year - 1] = year - 1;
+          $numSelect.hide();
           break;
       }
 
       $numSelect.empty();
-      for (var key in newOptions) {
-        var value = newOptions[key];
-        $numSelect.append(new Option(value, key));
-      }
+      $yearSelect.empty();
+      $numSelect.append(numOptions);
+      $yearSelect.append(yearOptions);
+    };
+
+    function _refreshGraph(graph) {
+      return function() {
+        options.periodType = $typeSelect.val();
+        options.periodYear = $yearSelect.val();
+        options.periodNum = $numSelect.val();
+
+        graph.dataURL = _dataURL();
+        graph.request();
+      };
     };
 
     function _initDownloadButton() {
@@ -259,11 +351,18 @@
     };
 
     function _i18n(key) {
-      return Text[options.lang][key];
+      var keyList = key.split(".");
+      var text = Text[options.lang];
+      for (var i in keyList) {
+        text = text[keyList[i]];
+      }
+      return text;
     };
 
     this.graph = new Rickshaw.Graph.Ajax(options);
-    this.bind();
+    if (options.autoresize) {
+      this.bind();
+    };
   };
 
   SurfChart.prototype.redrawGraph = function() {

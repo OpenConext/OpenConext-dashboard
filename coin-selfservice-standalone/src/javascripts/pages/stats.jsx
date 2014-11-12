@@ -6,6 +6,16 @@ App.Pages.Stats = React.createClass({
     App.Mixins.Chart,
   ],
 
+  getInitialState: function() {
+    return {
+      chart: {
+        spId: this.props.apps.map(function(app) {
+          return app.id;
+        })
+      }
+    }
+  },
+
   render: function() {
     return (
       <div className="l-main">

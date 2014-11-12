@@ -6,6 +6,14 @@ App.Components.ApplicationUsagePanel = React.createClass({
     App.Mixins.Chart,
   ],
 
+  getInitialState: function() {
+    return {
+      chart: {
+        spId: this.props.app.id
+      }
+    }
+  },
+
   render: function() {
     return (
       <div className="l-middle">

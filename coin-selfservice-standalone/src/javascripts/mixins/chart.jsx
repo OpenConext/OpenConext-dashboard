@@ -15,6 +15,7 @@ App.Mixins.Chart = {
   componentDidMount: function() {
     this.chart = new SurfChart({
       lang: I18n.locale,
+      spId: this.state.chart.spId,
 
       chartElement: this.refs.chart.getDOMNode(),
       periodElement: this.refs.period.getDOMNode(),
