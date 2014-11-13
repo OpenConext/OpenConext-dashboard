@@ -1,4 +1,4 @@
 #!/bin/bash
 rm -Rf dist/*
 npm install
-grunt prod
+./node_modules/grunt-cli/bin/grunt prod
