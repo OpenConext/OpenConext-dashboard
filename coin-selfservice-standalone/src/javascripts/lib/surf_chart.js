@@ -67,7 +67,8 @@
           12: "December",
         },
         titles: {
-          "logins/sp/month": "Logins per maand"
+          "logins/sp/week": "Logins per week",
+          "logins/sp/day": "Logins per dag"
         }
       },
       en: {
@@ -92,7 +93,8 @@
           12: "December",
         },
         titles: {
-          "logins/sp/month": "Logins per month"
+          "logins/sp/week": "Logins per week",
+          "logins/sp/day": "Logins per day"
         }
       }
     };
@@ -100,6 +102,9 @@
     var $numSelect;
     var $typeSelect;
     var $yearSelect;
+    var $title;
+    var $downloadButton;
+
     var initialized = false;
     var options = $.extend({}, Defaults, args);
     options.element = options.chartElement || options.element; // alias option
@@ -159,13 +164,8 @@
     function _onData(d) {
       var series = [];
 
-      if (options.title === true) {
-        options.title = _i18n("titles." + d.request.type);
-      }
-
-      if (options.downloadURL === true) {
-        options.downloadURL = d.request.urlCsv;
-      }
+      options.title = _i18n("titles." + d.request.type);
+      options.downloadURL = d.request.urlCsv;
 
       for (var index in d.entities) {
         var entity = d.entities[index];
@@ -208,6 +208,9 @@
         if (options.onLoad) options.onLoad(graph);
 
         initialized = true;
+      } else {
+        _updateTitle();
+        _updateDownloadButton();
       }
 
       graph.graph.update();
@@ -289,16 +292,24 @@
     };
 
     function _initDownloadButton() {
-      var $downloadButton = $("<a href=\"#\" class=\"surf_chart download\" target=\"_blank\" />").text(_i18n("download"));
+      $downloadButton = $("<a href=\"#\" class=\"surf_chart download\" target=\"_blank\" />").text(_i18n("download"));
       $downloadButton.attr("href", options.downloadURL);
 
       $(options.downloadElement).append($downloadButton);
     };
 
+    function _updateDownloadButton() {
+      $downloadButton.attr("href", options.downloadURL);
+    };
+
     function _initTitle() {
-      var $title = $("<h1 class=\"surf_chart title\" />").text(options.title);
+      $title = $("<h1 class=\"surf_chart title\" />").text(options.title);
 
       $(options.titleElement).append($title);
+    };
+
+    function _updateTitle() {
+      $title.text(options.title);
     };
 
     function _initHoverDetail(graph) {
