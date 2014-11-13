@@ -1,0 +1,29 @@
+.mod-navigation
+  background: $blue
+  padding: 0 10px
+  overflow: hidden
+  position: relative
+
+  li
+    float: left
+    list-style: none
+
+    &.active
+      font-weight: bold
+
+  a
+    color: #fff
+    padding: 18px 20px 20px
+    display: block
+    text-decoration: none
+    @extend %h2
+
+  .spinner
+    color: #fff
+    position: absolute
+    right: 0
+    top: 0
+    height: 100%
+    width: 100px
+    line-height: 70px
+    text-align: center

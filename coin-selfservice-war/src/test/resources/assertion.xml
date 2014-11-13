@@ -49,7 +49,7 @@
     <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
       <saml:SubjectConfirmationData
           InResponseTo="2e53e4d3-fa7e-4b3e-b4ad-abf390071148"
-          NotOnOrAfter="2012-05-31T11:30:42Z" Recipient="http://localhost:8280/selfservice/AssertionConsumerService"/>
+          NotOnOrAfter="2012-05-31T11:30:42Z" Recipient="http://localhost:8280/dashboard/AssertionConsumerService"/>
     </saml:SubjectConfirmation>
   </saml:Subject>
   <saml:Conditions NotBefore="2012-05-31T11:25:42Z" NotOnOrAfter="2012-05-31T11:30:42Z">
@@ -72,6 +72,12 @@
     </saml:Attribute>
     <saml:Attribute Name="urn:mace:dir:attribute-def:givenName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
       <saml:AttributeValue>Geert</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="urn:mace:dir:attribute-def:eduPersonEntitlement" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+      <saml:AttributeValue>urn:mace:terena.org:tcs:personal-user</saml:AttributeValue>
+      <saml:AttributeValue>urn:mace:terena.org:tcs:personal-admin</saml:AttributeValue>
+      <saml:AttributeValue>urn:mace:dir:entitlement:common-lib-terms</saml:AttributeValue>
+      <saml:AttributeValue>urn:x-surfnet:surf.nl:surfdrive:quota:100</saml:AttributeValue>
     </saml:Attribute>
     <saml:Attribute Name="urn:mace:dir:attribute-def:sn" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
       <saml:AttributeValue>van der Ploeg</saml:AttributeValue>

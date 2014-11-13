@@ -18,13 +18,11 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -37,13 +35,13 @@ import java.util.List;
 @Component
 public class NotificationServiceImpl implements NotificationService {
 
-  protected static final String FCP_NOTIFICATIONS = "jsp.notifications.fcp.text";
+  protected static final String FCP_NOTIFICATIONS = "notifications.messages.fcp";
 
   @Resource
   private Csa csa;
 
   @Override
-  public NotificationMessage getNotifications(InstitutionIdentityProvider selectedIdp) {
+  public NotificationMessage getNotifications(String idpId) {
     NotificationMessage notificationMessage = new NotificationMessage();
 
     boolean isFcp = getAuthorities().contains(Authority.ROLE_DASHBOARD_ADMIN) || getAuthorities().contains(Authority.ROLE_DASHBOARD_VIEWER);
@@ -54,22 +52,16 @@ public class NotificationServiceImpl implements NotificationService {
       notificationMessage.addMessageKey(FCP_NOTIFICATIONS);
     }
 
-    List<Service> services = csa.getServicesForIdp(selectedIdp.getId());
+    List<Service> services = csa.getServicesForIdp(idpId);
     List<Service> notLinkedCSPs = new ArrayList<>();
     List<Service> noLicenseCSPs = new ArrayList<>();
 
     for (Service service : services) {
       if (service.getLicense() != null && !service.isConnected()) {
-        // if statement inside if statement for readability
-        if (isFcp) {
-          notLinkedCSPs.add(service);
-        }
+        notLinkedCSPs.add(service);
       } else if (service.getLicense() == null && service.isHasCrmLink()
         && service.isConnected()) {
-        // if statement inside if statement for readability
-        if (isFcp) {
-          noLicenseCSPs.add(service);
-        }
+        noLicenseCSPs.add(service);
       }
     }
 
@@ -82,7 +74,6 @@ public class NotificationServiceImpl implements NotificationService {
     if (!noLicenseCSPs.isEmpty()) {
       notificationMessage.addArguments(noLicenseCSPs);
     }
-    // notificationMessage.sort();
     return notificationMessage;
   }
 

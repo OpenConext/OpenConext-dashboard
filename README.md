@@ -16,13 +16,16 @@ SURFconext: [http://www.surfconext.nl](http://www.surfconext.nl)
 
 ### System Requirements
 
-- Java 6
+- Java 8
 - Maven 3
 - MySQL 5.5
+- Gruntjs
 
 ### Building and running
 
-[Maven 3](http://maven.apache.org) is needed to build and run this project.
+#### The Server
+
+    cd coin-selfservice-war
 
 To build:
 
@@ -30,19 +33,38 @@ To build:
 
 To run locally:
 
-    cd coin-selfservice-war
     mvn jetty:run
 
-When you browse to the [application homepage](http://localhost:8082/selfservice) you will be prompted for a login.
+#### The client
+
+    cd coin-selfservice-standalone
+
+Initial setup:
+
+    brew install npm
+    gem install sass
+    gem install sass-globbing
+    gem install compass
+    npm install -g grunt-cli
+    npm install
+
+When new grunt dependencies are added:
+    npm install
+
+To build:
+
+    grunt watch
+
+To run locally:
+
+    grunt server
+
+**For the NEW client open http://localhost:8000 in order to load the client**
+
+
+When you browse to the [application homepage](http://localhost:8082/dashboard) you will be prompted for a login.
 
 A list of available log-ins can be found in the mocked [`Users` enum here](coin-selfservice-war/src/main/java/nl/surfnet/coin/selfservice/util/OpenConextOAuthClientMock.java).
-
-###
-If you run into this Maven error message: "TypeError: can't convert String into Array", it means you have run into a bug in the sass-maven-plugin.
-
-At the time of writing, the fix for said bug was not released yet. See: https://github.com/Jasig/sass-maven-plugin/issues/47
-
-Resolution: make sure there is no trace at all of a GEM_PATH on your machine, see: http://stackoverflow.com/questions/3558656/how-can-i-remove-rvm-ruby-version-manager-from-my-system
 
 ## Disclaimer
 

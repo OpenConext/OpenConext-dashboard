@@ -76,7 +76,7 @@ public class CsaMock implements Csa {
   public List<OfferedService> findOfferedServicesFor(String idpEntityId) {
     List<OfferedService> result = new ArrayList<>();
     for (Service service : getProtectedServices()) {
-      result.add(new OfferedService(service, Arrays.asList(new InstitutionIdentityProvider(idpEntityId, idpEntityId, idpEntityId))));
+      result.add(new OfferedService(service));
     }
     return result;
   }
@@ -153,8 +153,14 @@ public class CsaMock implements Csa {
 
   @Override
   public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
-    return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
-    }, "csa-json/institution-identity-providers.json");
+    if(identityProviderId.endsWith("-3") || identityProviderId.endsWith("-4")) {
+      return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
+      }, "csa-json/institution-identity-providers-2.json");
+
+    } else {
+      return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
+      }, "csa-json/institution-identity-providers.json");
+    }
   }
 
   @Override

@@ -77,7 +77,7 @@ public class NotificationServiceImplTest {
 
     when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
 
-    NotificationMessage message = notificationServiceImpl.getNotifications(idp);
+    NotificationMessage message = notificationServiceImpl.getNotifications(idp.getId());
 
     assertEquals(2, message.getArguments().size());
     assertEquals(services.get(0), message.getArguments().get(0));

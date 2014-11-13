@@ -25,6 +25,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import nl.surfnet.coin.selfservice.util.AttributeMapFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -118,6 +119,10 @@ public class ServiceDetailController extends BaseController {
     m.put("personAttributeLabels", attributeLabelMap);
 
     m.put("lmngDeepLinkUrl", lmngDeepLinkBaseUrl);
+
+    if(service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
+      m.put("serviceAttributes", AttributeMapFilter.filterAttributes(service.getArp().getAttributes(), SpringSecurity.getCurrentUser().getAttributeMap()));
+    }
 
     return new ModelAndView("app-detail", m);
   }

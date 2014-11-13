@@ -18,10 +18,15 @@ package nl.surfnet.coin.selfservice.domain;
 
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
+
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 
 /**
  * Simple conext user
@@ -33,16 +38,18 @@ public class CoinUser implements UserDetails {
   private String displayName;
   private String schacHomeOrganization;
   private InstitutionIdentityProvider currentIdp;
-  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<InstitutionIdentityProvider>();
+  private InstitutionIdentityProvider switchedToIdp;
+  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<>();
   private String institutionId;
   private String email;
-  private Set<CoinAuthority> grantedAuthorities = new HashSet<CoinAuthority>();
-  private Map<String, List<String>> attributeMap = new HashMap<String, List<String>>();
+  private Set<CoinAuthority> grantedAuthorities = new HashSet<>();
+  private Map<String, List<String>> attributeMap = new HashMap<>();
 
   /**
    * It is not allowed to call this method {@inheritDoc}
    */
   @Override
+  @JsonIgnore
   public String getPassword() {
     throw new SecurityException("Self service interface does not contain passwords");
   }
@@ -75,6 +82,18 @@ public class CoinUser implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public boolean isSuperUser() {
+    return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
+  }
+
+  public boolean isDashboardAdmin() {
+    return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+  }
+
+  public boolean isDashboardViewer() {
+    return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
   }
 
   /**
@@ -191,6 +210,15 @@ public class CoinUser implements UserDetails {
 
   public void setIdp(InstitutionIdentityProvider idp) {
     this.currentIdp = idp;
+  }
+
+
+  public InstitutionIdentityProvider getSwitchedToIdp() {
+    return switchedToIdp;
+  }
+
+  public void setSwitchedToIdp(InstitutionIdentityProvider switchedToIdp) {
+    this.switchedToIdp = switchedToIdp;
   }
 
   /**

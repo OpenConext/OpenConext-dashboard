@@ -26,8 +26,9 @@ public interface NotificationService {
    * IdentityProvider. Notifications will be created for services that have a
    * license but no linked service or vice-versa
    *
-   * @param selectedIdp the selected idp
+   *
+   * @param idpId
    * @return list of possible notifications
    */
-  NotificationMessage getNotifications(InstitutionIdentityProvider selectedIdp);
+  NotificationMessage getNotifications(String idpId);
 }
