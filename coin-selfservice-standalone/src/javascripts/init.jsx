@@ -17,6 +17,11 @@ var App = {
     this.fetchUserData(function(user) {
       this.currentUser = user;
 
+      this.currentUser.statsToken = this.fetchStatsToken();
+      if (!this.currentUser.statsToken) {
+        return this.authorizeStats();
+      }
+
       $(document).ajaxSend(function(event, jqxhr, settings) {
         if (settings.url.indexOf(STATS_HOST) < 0) {
           jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentIdpId());
@@ -80,6 +85,15 @@ var App = {
   renderYesNo: function(value) {
     var word = value ? "yes" : "no";
     return <td className={word}>{I18n.t("boolean." + word)}</td>;
+  },
+
+  authorizeStats: function() {
+    window.location = STATS_AUTHORIZE;
+  },
+
+  fetchStatsToken: function() {
+    var lochash = window.location.hash.substr(1);
+    return lochash.substr(lochash.indexOf("access_token=")).split("&")[0].split("=")[1];
   },
 
   fetchUserData: function(callback) {

@@ -13,9 +13,10 @@ App.Mixins.Chart = {
   },
 
   componentDidMount: function() {
-    this.chart = new SurfChart({
+    this.chart = new StatsChart({
       lang: I18n.locale,
       spId: this.state.chart.spId,
+      accessToken: App.currentUser.statsToken,
 
       chartElement: this.refs.chart.getDOMNode(),
       periodElement: this.refs.period.getDOMNode(),
