@@ -16,7 +16,7 @@ App.Components.AppMeta = React.createClass({
 
           <App.Components.Contact email={this.props.app.supportMail} />
           {this.renderUrl("support", this.props.app.supportUrl)}
-          {this.renderUrl("login", this.props.app.serviceUrl)}
+          {this.renderUrl("login", this.props.app.appUrl)}
           {this.renderUrl("website", this.props.app.websiteUrl)}
           {this.renderUrl("eula", this.props.app.eulaUrl)}
         </div>
