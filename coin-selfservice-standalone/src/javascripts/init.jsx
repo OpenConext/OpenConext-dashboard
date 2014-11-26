@@ -93,7 +93,13 @@ var App = {
 
   fetchStatsToken: function() {
     var lochash = window.location.hash.substr(1);
-    return lochash.substr(lochash.indexOf("access_token=")).split("&")[0].split("=")[1];
+    var tokenFromHash = lochash.substr(lochash.indexOf("access_token=")).split("&")[0].split("=")[1];
+    if (tokenFromHash) {
+      $.cookie("statsToken", tokenFromHash, { expires: 365 });
+      return tokenFromHash;
+    } else {
+      return $.cookie("statsToken");
+    }
   },
 
   fetchUserData: function(callback) {
