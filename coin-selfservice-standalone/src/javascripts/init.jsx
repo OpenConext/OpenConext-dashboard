@@ -25,8 +25,6 @@ var App = {
       $(document).ajaxSend(function(event, jqxhr, settings) {
         if (settings.url.indexOf(STATS_HOST) < 0) {
           jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentIdpId());
-        } else {
-          settings.xhrFields = { withCredentials: true };
         }
       }.bind(this));
 
