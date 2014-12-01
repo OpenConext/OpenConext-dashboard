@@ -9,6 +9,8 @@ import com.google.gson.JsonObject;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.AttributeMapFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,9 +26,13 @@ import java.util.Map;
  */
 public class EnrichJson {
 
+  private final static Logger logger = LoggerFactory.getLogger(EnrichJson.class);
+
   public static final String FILTERED_USER_ATTRIBUTES = "filteredUserAttributes";
   public static final String SUPER_USER = "superUser";
   public static final String DASHBOARD_ADMIN = "dashboardAdmin";
+  public static final String STATS_URL = "statsUrl";
+
   private Map<Class<?>, JsonApplier> mapping = new HashMap();
 
   private final CoinUser currentUser;
@@ -37,7 +43,8 @@ public class EnrichJson {
     public void apply(JsonElement element, Object payload);
   }
 
-  private EnrichJson(CoinUser coinUser) {
+  private EnrichJson(CoinUser coinUser, final String statsUrl) {
+    logger.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
     this.currentUser = coinUser;
     final Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
 
@@ -47,6 +54,8 @@ public class EnrichJson {
         JsonObject coinUser = coinUserJsonElement.getAsJsonObject();
         coinUser.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
         coinUser.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
+        coinUser.addProperty(STATS_URL, statsUrl);
+
       }
     });
 
@@ -77,8 +86,8 @@ public class EnrichJson {
     return this;
   }
 
-  public static EnrichJson forUser(CoinUser currentUser) {
-    return new EnrichJson(currentUser);
+  public static EnrichJson forUser(CoinUser currentUser, String statsUrl) {
+    return new EnrichJson(currentUser, statsUrl);
   }
 
   public void forPayload(Object payload) {

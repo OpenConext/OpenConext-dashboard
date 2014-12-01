@@ -86,7 +86,7 @@ var App = {
   },
 
   authorizeStats: function() {
-    window.location = STATS_AUTHORIZE;
+    window.location = this.currentUser.statsUrl;
   },
 
   fetchStatsToken: function() {

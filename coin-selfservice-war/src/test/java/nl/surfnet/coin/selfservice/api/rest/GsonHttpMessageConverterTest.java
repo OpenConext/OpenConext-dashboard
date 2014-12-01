@@ -23,6 +23,10 @@ public class GsonHttpMessageConverterTest {
   @Before
   public void setUp() throws Exception {
     outputMessage = new MockHttpOutputMessage();
+    converter.setStatsBaseUrl("https://foo");
+    converter.setStatsClientId("bar");
+    converter.setStatsScope("/scope");
+    converter.setStatsRedirectUri("/foobar");
   }
 
   @Test
