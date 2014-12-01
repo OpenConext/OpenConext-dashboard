@@ -16,6 +16,7 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
+import com.google.common.base.Optional;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -173,7 +174,7 @@ public class CoinUser implements UserDetails {
   /**
    * List of {@link InstitutionIdentityProvider}'s of the institution for this users.
    * Usually contains only the IdP the user logs in with.
-   * 
+   *
    * @return List of {@link InstitutionIdentityProvider}'s
    */
   public List<InstitutionIdentityProvider> getInstitutionIdps() {
@@ -187,7 +188,7 @@ public class CoinUser implements UserDetails {
   /**
    * Identifier of the institution the IdentityProvider of the user belongs to.
    * Can be empty.
-   * 
+   *
    * @return Identifier of the institution the IdentityProvider of the user
    *         belongs to
    */
@@ -244,6 +245,15 @@ public class CoinUser implements UserDetails {
       result.add(authority.getEnumAuthority());
     }
     return result;
+  }
+
+  public Optional<InstitutionIdentityProvider> getByEntityId(String entityId) {
+    for(InstitutionIdentityProvider institutionIdentityProvider: getInstitutionIdps()) {
+      if(institutionIdentityProvider.getId().equals(entityId)) {
+        return Optional.fromNullable(institutionIdentityProvider);
+      }
+    }
+    return Optional.absent();
   }
 
   @Override
