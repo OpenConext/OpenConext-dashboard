@@ -26,12 +26,13 @@
 
   <mvc:annotation-driven/>
 
-  <bean id="authnRequestController" class="nl.surfnet.spring.security.opensaml.controller.AuthnRequestController">
+  <bean id="authnRequestController" class="nl.surfnet.coin.selfservice.saml.PostBindingSupportingAuthnRequestController">
     <property name="assertionConsumerServiceURL" value="${ASSERTION_CONSUMER_URL}" />
     <property name="SAMLMessageHandler" ref="samlMessageHandler" />
     <property name="entityID" value="${ISSUING_ENTITY_ID}"/>
     <property name="credentialResolver" ref="samlKeyStoreCredentialResolverDelegate" />
     <property name="metaDataProperties" value ="${saml-metadata-properties-file}"/>
+    <property name="protocolBinding" value="${saml-protocol-binding}"/>
   </bean>
 
 </beans>
