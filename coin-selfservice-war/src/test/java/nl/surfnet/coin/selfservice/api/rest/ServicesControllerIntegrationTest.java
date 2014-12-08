@@ -50,8 +50,6 @@ public class ServicesControllerIntegrationTest {
 
   @Mock
   private Csa csa;
-  @Mock
-  private Cruncher cruncher;
 
   private List<Service> services;
   private List<SpStatistic> spStatistics;
@@ -117,7 +115,10 @@ public class ServicesControllerIntegrationTest {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
     this.mockMvc.perform(
-      post("/services/id/" + service.getId() + "/connect").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+      post("/services/id/" + service.getId() + "/connect")
+        .contentType(MediaType.APPLICATION_JSON)
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+        .param("spEntityId", SP_ENTITY_ID)
     )
       .andExpect(status().isOk());
   }
@@ -127,7 +128,10 @@ public class ServicesControllerIntegrationTest {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
     this.mockMvc.perform(
-      post("/services/id/" + service.getId() + "/disconnect").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+      post("/services/id/" + service.getId() + "/disconnect")
+        .contentType(MediaType.APPLICATION_JSON)
+        .param("spEntityId", SP_ENTITY_ID)
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
     )
       .andExpect(status().isOk());
   }
@@ -137,7 +141,10 @@ public class ServicesControllerIntegrationTest {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER));
 
     this.mockMvc.perform(
-      post("/services/id/" + service.getId() + "/connect").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+      post("/services/id/" + service.getId() + "/connect")
+        .contentType(MediaType.APPLICATION_JSON)
+        .param("spEntityId", SP_ENTITY_ID)
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
     )
       .andExpect(status().isForbidden());
   }
@@ -147,7 +154,10 @@ public class ServicesControllerIntegrationTest {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER));
 
     this.mockMvc.perform(
-      post("/services/id/" + service.getId() + "/connect").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+      post("/services/id/" + service.getId() + "/connect")
+        .contentType(MediaType.APPLICATION_JSON)
+        .param("spEntityId", SP_ENTITY_ID)
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
     )
       .andExpect(status().isForbidden());
   }
