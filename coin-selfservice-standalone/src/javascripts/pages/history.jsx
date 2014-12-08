@@ -41,7 +41,7 @@ App.Pages.History = React.createClass({
     );
   },
 
-  convertDateForSort: function(value) {
+  convertRequestDateForSort: function(value) {
     return Date.parse(value);
   }
 });
