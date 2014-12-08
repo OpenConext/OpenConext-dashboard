@@ -45,7 +45,7 @@ App.Controllers.Apps = {
   makeConnection: function(app, comments, callback) {
     if (App.currentUser.dashboardAdmin) {
       $.post(
-        App.apiUrl("/services/id/" + id + "/connect"),
+        App.apiUrl("/services/id/" + app.id + "/connect"),
         {comments: comments, spEntityId: app.spEntityId},
         function() {
           if (callback) callback();
@@ -55,7 +55,7 @@ App.Controllers.Apps = {
 
   disconnect: function(app, comments, callback) {
     if (App.currentUser.dashboardAdmin) {
-      $.post(App.apiUrl("/services/id/" + id + "/disconnect"), {
+      $.post(App.apiUrl("/services/id/" + app.id + "/disconnect"), {
         comments: comments,
         spEntityId: app.spEntityId
       }, function() {
