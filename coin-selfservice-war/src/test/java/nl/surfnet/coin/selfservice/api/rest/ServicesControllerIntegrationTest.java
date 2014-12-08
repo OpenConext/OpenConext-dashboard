@@ -75,6 +75,7 @@ public class ServicesControllerIntegrationTest {
     coinUser = coinUser("user");
     InstitutionIdentityProvider institutionIdentityProvider = new InstitutionIdentityProvider(IDP_ENTITY_ID, "name", "institution id");
     coinUser.addInstitutionIdp(institutionIdentityProvider);
+    coinUser.setIdp(institutionIdentityProvider);
 
     SpringSecurityUtil.setAuthentication(coinUser);
     when(csa.getAllInstitutionIdentityProviders()).thenReturn(Arrays.asList(institutionIdentityProvider));

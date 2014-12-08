@@ -122,7 +122,7 @@ public class ServicesController extends BaseController {
       comments,
       idpEntityId,
       spEntityId,
-      currentUser.getInstitutionId()
+      currentUser.getIdp().getInstitutionId()
     );
 
     csa.createAction(action);
