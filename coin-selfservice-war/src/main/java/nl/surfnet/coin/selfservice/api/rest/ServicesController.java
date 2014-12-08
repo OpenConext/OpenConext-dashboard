@@ -117,7 +117,7 @@ public class ServicesController extends BaseController {
     Action action = new Action(
       currentUser.getUid(),
       currentUser.getEmail(),
-      currentUser.getUsername(),
+      currentUser.getDisplayName(),
       jiraType,
       comments,
       idpEntityId,
