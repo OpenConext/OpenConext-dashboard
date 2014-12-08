@@ -8,20 +8,20 @@ import nl.surfnet.coin.csa.model.JiraTask;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.surfnet.cruncher.Cruncher;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 import static java.lang.String.format;
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
@@ -29,14 +29,10 @@ import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_I
 @Controller
 @RequestMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ServicesController extends BaseController {
-  private static final Logger LOG = LoggerFactory.getLogger(ServicesController.class);
   private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
 
   @Resource
   private Csa csa;
-
-  @Resource
-  private Cruncher cruncher;
 
   @RequestMapping
   public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
@@ -46,8 +42,8 @@ public class ServicesController extends BaseController {
 
   private Service getServiceBySpEntityId(List<Service> services, String id) {
     long longId = Long.parseLong(id);
-    for (Service service: services) {
-      if(service.getId() == longId) {
+    for (Service service : services) {
+      if (service.getId() == longId) {
         return service;
       }
     }
@@ -81,7 +77,7 @@ public class ServicesController extends BaseController {
   public ResponseEntity<RestResponse> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
     Service service = csa.getServiceForIdp(idpEntityId, id);
     // remove arp-labels that are explicitly unused
-    for(String label: IGNORED_ARP_LABELS) {
+    for (String label : IGNORED_ARP_LABELS) {
       if (service.getArp() != null) {
         service.getArp().getAttributes().remove(label);
       }
@@ -91,20 +87,28 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
-  public ResponseEntity<RestResponse> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam(value = "comments", required = false) String comments, @PathVariable String id) {
-    if (!createAction(idpEntityId, comments, id, JiraTask.Type.LINKREQUEST)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+  public ResponseEntity<RestResponse> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                              @RequestParam(value = "comments", required = false) String comments,
+                                              @RequestParam(value = "spEntityId", required = true) String spEntityId,
+                                              @PathVariable String id) {
+    if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST))
+      return new ResponseEntity(HttpStatus.FORBIDDEN);
 
     return new ResponseEntity(HttpStatus.OK);
   }
 
   @RequestMapping(value = "/id/{id}/disconnect", method = RequestMethod.POST)
-  public ResponseEntity<RestResponse> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam(value = "comments", required = false) String comments, @PathVariable String id) {
-    if (!createAction(idpEntityId, comments, id, JiraTask.Type.UNLINKREQUEST)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+  public ResponseEntity<RestResponse> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                 @RequestParam(value = "comments", required = false) String comments,
+                                                 @RequestParam(value = "spEntityId", required = true) String spEntityId,
+                                                 @PathVariable String id) {
+    if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.UNLINKREQUEST))
+      return new ResponseEntity(HttpStatus.FORBIDDEN);
 
     return new ResponseEntity(HttpStatus.OK);
   }
 
-  private boolean createAction(String idpEntityId, String comments, String id, JiraTask.Type jiraType) {
+  private boolean createAction(String idpEntityId, String comments, String spEntityId, JiraTask.Type jiraType) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
       return false;
@@ -117,7 +121,7 @@ public class ServicesController extends BaseController {
       jiraType,
       comments,
       idpEntityId,
-      id,
+      spEntityId,
       currentUser.getInstitutionId()
     );
 

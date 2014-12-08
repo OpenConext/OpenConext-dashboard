@@ -192,7 +192,7 @@ App.Components.HowToConnectPanel = React.createClass({
 
   handleMakeConnection: function() {
     if (this.state.accepted) {
-      App.Controllers.Apps.makeConnection(this.props.app.id, this.state.comments, function() {
+      App.Controllers.Apps.makeConnection(this.props.app, this.state.comments, function() {
         this.setState({currentStep: "done"});
       }.bind(this));
     }
@@ -200,7 +200,7 @@ App.Components.HowToConnectPanel = React.createClass({
 
   handleDisconnect: function() {
     if (this.state.accepted) {
-      App.Controllers.Apps.disconnect(this.props.app.id, this.state.comments, function() {
+      App.Controllers.Apps.disconnect(this.props.app, this.state.comments, function() {
         this.setState({currentStep: "done-disconnect"});
       }.bind(this));
     }

@@ -42,17 +42,23 @@ App.Controllers.Apps = {
     App.render(App.Pages.AppDetail({key: "apps", app: ctx.app, activePanel: ctx.params.active_panel}));
   },
 
-  makeConnection: function(id, comments, callback) {
+  makeConnection: function(app, comments, callback) {
     if (App.currentUser.dashboardAdmin) {
-      $.post(App.apiUrl("/services/id/" + id + "/connect"), { comments: comments }, function() {
-        if (callback) callback();
-      });
+      $.post(
+        App.apiUrl("/services/id/" + id + "/connect"),
+        {comments: comments, spEntityId: app.spEntityId},
+        function() {
+          if (callback) callback();
+        });
     }
   },
 
-  disconnect: function(id, comments, callback) {
+  disconnect: function(app, comments, callback) {
     if (App.currentUser.dashboardAdmin) {
-      $.post(App.apiUrl("/services/id/" + id + "/disconnect"), { comments: comments }, function() {
+      $.post(App.apiUrl("/services/id/" + id + "/disconnect"), {
+        comments: comments,
+        spEntityId: app.spEntityId
+      }, function() {
         if (callback) callback();
       });
     }
@@ -63,6 +69,6 @@ App.Controllers.Apps = {
       return app.id;
     });
 
-    window.open(App.apiUrl("/services/download", { idpEntityId: App.currentIdpId(), id: ids }));
+    window.open(App.apiUrl("/services/download", {idpEntityId: App.currentIdpId(), id: ids}));
   }
 }
