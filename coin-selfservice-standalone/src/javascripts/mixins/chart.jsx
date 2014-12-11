@@ -16,6 +16,7 @@ App.Mixins.Chart = {
     this.chart = new StatsChart({
       lang: I18n.locale,
       spId: this.state.chart.spId,
+      idpId: this.state.chart.idpId,
       accessToken: App.currentUser.statsToken,
 
       chartElement: this.refs.chart.getDOMNode(),

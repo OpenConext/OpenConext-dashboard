@@ -140,10 +140,14 @@ var App = {
   },
 
   currentIdpId: function() {
+    return this.currentIdp().id;
+  },
+
+  currentIdp: function() {
     if (this.currentUser.superUser && this.currentUser.switchedToIdp) {
-      return this.currentUser.switchedToIdp.id;
+      return this.currentUser.switchedToIdp;
     } else {
-      return (this.currentUser.switchedToIdp || this.currentUser.currentIdp).id;
+      return (this.currentUser.switchedToIdp || this.currentUser.currentIdp);
     }
   }
 };

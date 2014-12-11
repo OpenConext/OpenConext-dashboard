@@ -9,9 +9,8 @@ App.Pages.Stats = React.createClass({
   getInitialState: function() {
     return {
       chart: {
-        spId: this.props.apps.map(function(app) {
-          return app.id;
-        })
+        idpId: "=" + btoa("entity=" + App.currentIdp().id + "|inst=" + App.currentIdp().institutionId),
+        spId: "*"
       }
     }
   },

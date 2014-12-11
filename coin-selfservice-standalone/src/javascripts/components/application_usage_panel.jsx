@@ -9,7 +9,8 @@ App.Components.ApplicationUsagePanel = React.createClass({
   getInitialState: function() {
     return {
       chart: {
-        spId: this.props.app.id
+        idpId: "=" + btoa("entity=" + App.currentIdp().id + "|inst=" + App.currentIdp().institutionId),
+        spId: "=" + btoa("entity=" + this.props.app.spEntityId+ "|active=1")
       }
     }
   },
