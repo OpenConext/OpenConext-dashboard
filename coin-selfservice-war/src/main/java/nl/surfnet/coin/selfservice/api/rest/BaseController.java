@@ -12,7 +12,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
 @Controller
@@ -34,9 +36,12 @@ public class BaseController {
   }
 
   @RequestMapping("/logout")
-  public ResponseEntity<RestResponse> me(HttpServletRequest request, SessionStatus status) {
+  public ResponseEntity<RestResponse> me(HttpServletRequest request, HttpServletResponse response, SessionStatus status) {
     status.setComplete();
     request.getSession().invalidate();
+    Cookie statsToken = new Cookie("statsToken", "");
+    statsToken.setMaxAge(0); //deletes the cookie
+    response.addCookie(statsToken);
     SecurityContextHolder.getContext().setAuthentication(null);
     return new ResponseEntity(HttpStatus.NO_CONTENT);
   }

@@ -96,7 +96,7 @@ var App = {
       $.cookie("statsToken", tokenFromHash, { expires: 365 });
       return tokenFromHash;
     } else {
-      return $.cookie("statsToken");
+      return undefined;
     }
   },
 
