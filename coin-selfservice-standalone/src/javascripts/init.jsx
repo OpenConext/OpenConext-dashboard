@@ -18,7 +18,7 @@ var App = {
       this.currentUser = user;
 
       this.currentUser.statsToken = this.fetchStatsToken();
-      if (!this.currentUser.statsToken) {
+      if (this.currentUser.statsToken == "") {
         return this.authorizeStats();
       }
 
@@ -93,10 +93,9 @@ var App = {
     var lochash = window.location.hash.substr(1);
     var tokenFromHash = lochash.substr(lochash.indexOf("access_token=")).split("&")[0].split("=")[1];
     if (tokenFromHash) {
-      $.cookie("statsToken", tokenFromHash, { expires: 365 });
       return tokenFromHash;
     } else {
-      return undefined;
+      return "";
     }
   },
 

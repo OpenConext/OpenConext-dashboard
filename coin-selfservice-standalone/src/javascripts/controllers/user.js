@@ -38,6 +38,10 @@ App.Controllers.User = {
     $.get(App.apiUrl("/users/me/switch-to-idp", { idpId: idp.id, role: role }), function(data) {
       App.fetchUserData(function(user) {
         App.currentUser = user;
+        App.currentUser.statsToken = App.fetchStatsToken();
+        if (App.currentUser.statsToken == "") {
+          return App.authorizeStats();
+        }
         if (callback) callback();
       });
     });
