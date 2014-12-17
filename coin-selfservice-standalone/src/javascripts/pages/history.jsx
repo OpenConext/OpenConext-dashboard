@@ -32,11 +32,11 @@ App.Pages.History = React.createClass({
   renderAction: function(action) {
     return (
       <tr key={action.id}>
-        <td>{new Date(action.requestDate).format("dd-MM-yyyy")}</td>
-        <td>{action.userName}</td>
-        <td>{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
-        <td>{action.jiraKey}</td>
-        <td>{I18n.t("history.statusses." + action.status)}</td>
+        <td className="percent_15">{new Date(action.requestDate).format("dd-MM-yyyy")}</td>
+        <td className="percent_15">{action.userName}</td>
+        <td className="percent_25">{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
+        <td className="percent_20">{action.jiraKey}</td>
+        <td className="percent_25">{I18n.t("history.statusses." + action.status)}</td>
       </tr>
     );
   },
