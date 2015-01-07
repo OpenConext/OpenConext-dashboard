@@ -136,7 +136,7 @@ I18n.translations.nl = {
     subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn. Als dit niet het geval is, zijn er extra stappen nodig om de connectie te activeren.",
     attribute: "Attribuut",
     your_value: "Jouw waarde",
-    hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw intstelling.",
+    hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
     arp: {
       noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen zullen worden uitgewisseld met {{name}}.",
       noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}."
