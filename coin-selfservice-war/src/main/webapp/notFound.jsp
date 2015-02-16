@@ -23,7 +23,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <c:set var="errorMessage"><spring:message code="jsp.general.errordescription" text="SURFconext - An error occurred"/></c:set>
+    <c:set var="errorMessage"><spring:message code="jsp.general.notfound" text="SURFconext - Page not found"/></c:set>
 
     <title>${errorMessage}</title>
 
@@ -61,9 +61,9 @@
 
   <div class="wrapper has-left">
     <div class="column-center content-wrapper">
-      <h1>Access denied</h1>
+      <h1>Not Found</h1>
       <p>
-        Unfortunately you don't have the permission to access the requested url.<br> You can visit the <a href='<c:url value="/dashboard.jsp"/>'>homepage</a> instead or send an email to <a href="mailto:help@surfconext.nl">help@surfconext.nl</a>
+        The requested page can not be found.<br> You can visit the <a href='<c:url value="/dashboard.jsp"/>'>homepage</a> instead or send an email to <a href="mailto:help@surfconext.nl">help@surfconext.nl</a>
       </p>
     </div>
   </div>
