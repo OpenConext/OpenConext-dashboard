@@ -49,6 +49,7 @@ Initial setup:
     npm install
 
 When new grunt dependencies are added:
+
     npm install
 
 To build:
@@ -59,13 +60,6 @@ To run locally:
 
     grunt server
 
-**For the NEW client open http://localhost:8000 in order to load the client**
-
-
-When you browse to the [application homepage](http://localhost:8082/dashboard) you will be prompted for a login.
+When you browse to the [application homepage](http://localhost:8001/) you will be prompted for a login.
 
 A list of available log-ins can be found in the mocked [`Users` enum here](coin-selfservice-war/src/main/java/nl/surfnet/coin/selfservice/util/OpenConextOAuthClientMock.java).
-
-## Disclaimer
-
-SelfService uses Highcharts JavaScript for rendering statistics. Highcharts is a Highsoft sotware product which is free for non-commercial use, but it is not free for commercial use. See [this page](http://shop.highsoft.com/highcharts.html#redist) for more details.
