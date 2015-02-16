@@ -55,7 +55,7 @@
   <spring:url value="/dashboard.jsp" var="homeUrl" htmlEscape="true" />
 
   <header class="header">
-    <a class="logo" href="${homeUrl}"> <img src='<c:url value="/images/surf-conext-logo.png"/>' alt="Surf Conext">
+    <a class="logo" href="${homeUrl}"> <img src='<c:url value="/images/surf-conext-logo.png"/>' alt="SURFconext">
     </a>
   </header>
 
