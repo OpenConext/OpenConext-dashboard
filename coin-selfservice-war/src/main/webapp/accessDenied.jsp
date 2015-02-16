@@ -18,7 +18,6 @@
 <!doctype html>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 
 <html lang="en">
   <head>
@@ -28,40 +27,35 @@
 
     <title>${errorMessage}</title>
 
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-2.0.4.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-button.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-dropdown.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-generic.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-modal.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-responsive.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" />
-    <link rel="stylesheet" href="<c:url value="/css/header.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/app-grid.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/app-detail.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/forms.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/graphs.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/gallery.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/header.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/idp.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/modals.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/notifications.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/pagination.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/secondary-menu.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/tables.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/taxonomy.css"/>"/>
-    <link rel="stylesheet" href="<c:url value="/css/grid.css"/>"/>
+    <link rel="stylesheet" href='<c:url value="/css/bootstrap-2.0.4.css"/>' />
+    <link rel="stylesheet" href='<c:url value="/css/bootstrap-button.css"/>' />
+    <link rel="stylesheet" href='<c:url value="/css/bootstrap-dropdown.css"/>' />
+    <link rel="stylesheet" href='<c:url value="/css/bootstrap-generic.css"/>' />
+    <link rel="stylesheet" href='<c:url value="/css/bootstrap-modal.css"/>' />
+    <link rel="stylesheet" href='<c:url value="/css/bootstrap-responsive.css"/>' />
+    <link rel="stylesheet" href='<c:url value="/css/font-awesome.css"/>' />
+    <link rel="stylesheet" href='<c:url value="/css/header.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/app-grid.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/app-detail.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/forms.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/graphs.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/gallery.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/header.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/idp.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/modals.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/notifications.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/pagination.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/secondary-menu.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/tables.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/taxonomy.css"/>'/>
+    <link rel="stylesheet" href='<c:url value="/css/grid.css"/>'/>
 
-    <!--[if lt IE 9]>
-      <script src="<c:url value="/js/tools/html5shiv.js"/>"></script>
-    <![endif]-->
   </head>
 <body>
-  <script>document.body.className = 'js-loading'</script>
-  
-  <spring:url value="/app-overview.shtml" var="homeUrl" htmlEscape="true" />
+  <spring:url value="/" var="homeUrl" htmlEscape="true" />
 
   <header class="header">
-    <a class="logo" href="${homeUrl}"> <img src="<c:url value="/images/surf-conext-logo.png"/>" alt="Surf Conext">
+    <a class="logo" href="${homeUrl}"> <img src='<c:url value="/images/surf-conext-logo.png"/>' alt="Surf Conext">
     </a>
   </header>
 
@@ -69,7 +63,7 @@
     <div class="column-center content-wrapper">
       <h1>Access denied</h1>
       <p>
-        Unfortunately you don't have the permission to access the requested url.<br> You can visit the <a href="<c:url value="/"/>">homepage</a> instead or send an email to <a href="mailto:help@surfconext.nl">help@surfconext.nl</a>
+        Unfortunately you don't have the permission to access the requested url.<br> You can visit the <a href='<c:url value="/"/>'>homepage</a> instead or send an email to <a href="mailto:help@surfconext.nl">help@surfconext.nl</a>
       </p>
     </div>
   </div>
@@ -77,13 +71,9 @@
 
   <footer class="footer">
     <div class="content-some-dense">
-      <a href="http://www.surfnet.nl" target="_blank">
-        SURFnet
-      </a>
+      <a href="http://www.surfnet.nl" target="_blank">SURFnet</a>
       |
-      <a href="mailto:help@surfconext.nl ">
-          help@surfconext.nl
-      </a>
+      <a href="mailto:help@surfconext.nl">help@surfconext.nl</a>
     </div>
   </footer>
 
