@@ -19,8 +19,6 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
-import org.surfnet.cruncher.Cruncher;
-import org.surfnet.cruncher.model.SpStatistic;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -43,7 +41,6 @@ public class ServicesControllerIntegrationTest {
   public static final String IDP_ENTITY_ID = "foo";
   public static final String SP_ENTITY_ID = "bar";
   private MockMvc mockMvc;
-  private Date statisticDate = new Date();
 
   @InjectMocks
   private ServicesController controller;
@@ -52,7 +49,6 @@ public class ServicesControllerIntegrationTest {
   private Csa csa;
 
   private List<Service> services;
-  private List<SpStatistic> spStatistics;
   private Service service;
   private CoinUser coinUser;
 
@@ -64,7 +60,6 @@ public class ServicesControllerIntegrationTest {
     MockitoAnnotations.initMocks(this);
     service = serviceWithSpEntityId(SP_ENTITY_ID);
     services = asList(service);
-    spStatistics = asList(spStatisticFor(SP_ENTITY_ID, statisticDate.getTime()));
     EnsureAccessToIdp ensureAccessToIdp = new EnsureAccessToIdp();
     ensureAccessToIdp.setCsa(csa);
 

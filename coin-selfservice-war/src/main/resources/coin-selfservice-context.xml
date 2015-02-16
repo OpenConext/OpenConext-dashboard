@@ -30,14 +30,6 @@
     <property name="version" value="v2" />
   </bean>
 
-  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <property name="maxUploadSize" value="10000000" />
-  </bean>
-
-  <bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-     <property name="templateLoaderPath" value="classpath:/ftl/"/>
-  </bean>
-
   <bean id="csa" class="${csaClass}">
     <constructor-arg name="csaBaseLocation" value="${csa.base.url}" />
 
