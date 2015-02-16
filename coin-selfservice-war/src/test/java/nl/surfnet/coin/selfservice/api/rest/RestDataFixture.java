@@ -3,7 +3,6 @@ package nl.surfnet.coin.selfservice.api.rest;
 import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import org.surfnet.cruncher.model.SpStatistic;
 
 public class RestDataFixture {
 
@@ -20,14 +19,6 @@ public class RestDataFixture {
       }
     }
     return service;
-  }
-
-  public static SpStatistic spStatisticFor(String spEntityId, long entryTime) {
-    SpStatistic spStatistic = new SpStatistic();
-    spStatistic.setEntryTime(entryTime);
-    spStatistic.setSpEntityId(spEntityId);
-    spStatistic.setSpName("sp name");
-    return spStatistic;
   }
 
   public static CoinUser coinUser(String uid, String... idpIds) {

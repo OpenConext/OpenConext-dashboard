@@ -30,25 +30,6 @@
     <property name="version" value="v2" />
   </bean>
 
-  <bean id="emailService"
-    class="nl.surfnet.coin.selfservice.service.impl.EmailServiceImpl">
-    <property name="administrativeEmail" value="${coin-administrative-email}" />
-  </bean>
-
-  <bean id="personAttributeLabelService"
-    class="nl.surfnet.coin.selfservice.service.impl.PersonAttributeLabelServiceJsonImpl">
-    <constructor-arg name="attributeJsonFile"
-      value="${personAttributesLabels.location}" />
-  </bean>
-
-  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <property name="maxUploadSize" value="10000000" />
-  </bean>
-
-  <bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-     <property name="templateLoaderPath" value="classpath:/ftl/"/>
-  </bean>
-
   <bean id="csa" class="${csaClass}">
     <constructor-arg name="csaBaseLocation" value="${csa.base.url}" />
 
@@ -57,17 +38,6 @@
         <property name="clientKey" value="${csa.client.key}" />
         <property name="clientSecret" value="${csa.client.secret}" />
         <property name="oauthAuthorizationUrl" value="${csa.oauth2.authorization.url}" />
-      </bean>
-    </property>
-  </bean>
-
-  <bean id="cruncher" class="${cruncherClass}">
-    <constructor-arg name="cruncherBaseLocation" value="${cruncher.base.url}" />
-    <property name="oauthClient">
-      <bean class="nl.surfnet.coin.oauth.ClientCredentialsClient">
-        <property name="clientKey" value="${cruncher.client.key}" />
-        <property name="clientSecret" value="${cruncher.client.secret}" />
-        <property name="oauthAuthorizationUrl" value="${cruncher.oauth2.authorization.url}" />
       </bean>
     </property>
   </bean>

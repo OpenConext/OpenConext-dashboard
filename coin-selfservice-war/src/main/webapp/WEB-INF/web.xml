@@ -24,9 +24,6 @@
   <display-name>coin-selfservice</display-name>
 
   <listener>
-    <listener-class>nl.iprofs.modules.contextlogging.InitParameterLogbackContextListener</listener-class>
-  </listener>
-  <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
@@ -119,5 +116,10 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/notFound.jsp</location>
+  </error-page>
 
 </web-app>
