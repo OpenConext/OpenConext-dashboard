@@ -116,6 +116,9 @@ public class VootFilter implements Filter {
   @Override
   public void destroy() {
   }
+  public void setVootClient(VootClient vootClient) {
+    this.vootClient = vootClient;
+  }
 
   public void setDashboardAdmin(String dashboardAdmin) {
     this.dashboardAdmin = dashboardAdmin;
