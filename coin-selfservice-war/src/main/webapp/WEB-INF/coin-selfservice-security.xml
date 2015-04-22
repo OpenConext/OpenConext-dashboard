@@ -30,12 +30,11 @@
     <property name="uuidAttribute" value="${saml-uuid-attribute}"/>
   </bean>
 
-  <bean id="apiOauthFilter" class="nl.surfnet.coin.selfservice.filter.ApiOAuthFilter">
+  <bean id="vootFilter" class="nl.surfnet.coin.selfservice.filter.VootFilter">
     <property name="dashboardAdmin" value="${dashboard.admin}" />
     <property name="dashboardViewer" value="${dashboard.viewer}" />
     <property name="dashboardSuperUser" value="${dashboard.super.user}" />
-    <property name="apiClient" ref="openConextApiClient" />
-    <property name="callbackFlagParameter" value="apiOauthCallback" />
+    <property name="vootClient" ref="vootClient" />
   </bean>
 
   <bean id="sabEntitlementsFilter" class="nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter">
@@ -63,7 +62,7 @@
   <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
     <security:access-denied-handler error-page="/accessDenied.jsp"/>
     <security:custom-filter position="PRE_AUTH_FILTER" ref="samlPreAuthFilter"/>
-    <security:custom-filter after="PRE_AUTH_FILTER" ref="apiOauthFilter"/>
+    <security:custom-filter after="PRE_AUTH_FILTER" ref="vootFilter"/>
     <security:custom-filter after="ANONYMOUS_FILTER" ref="sabEntitlementsFilter"/>
     <security:intercept-url pattern="/accessDenied.shtml" access="permitAll"/>
     <security:intercept-url pattern="/OpenSAML.sso/Login" access="permitAll"/>

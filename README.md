@@ -62,4 +62,4 @@ To run locally:
 
 When you browse to the [application homepage](http://localhost:8001/) you will be prompted for a login.
 
-A list of available log-ins can be found in the mocked [`Users` enum here](coin-selfservice-war/src/main/java/nl/surfnet/coin/selfservice/util/OpenConextOAuthClientMock.java).
+A list of available log-ins can be found in the mocked implementation of the [VootClient](coin-selfservice-war/src/main/java/nl/surfnet/coin/selfservice/service/impl/VootClientMock.java).

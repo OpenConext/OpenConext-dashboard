@@ -22,12 +22,12 @@
     <property name="defaultLocale" value="en"/>
   </bean>
 
-  <bean id="openConextApiClient" class="${openConextApiClient}">
-    <property name="callbackUrl" value="${api-callbackuri}" />
-    <property name="endpointBaseUrl" value="${api-baseurl}" />
-    <property name="consumerKey" value="${api-consumerkey}"/>
-    <property name="consumerSecret" value="${api-consumersecret}" />
-    <property name="version" value="v2" />
+  <bean id="vootClient" class="${vootClient}">
+    <constructor-arg index="0" value="${voot.accessTokenUri}"/>
+    <constructor-arg index="1" value="${voot.clientId}"/>
+    <constructor-arg index="2" value="${voot.clientSecret}"/>
+    <constructor-arg index="3" value="${voot.scopes}"/>
+    <constructor-arg index="4" value="${voot.serviceUrl}"/>
   </bean>
 
   <bean id="csa" class="${csaClass}">

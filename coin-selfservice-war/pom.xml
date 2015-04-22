@@ -29,7 +29,7 @@
 
   <properties>
     <jetty.host>localhost</jetty.host>
-    <java.version>1.7</java.version>
+    <java.version>1.8</java.version>
     <spring.version>3.2.10.RELEASE</spring.version>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
     <coin-test.version>3.11.0</coin-test.version>
@@ -41,6 +41,8 @@
     <csa-client.version>4.0.5</csa-client.version>
     <jetty.version>9.1.5.v20140505</jetty.version>
     <logback.version>1.1.2</logback.version>
+    <spring-security-oauth2.version>2.0.7.RELEASE</spring-security-oauth2.version>
+    <httpclient.version>4.3.1</httpclient.version>
   </properties>
 
   <dependencies>
@@ -140,21 +142,12 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.2.1</version>
+      <version>${httpclient.version}</version>
     </dependency>
-
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.2.1</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.springframework.security.oauth</groupId>
+      <artifactId>spring-security-oauth2</artifactId>
+      <version>${spring-security-oauth2.version}</version>
     </dependency>
 
     <dependency>
@@ -170,6 +163,12 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.tomakehurst</groupId>
+      <artifactId>wiremock</artifactId>
+      <version>1.54</version>
       <scope>test</scope>
     </dependency>
 
