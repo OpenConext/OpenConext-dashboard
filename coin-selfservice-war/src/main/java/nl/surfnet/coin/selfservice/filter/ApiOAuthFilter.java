@@ -47,24 +47,20 @@ import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
- * api.surfconext.nl and gets group information of the 'admin team'. Based on
+ * voot.surfconext.nl and gets group information of the 'admin teams'. Based on
  * this information, an additional role is set on the users' Authentication
  * object (or not).
  * 
  */
 public class ApiOAuthFilter implements Filter {
 
-  Logger LOG = LoggerFactory.getLogger(ApiOAuthFilter.class);
+  private Logger LOG = LoggerFactory.getLogger(ApiOAuthFilter.class);
 
-  private OpenConextOAuthClient apiClient;
-
-  protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter.PROCESSED";
-  protected static final String ORIGINAL_REQUEST_URL = "nl.surfnet.coin.selfservice.filter.ApiOAuthFilter" + ".ORIGINAL_REQUEST_URL";
+  private VootClient vootClient;
 
   private String dashboardAdmin;
   private String dashboardViewer;
   private String dashboardSuperUser;
-  private String callbackFlagParameter = "oauthCallback";
 
   /**
    * No initialization needed.
@@ -193,14 +189,6 @@ public class ApiOAuthFilter implements Filter {
 
   @Override
   public void destroy() {
-  }
-
-  public void setApiClient(OpenConextOAuthClient apiClient) {
-    this.apiClient = apiClient;
-  }
-
-  public void setCallbackFlagParameter(String callbackFlagParameter) {
-    this.callbackFlagParameter = callbackFlagParameter;
   }
 
   public void setDashboardAdmin(String dashboardAdmin) {
