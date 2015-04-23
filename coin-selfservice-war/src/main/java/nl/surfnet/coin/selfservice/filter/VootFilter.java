@@ -110,12 +110,18 @@ public class VootFilter implements Filter {
   }
 
   private boolean groupsContains(String teamId, List<Group> groups) {
-    return groups.stream().filter(group -> group.getId().equalsIgnoreCase(teamId)).findFirst().isPresent();
+    for (Group group : groups) {
+      if (group.getId().equalsIgnoreCase(teamId)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
   public void destroy() {
   }
+
   public void setVootClient(VootClient vootClient) {
     this.vootClient = vootClient;
   }

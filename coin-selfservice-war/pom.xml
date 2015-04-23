@@ -29,7 +29,7 @@
 
   <properties>
     <jetty.host>localhost</jetty.host>
-    <java.version>1.8</java.version>
+    <java.version>1.7</java.version>
     <spring.version>3.2.10.RELEASE</spring.version>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
     <coin-test.version>3.11.0</coin-test.version>

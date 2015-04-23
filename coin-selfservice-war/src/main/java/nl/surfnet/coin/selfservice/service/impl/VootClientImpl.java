@@ -8,11 +8,10 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class VootClientImpl implements VootClient {
 
@@ -53,7 +52,10 @@ public class VootClientImpl implements VootClient {
   @Override
   public List<Group> groups(String userId) {
     List<Map<String, Object>> maps = vootService.getForObject(serviceUrl + "/internal/groups/{userId}", List.class, userId);
-    List<Group> groups = maps.stream().map(item -> new Group((String) item.get("id"))).collect(Collectors.toList());
+    List<Group> groups = new ArrayList<Group>();
+    for (Map<String, Object> map : maps) {
+      groups.add(new Group((String) map.get("id")));
+    }
     LOG.debug("Retrieved groups: {}", groups);
     return groups;
 
