@@ -53,14 +53,14 @@ public class VootFilterTest {
   private String ADMIN = "admin";
   private String USER = "user";
 
-  @InjectMocks
-  private VootFilter filter = new VootFilter();
-
   @Mock
   private FilterChain chain;
 
   @Mock
   private VootClient vootClient;
+
+  @InjectMocks
+  private VootFilter filter = new VootFilter(vootClient, ADMIN, VIEWER,SUPER_USER);
 
   private MockHttpServletRequest request;
   private MockHttpServletResponse response;
@@ -76,10 +76,6 @@ public class VootFilterTest {
 
     request = new MockHttpServletRequest("GET", "/anyUrl");
     response = new MockHttpServletResponse();
-
-    filter.setDashboardAdmin(ADMIN);
-    filter.setDashboardSuperUser(SUPER_USER);
-    filter.setDashboardViewer(VIEWER);
   }
 
   @Test

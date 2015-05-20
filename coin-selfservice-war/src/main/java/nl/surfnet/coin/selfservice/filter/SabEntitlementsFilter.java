@@ -16,10 +16,18 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import nl.surfnet.coin.selfservice.domain.CoinAuthentication;
+import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.util.SpringSecurity;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabRoleHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.GenericFilterBean;
 
-import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,19 +35,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
-
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabRoleHolder;
-import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 
 public class SabEntitlementsFilter extends GenericFilterBean {
 
@@ -72,7 +71,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
           elevateUserIfApplicable(user, roleHolder);
           session.setAttribute(PROCESSED, "true");
           LOG.debug("Authorities of user '{}' after processing SAB entitlements: {}", user.getUid(), user.getAuthorityEnums());
-          SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(user, "", user.getAuthorities()));
+          SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(user));
         }
       } catch (IOException e) {
         LOG.info("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());

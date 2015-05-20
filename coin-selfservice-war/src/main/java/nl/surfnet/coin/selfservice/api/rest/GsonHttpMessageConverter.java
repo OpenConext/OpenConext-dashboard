@@ -1,6 +1,8 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonWriter;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.beans.factory.annotation.Value;

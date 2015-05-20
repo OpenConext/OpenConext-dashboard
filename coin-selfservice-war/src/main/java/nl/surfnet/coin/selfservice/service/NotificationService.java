@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.service;
 
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 
 public interface NotificationService {

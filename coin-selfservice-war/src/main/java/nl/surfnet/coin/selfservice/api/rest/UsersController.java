@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.*;
-
-import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
 @Controller
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)

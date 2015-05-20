@@ -16,19 +16,19 @@
 
 package nl.surfnet.coin.selfservice.filter;
 
+import nl.surfnet.coin.selfservice.domain.CoinAuthentication;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.domain.Group;
 import nl.surfnet.coin.selfservice.service.VootClient;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
-import nl.surfnet.spring.security.opensaml.SAMLAuthenticationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashSet;
@@ -42,7 +42,7 @@ import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
  * this information, an additional role is set on the users' Authentication
  * object (or not).
  */
-public class VootFilter implements Filter {
+public class VootFilter extends GenericFilterBean {
 
   public static final String SESSION_KEY_GROUP_ACCESS = "SESSION_KEY_GROUP_ACCESS";
 
@@ -54,21 +54,17 @@ public class VootFilter implements Filter {
   private String dashboardViewer;
   private String dashboardSuperUser;
 
-  /**
-   * No initialization needed.
-   *
-   * @param filterConfig the configuration
-   * @throws ServletException
-   */
-  @Override
-  public void init(FilterConfig filterConfig) throws ServletException {
+  public VootFilter(VootClient vootClient, String dashboardAdmin, String dashboardViewer, String dashboardSuperUser) {
+    this.vootClient = vootClient;
+    this.dashboardAdmin = dashboardAdmin;
+    this.dashboardViewer = dashboardViewer;
+    this.dashboardSuperUser = dashboardSuperUser;
   }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
-    HttpServletResponse httpResponse = (HttpServletResponse) response;
     final HttpSession session = httpRequest.getSession(true);
 
     if (SpringSecurity.isFullyAuthenticated()) {
@@ -105,8 +101,7 @@ public class VootFilter implements Filter {
     } else if (groupsContains(dashboardSuperUser, groups)) {
       coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
     }
-
-    SecurityContextHolder.getContext().setAuthentication(new SAMLAuthenticationToken(coinUser, "", coinUser.getAuthorities()));
+    SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(coinUser));
   }
 
   private boolean groupsContains(String teamId, List<Group> groups) {
@@ -116,26 +111,6 @@ public class VootFilter implements Filter {
       }
     }
     return false;
-  }
-
-  @Override
-  public void destroy() {
-  }
-
-  public void setVootClient(VootClient vootClient) {
-    this.vootClient = vootClient;
-  }
-
-  public void setDashboardAdmin(String dashboardAdmin) {
-    this.dashboardAdmin = dashboardAdmin;
-  }
-
-  public void setDashboardViewer(String dashboardViewer) {
-    this.dashboardViewer = dashboardViewer;
-  }
-
-  public void setDashboardSuperUser(String dashboardSuperUser) {
-    this.dashboardSuperUser = dashboardSuperUser;
   }
 
 }

@@ -303,123 +303,103 @@ I18n.translations.en = {
       }
     },
     attribute_map: {
-      "urn:mace:dir:attribute-def:uid": {
+      "Shib-uid": {
         name: "UID",
         description: "your unique username within your organization"
       },
-      "urn:mace:dir:attribute-def:sn": {
+      "Shib-surName": {
         name: "Surname",
         description: "your surname"
       },
-      "urn:mace:dir:attribute-def:givenName": {
+      "Shib-givenName": {
         name: "Name",
         description: "your name"
       },
-      "urn:mace:dir:attribute-def:cn": {
+      "Shib-commonName": {
         name: "Full Name",
         description: "your full name"
       },
-      "urn:mace:dir:attribute-def:displayName": {
+      "Shib-displayName": {
         name: "Display Name",
         description: "display name as shown in applications"
       },
-      "urn:mace:dir:attribute-def:mail": {
+      "Shib-email": {
         name: "E-mailaddress",
         description: "your e-mailaddress as known within your organization"
       },
-      "urn:mace:dir:attribute-def:eduPersonAffiliation": {
+      "Shib-eduPersonAffiliation": {
         name: "Relation",
         description: "relation between your and your organization"
       },
-      "urn:mace:dir:attribute-def:eduPersonEntitlement": {
+      "Shib-eduPersonEntitlement": {
         name: "Entitlement",
         description: "entitlement which decides upon your authorization within the application"
       },
-      "urn:mace:dir:attribute-def:eduPersonPrincipalName": {
+      "Shib-eduPersonPN": {
         name: "Net-ID",
         description: "your unique username within your organization augmented with @organizationname.nl"
       },
-      "urn:mace:dir:attribute-def:preferredLanguage": {
+      "Shib-preferredLanguage": {
         name: "Preferred Language",
         description: "a two letter abbreviation according to ISO 639; no subcodes"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganization": {
+      "Shib-homeOrg": {
         name: "Organization",
         description: "name for the organization, making use of the domain name of the organization conform RFC 1035"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": {
+      "Shib-schacHomeOrganizationType": {
         name: "Type of Organization",
         description: "type of organization to which the user belongs"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Display name of Organization",
         description: "display name of the organization"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": {
+      "Shib-nlEduPersonOrgUnit": {
         name: "Unitname",
         description: "unit name"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Study Branch",
         description: "study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": {
+      "Shib-nlStudielinkNummer": {
         name: "Studielinknummer",
         description: "studielinknummer of the student as registered at www.studielink.nl"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier": {
+      "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
         description: "Digital Author Identifier (DAI) as described at: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Display name of Organization",
         description: "display name of the organization"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit": {
-        name: "Unitname",
-        description: "unit name"
-      },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Study Branch",
         description: "study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlStudielinkNummer": {
-        name: "Studielinknummer",
-        description: "studielinknummer of the student as registered at www.studielink.nl"
+      "Shib-userStatus": {
+        name: "Userstatus",
+        description: "Status of this user in SURFconext"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlDigitalAuthorIdentifier": {
-        name: "DAI",
-        description: "Digital Author Identifier (DAI) as described at: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
-      },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1": {
+      "Shib-accountstatus": {
         name: "Accountstatus",
         description: "Status of this account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.1": {
-        name: "Accountstatus",
-        description: "Status of this account in SURFconext"
-      },
-      "nameid": {
+      "name-id": {
         name: "Identifier",
         description: "Status of this account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2": {
+      "Shib-voName": {
         name: "Virtual Organisation Name",
         description: "The name of the Virtual Urganisation for which you have authenticated"
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.40.40.1": {
+      "Shib-user": {
         name: "Identifier",
         description: "Status of this account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.10": {
-        name: "Identifier",
-        description: "Status of this account in SURFconext"
-      },
-      "urn:nl.surfconext.licenseInfo": {
-        name: "License information",
-        description: "License information for the current service"
-      },
-      "urn:oid:1.3.6.1.4.1.5923.1.5.1.1": {
+      "Shib-memberOf": {
         name: "Membership",
         description: "Membership of Virtual Organizations and SURFconext."
       }

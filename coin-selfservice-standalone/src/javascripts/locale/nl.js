@@ -303,126 +303,106 @@ I18n.translations.nl = {
       }
     },
     attribute_map: {
-      "urn:mace:dir:attribute-def:uid": {
+      "Shib-uid": {
         name: "UID",
         description: "jouw unieke gebruikersnaam binnen jouw instelling"
       },
-      "urn:mace:dir:attribute-def:sn": {
+      "Shib-surName": {
         name: "Achternaam",
         description: "jouw achternaam"
       },
-      "urn:mace:dir:attribute-def:givenName": {
+      "Shib-givenName": {
         name: "Voornaam",
         description: "voornaam/roepnaam"
       },
-      "urn:mace:dir:attribute-def:cn": {
+      "Shib-commonName": {
         name: "Volledige persoonsnaam",
         description: "volledige persoonsnaam"
       },
-      "urn:mace:dir:attribute-def:displayName": {
+      "Shib-displayName": {
         name: "Weergavenaam",
         description: "weergave naam zoals getoond in applicaties"
       },
-      "urn:mace:dir:attribute-def:mail": {
+      "Shib-email": {
         name: "E-mailadres",
         description: "jouw e-mailadres zoals bekend binnen jouw instelling"
       },
-      "urn:mace:dir:attribute-def:eduPersonAffiliation": {
+      "Shib-eduPersonAffiliation": {
         name: "Relatie",
         description: "geeft de relatie aan tussen jou en jouw instelling"
       },
-      "urn:mace:dir:attribute-def:eduPersonEntitlement": {
+      "Shib-eduPersonEntitlement": {
         name: "Rechtaanduiding",
         description: "rechtaanduiding; URI (URL of URN) dat een recht op iets aangeeft; wordt bepaald door een contract tussen dienstaanbieder en instelling"
       },
-      "urn:mace:dir:attribute-def:eduPersonPrincipalName": {
+      "Shib-eduPersonPN": {
         name: "Net-ID",
         description: "jouw unieke gebruikersnaam binnen jouw instelling aangevuld met @instellingsnaam.nl"
       },
-      "urn:mace:dir:attribute-def:preferredLanguage": {
+      "Shib-preferredLanguage": {
         name: "Voorkeurstaal",
         description: "een tweeletterige afkorting van de voorkeurstaal volgens de ISO 639 taalafkortings codetabel; geen subcodes"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganization": {
+      "Shib-homeOrg": {
         name: "Organisatie",
         description: "aanduiding voor de organisatie van een persoon gebruikmakend van de domeinnaam van de organisatie; syntax conform RFC 1035"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": {
+      "Shib-schacHomeOrganizationType": {
         name: "Type Organisatie",
         description: "aanduiding voor het type organisatie waartoe een persoon behoort, gebruikmakend van de waarden zoals geregisteerd door Terena op: http://www.terena.org/registry/terena.org/schac/homeOrganizationType"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Weergavenaam van de Instelling",
         description: "weergavenaam van de instelling"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": {
+      "Shib-nlEduPersonOrgUnit": {
         name: "Afdelingsnaam",
         description: "naam van de afdeling"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Opleiding",
         description: "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": {
+      "Shib-nlStudielinkNummer": {
         name: "Studielinknummer",
         description: "studielinknummer van student zoals geregistreerd bij www.studielink.nl"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier": {
+      "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
         description: "Digital Author Identifier (DAI) zoals beschreven op: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Weergavenaam van de Instelling",
         description: "weergavenaam van de instelling"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit": {
-        name: "Afdelingsnaam",
-        description: "naam van de afdeling"
-      },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Opleiding",
         description: "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlStudielinkNummer": {
-        name: "Studielinknummer",
-        description: "studielinknummer van student zoals geregistreerd bij www.studielink.nl"
+      "Shib-userStatus": {
+        name: "Gebruikersstatus",
+        description: "Status van deze gebruiker in SURFconext"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlDigitalAuthorIdentifier": {
-        name: "DAI",
-        description: "Digital Author Identifier (DAI) zoals beschreven op: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
-      },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1": {
+      "Shib-accountstatus": {
         name: "Accountstatus",
         description: "Status van deze account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.1": {
-        name: "Accountstatus",
-        description: "Status van deze account in SURFconext"
-      },
-      "nameid": {
+      "name-id": {
         name: "Identifier",
         description: "Status van deze account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2": {
+      "Shib-voName": {
         name: "Naam Virtuele Organisatie",
         description: "De naam van de Virtuele Organisatie waarvoor je bent ingelogd."
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.40.40.1": {
+      "Shib-user": {
         name: "Identifier",
         description: "Status van deze account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.10": {
-        name: "Identifier",
-        description: "Status van deze account in SURFconext"
-      },
-      "urn:nl.surfconext.licenseInfo": {
-        name: "Licentieinformatie",
-        description: "Licentie informatie voor de huidige dienst"
-      },
-      "urn:oid:1.3.6.1.4.1.5923.1.5.1.1": {
+      "Shib-memberOf": {
         name: "Lidmaatschap",
         description: "Lidmaatschap van virtuele organisaties en SURFconext"
-      }
+      },
     }
   }
 };

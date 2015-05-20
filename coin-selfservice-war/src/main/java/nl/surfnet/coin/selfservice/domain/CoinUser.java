@@ -25,9 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
 /**
  * Simple conext user
@@ -67,17 +65,17 @@ public class CoinUser implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return true;
   }
 
   @Override

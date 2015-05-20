@@ -1,13 +1,11 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.gson.*;
 import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.janus.domain.ARP;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;

@@ -33,7 +33,6 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,9 +41,6 @@ import java.util.Locale;
  */
 @SuppressWarnings("unchecked")
 public class CsaMock implements Csa {
-
-  public CsaMock(String csaBaseLocation) {
-  }
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);

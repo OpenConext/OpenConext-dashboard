@@ -6,7 +6,7 @@ import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
-import nl.surfnet.coin.selfservice.interceptor.EnsureAccessToIdp;
+import nl.surfnet.coin.selfservice.filter.EnsureAccessToIdpFilter;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.After;
 import org.junit.Before;
@@ -15,19 +15,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
-import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.*;
+import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.coinUser;
+import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.serviceWithSpEntityId;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
@@ -60,12 +60,11 @@ public class ServicesControllerIntegrationTest {
     MockitoAnnotations.initMocks(this);
     service = serviceWithSpEntityId(SP_ENTITY_ID);
     services = asList(service);
-    EnsureAccessToIdp ensureAccessToIdp = new EnsureAccessToIdp();
-    ensureAccessToIdp.setCsa(csa);
+    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(csa);
 
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new MappingJacksonHttpMessageConverter())
-      .addInterceptors(ensureAccessToIdp)
+      .setMessageConverters(new MappingJackson2HttpMessageConverter())
+      .addFilter(ensureAccessToIdp, "/*")
       .build();
     coinUser = coinUser("user");
     InstitutionIdentityProvider institutionIdentityProvider = new InstitutionIdentityProvider(IDP_ENTITY_ID, "name", "institution id");
@@ -101,8 +100,8 @@ public class ServicesControllerIntegrationTest {
         get(format("/services")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, "no access")
       );
       fail("expected SecurityException");
-    } catch (NestedServletException e) {
-      assertEquals(SecurityException.class, e.getRootCause().getClass());
+    } catch (SecurityException e) {
+
     }
   }
 

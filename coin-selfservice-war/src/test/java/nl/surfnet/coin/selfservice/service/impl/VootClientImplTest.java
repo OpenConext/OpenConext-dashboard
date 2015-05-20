@@ -1,7 +1,6 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import nl.surfnet.coin.selfservice.domain.Group;
 import nl.surfnet.coin.selfservice.service.VootClient;
 import org.apache.commons.io.IOUtils;
@@ -24,7 +23,6 @@ public class VootClientImplTest {
   private VootClient subject = new VootClientImpl("http://localhost:8889/oauth/token", "client", "secret", "groups", "http://localhost:8889");
 
   @ClassRule
-  @Rule
   public static WireMockClassRule wireMockRule = new WireMockClassRule(8889);
 
   @Test
