@@ -16,10 +16,6 @@
 
 package nl.surfnet.sab;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTimeZone;
@@ -27,24 +23,23 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Client implementation for SAB.
  * Depends on an actual 'transport' for communication, most probably HttpClientTransport.
- *
  */
 public class SabClient implements Sab {
 
   private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
   private static final String REQUEST_TEMPLATE_LOCATION = "/sab-request.xml";
   protected static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.UTC);
+  private final ObjectMapper objectMapper = new ObjectMapper();
   private final SabTransport sabTransport;
   private SabResponseParser sabResponseParser;
 
@@ -76,24 +71,14 @@ public class SabClient implements Sab {
   @SuppressWarnings("unchecked")
   public Collection<SabPerson> getPersonsInRoleForOrganization(final String organisationAbbreviation, final String role) {
     try {
-      InputStream responseAsStream = sabTransport.getRestResponse(organisationAbbreviation, role);
-      Map<String, Object> result = new ObjectMapper().readValue(responseAsStream, HashMap.class);
-      List<SabPerson> allSabPersons = Lists.transform((List<Map<String, String>>) result.get("profiles"), new Function<Map<String, String>, SabPerson>() {
-        public SabPerson apply(Map person) {
-          List<SabRole> sabRoles = Lists.transform((List<Map<String, String>>) person.get("authorisations"), new Function<Map<String, String>, SabRole>() {
-            public SabRole apply(Map<String, String> role) {
-              return new SabRole(role.get("short"), role.get("role"));
-            }
-          });
-          return new SabPerson((String) person.get("firstname"), (String) person.get("surname"), (String) person.get("uid"), sabRoles);
-        }
-      });
-      return Collections2.filter(allSabPersons, new Predicate<SabPerson>() {
-        @Override
-        public boolean apply(SabPerson person) {
-          return person.hasRole(role);
-        }
-      });
+      InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role);
+      List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(inputStream, HashMap.class).get("profiles");
+      return profiles.stream().map(profile -> {
+        List<SabRole> sabRoles = ((List<Map<String, String>>) profile.get("authorisations")).stream().map(
+          authorisation -> new SabRole(authorisation.get("short"), authorisation.get("role"))).collect(Collectors.toList()
+        );
+        return new SabPerson((String) profile.get("firstname"), (String) profile.get("surname"), (String) profile.get("uid"), sabRoles);
+      }).filter(p -> p.hasRole(role)).collect(Collectors.toList());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -102,7 +87,7 @@ public class SabClient implements Sab {
   /**
    * Create request string from template
    *
-   * @param userId the userId to use
+   * @param userId    the userId to use
    * @param messageId the messageId to use
    * @return Serialized XML
    */
