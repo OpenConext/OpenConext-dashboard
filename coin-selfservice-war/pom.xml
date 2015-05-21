@@ -290,24 +290,5 @@
     </repository>
   </repositories>
 
-  <distributionManagement>
-    <repository>
-      <id>openconext-releases</id>
-      <name>OpenConext public releases repository</name>
-      <url>
-        dav:https://build.surfconext.nl/repository/public/releases
-      </url>
-    </repository>
-    <snapshotRepository>
-      <id>openconext-snapshots</id>
-      <name>OpenConext public snapshot repository</name>
-      <url>
-        dav:https://build.surfconext.nl/repository/public/snapshots
-      </url>
-    </snapshotRepository>
-  </distributionManagement>
-
-
-
 
 </project>
