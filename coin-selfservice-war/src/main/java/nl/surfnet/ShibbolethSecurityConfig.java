@@ -59,8 +59,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(WebSecurity web) throws Exception {
     web
       .ignoring()
-      .antMatchers("/css/**")
-      .antMatchers("/health")
+      .antMatchers("/home","/forbidden", "/css/**", "/font/**", "/images/**", "/js/**", "/health")
     ;
   }
 
@@ -74,7 +73,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
       .addFilterAfter(new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser), ShibbolethPreAuthenticatedProcessingFilter.class)
       .addFilterAfter(new EnsureAccessToIdpFilter(csa), VootFilter.class)
       .authorizeRequests()
-      .antMatchers("/accessDenied.shtml", "/css/**", "/font/**", "/images/**", "/js/**").permitAll()
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
       .antMatchers("/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
       .anyRequest().authenticated();

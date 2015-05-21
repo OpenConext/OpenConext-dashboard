@@ -9,11 +9,10 @@ import nl.surfnet.coin.selfservice.service.impl.CsaMock;
 import nl.surfnet.coin.selfservice.service.impl.VootClientImpl;
 import nl.surfnet.coin.selfservice.service.impl.VootClientMock;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
-import nl.surfnet.sab.*;
-import org.apache.catalina.Container;
-import org.apache.catalina.Wrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.surfnet.sab.HttpClientTransport;
+import nl.surfnet.sab.Sab;
+import nl.surfnet.sab.SabClient;
+import nl.surfnet.sab.SabClientMock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -24,13 +23,13 @@ import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -64,7 +63,11 @@ public class Application extends SpringBootServletInitializer {
 
   @Bean
   @Autowired
-  public WebMvcConfigurerAdapter webMvcConfigurerAdapter() {
+  public WebMvcConfigurerAdapter webMvcConfigurerAdapter(@Value("${statsBaseUrl}") String statsBaseUrl,
+                                                         @Value("${statsClientId}") String statsClientId,
+                                                         @Value("${statsScope}") String statsScope,
+                                                         @Value("${statsRedirectUri}") String statsRedirectUri
+  ) {
     return new WebMvcConfigurerAdapter() {
       @Override
       public void addInterceptors(InterceptorRegistry registry) {
@@ -72,9 +75,10 @@ public class Application extends SpringBootServletInitializer {
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
       }
+
       @Override
-      public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add( new GsonHttpMessageConverter());
+      public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(new GsonHttpMessageConverter(statsBaseUrl, statsClientId, statsScope, statsRedirectUri));
       }
     };
   }
@@ -124,11 +128,11 @@ public class Application extends SpringBootServletInitializer {
   @Autowired
   @Profile("!dev")
   public VootClient vootClient(Environment environment,
-    @Value("${voot.accessTokenUri}") String accessTokenUri,
-    @Value("${voot.clientId}") String clientId,
-    @Value("${voot.clientSecret}") String clientSecret,
-    @Value("${voot.scopes}") String spaceDelimitedScopes,
-    @Value("${voot.serviceUrl}") String serviceUrl) {
+                               @Value("${voot.accessTokenUri}") String accessTokenUri,
+                               @Value("${voot.clientId}") String clientId,
+                               @Value("${voot.clientSecret}") String clientSecret,
+                               @Value("${voot.scopes}") String spaceDelimitedScopes,
+                               @Value("${voot.serviceUrl}") String serviceUrl) {
     return new VootClientImpl(accessTokenUri, clientId, clientSecret, spaceDelimitedScopes, serviceUrl);
   }
 
@@ -140,30 +144,15 @@ public class Application extends SpringBootServletInitializer {
   }
 
 
-  /**
-   * Required because of https://github.com/spring-projects/spring-boot/issues/2825
-   * As the issue says, probably can be removed as of Spring-Boot 1.3.0
-   */
   @Bean
-  public EmbeddedServletContainerCustomizer servletContainerCustomizer() {
-    return new EmbeddedServletContainerCustomizer() {
-
-      @Override
-      public void customize(ConfigurableEmbeddedServletContainer container) {
-        if (container instanceof TomcatEmbeddedServletContainerFactory) {
-          customizeTomcat((TomcatEmbeddedServletContainerFactory) container);
-        }
-      }
-
-      private void customizeTomcat(TomcatEmbeddedServletContainerFactory tomcatFactory) {
-        tomcatFactory.addContextCustomizers(context -> {
-          Container jsp = context.findChild("jsp");
-          if (jsp instanceof Wrapper) {
-            ((Wrapper) jsp).addInitParameter("development", "false");
-          }
-        });
-      }
-    };
+  public EmbeddedServletContainerCustomizer containerCustomizer(){
+    return new ErrorCustomizer();
   }
 
+  private static class ErrorCustomizer implements EmbeddedServletContainerCustomizer {
+    @Override
+    public void customize(ConfigurableEmbeddedServletContainer container) {
+      container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/forbidden"));
+    }
+  }
 }

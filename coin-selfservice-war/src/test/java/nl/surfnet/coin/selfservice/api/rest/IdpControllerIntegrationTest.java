@@ -61,7 +61,7 @@ public class IdpControllerIntegrationTest {
 
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(csa);
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter())
+      .setMessageConverters(new GsonHttpMessageConverter("","","",""))
       .addFilter(ensureAccessToIdp, "/*")
       .setHandlerExceptionResolvers(createExceptionResolver())
       .build();

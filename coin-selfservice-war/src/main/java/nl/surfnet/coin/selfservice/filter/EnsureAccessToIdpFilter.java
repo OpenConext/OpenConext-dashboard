@@ -33,7 +33,7 @@ public class EnsureAccessToIdpFilter extends GenericFilterBean {
       idpEntityId = request.getParameter("idpEntityId");
     }
 
-    if(!req.getRequestURI().endsWith("/users/me")) {
+    if(!req.getRequestURI().contains("/users/me")) {
       SpringSecurity.ensureAccess(csa, idpEntityId);
     }
     chain.doFilter(request, response);

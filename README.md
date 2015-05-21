@@ -33,7 +33,11 @@ To build:
 
 To run locally:
 
-    mvn jetty:run
+    mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=dev"
+
+If you want to debug you can use
+    
+    ./debug.sh
 
 #### The client
 
@@ -41,12 +45,12 @@ To run locally:
 
 Initial setup:
 
-    brew install npm
-    gem install sass
-    gem install sass-globbing
-    gem install compass
-    npm install -g grunt-cli
-    npm install
+    brew install npm;
+    gem install sass;
+    gem install sass-globbing;
+    gem install compass;
+    npm install -g grunt-cli;
+    npm install;
 
 When new grunt dependencies are added:
 

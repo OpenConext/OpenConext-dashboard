@@ -26,20 +26,21 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
 
   private Gson gson;
 
-  @Value("${statsBaseUrl}")
   private String statsBaseUrl;
 
-  @Value("${statsClientId}")
   private String statsClientId;
 
-  @Value("${statsScope}")
   private String statsScope;
 
-  @Value("${statsRedirectUri}")
   private String statsRedirectUri;
 
-  public GsonHttpMessageConverter() {
+
+  public GsonHttpMessageConverter(String statsBaseUr, String statsClientId, String statsScope, String statsRedirectUri) {
     this.gson = GSON_BUILDER.create();
+    this.statsBaseUrl = statsBaseUr;
+    this.statsClientId = statsClientId;
+    this.statsScope = statsScope;
+    this.statsRedirectUri = statsRedirectUri;
   }
 
   @Override

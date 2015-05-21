@@ -50,7 +50,7 @@ public class CoinUser implements UserDetails {
   @Override
   @JsonIgnore
   public String getPassword() {
-    throw new SecurityException("Self service interface does not contain passwords");
+    return "";
   }
 
   /**

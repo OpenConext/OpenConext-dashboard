@@ -56,11 +56,16 @@ public class MockShibbolethFilter extends GenericFilterBean {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    String userId = request.getParameter("mockUser");
+    HttpServletRequest req = (HttpServletRequest) request;
+    String userId = request.getParameter("mockUser");//"admin";
+    if (userId == null) {
+      userId = (String) req.getSession().getAttribute("mockShibbolethUser");
+    }
     if (userId == null) {
       IOUtils.copy(new ClassPathResource("mockLogin.html").getInputStream(), response.getOutputStream());
     } else {
-      SetHeader wrapper = new SetHeader((HttpServletRequest) request);
+      req.getSession(true).setAttribute("mockShibbolethUser", userId);
+      SetHeader wrapper = new SetHeader(req);
       wrapper.setHeader("name-id", userId);
       wrapper.setHeader("Shib-uid", userId);
       String idp = "http://mock-idp";

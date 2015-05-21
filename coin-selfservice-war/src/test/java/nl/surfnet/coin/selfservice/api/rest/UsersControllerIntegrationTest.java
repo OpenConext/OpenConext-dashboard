@@ -57,7 +57,7 @@ public class UsersControllerIntegrationTest {
 
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(csa);
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter())
+      .setMessageConverters(new GsonHttpMessageConverter("","","",""))
       .addFilter(ensureAccessToIdp, "/*")
       .build();
     coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);
