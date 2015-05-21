@@ -41,12 +41,12 @@ To run locally:
 
 Initial setup:
 
-    brew install npm
-    gem install sass
-    gem install sass-globbing
-    gem install compass
-    npm install -g grunt-cli
-    npm install
+    brew install npm;
+    gem install sass;
+    gem install sass-globbing;
+    gem install compass;
+    npm install -g grunt-cli;
+    npm install;
 
 When new grunt dependencies are added:
 
