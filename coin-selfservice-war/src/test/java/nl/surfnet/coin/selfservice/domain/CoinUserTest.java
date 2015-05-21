@@ -12,10 +12,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 
-import static java.lang.String.format;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CoinUserTest {
 

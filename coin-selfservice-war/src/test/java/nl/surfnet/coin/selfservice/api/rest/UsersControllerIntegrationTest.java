@@ -5,7 +5,7 @@ import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
-import nl.surfnet.coin.selfservice.interceptor.EnsureAccessToIdp;
+import nl.surfnet.coin.selfservice.filter.EnsureAccessToIdpFilter;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +20,6 @@ import org.springframework.web.util.NestedServletException;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -31,7 +30,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 public class UsersControllerIntegrationTest {
@@ -55,11 +55,10 @@ public class UsersControllerIntegrationTest {
 
     MockitoAnnotations.initMocks(this);
 
-    EnsureAccessToIdp ensureAccessToIdp = new EnsureAccessToIdp();
-    ensureAccessToIdp.setCsa(csa);
+    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(csa);
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter())
-      .addInterceptors(ensureAccessToIdp)
+      .setMessageConverters(new GsonHttpMessageConverter("","","",""))
+      .addFilter(ensureAccessToIdp, "/*")
       .build();
     coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);
     SpringSecurityUtil.setAuthentication(coinUser);

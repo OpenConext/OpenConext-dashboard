@@ -16,16 +16,10 @@
 
 package nl.surfnet.sab;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTimeZone;
@@ -36,17 +30,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.*;
 
 /**
  * Client implementation for SAB.
  * Depends on an actual 'transport' for communication, most probably HttpClientTransport.
  *
  */
-@Component
 public class SabClient implements Sab {
 
   private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
@@ -55,7 +48,6 @@ public class SabClient implements Sab {
   private final SabTransport sabTransport;
   private SabResponseParser sabResponseParser;
 
-  @Autowired
   public SabClient(SabTransport sabTransport) {
     this.sabTransport = sabTransport;
     sabResponseParser = new SabResponseParser();

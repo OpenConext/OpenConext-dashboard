@@ -178,7 +178,7 @@ module.exports = function(grunt) {
         },
         proxies: [
           {
-            context: ['/dashboard', '/mujina-idp'],
+            context: ['/dashboard'],
             host: 'localhost',
             port: 8280,
             https: false,

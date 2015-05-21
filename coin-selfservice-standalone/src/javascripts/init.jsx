@@ -100,18 +100,24 @@ var App = {
   },
 
   fetchUserData: function(callback) {
+
+    var redirectTo403Server = function() {
+      window.location =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        "/dashboard/api/forbidden";
+    };
+
     $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
-      // can't check the response status because it always returns a 200
       if (!data.payload) {
-        window.location =
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          "/dashboard/dashboard.jsp";
+        redirectTo403Server();
         return;
       }
       I18n.locale = data.language;
       callback(data.payload);
+    }).fail(function(data) {
+      redirectTo403Server();
     });
   },
 

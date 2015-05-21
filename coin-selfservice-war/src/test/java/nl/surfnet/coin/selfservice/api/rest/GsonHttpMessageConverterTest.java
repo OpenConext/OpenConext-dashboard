@@ -16,17 +16,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class GsonHttpMessageConverterTest {
-
-  private GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
+  private GsonHttpMessageConverter converter;
   private MockHttpOutputMessage outputMessage;
 
   @Before
   public void setUp() throws Exception {
     outputMessage = new MockHttpOutputMessage();
-    converter.setStatsBaseUrl("https://foo");
-    converter.setStatsClientId("bar");
-    converter.setStatsScope("/scope");
-    converter.setStatsRedirectUri("/foobar");
+    converter = new GsonHttpMessageConverter("https://foo", "bar", "scope", "/foobar");
   }
 
   @Test
