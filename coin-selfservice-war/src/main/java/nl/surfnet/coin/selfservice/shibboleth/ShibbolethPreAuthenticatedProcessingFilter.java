@@ -41,7 +41,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     coinUser.setEmail(request.getHeader("Shib-email"));
     coinUser.setSchacHomeOrganization( request.getHeader("Shib-homeOrg"));
 
-    coinUser.setAttributeMap(shibHeaders.stream().filter(h -> StringUtils.hasText(request.getHeader(h))).collect(Collectors.toMap(h -> h, h -> Arrays.asList(request.getHeader(h)))));
+    Map<String, List<String>> attributes = shibHeaders.stream().filter(h -> StringUtils.hasText(request.getHeader(h))).collect(Collectors.toMap(h -> h, h -> Arrays.asList(request.getHeader(h))));
+    coinUser.setAttributeMap(attributes);
 
     if (CollectionUtils.isEmpty(institutionIdentityProviders)) {
       //duhh, fail fast, big problems

@@ -58,7 +58,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     String userId = request.getParameter("mockUser");
     if (userId == null) {
-      sendLoginHtml((HttpServletResponse) response);
+      IOUtils.copy(new ClassPathResource("mockLogin.html").getInputStream(), response.getOutputStream());
     } else {
       SetHeader wrapper = new SetHeader((HttpServletRequest) request);
       wrapper.setHeader("name-id", userId);
@@ -71,11 +71,4 @@ public class MockShibbolethFilter extends GenericFilterBean {
     }
   }
 
-  private void sendLoginHtml(HttpServletResponse response) {
-    try {
-      IOUtils.copy(new ClassPathResource("mockLogin.html").getInputStream(), response.getOutputStream());
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to serve the mockLogin.html file", e);
-    }
-  }
 }

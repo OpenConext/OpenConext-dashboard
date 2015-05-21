@@ -141,7 +141,7 @@
 
     <!--<dependency>-->
       <!--<groupId>org.springframework</groupId>-->
-      <!--<artifactId>spring-context</artifactId>-->
+      <!--<artifactId>spring-aop</artifactId>-->
       <!--&lt;!&ndash;<version>${spring.version}</version>&ndash;&gt;-->
     <!--</dependency>-->
 
