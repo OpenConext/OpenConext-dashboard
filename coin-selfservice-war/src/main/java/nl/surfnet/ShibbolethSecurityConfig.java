@@ -55,6 +55,11 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     return shibFilter;
   }
 
+  /*
+   * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
+   * for a quick overview of the differences between the three configure overrides
+   */
+
   @Override
   public void configure(WebSecurity web) throws Exception {
     web
