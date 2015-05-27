@@ -31,10 +31,14 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Locale;
 
@@ -74,6 +78,12 @@ public class Application extends SpringBootServletInitializer {
         final LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
+        registry.addInterceptor(new HandlerInterceptorAdapter() {
+          @Override
+          public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+            response.addHeader("X-SUCCESS", "true");
+          }
+        });
       }
 
       @Override
@@ -145,7 +155,7 @@ public class Application extends SpringBootServletInitializer {
 
 
   @Bean
-  public EmbeddedServletContainerCustomizer containerCustomizer(){
+  public EmbeddedServletContainerCustomizer containerCustomizer() {
     return new ErrorCustomizer();
   }
 

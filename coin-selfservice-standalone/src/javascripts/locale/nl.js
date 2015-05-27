@@ -227,7 +227,7 @@ I18n.translations.nl = {
   },
 
   logout: {
-    title: "Succesvul uitgelogd.",
+    title: "Succesvol uitgelogd.",
     description_html: "Je <strong>MOET</strong> de browser afsluiten om het uitlogproces af te ronden."
   },
 
