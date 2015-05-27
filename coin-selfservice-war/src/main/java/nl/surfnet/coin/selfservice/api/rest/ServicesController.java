@@ -29,6 +29,7 @@ import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_I
 @Controller
 @RequestMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ServicesController extends BaseController {
+
   private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
 
   @Resource
