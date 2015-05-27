@@ -13,6 +13,7 @@ var App = {
     $(document).ajaxError(this.ajaxError.bind(this));
     $(document).ajaxStart(this.showSpinner.bind(this));
     $(document).ajaxStop(this.hideSpinner.bind(this));
+    $(document).ajaxComplete(this.checkSessionExpired.bind(this));
 
     this.fetchUserData(function(user) {
       this.currentUser = user;
@@ -143,7 +144,14 @@ var App = {
         console.error("Ajax request failed");
     }
   },
-
+  checkSessionExpired: function(event, xhr) {
+    console.log(xhr.responseText);
+    console.log(xhr.getResponseHeader("sessionAlive"));
+    if (xhr.getResponseHeader("sessionAlive") !== "success") {
+      console.log("will redirect now...");
+      //window.location.href = "/";
+    }
+  },
   currentIdpId: function() {
     return this.currentIdp().id;
   },

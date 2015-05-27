@@ -80,8 +80,12 @@ public class Application extends SpringBootServletInitializer {
         registry.addInterceptor(localeChangeInterceptor);
         registry.addInterceptor(new HandlerInterceptorAdapter() {
           @Override
-          public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-            response.addHeader("X-SUCCESS", "true");
+          public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+            // add this header as an indication to the JS-client that this is a regular, non-session-expired response.
+            System.out.println(request.getRequestURI());
+            response.addHeader("sessionAlive", "success");
+            return true;
           }
         });
       }
