@@ -142,7 +142,6 @@ public class CsaMock implements Csa {
     action.setId(System.currentTimeMillis());
     action.setIdpName("Mock IdP");
     action.setSpName("Mock SP");
-
     actionsCreated.add(action);
     return action;
   }

@@ -71,9 +71,10 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
+      .csrf().disable()
       .addFilterBefore(
-        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
-        AbstractPreAuthenticatedProcessingFilter.class
+      new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
+      AbstractPreAuthenticatedProcessingFilter.class
       )
       .addFilterAfter(new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser), ShibbolethPreAuthenticatedProcessingFilter.class)
       .addFilterAfter(new EnsureAccessToIdpFilter(csa), VootFilter.class)

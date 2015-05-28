@@ -141,8 +141,9 @@ var App = {
     }
   },
   checkSessionExpired: function(event, xhr) {
-    if (xhr.getResponseHeader("sessionAlive") !== "success") {
-      window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/escape";
+    //do not handle anything other then 200 and 302 as the others are handled by ajaxError
+    if (xhr.getResponseHeader("sessionAlive") !== "success" && (xhr.status === 200 || xhr.status === 302)) {
+      window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home";
     }
   },
   currentIdpId: function() {
