@@ -103,22 +103,18 @@ var App = {
   fetchUserData: function(callback) {
 
     var redirectTo403Server = function() {
-      window.location =
-        window.location.protocol +
-        "//" +
-        window.location.host +
-        "/dashboard/api/forbidden";
+      window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden";
     };
 
     $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
       if (!data.payload) {
-       // redirectTo403Server();
+        redirectTo403Server();
         return;
       }
       I18n.locale = data.language;
       callback(data.payload);
     }).fail(function(data) {
-      //redirectTo403Server();
+      redirectTo403Server();
     });
   },
 
@@ -145,16 +141,8 @@ var App = {
     }
   },
   checkSessionExpired: function(event, xhr) {
-    console.log(xhr.responseText);
-    console.log(xhr.getResponseHeader("sessionAlive"));
     if (xhr.getResponseHeader("sessionAlive") !== "success") {
-      console.log("will redirect now...");
-      //App.stop();
-      //setTimeout(function() {
-
-      //window.location.href = 'http://localhost:8001/index.html';
-      window.location.href = 'http://www.google.nl';
-      //}, 1500);
+      window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/escape";
     }
   },
   currentIdpId: function() {
