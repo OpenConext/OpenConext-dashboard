@@ -112,13 +112,13 @@ var App = {
 
     $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
       if (!data.payload) {
-        redirectTo403Server();
+       // redirectTo403Server();
         return;
       }
       I18n.locale = data.language;
       callback(data.payload);
     }).fail(function(data) {
-      redirectTo403Server();
+      //redirectTo403Server();
     });
   },
 
@@ -149,7 +149,12 @@ var App = {
     console.log(xhr.getResponseHeader("sessionAlive"));
     if (xhr.getResponseHeader("sessionAlive") !== "success") {
       console.log("will redirect now...");
-      //window.location.href = "/";
+      //App.stop();
+      //setTimeout(function() {
+
+      //window.location.href = 'http://localhost:8001/index.html';
+      window.location.href = 'http://www.google.nl';
+      //}, 1500);
     }
   },
   currentIdpId: function() {
