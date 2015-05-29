@@ -50,7 +50,7 @@ I18n.translations.en = {
     },
     static: {
       connection: {
-        name: "Connection active",
+        name: "Service connected",
         has_connection: "Yes",
         no_connection: "No"
       },
@@ -59,6 +59,11 @@ I18n.translations.en = {
         has_license: "Yes",
         no_license: "No",
         unknown_license: "Unknown"
+      },
+      used_by_idp: {
+        name: "Service from my institution",
+        yes: "Yes",
+        no: "No"
       }
     }
   },

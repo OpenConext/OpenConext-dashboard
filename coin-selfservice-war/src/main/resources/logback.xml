@@ -8,9 +8,9 @@
 
   <appender name="email" class="ch.qos.logback.classic.net.SMTPAppender">
     <smtpHost>localhost</smtpHost>
-    <from>no-reply@surfconext.nl</From>
-    <to>oharsta@zilverline.com</To>
-    <subject>Unepxected error dashboard</Subject>
+    <from>no-reply@surfconext.nl</from>
+    <to>oharsta@zilverline.com</to>
+    <subject>Unepxected error dashboard</subject>
     <layout class="ch.qos.logback.classic.html.HTMLLayout"/>
 
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">

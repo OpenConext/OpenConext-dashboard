@@ -50,7 +50,7 @@ I18n.translations.nl = {
     },
     static: {
       connection: {
-        name: "Connectie actief",
+        name: "Dienst gekoppeld",
         has_connection: "Ja",
         no_connection: "Nee"
       },
@@ -59,6 +59,11 @@ I18n.translations.nl = {
         has_license: "Ja",
         no_license: "Nee",
         unknown_license: "Onbekend"
+      },
+      used_by_idp: {
+        name: "Aangeboden door mijn instelling",
+        yes: "Ja",
+        no: "Nee"
       }
     }
   },

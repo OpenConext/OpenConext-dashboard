@@ -68,7 +68,7 @@ App.Components.Facets = React.createClass({
     return (
       <label key={facetValue.value}>
         <input
-          checked={this.props.selectedFacets[facet] == value}
+          checked={Array.isArray(this.props.selectedFacets[facet]) && this.props.selectedFacets[facet].indexOf(value) > -1}
           type="checkbox"
           onChange={this.handleSelectFacet(facet, value)} />
         {facetValue.value}
@@ -92,7 +92,7 @@ App.Components.Facets = React.createClass({
   handleSelectFacet: function(facet, facetValue) {
     return function(e) {
       e.stopPropagation();
-      this.props.onChange(facet, facetValue);
+      this.props.onChange(facet, facetValue, e.target.checked);
     }.bind(this);
   },
 
@@ -117,6 +117,13 @@ App.Components.Facets = React.createClass({
         { value: I18n.t("facets.static.license.has_license"), searchValue: "yes" },
         { value: I18n.t("facets.static.license.no_license"), searchValue: "no" },
         { value: I18n.t("facets.static.license.unknown_license"), searchValue: "unknown" }
+      ]
+    }, {
+      name: I18n.t("facets.static.used_by_idp.name"),
+      searchValue: "used_by_idp",
+      values: [
+        { value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes" },
+        { value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no" }
       ]
     }];
   },
