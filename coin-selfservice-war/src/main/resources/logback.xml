@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
-  <logger name="authzadmin" level="DEBUG"/>
-  <logger name="org.springframework.security.oauth" level="DEBUG"/>
-  <logger name="org.thymeleaf" level="TRACE"/>
-
 
   <appender name="email" class="ch.qos.logback.classic.net.SMTPAppender">
     <smtpHost>localhost</smtpHost>

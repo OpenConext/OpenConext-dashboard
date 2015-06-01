@@ -76,7 +76,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
       .forUser(
         SpringSecurity.getCurrentUser(),
         format(
-          "%s/oauth/authorize.php?response_type=token&state=some%%20state&client_id=%s&scope=%s&redirect_uri=%s",
+          "%s/oauth/authorize.php?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",
           statsBaseUrl,
           statsClientId,
           statsScope,

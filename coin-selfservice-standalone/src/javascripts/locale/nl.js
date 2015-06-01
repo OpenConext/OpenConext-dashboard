@@ -73,7 +73,7 @@ I18n.translations.nl = {
       name: "Service",
       license: "Licentie",
       license_unknown: "Onbekend",
-      connected: "Connectie actief",
+      connected: "Dienst gekoppeld",
       search_hint: "Zoeken",
       search: "Zoek",
       connect: "",
@@ -84,8 +84,9 @@ I18n.translations.nl = {
       overview: "Overzicht",
       license_info: "Licentie",
       attribute_policy: "Attributen",
-      how_to_connect: "Connectie activeren",
-      how_to_disconnect: "Connectie deactiveren",
+      idp_usage: "Gebruikt door",
+      how_to_connect: "Dienst koppelen",
+      how_to_disconnect: "Dienst ontkoppelen",
       application_usage: "Service gebruik"
     }
   },
@@ -130,10 +131,10 @@ I18n.translations.nl = {
     wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
     no_description: "Er is geen beschijving voor deze service.",
     description: "Beschrijving",
-    has_connection: "Connectie actief",
-    no_connection: "Connectie niet actief",
-    how_to_connect: "Lees hoe je een connectie activeert",
-    disconnect: "Lees hoe je een verbinding deactiveert"
+    has_connection: "Dienst gekoppeld",
+    no_connection: "Dienst niet gekoppeld",
+    how_to_connect: "Lees hoe je een dienst koppelt",
+    disconnect: "Lees hoe je een dienst ontkoppelt"
   },
 
   attributes_policy_panel: {
@@ -146,6 +147,12 @@ I18n.translations.nl = {
       noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen zullen worden uitgewisseld met {{name}}.",
       noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}."
     }
+  },
+
+  idp_usage_panel: {
+    title: "Gebruikt door",
+    subtitle: "De volgende instituties zijn gekoppeld aan {{name}}.",
+    institution: "Institutie"
   },
 
   how_to_connect_panel: {

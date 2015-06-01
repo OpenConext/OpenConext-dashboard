@@ -136,9 +136,9 @@ App.Pages.AppOverview = React.createClass({
       facetValues = selectedFacets[facet] = [facetValue];
     }
     /*
-     * Special case. For the static facet connected we only want one value (e.g. either 'yes' or 'no')
+     * Special case. For the static facets connected and used_by_idp we only want one value (e.g. either 'yes' or 'no')
      */
-    if (facet === "connection" && checked && facetValues.length === 2) {
+    if ((facet === "connection" || facet === "used_by_idp") && checked && facetValues.length === 2) {
       facetValues.splice(0,1);
     }
     this.setState({activeFacets: selectedFacets});
@@ -207,10 +207,13 @@ App.Pages.AppOverview = React.createClass({
   },
 
   filterIdpService: function(app) {
-    // TODO see filterConnectionFacet
-    var institutionIdIdp = App.currentIdp().institutionId;
-    var institutionIdSp = app.institutionId;
-    return institutionIdIdp === institutionIdSp;
+    var usedByIdpFacetValues = this.state.activeFacets["used_by_idp"] || [];
+    if (usedByIdpFacetValues.length > 0) {
+      var institutionIdIdp = App.currentIdp().institutionId;
+      var institutionIdSp = app.institutionId;
+      return institutionIdIdp ===  institutionIdSp ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
+    }
+    return true;
   },
 
   normalizeCategories: function (app) {

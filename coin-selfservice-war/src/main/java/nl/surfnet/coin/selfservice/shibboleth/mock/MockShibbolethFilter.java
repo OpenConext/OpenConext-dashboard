@@ -62,9 +62,12 @@ public class MockShibbolethFilter extends GenericFilterBean {
       userId = (String) req.getSession().getAttribute("mockShibbolethUser");
     }
     if (userId == null) {
-      HttpServletResponse res = (HttpServletResponse) response;
-     // res.setHeader("sessionAlive", "success");
-      IOUtils.copy(new ClassPathResource("mockLogin.html").getInputStream(), res.getWriter());
+      String redirectTo = request.getParameter("redirectTo");
+      String login = IOUtils.toString(new ClassPathResource("mockLogin.html").getInputStream());
+      if (redirectTo != null) {
+        login = login.replaceFirst("@@redirectTo@@",redirectTo );
+      }
+      response.getWriter().write(login);
     } else {
       req.getSession(true).setAttribute("mockShibbolethUser", userId);
       SetHeader wrapper = new SetHeader(req);

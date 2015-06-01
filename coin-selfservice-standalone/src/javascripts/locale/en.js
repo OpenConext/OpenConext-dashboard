@@ -73,7 +73,7 @@ I18n.translations.en = {
       name: "Service",
       license: "License",
       license_unknown: "Unknown",
-      connected: "Connection",
+      connected: "Connected",
       search_hint: "Filter by name",
       search: "Search",
       connect: "",
@@ -84,8 +84,9 @@ I18n.translations.en = {
       overview: "Overview",
       license_info: "License",
       attribute_policy: "Attributes",
-      how_to_connect: "Activate connection",
-      how_to_disconnect: "Deactivate connection",
+      idp_usage: "Used by",
+      how_to_connect: "Activate service",
+      how_to_disconnect: "Deactivate service",
       application_usage: "Service usage"
     }
   },
@@ -146,6 +147,11 @@ I18n.translations.en = {
       noarp: "There is no 'Attribute Release Policy' specified. All known attributes will be exchanged with {{name}}.",
       noattr: "No attributes will be exchanged with {{name}}."
     }
+  },
+  idp_usage_panel: {
+    title: "Used by",
+    subtitle: "The following institutions are connected to {{name}}.",
+    institution: "Institution"
   },
 
   how_to_connect_panel: {

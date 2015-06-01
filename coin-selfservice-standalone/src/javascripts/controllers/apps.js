@@ -9,6 +9,7 @@ App.Controllers.Apps = {
 
     page("/apps/:id/:active_panel?",
       this.loadApp.bind(this),
+      this.loadInstitutions.bind(this),
       this.detail.bind(this)
     );
   },
@@ -27,6 +28,13 @@ App.Controllers.Apps = {
     });
   },
 
+  loadInstitutions: function(ctx, next) {
+    $.get(App.apiUrl("/services/idps/" + ctx.params.id), function(data) {
+      ctx.institutions = data.payload;
+      next();
+    });
+  },
+
   loadFacets: function(ctx, next) {
     $.get(App.apiUrl("/facets"), function(data) {
       ctx.facets = data.payload;
@@ -39,7 +47,7 @@ App.Controllers.Apps = {
   },
 
   detail: function(ctx) {
-    App.render(App.Pages.AppDetail({key: "apps", app: ctx.app, activePanel: ctx.params.active_panel}));
+    App.render(App.Pages.AppDetail({key: "apps", apps: ctx.apps, app: ctx.app, institutions: ctx.institutions, activePanel: ctx.params.active_panel}));
   },
 
   makeConnection: function(app, comments, callback) {
