@@ -143,15 +143,16 @@ App.Pages.AppOverview = React.createClass({
      * Special case. For some static facets we only want one value (e.g. either 'yes' or 'no')
      */
     if (this.state.radioButtonFacets.indexOf(facet) > -1 && checked && facetValues.length === 2) {
+      //we use radio buttons for one-value-facets, but we do want the ability to de-select them
       var nbr = (facetValues[0] === facetValues[1] ? 2 : 1);
-      facetValues.splice(0,nbr);
+      facetValues.splice(0, nbr);
     }
     this.setState({activeFacets: selectedFacets});
     App.store.activeFacets = selectedFacets;
   },
 
 
-  handleFacetHide: function(facet) {
+  handleFacetHide: function (facet) {
     var hiddenFacets = $.extend({}, this.state.hiddenFacets);
     if (hiddenFacets[facet.name]) {
       delete hiddenFacets[facet.name];
@@ -224,17 +225,17 @@ App.Pages.AppOverview = React.createClass({
     return true;
   },
 
-  filterIdpService: function(app) {
+  filterIdpService: function (app) {
     var usedByIdpFacetValues = this.state.activeFacets["used_by_idp"] || [];
     if (usedByIdpFacetValues.length > 0) {
       var institutionIdIdp = App.currentIdp().institutionId;
       var institutionIdSp = app.institutionId;
-      return institutionIdIdp ===  institutionIdSp ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
+      return institutionIdIdp === institutionIdSp ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
     }
     return true;
   },
 
-  filterPublishedEdugain: function(app) {
+  filterPublishedEdugain: function (app) {
     var edugainFacetValues = this.state.activeFacets["published_edugain"] || [];
     var published = app.publishedInEdugain || false;
     return edugainFacetValues.length === 0 || edugainFacetValues.indexOf(published.toString()) > -1;

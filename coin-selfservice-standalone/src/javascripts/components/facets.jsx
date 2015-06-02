@@ -99,39 +99,33 @@ App.Components.Facets = React.createClass({
         {facetValue.value}
       </label>
     );
-  }
-  ,
+  },
 
   renderDownloadButton: function () {
     return (
       <a href="#" className={"c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
          onClick={this.handleDownload}>{I18n.t("facets.download")}</a>
     );
-  }
-  ,
+  },
 
   handleDownload: function (e) {
     e.preventDefault();
     e.stopPropagation();
-
     this.props.onDownload();
-  }
-  ,
+  },
 
   handleSelectFacet: function (facet, facetValue) {
     return function (e) {
       e.stopPropagation();
       this.props.onChange(facet, facetValue, e.target.checked);
     }.bind(this);
-  }
-  ,
+  },
 
   handleResetFilters: function (e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.onReset();
-  }
-  ,
+  },
 
   staticFacets: function () {
     return [{
@@ -170,7 +164,5 @@ App.Components.Facets = React.createClass({
         ]
       }];
   }
-  ,
 
-})
-;
+});
