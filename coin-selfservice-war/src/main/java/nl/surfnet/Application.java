@@ -1,10 +1,10 @@
 package nl.surfnet;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.CsaClient;
-import nl.surfnet.coin.oauth.ClientCredentialsClient;
+
 import nl.surfnet.coin.selfservice.api.rest.GsonHttpMessageConverter;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.service.VootClient;
+import nl.surfnet.coin.selfservice.service.impl.CsaImpl;
 import nl.surfnet.coin.selfservice.service.impl.CsaMock;
 import nl.surfnet.coin.selfservice.service.impl.VootClientImpl;
 import nl.surfnet.coin.selfservice.service.impl.VootClientMock;
@@ -31,7 +31,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -103,16 +102,9 @@ public class Application extends SpringBootServletInitializer {
     @Value("${csa.base.url}") String csaBaseLocation,
     @Value("${csa.client.key}") String clientKey,
     @Value("${csa.client.secret}") String clientSecret,
-    @Value("${csa.oauth2.authorization.url}") String oauthAuthorizationUrl) {
+    @Value("${csa.oauth2.accessTokenUrl}") String accessTokenUrl) {
 
-    ClientCredentialsClient oauthClient = new ClientCredentialsClient();
-    oauthClient.setClientKey(clientKey);
-    oauthClient.setClientSecret(clientSecret);
-    oauthClient.setOauthAuthorizationUrl(oauthAuthorizationUrl);
-
-    CsaClient csaClient = new CsaClient(csaBaseLocation);
-    csaClient.setOauthClient(oauthClient);
-    return csaClient;
+    return new CsaImpl(accessTokenUrl, clientKey, clientSecret, "actions cross-idp-services stats", csaBaseLocation);
   }
 
   @Bean

@@ -1,10 +1,11 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.filter.EnsureAccessToIdpFilter;
+import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import nl.surfnet.sab.Sab;
 import org.junit.After;
@@ -61,7 +62,7 @@ public class IdpControllerIntegrationTest {
 
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(csa);
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter("","","",""))
+      .setMessageConverters(new GsonHttpMessageConverter("", "", "", ""))
       .addFilter(ensureAccessToIdp, "/*")
       .setHandlerExceptionResolvers(createExceptionResolver())
       .build();

@@ -1,6 +1,5 @@
 package nl.surfnet.coin.selfservice.shibboleth.mock;
 
-import nl.surfnet.coin.selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +12,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
 public class MockShibbolethFilter extends GenericFilterBean {
@@ -65,7 +64,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
       String redirectTo = request.getParameter("redirectTo");
       String login = IOUtils.toString(new ClassPathResource("mockLogin.html").getInputStream());
       if (redirectTo != null) {
-        login = login.replaceFirst("@@redirectTo@@",redirectTo );
+        login = login.replaceFirst("@@redirectTo@@", redirectTo);
       }
       response.getWriter().write(login);
     } else {

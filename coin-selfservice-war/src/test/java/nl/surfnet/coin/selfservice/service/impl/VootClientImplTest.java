@@ -5,7 +5,6 @@ import nl.surfnet.coin.selfservice.domain.Group;
 import nl.surfnet.coin.selfservice.service.VootClient;
 import org.apache.commons.io.IOUtils;
 import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 

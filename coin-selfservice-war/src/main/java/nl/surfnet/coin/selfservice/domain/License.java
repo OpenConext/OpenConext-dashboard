@@ -39,7 +39,7 @@ public class License implements Serializable {
   private String licenseNumber;
   private String institutionName;
   private boolean groupLicense;
-  
+
   /**
    * Default constructor
    */
@@ -89,7 +89,7 @@ public class License implements Serializable {
   @Override
   public String toString() {
     return "License [startDate=" + startDate + ", endDate=" + endDate + ", licenseNumber=" + licenseNumber + ", institutionName="
-        + institutionName + "]";
+      + institutionName + "]";
   }
 
   public boolean isGroupLicense() {

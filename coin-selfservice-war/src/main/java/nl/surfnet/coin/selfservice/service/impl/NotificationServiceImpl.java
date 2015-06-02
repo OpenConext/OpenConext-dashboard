@@ -17,10 +17,11 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Service;
+
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
+import nl.surfnet.coin.selfservice.domain.Service;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.service.NotificationService;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.stereotype.Component;

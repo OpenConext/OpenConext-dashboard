@@ -1,6 +1,5 @@
 package nl.surfnet.coin.selfservice.domain;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 public class CoinAuthentication extends PreAuthenticatedAuthenticationToken {

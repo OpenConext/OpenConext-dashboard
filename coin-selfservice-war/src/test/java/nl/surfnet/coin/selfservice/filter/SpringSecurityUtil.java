@@ -56,6 +56,7 @@ public class SpringSecurityUtil {
     setAuthentication(coinUser);
 
   }
+
   public static void setAuthentication(CoinUser coinUser) {
 
     final TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");

@@ -1,11 +1,12 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
+
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
-import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.filter.EnsureAccessToIdpFilter;
+import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.After;
 import org.junit.Before;
@@ -57,7 +58,7 @@ public class UsersControllerIntegrationTest {
 
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(csa);
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter("","","",""))
+      .setMessageConverters(new GsonHttpMessageConverter("", "", "", ""))
       .addFilter(ensureAccessToIdp, "/*")
       .build();
     coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);

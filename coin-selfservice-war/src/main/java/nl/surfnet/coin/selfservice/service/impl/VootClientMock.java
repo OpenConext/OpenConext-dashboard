@@ -13,10 +13,14 @@ public class VootClientMock implements VootClient {
   @Override
   public List<Group> groups(final String userId) {
     switch (userId) {
-      case "admin" : return asList(new Group("dashboard.admin"));
-      case "viewer" : return asList(new Group("dashboard.viewer"));
-      case "super" : return asList(new Group("dashboard.super.user"));
-      default : return new ArrayList<>();
+      case "admin":
+        return asList(new Group("dashboard.admin"));
+      case "viewer":
+        return asList(new Group("dashboard.viewer"));
+      case "super":
+        return asList(new Group("dashboard.super.user"));
+      default:
+        return new ArrayList<>();
     }
   }
 }

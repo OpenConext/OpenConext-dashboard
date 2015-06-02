@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>org.surfnet.coin</groupId>
@@ -32,7 +33,6 @@
     <java.version>1.8</java.version>
     <spring.version>4.1.6.RELEASE</spring.version>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
-    <csa-client.version>4.0.5</csa-client.version>
     <logback.version>1.1.2</logback.version>
     <spring-security-oauth2.version>2.0.7.RELEASE</spring-security-oauth2.version>
     <httpclient.version>4.3.1</httpclient.version>
@@ -142,18 +142,6 @@
       <version>1.3.2</version>
     </dependency>
     <dependency>
-      <groupId>org.surfnet.coin</groupId>
-      <artifactId>csa-client</artifactId>
-      <version>${csa-client.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.surfnet.coin</groupId>
-          <artifactId>coin-shared</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
       <version>2.6</version>
@@ -230,8 +218,10 @@
         <configuration>
           <tagNameFormat>v@{project.version}</tagNameFormat>
           <autoVersionSubmodules>true</autoVersionSubmodules>
-          <pushChanges>false</pushChanges> <!--Release Plugin don't push to remote-->
-          <localCheckout>true</localCheckout> <!--Release Plugin clone from local repo-->
+          <pushChanges>false</pushChanges>
+          <!--Release Plugin don't push to remote-->
+          <localCheckout>true</localCheckout>
+          <!--Release Plugin clone from local repo-->
         </configuration>
       </plugin>
     </plugins>

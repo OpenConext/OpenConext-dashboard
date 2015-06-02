@@ -2,8 +2,9 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import nl.surfnet.coin.csa.model.Category;
-import nl.surfnet.coin.csa.model.CategoryValue;
+
+import nl.surfnet.coin.selfservice.domain.Category;
+import nl.surfnet.coin.selfservice.domain.CategoryValue;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;

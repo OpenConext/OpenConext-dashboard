@@ -1,17 +1,19 @@
 package nl.surfnet.coin.selfservice.shibboleth;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.CsaClient;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.service.Csa;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthenticatedProcessingFilter {
@@ -39,7 +41,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     coinUser.setUid(uid);
     coinUser.setDisplayName(request.getHeader("Shib-displayName"));
     coinUser.setEmail(request.getHeader("Shib-email"));
-    coinUser.setSchacHomeOrganization( request.getHeader("Shib-homeOrg"));
+    coinUser.setSchacHomeOrganization(request.getHeader("Shib-homeOrg"));
 
     Map<String, List<String>> attributes = shibHeaders.stream().filter(h -> StringUtils.hasText(request.getHeader(h))).collect(Collectors.toMap(h -> h, h -> Arrays.asList(request.getHeader(h))));
     coinUser.setAttributeMap(attributes);
@@ -56,14 +58,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     } else {
       coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
       coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
-      Collections.sort(coinUser.getInstitutionIdps(), new Comparator<InstitutionIdentityProvider>() {
-        @Override
-        public int compare(final InstitutionIdentityProvider lh, final InstitutionIdentityProvider rh) {
-          return lh.getName().compareTo(rh.getName());
-        }
-      });
+      Collections.sort(coinUser.getInstitutionIdps(), (lh, rh) -> lh.getName().compareTo(rh.getName()));
     }
-
     return coinUser;
   }
 
@@ -83,7 +79,6 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   /**
    * List of attributes from Shibboleth that will be filtered in. If attributes are not in this list they will NOT be shown.
-   *
    */
   private List<String> shibHeaders() {
     return Arrays.asList(

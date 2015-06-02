@@ -1,14 +1,12 @@
 [
-    {
-        "id": "https://mock-idp-3",
-        "name": "Open University Library",
-        "institutionId": "mock-institution-id-2"
-    },
-    {
-        "id": "https://mock-idp-4",
-        "name": "Open University Externals",
-        "institutionId": "mock-institution-id-2"
-    }
-
-
+  {
+    "id": "https://mock-idp-3",
+    "name": "Open University Library",
+    "institutionId": "mock-institution-id-2"
+  },
+  {
+    "id": "https://mock-idp-4",
+    "name": "Open University Externals",
+    "institutionId": "mock-institution-id-2"
+  }
 ]

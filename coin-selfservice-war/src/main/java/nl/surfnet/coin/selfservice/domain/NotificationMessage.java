@@ -16,15 +16,12 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
-import nl.surfnet.coin.csa.model.Service;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Message that is shown as a notification to a logged in user.
- * 
  */
 @SuppressWarnings("serial")
 public class NotificationMessage implements Serializable {

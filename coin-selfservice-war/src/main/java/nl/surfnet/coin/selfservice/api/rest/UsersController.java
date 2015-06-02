@@ -1,10 +1,9 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,7 +53,7 @@ public class UsersController extends BaseController {
   }
 
   @RequestMapping("/me/switch-to-idp")
-  public ResponseEntity currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, @RequestParam(value="role", required = false) String role, HttpServletResponse response) {
+  public ResponseEntity currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, @RequestParam(value = "role", required = false) String role, HttpServletResponse response) {
     SpringSecurity.setSwitchedToIdp(csa, switchToIdp, role);
     return new ResponseEntity(HttpStatus.NO_CONTENT);
   }

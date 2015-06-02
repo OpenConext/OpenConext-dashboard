@@ -18,10 +18,9 @@
  */
 package nl.surfnet.coin.selfservice.service.impl;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.*;
-import nl.surfnet.coin.oauth.OauthClient;
-import org.apache.commons.lang.NotImplementedException;
+
+import nl.surfnet.coin.selfservice.domain.*;
+import nl.surfnet.coin.selfservice.service.Csa;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -43,35 +42,27 @@ import java.util.Locale;
 public class CsaMock implements Csa {
 
   private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-          .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+    .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
   private List<Action> actionsCreated = new ArrayList<>();
 
-  @Override
-  public List<Service> getPublicServices() {
-
-    List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>() {
-    }, "csa-json/public-services.json");
-    return restoreCategoryReferences(services);
-  }
-
-  @Override
-  public List<Service> getProtectedServices() {
+  private List<Service> getServices() {
     List<Service> services = (List<Service>) parseJsonData(new TypeReference<List<Service>>() {
     }, "csa-json/protected-services.json");
     return restoreCategoryReferences(services);
+
   }
 
   @Override
   public List<Service> getServicesForIdp(String idpEntityId) {
-    return getProtectedServices();
+    return getServices();
 
   }
 
   @Override
   public List<OfferedService> findOfferedServicesFor(String idpEntityId) {
     List<OfferedService> result = new ArrayList<>();
-    for (Service service : getProtectedServices()) {
+    for (Service service : getServices()) {
       result.add(new OfferedService(service));
     }
     return result;
@@ -86,26 +77,6 @@ public class CsaMock implements Csa {
       }
     }
     return null;
-  }
-
-  @Override
-  public Service getServiceForIdp(String idpEntityId, String spEntityId) {
-    List<Service> services = getServicesForIdp(idpEntityId);
-    for (Service s : services) {
-      if (s.getSpEntityId() != null && s.getSpEntityId().equals(spEntityId)) {
-        return s;
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public void setCsaBaseLocation(String location) {
-  }
-
-  @Override
-  public Statistics getStatistics(int month, int year) {
-    throw new NotImplementedException();
   }
 
   @Override
@@ -132,10 +103,6 @@ public class CsaMock implements Csa {
   }
 
   @Override
-  public void clearProviderCache() {
-  }
-
-  @Override
   public Action createAction(Action action) {
     action.setStatus(JiraTask.Status.OPEN);
     action.setJiraKey("TEST-" + System.currentTimeMillis());
@@ -148,7 +115,7 @@ public class CsaMock implements Csa {
 
   @Override
   public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
-    if(identityProviderId.endsWith("-3") || identityProviderId.endsWith("-4")) {
+    if (identityProviderId.endsWith("-3") || identityProviderId.endsWith("-4")) {
       return (List<InstitutionIdentityProvider>) parseJsonData(new TypeReference<List<InstitutionIdentityProvider>>() {
       }, "csa-json/institution-identity-providers-2.json");
 
@@ -171,9 +138,6 @@ public class CsaMock implements Csa {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public void setOauthClient(OauthClient oauthClient) {
   }
 
   private List<Service> restoreCategoryReferences(List<Service> services) {

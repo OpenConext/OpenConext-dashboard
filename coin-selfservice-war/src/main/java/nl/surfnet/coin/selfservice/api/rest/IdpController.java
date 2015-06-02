@@ -1,10 +1,8 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-
-import com.google.common.base.Optional;
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.OfferedService;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.OfferedService;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.sab.Sab;
 import nl.surfnet.sab.SabPerson;

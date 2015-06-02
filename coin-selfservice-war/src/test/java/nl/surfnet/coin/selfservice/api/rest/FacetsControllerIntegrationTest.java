@@ -1,8 +1,9 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Category;
-import nl.surfnet.coin.csa.model.Taxonomy;
+
+import nl.surfnet.coin.selfservice.domain.Category;
+import nl.surfnet.coin.selfservice.domain.Taxonomy;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.Before;
 import org.junit.Test;

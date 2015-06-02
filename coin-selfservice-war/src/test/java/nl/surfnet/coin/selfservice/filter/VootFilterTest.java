@@ -60,7 +60,7 @@ public class VootFilterTest {
   private VootClient vootClient;
 
   @InjectMocks
-  private VootFilter filter = new VootFilter(vootClient, ADMIN, VIEWER,SUPER_USER);
+  private VootFilter filter = new VootFilter(vootClient, ADMIN, VIEWER, SUPER_USER);
 
   private MockHttpServletRequest request;
   private MockHttpServletResponse response;

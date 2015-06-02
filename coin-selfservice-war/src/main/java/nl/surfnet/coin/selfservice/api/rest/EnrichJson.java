@@ -1,13 +1,12 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import nl.surfnet.coin.csa.model.Service;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.Service;
 import nl.surfnet.coin.selfservice.util.AttributeMapFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,12 +64,7 @@ public class EnrichJson {
         Service service = (Service) payload;
         JsonArray filteredUserAttributes = new JsonArray();
         if (service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
-          Collection<JsonElement> jsonElements = Collections2.transform(AttributeMapFilter.filterAttributes(service.getArp().getAttributes(), currentUser.getAttributeMap()), new Function<AttributeMapFilter.ServiceAttribute, JsonElement>() {
-            @Override
-            public JsonElement apply(AttributeMapFilter.ServiceAttribute input) {
-              return gson.toJsonTree(input);
-            }
-          });
+          Collection<JsonElement> jsonElements = Collections2.transform(AttributeMapFilter.filterAttributes(service.getArp().getAttributes(), currentUser.getAttributeMap()), input -> gson.toJsonTree(input));
           for (JsonElement jsonElement : jsonElements) {
             filteredUserAttributes.add(jsonElement);
           }

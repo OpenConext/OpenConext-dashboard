@@ -1,8 +1,9 @@
 package nl.surfnet;
 
-import nl.surfnet.coin.csa.Csa;
+
 import nl.surfnet.coin.selfservice.filter.EnsureAccessToIdpFilter;
 import nl.surfnet.coin.selfservice.filter.VootFilter;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.service.VootClient;
 import nl.surfnet.coin.selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import nl.surfnet.coin.selfservice.shibboleth.ShibbolethUserDetailService;
@@ -73,8 +74,8 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     http
       .csrf().disable()
       .addFilterBefore(
-      new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
-      AbstractPreAuthenticatedProcessingFilter.class
+        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
+        AbstractPreAuthenticatedProcessingFilter.class
       )
       .addFilterAfter(new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser), ShibbolethPreAuthenticatedProcessingFilter.class)
       .addFilterAfter(new EnsureAccessToIdpFilter(csa), VootFilter.class)

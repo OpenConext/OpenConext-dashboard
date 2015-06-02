@@ -2,12 +2,8 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.collect.ImmutableSet;
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Action;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.JiraTask;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.*;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,9 +43,9 @@ public class ServicesController extends BaseController {
                                                        @PathVariable String id) {
     //TODO: call CSA client to get the real list
     List<InstitutionIdentityProvider> providers = new ArrayList<>();
-    providers.add(new InstitutionIdentityProvider("mock-idp-1","Mock IDP 1","institutionID"));
-    providers.add(new InstitutionIdentityProvider("mock-idp-2","Mock IDP 2","institutionID"));
-    providers.add(new InstitutionIdentityProvider("mock-idp-3","Mock IDP 3","institutionID"));
+    providers.add(new InstitutionIdentityProvider("mock-idp-1", "Mock IDP 1", "institutionID"));
+    providers.add(new InstitutionIdentityProvider("mock-idp-2", "Mock IDP 2", "institutionID"));
+    providers.add(new InstitutionIdentityProvider("mock-idp-3", "Mock IDP 3", "institutionID"));
     return new ResponseEntity(createRestResponse(providers), HttpStatus.OK);
   }
 

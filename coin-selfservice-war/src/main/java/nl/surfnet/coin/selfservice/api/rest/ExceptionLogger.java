@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ExceptionLogger {
   private final static Logger logger = LoggerFactory.getLogger(ExceptionLogger.class);
 
-  @ResponseStatus(value= HttpStatus.INTERNAL_SERVER_ERROR, reason="Unexpected exception occurred")
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Unexpected exception occurred")
   @ExceptionHandler(Exception.class)
   public void logException(Exception exception) {
     logger.error("Unexpected exception occurred", exception);

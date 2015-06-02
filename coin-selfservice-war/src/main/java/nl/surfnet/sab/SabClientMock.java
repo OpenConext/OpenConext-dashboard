@@ -55,9 +55,9 @@ public class SabClientMock implements Sab {
   @Override
   public boolean hasRoleForOrganisation(String userId, String role, String organisation) {
     return
-            rolesMapping.containsKey(userId) &&
-                    rolesMapping.get(userId).getOrganisation().equals(organisation) &&
-                    rolesMapping.get(userId).getRoles().contains(role);
+      rolesMapping.containsKey(userId) &&
+        rolesMapping.get(userId).getOrganisation().equals(organisation) &&
+        rolesMapping.get(userId).getRoles().contains(role);
   }
 
   @Override
@@ -71,7 +71,7 @@ public class SabClientMock implements Sab {
   public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
     List<SabPerson> result = new ArrayList<>();
 
-    for (SabPerson sabPerson: sabPersons) {
+    for (SabPerson sabPerson : sabPersons) {
       Collection<String> roleNames = Collections2.transform(sabPerson.getRoles(), new Function<SabRole, String>() {
         @Override
         public String apply(SabRole input) {

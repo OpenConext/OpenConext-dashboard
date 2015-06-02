@@ -16,18 +16,17 @@
 
 package nl.surfnet.coin.selfservice.util;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority;
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.service.Csa;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public class SpringSecurity {
 
@@ -92,20 +91,8 @@ public class SpringSecurity {
     if (SpringSecurity.getCurrentUser().isSuperUser()) {
       return idp;
     } else {
-      List<InstitutionIdentityProvider> institutionIdps = SpringSecurity.getCurrentUser().getInstitutionIdps();
-
-      InstitutionIdentityProvider currentInstitutionIdentityProvider = Iterables.find(institutionIdps, new Predicate<InstitutionIdentityProvider>() {
-        @Override
-        public boolean apply(InstitutionIdentityProvider input) {
-          return input.getId().equals(idp.getId());
-        }
-      }, null);
-
-      if (currentInstitutionIdentityProvider != null) {
-        return currentInstitutionIdentityProvider;
-      } else {
-        throw new SecurityException(idp.getId() + " is unknown for " + SpringSecurity.getCurrentUser().getUsername());
-      }
+      Optional<InstitutionIdentityProvider> currentInstitutionIdentityProvider = SpringSecurity.getCurrentUser().getInstitutionIdps().stream().filter(provider -> provider.getId().equals(idp.getId())).findFirst();
+      return currentInstitutionIdentityProvider.orElseThrow(() -> new SecurityException(idp.getId() + " is unknown for " + SpringSecurity.getCurrentUser().getUsername()));
     }
   }
 

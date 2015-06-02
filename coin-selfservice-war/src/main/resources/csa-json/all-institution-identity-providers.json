@@ -1,23 +1,22 @@
 [
-    {
-        "id": "http://mock-idp",
-        "name": "Open University Students",
-        "institutionId": "mock-institution-id"
-    },
-    {
-        "id": "https://mock-idp-2",
-        "name": "Open University Teachers",
-        "institutionId": "mock-institution-id"
-    },
-    {
-        "id": "https://mock-idp-3",
-        "name": "Open University Library",
-        "institutionId": "mock-institution-id-2"
-    },
-    {
-        "id": "https://mock-idp-4",
-        "name": "Open University Externals",
-        "institutionId": "mock-institution-id-2"
-    }
-
+  {
+    "id": "http://mock-idp",
+    "name": "Open University Students",
+    "institutionId": "mock-institution-id"
+  },
+  {
+    "id": "https://mock-idp-2",
+    "name": "Open University Teachers",
+    "institutionId": "mock-institution-id"
+  },
+  {
+    "id": "https://mock-idp-3",
+    "name": "Open University Library",
+    "institutionId": "mock-institution-id-2"
+  },
+  {
+    "id": "https://mock-idp-4",
+    "name": "Open University Externals",
+    "institutionId": "mock-institution-id-2"
+  }
 ]
