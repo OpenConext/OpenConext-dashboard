@@ -41,38 +41,8 @@ public class Action {
   private JiraTask.Status status = JiraTask.Status.OPEN;
   private String institutionId;
 
+
   private String subject;
-
-  public Action() {
-  }
-
-  public Action(String userId, String userEmail, String userName, JiraTask.Type type, String body, String idpId,
-                String spId, String institutionId) {
-    this.userId = userId;
-    this.userName = userName;
-    this.userEmail = userEmail;
-    this.body = body;
-    this.idpId = idpId;
-    this.spId = spId;
-    this.type = type;
-    this.institutionId = institutionId;
-    this.requestDate = new Date();
-  }
-
-  public Action(String jiraKey, String userId, String userName, String userEmail, JiraTask.Type type, JiraTask.Status status, String body, String idpId,
-                String spId, String institutionId, Date requestDate) {
-    this.userId = userId;
-    this.jiraKey = jiraKey;
-    this.userName = userName;
-    this.userEmail = userEmail;
-    this.body = body;
-    this.idpId = idpId;
-    this.spId = spId;
-    this.requestDate = requestDate;
-    this.type = type;
-    this.status = status;
-    this.institutionId = institutionId;
-  }
 
   public String getJiraKey() {
     return jiraKey;

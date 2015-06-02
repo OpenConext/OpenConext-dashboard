@@ -17,8 +17,6 @@ public interface Csa {
 
   Taxonomy getTaxonomy();
 
-  List<OfferedService> findOfferedServicesFor(String idpEntityId);
-
   Service getServiceForIdp(String idpEntityId, long serviceId);
 
   Action createAction(Action action);

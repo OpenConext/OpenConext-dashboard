@@ -123,17 +123,15 @@ public class ServicesController extends BaseController {
       return false;
     }
 
-    Action action = new Action(
-      currentUser.getUid(),
-      currentUser.getEmail(),
-      currentUser.getDisplayName(),
-      jiraType,
-      comments,
-      idpEntityId,
-      spEntityId,
-      currentUser.getIdp().getInstitutionId()
-    );
-
+    Action action = new Action();
+    action.setUserId(currentUser.getUid());
+    action.setUserEmail(currentUser.getEmail());
+    action.setUserName(currentUser.getDisplayName());
+    action.setType(jiraType);
+    action.setBody(comments);
+    action.setIdpId(idpEntityId);
+    action.setSpId(spEntityId);
+    action.setInstitutionId(currentUser.getIdp().getInstitutionId());
     csa.createAction(action);
     return true;
   }

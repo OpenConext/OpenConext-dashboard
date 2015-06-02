@@ -87,15 +87,6 @@ public class CsaImpl implements Csa {
   }
 
   @Override
-  public List<OfferedService> findOfferedServicesFor(String idpEntityId) {
-    String url = serviceUrl + "/api/protected/idp/offered-services.json?idpEntityId={idpEntityId}";
-    Map<String, String> variables = new HashMap<>();
-    variables.put("idpEntityId", idpEntityId);
-    variables.put("lang", getLocale());
-    return Arrays.asList(csaService.getForEntity(url, OfferedService[].class, idpEntityId, getLocale()).getBody());
-  }
-
-  @Override
   public Service getServiceForIdp(String idpEntityId, long serviceId) {
     String url = serviceUrl + "/api/protected/services/{serviceId}.json?idpEntityId={idpEntityId}&lang={lang}";
     Service service = csaService.getForEntity(url, Service.class, serviceId, idpEntityId, getLocale()).getBody();
@@ -105,7 +96,7 @@ public class CsaImpl implements Csa {
 
   @Override
   public Action createAction(Action action) {
-    String url = serviceUrl + "/api/protected/service.json?idpEntityId={idpEntityId}&spEntityId={spEntityId}&lang={lang}";
+    String url = serviceUrl + "/api/protected/action.json";
     return csaService.postForEntity(url, action, Action.class).getBody();
   }
 

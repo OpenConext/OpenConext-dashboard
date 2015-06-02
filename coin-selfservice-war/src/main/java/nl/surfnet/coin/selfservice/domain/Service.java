@@ -222,19 +222,6 @@ public class Service implements Comparable<Service>, Serializable {
     this.categories = categories;
   }
 
-  @JsonIgnore
-  public String getSearchFacetValues() {
-    Collection<String> values = new ArrayList<String>();
-    if (categories != null && !categories.isEmpty()) {
-      for (Category c : categories) {
-        for (CategoryValue v : c.getValues()) {
-          values.add(v.getSearchValue());
-        }
-      }
-    }
-    return StringUtils.join(values, " ");
-  }
-
   public String getAppUrl() {
     return appUrl;
   }

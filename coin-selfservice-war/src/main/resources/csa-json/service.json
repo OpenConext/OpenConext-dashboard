@@ -1,0 +1,126 @@
+{
+  "id": 1,
+  "name": "Full service & stuff",
+  "description": "The description of the Service",
+  "logoUrl": "https://static.surfconext.nl/media/idp/avans.png",
+  "websiteUrl": "https://website.url",
+  "appUrl": "https://app.url",
+  "serviceUrl": "https://service.url",
+  "crmUrl": "https://crm.url",
+  "detailLogoUrl": "https://static.surfconext.nl/media/idp/avans.png",
+  "supportUrl": "https://support.url",
+  "eulaUrl": "https://eula.url",
+  "wikiUrl": "https://wiki.url",
+  "screenshotUrls": [
+    "https://www.google.nl/images/srpr/logo4w.png",
+    "https://www.google.nl/images/srpr/logo4w.png",
+    "https://www.google.nl/images/srpr/logo4w.png",
+    "https://www.google.nl/images/srpr/logo4w.png",
+    "https://www.google.nl/images/srpr/logo4w.png"
+  ],
+  "supportMail": "support@mail.com",
+  "enduserDescription": "The enduser description of the Service",
+  "institutionDescription": "The insitution description of this service",
+  "institutionId": "mock-institution-id",
+  "connected": true,
+  "hasCrmLink": true,
+  "crmArticle": {
+    "guid": "{8833CEAE-960C-E211-B6B9-005056950050}",
+    "appleAppStoreUrl": "https://appleAppStoreUrl",
+    "androidPlayStoreUrl": "https://androidPlayStoreUrl"
+  },
+  "license": {
+    "startDate": 1339365600000,
+    "endDate": 2402437600000,
+    "licenseNumber": "the license number",
+    "institutionName": "Mock Institution Name",
+    "groupLicense": true
+  },
+  "categories": [
+    {
+      "name": "Location",
+      "values": [
+        {
+          "value": "USA"
+        }
+      ]
+    },
+    {
+      "name": "Target Group",
+      "values": [
+        {
+          "value": "Students"
+        }
+      ]
+    }
+  ],
+  "spEntityId": "https://full-servicee-mock-sp",
+  "spName": "Full Servicee Mock",
+  "availableForEndUser": true,
+  "arp": {
+    "name": "All attributes",
+    "description": "All known attributes",
+    "attributes": {
+      "urn:mace:dir:attribute-def:uid": [
+        "*"
+      ],
+      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:mail": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:preferredLanguage": [
+        "*"
+      ],
+      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:displayName": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+        "*"
+      ],
+      "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+        "*"
+      ],
+      "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+        "urn:mace:terena.org:tcs:personal-user",
+        "urn:mace:terena.org:tcs:personal-admin"
+      ],
+      "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+        "*"
+      ],
+      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:cn": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:sn": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+        "*"
+      ],
+      "urn:mace:dir:attribute-def:givenName": [
+        "*"
+      ],
+      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": [
+        "*"
+      ],
+      "urn:mace:surffederatie.nl:attribute-def:unknownAttributeByAttributeManipulation": [
+        "*"
+      ]
+    },
+    "noArp": false,
+    "noAttrArp": false
+  }
+}

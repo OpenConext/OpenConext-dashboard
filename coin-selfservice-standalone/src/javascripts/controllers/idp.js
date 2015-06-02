@@ -1,6 +1,6 @@
 App.Controllers.MyIdp = {
   initialize: function() {
-    page("/my-idp", this.loadIdpRolesWithUsers.bind(this), this.loadServices.bind(this), this.myIdp.bind(this));
+    page("/my-idp", this.loadIdpRolesWithUsers.bind(this), this.myIdp.bind(this));
   },
 
   myIdp: function(ctx) {
@@ -13,12 +13,5 @@ App.Controllers.MyIdp = {
       next();
     });
   },
-
-  loadServices: function(ctx, next) {
-    $.get(App.apiUrl("/idp/current/services"), function(data) {
-      ctx.services = data.payload;
-      next();
-    });
-  }
 
 };

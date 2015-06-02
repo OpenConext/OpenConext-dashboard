@@ -1,7 +1,6 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
 import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
-import nl.surfnet.coin.selfservice.domain.OfferedService;
 import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.sab.Sab;
@@ -46,9 +45,4 @@ public class IdpController extends BaseController {
     return new ResponseEntity(createRestResponse(roleAssignments), HttpStatus.OK);
   }
 
-  @RequestMapping("/current/services")
-  public ResponseEntity<RestResponse> services(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    List<OfferedService> offeredServices = csa.findOfferedServicesFor(idpEntityId);
-    return new ResponseEntity(createRestResponse(offeredServices), HttpStatus.OK);
-  }
 }
