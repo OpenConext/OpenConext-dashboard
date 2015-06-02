@@ -9,7 +9,9 @@ App.Pages.AppOverview = React.createClass({
   getInitialState: function () {
     return {
       search: "",
-      activeFacets: App.store.activeFacets || {}
+      radioButtonFacets: ["connection", "used_by_idp", "published_edugain"],
+      activeFacets: App.store.activeFacets || {},
+      hiddenFacets: App.store.hiddenFacets || {}
     }
   },
 
@@ -30,9 +32,11 @@ App.Pages.AppOverview = React.createClass({
           <App.Components.Facets
             facets={this.props.facets}
             selectedFacets={this.state.activeFacets}
+            hiddenFacets={this.state.hiddenFacets}
             filteredCount={filteredApps.length}
             totalCount={this.props.apps.length}
             onChange={this.handleFacetChange}
+            onHide={this.handleFacetHide}
             onReset={this.handleResetFilters}
             onDownload={this.handleDownloadOverview}/>
         </div>
@@ -125,7 +129,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   /*
-   * App.store.activeFacets is a object with facet names and the values are arrays with all select values
+   * this.state.activeFacets is a object with facet names and the values are arrays with all select values
    */
   handleFacetChange: function (facet, facetValue, checked) {
     var selectedFacets = $.extend({}, this.state.activeFacets);
@@ -136,13 +140,26 @@ App.Pages.AppOverview = React.createClass({
       facetValues = selectedFacets[facet] = [facetValue];
     }
     /*
-     * Special case. For the static facets connected and used_by_idp we only want one value (e.g. either 'yes' or 'no')
+     * Special case. For some static facets we only want one value (e.g. either 'yes' or 'no')
      */
-    if ((facet === "connection" || facet === "used_by_idp") && checked && facetValues.length === 2) {
-      facetValues.splice(0,1);
+    if (this.state.radioButtonFacets.indexOf(facet) > -1 && checked && facetValues.length === 2) {
+      var nbr = (facetValues[0] === facetValues[1] ? 2 : 1);
+      facetValues.splice(0,nbr);
     }
     this.setState({activeFacets: selectedFacets});
     App.store.activeFacets = selectedFacets;
+  },
+
+
+  handleFacetHide: function(facet) {
+    var hiddenFacets = $.extend({}, this.state.hiddenFacets);
+    if (hiddenFacets[facet.name]) {
+      delete hiddenFacets[facet.name];
+    } else {
+      hiddenFacets[facet.name] = true;
+    }
+    this.setState({hiddenFacets: hiddenFacets});
+    App.store.hiddenFacets = hiddenFacets;
   },
 
   handleResetFilters: function () {
@@ -167,6 +184,7 @@ App.Pages.AppOverview = React.createClass({
       filteredApps = filteredApps.filter(this.filterConnectionFacet);
       filteredApps = filteredApps.filter(this.filterLicenseFacet);
       filteredApps = filteredApps.filter(this.filterIdpService);
+      filteredApps = filteredApps.filter(this.filterPublishedEdugain);
     }
 
     return filteredApps;
@@ -214,6 +232,12 @@ App.Pages.AppOverview = React.createClass({
       return institutionIdIdp ===  institutionIdSp ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
     }
     return true;
+  },
+
+  filterPublishedEdugain: function(app) {
+    var edugainFacetValues = this.state.activeFacets["published_edugain"] || [];
+    var published = app.publishedInEdugain || false;
+    return edugainFacetValues.length === 0 || edugainFacetValues.indexOf(published.toString()) > -1;
   },
 
   normalizeCategories: function (app) {

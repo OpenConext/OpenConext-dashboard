@@ -64,6 +64,11 @@ I18n.translations.nl = {
         name: "Aangeboden door mijn instelling",
         yes: "Ja",
         no: "Nee"
+      },
+      published_edugain: {
+        name: "Gepubliceerd in eduGAIN federatie",
+        yes: "Ja",
+        no: "Nee"
       }
     }
   },

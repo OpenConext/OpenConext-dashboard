@@ -123,7 +123,8 @@
       },
       "noArp": false,
       "noAttrArp": false
-    }
+    },
+    "publishedInEdugain" : true
   },
   {
     "id": 2,
@@ -255,7 +256,8 @@
       },
       "noArp": false,
       "noAttrArp": true
-    }
+    },
+    "publishedInEdugain" : false
   },
   {
     "id": 4,
@@ -366,7 +368,8 @@
       },
       "noArp": true,
       "noAttrArp": false
-    }
+    },
+    "publishedInEdugain" : true
   },
   {
     "id": 6,

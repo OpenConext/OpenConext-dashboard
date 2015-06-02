@@ -13,6 +13,8 @@ public interface Csa {
 
   List<InstitutionIdentityProvider> getAllInstitutionIdentityProviders();
 
+  //List<InstitutionIdentityProvider> serviceUsedBy(long serviceId);
+
   List<Action> getJiraActions(String idpEntityId);
 
   Taxonomy getTaxonomy();

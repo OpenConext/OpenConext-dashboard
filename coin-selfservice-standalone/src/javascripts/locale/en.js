@@ -64,6 +64,11 @@ I18n.translations.en = {
         name: "Service from my institution",
         yes: "Yes",
         no: "No"
+      },
+      published_edugain: {
+        name: "Published in eduGAIN federation",
+        yes: "Yes",
+        no: "No"
       }
     }
   },

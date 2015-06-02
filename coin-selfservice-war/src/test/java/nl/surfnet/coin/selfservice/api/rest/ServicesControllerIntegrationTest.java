@@ -27,7 +27,6 @@ import static java.util.Arrays.asList;
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.coinUser;
 import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.serviceWithSpEntityId;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -92,16 +91,11 @@ public class ServicesControllerIntegrationTest {
     ;
   }
 
-  @Test
+  @Test(expected = SecurityException.class)
   public void failsWhenUserHasNoAccessToIdp() throws Exception {
-    try {
-      this.mockMvc.perform(
-        get(format("/services")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, "no access")
-      );
-      fail("expected SecurityException");
-    } catch (SecurityException e) {
-
-    }
+    this.mockMvc.perform(
+      get(format("/services")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, "no access")
+    );
   }
 
   @Test
