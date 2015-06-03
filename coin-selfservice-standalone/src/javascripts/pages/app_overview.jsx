@@ -205,7 +205,7 @@ App.Pages.AppOverview = React.createClass({
 
   filterLicenseFacet: function (app) {
     var licenseFacetValues = this.state.activeFacets["license"] || [];
-    return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
+    return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseInfo) > -1;
   },
 
   filterByFacets: function (app) {

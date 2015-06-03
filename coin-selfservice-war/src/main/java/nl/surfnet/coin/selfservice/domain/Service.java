@@ -65,8 +65,6 @@ public class Service implements Comparable<Service>, Serializable {
 
   private String institutionId;
 
-  private Date lastLoginDate;
-
   /**
    * Whether this service is connected to the IdP in the service registry
    */
@@ -86,6 +84,11 @@ public class Service implements Comparable<Service>, Serializable {
    * The license from the CRM. If set, hasCrmLink is true
    */
   private License license;
+
+  /*
+   * has_license_surfmarket, has_license_sp, no_license, not_needed, unknown
+   */
+  private String licenseInfo = "not_needed";
 
   private List<Category> categories = new ArrayList<>();
 
@@ -340,14 +343,6 @@ public class Service implements Comparable<Service>, Serializable {
     }
   }
 
-  public Date getLastLoginDate() {
-    return lastLoginDate;
-  }
-
-  public void setLastLoginDate(Date lastLoginDate) {
-    this.lastLoginDate = lastLoginDate;
-  }
-
   public boolean isAvailableForEndUser() {
     return availableForEndUser;
   }
@@ -394,6 +389,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setPublishedInEdugain(boolean publishedInEdugain) {
     this.publishedInEdugain = publishedInEdugain;
+  }
+
+  public String getLicenseInfo() {
+    return licenseInfo;
+  }
+
+  public void setLicenseInfo(String licenseInfo) {
+    this.licenseInfo = licenseInfo;
   }
 
   @Override

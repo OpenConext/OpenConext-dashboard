@@ -56,9 +56,12 @@ I18n.translations.nl = {
       },
       license: {
         name: "Licentie",
-        has_license: "Ja",
+        name: "License",
+        unknown_license: "Onbekend",
+        not_needed: "Niet nodig",
         no_license: "Nee",
-        unknown_license: "Onbekend"
+        has_license_sp: "Ja, bij service provider",
+        has_license_surfmarket: "Ja, bij SURFmarket"
       },
       used_by_idp: {
         name: "Aangeboden door mijn instelling",

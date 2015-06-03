@@ -37,6 +37,7 @@
       "institutionName": "Mock Institution Name",
       "groupLicense": true
     },
+    "licenseInfo": "has_license_surfmarket",
     "categories": [
       {
         "name": "Location",
@@ -162,6 +163,7 @@
       "institutionName": "Mock Institution Name",
       "groupLicense": true
     },
+    "licenseInfo": "has_license_sp",
     "categories": [
       {
         "name": "Location",
@@ -282,6 +284,7 @@
     "institutionDescription": "The insitution description of this service",
     "connected": true,
     "hasCrmLink": false,
+    "licenseInfo": "no_license",
     "categories": [
       {
         "name": "Location",
@@ -340,6 +343,7 @@
       "appleAppStoreUrl": "https://appleAppStoreUrl",
       "androidPlayStoreUrl": "https://androidPlayStoreUrl"
     },
+    "licenseInfo": "unknown",
     "categories": [
       {
         "name": "Location",

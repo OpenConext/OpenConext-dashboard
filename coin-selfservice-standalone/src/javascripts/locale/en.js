@@ -56,9 +56,11 @@ I18n.translations.en = {
       },
       license: {
         name: "License",
-        has_license: "Yes",
+        unknown_license: "Unknown",
+        not_needed: "Not needed",
         no_license: "No",
-        unknown_license: "Unknown"
+        has_license_sp: "Yes, with service provider",
+        has_license_surfmarket: "Yes, with SURFmarket"
       },
       used_by_idp: {
         name: "Service from my institution",
