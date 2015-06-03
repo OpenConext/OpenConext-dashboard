@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +52,6 @@ public class CsaImplTest {
     stubResponse("csa-json/all-institution-identity-providers.json", "/api/protected/all-identityproviders.json");
     List<InstitutionIdentityProvider> providers = subject.getAllInstitutionIdentityProviders();
     assertEquals(4, providers.size());
-
   }
 
   @Test
@@ -74,6 +74,13 @@ public class CsaImplTest {
     stubResponse("csa-json/service.json", "/api/protected/services/1.json\\?idpEntityId=idp&lang=en");
     Service service = subject.getServiceForIdp(idp, 1);
     assertEquals("Mock Institution Name", service.getLicense().getInstitutionName());
+  }
+
+  @Test
+  public void testServiceUsedBy() throws IOException {
+    stubResponse("csa-json/all-institution-identity-providers.json", "/api/protected/services-usage.json\\?serviceId=1");
+    List<InstitutionIdentityProvider> providers = subject.serviceUsedBy(1);
+    assertEquals(4, providers.size());
   }
 
   @Test

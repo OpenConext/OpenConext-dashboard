@@ -20,7 +20,7 @@
       "https://www.google.nl/images/srpr/logo4w.png"
     ],
     "supportMail": "support@mail.com",
-    "enduserDescription": "The enduser description of the Service",
+    "enduserDescription": "",
     "institutionDescription": "The insitution description of this service",
     "institutionId": "mock-institution-id",
     "connected": true,
@@ -147,7 +147,6 @@
       "https://www.google.nl/images/srpr/logo4w.png"
     ],
     "supportMail": "support@mail.com",
-    "enduserDescription": "The enduser description of the Service",
     "institutionDescription": "The insitution description of this service",
     "connected": true,
     "hasCrmLink": true,
@@ -614,7 +613,6 @@
   {
     "id": 231,
     "name": "Edugroepen | 2AT BV",
-    "description": "<p>\n\tEDUgroepen is d&eacute; gratis digitale samenwerkingsomgeving voor het hoger onderwijs en onderzoek in Nederland​​​​​​​​</p>",
     "logoUrl": "https://csa.showroom.surfconext.nl/fieldimages/461.img",
     "websiteUrl": "http://www.2at.nl/",
     "appUrl": "https://login.edugroepen.nl/",
@@ -627,7 +625,6 @@
       "https://csa.showroom.surfconext.nl/screenshots/3.img"
     ],
     "supportMail": " info@edugroepen.nl",
-    "enduserDescription": "<p>\n\tEDUgroepen biedt docenten, studenten en staf de mogelijkheid om 20 teamsites van elk 250 MB aan te maken per gebruiker.<br />\n\tOp de teamsites kunnen een onbeperkt aantal teamleden worden uitgenodigd, ook mensen die niet behoren tot een instelling voor hoger onderwijs en onderzoek. Deze gastgebruikers hebben niet het recht om zelf teamsites op EDUgroepen aan te maken.</p>\n<p>\n\t<strong>Kenmerken van EDUgroepen</strong></p>\n<p>\n\t<em>My site</em><br />\n\tAlle EDUgroepengebruikers hebben toegang tot hun eigen &#39;My site&#39;, op de My site worden de profielgegevens van een gebruiker weergegeven en kan elke gebruiker persoonlijke documenten opslaan. De My site heeft ook een opslagruimte van 250 MB</p>\n<p>\n\t<strong>Functionaliteit van de EDUgroepen teamsites</strong><br />\n\t- Officedocumenten delen<br />\n\t- Officedocumenten tegelijkertijd met andere teamleden bewerken<br />\n\t- Een gezamenlijke agenda bijhouden<br />\n\t- Alle teamleden een e-mail sturen<br />\n\t- Takenlijsten bijhouden</p>",
     "institutionDescription": "<p>\n\tEDUgroepen biedt docenten, studenten en staf de mogelijkheid om 20 teamsites van elk 250 MB aan te maken per gebruiker.<br />\n\tOp de teamsites kunnen een onbeperkt aantal teamleden worden uitgenodigd, ook mensen die niet behoren tot een instelling voor hoger onderwijs en onderzoek. Deze gastgebruikers hebben niet het recht om zelf teamsites op EDUgroepen aan te maken.</p>\n<p>\n\t<strong>Kenmerken van EDUgroepen</strong></p>\n<p>\n\t<em>My site</em><br />\n\tAlle EDUgroepengebruikers hebben toegang tot hun eigen &#39;My site&#39;, op de My site worden de profielgegevens van een gebruiker weergegeven en kan elke gebruiker persoonlijke documenten opslaan. De My site heeft ook een opslagruimte van 250 MB</p>\n<p>\n\t<strong>Functionaliteit van de EDUgroepen teamsites</strong><br />\n\t- Officedocumenten delen<br />\n\t- Officedocumenten tegelijkertijd met andere teamleden bewerken<br />\n\t- Een gezamenlijke agenda bijhouden<br />\n\t- Alle teamleden een e-mail sturen<br />\n\t- Takenlijsten bijhouden</p>",
     "connected": true,
     "hasCrmLink": true,
@@ -654,7 +651,6 @@
   {
     "id": 10,
     "name": "Zand | Albeton B.V.",
-    "description": "Voor al uw betonbouw",
     "logoUrl": "https://csa.showroom.surfconext.nl/fieldimages/461.img",
     "websiteUrl": "http://www.surfnet.nl/",
     "appUrl": "https://login.edugroepen.nl/",
@@ -663,7 +659,6 @@
     "detailLogoUrl": "https://static.surfconext.nl/media/sp/edugroepen.png",
     "supportUrl": "https://www.edugroepen.nl/sites/EDUgroepengebruikers/default.aspx",
     "supportMail": " info@edugroepen.nl",
-    "enduserDescription": "<p>\n\tEDUgroepen biedt docenten, studenten en staf de mogelijkheid om 20 teamsites van elk 250 MB aan te maken per gebruiker.<br />\n\tOp de teamsites kunnen een onbeperkt aantal teamleden worden uitgenodigd, ook mensen die niet behoren tot een instelling voor hoger onderwijs en onderzoek. Deze gastgebruikers hebben niet het recht om zelf teamsites op EDUgroepen aan te maken.</p>\n<p>\n\t<strong>Kenmerken van EDUgroepen</strong></p>\n<p>\n\t<em>My site</em><br />\n\tAlle EDUgroepengebruikers hebben toegang tot hun eigen &#39;My site&#39;, op de My site worden de profielgegevens van een gebruiker weergegeven en kan elke gebruiker persoonlijke documenten opslaan. De My site heeft ook een opslagruimte van 250 MB</p>\n<p>\n\t<strong>Functionaliteit van de EDUgroepen teamsites</strong><br />\n\t- Officedocumenten delen<br />\n\t- Officedocumenten tegelijkertijd met andere teamleden bewerken<br />\n\t- Een gezamenlijke agenda bijhouden<br />\n\t- Alle teamleden een e-mail sturen<br />\n\t- Takenlijsten bijhouden</p>",
     "institutionDescription": "<p>\n\tEDUgroepen biedt docenten, studenten en staf de mogelijkheid om 20 teamsites van elk 250 MB aan te maken per gebruiker.<br />\n\tOp de teamsites kunnen een onbeperkt aantal teamleden worden uitgenodigd, ook mensen die niet behoren tot een instelling voor hoger onderwijs en onderzoek. Deze gastgebruikers hebben niet het recht om zelf teamsites op EDUgroepen aan te maken.</p>\n<p>\n\t<strong>Kenmerken van EDUgroepen</strong></p>\n<p>\n\t<em>My site</em><br />\n\tAlle EDUgroepengebruikers hebben toegang tot hun eigen &#39;My site&#39;, op de My site worden de profielgegevens van een gebruiker weergegeven en kan elke gebruiker persoonlijke documenten opslaan. De My site heeft ook een opslagruimte van 250 MB</p>\n<p>\n\t<strong>Functionaliteit van de EDUgroepen teamsites</strong><br />\n\t- Officedocumenten delen<br />\n\t- Officedocumenten tegelijkertijd met andere teamleden bewerken<br />\n\t- Een gezamenlijke agenda bijhouden<br />\n\t- Alle teamleden een e-mail sturen<br />\n\t- Takenlijsten bijhouden</p>",
     "connected": true,
     "hasCrmLink": true,

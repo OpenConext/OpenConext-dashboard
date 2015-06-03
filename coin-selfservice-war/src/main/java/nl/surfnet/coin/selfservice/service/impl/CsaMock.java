@@ -122,6 +122,11 @@ public class CsaMock implements Csa {
     }, "csa-json/all-institution-identity-providers.json");
   }
 
+  @Override
+  public List<InstitutionIdentityProvider> serviceUsedBy(long serviceId) {
+    return getAllInstitutionIdentityProviders();
+  }
+
   public Object parseJsonData(TypeReference<?> typeReference, String jsonFile) {
     try {
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);

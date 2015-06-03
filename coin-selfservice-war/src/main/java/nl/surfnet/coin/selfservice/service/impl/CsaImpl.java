@@ -68,6 +68,12 @@ public class CsaImpl implements Csa {
   }
 
   @Override
+  public List<InstitutionIdentityProvider> serviceUsedBy(long serviceId) {
+    String url = serviceUrl + "/api/protected/services-usage.json?serviceId={serviceId}";
+    return Arrays.asList(csaService.getForEntity(url, InstitutionIdentityProvider[].class, serviceId).getBody());
+  }
+
+  @Override
   public List<Action> getJiraActions(String idpEntityId) {
     String url = serviceUrl + "/api/protected/actions.json?idpEntityId={idpEntityId}";
     return Arrays.asList(csaService.getForEntity(url, Action[].class, idpEntityId).getBody());

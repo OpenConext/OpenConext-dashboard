@@ -40,24 +40,20 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/idps/{id}")
   public ResponseEntity<RestResponse> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                       @PathVariable String id) {
-    //TODO: call CSA client to get the real list
-    List<InstitutionIdentityProvider> providers = new ArrayList<>();
-    providers.add(new InstitutionIdentityProvider("mock-idp-1", "Mock IDP 1", "institutionID"));
-    providers.add(new InstitutionIdentityProvider("mock-idp-2", "Mock IDP 2", "institutionID"));
-    providers.add(new InstitutionIdentityProvider("mock-idp-3", "Mock IDP 3", "institutionID"));
+                                                       @PathVariable Long id) {
+    List<InstitutionIdentityProvider> providers = csa.serviceUsedBy(id);
     return new ResponseEntity(createRestResponse(providers), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<String> ids, HttpServletResponse response) {
+  public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
     List<String[]> rows = new ArrayList<>();
     rows.add(Arrays.asList("id", "spName", "spEntityId", "connected").toArray(new String[4]));
 
-    for (String id : ids) {
-      Service service = getServiceBySpEntityId(services, id);
+    for (Long id : ids) {
+      Service service = getServiceById(services, id);
       rows.add(Arrays.asList(id, service.getName(), service.getSpEntityId(), String.valueOf(service.isConnected())).toArray(new String[4]));
     }
 
@@ -72,10 +68,9 @@ public class ServicesController extends BaseController {
     return new ResponseEntity(HttpStatus.OK);
   }
 
-  private Service getServiceBySpEntityId(List<Service> services, String id) {
-    long longId = Long.parseLong(id);
+  private Service getServiceById(List<Service> services, Long id) {
     for (Service service : services) {
-      if (service.getId() == longId) {
+      if (service.getId() == id) {
         return service;
       }
     }

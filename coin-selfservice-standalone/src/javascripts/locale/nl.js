@@ -56,8 +56,7 @@ I18n.translations.nl = {
       },
       license: {
         name: "Licentie",
-        name: "License",
-        unknown_license: "Onbekend",
+        unknown: "Onbekend",
         not_needed: "Niet nodig",
         no_license: "Nee",
         has_license_sp: "Ja, bij service provider",
@@ -109,8 +108,10 @@ I18n.translations.nl = {
 
   license_info_panel: {
     title: "Licentie informatie",
-    has_license_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
+    has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
+    has_license_sp_html: "Er is via <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> een licentie afgesloten voor deze service.",
     no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    not_needed_html: "Voor deze dienst is geen licentie nodig",
     unknown_license: "Het is onbekend welke licentie voor deze service geldt.",
     no_license_description_html: "" +
       "<ul>" +
@@ -128,8 +129,10 @@ I18n.translations.nl = {
 
   license_info: {
     unknown_license: "Geen licentieinformatie beschikbaar",
-    has_license: "Licentie beschikbaar",
+    has_license_surfmarket: "Licentie beschikbaar via SURFmarket",
+    has_license_sp: "Licentie beschikbaar via service supplier",
     no_license: "Licentie is niet aanwezig",
+    no_license_needed: "Geen licentie nodig",
     license_info: "Lees hoe je een licentie kunt verkrijgen",
     license_unknown_info: "Lees meer",
     valid: "Licentie is geldig t/m {{date}}"
