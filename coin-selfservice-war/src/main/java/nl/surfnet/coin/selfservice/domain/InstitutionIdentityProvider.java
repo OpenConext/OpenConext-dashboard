@@ -26,6 +26,7 @@ public class InstitutionIdentityProvider implements Serializable {
 
   private String id;
   private String name;
+  private String displayName;
   private String institutionId;
 
   public InstitutionIdentityProvider() {
@@ -59,6 +60,14 @@ public class InstitutionIdentityProvider implements Serializable {
 
   public void setInstitutionId(String institutionId) {
     this.institutionId = institutionId;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
   }
 
   @Override

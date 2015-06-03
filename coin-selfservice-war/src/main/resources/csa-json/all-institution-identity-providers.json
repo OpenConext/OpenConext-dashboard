@@ -2,6 +2,7 @@
   {
     "id": "http://mock-idp",
     "name": "Open University Students",
+    "displayName": "Display name",
     "institutionId": "mock-institution-id"
   },
   {
