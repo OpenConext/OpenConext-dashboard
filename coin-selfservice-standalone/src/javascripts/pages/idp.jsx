@@ -3,25 +3,30 @@
 App.Pages.MyIdp = React.createClass({
   render: function() {
     var roles = Object.keys(this.props.roles);
-    var services = this.props.services;
     return (
       <div className="l-mini">
+        {this.renderRoles(roles)}
+        {this.renderLicenseContact(licenseContact)}
+      </div>
+    );
+  },
 
-        <div className="mod-idp">
-          <h1>{I18n.t("my_idp.title")}</h1>
-          <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html") }}></p>
-          <table>
-            <thead>
-            <tr>
-              <th className="percent_50">{I18n.t("my_idp.role")}</th>
-              <th className="percent_50">{I18n.t("my_idp.users")}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {roles.map(this.renderRole)}
-            </tbody>
-          </table>
-        </div>
+  renderRoles: function(roles) {
+    return (
+      <div className="mod-idp">
+        <h1>{I18n.t("my_idp.title")}</h1>
+        <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html") }}></p>
+        <table>
+          <thead>
+          <tr>
+            <th className="percent_50">{I18n.t("my_idp.role")}</th>
+            <th className="percent_50">{I18n.t("my_idp.users")}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {roles.map(this.renderRole)}
+          </tbody>
+        </table>
       </div>
     );
   },

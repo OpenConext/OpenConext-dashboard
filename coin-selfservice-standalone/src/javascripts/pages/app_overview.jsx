@@ -95,14 +95,22 @@ App.Pages.AppOverview = React.createClass({
     );
   },
 
-  renderLicenseStatus: function (app) {
-    if (app.hasCrmLink) {
-      return App.renderYesNo(app.license);
-    } else {
-      return (
-        <td>{I18n.t("apps.overview.license_unknown")}</td>
-      );
+  licenseStatusClassName: function (app) {
+    switch (app.licenseInfo) {
+      case "has_license_surfmarket":
+      case "has_license_sp":
+        return "yes"
+      case "no_license":
+        return "no";
+      default:
+        return "";
     }
+  },
+
+  renderLicenseStatus: function (app) {
+    return (
+        <td className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseInfo)}</td>
+      );
   },
 
   renderConnectButton: function (app) {
@@ -252,15 +260,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   convertLicenseForSort: function (value, app) {
-    if (app.hasCrmLink) {
-      if (value) {
-        return 2;
-      } else {
-        return 1;
-      }
-    } else {
-      return 0;
-    }
+    return app.licenseInfo;
   },
 
   convertNameForSort: function (value) {

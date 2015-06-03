@@ -145,7 +145,7 @@ App.Components.Facets = React.createClass({
         {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "has_license_sp"},
         {value: I18n.t("facets.static.license.no_license"), searchValue: "no_license"},
         {value: I18n.t("facets.static.license.not_needed"), searchValue: "not_needed"},
-        {value: I18n.t("facets.static.license.unknown_license"), searchValue: "unknown"}
+        {value: I18n.t("facets.static.license.unknown"), searchValue: "unknown"}
       ]
     }, {
       name: I18n.t("facets.static.used_by_idp.name"),

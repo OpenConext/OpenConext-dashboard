@@ -1,21 +1,27 @@
 /** @jsx React.DOM */
 
 App.Components.LicenseInfo = React.createClass({
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       split: true
     }
   },
 
-  render: function() {
-    if (this.props.app.hasCrmLink) {
-      return this.props.app.license ? this.renderHasLicense() : this.renderNoLicense();
-    } else {
-      return this.renderUnknownLicense();
+  render: function () {
+    switch (this.props.app.licenseInfo) {
+      case "has_license_surfmarket":
+      case "has_license_sp":
+        return this.renderHasLicense();
+      case "no_license":
+        return this.renderNoLicense();
+      case "not_needed":
+        return this.renderNoLicenseNeeded();
+      case "unknown":
+        return this.renderUnknownLicense();
     }
   },
 
-  renderSplitClass: function(classNames) {
+  renderSplitClass: function (classNames) {
     if (this.props.split) {
       return classNames + " split";
     } else {
@@ -23,27 +29,25 @@ App.Components.LicenseInfo = React.createClass({
     }
   },
 
-  renderHasLicense: function() {
+  renderHasLicense: function () {
+    var info = this.props.app.licenseInfo === "has_license_surfmarket" ? I18n.t("license_info.has_license_surfmarket") : I18n.t("license_info.has_license_sp")
     return (
       <div className={this.renderSplitClass("license yes")}>
         <i className="fa fa-file-text-o"></i>
-        <h2>{I18n.t("license_info.has_license")}</h2>
+        <h2>{info}</h2>
         <p>
-          {
-            I18n.t("license_info.valid", {
-              date: I18n.strftime(new Date(this.props.app.license.endDate), "%-d %B %Y")
-            })
-          }
+          { I18n.t("license_info.valid", {date: I18n.strftime(new Date(this.props.app.license.endDate), "%-d %B %Y")}) }
         </p>
       </div>
     );
   },
 
-  renderNoLicense: function() {
+  renderNoLicense: function () {
+    var link;
     if (this.props.onSwitchPanel) {
-      var link = <p><a href="#" onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("license_info.license_info")}</a></p>;
+      link = <p><a href="#"
+                       onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("license_info.license_info")}</a></p>;
     }
-
     return (
       <div className={this.renderSplitClass("license no")}>
         <i className="fa fa-file-text-o"></i>
@@ -53,9 +57,21 @@ App.Components.LicenseInfo = React.createClass({
     );
   },
 
-  renderUnknownLicense: function() {
+  renderNoLicenseNeeded: function () {
+    return (
+      <div className={this.renderSplitClass("license no-needed")}>
+        <i className="fa fa-file-text-o"></i>
+        <h2>{I18n.t("license_info.no_license_needed")}</h2>
+      </div>
+    );
+  },
+
+  renderUnknownLicense: function () {
+    var link;
     if (this.props.onSwitchPanel) {
-      var link = <p><a href="#" onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("license_info.license_unknown_info")}</a></p>;
+      link = <p><a href="#"
+                       onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("license_info.license_unknown_info")}</a>
+      </p>;
     }
     return (
       <div className={this.renderSplitClass("license unknown")}>

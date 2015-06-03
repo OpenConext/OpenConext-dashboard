@@ -56,7 +56,7 @@ I18n.translations.en = {
       },
       license: {
         name: "License",
-        unknown_license: "Unknown",
+        unknown: "Unknown",
         not_needed: "Not needed",
         no_license: "No",
         has_license_sp: "Yes, with service provider",
@@ -108,8 +108,10 @@ I18n.translations.en = {
 
   license_info_panel: {
     title: "License information",
-    has_license_html: "There is a valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    has_license_surfmarket_html: "There is a valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    has_license_sp_html: "There is a valid license available via service supplier <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a>.",
     no_license_html: "Your institution has no valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    not_needed_html: "This Service does not require a license.",
     unknown_license: "It is unknown whether a license is required or not.",
     no_license_description_html: "" +
       "<ul>" +
@@ -127,8 +129,10 @@ I18n.translations.en = {
 
   license_info: {
     unknown_license: "No license information available",
-    has_license: "License available",
+    has_license_surfmarket: "License available via SURFmarket",
+    has_license_sp: "License available via service supplier",
     no_license: "No license available",
+    no_license_needed: "No license needed",
     license_info: "Read how to obtain a license",
     license_unknown_info: "Read more",
     valid: "License is valid untill {{date}}"
