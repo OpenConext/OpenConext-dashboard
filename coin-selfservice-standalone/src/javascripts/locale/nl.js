@@ -280,7 +280,11 @@ I18n.translations.nl = {
     SURFconextbeheerder: "SURFconextbeheerder",
     "Dashboard supergebruiker": "Dashboard supergebruiker",
     services_title: "Deze services worden aangeboden door jouw instelling:",
-    service_name: "Naam service"
+    service_name: "Naam service",
+    license_contact_html: "Primaire licensie contact persoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">toelichting</a>):",
+    license_contact_name: "Naam",
+    license_contact_email: "Email",
+    license_contact_phone: "Telefoonnummer"
   },
 
   history: {

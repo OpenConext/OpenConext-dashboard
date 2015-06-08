@@ -38,8 +38,8 @@ public class EnrichJson {
   private JsonElement json;
 
 
-  private static interface JsonApplier {
-    public void apply(JsonElement element, Object payload);
+  private interface JsonApplier {
+    void apply(JsonElement element, Object payload);
   }
 
   private EnrichJson(CoinUser coinUser, final String statsUrl) {

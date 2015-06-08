@@ -1,6 +1,7 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
 import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.LicenseContactPerson;
 import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import nl.surfnet.sab.Sab;
@@ -43,6 +44,12 @@ public class IdpController extends BaseController {
 
     }
     return new ResponseEntity(createRestResponse(roleAssignments), HttpStatus.OK);
+  }
+
+  @RequestMapping("/licensecontactperson")
+  public ResponseEntity<RestResponse> licenseContactPerson(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+    Optional<LicenseContactPerson> licenseContactPerson = csa.licenseContactPerson(idpEntityId);
+    return new ResponseEntity(createRestResponse(licenseContactPerson.orElseGet(LicenseContactPerson::new)), HttpStatus.OK);
   }
 
 }

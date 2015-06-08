@@ -1,5 +1,6 @@
 package nl.surfnet.coin.selfservice.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import nl.surfnet.coin.selfservice.domain.*;
 import org.apache.commons.io.IOUtils;
@@ -11,9 +12,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class CsaImplTest {
 
@@ -81,6 +85,22 @@ public class CsaImplTest {
     stubResponse("csa-json/all-institution-identity-providers.json", "/api/protected/services-usage.json\\?serviceId=1");
     List<InstitutionIdentityProvider> providers = subject.serviceUsedBy(1);
     assertEquals(4, providers.size());
+  }
+
+  @Test
+  public void testLicenseContactPerson() throws IOException {
+    stubResponse("csa-json/license-contact-person.json", "/api/protected/licensecontactperson.json\\?identityProviderId=idp");
+    Optional<LicenseContactPerson> personOptional = subject.licenseContactPerson(idp);
+    assertTrue(personOptional.isPresent());
+    assertEquals(personOptional.get().getName(), "John Doe");
+  }
+
+  @Test
+  public void testLicenseContactPersonNotFound() throws IOException {
+    stubAccessToken();
+    wireMockRule.stubFor(get(urlMatching("/api/protected/licensecontactperson.json\\?identityProviderId=idp")).willReturn(aResponse().withStatus(404)));
+    Optional<LicenseContactPerson> personOptional = subject.licenseContactPerson(idp);
+    assertFalse(personOptional.isPresent());
   }
 
   @Test

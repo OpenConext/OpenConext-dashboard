@@ -2,15 +2,21 @@ package nl.surfnet.coin.selfservice.service.impl;
 
 import nl.surfnet.coin.selfservice.domain.*;
 import nl.surfnet.coin.selfservice.service.Csa;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 public class CsaImpl implements Csa {
 
@@ -58,7 +64,6 @@ public class CsaImpl implements Csa {
   public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
     String url = serviceUrl + "/api/protected/identityproviders.json?identityProviderId={identityProviderId}";
     return Arrays.asList(csaService.getForEntity(url, InstitutionIdentityProvider[].class, identityProviderId).getBody());
-
   }
 
   @Override
@@ -104,6 +109,20 @@ public class CsaImpl implements Csa {
   public Action createAction(Action action) {
     String url = serviceUrl + "/api/protected/action.json";
     return csaService.postForEntity(url, action, Action.class).getBody();
+  }
+
+  @Override
+  public Optional<LicenseContactPerson> licenseContactPerson(String idpEntityId) {
+    String url = serviceUrl + "/api/protected/licensecontactperson.json?identityProviderId={identityProviderId}";
+    try {
+      ResponseEntity<LicenseContactPerson> entity = csaService.getForEntity(url, LicenseContactPerson.class, idpEntityId);
+      return Optional.of(entity.getBody());
+    } catch (HttpClientErrorException e) {
+      if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+        return Optional.empty();
+      }
+      throw e;
+    }
   }
 
   private List<Service> restoreCategoryReferences(List<Service> services) {

@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Mock implementation of CSA. To be filled with lots of data for local development. Perhaps JSON-local-file-backed.
@@ -102,6 +103,16 @@ public class CsaMock implements Csa {
     action.setSpName("Mock SP");
     actionsCreated.add(action);
     return action;
+  }
+
+  @Override
+  public Optional<LicenseContactPerson> licenseContactPerson(String idpEntityId) {
+    if (idpEntityId.equals("http://mock-idp")) {
+      return Optional.of((LicenseContactPerson) parseJsonData(new TypeReference<LicenseContactPerson>() {
+      }, "csa-json/license-contact-person.json"));
+    } else {
+      return Optional.empty();
+    }
   }
 
   @Override
