@@ -1,7 +1,7 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
 
-import nl.surfnet.coin.csa.Csa;
+import nl.surfnet.coin.selfservice.service.Csa;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.List;
 
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 

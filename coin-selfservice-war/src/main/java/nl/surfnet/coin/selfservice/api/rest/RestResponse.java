@@ -1,14 +1,6 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Wraps responses and adds optional links.

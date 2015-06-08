@@ -1,11 +1,11 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority;
+
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.filter.EnsureAccessToIdpFilter;
 import nl.surfnet.coin.selfservice.filter.SpringSecurityUtil;
-import nl.surfnet.coin.selfservice.interceptor.EnsureAccessToIdp;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import nl.surfnet.sab.Sab;
 import org.junit.After;
@@ -21,23 +21,18 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
-import org.springframework.web.util.NestedServletException;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static java.lang.String.format;
 import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.coinUser;
 import static nl.surfnet.coin.selfservice.api.rest.RestDataFixture.idp;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -65,11 +60,10 @@ public class IdpControllerIntegrationTest {
 
     MockitoAnnotations.initMocks(this);
 
-    EnsureAccessToIdp ensureAccessToIdp = new EnsureAccessToIdp();
-    ensureAccessToIdp.setCsa(csa);
+    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(csa);
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter())
-      .addInterceptors(ensureAccessToIdp)
+      .setMessageConverters(new GsonHttpMessageConverter("", "", "", ""))
+      .addFilter(ensureAccessToIdp, "/*")
       .setHandlerExceptionResolvers(createExceptionResolver())
       .build();
     coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);

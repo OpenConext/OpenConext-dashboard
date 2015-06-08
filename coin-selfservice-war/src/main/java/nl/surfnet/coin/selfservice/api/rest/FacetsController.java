@@ -1,7 +1,8 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Category;
+
+import nl.surfnet.coin.selfservice.domain.Category;
+import nl.surfnet.coin.selfservice.service.Csa;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

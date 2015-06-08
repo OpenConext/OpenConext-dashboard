@@ -42,7 +42,6 @@ import java.util.List;
 
 /**
  * XPath parser for SAB responses.
- *
  */
 @Component
 public class SabResponseParser {

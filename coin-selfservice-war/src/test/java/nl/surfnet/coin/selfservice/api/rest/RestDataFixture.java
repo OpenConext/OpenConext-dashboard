@@ -1,8 +1,9 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.Service;
+
 import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.Service;
 
 public class RestDataFixture {
 
@@ -13,8 +14,8 @@ public class RestDataFixture {
 
   public static Service serviceWithSpEntityId(String spEntityId, ServiceUpdater... serviceUpdaters) {
     Service service = new Service(1l, "name", "http://logo", "http://website", false, null, spEntityId);
-    if(serviceUpdaters != null) {
-      for (ServiceUpdater serviceUpdater: serviceUpdaters) {
+    if (serviceUpdaters != null) {
+      for (ServiceUpdater serviceUpdater : serviceUpdaters) {
         serviceUpdater.apply(service);
       }
     }

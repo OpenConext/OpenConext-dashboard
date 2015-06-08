@@ -18,6 +18,10 @@ App.Pages.AppDetail = React.createClass({
       component: App.Components.AttributePolicyPanel,
       icon: "fa-table"
     },
+    "idp_usage": {
+      component: App.Components.IdpUsagePanel,
+      icon: "fa-clipboard"
+    },
     "how_to_connect": {
       component: App.Components.HowToConnectPanel,
       icon: "fa-chain"
@@ -97,7 +101,7 @@ App.Pages.AppDetail = React.createClass({
     if (!panel || (this.state.activePanel == "how_to_connect" && !App.currentUser.dashboardAdmin)) {
       panel = this.panelMap["overview"];
     }
-    return panel.component({onSwitchPanel: this.handleSwitchPanel, app: this.props.app});
+    return panel.component({onSwitchPanel: this.handleSwitchPanel, app: this.props.app, institutions: this.props.institutions});
   },
 
   handleSwitchPanel: function(panel) {

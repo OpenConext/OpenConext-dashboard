@@ -50,15 +50,27 @@ I18n.translations.nl = {
     },
     static: {
       connection: {
-        name: "Connectie actief",
+        name: "Dienst gekoppeld",
         has_connection: "Ja",
         no_connection: "Nee"
       },
       license: {
         name: "Licentie",
-        has_license: "Ja",
+        unknown: "Onbekend",
+        not_needed: "Niet nodig",
         no_license: "Nee",
-        unknown_license: "Onbekend"
+        has_license_sp: "Ja, bij service provider",
+        has_license_surfmarket: "Ja, bij SURFmarket"
+      },
+      used_by_idp: {
+        name: "Aangeboden door mijn instelling",
+        yes: "Ja",
+        no: "Nee"
+      },
+      published_edugain: {
+        name: "Gepubliceerd in eduGAIN federatie",
+        yes: "Ja",
+        no: "Nee"
       }
     }
   },
@@ -68,7 +80,7 @@ I18n.translations.nl = {
       name: "Service",
       license: "Licentie",
       license_unknown: "Onbekend",
-      connected: "Connectie actief",
+      connected: "Dienst gekoppeld",
       search_hint: "Zoeken",
       search: "Zoek",
       connect: "",
@@ -79,8 +91,9 @@ I18n.translations.nl = {
       overview: "Overzicht",
       license_info: "Licentie",
       attribute_policy: "Attributen",
-      how_to_connect: "Connectie activeren",
-      how_to_disconnect: "Connectie deactiveren",
+      idp_usage: "Gebruikt door",
+      how_to_connect: "Dienst koppelen",
+      how_to_disconnect: "Dienst ontkoppelen",
       application_usage: "Service gebruik"
     }
   },
@@ -95,8 +108,10 @@ I18n.translations.nl = {
 
   license_info_panel: {
     title: "Licentie informatie",
-    has_license_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
+    has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
+    has_license_sp_html: "Er is via <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> een licentie afgesloten voor deze service.",
     no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    not_needed_html: "Voor deze dienst is geen licentie nodig",
     unknown_license: "Het is onbekend welke licentie voor deze service geldt.",
     no_license_description_html: "" +
       "<ul>" +
@@ -114,8 +129,10 @@ I18n.translations.nl = {
 
   license_info: {
     unknown_license: "Geen licentieinformatie beschikbaar",
-    has_license: "Licentie beschikbaar",
+    has_license_surfmarket: "Licentie beschikbaar via SURFmarket",
+    has_license_sp: "Licentie beschikbaar via service supplier",
     no_license: "Licentie is niet aanwezig",
+    no_license_needed: "Geen licentie nodig",
     license_info: "Lees hoe je een licentie kunt verkrijgen",
     license_unknown_info: "Lees meer",
     valid: "Licentie is geldig t/m {{date}}"
@@ -125,10 +142,10 @@ I18n.translations.nl = {
     wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
     no_description: "Er is geen beschijving voor deze service.",
     description: "Beschrijving",
-    has_connection: "Connectie actief",
-    no_connection: "Connectie niet actief",
-    how_to_connect: "Lees hoe je een connectie activeert",
-    disconnect: "Lees hoe je een verbinding deactiveert"
+    has_connection: "Dienst gekoppeld",
+    no_connection: "Dienst niet gekoppeld",
+    how_to_connect: "Lees hoe je een dienst koppelt",
+    disconnect: "Lees hoe je een dienst ontkoppelt"
   },
 
   attributes_policy_panel: {
@@ -141,6 +158,12 @@ I18n.translations.nl = {
       noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen zullen worden uitgewisseld met {{name}}.",
       noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}."
     }
+  },
+
+  idp_usage_panel: {
+    title: "Gebruikt door",
+    subtitle: "De volgende instituties zijn gekoppeld aan {{name}}.",
+    institution: "Institutie"
   },
 
   how_to_connect_panel: {
@@ -227,7 +250,7 @@ I18n.translations.nl = {
   },
 
   logout: {
-    title: "Succesvul uitgelogd.",
+    title: "Succesvol uitgelogd.",
     description_html: "Je <strong>MOET</strong> de browser afsluiten om het uitlogproces af te ronden."
   },
 
@@ -257,7 +280,11 @@ I18n.translations.nl = {
     SURFconextbeheerder: "SURFconextbeheerder",
     "Dashboard supergebruiker": "Dashboard supergebruiker",
     services_title: "Deze services worden aangeboden door jouw instelling:",
-    service_name: "Naam service"
+    service_name: "Naam service",
+    license_contact_html: "Primaire licensie contact persoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">toelichting</a>):",
+    license_contact_name: "Naam",
+    license_contact_email: "Email",
+    license_contact_phone: "Telefoonnummer"
   },
 
   history: {
@@ -303,126 +330,106 @@ I18n.translations.nl = {
       }
     },
     attribute_map: {
-      "urn:mace:dir:attribute-def:uid": {
+      "Shib-uid": {
         name: "UID",
         description: "jouw unieke gebruikersnaam binnen jouw instelling"
       },
-      "urn:mace:dir:attribute-def:sn": {
+      "Shib-surName": {
         name: "Achternaam",
         description: "jouw achternaam"
       },
-      "urn:mace:dir:attribute-def:givenName": {
+      "Shib-givenName": {
         name: "Voornaam",
         description: "voornaam/roepnaam"
       },
-      "urn:mace:dir:attribute-def:cn": {
+      "Shib-commonName": {
         name: "Volledige persoonsnaam",
         description: "volledige persoonsnaam"
       },
-      "urn:mace:dir:attribute-def:displayName": {
+      "Shib-displayName": {
         name: "Weergavenaam",
         description: "weergave naam zoals getoond in applicaties"
       },
-      "urn:mace:dir:attribute-def:mail": {
+      "Shib-email": {
         name: "E-mailadres",
         description: "jouw e-mailadres zoals bekend binnen jouw instelling"
       },
-      "urn:mace:dir:attribute-def:eduPersonAffiliation": {
+      "Shib-eduPersonAffiliation": {
         name: "Relatie",
         description: "geeft de relatie aan tussen jou en jouw instelling"
       },
-      "urn:mace:dir:attribute-def:eduPersonEntitlement": {
+      "Shib-eduPersonEntitlement": {
         name: "Rechtaanduiding",
         description: "rechtaanduiding; URI (URL of URN) dat een recht op iets aangeeft; wordt bepaald door een contract tussen dienstaanbieder en instelling"
       },
-      "urn:mace:dir:attribute-def:eduPersonPrincipalName": {
+      "Shib-eduPersonPN": {
         name: "Net-ID",
         description: "jouw unieke gebruikersnaam binnen jouw instelling aangevuld met @instellingsnaam.nl"
       },
-      "urn:mace:dir:attribute-def:preferredLanguage": {
+      "Shib-preferredLanguage": {
         name: "Voorkeurstaal",
         description: "een tweeletterige afkorting van de voorkeurstaal volgens de ISO 639 taalafkortings codetabel; geen subcodes"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganization": {
+      "Shib-homeOrg": {
         name: "Organisatie",
         description: "aanduiding voor de organisatie van een persoon gebruikmakend van de domeinnaam van de organisatie; syntax conform RFC 1035"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": {
+      "Shib-schacHomeOrganizationType": {
         name: "Type Organisatie",
         description: "aanduiding voor het type organisatie waartoe een persoon behoort, gebruikmakend van de waarden zoals geregisteerd door Terena op: http://www.terena.org/registry/terena.org/schac/homeOrganizationType"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Weergavenaam van de Instelling",
         description: "weergavenaam van de instelling"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": {
+      "Shib-nlEduPersonOrgUnit": {
         name: "Afdelingsnaam",
         description: "naam van de afdeling"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Opleiding",
         description: "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": {
+      "Shib-nlStudielinkNummer": {
         name: "Studielinknummer",
         description: "studielinknummer van student zoals geregistreerd bij www.studielink.nl"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier": {
+      "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
         description: "Digital Author Identifier (DAI) zoals beschreven op: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Weergavenaam van de Instelling",
         description: "weergavenaam van de instelling"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit": {
-        name: "Afdelingsnaam",
-        description: "naam van de afdeling"
-      },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Opleiding",
         description: "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlStudielinkNummer": {
-        name: "Studielinknummer",
-        description: "studielinknummer van student zoals geregistreerd bij www.studielink.nl"
+      "Shib-userStatus": {
+        name: "Gebruikersstatus",
+        description: "Status van deze gebruiker in SURFconext"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlDigitalAuthorIdentifier": {
-        name: "DAI",
-        description: "Digital Author Identifier (DAI) zoals beschreven op: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
-      },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1": {
+      "Shib-accountstatus": {
         name: "Accountstatus",
         description: "Status van deze account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.1": {
-        name: "Accountstatus",
-        description: "Status van deze account in SURFconext"
-      },
-      "nameid": {
+      "name-id": {
         name: "Identifier",
         description: "Status van deze account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2": {
+      "Shib-voName": {
         name: "Naam Virtuele Organisatie",
         description: "De naam van de Virtuele Organisatie waarvoor je bent ingelogd."
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.40.40.1": {
+      "Shib-user": {
         name: "Identifier",
         description: "Status van deze account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.10": {
-        name: "Identifier",
-        description: "Status van deze account in SURFconext"
-      },
-      "urn:nl.surfconext.licenseInfo": {
-        name: "Licentieinformatie",
-        description: "Licentie informatie voor de huidige dienst"
-      },
-      "urn:oid:1.3.6.1.4.1.5923.1.5.1.1": {
+      "Shib-memberOf": {
         name: "Lidmaatschap",
         description: "Lidmaatschap van virtuele organisaties en SURFconext"
-      }
+      },
     }
   }
 };

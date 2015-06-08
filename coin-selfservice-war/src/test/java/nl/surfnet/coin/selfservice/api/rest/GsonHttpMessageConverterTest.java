@@ -2,8 +2,9 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import nl.surfnet.coin.csa.model.Category;
-import nl.surfnet.coin.csa.model.CategoryValue;
+
+import nl.surfnet.coin.selfservice.domain.Category;
+import nl.surfnet.coin.selfservice.domain.CategoryValue;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -16,17 +17,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class GsonHttpMessageConverterTest {
-
-  private GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
+  private GsonHttpMessageConverter converter;
   private MockHttpOutputMessage outputMessage;
 
   @Before
   public void setUp() throws Exception {
     outputMessage = new MockHttpOutputMessage();
-    converter.setStatsBaseUrl("https://foo");
-    converter.setStatsClientId("bar");
-    converter.setStatsScope("/scope");
-    converter.setStatsRedirectUri("/foobar");
+    converter = new GsonHttpMessageConverter("https://foo", "bar", "scope", "/foobar");
   }
 
   @Test

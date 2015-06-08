@@ -50,15 +50,27 @@ I18n.translations.en = {
     },
     static: {
       connection: {
-        name: "Connection active",
+        name: "Service connected",
         has_connection: "Yes",
         no_connection: "No"
       },
       license: {
         name: "License",
-        has_license: "Yes",
+        unknown: "Unknown",
+        not_needed: "Not needed",
         no_license: "No",
-        unknown_license: "Unknown"
+        has_license_sp: "Yes, with service provider",
+        has_license_surfmarket: "Yes, with SURFmarket"
+      },
+      used_by_idp: {
+        name: "Service from my institution",
+        yes: "Yes",
+        no: "No"
+      },
+      published_edugain: {
+        name: "Published in eduGAIN federation",
+        yes: "Yes",
+        no: "No"
       }
     }
   },
@@ -68,7 +80,7 @@ I18n.translations.en = {
       name: "Service",
       license: "License",
       license_unknown: "Unknown",
-      connected: "Connection",
+      connected: "Connected",
       search_hint: "Filter by name",
       search: "Search",
       connect: "",
@@ -79,8 +91,9 @@ I18n.translations.en = {
       overview: "Overview",
       license_info: "License",
       attribute_policy: "Attributes",
-      how_to_connect: "Activate connection",
-      how_to_disconnect: "Deactivate connection",
+      idp_usage: "Used by",
+      how_to_connect: "Activate service",
+      how_to_disconnect: "Deactivate service",
       application_usage: "Service usage"
     }
   },
@@ -95,8 +108,10 @@ I18n.translations.en = {
 
   license_info_panel: {
     title: "License information",
-    has_license_html: "There is a valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    has_license_surfmarket_html: "There is a valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    has_license_sp_html: "There is a valid license available via service supplier <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a>.",
     no_license_html: "Your institution has no valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+    not_needed_html: "This Service does not require a license.",
     unknown_license: "It is unknown whether a license is required or not.",
     no_license_description_html: "" +
       "<ul>" +
@@ -114,8 +129,10 @@ I18n.translations.en = {
 
   license_info: {
     unknown_license: "No license information available",
-    has_license: "License available",
+    has_license_surfmarket: "License available via SURFmarket",
+    has_license_sp: "License available via service supplier",
     no_license: "No license available",
+    no_license_needed: "No license needed",
     license_info: "Read how to obtain a license",
     license_unknown_info: "Read more",
     valid: "License is valid untill {{date}}"
@@ -141,6 +158,11 @@ I18n.translations.en = {
       noarp: "There is no 'Attribute Release Policy' specified. All known attributes will be exchanged with {{name}}.",
       noattr: "No attributes will be exchanged with {{name}}."
     }
+  },
+  idp_usage_panel: {
+    title: "Used by",
+    subtitle: "The following institutions are connected to {{name}}.",
+    institution: "Institution"
   },
 
   how_to_connect_panel: {
@@ -257,7 +279,11 @@ I18n.translations.en = {
     SURFconextbeheerder: "SURFconext maintainer",
     "Dashboard supergebruiker": "Dashboard Super User",
     services_title: "Services provided by your institute:",
-    service_name: "Service name"
+    service_name: "Service name",
+    license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">more info</a>):",
+    license_contact_name: "Name",
+    license_contact_email: "Email",
+    license_contact_phone: "Phonenumber"
   },
 
   history: {
@@ -303,123 +329,103 @@ I18n.translations.en = {
       }
     },
     attribute_map: {
-      "urn:mace:dir:attribute-def:uid": {
+      "Shib-uid": {
         name: "UID",
         description: "your unique username within your organization"
       },
-      "urn:mace:dir:attribute-def:sn": {
+      "Shib-surName": {
         name: "Surname",
         description: "your surname"
       },
-      "urn:mace:dir:attribute-def:givenName": {
+      "Shib-givenName": {
         name: "Name",
         description: "your name"
       },
-      "urn:mace:dir:attribute-def:cn": {
+      "Shib-commonName": {
         name: "Full Name",
         description: "your full name"
       },
-      "urn:mace:dir:attribute-def:displayName": {
+      "Shib-displayName": {
         name: "Display Name",
         description: "display name as shown in applications"
       },
-      "urn:mace:dir:attribute-def:mail": {
+      "Shib-email": {
         name: "E-mailaddress",
         description: "your e-mailaddress as known within your organization"
       },
-      "urn:mace:dir:attribute-def:eduPersonAffiliation": {
+      "Shib-eduPersonAffiliation": {
         name: "Relation",
         description: "relation between your and your organization"
       },
-      "urn:mace:dir:attribute-def:eduPersonEntitlement": {
+      "Shib-eduPersonEntitlement": {
         name: "Entitlement",
         description: "entitlement which decides upon your authorization within the application"
       },
-      "urn:mace:dir:attribute-def:eduPersonPrincipalName": {
+      "Shib-eduPersonPN": {
         name: "Net-ID",
         description: "your unique username within your organization augmented with @organizationname.nl"
       },
-      "urn:mace:dir:attribute-def:preferredLanguage": {
+      "Shib-preferredLanguage": {
         name: "Preferred Language",
         description: "a two letter abbreviation according to ISO 639; no subcodes"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganization": {
+      "Shib-homeOrg": {
         name: "Organization",
         description: "name for the organization, making use of the domain name of the organization conform RFC 1035"
       },
-      "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": {
+      "Shib-schacHomeOrganizationType": {
         name: "Type of Organization",
         description: "type of organization to which the user belongs"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Display name of Organization",
         description: "display name of the organization"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": {
+      "Shib-nlEduPersonOrgUnit": {
         name: "Unitname",
         description: "unit name"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Study Branch",
         description: "study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": {
+      "Shib-nlStudielinkNummer": {
         name: "Studielinknummer",
         description: "studielinknummer of the student as registered at www.studielink.nl"
       },
-      "urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier": {
+      "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
         description: "Digital Author Identifier (DAI) as described at: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization": {
+      "Shib-nlEduPersonHomeOrganization": {
         name: "Display name of Organization",
         description: "display name of the organization"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit": {
-        name: "Unitname",
-        description: "unit name"
-      },
-      "urn:mace:surffederatie_nl:attribute-def:nlEduPersonStudyBranch": {
+      "Shib-nlEduPersonStudyBranch": {
         name: "Study Branch",
         description: "study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlStudielinkNummer": {
-        name: "Studielinknummer",
-        description: "studielinknummer of the student as registered at www.studielink.nl"
+      "Shib-userStatus": {
+        name: "Userstatus",
+        description: "Status of this user in SURFconext"
       },
-      "urn:mace:surffederatie_nl:attribute-def:nlDigitalAuthorIdentifier": {
-        name: "DAI",
-        description: "Digital Author Identifier (DAI) as described at: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
-      },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1": {
+      "Shib-accountstatus": {
         name: "Accountstatus",
         description: "Status of this account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.1": {
-        name: "Accountstatus",
-        description: "Status of this account in SURFconext"
-      },
-      "nameid": {
+      "name-id": {
         name: "Identifier",
         description: "Status of this account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2": {
+      "Shib-voName": {
         name: "Virtual Organisation Name",
         description: "The name of the Virtual Urganisation for which you have authenticated"
       },
-      "urn:oid:1.3.6.1.4.1.1076.20.40.40.1": {
+      "Shib-user": {
         name: "Identifier",
         description: "Status of this account in SURFconext"
       },
-      "urn:oid:1.3.6.1.4.1.5923.1.1.1.10": {
-        name: "Identifier",
-        description: "Status of this account in SURFconext"
-      },
-      "urn:nl.surfconext.licenseInfo": {
-        name: "License information",
-        description: "License information for the current service"
-      },
-      "urn:oid:1.3.6.1.4.1.5923.1.5.1.1": {
+      "Shib-memberOf": {
         name: "Membership",
         description: "Membership of Virtual Organizations and SURFconext."
       }

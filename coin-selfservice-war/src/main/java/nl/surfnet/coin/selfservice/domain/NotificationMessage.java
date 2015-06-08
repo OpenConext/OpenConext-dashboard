@@ -20,11 +20,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.surfnet.coin.csa.model.Service;
-
 /**
  * Message that is shown as a notification to a logged in user.
- * 
  */
 @SuppressWarnings("serial")
 public class NotificationMessage implements Serializable {

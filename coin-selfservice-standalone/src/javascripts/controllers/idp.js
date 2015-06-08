@@ -1,10 +1,10 @@
 App.Controllers.MyIdp = {
   initialize: function() {
-    page("/my-idp", this.loadIdpRolesWithUsers.bind(this), this.loadServices.bind(this), this.myIdp.bind(this));
+    page("/my-idp", this.loadIdpRolesWithUsers.bind(this), this.loadLicenseContactPerson.bind(this), this.myIdp.bind(this));
   },
 
   myIdp: function(ctx) {
-    App.render(App.Pages.MyIdp({key: "my_idp", roles: ctx.roles, services: ctx.services}));
+    App.render(App.Pages.MyIdp({key: "my_idp", roles: ctx.roles, licenseContactPerson: ctx.licenseContactPerson}));
   },
 
   loadIdpRolesWithUsers: function(ctx, next) {
@@ -14,11 +14,12 @@ App.Controllers.MyIdp = {
     });
   },
 
-  loadServices: function(ctx, next) {
-    $.get(App.apiUrl("/idp/current/services"), function(data) {
-      ctx.services = data.payload;
+  loadLicenseContactPerson: function(ctx, next) {
+    $.get(App.apiUrl("/idp/licensecontactperson"), function(data) {
+      if (data.payload.name) {
+        ctx.licenseContactPerson = data.payload;
+      }
       next();
     });
   }
-
 };

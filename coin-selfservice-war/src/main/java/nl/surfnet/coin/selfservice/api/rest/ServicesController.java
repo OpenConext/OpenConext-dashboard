@@ -2,11 +2,8 @@ package nl.surfnet.coin.selfservice.api.rest;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.collect.ImmutableSet;
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Action;
-import nl.surfnet.coin.csa.model.JiraTask;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.domain.CoinUser;
+import nl.surfnet.coin.selfservice.domain.*;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +26,7 @@ import static nl.surfnet.coin.selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_I
 @Controller
 @RequestMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ServicesController extends BaseController {
+
   private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
 
   @Resource
@@ -40,25 +38,22 @@ public class ServicesController extends BaseController {
     return new ResponseEntity(createRestResponse(services), HttpStatus.OK);
   }
 
-  private Service getServiceBySpEntityId(List<Service> services, String id) {
-    long longId = Long.parseLong(id);
-    for (Service service : services) {
-      if (service.getId() == longId) {
-        return service;
-      }
-    }
-    return null;
+  @RequestMapping(value = "/idps/{id}")
+  public ResponseEntity<RestResponse> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                       @PathVariable Long id) {
+    List<InstitutionIdentityProvider> providers = csa.serviceUsedBy(id);
+    return new ResponseEntity(createRestResponse(providers), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<String> ids, HttpServletResponse response) {
+  public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
     List<String[]> rows = new ArrayList<>();
     rows.add(Arrays.asList("id", "spName", "spEntityId", "connected").toArray(new String[4]));
 
-    for (String id : ids) {
-      Service service = getServiceBySpEntityId(services, id);
+    for (Long id : ids) {
+      Service service = getServiceById(services, id);
       rows.add(Arrays.asList(id, service.getName(), service.getSpEntityId(), String.valueOf(service.isConnected())).toArray(new String[4]));
     }
 
@@ -71,6 +66,15 @@ public class ServicesController extends BaseController {
     }
 
     return new ResponseEntity(HttpStatus.OK);
+  }
+
+  private Service getServiceById(List<Service> services, Long id) {
+    for (Service service : services) {
+      if (service.getId() == id) {
+        return service;
+      }
+    }
+    return null;
   }
 
   @RequestMapping(value = "/id/{id}")
@@ -114,17 +118,15 @@ public class ServicesController extends BaseController {
       return false;
     }
 
-    Action action = new Action(
-      currentUser.getUid(),
-      currentUser.getEmail(),
-      currentUser.getDisplayName(),
-      jiraType,
-      comments,
-      idpEntityId,
-      spEntityId,
-      currentUser.getIdp().getInstitutionId()
-    );
-
+    Action action = new Action();
+    action.setUserId(currentUser.getUid());
+    action.setUserEmail(currentUser.getEmail());
+    action.setUserName(currentUser.getDisplayName());
+    action.setType(jiraType);
+    action.setBody(comments);
+    action.setIdpId(idpEntityId);
+    action.setSpId(spEntityId);
+    action.setInstitutionId(currentUser.getIdp().getInstitutionId());
     csa.createAction(action);
     return true;
   }

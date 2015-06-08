@@ -16,7 +16,6 @@
 
 package nl.surfnet.coin.selfservice.service;
 
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.NotificationMessage;
 
 public interface NotificationService {
@@ -25,7 +24,6 @@ public interface NotificationService {
    * Get all possible notifications for the given services belonging to the
    * IdentityProvider. Notifications will be created for services that have a
    * license but no linked service or vice-versa
-   *
    *
    * @param idpId
    * @return list of possible notifications

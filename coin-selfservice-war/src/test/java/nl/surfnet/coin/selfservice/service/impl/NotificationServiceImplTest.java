@@ -16,26 +16,25 @@
 
 package nl.surfnet.coin.selfservice.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
+import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.License;
+import nl.surfnet.coin.selfservice.domain.NotificationMessage;
+import nl.surfnet.coin.selfservice.domain.Service;
+import nl.surfnet.coin.selfservice.service.Csa;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
-import nl.surfnet.coin.csa.model.License;
-import nl.surfnet.coin.csa.model.Service;
-import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
-import nl.surfnet.coin.selfservice.domain.NotificationMessage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class NotificationServiceImplTest {
 
@@ -61,11 +60,13 @@ public class NotificationServiceImplTest {
 
   private List<Authority> getParametrizedAuthorities() {
     return authorities;
-  };
+  }
+
+  ;
 
   @Test
   public void testGetNotificationsWithMessagesFcp() {
-    authorities = Arrays.asList(new Authority[] { Authority.ROLE_DASHBOARD_ADMIN});
+    authorities = Arrays.asList(new Authority[]{Authority.ROLE_DASHBOARD_ADMIN});
 
     InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
 
@@ -87,7 +88,7 @@ public class NotificationServiceImplTest {
   }
 
   private Service createService(String spName, boolean hasLicense, boolean isConnected) {
-    Service s = new Service(0L, spName, "", "", true, "","");
+    Service s = new Service(0L, spName, "", "", true, "", "");
     if (hasLicense) {
       s.setLicense(new License(new Date(), new Date(), "", ""));
     }

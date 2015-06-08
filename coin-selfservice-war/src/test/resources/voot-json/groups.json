@@ -1,0 +1,20 @@
+[
+  {
+    "id": "urn:collab:group:surfnet.nl:nl:surfnet:diensten:admins",
+    "displayName": "sysadmingroup",
+    "description": "system administrators with all privileges",
+    "sourceID": "SURFteams",
+    "membership": {
+      "basic": "member"
+    }
+  },
+  {
+    "id": "urn:collab:group:surfnet.nl:nl:surfnet:diensten:members",
+    "displayName": "test team",
+    "description": "testje",
+    "sourceID": "SURFteams",
+    "membership": {
+      "basic": "member"
+    }
+  }
+]

@@ -6,10 +6,12 @@ App.Pages.AppOverview = React.createClass({
     App.Mixins.SortableTable("apps.overview", "name")
   ],
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       search: "",
-      activeFacets: App.store.activeFacets || {}
+      radioButtonFacets: ["connection", "used_by_idp", "published_edugain"],
+      activeFacets: App.store.activeFacets || {},
+      hiddenFacets: App.store.hiddenFacets || {}
     }
   },
 
@@ -30,20 +32,22 @@ App.Pages.AppOverview = React.createClass({
           <App.Components.Facets
             facets={this.props.facets}
             selectedFacets={this.state.activeFacets}
+            hiddenFacets={this.state.hiddenFacets}
             filteredCount={filteredApps.length}
             totalCount={this.props.apps.length}
             onChange={this.handleFacetChange}
+            onHide={this.handleFacetHide}
             onReset={this.handleResetFilters}
-            onDownload={this.handleDownloadOverview} />
+            onDownload={this.handleDownloadOverview}/>
         </div>
         <div className="l-right">
           <div className="mod-app-search">
             <fieldset>
-              <i className="fa fa-search" />
+              <i className="fa fa-search"/>
               <input
                 type="search"
                 valueLink={this.linkState("search")}
-                placeholder={I18n.t("apps.overview.search_hint")} />
+                placeholder={I18n.t("apps.overview.search_hint")}/>
 
               <button type="submit">{I18n.t("apps.overview.search")}</button>
             </fieldset>
@@ -51,15 +55,15 @@ App.Pages.AppOverview = React.createClass({
           <div className="mod-app-list">
             <table>
               <thead>
-                <tr>
-                  {this.renderSortableHeader("percent_25", "name")}
-                  {this.renderSortableHeader("percent_15", "license")}
-                  {this.renderSortableHeader("percent_15", "connected")}
-                  {connect}
-                </tr>
+              <tr>
+                {this.renderSortableHeader("percent_25", "name")}
+                {this.renderSortableHeader("percent_15", "license")}
+                {this.renderSortableHeader("percent_15", "connected")}
+                {connect}
+              </tr>
               </thead>
               <tbody>
-                {filteredApps.length > 0 ? this.sort(filteredApps).map(this.renderApp) : this.renderEmpty()}
+              {filteredApps.length > 0 ? this.sort(filteredApps).map(this.renderApp) : this.renderEmpty()}
               </tbody>
             </table>
           </div>
@@ -68,11 +72,11 @@ App.Pages.AppOverview = React.createClass({
     );
   },
 
-  renderEmpty: function() {
+  renderEmpty: function () {
     return <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>;
   },
 
-  renderApp: function(app) {
+  renderApp: function (app) {
     if (App.currentUser.dashboardAdmin) {
       var connect = (
         <td className="right">
@@ -91,50 +95,83 @@ App.Pages.AppOverview = React.createClass({
     );
   },
 
-  renderLicenseStatus: function(app) {
-    if (app.hasCrmLink) {
-      return App.renderYesNo(app.license);
-    } else {
-      return (
-        <td>{I18n.t("apps.overview.license_unknown")}</td>
+  licenseStatusClassName: function (app) {
+    switch (app.licenseInfo) {
+      case "has_license_surfmarket":
+      case "has_license_sp":
+        return "yes"
+      case "no_license":
+        return "no";
+      default:
+        return "";
+    }
+  },
+
+  renderLicenseStatus: function (app) {
+    return (
+        <td className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseInfo)}</td>
       );
-    }
   },
 
-  renderConnectButton: function(app) {
+  renderConnectButton: function (app) {
     if (!app.connected) {
-      return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect_button")}</a>;
+      return <a onClick={this.handleShowHowToConnect(app)}
+                className="c-button narrow">{I18n.t("apps.overview.connect_button")}</a>;
     }
   },
 
-  handleShowAppDetail: function(app) {
-    return function(e) {
+  handleShowAppDetail: function (app) {
+    return function (e) {
       e.preventDefault();
       e.stopPropagation();
       page("/apps/:id", {id: app.id});
     }
   },
 
-  handleShowHowToConnect: function(app) {
-    return function(e) {
+  handleShowHowToConnect: function (app) {
+    return function (e) {
       e.preventDefault();
       e.stopPropagation();
       page("/apps/:id/how_to_connect", {id: app.id});
     }
   },
 
-  handleFacetChange: function(facet, facetValue) {
-    var selectedFacet = $.extend({}, this.state.activeFacets);
-    if (selectedFacet[facet] == facetValue) {
-      delete selectedFacet[facet];
+  /*
+   * this.state.activeFacets is a object with facet names and the values are arrays with all select values
+   */
+  handleFacetChange: function (facet, facetValue, checked) {
+    var selectedFacets = $.extend({}, this.state.activeFacets);
+    var facetValues = selectedFacets[facet];
+    if (facetValues) {
+      checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
     } else {
-      selectedFacet[facet] = facetValue;
+      facetValues = selectedFacets[facet] = [facetValue];
     }
-    this.setState({activeFacets: selectedFacet});
-    App.store.activeFacets = selectedFacet;
+    /*
+     * Special case. For some static facets we only want one value (e.g. either 'yes' or 'no')
+     */
+    if (this.state.radioButtonFacets.indexOf(facet) > -1 && checked && facetValues.length === 2) {
+      //we use radio buttons for one-value-facets, but we do want the ability to de-select them
+      var nbr = (facetValues[0] === facetValues[1] ? 2 : 1);
+      facetValues.splice(0, nbr);
+    }
+    this.setState({activeFacets: selectedFacets});
+    App.store.activeFacets = selectedFacets;
   },
 
-  handleResetFilters: function() {
+
+  handleFacetHide: function (facet) {
+    var hiddenFacets = $.extend({}, this.state.hiddenFacets);
+    if (hiddenFacets[facet.name]) {
+      delete hiddenFacets[facet.name];
+    } else {
+      hiddenFacets[facet.name] = true;
+    }
+    this.setState({hiddenFacets: hiddenFacets});
+    App.store.hiddenFacets = hiddenFacets;
+  },
+
+  handleResetFilters: function () {
     this.setState({
       search: "",
       activeFacets: {}
@@ -143,11 +180,11 @@ App.Pages.AppOverview = React.createClass({
     App.store.activeFacets = null;
   },
 
-  handleDownloadOverview: function() {
+  handleDownloadOverview: function () {
     App.Controllers.Apps.downloadOverview(this.filteredApps());
   },
 
-  filteredApps: function() {
+  filteredApps: function () {
     var filteredApps = this.props.apps;
     filteredApps = filteredApps.filter(this.filterBySearchQuery);
 
@@ -155,88 +192,78 @@ App.Pages.AppOverview = React.createClass({
       filteredApps = filteredApps.filter(this.filterByFacets);
       filteredApps = filteredApps.filter(this.filterConnectionFacet);
       filteredApps = filteredApps.filter(this.filterLicenseFacet);
+      filteredApps = filteredApps.filter(this.filterIdpService);
+      filteredApps = filteredApps.filter(this.filterPublishedEdugain);
     }
 
     return filteredApps;
   },
 
-  filterBySearchQuery: function(app) {
+  filterBySearchQuery: function (app) {
     return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
   },
 
-  filterConnectionFacet: function(app) {
-    if (this.state.activeFacets["connection"]) {
-      var check = this.state.activeFacets["connection"] == "yes";
-      if (app.connected != check) {
-        return false;
-      }
+  filterConnectionFacet: function (app) {
+    var connectionFacetValues = this.state.activeFacets["connection"] || [];
+    if (connectionFacetValues.length > 0) {
+      return app.connected ? connectionFacetValues[0] === "yes" : connectionFacetValues[0] === "no";
     }
-
     return true;
   },
 
-  filterLicenseFacet: function(app) {
-    if (this.state.activeFacets["license"]) {
-      switch (this.state.activeFacets["license"]) {
-        case "yes":
-          if (!app.license) {
-            return false;
-          }
-          break;
-        case "no":
-          if (app.license || !app.hasCrmLink) {
-            return false;
-          }
-          break;
-        case "unknown":
-          if (app.hasCrmLink) {
-            return false;
-          }
-          break;
-      }
-    }
-
-    return true;
+  filterLicenseFacet: function (app) {
+    var licenseFacetValues = this.state.activeFacets["license"] || [];
+    return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseInfo) > -1;
   },
 
-  filterByFacets: function(app) {
+  filterByFacets: function (app) {
     var normalizedCategories = this.normalizeCategories(app);
-    var match = true;
 
-    for (facet in this.state.activeFacets) {
-      if (normalizedCategories[facet]) {
-        if (normalizedCategories[facet].indexOf(this.state.activeFacets[facet]) < 0) {
-          match = false;
+    for (var facet in this.state.activeFacets) {
+      var facetValues = this.state.activeFacets[facet] || [];
+      if (normalizedCategories[facet] && facetValues.length > 0) {
+        var hits = normalizedCategories[facet].filter(function (facetValue) {
+          return facetValues.indexOf(facetValue) > -1;
+        });
+        if (hits.length === 0) {
+          return false;
         }
       }
     }
-
-    return match;
+    return true;
   },
 
-  normalizeCategories: function(app) {
+  filterIdpService: function (app) {
+    var usedByIdpFacetValues = this.state.activeFacets["used_by_idp"] || [];
+    if (usedByIdpFacetValues.length > 0) {
+      var institutionIdIdp = App.currentIdp().institutionId;
+      var institutionIdSp = app.institutionId;
+      return institutionIdIdp === institutionIdSp ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
+    }
+    return true;
+  },
+
+  filterPublishedEdugain: function (app) {
+    var edugainFacetValues = this.state.activeFacets["published_edugain"] || [];
+    var published = app.publishedInEdugain || false;
+    return edugainFacetValues.length === 0 || edugainFacetValues.indexOf(published.toString()) > -1;
+  },
+
+  normalizeCategories: function (app) {
     var normalizedCategories = {}
-    app.categories.forEach(function(category) {
-      normalizedCategories[category.name] = category.values.map(function(categoryValue) {
+    app.categories.forEach(function (category) {
+      normalizedCategories[category.name] = category.values.map(function (categoryValue) {
         return categoryValue.value;
       });
     });
     return normalizedCategories;
   },
 
-  convertLicenseForSort: function(value, app) {
-    if (app.hasCrmLink) {
-      if (value) {
-        return 2;
-      } else {
-        return 1;
-      }
-    } else {
-      return 0;
-    }
+  convertLicenseForSort: function (value, app) {
+    return app.licenseInfo;
   },
 
-  convertNameForSort: function(value) {
+  convertNameForSort: function (value) {
     return value.toLowerCase();
   }
 });

@@ -26,6 +26,7 @@ public interface Sab {
 
   /**
    * Returns whether the given user has the given role for the given organisation
+   *
    * @param userId
    * @param role
    * @param organisation
@@ -35,6 +36,7 @@ public interface Sab {
 
   /**
    * Get the Role/organisation info for the given userId
+   *
    * @param userId the userId to query for
    * @return SabRoleHolder
    * @throws IOException when IO fails or an error occurs (for example authentication failure)
@@ -44,6 +46,7 @@ public interface Sab {
 
   /**
    * Get all persons within the given organisation that have the given role.
+   *
    * @param organisationAbbreviation
    * @param role
    */

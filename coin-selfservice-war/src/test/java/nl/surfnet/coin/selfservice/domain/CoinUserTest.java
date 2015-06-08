@@ -2,7 +2,6 @@ package nl.surfnet.coin.selfservice.domain;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.api.rest.EnrichJson;
 import nl.surfnet.coin.selfservice.api.rest.RestResponse;
 import org.junit.Before;
@@ -12,10 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 
-import static java.lang.String.format;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CoinUserTest {
 

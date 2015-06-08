@@ -1,44 +1,44 @@
 [
-    {
-        "text": "contactpersonen_surfconext_idps",
-        "group": true,
-        "children": [
-            {
-                "id": "john.doe@contactpersonen_surfconext_idps",
-                "text": "John Doe",
-                "group": false
-            },
-            {
-                "id": "p.p@contactpersonen_surfconext_idps",
-                "text": "Pitje Puck",
-                "group": false
-            },
-            {
-                "id": "yan@contactpersonen_surfconext_idps",
-                "text": "Yan Yoe",
-                "group": false
-            }
-        ]
-    },
-    {
-        "text": "distribution_channel_admins",
-        "group": true,
-        "children": [
-            {
-                "id": "john.doe@distribution_channel_admins",
-                "text": "John Doe2",
-                "group": false
-            },
-            {
-                "id": "p.p@distribution_channel_admins",
-                "text": "Pitje Puck2",
-                "group": false
-            },
-            {
-                "id": "yan@distribution_channel_admins",
-                "text": "Yan Yoe2",
-                "group": false
-            }
-        ]
-    }
+  {
+    "text": "contactpersonen_surfconext_idps",
+    "group": true,
+    "children": [
+      {
+        "id": "john.doe@contactpersonen_surfconext_idps",
+        "text": "John Doe",
+        "group": false
+      },
+      {
+        "id": "p.p@contactpersonen_surfconext_idps",
+        "text": "Pitje Puck",
+        "group": false
+      },
+      {
+        "id": "yan@contactpersonen_surfconext_idps",
+        "text": "Yan Yoe",
+        "group": false
+      }
+    ]
+  },
+  {
+    "text": "distribution_channel_admins",
+    "group": true,
+    "children": [
+      {
+        "id": "john.doe@distribution_channel_admins",
+        "text": "John Doe2",
+        "group": false
+      },
+      {
+        "id": "p.p@distribution_channel_admins",
+        "text": "Pitje Puck2",
+        "group": false
+      },
+      {
+        "id": "yan@distribution_channel_admins",
+        "text": "Yan Yoe2",
+        "group": false
+      }
+    ]
+  }
 ]

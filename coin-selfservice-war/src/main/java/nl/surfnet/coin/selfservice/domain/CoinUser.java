@@ -16,8 +16,6 @@
 
 package nl.surfnet.coin.selfservice.domain;
 
-import com.google.common.base.Optional;
-import nl.surfnet.coin.csa.model.InstitutionIdentityProvider;
 import nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,9 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
-import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import static nl.surfnet.coin.selfservice.domain.CoinAuthority.Authority.*;
 
 /**
  * Simple conext user
@@ -52,7 +48,7 @@ public class CoinUser implements UserDetails {
   @Override
   @JsonIgnore
   public String getPassword() {
-    throw new SecurityException("Self service interface does not contain passwords");
+    return "";
   }
 
   /**
@@ -67,17 +63,17 @@ public class CoinUser implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
@@ -99,7 +95,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Unique identifier of the user, e.g. urn:collab:person:org.example:john.doe
-   * 
+   *
    * @return unique identifier of the user
    */
   public String getUid() {
@@ -112,7 +108,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Display name, e.g. 'John S. Doe Jr'
-   * 
+   *
    * @return display name of the user
    */
   public String getDisplayName() {
@@ -147,7 +143,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Returns a collection that will contain {@link CoinAuthority}'s
-   * 
+   * <p/>
    * {@inheritDoc}
    */
   @Override
@@ -190,7 +186,7 @@ public class CoinUser implements UserDetails {
    * Can be empty.
    *
    * @return Identifier of the institution the IdentityProvider of the user
-   *         belongs to
+   * belongs to
    */
   public String getInstitutionId() {
     return institutionId;
@@ -202,7 +198,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Identifier of the IdentityProvider the user has logged in with
-   * 
+   *
    * @return Identifier of the IdentityProvider the user has logged in with
    */
   public InstitutionIdentityProvider getIdp() {
@@ -224,7 +220,7 @@ public class CoinUser implements UserDetails {
 
   /**
    * Map of user attributes, key as String, value Object
-   * 
+   *
    * @return Map of user attributes
    */
   public Map<String, List<String>> getAttributeMap() {
@@ -238,7 +234,7 @@ public class CoinUser implements UserDetails {
   public void addAttribute(String key, List<String> value) {
     this.attributeMap.put(key, value);
   }
-  
+
   public List<Authority> getAuthorityEnums() {
     List<Authority> result = new ArrayList<Authority>();
     for (CoinAuthority authority : this.grantedAuthorities) {
@@ -248,19 +244,19 @@ public class CoinUser implements UserDetails {
   }
 
   public Optional<InstitutionIdentityProvider> getByEntityId(String entityId) {
-    for(InstitutionIdentityProvider institutionIdentityProvider: getInstitutionIdps()) {
-      if(institutionIdentityProvider.getId().equals(entityId)) {
-        return Optional.fromNullable(institutionIdentityProvider);
+    for (InstitutionIdentityProvider institutionIdentityProvider : getInstitutionIdps()) {
+      if (institutionIdentityProvider.getId().equals(entityId)) {
+        return Optional.of(institutionIdentityProvider);
       }
     }
-    return Optional.absent();
+    return Optional.empty();
   }
 
   @Override
   public String toString() {
     return "CoinUser [uid=" + uid + ", displayName=" + displayName + ", schacHomeOrganization=" + schacHomeOrganization + ", idp=" + currentIdp
-        + ", institutionIdps=" + institutionIdps + ", institutionId=" + institutionId + ", email=" + email + ", grantedAuthorities="
-        + new ArrayList<CoinAuthority>(grantedAuthorities) + ", attributeMap=" + attributeMap + "]";
+      + ", institutionIdps=" + institutionIdps + ", institutionId=" + institutionId + ", email=" + email + ", grantedAuthorities="
+      + new ArrayList<CoinAuthority>(grantedAuthorities) + ", attributeMap=" + attributeMap + "]";
   }
 
 }

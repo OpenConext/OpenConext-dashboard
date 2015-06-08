@@ -16,22 +16,16 @@
 
 package nl.surfnet.sab;
 
-import static java.util.Arrays.asList;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.Arrays.asList;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -61,9 +55,9 @@ public class SabClientMock implements Sab {
   @Override
   public boolean hasRoleForOrganisation(String userId, String role, String organisation) {
     return
-            rolesMapping.containsKey(userId) &&
-                    rolesMapping.get(userId).getOrganisation().equals(organisation) &&
-                    rolesMapping.get(userId).getRoles().contains(role);
+      rolesMapping.containsKey(userId) &&
+        rolesMapping.get(userId).getOrganisation().equals(organisation) &&
+        rolesMapping.get(userId).getRoles().contains(role);
   }
 
   @Override
@@ -77,7 +71,7 @@ public class SabClientMock implements Sab {
   public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
     List<SabPerson> result = new ArrayList<>();
 
-    for (SabPerson sabPerson: sabPersons) {
+    for (SabPerson sabPerson : sabPersons) {
       Collection<String> roleNames = Collections2.transform(sabPerson.getRoles(), new Function<SabRole, String>() {
         @Override
         public String apply(SabRole input) {

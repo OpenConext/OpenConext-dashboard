@@ -1,8 +1,9 @@
 package nl.surfnet.coin.selfservice.api.rest;
 
-import nl.surfnet.coin.csa.Csa;
-import nl.surfnet.coin.csa.model.Category;
-import nl.surfnet.coin.csa.model.Taxonomy;
+
+import nl.surfnet.coin.selfservice.domain.Category;
+import nl.surfnet.coin.selfservice.domain.Taxonomy;
+import nl.surfnet.coin.selfservice.service.Csa;
 import nl.surfnet.coin.selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class FacetsControllerIntegrationTest {
     MockitoAnnotations.initMocks(this);
 
     this.mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new MappingJacksonHttpMessageConverter()).build();
+      .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
     taxonomy = new Taxonomy();
     taxonomy.setCategories(Arrays.asList(new Category("foo")));
   }

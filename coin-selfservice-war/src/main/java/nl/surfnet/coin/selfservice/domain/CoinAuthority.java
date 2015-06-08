@@ -49,8 +49,8 @@ public class CoinAuthority implements GrantedAuthority {
 
   public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("authority", authority)
-        .toString();
+      .append("authority", authority)
+      .toString();
   }
 
   @Override
