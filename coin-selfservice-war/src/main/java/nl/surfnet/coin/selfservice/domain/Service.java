@@ -88,7 +88,7 @@ public class Service implements Comparable<Service>, Serializable {
   /*
    * has_license_surfmarket, has_license_sp, no_license, not_needed, unknown
    */
-  private String licenseInfo = "not_needed";
+  private String licenseStatus = "not_needed";
 
   private List<Category> categories = new ArrayList<>();
 
@@ -391,12 +391,12 @@ public class Service implements Comparable<Service>, Serializable {
     this.publishedInEdugain = publishedInEdugain;
   }
 
-  public String getLicenseInfo() {
-    return licenseInfo;
+  public String getLicenseStatus() {
+    return licenseStatus;
   }
 
-  public void setLicenseInfo(String licenseInfo) {
-    this.licenseInfo = licenseInfo;
+  public void setLicenseStatus(String licenseStatus) {
+    this.licenseStatus = licenseStatus;
   }
 
   @Override

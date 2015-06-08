@@ -96,7 +96,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   licenseStatusClassName: function (app) {
-    switch (app.licenseInfo) {
+    switch (app.licenseStatus) {
       case "has_license_surfmarket":
       case "has_license_sp":
         return "yes"
@@ -109,7 +109,7 @@ App.Pages.AppOverview = React.createClass({
 
   renderLicenseStatus: function (app) {
     return (
-        <td className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseInfo)}</td>
+        <td className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus)}</td>
       );
   },
 
@@ -213,7 +213,7 @@ App.Pages.AppOverview = React.createClass({
 
   filterLicenseFacet: function (app) {
     var licenseFacetValues = this.state.activeFacets["license"] || [];
-    return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseInfo) > -1;
+    return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
   },
 
   filterByFacets: function (app) {
@@ -260,7 +260,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   convertLicenseForSort: function (value, app) {
-    return app.licenseInfo;
+    return app.licenseStatus;
   },
 
   convertNameForSort: function (value) {

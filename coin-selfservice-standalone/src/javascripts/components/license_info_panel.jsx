@@ -17,7 +17,7 @@ App.Components.LicenseInfoPanel = React.createClass({
   },
 
   renderLicenseStatus: function() {
-    switch (this.props.app.licenseInfo) {
+    switch (this.props.app.licenseStatus) {
       case "has_license_surfmarket":
         return this.renderHasLicense(I18n.t("license_info_panel.has_license_surfmarket_html")) ;
       case "has_license_sp":

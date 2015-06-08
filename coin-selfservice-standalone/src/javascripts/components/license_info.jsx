@@ -8,7 +8,7 @@ App.Components.LicenseInfo = React.createClass({
   },
 
   render: function () {
-    switch (this.props.app.licenseInfo) {
+    switch (this.props.app.licenseStatus) {
       case "has_license_surfmarket":
       case "has_license_sp":
         return this.renderHasLicense();
@@ -30,7 +30,7 @@ App.Components.LicenseInfo = React.createClass({
   },
 
   renderHasLicense: function () {
-    var info = this.props.app.licenseInfo === "has_license_surfmarket" ? I18n.t("license_info.has_license_surfmarket") : I18n.t("license_info.has_license_sp")
+    var info = this.props.app.licenseStatus === "has_license_surfmarket" ? I18n.t("license_info.has_license_surfmarket") : I18n.t("license_info.has_license_sp")
     return (
       <div className={this.renderSplitClass("license yes")}>
         <i className="fa fa-file-text-o"></i>
