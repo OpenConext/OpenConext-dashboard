@@ -88,7 +88,7 @@ public class Service implements Comparable<Service>, Serializable {
   /*
    * has_license_surfmarket, has_license_sp, no_license, not_needed, unknown
    */
-  private String licenseStatus = "not_needed";
+  private String licenseStatus = "NOT_NEEDED";
 
   private List<Category> categories = new ArrayList<>();
 

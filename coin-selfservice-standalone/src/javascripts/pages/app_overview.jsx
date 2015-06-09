@@ -97,10 +97,10 @@ App.Pages.AppOverview = React.createClass({
 
   licenseStatusClassName: function (app) {
     switch (app.licenseStatus) {
-      case "has_license_surfmarket":
-      case "has_license_sp":
+      case "HAS_LICENSE_SURFMARKET":
+      case "HAS_LICENSE_SP":
         return "yes"
-      case "no_license":
+      case "NO_LICENSE":
         return "no";
       default:
         return "";
@@ -109,7 +109,7 @@ App.Pages.AppOverview = React.createClass({
 
   renderLicenseStatus: function (app) {
     return (
-        <td className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus)}</td>
+        <td className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
       );
   },
 

@@ -9,14 +9,14 @@ App.Components.LicenseInfo = React.createClass({
 
   render: function () {
     switch (this.props.app.licenseStatus) {
-      case "has_license_surfmarket":
-      case "has_license_sp":
+      case "HAS_LICENSE_SURFMARKET":
+      case "HAS_LICENSE_SP":
         return this.renderHasLicense();
-      case "no_license":
+      case "NO_LICENSE":
         return this.renderNoLicense();
-      case "not_needed":
+      case "NOT_NEEDED":
         return this.renderNoLicenseNeeded();
-      case "unknown":
+      case "UNKNOWN":
         return this.renderUnknownLicense();
     }
   },
@@ -30,7 +30,7 @@ App.Components.LicenseInfo = React.createClass({
   },
 
   renderHasLicense: function () {
-    var info = this.props.app.licenseStatus === "has_license_surfmarket" ? I18n.t("license_info.has_license_surfmarket") : I18n.t("license_info.has_license_sp")
+    var info = this.props.app.licenseStatus === "HAS_LICENSE_SURFMARKET" ? I18n.t("license_info.has_license_surfmarket") : I18n.t("license_info.has_license_sp")
     return (
       <div className={this.renderSplitClass("license yes")}>
         <i className="fa fa-file-text-o"></i>
