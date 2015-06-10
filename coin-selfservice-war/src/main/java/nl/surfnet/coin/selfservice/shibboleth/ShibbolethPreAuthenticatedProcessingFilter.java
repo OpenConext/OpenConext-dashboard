@@ -60,7 +60,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   @Override
   protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
-    String uid = request.getHeader("Shib-uid");
+    String uid = request.getHeader("shib-user");
     if (!StringUtils.hasText(uid)) {
       throw new IllegalArgumentException("Header must include Shib-uid");
     }
