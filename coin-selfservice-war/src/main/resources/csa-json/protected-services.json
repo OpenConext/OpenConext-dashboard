@@ -229,6 +229,7 @@
       "institutionName": "Mock Institution Name",
       "groupLicense": true
     },
+    "licenseStatus": "NOT_NEEDED",
     "categories": [
       {
         "name": "Location",
@@ -398,6 +399,7 @@
     "institutionDescription": "The insitution description of this service",
     "connected": false,
     "hasCrmLink": false,
+    "licenseStatus": "NOT_NEEDED",
     "categories": [
       {
         "name": "Location",
@@ -463,6 +465,7 @@
       "institutionName": "Mock Institution Name",
       "groupLicense": false
     },
+    "licenseStatus": "NOT_NEEDED",
     "categories": [
       {
         "name": "Location",
@@ -529,6 +532,7 @@
       "institutionName": "Mock Institution Name",
       "groupLicense": true
     },
+    "licenseStatus": "NOT_NEEDED",
     "categories": [
       {
         "name": "Location",
@@ -580,6 +584,7 @@
       "appleAppStoreUrl": "https://appleAppStoreUrl",
       "androidPlayStoreUrl": "https://androidPlayStoreUrl"
     },
+    "licenseStatus": "NOT_NEEDED",
     "categories": [
       {
         "name": "Location",
@@ -631,6 +636,7 @@
     "crmArticle": {
       "guid": "{9CBF46ED-DA8B-E211-8A6D-0050569E0013}"
     },
+    "licenseStatus": "NOT_NEEDED",
     "categories": [],
     "spEntityId": "http://sts.edugroepen.nl/adfs/services/trust",
     "spName": "STS ADFS",
@@ -665,6 +671,7 @@
     "crmArticle": {
       "guid": "{9CBF46ED-DA8B-E211-8A6D-0050569E0013}"
     },
+    "licenseStatus": "NOT_NEEDED",
     "categories": [],
     "spEntityId": "http://sts.edugroepen.nl/adfs/services/trust",
     "spName": "STS ADFS",
