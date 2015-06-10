@@ -25,6 +25,7 @@ import nl.surfnet.coin.selfservice.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -74,7 +75,7 @@ public class VootFilter extends GenericFilterBean {
       CoinUser user = SpringSecurity.getCurrentUser();
 
       List<Group> groups = (List<Group>) session.getAttribute(SESSION_KEY_GROUP_ACCESS);
-      if (groups == null) {
+      if (CollectionUtils.isEmpty(groups)) {
         groups = vootClient.groups(user.getUid());
         session.setAttribute(SESSION_KEY_GROUP_ACCESS, groups);
       }
