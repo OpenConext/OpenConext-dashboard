@@ -64,7 +64,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     if (!StringUtils.hasText(uid)) {
       throw new IllegalArgumentException("Header must include Shib-uid");
     }
-    final String idpId = request.getHeader("Shib-Authenticating-Authority");
+    String idpId = request.getHeader("Shib-Authenticating-Authority");
+    //it can happen that the Authenticating Authority looks like this: http://mock-idp;http://mock-idp
+    idpId = idpId.split(";")[0];
+
     List<InstitutionIdentityProvider> institutionIdentityProviders = csaClient.getInstitutionIdentityProviders(idpId);
 
     CoinUser coinUser = new CoinUser();
