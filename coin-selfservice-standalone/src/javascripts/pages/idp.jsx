@@ -56,7 +56,7 @@ App.Pages.MyIdp = React.createClass({
   },
 
   renderLicenseContactPersons: function (licenseContactPersons) {
-    if (licenseContactPersons) {
+    if (licenseContactPersons && licenseContactPersons.length > 0) {
       return (
         <div>
           <p className="next" dangerouslySetInnerHTML={{__html: I18n.t("my_idp.license_contact_html") }}></p>

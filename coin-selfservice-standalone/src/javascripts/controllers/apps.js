@@ -9,7 +9,6 @@ App.Controllers.Apps = {
 
     page("/apps/:id/:active_panel?",
       this.loadApp.bind(this),
-      //this.loadInstitutions.bind(this),
       this.detail.bind(this)
     );
   },
