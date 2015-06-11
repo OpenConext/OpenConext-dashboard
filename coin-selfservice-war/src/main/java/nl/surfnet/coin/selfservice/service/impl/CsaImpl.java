@@ -73,9 +73,9 @@ public class CsaImpl implements Csa {
   }
 
   @Override
-  public List<InstitutionIdentityProvider> serviceUsedBy(long serviceId) {
-    String url = serviceUrl + "/api/protected/services-usage.json?serviceId={serviceId}";
-    return Arrays.asList(csaService.getForEntity(url, InstitutionIdentityProvider[].class, serviceId).getBody());
+  public List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId) {
+    String url = serviceUrl + "/api/protected/services-usage.json?spEntityId={spEntityId}";
+    return Arrays.asList(csaService.getForEntity(url, InstitutionIdentityProvider[].class, spEntityId).getBody());
   }
 
   @Override
@@ -112,17 +112,9 @@ public class CsaImpl implements Csa {
   }
 
   @Override
-  public Optional<LicenseContactPerson> licenseContactPerson(String idpEntityId) {
+  public List<LicenseContactPerson> licenseContactPersons(String idpEntityId) {
     String url = serviceUrl + "/api/protected/licensecontactperson.json?identityProviderId={identityProviderId}";
-    try {
-      ResponseEntity<LicenseContactPerson> entity = csaService.getForEntity(url, LicenseContactPerson.class, idpEntityId);
-      return Optional.of(entity.getBody());
-    } catch (HttpClientErrorException e) {
-      if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-        return Optional.empty();
-      }
-      throw e;
-    }
+    return Arrays.asList(csaService.getForEntity(url, LicenseContactPerson[].class, idpEntityId).getBody());
   }
 
   private List<Service> restoreCategoryReferences(List<Service> services) {

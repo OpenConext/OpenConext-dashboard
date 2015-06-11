@@ -9,7 +9,7 @@ App.Controllers.Apps = {
 
     page("/apps/:id/:active_panel?",
       this.loadApp.bind(this),
-      this.loadInstitutions.bind(this),
+      //this.loadInstitutions.bind(this),
       this.detail.bind(this)
     );
   },
@@ -24,14 +24,10 @@ App.Controllers.Apps = {
   loadApp: function(ctx, next) {
     $.get(App.apiUrl("/services/id/" + ctx.params.id), function(data) {
       ctx.app = data.payload;
-      next();
-    });
-  },
-
-  loadInstitutions: function(ctx, next) {
-    $.get(App.apiUrl("/services/idps/" + ctx.params.id), function(data) {
-      ctx.institutions = data.payload;
-      next();
+      $.get(App.apiUrl("/services/idps", {spEntityId: ctx.app.spEntityId} ), function(data) {
+        ctx.institutions = data.payload;
+        next();
+      });
     });
   },
 

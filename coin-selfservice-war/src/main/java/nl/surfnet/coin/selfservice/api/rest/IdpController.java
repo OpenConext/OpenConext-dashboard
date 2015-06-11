@@ -46,10 +46,10 @@ public class IdpController extends BaseController {
     return new ResponseEntity(createRestResponse(roleAssignments), HttpStatus.OK);
   }
 
-  @RequestMapping("/licensecontactperson")
+  @RequestMapping("/licensecontactpersons")
   public ResponseEntity<RestResponse> licenseContactPerson(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    Optional<LicenseContactPerson> licenseContactPerson = csa.licenseContactPerson(idpEntityId);
-    return new ResponseEntity(createRestResponse(licenseContactPerson.orElseGet(LicenseContactPerson::new)), HttpStatus.OK);
+    List<LicenseContactPerson> licenseContactPersons = csa.licenseContactPersons(idpEntityId);
+    return new ResponseEntity(createRestResponse(licenseContactPersons), HttpStatus.OK);
   }
 
 }

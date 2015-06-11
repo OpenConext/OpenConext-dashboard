@@ -10,7 +10,7 @@ App.Pages.MyIdp = React.createClass({
 
           <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html") }}></p>
           {this.renderRoles(roles)}
-          {this.renderLicenseContactPerson(this.props.licenseContactPerson)}
+          {this.renderLicenseContactPersons(this.props.licenseContactPersons)}
         </div>
       </div>
     );
@@ -46,7 +46,17 @@ App.Pages.MyIdp = React.createClass({
   },
 
   renderLicenseContactPerson: function (licenseContactPerson) {
-    if (licenseContactPerson) {
+    return (
+      <tr>
+        <td>{licenseContactPerson.name}</td>
+        <td>{licenseContactPerson.email}</td>
+        <td>{licenseContactPerson.phone}</td>
+      </tr>
+    );
+  },
+
+  renderLicenseContactPersons: function (licenseContactPersons) {
+    if (licenseContactPersons) {
       return (
         <div>
           <p className="next" dangerouslySetInnerHTML={{__html: I18n.t("my_idp.license_contact_html") }}></p>
@@ -59,17 +69,12 @@ App.Pages.MyIdp = React.createClass({
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>{licenseContactPerson.name}</td>
-              <td>{licenseContactPerson.email}</td>
-              <td>{licenseContactPerson.phone}</td>
-            </tr>
+            {licenseContactPersons.map(this.renderLicenseContactPerson)}
             </tbody>
           </table>
         </div>
       );
     }
-
   }
 
 });

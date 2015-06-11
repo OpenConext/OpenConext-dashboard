@@ -82,25 +82,23 @@ public class CsaImplTest {
 
   @Test
   public void testServiceUsedBy() throws IOException {
-    stubResponse("csa-json/all-institution-identity-providers.json", "/api/protected/services-usage.json\\?serviceId=1");
-    List<InstitutionIdentityProvider> providers = subject.serviceUsedBy(1);
-    assertEquals(4, providers.size());
+    stubResponse("csa-json/identity-providers-used-by-sp.json", "/api/protected/services-usage.json\\?spEntityId=sp");
+    List<InstitutionIdentityProvider> providers = subject.serviceUsedBy("sp");
+    assertEquals(25, providers.size());
   }
 
   @Test
   public void testLicenseContactPerson() throws IOException {
-    stubResponse("csa-json/license-contact-person.json", "/api/protected/licensecontactperson.json\\?identityProviderId=idp");
-    Optional<LicenseContactPerson> personOptional = subject.licenseContactPerson(idp);
-    assertTrue(personOptional.isPresent());
-    assertEquals(personOptional.get().getName(), "John Doe");
+    stubResponse("csa-json/license-contact-persons.json", "/api/protected/licensecontactperson.json\\?identityProviderId=idp");
+    List<LicenseContactPerson> persons = subject.licenseContactPersons(idp);
+    assertEquals(persons.get(0).getName(), "John Doe");
   }
 
   @Test
   public void testLicenseContactPersonNotFound() throws IOException {
-    stubAccessToken();
-    wireMockRule.stubFor(get(urlMatching("/api/protected/licensecontactperson.json\\?identityProviderId=idp")).willReturn(aResponse().withStatus(404)));
-    Optional<LicenseContactPerson> personOptional = subject.licenseContactPerson(idp);
-    assertFalse(personOptional.isPresent());
+    stubResponse("csa-json/license-contact-persons-empty.json", "/api/protected/licensecontactperson.json\\?identityProviderId=idp");
+    List<LicenseContactPerson> persons = subject.licenseContactPersons(idp);
+    assertTrue(persons.isEmpty());
   }
 
   @Test

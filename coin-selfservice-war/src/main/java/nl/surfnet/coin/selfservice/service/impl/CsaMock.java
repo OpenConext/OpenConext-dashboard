@@ -31,10 +31,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Mock implementation of CSA. To be filled with lots of data for local development. Perhaps JSON-local-file-backed.
@@ -106,12 +103,12 @@ public class CsaMock implements Csa {
   }
 
   @Override
-  public Optional<LicenseContactPerson> licenseContactPerson(String idpEntityId) {
+  public List<LicenseContactPerson> licenseContactPersons(String idpEntityId) {
     if (idpEntityId.equals("http://mock-idp")) {
-      return Optional.of((LicenseContactPerson) parseJsonData(new TypeReference<LicenseContactPerson>() {
-      }, "csa-json/license-contact-person.json"));
+      return (List<LicenseContactPerson>) parseJsonData(new TypeReference<List<LicenseContactPerson>>() {
+      }, "csa-json/license-contact-persons.json");
     } else {
-      return Optional.empty();
+      return new ArrayList<>();
     }
   }
 
@@ -134,7 +131,7 @@ public class CsaMock implements Csa {
   }
 
   @Override
-  public List<InstitutionIdentityProvider> serviceUsedBy(long serviceId) {
+  public List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId) {
     return getAllInstitutionIdentityProviders();
   }
 

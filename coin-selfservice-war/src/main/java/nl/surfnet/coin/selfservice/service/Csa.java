@@ -14,7 +14,7 @@ public interface Csa {
 
   List<InstitutionIdentityProvider> getAllInstitutionIdentityProviders();
 
-  List<InstitutionIdentityProvider> serviceUsedBy(long serviceId);
+  List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId);
 
   List<Action> getJiraActions(String idpEntityId);
 
@@ -24,6 +24,6 @@ public interface Csa {
 
   Action createAction(Action action);
 
-  Optional<LicenseContactPerson> licenseContactPerson(String idpEntityId);
+  List<LicenseContactPerson> licenseContactPersons(String idpEntityId);
 
 }

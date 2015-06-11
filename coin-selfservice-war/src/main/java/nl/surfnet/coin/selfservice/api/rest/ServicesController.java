@@ -38,10 +38,10 @@ public class ServicesController extends BaseController {
     return new ResponseEntity(createRestResponse(services), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/idps/{id}")
+  @RequestMapping(value = "/idps")
   public ResponseEntity<RestResponse> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                       @PathVariable Long id) {
-    List<InstitutionIdentityProvider> providers = csa.serviceUsedBy(id);
+                                                       @RequestParam String spEntityId) {
+    List<InstitutionIdentityProvider> providers = csa.serviceUsedBy(spEntityId);
     return new ResponseEntity(createRestResponse(providers), HttpStatus.OK);
   }
 
