@@ -152,12 +152,18 @@ var App = {
         console.error("Ajax request failed");
     }
   },
+  
   checkSessionExpired: function (event, xhr) {
     //do not handle anything other then 200 and 302 as the others are handled by ajaxError
     if (xhr.getResponseHeader("sessionAlive") !== "success" && (xhr.status === 0 || xhr.status === 200 || xhr.status === 302)) {
-      window.location = window.location.protocol + "//" + window.location.host + "/apps";
+      if (window.location.hostname === "localhost") {
+        window.location.href = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=" + window.location.pathname;
+      } else {
+        window.location.href = window.location.protocol + "//" + window.location.host + "/apps";
+      }
     }
   },
+
   currentIdpId: function () {
     return this.currentIdp().id;
   },
