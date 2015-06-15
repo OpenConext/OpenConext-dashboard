@@ -152,7 +152,7 @@ var App = {
         console.error("Ajax request failed");
     }
   },
-  
+
   checkSessionExpired: function (event, xhr) {
     //do not handle anything other then 200 and 302 as the others are handled by ajaxError
     if (xhr.getResponseHeader("sessionAlive") !== "success" && (xhr.status === 0 || xhr.status === 200 || xhr.status === 302)) {
