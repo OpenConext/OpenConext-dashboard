@@ -38,16 +38,22 @@ App.Controllers.Apps = {
   },
 
   overview: function(ctx) {
-    // We need to sanitize the categories data for each app to ensure facet search works
-    ctx.apps.forEach(function(app){
-      ctx.facets.forEach(function(facet){
+    // We need to sanitize the categories data for each app to ensure the facet totals are correct
+    var unknown = {value: I18n.t("facets.unknown")};
+    ctx.facets.forEach(function(facet){
+      ctx.apps.forEach(function(app){
         app.categories = app.categories || [];
         var appCategory = app.categories.filter(function(category){
           return category.name === facet.name;
         });
         if (appCategory.length === 0) {
-          app.categories.push({name:facet.name, values:[{value: I18n.t("facets.unknown")}]});
-          facet.values.push({value: I18n.t("facets.unknown")});
+          app.categories.push({name:facet.name, values:[unknown]});
+          var filtered = facet.values.filter(function(facetValue){
+            return facetValue.value === unknown.value;
+          });
+      //    if (filtered.length === -1) {
+            facet.values.push(unknown);
+      //    }
         }
       });
     });
