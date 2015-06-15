@@ -2,7 +2,7 @@
 
 App.Components.Facets = React.createClass({
   render: function () {
-    var facets = this.staticFacets().concat(this.props.facets);
+    var facets = this.props.facets;
 
     return (
       <div className="mod-filters">
@@ -91,12 +91,12 @@ App.Components.Facets = React.createClass({
     var value = facetValue.searchValue || facetValue.value;
 
     return (
-      <label key={facetValue.value}>
+      <label key={facetValue.value} className={facetValue.count === 0 ? "greyed-out" : ""}>
         <input
           checked={Array.isArray(this.props.selectedFacets[facetName]) && this.props.selectedFacets[facetName].indexOf(value) > -1}
           type={type}
           onChange={this.handleSelectFacet(facetName, value)}/>
-        {facetValue.value}
+        {facetValue.value} ({facetValue.count})
       </label>
     );
   },
@@ -125,46 +125,7 @@ App.Components.Facets = React.createClass({
     e.preventDefault();
     e.stopPropagation();
     this.props.onReset();
-  },
-
-  staticFacets: function () {
-    return [{
-      name: I18n.t("facets.static.connection.name"),
-      searchValue: "connection",
-      oneOptionAllowed: true,
-      values: [
-        {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
-        {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"}
-      ]
-    }, {
-      name: I18n.t("facets.static.license.name"),
-      searchValue: "license",
-      oneOptionAllowed: false,
-      values: [
-        {value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET"},
-        {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},
-        {value: I18n.t("facets.static.license.no_license"), searchValue: "NO_LICENSE"},
-        {value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED"},
-        {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"}
-      ]
-    }, {
-      name: I18n.t("facets.static.used_by_idp.name"),
-      searchValue: "used_by_idp",
-      oneOptionAllowed: true,
-      values: [
-        {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
-        {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"}
-      ]
-    },
-      {
-        name: I18n.t("facets.static.published_edugain.name"),
-        searchValue: "published_edugain",
-        oneOptionAllowed: true,
-        values: [
-          {value: I18n.t("facets.static.published_edugain.yes"), searchValue: "true"},
-          {value: I18n.t("facets.static.published_edugain.no"), searchValue: "false"}
-        ]
-      }];
   }
+
 
 });

@@ -44,6 +44,7 @@ I18n.translations.en = {
     title: "Filters",
     reset: "reset",
     download: "Download overview",
+    unknown: "Unknown",
     totals: {
       all: "Showing all {{total}} services",
       filtered: "Showing {{count}} of {{total}} services"

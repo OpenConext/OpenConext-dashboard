@@ -44,6 +44,7 @@ I18n.translations.nl = {
     title: "Filters",
     reset: "reset",
     download: "Download overzicht",
+    unknown: "Unknown",
     totals: {
       all: "Alle {{total}} services worden weergegeven",
       filtered: "{{count}} uit {{total}} services worden weergegeven"

@@ -16,7 +16,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   render: function () {
-    var filteredApps = this.filteredApps();
+    var filteredApps = this.filterAppsForExclusiveFilters(this.props.apps);
 
     if (App.currentUser.dashboardAdmin) {
       var connect = (
@@ -26,11 +26,15 @@ App.Pages.AppOverview = React.createClass({
       );
     }
 
+    var facets = this.staticFacets().concat(this.props.facets);
+    this.addNumbers(filteredApps, facets);
+    filteredApps = this.filterAppsForInclusiveFilters(filteredApps);
+
     return (
       <div className="l-main">
         <div className="l-left">
           <App.Components.Facets
-            facets={this.props.facets}
+            facets={facets}
             selectedFacets={this.state.activeFacets}
             hiddenFacets={this.state.hiddenFacets}
             filteredCount={filteredApps.length}
@@ -109,8 +113,9 @@ App.Pages.AppOverview = React.createClass({
 
   renderLicenseStatus: function (app) {
     return (
-        <td className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
-      );
+      <td
+        className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
+    );
   },
 
   renderConnectButton: function (app) {
@@ -184,19 +189,69 @@ App.Pages.AppOverview = React.createClass({
     App.Controllers.Apps.downloadOverview(this.filteredApps());
   },
 
-  filteredApps: function () {
-    var filteredApps = this.props.apps;
-    filteredApps = filteredApps.filter(this.filterBySearchQuery);
-
+  filterAppsForExclusiveFilters: function (apps) {
+    var filteredApps = apps.filter(this.filterBySearchQuery);
     if (!$.isEmptyObject(this.state.activeFacets)) {
-      filteredApps = filteredApps.filter(this.filterByFacets);
       filteredApps = filteredApps.filter(this.filterConnectionFacet);
-      filteredApps = filteredApps.filter(this.filterLicenseFacet);
       filteredApps = filteredApps.filter(this.filterIdpService);
       filteredApps = filteredApps.filter(this.filterPublishedEdugain);
     }
 
     return filteredApps;
+  },
+
+  filterAppsForInclusiveFilters: function (apps) {
+    var filteredApps = apps;
+
+    if (!$.isEmptyObject(this.state.activeFacets)) {
+      filteredApps = filteredApps.filter(this.filterByFacets);
+      filteredApps = filteredApps.filter(this.filterLicenseFacet);
+    }
+
+    return filteredApps;
+  },
+
+  addNumbers: function (filteredApps, facets) {
+    var me = this;
+    var filter = function (facet, filterFunction) {
+      facet.values.forEach(function (facetValue) {
+        facetValue.count = filteredApps.filter(function (app) {
+          return filterFunction(app, facetValue);
+        }).length;
+      });
+    };
+    facets.forEach(function (facet) {
+      switch (facet.searchValue) {
+        case "connection":
+          filter(facet, function (app, facetValue) {
+            return facetValue.searchValue === "yes" ? app.connected : !app.connected;
+          });
+          break;
+        case "license":
+          filter(facet, function (app, facetValue) {
+            return app.licenseStatus === facetValue.searchValue;
+          });
+          break;
+        case "used_by_idp":
+          filter(facet, function (app, facetValue) {
+            var usedByIdp = App.currentIdp().institutionId === app.institutionId;
+            return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
+          });
+          break;
+        case "published_edugain":
+          filter(facet, function (app, facetValue) {
+            var published = app.publishedInEdugain || false;
+            return facetValue.searchValue === "yes" ? published : !published;
+          });
+          break;
+        default:
+          filter(facet, function (app, facetValue) {
+            var categories = me.normalizeCategories(app);
+            var appTags = categories[facet.name] || [];
+            return appTags.indexOf(facetValue.value) > -1;
+          });
+      }
+    });
   },
 
   filterBySearchQuery: function (app) {
@@ -216,9 +271,24 @@ App.Pages.AppOverview = React.createClass({
     return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
   },
 
+  filterIdpService: function (app) {
+    var usedByIdpFacetValues = this.state.activeFacets["used_by_idp"] || [];
+    if (usedByIdpFacetValues.length > 0) {
+      return App.currentIdp().institutionId === app.institutionId ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
+    }
+    return true;
+  },
+
+  filterPublishedEdugain: function (app) {
+    var edugainFacetValues = this.state.activeFacets["published_edugain"] || [];
+    if (edugainFacetValues.length > 0) {
+      return app.publishedInEdugain ? edugainFacetValues[0] === "yes" : edugainFacetValues[0] === "no";
+    }
+    return true;
+  },
+
   filterByFacets: function (app) {
     var normalizedCategories = this.normalizeCategories(app);
-
     for (var facet in this.state.activeFacets) {
       var facetValues = this.state.activeFacets[facet] || [];
       if (normalizedCategories[facet] && facetValues.length > 0) {
@@ -231,22 +301,6 @@ App.Pages.AppOverview = React.createClass({
       }
     }
     return true;
-  },
-
-  filterIdpService: function (app) {
-    var usedByIdpFacetValues = this.state.activeFacets["used_by_idp"] || [];
-    if (usedByIdpFacetValues.length > 0) {
-      var institutionIdIdp = App.currentIdp().institutionId;
-      var institutionIdSp = app.institutionId;
-      return institutionIdIdp === institutionIdSp ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
-    }
-    return true;
-  },
-
-  filterPublishedEdugain: function (app) {
-    var edugainFacetValues = this.state.activeFacets["published_edugain"] || [];
-    var published = app.publishedInEdugain || false;
-    return edugainFacetValues.length === 0 || edugainFacetValues.indexOf(published.toString()) > -1;
   },
 
   normalizeCategories: function (app) {
@@ -265,5 +319,45 @@ App.Pages.AppOverview = React.createClass({
 
   convertNameForSort: function (value) {
     return value.toLowerCase();
+  },
+
+  staticFacets: function () {
+    return [{
+      name: I18n.t("facets.static.connection.name"),
+      searchValue: "connection",
+      oneOptionAllowed: true,
+      values: [
+        {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
+        {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"}
+      ]
+    }, {
+      name: I18n.t("facets.static.used_by_idp.name"),
+      searchValue: "used_by_idp",
+      oneOptionAllowed: true,
+      values: [
+        {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
+        {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"}
+      ]
+    }, {
+      name: I18n.t("facets.static.published_edugain.name"),
+      searchValue: "published_edugain",
+      oneOptionAllowed: true,
+      values: [
+        {value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes"},
+        {value: I18n.t("facets.static.published_edugain.no"), searchValue: "no"}
+      ]
+    }, {
+      name: I18n.t("facets.static.license.name"),
+      searchValue: "license",
+      oneOptionAllowed: false,
+      values: [
+        {value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET"},
+        {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},
+        {value: I18n.t("facets.static.license.no_license"), searchValue: "NO_LICENSE"},
+        {value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED"},
+        {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"}
+      ]
+    }];
   }
+
 });

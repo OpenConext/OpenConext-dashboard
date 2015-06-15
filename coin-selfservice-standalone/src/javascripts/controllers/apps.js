@@ -38,6 +38,19 @@ App.Controllers.Apps = {
   },
 
   overview: function(ctx) {
+    // We need to sanitize the categories data for each app to ensure facet search works
+    ctx.apps.forEach(function(app){
+      ctx.facets.forEach(function(facet){
+        app.categories = app.categories || [];
+        var appCategory = app.categories.filter(function(category){
+          return category.name === facet.name;
+        });
+        if (appCategory.length === 0) {
+          app.categories.push({name:facet.name, values:[{value: I18n.t("facets.unknown")}]});
+          facet.values.push({value: I18n.t("facets.unknown")});
+        }
+      });
+    });
     App.render(App.Pages.AppOverview({key: "apps", apps: ctx.apps, facets: ctx.facets}));
   },
 
