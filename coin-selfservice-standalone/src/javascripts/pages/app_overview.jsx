@@ -179,10 +179,12 @@ App.Pages.AppOverview = React.createClass({
   handleResetFilters: function () {
     this.setState({
       search: "",
-      activeFacets: {}
+      activeFacets: {},
+      hiddenFacets: {}
     });
 
     App.store.activeFacets = null;
+    App.store.hiddenFacets = null;
   },
 
   handleDownloadOverview: function () {
