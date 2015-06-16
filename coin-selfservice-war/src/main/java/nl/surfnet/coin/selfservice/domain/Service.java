@@ -104,6 +104,10 @@ public class Service implements Comparable<Service>, Serializable {
 
   private boolean publishedInEdugain;
 
+  private boolean normenkaderPresent;
+
+  private String normenkaderUrl;
+
   public Service() {
   }
 
@@ -397,6 +401,22 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setLicenseStatus(String licenseStatus) {
     this.licenseStatus = licenseStatus;
+  }
+
+  public boolean isNormenkaderPresent() {
+    return normenkaderPresent;
+  }
+
+  public void setNormenkaderPresent(boolean normenkaderPresent) {
+    this.normenkaderPresent = normenkaderPresent;
+  }
+
+  public String getNormenkaderUrl() {
+    return normenkaderUrl;
+  }
+
+  public void setNormenkaderUrl(String normenkaderUrl) {
+    this.normenkaderUrl = normenkaderUrl;
   }
 
   @Override

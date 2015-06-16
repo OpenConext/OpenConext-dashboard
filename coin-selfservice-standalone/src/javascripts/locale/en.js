@@ -146,7 +146,10 @@ I18n.translations.en = {
     has_connection: "Active connection",
     no_connection: "Inactive connection",
     how_to_connect: "Read how to activate",
-    disconnect: "Read how to deactivate the connection"
+    disconnect: "Read how to deactivate the connection",
+    normen_kader: "Framework of Legal Standards for Cloud Services in Higher Education",
+    normen_kader_html: "{{name}} has published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education <a href=\"{{link}}\" target=\"_blank\">online</a>. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>",
+    no_normen_kader_html: "{{name}} has not published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>"
   },
 
   attributes_policy_panel: {

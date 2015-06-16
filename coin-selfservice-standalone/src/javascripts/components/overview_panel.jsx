@@ -20,6 +20,8 @@ App.Components.OverviewPanel = React.createClass({
           {this.renderDescription()}
         </div>
 
+        {this.renderNormenKader()}
+
         <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
@@ -36,8 +38,20 @@ App.Components.OverviewPanel = React.createClass({
     }
   },
 
+  renderNormenKader: function () {
+    var html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
+      I18n.t("overview_panel.normen_kader_html", {name: this.props.app.name, link: this.props.app.normenkaderUrl}) :
+      I18n.t("overview_panel.no_normen_kader_html", {name: this.props.app.name});
+    return (
+      <div className="mod-description">
+        <h2>{I18n.t("overview_panel.normen_kader")}</h2>
+        <h3
+          dangerouslySetInnerHTML={{ __html: html }}/>
+      </div>)
+  },
+
   renderDescription: function () {
-    var hasText = function(value) {
+    var hasText = function (value) {
       return value && value.trim().length > 0;
     };
     if (hasText(this.props.app.enduserDescription)) {

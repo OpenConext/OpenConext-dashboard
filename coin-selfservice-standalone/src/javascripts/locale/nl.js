@@ -146,7 +146,11 @@ I18n.translations.nl = {
     has_connection: "Dienst gekoppeld",
     no_connection: "Dienst niet gekoppeld",
     how_to_connect: "Lees hoe je een dienst koppelt",
-    disconnect: "Lees hoe je een dienst ontkoppelt"
+    disconnect: "Lees hoe je een dienst ontkoppelt",
+    normen_kader: "Juridisch normenkader cloudservices hoger onderwijs",
+    normen_kader_html: "{{name}} heeft zijn compliance en non-compliance met het Juridisch normenkader cloudservices hoger onderwijs <a href=\"{{link}}\" target=\"_blank\">hier</a> gepubliceerd. Voor meer informatie over het framework zie de <a href=\"https://www.surf.nl/kennis-en-innovatie/kennisbank/2013/juridisch-normenkader-cloud-services-hoger-onderwijs.html\" target=\"_blank\">SURFnet website</a>",
+    no_normen_kader_html: "Het is onbekend in welke mate {{name}} voldoet aan het Juridisch normenkader cloudservices hoger onderwijs. Voor meer informatie over het framework zie de <a href=\"https://www.surf.nl/kennis-en-innovatie/kennisbank/2013/juridisch-normenkader-cloud-services-hoger-onderwijs.html\" target=\"_blank\">SURFnet website</a>"
+
   },
 
   attributes_policy_panel: {

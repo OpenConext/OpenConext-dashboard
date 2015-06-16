@@ -125,7 +125,9 @@
       "noArp": false,
       "noAttrArp": false
     },
-    "publishedInEdugain" : true
+    "publishedInEdugain" : true,
+    "normenkaderPresent":true,
+    "normenkaderUrl":"https://www.zilverline.com/files/leveringsvoorwaarden-detachering.pdf"
   },
   {
     "id": 2,
