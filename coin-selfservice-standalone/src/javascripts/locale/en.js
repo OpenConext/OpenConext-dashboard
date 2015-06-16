@@ -64,7 +64,7 @@ I18n.translations.en = {
         has_license_surfmarket: "Yes, with SURFmarket"
       },
       used_by_idp: {
-        name: "Service from my institution",
+        name: "Offered by my institution",
         yes: "Yes",
         no: "No"
       },
