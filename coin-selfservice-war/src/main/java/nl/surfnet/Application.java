@@ -16,6 +16,8 @@ import nl.surfnet.sab.SabClientMock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
@@ -43,7 +45,7 @@ import java.util.Locale;
 
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class, TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
 
   @Override
