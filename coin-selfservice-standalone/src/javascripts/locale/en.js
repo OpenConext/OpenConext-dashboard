@@ -23,7 +23,7 @@ I18n.translations.en = {
     title: "Dashboard",
     welcome: "Welcome,",
     links: {
-      help_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Dashboard+van+SURFconext+%28EN%29\" target=\"_blank\">Help</a>",
+      help_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Dashboard+van+SURFconext+%28EN%29\" target=\"_blank\">Help</a>",
       logout: "Logout",
       exit: "Exit"
     },
@@ -259,7 +259,7 @@ I18n.translations.en = {
 
   footer: {
     surfnet_html: "<a href=\"http://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
-    terms_html: "<a href=\"https://wiki.surfnetlabs.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",
+    terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",
     contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
   },
 
@@ -399,7 +399,7 @@ I18n.translations.en = {
       },
       "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
-        description: "Digital Author Identifier (DAI) as described at: http://www.surffoundation.nl/smartsite.dws?ch=eng&id=13480"
+        description: "Digital Author Identifier (DAI)"
       },
       "Shib-nlEduPersonHomeOrganization": {
         name: "Display name of Organization",
