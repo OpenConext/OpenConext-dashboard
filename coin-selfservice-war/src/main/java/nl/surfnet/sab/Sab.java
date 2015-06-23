@@ -25,16 +25,6 @@ import java.util.Collection;
 public interface Sab {
 
   /**
-   * Returns whether the given user has the given role for the given organisation
-   *
-   * @param userId
-   * @param role
-   * @param organisation
-   * @return boolean
-   */
-  boolean hasRoleForOrganisation(String userId, String role, String organisation);
-
-  /**
    * Get the Role/organisation info for the given userId
    *
    * @param userId the userId to query for
@@ -46,9 +36,6 @@ public interface Sab {
 
   /**
    * Get all persons within the given organisation that have the given role.
-   *
-   * @param organisationAbbreviation
-   * @param role
    */
   Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role);
 }

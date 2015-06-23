@@ -38,15 +38,6 @@ public class SabClientTest {
   }
 
   @Test
-  public void testHasRoleForOrganisation() {
-    String userId = "foo";
-    String organisation = "SURFNET";
-    String role = "Infraverantwoordelijke";
-
-    assertTrue(sabClient.hasRoleForOrganisation(userId, role, organisation));
-  }
-
-  @Test
   public void createRequest() {
     String request = sabClient.createRequest("userid", "234567890");
     assertTrue(request.contains("<saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:unspecified\">userid</saml:NameID>"));
@@ -56,14 +47,14 @@ public class SabClientTest {
 
   @Test
   public void exceptionWhileQueryingRole() throws IOException {
-    String userId = "foo";
     String organisation = "SURFNET";
     String role = "Infraverantwoordelijke";
 
     SabTransport transport = mock(SabTransport.class);
     sabClient = new SabClient(transport);
-    when(transport.getResponse(anyString())).thenThrow(new IOException("Intentionally"));
-    assertFalse(sabClient.hasRoleForOrganisation(userId, role, organisation));
+    when(transport.getRestResponse(anyString(), anyString())).thenThrow(new RuntimeException("Intentionally"));
+    final Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(organisation, role);
+    assertNotNull(personsInRoleForOrganization);
   }
 
   @Test(expected = IOException.class)

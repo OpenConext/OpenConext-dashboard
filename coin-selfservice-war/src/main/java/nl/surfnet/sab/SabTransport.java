@@ -27,7 +27,7 @@ public interface SabTransport {
    * @param request the request, serialized XML
    * @return a stream containing the response
    */
-  public InputStream getResponse(String request) throws IOException;
+  InputStream getResponse(String request) throws IOException;
 
-  public InputStream getRestResponse(String organisationAbbreviation, String role);
+  InputStream getRestResponse(String organisationAbbreviation, String role);
 }

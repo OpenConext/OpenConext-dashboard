@@ -16,19 +16,23 @@
 
 package nl.surfnet.sab;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.MessageFormat;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Client implementation for SAB.
@@ -36,7 +40,6 @@ import java.util.stream.Collectors;
  */
 public class SabClient implements Sab {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
   private static final String REQUEST_TEMPLATE_LOCATION = "/sab-request.xml";
   protected static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.UTC);
   private final ObjectMapper objectMapper = new ObjectMapper();
@@ -46,17 +49,6 @@ public class SabClient implements Sab {
   public SabClient(SabTransport sabTransport) {
     this.sabTransport = sabTransport;
     sabResponseParser = new SabResponseParser();
-  }
-
-  @Override
-  public boolean hasRoleForOrganisation(String userId, String role, String organisation) {
-    try {
-      SabRoleHolder sabRoleHolder = getRoles(userId);
-      return sabRoleHolder.getOrganisation().equals(organisation) && sabRoleHolder.getRoles().contains(role);
-    } catch (IOException e) {
-      LOG.error("IOException while doing request to SAB. Will return false.", e);
-      return false;
-    }
   }
 
   @Override
@@ -79,8 +71,8 @@ public class SabClient implements Sab {
         );
         return new SabPerson((String) profile.get("firstname"), (String) profile.get("surname"), (String) profile.get("uid"), sabRoles);
       }).filter(p -> p.hasRole(role)).collect(Collectors.toList());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    } catch (IOException | RuntimeException e) {
+      return Collections.emptyList();
     }
   }
 

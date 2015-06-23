@@ -53,14 +53,6 @@ public class SabClientMock implements Sab {
   }
 
   @Override
-  public boolean hasRoleForOrganisation(String userId, String role, String organisation) {
-    return
-      rolesMapping.containsKey(userId) &&
-        rolesMapping.get(userId).getOrganisation().equals(organisation) &&
-        rolesMapping.get(userId).getRoles().contains(role);
-  }
-
-  @Override
   public SabRoleHolder getRoles(String userId) throws IOException {
     SabRoleHolder sabRoleHolder = rolesMapping.get(userId);
     LOG.debug("Returning SAB role holder: {}", sabRoleHolder);
