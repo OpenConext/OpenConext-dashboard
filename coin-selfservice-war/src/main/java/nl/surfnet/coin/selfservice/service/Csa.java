@@ -1,10 +1,13 @@
 package nl.surfnet.coin.selfservice.service;
 
 
-import nl.surfnet.coin.selfservice.domain.*;
-
 import java.util.List;
-import java.util.Optional;
+
+import nl.surfnet.coin.selfservice.domain.Action;
+import nl.surfnet.coin.selfservice.domain.InstitutionIdentityProvider;
+import nl.surfnet.coin.selfservice.domain.LicenseContactPerson;
+import nl.surfnet.coin.selfservice.domain.Service;
+import nl.surfnet.coin.selfservice.domain.Taxonomy;
 
 public interface Csa {
 
