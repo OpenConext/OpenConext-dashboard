@@ -1,13 +1,12 @@
 package selfservice;
 
 
-import selfservice.filter.EnsureAccessToIdpFilter;
-import selfservice.filter.VootFilter;
-import selfservice.service.Csa;
-import selfservice.service.VootClient;
-import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
-import selfservice.shibboleth.ShibbolethUserDetailService;
-import selfservice.shibboleth.mock.MockShibbolethFilter;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+
+import selfservice.filter.EnsureAccessToIdpFilter;
+import selfservice.filter.VootFilter;
+import selfservice.service.Csa;
+import selfservice.service.VootClient;
+import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
+import selfservice.shibboleth.ShibbolethUserDetailService;
+import selfservice.shibboleth.mock.MockShibbolethFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -71,7 +82,13 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http
+    http.
+      logout().
+        invalidateHttpSession(true).
+        deleteCookies("statsToken"). // remove stats cookie
+        logoutSuccessHandler(new DashboardLogoutSuccessHandler()).
+        addLogoutHandler(new DashboardLogoutHandler()).
+      and()
       .csrf().disable()
       .addFilterBefore(
         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
@@ -82,6 +99,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
       .antMatchers("/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
+
       .anyRequest().authenticated();
   }
 
@@ -97,5 +115,29 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected AuthenticationManager authenticationManager() throws Exception {
     return super.authenticationManager();
+  }
+
+  private static class DashboardLogoutHandler implements LogoutHandler {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DashboardLogoutHandler.class);
+
+    @Override
+    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
+      LOG.debug("Logging out user {}", authentication);
+
+      Cookie statsToken = new Cookie("statsToken", "");
+      statsToken.setMaxAge(0); //deletes the cookie
+      httpServletResponse.addCookie(statsToken);
+      SecurityContextHolder.getContext().setAuthentication(null);
+      httpServletResponse.setStatus(204); // 204 No content
+    }
+  }
+
+  private static class DashboardLogoutSuccessHandler implements LogoutSuccessHandler {
+
+    @Override
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+      response.setStatus(204); // 204 No content
+    }
   }
 }
