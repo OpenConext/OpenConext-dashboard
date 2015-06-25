@@ -18,8 +18,8 @@ package selfservice.filter;
 
 import selfservice.domain.CoinUser;
 import selfservice.util.SpringSecurity;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabRoleHolder;
+import selfservice.sab.Sab;
+import selfservice.sab.SabRoleHolder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

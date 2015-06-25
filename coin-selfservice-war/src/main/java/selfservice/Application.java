@@ -2,6 +2,10 @@ package selfservice;
 
 
 import selfservice.api.rest.GsonHttpMessageConverter;
+import selfservice.sab.HttpClientTransport;
+import selfservice.sab.Sab;
+import selfservice.sab.SabClient;
+import selfservice.sab.SabClientMock;
 import selfservice.service.Csa;
 import selfservice.service.VootClient;
 import selfservice.service.impl.CsaImpl;
@@ -9,10 +13,6 @@ import selfservice.service.impl.CsaMock;
 import selfservice.service.impl.VootClientImpl;
 import selfservice.service.impl.VootClientMock;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
-import nl.surfnet.sab.HttpClientTransport;
-import nl.surfnet.sab.Sab;
-import nl.surfnet.sab.SabClient;
-import nl.surfnet.sab.SabClientMock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;

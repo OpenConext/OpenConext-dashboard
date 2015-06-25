@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.sab;
+package selfservice.sab;
 
 import java.io.IOException;
 import java.io.InputStream;

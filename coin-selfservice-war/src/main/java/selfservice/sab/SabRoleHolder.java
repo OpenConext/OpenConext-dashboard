@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.sab;
+package selfservice.sab;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.sab;
+package selfservice.sab;
 
 import org.junit.Before;
 import org.junit.Test;

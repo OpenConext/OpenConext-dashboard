@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.sab;
+package selfservice.sab;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

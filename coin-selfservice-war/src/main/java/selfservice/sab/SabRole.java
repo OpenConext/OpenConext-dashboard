@@ -1,4 +1,4 @@
-package nl.surfnet.sab;
+package selfservice.sab;
 
 public class SabRole {
   public final String shortName;

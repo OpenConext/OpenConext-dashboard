@@ -7,7 +7,7 @@ import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.service.Csa;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
-import nl.surfnet.sab.Sab;
+import selfservice.sab.Sab;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

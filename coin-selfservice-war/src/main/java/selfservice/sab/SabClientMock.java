@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.surfnet.sab;
+package selfservice.sab;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
