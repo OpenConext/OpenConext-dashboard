@@ -36,16 +36,11 @@ public class UsersController extends BaseController {
     }
 
     List<InstitutionIdentityProvider> idps = csa.getAllInstitutionIdentityProviders();
-    Collections.sort(idps, new Comparator<InstitutionIdentityProvider>() {
-      @Override
-      public int compare(final InstitutionIdentityProvider lh, final InstitutionIdentityProvider rh) {
-        return lh.getName().compareTo(rh.getName());
-      }
-    });
+    Collections.sort(idps, (lh, rh) -> lh.getName().compareTo(rh.getName()));
 
     List<String> roles = Arrays.asList(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER.name(), CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN.name());
 
-    HashMap<String, List> payload = new HashMap<String, List>();
+    HashMap<String, List> payload = new HashMap<>();
     payload.put("idps", idps);
     payload.put("roles", roles);
 
