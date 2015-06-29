@@ -685,5 +685,52 @@
     },
     "availableForEndUser": true,
     "idpVisibleOnly": false
+  },
+  {
+    "id": 374,
+    "name": "bod",
+    "description": "bod in the Cloud",
+    "logoUrl": "http://www.h3dwallpapers.com/wp-content/uploads/2015/05/Google_Logo_04.jpg",
+    "websiteUrl": "https://www.google.nl",
+    "appUrl": "https://test.surfnet.nl",
+    "serviceUrl": "https://test.surfnet.nl",
+    "crmUrl": null,
+    "detailLogoUrl": "http://www.h3dwallpapers.com/wp-content/uploads/2015/05/Google_Logo_04.jpg",
+    "supportUrl": "https://test.surfnet.nl",
+    "eulaUrl": "https://eula.nl",
+    "wikiUrl": null,
+    "screenshotUrls": [
+
+    ],
+    "supportMail": "surfconext-beheer@surfnet.nl",
+    "enduserDescription": null,
+    "institutionDescription": null,
+    "institutionId": null,
+    "lastLoginDate": null,
+    "connected": false,
+    "hasCrmLink": false,
+    "crmArticle": null,
+    "license": null,
+    "categories": [
+
+    ],
+    "spEntityId": "https://bod.dummy.sp",
+    "spName": "bod",
+    "arp": {
+      "name": null,
+      "description": null,
+      "attributes": {
+
+      },
+      "noArp": true,
+      "noAttrArp": false
+    },
+    "availableForEndUser": true,
+    "idpVisibleOnly": false,
+    "publishedInEdugain": false,
+    "licenseStatus": "NOT_NEEDED",
+    "normenkaderPresent": false,
+    "normenkaderUrl": null,
+    "exampleSingleTenant": true
   }
 ]

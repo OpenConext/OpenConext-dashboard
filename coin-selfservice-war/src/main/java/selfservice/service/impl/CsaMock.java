@@ -19,12 +19,12 @@
 package selfservice.service.impl;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import selfservice.domain.*;
 import selfservice.service.Csa;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.TypeReference;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -39,8 +39,8 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class CsaMock implements Csa {
 
-  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-    .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+    //.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
   private List<Action> actionsCreated = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class CsaMock implements Csa {
     return getAllInstitutionIdentityProviders();
   }
 
-  public Object parseJsonData(TypeReference<?> typeReference, String jsonFile) {
+  public Object parseJsonData(TypeReference typeReference, String jsonFile) {
     try {
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);
     } catch (Exception e) {

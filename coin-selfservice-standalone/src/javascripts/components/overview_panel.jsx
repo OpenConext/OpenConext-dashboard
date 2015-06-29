@@ -22,6 +22,8 @@ App.Components.OverviewPanel = React.createClass({
 
         {this.renderNormenKader()}
 
+        {this.renderSingleTenantService()}
+
         <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
@@ -47,7 +49,18 @@ App.Components.OverviewPanel = React.createClass({
         <h2>{I18n.t("overview_panel.normen_kader")}</h2>
         <h3
           dangerouslySetInnerHTML={{ __html: html }}/>
-      </div>)
+      </div>);
+  },
+
+  renderSingleTenantService: function() {
+    if (this.props.app.exampleSingleTenant) {
+      return (
+        <div className="mod-description">
+        <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
+        <h3
+          dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
+      </div>);
+    }
   },
 
   renderDescription: function () {

@@ -16,17 +16,15 @@
 
 package selfservice.domain;
 
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Service implements Comparable<Service>, Serializable {
 
   private static final long serialVersionUID = 0L;
@@ -107,6 +105,8 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean normenkaderPresent;
 
   private String normenkaderUrl;
+
+  private Boolean exampleSingleTenant;
 
   public Service() {
   }
@@ -417,6 +417,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setNormenkaderUrl(String normenkaderUrl) {
     this.normenkaderUrl = normenkaderUrl;
+  }
+
+  public Boolean getExampleSingleTenant() {
+    return exampleSingleTenant;
+  }
+
+  public void setExampleSingleTenant(Boolean exampleSingleTenant) {
+    this.exampleSingleTenant = exampleSingleTenant;
   }
 
   @Override

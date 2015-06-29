@@ -29,8 +29,8 @@ App.Components.IdpUsagePanel = React.createClass({
   renderInstitution: function (institution) {
     var value = (institution.displayName && institution.displayName.trim().length > 0) ? institution.displayName : institution.name;
     return (
-      <tr>
-        <td>{value}</td>
+      <tr key={institution.id}>
+        <td >{value}</td>
       </tr>
     );
   }
