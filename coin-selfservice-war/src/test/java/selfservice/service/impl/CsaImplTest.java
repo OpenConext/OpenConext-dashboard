@@ -33,7 +33,7 @@ public class CsaImplTest {
   public void testGetServicesForIdp() throws Exception {
     stubResponse("csa-json/protected-services.json", "/api/protected/idp/services.json\\?idpEntityId=idp&lang=en");
     List<Service> services = subject.getServicesForIdp(idp);
-    assertEquals(11, services.size());
+    assertEquals(12, services.size());
 
     Service service = services.get(0);
     ARP arp = service.getArp();
