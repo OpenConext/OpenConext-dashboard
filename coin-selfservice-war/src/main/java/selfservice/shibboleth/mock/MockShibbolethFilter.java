@@ -72,7 +72,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
       SetHeader wrapper = new SetHeader(req);
       wrapper.setHeader("name-id", userId);
       wrapper.setHeader("shib-user", userId);
-      String idp = "http://mock-idp";
+      String idp = "https://idp.surfnet.nl";
       wrapper.setHeader("Shib-Authenticating-Authority", idp);
       wrapper.setHeader("Shib-displayName", "Ben Vonk");
       wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);

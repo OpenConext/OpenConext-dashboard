@@ -1,8 +1,8 @@
 [
   {
-    "id": "http://mock-idp",
-    "name": "Open University Students",
-    "institutionId": "mock-institution-id"
+    "id": "https://idp.surfnet.nl",
+    "name": "SURFnet BV",
+    "institutionId": "SURFNET"
   },
   {
     "id": "https://mock-idp-2",

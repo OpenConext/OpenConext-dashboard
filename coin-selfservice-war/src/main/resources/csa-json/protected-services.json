@@ -714,7 +714,7 @@
     "categories": [
 
     ],
-    "spEntityId": "https://bod.dummy.sp",
+    "spEntityId": "https://teams.surfconext.nl/shibboleth",
     "spName": "bod",
     "arp": {
       "name": null,
