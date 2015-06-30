@@ -168,6 +168,7 @@ I18n.translations.en = {
   idp_usage_panel: {
     title: "Used by",
     subtitle: "The following institutions are connected to {{name}}.",
+    subtitle_none: "There are no institutions connected to {{name}}.",
     institution: "Institution"
   },
 

@@ -2,12 +2,13 @@
 
 App.Components.IdpUsagePanel = React.createClass({
   render: function () {
+    var subtitle = this.props.institutions.length === 0 ? I18n.t("idp_usage_panel.subtitle_none", {name: this.props.app.name}) : I18n.t("idp_usage_panel.subtitle", {name: this.props.app.name});
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("idp_usage_panel.title")}</h1>
 
-          <p>{I18n.t("idp_usage_panel.subtitle", {name: this.props.app.name})}</p>
+          <p>{subtitle}</p>
         </div>
         <div className="mod-used-by">
           {this.renderUsedByInstitutions(this.props.institutions)}

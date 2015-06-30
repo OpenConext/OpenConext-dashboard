@@ -169,6 +169,7 @@ I18n.translations.nl = {
   idp_usage_panel: {
     title: "Gebruikt door",
     subtitle: "De volgende instituties zijn gekoppeld aan {{name}}.",
+    subtitle_none: "Er zijn geen instituties gekoppeld aan {{name}}.",
     institution: "Institutie"
   },
 

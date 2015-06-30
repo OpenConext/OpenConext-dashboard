@@ -132,6 +132,9 @@ public class CsaMock implements Csa {
 
   @Override
   public List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId) {
+    if (spEntityId.equals("https://bod.dummy.sp")) {
+      return new ArrayList<>();
+    }
     return getAllInstitutionIdentityProviders();
   }
 
