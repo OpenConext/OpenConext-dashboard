@@ -106,7 +106,7 @@ public class Service implements Comparable<Service>, Serializable {
 
   private String normenkaderUrl;
 
-  private Boolean exampleSingleTenant;
+  private boolean exampleSingleTenant;
 
   public Service() {
   }
@@ -419,11 +419,11 @@ public class Service implements Comparable<Service>, Serializable {
     this.normenkaderUrl = normenkaderUrl;
   }
 
-  public Boolean getExampleSingleTenant() {
+  public boolean isExampleSingleTenant() {
     return exampleSingleTenant;
   }
 
-  public void setExampleSingleTenant(Boolean exampleSingleTenant) {
+  public void setExampleSingleTenant(boolean exampleSingleTenant) {
     this.exampleSingleTenant = exampleSingleTenant;
   }
 

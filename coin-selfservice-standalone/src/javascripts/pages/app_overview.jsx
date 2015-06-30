@@ -188,7 +188,8 @@ App.Pages.AppOverview = React.createClass({
   },
 
   handleDownloadOverview: function () {
-    App.Controllers.Apps.downloadOverview(this.filteredApps());
+    var filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.props.apps));
+    App.Controllers.Apps.downloadOverview(filteredApps);
   },
 
   filterAppsForExclusiveFilters: function (apps) {

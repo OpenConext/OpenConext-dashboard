@@ -2,25 +2,26 @@ package selfservice.api.rest;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.collect.ImmutableSet;
-import selfservice.domain.*;
-import selfservice.service.Csa;
-import selfservice.util.SpringSecurity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import selfservice.domain.*;
+import selfservice.service.Csa;
+import selfservice.util.SpringSecurity;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
 import static selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
 @Controller
@@ -50,11 +51,15 @@ public class ServicesController extends BaseController {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
     List<String[]> rows = new ArrayList<>();
-    rows.add(Arrays.asList("id", "spName", "spEntityId", "connected").toArray(new String[4]));
+    rows.add(new String[]{"id", "name", "description", "app-url", "wiki-url", "support-mail",
+      "connected", "license", "licenseStatus", "categories",
+      "spEntityId", "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant"});
 
     for (Long id : ids) {
       Service service = getServiceById(services, id);
-      rows.add(Arrays.asList(id, service.getName(), service.getSpEntityId(), String.valueOf(service.isConnected())).toArray(new String[4]));
+      rows.add(new String[]{String.valueOf(service.getId()), service.getName(), service.getDescription(), service.getAppUrl(), service.getWikiUrl(), service.getSupportMail(),
+        String.valueOf(service.isConnected()), service.getLicense() != null ? service.getLicense().toString() : null, service.getLicenseStatus(), service.getCategories().stream().map(Category::getName).collect(joining()),
+        service.getSpEntityId(), service.getSpName(), String.valueOf(service.isPublishedInEdugain()), String.valueOf(service.isNormenkaderPresent()), service.getNormenkaderUrl(), String.valueOf(service.isExampleSingleTenant())});
     }
 
     response.setHeader("Content-Disposition", format("attachment; filename=service-overview.csv"));
