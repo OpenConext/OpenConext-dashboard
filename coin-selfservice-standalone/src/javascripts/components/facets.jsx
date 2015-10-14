@@ -6,13 +6,13 @@ App.Components.Facets = React.createClass({
 
     return (
       <div className="mod-filters">
-        <h1>{this.renderTitle()}</h1>
+        <div className="header">
+          <h1>{this.renderTitle()}</h1>
+          {this.renderDownloadButton()}
+        </div>
         {facets.map(this.renderFacet)}
         <fieldset>
           {this.renderTotals()}
-        </fieldset>
-        <fieldset>
-          {this.renderDownloadButton()}
         </fieldset>
       </div>
     );
