@@ -23,6 +23,15 @@ SURFconext: [http://www.surfconext.nl](http://www.surfconext.nl)
 
 ### Building and running
 
+Install Ruby to make management of the dependencies needed easier.
+
+#### Setup
+
+    brew install rbenv
+    rbenv install
+    gem install bundler
+    bundle install
+
 #### The Server
 
     cd coin-selfservice-war
@@ -43,12 +52,9 @@ If you want to debug you can use
 
     cd coin-selfservice-standalone
 
-Initial setup:
+Initial setup if you do:
 
     brew install npm;
-    gem install sass;
-    gem install sass-globbing;
-    gem install compass;
     npm install -g grunt-cli;
     npm install;
 
@@ -63,6 +69,11 @@ To build:
 To run locally:
 
     grunt server
+
+
+#### Running all at once
+
+    foreman start
 
 When you browse to the [application homepage](http://localhost:8001/) you will be prompted for a login.
 
