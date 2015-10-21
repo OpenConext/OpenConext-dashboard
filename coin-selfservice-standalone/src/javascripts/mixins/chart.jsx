@@ -1,79 +1,112 @@
 /** @jsx React.DOM */
 
 App.Mixins.Chart = {
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       error: false
     }
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
-    // only rerender when the error state is changed
-    return nextState.error != this.state.error;
+  shouldComponentUpdate: function (nextProps, nextState) {
+    return this.state != nextState;
   },
 
-  componentDidMount: function() {
-    this.chart = new StatsChart({
-      lang: I18n.locale,
-      spId: this.state.chart.spId,
-      idpId: this.state.chart.idpId,
-      accessToken: App.currentUser.statsToken,
+  componentDidMount: function () {
+    var self = this;
+    $.get(
+      "https://" + STATS_HOST + "/api/v1/entity/idp.json",
+      {
+        "entityid": App.currentIdp().id,
+        "institution": App.currentIdp().institutionId,
+        "access_token": App.currentUser.statsToken
+      }
+    ).done(
+      function (data) {
+        var idp = data.records.find(function (element) {
+          return element.state === 'PA'
+        }).id;
+        if (this.isMounted()) {
+          var newState = React.addons.update(this.state, {
+            chart: {idp: {$set: idp}}
+          });
+          this.setState(newState);
+        }
 
-      chartElement: this.refs.chart.getDOMNode(),
-      periodElement: this.refs.period.getDOMNode(),
-      downloadElement: this.refs.download.getDOMNode(),
-      titleElement: this.refs.title.getDOMNode(),
-      legendElement: this.refs.legend && this.refs.legend.getDOMNode(),
-
-      onError: this.handleError
-    });
+      }.bind(this)
+    ).fail(this.handleError);
   },
 
-  handleError: function() {
+  componentDidUpdate: function (prevProps, prevState) {
+    if (this.state.chart.idp !== prevState.chart.idp) {
+      var chartId = this.refs.chart.getDOMNode().id;
+      this.chart = new SurfCharts(
+        chartId,
+        'idpbar',
+        App.currentUser.statsToken,
+        {
+          idp: this.state.chart.idp,
+          periodFrom: '2015-01-01',
+          periodTo: '2015-10-19',
+          periodType: 'd',
+          period: "2015d293",
+          imagePath: "https://" + STATS_HOST + "/api/js/graphs-v1/images/amcharts/",
+          dataCallbacks: [function(data) {
+            var height = Math.max(300, data.entities.length * 25);
+            console.log(height);
+            $("#" + chartId).css('min-height', height + 'px');
+          }]
+
+        }
+      );
+    }
+
+  },
+
+  handleError: function () {
     this.setState({error: true});
   },
 
-  componentWillUnmount: function() {
-    this.chart.destroy();
+  componentWillUnmount: function () {
+    //this.chart.destroy();
     this.chart = null;
   },
 
-  renderError: function() {
+  renderError: function () {
     if (this.state.error) {
-      return <span dangerouslySetInnerHTML={{ __html: I18n.t("application_usage_panel.error_html") }} />;
+      return <span dangerouslySetInnerHTML={{ __html: I18n.t("application_usage_panel.error_html") }}/>;
     }
   },
 
-  renderLegend: function() {
+  renderLegend: function () {
     return (
-      <div ref="legend" />
+      <div ref="legend"/>
     );
   },
 
-  renderPeriodSelect: function() {
+  renderPeriodSelect: function () {
     return (
-      <div ref="period" />
+      <div ref="period"/>
     );
   },
 
-  renderDownloadButton: function() {
+  renderDownloadButton: function () {
     return (
-      <div ref="download" />
+      <div ref="download"/>
     );
   },
 
-  renderTitle: function() {
+  renderTitle: function () {
     return (
-      <div ref="title" />
+      <div ref="title"/>
     );
   },
 
-  renderChart: function() {
+  renderChart: function () {
     return (
       <div className="body">
         {this.renderError()}
         <div className="chart-container">
-          <div className="chart" ref="chart" />
+          <div id="chart" className="chart" ref="chart"/>
         </div>
       </div>
     );
