@@ -18,7 +18,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
@@ -36,14 +35,14 @@ public class ServicesController extends BaseController {
   @RequestMapping
   public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
-    return new ResponseEntity(createRestResponse(services), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(createRestResponse(services), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/idps")
   public ResponseEntity<RestResponse> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                        @RequestParam String spEntityId) {
     List<InstitutionIdentityProvider> providers = csa.serviceUsedBy(spEntityId);
-    return new ResponseEntity(createRestResponse(providers), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(createRestResponse(providers), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/download")
@@ -70,7 +69,7 @@ public class ServicesController extends BaseController {
       throw new RuntimeException(e);
     }
 
-    return new ResponseEntity(HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(HttpStatus.OK);
   }
 
   private Service getServiceById(List<Service> services, Long id) {
@@ -92,7 +91,7 @@ public class ServicesController extends BaseController {
       }
     }
 
-    return new ResponseEntity(createRestResponse(service), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(createRestResponse(service), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
@@ -101,9 +100,9 @@ public class ServicesController extends BaseController {
                                               @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                               @PathVariable String id) {
     if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST))
-      return new ResponseEntity(HttpStatus.FORBIDDEN);
+      return new ResponseEntity<RestResponse>(HttpStatus.FORBIDDEN);
 
-    return new ResponseEntity(HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(HttpStatus.OK);
   }
 
   @RequestMapping(value = "/id/{id}/disconnect", method = RequestMethod.POST)
@@ -112,9 +111,9 @@ public class ServicesController extends BaseController {
                                                  @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                                  @PathVariable String id) {
     if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.UNLINKREQUEST))
-      return new ResponseEntity(HttpStatus.FORBIDDEN);
+      return new ResponseEntity<RestResponse>(HttpStatus.FORBIDDEN);
 
-    return new ResponseEntity(HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(HttpStatus.OK);
   }
 
   private boolean createAction(String idpEntityId, String comments, String spEntityId, JiraTask.Type jiraType) {

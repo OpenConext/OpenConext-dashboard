@@ -138,7 +138,7 @@ public class CsaMock implements Csa {
     return getAllInstitutionIdentityProviders();
   }
 
-  public Object parseJsonData(TypeReference typeReference, String jsonFile) {
+  public Object parseJsonData(TypeReference<?> typeReference, String jsonFile) {
     try {
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);
     } catch (Exception e) {

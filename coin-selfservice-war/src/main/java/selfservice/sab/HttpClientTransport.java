@@ -26,8 +26,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -42,8 +40,6 @@ import static java.net.URLEncoder.encode;
 
 @Component
 public class HttpClientTransport implements SabTransport {
-
-  private static final Logger LOG = LoggerFactory.getLogger(HttpClientTransport.class);
 
   private static final Integer TIMEOUT = new Integer(10000);
   private HttpClient httpClient = new DefaultHttpClient(new PoolingClientConnectionManager());

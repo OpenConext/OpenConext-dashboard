@@ -25,14 +25,14 @@ public class UsersController extends BaseController {
 
   @RequestMapping("/me")
   public ResponseEntity<RestResponse> me() {
-    return new ResponseEntity(this.createRestResponse(SpringSecurity.getCurrentUser()), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(this.createRestResponse(SpringSecurity.getCurrentUser()), HttpStatus.OK);
   }
 
   @RequestMapping("/super/idps")
   public ResponseEntity<RestResponse> idps() {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (!currentUser.isSuperUser()) {
-      return new ResponseEntity(HttpStatus.FORBIDDEN);
+      return new ResponseEntity<RestResponse>(HttpStatus.FORBIDDEN);
     }
 
     List<InstitutionIdentityProvider> idps = csa.getAllInstitutionIdentityProviders();
@@ -44,7 +44,7 @@ public class UsersController extends BaseController {
     payload.put("idps", idps);
     payload.put("roles", roles);
 
-    return new ResponseEntity(this.createRestResponse(payload), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(this.createRestResponse(payload), HttpStatus.OK);
   }
 
   @RequestMapping("/me/switch-to-idp")

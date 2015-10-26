@@ -32,11 +32,10 @@ public class EnrichJson {
   public static final String DASHBOARD_ADMIN = "dashboardAdmin";
   public static final String STATS_URL = "statsUrl";
 
-  private Map<Class<?>, JsonApplier> mapping = new HashMap();
+  private Map<Class<?>, JsonApplier> mapping = new HashMap<>();
 
   private final CoinUser currentUser;
   private JsonElement json;
-
 
   private interface JsonApplier {
     void apply(JsonElement element, Object payload);

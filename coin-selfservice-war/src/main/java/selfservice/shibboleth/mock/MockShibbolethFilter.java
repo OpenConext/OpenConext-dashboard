@@ -1,8 +1,6 @@
 package selfservice.shibboleth.mock;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -21,8 +19,6 @@ import java.util.List;
 import static selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
 
 public class MockShibbolethFilter extends GenericFilterBean {
-
-  private static final Logger LOG = LoggerFactory.getLogger(MockShibbolethFilter.class);
 
   private static class SetHeader extends HttpServletRequestWrapper {
 

@@ -82,13 +82,12 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.
-      logout().
-        invalidateHttpSession(true).
-        deleteCookies("statsToken"). // remove stats cookie
-        logoutSuccessHandler(new DashboardLogoutSuccessHandler()).
-        addLogoutHandler(new DashboardLogoutHandler()).
-      and()
+    http
+      .logout()
+        .invalidateHttpSession(true)
+        .deleteCookies("statsToken") // remove stats cookie
+        .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
+        .addLogoutHandler(new DashboardLogoutHandler()).and()
       .csrf().disable()
       .addFilterBefore(
         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
@@ -99,7 +98,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
       .antMatchers("/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
-
       .anyRequest().authenticated();
   }
 

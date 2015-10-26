@@ -2,6 +2,7 @@ package selfservice.domain;
 
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
+@SuppressWarnings("serial")
 public class CoinAuthentication extends PreAuthenticatedAuthenticationToken {
 
   private CoinUser coinUser;

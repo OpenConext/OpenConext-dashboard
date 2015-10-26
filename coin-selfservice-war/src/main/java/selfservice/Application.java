@@ -1,6 +1,5 @@
 package selfservice;
 
-
 import selfservice.api.rest.GsonHttpMessageConverter;
 import selfservice.sab.HttpClientTransport;
 import selfservice.sab.Sab;
@@ -43,7 +42,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Locale;
 
-
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class, TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
@@ -71,8 +69,7 @@ public class Application extends SpringBootServletInitializer {
   public WebMvcConfigurerAdapter webMvcConfigurerAdapter(@Value("${statsBaseUrl}") String statsBaseUrl,
                                                          @Value("${statsClientId}") String statsClientId,
                                                          @Value("${statsScope}") String statsScope,
-                                                         @Value("${statsRedirectUri}") String statsRedirectUri
-  ) {
+                                                         @Value("${statsRedirectUri}") String statsRedirectUri) {
     return new WebMvcConfigurerAdapter() {
       @Override
       public void addInterceptors(InterceptorRegistry registry) {
@@ -149,7 +146,6 @@ public class Application extends SpringBootServletInitializer {
   public VootClient mockVootClient(Environment environment) {
     return new VootClientMock();
   }
-
 
   @Bean
   public EmbeddedServletContainerCustomizer containerCustomizer() {

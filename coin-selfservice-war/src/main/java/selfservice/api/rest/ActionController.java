@@ -22,7 +22,7 @@ public class ActionController extends BaseController {
 
   @RequestMapping
   public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return new ResponseEntity(this.createRestResponse(csa.getJiraActions(idpEntityId)), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(this.createRestResponse(csa.getJiraActions(idpEntityId)), HttpStatus.OK);
   }
 
 }
