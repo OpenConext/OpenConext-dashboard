@@ -243,8 +243,33 @@ I18n.translations.nl = {
   },
 
   stats: {
-    logins_for: "Logins voor {{service}}",
-    legend: "Legenda"
+    chart: {
+      type: {
+        name: "Grafiek Type",
+        spbar : "Spbar",
+        idpsp: "Idp Sp"
+      },
+      periodFrom: {
+        name: "Datum Vanaf (yyyy-mm-dd)"
+      },
+      periodTo: {
+        name: "Datum Tot (yyyy-mm-dd)"
+      },
+      periodDate: {
+        name: "Datum (yyyy-mm-dd)"
+      },
+      period: {
+        name: "Periode",
+        day: "Dag",
+        week: "Week",
+        month: "Maand",
+        quarter: "Kwartaal",
+        year: "Jaar"
+      },
+      sp: {
+        name: "Service Provider"
+      },
+    }
   },
 
   server_error: {

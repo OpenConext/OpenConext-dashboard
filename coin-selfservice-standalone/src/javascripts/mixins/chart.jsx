@@ -3,6 +3,7 @@
 App.Mixins.Chart = {
   getInitialState: function () {
     return {
+      sps: [],
       error: false
     }
   },
@@ -12,54 +13,126 @@ App.Mixins.Chart = {
   },
 
   componentDidMount: function () {
-    var self = this;
+    var loadSps = function () {
+      this.retrieveSps(function (sps) {
+        var newSps = sps.map(function (sp) {
+          return {display: sp.name, value: sp.id};
+        });
+        var newState = React.addons.update(this.state, {
+          sps: {$set: newSps}
+        });
+        this.setState(newState);
+      }.bind(this));
+    }.bind(this);
+
+    this.retrieveIdp(function (idp) {
+      var newState = React.addons.update(this.state, {
+        chart: {idp: {$set: idp.id}}
+      });
+      this.setState(newState);
+      loadSps();
+    }.bind(this));
+  },
+
+  retrieveIdp: function (callback) {
     $.get(
       "https://" + STATS_HOST + "/api/v1/entity/idp.json",
       {
         "entityid": App.currentIdp().id,
         "institution": App.currentIdp().institutionId,
+        "state": "PA",
         "access_token": App.currentUser.statsToken
       }
-    ).done(
-      function (data) {
-        var idp = data.records.find(function (element) {
-          return element.state === 'PA'
-        }).id;
-        if (this.isMounted()) {
-          var newState = React.addons.update(this.state, {
-            chart: {idp: {$set: idp}}
-          });
-          this.setState(newState);
-        }
+    ).done(function (data) {
+      callback(data.records[0]);
+    }).fail(this.handleError);
+  },
 
-      }.bind(this)
-    ).fail(this.handleError);
+  retrieveSp: function (entityId, callback) {
+    $.get(
+      "https://" + STATS_HOST + "/api/v1/entity/sp.json",
+      {
+        "entityid": entityId,
+        "state": "PA",
+        "access_token": App.currentUser.statsToken
+      }
+    ).done(function (data) {
+      callback(data.records[0]);
+    }).fail(this.handleError);
+  },
+
+  retrieveSps: function (callback) {
+    $.get(
+      "https://" + STATS_HOST + "/api/v1/entity/sp.json",
+      {
+        "active": 1,
+        "state": "PA",
+        "access_token": App.currentUser.statsToken
+      }
+    ).done(function (data) {
+      callback(data.records);
+    }).fail(this.handleError);
   },
 
   componentDidUpdate: function (prevProps, prevState) {
-    if (this.state.chart.idp !== prevState.chart.idp) {
-      var chartId = this.refs.chart.getDOMNode().id;
-      this.chart = new SurfCharts(
-        chartId,
-        'idpbar',
-        App.currentUser.statsToken,
-        {
-          idp: this.state.chart.idp,
-          periodFrom: '2015-01-01',
-          periodTo: '2015-10-19',
-          periodType: 'd',
-          period: "2015d293",
-          imagePath: "https://" + STATS_HOST + "/api/js/graphs-v1/images/amcharts/",
-          dataCallbacks: [function(data) {
-            var height = Math.max(300, data.entities.length * 25);
-            console.log(height);
-            $("#" + chartId).css('min-height', height + 'px');
-          }]
-
-        }
-      );
+    if (this.state.chart === prevState.chart) {
+      return;
+    }
+    if (!this.state.chart.idp) {
+      return;
+    }
+    if (this.state.chart.type === 'idpsp' && !this.state.chart.sp) {
+      return;
     }
 
+    var chartId = this.refs.chart.getDOMNode().id;
+    var options = {
+      idp: this.state.chart.idp,
+      imagePath: "https://" + STATS_HOST + "/api/js/graphs-v1/images/amcharts/",
+      dataCallbacks: [function(data) {
+        var height = Math.max(300, data.entities.length * 25);
+        $("#" + chartId).css('min-height', height + 'px');
+      }]
+    };
+
+    switch (this.state.chart.type) {
+      case 'spbar':
+        options = $.extend(options, {
+          period: this.getPeriod()
+        });
+        break;
+      case 'idpsp':
+        options = $.extend(options, {
+          sp: this.state.chart.sp,
+          period: this.getPeriod(), // why is this needed??
+          periodFrom: this.state.chart.periodFrom.format("YYYY-MM-DD"),
+          periodTo: this.state.chart.periodTo.format("YYYY-MM-DD")
+        });
+        break;
+    }
+
+    this.chart = new SurfCharts(
+      chartId,
+      this.state.chart.type,
+      App.currentUser.statsToken,
+      options
+    );
+  },
+
+  getPeriod: function () {
+    var moment = this.state.chart.periodDate;
+    switch (this.state.chart.periodType) {
+      case 'y':
+        return moment.year();
+      case 'q':
+        return moment.year() + 'q' + moment.quarter();
+      case 'm':
+        return moment.year() + 'm' + moment.month();
+      case 'w':
+        return moment.year() + 'w' + moment.week();
+      case 'd':
+        return moment.year() + 'd' + moment.dayOfYear();
+    }
   },
 
   handleError: function () {
@@ -77,27 +150,135 @@ App.Mixins.Chart = {
     }
   },
 
-  renderLegend: function () {
+  renderChartTypeSelect: function () {
+    var options = [
+      {display: I18n.t('stats.chart.type.spbar'), value: 'spbar'},
+      {display: I18n.t('stats.chart.type.idpsp'), value: 'idpsp'}
+    ];
+
+    var handleChange = function(value) {
+      var newState = React.addons.update(this.state, {
+        chart: {"type": {$set: value}}
+      });
+      if (value === 'idpsp' && !this.state.chart.sp) {
+        newState = React.addons.update(newState, {
+          chart: {sp: {$set: this.state.sps[0].value}}
+        });
+      }
+      this.setState(newState);
+    }.bind(this);
+
     return (
-      <div ref="legend"/>
+      <div>
+        <fieldset>
+        <h2>{I18n.t('stats.chart.type.name')}</h2>
+        <App.Components.Select2Selector
+            defaultValue={this.state.chart.type}
+            select2selectorId='chart-type'
+            options={options}
+            handleChange={handleChange} />
+        </fieldset>
+        {this.renderSpSelect()}
+      </div>
+    );
+  },
+
+  renderSpSelect: function () {
+    if (this.state.chart.type !== 'idpsp') {
+      return;
+    }
+    var handleChange = function (sp) {
+      var newState = React.addons.update(this.state, {
+        chart: {sp: {$set: sp}}
+      });
+      this.setState(newState);
+    }.bind(this);
+
+    return (
+      <fieldset>
+        <h2>{I18n.t('stats.chart.sp.name')}</h2>
+        <App.Components.Select2Selector
+          defaultValue={this.state.chart.sp}
+          select2selectorId='sp'
+          options={this.state.sps}
+          handleChange={handleChange} />
+      </fieldset>
     );
   },
 
   renderPeriodSelect: function () {
-    return (
-      <div ref="period"/>
-    );
+    if (this.state.chart.type === 'idpsp') {
+      var handleChangePeriodFrom = function (moment) {
+        var newState = React.addons.update(this.state, {
+          chart: {periodFrom: {$set: moment}}
+        });
+        this.setState(newState);
+      }.bind(this);
+
+      var handleChangePeriodTo = function (moment) {
+        var newState = React.addons.update(this.state, {
+          chart: {periodTo: {$set: moment}}
+        });
+        this.setState(newState);
+      }.bind(this);
+
+      return (
+        <div>
+          <App.Components.Period
+            initialDate={this.state.chart.periodFrom}
+            title={I18n.t('stats.chart.periodFrom.name')}
+            handleChange={handleChangePeriodFrom} />
+          <App.Components.Period
+            initialDate={this.state.chart.periodTo}
+            title={I18n.t('stats.chart.periodTo.name')}
+            handleChange={handleChangePeriodTo} />
+        </div>
+      );
+    } else {
+      var handleChange = function (moment) {
+        var newState = React.addons.update(this.state, {
+          chart: {periodDate: {$set: moment}}
+        });
+        this.setState(newState);
+      }.bind(this);
+
+      return (
+        <div>
+          {this.renderPeriodTypeSelect()}
+          <App.Components.Period
+            initialDate={this.state.chart.periodDate}
+            title={I18n.t('stats.chart.periodDate.name')}
+            handleChange={handleChange} />
+        </div>
+      );
+    }
   },
 
-  renderDownloadButton: function () {
-    return (
-      <div ref="download"/>
-    );
-  },
+  renderPeriodTypeSelect: function () {
+    var options = [
+      {display: I18n.t('stats.chart.period.day'), value: 'd'},
+      {display: I18n.t('stats.chart.period.week'), value: 'w'},
+      {display: I18n.t('stats.chart.period.month'), value: 'm'},
+      {display: I18n.t('stats.chart.period.quarter'), value: 'q'},
+      {display: I18n.t('stats.chart.period.year'), value: 'y'}
+    ];
 
-  renderTitle: function () {
+    var handleChange = function(value) {
+      var newState = React.addons.update(this.state, {
+        chart: {periodType: {$set: value}}
+      });
+      this.setState(newState)
+    }.bind(this);
+
     return (
-      <div ref="title"/>
+      <fieldset>
+        <h2>{I18n.t('stats.chart.period.name')}</h2>
+        <App.Components.Select2Selector
+          defaultValue='m'
+          select2selectorId='period-type'
+          options={options}
+          handleChange={handleChange} />
+      </fieldset>
     );
   },
 

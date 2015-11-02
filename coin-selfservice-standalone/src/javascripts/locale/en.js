@@ -241,11 +241,6 @@ I18n.translations.en = {
     }
   },
 
-  stats: {
-    logins_for: "Logins for {{service}}",
-    legend: "Legend"
-  },
-
   not_found: {
     title: "The requested page could not be found.",
     description_html: "Please check the spelling of the URL or go to the <a href=\"/\">homepage</a>."
@@ -309,6 +304,36 @@ I18n.translations.en = {
     statusses: {
       OPEN: "Pending",
       CLOSED: "Closed"
+    }
+  },
+
+  stats: {
+    chart: {
+      type: {
+        name: "Chart Type",
+        spbar : "Spbar",
+        idpsp: "Idp Sp"
+      },
+      periodFrom: {
+        name: "Date From (yyyy-mm-dd)"
+      },
+      periodTo: {
+        name: "Date To (yyyy-mm-dd)"
+      },
+      periodDate: {
+        name: "Date (yyyy-mm-dd)"
+      },
+      period: {
+        name: "Period",
+        day: "Day",
+        week: "Week",
+        month: "Month",
+        quarter: "Quarter",
+        year: "Year"
+      },
+      sp: {
+        name: "Service Provider"
+      },
     }
   },
 
