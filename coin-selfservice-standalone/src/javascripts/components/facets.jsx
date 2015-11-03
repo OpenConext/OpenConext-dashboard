@@ -7,9 +7,12 @@ App.Components.Facets = React.createClass({
     return (
       <div className="mod-filters">
         <div className="header">
-          <h1>{this.renderTitle()}</h1>
-          {this.renderDownloadButton()}
+          <h1>{I18n.t("facets.title")}</h1>
         </div>
+        <fieldset>
+          {this.renderResetFilters()}
+          {this.renderDownloadButton()}
+        </fieldset>
         {facets.map(this.renderFacet)}
         <fieldset>
           {this.renderTotals()}
@@ -18,23 +21,13 @@ App.Components.Facets = React.createClass({
     );
   },
 
-  renderTitle: function () {
-    return (
-      <span>
-        {I18n.t("facets.title")}
-        {this.renderResetFilters()}
-      </span>
-    );
-  },
-
   renderResetFilters: function () {
-    if (this.props.filteredCount < this.props.totalCount) {
-      return (
-        <small>
-          <a href="#" onClick={this.handleResetFilters}>{I18n.t("facets.reset")}</a>
-        </small>
-      );
-    }
+    return (
+      <a
+        className={"c-button" + (this.props.filteredCount >= this.props.totalCount ? " disabled" : "")}
+        href="#"
+        onClick={this.handleResetFilters}>{I18n.t("facets.reset")}</a>
+    );
   },
 
   renderTotals: function () {
@@ -103,7 +96,7 @@ App.Components.Facets = React.createClass({
 
   renderDownloadButton: function () {
     return (
-      <a href="#" className={"c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
+      <a href="#" className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
          onClick={this.handleDownload}>{I18n.t("facets.download")}</a>
     );
   },

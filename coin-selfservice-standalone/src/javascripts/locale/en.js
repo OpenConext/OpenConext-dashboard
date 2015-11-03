@@ -42,8 +42,8 @@ I18n.translations.en = {
 
   facets: {
     title: "Filters",
-    reset: "reset",
-    download: "Download overview",
+    reset: "Reset",
+    download: "Export overview",
     unknown: "Unknown",
     totals: {
       all: "Showing all {{total}} services",
