@@ -63,14 +63,12 @@ App.Mixins.Chart = {
 
   retrieveSps: function (callback) {
     $.get(
-      "https://" + STATS_HOST + "/api/v1/entity/sp.json",
+      "https://" + STATS_HOST + "/api/v1/active/idp/" + this.state.chart.idp,
       {
-        "active": 1,
-        "state": "PA",
         "access_token": App.currentUser.statsToken
       }
     ).done(function (data) {
-      callback(data.records);
+      callback(data.entities);
     }).fail(this.handleError);
   },
 
