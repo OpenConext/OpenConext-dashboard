@@ -243,6 +243,9 @@ I18n.translations.nl = {
   },
 
   stats: {
+    filters: {
+      name: "Filters"
+    },
     chart: {
       type: {
         name: "Grafiek Type",

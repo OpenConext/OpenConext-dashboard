@@ -308,6 +308,9 @@ I18n.translations.en = {
   },
 
   stats: {
+    filters: {
+      name: "Filters"
+    },
     chart: {
       type: {
         name: "Chart Type",

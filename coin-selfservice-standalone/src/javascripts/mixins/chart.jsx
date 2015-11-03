@@ -169,8 +169,8 @@ App.Mixins.Chart = {
     return (
       <div>
         <fieldset>
-        <h2>{I18n.t('stats.chart.type.name')}</h2>
-        <App.Components.Select2Selector
+          <h2>{I18n.t('stats.chart.type.name')}</h2>
+          <App.Components.Select2Selector
             defaultValue={this.state.chart.type}
             select2selectorId='chart-type'
             options={options}
