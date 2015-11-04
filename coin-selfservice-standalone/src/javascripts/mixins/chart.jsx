@@ -44,8 +44,12 @@ App.Mixins.Chart = {
         "access_token": App.currentUser.statsToken
       }
     ).done(function (data) {
-      callback(data.records[0]);
-    }).fail(this.handleError);
+      if (data.records[0]) {
+        callback(data.records[0]);
+      } else {
+        this.handleError();
+      }
+    }.bind(this)).fail(this.handleError);
   },
 
   retrieveSp: function (entityId, callback) {

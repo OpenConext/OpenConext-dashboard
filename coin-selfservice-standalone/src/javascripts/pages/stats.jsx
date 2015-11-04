@@ -23,7 +23,7 @@ App.Pages.Stats = React.createClass({
       <div className="l-main">
         <div className="l-left">
           <div className="mod-filters">
-            <div class="header">
+            <div className="header">
               <h1>{I18n.t('stats.filters.name')}</h1>
             </div>
             {this.renderChartTypeSelect()}
