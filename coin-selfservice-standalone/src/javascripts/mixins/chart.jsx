@@ -176,7 +176,7 @@ App.Mixins.Chart = {
       var newState = React.addons.update(this.state, {
         chart: {"type": {$set: value}}
       });
-      if (value === 'idpsp' && !this.state.chart.sp) {
+      if (value === 'idpsp' && !this.state.chart.sp && this.state.sps.length > 0) {
         newState = React.addons.update(newState, {
           chart: {sp: {$set: this.state.sps[0].value}}
         });
