@@ -153,9 +153,9 @@ var App = {
     }
   },
 
-  checkSessionExpired: function (event, xhr) {
+  checkSessionExpired: function (event, xhr, settings) {
     //do not handle anything other then 200 and 302 as the others are handled by ajaxError
-    if (xhr.getResponseHeader("sessionAlive") !== "success" && (xhr.status === 0 || xhr.status === 200 || xhr.status === 302)) {
+    if (!settings.crossDomain && xhr.getResponseHeader("sessionAlive") !== "success" && (xhr.status === 0 || xhr.status === 200 || xhr.status === 302)) {
       if (window.location.hostname === "localhost") {
         window.location.href = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=" + window.location.pathname;
       } else {
