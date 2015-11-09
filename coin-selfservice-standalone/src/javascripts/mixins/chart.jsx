@@ -91,20 +91,24 @@ App.Mixins.Chart = {
       return;
     }
 
+
     var chartId = this.refs.chart.getDOMNode().id;
+    var setMinimumHeightOfChart = function(height) {
+      $("#" + chartId).css('min-height', height + 'px');
+    };
     var options = {
       idp: this.state.chart.idp,
-      imagePath: "https://" + STATS_HOST + "/api/js/graphs-v1/images/amcharts/",
-      dataCallbacks: [function(data) {
-        var height = Math.max(300, data.numRecords * 25);
-        $("#" + chartId).css('min-height', height + 'px');
-      }]
+      imagePath: "https://" + STATS_HOST + "/api/js/graphs-v1/images/amcharts/"
     };
 
     switch (this.state.chart.type) {
       case 'idpspbar':
         options = $.extend(options, {
-          period: this.getPeriod()
+          period: this.getPeriod(),
+          dataCallbacks: [function(data) {
+            var height = data.numRecords * 25 || 300;
+            setMinimumHeightOfChart(height);
+          }]
         });
         break;
       case 'idpsp':
@@ -112,7 +116,13 @@ App.Mixins.Chart = {
           sp: this.state.chart.sp,
           period: this.getPeriod(), // why is this needed??
           periodFrom: this.state.chart.periodFrom.format("YYYY-MM-DD"),
-          periodTo: this.state.chart.periodTo.format("YYYY-MM-DD")
+          periodTo: this.state.chart.periodTo.format("YYYY-MM-DD"),
+          dataCallbacks: [function(data) {
+            var height = Math.min(data.entities[0].records.reduce(function(prevValue, currentValue) {
+              return Math.max(prevValue, currentValue.logins * 10);
+            }, 300), 800);
+            setMinimumHeightOfChart(height);
+          }]
         });
         break;
     }
