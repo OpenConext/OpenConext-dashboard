@@ -249,8 +249,8 @@ I18n.translations.nl = {
     chart: {
       type: {
         name: "Grafiek Type",
-        spbar : "Spbar",
-        idpsp: "Idp Sp"
+        idpspbar : "Logins voor alle SPs",
+        idpsp: "Logins per SP"
       },
       periodFrom: {
         name: "Datum Vanaf (yyyy-mm-dd)"

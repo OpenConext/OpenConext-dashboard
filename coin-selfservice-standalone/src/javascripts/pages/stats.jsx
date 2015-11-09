@@ -9,7 +9,7 @@ App.Pages.Stats = React.createClass({
   getInitialState: function () {
     return {
       chart: {
-        type: 'spbar',
+        type: 'idpspbar',
         periodFrom: moment().subtract(1, 'months'),
         periodTo: moment(),
         periodType: 'm',

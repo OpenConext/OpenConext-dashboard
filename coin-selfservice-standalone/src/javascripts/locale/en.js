@@ -314,8 +314,8 @@ I18n.translations.en = {
     chart: {
       type: {
         name: "Chart Type",
-        spbar : "Spbar",
-        idpsp: "Idp Sp"
+        idpspbar : "Logins for all SPs",
+        idpsp: "Logins per SP"
       },
       periodFrom: {
         name: "Date From (yyyy-mm-dd)"

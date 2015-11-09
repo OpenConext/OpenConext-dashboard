@@ -96,13 +96,13 @@ App.Mixins.Chart = {
       idp: this.state.chart.idp,
       imagePath: "https://" + STATS_HOST + "/api/js/graphs-v1/images/amcharts/",
       dataCallbacks: [function(data) {
-        var height = Math.max(300, data.entities.length * 25);
+        var height = Math.max(300, data.numRecords * 25);
         $("#" + chartId).css('min-height', height + 'px');
       }]
     };
 
     switch (this.state.chart.type) {
-      case 'spbar':
+      case 'idpspbar':
         options = $.extend(options, {
           period: this.getPeriod()
         });
@@ -158,7 +158,7 @@ App.Mixins.Chart = {
 
   renderChartTypeSelect: function () {
     var options = [
-      {display: I18n.t('stats.chart.type.spbar'), value: 'spbar'},
+      {display: I18n.t('stats.chart.type.idpspbar'), value: 'idpspbar'},
       {display: I18n.t('stats.chart.type.idpsp'), value: 'idpsp'}
     ];
 
