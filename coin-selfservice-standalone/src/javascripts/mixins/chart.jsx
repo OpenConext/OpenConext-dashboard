@@ -91,9 +91,8 @@ App.Mixins.Chart = {
       return;
     }
 
-
     var chartId = this.refs.chart.getDOMNode().id;
-    var setMinimumHeightOfChart = function(height) {
+    var setMinimumHeightOfChart = function (height) {
       $("#" + chartId).css('min-height', height + 'px');
     };
     var options = {
@@ -143,7 +142,7 @@ App.Mixins.Chart = {
       case 'q':
         return moment.year() + 'q' + moment.quarter();
       case 'm':
-        return moment.year() + 'm' + moment.month();
+        return moment.year() + 'm' + (moment.month() + 1);
       case 'w':
         return moment.year() + 'w' + moment.week();
       case 'd':
@@ -156,7 +155,6 @@ App.Mixins.Chart = {
   },
 
   componentWillUnmount: function () {
-    //this.chart.destroy();
     this.chart = null;
   },
 
