@@ -1,8 +1,5 @@
 package selfservice.sab;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-
 import java.util.List;
 
 import static java.lang.String.format;
@@ -24,12 +21,8 @@ public class SabPerson {
     return format("%s %s", firstName, surname);
   }
 
-  public boolean hasRole(final String role) {
-    return Iterables.any(roles, new Predicate<SabRole>() {
-      public boolean apply(SabRole sabRole) {
-        return sabRole.roleName.equals(role);
-      }
-    });
+  public boolean hasRole(final String roleName) {
+    return roles.stream().anyMatch(role -> roleName.equals(role.roleName));
   }
 
   public String getFirstName() {

@@ -16,6 +16,8 @@
 
 package selfservice.sab;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -26,13 +28,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Client implementation for SAB.
@@ -40,8 +46,12 @@ import org.joda.time.format.ISODateTimeFormat;
  */
 public class SabClient implements Sab {
 
+  private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
+
   private static final String REQUEST_TEMPLATE_LOCATION = "/sab-request.xml";
+
   protected static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.UTC);
+
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final SabTransport sabTransport;
   private SabResponseParser sabResponseParser;
@@ -53,7 +63,6 @@ public class SabClient implements Sab {
 
   @Override
   public SabRoleHolder getRoles(String userId) throws IOException {
-
     String messageId = UUID.randomUUID().toString();
     String request = createRequest(userId, messageId);
     return sabResponseParser.parse(sabTransport.getResponse(request));
@@ -62,16 +71,20 @@ public class SabClient implements Sab {
   @Override
   @SuppressWarnings("unchecked")
   public Collection<SabPerson> getPersonsInRoleForOrganization(final String organisationAbbreviation, final String role) {
-    try {
-      InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role);
+    try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
       List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(inputStream, HashMap.class).get("profiles");
-      return profiles.stream().map(profile -> {
-        List<SabRole> sabRoles = ((List<Map<String, String>>) profile.get("authorisations")).stream().map(
-          authorisation -> new SabRole(authorisation.get("short"), authorisation.get("role"))).collect(Collectors.toList()
-        );
-        return new SabPerson((String) profile.get("firstname"), (String) profile.get("surname"), (String) profile.get("uid"), sabRoles);
-      }).filter(p -> p.hasRole(role)).collect(Collectors.toList());
+
+      return profiles.stream()
+          .map(profile -> {
+            List<SabRole> sabRoles = ((List<Map<String, String>>) profile.get("authorisations")).stream()
+                .map(authorisation -> new SabRole(authorisation.get("short"), authorisation.get("role")))
+                .collect(toList());
+            return new SabPerson((String) profile.get("firstname"), (String) profile.get("surname"), (String) profile.get("uid"), sabRoles);
+          })
+          .filter(p -> p.hasRole(role))
+          .collect(toList());
     } catch (IOException | RuntimeException e) {
+      LOG.warn("Could not retrieve SAB info");
       return Collections.emptyList();
     }
   }

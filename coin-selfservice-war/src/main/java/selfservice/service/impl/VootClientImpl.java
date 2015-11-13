@@ -8,7 +8,8 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 
-import java.util.ArrayList;
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +19,9 @@ public class VootClientImpl implements VootClient {
   private static final Logger LOG = LoggerFactory.getLogger(VootClientImpl.class);
 
   private String accessTokenUri;
-
   private String clientId;
-
   private String clientSecret;
-
   private String spaceDelimitedScopes;
-
   private String serviceUrl;
 
   private OAuth2RestTemplate vootService;
@@ -52,13 +49,8 @@ public class VootClientImpl implements VootClient {
   @Override
   public List<Group> groups(String userId) {
     List<Map<String, Object>> maps = vootService.getForObject(serviceUrl + "/internal/groups/{userId}", List.class, userId);
-    List<Group> groups = new ArrayList<Group>();
-    for (Map<String, Object> map : maps) {
-      groups.add(new Group((String) map.get("id")));
-    }
-    LOG.debug("Retrieved groups: {}", groups);
-    return groups;
 
+    return maps.stream().map(map -> new Group((String) map.get("id"))).collect(toList());
   }
 
 }

@@ -62,9 +62,8 @@ public class SabResponseParser {
   private static final String NOT_FOUND_MESSAGE_PREFIX = "Could not find any roles for given NameID";
 
   public SabRoleHolder parse(InputStream inputStream) throws IOException {
-
     String organisation = null;
-    List<String> roles = new ArrayList<String>();
+    List<String> roles = new ArrayList<>();
     XPath xpath = getXPath();
     try {
       Document document = createDocument(inputStream);
@@ -98,6 +97,7 @@ public class SabResponseParser {
     } catch (SAXException e) {
       throw new IOException(e);
     }
+
     return new SabRoleHolder(organisation, roles);
   }
 

@@ -50,7 +50,7 @@ public class VootFilter extends GenericFilterBean {
 
   public static final String SESSION_KEY_GROUP_ACCESS = "SESSION_KEY_GROUP_ACCESS";
 
-  private Logger LOG = LoggerFactory.getLogger(VootFilter.class);
+  private final Logger LOG = LoggerFactory.getLogger(VootFilter.class);
 
   private VootClient vootClient;
 
@@ -67,7 +67,6 @@ public class VootFilter extends GenericFilterBean {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     final HttpSession session = httpRequest.getSession(true);
 
@@ -91,9 +90,7 @@ public class VootFilter extends GenericFilterBean {
    * @param coinUser the CoinUser representing the currently logged in user.
    */
   private void elevateUser(CoinUser coinUser, List<Group> groups) {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Memberships of adminTeams '{}' for user '{}'", new Object[]{groups, coinUser.getUid()});
-    }
+    LOG.debug("Memberships of adminTeams '{}' for user '{}'", groups, coinUser.getUid());
     /*
      * We want to end up with only one role
      */
@@ -109,12 +106,7 @@ public class VootFilter extends GenericFilterBean {
   }
 
   private boolean groupsContains(String teamId, List<Group> groups) {
-    for (Group group : groups) {
-      if (group.getId().equalsIgnoreCase(teamId)) {
-        return true;
-      }
-    }
-    return false;
+    return groups.stream().anyMatch(group -> teamId.equalsIgnoreCase(group.getId()));
   }
 
 }

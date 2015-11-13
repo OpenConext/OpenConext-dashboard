@@ -54,9 +54,8 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
     HttpServletRequest httpRequest = (HttpServletRequest) request;
-    final HttpSession session = httpRequest.getSession(true);
+    HttpSession session = httpRequest.getSession(true);
 
     if (SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
       CoinUser user = SpringSecurity.getCurrentUser();
@@ -74,7 +73,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
           SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(user));
         }
       } catch (IOException e) {
-        LOG.info("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
+        LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
       }
     }
     chain.doFilter(request, response);
@@ -92,10 +91,6 @@ public class SabEntitlementsFilter extends GenericFilterBean {
     return StringUtils.hasText(adminLicentieIdPRole) && roleHolder.getRoles().contains(adminLicentieIdPRole);
   }
 
-  @Override
-  public void destroy() {
-  }
-
   public void setAdminSurfConextIdPRole(String adminSurfConextIdPRole) {
     this.adminSurfConextIdPRole = adminSurfConextIdPRole;
   }
@@ -103,6 +98,5 @@ public class SabEntitlementsFilter extends GenericFilterBean {
   public void setViewerSurfConextIdPRole(String viewerSurfConextIdPRole) {
     this.viewerSurfConextIdPRole = viewerSurfConextIdPRole;
   }
-
 
 }
