@@ -20,7 +20,7 @@ import java.util.Map;
  * Class that will enrich json we send back to clients.
  * Since dashboard does not control all classes that are serialized into
  * JSON this class can be used to add properties to json.
- * <p/>
+ *
  * <b>This class can not be an instance variable on a spring managed bean since it uses the current user.</b>
  */
 public class EnrichJson {

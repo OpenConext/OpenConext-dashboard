@@ -19,13 +19,9 @@ public class CsaImpl implements Csa {
   private String defaultLocale = "en";
 
   private String accessTokenUri;
-
   private String clientId;
-
   private String clientSecret;
-
   private String spaceDelimitedScopes;
-
   private String serviceUrl;
 
   private OAuth2RestTemplate csaService;
@@ -48,7 +44,6 @@ public class CsaImpl implements Csa {
     details.setScope(Arrays.asList(spaceDelimitedScopes.split(" ")));
     return details;
   }
-
 
   @Override
   public List<Service> getServicesForIdp(String idpEntityId) {

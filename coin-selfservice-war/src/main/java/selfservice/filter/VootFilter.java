@@ -68,7 +68,7 @@ public class VootFilter extends GenericFilterBean {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
-    final HttpSession session = httpRequest.getSession(true);
+    HttpSession session = httpRequest.getSession(true);
 
     if (SpringSecurity.isFullyAuthenticated()) {
       CoinUser user = SpringSecurity.getCurrentUser();
@@ -91,9 +91,7 @@ public class VootFilter extends GenericFilterBean {
    */
   private void elevateUser(CoinUser coinUser, List<Group> groups) {
     LOG.debug("Memberships of adminTeams '{}' for user '{}'", groups, coinUser.getUid());
-    /*
-     * We want to end up with only one role
-     */
+    // We want to end up with only one role
     coinUser.setAuthorities(new HashSet<CoinAuthority>());
     if (groupsContains(dashboardAdmin, groups)) {
       coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));

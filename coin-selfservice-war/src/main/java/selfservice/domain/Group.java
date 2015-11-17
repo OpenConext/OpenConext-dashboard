@@ -2,6 +2,8 @@ package selfservice.domain;
 
 import java.io.Serializable;
 
+import com.google.common.base.MoreObjects;
+
 @SuppressWarnings("serial")
 public class Group implements Serializable {
 
@@ -15,5 +17,9 @@ public class Group implements Serializable {
     return id;
   }
 
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(Group.class).add("id", id).toString();
+  }
 
 }
