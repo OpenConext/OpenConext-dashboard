@@ -102,12 +102,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
   }
 
   private InstitutionIdentityProvider getCurrentIdp(String idpId, List<InstitutionIdentityProvider> institutionIdentityProviders) {
-    for (InstitutionIdentityProvider provider : institutionIdentityProviders) {
-      if (provider.getId().equals(idpId)) {
-        return provider;
-      }
-    }
-    throw new IllegalArgumentException("The Idp('" + idpId + "') is not present in the list of Idp's returned by the CsaClient");
+    return institutionIdentityProviders.stream()
+        .filter(provider -> provider.getId().equals(idpId))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException("The Idp('" + idpId + "') is not present in the list of Idp's returned by the CsaClient"));
   }
 
 }

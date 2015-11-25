@@ -59,16 +59,13 @@ public class EnrichJsonTest {
   public void testAddFilteredUserAttributesToListOfServices() throws Exception {
     coinUser.addAttribute("service", asList("bar"));
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1");
-    Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", new RestDataFixture.ServiceUpdater() {
-      @Override
-      public void apply(Service service) {
-        service.setId(2l);
-        ARP arp = new ARP();
-        arp.setNoArp(false);
-        arp.setNoAttrArp(false);
-        arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
-        service.setArp(arp);
-      }
+    Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", service -> {
+      service.setId(2l);
+      ARP arp = new ARP();
+      arp.setNoArp(false);
+      arp.setNoAttrArp(false);
+      arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
+      service.setArp(arp);
     });
 
     List<Service> payload = asList(service1, service2);
@@ -82,16 +79,13 @@ public class EnrichJsonTest {
   @Test
   public void testAddFilteredUserAttributesToService() throws Exception {
     coinUser.addAttribute("service", asList("bar"));
-    Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", new RestDataFixture.ServiceUpdater() {
-      @Override
-      public void apply(Service service) {
-        service.setId(10l);
-        ARP arp = new ARP();
-        arp.setNoArp(false);
-        arp.setNoAttrArp(false);
-        arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
-        service.setArp(arp);
-      }
+    Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", service -> {
+      service.setId(10l);
+      ARP arp = new ARP();
+      arp.setNoArp(false);
+      arp.setNoAttrArp(false);
+      arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
+      service.setArp(arp);
     });
 
     JsonElement jsonElement = createJsonResponse(service1);

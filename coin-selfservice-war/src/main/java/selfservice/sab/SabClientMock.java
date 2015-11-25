@@ -16,7 +16,6 @@
 
 package selfservice.sab;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +35,8 @@ public class SabClientMock implements Sab {
   private static final SabRole ROLE_BEHEERDER = new SabRole("CONBEH", "SURFconextbeheerder");
   private static final SabRole ROLE_VERANTWOORDELIJKE = new SabRole("CONVER", "SURFconextverantwoordelijke");
   private final List<SabPerson> sabPersons = asList(
-    new SabPerson("Hans", "Janssen", "hjanssen", Arrays.asList(ROLE_BEHEERDER)),
-    new SabPerson("Frans", "Franssen", "ffransen", Arrays.asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE))
+    new SabPerson("Hans", "Janssen", "hjanssen", asList(ROLE_BEHEERDER)),
+    new SabPerson("Frans", "Franssen", "ffransen", asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE))
   );
 
   /**
@@ -64,12 +63,7 @@ public class SabClientMock implements Sab {
     List<SabPerson> result = new ArrayList<>();
 
     for (SabPerson sabPerson : sabPersons) {
-      Collection<String> roleNames = Collections2.transform(sabPerson.getRoles(), new Function<SabRole, String>() {
-        @Override
-        public String apply(SabRole input) {
-          return input.roleName;
-        }
-      });
+      Collection<String> roleNames = Collections2.transform(sabPerson.getRoles(), r -> r.roleName);
 
       if (roleNames.contains(role)) {
         result.add(sabPerson);

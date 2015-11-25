@@ -1,14 +1,18 @@
 package selfservice.util;
 
-import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
-import org.springframework.util.CollectionUtils;
+import static java.util.stream.Collectors.toList;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import static com.google.common.collect.Collections2.transform;
-import static com.google.common.collect.Maps.transformEntries;
+import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 
 public class AttributeMapFilter {
 
@@ -47,17 +51,26 @@ public class AttributeMapFilter {
       this.userValues.addAll(userValues);
     }
 
-
     @Override
     public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
 
       ServiceAttribute that = (ServiceAttribute) o;
 
-      if (filters != null ? !filters.equals(that.filters) : that.filters != null) return false;
-      if (name != null ? !name.equals(that.name) : that.name != null) return false;
-      if (userValues != null ? !userValues.equals(that.userValues) : that.userValues != null) return false;
+      if (filters != null ? !filters.equals(that.filters) : that.filters != null) {
+        return false;
+      }
+      if (name != null ? !name.equals(that.name) : that.name != null) {
+        return false;
+      }
+      if (userValues != null ? !userValues.equals(that.userValues) : that.userValues != null) {
+        return false;
+      }
 
       return true;
     }
@@ -78,32 +91,32 @@ public class AttributeMapFilter {
         ", userValues=" + userValues +
         '}';
     }
-
   }
 
-  private static List<String> valuesToShow(final List<String> filters, List<String> rawValues) {
+  private static List<String> valuesToShow(List<String> filters, List<String> rawValues) {
     if (filters.isEmpty()) {
       return rawValues;
     }
-    Collection<Pattern> patterns = filters.stream().map(input -> Pattern.compile(input.replaceAll("\\*", ".*"))).collect(Collectors.toList());
-    return rawValues.stream().filter(value -> patterns.stream().filter(pattern -> pattern.matcher(value).matches()).findFirst().isPresent()).collect(Collectors.toList());
+    Collection<Pattern> patterns = filters.stream().map(filter -> Pattern.compile(filter.replaceAll("\\*", ".*"))).collect(toList());
+    return rawValues.stream().filter(value -> patterns.stream().anyMatch(p -> p.matcher(value).matches())).collect(toList());
   }
 
-  public static Collection<ServiceAttribute> filterAttributes(Map<String, List<Object>> serviceAttributes, final Map<String, List<String>> userAttributes) {
-    // cast List<Object> to List<String>
-    Map<String, List<String>> serviceAttributesAsString = transformEntries(serviceAttributes, (key, value) -> (List<String>) (List<?>) value);
-
-    // make them into real object of type ServiceAttribute
-    Collection<ServiceAttribute> rawServiceAttributes = transform(serviceAttributesAsString.entrySet(), input -> new ServiceAttribute(input.getKey(), input.getValue()));
-    // add the filtered user values.
-    return rawServiceAttributes.stream().map(serviceAttribute -> {
+  @SuppressWarnings("unchecked")
+  public static Collection<ServiceAttribute> filterAttributes(Map<String, List<Object>> serviceAttributes, Map<String, List<String>> userAttributes) {
+    Function<ServiceAttribute, List<String>> userValues = (serviceAttribute) -> {
       String shibHeader = ShibbolethPreAuthenticatedProcessingFilter.shibHeaders.get(serviceAttribute.getName());
-      List<String> values = userAttributes.get(shibHeader);
-      if (!CollectionUtils.isEmpty(values)) {
-        List<String> userValues = valuesToShow(serviceAttribute.getFilters(), values);
-        serviceAttribute.addUserValues(userValues);
-      }
-      return serviceAttribute;
-    }).collect(Collectors.toList());
+      return Optional.ofNullable(userAttributes.get(shibHeader))
+          .map(v -> valuesToShow(serviceAttribute.getFilters(), v))
+          .orElse(Collections.emptyList());
+    };
+
+    return serviceAttributes.entrySet().stream()
+        .map(entry -> new ServiceAttribute(entry.getKey(), (List<String>) (List<?>) entry.getValue()))
+        .map(serviceAttribute -> {
+          serviceAttribute.addUserValues(userValues.apply(serviceAttribute));
+          return serviceAttribute;
+        })
+        .collect(toList());
   }
+
 }
