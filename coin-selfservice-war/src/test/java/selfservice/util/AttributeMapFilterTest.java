@@ -23,13 +23,13 @@ public class AttributeMapFilterTest {
         "urn:mace:dir:attribute-def:uid", ImmutableList.of("*"),
         "urn:mace:dir:attribute-def:sn", ImmutableList.of("*"));
     Map<String, List<String>> userAttributes = ImmutableMap.of(
-        "name-id", ImmutableList.of("name-id"),
+        "Shib-surName", ImmutableList.of("Doe"),
         "Shib-uid", ImmutableList.of("uid"));
 
     Collection<ServiceAttribute> filterAttributes = AttributeMapFilter.filterAttributes(serviceAttributes, userAttributes);
 
     ServiceAttribute expectedServiceAttribute = new ServiceAttribute("urn:mace:dir:attribute-def:uid", "*");
-    expectedServiceAttribute.addUserValues("name-id");
+    expectedServiceAttribute.addUserValues("uid");
 
     assertThat(filterAttributes, hasSize(2));
     assertThat(filterAttributes, hasItem(expectedServiceAttribute));

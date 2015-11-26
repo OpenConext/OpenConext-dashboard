@@ -20,8 +20,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   static {
     shibHeaders = ImmutableMap.<String, String>builder()
-      .put("urn:mace:dir:attribute-def:uid", "name-id")
-      .put("urn:mace:dir:attribute-def:sn", "Shib-uid")
+      .put("urn:mace:dir:attribute-def:uid", "Shib-uid")
+      .put("urn:mace:dir:attribute-def:sn", "Shib-surName")
       .put("urn:mace:dir:attribute-def:surName", "Shib-surName")
       .put("urn:mace:dir:attribute-def:givenName", "Shib-givenName")
       .put("urn:mace:dir:attribute-def:cn", "Shib-commonName")
