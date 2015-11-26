@@ -65,9 +65,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   @Override
   protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
-    String uid = request.getHeader("shib-user");
+    String uid = request.getHeader("name-id");
 
-    checkArgument(StringUtils.hasText(uid), "Header must include shib-user");
+    checkArgument(StringUtils.hasText(uid), "Header must include name-id");
 
     String idpId = request.getHeader("Shib-Authenticating-Authority");
     //it can happen that the Authenticating Authority looks like this: http://mock-idp;http://mock-idp

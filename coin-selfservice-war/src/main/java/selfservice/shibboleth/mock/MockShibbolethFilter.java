@@ -35,6 +35,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
 
     @Override
     public Enumeration<String> getHeaderNames() {
+      @SuppressWarnings("unchecked")
       List<String> names = Collections.list(super.getHeaderNames());
       names.addAll(headers.keySet());
       return Collections.enumeration(names);
@@ -67,7 +68,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
       req.getSession(true).setAttribute("mockShibbolethUser", userId);
       SetHeader wrapper = new SetHeader(req);
       wrapper.setHeader("name-id", userId);
-      wrapper.setHeader("shib-user", userId);
+      wrapper.setHeader("Shib-uid", userId);
       String idp = "https://idp.surfnet.nl";
       wrapper.setHeader("Shib-Authenticating-Authority", idp);
       wrapper.setHeader("Shib-displayName", "Ben Vonk");
