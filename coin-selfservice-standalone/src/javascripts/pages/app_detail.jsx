@@ -18,19 +18,23 @@ App.Pages.AppDetail = React.createClass({
       component: App.Components.AttributePolicyPanel,
       icon: "fa-table"
     },
+    "idp_usage": {
+      component: App.Components.IdpUsagePanel,
+      icon: "fa-clipboard"
+    },
     "how_to_connect": {
       component: App.Components.HowToConnectPanel,
       icon: "fa-chain"
     }
   },
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       activePanel: this.props.activePanel
     }
   },
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       activePanel: "overview"
     }
@@ -46,6 +50,7 @@ App.Pages.AppDetail = React.createClass({
             </ul>
           </div>
           <br />
+
           <div className="mod-app-nav">
             <ul>
               {this.renderNavItem("application_usage", true)}
@@ -53,7 +58,7 @@ App.Pages.AppDetail = React.createClass({
           </div>
         </div>
 
-        <App.Components.AppMeta app={this.props.app} onSwitchPanel={this.handleSwitchPanel} />
+        <App.Components.AppMeta app={this.props.app} onSwitchPanel={this.handleSwitchPanel}/>
 
         {this.renderActivePanel()}
 
@@ -61,7 +66,7 @@ App.Pages.AppDetail = React.createClass({
     );
   },
 
-  renderNavItem: function(panelKey, force) {
+  renderNavItem: function (panelKey, force) {
     // do not include app usage in the top left menu
     if (panelKey == "application_usage" && force != true) {
       return;
@@ -84,7 +89,8 @@ App.Pages.AppDetail = React.createClass({
     var panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
-        <a href="#" onClick={this.handleSwitchPanel(panelKey)} className={panelKey == this.state.activePanel ? "current" : ""}>
+        <a href="#" onClick={this.handleSwitchPanel(panelKey)}
+           className={panelKey == this.state.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}
         </a>
@@ -92,20 +98,29 @@ App.Pages.AppDetail = React.createClass({
     );
   },
 
-  renderActivePanel: function() {
+  renderActivePanel: function () {
     var panel = this.panelMap[this.state.activePanel];
     if (!panel || (this.state.activePanel == "how_to_connect" && !App.currentUser.dashboardAdmin)) {
       panel = this.panelMap["overview"];
     }
-    return panel.component({onSwitchPanel: this.handleSwitchPanel, app: this.props.app});
+    return panel.component({
+      onSwitchPanel: this.handleSwitchPanel,
+      app: this.props.app,
+      institutions: this.props.institutions
+    });
   },
 
-  handleSwitchPanel: function(panel) {
-    return function(e) {
+  handleSwitchPanel: function (panel) {
+    return function (e) {
       e.preventDefault();
       e.stopPropagation();
       this.setState({activePanel: panel});
-      page.replace(page.uri("/apps/:id/:active_panel", { id: this.props.app.id, active_panel: panel }));
+      var init = {
+        app: this.props.app,
+        institutions: this.props.institutions
+      };
+      var path = page.uri("/apps/:id/:active_panel", {id: this.props.app.id, active_panel: panel});
+      page.replace(path, null, init, null );
     }.bind(this);
   }
 });

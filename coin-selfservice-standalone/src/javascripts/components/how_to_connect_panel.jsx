@@ -95,9 +95,10 @@ App.Components.HowToConnectPanel = React.createClass({
                 </label>
               </p>
             </div>
+            { this.renderSingleTenantServiceWarning() }
             <hr />
             <div className="content">
-              <div className="number">3</div>
+              <div className="number">{this.props.app.exampleSingleTenant ? 4 : 3}</div>
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
               <textarea valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
@@ -120,6 +121,23 @@ App.Components.HowToConnectPanel = React.createClass({
             {I18n.t("how_to_connect_panel.wiki")}
           </a>
         </li>
+      );
+    }
+  },
+
+  renderSingleTenantServiceWarning: function() {
+    if (this.props.app.exampleSingleTenant) {
+      return (
+        <div>
+          <hr />
+          <div className="content">
+            <div className="number">3</div>
+            <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
+            <p
+              dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
+            <p>{I18n.t("how_to_connect_panel.single_tenant_service_warning")}</p>
+          </div>
+        </div>
       );
     }
   },

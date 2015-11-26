@@ -1,0 +1,12 @@
+[
+  {
+    "id": "https://idp.surfnet.nl",
+    "name": "SURFnet BV",
+    "institutionId": "SURFNET"
+  },
+  {
+    "id": "https://mock-idp-2",
+    "name": "Open University Teachers",
+    "institutionId": "mock-institution-id"
+  }
+]

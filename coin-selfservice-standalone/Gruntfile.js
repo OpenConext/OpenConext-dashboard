@@ -6,8 +6,8 @@ module.exports = function(grunt) {
       'src/javascripts/lib/page.js',
       'src/javascripts/lib/i18n.js',
       'src/javascripts/lib/spin.js',
-      'src/javascripts/lib/d3.js',
-      'src/javascripts/lib/rickshaw.js',
+      'src/javascripts/lib/moment.js',
+      'src/javascripts/lib/select2.js',
       'src/javascripts/lib/jquery.cookie.js',
       'tmp/init.js',                    // initializes the namespaces
       'tmp/mixins/*.js',                // all mixins first
@@ -143,6 +143,11 @@ module.exports = function(grunt) {
           cwd: 'src/fonts/',
           src: ['**/*'],
           dest: 'build/fonts/'
+        }, {
+          expand: true,
+          cwd: 'src/css/',
+          src: ['**/*.css'],
+          dest: 'build/css/'
         }]
       },
       dist: {
@@ -156,6 +161,11 @@ module.exports = function(grunt) {
           cwd: 'src/fonts/',
           src: ['**/*'],
           dest: 'dist/fonts/'
+        }, {
+          expand: true,
+          cwd: 'src/css/',
+          src: ['**/*.css'],
+          dest: 'dist/css/'
         }, {
           'dist/application-<%= now %>.min.js': 'build/application.min.js',
           'dist/application-<%= now %>.min.css': 'build/application.min.css'
@@ -178,7 +188,7 @@ module.exports = function(grunt) {
         },
         proxies: [
           {
-            context: ['/dashboard', '/mujina-idp'],
+            context: ['/dashboard'],
             host: 'localhost',
             port: 8280,
             https: false,

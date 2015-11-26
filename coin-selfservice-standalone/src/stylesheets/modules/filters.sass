@@ -1,14 +1,16 @@
 .mod-filters
   @extend %box
 
+  .header
+    padding: 20px
+
   h1
     @extend %h2
     font-weight: bold
-    padding: 20px
+    display: inline-block
 
-    small
-      font-size: 80%
-      float: right
+  .download-button
+    float: right
 
   fieldset
     border: 0
@@ -25,3 +27,16 @@
 
   input
     margin-right: 5px
+
+  .float-right
+    float: right
+
+  .greyed-out
+    color: grey
+
+  .select2-selection
+    width: 230px
+    text-overflow: ellipsis
+
+  input[type=text]
+    width: 100%

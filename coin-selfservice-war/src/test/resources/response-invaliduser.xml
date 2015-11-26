@@ -16,7 +16,7 @@
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
   <SOAP-ENV:Body>
     <samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
-                    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_8ba5e48b7460d157da47f84037bd990f9656b4d962"
+                    ID="_8ba5e48b7460d157da47f84037bd990f9656b4d962"
                     Version="2.0" IssueInstant="2013-04-16T09:20:48Z"
                     InResponseTo="28d9b20f-3a42-4a65-be5b-b8014f876331">
       <samlp:Status>

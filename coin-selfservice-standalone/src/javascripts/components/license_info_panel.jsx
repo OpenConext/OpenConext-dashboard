@@ -17,17 +17,24 @@ App.Components.LicenseInfoPanel = React.createClass({
   },
 
   renderLicenseStatus: function() {
-    if (this.props.app.hasCrmLink) {
-      return this.props.app.license ? this.renderHasLicense() : this.renderNoLicense();
-    } else {
-      return this.renderUnknownLicense();
+    switch (this.props.app.licenseStatus) {
+      case "HAS_LICENSE_SURFMARKET":
+        return this.renderHasLicense(I18n.t("license_info_panel.has_license_surfmarket_html")) ;
+      case "HAS_LICENSE_SP":
+        return this.renderHasLicense(I18n.t("license_info_panel.has_license_sp_html", {serviceName: this.props.app.name , serviceUrl: this.props.app.serviceUrl})) ;
+      case "NO_LICENSE":
+        return this.renderNoLicense();
+      case "NOT_NEEDED":
+        return this.renderNoLicenseNeeded();
+      case "UNKNOWN":
+        return this.renderUnknownLicense();
     }
   },
 
-  renderHasLicense: function() {
+  renderHasLicense: function(msg) {
     return (
       <div className="mod-title">
-        <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.has_license_html")}} />
+        <h3 dangerouslySetInnerHTML={{ __html: msg}} />
       </div>
     );
   },
@@ -38,6 +45,14 @@ App.Components.LicenseInfoPanel = React.createClass({
         <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_html")}} />
         <br />
         <div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_description_html")}} />
+      </div>
+    );
+  },
+
+  renderNoLicenseNeeded: function() {
+    return (
+      <div className="mod-title">
+        <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.not_needed_html")}} />
       </div>
     );
   },

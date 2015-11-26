@@ -6,11 +6,11 @@ App.Components.Navigation = React.createClass({
     if (this.props.loading) {
       if (!this.spinner) {
         this.spinner = new Spinner({
-          lines: 11, // The number of lines to draw
-          length: 7, // The length of each line
-          width: 3, // The line thickness
-          radius: 8, // The radius of the inner circle
-          color: '#FFF', // #rgb or #rrggbb or array of colors
+          lines: 25, // The number of lines to draw
+          length: 85, // The length of each line
+          width: 4, // The line thickness
+          radius: 20, // The radius of the inner circle
+          color: '#4DB3CF', // #rgb or #rrggbb or array of colors
         }).spin(this.refs.spinner.getDOMNode());
       }
     } else {

@@ -23,6 +23,15 @@ SURFconext: [http://www.surfconext.nl](http://www.surfconext.nl)
 
 ### Building and running
 
+Install Ruby to make management of the dependencies needed easier.
+
+#### Setup
+
+    brew install rbenv
+    rbenv install
+    gem install bundler
+    bundle install
+
 #### The Server
 
     cd coin-selfservice-war
@@ -33,22 +42,24 @@ To build:
 
 To run locally:
 
-    mvn jetty:run
+    mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=dev"
+
+If you want to debug you can use
+    
+    ./debug.sh
 
 #### The client
 
     cd coin-selfservice-standalone
 
-Initial setup:
+Initial setup if you do:
 
-    brew install npm
-    gem install sass
-    gem install sass-globbing
-    gem install compass
-    npm install -g grunt-cli
-    npm install
+    brew install npm;
+    npm install -g grunt-cli;
+    npm install;
 
 When new grunt dependencies are added:
+
     npm install
 
 To build:
@@ -59,13 +70,11 @@ To run locally:
 
     grunt server
 
-**For the NEW client open http://localhost:8000 in order to load the client**
 
+#### Running all at once
 
-When you browse to the [application homepage](http://localhost:8082/dashboard) you will be prompted for a login.
+    foreman start
 
-A list of available log-ins can be found in the mocked [`Users` enum here](coin-selfservice-war/src/main/java/nl/surfnet/coin/selfservice/util/OpenConextOAuthClientMock.java).
+When you browse to the [application homepage](http://localhost:8001/) you will be prompted for a login.
 
-## Disclaimer
-
-SelfService uses Highcharts JavaScript for rendering statistics. Highcharts is a Highsoft sotware product which is free for non-commercial use, but it is not free for commercial use. See [this page](http://shop.highsoft.com/highcharts.html#redist) for more details.
+A list of available log-ins can be found in the mocked implementation of the [VootClient](coin-selfservice-war/src/main/java/nl/surfnet/coin/selfservice/service/impl/VootClientMock.java).

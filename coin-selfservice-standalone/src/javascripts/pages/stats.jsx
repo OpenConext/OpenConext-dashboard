@@ -6,32 +6,32 @@ App.Pages.Stats = React.createClass({
     App.Mixins.Chart,
   ],
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       chart: {
-        idpId: "=" + btoa("entity=" + App.currentIdp().id + "|inst=" + App.currentIdp().institutionId),
-        spId: "*"
+        type: 'idpspbar',
+        periodFrom: moment().subtract(1, 'months'),
+        periodTo: moment(),
+        periodType: 'm',
+        periodDate: moment(),
       }
     }
   },
 
-  render: function() {
+  render: function () {
     return (
       <div className="l-main">
         <div className="l-left">
-          <div className="mod-legend" ref="legend">
-            <h1>{I18n.t("stats.legend")}</h1>
+          <div className="mod-filters">
+            <div className="header">
+              <h1>{I18n.t('stats.filters.name')}</h1>
+            </div>
+            {this.renderChartTypeSelect()}
+            {this.renderPeriodSelect()}
           </div>
         </div>
         <div className="l-right">
-          <div className="mod-usage">
-            <div className="header">
-              {this.renderTitle()}
-              <div className="options">
-                {this.renderPeriodSelect()}
-                {this.renderDownloadButton()}
-              </div>
-            </div>
+          <div className="mod-chart">
             {this.renderChart()}
           </div>
         </div>
@@ -39,3 +39,4 @@ App.Pages.Stats = React.createClass({
     );
   }
 });
+

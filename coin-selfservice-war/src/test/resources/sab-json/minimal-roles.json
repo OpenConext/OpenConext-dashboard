@@ -1,18 +1,22 @@
-{"message": "OK", "code": 0, "profiles": [
+{
+  "message": "OK",
+  "code": 0,
+  "profiles": [
     {
-        "firstname": "Joost",
-        "surname": "van Dijk",
-        "idp": "surfguest.nl",
-        "uid": "joostd",
-        "organisation": {
-            "abbrev": "SURFNET",
-            "name": "SURFnet bv"
-        },
-        "authorisations": [
-            {
-                "short": "CONVER",
-                "role": "SURFconextverantwoordelijke"
-            }
-        ]
+      "firstname": "Joost",
+      "surname": "van Dijk",
+      "idp": "surfguest.nl",
+      "uid": "joostd",
+      "organisation": {
+        "abbrev": "SURFNET",
+        "name": "SURFnet bv"
+      },
+      "authorisations": [
+        {
+          "short": "CONVER",
+          "role": "SURFconextverantwoordelijke"
+        }
+      ]
     }
-]}
+  ]
+}

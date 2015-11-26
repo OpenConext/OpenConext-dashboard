@@ -9,10 +9,22 @@ App.Components.ApplicationUsagePanel = React.createClass({
   getInitialState: function() {
     return {
       chart: {
-        idpId: "=" + btoa("entity=" + App.currentIdp().id + "|inst=" + App.currentIdp().institutionId),
-        spId: "=" + btoa("entity=" + this.props.app.spEntityId+ "|active=1")
+        type: 'idpsp',
+        periodFrom: moment().subtract(1, 'months'),
+        periodTo: moment(),
+        periodType: 'm',
+        periodDate: moment(),
       }
     }
+  },
+
+  componentDidMount: function () {
+    this.retrieveSp(this.props.app.spEntityId, function(sp) {
+      var newState = React.addons.update(this.state, {
+        chart: {sp: {$set: sp.id}}
+      });
+      this.setState(newState);
+    }.bind(this));
   },
 
   render: function() {
@@ -25,10 +37,7 @@ App.Components.ApplicationUsagePanel = React.createClass({
         <div className="mod-usage">
           <div className="mod-usage">
             <div className="header">
-              {this.renderTitle()}
               <div className="options">
-                {this.renderPeriodSelect()}
-                {this.renderDownloadButton()}
               </div>
             </div>
             {this.renderChart()}
