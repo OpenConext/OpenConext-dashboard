@@ -1,18 +1,26 @@
 package selfservice.shibboleth;
 
 
+import static java.util.stream.Collectors.toMap;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.common.collect.ImmutableMap;
-import selfservice.domain.CoinUser;
-import selfservice.domain.InstitutionIdentityProvider;
-import selfservice.service.Csa;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
-import java.util.stream.Collectors;
+import selfservice.domain.CoinUser;
+import selfservice.domain.InstitutionIdentityProvider;
+import selfservice.service.Csa;
 
 public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthenticatedProcessingFilter {
 
@@ -22,7 +30,6 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     shibHeaders = ImmutableMap.<String, String>builder()
       .put("urn:mace:dir:attribute-def:uid", "Shib-uid")
       .put("urn:mace:dir:attribute-def:sn", "Shib-surName")
-      .put("urn:mace:dir:attribute-def:surName", "Shib-surName")
       .put("urn:mace:dir:attribute-def:givenName", "Shib-givenName")
       .put("urn:mace:dir:attribute-def:cn", "Shib-commonName")
       .put("urn:mace:dir:attribute-def:displayName", "Shib-displayName")
@@ -76,7 +83,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     coinUser.setEmail(request.getHeader("Shib-email"));
     coinUser.setSchacHomeOrganization(request.getHeader("Shib-homeOrg"));
 
-    Map<String, List<String>> attributes = shibKeys.stream().filter(h -> StringUtils.hasText(request.getHeader(h))).collect(Collectors.toMap(h -> h, h -> Arrays.asList(request.getHeader(h))));
+    Map<String, List<String>> attributes = shibKeys.stream()
+        .filter(h -> StringUtils.hasText(request.getHeader(h)))
+        .collect(toMap(h -> h, h -> Arrays.asList(request.getHeader(h))));
     coinUser.setAttributeMap(attributes);
 
     if (CollectionUtils.isEmpty(institutionIdentityProviders)) {
