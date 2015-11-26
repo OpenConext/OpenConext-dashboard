@@ -1,6 +1,7 @@
 package selfservice.shibboleth;
 
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.Arrays;
@@ -44,10 +45,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch", "Shib-nlEduPersonStudyBranch")
       .put("urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer", "Shib-nlStudielinkNummer")
       .put("urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier", "Shib-nlDigitalAuthorIdentifier")
-      .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonHomeOrganization", "Shib-nlEduPersonHomeOrganization")
       .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit", "Shib-nlEduPersonOrgUnit")
-      .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonStudyBranch", "Shib-nlEduPersonStudyBranch")
-      .put("urn:mace:surffederatie_nl:attribute-def:nlDigitalAuthorIdentifier", "Shib-nlDigitalAuthorIdentifier")
       .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1", "Shib-userStatus")
       .put("urn:oid:1.3.6.1.4.1.5923.1.1.1.1", "Shib-accountstatus")
       .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2", "Shib-voName")
@@ -68,14 +66,12 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
   @Override
   protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
     String uid = request.getHeader("shib-user");
-    if (!StringUtils.hasText(uid)) {
-      throw new IllegalArgumentException("Header must include shib-user");
-    }
+
+    checkArgument(StringUtils.hasText(uid), "Header must include shib-user");
+
     String idpId = request.getHeader("Shib-Authenticating-Authority");
     //it can happen that the Authenticating Authority looks like this: http://mock-idp;http://mock-idp
     idpId = idpId.split(";")[0];
-
-    List<InstitutionIdentityProvider> institutionIdentityProviders = csaClient.getInstitutionIdentityProviders(idpId);
 
     CoinUser coinUser = new CoinUser();
     coinUser.setUid(uid);
@@ -88,12 +84,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         .collect(toMap(h -> h, h -> Arrays.asList(request.getHeader(h))));
     coinUser.setAttributeMap(attributes);
 
-    if (CollectionUtils.isEmpty(institutionIdentityProviders)) {
-      //duhh, fail fast, big problems
-      throw new IllegalArgumentException("Csa#getInstitutionIdentityProviders('" + idpId + "') returned zero result");
-    }
+    List<InstitutionIdentityProvider> institutionIdentityProviders = csaClient.getInstitutionIdentityProviders(idpId);
+
+    checkArgument(!CollectionUtils.isEmpty(institutionIdentityProviders), "Csa#getInstitutionIdentityProviders('" + idpId + "') returned zero result");
+
     if (institutionIdentityProviders.size() == 1) {
-      //most common case
       InstitutionIdentityProvider idp = institutionIdentityProviders.get(0);
       coinUser.setIdp(idp);
       coinUser.addInstitutionIdp(idp);
