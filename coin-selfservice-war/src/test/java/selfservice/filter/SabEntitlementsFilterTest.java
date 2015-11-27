@@ -16,29 +16,35 @@
 
 package selfservice.filter;
 
-import selfservice.domain.CoinUser;
-import selfservice.util.SpringSecurity;
-import selfservice.sab.Sab;
-import selfservice.sab.SabRoleHolder;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import java.io.IOException;
-import java.util.Arrays;
+import selfservice.domain.CoinUser;
+import selfservice.sab.Sab;
+import selfservice.sab.SabRoleHolder;
+import selfservice.util.SpringSecurity;
 
-import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
-
+@RunWith(MockitoJUnitRunner.class)
 public class SabEntitlementsFilterTest {
 
   @InjectMocks
@@ -55,19 +61,12 @@ public class SabEntitlementsFilterTest {
 
   @Before
   public void setUp() throws Exception {
-    filter = new SabEntitlementsFilter();
-
-    filter.setAdminSurfConextIdPRole(ROLE_DASHBOARD_ADMIN.name());
-    filter.setViewerSurfConextIdPRole(ROLE_DASHBOARD_VIEWER.name());
-
-    MockitoAnnotations.initMocks(this);
+    filter = new SabEntitlementsFilter(sabClient, ROLE_DASHBOARD_ADMIN.name(), ROLE_DASHBOARD_VIEWER.name());
 
     request = new MockHttpServletRequest("GET", "/anyUrl");
     response = new MockHttpServletResponse();
 
     SecurityContextHolder.getContext().setAuthentication(null);
-
-
   }
 
   @Test

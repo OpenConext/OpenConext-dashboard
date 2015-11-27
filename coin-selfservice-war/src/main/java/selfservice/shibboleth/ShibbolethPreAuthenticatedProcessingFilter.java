@@ -2,6 +2,7 @@ package selfservice.shibboleth;
 
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.Arrays;
@@ -77,7 +78,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     Map<String, List<String>> attributes = shibHeaders.values().stream()
         .filter(h -> StringUtils.hasText(request.getHeader(h)))
-        .collect(toMap(h -> h, h -> Arrays.asList(request.getHeader(h))));
+        .collect(toMap(h -> h, h -> asList(request.getHeader(h))));
     coinUser.setAttributeMap(attributes);
 
     List<InstitutionIdentityProvider> institutionIdentityProviders = csaClient.getInstitutionIdentityProviders(idpId);

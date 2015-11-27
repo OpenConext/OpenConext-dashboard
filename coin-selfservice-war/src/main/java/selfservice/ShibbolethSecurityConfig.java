@@ -1,7 +1,7 @@
 package selfservice;
 
-
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,9 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 import selfservice.filter.EnsureAccessToIdpFilter;
+import selfservice.filter.SabEntitlementsFilter;
 import selfservice.filter.VootFilter;
+import selfservice.sab.Sab;
 import selfservice.service.Csa;
 import selfservice.service.VootClient;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
@@ -48,6 +50,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private VootClient vootClient;
 
+  @Autowired
+  private Sab sab;
+
   @Value("${dashboard.admin}")
   private String dashboardAdmin;
 
@@ -56,6 +61,12 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Value("${dashboard.super.user}")
   private String dashboardSuperUser;
+
+  @Value("${admin.surfconext.idp.sabRole}")
+  private String adminSufConextIdpRole;
+
+  @Value("${viewer.surfconext.idp.sabRole}")
+  private String viewerSurfConextIdpRole;
 
   @Bean
   @Profile("dev")
@@ -71,13 +82,11 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
    * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
    * for a quick overview of the differences between the three configure overrides
    */
-
   @Override
   public void configure(WebSecurity web) throws Exception {
     web
       .ignoring()
-      .antMatchers("/home", "/forbidden", "/css/**", "/font/**", "/images/**", "/js/**", "/health", "/info")
-    ;
+      .antMatchers("/home", "/forbidden", "/css/**", "/font/**", "/images/**", "/js/**", "/health", "/info");
   }
 
   @Override
@@ -93,8 +102,11 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
         AbstractPreAuthenticatedProcessingFilter.class
       )
-      .addFilterAfter(new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser), ShibbolethPreAuthenticatedProcessingFilter.class)
-      .addFilterAfter(new EnsureAccessToIdpFilter(csa), VootFilter.class)
+      .addFilterAfter(
+          new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser),
+          ShibbolethPreAuthenticatedProcessingFilter.class)
+      .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), VootFilter.class)
+      .addFilterAfter(new EnsureAccessToIdpFilter(csa), SabEntitlementsFilter.class)
       .authorizeRequests()
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
       .antMatchers("/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")

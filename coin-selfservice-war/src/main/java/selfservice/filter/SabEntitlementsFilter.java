@@ -28,7 +28,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -46,11 +45,16 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter.PROCESSED";
 
-  @Resource
-  private Sab sab;
+  private final Sab sab;
 
-  private String adminSurfConextIdPRole;
-  private String viewerSurfConextIdPRole;
+  private final String adminSurfConextIdpRole;
+  private final String viewerSurfConextIdpRole;
+
+  public SabEntitlementsFilter(Sab sab, String adminSurfConextIdpRole, String viewerSurfConextIdpRole) {
+    this.sab = sab;
+    this.adminSurfConextIdpRole = adminSurfConextIdpRole;
+    this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
+  }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -76,27 +80,20 @@ public class SabEntitlementsFilter extends GenericFilterBean {
         LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
       }
     }
+
     chain.doFilter(request, response);
   }
 
   private void elevateUserIfApplicable(CoinUser user, SabRoleHolder roleHolder) {
-    if (needToAddRole(roleHolder, adminSurfConextIdPRole)) {
+    if (needToAddRole(roleHolder, adminSurfConextIdpRole)) {
       user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
-    } else if (needToAddRole(roleHolder, viewerSurfConextIdPRole)) {
+    } else if (needToAddRole(roleHolder, viewerSurfConextIdpRole)) {
       user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
     }
   }
 
   private boolean needToAddRole(SabRoleHolder roleHolder, String adminLicentieIdPRole) {
     return StringUtils.hasText(adminLicentieIdPRole) && roleHolder.getRoles().contains(adminLicentieIdPRole);
-  }
-
-  public void setAdminSurfConextIdPRole(String adminSurfConextIdPRole) {
-    this.adminSurfConextIdPRole = adminSurfConextIdPRole;
-  }
-
-  public void setViewerSurfConextIdPRole(String viewerSurfConextIdPRole) {
-    this.viewerSurfConextIdPRole = viewerSurfConextIdPRole;
   }
 
 }

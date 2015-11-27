@@ -73,6 +73,7 @@ public class VootFilter extends GenericFilterBean {
     if (SpringSecurity.isFullyAuthenticated()) {
       CoinUser user = SpringSecurity.getCurrentUser();
 
+      @SuppressWarnings("unchecked")
       List<Group> groups = (List<Group>) session.getAttribute(SESSION_KEY_GROUP_ACCESS);
       if (CollectionUtils.isEmpty(groups)) {
         groups = vootClient.groups(user.getUid());

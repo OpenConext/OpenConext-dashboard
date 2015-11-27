@@ -12,7 +12,6 @@ import selfservice.service.impl.CsaMock;
 import selfservice.service.impl.VootClientImpl;
 import selfservice.service.impl.VootClientMock;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration;
@@ -65,7 +64,6 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Autowired
   public WebMvcConfigurerAdapter webMvcConfigurerAdapter(@Value("${statsBaseUrl}") String statsBaseUrl,
                                                          @Value("${statsClientId}") String statsClientId,
                                                          @Value("${statsScope}") String statsScope,
@@ -95,7 +93,6 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Autowired
   @Profile("!dev")
   public Csa csaClient(
     @Value("${csa.base.url}") String csaBaseLocation,
@@ -107,29 +104,24 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Autowired
   @Profile("dev")
   public Csa csaMockClient() {
     return new CsaMock();
   }
 
   @Bean
-  @Autowired
   @Profile("!dev")
   public Sab sab(HttpClientTransport httpClientTransport) {
     return new SabClient(httpClientTransport);
   }
 
-
   @Bean
-  @Autowired
   @Profile("dev")
   public Sab sabMock() {
     return new SabClientMock();
   }
 
   @Bean
-  @Autowired
   @Profile("!dev")
   public VootClient vootClient(Environment environment,
                                @Value("${voot.accessTokenUri}") String accessTokenUri,
@@ -141,7 +133,6 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Autowired
   @Profile("dev")
   public VootClient mockVootClient(Environment environment) {
     return new VootClientMock();
