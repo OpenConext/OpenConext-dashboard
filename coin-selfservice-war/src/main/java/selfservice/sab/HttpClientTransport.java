@@ -16,6 +16,14 @@
 
 package selfservice.sab;
 
+import static java.lang.String.format;
+import static java.net.URLEncoder.encode;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -30,19 +38,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-
-import static java.lang.String.format;
-import static java.net.URLEncoder.encode;
-
 @Component
 public class HttpClientTransport implements SabTransport {
 
   private static final Integer TIMEOUT = new Integer(10000);
-  private HttpClient httpClient = new DefaultHttpClient(new PoolingClientConnectionManager());
+  private final HttpClient httpClient = new DefaultHttpClient(new PoolingClientConnectionManager());
 
   private final UsernamePasswordCredentials samlCredentials;
   private final UsernamePasswordCredentials restCredentials;
@@ -50,10 +50,10 @@ public class HttpClientTransport implements SabTransport {
   private final URI restEndPoint;
 
   @Autowired
-  public HttpClientTransport(@Value("sab.username") String sabUserName,
-                             @Value("sab.password") String sabPassword,
-                             @Value("sab-rest.username") String sabRestUserName,
-                             @Value("sab-rest.password") String sabRestPassword,
+  public HttpClientTransport(@Value("${sab.username}") String sabUserName,
+                             @Value("${sab.password}") String sabPassword,
+                             @Value("${sab-rest.username}") String sabRestUserName,
+                             @Value("${sab-rest.password}") String sabRestPassword,
                              @Value("${sab.endpoint}") URI sabEndpoint,
                              @Value("${sab-rest.endpoint}") URI restEndPoint) {
     this.samlCredentials = new UsernamePasswordCredentials(sabUserName, sabPassword);
@@ -62,7 +62,6 @@ public class HttpClientTransport implements SabTransport {
     this.restEndPoint = restEndPoint;
     httpClient.getParams().setParameter("http.socket.timeout", TIMEOUT);
   }
-
 
   @Override
   public InputStream getResponse(final String request) throws IOException {
