@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -54,13 +53,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
   }
 
   private Csa csaClient;
-  private Collection<String> shibKeys;
 
   public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, Csa csaClient) {
-    super();
     setAuthenticationManager(authenticationManager);
     this.csaClient = csaClient;
-    this.shibKeys = shibHeaders.values();
   }
 
   @Override
@@ -79,7 +75,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     coinUser.setEmail(request.getHeader("Shib-email"));
     coinUser.setSchacHomeOrganization(request.getHeader("Shib-homeOrg"));
 
-    Map<String, List<String>> attributes = shibKeys.stream()
+    Map<String, List<String>> attributes = shibHeaders.values().stream()
         .filter(h -> StringUtils.hasText(request.getHeader(h)))
         .collect(toMap(h -> h, h -> Arrays.asList(request.getHeader(h))));
     coinUser.setAttributeMap(attributes);
