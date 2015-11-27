@@ -76,7 +76,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(WebSecurity web) throws Exception {
     web
       .ignoring()
-      .antMatchers("/home", "/forbidden", "/css/**", "/font/**", "/images/**", "/js/**", "/health")
+      .antMatchers("/home", "/forbidden", "/css/**", "/font/**", "/images/**", "/js/**", "/health", "/info")
     ;
   }
 
