@@ -25,7 +25,6 @@ import selfservice.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -48,9 +47,11 @@ import static selfservice.domain.CoinAuthority.Authority.*;
  */
 public class VootFilter extends GenericFilterBean {
 
+  private final Logger LOG = LoggerFactory.getLogger(VootFilter.class);
+
   public static final String SESSION_KEY_GROUP_ACCESS = "SESSION_KEY_GROUP_ACCESS";
 
-  private final Logger LOG = LoggerFactory.getLogger(VootFilter.class);
+  protected static final String PROCESSED = "selfservice.filter.VootFilter.PROCESSED";
 
   private VootClient vootClient;
 
@@ -70,30 +71,30 @@ public class VootFilter extends GenericFilterBean {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpSession session = httpRequest.getSession(true);
 
-    if (SpringSecurity.isFullyAuthenticated()) {
-      CoinUser user = SpringSecurity.getCurrentUser();
+    addVootRoles(session);
 
-      @SuppressWarnings("unchecked")
-      List<Group> groups = (List<Group>) session.getAttribute(SESSION_KEY_GROUP_ACCESS);
-      if (CollectionUtils.isEmpty(groups)) {
-        groups = vootClient.groups(user.getUid());
-        session.setAttribute(SESSION_KEY_GROUP_ACCESS, groups);
-      }
-      elevateUser(user, groups);
-    }
     chain.doFilter(request, response);
   }
 
-  /**
-   * Assign the appropriate roles to the given user, if he is member of one the
-   * admin teams team.
-   *
-   * @param coinUser the CoinUser representing the currently logged in user.
-   */
+  private void addVootRoles(HttpSession session) {
+    if (!SpringSecurity.isFullyAuthenticated() || session.getAttribute(PROCESSED) != null) {
+      return;
+    }
+
+    CoinUser user = SpringSecurity.getCurrentUser();
+
+    List<Group> groups = vootClient.groups(user.getUid());
+    elevateUser(user, groups);
+
+    session.setAttribute(PROCESSED, "true");
+  }
+
   private void elevateUser(CoinUser coinUser, List<Group> groups) {
     LOG.debug("Memberships of adminTeams '{}' for user '{}'", groups, coinUser.getUid());
+
     // We want to end up with only one role
     coinUser.setAuthorities(new HashSet<CoinAuthority>());
+
     if (groupsContains(dashboardAdmin, groups)) {
       coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
     } else if (groupsContains(dashboardViewer, groups)) {

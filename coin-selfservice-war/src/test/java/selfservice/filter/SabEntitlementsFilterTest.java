@@ -25,6 +25,7 @@ import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -81,7 +82,7 @@ public class SabEntitlementsFilterTest {
 
   @Test
   public void happyNoRole() throws IOException, ServletException {
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", "Bar")));
+    when(sabClient.getRoles("theuser")).thenReturn(Optional.of(new SabRoleHolder("theOrg", Arrays.asList("Foo", "Bar"))));
 
     filter.doFilter(request, response, chain);
 
@@ -94,7 +95,7 @@ public class SabEntitlementsFilterTest {
     CoinUser user = SpringSecurity.getCurrentUser();
     user.setSchacHomeOrganization("theOrg");
 
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_ADMIN.name())));
+    when(sabClient.getRoles("theuser")).thenReturn(Optional.of(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_ADMIN.name()))));
 
     filter.doFilter(request, response, chain);
     SpringSecurityUtil.assertRoleIsGranted(ROLE_DASHBOARD_ADMIN);
@@ -106,7 +107,7 @@ public class SabEntitlementsFilterTest {
     CoinUser user = SpringSecurity.getCurrentUser();
     user.setSchacHomeOrganization("theOrg");
 
-    when(sabClient.getRoles("theuser")).thenReturn(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_VIEWER.name())));
+    when(sabClient.getRoles("theuser")).thenReturn(Optional.of(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_VIEWER.name()))));
 
     filter.doFilter(request, response, chain);
     SpringSecurityUtil.assertRoleIsGranted(ROLE_DASHBOARD_VIEWER);
@@ -118,7 +119,7 @@ public class SabEntitlementsFilterTest {
     CoinUser user = SpringSecurity.getCurrentUser();
     user.setSchacHomeOrganization("theorg");
 
-    when(sabClient.getRoles(anyString())).thenReturn(null);
+    when(sabClient.getRoles(anyString())).thenReturn(Optional.empty());
     filter.doFilter(request, response, chain);
     SpringSecurityUtil.assertNoRoleIsGranted();
   }

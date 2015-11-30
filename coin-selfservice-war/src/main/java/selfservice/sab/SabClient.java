@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
@@ -59,10 +60,16 @@ public class SabClient implements Sab {
   }
 
   @Override
-  public SabRoleHolder getRoles(String userId) throws IOException {
+  public Optional<SabRoleHolder> getRoles(String userId) {
     String messageId = UUID.randomUUID().toString();
     String request = createRequest(userId, messageId);
-    return sabResponseParser.parse(sabTransport.getResponse(request));
+
+    try (InputStream is = sabTransport.getResponse(request)) {
+      return Optional.of(sabResponseParser.parse(is));
+    } catch (IOException e) {
+      LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
+      return Optional.empty();
+    }
   }
 
   @Override

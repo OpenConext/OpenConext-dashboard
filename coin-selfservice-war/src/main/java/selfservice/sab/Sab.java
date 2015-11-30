@@ -18,6 +18,7 @@ package selfservice.sab;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Interface for SAB, the SURFnet Authorisation Beheer interface
@@ -29,9 +30,8 @@ public interface Sab {
    *
    * @param userId the userId to query for
    * @return SabRoleHolder
-   * @throws IOException when IO fails or an error occurs (for example authentication failure)
    */
-  SabRoleHolder getRoles(String userId) throws IOException;
+  Optional<SabRoleHolder> getRoles(String userId);
 
 
   /**

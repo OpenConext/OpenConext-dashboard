@@ -16,15 +16,20 @@
 
 package selfservice.sab;
 
-import com.google.common.collect.Collections2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.Arrays.asList;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static java.util.Arrays.asList;
+import com.google.common.collect.Collections2;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -52,10 +57,10 @@ public class SabClientMock implements Sab {
   }
 
   @Override
-  public SabRoleHolder getRoles(String userId) throws IOException {
+  public Optional<SabRoleHolder> getRoles(String userId) {
     SabRoleHolder sabRoleHolder = rolesMapping.get(userId);
     LOG.debug("Returning SAB role holder: {}", sabRoleHolder);
-    return sabRoleHolder;
+    return Optional.ofNullable(sabRoleHolder);
   }
 
   @Override

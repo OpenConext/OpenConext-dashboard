@@ -111,16 +111,6 @@ public class VootFilterTest {
     assertEquals(0, coinUser.getAuthorityEnums().size());
   }
 
-  @Test
-  public void filter_and_promote_based_on_session_key() throws Exception {
-    setAuthentication();
-    request.getSession(true).setAttribute(VootFilter.SESSION_KEY_GROUP_ACCESS, Arrays.asList(new Group(ADMIN)));
-    filter.doFilter(request, response, chain);
-    verify(chain).doFilter(request, response);
-    assertRoleIsGranted(coinUser, ROLE_DASHBOARD_ADMIN);
-    verifyNoMoreInteractions(vootClient);
-  }
-
   private void assertRoleIsGranted(CoinUser user, CoinAuthority.Authority... expectedAuthorities) {
     List<CoinAuthority.Authority> actualAuthorities = user.getAuthorityEnums();
     assertEquals("expected roles: " + Arrays.asList(expectedAuthorities) + ", actual roles: " + actualAuthorities, expectedAuthorities.length, actualAuthorities.size());

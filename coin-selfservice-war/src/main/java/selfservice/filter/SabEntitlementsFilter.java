@@ -43,7 +43,7 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   private static final Logger LOG = LoggerFactory.getLogger(SabEntitlementsFilter.class);
 
-  protected static final String PROCESSED = "nl.surfnet.coin.selfservice.filter.SabEntitlementsFilter.PROCESSED";
+  protected static final String PROCESSED = "selfservice.filter.SabEntitlementsFilter.PROCESSED";
 
   private final Sab sab;
 
@@ -58,30 +58,28 @@ public class SabEntitlementsFilter extends GenericFilterBean {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    HttpServletRequest httpRequest = (HttpServletRequest) request;
-    HttpSession session = httpRequest.getSession(true);
+    HttpSession session = ((HttpServletRequest) request).getSession(true);
 
-    if (SpringSecurity.isFullyAuthenticated() && session.getAttribute(PROCESSED) == null) {
-      CoinUser user = SpringSecurity.getCurrentUser();
-
-      try {
-        SabRoleHolder roleHolder = sab.getRoles(user.getUid());
-        if (roleHolder == null) {
-          LOG.debug("SAB returned no information about user '{}'. Will skip SAB entitlement.", user.getUid());
-          session.setAttribute(PROCESSED, "true");
-        } else {
-          LOG.debug("Roles of user '{}' in organisation {}: {}", user.getUid(), roleHolder.getOrganisation(), roleHolder.getRoles());
-          elevateUserIfApplicable(user, roleHolder);
-          session.setAttribute(PROCESSED, "true");
-          LOG.debug("Authorities of user '{}' after processing SAB entitlements: {}", user.getUid(), user.getAuthorityEnums());
-          SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(user));
-        }
-      } catch (IOException e) {
-        LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
-      }
-    }
+    addSabRoles(session);
 
     chain.doFilter(request, response);
+  }
+
+  private void addSabRoles(HttpSession session) {
+    if (!SpringSecurity.isFullyAuthenticated() || session.getAttribute(PROCESSED) != null) {
+      return;
+    }
+
+    CoinUser user = SpringSecurity.getCurrentUser();
+
+    sab.getRoles(user.getUid()).ifPresent(roleHolder -> {
+      LOG.debug("Roles of user '{}' in organisation {}: {}", user.getUid(), roleHolder.getOrganisation(), roleHolder.getRoles());
+      elevateUserIfApplicable(user, roleHolder);
+      LOG.debug("Authorities of user '{}' after processing SAB entitlements: {}", user.getUid(), user.getAuthorityEnums());
+      SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(user));
+    });
+
+    session.setAttribute(PROCESSED, "true");
   }
 
   private void elevateUserIfApplicable(CoinUser user, SabRoleHolder roleHolder) {

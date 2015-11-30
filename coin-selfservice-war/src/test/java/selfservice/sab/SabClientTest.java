@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
@@ -57,12 +58,14 @@ public class SabClientTest {
     assertNotNull(personsInRoleForOrganization);
   }
 
-  @Test(expected = IOException.class)
+  @Test
   public void invalidUser() throws IOException {
     String userId = "foo";
 
     sabClient = new SabClient(new LocalFileTransport("/response-invaliduser.xml", "/sab-json/profile.json"));
-    sabClient.getRoles(userId);
+    Optional<SabRoleHolder> roles = sabClient.getRoles(userId);
+
+    assertFalse(roles.isPresent());
   }
 
   @Test
