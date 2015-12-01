@@ -95,13 +95,14 @@ public class VootFilter extends GenericFilterBean {
     // We want to end up with only one role
     coinUser.setAuthorities(new HashSet<CoinAuthority>());
 
-    if (groupsContains(dashboardAdmin, groups)) {
+    if (groupsContains(dashboardSuperUser, groups)) {
+      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
+    } else if (groupsContains(dashboardAdmin, groups)) {
       coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
     } else if (groupsContains(dashboardViewer, groups)) {
       coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
-    } else if (groupsContains(dashboardSuperUser, groups)) {
-      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
     }
+
     SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(coinUser));
   }
 
