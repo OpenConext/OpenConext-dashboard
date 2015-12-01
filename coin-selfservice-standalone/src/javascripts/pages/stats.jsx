@@ -11,9 +11,9 @@ App.Pages.Stats = React.createClass({
       chart: {
         type: 'idpspbar',
         periodFrom: moment().subtract(1, 'months'),
-        periodTo: moment(),
+        periodTo: moment().subtract(1, 'days'),
         periodType: 'm',
-        periodDate: moment(),
+        periodDate: moment().subtract(1, 'days'),
       }
     }
   },
