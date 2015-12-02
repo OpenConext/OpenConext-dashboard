@@ -33,11 +33,11 @@ App.Components.ApplicationUsagePanel = React.createClass({
         <div className="mod-title">
           <h1>{I18n.t("application_usage_panel.title")}</h1>
         </div>
-
         <div className="mod-usage">
           <div className="mod-usage">
             <div className="header">
               <div className="options">
+                {this.renderPeriodSelect()}
               </div>
             </div>
             {this.renderChart()}

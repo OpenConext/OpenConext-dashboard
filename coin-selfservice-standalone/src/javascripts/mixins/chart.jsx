@@ -78,6 +78,7 @@ App.Mixins.Chart = {
       "https://" + STATS_HOST + "/api/v1/entity/sp.json",
       {
         "entityid": entityId,
+        "active": 1,
         "state": "PA",
         "access_token": App.currentUser.statsToken
       }
@@ -85,6 +86,7 @@ App.Mixins.Chart = {
       if (data.records[0]) {
         callback(data.records[0]);
       } else {
+        console.log("Could not find entityId", entityId);
         this.handleError();
       }
     }.bind(this)).fail(this.handleError);
