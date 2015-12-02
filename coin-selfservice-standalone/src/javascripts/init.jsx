@@ -113,7 +113,6 @@ var App = {
   },
 
   fetchUserData: function (callback) {
-
     var redirectTo403Server = function () {
       window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden";
     };
@@ -173,6 +172,40 @@ var App = {
       return this.currentUser.switchedToIdp;
     } else {
       return (this.currentUser.switchedToIdp || this.currentUser.currentIdp);
+    }
+  },
+
+  PubSub: {
+    _events: {},
+    _lastUid: 0,
+
+    publish: function (event, data) {
+      if (!this._events[event]) return;
+
+      var subscribers = this._events[event];
+      for (s in subscribers) {
+        subscribers[s](data);
+      }
+    },
+
+    subscribe: function (event, callback) {
+      if (typeof callback !== 'function') {
+        return false;
+      }
+      if (!this._events[event]) this._events[event] = {};
+      var token = 'uid_' + String(++this._lastUid);
+      this._events[event][token] = callback;
+      return token;
+    },
+
+    unsubscribe: function (token) {
+      for (e in this._events) {
+        var event = this._events[e];
+        if (event[token]) {
+          delete event[token];
+          break;
+        }
+      }
     }
   }
 };

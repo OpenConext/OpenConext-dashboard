@@ -12,7 +12,27 @@ App.Mixins.Chart = {
     return this.state != nextState;
   },
 
+  componentWillMount: function () {
+    this.subscribeToken = App.PubSub.subscribe('idpSwitched', function(idp) {
+      var newState = React.addons.update(this.state, {
+        error: {$set: false},
+        sps: {$set: []},
+        chart: {
+          idp: {$set: null},
+          type: {$set: 'idpspbar'},
+          sp: {$set: null}
+        }
+      });
+      this.setState(newState);
+      this.loadIdpData();
+    }.bind(this));
+  },
+
   componentDidMount: function () {
+    this.loadIdpData();
+  },
+
+  loadIdpData: function () {
     var loadSps = function () {
       this.retrieveSps(function (sps) {
         var newSps = sps.map(function (sp) {
@@ -47,6 +67,7 @@ App.Mixins.Chart = {
       if (data.records[0]) {
         callback(data.records[0]);
       } else {
+        console.log("Could not find ", App.currentIdp());
         this.handleError();
       }
     }.bind(this)).fail(this.handleError);
@@ -155,6 +176,7 @@ App.Mixins.Chart = {
   },
 
   componentWillUnmount: function () {
+    App.PubSub.unsubscribe(this.subscribeToken);
     this.chart = null;
   },
 
@@ -187,7 +209,7 @@ App.Mixins.Chart = {
         <fieldset>
           <h2>{I18n.t('stats.chart.type.name')}</h2>
           <App.Components.Select2Selector
-            defaultValue={this.state.chart.type}
+            value={this.state.chart.type}
             select2selectorId='chart-type'
             options={options}
             handleChange={handleChange} />
@@ -212,7 +234,7 @@ App.Mixins.Chart = {
       <fieldset>
         <h2>{I18n.t('stats.chart.sp.name')}</h2>
         <App.Components.Select2Selector
-          defaultValue={this.state.chart.sp}
+          value={this.state.chart.sp}
           select2selectorId='sp'
           options={this.state.sps}
           handleChange={handleChange} />
@@ -288,7 +310,7 @@ App.Mixins.Chart = {
       <fieldset>
         <h2>{I18n.t('stats.chart.period.name')}</h2>
         <App.Components.Select2Selector
-          defaultValue='m'
+          value={this.state.chart.periodType}
           select2selectorId='period-type'
           options={options}
           handleChange={handleChange} />

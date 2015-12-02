@@ -3,9 +3,8 @@
 App.Components.Select2Selector = React.createClass({
 
   getInitialState: function () {
-    var initialValue = this.props.defaultValue || (this.props.multiple ? [] : '');
     return {
-      value: initialValue
+      value: this.props.value
     }
   },
 
@@ -17,10 +16,21 @@ App.Components.Select2Selector = React.createClass({
       forceBelow: true,
       minimumResultsForSearch: minimumResultsForSearch
     });
-    var initialValue = this.props.defaultValue || (this.props.multiple ? [] : '');
-    rootNode.val(initialValue).trigger("change");
+    rootNode.val(this.props.value).trigger("change");
     // This is not the react way, but this react version does not support native Select2 ports
     rootNode.on("change", this.handleChange);
+  },
+
+  shouldComponentUpdate: function (nextProps, nextState) {
+    return nextProps.value != this.state.value;
+  },
+
+  componentDidUpdate: function (prevProps, prevState) {
+    if (this.state.value === this.props.value) {
+      return;
+    }
+    var rootNode = $('[data-select2selector-id="' + this.props.select2selectorId + '"]');
+    rootNode.val(this.props.value).trigger("change");
   },
 
   componentWillUnmount: function () {
@@ -29,7 +39,8 @@ App.Components.Select2Selector = React.createClass({
   },
 
   handleChange: function (e) {
-    var newValue = this.props.multiple ? $('[data-select2selector-id="' + this.props.select2selectorId + '"]').val() : e.target.value;
+    var newValue = e.target.value;
+    this.setState({value: newValue});
     this.props.handleChange(newValue);
   },
 
@@ -37,10 +48,9 @@ App.Components.Select2Selector = React.createClass({
     var renderOption = this.props.options.map(function (option, index) {
       return (<option key={option.value} value={option.value}>{option.display}</option>);
     });
-    var multiple = this.props.multiple ? {multiple: "multiple"} : {};
     return (
         <div>
-          <select id="lang" data-select2selector-id={this.props.select2selectorId} {...multiple}>
+          <select id="lang" data-select2selector-id={this.props.select2selectorId}>
             {renderOption}
           </select>
         </div>
