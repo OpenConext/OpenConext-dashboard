@@ -217,12 +217,6 @@ I18n.translations.nl = {
 
   application_usage_panel: {
     title: "Service gebruik",
-    description: "Aantal logins",
-    logins: "Logins",
-    last_week: "Afgelopen week",
-    last_month: "Afgelopen maand",
-    last_three_months: "Afgelopen 3 maanden",
-    last_year: "Afgelopen jaar",
     download: "Download",
     error_html: "Op dit moment zijn de statistieken niet beschikbaar. <a href=\"mailto:support@surfconext.nl\">Neem contact op</a> met de supportafdeling, voor meer informatie."
   },

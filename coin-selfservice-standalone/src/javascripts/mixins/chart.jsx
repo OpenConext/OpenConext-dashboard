@@ -339,7 +339,7 @@ App.Mixins.Chart = {
     if (this.state.chart.type === "idpsp") {
       return <App.Components.DownloadButton
         genFile={this.downloadIdpSpCsvFile}
-        title={I18n.t("facets.download")}
+        title={I18n.t("application_usage_panel.download")}
         fileName="idpsplogins.csv"
         mimeType="text/csv"
         className="download-button c-button" />

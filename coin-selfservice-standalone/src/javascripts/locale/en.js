@@ -216,12 +216,6 @@ I18n.translations.en = {
 
   application_usage_panel: {
     title: "Service usage",
-    description: "Number of logins",
-    logins: "Logins",
-    last_week: "Last week",
-    last_month: "Last month",
-    last_three_months: "Last 3 months",
-    last_year: "Last year",
     download: "Download",
     error_html: "Stats are currently unavailable. <a href=\"mailto:support@surfconext.nl\">Contact support</a> for more information."
   },
