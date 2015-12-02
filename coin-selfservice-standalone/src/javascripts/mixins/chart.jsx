@@ -126,7 +126,7 @@ App.Mixins.Chart = {
         options = $.extend(options, {
           period: this.getPeriod(),
           dataCallbacks: [function(data) {
-            var height = data.numRecords * 25 || 300;
+            var height = Math.max(data.numRecords * 25, 300);
             setMinimumHeightOfChart(height);
           }]
         });
