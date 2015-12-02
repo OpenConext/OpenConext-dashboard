@@ -1,10 +1,20 @@
 package selfservice.api.rest;
 
+import static java.lang.String.format;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.stream.JsonWriter;
-import selfservice.util.SpringSecurity;
+import com.google.gson.JsonIOException;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -12,12 +22,7 @@ import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.List;
-
-import static java.lang.String.format;
+import selfservice.util.SpringSecurity;
 
 public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse> {
 
@@ -26,13 +31,9 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   private Gson gson;
 
   private String statsBaseUrl;
-
   private String statsClientId;
-
   private String statsScope;
-
   private String statsRedirectUri;
-
 
   public GsonHttpMessageConverter(String statsBaseUr, String statsClientId, String statsScope, String statsRedirectUri) {
     this.gson = GSON_BUILDER.create();
@@ -57,7 +58,6 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
     return Arrays.asList(MediaType.APPLICATION_JSON);
   }
 
-
   @Override
   protected boolean supports(Class<?> clazz) {
     return false;
@@ -71,25 +71,33 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   @Override
   protected void writeInternal(RestResponse objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
     JsonElement json = gson.toJsonTree(objectRestResponse);
-    EnrichJson
-      .forUser(
+    EnrichJson.forUser(
         SpringSecurity.getCurrentUser(),
         format(
-          "%s/oauth/authorize.php?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",
-          statsBaseUrl,
-          statsClientId,
-          statsScope,
-          statsRedirectUri
+            "%s/oauth/authorize.php?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",
+            statsBaseUrl,
+            statsClientId,
+            statsScope,
+            statsRedirectUri
+            )
         )
-      )
-      .json(json)
-      .forPayload(objectRestResponse.getPayload());
-    JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(outputMessage.getBody(), "UTF-8"));
-    try {
+        .json(json)
+        .forPayload(objectRestResponse.getPayload());
+
+    Charset charset = getCharset(outputMessage.getHeaders());
+
+    try (OutputStreamWriter jsonWriter = new OutputStreamWriter(outputMessage.getBody(), charset)) {
       gson.toJson(json, jsonWriter);
-    } finally {
-      jsonWriter.flush();
+    } catch (JsonIOException e) {
+      throw new HttpMessageNotWritableException("Could not write JSON: " + e.getMessage(), e);
     }
+  }
+
+  private Charset getCharset(HttpHeaders headers) {
+    if (headers == null || headers.getContentType() == null || headers.getContentType().getCharSet() == null) {
+      return StandardCharsets.UTF_8;
+    }
+    return headers.getContentType().getCharSet();
   }
 
   public void setStatsBaseUrl(String statsBaseUrl) {

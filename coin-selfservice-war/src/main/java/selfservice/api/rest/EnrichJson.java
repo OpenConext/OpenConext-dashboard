@@ -39,7 +39,7 @@ public class EnrichJson {
     void apply(JsonElement element, Object payload);
   }
 
-  private EnrichJson(CoinUser coinUser, final String statsUrl) {
+  private EnrichJson(CoinUser coinUser, String statsUrl) {
     logger.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
     this.currentUser = coinUser;
     final Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();

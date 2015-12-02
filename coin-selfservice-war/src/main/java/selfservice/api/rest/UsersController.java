@@ -25,7 +25,7 @@ public class UsersController extends BaseController {
 
   @RequestMapping("/me")
   public ResponseEntity<RestResponse> me() {
-    return new ResponseEntity<RestResponse>(this.createRestResponse(SpringSecurity.getCurrentUser()), HttpStatus.OK);
+    return new ResponseEntity<>(createRestResponse(SpringSecurity.getCurrentUser()), HttpStatus.OK);
   }
 
   @RequestMapping("/super/idps")
@@ -40,11 +40,11 @@ public class UsersController extends BaseController {
 
     List<String> roles = Arrays.asList(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER.name(), CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN.name());
 
-    HashMap<String, List> payload = new HashMap<>();
+    HashMap<String, List<?>> payload = new HashMap<>();
     payload.put("idps", idps);
     payload.put("roles", roles);
 
-    return new ResponseEntity<RestResponse>(this.createRestResponse(payload), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(createRestResponse(payload), HttpStatus.OK);
   }
 
   @RequestMapping("/me/switch-to-idp")
