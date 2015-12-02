@@ -320,6 +320,32 @@ App.Mixins.Chart = {
     );
   },
 
+  downloadIdpSpCsvFile: function (callback) {
+    $.get(
+      "https://" + STATS_HOST + "/api/v1/idpsplogins/" + this.state.chart.idp + "/" + this.state.chart.sp + "/d.csv",
+      {
+        "from": this.state.chart.periodFrom.format("YYYY-MM-DD"),
+        "to": this.state.chart.periodTo.format("YYYY-MM-DD"),
+        "access_token": App.currentUser.statsToken
+      }
+    ).done(function (data) {
+      callback(data);
+    }).fail(function () {
+      console.log("Could not download csv");
+    });
+  },
+
+  renderDownload: function () {
+    if (this.state.chart.type === "idpsp") {
+      return <App.Components.DownloadButton
+        genFile={this.downloadIdpSpCsvFile}
+        title={I18n.t("facets.download")}
+        fileName="idpsplogins.csv"
+        mimeType="text/csv"
+        className="download-button c-button" />
+    }
+  },
+
   renderChart: function () {
     return (
       <div className="body">

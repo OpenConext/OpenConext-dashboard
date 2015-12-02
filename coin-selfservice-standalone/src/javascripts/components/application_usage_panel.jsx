@@ -37,6 +37,7 @@ App.Components.ApplicationUsagePanel = React.createClass({
           <div className="mod-usage">
             <div className="header">
               <div className="options">
+                {this.renderDownload()}
                 {this.renderPeriodSelect()}
               </div>
             </div>
