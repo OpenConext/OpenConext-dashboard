@@ -336,7 +336,7 @@ App.Mixins.Chart = {
   },
 
   renderDownload: function () {
-    if (this.state.chart.type === "idpsp") {
+    if (this.state.chart.type === "idpsp" && this.state.chart.sp && this.state.chart.idp) {
       return <App.Components.DownloadButton
         genFile={this.downloadIdpSpCsvFile}
         title={I18n.t("application_usage_panel.download")}
