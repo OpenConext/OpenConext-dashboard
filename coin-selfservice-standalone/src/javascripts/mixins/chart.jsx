@@ -335,14 +335,43 @@ App.Mixins.Chart = {
     });
   },
 
+  downloadIdpSpBarCsvFile: function (callback) {
+    $.get(
+      "https://" + STATS_HOST + "/api/v1/splogins/" + this.state.chart.idp + ".csv",
+      {
+        "period": this.getPeriod(),
+        "access_token": App.currentUser.statsToken
+      }
+    ).done(function (data) {
+      callback(data);
+    }).fail(function () {
+      console.log("Could not download csv");
+    });
+  },
+
   renderDownload: function () {
-    if (this.state.chart.type === "idpsp" && this.state.chart.sp && this.state.chart.idp) {
-      return <App.Components.DownloadButton
-        genFile={this.downloadIdpSpCsvFile}
-        title={I18n.t("application_usage_panel.download")}
-        fileName="idpsplogins.csv"
-        mimeType="text/csv"
-        className="download-button c-button" />
+    if (this.state.chart.type === "idpspbar" && this.state.chart.idp) {
+      return (
+        <fieldset>
+          <App.Components.DownloadButton
+            genFile={this.downloadIdpSpBarCsvFile}
+            title={I18n.t("application_usage_panel.download")}
+            fileName="splogins.csv"
+            mimeType="text/csv"
+            className="download-button c-button" />
+        </fieldset>
+      );
+    } else if (this.state.chart.type === "idpsp" && this.state.chart.sp && this.state.chart.idp) {
+      return (
+        <fieldset>
+          <App.Components.DownloadButton
+            genFile={this.downloadIdpSpCsvFile}
+            title={I18n.t("application_usage_panel.download")}
+            fileName="idpsplogins.csv"
+            mimeType="text/csv"
+            className="download-button c-button" />
+        </fieldset>
+      );
     }
   },
 
