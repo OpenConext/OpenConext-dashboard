@@ -9,13 +9,15 @@ App.Components.DownloadButton = React.createClass({
   },
 
   donePreparing: function (data) {
-    console.log("Done download..");
     var blob = new Blob([data], {type: this.props.mimeType}),
         url = window.URL.createObjectURL(blob);
 
     this.saveAs(url);
 
-    window.URL.revokeObjectURL(url);
+    // revoke the url with a delay otherwise download will fail in FF
+    setTimeout(function () {
+      window.URL.revokeObjectURL(url);
+    }, 200);
   },
 
   saveAs: function(url) {
