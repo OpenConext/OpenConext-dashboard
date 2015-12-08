@@ -143,8 +143,6 @@ public class CoinUser implements UserDetails {
 
   /**
    * Returns a collection that will contain {@link CoinAuthority}'s
-   * <p/>
-   * {@inheritDoc}
    */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

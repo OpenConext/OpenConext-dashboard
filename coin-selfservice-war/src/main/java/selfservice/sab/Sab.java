@@ -16,7 +16,6 @@
 
 package selfservice.sab;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -32,7 +31,6 @@ public interface Sab {
    * @return SabRoleHolder
    */
   Optional<SabRoleHolder> getRoles(String userId);
-
 
   /**
    * Get all persons within the given organisation that have the given role.

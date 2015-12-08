@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.google.common.base.Throwables;
+
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTimeZone;
@@ -52,11 +54,10 @@ public class SabClient implements Sab {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final SabTransport sabTransport;
-  private SabResponseParser sabResponseParser;
+  private final SabResponseParser sabResponseParser = new SabResponseParser();
 
   public SabClient(SabTransport sabTransport) {
     this.sabTransport = sabTransport;
-    sabResponseParser = new SabResponseParser();
   }
 
   @Override
@@ -102,10 +103,10 @@ public class SabClient implements Sab {
    */
   public String createRequest(String userId, String messageId) {
     String template;
-    try {
-      template = IOUtils.toString(this.getClass().getResourceAsStream(REQUEST_TEMPLATE_LOCATION), "UTF-8");
+    try (InputStream is = this.getClass().getResourceAsStream(REQUEST_TEMPLATE_LOCATION)) {
+      template = IOUtils.toString(is, "UTF-8");
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
     String issueInstant = XML_DATE_TIME_FORMAT.print(new Date().getTime());
     return MessageFormat.format(template, messageId, issueInstant, userId);

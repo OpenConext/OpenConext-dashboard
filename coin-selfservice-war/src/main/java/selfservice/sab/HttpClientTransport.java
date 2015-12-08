@@ -18,22 +18,26 @@ package selfservice.sab;
 
 import static java.lang.String.format;
 import static java.net.URLEncoder.encode;
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
+import com.google.common.base.Throwables;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -41,8 +45,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class HttpClientTransport implements SabTransport {
 
-  private static final Integer TIMEOUT = new Integer(10000);
-  private final HttpClient httpClient = new DefaultHttpClient(new PoolingClientConnectionManager());
+  private static final int SOCKET_TIMEOUT = 10000;
+  private final HttpClient httpClient;
 
   private final UsernamePasswordCredentials samlCredentials;
   private final UsernamePasswordCredentials restCredentials;
@@ -60,15 +64,19 @@ public class HttpClientTransport implements SabTransport {
     this.restCredentials = new UsernamePasswordCredentials(sabRestUserName, sabRestPassword);
     this.sabEndpoint = sabEndpoint;
     this.restEndPoint = restEndPoint;
-    httpClient.getParams().setParameter("http.socket.timeout", TIMEOUT);
+
+    this.httpClient = HttpClients.custom()
+        .setDefaultRequestConfig(RequestConfig.custom().setSocketTimeout(SOCKET_TIMEOUT).build())
+        .setConnectionManager(new PoolingHttpClientConnectionManager()).build();
   }
 
   @Override
   public InputStream getResponse(final String request) throws IOException {
-    HttpPost httpPost = new HttpPost(sabEndpoint);
-    StringEntity stringEntity = new StringEntity(request);
-    httpPost.setEntity(stringEntity);
-    return handleRequest(httpPost, samlCredentials);
+    HttpUriRequest httpRequest = RequestBuilder
+        .post()
+        .setUri(sabEndpoint)
+        .setEntity(new StringEntity(request)).build();
+    return handleRequest(httpRequest, samlCredentials);
   }
 
   @Override
@@ -77,18 +85,18 @@ public class HttpClientTransport implements SabTransport {
     try {
       httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, encode(organisationAbbreviation, "UTF-8"), encode(role, "UTF-8")));
     } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
     return handleRequest(httpGet, restCredentials);
   }
 
-  private InputStream handleRequest(HttpRequestBase request, UsernamePasswordCredentials credentials) {
+  private InputStream handleRequest(HttpUriRequest request, UsernamePasswordCredentials credentials) {
     try {
-      request.addHeader("Authorization", "Basic " + encodeUserPass(credentials));
+      request.addHeader(AUTHORIZATION, "Basic " + encodeUserPass(credentials));
       HttpResponse httpResponse = httpClient.execute(request);
       return httpResponse.getEntity().getContent();
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
   }
 
