@@ -25,8 +25,8 @@ App.Pages.Stats = React.createClass({
           <div className="mod-filters">
             <div className="header">
               <h1>{I18n.t('stats.filters.name')}</h1>
+              {this.renderDownload()}
             </div>
-            {this.renderDownload()}
             {this.renderChartTypeSelect()}
             {this.renderPeriodSelect()}
           </div>

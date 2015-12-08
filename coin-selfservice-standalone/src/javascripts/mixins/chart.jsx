@@ -352,25 +352,21 @@ App.Mixins.Chart = {
   renderDownload: function () {
     if (this.state.chart.type === "idpspbar" && this.state.chart.idp) {
       return (
-        <fieldset>
           <App.Components.DownloadButton
             genFile={this.downloadIdpSpBarCsvFile}
             title={I18n.t("application_usage_panel.download")}
             fileName="splogins.csv"
             mimeType="text/csv"
             className="download-button c-button" />
-        </fieldset>
       );
     } else if (this.state.chart.type === "idpsp" && this.state.chart.sp && this.state.chart.idp) {
       return (
-        <fieldset>
           <App.Components.DownloadButton
             genFile={this.downloadIdpSpCsvFile}
             title={I18n.t("application_usage_panel.download")}
             fileName="idpsplogins.csv"
             mimeType="text/csv"
             className="download-button c-button" />
-        </fieldset>
       );
     }
   },

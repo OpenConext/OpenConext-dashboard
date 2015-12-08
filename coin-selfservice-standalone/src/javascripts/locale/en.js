@@ -216,7 +216,7 @@ I18n.translations.en = {
 
   application_usage_panel: {
     title: "Service usage",
-    download: "Download",
+    download: "Export",
     error_html: "Stats are currently unavailable. <a href=\"mailto:support@surfconext.nl\">Contact support</a> for more information."
   },
 

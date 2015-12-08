@@ -217,7 +217,7 @@ I18n.translations.nl = {
 
   application_usage_panel: {
     title: "Service gebruik",
-    download: "Download",
+    download: "Export",
     error_html: "Op dit moment zijn de statistieken niet beschikbaar. <a href=\"mailto:support@surfconext.nl\">Neem contact op</a> met de supportafdeling, voor meer informatie."
   },
 
