@@ -99,7 +99,11 @@ App.Mixins.Chart = {
         "access_token": App.currentUser.statsToken
       }
     ).done(function (data) {
-      callback(data.entities);
+      callback(data.entities.filter(function (sp) {
+        return sp.name;
+      }).sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+      }));
     }).fail(this.handleError);
   },
 
