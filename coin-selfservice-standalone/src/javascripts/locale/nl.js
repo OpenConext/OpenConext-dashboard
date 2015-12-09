@@ -242,15 +242,15 @@ I18n.translations.nl = {
     },
     chart: {
       type: {
-        name: "Grafiek Type",
+        name: "Grafiek type",
         idpspbar : "Logins voor alle SPs",
         idpsp: "Logins per SP"
       },
       periodFrom: {
-        name: "Datum Vanaf (yyyy-mm-dd)"
+        name: "Datum vanaf (yyyy-mm-dd)"
       },
       periodTo: {
-        name: "Datum Tot (yyyy-mm-dd)"
+        name: "Datum tot (yyyy-mm-dd)"
       },
       periodDate: {
         name: "Datum (yyyy-mm-dd)"

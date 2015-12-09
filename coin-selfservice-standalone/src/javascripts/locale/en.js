@@ -307,15 +307,15 @@ I18n.translations.en = {
     },
     chart: {
       type: {
-        name: "Chart Type",
+        name: "Chart type",
         idpspbar : "Logins for all SPs",
         idpsp: "Logins per SP"
       },
       periodFrom: {
-        name: "Date From (yyyy-mm-dd)"
+        name: "Date from (yyyy-mm-dd)"
       },
       periodTo: {
-        name: "Date To (yyyy-mm-dd)"
+        name: "Date to (yyyy-mm-dd)"
       },
       periodDate: {
         name: "Date (yyyy-mm-dd)"
