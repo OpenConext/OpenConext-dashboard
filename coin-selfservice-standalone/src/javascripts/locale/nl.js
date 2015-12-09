@@ -168,9 +168,9 @@ I18n.translations.nl = {
 
   idp_usage_panel: {
     title: "Gebruikt door",
-    subtitle: "De volgende instituties zijn gekoppeld aan {{name}}.",
-    subtitle_none: "Er zijn geen instituties gekoppeld aan {{name}}.",
-    institution: "Institutie"
+    subtitle: "De volgende instellingen zijn gekoppeld aan {{name}}.",
+    subtitle_none: "Er zijn geen instellingen gekoppeld aan {{name}}.",
+    institution: "Instelling"
   },
 
   how_to_connect_panel: {
@@ -311,7 +311,7 @@ I18n.translations.nl = {
     "Dashboard supergebruiker": "Dashboard supergebruiker",
     services_title: "Deze services worden aangeboden door jouw instelling:",
     service_name: "Naam service",
-    license_contact_html: "Primaire licensie contact persoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">toelichting</a>):",
+    license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">toelichting</a>):",
     license_contact_name: "Naam",
     license_contact_email: "Email",
     license_contact_phone: "Telefoonnummer"
