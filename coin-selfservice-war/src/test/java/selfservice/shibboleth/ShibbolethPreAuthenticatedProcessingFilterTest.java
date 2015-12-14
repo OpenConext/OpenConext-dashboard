@@ -56,4 +56,14 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
     assertThat(coinUser.getAttributeMap().get("Shib-eduPersonEntitlement"), contains("Shib-eduPersonEntitlement_value1", "Shib-eduPersonEntitlement_value2"));
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldFailWhenTheNameIdHeaderIsNotSet() {
+    HttpServletRequest requestMock = mock(HttpServletRequest.class);
+    when(requestMock.getHeader(anyString())).thenReturn("headerValue");
+    when(requestMock.getHeader("name-id")).thenReturn(null);
+
+    subject.getPreAuthenticatedPrincipal(requestMock);
+  }
+
 }

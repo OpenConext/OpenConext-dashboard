@@ -102,7 +102,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
   }
 
   private List<String> getShibHeaderValues(String name, HttpServletRequest request) {
-    return shibHeaderValueSplitter.splitToList(request.getHeader(name));
+    String headerValue = request.getHeader(name);
+    if (headerValue == null) {
+      return Collections.emptyList();
+    }
+    return shibHeaderValueSplitter.splitToList(headerValue);
   }
 
   @Override
