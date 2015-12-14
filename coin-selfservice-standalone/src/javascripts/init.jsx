@@ -112,21 +112,22 @@ var App = {
     return locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
   },
 
-  fetchUserData: function (callback) {
-    var redirectTo403Server = function () {
-      window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden";
-    };
+  redirectTo403Server:  function () {
+    window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden";
+  },
 
+  fetchUserData: function (callback) {
     $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
       if (!data.payload) {
-        redirectTo403Server();
+        this.redirectTo403Server();
         return;
       }
       I18n.locale = data.language;
       callback(data.payload);
-    }).fail(function (data) {
-      redirectTo403Server();
-    });
+    }.bind(this))
+    .fail(function (e, xhr) {
+      this.redirectTo403Server();
+    }.bind(this));
   },
 
   showSpinner: function () {
@@ -146,6 +147,8 @@ var App = {
       case 404:
         App.actionNotFound();
         break;
+      case 403:
+        this.redirectTo403Server();
       default:
         this.render(App.Pages.ServerError());
         console.error("Ajax request failed");
