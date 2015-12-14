@@ -50,19 +50,16 @@ public class SpringSecurityUtil {
   }
 
   public static void setAuthentication(String theUsersUid) {
-    final CoinUser coinUser = new CoinUser();
+    CoinUser coinUser = new CoinUser();
     coinUser.setUid(theUsersUid);
 
     setAuthentication(coinUser);
-
   }
 
   public static void setAuthentication(CoinUser coinUser) {
-
-    final TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");
+    TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");
     token.setAuthenticated(true);
 
     SecurityContextHolder.getContext().setAuthentication(token);
-
   }
 }

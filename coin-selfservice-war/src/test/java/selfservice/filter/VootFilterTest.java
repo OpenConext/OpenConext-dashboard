@@ -20,6 +20,8 @@ import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.Group;
 import selfservice.service.VootClient;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,11 +80,18 @@ public class VootFilterTest {
     response = new MockHttpServletResponse();
   }
 
+  @After
+  public void cleanup() {
+    SecurityContextHolder.clearContext();
+  }
+
   @Test
   public void do_nothing_when_not_fully_logged_in() throws Exception {
     Authentication mockAuthentication = mock(Authentication.class);
     when(securityContext.getAuthentication()).thenReturn(mockAuthentication);
+
     filter.doFilter(request, response, chain);
+
     verify(chain).doFilter(request, response);
     verifyNoMoreInteractions(vootClient);
   }
@@ -105,8 +114,11 @@ public class VootFilterTest {
   @Test
   public void filter_and_do_not_promote_user() throws Exception {
     setAuthentication();
+
     when(vootClient.groups(USER)).thenReturn(new ArrayList<Group>());
+
     filter.doFilter(request, response, chain);
+
     verify(chain).doFilter(request, response);
     assertEquals(0, coinUser.getAuthorityEnums().size());
   }
@@ -120,17 +132,19 @@ public class VootFilterTest {
   private void testHasRoleBeenGranted(String group, CoinAuthority.Authority role) throws IOException, ServletException {
     setAuthentication();
     when(vootClient.groups(USER)).thenReturn(Arrays.asList(new Group(group)));
+
     filter.doFilter(request, response, chain);
+
     verify(chain).doFilter(request, response);
     assertRoleIsGranted(coinUser, role);
-
   }
 
   private void setAuthentication() {
     coinUser = new CoinUser();
     coinUser.setUid(USER);
-    final PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(coinUser, "");
+    PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(coinUser, "");
     token.setAuthenticated(true);
+
     when(securityContext.getAuthentication()).thenReturn(token);
   }
 

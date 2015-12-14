@@ -33,7 +33,6 @@ import javax.servlet.ServletException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -48,7 +47,6 @@ import selfservice.util.SpringSecurity;
 @RunWith(MockitoJUnitRunner.class)
 public class SabEntitlementsFilterTest {
 
-  @InjectMocks
   private SabEntitlementsFilter filter;
 
   @Mock
@@ -98,6 +96,7 @@ public class SabEntitlementsFilterTest {
     when(sabClient.getRoles("theuser")).thenReturn(Optional.of(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_ADMIN.name()))));
 
     filter.doFilter(request, response, chain);
+
     SpringSecurityUtil.assertRoleIsGranted(ROLE_DASHBOARD_ADMIN);
   }
 
@@ -110,6 +109,7 @@ public class SabEntitlementsFilterTest {
     when(sabClient.getRoles("theuser")).thenReturn(Optional.of(new SabRoleHolder("theOrg", Arrays.asList("Foo", ROLE_DASHBOARD_VIEWER.name()))));
 
     filter.doFilter(request, response, chain);
+
     SpringSecurityUtil.assertRoleIsGranted(ROLE_DASHBOARD_VIEWER);
   }
 
@@ -120,7 +120,9 @@ public class SabEntitlementsFilterTest {
     user.setSchacHomeOrganization("theorg");
 
     when(sabClient.getRoles(anyString())).thenReturn(Optional.empty());
+
     filter.doFilter(request, response, chain);
+
     SpringSecurityUtil.assertNoRoleIsGranted();
   }
 }
