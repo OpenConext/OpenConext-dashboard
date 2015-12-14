@@ -101,8 +101,7 @@ public class AttributeMapFilter {
     return rawValues.stream().filter(value -> patterns.stream().anyMatch(p -> p.matcher(value).matches())).collect(toList());
   }
 
-  @SuppressWarnings("unchecked")
-  public static Collection<ServiceAttribute> filterAttributes(Map<String, List<Object>> serviceAttributes, Map<String, List<String>> userAttributes) {
+  public static Collection<ServiceAttribute> filterAttributes(Map<String, List<String>> serviceAttributes, Map<String, List<String>> userAttributes) {
     Function<ServiceAttribute, List<String>> userValues = (serviceAttribute) -> {
       String shibHeader = ShibbolethPreAuthenticatedProcessingFilter.shibHeaders.get(serviceAttribute.getName());
       return Optional.ofNullable(userAttributes.get(shibHeader))
@@ -111,7 +110,7 @@ public class AttributeMapFilter {
     };
 
     return serviceAttributes.entrySet().stream()
-        .map(entry -> new ServiceAttribute(entry.getKey(), (List<String>) (List<?>) entry.getValue()))
+        .map(entry -> new ServiceAttribute(entry.getKey(), entry.getValue()))
         .map(serviceAttribute -> {
           serviceAttribute.addUserValues(userValues.apply(serviceAttribute));
           return serviceAttribute;

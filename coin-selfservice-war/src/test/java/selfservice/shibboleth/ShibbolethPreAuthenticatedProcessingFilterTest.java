@@ -1,5 +1,6 @@
 package selfservice.shibboleth;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -40,5 +41,19 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     assertThat(coinUser.getUid(), is("name-id_value"));
     assertThat(coinUser.getEmail(), is("Shib-email_value"));
     assertThat(coinUser.getDisplayName(), is("Shib-displayName_value"));
+  }
+
+  @Test
+  public void shouldSplitMultiValueAttribute() {
+    HttpServletRequest requestMock = mock(HttpServletRequest.class);
+    when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value1;" + invocation.getArguments()[0] + "_value2");
+    when(csaMock.getInstitutionIdentityProviders("Shib-Authenticating-Authority_value1")).thenReturn(ImmutableList.of(new InstitutionIdentityProvider()));
+
+    CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
+
+    assertThat(coinUser.getUid(), is("name-id_value1"));
+    assertThat(coinUser.getEmail(), is("Shib-email_value1"));
+
+    assertThat(coinUser.getAttributeMap().get("Shib-eduPersonEntitlement"), contains("Shib-eduPersonEntitlement_value1", "Shib-eduPersonEntitlement_value2"));
   }
 }

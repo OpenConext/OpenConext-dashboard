@@ -21,15 +21,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * Attribute Release Policy
  */
 public class ARP implements Serializable {
 
   private static final long serialVersionUID = 0L;
+
   private String name;
   private String description;
-  private Map<String, List<Object>> attributes = new LinkedHashMap<String, List<Object>>();
+  private Map<String, List<Object>> attributes = new LinkedHashMap<>();
   private boolean noArp;
   private boolean noAttrArp;
 
@@ -57,40 +60,6 @@ public class ARP implements Serializable {
     this.attributes = attributes;
   }
 
-  public static ARP fromRestResponse(Map response) {
-    ARP arp = new ARP();
-
-    arp.setNoArp(false);
-    arp.setNoAttrArp(false);
-
-    if (response.isEmpty()) {
-      arp.setNoArp(true);
-      return arp;
-    }
-
-    arp.setName((String) response.get("name"));
-    arp.setDescription((String) response.get("description"));
-    final Object attr = response.get("attributes");
-    if (attr instanceof Map) {
-      arp.setAttributes((Map<String, List<Object>>) attr);
-    } else {
-      // If 'no attributes', Janus will return not a hash, but an empty array
-      arp.setNoAttrArp(true);
-    }
-    return arp;
-  }
-
-  @Override
-  public String toString() {
-    final StringBuffer sb = new StringBuffer();
-    sb.append("ARP");
-    sb.append("{name='").append(name).append('\'');
-    sb.append(", description='").append(description).append('\'');
-    sb.append(", attributes=").append(attributes);
-    sb.append('}');
-    return sb.toString();
-  }
-
   public boolean isNoArp() {
     return noArp;
   }
@@ -106,4 +75,14 @@ public class ARP implements Serializable {
   public void setNoAttrArp(boolean noAttrArp) {
     this.noAttrArp = noAttrArp;
   }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(ARP.class)
+        .add("name", name)
+        .add("description", description)
+        .add("attributes", attributes)
+        .toString();
+  }
+
 }

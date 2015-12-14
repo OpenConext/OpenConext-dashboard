@@ -39,6 +39,7 @@ public class EnrichJson {
     void apply(JsonElement element, Object payload);
   }
 
+  @SuppressWarnings("unchecked")
   private EnrichJson(CoinUser coinUser, String statsUrl) {
     logger.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
     this.currentUser = coinUser;
@@ -55,7 +56,7 @@ public class EnrichJson {
       Service service = (Service) payload;
       JsonArray filteredUserAttributes = new JsonArray();
       if (service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
-        AttributeMapFilter.filterAttributes(service.getArp().getAttributes(), currentUser.getAttributeMap()).stream()
+        AttributeMapFilter.filterAttributes((Map<String, List<String>>) (Map<String, ?>) service.getArp().getAttributes(), currentUser.getAttributeMap()).stream()
             .map(gson::toJsonTree)
             .forEach(filteredUserAttributes::add);
       }

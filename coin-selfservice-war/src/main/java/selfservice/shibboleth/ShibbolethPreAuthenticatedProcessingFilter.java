@@ -2,15 +2,16 @@ package selfservice.shibboleth;
 
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +25,9 @@ import selfservice.service.Csa;
 
 public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthenticatedProcessingFilter {
 
-  public static Map<String, String> shibHeaders;
+  private static final Splitter shibHeaderValueSplitter = Splitter.on(';').omitEmptyStrings();
+
+  public static final Map<String, String> shibHeaders;
 
   static {
     shibHeaders = ImmutableMap.<String, String>builder()
@@ -52,7 +55,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       .build();
   }
 
-  private Csa csaClient;
+  private final Csa csaClient;
 
   public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, Csa csaClient) {
     setAuthenticationManager(authenticationManager);
@@ -61,23 +64,21 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   @Override
   protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
-    String uid = request.getHeader("name-id");
+    String uid = getFirstShibHeaderValue("name-id", request)
+        .orElseThrow(() -> new IllegalArgumentException("Missing name-id Shibboleth header"));
 
-    checkArgument(StringUtils.hasText(uid), "Header must include name-id");
-
-    String idpId = request.getHeader("Shib-Authenticating-Authority");
-    //it can happen that the Authenticating Authority looks like this: http://mock-idp;http://mock-idp
-    idpId = idpId.split(";")[0];
+    String idpId = getFirstShibHeaderValue("Shib-Authenticating-Authority", request)
+        .orElseThrow(() -> new IllegalArgumentException("Missing Shib-Authenticating-Authority Shibboleth header"));
 
     CoinUser coinUser = new CoinUser();
     coinUser.setUid(uid);
-    coinUser.setDisplayName(request.getHeader("Shib-displayName"));
-    coinUser.setEmail(request.getHeader("Shib-email"));
-    coinUser.setSchacHomeOrganization(request.getHeader("Shib-homeOrg"));
+    coinUser.setDisplayName(getFirstShibHeaderValue("Shib-displayName", request).orElse(null));
+    coinUser.setEmail(getFirstShibHeaderValue("Shib-email", request).orElse(null));
+    coinUser.setSchacHomeOrganization(getFirstShibHeaderValue("Shib-homeOrg", request).orElse(null));
 
     Map<String, List<String>> attributes = shibHeaders.values().stream()
         .filter(h -> StringUtils.hasText(request.getHeader(h)))
-        .collect(toMap(h -> h, h -> asList(request.getHeader(h))));
+        .collect(toMap(h -> h, h -> getShibHeaderValues(h, request)));
     coinUser.setAttributeMap(attributes);
 
     List<InstitutionIdentityProvider> institutionIdentityProviders = csaClient.getInstitutionIdentityProviders(idpId);
@@ -94,6 +95,14 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       Collections.sort(coinUser.getInstitutionIdps(), (lh, rh) -> lh.getName().compareTo(rh.getName()));
     }
     return coinUser;
+  }
+
+  private Optional<String> getFirstShibHeaderValue(String name, HttpServletRequest request) {
+    return getShibHeaderValues(name, request).stream().findFirst();
+  }
+
+  private List<String> getShibHeaderValues(String name, HttpServletRequest request) {
+    return shibHeaderValueSplitter.splitToList(request.getHeader(name));
   }
 
   @Override

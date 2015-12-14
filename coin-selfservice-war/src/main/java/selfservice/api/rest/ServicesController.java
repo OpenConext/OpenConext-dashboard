@@ -99,8 +99,9 @@ public class ServicesController extends BaseController {
                                               @RequestParam(value = "comments", required = false) String comments,
                                               @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                               @PathVariable String id) {
-    if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST))
+    if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST)) {
       return new ResponseEntity<RestResponse>(HttpStatus.FORBIDDEN);
+    }
 
     return new ResponseEntity<RestResponse>(HttpStatus.OK);
   }
@@ -131,7 +132,9 @@ public class ServicesController extends BaseController {
     action.setIdpId(idpEntityId);
     action.setSpId(spEntityId);
     action.setInstitutionId(currentUser.getIdp().getInstitutionId());
+
     csa.createAction(action);
+
     return true;
   }
 }
