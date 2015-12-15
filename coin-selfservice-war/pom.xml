@@ -52,6 +52,10 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
+      <groupId>com.tapstream</groupId>
+      <artifactId>rollbar-logback</artifactId>
+    </dependency>
+    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
