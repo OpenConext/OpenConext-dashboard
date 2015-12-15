@@ -181,17 +181,20 @@
 
   <repositories>
     <repository>
+      <id>openconext-snapshots</id>
+      <name>OpenConext public snapshot repository</name>
+      <url>https://build.surfconext.nl/repository/public/snapshots</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
       <releases>
         <enabled>false</enabled>
       </releases>
-      <id>openconext-snapshots</id>
-      <name>OpenConext public snapshot repository</name>
-      <url>https://build.surfconext.nl/repository/public/snapshots</url>
     </repository>
     <repository>
+      <id>openconext-releases</id>
+      <name>OpenConext public releases repository</name>
+      <url>https://build.surfconext.nl/repository/public/releases</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -199,9 +202,17 @@
         <enabled>true</enabled>
         <updatePolicy>never</updatePolicy>
       </releases>
-      <id>openconext-releases</id>
-      <name>OpenConext public releases repository</name>
-      <url>https://build.surfconext.nl/repository/public/releases</url>
+    </repository>
+    <repository>
+      <id>openconext-third-party-releases</id>
+      <name>OpenConext third-party repository</name>
+      <url>https://build.surfconext.nl/repository/public/third-party</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
   </repositories>
 
