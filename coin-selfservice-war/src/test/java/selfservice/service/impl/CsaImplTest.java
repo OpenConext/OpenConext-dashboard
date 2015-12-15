@@ -24,7 +24,6 @@ public class CsaImplTest {
 
   private String idp = "idp";
 
-
   @Test
   public void testGetServicesForIdp() throws Exception {
     stubResponse("csa-json/protected-services.json", "/api/protected/idp/services.json\\?idpEntityId=idp&lang=en");
@@ -37,13 +36,13 @@ public class CsaImplTest {
     assertEquals(19, attributes.size());
 
     assertEquals(2, service.getCategories().size());
-
   }
 
   @Test
   public void testGetInstitutionIdentityProviders() throws Exception {
     stubResponse("csa-json/institution-identity-providers.json", "/api/protected/identityproviders.json\\?identityProviderId=idp");
     List<InstitutionIdentityProvider> providers = subject.getInstitutionIdentityProviders(idp);
+
     assertEquals(2, providers.size());
   }
 
@@ -51,20 +50,24 @@ public class CsaImplTest {
   public void testGetAllInstitutionIdentityProviders() throws Exception {
     stubResponse("csa-json/all-institution-identity-providers.json", "/api/protected/all-identityproviders.json");
     List<InstitutionIdentityProvider> providers = subject.getAllInstitutionIdentityProviders();
-    assertEquals(4, providers.size());
+
+    assertEquals(5, providers.size());
   }
 
   @Test
   public void testGetJiraActions() throws Exception {
     stubResponse("csa-json/actions.json", "/api/protected/actions.json\\?idpEntityId=idp");
     List<Action> jiraActions = subject.getJiraActions(idp);
+
     assertEquals(3, jiraActions.size());
   }
 
   @Test
   public void testGetTaxonomy() throws Exception {
     stubResponse("csa-json/taxonomy_en.json", "/api/public/taxonomy.json\\?lang=en");
+
     Taxonomy taxonomy = subject.getTaxonomy();
+
     assertEquals(2, taxonomy.getCategories().size());
     assertEquals(2, taxonomy.getCategories().get(0).getValues().size());
   }
@@ -72,28 +75,36 @@ public class CsaImplTest {
   @Test
   public void testGetServiceForIdp() throws Exception {
     stubResponse("csa-json/service.json", "/api/protected/services/1.json\\?idpEntityId=idp&lang=en");
+
     Service service = subject.getServiceForIdp(idp, 1);
+
     assertEquals("Mock Institution Name", service.getLicense().getInstitutionName());
   }
 
   @Test
   public void testServiceUsedBy() throws IOException {
     stubResponse("csa-json/identity-providers-used-by-sp.json", "/api/protected/services-usage.json\\?spEntityId=sp");
+
     List<InstitutionIdentityProvider> providers = subject.serviceUsedBy("sp");
+
     assertEquals(25, providers.size());
   }
 
   @Test
   public void testLicenseContactPerson() throws IOException {
     stubResponse("csa-json/license-contact-persons.json", "/api/protected/licensecontactperson.json\\?identityProviderId=idp");
+
     List<LicenseContactPerson> persons = subject.licenseContactPersons(idp);
+
     assertEquals(persons.get(0).getName(), "John Doe");
   }
 
   @Test
   public void testLicenseContactPersonNotFound() throws IOException {
     stubResponse("csa-json/license-contact-persons-empty.json", "/api/protected/licensecontactperson.json\\?identityProviderId=idp");
+
     List<LicenseContactPerson> persons = subject.licenseContactPersons(idp);
+
     assertTrue(persons.isEmpty());
   }
 

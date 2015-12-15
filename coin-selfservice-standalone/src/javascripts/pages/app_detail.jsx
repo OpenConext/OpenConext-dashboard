@@ -73,7 +73,7 @@ App.Pages.AppDetail = React.createClass({
     }
 
     if (panelKey == "how_to_connect") {
-      if (!App.currentUser.dashboardAdmin) {
+      if (!(App.currentUser.dashboardAdmin && App.currentIdp().institutionId)) {
         return;
       }
 
@@ -100,7 +100,7 @@ App.Pages.AppDetail = React.createClass({
 
   renderActivePanel: function () {
     var panel = this.panelMap[this.state.activePanel];
-    if (!panel || (this.state.activePanel == "how_to_connect" && !App.currentUser.dashboardAdmin)) {
+    if (!panel || (this.state.activePanel == "how_to_connect" && !(App.currentUser.dashboardAdmin && App.currentIdp().institutionId))) {
       panel = this.panelMap["overview"];
     }
     return panel.component({

@@ -18,7 +18,7 @@ App.Pages.AppOverview = React.createClass({
   render: function () {
     var filteredApps = this.filterAppsForExclusiveFilters(this.props.apps);
 
-    if (App.currentUser.dashboardAdmin) {
+    if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
       var connect = (
         <th className="percent_10 right">
           {I18n.t("apps.overview.connect")}
@@ -81,7 +81,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   renderApp: function (app) {
-    if (App.currentUser.dashboardAdmin) {
+    if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
       var connect = (
         <td className="right">
           {this.renderConnectButton(app)}
