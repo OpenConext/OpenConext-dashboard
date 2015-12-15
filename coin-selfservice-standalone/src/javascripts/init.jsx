@@ -149,9 +149,10 @@ var App = {
         break;
       case 403:
         this.redirectTo403Server();
+        break;
       default:
         this.render(App.Pages.ServerError());
-        console.error("Ajax request failed");
+        console.error("Ajax request failed", event);
     }
   },
 
