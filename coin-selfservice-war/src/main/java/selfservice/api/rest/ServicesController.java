@@ -1,6 +1,8 @@
 package selfservice.api.rest;
 
 import au.com.bytecode.opencsv.CSVWriter;
+
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -120,6 +122,10 @@ public class ServicesController extends BaseController {
   private boolean createAction(String idpEntityId, String comments, String spEntityId, JiraTask.Type jiraType) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
+      return false;
+    }
+
+    if (Strings.isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
       return false;
     }
 

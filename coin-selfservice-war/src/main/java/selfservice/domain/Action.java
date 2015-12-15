@@ -18,9 +18,11 @@ package selfservice.domain;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.util.Comparator;
 import java.util.Date;
-
 
 public class Action {
 
@@ -40,7 +42,6 @@ public class Action {
   private JiraTask.Type type;
   private JiraTask.Status status = JiraTask.Status.OPEN;
   private String institutionId;
-
 
   private String subject;
 
@@ -129,6 +130,7 @@ public class Action {
   }
 
   public void setInstitutionId(String institutionId) {
+    checkArgument(!isNullOrEmpty(institutionId));
     this.institutionId = institutionId;
   }
 
