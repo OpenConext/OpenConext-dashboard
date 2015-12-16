@@ -1,0 +1,20 @@
+{
+  "entityid": "https://bod.dummy.sp",
+  "coin:application_url": "https://test.surfnet.nl",
+  "coin:eula": "https://eula.nl",
+  "description:en": "bod in the Cloud",
+  "description:nl": "bod in de lucht",
+  "logo:0:url": "http://www.h3dwallpapers.com/wp-content/uploads/2015/05/Google_Logo_04.jpg",
+  "name:en": "bod",
+  "name:nl": "bod",
+  "contacts:0:contactType": "technical",
+  "contacts:0:emailAddress": "surfconext-beheer@surfnet.nl",
+  "contacts:1:contactType": "support",
+  "contacts:1:emailAddress": "surfconext-beheer@surfnet.nl",
+  "url:en": "https://test.surfnet.nl",
+  "url:nl": "https://test.surfnet.nl",
+  "OrganizationURL:en": "https://www.google.nl",
+  "OrganizationURL:nl": "https://www.google.nl",
+  "workflowState": "prodaccepted",
+  "attributes": []
+}

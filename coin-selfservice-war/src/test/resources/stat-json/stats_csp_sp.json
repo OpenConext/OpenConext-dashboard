@@ -1,0 +1,658 @@
+[
+    {
+        "compoundServiceProviderId": 310,
+        "spEntityId": "'entityID' => 'http://testconext:8080/simplesaml/module.php/saml/sp/metadata.php/federate-sp"
+    },
+    {
+        "compoundServiceProviderId": 324,
+        "spEntityId": "aselect.entree.kennisnet.nl"
+    },
+    {
+        "compoundServiceProviderId": 177,
+        "spEntityId": "Confluence gadgets - Pix"
+    },
+    {
+        "compoundServiceProviderId": 178,
+        "spEntityId": "Confluence gadgets - SURFnet Wiki"
+    },
+    {
+        "compoundServiceProviderId": 237,
+        "spEntityId": "google.com/a/apps.surfnet.nl"
+    },
+    {
+        "compoundServiceProviderId": 225,
+        "spEntityId": "google.com/a/avans.nl"
+    },
+    {
+        "compoundServiceProviderId": 226,
+        "spEntityId": "google.com/a/gafetest.hanze.nl"
+    },
+    {
+        "compoundServiceProviderId": 234,
+        "spEntityId": "google.com/a/gapps.nhl.nl"
+    },
+    {
+        "compoundServiceProviderId": 235,
+        "spEntityId": "google.com/a/nhl.nl"
+    },
+    {
+        "compoundServiceProviderId": 227,
+        "spEntityId": "google.com/a/novay.nl"
+    },
+    {
+        "compoundServiceProviderId": 230,
+        "spEntityId": "google.com/a/ond.vu.nl"
+    },
+    {
+        "compoundServiceProviderId": 236,
+        "spEntityId": "google.com/a/student.uva.nl"
+    },
+    {
+        "compoundServiceProviderId": 228,
+        "spEntityId": "google.com/a/studie.openuniversiteit.be"
+    },
+    {
+        "compoundServiceProviderId": 229,
+        "spEntityId": "google.com/a/studie.ou.nl"
+    },
+    {
+        "compoundServiceProviderId": 238,
+        "spEntityId": "google.com/a/surfster.surfnet.nl"
+    },
+    {
+        "compoundServiceProviderId": 231,
+        "spEntityId": "google.com/a/terena.org"
+    },
+    {
+        "compoundServiceProviderId": 232,
+        "spEntityId": "google.com/a/uvt.nl"
+    },
+    {
+        "compoundServiceProviderId": 233,
+        "spEntityId": "google.com/a/vu.nl"
+    },
+    {
+        "compoundServiceProviderId": 329,
+        "spEntityId": "http://canvas.conext.surfnetlabs.nl/"
+    },
+    {
+        "compoundServiceProviderId": 259,
+        "spEntityId": "http://corp.sts.microsoft.com"
+    },
+    {
+        "compoundServiceProviderId": 239,
+        "spEntityId": "http://hangezondheidsplein.nl"
+    },
+    {
+        "compoundServiceProviderId": 326,
+        "spEntityId": "http://hu-logon.winvision.nl/adfs/services/trust"
+    },
+    {
+        "compoundServiceProviderId": 336,
+        "spEntityId": "http://iam6.dom.loc:8080/opensso/sp"
+    },
+    {
+        "compoundServiceProviderId": 330,
+        "spEntityId": "http://localhost/saml2"
+    },
+    {
+        "compoundServiceProviderId": 273,
+        "spEntityId": "http://localhost/simplesaml/module.php/saml/sp/metadata.php/pieter-local-test-sp"
+    },
+    {
+        "compoundServiceProviderId": 194,
+        "spEntityId": "http://mock-sp"
+    },
+    {
+        "compoundServiceProviderId": 312,
+        "spEntityId": "http://progressnet.nl"
+    },
+    {
+        "compoundServiceProviderId": 276,
+        "spEntityId": "http://progresswww.nl"
+    },
+    {
+        "compoundServiceProviderId": 196,
+        "spEntityId": "http://saml.conext.edia.nl"
+    },
+    {
+        "compoundServiceProviderId": 217,
+        "spEntityId": "http://shibboleth.ebscohost.com"
+    },
+    {
+        "compoundServiceProviderId": 257,
+        "spEntityId": "http://shibboleth.metapress.com/shibboleth-sp"
+    },
+    {
+        "compoundServiceProviderId": 268,
+        "spEntityId": "http://sp.onstage-inholland.xebic.com"
+    },
+    {
+        "compoundServiceProviderId": 267,
+        "spEntityId": "http://sp.onstage.xebic.com"
+    },
+    {
+        "compoundServiceProviderId": 181,
+        "spEntityId": "http://sts.edugroepen.nll/adfs/services/trust"
+    },
+    {
+        "compoundServiceProviderId": 331,
+        "spEntityId": "http://sts.surfconext.netricity.nl/adfs/services/trust"
+    },
+    {
+        "compoundServiceProviderId": 197,
+        "spEntityId": "http://testconext:8080/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 332,
+        "spEntityId": "http://testconext:8080/simplesaml/module.php/saml/sp/metadata.php/federate-sp"
+    },
+    {
+        "compoundServiceProviderId": 214,
+        "spEntityId": "http://www.connecticut.nl/saml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 212,
+        "spEntityId": "https://aai.csc.fi"
+    },
+    {
+        "compoundServiceProviderId": 192,
+        "spEntityId": "https://api.test.surfconext.nl/"
+    },
+    {
+        "compoundServiceProviderId": 206,
+        "spEntityId": "https://atlases.muni.cz/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 202,
+        "spEntityId": "https://auth.cs.serialssolutions.com/auth/Metadata/Shib"
+    },
+    {
+        "compoundServiceProviderId": 278,
+        "spEntityId": "https://auth.law.uvt.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 201,
+        "spEntityId": "https://auth.search.serialssolutions.com/auth/Metadata/Shib"
+    },
+    {
+        "compoundServiceProviderId": 174,
+        "spEntityId": "https://bbbmw.surfnetlabs.nl/sspsp/module.php/saml/sp/metadata.php/SURFconext"
+    },
+    {
+        "compoundServiceProviderId": 198,
+        "spEntityId": "https://beedrive.net/simplesaml/module.php/saml/sp/metadata.php/beedrive"
+    },
+    {
+        "compoundServiceProviderId": 199,
+        "spEntityId": "https://beta.foodl.org/"
+    },
+    {
+        "compoundServiceProviderId": 175,
+        "spEntityId": "https://bod.test.dlp.surfnet.nl/bod-authorization-server"
+    },
+    {
+        "compoundServiceProviderId": 173,
+        "spEntityId": "https://bod.test.dlp.surfnet.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 241,
+        "spEntityId": "https://clarin.ids-mannheim.de/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 211,
+        "spEntityId": "https://cnrtl-sp.inist.fr"
+    },
+    {
+        "compoundServiceProviderId": 333,
+        "spEntityId": "https://comanage.conext.surfnetlabs.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 203,
+        "spEntityId": "https://data.3tu.nl/saml/metadata"
+    },
+    {
+        "compoundServiceProviderId": 215,
+        "spEntityId": "https://datanose.nl/"
+    },
+    {
+        "compoundServiceProviderId": 270,
+        "spEntityId": "https://edithstein.parsys.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 282,
+        "spEntityId": "https://engine.acc.surfconext.nl/authentication/sp/metadata"
+    },
+    {
+        "compoundServiceProviderId": 269,
+        "spEntityId": "https://engine.demo.openconext.org/authentication/sp/metadata"
+    },
+    {
+        "compoundServiceProviderId": 281,
+        "spEntityId": "https://engine.surfconext.nl/authentication/sp/metadata"
+    },
+    {
+        "compoundServiceProviderId": 283,
+        "spEntityId": "https://engine.test.surfconext.nl/authentication/sp/metadata"
+    },
+    {
+        "compoundServiceProviderId": 280,
+        "spEntityId": "https://events.surffoundation.nl/"
+    },
+    {
+        "compoundServiceProviderId": 222,
+        "spEntityId": "https://fkooman.pagekite.me/client/code/index.php"
+    },
+    {
+        "compoundServiceProviderId": 223,
+        "spEntityId": "https://fkooman.pagekite.me/client/token/index.html"
+    },
+    {
+        "compoundServiceProviderId": 334,
+        "spEntityId": "https://fkooman.pagekite.me/simplesaml/module.php/saml/sp/metadata.php/SURFconext"
+    },
+    {
+        "compoundServiceProviderId": 254,
+        "spEntityId": "https://fontys.mediamission.nl/Mediasite"
+    },
+    {
+        "compoundServiceProviderId": 221,
+        "spEntityId": "https://foodl.org/simplesaml/module.php/saml/sp/metadata.php/saml"
+    },
+    {
+        "compoundServiceProviderId": 248,
+        "spEntityId": "https://forms.han-cloud.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 182,
+        "spEntityId": "https://grouper.test.surfconext.nl/grouper/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 327,
+        "spEntityId": "https://helicon.xpressionmanager.nl"
+    },
+    {
+        "compoundServiceProviderId": 271,
+        "spEntityId": "https://hva.parsys.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 204,
+        "spEntityId": "https://ifs.adp.nl/"
+    },
+    {
+        "compoundServiceProviderId": 320,
+        "spEntityId": "https://imagebase.ubvu.vu.nl/simplesaml/module.php/saml/sp/metadata.php/vu-university-sp"
+    },
+    {
+        "compoundServiceProviderId": 251,
+        "spEntityId": "https://liferay.test.peter/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 319,
+        "spEntityId": "https://list.uva.nl/simplesaml/module.php/saml/sp/metadata.php/uva-mailman"
+    },
+    {
+        "compoundServiceProviderId": 183,
+        "spEntityId": "https://manage.test.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 224,
+        "spEntityId": "https://maps.tudelft.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 256,
+        "spEntityId": "https://mediasite.surfnet.nl/mediasite"
+    },
+    {
+        "compoundServiceProviderId": 300,
+        "spEntityId": "https://mijncertificaat.surfnet.nl/simplesamlphp/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 277,
+        "spEntityId": "https://muse.jhu.edu/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 264,
+        "spEntityId": "https://my.utwente.nl/shibboleth-sp"
+    },
+    {
+        "compoundServiceProviderId": 272,
+        "spEntityId": "https://oashos01.hosting.kun.nl:4443/federation/metue"
+    },
+    {
+        "compoundServiceProviderId": 184,
+        "spEntityId": "https://os.test.surfconext.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 185,
+        "spEntityId": "https://perftestsp.dev.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 243,
+        "spEntityId": "https://portal.clarin.inl.nl/"
+    },
+    {
+        "compoundServiceProviderId": 186,
+        "spEntityId": "https://portal.test.surfconext.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 275,
+        "spEntityId": "https://pqshibboleth.proquest.com:9443/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 274,
+        "spEntityId": "https://prof.ivtg.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 187,
+        "spEntityId": "https://profile.test.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 249,
+        "spEntityId": "https://saml.sakai.portfolio4u.nl"
+    },
+    {
+        "compoundServiceProviderId": 293,
+        "spEntityId": "https://scauth.scopus.com/"
+    },
+    {
+        "compoundServiceProviderId": 292,
+        "spEntityId": "https://sdauth.sciencedirect.com/"
+    },
+    {
+        "compoundServiceProviderId": 323,
+        "spEntityId": "https://secure.webfeat.org"
+    },
+    {
+        "compoundServiceProviderId": 193,
+        "spEntityId": "https://csa.test.surfconext.nl"
+    },
+    {
+        "compoundServiceProviderId": 188,
+        "spEntityId": "https://serviceregistry.test.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 207,
+        "spEntityId": "https://shibboleth.bbaw.de/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 210,
+        "spEntityId": "https://sp.catalog.clarin.eu"
+    },
+    {
+        "compoundServiceProviderId": 242,
+        "spEntityId": "https://sp.dev.clarin.inl.nl/"
+    },
+    {
+        "compoundServiceProviderId": 219,
+        "spEntityId": "https://sp.eblib.com/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 253,
+        "spEntityId": "https://sp.lux17.mpi.nl"
+    },
+    {
+        "compoundServiceProviderId": 318,
+        "spEntityId": "https://starbase001.utelisys.net/simplesaml/module.php/saml/sp/metadata.php/utelisys-sp"
+    },
+    {
+        "compoundServiceProviderId": 297,
+        "spEntityId": "https://storage.surfnetlabs.nl/simplesamlphp/module.php/saml/sp/metadata.php/SURFconext-Test"
+    },
+    {
+        "compoundServiceProviderId": 298,
+        "spEntityId": "https://stugood.org/simplesamlphp/www/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 190,
+        "spEntityId": "https://surfconextsp2/authentication/sp/metadata"
+    },
+    {
+        "compoundServiceProviderId": 176,
+        "spEntityId": "https://surfnet.webex.com"
+    },
+    {
+        "compoundServiceProviderId": 302,
+        "spEntityId": "https://tcs-escience-portal.terena.org/simplesamlphp/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 301,
+        "spEntityId": "https://tcs-personal-portal.terena.org/simplesamlphp/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 195,
+        "spEntityId": "https://teams.test.surfconext.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 240,
+        "spEntityId": "https://teamsmakenscholen.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 303,
+        "spEntityId": "https://terena.org/sp"
+    },
+    {
+        "compoundServiceProviderId": 189,
+        "spEntityId": "https://testsp.test.surfconext.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 309,
+        "spEntityId": "https://thho.pagekite.me/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 284,
+        "spEntityId": "https://transparentproxy.test.surfconext.nl/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 213,
+        "spEntityId": "https://ufal-point.mff.cuni.cz/shibboleth/eduid/sp"
+    },
+    {
+        "compoundServiceProviderId": 191,
+        "spEntityId": "https://vomanage.test.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 200,
+        "spEntityId": "https://webdav.sara.nl/simplesaml/module.php/saml/sp/metadata.php/beedrive"
+    },
+    {
+        "compoundServiceProviderId": 255,
+        "spEntityId": "https://weblectures.hva.nl"
+    },
+    {
+        "compoundServiceProviderId": 317,
+        "spEntityId": "https://weblicht.sfs.uni-tuebingen.de"
+    },
+    {
+        "compoundServiceProviderId": 205,
+        "spEntityId": "https://webmail.ahk.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 285,
+        "spEntityId": "https://wrongcertsp.dev.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/wrong-cert-sp"
+    },
+    {
+        "compoundServiceProviderId": 218,
+        "spEntityId": "https://www.academia.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 209,
+        "spEntityId": "https://www.bioone.org/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 216,
+        "spEntityId": "https://www.dawsonera.com/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 286,
+        "spEntityId": "https://www.integration.surfmedia.nl/app/serviceprovider/metadata"
+    },
+    {
+        "compoundServiceProviderId": 244,
+        "spEntityId": "https://www.kiesactief.nl/simplesaml/module.php/saml/sp/metadata.php/surfnet"
+    },
+    {
+        "compoundServiceProviderId": 262,
+        "spEntityId": "https://www.mijnhvapas.nl/simplesamlphp/www/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 261,
+        "spEntityId": "https://www.mijninhollandpasfoto.nl/simplesamlphp/www/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 263,
+        "spEntityId": "https://www.mijnuvapas.nl/simplesamlphp/www/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 265,
+        "spEntityId": "https://www.nedercomweb.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 279,
+        "spEntityId": "https://www.refworks.com/shibboleth/sp"
+    },
+    {
+        "compoundServiceProviderId": 290,
+        "spEntityId": "https://www.surfspace.nl/auth/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+    },
+    {
+        "compoundServiceProviderId": 299,
+        "spEntityId": "https://www.swetswise.com/shibboleth"
+    },
+    {
+        "compoundServiceProviderId": 180,
+        "spEntityId": "Jira"
+    },
+    {
+        "compoundServiceProviderId": 250,
+        "spEntityId": "LegalIntelligence"
+    },
+    {
+        "compoundServiceProviderId": 322,
+        "spEntityId": "library.wur.nl"
+    },
+    {
+        "compoundServiceProviderId": 335,
+        "spEntityId": "oauth:test:peter"
+    },
+    {
+        "compoundServiceProviderId": 266,
+        "spEntityId": "oclcemea"
+    },
+    {
+        "compoundServiceProviderId": 294,
+        "spEntityId": "Parantion"
+    },
+    {
+        "compoundServiceProviderId": 220,
+        "spEntityId": "Rug"
+    },
+    {
+        "compoundServiceProviderId": 325,
+        "spEntityId": "skn"
+    },
+    {
+        "compoundServiceProviderId": 289,
+        "spEntityId": "sp.showcase.surfnet.nl"
+    },
+    {
+        "compoundServiceProviderId": 208,
+        "spEntityId": "sp.xafax.nl"
+    },
+    {
+        "compoundServiceProviderId": 295,
+        "spEntityId": "sportsandculture.tudelft.nl"
+    },
+    {
+        "compoundServiceProviderId": 291,
+        "spEntityId": "SURFdiensten"
+    },
+    {
+        "compoundServiceProviderId": 288,
+        "spEntityId": "SURFnetSP"
+    },
+    {
+        "compoundServiceProviderId": 311,
+        "spEntityId": "ThiemeMeulenhoff"
+    },
+    {
+        "compoundServiceProviderId": 304,
+        "spEntityId": "tud_typo3_accp"
+    },
+    {
+        "compoundServiceProviderId": 305,
+        "spEntityId": "tud_typo3_prod"
+    },
+    {
+        "compoundServiceProviderId": 306,
+        "spEntityId": "tud_weblog_tu_accp"
+    },
+    {
+        "compoundServiceProviderId": 307,
+        "spEntityId": "tud_weblog_tu_prod"
+    },
+    {
+        "compoundServiceProviderId": 313,
+        "spEntityId": "tud_weblog_ul_accp"
+    },
+    {
+        "compoundServiceProviderId": 314,
+        "spEntityId": "tud_weblog_ul_prod"
+    },
+    {
+        "compoundServiceProviderId": 308,
+        "spEntityId": "tudelft"
+    },
+    {
+        "compoundServiceProviderId": 260,
+        "spEntityId": "uri:WindowsLiveID"
+    },
+    {
+        "compoundServiceProviderId": 245,
+        "spEntityId": "urn:federation:KB:ADFS"
+    },
+    {
+        "compoundServiceProviderId": 246,
+        "spEntityId": "urn:federation:KB:EZproxy"
+    },
+    {
+        "compoundServiceProviderId": 247,
+        "spEntityId": "urn:federation:KB:MetaLib"
+    },
+    {
+        "compoundServiceProviderId": 258,
+        "spEntityId": "urn:federation:MSFT"
+    },
+    {
+        "compoundServiceProviderId": 287,
+        "spEntityId": "urn:federation:surfnet:adfs"
+    },
+    {
+        "compoundServiceProviderId": 328,
+        "spEntityId": "urn:federation:ZeBi:EZproxy"
+    },
+    {
+        "compoundServiceProviderId": 179,
+        "spEntityId": "urn:saml:greenqloud.com:sp"
+    },
+    {
+        "compoundServiceProviderId": 296,
+        "spEntityId": "urn:sme.muziekkwartier.nl"
+    },
+    {
+        "compoundServiceProviderId": 252,
+        "spEntityId": "urn:unimaas:ezproxy_elib10"
+    },
+    {
+        "compoundServiceProviderId": 315,
+        "spEntityId": "urn:unimaas:ezproxy_elib11"
+    },
+    {
+        "compoundServiceProviderId": 316,
+        "spEntityId": "utwente.nl"
+    },
+    {
+        "compoundServiceProviderId": 321,
+        "spEntityId": "voorlichtingsysteem.nl"
+    }
+]

@@ -1,0 +1,18 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">
+    <entity name="lmng_sdnarticle">
+        <attribute name="lmng_sdnarticleid"/>
+        <attribute name="lmng_name"/>
+        <attribute name="statuscode"/>
+        <order attribute="lmng_name" descending="false"/>
+        <filter type="and">
+            <condition attribute="statuscode" operator="eq" value="1"/>
+        </filter>
+        <link-entity name="lmng_sdnarticle_lmng_product" from="lmng_sdnarticleid" to="lmng_sdnarticleid" visible="false"
+                     intersect="true">
+            <link-entity name="lmng_product" from="lmng_productid" to="lmng_productid" alias="product">
+                <attribute name="lmng_name"/>
+                <attribute name="lmng_productid"/>
+            </link-entity>
+        </link-entity>
+    </entity>
+</fetch>

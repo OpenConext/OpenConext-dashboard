@@ -1,0 +1,762 @@
+[
+    {
+        "name":"12Change",
+        "status":"1",
+        "guid":"{02913600-69B4-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"20/20 Vision Europe BV",
+        "status":"1",
+        "guid":"{DC566607-0440-E011-A72C-0050569E3F41}"
+    },
+    {
+        "name":"2AT B.V.",
+        "status":"1",
+        "guid":"{5BD1568D-BDE5-E011-8890-0050569E3F41}"
+    },
+    {
+        "name":"4U Solutions B.V.",
+        "status":"1",
+        "guid":"{AB48C868-9C10-E211-88AC-0050569E0013}"
+    },
+    {
+        "name":"AB Employment Services",
+        "status":"1",
+        "guid":"{C21A9B09-6A8B-DF11-8D13-0019B9DE3AA4}"
+    },
+    {
+        "name":"ABBYY Europe GmbH",
+        "status":"1",
+        "guid":"{9B0E6A2A-A24D-E211-ADA8-0050569E0011}"
+    },
+    {
+        "name":"Absolute Software",
+        "status":"1",
+        "guid":"{3931788D-AC73-DF11-A999-0019B9DE3AA4}"
+    },
+    {
+        "name":"Accucoms B.V.",
+        "status":"1",
+        "guid":"{CFA9328A-2921-DF11-BC0D-0019B9DE3AA4}"
+    },
+    {
+        "name":"Adobe - Thuisgebruik",
+        "status":"1",
+        "guid":"{A1EA4AF9-6C9E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Adobe Systems Belgium BVBA",
+        "status":"1",
+        "guid":"{AA03FF9C-4EAA-E111-B862-0050569E0011}"
+    },
+    {
+        "name":"ADP Nederland",
+        "status":"1",
+        "guid":"{00383C2A-1641-E111-942E-0050569E3F41}"
+    },
+    {
+        "name":"Alientrick.com",
+        "status":"1",
+        "guid":"{87A29531-9688-E111-854D-0050569E0011}"
+    },
+    {
+        "name":"Alive Group",
+        "status":"1",
+        "guid":"{3FF0BA6C-A372-E111-B377-0050569E0011}"
+    },
+    {
+        "name":"Apora",
+        "status":"1",
+        "guid":"{48A571F0-FEC3-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Apple Distribution International",
+        "status":"1",
+        "guid":"{5FF1FAB3-2410-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"Ars Aequi Juridische Uitgeverij",
+        "status":"1",
+        "guid":"{0B57DDC8-901C-DF11-BC0D-0019B9DE3AA4}"
+    },
+    {
+        "name":"Artindex",
+        "status":"1",
+        "guid":"{996B4D33-32B7-DF11-9CE2-0019B9DE3AA4}"
+    },
+    {
+        "name":"ATLAS.ti Scientific Software Development GmbH",
+        "status":"1",
+        "guid":"{ABBC4E98-EFA3-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"AV Europe bv",
+        "status":"1",
+        "guid":"{13D53036-6D22-E211-B29B-0050569E0011}"
+    },
+    {
+        "name":"Battrex bv",
+        "status":"1",
+        "guid":"{EB8ADE07-80F2-E111-9A1F-0050569E0011}"
+    },
+    {
+        "name":"Beyond security",
+        "status":"1",
+        "guid":"{52DB0416-E58E-E111-BDB2-0050569E0013}"
+    },
+    {
+        "name":"BitPress Games en Assessments B.V.",
+        "status":"1",
+        "guid":"{700139E9-C0B9-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Blinq Systems B.V.",
+        "status":"1",
+        "guid":"{E47E94BE-70FD-DF11-BF11-0050569E3F41}"
+    },
+    {
+        "name":"Bloxx Europe bv",
+        "status":"1",
+        "guid":"{EC2DE5DB-AD73-DF11-A999-0019B9DE3AA4}"
+    },
+    {
+        "name":"Boom Uitgevers Amsterdam",
+        "status":"1",
+        "guid":"{B656574C-DC3E-E211-ADA8-0050569E0011}"
+    },
+    {
+        "name":"Braint",
+        "status":"1",
+        "guid":"{954B2F2D-B14D-E111-9A85-0050569E3F41}"
+    },
+    {
+        "name":"Bureau van Dijk",
+        "status":"1",
+        "guid":"{CFC87A4E-7A75-E011-9EB1-0050569E3F41}"
+    },
+    {
+        "name":"Canon Business Center",
+        "status":"1",
+        "guid":"{F9C92CD9-4284-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"CC Academy",
+        "status":"1",
+        "guid":"{0861B973-FEC3-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Cedin",
+        "status":"1",
+        "guid":"{AFA5A057-900F-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"Certiport",
+        "status":"1",
+        "guid":"{5B0FD184-73C6-E111-80EE-0050569E0011}"
+    },
+    {
+        "name":"Cisco",
+        "status":"1",
+        "guid":"{910A4BFC-00C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"CND Development",
+        "status":"1",
+        "guid":"{3E73B45B-4684-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"Codegear",
+        "status":"1",
+        "guid":"{59311535-6D9E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Copaco Nederland",
+        "status":"1",
+        "guid":"{D812D7C6-5A9F-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Cório",
+        "status":"1",
+        "guid":"{7CCB0DCF-4084-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"CRM Resultants",
+        "status":"1",
+        "guid":"{EB1578FB-9B19-E011-9496-0050569E3F41}"
+    },
+    {
+        "name":"Cubiss",
+        "status":"1",
+        "guid":"{FD89AB4B-2E10-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"Data Protection International",
+        "status":"1",
+        "guid":"{CE4CE580-5C7D-E011-9EB1-0050569E3F41}"
+    },
+    {
+        "name":"De Rotterdamse Detachering en Selectie",
+        "status":"1",
+        "guid":"{25110EEE-4D8B-DF11-8D13-0019B9DE3AA4}"
+    },
+    {
+        "name":"Dedicon",
+        "status":"1",
+        "guid":"{1383666B-2E10-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"DicoLab BV",
+        "status":"1",
+        "guid":"{59EB9CB2-0864-DF11-8507-0019B9DE3AA4}"
+    },
+    {
+        "name":"Douglas Stewart",
+        "status":"1",
+        "guid":"{86C1D82E-971E-E211-88AC-0050569E0013}"
+    },
+    {
+        "name":"Dragon",
+        "status":"3",
+        "guid":"{6A66DA2F-729E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"drielingh bv",
+        "status":"1",
+        "guid":"{2527E08F-18F6-DF11-BF11-0050569E3F41}"
+    },
+    {
+        "name":"Drillster BV",
+        "status":"1",
+        "guid":"{E8217FA2-DCDF-E111-83BD-0050569E0013}"
+    },
+    {
+        "name":"DSD Europe",
+        "status":"1",
+        "guid":"{AE8B287E-3309-E011-BF11-0050569E3F41}"
+    },
+    {
+        "name":"Edia - Educatie Technologie",
+        "status":"1",
+        "guid":"{13B0BBFD-47A3-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Ellipsis",
+        "status":"1",
+        "guid":"{2DCB564D-66FC-DF11-BF11-0050569E3F41}"
+    },
+    {
+        "name":"Eptimum",
+        "status":"1",
+        "guid":"{194D3CB6-3593-E011-9EB1-0050569E3F41}"
+    },
+    {
+        "name":"Ergodirect Hardware",
+        "status":"1",
+        "guid":"{CAD03E9A-729E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Ergodirect International",
+        "status":"1",
+        "guid":"{D7F32D4B-7E3A-E011-8E54-0050569E3F41}"
+    },
+    {
+        "name":"Esri Nederland",
+        "status":"1",
+        "guid":"{25B4D351-7951-E111-9A85-0050569E3F41}"
+    },
+    {
+        "name":"Eveoh",
+        "status":"1",
+        "guid":"{CE021BF0-D04C-E111-9A85-0050569E3F41}"
+    },
+    {
+        "name":"Everett",
+        "status":"1",
+        "guid":"{42CDFB1C-09C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Evernote Corporation",
+        "status":"1",
+        "guid":"{BB4D2693-8C37-E111-886C-0050569E3F41}"
+    },
+    {
+        "name":"Ex Libris",
+        "status":"1",
+        "guid":"{8796E9A1-6927-DF11-BC0D-0019B9DE3AA4}"
+    },
+    {
+        "name":"Exclaimer Benelux B.V.",
+        "status":"1",
+        "guid":"{F2750164-912B-DF11-BC0D-0019B9DE3AA4}"
+    },
+    {
+        "name":"F & L Publishing Group",
+        "status":"1",
+        "guid":"{C3C0AD36-E039-E011-8E54-0050569E3F41}"
+    },
+    {
+        "name":"Flip Video",
+        "status":"3",
+        "guid":"{0EF4C8CA-729E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Florido Internet Services",
+        "status":"1",
+        "guid":"{8F3B5DDB-4E37-E211-BCF7-0050569E0013}"
+    },
+    {
+        "name":"g-company",
+        "status":"1",
+        "guid":"{D5B64FE7-813A-E011-8E54-0050569E3F41}"
+    },
+    {
+        "name":"GeOne",
+        "status":"1",
+        "guid":"{EC3A125F-8D2B-DF11-BC0D-0019B9DE3AA4}"
+    },
+    {
+        "name":"Graydon",
+        "status":"1",
+        "guid":"{F51D3F4A-4484-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"GreenQloud",
+        "status":"1",
+        "guid":"{16F7D98B-D917-E211-B29B-0050569E0011}"
+    },
+    {
+        "name":"Helder Inzicht B.V.",
+        "status":"1",
+        "guid":"{B9796543-BB64-DF11-8507-0019B9DE3AA4}"
+    },
+    {
+        "name":"Het bestuur van UKB",
+        "status":"1",
+        "guid":"{8B72723B-AE9C-E011-B7F7-0050569E3F41}"
+    },
+    {
+        "name":"Improoving software",
+        "status":"1",
+        "guid":"{FF3D7723-FCC3-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"In Summa",
+        "status":"1",
+        "guid":"{02E06502-05C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Informa Healthcare",
+        "status":"1",
+        "guid":"{080C525C-3425-DF11-BC0D-0019B9DE3AA4}"
+    },
+    {
+        "name":"IntelliPen",
+        "status":"1",
+        "guid":"{1BC166FD-729E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"International Monetary Fund",
+        "status":"1",
+        "guid":"{DB5937C8-D551-DF11-8507-0019B9DE3AA4}"
+    },
+    {
+        "name":"International Student Identity Card ISIC",
+        "status":"1",
+        "guid":"{703210C1-1274-E111-B377-0050569E0011}"
+    },
+    {
+        "name":"INUITS bvba",
+        "status":"1",
+        "guid":"{10EBB598-782D-E211-B53D-0050569E0011}"
+    },
+    {
+        "name":"IT syndicaat",
+        "status":"1",
+        "guid":"{694C9797-5AF9-DF11-BF11-0050569E3F41}"
+    },
+    {
+        "name":"itsLearning Nederland B.V.",
+        "status":"1",
+        "guid":"{DA8CFC73-ECDB-E111-8363-0050569E0011}"
+    },
+    {
+        "name":"Kaspersky Lab bv",
+        "status":"1",
+        "guid":"{2CDBF20B-7A8F-E111-BDB3-0050569E0013}"
+    },
+    {
+        "name":"Kilroy Netherlands BV",
+        "status":"1",
+        "guid":"{C87984BA-1174-E111-B377-0050569E0011}"
+    },
+    {
+        "name":"Klomp",
+        "status":"1",
+        "guid":"{716CE8B4-CEB1-DF11-9CE2-0019B9DE3AA4}"
+    },
+    {
+        "name":"Kompanansi BV",
+        "status":"1",
+        "guid":"{A5C1DBD4-D64C-E111-9A85-0050569E3F41}"
+    },
+    {
+        "name":"Koninklijke van Gorcum BV",
+        "status":"1",
+        "guid":"{299B5401-98D5-E111-A81F-0050569E0013}"
+    },
+    {
+        "name":"KPMG Accountants N.V.",
+        "status":"1",
+        "guid":"{3BB3A7FD-4684-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"KPN",
+        "status":"1",
+        "guid":"{14296C5E-3F03-E211-8D77-0050569E0011}"
+    },
+    {
+        "name":"Leanforms",
+        "status":"1",
+        "guid":"{4CD54B68-059C-E011-B7F7-0050569E3F41}"
+    },
+    {
+        "name":"Learning Valley",
+        "status":"1",
+        "guid":"{7E5476E8-32AF-DD11-BB2F-0019B9DE3AA4}"
+    },
+    {
+        "name":"Learning4U",
+        "status":"1",
+        "guid":"{B22469A5-09C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Leylines",
+        "status":"1",
+        "guid":"{BF701334-AC18-E011-9496-0050569E3F41}"
+    },
+    {
+        "name":"LiveScribe",
+        "status":"1",
+        "guid":"{62310522-739E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"M&I Argitek",
+        "status":"1",
+        "guid":"{281A9429-03C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Magnaview BV",
+        "status":"1",
+        "guid":"{E4BCCA6C-04C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Media Mission",
+        "status":"1",
+        "guid":"{DFFA9F53-07C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Media Satellite",
+        "status":"1",
+        "guid":"{12BBE014-3193-DF11-8D13-0019B9DE3AA4}"
+    },
+    {
+        "name":"Media Security Network",
+        "status":"1",
+        "guid":"{F41CBF4C-E038-E011-8E54-0050569E3F41}"
+    },
+    {
+        "name":"Micro Focus (Borland B.V.)",
+        "status":"1",
+        "guid":"{57E392B0-1C10-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"MicroWebEdu",
+        "status":"1",
+        "guid":"{E6BCE428-FAC3-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Ministerie van EL&I",
+        "status":"1",
+        "guid":"{1593D484-493D-E211-ADA8-0050569E0011}"
+    },
+    {
+        "name":"Ndigo Business bv",
+        "status":"1",
+        "guid":"{7E8687D9-DEE0-DF11-BF11-0050569E3F41}"
+    },
+    {
+        "name":"Nero AG",
+        "status":"1",
+        "guid":"{087EAB72-0D8A-E111-854D-0050569E0011}"
+    },
+    {
+        "name":"Norton - Thuisgebruik",
+        "status":"1",
+        "guid":"{7D43685B-739E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Océ",
+        "status":"1",
+        "guid":"{5052F8E8-8BED-E011-8890-0050569E3F41}"
+    },
+    {
+        "name":"Omnicard B.V.",
+        "status":"1",
+        "guid":"{B2332C27-ECBA-E111-B862-0050569E0011}"
+    },
+    {
+        "name":"OneDev",
+        "status":"1",
+        "guid":"{323380C2-8F82-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"Ongline",
+        "status":"1",
+        "guid":"{743EF8EF-03C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Oudstanding Group b.v.",
+        "status":"1",
+        "guid":"{D819C5DE-3573-E111-B377-0050569E0011}"
+    },
+    {
+        "name":"Parantion",
+        "status":"1",
+        "guid":"{18E9BD0D-3F10-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"ParView BV",
+        "status":"1",
+        "guid":"{508A19D1-655B-E011-A72C-0050569E3F41}"
+    },
+    {
+        "name":"Patricia van Petersen hr consultancy",
+        "status":"1",
+        "guid":"{D04246FE-1430-DF11-BC0D-0019B9DE3AA4}"
+    },
+    {
+        "name":"Pezy Product Innovation",
+        "status":"1",
+        "guid":"{AB26A9C6-980F-E111-9A16-0050569E3F41}"
+    },
+    {
+        "name":"Pinnacle",
+        "status":"1",
+        "guid":"{382E3819-739E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Piramide e-learning",
+        "status":"1",
+        "guid":"{16D42BD9-662F-E211-B53D-0050569E0011}"
+    },
+    {
+        "name":"Planon B.V.",
+        "status":"1",
+        "guid":"{AC0F8FA0-3F37-E211-BCF7-0050569E0013}"
+    },
+    {
+        "name":"PNO Media",
+        "status":"1",
+        "guid":"{BD977D13-4584-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"Proteon Communication Builders B.V",
+        "status":"1",
+        "guid":"{3CA2E0DF-CB7B-E011-9EB1-0050569E3F41}"
+    },
+    {
+        "name":"Qconferencing Ex'ovision b.v.",
+        "status":"1",
+        "guid":"{62755D8F-9610-E211-88AC-0050569E0013}"
+    },
+    {
+        "name":"Qubis",
+        "status":"1",
+        "guid":"{3248776D-2932-E111-886C-0050569E3F41}"
+    },
+    {
+        "name":"ReleaseTMS",
+        "status":"1",
+        "guid":"{E0BCD62A-0AC4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Rubicon",
+        "status":"1",
+        "guid":"{14B54898-E897-E011-9EB1-0050569E3F41}"
+    },
+    {
+        "name":"SAS Institute B.V.",
+        "status":"1",
+        "guid":"{AB4253D3-1D10-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"Scope4mation BV",
+        "status":"1",
+        "guid":"{EE7D2C69-95AD-E111-B862-0050569E0011}"
+    },
+    {
+        "name":"Secunia",
+        "status":"1",
+        "guid":"{9A1EEEF1-B206-E011-BF11-0050569E3F41}"
+    },
+    {
+        "name":"Seecr",
+        "status":"1",
+        "guid":"{79B4E232-AB1E-E111-9A16-0050569E3F41}"
+    },
+    {
+        "name":"SINC",
+        "status":"1",
+        "guid":"{9B8C2644-B44F-E011-A72C-0050569E3F41}"
+    },
+    {
+        "name":"Sobit",
+        "status":"1",
+        "guid":"{B44DEA31-BFE2-E011-8890-0050569E3F41}"
+    },
+    {
+        "name":"Sonicfoundry",
+        "status":"1",
+        "guid":"{52B9BE1C-08C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Sparksville",
+        "status":"1",
+        "guid":"{B74C681D-115F-E211-B465-0050569E0011}"
+    },
+    {
+        "name":"Spell-it",
+        "status":"1",
+        "guid":"{973870C6-6D3B-E011-8E54-0050569E3F41}"
+    },
+    {
+        "name":"StatSoft (Europe) GmbH",
+        "status":"1",
+        "guid":"{70DD220A-1099-E111-B862-0050569E0011}"
+    },
+    {
+        "name":"Stichting CJP",
+        "status":"1",
+        "guid":"{0844BCAC-1074-E111-B377-0050569E0011}"
+    },
+    {
+        "name":"Stichting Internet Domeinregistratie Nederland",
+        "status":"1",
+        "guid":"{6D82CD55-3D11-E211-88AC-0050569E0013}"
+    },
+    {
+        "name":"StuGood",
+        "status":"1",
+        "guid":"{C689BD5E-645B-E011-A72C-0050569E3F41}"
+    },
+    {
+        "name":"Sunday Afternoon b.v.",
+        "status":"1",
+        "guid":"{15C5DD90-D3C5-E111-80EE-0050569E0011}"
+    },
+    {
+        "name":"SURFnet bv",
+        "status":"1",
+        "guid":"{D1CBEF84-2610-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"SurfRight bv",
+        "status":"1",
+        "guid":"{63CC1FAC-D707-E211-8D77-0050569E0011}"
+    },
+    {
+        "name":"Tech Data Nederland bv",
+        "status":"1",
+        "guid":"{01B6B82D-4981-E011-9EB1-0050569E3F41}"
+    },
+    {
+        "name":"ThiemeMeulenhoff BV",
+        "status":"1",
+        "guid":"{B38D3C14-BC9C-E011-B7F7-0050569E3F41}"
+    },
+    {
+        "name":"TMI3",
+        "status":"1",
+        "guid":"{3B2144BD-91ED-E011-8890-0050569E3F41}"
+    },
+    {
+        "name":"TPG Academy",
+        "status":"1",
+        "guid":"{B3BEF679-B732-E011-8DA9-0050569E3F41}"
+    },
+    {
+        "name":"Tunnissen Coaching & Training",
+        "status":"1",
+        "guid":"{302BD219-A672-E111-B377-0050569E0011}"
+    },
+    {
+        "name":"Turning Technologies",
+        "status":"1",
+        "guid":"{605443F9-E041-E111-942E-0050569E3F41}"
+    },
+    {
+        "name":"Tweakers.net",
+        "status":"1",
+        "guid":"{C2C7B349-DD7D-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"Universitair Platform Inkoop",
+        "status":"1",
+        "guid":"{E7FFB721-4C3D-E211-ADA8-0050569E0011}"
+    },
+    {
+        "name":"Van Dale - Thuisgebruik",
+        "status":"1",
+        "guid":"{3D8469E2-729E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Van Lanschot Chabot",
+        "status":"1",
+        "guid":"{C0F176B7-4184-DF11-8D9B-0019B9DE3AA4}"
+    },
+    {
+        "name":"VDL Enabling Technologies Group",
+        "status":"3",
+        "guid":"{6AE8F301-C8FC-E111-9156-0050569E0013}"
+    },
+    {
+        "name":"Ventoux",
+        "status":"1",
+        "guid":"{E60D53C5-05C4-DF11-A4D7-0050569E3F41}"
+    },
+    {
+        "name":"Viadesk B.V.",
+        "status":"1",
+        "guid":"{689F64D4-26A3-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Visions Connected Netherlands b.v.",
+        "status":"1",
+        "guid":"{477694CC-C506-E211-9156-0050569E0013}"
+    },
+    {
+        "name":"Visiria - Thuisgebruik",
+        "status":"1",
+        "guid":"{CBD03E9A-729E-E111-B429-0050569E0013}"
+    },
+    {
+        "name":"Vlaamse Hogescholenraad",
+        "status":"1",
+        "guid":"{AC256C93-2710-DC11-A6C7-0019B9DE3AA4}"
+    },
+    {
+        "name":"VSV International",
+        "status":"1",
+        "guid":"{7E70240E-DFFE-DF11-BF11-0050569E3F41}"
+    },
+    {
+        "name":"Xebic",
+        "status":"1",
+        "guid":"{3A48C9B3-BDE2-E011-8890-0050569E3F41}"
+    },
+    {
+        "name":"Xpression bv",
+        "status":"1",
+        "guid":"{24D71B5E-1B41-E111-942E-0050569E3F41}"
+    }
+]

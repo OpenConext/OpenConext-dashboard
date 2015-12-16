@@ -1,0 +1,235 @@
+[
+  {
+    "appEntityId": "http://mock-sp",
+    "names": {
+      "en": "Populair SP (name en)",
+      "nl": "Populaire SP (name nl)"
+    },
+    "appTitle": "Avans",
+    "appIcon": "http://ipsumimage.appspot.com/320x100?l=App Icon",
+    "appDescription": "App description, with values stressing csv, values\",\",,,\"\"\"         ;;  ; ; ;   \"\n\n\n\r\r\r\n",
+    "appThumbNail": "http://ipsumimage.appspot.com/320x100?l=App Thumbnail",
+    "appLogoUrl": "https://static.surfconext.nl/media/idp/avans.png",
+    "appHomeUrls": {
+      "en": "https://app_home_url_en",
+      "nl": "https://app_home_url_nl"
+    },
+    "eula": "https://eula_url",
+    "descriptions": {
+      "en": "SP linked to all IdP's (description en)",
+      "nl": "SP gelinked aan alle IdP's (description nl)"
+    },
+    "urls": {
+      "en": "https://url_en",
+      "nl": "https://url_nl"
+    },
+    "instutionId": "mock-institution-id",
+    "contacts": [
+      {
+        "type": "support",
+        "givenName": "supportgiven_name",
+        "surName": "supportsur_name",
+        "emailAddress": "support@email.com",
+        "telephoneNumber": "supporttelephone_number"
+      },
+      {
+        "type": "technical",
+        "givenName": "technicalgiven_name",
+        "surName": "technicalsur_name",
+        "emailAddress": "technical@email.com",
+        "telephoneNumber": "technicaltelephone_number"
+      }
+    ],
+    "applicationUrl": "https://application_url",
+    "idpVisibleOnly": false,
+    "appHomeUrl": "https://app_home_url_en",
+    "workflowState": "prodaccepted",
+    "oauthConsumerKey": "https://populair_sp"
+  },
+
+  {
+    "appEntityId": "https://nice_sp",
+    "names": {
+      "en": "Nice SP (name en)",
+      "nl": "Leuke SP (name nl)"
+    },
+    "appTitle": "Driestar",
+    "appIcon": "http://ipsumimage.appspot.com/320x100?l=App Icon",
+    "appDescription": "App description",
+    "appThumbNail": "http://ipsumimage.appspot.com/320x100?l=App Thumbnail",
+    "appLogoUrl": "https://static.surfconext.nl/media/idp/driestar.png",
+    "appHomeUrls": {
+      "en": "https://app_home_url_en",
+      "nl": "https://app_home_url_nl"
+    },
+    "eula": "https://eula_url",
+    "descriptions": {
+      "en": "SP linked to most IdP's (description en)",
+      "nl": "SP gelinked aan bijna alle IdP's (description nl)"
+    },
+    "urls": {
+      "en": "https://url_en",
+      "nl": "https://url_nl"
+    },
+    "contacts": [
+      {
+        "type": "support",
+        "givenName": "supportgiven_name",
+        "surName": "supportsur_name",
+        "emailAddress": "support@email.com",
+        "telephoneNumber": "supporttelephone_number"
+      },
+      {
+        "type": "technical",
+        "givenName": "technicalgiven_name",
+        "surName": "technicalsur_name",
+        "emailAddress": "technical@email.com",
+        "telephoneNumber": "technicaltelephone_number"
+      }
+    ],
+    "applicationUrl": "https://application_url",
+    "idpVisibleOnly": false,
+    "appHomeUrl": "https://app_home_url_en",
+    "workflowState": "prodaccepted",
+    "oauthConsumerKey": "https://nice_sp"
+  },
+
+  {
+    "appEntityId": "https://sp_idp_only",
+    "names": {
+      "en": "Idp Only SP (name en)",
+      "nl": "Idp eigen SP (name nl)"
+    },
+    "appTitle": "RU",
+    "appIcon": "http://ipsumimage.appspot.com/320x100?l=App Icon",
+    "appDescription": "App description",
+    "appThumbNail": "http://ipsumimage.appspot.com/320x100?l=App Thumbnail",
+    "appLogoUrl": "https://static.surfconext.nl/media/idp/ru.png",
+    "appHomeUrls": {
+      "en": "https://app_home_url_en",
+      "nl": "https://app_home_url_nl"
+    },
+    "eula": "https://eula_url",
+    "descriptions": {
+      "en": "SP linked to one IdP (description en)",
+      "nl": "SP gelinked aan 1 IdP's (description nl)"
+    },
+    "urls": {
+      "en": "https://url_en",
+      "nl": "https://url_nl"
+    },
+    "contacts": [
+      {
+        "type": "support",
+        "givenName": "supportgiven_name",
+        "surName": "supportsur_name",
+        "emailAddress": "support@email.com",
+        "telephoneNumber": "supporttelephone_number"
+      },
+      {
+        "type": "technical",
+        "givenName": "technicalgiven_name",
+        "surName": "technicalsur_name",
+        "emailAddress": "technical@email.com",
+        "telephoneNumber": "technicaltelephone_number"
+      }
+    ],
+    "applicationUrl": "https://application_url",
+    "idpVisibleOnly": true,
+    "appHomeUrl": "https://app_home_url_en",
+    "workflowState": "prodaccepted",
+    "oauthConsumerKey": "https://sp_idp_only"
+
+  },
+
+  {
+    "appEntityId": "https://sp_state_acc",
+    "names": {
+      "en": "SP state acc (name en)",
+      "nl": "Idp status acc (name nl)"
+    },
+    "appTitle": "Zeeland",
+    "appIcon": "http://ipsumimage.appspot.com/320x100?l=App Icon",
+    "appDescription": "App description",
+    "appThumbNail": "http://ipsumimage.appspot.com/320x100?l=App Thumbnail",
+    "appLogoUrl": "https://static.surfconext.nl/media/idp/hzeeland.png",
+    "appHomeUrls": {
+      "en": "https://app_home_url_en",
+      "nl": "https://app_home_url_nl"
+    },
+    "eula": "https://eula_url",
+    "descriptions": {
+      "en": "SP state acc (description en)",
+      "nl": "SP status acc (description nl)"
+    },
+    "urls": {
+      "en": "https://url_en",
+      "nl": "https://url_nl"
+    },
+    "contacts": [
+      {
+        "type": "support",
+        "givenName": "supportgiven_name",
+        "surName": "supportsur_name",
+        "emailAddress": "support@email.com",
+        "telephoneNumber": "supporttelephone_number"
+      },
+      {
+        "type": "technical",
+        "givenName": "technicalgiven_name",
+        "surName": "technicalsur_name",
+        "emailAddress": "technical@email.com",
+        "telephoneNumber": "technicaltelephone_number"
+      }
+    ],
+    "applicationUrl": "https://application_url",
+    "idpVisibleOnly": false,
+    "appHomeUrl": "https://app_home_url_en",
+    "workflowState": "prodaccepted"
+  },
+  {
+    "appEntityId": "https://my_nameless_SP",
+    "names": {
+      "en": "",
+      "nl": ""
+    },
+    "appTitle": "HAN",
+    "appIcon": "http://ipsumimage.appspot.com/320x100?l=App Icon",
+    "appDescription": "App description",
+    "appThumbNail": "http://ipsumimage.appspot.com/320x100?l=App Thumbnail",
+    "appLogoUrl": "https://static.surfconext.nl/media/idp/han.png",
+    "appHomeUrls": {
+      "en": "https://app_home_url_en",
+      "nl": "https://app_home_url_nl"
+    },
+    "eula": "https://eula_url",
+    "descriptions": {
+      "en": "SP state acc (description en)",
+      "nl": "SP status acc (description nl)"
+    },
+    "urls": {
+      "en": "https://url_en",
+      "nl": "https://url_nl"
+    },
+    "contacts": [
+      {
+        "type": "support",
+        "givenName": "supportgiven_name",
+        "surName": "supportsur_name",
+        "emailAddress": "support@email.com",
+        "telephoneNumber": "supporttelephone_number"
+      },
+      {
+        "type": "technical",
+        "givenName": "technicalgiven_name",
+        "surName": "technicalsur_name",
+        "emailAddress": "technical@email.com",
+        "telephoneNumber": "technicaltelephone_number"
+      }
+    ],
+    "applicationUrl": "https://application_url",
+    "idpVisibleOnly": true,
+    "appHomeUrl": "https://app_home_url_en",
+    "workflowState": "prodaccepted"
+  }
+]

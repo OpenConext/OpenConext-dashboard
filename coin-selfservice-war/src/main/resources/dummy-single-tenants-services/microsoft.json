@@ -1,0 +1,14 @@
+{
+  "entityid": "https://microsoft.dummy.sp",
+  "coin:application_url": "https://test.microsoft.nl",
+  "description:en": "microsoft in the Cloud",
+  "description:nl": "microsoft in de lucht",
+  "logo:0:url": "http://www.h3dwallpapers.com/wp-content/uploads/2015/05/Google_Logo_04.jpg",
+  "name:en": "microsoft",
+  "name:nl": "microsoft",
+  "contacts:0:contactType": "technical",
+  "contacts:0:emailAddress": "surfconext-beheer@surfnet.nl",
+  "url:en": "https://microsoft.surfnet.nl",
+  "url:nl": "https://microsoft.surfnet.nl",
+  "workflowState": "prodaccepted"
+}

@@ -1,0 +1,116 @@
+.modal-backdrop, .modal-backdrop.fade.in {
+  filter: alpha(opacity=60);
+  opacity: 0.6;
+}
+
+.modal-header {
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF4FB3CF', endColorstr='#FF4294AB');
+  background: #4fb3cf;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4fb3cf), color-stop(100%, #4294ab)), #4fb3cf;
+  background: -webkit-linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
+  background: -moz-linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
+  background: -o-linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
+  background: linear-gradient(top, #4fb3cf, #4294ab), #4fb3cf;
+}
+.modal-header h1,
+.modal-header h2,
+.modal-header h3 {
+  color: white;
+}
+
+.modal-body {
+  max-height: 380px;
+}
+.modal-body p {
+  margin: 5px;
+}
+.modal-body .error p {
+  color: #cc0000;
+}
+
+.modal-footer a {
+  font-size: 12px;
+}
+
+.recommendation-header {
+  color: white;
+}
+
+.recommendation-text-input {
+  width: 98%;
+}
+
+.select2-container {
+  width: 95%;
+}
+
+.select2-search-choice {
+  font-size: 12px;
+}
+
+.select2-result-label [class^="icon-"] {
+  padding-right: 3px;
+}
+
+@media (max-width: 767px) {
+  .modal {
+    width: 365px;
+    overflow-y: scroll;
+  }
+
+  .modal.fade.in {
+    top: 5%;
+  }
+}
+@media (max-width: 480px) {
+  .modal {
+    width: 320px;
+    position: fixed;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal.fade.in {
+    top: 5%;
+  }
+
+  .modal-body {
+    max-height: 2400px;
+  }
+}
+@media (max-width: 480px) and (max-height: 500px) {
+  .modal {
+    height: 450px;
+  }
+}
+@media (max-width: 480px) and (max-height: 450px) {
+  .modal {
+    height: 400px;
+  }
+}
+@media (max-width: 480px) and (max-height: 400px) {
+  .modal {
+    height: 350px;
+  }
+}
+@media (max-width: 480px) and (max-height: 350px) {
+  .modal {
+    height: 300px;
+  }
+}
+@media (max-width: 480px) and (max-height: 300px) {
+  .modal {
+    height: 250px;
+  }
+}
+@media (max-width: 480px) and (max-height: 250px) {
+  .modal {
+    height: 200px;
+  }
+}
+@media (max-width: 480px) and (max-height: 200px) {
+  .modal {
+    height: 150px;
+  }
+}

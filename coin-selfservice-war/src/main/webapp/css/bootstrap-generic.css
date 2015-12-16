@@ -1,0 +1,71 @@
+/* table + paginator combo */
+
+.table-above-pagination {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.pagination-below-table {
+    background-color: #d8dadc;
+    border: 1px solid #bfbfbf;
+    border-top: 0;
+}
+
+/* icons */
+
+section>div.content-dense>p
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  color: #666;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-size: 16px;
+    color: #0381a4;
+}
+
+.icon-ok:before {
+    color: #008000;
+}
+
+.icon-ban-circle:before {
+    color: #B22222;
+}
+
+.icon-exclamation-sign:before {
+    color: #B94A48;
+}
+
+.btn [class^="icon-"]:before {
+    font-size: 13px;
+    color: inherit;
+}
+
+.disabled-icon {
+    display: inline-block;
+}
+
+.status-icon {
+    display: inline-block;
+}
+
+.disabled-icon [class^="icon-"]:before,
+.disabled-icon [class*=" icon-"]:before {
+    color: gray;
+}
+
+a:hover [class^="icon-"]:before,
+a:hover [class*=" icon-"]:before {
+    color:#005580;
+}
+
+a[rel="tooltip"]:hover {
+    text-decoration: none;
+}
+
+/* Overwrite for the datepicker + dropdown combo width (otherwise 100%) */
+
+.datepicker.dropdown-menu {
+    width: auto;
+}

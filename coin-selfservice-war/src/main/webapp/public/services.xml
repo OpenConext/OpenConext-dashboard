@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<Module>
+  <ModulePrefs
+      title="Services Overview"
+      description="Shows available services"
+      scrolling="true"
+      height="500"
+      width="250">
+    <Require feature="osapi" />
+  </ModulePrefs>
+  <Content type="html" view="default"><![CDATA[
+  <link rel="stylesheet" href="https://csa.test.csa.surfconext.nl/css/bootstrap-2.0.4.css"/>
+  <link rel="stylesheet" href="https://csa.test.csa.surfconext.nl/public/css/services.css"/>
+  <div class="tabbable">
+    <ul class="nav nav-tabs">
+      <li id="public-tab"><a href="#public"
+        data-toggle="tab">Public Services</a></li>
+      <li id="idp-tab"><a href="#idp" data-toggle="tab">Institution
+          Services</a></li>
+      <li id="personal-tab"><a href="#personal" data-toggle="tab">Personal
+          Services</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane" id="public">
+        <section id="public" class="services-list"></section>
+      </div>
+      <div class="tab-pane" id="idp">
+        <section id="idp" class="services-list"></section>
+      </div>
+      <div class="tab-pane" id="personal">
+        <section id="personal" class="services-list"></section>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript" src="https://csa.test.csa.surfconext.nl/js/jquery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="https://csa.test.csa.surfconext.nl/js/bootstrap/bootstrap-2.0.3.min.js"></script>
+<script type="text/javascript" src="https://csa.test.csa.surfconext.nl/public/js/oauth.js"></script>
+<script type="text/javascript" src="https://csa.test.csa.surfconext.nl/public/js/services.js"></script>
+]]></Content>
+</Module>

@@ -1,0 +1,15 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="account">
+    <attribute name="name"/>
+    <attribute name="primarycontactid"/>
+    <attribute name="customertypecode"/>
+    <attribute name="statuscode"/>
+    <attribute name="lmng_schachomeorganization"/>
+    <attribute name="accountid"/>
+    <order attribute="name" descending="false"/>
+    <filter type="and">
+      <condition attribute="statecode" operator="eq" value="0"/>
+      <condition attribute="surf_isinstelling" operator="eq" value="%IS_INSTITUTION%"/>
+    </filter>
+  </entity>
+</fetch>

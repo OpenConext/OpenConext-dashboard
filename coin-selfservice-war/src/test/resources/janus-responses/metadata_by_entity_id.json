@@ -1,0 +1,18 @@
+{
+  "coin:institution_id": "SURFNET",
+  "coin:publish_in_edugain": true,
+  "contacts:0:contactType": "technical",
+  "contacts:0:emailAddress": "john.doe@example.org",
+  "contacts:0:givenName": "John",
+  "contacts:0:surName": "Doe",
+  "contacts:1:contactType": "technical",
+  "contacts:1:emailAddress": "kate.burns@example.org",
+  "contacts:1:givenName": "Kate",
+  "contacts:1:surName": "Burns",
+  "description:en": "Mocked IDP",
+  "description:nl": "Mocked IDP",
+  "logo:0:url": "https://beta.surfnet.nl/coin/surfnet_logo.gif",
+  "name:en": "Mujina College (en)",
+  "name:nl": "Mujina College (nl)",
+  "disableConsent:0": "https://profile.test.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+}

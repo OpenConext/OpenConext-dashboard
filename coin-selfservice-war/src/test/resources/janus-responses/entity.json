@@ -1,0 +1,40 @@
+{
+  "eid": "235",
+  "entityid": "http://qixi.dev.surfconext.nl",
+  "revision": "9",
+  "parent": "8",
+  "revisionnote": "No revision note",
+  "type": "saml20-sp",
+  "allowedall": "no",
+  "workflow": "prodaccepted",
+  "metadataurl": null,
+  "prettyname": "http://qixi.dev.surfconext.nl",
+  "arp": {
+    "urn:mace:dir:attribute-def:displayName": [
+      "*"
+    ],
+    "urn:mace:dir:attribute-def:cn": [
+      "*"
+    ],
+    "urn:mace:dir:attribute-def:givenName": [
+      "*"
+    ],
+    "urn:mace:dir:attribute-def:sn": [
+      "*"
+    ],
+    "urn:mace:dir:attribute-def:mail": [
+      "*"
+    ],
+    "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+      "*"
+    ],
+    "urn:mace:dir:attribute-def:isMemberOf": [
+      ""
+    ],
+    "urn:mace:dir:attribute-def:uid": [
+      "*"
+    ]
+  },
+  "manipulation": null,
+  "user": "57"
+}

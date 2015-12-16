@@ -1,0 +1,58 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:adr="http://www.w3.org/2005/08/addressing"
+               xmlns:sur="http://Surfmarket.CRMProxyService">
+  <soap:Header>
+    <adr:MessageID>urn:uuid:%UID%</adr:MessageID>
+    <adr:ReplyTo>
+      <adr:Address>http://www.w3.org/2005/08/addressing/anonymous</adr:Address>
+    </adr:ReplyTo>
+    <adr:To s:mustUnderstand="1" xmlns:s="s">https://crmproxy.surfmarket.nl/crmservice.svc</adr:To>
+    <adr:Action>http://Surfmarket.CRMProxyService/ICrmService/GetData</adr:Action>
+  </soap:Header>
+  <soap:Body>
+    <sur:GetData>
+      <sur:InputXml>
+        <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">
+          <entity name="lmng_sdnarticle">
+            <filter>
+              <condition attribute="lmng_sdnarticleid" operator="in">
+                <value>%SERVICE_ID%</value>
+                <value>%SERVICE_ID%</value>
+              </condition>
+            </filter>
+            <all-attributes/>
+            <link-entity name="lmng_articlemedium" from="lmng_articleid" to="lmng_sdnarticleid" alias="articlemedium"
+                         link-type="outer">
+              <attribute name="lmng_supplierid"/>
+              <attribute name="lmng_temporarilyunavailable"/>
+              <attribute name="lmng_name"/>
+              <attribute name="lmng_downloadurl"/>
+              <attribute name="lmng_articlemediumcodeid"/>
+              <link-entity name="lmng_articlemedium_lmng_platform" from="lmng_articlemediumid" to="lmng_articlemediumid"
+                           visible="false" intersect="true" link-type="outer">
+                <link-entity name="lmng_platform" from="lmng_platformid" to="lmng_platformid" alias="platform"
+                             link-type="outer">
+                  <attribute name="lmng_name"/>
+                </link-entity>
+              </link-entity>
+              <link-entity name="lmng_articlemedium_lmng_language" from="lmng_articlemediumid" to="lmng_articlemediumid"
+                           visible="false" intersect="true" link-type="outer">
+                <link-entity name="lmng_language" from="lmng_languageid" to="lmng_languageid" alias="language"
+                             link-type="outer">
+                  <attribute name="lmng_name"/>
+                </link-entity>
+              </link-entity>
+            </link-entity>
+            <link-entity name="lmng_sdnarticle_lmng_product" from="lmng_sdnarticleid" to="lmng_sdnarticleid"
+                         visible="false" intersect="true">
+              <link-entity name="lmng_product" from="lmng_productid" to="lmng_productid" alias="product">
+                <attribute name="lmng_name"/>
+                <attribute name="lmng_productid"/>
+              </link-entity>
+            </link-entity>
+          </entity>
+        </fetch>
+
+      </sur:InputXml>
+    </sur:GetData>
+  </soap:Body>
+</soap:Envelope>

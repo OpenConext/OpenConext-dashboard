@@ -1,0 +1,8 @@
+{
+  "id": "id1",
+  "displayName": "display name 1",
+  "membership": {
+    "basic": "member"
+  },
+  "description": "description...1"
+}

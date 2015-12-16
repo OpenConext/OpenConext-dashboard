@@ -1,0 +1,11 @@
+[
+  "https://perftestpersistentidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+  "https://surfguest.nl",
+  "https://wrongattridp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+  "https://login.avans.nl/nidp/saml2/metadata",
+  "https://engine.test.surfconext.nl/authentication/idp/metadata",
+  "https://wrongcertidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+  "http://authentigate.surfmarket.nl/adfs/services/trust",
+  "http://adfs2.aai.surfnet.nl/adfs/services/trust",
+  "http://localhost/simplesaml/module.php/saml/sp/metadata.php/pieter-local-test-idp"
+]

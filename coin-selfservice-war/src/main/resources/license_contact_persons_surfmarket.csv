@@ -1,0 +1,501 @@
+"Relatie","Relatienaam","Volledige naam (Eerste contactpersoon software)","E-mail (Eerste contactpersoon software)","Telefoonnummer 1 (Eerste contactpersoon software)","Categorie","IDP Naam","idp connection id","idp entity id"
+"{268835E8-8E0F-DC11-A6C7-0019B9DE3AA4}","Academisch Medisch Centrum","Reinand van der Woerd","licenties@amc.uva.nl","+31 (0)20 566 8757","Universitair Medische Centra","Academisch Medisch Centrum","http://federatie.amc.nl/adfs/services/trust",1022
+"{35E880E1-8E0F-DC11-A6C7-0019B9DE3AA4}","Academisch Ziekenhuis Maastricht","Benlahcen, Salah","salah.benlahcen@mumc.nl","+31 (0)43 387 2237","Universitair Medische Centra","Academisch Ziekenhuis Maastricht","http://sts.mumc.nl/adfs/services/trust",994
+"{E1EBF04E-6510-DC11-A6C7-0019B9DE3AA4}","FOM-AMOLF","Carl Schulz","c.schulz@amolf.nl","+31 (0)20 754 7100","Onderzoeksinstellingen","AMOLF","http://adfs.amolf.nl/adfs/services/trust",384
+"{3B98C6D3-8E0F-DC11-A6C7-0019B9DE3AA4}","Amsterdamse Hogeschool voor de Kunsten","Schaar, Hans van der","hans.vanderschaar@ahk.nl","+31 (0)20 527 7751","Hogescholen","Amsterdamse Hogeschool voor de Kunsten","https://login.ahk.nl/simplesaml/saml2/idp/metadata.php",30
+"{51AC9F46-3110-DC11-A6C7-0019B9DE3AA4}","ArtEZ Hogeschool voor de Kunsten","Stupers, Hans","h.stupers@artez.nl","+31 (0)26 353 5679","Hogescholen","ArtEZ Institute of the Arts","http://adfs.artez.nl/adfs/services/trust",326
+"{4503725C-6510-DC11-A6C7-0019B9DE3AA4}","Stichting Astronomisch Onderzoek in Nederland","Jan Slagter","slagter@astron.nl","+31 (0)52 159 5100","Onderzoeksinstellingen","ASTRON","https://nam-id.astron.nl/nidp/saml2/metadata",268
+"{D9CE3927-3810-DC11-A6C7-0019B9DE3AA4}","Avans Hogeschool","Dongen, Peter van","pfj.vandongen@avans.nl","+31 (0)76 523 8643","Hogescholen","Avans Hogeschool","https://login.avans.nl/nidp/saml2/metadata",26
+"{ACDC9DEE-8E0F-DC11-A6C7-0019B9DE3AA4}","APS IT-diensten bv","Tricht, Nico van","n.vantricht@aps.nl","+31 (0)30 285 6680","APS IT-diensten bv","Basis- en speciaal onderwijs (APS IT-diensten) | SURFmarket","http://adfs.apsitdiensten.nl/adfs/services/trust",1857
+"{A6DF1965-2D10-DC11-A6C7-0019B9DE3AA4}","Biblionet Groningen","Vries, Richard de","r.devries@mijneigenbibliotheek.nl","+31 (0)50 365 0123","Bibliotheken","Biblionet Groningen","http://surfspot.biblionetwerken.nl/adfs/services/trust",406
+"{165D738F-6410-DC11-A6C7-0019B9DE3AA4}","KNAW Bureau","Sierink, Tine","tine.sierink@knaw.nl","+31 (0)20 551 0773","Onderzoeksinstellingen","Bureau (KNAW)","https://bureau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",434
+"{35183CDB-1E10-DC11-A6C7-0019B9DE3AA4}","Centraal Bureau voor Genealogie","Leeuwen, Frits van","frits.vanleeuwen@cbg.nl","+31 (0)70 315 0513","Aan hoger onderwijs gelieerde instellingen","Centraal Bureau voor Genealogie","https://federatie.cbg.nl/saml2/idp/metadata.php",404
+"{819C817F-6410-DC11-A6C7-0019B9DE3AA4}","Centraal Bureau voor Schimmelcultures","Luijsterburg, Kasper","k.luijsterburg@cbs.knaw.nl","+31 (0)30 212 2620","Onderzoeksinstellingen","Centraal bureau voor Schimmelcultures (KNAW)","http://adfs2.cbs.knaw.nl/adfs/services/trust",415
+"{4F03725C-6510-DC11-A6C7-0019B9DE3AA4}","Centrum Wiskunde & Informatica","Nes, Niels","niels.nes@cwi.nl","+31 (0)20 592 4098","Onderzoeksinstellingen","Centrum Wiskunde & Informatica","https://idp.cwi.nl/simplesaml/saml2/idp/metadata.php",386
+"{B198D1CC-8E0F-DC11-A6C7-0019B9DE3AA4}","Christelijke Hogeschool Ede","Bootsman, Jan","jjbootsman@che.nl","+31 (0)31 869 6300","Hogescholen","Christian University of Applied Sciences (CHE)","http://adfs.che.nl/adfs/services/trust",757
+"{5B36F0D9-950F-DC11-A6C7-0019B9DE3AA4}","Stichting Cito","Palermo, Cynthia","cynthia.palermo@cito.nl","+31 (0)26 352 1379","Aan hoger onderwijs gelieerde instellingen","Cito","http://adfs2.cito.nl/adfs/services/trust",106
+"{6469DFF1-8E70-E411-BD62-0050569E0011}","Clusius College","Danny van Gelder","d.vangelder@clusius.nl","+31 (0)72 514 7666","MBO","Clusius College","http://federatie.clusius.nl/adfs/services/trust",385
+"{8BF4ECFA-52D2-E111-8363-0050569E0011}","DANS",,,,"Onderzoeksinstellingen","Data Archiving and Networked Services (KNAW)","https://dans.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",804
+"{760BE6F4-8D7B-E411-AE55-0050569E0013}","Deltion College",,,,"MBO","Deltion College","http://sts.deltion.nl/adfs/services/trust",1130
+"{910BF0DA-8E0F-DC11-A6C7-0019B9DE3AA4}","Design Academy Eindhoven","Luiken, Toine","toine.luiken@designacademy.nl","+31 (0)40 239 3985","Hogescholen","Design Academy Eindhoven","http://adfs.designacademy.nl/adfs/services/trust",1363
+"{B698D1CC-8E0F-DC11-A6C7-0019B9DE3AA4}","Hogeschool Driestar educatief","Aart Groenendijk","beheer@driestar.nl","+31 (0)18 254 0342","Hogescholen","Driestar Educatief","http://federatie.driestar-educatief.nl/adfs/services/trust",316
+"{4E92FCDB-6501-E211-9156-0050569E0013}","eHumanities",,,,"Onderzoeksinstellingen","e-Humanities (KNAW)","https://ehumanities.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",805
+"{2473865F-900F-DC11-A6C7-0019B9DE3AA4}","Energieonderzoek Centrum Nederland","Bleeker, Jos","j.bleeker@ecn.nl","+31 (0)22 456 4846","Grote technologische instituten","Energieonderzoek Centrum Nederland","http://login.ecn.nl/adfs/services/trust",536
+"{7CD09794-2110-DC11-A6C7-0019B9DE3AA4}","EP-Nuffic","Kler, Wanne de","wdekler@nuffic.nl","+31 (0)70 426 0118","Aan hoger onderwijs gelieerde instellingen","EP-Nuffic","http://sts.nuffic.nl/adfs/services/trust",1018
+"{2BE880E1-8E0F-DC11-A6C7-0019B9DE3AA4}","Erasmus MC","Caroline Arends","c.arends-wienhoven@erasmusmc.nl","+31 (0)10 703 2255","Universitair Medische Centra","Erasmus MC","http://logon.erasmusmc.nl/adfs/services/trust",578
+"{1F73865F-900F-DC11-A6C7-0019B9DE3AA4}","Erasmus Universiteit Rotterdam","Cees Boelhouwers","boelhouwers@ict.eur.nl","+31 (0)10 408 1237","Universiteiten","Erasmus University Rotterdam","https://sso.eur.nl/opensso",14
+"{4A03725C-6510-DC11-A6C7-0019B9DE3AA4}","FOM-bureau","Jeroen Camstra","jeroen.camstra@fom.nl","+31 (0)30 600 1206","Onderzoeksinstellingen","FOM-bureau","http://adfs.fom.nl/adfs/services/trust",1551
+"{DCEBF04E-6510-DC11-A6C7-0019B9DE3AA4}","FOM-instituut DIFFER","Wijnoltz, Fred","f.wijnoltz@differ.nl","+31 (0)30 609 6726","Onderzoeksinstellingen","FOM-Instituut DIFFER","http://adfs.rijnhuizen.nl/adfs/services/trust",102
+"{1645DFD6-1A10-DC11-A6C7-0019B9DE3AA4}","Fontys Hogescholen","Hoefakker, Maaike","m.c.f.hoefakker@fontys.nl","+31 (0)88 507 8362","Hogescholen","Fontys Hogescholen","http://adfs2.fontys.nl/adfs/services/trust",540
+"{869C817F-6410-DC11-A6C7-0019B9DE3AA4}","Fryske Akademy","Kooij, Heinze van der","hvdkooij@fryske-akademy.nl","+31 (0)58 234 3034","Onderzoeksinstellingen","Fryske Akademy (KNAW)","http://adfs.fryske-akademy.nl/adfs/services/trust",725
+"{14E0C550-900F-DC11-A6C7-0019B9DE3AA4}","Gerrit Rietveld Academie","Jeroen de Vries","j.devries@rietveldacademie.nl","+31 (0)20 571 1644","Hogescholen","Gerrit Rietveld Academie","http://ADFS.GRAC.NL/adfs/services/trust",613
+"{1596B37F-C7E1-E411-8BDA-0050569E0011}","Graafschap College","Sandy Span","sin@graafschapcollege.nl","+31 (0)314 353 515","MBO","Graafschap College","http://federatie.graafschapcollege.nl/adfs/services/trust",34
+"{B4CA322E-05C7-E411-8774-0050569E0013}","Grafisch Lyceum Rotterdam","Sjouke Ykema","ykema@glr.nl","+31 (0)88 200 1537","MBO","Grafisch Lyceum Rotterdam","http://glr-adfs.glr.nl/adfs/services/trust",1029
+"{BFF4C449-900F-DC11-A6C7-0019B9DE3AA4}","Haagse Hogeschool De","Nelleke van der Vorm","z.n.vandervorm@hhs.nl","+31 (0)70 445 7690","Hogescholen","Haagse Hogeschool","https://saml.hhs.nl/simplesaml/saml2/idp/metadata.php",539
+"{7B09C442-900F-DC11-A6C7-0019B9DE3AA4}","Hanzehogeschool Groningen","Bos, Antoinette","inf.orderdesk@org.hanze.nl","+31 (0)50 595 2185","Hogescholen","Hanze University Groningen","http://federation.hanze.nl/adfs/services/trust",37
+"{960BF0DA-8E0F-DC11-A6C7-0019B9DE3AA4}","HAS Hogeschool","Poodt, Marianne","m.poodt@has.nl","+31 (0)73 752 0232","Hogescholen","Has Hogeschool","https://login.has.nl/nidp/saml2/metadata",960
+"{79AFF8EA-8253-E411-AA37-0050569E0011}","Helicon Opleidingen","Tom Backx","t.backx@helicon.nl","+31 (0)88 435 4228","MBO","Helicon","https://idp.mijnhelicon.nl/nidp/saml2/metadata",292
+"{2D96DFE2-1910-DC11-A6C7-0019B9DE3AA4}","Hogeschool de Kempel","Santvoort, Giel van","g.santvoort@kempel.nl","+31 (0)49 251 4400","Hogescholen","Hogeschool de Kempel","http://adfs01.kempel.nl/adfs/services/trust",535
+"{C0BA345A-3010-DC11-A6C7-0019B9DE3AA4}","Hogeschool Inholland","Vos, Eelco de","licentie.ict@inholland.nl","+31 (0)23 543 8112","Hogescholen","Hogeschool INHOLLAND","http://adfsv2.inholland.nl/adfs/services/trust",365
+"{F62AC2C4-920F-DC11-A6C7-0019B9DE3AA4}","Hogeschool IPABO Amsterdam/Alkmaar","Kool, Frans","f.kool@ipabo.nl","+31 (0)20 480 2950","Hogescholen","Hogeschool IPABO","http://adfs.ipabo.nl/adfs/services/trust",538
+"{47127418-1510-DC11-A6C7-0019B9DE3AA4}","Hogeschool Leiden","Klerkx, Jasper","klerkx.j@hsleiden.nl","+31 (0)6 38829707","Hogescholen","Hogeschool Leiden","http://adfs.hsleiden.nl/adfs/services/trust",85
+"{B8AFB8BF-950F-DC11-A6C7-0019B9DE3AA4}","Hogeschool Rotterdam","Kouwenberg, Igor","i.kouwenberg@hr.nl","+31 (0)10 794 4544","Hogescholen","Hogeschool Rotterdam","https://access.hro.nl/simplesaml/saml2/idp/metadata.php",40
+"{F1961110-3C10-DC11-A6C7-0019B9DE3AA4}","Hogeschool Tio","Bloksma, Bonno","b.bloksma@tio.nl","+31 (0)40 799 9832","Aangewezen en Diverse onderwijsinstellingen","Hogeschool Tio","http://adfs.tio.nl/adfs/services/trust",606
+"{C1D060CC-950F-DC11-A6C7-0019B9DE3AA4}","Hogeschool Utrecht","Reinders, Jacqueline","jacqueline.reinders@hu.nl","+31 (0)88 481 6194","Hogescholen","Hogeschool Utrecht","https://inloggen.hogeschoolutrecht.nl/openaselect/profiles/saml2/",41
+"{317CF8C5-950F-DC11-A6C7-0019B9DE3AA4}","Hogeschool van Amsterdam","Sytze de Jong","s.p.de.jong@hva.nl","+31 (0)6 21158062","Hogescholen","Hogeschool van Amsterdam","http://adfs20.hva.nl/adfs/services/trust",232
+"{3C7CF8C5-950F-DC11-A6C7-0019B9DE3AA4}","Hogeschool van Arnhem en Nijmegen","Frielink, Rene","rene.frielink@han.nl","+31 (0)26 365 8403","Hogescholen","Hogeschool van Arnhem en Nijmegen","https://sso.han.nl/ssp",81
+"{8AF77BB8-8D0F-DC11-A6C7-0019B9DE3AA4}","Christelijke Hogeschool Windesheim","Roozeboom, Sylvia","s.roozeboom@windesheim.nl","+31 (0)88 469 9382","Hogescholen","Hogeschool Windesheim","http://sts.windesheim.nl/adfs/services/trust",679
+"{11BC61D3-950F-DC11-A6C7-0019B9DE3AA4}","Hotelschool Den Haag","Mertosemito, Rosa","mto@hdh.nl","+31 (0)88 028 1103","Hogescholen","Hotelschool den Haag","http://federation.hdh.nl/adfs/services/trust",856
+"{027AB887-6410-DC11-A6C7-0019B9DE3AA4}","Hubrecht Instituut","Lagemaat, Gerard v.d.","licentie@niob.knaw.nl","+31 (0)30 212 1854","Onderzoeksinstellingen","Hubrecht Institute (KNAW)","http://adfs2.hubrecht.eu/adfs/services/trust",416
+"{3FB6318C-52D2-E111-8363-0050569E0011}","Huygens ING",,,,"Onderzoeksinstellingen","Huygens Instituut (KNAW)","https://huygens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",806
+"{BDAFB8BF-950F-DC11-A6C7-0019B9DE3AA4}","HZ University of Applied Sciences","Jongepier, Piet","p.jongepier@hz.nl","+31 (0)11 848 9266","Hogescholen","HZ University of Applied Sciences","http://adfs.myhz.nl/adfs/services/trust",19
+"{EBE4D934-3810-DC11-A6C7-0019B9DE3AA4}","Integraal Kankercentrum Nederland","Meijer, Jorne","j.meijer@iknl.nl","+31 (0)30 233 8076","Onderzoeksinstellingen","Integraal Kankercentrum Nederland","http://adfs.iknl.nl/adfs/services/trust",614
+"{CC043397-6410-DC11-A6C7-0019B9DE3AA4}","Internationaal Instituut voor Sociale Geschiedenis","Mieldijk, Mario","mmi@iisg.nl","+31 (0)20 668 5866","Onderzoeksinstellingen","Internationaal Instituut voor Sociale Geschiedenis (KNAW)","https://iisg.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",808
+"{F673A2E0-950F-DC11-A6C7-0019B9DE3AA4}","Katholieke PABO Zwolle","Nieuwhof, Marc","m.nieuwhof@kpz.nl","+31 (0)38 421 7425","Hogescholen","Katholieke Pabo Zwolle","http://adfs.kpz.nl/adfs/services/trust",862
+"{A135E311-1510-DC11-A6C7-0019B9DE3AA4}","Koninklijk Nederlands Meteorologisch Instituut","Braber, Hans den","hans.den.braber@knmi.nl","+31 (0)30 220 6364","Onderzoeksinstellingen","KNMI","http://adfs.knmi.nl/adfs/services/trust",909
+"{88EF8855-6510-DC11-A6C7-0019B9DE3AA4}","Nederlands Instituut voor Zeeonderzoek","Pool, Wim","wim.pool@nioz.nl","+31 (0)22 236 9582","Onderzoeksinstellingen","Koninklijk Nederlands Instituut voor Onderzoek der Zee (NIOZ)","http://adfs.nioz.nl/adfs/services/trust",533
+"{A635E311-1510-DC11-A6C7-0019B9DE3AA4}","Koninklijke Bibliotheek","Dammann, Han","han.dammann@kb.nl","+31 (0)70 314 0538","Bibliotheken","Koninklijke Bibliotheek","http://adfs.kb.nl/adfs/services/trust",1141
+"{168835E8-8E0F-DC11-A6C7-0019B9DE3AA4}","Leids Universitair Medisch Centrum","Marcelis, Joop","j.p.m.marcelis@lumc.nl","+31 (0)71 526 1625","Universitair Medische Centra","Leids Universitair Medisch Centrum","http://federatie.lumc.nl/adfs/services/trust",397
+"{B035E311-1510-DC11-A6C7-0019B9DE3AA4}","LOI Hogeschool","Helfferich, Oscar","ohelfferich@loi.nl","+31 (0)71 545 1463","Aangewezen en Diverse onderwijsinstellingen","Leidse Onderwijsinstellingen","https://login.loi.nl/saml2/idp/metadata.php",1342
+"{302B07C6-1B10-DC11-A6C7-0019B9DE3AA4}","Universiteit Maastricht","Jongen, Roger","orders-sw-icts@maastrichtuniversity.nl","+31 (0)43 388 5534","Universiteiten","Maastricht University","http://adfs.maastrichtuniversity.nl/adfs/services/trust",752
+"{2396DFE2-1910-DC11-A6C7-0019B9DE3AA4}","P.C. Hogeschool Marnix Academie","Laar, Martijn van","m.vanlaar@hsmarnix.nl","+31 (0)30 275 3400","Hogescholen","Marnix Academie","http://adfs.hsmarnix.nl/adfs/services/trust",45
+"{C4568B1E-1510-DC11-A6C7-0019B9DE3AA4}","Max-Planck Instituut","Verbunt, Ad","ad.verbunt@mpi.nl","+31 (0)24 352 1102","Onderzoeksinstellingen","Max Planck Institute for Psycholinguistics","https://idp.mpi.nl/idp-conext",1006
+"{0C5D738F-6410-DC11-A6C7-0019B9DE3AA4}","Meertens Instituut","Jongenburger, Willy","willy.jongenburger@meertens.knaw.nl","+31 (0)20 462 8537",,"Meertens Instituut (KNAW)","https://meertens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",809
+"{579B35DB-4110-DC11-A6C7-0019B9DE3AA4}","NLDA","Jansens, Ton","ahjbm.jansens.01@mindef.nl","+31 (0)6 51610394","Aangewezen en Diverse onderwijsinstellingen","Ministerie van Defensie - NLDA","http://idp.mindef.nl/adfs/services/trust",1685
+"{AF4FF11C-C473-E411-B00D-0050569E0011}","ROC van Twente","Eric Vriezema","licentie@rocvantwente.nl","+31 (0)74 852 5131","MBO","NAM01.rocvantwente.nl","https://namidp.rocvantwente.nl/nidp/saml2/metadata",746
+"{D1C172BA-2010-DC11-A6C7-0019B9DE3AA4}","Naturalis","Marc de Hart","marc.dehart@naturalis.nl","+31 (0)71 751 7399","Onderzoeksinstellingen","Naturalis","http://adfs.naturalis.nl/adfs/services/trust",2013
+"{FCFC91E0-4010-DC11-A6C7-0019B9DE3AA4}","NCOI Opleidingsgroep","Linden, Vera van der","vlinden@ncoi.nl","+31 (0)35 750 6160","Aangewezen en Diverse onderwijsinstellingen","NCOI Opleidingsgroep","http://adfs.ncoi.com/adfs/services/trust",615
+"{469427DB-5068-DC11-B1EF-0019B9DE3AA4}","Nederlands Herseninstituut","Klop, Adriaan","a.klop@nin.knaw.nl","+31 (0)20 566 5486","Onderzoeksinstellingen","Nederlands Herseninstituut (KNAW)","https://saml.nin.knaw.nl/simplesaml/saml2/idp/metadata.php",1453
+"{48796398-2510-DC11-A6C7-0019B9DE3AA4}","Stichting NIVEL","Contente, Antonio","a.contente@nivel.nl","+31 (0)30 272 9731","Onderzoeksinstellingen","Nederlands instituut voor onderzoek van de gezondheidszorg (NIVEL)","http://federatie.nivel.nl/adfs/services/trust",409
+"{98CD0383-E6D0-E111-A81F-0050569E0013}","Netherlands eScience Center","Schaik, René van","r.vanschaik@esciencecenter.nl","+31 (0)20 460 4770","Onderzoeksinstellingen","Netherlands eScience Center","https://saml.esciencecenter.nl/saml2/idp/metadata.php",1707
+"{0C7AB887-6410-DC11-A6C7-0019B9DE3AA4}","Netherlands Institute for Advanced Study in Humanities and Social Sciences","Wal, Willem van der","w.vdwal@nias.knaw.nl","+31 (0)70 512 2726","Onderzoeksinstellingen","Netherlands Institute for Advanced Study in the Humanities and Social Sciences (KNAW)","https://nias.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",888
+"{115D738F-6410-DC11-A6C7-0019B9DE3AA4}","Nederlands Instituut Oecologisch Onderzoek","Romberg, Hans","h.romberg@nioo.knaw.nl","+31 (0)29 423 9373","Onderzoeksinstellingen","Netherlands Institute of Ecology NIOO (KNAW)","http://federation.nioo.knaw.nl/adfs/services/trust",126
+"{D46BC61C-1FC7-E011-A5A7-0050569E3F41}","Netwerk Open Hogeschool Informatica",,,,"Universiteiten","Netwerk Open Hogeschool Informatica","https://fedlogin.noh-i.nl/fed/idp",204
+"{5D60A237-1510-DC11-A6C7-0019B9DE3AA4}","NHL Hogeschool","Koppers, Ton","ton.koppers@nhl.nl","+31 (0)58 251 1590","Hogescholen","NHL Hogeschool","https://idp.nhl.nl/",642
+"{BB951E25-1510-DC11-A6C7-0019B9DE3AA4}","NHTV Internationale Hogeschool Breda","Barry Westdorp","westdorp.b@nhtv.nl","+31 (0)76 533 2350","Hogescholen","NHTV Breda University of Applied Sciences","http://fed.nhtv.nl/adfs/services/trust",1276
+"{AC951E25-1510-DC11-A6C7-0019B9DE3AA4}","FOM-NIKHEF","Tierie, Joke","joke@nikhef.nl","+31 (0)20 592 2037","Onderzoeksinstellingen","Nikhef","https://sso.nikhef.nl/sso/saml2/idp/metadata.php",211
+"{D7EBF04E-6510-DC11-A6C7-0019B9DE3AA4}","NIOD Instituut voor Oorlogs-, Holocaust- en Genocidestudies","Waanders, Dikus","d.waanders@niod.knaw.nl","+31 (0)20 523 3854",,"NIOD instituut voor oorlogs-,holocaust- en genocidestudies (KNAW)","https://niod.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",811
+"{3585FB23-6610-DC11-A6C7-0019B9DE3AA4}","Nederlandse Organisatie voor Wetenschappelijk Onderzoek (Bureau)","Laan, Nick van der","n.vanderlaan@nwo.nl","+31 (0)70 344 0574","Onderzoeksinstellingen","NWO","http://adfs.nwo.nl/adfs/services/trust",1040
+"{1E79D110-1BC7-E011-A5A7-0050569E3F41}","Open Juridische Hogeschool",,,,"Universiteiten","Open Juridische Hogeschool","https://fedlogin.ojh.nl/fed/idp",205
+"{ED3207DC-1910-DC11-A6C7-0019B9DE3AA4}","Open Universiteit Nederland","Janssen, Hilde","hilde.janssen@ou.nl","+31 (0)45 576 2420","Universiteiten","Open Universiteit","https://fedlogin.studienet.ou.nl",84
+"{D43285B3-2310-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Amsterdam","Leeuwen, Jolanda van","j.vanleeuwen@oba.nl","+31 (0)20 523 0713","Bibliotheken","Openbare Bibliotheek Amsterdam (OBA)","http://adfs1.oba.nl/adfs/services/trust",411
+"{8650D813-6298-DE11-A5ED-0019B9DE3AA4}","Planbureau voor de Leefomgeving","Rambaran, Kris","kris.rambaran@pbl.nl","+31 (0)30 274 2703","Onderzoeksinstellingen","Planbureau voor de Leefomgeving","http://tcs02.pbl.nl/adfs/services/trust",1585
+"{89011936-3510-DC11-A6C7-0019B9DE3AA4}","Politieacademie","Bergsma, David","david.bergsma@politieacademie.nl","+31 (0)55 539 2222","Aangewezen en Diverse onderwijsinstellingen","Politieacademie","http://adfs2.politieacademie.nl/adfs/services/trust",774
+"{B1F64F0B-1510-DC11-A6C7-0019B9DE3AA4}","Radboud Universiteit Nijmegen","Hans Zondag","h.zondag@ru.nl","+31 (0)6 52781790","Universiteiten","Radboud University","https://conext.authenticatie.ru.nl/simplesaml/saml2/idp/metadata.php",954
+"{30E880E1-8E0F-DC11-A6C7-0019B9DE3AA4}","Universitair Medisch Centrum St Radboud","Hein van Meelis","hein.vanmeelis@radboudumc.nl","+31 (0)24 309 2134","Universitair Medische Centra","Radboudumc","http://federatie.umcn.nl/adfs/services/trust",294
+"{A8761B3A-6510-DC11-A6C7-0019B9DE3AA4}","Rathenau Instituut","Versteegt","e.versteegt@rathenau.nl","+31 (0)70 342 1542","Onderzoeksinstellingen","Rathenau Institute (KNAW)","https://rathenau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",895
+"{AE97A04D-3110-DC11-A6C7-0019B9DE3AA4}","Rijksmuseum","Hendriks, Rob","r.hendriks@rijksmuseum.nl","+31 (0)20 674 7340","Musea","Rijksmuseum Amsterdam","http://federation.rijksmuseum.nl/adfs/services/trust",1155
+"{1711C270-A2AB-E411-B1E8-0050569E0013}","Rijn IJssel","Willem Nap","w.nap@rijnijssel.nl","+31 (0)26 312 9000","MBO","Rijn IJssel","http://fed.rijnijssel.nl/adfs/services/trust",216
+"{FC410F83-94C1-E411-829E-0050569E0011}","ROC Alfa-college","Jacques Korfage","gj.korfage@alfa-college.nl","+31 (0)88 334 1429","MBO","ROC Alfa-college","http://federation.alfa-college.nl/adfs/services/trust",1328
+"{83BFBB2C-8253-E411-AA37-0050569E0011}","ROC Aventus","Roy Dusink","r.dusink@aventus.nl","+31 (0)88 283 6029","MBO","ROC Aventus","http://adfs3prod.aventus.nl/adfs/services/trust",2129
+"{D049617A-81C1-E411-829E-0050569E0011}","ROC Midden Nederland","Harnold Vredendaal","j.vredendaal@rocmn.nl","+31 (0)30 754 7621","MBO","ROC Midden Nederland","http://adfs3host.proxy.rocmn.nl/adfs/services/trust",1358
+"{AD5F5623-A2C1-E411-8DAD-0050569E0013}","ROC Nijmegen","Jos van de Hulsbeek","j.vandehulsbeek@roc-nijmegen.nl","0900-9609","MBO","ROC Nijmegen","http://sts.roc-nijmegen.nl/adfs/services/trust",413
+"{6098F7DC-CD68-E411-9E61-0050569E0013}","ROC van Amsterdam","Andreas Feuchthofen","afj.feuchthofen@rocva.nl","+31 (0)20 579 7052","MBO","ROC van Amsterdam Flevoland en VOvA","http://sts.talnet.nl/adfs/services/trust",1143
+"{4689BA0F-BBE8-E411-AD1D-0050569E0013}","Koninklijke Academie van Beeldende Kunsten Den Haag",,,,"Hogescholen","Royal Academy of Art","http://sclogin.kabk.nl/adfs/services/trust",2093
+"{1AF8E9C3-BBE8-E411-AD1D-0050569E0013}","Koninklijk Conservatorium",,,,"Hogescholen","Royal Conservatoire","http://sclogin.koncon.nl/adfs/services/trust",2079
+"{BA430EBD-1A10-DC11-A6C7-0019B9DE3AA4}","Rijksuniversiteit Groningen","Slager, Henk","h.d.slager@rug.nl","+31 (0)50 363 9275","Universiteiten","RUG","https://signon.rug.nl/nidp/saml2/metadata",15
+"{BBBA345A-3010-DC11-A6C7-0019B9DE3AA4}","Saxion","Karina Boek - Haarman","k.a.boek@saxion.nl","+31 (0)53 487 1308","Hogescholen","Saxion University of Applied Sciences","https://sso.saxion.nl/opensso",690
+"{328D2041-1DC7-E011-A5A7-0050569E3F41}","Schakelzone Hogeschool",,,,"Universiteiten","Schakelzone Recht","https://fedlogin.schakelzone.nl/fed/idp",206
+"{44B5E975-6910-DC11-A6C7-0019B9DE3AA4}","Hogeschool Sint-Lukas Brussel","Degruytere, Wim","wim.degruytere@sintlukas.be","+32 (0) 2 250 11 50","Belgische hogescholen","SintLucas","http://adfsproxy.sintlucas.nl/adfs/services/trust",1557
+"{3E26E281-2910-DC11-A6C7-0019B9DE3AA4}","Centraal Planbureau","Zijleman","e.l.m.zijleman@cpb.nl","+31 (0)70 338 3380","Onderzoeksinstellingen","Sociaal en Cultureel Planbureau","http://login.scp.nl/adfs/services/trust",1559
+"{84550E47-8D5E-E411-BC8A-0050569E0013}","STC-Group","Ton Hoppener","hoppener@stc-r.nl","+31 (0)10 448 6221","MBO","STC-Group","http://login.stc-r.nl/adfs/services/trust",1151
+"{AC98D1CC-8E0F-DC11-A6C7-0019B9DE3AA4}","Stenden Hogeschool","Harry Yntema","harry.yntema@stenden.com","+31 (0)6 15319588","Hogescholen","Stenden Hogeschool","http://adfs.stenden.com/adfs/services/trust",233
+"{E0AF7202-B450-DC11-B813-0019B9DE3AA4}","Stichting Opleidingen Musculoskeletale Therapie","Bertrands, Hilde","h.bertrands@somt.nl","+31 (0)65 439 3410","Aangewezen en Diverse onderwijsinstellingen","Stichting Opleidingen Musculoskeletale Therapie","http://adfs.somt.nl/adfs/services/trust",608
+"{8D7326CA-1A10-DC11-A6C7-0019B9DE3AA4}","Stichting Wetenschappelijk Onderzoek Verkeersveiligheid","Ward Lassing","ward.lassing@swov.nl","+31 (0)70 317 3338","Onderzoeksinstellingen","Stichting Wetenschappelijk Onderzoek Verkeersveiligheid SWOV","http://demeter.wp.swov.nl/adfs/services/trust",1773
+"{FA225E61-43D2-E111-A81F-0050569E0013}","Stichting Studielink","Kunnen, Harm","kunnen@studielink.nl","+31 (0)30 204 1209","Aan hoger onderwijs gelieerde instellingen","Studielink","http://adfs.studielinkplatform.nl/adfs/services/trust",947
+"{176AFE38-207A-E411-A2AA-0050569E0011}","Stichting ROC Summa College","Koen Janssen","softwarebeheer@summacollege.nl","+31 (0)6 13284943","MBO","Summa College","http://adfs.summacollege.nl/adfs/services/trust",894
+"{4BE74AE4-1A10-DC11-A6C7-0019B9DE3AA4}","SURF","Sommeren, Rik van","vansommeren@surf.nl","+31 (0)30 234 6600","Aan hoger onderwijs gelieerde instellingen","SURF","http://fs.multrix.com/adfs/services/trust",847
+"{7E7326CA-1A10-DC11-A6C7-0019B9DE3AA4}","SURFmarket","Bakker, Jan","manja.vaneck@surfdiensten.nl","+31 (0)88 126 9713","Aan hoger onderwijs gelieerde instellingen","SURFmarket","http://adfs.surfmarket.nl/adfs/services/trust",1033
+"{837326CA-1A10-DC11-A6C7-0019B9DE3AA4}","SURFnet bv","William van Santen","william.vansanten@surfnet.nl","+31 (0)30 230 5305","Aan hoger onderwijs gelieerde instellingen","SURFnet bv","https://idp.surfnet.nl",249
+"{50BF6DDD-1A10-DC11-A6C7-0019B9DE3AA4}","SURFsara BV","Mevius, Leonieke","leonieke.mevius@surfsara.nl","+31 (0)20 800 1300","Aan hoger onderwijs gelieerde instellingen","SURFsara","https://sso.surfsara.nl/saml/saml2/idp/metadata.php",1667
+"{24644BBF-1B10-DC11-A6C7-0019B9DE3AA4}","Technische Universiteit Delft","Marco Mansveld","m.c.mansveld@tudelft.nl","+31 (0)15 278 7584","Universiteiten","Technische Universiteit Delft","https://gatekeeper2.tudelft.nl/openaselect/profiles/saml2/",65
+"{29644BBF-1B10-DC11-A6C7-0019B9DE3AA4}","Technische Universiteit Eindhoven","Software coordinatie","software.coordinator@tue.nl","+31 (0)40 247 9111","Universiteiten","Technische Universiteit Eindhoven","http://adfs.tue.nl/adfs/services/trust",55
+"{94098C1D-6610-DC11-A6C7-0019B9DE3AA4}","Technologiestichting STW","Laan, Nick van der","n.vanderlaan@stw.nl","+31 (0)70 344 0822","Onderzoeksinstellingen","Technologiestichting STW","http://adfs.stw.nl/adfs/services/trust",1931
+"{BC492678-2610-DC11-A6C7-0019B9DE3AA4}","Terena","Visser, Dick","visser@terena.org","+31 (0)20 530 4488","Aan hoger onderwijs gelieerde instellingen","TERENA Secretariat","https://login.terena.org/idp/saml2/idp/metadata.php",56
+"{9EFD2278-3E4C-E311-BA11-0050569E0011}","Thomas More Hogeschool","Lennert Sieverding","l.sieverding@daedaworks.nl","+31 (0)10 465 7066","Hogescholen","Thomas More Hogeschool","http://adfs.thomasmorehs.nl/adfs/services/trust",1364
+"{D55DC2E7-950F-DC11-A6C7-0019B9DE3AA4}","Tilburg University","Vromans, Corno","corno.vromans@uvt.nl","+31 (0)13 466 2142","Universiteiten","Tilburg University","https://saml.uvt.nl/saml2/idp/metadata.php",59
+"{B58068A2-2210-DC11-A6C7-0019B9DE3AA4}","Trimbos-instituut","Wiesenhaan, Alfred","awiesenhaan@trimbos.nl","+31 (0)30 295 9306","Onderzoeksinstellingen","Trimbos Instituut","http://federatie.trimbos.nl/adfs/services/trust",766
+"{1B8835E8-8E0F-DC11-A6C7-0019B9DE3AA4}","Universitair Medisch Centrum Groningen","Palsma, Jan","j.palsma@umcg.nl","+31 (0)50 361 0195","Universitair Medische Centra","UMC Groningen","http://federation.umcg.nl/adfs/services/trust",1681
+"{1C7EA8A5-BFF1-DC11-A971-0019B9DE3AA4}","UNESCO-IHE, Institute for Water Education","Nievelt, Willem van","w.vannievelt@unesco-ihe.org","+31 (0)15 215 1819","Aangewezen en Diverse onderwijsinstellingen","UNESCO-IHE Institute for Water Education","http://idp.ihe.nl/adfs/services/trust",399
+"{F7A56973-2710-DC11-A6C7-0019B9DE3AA4}","United Nations University","Vleugels, Mark","vleugels@merit.unu.edu","+31 (0)43 388 4462","Aangewezen en Diverse onderwijsinstellingen","United ID | United ID Services","https://idp.unitedid.org/idp/shibboleth",1513
+"{26E880E1-8E0F-DC11-A6C7-0019B9DE3AA4}","UMC Utrecht","Harinck, Albert","a.harinck-2@umcutrecht.nl","+31 (0)88 755 5555","Universitair Medische Centra","Universitair Medisch Centrum Utrecht","http://fshub.umcutrecht.nl/adfs/services/trust",379
+"{C5430EBD-1A10-DC11-A6C7-0019B9DE3AA4}","Universiteit Leiden","Vonk, Hans","j.j.vonk@i-groep.leidenuniv.nl","+31 (0)71 527 6949","Universiteiten","Universiteit Leiden Identity Server","https://login.uaccess.leidenuniv.nl/nidp/saml2/metadata",16
+"{914817CC-1B10-DC11-A6C7-0019B9DE3AA4}","Universiteit Twente","Hans Bezemer","j.f.g.bezemer@utwente.nl","+31 (0)53 489 4842","Universiteiten","Universiteit Twente","https://utwente.nl/",367
+"{964817CC-1B10-DC11-A6C7-0019B9DE3AA4}","Universiteit Utrecht","Daniels, Hanny","h.daniels@uu.nl","+31 (0)30 253 7710","Universiteiten","Universiteit Utrecht","https://login.services.uu.nl/nidp/saml2/metadata",975
+"{A14817CC-1B10-DC11-A6C7-0019B9DE3AA4}","Universiteit van Amsterdam","Nora Devente","devente@uva.nl","+31 (0)20 525 7975","Universiteiten","Universiteit van Amsterdam","https://secure.uva.nl/cas",57
+"{6A8E0FD2-1B10-DC11-A6C7-0019B9DE3AA4}","Universiteit voor Humanistiek","Jaspers, Henk","h.jaspers@uvh.nl","+31 (0)30 239 0173","Universiteiten","University of Humanistic Studies","http://adfs.uvh.nl/adfs/services/trust",920
+"{D0D060CC-950F-DC11-A6C7-0019B9DE3AA4}","Hogeschool voor de Kunsten Utrecht","Robert Haasbroek","robert.haasbroek@hku.nl","+31 (0)35 683 6464","Hogescholen","Utrecht School of the Arts","https://federatie.hku.nl",903
+"{19E0C550-900F-DC11-A6C7-0019B9DE3AA4}","Viaa","Mol, Anko","a.mol@viaa.nl","+31 (0)38 425 5542","Hogescholen","Viaa Gereformeerde Hogeschool Zwolle","http://sts.viaa.nl/adfs/services/trust",1431
+"{AF1F54D8-1B10-DC11-A6C7-0019B9DE3AA4}","Vrije Universiteit Amsterdam","Keulen, Caroline","caroline.keulen@vu.nl","+31 (0)20 598 5525","Universiteiten","Vrije Universiteit","http://stsfed.login.vu.nl/adfs/services/trust",1429
+"{9B0BF0DA-8E0F-DC11-A6C7-0019B9DE3AA4}","VU Medisch Centrum","William Gijse","w.gijse@vumc.nl","+31 (0)20 444 0638","Universitair Medische Centra","VUmc","http://teamwerk.fed.vumc.nl/adfs/services/trust",465
+"{42127418-1510-DC11-A6C7-0019B9DE3AA4}","Wageningen UR","Peter Holtes WU","contractensurfwu.fb@wur.nl","+31 (0)31 748 3814","Universiteiten","Wageningen UR","http://sts.wur.nl/adfs/services/trust",541
+"{DE3285B3-2310-DC11-A6C7-0019B9DE3AA4}","Zeeuwse Bibliotheek","Vastenhoud, Jos","j.vastenhoud@zeeuwsebibliotheek.nl","+31 (0)11 865 4377","Bibliotheken","Zeeuwse Bibliotheek","http://mdb-vw-adfs.zebi.nl/adfs/services/trust",542
+"{6DCEC251-2E10-DC11-A6C7-0019B9DE3AA4}","Zuyd Hogeschool","Hochstenbach, Andre","andre.hochstenbach@zuyd.nl","+31 (0)45 400 6136","Hogescholen","Zuyd University","https://idservice.zuyd.nl/nidp/saml2/metadata",1031
+"{33522C4F-397C-E211-9B74-0050569E0011}","Certwell BV",,,,"-",,,
+"{89751391-387C-E211-9B74-0050569E0011}","CIRO BV",,,,"-",,,
+"{1EDF943F-BF19-E211-B29B-0050569E0011}","Cross Your Borders",,,,"-",,,
+"{E677AA82-BB6D-E111-A1BB-0050569E0013}","De Forensische Zorgspecialisten","Doornik, Jurriaan van","jvandoornik@deforensischezorgspecialisten.nl","030 - 275 8 273","-",,,
+"{AB26A9C6-980F-E111-9A16-0050569E3F41}","Henry Maverick B.V.","Klarenbeek, Mark","m.klarenbeek@pezy.com","040-2903600","-",,,
+"{428D9457-4EA3-E211-96CC-0050569E0013}","International Groundwater Centre",,,,"-",,,
+"{7B7FE88F-617F-E211-9B74-0050569E0011}","Jac. P.Thijsseschool",,,,"-",,,
+"{1AA5668B-DC24-E211-B29B-0050569E0011}","Kiné Care",,,,"-",,,
+"{DFA648C8-3B7C-E211-9B74-0050569E0011}","Openbare Basisschool De Dorpsschool",,,,"-",,,
+"{15BAAC3F-3A7C-E211-9B74-0050569E0011}","Sint Janscentrum",,,,"-",,,
+"{4E8A5A87-BC19-E211-B29B-0050569E0011}","Stichting Almere Speciaal",,,,"-",,,
+"{D5DD3F08-3B7C-E211-9B74-0050569E0011}","Stichting Oudheidkamer Oostzaan",,,,"-",,,
+"{68B21B5D-BE19-E211-B29B-0050569E0011}","Vereniging School met de Bijbel te Stolwijk",,,,"-",,,
+"{9327ED4A-6A10-DC11-A6C7-0019B9DE3AA4}","Actualisering Monumentenregister","Willems, Winfried","w.willems@amr.nl","+31 (0)30 698 8600","Aan hoger onderwijs gelieerde instellingen",,,
+"{77D09794-2110-DC11-A6C7-0019B9DE3AA4}","Dienst Uitvoering Onderwijs","Riksten","a.riksten@ib-groep.nl","+31 (0)50 599 8769","Aan hoger onderwijs gelieerde instellingen",,,
+"{EBD11A66-2F10-DC11-A6C7-0019B9DE3AA4}","Drents Archief","Veen, Bert van der","bert.vanderveen@drentsarchief.nl","+31 (0)59 231 3523","Aan hoger onderwijs gelieerde instellingen",,,
+"{2722C62F-3510-DC11-A6C7-0019B9DE3AA4}","EIPA","Giuseppe Homan","g.homan@eipa.eu","+31 43 3296343","Aan hoger onderwijs gelieerde instellingen",,,
+"{F1646A1A-18B0-DF11-9CE2-0019B9DE3AA4}","European Grid Initiative","Alderden, Roosmarijn","Roosmarijn.Alderden@egi.eu","020-8932007","Aan hoger onderwijs gelieerde instellingen",,,
+"{9EA7CFA5-2310-DC11-A6C7-0019B9DE3AA4}","Eye Film Instituut Nederland","Khalid Atif","khalidatif@eyefilm.nl","+31 (0)20 589 1433","Aan hoger onderwijs gelieerde instellingen",,,
+"{15418B5E-E5AB-E111-B429-0050569E0013}","Fulbright center",,,,"Aan hoger onderwijs gelieerde instellingen",,,
+"{417CF8C5-950F-DC11-A6C7-0019B9DE3AA4}","Hogeschool der Kunsten Den Haag","Eric Privee","e.privee@kabk.nl","070-315 45 725","Aan hoger onderwijs gelieerde instellingen",,,
+"{43796398-2510-DC11-A6C7-0019B9DE3AA4}","Interstedelijk Studenten Overleg","Zanders, Loek","zanders@iso.nl","0643794988","Aan hoger onderwijs gelieerde instellingen",,,
+"{1E2B723E-3610-DC11-A6C7-0019B9DE3AA4}","Nationaal Archief","Korbee, Duncan","duncan.korbee@nationaalarchief.nl","+31(0)703315558","Aan hoger onderwijs gelieerde instellingen",,,
+"{2AB8A731-1510-DC11-A6C7-0019B9DE3AA4}","NBD/Biblion","Berry Dijkstra","b.dijkstra@nbdbiblion.nl","+31 (0)79 3440244","Aan hoger onderwijs gelieerde instellingen",,,
+"{F2506D3B-3310-DC11-A6C7-0019B9DE3AA4}","Nederlands Architectuurinstituut","Mark van Hoorn","m.vanhoorn@hetnieuweinstituut.nl","0104401375","Aan hoger onderwijs gelieerde instellingen",,,
+"{5ABF6DDD-1A10-DC11-A6C7-0019B9DE3AA4}","Nederlands Instituut voor Beeld en Geluid","Marco Sjerps","msjerps@beeldengeluid.nl","(035) 6772234","Aan hoger onderwijs gelieerde instellingen",,,
+"{42D4E152-2F10-DC11-A6C7-0019B9DE3AA4}","Nederlandse Taalunie","Christine Smit-Holman","csmit@taalunie.org","+31 (0)70 311 7152","Aan hoger onderwijs gelieerde instellingen",,,
+"{7EE84265-993D-E011-A72C-0050569E3F41}","Neth-ER","Lans, Kimberly","lans@neth-er.eu","+32 6095282","Aan hoger onderwijs gelieerde instellingen",,,
+"{B1E1A648-3310-DC11-A6C7-0019B9DE3AA4}","NSPOH","Django den Hartog","d.denhartog@nspoh.nl","+31 (0)30 8100500","Aan hoger onderwijs gelieerde instellingen",,,
+"{14A5F1EB-3E10-DC11-A6C7-0019B9DE3AA4}","NVAO","Derdelinckx, Rudy","r.derdelinckx@nvao.net","+31 (0)70 312 2300","Aan hoger onderwijs gelieerde instellingen",,,
+"{55BF6DDD-1A10-DC11-A6C7-0019B9DE3AA4}","OCLC B.V.","Knijn, John","john.knijn@oclc.org","+31 (0)71 524 6601","Aan hoger onderwijs gelieerde instellingen",,,
+"{7E175E34-3310-DC11-A6C7-0019B9DE3AA4}","Rijksbureau Kunsthistorische Documentatie","Kleinee, Ruud","kleinee@rkd.nl","+31 (0)70 333 9736","Aan hoger onderwijs gelieerde instellingen",,,
+"{AE48BACB-6710-DC11-A6C7-0019B9DE3AA4}","Rijksdienst voor de Monumentenzorg",,,,"Aan hoger onderwijs gelieerde instellingen",,,
+"{3F4CD59C-CEC7-DF11-A4D7-0050569E3F41}","SHB","Rijk, Saskia de","s.c.m.derijk@saxion.nl","+31 (0)53 487 1123","Aan hoger onderwijs gelieerde instellingen",,,
+"{89F85115-3445-DE11-8BB9-0019B9DE3AA4}","St. Internationale Architectuur Biënnale Rotterdam","Vrouwe, Eva","evrouwe@iabr.nl","+31 (0)10 206 0033","Aan hoger onderwijs gelieerde instellingen",,,
+"{67C2938C-2710-DC11-A6C7-0019B9DE3AA4}","Stichting Arq","Osinga, Ate","a.osinga@arq.org","+31 (0)20 840 7647","Aan hoger onderwijs gelieerde instellingen",,,
+"{93935186-2710-DC11-A6C7-0019B9DE3AA4}","Stichting Digitaal Erfgoed Nederland","Neijenhuis, Arianne","arianne.neijenhuis@den.nl","+31 (0)70 341 0343","Aan hoger onderwijs gelieerde instellingen",,,
+"{4C1D0D45-3410-DC11-A6C7-0019B9DE3AA4}","Stichting Europdonor","Mijnarends, Carine","ict@europdonor.nl","071 - 568 53 00","Aan hoger onderwijs gelieerde instellingen",,,
+"{D21E177A-2710-DC11-A6C7-0019B9DE3AA4}","Stichting Europees Keramisch Werkcentrum","Tjan, Ranti","facturen@ekwc.nl","+31 (0)73 612 4500","Aan hoger onderwijs gelieerde instellingen",,,
+"{CAD68006-4110-DC11-A6C7-0019B9DE3AA4}","Stichting Gelders Erfgoed","Patrick Reeuwijk","p.reeuwijk@gelderserfgoed.nl","026-3521694","Aan hoger onderwijs gelieerde instellingen",,,
+"{185CC477-2B10-DC11-A6C7-0019B9DE3AA4}","Stichting NOA","Remko van den Berg","r.vdberg@noa-vu.nl","+31 (0)20 504 0800","Aan hoger onderwijs gelieerde instellingen",,,
+"{5411B39A-2010-DC11-A6C7-0019B9DE3AA4}","Stichting Rijksakademie van Beeldende Kunsten","Verbakel, Harold","harold.verbakel@rijksakademie.nl","+31 (0)20 527 0366","Aan hoger onderwijs gelieerde instellingen",,,
+"{1EB42270-67E3-E011-8890-0050569E3F41}","Stichting SaNS","Lent, Leonie van","leonie.vanlent@sans-ec.nl","+31 (0)30 204 12 50","Aan hoger onderwijs gelieerde instellingen",,,
+"{B9D26B41-3210-DC11-A6C7-0019B9DE3AA4}","Stichting SURF",,,,"Aan hoger onderwijs gelieerde instellingen",,,
+"{4A11B39A-2010-DC11-A6C7-0019B9DE3AA4}","Stichting voor Vluchteling-Studenten UAF","Wisse, Hans","helpdesk@uaf.nl","030 - 252 08 35","Aan hoger onderwijs gelieerde instellingen",,,
+"{D2B752E7-B495-E411-8BEE-0050569E0013}","Studiekeuze123","Lex Sijtsma","lsijtsma@studiekeuze123.nl","+31 (0) 30 – 303 91 11","Aan hoger onderwijs gelieerde instellingen",,,
+"{8D2947FC-3B10-DC11-A6C7-0019B9DE3AA4}","V2_instituut voor instabiele media","Misker, Jan","jan@v2.nl","0102067272","Aan hoger onderwijs gelieerde instellingen",,,
+"{C9F4C449-900F-DC11-A6C7-0019B9DE3AA4}","Vereniging Hogescholen","Staa, Arian van","staa@hbo-raad.nl","+31 (0)70 312 2141","Aan hoger onderwijs gelieerde instellingen",,,
+"{AA1F54D8-1B10-DC11-A6C7-0019B9DE3AA4}","Vereniging Samenwerkende Nederlandse Universiteiten","Reijgersberg, Yvonne","reijgersberg@vsnu.nl","070 302 14 00","Aan hoger onderwijs gelieerde instellingen",,,
+"{55A01438-6610-DC11-A6C7-0019B9DE3AA4}","Vroedvrouwenschool",,,,"Aan hoger onderwijs gelieerde instellingen",,,
+"{9CDF1965-2D10-DC11-A6C7-0019B9DE3AA4}","Algemene Onderwijsbond","Schoonenberg","ict@aob.nl","+31 (0)30 298 9885","Aangewezen en Diverse onderwijsinstellingen",,,
+"{4D288492-A168-DF11-8507-0019B9DE3AA4}","Amsterdam School of Real Estate","Nijhof, Dick","d.nijhof@asre.nl","+31 (0)20 6681129","Aangewezen en Diverse onderwijsinstellingen",,,
+"{32CA77E1-4110-DC11-A6C7-0019B9DE3AA4}","Avans Plus","Beek, Maurice van","mvanbeek@avansplus.nl","+31 (0)76 525 8850","Aangewezen en Diverse onderwijsinstellingen",,,
+"{1D5CF7EC-4010-DC11-A6C7-0019B9DE3AA4}","Business School Nederland","Harmen Janssen","hjanssen@bsn.eu","+31 (0)614000251","Aangewezen en Diverse onderwijsinstellingen",,,
+"{AFA5A057-900F-DC11-A6C7-0019B9DE3AA4}","Cedin","Boersma, Frans","f.boersma@cedin.nl","+31 (0)88 020 0512","Aangewezen en Diverse onderwijsinstellingen",,,
+"{BEEDB4D0-1A10-DC11-A6C7-0019B9DE3AA4}","FNV Formaat","Blokzijl, Bart","bart.blokzijl@fnvformaat.nl","+31 (0)34 849 7397","Aangewezen en Diverse onderwijsinstellingen",,,
+"{DEE53000-3F10-DC11-A6C7-0019B9DE3AA4}","Hogeschool Dirksen","Blaas, Piet","pblaas@dirksen.nl","+31 (0)26 354 4620","Aangewezen en Diverse onderwijsinstellingen",,,
+"{69FED9F4-C6F1-DC11-A971-0019B9DE3AA4}","Hogeschool E3 ICT","Snel, Rob","rob@e3.nl","+31 (0)43 363 8333","Aangewezen en Diverse onderwijsinstellingen",,,
+"{9CAB1009-3C10-DC11-A6C7-0019B9DE3AA4}","Hogeschool Notenboom","Koksal, Murat","m.koksal@notenboom.nl","0402528040","Aangewezen en Diverse onderwijsinstellingen",,,
+"{8EE04B18-84BE-DC11-AA99-0019B9DE3AA4}","Intercollege Business School","Zeljkovic, Mark","markz@luzac.nl","+31 (0)70 350 8455","Aangewezen en Diverse onderwijsinstellingen",,,
+"{E673A2E0-950F-DC11-A6C7-0019B9DE3AA4}","Internationale School voor Wijsbegeerte",,,,"Aangewezen en Diverse onderwijsinstellingen",,,
+"{E23C1185-38E0-DF11-BF11-0050569E3F41}","Islamitische Universiteit Rotterdam","Kuzlu, Ahmet Ilker","kuzlu@iur.nl","0104854721","Aangewezen en Diverse onderwijsinstellingen",,,
+"{16BC61D3-950F-DC11-A6C7-0019B9DE3AA4}","ITC","Nelissen, Karel","nelissen@itc.nl","+31 (0)53 487 4376","Aangewezen en Diverse onderwijsinstellingen",,,
+"{21F818D5-1E10-DC11-A6C7-0019B9DE3AA4}","Katholieke Theologische Universiteit Amsterdam",,,,"Aangewezen en Diverse onderwijsinstellingen",,,
+"{8E04592A-68D2-E111-A81F-0050569E0013}","Leyden Academy on Vitality and Ageing","Eng, Dennis van den","d.vandeneng@masugro.nl","+31 (0)71 5240960","Aangewezen en Diverse onderwijsinstellingen",,,
+"{C3EDB4D0-1A10-DC11-A6C7-0019B9DE3AA4}","Maastricht School of Management","Martijn Schols","schols@msm.nl","+31 (0)43 3870861","Aangewezen en Diverse onderwijsinstellingen",,,
+"{A1F2A7E9-7096-DC11-89DD-0019B9DE3AA4}","Nederlands Instituut Fysieke Veiligheid","Visser, Leon","leon.visser@nifv.nl","+31 (0)26 355 2230","Aangewezen en Diverse onderwijsinstellingen",,,
+"{1A1C4804-3D10-DC11-A6C7-0019B9DE3AA4}","NSOB","Fischer-Pennings, Hetty","fischer@nsob.nl","+31 (0)70 302 4913","Aangewezen en Diverse onderwijsinstellingen",,,
+"{9A395EFA-4010-DC11-A6C7-0019B9DE3AA4}","NTI","Berry Boverman","berry.boverman@nti.nl","+31 88 1630 324","Aangewezen en Diverse onderwijsinstellingen",,,
+"{5860A237-1510-DC11-A6C7-0019B9DE3AA4}","Nyenrode Business Universiteit","Kroodsma, Hans Wim","h.w.kroodsma@nyenrode.nl","+31 (0)34 629 1537","Aangewezen en Diverse onderwijsinstellingen",,,
+"{65DB2A07-49C5-DF11-A4D7-0050569E3F41}","Opleidingsinstelling GGZ-VS","Bakker, Rob","r.bakker@ggzvs.nl","+31 030 233 01 11","Aangewezen en Diverse onderwijsinstellingen",,,
+"{AEE4A591-6D45-E311-BA11-0050569E0011}","Pro Education",,,,"Aangewezen en Diverse onderwijsinstellingen",,,
+"{4EB6A220-3910-DC11-A6C7-0019B9DE3AA4}","RB Opleidingen","Bekink, Linda","lbekink@rb.nl","+31 (0)345 547000","Aangewezen en Diverse onderwijsinstellingen",,,
+"{EEAF0D77-D1AA-E011-AEA6-0050569E3F41}","Scheidegger","Linden, Vera van der","vlinden@ncoi.nl","+31 (0)35 640 0411","Aangewezen en Diverse onderwijsinstellingen",,,
+"{A1AB1009-3C10-DC11-A6C7-0019B9DE3AA4}","Schoevers Hogeschool","Jeroen van Steenderen","j.van.steenderen@schoevers.nl","+31 (0)30 280 8770","Aangewezen en Diverse onderwijsinstellingen",,,
+"{293AED30-3710-DC11-A6C7-0019B9DE3AA4}","Stichting Huisartsopleiding Nederland","Duesman, Herman","h.duesman@huisartsopleiding.nl","+31 (0)30 282 3464","Aangewezen en Diverse onderwijsinstellingen",,,
+"{DF2218F2-3F10-DC11-A6C7-0019B9DE3AA4}","Stichting SIOO","Korte, Peter de","korte@sioo.nl","+31 (0)30 291 3000","Aangewezen en Diverse onderwijsinstellingen",,,
+"{053D5BFF-3F10-DC11-A6C7-0019B9DE3AA4}","The New School for Information Services","Spijker, Kees","k.spijker@thenewschool.nl","+31 (0)20 471 1787","Aangewezen en Diverse onderwijsinstellingen",,,
+"{F7FC91E0-4010-DC11-A6C7-0019B9DE3AA4}","Theologische Universiteit Apeldoorn","Rozema, Melle","informatie@tua.nl","+31 (0)55 577 5705","Aangewezen en Diverse onderwijsinstellingen",,,
+"{33644BBF-1B10-DC11-A6C7-0019B9DE3AA4}","Theologische Universiteit Kampen (Broederweg)","Harmanny, Geert","gdharmanny@tukampen.nl","+31 (0)38 447 1710","Aangewezen en Diverse onderwijsinstellingen",,,
+"{B3E0D0B7-1B10-DC11-A6C7-0019B9DE3AA4}","TMO, Hogeschool voor Modemanagement B.V.","Willem-Jetze Joustra","joustra@tmo.nl","+31 (0)34 341 6480","Aangewezen en Diverse onderwijsinstellingen",,,
+"{C8AA41D8-3E2F-E211-B53D-0050569E0011}","TSM Business School BV","Spit, Rob","r.spit@tsm.nl","+31 (0)53 4894501","Aangewezen en Diverse onderwijsinstellingen",,,
+"{D5144580-BE65-E011-A72C-0050569E3F41}","University of Curacao","Leendert Pengel","l.pengel@uoc.cw","(+599-9) 744-2248","Aangewezen en Diverse onderwijsinstellingen",,,
+"{EE6B76DF-1B10-DC11-A6C7-0019B9DE3AA4}","Webster University","Administrator, OGD","ogdadmin@webster.nl","071-5168000","Aangewezen en Diverse onderwijsinstellingen",,,
+"{08D48D13-3A10-DC11-A6C7-0019B9DE3AA4}","Wittenborg University BV","Birdsall, Peter","peter@wittenborg.nl","+31 (0)88 667 2688","Aangewezen en Diverse onderwijsinstellingen",,,
+"{31184006-3E10-DC11-A6C7-0019B9DE3AA4}","Artesis Hogeschool Antwerpen","Stappen, Sven van der","sven.vanderstappen@artesis.be","+32 3 213 8859","Belgische hogescholen",,,
+"{A554DC13-3F10-DC11-A6C7-0019B9DE3AA4}","Arteveldehogeschool",,,,"Belgische hogescholen",,,
+"{8AC58AA1-6810-DC11-A6C7-0019B9DE3AA4}","EHSAL, Europese Hogeschool Brussel","Calster, Jan van","jan.vancalster@ehsal.be","+ 32 (0) 2 101 652","Belgische hogescholen",,,
+"{49B5E975-6910-DC11-A6C7-0019B9DE3AA4}","Europese Hogeschool Brussel",,,,"Belgische hogescholen",,,
+"{2EA9441A-3F10-DC11-A6C7-0019B9DE3AA4}","Hogere Zeevaartschool",,,,"Belgische hogescholen",,,
+"{074C8946-3010-DC11-A6C7-0019B9DE3AA4}","Hogeschool Gent","Landuyt, Jan","jan.landuyt@hogent.be","+32 9 243 33 05","Belgische hogescholen",,,
+"{E50E0B6E-6910-DC11-A6C7-0019B9DE3AA4}","Hogeschool voor Wetenschap en Kunst","Roy, Kristien van","kristien.vanroy@luca-arts.be","+ 32 02 250 15 30","Belgische hogescholen",,,
+"{A054DC13-3F10-DC11-A6C7-0019B9DE3AA4}","Hogeschool West-Vlaanderen",,,,"Belgische hogescholen",,,
+"{E7212EAE-6810-DC11-A6C7-0019B9DE3AA4}","Katholieke Hogeschool Brugge-Oostende","Meeuws, Renaat","renaat.meeuws@khbo.be","+32 (0) 477 32 11 67","Belgische hogescholen",,,
+"{85C58AA1-6810-DC11-A6C7-0019B9DE3AA4}","Katholieke Hogeschool Mechelen","Berghmans, An","an.berghmans@lessius.eu","+ 32 15 369 331","Belgische hogescholen",,,
+"{8FC58AA1-6810-DC11-A6C7-0019B9DE3AA4}","Katholieke Hogeschool Sint-Lieven","Mertens, Koen","koen.mertens@kahosl.be","1234567890","Belgische hogescholen",,,
+"{E2212EAE-6810-DC11-A6C7-0019B9DE3AA4}","Katholieke Hogeschool Zuid West-Vlaanderen","Leenknegt, Rik","rik.leenknegt@howest.be","+32 56 24 12 11","Belgische hogescholen",,,
+"{43A6BEA7-6810-DC11-A6C7-0019B9DE3AA4}","Katholieke Hogeschool Zuid-West-Vlaanderen","Steenkiste, Hendrik van","hendrik.vansteenkiste@katho.be","+ 32 (0)56 26 41 20","Belgische hogescholen",,,
+"{E1C47A9F-2610-DC11-A6C7-0019B9DE3AA4}","Nep Belgische Hogeschool",,,,"Belgische hogescholen",,,
+"{875265FF-3D10-DC11-A6C7-0019B9DE3AA4}","Plantijnhogeschool","Desaever, Dirk","dirk.desaever@plantijn.be","+32 (0) 3 221 07 33","Belgische hogescholen",,,
+"{D8093C9A-6D10-DC11-A6C7-0019B9DE3AA4}","Plantijnhogeschool",,,,"Belgische hogescholen",,,
+"{A13AD688-2810-DC11-A6C7-0019B9DE3AA4}","Provinciale Hogeschool Limburg","Vos, Bart","bart.vos@phl.be","0032-11238651","Belgische hogescholen",,,
+"{EC212EAE-6810-DC11-A6C7-0019B9DE3AA4}","Thomas More Kempen vzw","Sonhoven, Jef van","jef.van.sonhoven@khk.be","+ 32 (0)14 56 23 18","Belgische hogescholen",,,
+"{9731849B-6810-DC11-A6C7-0019B9DE3AA4}","UC Leuven VZW","Coenegrachts, Vital","vital.coenegrachts@khleuven.be","+ 32 (0)16 375 770","Belgische hogescholen",,,
+"{48A6BEA7-6810-DC11-A6C7-0019B9DE3AA4}","UC Limburg VZW","Hendrickx, Johan","johan.hendrickx@khlim.be","+32 11 23 07 70","Belgische hogescholen",,,
+"{83508675-2910-DC11-A6C7-0019B9DE3AA4}","Vlerick Leuven Gent Management School","Damme, Raf van","helpdesk@vlerick.com","+32 9 210 97 24","Belgische hogescholen",,,
+"{22E9BD0D-3F10-DC11-A6C7-0019B9DE3AA4}","Xios Hogeschool Limburg",,,,"Belgische hogescholen",,,
+"{B9AC4621-3B10-DC11-A6C7-0019B9DE3AA4}","Associatie Antwerpen",,,,"Belgische universiteiten",,,
+"{9DEE14A0-4CB1-E111-B862-0050569E0011}","Evangelische Theologische Faculteit","Sinnaeve, Kris","kris.sinnaeve@etf.edu","0032-484618887","Belgische universiteiten",,,
+"{771C40A7-2710-DC11-A6C7-0019B9DE3AA4}","Katholieke Universiteit Leuven","Bleukx, Peter","peter.bleukx@icts.kuleuven.be","+32 16 32 22 08","Belgische universiteiten",,,
+"{A057323E-3410-DC11-A6C7-0019B9DE3AA4}","Université Libre de Bruxelles",,,,"Belgische universiteiten",,,
+"{B70B5992-2610-DC11-A6C7-0019B9DE3AA4}","Universiteit Antwerpen","Weeren, Arie","arie.weeren@ua.ac.be","+ 32 (0)3 8202016","Belgische universiteiten",,,
+"{975265FF-3D10-DC11-A6C7-0019B9DE3AA4}","Universiteit Gent","Vermeulen, Stijn","stijn.vermeulen@ugent.be","+32 9 264 85 53","Belgische universiteiten",,,
+"{E7D1B96D-2810-DC11-A6C7-0019B9DE3AA4}","Universiteit Hasselt","Lambrechts, Danny","danny.lambrechts@uhasselt.be","+ 32 (0) 11 26 81 87","Belgische universiteiten",,,
+"{115E4582-2810-DC11-A6C7-0019B9DE3AA4}","Vrije Universiteit Brussel","Vanouplines, Patrick","patrick.vanouplines@vub.ac.be","+32 2 629 24 29","Belgische universiteiten",,,
+"{E61AE1FA-7213-DC11-82F9-0019B9DE3AA4}","Basisbibliotheek Achterhoekse Poort","Anthonisse, Arjan","arjan.anthonisse@ietee.nl","+31(0)633988386","Bibliotheken",,,
+"{96A0F14C-3010-DC11-A6C7-0019B9DE3AA4}","Bibliocenter","Faassen","j.faassen@bibliocenter.nl","+31 (0)49 553 2757","Bibliotheken",,,
+"{243E689F-2410-DC11-A6C7-0019B9DE3AA4}","Biblionet Drenthe","Hans Bergman","h.bergman@biblionetdrenthe.nl","+31 (0)88 0128046","Bibliotheken",,,
+"{CC15F17D-2B10-DC11-A6C7-0019B9DE3AA4}","Biblioservice Gelderland","Carlo Amar","carlo.amar@rijnbrinkgroep.nl","+31 (0)26 386 0911","Bibliotheken",,,
+"{9791AB95-47A6-E111-B862-0050569E0011}","Bibliotheek aan de Vliet","Bastiaanse","fbastiaanse@bibliotheekaandevliet.nl","+31 (0)70 2400250","Bibliotheken",,,
+"{7966A740-3110-DC11-A6C7-0019B9DE3AA4}","Bibliotheek aan den IJssel","Bert Zielhuis","b.zielhuis@bibliotheekaandenijssel.nl","+31 (0)10 4503244","Bibliotheken",,,
+"{0883666B-2E10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Almelo","Hein, Arthur","ahein@bibliotheekalmelo.nl","+31 (0)54 682 2005","Bibliotheken",,,
+"{89B191A6-2410-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Beverwijk",,,,"Bibliotheken",,,
+"{8972BE0B-E78A-E111-B138-0050569E0013}","Bibliotheek Bollenstreek","Verbart, Lydia","lverbart@bibliotheekbollenstreek.nl","+31 (0)252 421076","Bibliotheken",,,
+"{4556F4AC-2310-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Breda",,,,"Bibliotheken",,,
+"{6B35492E-3310-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Cuijk",,,,"Bibliotheken",,,
+"{250BC384-2410-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Den Haag","Knijff, Chris","chris.knijff@denhaag.nl","+31 (0)70 752 5848","Bibliotheken",,,
+"{8E2DB9E7-91B3-E411-B1E8-0050569E0013}","Bibliotheek Emmen","Jan Kuipers","jan.kuipers@bibliotheekemmen.nl","+31 (0) 591 681444","Bibliotheken",,,
+"{489FAB47-3210-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Gelderland Zuid","Weigergangs, Michel","mweigergangs@obgz.nl","024 - 327 49 28","Bibliotheken",,,
+"{C5302114-EDEF-E011-8890-0050569E3F41}","Bibliotheek Groene Venen","Leemput, Annelieke van de","avdleemput@debibliotheekkrimpenerwaard.nl","0182 - 640572","Bibliotheken",,,
+"{293E689F-2410-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Haarlemmermeer","Feurich, Clinton","clinton.feurich@debibliotheekhaarlemmermeer.nl","023 - 566 48 00","Bibliotheken",,,
+"{41A5F46B-2D10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Hengelo","Plaza, Cesar","c.plaza@bibliotheekhengelo.nl","+31 (0)74 245 2568","Bibliotheken",,,
+"{E4DA8F98-2410-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Het Markiezaat","Maurer, Jan","j.maurer@markiezaatsbibliotheken.nl","+31 (0)16 424 3450","Bibliotheken",,,
+"{1091DBCF-E89E-DF11-8D13-0019B9DE3AA4}","Bibliotheek Hilversum","Bakker, Sonja","s.bakker@bibliotheekhilversum.nl","+31 (0)35 6212942","Bibliotheken",,,
+"{C3EED0D1-2EAB-E111-B429-0050569E0013}","Bibliotheek Hoorn","Inge Boekhoff","iboekhoff@bibliotheekhoorn.nl","0229-285780","Bibliotheken",,,
+"{17A92BE4-BEAF-E111-B862-0050569E0011}","Bibliotheek Huizen-Laren-Blaricum","Haverkamp, Jet","jhaverkamp@bibliotheekhlb.nl","035-5257410","Bibliotheken",,,
+"{25811F63-2C10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Katwijk","Messemaker","jmessemaker@bibliotheekkatwijk.nl","+31 (0)71 401 4819","Bibliotheken",,,
+"{77D0CBF7-3D10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Kennemerwaard","Bijlsma","j.bijlsma@bibliotheekkennemerwaard.nl","+31 (0)72 515 6644","Bibliotheken",,,
+"{7122B85D-EFEF-E011-8890-0050569E3F41}","Bibliotheek Krimpenerwaard","Leemput, Annelieke van de","avdleemput@bibliotheekdegroenevenen.nl","0182-353355","Bibliotheken",,,
+"{BCC8C682-E409-E111-9A16-0050569E3F41}","Bibliotheek Maassluis / Midden-Delfland","Klaren, Marian","mklaren@bibliotheekmaassluis.nl","010-5925211","Bibliotheken",,,
+"{AB3AD688-2810-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Nieuwegein","Bogerd, Ron","R.Bogerd@detweedeverdieping.nu","+31 (0)30 604 5834","Bibliotheken",,,
+"{A6E27C4F-3310-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Oost Achterhoek","Bovenmarsch, Derk Jan","derkjan.bovenmarsch@oostachterhoek.nl","088-0062922","Bibliotheken",,,
+"{D01E0D7D-2C10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek plus Centrum voor kunst en cultuur","Rooden, Hans van","H.vanRooden@BplusC.nl","+31 (0)71 516 1624","Bibliotheken",,,
+"{C9A5B05C-4F85-E111-B5BB-0050569E0013}","Bibliotheek Rijn en Venen",,,,"Bibliotheken",,,
+"{9BE27C4F-3310-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Rivierenland","Wevers, Herman","herman.wevers@bibliotheekrivierenland.nl","+31 (0)34 4639940","Bibliotheken",,,
+"{AD4AEC98-2610-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Rotterdam","Fred Meijer","f.meijer@bibliotheek.rotterdam.nl","+31 (0)10 2816146","Bibliotheken",,,
+"{A1DF1965-2D10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Service Centrum","Heuvel, Nicole van den","n.van.den.heuvel@biscutrecht.nl","030 - 635 46 82","Bibliotheken",,,
+"{9E97A04D-3110-DC11-A6C7-0019B9DE3AA4}","Bibliotheek VAnnU","Schelle, Anita","a.schelle@bibliotheekvannu.nl","+31 (0)16 555 2080","Bibliotheken",,,
+"{001BB05F-2F10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek West Achterhoek","Andre Ebbers","a.ebbers@bibliotheekwestachterhoek.nl","+31 (0)31 433 3445","Bibliotheken",,,
+"{B077D278-7A6F-E211-B803-0050569E0013}","Bibliotheek Westland",,,,"Bibliotheken",,,
+"{9C41C90C-4010-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Zuid-Kennemerland","Rob Vermeeren","rob.vermeeren@bibliotheekzuidkennemerland.nl","+31 (0)23 5115303","Bibliotheken",,,
+"{20811F63-2C10-DC11-A6C7-0019B9DE3AA4}","Bibliotheek Zwartsluis","Holtmaat, Wout","wout.holtmaat@blauwebrug.nl","+31 (0)54 863 7888","Bibliotheken",,,
+"{01116D9A-2710-DC11-A6C7-0019B9DE3AA4}","Bibliotheekservice Fryslan","Lagerburg, Andre","a.lagerburg@bfrl.nl","+31 (0)58 284 7764","Bibliotheken",,,
+"{A3944A23-3C10-DC11-A6C7-0019B9DE3AA4}","Bibliotheken Noordoost Fryslan","Bethlehem, Jouke","j.bethlehem@bnof.nl","+31 (0)51 922 3862","Bibliotheken",,,
+"{1EDB366C-2F10-DC11-A6C7-0019B9DE3AA4}","Cultura Ede","Veeneman, Christien","cveeneman@cultura-ede.nl","+31 (0)31 867 2739","Bibliotheken",,,
+"{279273F6-3C10-DC11-A6C7-0019B9DE3AA4}","Cultuurspoor Best","Van Beek, Ingrid","ivanbeek@cultuurspoorbest.nl","+31 (0)49 937 2609","Bibliotheken",,,
+"{F002F834-5C1D-DF11-BC0D-0019B9DE3AA4}","De Bibliotheek AanZet","Erik van Gent","evangent@debibliotheekaanzet.nl","+31(0)78 6205500","Bibliotheken",,,
+"{7A67B72F-18C8-DC11-AA99-0019B9DE3AA4}","De Bibliotheek Schiedam","Bun Ucal","helpdesk@debibliotheekschiedam.nl","+31 (0)10 714 6300","Bibliotheken",,,
+"{C238F078-2D10-DC11-A6C7-0019B9DE3AA4}","De Bibliotheek Veenendaal","Brink, Perry van den","admin@bibliotheekveenendaal.nl","+31 (0)31 852 3090","Bibliotheken",,,
+"{BF2B20AD-2410-DC11-A6C7-0019B9DE3AA4}","De Bieb voor de Zaanstreek","Geert-Jan Bekman","g.j.bekman@debieb.nl","+31 (0)75 617 2252","Bibliotheken",,,
+"{7FB191A6-2410-DC11-A6C7-0019B9DE3AA4}","De Domijnen","Kakisina, Mozes","mozes.kakisina@biblionova.nl","+31 (0)46 451 0303","Bibliotheken",,,
+"{FEFB10F9-3E10-DC11-A6C7-0019B9DE3AA4}","De nieuwe bibliotheek","Kant, Wim","w.kant@denieuwebibliotheek.nl","036-5486000","Bibliotheken",,,
+"{1383666B-2E10-DC11-A6C7-0019B9DE3AA4}","Dedicon","Hout, Arno van","avhout@dedicon.nl","+31 (0)48 648 6440","Bibliotheken",,,
+"{1ECEED4D-3210-DC11-A6C7-0019B9DE3AA4}","DOK","Hermans, Sacha","s.hermans@dok.info","+31 (0)15 212 6186","Bibliotheken",,,
+"{D41B013B-3210-DC11-A6C7-0019B9DE3AA4}","FlevoMeer Bibliotheek","Urk, van","bvu@flevomeerbibliotheek.nl","+31 (0)32 024 9200","Bibliotheken",,,
+"{4C27165B-D607-DD11-A971-0019B9DE3AA4}","Gelderse Bibliotheken","Michael de Jonge","michael.dejonge@rijnbrinkgroep.nl","+31 (0) 548 634500","Bibliotheken",,,
+"{32467705-4010-DC11-A6C7-0019B9DE3AA4}","Gemeentebibliotheek Utrecht",,,,"Bibliotheken",,,
+"{E9DA8F98-2410-DC11-A6C7-0019B9DE3AA4}","KopGroep Bibliotheken","Koopman, Silvia","s.koopman@kopgroepbibliotheken.nl","+31 (0)22 365 0007","Bibliotheken",,,
+"{3E9FAB47-3210-DC11-A6C7-0019B9DE3AA4}","Nieuwe Nobelaer/Bibliotheek","Dirken, Rian","r.dirken@nieuwenobelaer.nl","076-5045200","Bibliotheken",,,
+"{DFDA8F98-2410-DC11-A6C7-0019B9DE3AA4}","Noord Oost Brabantse Bibliotheken","Waal, Jan de","jw@nobb.nl","+31 (0)41 262 2618","Bibliotheken",,,
+"{1FCCFB64-2E10-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Deventer","Müller","jmuller@obdeventer.nl","+31 (0)57 067 5722","Bibliotheken",,,
+"{2F0BC384-2410-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Eindhoven","Albert Kivits","a.kivits@bibliotheekeindhoven.nl","+31 (0)40 260 4260","Bibliotheken",,,
+"{9BA0F14C-3010-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Enschede","Voogsgeerd","h.voogsgeerd@bibliotheekenschede.nl","+31 (0)53 480 4866","Bibliotheken",,,
+"{4184A9F0-3D10-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Heerlen","Brouns, Bernard","bernard.brouns@schunck.nl","+31 (0)45 577 2228","Bibliotheken",,,
+"{7E5AA507-3B10-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Kampen","Rijpma, Alie","arijpma@bibliotheekkampen.nl","+31 (0)38 331 2101","Bibliotheken",,,
+"{93508675-2910-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Naarden-Bussum","Boer, Leendert de","l.s.de.boer@bibliotheeknaardenbussum.nl","+31 (0)35 697 3000","Bibliotheken",,,
+"{84B191A6-2410-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Smallingerland","Albert Smeding","asmeding@bibliotheekdrachten.nl","0512-512680","Bibliotheken",,,
+"{37CA77E1-4110-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Spijkenisse","Jenny Slooter","jslooter@deboekenberg.nl","+31 (0)18 744013","Bibliotheken",,,
+"{AD57480D-3910-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Veldhoven","Herpen, Martijn van","m.herpen@bibliotheekveldhoven.nl","+31 (0)40 253 2901","Bibliotheken",,,
+"{4E9DB95E-2E10-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Vlissingen","Rossum, John van","jrm@spui.nl","+31 (0)11 842 2126","Bibliotheken",,,
+"{F7506D3B-3310-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Waalre","Beelaard, Ronald","rbeelaard@synerim.nl","+31 (0)40 221 4605","Bibliotheken",,,
+"{E3726711-3D10-DC11-A6C7-0019B9DE3AA4}","Openbare Bibliotheek Zoetermeer","Walter van Steenis","walter.vansteenis@bibliotheek-zoetermeer.nl","079 3438 183","Bibliotheken",,,
+"{9E3E8967-2910-DC11-A6C7-0019B9DE3AA4}","Overijsselse Bibliotheek Dienst","Jonge, Michael de","michael.dejonge@blauwebrug.nl","+31 (0)54 863 4448","Bibliotheken",,,
+"{73CF3353-3010-DC11-A6C7-0019B9DE3AA4}","Probiblio","Van Eekelen, Hans","hveekelen@probiblio.nl","+31 (0)23 554 6216","Bibliotheken",,,
+"{14192FF2-546A-E011-A37E-0050569E3F41}","Sectorinstituut Openbare Bibliotheken","Lankhaar, Patrick","patricksiob@lancom.nl","010 2457761","Bibliotheken",,,
+"{64FD288B-2410-DC11-A6C7-0019B9DE3AA4}","Servicecentrum Flevolandse bibliotheken","Spanier, Ronald","r.spanier@sfb-net.nl","+31 (0)32 026 9550","Bibliotheken",,,
+"{CE696F13-B3F0-E011-8890-0050569E3F41}","St. Bibliotheek Hoeksche Waard","Agnes Crans","acrans@debhw.nl","0186653432","Bibliotheken",,,
+"{78CF3353-3010-DC11-A6C7-0019B9DE3AA4}","St.Amstelland Bibliotheken","Verweij, Niek","n.verweij@amstelland-bibliotheken.nl","+31 (0)20 641 4126","Bibliotheken",,,
+"{13D27A77-2E10-DC11-A6C7-0019B9DE3AA4}","Stadkamer","Brinks, Erik","systeembeheer@stadkamer.nl","0384217278","Bibliotheken",,,
+"{E60A0424-6B10-DC11-A6C7-0019B9DE3AA4}","Stadsarchief en Athenaeum Bibliotheek","Wijlens, Ronald","saxbibonline.sab@saxion.nl","+31 (0)57 069 3732","Bibliotheken",,,
+"{D93285B3-2310-DC11-A6C7-0019B9DE3AA4}","Stadsbibliotheek Maastricht","Frantzen, Henry","henry.frantzen@maastricht.nl","+31 (0)43 350 5582","Bibliotheken",,,
+"{6CC2938C-2710-DC11-A6C7-0019B9DE3AA4}","Stadsbibliotheek 's-Hertogenbosch","Klop, Anne","a.klop@bibliotheekdenbosch.nl","+31 (0)73 612 3033","Bibliotheken",,,
+"{4413203A-3110-DC11-A6C7-0019B9DE3AA4}","Stichting Algemene Openbare Bibliotheek Roermond","Joosten, Twan","joosten@bibliorura.nl","+31 (0)47 551 9007","Bibliotheken",,,
+"{2A0BC384-2410-DC11-A6C7-0019B9DE3AA4}","Stichting Arnhemse Openbare en Gelderse Wetenschappelijke Bibliotheek","Ronner, Gert","g.ronner@bibliotheekarnhem.nl","+31 (0)26 354 3528","Bibliotheken",,,
+"{D1C91A42-3310-DC11-A6C7-0019B9DE3AA4}","Stichting Basisbibliotheek Dommeldal","Helvoort, Annette van","a.vanhelvoort@bibliotheekdommeldal.nl","+31 (0)40 286 2805","Bibliotheken",,,
+"{AD485158-2E10-DC11-A6C7-0019B9DE3AA4}","Stichting BiblioNu","Bakker","mbakker@biblionu.nl","+31 (0)47 858 1970","Bibliotheken",,,
+"{78B116D2-6710-DC11-A6C7-0019B9DE3AA4}","Stichting Bibliotheek Almere",,,,"Bibliotheken",,,
+"{DAE5D092-BB84-DD11-860D-0019B9DE3AA4}","Stichting Bibliotheek De Kempen","Schellens, Anneke","a.schellens@bibliotheekdekempen.nl","+31 (0)85 773 3204","Bibliotheken",,,
+"{9E944A23-3C10-DC11-A6C7-0019B9DE3AA4}","Stichting Bibliotheek IJmond Noord","Deldar Barzany","beheer@obijmond.nl","+31 (0)251 261889","Bibliotheken",,,
+"{304B241E-3710-DC11-A6C7-0019B9DE3AA4}","Stichting Bibliotheek Kop van Overijssel","Hilbers, Hans","h.hilbers@bibov.nl","+31 (0)","Bibliotheken",,,
+"{A0E6822F-82CE-E211-92C8-0050569E0011}","Stichting Bibliotheek Landgraaf-Onderbanken","Loupias, Magda","m.loupias@bibliotheeklandgraaf.nl","+31 45 5312895","Bibliotheken",,,
+"{7CAE2058-2D10-DC11-A6C7-0019B9DE3AA4}","Stichting bibliotheek Midden-Brabant","Aben, Jos","josaben@bibliotheekmb.nl","06-24702815","Bibliotheken",,,
+"{9AEFC106-3A10-DC11-A6C7-0019B9DE3AA4}","Stichting Bibliotheek Velsen","van Vark","avanvark@bibliotheekvelsen.nl","+31 (0)25 552 5353","Bibliotheken",,,
+"{74CE6E23-F20C-E011-A47F-0050569E3F41}","Stichting bibliotheek.nl","Willemze, Arje","arje.willemze@bibliotheek.nl","070-3090100","Bibliotheken",,,
+"{529B35DB-4110-DC11-A6C7-0019B9DE3AA4}","Stichting Bibliotheken Maas en Peel","Freriks, Vincent","v.freriks@debibliotheekmaasenpeel.nl","+31 (0)47 533 6480","Bibliotheken",,,
+"{E9B2B291-2410-DC11-A6C7-0019B9DE3AA4}","Stichting Bibliotheken Midden-Fryslan","Financiën","factuur@sbmf.nl","+31 (0)58 2347777","Bibliotheken",,,
+"{5FFD288B-2410-DC11-A6C7-0019B9DE3AA4}","Stichting CODA","Dröge, Louis","helpdesk@coda-apeldoorn.nl","+31 (0)55 526 8408","Bibliotheken",,,
+"{EEB2B291-2410-DC11-A6C7-0019B9DE3AA4}","Stichting openbare Bibliotheek Gouda","Heleen Hersbach","h.hersbach@gouda.org","+31 (0)18 259 0113","Bibliotheken",,,
+"{118BB15E-2D10-DC11-A6C7-0019B9DE3AA4}","Stichting Openbare Bibliotheek Helmond Peel","Hakvoort, Ruud","info@bibliotheekhelmondpeel.nl","+31 (0)49 252 2220","Bibliotheken",,,
+"{09C6C30D-3B10-DC11-A6C7-0019B9DE3AA4}","Stichting Openbare Bibliotheek Ommen","Gerrits Jans, Frits","bib.ommen@bibov.nl","+31 (0)52 945 2158","Bibliotheken",,,
+"{32E48772-2D10-DC11-A6C7-0019B9DE3AA4}","Stichting Openbare Bibliotheek voor Venlo e.o.","Hovens","hhovens@bibliotheekvenlo.nl","+31 (0)77 354 8457","Bibliotheken",,,
+"{77AE2058-2D10-DC11-A6C7-0019B9DE3AA4}","Stichting Openbare Bibliotheek Wageningen","Driessen, Sjaak","sjaak.driessen@bblthk.nl","+31 (0)31 741 3352","Bibliotheken",,,
+"{C3AC4621-3B10-DC11-A6C7-0019B9DE3AA4}","Stichting Openbare Bibliotheek Wierden","Gerrits-Homans, Henriëtte","h.gerrits@bibliotheekwierden.nl","+31 (0)54 657 2784","Bibliotheken",,,
+"{24CCFB64-2E10-DC11-A6C7-0019B9DE3AA4}","Stichting Openbare Bibliotheek Wijchen","Kaashoek, Anja","anja.kaashoek@bibliotheek-wijchen.nl","+31 (0)24 6423209","Bibliotheken",,,
+"{0C8BB15E-2D10-DC11-A6C7-0019B9DE3AA4}","Theek5","Corne Meeuwesen","c.meeuwesen@theek5.nl","085-7441052","Bibliotheken",,,
+"{D6C91A42-3310-DC11-A6C7-0019B9DE3AA4}","Tresoar","Hofkamp, Tjibbe","ict@tresoar.nl","+31 (0)58-7890738","Bibliotheken",,,
+"{DFAE8070-2B10-DC11-A6C7-0019B9DE3AA4}","VOB","Toon Kets","kets@debibliotheken.nl","+31 (0)70 309 0530","Bibliotheken",,,
+"{403C9B14-62F6-DC11-A971-0019B9DE3AA4}","Deltares","Denie, Nathalie","inkoop-aut@deltares.nl","+31 (0)15 285 8404","Grote technologische instituten",,,
+"{76BF4ADF-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Centrum voor Biometrie",,,,"Grote technologische instituten",,,
+"{B6951E25-1510-DC11-A6C7-0019B9DE3AA4}","Nationaal Lucht- en Ruimtevaartlaboratorium","Oosterbeek, Rob","oosterbk@nlr.nl","+31 (0)20 511 3570","Grote technologische instituten",,,
+"{1B7C93FD-3C10-DC11-A6C7-0019B9DE3AA4}","Wetsus","Panstra, Ernst","ernst.panstra@wetsus.nl","+31 (0)58 284 3135","Grote technologische instituten",,,
+"{F83C0431-6B10-DC11-A6C7-0019B9DE3AA4}","C. Huygens Christelijke Hogeschool voor de Kunsten",,,,"Hogescholen",,,
+"{FAC15EED-6B10-DC11-A6C7-0019B9DE3AA4}","Christelijke Hogeschool Rijn-Delfland",,,,"Hogescholen",,,
+"{CBD060CC-950F-DC11-A6C7-0019B9DE3AA4}","Codarts, Hogeschool voor de Kunsten","Steenbergen, Antonie van","aevansteenbergen@codarts.nl","+31 (0)10 2171018","Hogescholen",,,
+"{5BFFFE68-6410-DC11-A6C7-0019B9DE3AA4}","Hogeschool Gelderland",,,,"Hogescholen",,,
+"{6036F0D9-950F-DC11-A6C7-0019B9DE3AA4}","Hogeschool Larenstein","Eijbersen, Gert","gert.eijbersen@wur.nl","+31 (0)26 369 5676","Hogescholen",,,
+"{18E3D544-6A10-DC11-A6C7-0019B9DE3AA4}","Hogeschool Maastricht",,,,"Hogescholen",,,
+"{D3093C9A-6D10-DC11-A6C7-0019B9DE3AA4}","Hogeschool Midden-Brabant",,,,"Hogescholen",,,
+"{0E53B98E-D9F3-DF11-BF11-0050569E3F41}","Hogeschool Van Hall Larenstein","Gerard de Jong","lcp-vhl.leeuwarden@wur.nl","+31 (0)58 284 6442","Hogescholen",,,
+"{0614FE61-6410-DC11-A6C7-0019B9DE3AA4}","Hogeschool voor Economische Studies Rotterdam",,,,"Hogescholen",,,
+"{CE093C9A-6D10-DC11-A6C7-0019B9DE3AA4}","Hogeschool West-Brabant",,,,"Hogescholen",,,
+"{EB73A2E0-950F-DC11-A6C7-0019B9DE3AA4}","Iselinge Hogeschool","Mittendorff, Rogier","rogier.mittendorff@ijsselgroep.nl","+31 (0) 88 0931387","Hogescholen",,,
+"{CCF04B14-4E10-DC11-A6C7-0019B9DE3AA4}","Stichting Evangelische Bijbel Scholen","Kerkvoorden, Wil van","wvk@ebsveenendaal.nl","+31 (0)31 855 4466","Hogescholen",,,
+"{3CA5F46B-2D10-DC11-A6C7-0019B9DE3AA4}","Stichting Evangelische Hogeschool","Dekker, Arjan","a.dekker@eh.nl","+31 (0)33 460 4000","Hogescholen",,,
+"{121C78B4-2010-DC11-A6C7-0019B9DE3AA4}","Stichting Hogeschool Rens & Rens",,,,"Hogescholen",,,
+"{758E0FD2-1B10-DC11-A6C7-0019B9DE3AA4}","Van Hall Instituut","Jong, Gerard de","gerard.dejong@wur.nl","+31 (0)58 284 6442","Hogescholen",,,
+"{3098C6D3-8E0F-DC11-A6C7-0019B9DE3AA4}","Vilentum Hogeschool","Peter Schrijver","p.schrijver@cahvilentum.nl","+31 (0)88 0205928","Hogescholen",,,
+"{25AC621D-4FE8-E111-83BD-0050569E0013}","Socrates",,,,"Leverancier",,,
+"{ACC3E8F0-3B76-E411-B0D9-0050569E0013}","Albeda College","Robert van der Nol","r.vandernol@albeda.nl","+31 (0)10 2584375","MBO",,,
+"{3296AF4A-6584-E411-A251-0050569E0011}","Friesland College","Foeke Hoekstra","f.hoekstra@fcroc.nl","0880602861","MBO",,,
+"{E192062B-63CD-E411-BFBE-0050569E0011}","Nova College","Nanda Westhof-Meijer","nwesthof@novacollege.nl","+31 (0)23 530 2669","MBO",,,
+"{518B5FB3-0E82-E411-8863-0050569E0013}","ROC Kop van Noord Holland",,,,"MBO",,,
+"{AFC99028-02B9-E411-B1E8-0050569E0013}","ROC Rivor",,,,"MBO",,,
+"{7096DE07-F581-E411-8863-0050569E0013}","ROC Tilburg",,,,"MBO",,,
+"{A2E82F16-306E-E411-BD59-0050569E0013}","SURFmarket mbo test","Maaike Test","maaike@surfmarket.nl","0031 88 1269700","MBO",,,
+"{610B411E-B89B-DF11-8D13-0019B9DE3AA4}","Amsterdam Museum","Helpdesk","helpdesk@amsterdammuseum.nl","0205231838","Musea",,,
+"{E1E4D934-3810-DC11-A6C7-0019B9DE3AA4}","Joods Historisch Museum","Nooter, Aartjan","aartjan@jhm.nl","+31 (0)20 5310368","Musea",,,
+"{85B46BAA-3B22-E011-9496-0050569E3F41}","Limburgs Museum","Janssen, Linda","l.janssen@limburgsmuseum.nl","0773522112","Musea",,,
+"{450BE4B7-DBC5-DD11-AC4D-0019B9DE3AA4}","Mauritshuis","Hoekstra, Ivo","hoekstra.i@mauritshuis.nl","+31 (0)70 302 3441","Musea",,,
+"{88A80827-3910-DC11-A6C7-0019B9DE3AA4}","Museon","Heskes, Richard","rheskes@museon.nl","+31 (0)70 338 1325","Musea",,,
+"{DFD8B8FD-0BA6-DF11-8D13-0019B9DE3AA4}","Museum Boerhaave","Wallé, Dalila","d.walle@museumboerhaave.nl","071-5662601","Musea",,,
+"{F36B58F1-7CCC-E211-92C8-0050569E0011}","Museum Het Rembrandthuis","Wim van Kerkwijk","w.vankerkwijk@rembrandthuis.nl","0031 20 5200400","Musea",,,
+"{DFF40514-3B10-DC11-A6C7-0019B9DE3AA4}","Museum Speelklok","Schoutsen, Gertjan","gjschoutsen@museumspeelklok.nl","0302326098","Musea",,,
+"{14C1AD4F-555E-E311-BCBE-0050569E0013}","Museum voor Moderne Kunst Arnhem","Ruud Teunissen","ruud.teunissen@combine-it.nl","+31 (0)26-3030300","Musea",,,
+"{9BF4E0BC-B330-DE11-8BB9-0019B9DE3AA4}","Nationaal Museum van Wereldculturen","Jos Taekema","jos.taekema@nmvw.nl","+31 (0)71 516 8820","Musea",,,
+"{369273F6-3C10-DC11-A6C7-0019B9DE3AA4}","Nationaal Onderwijsmuseum","Ruiten, Tijs Van","t.vanruiten@onderwijsmuseum.nl","+31 (0)10 404 5425","Musea",,,
+"{BC5AE960-3010-DC11-A6C7-0019B9DE3AA4}","Natuurhistorisch museum Rotterdam","Bakker, Jeroen","bakker@hetnatuurhistorisch.nl","+31 (0)10 2660466","Musea",,,
+"{CB00301F-1E16-DF11-848D-0019B9DE3AA4}","Natuurmuseum Nijmegen","Klein, Joram","joram.klein@natuurmuseum.nl","+31 (0)24 329 7070","Musea",,,
+"{00CD8D19-3810-DC11-A6C7-0019B9DE3AA4}","Nederlands fotomuseum","Loode, Eelco","eloode@nederlandsfotomuseum.nl","+31 (0)10 203 0434","Musea",,,
+"{FF046254-F600-DF11-9893-0019B9DE3AA4}","Nederlands Openluchtmuseum","Lindeboom, Leo","l.lindeboom@openluchtmuseum.nl","+31 (0)26 357 6135","Musea",,,
+"{E3E53000-3F10-DC11-A6C7-0019B9DE3AA4}","Noordelijk Scheepvaartmuseum","Kerkmeijer","kerkmeijer@noordelijkscheepvaartmuseum.nl","+31 (0)50 312 2202","Musea",,,
+"{0FCD8D19-3810-DC11-A6C7-0019B9DE3AA4}","Pest en Dolhuys Museum voor de Psychiatrie","Berg, Dimitry van den","berg@hetdolhuys.nl","+31 (0)23 541 0683","Musea",,,
+"{6E3A9906-3F10-DC11-A6C7-0019B9DE3AA4}","Rijksmuseum van Oudheden","Es, René van","r.vanes@rmo.nl","0715163166","Musea",,,
+"{3803EB0B-280D-DD11-8215-0019B9DE3AA4}","St. Museum Het Valkhof","Anthonisse, Bart","b.anthonisse@museumhetvalkhof.nl","0243608805","Musea",,,
+"{195BD1D1-525E-E311-BCBE-0050569E0013}","Stedelijk Museum Schiedam","Koos de Jong","koos.de.jong@stedelijkmuseumschiedam.nl","+31 (0)10 2463666","Musea",,,
+"{ED47C34D-903F-DE11-8BB9-0019B9DE3AA4}","Stichting Afrika Museum","Thielen, Carla","c.thielen@afrikamuseum.nl","+31 (0)24 684 7272","Musea",,,
+"{EEF40514-3B10-DC11-A6C7-0019B9DE3AA4}","Stichting Defensie Musea","Gerard de Graaf","g.degraaf@legermuseum.nl","+31 (0)85 273 65 25","Musea",,,
+"{972947FC-3B10-DC11-A6C7-0019B9DE3AA4}","Stichting Gemeentemuseum Den Haag","Heerings, Jeroen","j.heerings@gemeentemuseum.nl","+31 (0)70 338 1142","Musea",,,
+"{135CC477-2B10-DC11-A6C7-0019B9DE3AA4}","Stichting Haags Historisch Museum/ De Gevangenpoort","Ziaja, Robert","ziaja@gevangenpoort.nl","+31 (0)70 346 0861","Musea",,,
+"{9445B8CD-E9B6-DD11-B7BD-0019B9DE3AA4}","Stichting het Fries Museum","Daniël Hoogterp","d.hoogterp@princessehof.nl","+31 (0)6 10782809","Musea",,,
+"{22F2F556-FF90-DC11-89DD-0019B9DE3AA4}","Stichting Mommerskwartier","Klijberg, Aloijs","aloijs.klijberg@mommerskwartier.nl","+31 (0)13 549 4510","Musea",,,
+"{95EFC106-3A10-DC11-A6C7-0019B9DE3AA4}","Stichting Museum Catharijneconvent","Dick Nieuwenhuis","d.nieuwenhuis@catharijneconvent.nl","0302313835","Musea",,,
+"{A9637B9B-A91F-E311-AF64-0050569E0013}","Stichting Museum Rotterdam","Pim Reijnen","p.reijnen@museumrotterdam-cbk.nl","+31 (0)10 2176766","Musea",,,
+"{F14FA6D6-5CD0-DE11-B795-0019B9DE3AA4}","Stichting Museum voor Industrie en Samenleving","Born, Bjorn","b.born@continium.nl","+31 (0)45 567 6014","Musea",,,
+"{136CBC74-A855-DE11-8BB9-0019B9DE3AA4}","Stichting Nationaal Museum Paleis Het Loo","Pien Harms","p.harms@paleishetloo.nl","+31 (0)55 577 2400","Musea",,,
+"{453ABF25-5028-DF11-BC0D-0019B9DE3AA4}","Stichting Nederlands Scheepvaartmuseum","Schröder, René","rschroder@hetscheepvaartmuseum.nl","0205232214","Musea",,,
+"{185CF7EC-4010-DC11-A6C7-0019B9DE3AA4}","Stichting Rijksmuseum Twenthe","Terpstra, Roger","rterpstra@rijksmuseumtwenthe.nl","+31 (0)53 435 8675","Musea",,,
+"{0DC2CEB6-889E-DD11-8864-0019B9DE3AA4}","Stichting Stedelijk Museum Amsterdam","Mustafa Acikgöz","m.acikgoz@stedelijk.nl","+31 (0)20 573 2714","Musea",,,
+"{D2C021F0-59CB-DC11-AA99-0019B9DE3AA4}","Stichting ter Beheer Museum Boijmans Van Beuningen","Terveer, Fred","helpdesk@boijmans.nl","+31 (0)10 441 9535","Musea",,,
+"{B7BF98F9-B58E-DC11-89DD-0019B9DE3AA4}","Stichting Texels Museum","Poelje, Frank van","frankvanpoelje@ecomare.nl","+31 (0)22 231 7741","Musea",,,
+"{078595FB-B350-DC11-B813-0019B9DE3AA4}","Stichting Twentsewelle","Oude Maatman, Bennie","b.oudemaatman@twentsewelle.nl","+31 (0)53 480 7688","Musea",,,
+"{9F1F7C95-2499-DE11-A5ED-0019B9DE3AA4}","Stichting Zuiderzeemuseum","Reus, Peter","peter.reus@zuiderzeemuseum.nl","+31 (0)22 835 1280","Musea",,,
+"{737F250D-3A10-DC11-A6C7-0019B9DE3AA4}","Teylers Museum","Voogd, Herman","hvoogd@teylersmuseum.nl","+31 (0)23 516 0962","Musea",,,
+"{61AB015D-7EEA-E011-8890-0050569E3F41}","Van Gogh Museum","Peele, Marco","systeembeheer@vangoghmuseum.nl","+31 (0)20 570 5932","Musea",,,
+"{E1EF21CF-44F3-E011-8890-0050569E3F41}","Verzetsmuseum","Arno Groenendijk","groenendijk@verzetsmuseum.org","020-6202535","Musea",,,
+"{7C2D21E3-A365-E011-A72C-0050569E3F41}","Zaans Museum","Terol, Joke","j.terol@zaansmuseum.nl","075-6810000","Musea",,,
+"{4C54B77D-8E3B-E111-B392-0050569E3F41}","AIGHD","Appelboom, Dennis","d.appelboom@aighd.org","+ 31 20 5661352","Onderzoeksinstellingen",,,
+"{773238E7-4889-DC11-89DD-0019B9DE3AA4}","Center for Translational Molecular Medicine","Veron, Odette","odette.veron@ctmm.nl","+31 (0)40 800 2300","Onderzoeksinstellingen",,,
+"{F7E642F5-6610-DC11-A6C7-0019B9DE3AA4}","Centrum voor Estuariene en Mariene Oecologie",,,,"Onderzoeksinstellingen",,,
+"{F2E642F5-6610-DC11-A6C7-0019B9DE3AA4}","Centrum voor Limnologie",,,,"Onderzoeksinstellingen",,,
+"{EDE642F5-6610-DC11-A6C7-0019B9DE3AA4}","Centrum voor Terrestrische Oecologie",,,,"Onderzoeksinstellingen",,,
+"{0B2D6F0B-3D10-DC11-A6C7-0019B9DE3AA4}","Dianet","Emiel van Greevenbroek","e.vangreevenbroek@dianet.nl","+31 (0)30 880 8070","Onderzoeksinstellingen",,,
+"{A798D1CC-8E0F-DC11-A6C7-0019B9DE3AA4}","Dienst Landbouwkundig Onderzoek","Holtes DLO, Peter","contractensurfdlo.fb@wur.nl","+31 (0)31 748 3814","Onderzoeksinstellingen",,,
+"{3F1E7B30-6610-DC11-A6C7-0019B9DE3AA4}","DIMES/Sectie Submicronfysica en -Technologie",,,,"Onderzoeksinstellingen",,,
+"{69FBC022-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Centrum voor Landbouwpublicaties en Landbouwdocumentatie",,,,"Onderzoeksinstellingen",,,
+"{7BBF4ADF-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Instituut voor Agrobiologisch en Bodemvruchtbaarheidsonderzoek",,,,"Onderzoeksinstellingen",,,
+"{80BF4ADF-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Instituut voor Agrotechnologisch Onderzoek",,,,"Onderzoeksinstellingen",,,
+"{85BF4ADF-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Instituut voor Bos- en Natuuronderzoek",,,,"Onderzoeksinstellingen",,,
+"{F20362E5-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Instituut voor Dierhouderij en Diergezondheid",,,,"Onderzoeksinstellingen",,,
+"{F70362E5-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Instituut voor Milieu- en Agritechniek",,,,"Onderzoeksinstellingen",,,
+"{FC0362E5-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Instituut voor Planteziektenkundig Onderzoek",,,,"Onderzoeksinstellingen",,,
+"{F01489EC-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Landbouw-Economisch Instituut",,,,"Onderzoeksinstellingen",,,
+"{FA1489EC-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Rijksinstituut voor Visserijonderzoek",,,,"Onderzoeksinstellingen",,,
+"{F51489EC-6110-DC11-A6C7-0019B9DE3AA4}","DLO-Rijks-Kwaliteitsinstituut voor land- en tuinbouwprodukten",,,,"Onderzoeksinstellingen",,,
+"{56E74AE4-1A10-DC11-A6C7-0019B9DE3AA4}","ECORYS Nederland","Westfa, Iwan","iwan.westfa@ecorys.com","+31 (0)10 453 8456","Onderzoeksinstellingen",,,
+"{C33A1784-4D01-E111-9A16-0050569E3F41}","Expertisecentrum Nederlands","Donzel, Belinda van","info@expertisecentrumnederlands.nl","024 361 56 24","Onderzoeksinstellingen",,,
+"{9CE0538A-2310-DC11-A6C7-0019B9DE3AA4}","Expertisecentrum voor Taxonomische Identificaties","Gijswijt, Gideon","ggyswyt@eti.uva.nl","+31 (0)71 5271355","Onderzoeksinstellingen",,,
+"{441E7B30-6610-DC11-A6C7-0019B9DE3AA4}","FOM-Instituut voor Gecondenseerde Materie",,,,"Onderzoeksinstellingen",,,
+"{7077612A-6610-DC11-A6C7-0019B9DE3AA4}","FOM-Instituut voor Hoge-Energiefysica",,,,"Onderzoeksinstellingen",,,
+"{6B77612A-6610-DC11-A6C7-0019B9DE3AA4}","FOM-Instituut voor Kernfysica",,,,"Onderzoeksinstellingen",,,
+"{5FFBC022-6110-DC11-A6C7-0019B9DE3AA4}","Fruitteeltpraktijkonderzoek",,,,"Onderzoeksinstellingen",,,
+"{1BDA9251-53D2-E111-8363-0050569E0011}","ICIN",,,,"Onderzoeksinstellingen",,,
+"{F7CDE757-7E38-DE11-8BB9-0019B9DE3AA4}","Incas3","Pol, John van","johnvanpol@incas3.eu","+31 (0)59 286 0000","Onderzoeksinstellingen",,,
+"{3A85FB23-6610-DC11-A6C7-0019B9DE3AA4}","Instituut voor Nederlandse Geschiedenis","Huysman, Ineke","ineke.huysman@inghist.nl","+31 (0)70 315 6427","Onderzoeksinstellingen",,,
+"{0CDC9E9A-E6DA-DC11-B903-0019B9DE3AA4}","Instituut voor Nederlandse Lexicologie","Dennis Schenk","dennis.schenk@inl.nl","+31 (0)71 527 2481","Onderzoeksinstellingen",,,
+"{5636F0D9-950F-DC11-A6C7-0019B9DE3AA4}","Instituut voor Onderzoek van Overheidsuitgaven","Combe, Edu de la","e.de.la.combe@panteia.nl","+31 (0)79 322 2224","Onderzoeksinstellingen",,,
+"{2806BB48-6A67-E011-A72C-0050569E3F41}","ISPT","Noë, Ann","ann.noe@ispt.eu","+31 (0)33 7009797","Onderzoeksinstellingen",,,
+"{FFC5C30D-3B10-DC11-A6C7-0019B9DE3AA4}","Kenniscentrum WMC","Winkel, Gerben de","g.d.dewinkel@wmc.eu","+31 (0)22 750 4920","Onderzoeksinstellingen",,,
+"{3A1E7B30-6610-DC11-A6C7-0019B9DE3AA4}","Kernfysisch Versneller Instituut",,,,"Onderzoeksinstellingen",,,
+"{670AA404-C34B-E011-A72C-0050569E3F41}","Koninklijk Instituut voor de Tropen","Berk, Mieke","m.berk@kit.nl","020-5688394","Onderzoeksinstellingen",,,
+"{C9583040-6510-DC11-A6C7-0019B9DE3AA4}","Koninklijk Instituut voor Taal-, Land- en Volkenkunde",,,,"Onderzoeksinstellingen",,,
+"{AB35E311-1510-DC11-A6C7-0019B9DE3AA4}","Koninklijke Nederlandse Akademie van Wetenschappen","Sierink, Tine","t.sierink@knaw.nl","+31 (0)20 551 0773","Onderzoeksinstellingen",,,
+"{7BA5B9BA-1E10-DC11-A6C7-0019B9DE3AA4}","MAASTRO-clinic","Natascha Smeets","natascha.smeets@maastro.nl","+31884455666","Onderzoeksinstellingen",,,
+"{5AF2EA88-16BE-DE11-861D-0019B9DE3AA4}","Materials innovation institute (M2i)","Ruigrok, Oscar","ruigrok@m2i.nl","+31 (0)15 278 2535","Onderzoeksinstellingen",,,
+"{F7AE8B2B-1510-DC11-A6C7-0019B9DE3AA4}","Nederlands Interdisciplinair Demografisch Instituut","Berkien, Jeroen","berkien@nidi.nl","+31 (0)70 356 5215","Onderzoeksinstellingen",,,
+"{25B8A731-1510-DC11-A6C7-0019B9DE3AA4}","Nederlands Kankerinstituut","Nijhof, Hugo","h.nijhof@nki.nl","+31 (0)20 5122952","Onderzoeksinstellingen",,,
+"{83EF8855-6510-DC11-A6C7-0019B9DE3AA4}","Nederlands Studiecentrum Criminaliteit en Rechtshandhaving","Tamara Dijks","secretariaat@nscr.nl","020-5985239","Onderzoeksinstellingen",,,
+"{682CA0CD-4744-DE11-8BB9-0019B9DE3AA4}","Nederlandse Hartstichting","Bovendeur, Jeroen","j.bovendeur@hartstichting.nl","+31 (0)70 315 5509","Onderzoeksinstellingen",,,
+"{CC4B2C54-8712-E011-9496-0050569E3F41}","Nefrovisie","Martijn Leegte","m.leegte@nefrovisie.nl","030-8808080","Onderzoeksinstellingen",,,
+"{255DD073-2F10-DC11-A6C7-0019B9DE3AA4}","PHARMO Instituut","Engeland, Heleen van","heleen.van.engeland@pharmo.nl","+31 (0)30 7440800","Onderzoeksinstellingen",,,
+"{3296DFE2-1910-DC11-A6C7-0019B9DE3AA4}","Plantenziektenkundige dienst","Spee","h.spee@pd.agro.nl","+31 (0)31 749 6911","Onderzoeksinstellingen",,,
+"{1898E81B-6110-DC11-A6C7-0019B9DE3AA4}","Praktijkonderzoek Plant & Omgeving",,,,"Onderzoeksinstellingen",,,
+"{5AFBC022-6110-DC11-A6C7-0019B9DE3AA4}","Praktijkonderzoek Plant & Omgeving, sector Paddestoelen","Erp van","tes@test.nl",,"Onderzoeksinstellingen",,,
+"{A9228484-6910-DC11-A6C7-0019B9DE3AA4}","Praktijkonderzoek Pluimveehouderij",,,,"Onderzoeksinstellingen",,,
+"{3F559E7C-6910-DC11-A6C7-0019B9DE3AA4}","Praktijkonderzoek Rundvee, Schapen en Paarden",,,,"Onderzoeksinstellingen",,,
+"{BB7DE5F2-6110-DC11-A6C7-0019B9DE3AA4}","Praktijkonderzoek Veehouderij","Hakvoort","jacob.hakvoort@wur.nl","+31 (0)32 029 3217","Onderzoeksinstellingen",,,
+"{4778C291-2310-DC11-A6C7-0019B9DE3AA4}","Rijksdienst voor het Cultureel Erfgoed","Carrie Beekink","c.beekink@cultureelerfgoed.nl","+31 (0)33 421 7421","Onderzoeksinstellingen",,,
+"{93B47AC9-1F10-DC11-A6C7-0019B9DE3AA4}","Rijksinstituut voor Volksgezondheid en Milieu","Bergkamp, Wim","wim.bergkamp@rivm.nl","+31 (0)30 274 3630","Onderzoeksinstellingen",,,
+"{4F18527E-2510-DC11-A6C7-0019B9DE3AA4}","Sociaal en Cultureel Planbureau","Both, Leen","l.both@scp.nl","+31 (0)70 340 7678","Onderzoeksinstellingen",,,
+"{40D4167E-7426-DD11-BB0C-0019B9DE3AA4}","Spinozacentrum voor neuroimaging",,,,"Onderzoeksinstellingen",,,
+"{8DEF8855-6510-DC11-A6C7-0019B9DE3AA4}","SRON Netherlands Institute for Space Research","Bloemen, Hans","j.b.g.m.bloemen@sron.nl","+31 (0)88 777 8572","Onderzoeksinstellingen",,,
+"{20B4938A-2510-DC11-A6C7-0019B9DE3AA4}","Stichting Economisch Instituut van het Midden en Kleinbedrijf","Paul Vogels","p.vogels@panteia.nl","+31 (0)79 343 0229","Onderzoeksinstellingen",,,
+"{AE522117-6610-DC11-A6C7-0019B9DE3AA4}","Stichting Geologisch, Oceanografisch en Atmosferisch Onderzoek",,,,"Onderzoeksinstellingen",,,
+"{5136F0D9-950F-DC11-A6C7-0019B9DE3AA4}","Stichting Leerplanontwikkeling SLO","Kollenaar, Marcel","m.kollenaar@slo.nl","+31 (0)53 484 0550","Onderzoeksinstellingen",,,
+"{8F098C1D-6610-DC11-A6C7-0019B9DE3AA4}","Stichting Levenswetenschappen",,,,"Onderzoeksinstellingen",,,
+"{3085FB23-6610-DC11-A6C7-0019B9DE3AA4}","Stichting Nationale Computerfaciliteiten",,,,"Onderzoeksinstellingen",,,
+"{64FBC022-6110-DC11-A6C7-0019B9DE3AA4}","Stichting Praktijkonderzoek Bloembollen & Bolbloem","Rijniersce, Kees","k.rijniersce@co.dlo.nl","+31 (0)25 246 2100","Onderzoeksinstellingen",,,
+"{A9522117-6610-DC11-A6C7-0019B9DE3AA4}","Stichting Scheikundig Onderzoek in Nederland",,,,"Onderzoeksinstellingen",,,
+"{44F4F42A-3710-DC11-A6C7-0019B9DE3AA4}","Stichting Toekomstbeeld der Techniek","Veen, Hans van der","vanderveen@stt.nl","+31 (0)70 302 9831","Onderzoeksinstellingen",,,
+"{8087C210-6610-DC11-A6C7-0019B9DE3AA4}","Stichting voor de Economische, Sociaal-Culturele en Ruimtelijke Wetenschap.",,,,"Onderzoeksinstellingen",,,
+"{8A87C210-6610-DC11-A6C7-0019B9DE3AA4}","Stichting voor de Gedragswetenschappen",,,,"Onderzoeksinstellingen",,,
+"{84DE2163-6510-DC11-A6C7-0019B9DE3AA4}","Stichting voor Filosofie en Theologie",,,,"Onderzoeksinstellingen",,,
+"{89DE2163-6510-DC11-A6C7-0019B9DE3AA4}","Stichting voor Historische Wetenschappen",,,,"Onderzoeksinstellingen",,,
+"{7FDE2163-6510-DC11-A6C7-0019B9DE3AA4}","Stichting voor Literatuur, Muziek- en Theaterwetenschap",,,,"Onderzoeksinstellingen",,,
+"{8587C210-6610-DC11-A6C7-0019B9DE3AA4}","Stichting voor Recht en Openbaar Bestuur",,,,"Onderzoeksinstellingen",,,
+"{8EDE2163-6510-DC11-A6C7-0019B9DE3AA4}","Stichting voor Taal, Spraak en Logica",,,,"Onderzoeksinstellingen",,,
+"{99098C1D-6610-DC11-A6C7-0019B9DE3AA4}","Stichting voor Wetenschappelijk Onderzoek van de Tropen en Ontwikkelingsl.",,,,"Onderzoeksinstellingen",,,
+"{887326CA-1A10-DC11-A6C7-0019B9DE3AA4}","SWOKA",,,,"Onderzoeksinstellingen",,,
+"{2E3AED30-3710-DC11-A6C7-0019B9DE3AA4}","Waag Society","Arne Kuilman","beheer@waag.org","+31 (0)20 557 9816","Onderzoeksinstellingen",,,
+"{31577761-97AE-DF11-9CE2-0019B9DE3AA4}","Waddenacademie",,,,"Onderzoeksinstellingen",,,
+"{E09FB765-88AC-DC11-9BED-0019B9DE3AA4}","Wetenschappelijk Onderzoek- en Documentatiecentrum","Platenburg, Paul","p.f.m.platenburg@minvenj.nl","+31 (0)70 370 6561","Onderzoeksinstellingen",,,
+"{A4522117-6610-DC11-A6C7-0019B9DE3AA4}","Wetenschappelijk Statistisch Agentschap",,,,"Onderzoeksinstellingen",,,
+"{2F15A034-DD08-E411-9AA2-0050569E0011}","ZonMw","Loek van Hoek","hoek@zonmw.nl","+31 (0) 70-3495149","Onderzoeksinstellingen",,,
+"{44F997C3-1A10-DC11-A6C7-0019B9DE3AA4}","SLBdiensten bv","Stork, Charles","stork@slbdiensten.nl","+31 (0)20 624 4776","SLBdiensten bv",,,
+"{252B07C6-1B10-DC11-A6C7-0019B9DE3AA4}","Protestantse Theologische Universiteit","Jacobs, Ed","ejjacobs@pthu.nl","0883371606","Universiteiten",,,
+"{602D419F-2310-DC11-A6C7-0019B9DE3AA4}","Wageningen Universiteit en Research Centrum","Holtes WUR, Peter","contractensurfwur.fb@wur.nl","+31 (0)31 748 3814","Universiteiten",,,
+"{4C9D3A69-98E8-DE11-BA45-0019B9DE3AA4}","Ecomare",,,,,,,
+"{37ACBDC0-1E10-DC11-A6C7-0019B9DE3AA4}","Slim","Finance, Slim","finance@slbdiensten.nl","+31 (0)20 624 4776",,,,

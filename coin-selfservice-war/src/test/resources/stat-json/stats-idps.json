@@ -1,0 +1,142 @@
+[
+    {
+        "entityId": "https://openidp.feide.no",
+        "name": "https://openidp.feide.no"
+    },
+    {
+        "entityId": "https://frkosp.wind.surfnet.nl/simplesamlphp/saml2/idp/metadata.php",
+        "name": "FrKoIdP"
+    },
+    {
+        "entityId": "https://frkosp.wind.surfnet.nl/sspidp/saml2/idp/metadata.php",
+        "name": "FrKoIdP | Test | SURFnet"
+    },
+    {
+        "entityId": "http://adfs.myhz.nl/adfs/services/trust",
+        "name": "Hogeschool Zeeland"
+    },
+    {
+        "entityId": "http://mock-idp",
+        "name": "http://mock-idp"
+    },
+    {
+        "entityId": "http://mujina-idp-110",
+        "name": "http://mujina-idp-110"
+    },
+    {
+        "entityId": "http://mujina-idp-131",
+        "name": "http://mujina-idp-131"
+    },
+    {
+        "entityId": "http://mujina-idp-133",
+        "name": "http://mujina-idp-133"
+    },
+    {
+        "entityId": "http://mujina-idp-136",
+        "name": "http://mujina-idp-136"
+    },
+    {
+        "entityId": "http://mujina-idp-138",
+        "name": "http://mujina-idp-138"
+    },
+    {
+        "entityId": "http://mujina-idp-140",
+        "name": "http://mujina-idp-140"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata",
+        "name": "https://engine.test.surfconext.nl/authentication/idp/metadata"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:votest1",
+        "name": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:votest1"
+    },
+    {
+        "entityId": "https://guestidp.test.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "name": "Invited Guests"
+    },
+    {
+        "entityId": "idp",
+        "name": "mockidp"
+    },
+    {
+        "entityId": "http://mock-idp",
+        "name": "Mujina College"
+    },
+    {
+        "entityId": "https://openidp.feide.no",
+        "name": "OpenIdP (Feide.no)"
+    },
+    {
+        "entityId": "https://perftestpersistentidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "name": "Performance Test IdP (Persistent)"
+    },
+    {
+        "entityId": "https://perftesttransientidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "name": "Performance Test IdP (Transient)"
+    },
+    {
+        "entityId": "http://localhost/simplesaml/module.php/saml/sp/metadata.php/default-idp",
+        "name": "Pieter's test IdP"
+    },
+    {
+        "entityId": "https://wrongcertidp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "name": "SURFconext Wrong Cert IdP | Test | SURFnet"
+    },
+    {
+        "entityId": "https://surfguest.nl",
+        "name": "SURFguest"
+    },
+    {
+        "entityId": "SURFnetGuests",
+        "name": "SURFguest (TEST)"
+    },
+    {
+        "entityId": "https://test.surfguest.nl",
+        "name": "SURFguest (TEST/SAML)"
+    },
+    {
+        "entityId": "https://guestidp.test.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "name": "SURFguest 2 (non SURF)"
+    },
+    {
+        "entityId": "SURFnet%20BV",
+        "name": "SURFnet BV"
+    },
+    {
+        "entityId": "http://mock-idp",
+        "name": "SURFnet | Test | Mujina"
+    },
+    {
+        "entityId": "https://thho.pagekite.me/",
+        "name": "Test IdP THHO"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:vomakr",
+        "name": "VO MaKr"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:managementvo",
+        "name": "VO Management"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:peter",
+        "name": "VO Peter"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:peter_group",
+        "name": "VO Peter Group"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:peter_idp",
+        "name": "VO Peter IDP"
+    },
+    {
+        "entityId": "https://engine.test.surfconext.nl/authentication/idp/metadata/vo:peter",
+        "name": "VO Peter Stem"
+    },
+    {
+        "entityId": "https://wrongattridp.dev.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+        "name": "Wrong Attr Test IdP "
+    }
+]

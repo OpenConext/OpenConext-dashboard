@@ -1,0 +1,10 @@
+{
+  "aud": ["groups"],
+  "authenticatingAuthority": "http://mock-idp",
+  "user_name": "urn:collab:person:example.com:admin",
+  "scope": ["stats","cross-idp-services","actions"],
+  "schacHomeOrganization": "example.com",
+  "exp": 1445236993,
+  "authorities": ["ROLE_USER"],
+  "client_id": "cool_app_id"
+}

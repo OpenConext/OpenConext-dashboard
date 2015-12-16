@@ -1,0 +1,1 @@
+ALTER TABLE `field_string` CHANGE COLUMN `field_value` `field_value` VARCHAR(4096);

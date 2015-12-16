@@ -1,0 +1,30 @@
+{
+    "name":"My ARP",
+    "description":"My ARP",
+    "attributes":{
+        "urn:mace:dir:attribute-def:uid":[
+            "*"
+        ],
+        "urn:mace:dir:attribute-def:displayName":[
+            "*"
+        ],
+        "urn:mace:dir:attribute-def:cn":[
+            "*"
+        ],
+        "urn:mace:dir:attribute-def:givenName":[
+            "*"
+        ],
+        "urn:mace:dir:attribute-def:sn":[
+            "*"
+        ],
+        "urn:mace:dir:attribute-def:mail":[
+            "*"
+        ],
+        "urn:mace:terena.org:attribute-def:schacHomeOrganization":[
+            "*"
+        ],
+        "urn:mace:terena.org:attribute-def:schacHomeOrganizationType":[
+            "*"
+        ]
+    }
+}
