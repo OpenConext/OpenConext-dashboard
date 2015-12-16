@@ -25,15 +25,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 
 public class SpringSecurity {
 
   /*
-     * For a super users to be able to switch back to his / hers original identity (including
-     * the InstitutionIdentityProvider) we need to store the reference.
-     */
+   * For a super users to be able to switch back to his / hers original identity (including
+   * the InstitutionIdentityProvider) we need to store the reference.
+   */
   private static InstitutionIdentityProvider impersonatedIdentityProvider;
 
   /**
@@ -54,9 +52,6 @@ public class SpringSecurity {
     return new CoinUser();
   }
 
-  /**
-   * @return
-   */
   public static boolean isFullyAuthenticated() {
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CoinUser;
@@ -91,18 +86,17 @@ public class SpringSecurity {
     if (SpringSecurity.getCurrentUser().isSuperUser()) {
       return idp;
     } else {
-      Optional<InstitutionIdentityProvider> currentInstitutionIdentityProvider = SpringSecurity.getCurrentUser().getInstitutionIdps().stream().filter(provider -> provider.getId().equals(idp.getId())).findFirst();
-      return currentInstitutionIdentityProvider.orElseThrow(() -> new SecurityException(idp.getId() + " is unknown for " + SpringSecurity.getCurrentUser().getUsername()));
+      return SpringSecurity.getCurrentUser().getInstitutionIdps().stream()
+          .filter(provider -> provider.getId().equals(idp.getId()))
+          .findFirst()
+          .orElseThrow(() -> new SecurityException(idp.getId() + " is unknown for " + SpringSecurity.getCurrentUser().getUsername()));
     }
   }
 
   public static InstitutionIdentityProvider getIdpFromId(Csa csa, String idp) {
-    List<InstitutionIdentityProvider> idps = csa.getAllInstitutionIdentityProviders();
-    for (InstitutionIdentityProvider identityProvider : idps) {
-      if (identityProvider.getId().equalsIgnoreCase(idp)) {
-        return identityProvider;
-      }
-    }
-    throw new SecurityException(idp + " does not exist");
+    return csa.getAllInstitutionIdentityProviders().stream()
+      .filter(identityProvider -> identityProvider.getId().equalsIgnoreCase(idp))
+      .findFirst()
+      .orElseThrow(() -> new SecurityException(idp + " does not exist"));
   }
 }

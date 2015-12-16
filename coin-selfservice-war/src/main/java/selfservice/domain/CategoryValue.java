@@ -22,6 +22,8 @@ import org.springframework.util.Assert;
 
 import java.io.Serializable;
 
+import com.google.common.base.MoreObjects;
+
 public class CategoryValue implements Comparable<CategoryValue>, Serializable {
 
   private static final long serialVersionUID = 0L;
@@ -67,20 +69,20 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
     this.category = category;
   }
 
-
   /*
- * The value of a FacetValue may contain spaces, but if we want to search in (any) clients, then we
- * want to be able to have all the FacetValues of a Service separated by spaces therefore this method
- * can be used to underscore-separate the different FacetValues.
- *
- * Because it is possible to have FacetValues that have the same value, but belong to different Facet's, we need
- * to include the Facet value (represented by Category) as well in the String
- */
+   * The value of a FacetValue may contain spaces, but if we want to search in (any) clients, then we
+   * want to be able to have all the FacetValues of a Service separated by spaces therefore this method
+   * can be used to underscore-separate the different FacetValues.
+   *
+   * Because it is possible to have FacetValues that have the same value, but belong to different Facet's, we need
+   * to include the Facet value (represented by Category) as well in the String
+   */
   @JsonIgnore
   public String getSearchValue() {
     Assert.notNull(category);
     Assert.hasLength(category.getName());
     Assert.hasLength(value);
+
     return category.getName().replaceAll(" ", "_").toLowerCase() + "_" + getValue().replaceAll(" ", "_").toLowerCase();
   }
 
@@ -89,5 +91,11 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
     return new CompareToBuilder()
       .append(this.value, o.value)
       .toComparison();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(CategoryValue.class)
+        .add("value", value).add("count", count).toString();
   }
 }

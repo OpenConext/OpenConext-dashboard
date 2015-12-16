@@ -44,12 +44,12 @@ public class UsersController extends BaseController {
     payload.put("idps", idps);
     payload.put("roles", roles);
 
-    return new ResponseEntity<RestResponse>(createRestResponse(payload), HttpStatus.OK);
+    return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
   }
 
   @RequestMapping("/me/switch-to-idp")
-  public ResponseEntity currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, @RequestParam(value = "role", required = false) String role, HttpServletResponse response) {
+  public ResponseEntity<RestResponse> currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, @RequestParam(value = "role", required = false) String role, HttpServletResponse response) {
     SpringSecurity.setSwitchedToIdp(csa, switchToIdp, role);
-    return new ResponseEntity(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

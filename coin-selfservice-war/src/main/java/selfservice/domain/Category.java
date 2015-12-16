@@ -24,12 +24,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.MoreObjects;
+
 public class Category implements Serializable {
 
   private static final long serialVersionUID = 0L;
 
   private String name;
-  private List<CategoryValue> values;
+  private List<CategoryValue> values = new ArrayList<>();
 
   public Category() {
   }
@@ -56,35 +58,22 @@ public class Category implements Serializable {
 
   @JsonIgnore
   public void addCategoryValue(CategoryValue value) {
-    if (values == null) {
-      values = new ArrayList<CategoryValue>();
-    }
     values.add(value);
   }
 
   @JsonIgnore
   public boolean containsValue(String value) {
-    if (values == null) {
-      return false;
-    }
-    for (CategoryValue cv : values) {
-      if (cv.getValue().equals(value)) {
-        return true;
-      }
-    }
-    return false;
+    return values.stream().anyMatch(cv -> cv.getValue().equals(value));
   }
 
   @JsonIgnore
   public boolean isUsedFacetValues() {
-    if (values == null) {
-      return false;
-    }
-    for (CategoryValue categoryValue : values) {
-      if (categoryValue.getCount() > 0) {
-        return true;
-      }
-    }
-    return false;
+    return values.stream().anyMatch(cv -> cv.getCount() > 0);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(Category.class)
+        .add("name", name).add("values", values).toString();
   }
 }
