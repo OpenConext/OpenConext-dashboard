@@ -1,5 +1,9 @@
 package selfservice.api.rest;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -7,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @Controller
 @RequestMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
 public class IndexController extends BaseController {
+
+  @RequestMapping("/")
+  public void toShopAdmin(HttpServletResponse response) throws IOException {
+    response.sendRedirect("/shopadmin/all-spslmng.shtml");
+  }
 
   @RequestMapping(value = "/forbidden")
   public ModelAndView forbidden() {
@@ -26,4 +31,5 @@ public class IndexController extends BaseController {
                    HttpServletResponse response) throws IOException {
     response.sendRedirect(redirectTo);
   }
+
 }

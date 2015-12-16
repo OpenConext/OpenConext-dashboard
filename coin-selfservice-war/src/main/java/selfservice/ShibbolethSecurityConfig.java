@@ -108,6 +108,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
       .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), VootFilter.class)
       .addFilterAfter(new EnsureAccessToIdpFilter(csa), SabEntitlementsFilter.class)
       .authorizeRequests()
+      .antMatchers("/shopadmin/**").hasRole("DISTRIBUTION_CHANNEL_ADMIN")
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
       .antMatchers("/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
       .anyRequest().authenticated();

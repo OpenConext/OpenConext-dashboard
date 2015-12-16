@@ -28,6 +28,14 @@ public class License implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public enum LicenseStatus {
+    HAS_LICENSE_SURFMARKET,
+    HAS_LICENSE_SP,
+    NO_LICENSE,
+    NOT_NEEDED,
+    UNKNOWN
+  }
+
   /*
    * Optional pattern applied to prevent many, many nullpointer checks and
    * exceptions

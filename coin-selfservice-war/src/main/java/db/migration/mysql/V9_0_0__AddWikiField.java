@@ -6,7 +6,7 @@ import java.util.List;
 import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import csa.domain.Field;
+import selfservice.domain.csa.Field;
 
 public class V9_0_0__AddWikiField implements SpringJdbcMigration {
 

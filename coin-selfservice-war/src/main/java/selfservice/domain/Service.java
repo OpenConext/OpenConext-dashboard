@@ -21,6 +21,7 @@ import org.codehaus.jackson.map.annotate.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
@@ -32,81 +33,43 @@ public class Service implements Comparable<Service>, Serializable {
   private long id;
 
   private String name;
-
   private String description;
-
   private String logoUrl;
-
   private String websiteUrl;
-
   private String appUrl;
-
   private String serviceUrl;
-
   private String crmUrl;
-
   private String detailLogoUrl;
-
   private String supportUrl;
-
   private String eulaUrl;
-
   private String wikiUrl;
-
-  private List<String> screenshotUrls = new ArrayList<>();
-
   private String supportMail;
-
   private String enduserDescription;
-
   private String institutionDescription;
-
   private String institutionId;
-
-  /**
-   * Whether this service is connected to the IdP in the service registry
-   */
-  private boolean connected;
-
-  /**
-   * Whether this service is connected to an item in the CRM
-   */
-  private boolean hasCrmLink;
-
-  /**
-   * The article in the CRM this service is linked to. If set, hasCrmLink is true;
-   */
-  private CrmArticle crmArticle;
-
-  /**
-   * The license from the CRM. If set, hasCrmLink is true
-   */
-  private License license;
-
-  /*
-   * has_license_surfmarket, has_license_sp, no_license, not_needed, unknown
-   */
-  private String licenseStatus = "NOT_NEEDED";
-
-  private List<Category> categories = new ArrayList<>();
-
   private String spEntityId;
-
   private String spName;
-
-  private ARP arp;
-
-  private boolean availableForEndUser;
-
-  private boolean idpVisibleOnly;
-
-  private boolean publishedInEdugain;
-
-  private boolean normenkaderPresent;
-
   private String normenkaderUrl;
 
+  private List<String> screenshotUrls = new ArrayList<>();
+  private List<Category> categories = new ArrayList<>();
+
+  private Date lastLoginDate;
+
+  private boolean connected;
+  private boolean hasCrmLink;
+  private boolean availableForEndUser;
+  private boolean idpVisibleOnly;
+  private boolean publishedInEdugain;
+  private boolean normenkaderPresent;
   private boolean exampleSingleTenant;
+
+  private CrmArticle crmArticle;
+
+  private License license;
+  private License.LicenseStatus licenseStatus;
+
+  private ARP arp;
 
   public Service() {
   }
@@ -395,11 +358,11 @@ public class Service implements Comparable<Service>, Serializable {
     this.publishedInEdugain = publishedInEdugain;
   }
 
-  public String getLicenseStatus() {
+  public License.LicenseStatus getLicenseStatus() {
     return licenseStatus;
   }
 
-  public void setLicenseStatus(String licenseStatus) {
+  public void setLicenseStatus(License.LicenseStatus licenseStatus) {
     this.licenseStatus = licenseStatus;
   }
 

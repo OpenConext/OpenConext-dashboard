@@ -5,6 +5,7 @@ import selfservice.service.VootClient;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
+import org.springframework.web.client.HttpClientErrorException;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,6 +33,16 @@ public class VootClientImpl implements VootClient {
     details.setScope(scopes);
 
     return details;
+  }
+
+  @Override
+  public boolean hasAccess(String personId, String groupId) {
+    try {
+      vootService.getForObject(serviceUrl + "/internal/groups/{userId}/{groupId}", Map.class, personId, groupId);
+      return true;
+    } catch (HttpClientErrorException e) {
+      return false;
+    }
   }
 
   @Override

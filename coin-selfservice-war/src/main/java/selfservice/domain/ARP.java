@@ -13,15 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.domain;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.google.common.base.MoreObjects;
+
+import org.springframework.util.CollectionUtils;
 
 /**
  * Attribute Release Policy
@@ -84,5 +89,41 @@ public class ARP implements Serializable {
         .add("attributes", attributes)
         .toString();
   }
+
+   public static ARP fromRestResponse(Map response) {
+        ARP arp = new ARP();
+
+        arp.setNoArp(false);
+        arp.setNoAttrArp(false);
+
+        if (response.isEmpty()) {
+          arp.setNoArp(true);
+          return arp;
+        }
+
+        arp.setName((String) response.get("name"));
+        arp.setDescription((String) response.get("description"));
+        final Object attr = response.get("attributes");
+        if (attr instanceof Map) {
+          arp.setAttributes((Map<String, List<Object>>) attr);
+        } else {
+          // If 'no attributes', Janus will return not a hash, but an empty array
+          arp.setNoAttrArp(true);
+        }
+        return arp;
+      }
+
+      public static ARP fromAttributes(List<String> attributes) {
+        if (CollectionUtils.isEmpty(attributes)) {
+          return ARP.fromRestResponse(new HashMap<>());
+        }
+        ARP arp = new ARP();
+        arp.setName("arp");
+        arp.setDescription("arp");
+        Map<String, List<Object>> mappedAttributes = attributes.stream().collect(Collectors.toMap(Function.identity(), attr -> Arrays.asList("*")));
+        arp.setAttributes(mappedAttributes);
+        return arp;
+      }
+
 
 }

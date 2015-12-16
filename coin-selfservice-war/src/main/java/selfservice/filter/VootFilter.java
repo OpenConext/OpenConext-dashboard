@@ -59,6 +59,19 @@ public class VootFilter extends GenericFilterBean {
   private String dashboardViewer;
   private String dashboardSuperUser;
 
+  // TODO add adminDistributionTeam...
+//import static csa.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+//  Boolean isAdmin = (Boolean) session.getAttribute(SESSION_KEY_GROUP_ACCESS);
+//  if (isAdmin == null || !isAdmin) {
+//    isAdmin = vootClient.hasAccess(user.getUid(), adminDistributionTeam);
+//    LOG.info("User '{}' has access to '{}': {}", user.getUid(), adminDistributionTeam, isAdmin);
+//    session.setAttribute(SESSION_KEY_GROUP_ACCESS, isAdmin);
+//  }
+//  if (isAdmin) {
+//    user.setAuthorities(new ArrayList<>());
+//    user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+//  }
+
   public VootFilter(VootClient vootClient, String dashboardAdmin, String dashboardViewer, String dashboardSuperUser) {
     this.vootClient = vootClient;
     this.dashboardAdmin = dashboardAdmin;

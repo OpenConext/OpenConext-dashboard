@@ -52,15 +52,30 @@ public class ServicesController extends BaseController {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
     List<String[]> rows = new ArrayList<>();
-    rows.add(new String[]{"id", "name", "description", "app-url", "wiki-url", "support-mail",
-      "connected", "license", "licenseStatus", "categories",
-      "spEntityId", "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant"});
+    rows.add(new String[]{
+        "id", "name", "description", "app-url", "wiki-url", "support-mail",
+        "connected", "license", "licenseStatus", "categories", "spEntityId",
+        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant"});
 
     for (Long id : ids) {
       Service service = getServiceById(services, id);
-      rows.add(new String[]{String.valueOf(service.getId()), service.getName(), service.getDescription(), service.getAppUrl(), service.getWikiUrl(), service.getSupportMail(),
-        String.valueOf(service.isConnected()), service.getLicense() != null ? service.getLicense().toString() : null, service.getLicenseStatus(), service.getCategories().stream().map(Category::getName).collect(joining()),
-        service.getSpEntityId(), service.getSpName(), String.valueOf(service.isPublishedInEdugain()), String.valueOf(service.isNormenkaderPresent()), service.getNormenkaderUrl(), String.valueOf(service.isExampleSingleTenant())});
+      rows.add(new String[]{
+          String.valueOf(service.getId()),
+          service.getName(),
+          service.getDescription(),
+          service.getAppUrl(),
+          service.getWikiUrl(),
+          service.getSupportMail(),
+          String.valueOf(service.isConnected()),
+          service.getLicense() != null ? service.getLicense().toString() : null,
+          service.getLicenseStatus().name(),
+          service.getCategories().stream().map(Category::getName).collect(joining()),
+          service.getSpEntityId(),
+          service.getSpName(),
+          String.valueOf(service.isPublishedInEdugain()),
+          String.valueOf(service.isNormenkaderPresent()),
+          service.getNormenkaderUrl(),
+          String.valueOf(service.isExampleSingleTenant())});
     }
 
     response.setHeader("Content-Disposition", format("attachment; filename=service-overview.csv"));
