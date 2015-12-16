@@ -57,7 +57,9 @@ App.Controllers.Apps = {
           var filtered = facet.values.filter(function (facetValue) {
             return facetValue.value === unknown.value;
           });
-          facet.values.push(unknown);
+          if (!filtered[0]) {
+            facet.values.push(unknown);
+          }
         }
       });
     });
