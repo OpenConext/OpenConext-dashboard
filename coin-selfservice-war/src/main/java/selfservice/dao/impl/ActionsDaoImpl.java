@@ -17,7 +17,6 @@ package selfservice.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,10 +110,5 @@ public class ActionsDaoImpl implements ActionsDao {
     return jdbcTemplate.query("SELECT jiraKey FROM ss_actions WHERE actionStatus = 'OPEN' AND idp = ?", (resultSet, i) -> {
       return resultSet.getString("jiraKey");
     }, identityProvider);
-  }
-
-  @Override
-  public List<Action> findActionsByDateRange(Date from, Date to) {
-    return jdbcTemplate.query("select * from ss_actions where requestDate >= ? AND requestDate < ? order by requestDate", new ActionRowMapper(), from, to);
   }
 }

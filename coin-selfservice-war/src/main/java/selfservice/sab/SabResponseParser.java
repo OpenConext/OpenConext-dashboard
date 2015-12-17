@@ -15,18 +15,14 @@
  */
 package selfservice.sab;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -36,11 +32,14 @@ import javax.xml.xpath.XPathExpressionException;
 
 import com.google.common.base.Throwables;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * XPath parser for SAB responses.
@@ -62,6 +61,18 @@ public class SabResponseParser {
    * Prefix of the status message if a user is queried that cannot be found.
    */
   private static final String NOT_FOUND_MESSAGE_PREFIX = "Could not find any roles for given NameID";
+
+  private final DocumentBuilderFactory documentBuilderFactory;
+  private final javax.xml.xpath.XPathFactory xPathFactory;
+
+  public SabResponseParser() {
+    documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setNamespaceAware(true);
+    documentBuilderFactory.setIgnoringElementContentWhitespace(true);
+    documentBuilderFactory.setValidating(false);
+
+    xPathFactory = javax.xml.xpath.XPathFactory.newInstance();
+  }
 
   public SabRoleHolder parse(InputStream inputStream) throws IOException {
     String organisation = null;
@@ -133,23 +144,16 @@ public class SabResponseParser {
   }
 
   private Document createDocument(InputStream documentStream) throws ParserConfigurationException, IOException, SAXException {
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(true);
-    factory.setIgnoringElementContentWhitespace(true);
-    factory.setValidating(false);
-
-    DocumentBuilder builder = factory.newDocumentBuilder();
-    System.err.println("!!!!! the builder: " + builder);
-    return builder.parse(documentStream);
+    return documentBuilderFactory.newDocumentBuilder().parse(documentStream);
   }
 
   private XPath getXPath() {
-    XPath xPath = javax.xml.xpath.XPathFactory.newInstance().newXPath();
+    XPath xPath = xPathFactory.newXPath();
     xPath.setNamespaceContext(new SabNgNamespaceResolver());
     return xPath;
   }
 
-  private class SabNgNamespaceResolver implements NamespaceContext {
+  private static class SabNgNamespaceResolver implements NamespaceContext {
 
     @Override
     public String getNamespaceURI(String prefix) {

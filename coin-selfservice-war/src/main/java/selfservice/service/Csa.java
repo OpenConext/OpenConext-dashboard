@@ -1,6 +1,5 @@
 package selfservice.service;
 
-
 import java.util.List;
 
 import selfservice.domain.Action;

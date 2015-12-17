@@ -16,14 +16,10 @@
 
 package selfservice.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import selfservice.domain.Action;
 
-/**
- * Dao for action objects
- */
 public interface ActionsDao {
 
   /**
@@ -32,15 +28,6 @@ public interface ActionsDao {
    * @return list of Action (or an empty list in case none found)
    */
   List<Action> findActionsByIdP(String identityProvider);
-
-  /**
-   * Get a list of all actions within the given date range, this
-   * is used for statistics reporting.
-   * @param from start date
-   * @param to end date
-   * @return a list of actions within this date range of an empty list
-   */
-  List<Action> findActionsByDateRange(Date from, Date to);
 
   /**
    * persist the given action

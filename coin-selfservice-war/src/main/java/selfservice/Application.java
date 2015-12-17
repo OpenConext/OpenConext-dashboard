@@ -44,7 +44,6 @@ import selfservice.service.CrmService;
 import selfservice.service.Csa;
 import selfservice.service.VootClient;
 import selfservice.service.impl.CsaImpl;
-import selfservice.service.impl.CsaMock;
 import selfservice.service.impl.JiraClient;
 import selfservice.service.impl.JiraClientImpl;
 import selfservice.service.impl.JiraClientMock;
@@ -75,7 +74,7 @@ public class Application extends SpringBootServletInitializer {
 
   @Bean
   public LocaleResolver localeResolver() {
-    final CookieThenAcceptHeaderLocaleResolver localeResolver = new CookieThenAcceptHeaderLocaleResolver();
+    CookieThenAcceptHeaderLocaleResolver localeResolver = new CookieThenAcceptHeaderLocaleResolver();
     localeResolver.setCookieName("dashboardLang");
     localeResolver.setDefaultLocale(new Locale("nl"));
     localeResolver.setCookieMaxAge(315360000);
@@ -88,20 +87,9 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Profile("!dev")
-  public Csa csaClient(
-    @Value("${csa.base.url}") String csaBaseLocation,
-    @Value("${csa.client.key}") String clientKey,
-    @Value("${csa.client.secret}") String clientSecret,
-    @Value("${csa.oauth2.accessTokenUrl}") String accessTokenUrl) {
-
-    return new CsaImpl(accessTokenUrl, clientKey, clientSecret, "actions cross-idp-services stats", csaBaseLocation);
-  }
-
-  @Bean
-  @Profile("dev")
-  public Csa csaMockClient() {
-    return new CsaMock();
+  public Csa csaClient() {
+    return new CsaImpl();
+//    return new CsaImpl(accessTokenUrl, clientKey, clientSecret, "actions cross-idp-services stats", csaBaseLocation);
   }
 
   @Bean
