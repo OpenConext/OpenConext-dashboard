@@ -1,7 +1,8 @@
 package selfservice.model;
 
-import java.util.Arrays;
-import java.util.List;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,10 +19,12 @@ public class TaxonomyTest {
   @Test
   public void testCyclicDependencyJsonDeserialization() throws Exception {
     Category category = new Category("test_category");
-    List<CategoryValue> values = Arrays.asList(new CategoryValue("test_category_value"));
-    category.setValues(values);
-    Taxonomy taxonomy = new Taxonomy(Arrays.asList(category));
-    this.objectMapper.writeValueAsString(taxonomy);
-    //ok, no exception anymore
+    category.setValues(singletonList(new CategoryValue("test_category_value")));
+
+    Taxonomy taxonomy = new Taxonomy(singletonList(category));
+
+    String jsonTaxonomy = objectMapper.writeValueAsString(taxonomy);
+
+    assertThat(jsonTaxonomy, containsString("test_category_value"));
   }
 }

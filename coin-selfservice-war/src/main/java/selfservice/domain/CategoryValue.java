@@ -17,11 +17,11 @@
 package selfservice.domain;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 
 public class CategoryValue implements Comparable<CategoryValue>, Serializable {
@@ -29,13 +29,11 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
   private static final long serialVersionUID = 0L;
 
   private int count;
-
   private String value;
 
   @JsonIgnore
   private Category category;
 
-  //we need no-argument constructor for json parsing
   public CategoryValue() {
   }
 
@@ -64,7 +62,6 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
     return category;
   }
 
-  @JsonIgnore
   public void setCategory(Category category) {
     this.category = category;
   }

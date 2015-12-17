@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.api.csa;
 
+import java.util.List;
 
-import selfservice.domain.LicenseContactPerson;
-import selfservice.util.LicenseContactPersonService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,23 +24,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
+import selfservice.domain.LicenseContactPerson;
+import selfservice.util.LicenseContactPersonService;
 
 @Controller
 @RequestMapping
 public class LicenseContactPersonController extends BaseApiController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(LicenseContactPersonController.class);
-
   @Autowired
   private LicenseContactPersonService licenseContactPersonService;
 
   @RequestMapping(method = RequestMethod.GET, value = "/api/protected/licensecontactperson.json")
-  public
   @ResponseBody
-  List<LicenseContactPerson> licenseContactPerson(@RequestParam(value = "identityProviderId") String identityProviderId) {
-    LOG.info("returning licenseContactPerson for CSA");
+  public List<LicenseContactPerson> licenseContactPerson(@RequestParam(value = "identityProviderId") String identityProviderId) {
     return licenseContactPersonService.licenseContactPersons(identityProviderId);
   }
 }

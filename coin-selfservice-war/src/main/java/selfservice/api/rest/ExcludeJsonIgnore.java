@@ -1,8 +1,8 @@
 package selfservice.api.rest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class ExcludeJsonIgnore implements ExclusionStrategy {
   public boolean shouldSkipField(FieldAttributes f) {

@@ -18,10 +18,9 @@
  */
 package selfservice.domain;
 
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Taxonomy {
 
@@ -42,9 +41,6 @@ public class Taxonomy {
     this.categories = categories;
   }
 
-  /*
-   * Json serialize can't handle bidirectional one-to-many relation
-   */
   @JsonIgnore
   public void restoreCategoryReferences() {
     for (Category category : categories) {

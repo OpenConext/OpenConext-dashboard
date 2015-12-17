@@ -1,12 +1,7 @@
 package selfservice.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.io.Resource;
-
-import selfservice.domain.LicenseContactPerson;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,9 +10,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.groupingBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.io.Resource;
+
+import selfservice.domain.LicenseContactPerson;
 
 public class LicenseContactPersonService implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -76,6 +76,6 @@ public class LicenseContactPersonService implements ApplicationListener<ContextR
   }
 
   public List<LicenseContactPerson> getPersons() {
-    return persons.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+    return persons.values().stream().flatMap(Collection::stream).collect(toList());
   }
 }

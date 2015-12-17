@@ -18,12 +18,11 @@
  */
 package selfservice.domain;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 
 public class Category implements Serializable {

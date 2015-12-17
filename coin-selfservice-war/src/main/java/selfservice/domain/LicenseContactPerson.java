@@ -4,10 +4,13 @@ import org.springframework.util.StringUtils;
 
 public class LicenseContactPerson {
 
-  private final String name;
-  private final String email;
-  private final String phone;
-  private final String idpEntityId;
+  private String name;
+  private String email;
+  private String phone;
+  private String idpEntityId;
+
+  public LicenseContactPerson() {
+  }
 
   public LicenseContactPerson(String name, String email, String phone, String idpEntityId) {
     this.name = name;

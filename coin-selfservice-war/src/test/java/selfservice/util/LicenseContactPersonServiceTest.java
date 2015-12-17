@@ -8,6 +8,7 @@ import selfservice.util.LicenseContactPersonService;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 
 public class LicenseContactPersonServiceTest {
@@ -17,19 +18,19 @@ public class LicenseContactPersonServiceTest {
   @Test
   public void test_parsing() throws Exception {
     subject.onApplicationEvent(null);
-    assertEquals(123, subject.getPersons().size());
+
+    assertThat(subject.getPersons(), hasSize(123));
+
     List<LicenseContactPerson> licenseContactPersons = subject.licenseContactPersons("https://idservice.zuyd.nl/nidp/saml2/metadata");
+
     licenseContactPersons.forEach(person -> assertTrue(person.isReachable()));
-    assertEquals(1, licenseContactPersons.size());
+    assertThat(licenseContactPersons, hasSize(1));
+
     LicenseContactPerson person = licenseContactPersons.get(0);
     assertEquals("Andre Hochstenbach", person.getName());
     assertEquals("+31 (0)45 400 6136", person.getPhone());
     assertEquals("andre.hochstenbach@zuyd.nl", person.getEmail());
+    assertEquals("https://idservice.zuyd.nl/nidp/saml2/metadata", person.getIdpEntityId());
   }
 
-  @Test
-  public void is_reachable() {
-    LicenseContactPerson person = new LicenseContactPerson("", "", "", "idp");
-    assertFalse(person.isReachable());
-  }
 }

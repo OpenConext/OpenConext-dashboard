@@ -17,11 +17,12 @@
 package selfservice.domain;
 
 import selfservice.domain.CoinAuthority.Authority;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import static selfservice.domain.CoinAuthority.Authority.*;
 

@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +33,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import selfservice.control.BaseController;
 import selfservice.domain.csa.CoinUser;
 import selfservice.domain.csa.IdentityProvider;
 
@@ -40,8 +40,7 @@ import selfservice.domain.csa.IdentityProvider;
 public class BaseControllerTest {
 
   @InjectMocks
-  private BaseController baseController = new BaseController() {
-  };
+  private BaseController baseController = new BaseController() {};
 
   private CoinUser coinUser;
 
@@ -60,6 +59,11 @@ public class BaseControllerTest {
     when(authentication.getPrincipal()).thenReturn(coinUser);
   }
 
+  @After
+  public void cleanUp() {
+    SecurityContextHolder.clearContext();
+  }
+
   @Test
   public void testMyIdentityProviders() throws Exception {
     IdentityProvider idp1 = new IdentityProvider();
@@ -69,7 +73,8 @@ public class BaseControllerTest {
     coinUser.addInstitutionIdp(idp1);
     coinUser.addInstitutionIdp(idp2);
 
-    final List<IdentityProvider> identityProviders = baseController.getMyInstitutionIdps();
+    List<IdentityProvider> identityProviders = baseController.getMyInstitutionIdps();
+
     assertEquals(2, identityProviders.size());
   }
 
@@ -86,7 +91,8 @@ public class BaseControllerTest {
 
     coinUser.setIdp(idp2);
 
-    final IdentityProvider identityProvider = baseController.getSelectedIdp(request);
+    IdentityProvider identityProvider = baseController.getSelectedIdp(request);
+
     assertEquals(idp2, identityProvider);
   }
 

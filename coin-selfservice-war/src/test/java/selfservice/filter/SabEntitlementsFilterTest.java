@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.filter;
 
 import static org.mockito.Matchers.anyString;
@@ -30,6 +29,7 @@ import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,8 +64,11 @@ public class SabEntitlementsFilterTest {
 
     request = new MockHttpServletRequest("GET", "/anyUrl");
     response = new MockHttpServletResponse();
+  }
 
-    SecurityContextHolder.getContext().setAuthentication(null);
+  @After
+  public void cleanUp() {
+    SecurityContextHolder.clearContext();
   }
 
   @Test

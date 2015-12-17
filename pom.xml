@@ -50,7 +50,7 @@
     <java.version>1.8</java.version>
     <rollbar-logback.version>0.1.4</rollbar-logback.version>
     <selenium.version>2.45.0</selenium.version>
-    <spring-security-oauth2.version>2.0.7.RELEASE</spring-security-oauth2.version>
+    <spring-security-oauth2.version>2.0.8.RELEASE</spring-security-oauth2.version>
     <xstream.version>1.4.2</xstream.version>
   </properties>
 

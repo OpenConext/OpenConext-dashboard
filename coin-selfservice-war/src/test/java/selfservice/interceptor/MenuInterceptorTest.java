@@ -23,6 +23,7 @@ import static selfservice.domain.csa.CoinAuthority.Authority.ROLE_DISTRIBUTION_C
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.Authentication;
@@ -32,14 +33,18 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import selfservice.domain.csa.CoinAuthority;
+import selfservice.domain.csa.CoinAuthority.Authority;
 import selfservice.domain.csa.CoinUser;
 import selfservice.domain.csa.Menu;
-import selfservice.domain.csa.CoinAuthority.Authority;
-import selfservice.interceptor.MenuInterceptor;
 
 public class MenuInterceptorTest {
 
   private MenuInterceptor menuInterceptor = new MenuInterceptor();
+
+  @After
+  public void cleanUp() {
+    SecurityContextHolder.clearContext();
+  }
 
   @Test
   public void test_menu_for_role_distribution_admin() throws Exception {
@@ -70,8 +75,8 @@ public class MenuInterceptorTest {
     Authentication authentication = mock(Authentication.class);
     SecurityContext securityContext = mock(SecurityContext.class);
     SecurityContextHolder.setContext(securityContext);
+
     when(authentication.getPrincipal()).thenReturn(coinUser);
     when(securityContext.getAuthentication()).thenReturn(authentication);
-
   }
 }
