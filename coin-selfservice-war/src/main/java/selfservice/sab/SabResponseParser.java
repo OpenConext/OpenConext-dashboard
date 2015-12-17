@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.sab;
 
 import org.slf4j.Logger;
@@ -34,6 +33,9 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
+
+import com.google.common.base.Throwables;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -69,31 +71,10 @@ public class SabResponseParser {
       Document document = createDocument(inputStream);
       validateStatus(document, xpath);
 
-      // Extract organisation
-      XPathExpression organisationExpr = xpath.compile(XPATH_ORGANISATION);
-      NodeList nodeList = (NodeList) organisationExpr.evaluate(document, XPathConstants.NODESET);
-      for (int i = 0; nodeList != null && i < nodeList.getLength(); i++) {
-        Node node = nodeList.item(i);
-        if (node != null) {
-          organisation = StringUtils.trimWhitespace(node.getTextContent());
-          node.getParentNode().getTextContent();
-        }
-      }
-
-      // Extract roles
-      XPathExpression rolesExpr = xpath.compile(XPATH_ROLES);
-      NodeList rolesNodeList = (NodeList) rolesExpr.evaluate(document, XPathConstants.NODESET);
-      for (int i = 0; rolesNodeList != null && i < rolesNodeList.getLength(); i++) {
-        Node node = rolesNodeList.item(i);
-        if (node != null) {
-          roles.add(StringUtils.trimWhitespace(node.getTextContent()));
-        }
-      }
-
-    } catch (XPathExpressionException e) {
-      throw new RuntimeException(e);
-    } catch (ParserConfigurationException e) {
-      throw new RuntimeException(e);
+      organisation = extractOrganisation(xpath, document);
+      roles = extractRoles(xpath, document);
+    } catch (XPathExpressionException | ParserConfigurationException e) {
+      throw Throwables.propagate(e);
     } catch (SAXException e) {
       throw new IOException(e);
     }
@@ -101,11 +82,36 @@ public class SabResponseParser {
     return new SabRoleHolder(organisation, roles);
   }
 
+  private List<String> extractRoles(XPath xpath, Document document) throws XPathExpressionException {
+    List<String> roles = new ArrayList<>();
+    XPathExpression rolesExpr = xpath.compile(XPATH_ROLES);
+    NodeList rolesNodeList = (NodeList) rolesExpr.evaluate(document, XPathConstants.NODESET);
+    for (int i = 0; rolesNodeList != null && i < rolesNodeList.getLength(); i++) {
+      Node node = rolesNodeList.item(i);
+      if (node != null) {
+        roles.add(StringUtils.trimWhitespace(node.getTextContent()));
+      }
+    }
+
+    return roles;
+  }
+
+  private String extractOrganisation(XPath xpath, Document document) throws XPathExpressionException {
+    XPathExpression organisationExpr = xpath.compile(XPATH_ORGANISATION);
+    NodeList nodeList = (NodeList) organisationExpr.evaluate(document, XPathConstants.NODESET);
+    for (int i = 0; nodeList != null && i < nodeList.getLength(); i++) {
+      Node node = nodeList.item(i);
+      if (node != null) {
+        return StringUtils.trimWhitespace(node.getTextContent());
+      }
+    }
+    return null;
+  }
+
   /**
    * Check that response contains the success status. Throw IOException with message otherwise.
    */
   private void validateStatus(Document document, XPath xpath) throws XPathExpressionException, IOException {
-
     XPathExpression statusCodeExpression = xpath.compile(XPATH_STATUSCODE);
     String statusCode = (String) statusCodeExpression.evaluate(document, XPathConstants.STRING);
 
@@ -133,6 +139,7 @@ public class SabResponseParser {
     factory.setValidating(false);
 
     DocumentBuilder builder = factory.newDocumentBuilder();
+    System.err.println("!!!!! the builder: " + builder);
     return builder.parse(documentStream);
   }
 

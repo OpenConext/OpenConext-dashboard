@@ -90,7 +90,8 @@ public class ARP implements Serializable {
         .toString();
   }
 
-   public static ARP fromRestResponse(Map response) {
+  @SuppressWarnings("unchecked")
+  public static ARP fromRestResponse(Map<String, Object> response) {
         ARP arp = new ARP();
 
         arp.setNoArp(false);

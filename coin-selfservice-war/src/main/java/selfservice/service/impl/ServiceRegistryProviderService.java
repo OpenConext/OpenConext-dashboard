@@ -27,7 +27,6 @@ import selfservice.janus.domain.JanusEntity;
 import selfservice.service.IdentityProviderService;
 import selfservice.service.ServiceProviderService;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -339,7 +338,8 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     try {
       Map<String, Object> map = objectMapper.readValue(file, new TypeReference<Map<String, Object>>() {});
       EntityMetadata metadata = EntityMetadata.fromMetadataMap(map);
-      ARP arp = map.containsKey("attributes") ? ARP.fromAttributes((List) map.get("attributes")) : ARP.fromRestResponse(new HashedMap());
+      @SuppressWarnings("unchecked")
+      ARP arp = map.containsKey("attributes") ? ARP.fromAttributes((List<String>) map.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
       return doBuildServiceProviderByMetadata(metadata, (String) map.get("entityid"),Optional.of(arp));
     } catch (IOException e) {
       throw new RuntimeException(e);

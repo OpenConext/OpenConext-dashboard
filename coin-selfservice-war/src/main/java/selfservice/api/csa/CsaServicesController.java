@@ -54,8 +54,7 @@ public class CsaServicesController extends BaseApiController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/api/protected/services.json")
   @ResponseBody
-  public List<Service> getProtectedServices(@RequestParam(value = "lang", defaultValue = "en") String language,
-                                     final HttpServletRequest request) {
+  public List<Service> getProtectedServices(@RequestParam(value = "lang", defaultValue = "en") String language, HttpServletRequest request) {
     String ipdEntityId = getIdpEntityIdFromToken(request);
     /*
      * Non-client-credential client where we only return linked services
@@ -70,20 +69,18 @@ public class CsaServicesController extends BaseApiController {
                                   @RequestParam(value = "spEntityId") String spEntityId,
                                   HttpServletRequest request) {
     verifyScope(request, AuthorityScopeInterceptor.OAUTH_CLIENT_SCOPE_CROSS_IDP_SERVICES);
-    List<Service> allServices = doGetServicesForIdP(language, idpEntityId, true);
-    for (Service service : allServices) {
-      if (service.getSpEntityId().equals(spEntityId)) {
-        return service;
-      }
-    }
-    throw new RuntimeException("Non-existent service by sp entity id '" + spEntityId + "'");
+
+    return doGetServicesForIdP(language, idpEntityId, true).stream()
+        .filter(service -> service.getSpEntityId().equals(spEntityId))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("Non-existent service by sp entity id '" + spEntityId + "'"));
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/api/protected/idp/services.json")
-  @ResponseBody public List<Service> getProtectedServicesByIdp(
+  @ResponseBody
+  public List<Service> getProtectedServicesByIdp(
     @RequestParam(value = "lang", defaultValue = "en") String language,
-    @RequestParam(value = "idpEntityId") String idpEntityId,
-    HttpServletRequest request) {
+    @RequestParam(value = "idpEntityId") String idpEntityId, HttpServletRequest request) {
     verifyScope(request, AuthorityScopeInterceptor.OAUTH_CLIENT_SCOPE_CROSS_IDP_SERVICES);
     /*
      * Client-credential client where we also return non-linked services (e.g. dashboard functionality)
@@ -96,16 +93,13 @@ public class CsaServicesController extends BaseApiController {
   public Service getServiceForIdp(
       @PathVariable("serviceId") long serviceId,
       @RequestParam(value = "lang", defaultValue = "en") String language,
-      @RequestParam(value = "idpEntityId") String idpEntityId,
-      final HttpServletRequest request) {
+      @RequestParam(value = "idpEntityId") String idpEntityId, HttpServletRequest request) {
     verifyScope(request, AuthorityScopeInterceptor.OAUTH_CLIENT_SCOPE_CROSS_IDP_SERVICES);
-    List<Service> allServices = doGetServicesForIdP(language, idpEntityId, true);
-    for (Service service : allServices) {
-      if (service.getId() == serviceId) {
-        return service;
-      }
-    }
-    throw new RuntimeException("Non-existent service ID('" + serviceId + "')");
+
+    return doGetServicesForIdP(language, idpEntityId, true).stream()
+        .filter(service -> service.getId() == serviceId)
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("Non-existent service ID('" + serviceId + "')"));
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/api/protected/cache/clear.json")

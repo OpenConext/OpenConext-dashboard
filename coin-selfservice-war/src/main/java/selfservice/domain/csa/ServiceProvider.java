@@ -23,38 +23,25 @@ import org.springframework.util.CollectionUtils;
 
 import selfservice.domain.ARP;
 
+@SuppressWarnings("serial")
 public class ServiceProvider extends Provider implements Serializable {
 
   private String id;
+  private String gadgetBaseUrl;
+  private String applicationUrl;
+  private String institutionId;
+  private String eulaURL;
+
+  private boolean display;
+  private boolean publishedInEdugain;
+  private boolean exampleSingleTenant;
 
   private ARP arp;
 
-  private String eulaURL;
-
   private Map<String, String> urls;
-
-  private String gadgetBaseUrl;
-
-  private boolean display;
-
-  private String applicationUrl;
-
-  private String institutionId;
-
-  private boolean publishedInEdugain;
-
-  private boolean exampleSingleTenant;
 
   public ServiceProvider(String id) {
     this.id = id;
-  }
-
-  /**
-   * @deprecated name is not a single value String anymore
-   */
-  public ServiceProvider(String id, String name) {
-    this.id = id;
-    setName(name);
   }
 
   public String getId() {

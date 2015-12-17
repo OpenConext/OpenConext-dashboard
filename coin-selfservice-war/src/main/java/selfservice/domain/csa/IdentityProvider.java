@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.domain.csa;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * Identity provider
- */
+@SuppressWarnings("serial")
 public class IdentityProvider extends Provider implements Serializable {
 
   /*
@@ -32,15 +29,11 @@ public class IdentityProvider extends Provider implements Serializable {
   public static final IdentityProvider NONE = new IdentityProvider();
 
   private String id;
-
   private String institutionId;
-
   private String ssoLocation;
-
   private String sloLocation;
 
   public IdentityProvider() {
-
   }
 
   public IdentityProvider(String id, String institutionId, String name) {
