@@ -17,12 +17,10 @@
 package selfservice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import selfservice.domain.csa.IdentityProvider;
 
-/**
- * Interface of Identity Provider Services.
- */
 public interface IdentityProviderService {
 
   /**
@@ -30,7 +28,7 @@ public interface IdentityProviderService {
    * @param idpEntityId the id.
    * @return IdentityProvider
    */
-  IdentityProvider getIdentityProvider(String idpEntityId);
+  Optional<IdentityProvider> getIdentityProvider(String idpEntityId);
 
   /**
    * Get a list of all idps that have the same instituteId as the given one.
@@ -38,9 +36,9 @@ public interface IdentityProviderService {
    * @return List&lt;IdentityProvider&gt;
    */
   List<IdentityProvider> getInstituteIdentityProviders(String instituteId);
-  
+
   /**
-   * Get a list of all idps 
+   * Get a list of all idps
    * @return List&lt;IdentityProvider&gt;
    */
   List<IdentityProvider> getAllIdentityProviders();

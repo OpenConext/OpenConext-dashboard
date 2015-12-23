@@ -128,23 +128,17 @@ public class CsaImpl implements Csa {
 
   @Override
   public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
-//    String url = serviceUrl + "/api/protected/identityproviders.json?identityProviderId={identityProviderId}";
-//    System.err.println("!!!!!!!!! " + url);
-//    return Arrays.asList(csaRestTemplate.getForEntity(url, InstitutionIdentityProvider[].class, identityProviderId).getBody());
-
     List<InstitutionIdentityProvider> result = new ArrayList<>();
-    IdentityProvider identityProvider = identityProviderService.getIdentityProvider(identityProviderId);
-    if (identityProvider != null) {
-      String institutionId = identityProvider.getInstitutionId();
+
+    identityProviderService.getIdentityProvider(identityProviderId).ifPresent(idp -> {
+      String institutionId = idp.getInstitutionId();
       if (StringUtils.isBlank(institutionId)) {
-        result.add(convertIdentityProviderToInstitutionIdentityProvider(identityProvider)) ;
+        result.add(convertIdentityProviderToInstitutionIdentityProvider(idp)) ;
       } else {
-        List<IdentityProvider> instituteIdentityProviders = identityProviderService.getInstituteIdentityProviders(institutionId);
-        for (IdentityProvider provider : instituteIdentityProviders) {
-          result.add(convertIdentityProviderToInstitutionIdentityProvider(provider)) ;
-        }
+        identityProviderService.getInstituteIdentityProviders(institutionId)
+          .forEach(provider -> result.add(convertIdentityProviderToInstitutionIdentityProvider(provider)));
       }
-    }
+    });
 
     return result;
   }
@@ -166,16 +160,11 @@ public class CsaImpl implements Csa {
     return identityProviderService.getLinkedIdentityProviders(spEntityId).stream()
         .map(this::convertIdentityProviderToInstitutionIdentityProvider)
         .collect(toList());
-//    return result;
-//    String url = serviceUrl + "/api/protected/services-usage.json?spEntityId={spEntityId}";
-//    return Arrays.asList(csaRestTemplate.getForEntity(url, InstitutionIdentityProvider[].class, spEntityId).getBody());
   }
 
   @Override
   public List<Action> getJiraActions(String idpEntityId) {
     return actionsService.getActions(idpEntityId);
-//    String url = serviceUrl + "/api/protected/actions.json?idpEntityId={idpEntityId}";
-//    return Arrays.asList(csaRestTemplate.getForEntity(url, Action[].class, idpEntityId).getBody());
   }
 
   @Override
@@ -210,7 +199,8 @@ public class CsaImpl implements Csa {
   @Override
   public Action createAction(Action action) {
     ServiceProvider serviceProvider = serviceProviderService.getServiceProvider(action.getSpId());
-    IdentityProvider identityProvider = identityProviderService.getIdentityProvider(action.getIdpId());
+    IdentityProvider identityProvider = identityProviderService.getIdentityProvider(action.getIdpId()).orElseThrow(RuntimeException::new);
+
     action.setSpName(serviceProvider.getName());
     action.setIdpName(identityProvider.getName());
 
@@ -223,15 +213,11 @@ public class CsaImpl implements Csa {
       sendAdministrationEmail(serviceProvider, identityProvider, issueKey, action);
     }
     return action;
-//    String url = serviceUrl + "/api/protected/action.json";
-//    return csaRestTemplate.postForEntity(url, action, Action.class).getBody();
   }
 
   @Override
   public List<LicenseContactPerson> licenseContactPersons(String idpEntityId) {
     return licenseContactPersonService.licenseContactPersons(idpEntityId);
-//    String url = serviceUrl + "/api/protected/licensecontactperson.json?identityProviderId={identityProviderId}";
-//    return Arrays.asList(csaRestTemplate.getForEntity(url, LicenseContactPerson[].class, idpEntityId).getBody());
   }
 
   private List<Service> restoreCategoryReferences(List<Service> services) {

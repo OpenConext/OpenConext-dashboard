@@ -1,7 +1,7 @@
 package selfservice.shibboleth;
 
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.Collections;
@@ -83,7 +83,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     List<InstitutionIdentityProvider> institutionIdentityProviders = csaClient.getInstitutionIdentityProviders(idpId);
 
-    checkArgument(!CollectionUtils.isEmpty(institutionIdentityProviders), "Csa#getInstitutionIdentityProviders('" + idpId + "') returned zero result");
+    checkState(!CollectionUtils.isEmpty(institutionIdentityProviders), "no InstitutionIdentityProviders found for '" + idpId + "'");
 
     if (institutionIdentityProviders.size() == 1) {
       InstitutionIdentityProvider idp = institutionIdentityProviders.get(0);
@@ -103,10 +103,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   private List<String> getShibHeaderValues(String name, HttpServletRequest request) {
     String headerValue = request.getHeader(name);
-    if (headerValue == null) {
-      return Collections.emptyList();
-    }
-    return shibHeaderValueSplitter.splitToList(headerValue);
+
+    return headerValue == null ? Collections.emptyList() : shibHeaderValueSplitter.splitToList(headerValue);
   }
 
   @Override

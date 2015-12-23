@@ -20,58 +20,65 @@ package selfservice.api.cache;
 
 import static com.jayway.awaitility.Awaitility.await;
 import static com.jayway.awaitility.Duration.FIVE_SECONDS;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import com.google.common.collect.ImmutableList;
 import com.jayway.awaitility.Duration;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import selfservice.api.cache.ProviderCache;
 import selfservice.domain.csa.IdentityProvider;
 import selfservice.service.IdentityProviderService;
 
 public class ProviderCacheTest {
 
   public static final String IDP_ID = "http://mock-idp";
+
   private ProviderCache subject;
-  private IdentityProviderService identityProviderService;
+
+  private IdentityProviderService identityProviderServiceMock;
 
   @Before
   public void setUp() throws Exception {
-    identityProviderService = mock(IdentityProviderService.class);
-    subject = new ProviderCache(identityProviderService, 0, 1000, 0);
+    identityProviderServiceMock = mock(IdentityProviderService.class);
+    subject = new ProviderCache(identityProviderServiceMock, 0, 1000, 0);
   }
 
   @Test
-  public void testGetServiceProviderIdentifiers() throws Exception {
+  public void testGetServicePgetAllIdentityProvidersroviderIdentifiers() throws Exception {
     List<String> sps = getSPs();
 
-    when(identityProviderService.getLinkedServiceProviderIDs(IDP_ID)).thenReturn(sps);
+    when(identityProviderServiceMock.getLinkedServiceProviderIDs(IDP_ID)).thenReturn(sps);
 
-    await().atMost(FIVE_SECONDS).until(() -> subject.getServiceProviderIdentifiers(IDP_ID).size(), is(1));
+    await().atMost(FIVE_SECONDS).until(() -> subject.getServiceProviderIdentifiers(IDP_ID), hasSize(1));
+
     sps.add("sp2");
 
-    //now wait for the cache to be updated
-    await().atMost(FIVE_SECONDS).until(() -> subject.getServiceProviderIdentifiers(IDP_ID).size(), is(2));
+    await().atMost(FIVE_SECONDS).until(() -> subject.getServiceProviderIdentifiers(IDP_ID), hasSize(2));
   }
 
   @Test
   public void tesGetIdentityProvider() {
+    when(identityProviderServiceMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
+
     String idpEntityId = "unknown-idp";
     IdentityProvider identityProvider = subject.getIdentityProvider(idpEntityId);
+
     assertNull(identityProvider);
 
-    when(identityProviderService.getIdentityProvider(idpEntityId)).thenReturn(new IdentityProvider(idpEntityId, "institution", "idp1"));
+    when(identityProviderServiceMock.getIdentityProvider(idpEntityId)).thenReturn(Optional.of(new IdentityProvider(idpEntityId, "institution", "idp1")));
+
     identityProvider = subject.getIdentityProvider(idpEntityId);
 
     assertThat(identityProvider, notNullValue(IdentityProvider.class));
@@ -83,17 +90,20 @@ public class ProviderCacheTest {
     IdentityProvider idp2 = new IdentityProvider("idp2", "institution", "idp2");
     IdentityProvider idp3 = new IdentityProvider("idp3", "institution", "idp3");
 
-    List<IdentityProvider> listWithTwoIdps = Arrays.asList(idp1, idp2);
-    List<IdentityProvider> listWithThreeIdps = Arrays.asList(idp1, idp2, idp3);
+    List<IdentityProvider> listWithTwoIdps = ImmutableList.of(idp1, idp2);
 
-    when(identityProviderService.getAllIdentityProviders()).thenReturn(listWithTwoIdps);
+    when(identityProviderServiceMock.getAllIdentityProviders()).thenReturn(listWithTwoIdps);
+    when(identityProviderServiceMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
+
     await().atMost(FIVE_SECONDS).until(() ->
         subject.getIdentityProvider("idp1") != null &&
           subject.getIdentityProvider("idp2") != null &&
           subject.getIdentityProvider("idp3") == null
     );
 
-    when(identityProviderService.getAllIdentityProviders()).thenReturn(listWithThreeIdps);
+    List<IdentityProvider> listWithThreeIdps = ImmutableList.of(idp1, idp2, idp3);
+    when(identityProviderServiceMock.getAllIdentityProviders()).thenReturn(listWithThreeIdps);
+
     await().atMost(Duration.FIVE_SECONDS).until(() ->
         subject.getIdentityProvider("idp1") != null &&
           subject.getIdentityProvider("idp2") != null &&

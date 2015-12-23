@@ -29,54 +29,56 @@ import org.springframework.core.io.ClassPathResource;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
+
 public class JanusRestClientMock implements Janus {
-
-  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-          .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
-  private List<EntityMetadata> spList;
-  private List<EntityMetadata> idpList;
-  private final List<EntityMetadata> all = new ArrayList<>();
-
-  private final Map<String, List<String>> spsForIdp = new HashMap<>();
 
   private final static String SP_TYPE = "saml20-sp";
   private final static String IDP_TYPE = "saml20-idp";
 
+  private final ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+          .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+
+  private final List<EntityMetadata> spList;
+  private final List<EntityMetadata> idpList;
+  private final List<EntityMetadata> all = new ArrayList<>();
+
+  private final Map<String, List<String>> spsForIdp = new HashMap<>();
+
   private final ARP NON_EMPTY_ARP;
 
-  @SuppressWarnings("unchecked")
   public JanusRestClientMock() {
-      TypeReference<List<EntityMetadata>> typeReference = new TypeReference<List<EntityMetadata>>() {
-      };
+      TypeReference<List<EntityMetadata>> typeReference = new TypeReference<List<EntityMetadata>>() {};
+
       this.spList = (List<EntityMetadata>) parseJsonData(typeReference, "janus-json/sp.json");
       this.idpList = (List<EntityMetadata>) parseJsonData(typeReference, "janus-json/idp.json");
+
       all.addAll(spList);
       all.addAll(idpList);
-      NON_EMPTY_ARP = (ARP) parseJsonData(new TypeReference<ARP>() {
-      }, "janus-json/arp.json");
-      spsForIdp.put("https://idp_with_all_but_one_sp", Arrays.asList(new String[]{
-              "http://mock-sp",
-              "https://nice_sp",
-              "https://sp_state_acc"
-      }));
-      spsForIdp.put("http://mock-idp", Arrays.asList(new String[]{
-              "http://mock-sp",
-              "https://nice_sp",
-              "https://sp_state_acc",
-              "https://sp_idp_only"
-      }));
 
+      NON_EMPTY_ARP = (ARP) parseJsonData(new TypeReference<ARP>() {}, "janus-json/arp.json");
+
+      spsForIdp.put("https://idp_with_all_but_one_sp", ImmutableList.of(
+          "http://mock-sp",
+          "https://nice_sp",
+          "https://sp_state_acc"
+      ));
+
+      spsForIdp.put("http://mock-idp", ImmutableList.of(
+          "http://mock-sp",
+          "https://nice_sp",
+          "https://sp_state_acc",
+          "https://sp_idp_only"
+      ));
   }
 
   @Override
   public EntityMetadata getMetadataByEntityId(String entityId) {
-    for (EntityMetadata metadata : all) {
-      if (metadata.getAppEntityId().equals(entityId)) {
-        return metadata;
-      }
-    }
-    return null;
+    System.err.println(all);
+    return all.stream()
+        .filter(metadata -> metadata.getAppEntityId().equals(entityId))
+        .findFirst().orElse(null);
   }
 
   @Override
@@ -122,11 +124,13 @@ public class JanusRestClientMock implements Janus {
     if (metadata == null) {
       return null;
     }
+
     JanusEntity janusEntity = new JanusEntity(1, entityId);
     janusEntity.setAllowAll(!metadata.isIdpVisibleOnly());
     janusEntity.setPrettyName(metadata.getAppDescription());
     janusEntity.setType(getType(entityId));
     janusEntity.setWorkflowStatus("prodaccepted");
+
     return janusEntity;
   }
 
@@ -144,11 +148,11 @@ public class JanusRestClientMock implements Janus {
     return null;
   }
 
-  public Object parseJsonData(TypeReference<? extends Object> typeReference, String jsonFile) {
+  public <T> T parseJsonData(TypeReference<T> typeReference, String jsonFile) {
     try {
       return objectMapper.readValue(new ClassPathResource(jsonFile).getInputStream(), typeReference);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
   }
 

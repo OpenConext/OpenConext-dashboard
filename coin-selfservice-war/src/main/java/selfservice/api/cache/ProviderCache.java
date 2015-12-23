@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -89,15 +90,12 @@ public class ProviderCache extends AbstractCache {
   }
 
   public IdentityProvider getIdentityProvider(String idpEntityId) {
-    IdentityProvider identityProvider = idpCache.get(idpEntityId);
-    //kind of bizar, means we have a new IdP in between cache re-populate (happens in theory only and in integration tests)
-    if (identityProvider == null) {
-      identityProvider = idpService.getIdentityProvider(idpEntityId);
-      if (identityProvider != null) {
-        idpCache.put(identityProvider.getId(), identityProvider);
-      }
-    }
-    return identityProvider;
+    return Optional.ofNullable(idpCache.get(idpEntityId)).orElseGet(() -> {
+      // kind of bizar, means we have a new IdP in between cache re-populate (happens in theory only and in integration tests)
+      Optional<IdentityProvider> liveIdp = idpService.getIdentityProvider(idpEntityId);
+      liveIdp.ifPresent(idp -> idpCache.put(idp.getId(), idp));
+      return liveIdp.orElse(null);
+    });
   }
 
   private void populateSPIds() {

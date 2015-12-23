@@ -1,5 +1,14 @@
 [
   {
+    "appEntityId": "https://idp.surfnet.nl",
+    "names" : {
+      "en" : "SURFnet B.V.",
+      "nl" : "SURFnet B.V."
+    },
+    "instutionId": "SURFNET",
+    "workflowState": "prodaccepted"
+  },
+  {
     "appEntityId": "http://mock-idp",
     "names": {
       "en": "Main IdP (name en)",

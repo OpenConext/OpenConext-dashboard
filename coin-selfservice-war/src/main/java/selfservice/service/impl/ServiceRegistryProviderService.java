@@ -44,12 +44,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 
+import static com.google.common.base.Strings.emptyToNull;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.util.Assert.notNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import com.google.common.base.Joiner;
 
 @Service
 public class ServiceRegistryProviderService implements ServiceProviderService, IdentityProviderService, ApplicationListener<ContextRefreshedEvent> {
@@ -108,13 +112,12 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
 
   @Override
   public List<String> getLinkedServiceProviderIDs(String idpId) {
-    List<String> spList = new ArrayList<>();
     try {
-      spList = janusClient.getAllowedSps(idpId);
+      return janusClient.getAllowedSps(idpId);
     } catch (RestClientException e) {
       LOG.error("Could not retrieve allowed SPs from Janus client", e);
+      return Collections.emptyList();
     }
-    return spList;
   }
 
   private List<ServiceProvider> getAllServiceProvidersUnfiltered(boolean includeArps, long callDelay) {
@@ -219,19 +222,16 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   /**
-   * Create a IdentityProvider and inflate it with the given metadata
-   * attributes.
+   * Create a IdentityProvider and inflate it with the given metadata attributes.
    *
    * @param metadata Janus metadata
    * @return {@link IdentityProvider}
    */
   public static IdentityProvider buildIdentityProviderByMetadata(EntityMetadata metadata) {
-    Assert.notNull(metadata, "metadata cannot be null");
-    final String appEntityId = metadata.getAppEntityId();
-    String name = metadata.getNames().get("en");
-    if (StringUtils.isBlank(name)) {
-      name = appEntityId;
-    }
+    notNull(metadata, "metadata cannot be null");
+
+    String appEntityId = metadata.getAppEntityId();
+    String name = Optional.ofNullable(emptyToNull(metadata.getNames().get("en"))).orElse(appEntityId);
     IdentityProvider idp = new IdentityProvider(appEntityId, metadata.getInstutionId(), name);
     // this is needed for sorting
     idp.setName(name);
@@ -239,12 +239,14 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     idp.setLogoUrl(metadata.getAppLogoUrl());
     idp.setHomeUrls(metadata.getAppHomeUrls());
     idp.setDescriptions(metadata.getDescriptions());
-    for (Contact c : metadata.getContacts()) {
-      ContactPerson p = new ContactPerson(StringUtils.join(new Object[]{c.getGivenName(), c.getSurName()}, " "), c.getEmailAddress());
+
+    metadata.getContacts().stream().map(c -> {
+      ContactPerson p = new ContactPerson(Joiner.on(' ').join(c.getGivenName(), c.getSurName()), c.getEmailAddress());
       p.setContactPersonType(contactPersonTypeByJanusContactType(c.getType()));
       p.setTelephoneNumber(c.getTelephoneNumber());
-      idp.addContactPerson(p);
-    }
+      return p;
+    }).forEach(idp::addContactPerson);
+
     return idp;
   }
 
@@ -275,40 +277,34 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   }
 
   @Override
-  public IdentityProvider getIdentityProvider(String idpEntityId) {
+  public Optional<IdentityProvider> getIdentityProvider(String idpEntityId) {
     try {
-      EntityMetadata metadataByEntityId = janusClient.getMetadataByEntityId(idpEntityId);
-      return buildIdentityProviderByMetadata(metadataByEntityId);
+      return Optional.of(buildIdentityProviderByMetadata(janusClient.getMetadataByEntityId(idpEntityId)));
     } catch (Exception e) {
       LOG.error("Unable to getIdentityProvider " + idpEntityId, e);
-      return null;
+      return Optional.empty();
     }
   }
 
   @Override
   public List<IdentityProvider> getInstituteIdentityProviders(final String instituteId) {
-    List<IdentityProvider> idps = new ArrayList<>();
     if (StringUtils.isBlank(instituteId)) {
-      return idps;
+      Collections.emptyList();
     }
-    // first get all identity providers, then filter the ones we need.
-    return this.getAllIdentityProviders().stream().filter(idp -> instituteId.equals(idp.getInstitutionId())).collect(toList());
+
+    return getAllIdentityProviders().stream().filter(idp -> instituteId.equals(idp.getInstitutionId())).collect(toList());
   }
 
   @Override
   public List<IdentityProvider> getAllIdentityProviders() {
-    List<IdentityProvider> idps = new ArrayList<>();
     try {
-      final List<EntityMetadata> sps = janusClient.getIdpList();
-      for (EntityMetadata metadata : sps) {
-        if (StringUtils.equals(metadata.getWorkflowState(), IN_PRODUCTION)) {
-          idps.add(buildIdentityProviderByMetadata(metadata));
-        }
-      }
+      return janusClient.getIdpList().stream()
+          .filter(metadata -> StringUtils.equals(metadata.getWorkflowState(), IN_PRODUCTION))
+          .map(ServiceRegistryProviderService::buildIdentityProviderByMetadata).collect(toList());
     } catch (RestClientException e) {
       LOG.warn("Could not retrieve 'all IdPs' from Janus client", e);
+      return Collections.emptyList();
     }
-    return idps;
   }
 
   @Override

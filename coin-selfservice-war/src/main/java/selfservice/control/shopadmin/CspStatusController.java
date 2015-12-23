@@ -66,7 +66,7 @@ public class CspStatusController extends BaseController {
 
   @RequestMapping(value = "/selectIdp", method = RequestMethod.GET)
   public ModelAndView selectIdp(@RequestParam String filteredIdpId) {
-    IdentityProvider selectedidp = idpService.getIdentityProvider(filteredIdpId);
+    IdentityProvider selectedidp = idpService.getIdentityProvider(filteredIdpId).orElseThrow(RuntimeException::new);
     return statusOverview(selectedidp);
   }
 
