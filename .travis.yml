@@ -3,7 +3,12 @@ jdk:
   - oraclejdk8
 before_install:
   - gem install bundler
+  - pip install --user codecov
 install:
   - bundle install
   - cd coin-selfservice-standalone && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+after_success:
+  - codecov
+# - wget http://build.surfconext.nl/resources/settings.xml
+# - mvn clean deploy --settings settings.xml
