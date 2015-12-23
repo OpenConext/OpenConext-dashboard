@@ -75,7 +75,6 @@ public class JanusRestClientMock implements Janus {
 
   @Override
   public EntityMetadata getMetadataByEntityId(String entityId) {
-    System.err.println(all);
     return all.stream()
         .filter(metadata -> metadata.getAppEntityId().equals(entityId))
         .findFirst().orElse(null);

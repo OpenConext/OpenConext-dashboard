@@ -40,13 +40,13 @@ public class ServicesCache extends AbstractCache {
 
   private final Long callDelay;
 
+  private AtomicReference<Map<String, List<Service>>> allServicesCache = new AtomicReference<>();
+
   public ServicesCache(ServicesService servicesService, long delay, long duration, long callDelay) {
     super(delay, duration);
     this.callDelay = callDelay;
     this.servicesService = servicesService;
   }
-
-  private AtomicReference<Map<String, List<Service>>> allServicesCache = new AtomicReference<>();
 
   public List<Service> getAllServices(final String lang) {
     Assert.isTrue("en".equalsIgnoreCase(lang) || "nl".equalsIgnoreCase(lang), "The only languages supported are 'nl' and 'en'");

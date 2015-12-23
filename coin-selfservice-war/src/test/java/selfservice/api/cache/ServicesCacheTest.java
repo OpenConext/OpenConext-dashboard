@@ -19,81 +19,57 @@
 package selfservice.api.cache;
 
 import static com.jayway.awaitility.Awaitility.await;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.jayway.awaitility.Duration;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import selfservice.api.cache.ServicesCache;
 import selfservice.domain.Service;
 import selfservice.service.ServicesService;
 
 public class ServicesCacheTest {
 
   private ServicesCache subject;
-  private ServicesService servicesService;
+  private ServicesService servicesServiceMock;
 
   @Before
   public void setUp() throws Exception {
+    servicesServiceMock = mock(ServicesService.class);
+    when(servicesServiceMock.findAll(anyLong())).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service())));
 
-    servicesService = mock(ServicesService.class);
-    Map<String, List<Service>> servicesMap = initServices();
-    when(servicesService.findAll(anyLong())).thenReturn(servicesMap);
+    subject = new ServicesCache(servicesServiceMock, 0, 1000L, 0);
 
-    subject = new ServicesCache(servicesService, 0, 1000L, 0);
-    //cache needs to kick in
-    Thread.sleep(10);
+    await().atMost(Duration.ONE_SECOND).until(() -> subject.getAllServices("en"), hasSize(1));
   }
+
   @Test
   public void getServices() throws Exception {
-    //the setup initializes the cache for the first hit
-    List<Service> services = subject.getAllServices("en");
-    assertEquals(1, services.size());
+    assertThat(subject.getAllServices("en"), hasSize(1));
 
-    Map<String, List<Service>> servicesMap = initServices();
-    servicesMap.get("en").add(new Service());
-    when(servicesService.findAll(anyLong())).thenReturn(servicesMap);
+    when(servicesServiceMock.findAll(anyLong())).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service(), new Service())));
 
-    services = subject.getAllServices("en");
-    assertEquals(1, services.size());
-
-    //now wait for the cache to expire and be refilled
-    await().atMost(Duration.FIVE_SECONDS).until(() -> subject.getAllServices("en").size(), is(2));
+    await().atMost(Duration.FIVE_SECONDS).until(() -> subject.getAllServices("en"), hasSize(2));
   }
 
   @Test
   public void serviceCacheShouldClone() {
-    List<Service> services1 = subject.getAllServices("en");
+    Service service1 = subject.getAllServices("en").get(0);
+    Service service2 = subject.getAllServices("en").get(0);
 
-    Service service1 = services1.get(0);
-    List<Service> services2 = subject.getAllServices("en");
-    Service service2 = services2.get(0);
     assertEquals("Cloned services should 'be equal'", service1, service2);
     assertFalse("Clones services should not be ==", service1 == service2);
-  }
-
-  private Map<String, List<Service>> initServices() {
-    Map<String, List<Service>> services = new HashMap<>();
-    List<Service> nl = new ArrayList<>();
-    Service service = new Service();
-    nl.add(service);
-    List<Service> en = new ArrayList<>();
-    en.add(service);
-    services.put("nl", nl);
-    services.put("en", en);
-    return services;
   }
 
 }
