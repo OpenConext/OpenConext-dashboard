@@ -16,7 +16,7 @@
 
 package selfservice.interceptor;
 
-import static selfservice.domain.csa.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,10 +30,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import selfservice.control.BaseController;
-import selfservice.domain.csa.CoinUser;
+import selfservice.control.shopadmin.BaseController;
+import selfservice.domain.CoinAuthority.Authority;
+import selfservice.domain.CoinUser;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.domain.csa.CoinAuthority.Authority;
 
 /**
  * Interceptor to de-scope the visibility {@link CompoundServiceProvider}

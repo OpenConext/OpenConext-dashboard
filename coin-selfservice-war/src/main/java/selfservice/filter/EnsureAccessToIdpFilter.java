@@ -1,7 +1,7 @@
 package selfservice.filter;
 
-
-import selfservice.service.Csa;
+import selfservice.domain.IdentityProvider;
+import selfservice.service.IdentityProviderService;
 import selfservice.util.SpringSecurity;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -10,30 +10,29 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
-import static selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
+import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
-  private Csa csa;
+  private IdentityProviderService idpService;
 
-  public EnsureAccessToIdpFilter(Csa csa) {
-    this.csa = csa;
+  public EnsureAccessToIdpFilter(IdentityProviderService idpService) {
+    this.idpService = idpService;
   }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    String idpEntityId = req.getHeader(HTTP_X_IDP_ENTITY_ID);
-    if (idpEntityId == null) {
-      idpEntityId = request.getParameter("idpEntityId");
-    }
+    String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
 
     if (!req.getRequestURI().contains("/users/me")) {
-      SpringSecurity.ensureAccess(csa, idpEntityId);
+      IdentityProvider idp = idpService.getIdentityProvider(idpEntityId).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
+      SpringSecurity.ensureAccess(idp);
     }
     chain.doFilter(request, response);
-
   }
 }

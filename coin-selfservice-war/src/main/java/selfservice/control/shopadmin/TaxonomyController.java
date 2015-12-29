@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.control.shopadmin;
 
 import java.util.List;
-import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import selfservice.control.BaseController;
 import selfservice.dao.FacetDao;
 import selfservice.dao.FacetValueDao;
 import selfservice.dao.LocalizedStringDao;
@@ -47,19 +45,19 @@ import selfservice.service.impl.CompoundSPService;
 @RequestMapping(value = "/shopadmin/*")
 public class TaxonomyController extends BaseController {
 
-  @Resource
+  @Autowired
   private FacetDao facetDao;
 
-  @Resource
+  @Autowired
   private FacetValueDao facetValueDao;
 
-  @Resource
+  @Autowired
   private MultilingualStringDao multilingualStringDao;
 
-  @Resource
+  @Autowired
   private LocalizedStringDao localizedStringDao;
 
-  @Resource
+  @Autowired
   private CompoundSPService compoundSPService;
 
   @RequestMapping("taxonomy-overview.shtml")
@@ -91,16 +89,14 @@ public class TaxonomyController extends BaseController {
   }
 
   @RequestMapping(value = "/facet", method = RequestMethod.POST)
-  public
   @ResponseBody
-  Long createFacet(@RequestBody Facet newFacet) {
+  public Long createFacet(@RequestBody Facet newFacet) {
     return facetDao.save(newFacet).getId();
   }
 
   @RequestMapping(value = "/facet/{facetId}", method = RequestMethod.DELETE)
-  public
   @ResponseBody
-  String deleteFacet(@PathVariable("facetId") Long facetId) {
+  public String deleteFacet(@PathVariable("facetId") Long facetId) {
     Facet prev = facetDao.findOne(facetId);
     facetValueDao.unlinkAllCspFromFacet(facetId);
     facetDao.delete(prev);
@@ -108,9 +104,8 @@ public class TaxonomyController extends BaseController {
   }
 
   @RequestMapping(value = "/facet-value/{facetValueId}", method = RequestMethod.PUT)
-  public
   @ResponseBody
-  String updateFacetValue(@PathVariable("facetValueId") Long facetValueId, @RequestBody FacetValue facetValue) {
+  public String updateFacetValue(@PathVariable("facetValueId") Long facetValueId, @RequestBody FacetValue facetValue) {
     FacetValue prev = facetValueDao.findOne(facetValueId);
     prev.setValue(facetValue.getValue());
     facetValueDao.save(prev);
@@ -118,18 +113,16 @@ public class TaxonomyController extends BaseController {
   }
 
   @RequestMapping(value = "{facetId}/facet-value", method = RequestMethod.POST)
-  public
   @ResponseBody
-  Long createFacetValue(@PathVariable("facetId") Long facetId, @RequestBody FacetValue newFacetValue) {
+  public Long createFacetValue(@PathVariable("facetId") Long facetId, @RequestBody FacetValue newFacetValue) {
     Facet facet = facetDao.findOne(facetId);
     newFacetValue.setFacet(facet);
     return facetValueDao.save(newFacetValue).getId();
   }
 
   @RequestMapping(value = "/facet-value/{facetValueId}", method = RequestMethod.DELETE)
-  public
   @ResponseBody
-  String deleteFacetValue(@PathVariable("facetValueId") Long facetValueId) {
+  public String deleteFacetValue(@PathVariable("facetValueId") Long facetValueId) {
     FacetValue prev = facetValueDao.findOne(facetValueId);
     facetValueDao.unlinkAllCspFromFacetValue(facetValueId);
     facetValueDao.delete(prev);
@@ -145,9 +138,8 @@ public class TaxonomyController extends BaseController {
   }
 
   @RequestMapping(value = "/facet-value-csp/{facetValueId}/{compoundServiceProviderId}", method = RequestMethod.POST)
-  public
   @ResponseBody
-  String linkFacetValueCompoundServiceProvider(@PathVariable("facetValueId") Long facetValueId,
+  public String linkFacetValueCompoundServiceProvider(@PathVariable("facetValueId") Long facetValueId,
                                                @PathVariable("compoundServiceProviderId") Long compoundServiceProviderId,
                                                @ModelAttribute IsLinkRequest isLinkRequest) {
     if (isLinkRequest.getValue()) {
@@ -159,33 +151,28 @@ public class TaxonomyController extends BaseController {
   }
 
   @RequestMapping(value = "/facet-value-used/{facetValueId}", method = RequestMethod.GET)
-  public
   @ResponseBody
-  List<InUseFacetValue> facetValueUsed(@PathVariable("facetValueId") Long facetValueId) {
+  public List<InUseFacetValue> facetValueUsed(@PathVariable("facetValueId") Long facetValueId) {
     return facetValueDao.findInUseFacetValues(facetValueId);
   }
 
   @RequestMapping(value = "/facet-used/{facetId}", method = RequestMethod.GET)
-  public
   @ResponseBody
-  List<InUseFacetValue> facetUsed(@PathVariable("facetId") Long facetId) {
+  public List<InUseFacetValue> facetUsed(@PathVariable("facetId") Long facetId) {
     return facetValueDao.findInUseFacet(facetId);
   }
 
-
   @RequestMapping(value = "/taxonomy-translation/{multilingualStringId}", method = RequestMethod.POST)
-  public
   @ResponseBody
-  Long addFacetValueTranslation(@PathVariable("multilingualStringId") Long multilingualStringId, @RequestBody LocalizedString newLocalizedString) {
+  public Long addFacetValueTranslation(@PathVariable("multilingualStringId") Long multilingualStringId, @RequestBody LocalizedString newLocalizedString) {
     MultilingualString multilingualString = multilingualStringDao.findOne(multilingualStringId);
     LocalizedString localizedString = new LocalizedString(newLocalizedString.getLocale(), newLocalizedString.getValue(), multilingualString);
     return localizedStringDao.save(localizedString).getId();
   }
 
   @RequestMapping(value = "/taxonomy-translation/{localizedStringId}", method = RequestMethod.PUT)
-  public
   @ResponseBody
-  String updateFacetValueTranslation(@PathVariable("localizedStringId") Long localizedStringId, @RequestBody LocalizedString update) {
+  public String updateFacetValueTranslation(@PathVariable("localizedStringId") Long localizedStringId, @RequestBody LocalizedString update) {
     LocalizedString localizedString = localizedStringDao.findOne(localizedStringId);
     localizedString.setValue(update.getValue());
     localizedStringDao.save(localizedString);

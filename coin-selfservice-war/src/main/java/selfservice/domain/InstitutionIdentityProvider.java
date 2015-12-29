@@ -20,9 +20,8 @@ package selfservice.domain;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class InstitutionIdentityProvider implements Serializable {
-
-  private static final long serialVersionUID = 0L;
 
   private String id;
   private String name;

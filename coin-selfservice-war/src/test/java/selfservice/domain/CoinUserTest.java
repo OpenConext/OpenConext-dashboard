@@ -2,10 +2,12 @@ package selfservice.domain;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import selfservice.api.rest.EnrichJson;
-import selfservice.api.rest.RestResponse;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import selfservice.api.dashboard.EnrichJson;
+import selfservice.api.dashboard.RestResponse;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,7 +29,7 @@ public class CoinUserTest {
     coinUser = new CoinUser();
     coinUser.addAttribute("foo", Arrays.asList("bar"));
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
-    coinUser.addInstitutionIdp(new InstitutionIdentityProvider("id", "name", "institutionId"));
+    coinUser.addInstitutionIdp(new IdentityProvider("id", "institutionId", "name"));
     coinUser.setDisplayName("foobar");
   }
 

@@ -14,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.NotificationMessage;
@@ -24,21 +28,13 @@ import selfservice.domain.Service;
 import selfservice.service.Csa;
 import selfservice.service.NotificationService;
 import selfservice.util.SpringSecurity;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Default implementation of notification service
- */
 @Component
 public class NotificationServiceImpl implements NotificationService {
 
   protected static final String FCP_NOTIFICATIONS = "notifications.messages.fcp";
 
-  @Resource
+  @Autowired
   private Csa csa;
 
   @Override
@@ -60,8 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
     for (Service service : services) {
       if (service.getLicense() != null && !service.isConnected()) {
         notLinkedCSPs.add(service);
-      } else if (service.getLicense() == null && service.isHasCrmLink()
-        && service.isConnected()) {
+      } else if (service.getLicense() == null && service.isHasCrmLink() && service.isConnected()) {
         noLicenseCSPs.add(service);
       }
     }
@@ -75,6 +70,7 @@ public class NotificationServiceImpl implements NotificationService {
     if (!noLicenseCSPs.isEmpty()) {
       notificationMessage.addArguments(noLicenseCSPs);
     }
+
     return notificationMessage;
   }
 

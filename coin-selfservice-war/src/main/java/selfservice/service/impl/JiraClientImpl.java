@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.service.impl;
 
 import static java.util.stream.Collectors.toList;
@@ -39,7 +38,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import selfservice.domain.JiraTask;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinUser;
 import selfservice.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 
 public class JiraClientImpl implements JiraClient {

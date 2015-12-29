@@ -31,10 +31,10 @@ import org.mockito.MockitoAnnotations;
 
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.dao.LmngIdentifierDao;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.domain.csa.IdentityProvider;
-import selfservice.domain.csa.ServiceProvider;
 import selfservice.service.CrmService;
 import selfservice.service.ServiceProviderService;
 import selfservice.service.impl.CompoundSPService;

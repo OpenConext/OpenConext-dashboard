@@ -51,6 +51,8 @@ import org.springframework.util.CollectionUtils;
 
 import selfservice.domain.FacetValue;
 import selfservice.domain.License;
+import selfservice.domain.Provider;
+import selfservice.domain.ServiceProvider;
 import selfservice.util.DomainObject;
 
 

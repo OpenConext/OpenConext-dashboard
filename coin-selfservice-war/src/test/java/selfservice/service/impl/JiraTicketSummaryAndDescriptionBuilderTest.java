@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import selfservice.domain.JiraTask;
 import selfservice.domain.JiraTask.Type;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinUser;
 import selfservice.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 
 public class JiraTicketSummaryAndDescriptionBuilderTest {

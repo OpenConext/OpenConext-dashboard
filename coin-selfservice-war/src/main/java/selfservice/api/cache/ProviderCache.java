@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -32,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import selfservice.domain.csa.IdentityProvider;
+import selfservice.domain.IdentityProvider;
 import selfservice.service.IdentityProviderService;
 
 @Component
@@ -45,7 +44,6 @@ public class ProviderCache extends AbstractCache {
    * Subsequent populateCache()'s will then only update this already loaded items.
    */
   private ConcurrentHashMap<String, List<String>> spIdsCache = new ConcurrentHashMap<>();
-
   private ConcurrentHashMap<String, IdentityProvider> idpCache = new ConcurrentHashMap<>();
 
   private final IdentityProviderService idpService;
@@ -99,9 +97,9 @@ public class ProviderCache extends AbstractCache {
   }
 
   private void populateSPIds() {
-    Set<String> idpIdentifiers = spIdsCache.keySet();
     Map<String, List<String>> swap = new HashMap<>();
-    for (String idpId : idpIdentifiers) {
+
+    for (String idpId : spIdsCache.keySet()) {
       List<String> spIdentifiers = idpService.getLinkedServiceProviderIDs(idpId);
       if (callDelay > 0) {
         try {

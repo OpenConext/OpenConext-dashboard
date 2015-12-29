@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,14 +30,14 @@ import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import selfservice.domain.CrmArticle;
 import selfservice.domain.Facet;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.InstitutionIdentityProvider;
 import selfservice.domain.License;
 import selfservice.domain.LicenseContactPerson;
 import selfservice.domain.Service;
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.Taxonomy;
 import selfservice.domain.csa.Article;
-import selfservice.domain.csa.IdentityProvider;
-import selfservice.domain.csa.ServiceProvider;
 import selfservice.service.ActionsService;
 import selfservice.service.Csa;
 import selfservice.service.EmailService;
@@ -87,10 +88,8 @@ public class CsaImpl implements Csa {
   }
 
   private List<Service> doGetServicesForIdP(String language, String idpEntityId, boolean includeNotLinkedSPs) {
-    IdentityProvider identityProvider = providerCache.getIdentityProvider(idpEntityId);
-    if (identityProvider == null) {
-      throw new IllegalArgumentException("No IdentityProvider known in SR with name:'" + idpEntityId + "'");
-    }
+    IdentityProvider identityProvider = Optional.ofNullable(providerCache.getIdentityProvider(idpEntityId))
+        .orElseThrow(() -> new IllegalArgumentException("No IdentityProvider known in SR with name:'" + idpEntityId + "'"));
 
     List<String> serviceProviderIdentifiers = providerCache.getServiceProviderIdentifiers(idpEntityId);
 
@@ -99,11 +98,11 @@ public class CsaImpl implements Csa {
 
     for (Service service : allServices) {
       boolean isConnected = serviceProviderIdentifiers.contains(service.getSpEntityId());
-    /*
-     * If a Service is idpOnly then we do want to show it as the institutionId matches that of the Idp, meaning that
-     * an admin from Groningen can see the services offered by Groningen also when they are marked idpOnly - which is often the
-     * case for services offered by universities
-     */
+      /*
+       * If a Service is idpOnly then we do want to show it as the institutionId matches that of the Idp, meaning that
+       * an admin from Groningen can see the services offered by Groningen also when they are marked idpOnly - which is often the
+       * case for services offered by universities
+       */
       boolean showForInstitution = !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId().equalsIgnoreCase(identityProvider.getInstitutionId()));
       if ((includeNotLinkedSPs && showForInstitution) || (service.isAvailableForEndUser() && isConnected)) {
 
@@ -125,35 +124,22 @@ public class CsaImpl implements Csa {
     return result;
   }
 
-
-  @Override
-  public List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
-    List<InstitutionIdentityProvider> result = new ArrayList<>();
-
-    identityProviderService.getIdentityProvider(identityProviderId).ifPresent(idp -> {
-      String institutionId = idp.getInstitutionId();
-      if (StringUtils.isBlank(institutionId)) {
-        result.add(convertIdentityProviderToInstitutionIdentityProvider(idp)) ;
-      } else {
-        identityProviderService.getInstituteIdentityProviders(institutionId)
-          .forEach(provider -> result.add(convertIdentityProviderToInstitutionIdentityProvider(provider)));
-      }
-    });
-
-    return result;
-  }
-
-  @Override
-  public List<InstitutionIdentityProvider> getAllInstitutionIdentityProviders() {
-    List<InstitutionIdentityProvider> result = new ArrayList<>();
-    List<IdentityProvider> identityProviders = identityProviderService.getAllIdentityProviders();
-
-    for (IdentityProvider identityProvider : identityProviders) {
-      result.add(convertIdentityProviderToInstitutionIdentityProvider(identityProvider));
-    }
-
-    return result;
-  }
+//  @Override
+//  public List<IdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
+//    List<IdentityProvider> result = new ArrayList<>();
+//
+//    identityProviderService.getIdentityProvider(identityProviderId).ifPresent(idp -> {
+//      String institutionId = idp.getInstitutionId();
+//      if (StringUtils.isBlank(institutionId)) {
+//        result.add(idp) ;
+//      } else {
+//        identityProviderService.getInstituteIdentityProviders(institutionId)
+//          .forEach(provider -> result.add(provider));
+//      }
+//    });
+//
+//    return result;
+//  }
 
   @Override
   public List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId) {
@@ -184,8 +170,6 @@ public class CsaImpl implements Csa {
       }
     }
     return new Taxonomy(categories);
-
-//    Taxonomy taxonomy = csaRestTemplate.getForEntity(serviceUrl + "/api/public/taxonomy.json?lang={lang}", Taxonomy.class, getLocale()).getBody();
   }
 
   @Override

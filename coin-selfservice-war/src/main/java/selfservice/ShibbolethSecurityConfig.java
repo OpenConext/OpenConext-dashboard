@@ -33,6 +33,7 @@ import selfservice.filter.SabEntitlementsFilter;
 import selfservice.filter.VootFilter;
 import selfservice.sab.Sab;
 import selfservice.service.Csa;
+import selfservice.service.IdentityProviderService;
 import selfservice.service.VootClient;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import selfservice.shibboleth.ShibbolethUserDetailService;
@@ -51,6 +52,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   private VootClient vootClient;
 
   @Autowired
+  private IdentityProviderService idpService;
+
+  @Autowired
   private Sab sab;
 
   @Value("${dashboard.admin}")
@@ -61,6 +65,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Value("${dashboard.super.user}")
   private String dashboardSuperUser;
+
+  @Value("${admin.distribution.channel.teamname}")
+  private String adminDistributionTeam;
 
   @Value("${admin.surfconext.idp.sabRole}")
   private String adminSufConextIdpRole;
@@ -86,7 +93,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(WebSecurity web) throws Exception {
     web
       .ignoring()
-      .antMatchers("/home", "/forbidden", "/css/**", "/font/**", "/images/**", "/js/**", "/health", "/info");
+      .antMatchers("/home", "/forbidden", "/public/**", "/css/**", "/font/**", "/images/**", "/img/**", "/js/**", "/health", "/info");
   }
 
   @Override
@@ -99,18 +106,18 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         .addLogoutHandler(new DashboardLogoutHandler()).and()
       .csrf().disable()
       .addFilterBefore(
-        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), csa),
+        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), idpService),
         AbstractPreAuthenticatedProcessingFilter.class
       )
       .addFilterAfter(
-          new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser),
+          new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser, adminDistributionTeam),
           ShibbolethPreAuthenticatedProcessingFilter.class)
       .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), VootFilter.class)
-      .addFilterAfter(new EnsureAccessToIdpFilter(csa), SabEntitlementsFilter.class)
+      .addFilterAfter(new EnsureAccessToIdpFilter(idpService), SabEntitlementsFilter.class)
       .authorizeRequests()
       .antMatchers("/shopadmin/**").hasRole("DISTRIBUTION_CHANNEL_ADMIN")
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
-      .antMatchers("/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
+      .antMatchers("/dashboard/api/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
       .anyRequest().authenticated();
   }
 

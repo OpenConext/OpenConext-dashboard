@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static selfservice.api.rest.Constants.HTTP_X_IDP_ENTITY_ID;
+import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 import static selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter.shibHeaders;
 
 public class MockShibbolethFilter extends GenericFilterBean {

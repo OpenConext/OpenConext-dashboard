@@ -28,8 +28,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import selfservice.domain.ARP;
-import selfservice.domain.csa.IdentityProvider;
-import selfservice.domain.csa.ServiceProvider;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.ServiceProvider;
 import selfservice.janus.Janus;
 import selfservice.janus.domain.EntityMetadata;
 import selfservice.service.impl.ServiceRegistryProviderService;

@@ -18,7 +18,7 @@ package selfservice.service.impl;
 import java.util.List;
 
 import selfservice.domain.JiraTask;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinUser;
 
 public interface JiraClient {
 

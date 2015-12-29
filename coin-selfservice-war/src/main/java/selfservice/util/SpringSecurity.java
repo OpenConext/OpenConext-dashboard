@@ -18,8 +18,8 @@ package selfservice.util;
 
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.InstitutionIdentityProvider;
-import selfservice.service.Csa;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -65,12 +65,13 @@ public class SpringSecurity {
     SpringSecurity.impersonatedIdentityProvider = impersonatedIdentityProvider;
   }
 
-  public static void ensureAccess(Csa csa, final String idpId) {
-    validateIdp(getIdpFromId(csa, idpId));
+  public static void ensureAccess(IdentityProvider idp) {
+    validateIdp(idp);
   }
 
-  public static void setSwitchedToIdp(Csa csa, final String idpId, final String role) {
-    InstitutionIdentityProvider idp = (idpId != null ? validateIdp(getIdpFromId(csa, idpId)) : null);
+  public static void setSwitchedToIdp(IdentityProvider idp, String role) {
+    validateIdp(idp);
+
     CoinUser currentUser = SpringSecurity.getCurrentUser();
 
     if (idp == null) {
@@ -82,7 +83,7 @@ public class SpringSecurity {
     SpringSecurity.getCurrentUser().setSwitchedToIdp(idp);
   }
 
-  public static InstitutionIdentityProvider validateIdp(final InstitutionIdentityProvider idp) {
+  public static IdentityProvider validateIdp(IdentityProvider idp) {
     if (SpringSecurity.getCurrentUser().isSuperUser()) {
       return idp;
     } else {
@@ -93,10 +94,4 @@ public class SpringSecurity {
     }
   }
 
-  public static InstitutionIdentityProvider getIdpFromId(Csa csa, String idp) {
-    return csa.getAllInstitutionIdentityProviders().stream()
-      .filter(identityProvider -> identityProvider.getId().equalsIgnoreCase(idp))
-      .findFirst()
-      .orElseThrow(() -> new SecurityException(idp + " does not exist"));
-  }
 }

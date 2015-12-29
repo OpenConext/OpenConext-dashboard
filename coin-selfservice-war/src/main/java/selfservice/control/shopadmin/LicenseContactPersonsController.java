@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/shopadmin/*")
+@RequestMapping(value = "/shopadmin")
 public class LicenseContactPersonsController {
 
   @Autowired

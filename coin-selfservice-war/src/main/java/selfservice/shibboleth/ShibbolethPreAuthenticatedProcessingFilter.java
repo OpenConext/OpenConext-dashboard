@@ -1,8 +1,9 @@
 package selfservice.shibboleth;
 
-
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toMap;
+import static org.springframework.util.StringUtils.hasText;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +21,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import selfservice.domain.CoinUser;
-import selfservice.domain.InstitutionIdentityProvider;
-import selfservice.service.Csa;
+import selfservice.domain.IdentityProvider;
+import selfservice.service.IdentityProviderService;
 
 public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthenticatedProcessingFilter {
 
@@ -55,11 +56,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       .build();
   }
 
-  private final Csa csaClient;
+  private final IdentityProviderService idpService;
 
-  public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, Csa csaClient) {
+  public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, IdentityProviderService idpService) {
     setAuthenticationManager(authenticationManager);
-    this.csaClient = csaClient;
+    this.idpService = idpService;
   }
 
   @Override
@@ -81,12 +82,12 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         .collect(toMap(h -> h, h -> getShibHeaderValues(h, request)));
     coinUser.setAttributeMap(attributes);
 
-    List<InstitutionIdentityProvider> institutionIdentityProviders = csaClient.getInstitutionIdentityProviders(idpId);
+    List<IdentityProvider> institutionIdentityProviders = getInstitutionIdentityProviders(idpId);
 
     checkState(!CollectionUtils.isEmpty(institutionIdentityProviders), "no InstitutionIdentityProviders found for '" + idpId + "'");
 
     if (institutionIdentityProviders.size() == 1) {
-      InstitutionIdentityProvider idp = institutionIdentityProviders.get(0);
+      IdentityProvider idp = institutionIdentityProviders.get(0);
       coinUser.setIdp(idp);
       coinUser.addInstitutionIdp(idp);
     } else {
@@ -94,7 +95,15 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
       Collections.sort(coinUser.getInstitutionIdps(), (lh, rh) -> lh.getName().compareTo(rh.getName()));
     }
+
     return coinUser;
+  }
+
+  private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {
+    return idpService.getIdentityProvider(idpId).map(idp -> {
+      String institutionId = idp.getInstitutionId();
+      return hasText(institutionId) ? idpService.getInstituteIdentityProviders(institutionId) : singletonList(idp);
+    }).orElse(Collections.emptyList());
   }
 
   private Optional<String> getFirstShibHeaderValue(String name, HttpServletRequest request) {
@@ -112,11 +121,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     return "N/A";
   }
 
-  private InstitutionIdentityProvider getCurrentIdp(String idpId, List<InstitutionIdentityProvider> institutionIdentityProviders) {
+  private IdentityProvider getCurrentIdp(String idpId, List<IdentityProvider> institutionIdentityProviders) {
     return institutionIdentityProviders.stream()
         .filter(provider -> provider.getId().equals(idpId))
         .findFirst()
-        .orElseThrow(() -> new IllegalArgumentException("The Idp('" + idpId + "') is not present in the list of Idp's returned by the CsaClient"));
+        .orElseThrow(() -> new IllegalArgumentException(String.format("The Idp('%s') is not present in the list of Idp's returned by the CsaClient", idpId)));
   }
 
 }

@@ -18,7 +18,7 @@ package selfservice.service;
 
 import java.util.List;
 
-import selfservice.domain.csa.ServiceProvider;
+import selfservice.domain.ServiceProvider;
 
 /**
  * Interface of services that returns information about Service Providers (SPs).

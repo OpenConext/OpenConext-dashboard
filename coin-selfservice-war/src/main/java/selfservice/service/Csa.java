@@ -12,10 +12,6 @@ public interface Csa {
 
   List<Service> getServicesForIdp(String idpEntityId);
 
-  List<InstitutionIdentityProvider> getInstitutionIdentityProviders(String identityProviderId);
-
-  List<InstitutionIdentityProvider> getAllInstitutionIdentityProviders();
-
   List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId);
 
   List<Action> getJiraActions(String idpEntityId);

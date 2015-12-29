@@ -19,11 +19,12 @@ package selfservice.control.shopadmin;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Resource;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -35,7 +36,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import selfservice.control.BaseController;
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.dao.FieldImageDao;
 import selfservice.dao.FieldStringDao;
@@ -48,24 +48,24 @@ import selfservice.domain.csa.Screenshot;
 import selfservice.service.impl.CompoundSPService;
 
 @Controller
-@RequestMapping(value = "/shopadmin/*")
+@RequestMapping(value = "/shopadmin")
 public class SpLmngDataBindingController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SpLmngDataBindingController.class);
 
-  @Resource
+  @Autowired
   private CompoundServiceProviderDao compoundServiceProviderDao;
 
-  @Resource
+  @Autowired
   private CompoundSPService compoundSPService;
 
-  @Resource
+  @Autowired
   private FieldStringDao fieldStringDao;
 
-  @Resource
+  @Autowired
   private FieldImageDao fieldImageDao;
 
-  @Resource
+  @Autowired
   private ScreenshotDao screenshotDao;
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -81,18 +81,19 @@ public class SpLmngDataBindingController extends BaseController {
   }
 
   @RequestMapping(value = "/compoundSp-update", method = RequestMethod.POST, params = "usethis=usethis-image")
-  public @ResponseBody
-  String updateImageField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "source") Field.Source source) {
+  @ResponseBody
+  public String updateImageField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "source") Field.Source source) {
     FieldImage fieldImage = fieldImageDao.findOne(fieldId);
     validateCombination(source, fieldImage);
     fieldImage.setSource(source);
     fieldImage = fieldImageDao.save(fieldImage);
+
     return fieldImage.getSource().name();
   }
 
   @RequestMapping(value = "/compoundSp-update", method = RequestMethod.POST)
-  public @ResponseBody
-  String updateStringField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
+  @ResponseBody
+  public String updateStringField(@RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "value", required = false) String value,
       @RequestParam(value = "source") Field.Source source, @RequestParam(value = "usethis", required = false) String useThis) {
     FieldString field = fieldStringDao.findOne(fieldId);
     validateCombination(source, field);
@@ -101,6 +102,7 @@ public class SpLmngDataBindingController extends BaseController {
       field.setSource(source);
     }
     field = fieldStringDao.save(field);
+
     return field.getSource().name();
   }
 
@@ -112,8 +114,8 @@ public class SpLmngDataBindingController extends BaseController {
   }
 
   @RequestMapping(value = "/upload", method = RequestMethod.POST)
-  public @ResponseBody
-  String upload(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "source") Field.Source source,
+  @ResponseBody
+  public String upload(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "source") Field.Source source,
       @RequestParam(value = "fieldId") Long fieldId, @RequestParam(value = "usethis", required = false) String useThis) throws IOException {
     if (Field.Source.DISTRIBUTIONCHANNEL.equals(source)) {
       Assert.isTrue(file != null, "File upload is required for Distrubution Channel");
@@ -126,12 +128,13 @@ public class SpLmngDataBindingController extends BaseController {
       field.setImage(file.getBytes());
     }
     field = fieldImageDao.save(field);
+
     return field.getFileUrl();
   }
 
   @RequestMapping(value = "/upload-screenshot", method = RequestMethod.POST, produces = "application/json")
-  public @ResponseBody
-  Screenshot screenshot(@RequestParam(value = "file", required = true) MultipartFile file,
+  @ResponseBody
+  public Screenshot screenshot(@RequestParam(value = "file", required = true) MultipartFile file,
       @RequestParam(value = "compoundServiceProviderId") Long compoundServiceProviderId,
       HttpServletResponse response) throws IOException {
     Screenshot screenshot = new Screenshot(file.getBytes());
@@ -139,15 +142,17 @@ public class SpLmngDataBindingController extends BaseController {
     csp.addScreenShot(screenshot);
     screenshot = screenshotDao.save(screenshot);
     response.setHeader("X-UA-Compatible", "IE=edge,chrome=1");
+
     return new Screenshot(screenshot.getId());
   }
 
   @RequestMapping(value = "/remove-screenshot/{screenshotId}", method = RequestMethod.DELETE)
-  public @ResponseBody
-  String screenshot(@PathVariable("screenshotId") Long screenshotId) throws IOException {
+  @ResponseBody
+  public String screenshot(@PathVariable("screenshotId") Long screenshotId) throws IOException {
     Screenshot sc = screenshotDao.findOne(screenshotId);
     screenshotDao.delete(sc);
     LOG.debug("Screenshot " + screenshotId + " removed");
+
     return "ok";
   }
 

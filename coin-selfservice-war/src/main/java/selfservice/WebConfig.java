@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import selfservice.api.rest.GsonHttpMessageConverter;
+import selfservice.api.dashboard.GsonHttpMessageConverter;
 import selfservice.interceptor.AuthorityScopeInterceptor;
 import selfservice.interceptor.MenuInterceptor;
 

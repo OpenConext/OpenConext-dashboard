@@ -89,7 +89,6 @@ public class Application extends SpringBootServletInitializer {
   @Bean
   public Csa csaClient() {
     return new CsaImpl();
-//    return new CsaImpl(accessTokenUrl, clientKey, clientSecret, "actions cross-idp-services stats", csaBaseLocation);
   }
 
   @Bean

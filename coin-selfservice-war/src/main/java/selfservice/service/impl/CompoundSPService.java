@@ -33,11 +33,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import selfservice.dao.CompoundServiceProviderDao;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.domain.csa.IdentityProvider;
-import selfservice.domain.csa.ServiceProvider;
 import selfservice.service.CrmService;
 import selfservice.service.ServiceProviderService;
 

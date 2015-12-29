@@ -30,9 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import selfservice.control.BaseController;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.domain.csa.IdentityProvider;
 import selfservice.service.IdentityProviderService;
 import selfservice.service.impl.CompoundSPService;
 

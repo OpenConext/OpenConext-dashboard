@@ -14,10 +14,10 @@ import selfservice.domain.CategoryValue;
 import selfservice.domain.CrmArticle;
 import selfservice.domain.Facet;
 import selfservice.domain.FacetValue;
+import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.domain.csa.Provider;
 import selfservice.service.CrmService;
 import selfservice.service.ServicesService;
 

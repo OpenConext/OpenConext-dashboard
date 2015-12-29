@@ -27,19 +27,18 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import selfservice.domain.csa.CoinAuthority;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinUser;
 import selfservice.domain.csa.Menu;
 import selfservice.domain.csa.MenuItem;
 
 public class MenuInterceptor extends HandlerInterceptorAdapter {
 
   @Override
-  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
-          throws Exception {
-    final Optional<Authentication> authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    Optional<Authentication> authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
     if (modelAndView != null && authentication.isPresent()) {
-      final ModelMap map = modelAndView.getModelMap();
+      ModelMap map = modelAndView.getModelMap();
       Menu menu = createMenu((CoinUser) authentication.get().getPrincipal());
       setSelected(request, menu);
       map.addAttribute("menu", menu);

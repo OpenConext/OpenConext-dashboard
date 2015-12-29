@@ -81,6 +81,7 @@ public class FacetValueDaoImpl implements FacetValueDaoCustom {
   }
 
   private List<InUseFacetValue> doFindInUseFacetValue(String sql, long identifier) {
+    @SuppressWarnings("unchecked")
     List<Object[]> dbResult = entityManager.createNativeQuery(sql).setParameter("identifier", identifier).setParameter("locale", MultilingualString.defaultLocale.toString()).getResultList();
     List<InUseFacetValue> result = new ArrayList<>();
     for (Object[] s : dbResult) {

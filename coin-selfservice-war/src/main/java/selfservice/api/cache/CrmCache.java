@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import selfservice.dao.LmngIdentifierDao;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
 import selfservice.domain.Service;
 import selfservice.domain.csa.Article;
-import selfservice.domain.csa.IdentityProvider;
 import selfservice.domain.csa.MappingEntry;
 import selfservice.service.CrmService;
 

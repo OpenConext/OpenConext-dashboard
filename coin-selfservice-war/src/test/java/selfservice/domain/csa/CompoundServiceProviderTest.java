@@ -21,11 +21,11 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import selfservice.domain.Provider;
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.domain.csa.Field;
-import selfservice.domain.csa.Provider;
-import selfservice.domain.csa.ServiceProvider;
 
 public class CompoundServiceProviderTest {
 

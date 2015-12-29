@@ -37,9 +37,9 @@ import org.springframework.core.io.ClassPathResource;
 
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.csa.Account;
-import selfservice.domain.csa.IdentityProvider;
 import selfservice.service.impl.LmngException;
 import selfservice.service.impl.LmngServiceImpl;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
 
 @Ignore("Only used for integration testing")

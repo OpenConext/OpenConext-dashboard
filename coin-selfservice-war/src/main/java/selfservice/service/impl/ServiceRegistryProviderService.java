@@ -16,10 +16,10 @@
 package selfservice.service.impl;
 
 import selfservice.domain.ARP;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.ContactPerson;
 import selfservice.domain.csa.ContactPersonType;
-import selfservice.domain.csa.IdentityProvider;
-import selfservice.domain.csa.ServiceProvider;
 import selfservice.janus.Janus;
 import selfservice.janus.domain.Contact;
 import selfservice.janus.domain.EntityMetadata;

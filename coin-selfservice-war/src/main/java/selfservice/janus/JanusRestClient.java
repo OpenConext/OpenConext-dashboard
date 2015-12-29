@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.janus;
 
 import selfservice.domain.ARP;
@@ -28,6 +27,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import static org.springframework.util.Assert.notNull;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -35,6 +36,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import com.google.common.base.Throwables;
 
 /**
  * REST client implementation for Janus.
@@ -56,45 +59,38 @@ public class JanusRestClient implements Janus {
     this.janusUri = uri;
     this.user = user;
     this.secret = secret;
-
     this.restTemplate = new RestTemplate();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public EntityMetadata getMetadataByEntityId(String entityId) {
     Map<String, String> parameters = new HashMap<>();
     parameters.put("entityid", entityId);
 
-    final String keys = Arrays.asList(Metadata.values()).stream().map(md -> md.val()).collect(Collectors.joining(","));
+    String keys = Arrays.asList(Metadata.values()).stream().map(Metadata::val).collect(Collectors.joining(","));
     parameters.put("keys", keys);
 
     URI signedUri;
     try {
       signedUri = sign("getMetadata", parameters);
 
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("Signed Janus-request is: {}", signedUri);
-      }
+      LOG.trace("Signed Janus-request is: {}", signedUri);
 
       @SuppressWarnings("unchecked")
-      final Map<String, Object> restResponse = restTemplate.getForObject(signedUri, Map.class);
-      Assert.notNull(restResponse, "Rest response from Janus should not be null");
+      Map<String, Object> restResponse = restTemplate.getForObject(signedUri, Map.class);
+      notNull(restResponse, "Rest response from Janus should not be null");
 
       if (LOG.isTraceEnabled()) {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
       }
 
-      final EntityMetadata entityMetadata = EntityMetadata.fromMetadataMap(restResponse);
-
+      EntityMetadata entityMetadata = EntityMetadata.fromMetadataMap(restResponse);
       entityMetadata.setAppEntityId(entityId);
+
       return entityMetadata;
     } catch (IOException e) {
       LOG.error("While doing Janus-request", e);
-      throw new RuntimeException(e);
-
+      throw Throwables.propagate(e);
     }
   }
 
@@ -116,9 +112,7 @@ public class JanusRestClient implements Janus {
     try {
       signedUri = sign("getAllowedSps", parameters);
 
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("Signed Janus-request is: {}", signedUri);
-      }
+      LOG.trace("Signed Janus-request is: {}", signedUri);
 
       @SuppressWarnings("unchecked")
       final List<String> restResponse = restTemplate.getForObject(signedUri, List.class);
@@ -131,8 +125,7 @@ public class JanusRestClient implements Janus {
 
     } catch (IOException e) {
       LOG.error("While doing Janus-request", e);
-      throw new RuntimeException(e);
-
+      throw Throwables.propagate(e);
     }
   }
 
@@ -146,9 +139,7 @@ public class JanusRestClient implements Janus {
     try {
       signedUri = sign("getAllowedIdps", parameters);
 
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("Signed Janus-request is: {}", signedUri);
-      }
+      LOG.trace("Signed Janus-request is: {}", signedUri);
 
       @SuppressWarnings("unchecked")
       final List<String> restResponse = restTemplate.getForObject(signedUri, List.class);
@@ -161,8 +152,7 @@ public class JanusRestClient implements Janus {
 
     } catch (IOException e) {
       LOG.error("While doing Janus-request", e);
-      throw new RuntimeException(e);
-
+      throw Throwables.propagate(e);
     }
   }
 
@@ -200,8 +190,7 @@ public class JanusRestClient implements Janus {
 
     } catch (IOException e) {
       LOG.error("While doing Janus-request", e);
-      throw new RuntimeException(e);
-
+      throw Throwables.propagate(e);
     }
   }
 
@@ -210,7 +199,7 @@ public class JanusRestClient implements Janus {
 
     Map<String, String> parameters = new HashMap<>();
 
-    final String keys = Arrays.asList(Metadata.values()).stream().map(md -> md.val()).collect(Collectors.joining(","));
+    String keys = Arrays.asList(Metadata.values()).stream().map(md -> md.val()).collect(Collectors.joining(","));
     parameters.put("keys", keys);
 
     URI signedUri;
@@ -226,10 +215,10 @@ public class JanusRestClient implements Janus {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
       }
 
-      List<EntityMetadata> entities = new ArrayList<EntityMetadata>();
+      List<EntityMetadata> entities = new ArrayList<>();
       for (Map.Entry<String, Map<String, Object>> entry : restResponse.entrySet()) {
         String entityId = entry.getKey();
-        final EntityMetadata e = EntityMetadata.fromMetadataMap(entry.getValue());
+        EntityMetadata e = EntityMetadata.fromMetadataMap(entry.getValue());
         e.setAppEntityId(entityId);
         entities.add(e);
       }
@@ -238,8 +227,7 @@ public class JanusRestClient implements Janus {
 
     } catch (IOException e) {
       LOG.error("While doing Janus-request", e);
-      throw new RuntimeException(e);
-
+      throw Throwables.propagate(e);
     }
   }
 
@@ -250,9 +238,9 @@ public class JanusRestClient implements Janus {
     URI signedUri = null;
     try {
       signedUri = sign("arp", parameters);
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("Signed Janus-request is: {}", signedUri);
-      }
+
+      LOG.trace("Signed Janus-request is: {}", signedUri);
+
       final Map restResponse = restTemplate.getForObject(signedUri, Map.class);
       if (LOG.isTraceEnabled()) {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
@@ -261,7 +249,7 @@ public class JanusRestClient implements Janus {
       return (restResponse == null) ? null : ARP.fromRestResponse(restResponse);
     } catch (IOException e) {
       LOG.error("Could not do ARP request to Janus", e);
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
   }
 
@@ -273,19 +261,19 @@ public class JanusRestClient implements Janus {
     URI signedUri = null;
     try {
       signedUri = sign("isConnectionAllowed", parameters);
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("Signed Janus-request is: {}", signedUri);
-      }
-      final List restResponse = restTemplate.getForObject(signedUri, List.class);
+
+      LOG.trace("Signed Janus-request is: {}", signedUri);
+
+      List restResponse = restTemplate.getForObject(signedUri, List.class);
+
       if (LOG.isTraceEnabled()) {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
       }
       return restResponse != null && restResponse.size() > 0 ? (Boolean) restResponse.get(0) : false;
     } catch (IOException e) {
       LOG.error("Could not do isConnectionAllowed request to Janus", e);
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
-
   }
 
   @Override
@@ -295,9 +283,9 @@ public class JanusRestClient implements Janus {
     URI signedUri = null;
     try {
       signedUri = sign("getEntity", parameters);
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("Signed Janus-request is: {}", signedUri);
-      }
+
+      LOG.trace("Signed Janus-request is: {}", signedUri);
+
       @SuppressWarnings("unchecked")
       final Map<String, Object> restResponse = restTemplate.getForObject(signedUri, Map.class);
 
@@ -308,9 +296,8 @@ public class JanusRestClient implements Janus {
       return restResponse == null ? null : JanusEntity.fromJanusResponse(restResponse);
     } catch (IOException e) {
       LOG.error("Could not do getEntity request to Janus", e);
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
-
   }
 
   /**

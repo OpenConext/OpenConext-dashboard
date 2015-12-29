@@ -11,7 +11,7 @@ import java.util.Date;
 import com.google.common.base.MoreObjects;
 
 import selfservice.domain.JiraTask;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinUser;
 
 class JiraTicketSummaryAndDescriptionBuilder {
 

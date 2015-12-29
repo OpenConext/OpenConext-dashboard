@@ -7,9 +7,9 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
-import com.google.common.collect.ImmutableList;
+import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +18,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import selfservice.domain.CoinUser;
-import selfservice.domain.InstitutionIdentityProvider;
-import selfservice.service.Csa;
+import selfservice.domain.IdentityProvider;
+import selfservice.service.IdentityProviderService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ShibbolethPreAuthenticatedProcessingFilterTest {
@@ -28,13 +28,13 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
   private ShibbolethPreAuthenticatedProcessingFilter subject;
 
   @Mock
-  private Csa csaMock;
+  private IdentityProviderService idpServiceMock;
 
   @Test
   public void shouldCreateACoinUserBasedOnShibbolethHeaders() {
     HttpServletRequest requestMock = mock(HttpServletRequest.class);
     when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-    when(csaMock.getInstitutionIdentityProviders("Shib-Authenticating-Authority_value")).thenReturn(ImmutableList.of(new InstitutionIdentityProvider()));
+    when(idpServiceMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(new IdentityProvider()));
 
     CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
@@ -47,7 +47,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
   public void shouldSplitMultiValueAttribute() {
     HttpServletRequest requestMock = mock(HttpServletRequest.class);
     when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value1;" + invocation.getArguments()[0] + "_value2");
-    when(csaMock.getInstitutionIdentityProviders("Shib-Authenticating-Authority_value1")).thenReturn(ImmutableList.of(new InstitutionIdentityProvider()));
+    when(idpServiceMock.getIdentityProvider("Shib-Authenticating-Authority_value1")).thenReturn(Optional.of(new IdentityProvider()));
 
     CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 

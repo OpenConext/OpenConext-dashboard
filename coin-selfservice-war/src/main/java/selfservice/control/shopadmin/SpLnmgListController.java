@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,19 +47,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import selfservice.command.LmngServiceBinding;
-import selfservice.control.BaseController;
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.dao.LmngIdentifierDao;
+import selfservice.domain.License;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.CrmService;
 import selfservice.service.ExportService;
 import selfservice.service.ServiceProviderService;
 import selfservice.service.impl.CompoundSPService;
 import selfservice.service.impl.LmngUtil;
-import selfservice.domain.License;
 
 @Controller
-@RequestMapping(value = "/shopadmin/*")
+@RequestMapping(value = "/shopadmin")
 public class SpLnmgListController extends BaseController {
 
   private static final Logger log = LoggerFactory.getLogger(SpLnmgListController.class);
@@ -74,7 +72,7 @@ public class SpLnmgListController extends BaseController {
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
-  @Resource
+  @Autowired
   private CompoundSPService compoundSPService;
 
   @Autowired
@@ -95,14 +93,15 @@ public class SpLnmgListController extends BaseController {
     model.put("bindings", lmngServiceBindings);
     model.put("orphans", cspOrphans);
     model.put("licenseStatuses", License.LicenseStatus.values());
+
     return new ModelAndView("shopadmin/sp-overview", model);
   }
 
   private List<LmngServiceBinding> getOrphans(List<LmngServiceBinding> lmngServiceBindings) {
-    Set<String> spEntitySet = lmngServiceBindings.stream().
-      filter(lmngServiceBinding -> lmngServiceBinding.getCompoundServiceProvider() != null).
-      map(lmngServiceBinding -> lmngServiceBinding.getCompoundServiceProvider().getServiceProviderEntityId()).
-      collect(toSet());
+    Set<String> spEntitySet = lmngServiceBindings.stream()
+      .filter(lmngServiceBinding -> lmngServiceBinding.getCompoundServiceProvider() != null)
+      .map(lmngServiceBinding -> lmngServiceBinding.getCompoundServiceProvider().getServiceProviderEntityId())
+      .collect(toSet());
 
     Iterable<CompoundServiceProvider> csps = compoundServiceProviderDao.findAll();
     Iterator<CompoundServiceProvider> cspIter = csps.iterator();
@@ -113,9 +112,9 @@ public class SpLnmgListController extends BaseController {
       }
     }
 
-    return StreamSupport.stream(csps.spliterator(), false).
-      map(csp -> new LmngServiceBinding(csp.getLmngId(), csp.getServiceProvider(), csp)).
-      collect(toList());
+    return StreamSupport.stream(csps.spliterator(), false)
+      .map(csp -> new LmngServiceBinding(csp.getLmngId(), csp.getServiceProvider(), csp))
+      .collect(toList());
   }
 
   private List<LmngServiceBinding> getAllBindings() {

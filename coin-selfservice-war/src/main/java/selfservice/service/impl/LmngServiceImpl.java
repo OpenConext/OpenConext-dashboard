@@ -52,8 +52,8 @@ import org.springframework.util.StringUtils;
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.csa.Account;
 import selfservice.domain.csa.Article;
-import selfservice.domain.csa.IdentityProvider;
 import selfservice.service.CrmService;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
 
 /**

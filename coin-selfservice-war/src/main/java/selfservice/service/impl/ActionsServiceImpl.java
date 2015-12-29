@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.service.impl;
 
 import java.util.List;
@@ -24,7 +23,7 @@ import org.springframework.stereotype.Service;
 import selfservice.dao.impl.ActionsDaoImpl;
 import selfservice.domain.Action;
 import selfservice.domain.JiraTask;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinUser;
 import selfservice.service.ActionsService;
 
 @Service(value = "actionsService")

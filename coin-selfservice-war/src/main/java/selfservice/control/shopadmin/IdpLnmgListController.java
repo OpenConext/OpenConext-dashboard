@@ -16,17 +16,12 @@
 
 package selfservice.control.shopadmin;
 
-import selfservice.api.cache.CrmCache;
-import selfservice.api.cache.ProviderCache;
-import selfservice.api.cache.ServicesCache;
-import selfservice.command.LmngIdentityBinding;
-import selfservice.control.BaseController;
-import selfservice.dao.LmngIdentifierDao;
-import selfservice.domain.csa.IdentityProvider;
-import selfservice.service.CrmService;
-import selfservice.service.IdentityProviderService;
-import selfservice.service.ServiceProviderService;
-import selfservice.service.impl.LmngUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,37 +33,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import selfservice.api.cache.CrmCache;
+import selfservice.api.cache.ProviderCache;
+import selfservice.api.cache.ServicesCache;
+import selfservice.command.LmngIdentityBinding;
+import selfservice.dao.LmngIdentifierDao;
+import selfservice.domain.IdentityProvider;
+import selfservice.service.CrmService;
+import selfservice.service.IdentityProviderService;
+import selfservice.service.ServiceProviderService;
+import selfservice.service.impl.LmngUtil;
 
 @Controller
-@RequestMapping(value = "/shopadmin/*")
+@RequestMapping(value = "/shopadmin")
 public class IdpLnmgListController extends BaseController {
   private static final Logger log = LoggerFactory.getLogger(IdpLnmgListController.class);
 
-  @Resource
+  @Autowired
   private IdentityProviderService idpService;
 
-  @Resource
+  @Autowired
   private CrmService licensingService;
 
   @Autowired
   private LmngIdentifierDao lmngIdentifierDao;
 
-  @Resource
+  @Autowired
   private ServicesCache servicesCache;
 
-  @Resource
+  @Autowired
   private ProviderCache providerCache;
 
-  @Resource
+  @Autowired
   private CrmCache crmCache;
 
-  @Resource
+  @Autowired
   private ServiceProviderService serviceProviderService;
 
   private LmngUtil lmngUtil = new LmngUtil();

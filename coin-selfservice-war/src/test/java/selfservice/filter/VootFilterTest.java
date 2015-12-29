@@ -54,6 +54,7 @@ public class VootFilterTest {
   private String SUPER_USER = "super.user";
   private String ADMIN = "admin";
   private String USER = "user";
+  private String ADMIN_DISTRIBUTION = "admin.distribution";
 
   @Mock
   private FilterChain chain;
@@ -62,7 +63,7 @@ public class VootFilterTest {
   private VootClient vootClient;
 
   @InjectMocks
-  private VootFilter filter = new VootFilter(vootClient, ADMIN, VIEWER, SUPER_USER);
+  private VootFilter filter = new VootFilter(vootClient, ADMIN, VIEWER, SUPER_USER, ADMIN_DISTRIBUTION);
 
   private MockHttpServletRequest request;
   private MockHttpServletResponse response;

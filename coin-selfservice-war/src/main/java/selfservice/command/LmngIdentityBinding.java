@@ -16,20 +16,16 @@
 
 package selfservice.command;
 
-import selfservice.domain.csa.IdentityProvider;
+import selfservice.domain.IdentityProvider;
 
 /**
  * Pojo defining a {@link IdentityProvider} and it's LMNG identifier
- *
  */
 public class LmngIdentityBinding {
 
   private String lmngIdentifier;
   private IdentityProvider identityProvider;
 
-  /**
-   * Default constructor
-   */
   public LmngIdentityBinding() {
   }
 
@@ -43,7 +39,7 @@ public class LmngIdentityBinding {
 
   /**
    * Constructor with initial fields
-   * 
+   *
    * @param lmngIdentifier
    * @param identityProvider
    */

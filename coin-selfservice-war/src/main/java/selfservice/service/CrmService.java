@@ -17,10 +17,10 @@ package selfservice.service;
 
 import java.util.List;
 
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
 import selfservice.domain.csa.Account;
 import selfservice.domain.csa.Article;
-import selfservice.domain.csa.IdentityProvider;
 import selfservice.service.impl.LmngException;
 
 /**

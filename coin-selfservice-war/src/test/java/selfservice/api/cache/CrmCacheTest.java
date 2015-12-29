@@ -39,9 +39,9 @@ import com.jayway.awaitility.Duration;
 import selfservice.api.cache.CrmCache;
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.csa.Article;
-import selfservice.domain.csa.IdentityProvider;
 import selfservice.domain.csa.MappingEntry;
 import selfservice.service.CrmService;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
 import selfservice.domain.Service;
 

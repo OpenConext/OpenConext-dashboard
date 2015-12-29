@@ -26,18 +26,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import static selfservice.domain.CoinAuthority.Authority.*;
 
-/**
- * Simple conext user
- */
 @SuppressWarnings("serial")
 public class CoinUser implements UserDetails {
 
   private String uid;
   private String displayName;
   private String schacHomeOrganization;
-  private InstitutionIdentityProvider currentIdp;
-  private InstitutionIdentityProvider switchedToIdp;
-  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<>();
+//  private InstitutionIdentityProvider currentIdp;
+//  private InstitutionIdentityProvider switchedToIdp;
+  private IdentityProvider currentIdp;
+  private IdentityProvider switchedToIdp;
+//  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<>();
+  private List<IdentityProvider> institutionIdps = new ArrayList<>();
   private String institutionId;
   private String email;
   private Set<CoinAuthority> grantedAuthorities = new HashSet<>();
@@ -172,11 +172,11 @@ public class CoinUser implements UserDetails {
    *
    * @return List of {@link InstitutionIdentityProvider}'s
    */
-  public List<InstitutionIdentityProvider> getInstitutionIdps() {
+  public List<IdentityProvider> getInstitutionIdps() {
     return institutionIdps;
   }
 
-  public void addInstitutionIdp(InstitutionIdentityProvider idp) {
+  public void addInstitutionIdp(IdentityProvider idp) {
     this.institutionIdps.add(idp);
   }
 
@@ -200,20 +200,20 @@ public class CoinUser implements UserDetails {
    *
    * @return Identifier of the IdentityProvider the user has logged in with
    */
-  public InstitutionIdentityProvider getIdp() {
+  public IdentityProvider getIdp() {
     return currentIdp;
   }
 
-  public void setIdp(InstitutionIdentityProvider idp) {
+  public void setIdp(IdentityProvider idp) {
     this.currentIdp = idp;
   }
 
 
-  public InstitutionIdentityProvider getSwitchedToIdp() {
+  public IdentityProvider getSwitchedToIdp() {
     return switchedToIdp;
   }
 
-  public void setSwitchedToIdp(InstitutionIdentityProvider switchedToIdp) {
+  public void setSwitchedToIdp(IdentityProvider switchedToIdp) {
     this.switchedToIdp = switchedToIdp;
   }
 
@@ -242,8 +242,8 @@ public class CoinUser implements UserDetails {
     return result;
   }
 
-  public Optional<InstitutionIdentityProvider> getByEntityId(String entityId) {
-    for (InstitutionIdentityProvider institutionIdentityProvider : getInstitutionIdps()) {
+  public Optional<IdentityProvider> getByEntityId(String entityId) {
+    for (IdentityProvider institutionIdentityProvider : getInstitutionIdps()) {
       if (institutionIdentityProvider.getId().equals(entityId)) {
         return Optional.of(institutionIdentityProvider);
       }

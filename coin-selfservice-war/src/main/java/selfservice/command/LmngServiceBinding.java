@@ -16,8 +16,8 @@
 
 package selfservice.command;
 
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.domain.csa.ServiceProvider;
 
 /**
  * Pojo defining a {@link ServiceProvider} and it's LMNG identifier
@@ -36,7 +36,7 @@ public class LmngServiceBinding {
     this.serviceProvider = serviceProvider;
     this.compoundServiceProvider = compoundServiceProvider;
   }
-  
+
   public String getLmngIdentifier() {
     return lmngIdentifier;
   }
@@ -48,6 +48,5 @@ public class LmngServiceBinding {
   public CompoundServiceProvider getCompoundServiceProvider() {
     return compoundServiceProvider;
   }
-
 
 }

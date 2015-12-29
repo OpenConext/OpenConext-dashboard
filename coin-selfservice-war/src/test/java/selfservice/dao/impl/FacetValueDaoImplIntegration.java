@@ -26,10 +26,10 @@ import selfservice.dao.LocalizedStringDao;
 import selfservice.domain.Facet;
 import selfservice.domain.FacetValue;
 import selfservice.domain.LocalizedString;
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.domain.csa.InUseFacetValue;
-import selfservice.domain.csa.ServiceProvider;
 
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;

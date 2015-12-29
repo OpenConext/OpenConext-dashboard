@@ -55,28 +55,17 @@ public class VootFilter extends GenericFilterBean {
 
   private VootClient vootClient;
 
-  private String dashboardAdmin;
-  private String dashboardViewer;
-  private String dashboardSuperUser;
+  private final String dashboardAdmin;
+  private final String dashboardViewer;
+  private final String dashboardSuperUser;
+  private final String adminDistributionTeam;
 
-  // TODO add adminDistributionTeam...
-//import static csa.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-//  Boolean isAdmin = (Boolean) session.getAttribute(SESSION_KEY_GROUP_ACCESS);
-//  if (isAdmin == null || !isAdmin) {
-//    isAdmin = vootClient.hasAccess(user.getUid(), adminDistributionTeam);
-//    LOG.info("User '{}' has access to '{}': {}", user.getUid(), adminDistributionTeam, isAdmin);
-//    session.setAttribute(SESSION_KEY_GROUP_ACCESS, isAdmin);
-//  }
-//  if (isAdmin) {
-//    user.setAuthorities(new ArrayList<>());
-//    user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-//  }
-
-  public VootFilter(VootClient vootClient, String dashboardAdmin, String dashboardViewer, String dashboardSuperUser) {
+  public VootFilter(VootClient vootClient, String dashboardAdmin, String dashboardViewer, String dashboardSuperUser, String adminDistibutionTeam) {
     this.vootClient = vootClient;
     this.dashboardAdmin = dashboardAdmin;
     this.dashboardViewer = dashboardViewer;
     this.dashboardSuperUser = dashboardSuperUser;
+    this.adminDistributionTeam = adminDistibutionTeam;
   }
 
   @Override
@@ -89,6 +78,17 @@ public class VootFilter extends GenericFilterBean {
     chain.doFilter(request, response);
   }
 
+//  Boolean isAdmin = (Boolean) session.getAttribute(SESSION_KEY_GROUP_ACCESS);
+//  if (isAdmin == null || !isAdmin) {
+//    isAdmin = vootClient.hasAccess(user.getUid(), adminDistributionTeam);
+//    LOG.info("User '{}' has access to '{}': {}", user.getUid(), adminDistributionTeam, isAdmin);
+//    session.setAttribute(SESSION_KEY_GROUP_ACCESS, isAdmin);
+//  }
+//  if (isAdmin) {
+//    user.setAuthorities(new ArrayList<>());
+//    user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+//  }
+
   private void addVootRoles(HttpSession session) {
     if (!SpringSecurity.isFullyAuthenticated() || session.getAttribute(PROCESSED) != null) {
       return;
@@ -96,27 +96,31 @@ public class VootFilter extends GenericFilterBean {
 
     CoinUser user = SpringSecurity.getCurrentUser();
 
-    List<Group> groups = vootClient.groups(user.getUid());
-    elevateUser(user, groups);
+    addCsaRole(user);
+    addDashboardRole(user);
+
+    SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(user));
 
     session.setAttribute(PROCESSED, "true");
   }
 
-  private void elevateUser(CoinUser coinUser, List<Group> groups) {
-    LOG.debug("Memberships of adminTeams '{}' for user '{}'", groups, coinUser.getUid());
+  private void addDashboardRole(CoinUser user) {
+    boolean isAdmin = vootClient.hasAccess(user.getUid(), adminDistributionTeam);
+    if (isAdmin) {
+      user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+    }
+  }
 
-    // We want to end up with only one role
-    coinUser.setAuthorities(new HashSet<CoinAuthority>());
+  private void addCsaRole(CoinUser user) {
+    List<Group> groups = vootClient.groups(user.getUid());
 
     if (groupsContains(dashboardSuperUser, groups)) {
-      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
+      user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
     } else if (groupsContains(dashboardAdmin, groups)) {
-      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+      user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
     } else if (groupsContains(dashboardViewer, groups)) {
-      coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+      user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
     }
-
-    SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(coinUser));
   }
 
   private boolean groupsContains(String teamId, List<Group> groups) {

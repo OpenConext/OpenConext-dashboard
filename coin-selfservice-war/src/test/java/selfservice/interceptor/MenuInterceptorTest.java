@@ -18,10 +18,9 @@ package selfservice.interceptor;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static selfservice.domain.csa.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Test;
@@ -32,9 +31,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import selfservice.domain.csa.CoinAuthority;
-import selfservice.domain.csa.CoinAuthority.Authority;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinAuthority.Authority;
+import selfservice.domain.CoinUser;
 import selfservice.domain.csa.Menu;
 
 public class MenuInterceptorTest {
@@ -66,11 +65,8 @@ public class MenuInterceptorTest {
 
   private void setUpAuthorities(Authority... authorities) {
     CoinUser coinUser = new CoinUser();
-    List<CoinAuthority> grantedAuthorities = new ArrayList<>();
-    for (Authority authority : authorities) {
-      grantedAuthorities.add(new CoinAuthority(authority));
-    }
-    coinUser.setAuthorities(grantedAuthorities);
+
+    Arrays.stream(authorities).forEach(authority -> coinUser.addAuthority(new CoinAuthority(authority)));
 
     Authentication authentication = mock(Authentication.class);
     SecurityContext securityContext = mock(SecurityContext.class);

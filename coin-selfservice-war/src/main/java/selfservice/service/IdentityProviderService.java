@@ -19,7 +19,7 @@ package selfservice.service;
 import java.util.List;
 import java.util.Optional;
 
-import selfservice.domain.csa.IdentityProvider;
+import selfservice.domain.IdentityProvider;
 
 public interface IdentityProviderService {
 

@@ -31,7 +31,9 @@ public class CoinAuthority implements GrantedAuthority {
   public enum Authority {
     ROLE_DASHBOARD_ADMIN,
     ROLE_DASHBOARD_VIEWER,
-    ROLE_DASHBOARD_SUPER_USER
+    ROLE_DASHBOARD_SUPER_USER,
+
+    ROLE_DISTRIBUTION_CHANNEL_ADMIN, NA
   }
 
   public CoinAuthority(Authority authority) {

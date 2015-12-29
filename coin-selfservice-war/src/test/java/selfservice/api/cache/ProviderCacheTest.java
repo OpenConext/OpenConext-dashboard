@@ -38,7 +38,7 @@ import com.jayway.awaitility.Duration;
 import org.junit.Before;
 import org.junit.Test;
 
-import selfservice.domain.csa.IdentityProvider;
+import selfservice.domain.IdentityProvider;
 import selfservice.service.IdentityProviderService;
 
 public class ProviderCacheTest {

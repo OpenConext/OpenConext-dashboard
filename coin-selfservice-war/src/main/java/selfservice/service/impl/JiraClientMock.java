@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import selfservice.domain.JiraTask;
-import selfservice.domain.csa.CoinUser;
+import selfservice.domain.CoinUser;
 
 public class JiraClientMock implements JiraClient {
 
