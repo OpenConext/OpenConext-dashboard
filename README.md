@@ -9,9 +9,9 @@ OpenConext is an OpenSource technology stack for creating and running Collaborat
 OpenConext was developed by SURFnet as part of the SURFworks programme. SURFnet runs an instance of the platform for research and education in The Netherlands as SURFconext
 
 
-OpenConext: [http://www.openconext.org](http://www.openconext.org)
+OpenConext: [https://www.openconext.org](https://www.openconext.org)
 
-SURFconext: [http://www.surfconext.nl](http://www.surfconext.nl)
+SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 
 
 ## Getting started
