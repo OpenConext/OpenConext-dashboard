@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   --%>
-<%@attribute name="provider" description="A Provider object" type="csa.domain.Provider"
+<%@attribute name="provider" description="A Provider object" type="selfservice.domain.Provider"
     required="true" %>
 <%--@elvariable id="locale" type="java.util.Locale"--%>
 <c:choose>

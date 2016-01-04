@@ -14,6 +14,6 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
-<%@attribute name="facetValue" type="csa.model.FacetValue" required="true" %>
-<%@attribute name="csp" type="csa.domain.CompoundServiceProvider" required="true" %>
+<%@attribute name="facetValue" type="selfservice.domain.FacetValue" required="true" %>
+<%@attribute name="csp" type="selfservice.domain.csa.CompoundServiceProvider" required="true" %>
 <%= csp.getFacetValues().contains(facetValue) ? "btn-primary-alt unlink" : "btn-primary link" %>
