@@ -20,9 +20,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import selfservice.api.cache.CrmCache;
-import selfservice.api.cache.ProviderCache;
-import selfservice.api.cache.ServicesCache;
+import selfservice.cache.CrmCache;
+import selfservice.cache.ProviderCache;
+import selfservice.cache.ServicesCache;
 import selfservice.dao.FacetDao;
 import selfservice.domain.Action;
 import selfservice.domain.Category;

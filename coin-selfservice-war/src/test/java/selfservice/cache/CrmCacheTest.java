@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package selfservice.api.cache;
+package selfservice.cache;
 
 import static com.jayway.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -36,7 +36,7 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableList;
 import com.jayway.awaitility.Duration;
 
-import selfservice.api.cache.CrmCache;
+import selfservice.cache.CrmCache;
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.MappingEntry;

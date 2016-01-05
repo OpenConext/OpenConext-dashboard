@@ -1,4 +1,4 @@
-package selfservice.api.cache;
+package selfservice.cache;
 
 import java.util.Collections;
 import java.util.HashMap;

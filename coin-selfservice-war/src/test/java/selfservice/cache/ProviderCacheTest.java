@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package selfservice.api.cache;
+package selfservice.cache;
 
 import static com.jayway.awaitility.Awaitility.await;
 import static com.jayway.awaitility.Duration.FIVE_SECONDS;
@@ -38,6 +38,7 @@ import com.jayway.awaitility.Duration;
 import org.junit.Before;
 import org.junit.Test;
 
+import selfservice.cache.ProviderCache;
 import selfservice.domain.IdentityProvider;
 import selfservice.service.IdentityProviderService;
 

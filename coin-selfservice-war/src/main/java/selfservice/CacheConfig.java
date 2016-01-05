@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 import net.sf.ehcache.CacheManager;
-import selfservice.api.cache.ServicesCache;
+import selfservice.cache.ServicesCache;
 import selfservice.service.CrmService;
 import selfservice.service.impl.CompoundSPService;
 import selfservice.service.impl.ServicesServiceImpl;

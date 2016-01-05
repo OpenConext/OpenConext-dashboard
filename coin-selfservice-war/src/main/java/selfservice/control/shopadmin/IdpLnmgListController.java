@@ -33,9 +33,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import selfservice.api.cache.CrmCache;
-import selfservice.api.cache.ProviderCache;
-import selfservice.api.cache.ServicesCache;
+import selfservice.cache.CrmCache;
+import selfservice.cache.ProviderCache;
+import selfservice.cache.ServicesCache;
 import selfservice.command.LmngIdentityBinding;
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.IdentityProvider;

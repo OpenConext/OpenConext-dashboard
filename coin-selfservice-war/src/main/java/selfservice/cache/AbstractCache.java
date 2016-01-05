@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package selfservice.api.cache;
+package selfservice.cache;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
