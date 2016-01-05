@@ -6,15 +6,13 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import selfservice.selenium.page.Pages;
+
 public class CompoundSPDetailTestSelenium extends SeleniumSupport {
 
-  private static final String bindingAdminUrl = "shopadmin/all-spslmng.shtml";
-
   @Test
-  public void getLmngIdForIdpPageSuccess() {
-    driver.get(getCsaBaseUrl());
-    loginAtMockAsAdmin();
-    driver.get(getCsaBaseUrl() + bindingAdminUrl);
+  public void getLmngIdForIdpPageSuccess() throws InterruptedException {
+    Pages.create(getCsaBaseUrl(), driver).loginPage().loginAsAdmin();
 
     clickOnPartialLink("Configure sources");
     clickOnPartialLink("URL of the app");
@@ -26,8 +24,6 @@ public class CompoundSPDetailTestSelenium extends SeleniumSupport {
         element.clear();
         element.sendKeys("http://example.org/this-is-an-example-url");
         clickOnButton("Save value");
-      } else {
-        // not visible...
       }
     }
   }

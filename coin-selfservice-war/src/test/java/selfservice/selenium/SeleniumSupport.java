@@ -17,8 +17,8 @@ package selfservice.selenium;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +39,7 @@ import selfservice.Application;
 @ActiveProfiles("dev")
 public class SeleniumSupport {
 
-  protected static WebDriver driver;
+  protected WebDriver driver;
 
   @Value("${local.server.port}")
   private int port;
@@ -48,14 +48,14 @@ public class SeleniumSupport {
     return "http://localhost:" + port + "/";
   }
 
-  @BeforeClass
-  public static void initializeDriver() {
+  @Before
+  public void initializeDriver() {
     driver = new FirefoxDriver();
     driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
   }
 
-  @AfterClass
-  public static void quitDriver() {
+  @After
+  public void quitDriver() {
     driver.quit();
   }
 

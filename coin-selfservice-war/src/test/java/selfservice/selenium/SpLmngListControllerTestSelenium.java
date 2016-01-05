@@ -24,25 +24,22 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class SpLmngListControllerTestSelenium extends SeleniumSupport {
+import selfservice.selenium.page.Pages;
 
-  private static final String bindingAdminUrl = "shopadmin/all-spslmng.shtml";
+public class SpLmngListControllerTestSelenium extends SeleniumSupport {
 
   @Test
   public void getLmngIdForSpPageSuccess() {
-    driver.get(getCsaBaseUrl());
-    loginAtMockAsAdmin();
-    driver.get(getCsaBaseUrl() + bindingAdminUrl);
-    List<WebElement> element = driver.findElements(By.id("form-3"));
+    Pages.create(getCsaBaseUrl(), driver).loginPage().loginAsAdmin();
+
+    List<WebElement> element = driver.findElements(By.id("form-lmng-id-edit-3"));
 
     assertNotNull("Element form-3 should exist (expected 4 rows/forms)", element.get(0));
   }
 
   @Test
   public void getLmngIdForSpAccessGrantedAdminDist() {
-    driver.get(getCsaBaseUrl());
-    loginAtMockAsAdmin();
-    driver.get(getCsaBaseUrl() + bindingAdminUrl); // get lmng sp admin page
+    Pages.create(getCsaBaseUrl(), driver).loginPage().loginAsAdmin();
 
     WebElement element = driver.findElement(By.id("sp_overview_table"));
 
@@ -54,16 +51,14 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
     String currentLmngValue = "{26FF7404-970C-E211-B6B9-005056950050}";
     String newLmngValue = "{41D136D1-3819-E211-B687-005056950050}";
 
-    driver.get(getCsaBaseUrl());
-    loginAtMockAsAdmin();
-    driver.get(getCsaBaseUrl() + bindingAdminUrl); // get lmng sp admin page
+    Pages.create(getCsaBaseUrl(), driver).loginPage().loginAsAdmin();
 
     WebElement inputLmng = driver.findElement(By.id("lmngId-0"));
 
     inputLmng.clear();
     inputLmng.sendKeys(newLmngValue);
 
-    WebElement form = driver.findElement(By.id("form-0"));
+    WebElement form = driver.findElement(By.id("form-lmng-id-edit-0"));
     form.findElement(By.name("submitbutton")).click();
 
     inputLmng = driver.findElement(By.id("lmngId-0"));
@@ -73,7 +68,7 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
     // reset value to initial value
     inputLmng.clear();
     inputLmng.sendKeys(currentLmngValue);
-    form = driver.findElement(By.id("form-0"));
+    form = driver.findElement(By.id("form-lmng-id-edit-0"));
     form.findElement(By.name("submitbutton")).click();
   }
 
@@ -82,19 +77,16 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
     String currentLmngValue = "{26FF7404-970C-E211-B6B9-005056950050}";
     String newLmngValue = "illegal string value";
 
-    driver.get(getCsaBaseUrl());
-    loginAtMockAsAdmin();
-    driver.get(getCsaBaseUrl() + bindingAdminUrl);
+    Pages.create(getCsaBaseUrl(), driver).loginPage().loginAsAdmin();
 
     WebElement inputLmng = driver.findElement(By.id("lmngId-0"));
     assertEquals("Unexpected LMNG id", currentLmngValue, inputLmng.getAttribute("value"));
     inputLmng.clear();
     inputLmng.sendKeys(newLmngValue);
 
-    WebElement form = driver.findElement(By.id("form-0"));
+    WebElement form = driver.findElement(By.id("form-lmng-id-edit-0"));
     form.findElement(By.name("submitbutton")).click();
 
-    //Wrong format for LMNG ID
     WebElement element = driver.findElement(By.xpath("//*[contains(.,'Wrong format for LMNG ID')]"));
     assertNotNull("Expected 'Wrong format for LMNG ID' text", element);
   }
