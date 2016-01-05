@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class CompoundSPDetailTestSelenium extends SeleniumSupport {
@@ -13,11 +12,10 @@ public class CompoundSPDetailTestSelenium extends SeleniumSupport {
 
   @Test
   public void getLmngIdForIdpPageSuccess() {
-    WebDriver driver = getWebDriver();
+    driver.get(getCsaBaseUrl());
+    loginAtMockAsAdmin();
+    driver.get(getCsaBaseUrl() + bindingAdminUrl);
 
-    driver.get(getCsaBaseUrl()); // get homepage
-    loginAtMockAsAdmin(); // login
-    driver.get(getCsaBaseUrl() + bindingAdminUrl); // get lmng sp admin page
     clickOnPartialLink("Configure sources");
     clickOnPartialLink("URL of the app");
     clickOnPartialLink("CSA");

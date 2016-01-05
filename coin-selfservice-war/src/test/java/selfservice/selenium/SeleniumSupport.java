@@ -17,11 +17,12 @@ package selfservice.selenium;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -38,7 +39,7 @@ import selfservice.Application;
 @ActiveProfiles("dev")
 public class SeleniumSupport {
 
-  protected WebDriver driver;
+  protected static WebDriver driver;
 
   @Value("${local.server.port}")
   private int port;
@@ -47,18 +48,15 @@ public class SeleniumSupport {
     return "http://localhost:" + port + "/";
   }
 
-  @Before
-  public void initializeDriver() {
-    if (driver != null) {
-      driver.quit();
-    }
-
-    driver = new PhantomJSDriver();
+  @BeforeClass
+  public static void initializeDriver() {
+    driver = new FirefoxDriver();
     driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
   }
 
-  protected WebDriver getWebDriver() {
-    return driver;
+  @AfterClass
+  public static void quitDriver() {
+    driver.quit();
   }
 
   public void clickOnPartialLink(String linkText) {
@@ -70,10 +68,8 @@ public class SeleniumSupport {
     driver.findElement(By.xpath(xpathExpression)).click();
   }
 
-
   public void loginAtMockAsAdmin() {
-    getWebDriver().findElement(By.name("login")).submit();
+    driver.findElement(By.name("login")).submit();
   }
-
 
 }

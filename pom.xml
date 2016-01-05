@@ -49,18 +49,13 @@
     <guava.version>18.0</guava.version>
     <java.version>1.8</java.version>
     <rollbar-logback.version>0.1.4</rollbar-logback.version>
-    <selenium.version>2.45.0</selenium.version>
+    <selenium.version>2.48.2</selenium.version>
     <spring-security-oauth2.version>2.0.8.RELEASE</spring-security-oauth2.version>
     <xstream.version>1.4.2</xstream.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>com.codeborne</groupId>
-        <artifactId>phantomjsdriver</artifactId>
-        <version>1.2.1</version>
-      </dependency>
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock</artifactId>
@@ -119,7 +114,7 @@
       </dependency>
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-support</artifactId>
+        <artifactId>selenium-firefox-driver</artifactId>
         <version>${selenium.version}</version>
       </dependency>
       <dependency>
