@@ -89,6 +89,7 @@ public class Facet extends DomainObject implements Comparable<Facet> {
   }
 
   public void setFacetValues(SortedSet<FacetValue> facetValues) {
+    facetValues.forEach(fv -> fv.setFacet(this));
     this.facetValues = facetValues;
   }
 
