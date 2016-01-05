@@ -34,7 +34,6 @@ import org.hibernate.annotations.Proxy;
 
 import selfservice.util.DomainObject;
 
-
 @SuppressWarnings("serial")
 @Entity
 @Proxy(lazy = false)
@@ -108,5 +107,24 @@ public class FacetValue extends DomainObject implements Comparable<FacetValue> {
     return new CompareToBuilder()
       .append(this.getValue(), that.getValue())
       .toComparison();
+  }
+
+  public static FacetValueBuilder builder() {
+    return new FacetValueBuilder();
+  }
+
+  public static class FacetValueBuilder {
+    private String value;
+
+    public FacetValueBuilder value(String value) {
+      this.value = value;
+      return this;
+    }
+
+    public FacetValue build() {
+      FacetValue facetValue = new FacetValue();
+      facetValue.setValue(value);
+      return facetValue;
+    }
   }
 }

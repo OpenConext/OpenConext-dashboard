@@ -15,30 +15,34 @@
  */
 package selfservice.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
+
+import org.springframework.core.io.ClassPathResource;
+
 import selfservice.domain.ARP;
 import selfservice.janus.Janus;
 import selfservice.janus.domain.EntityMetadata;
 import selfservice.janus.domain.JanusEntity;
-
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.TypeReference;
-import org.springframework.core.io.ClassPathResource;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
 
 public class JanusRestClientMock implements Janus {
 
   private final static String SP_TYPE = "saml20-sp";
   private final static String IDP_TYPE = "saml20-idp";
 
-  private final ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-          .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+  private final ObjectMapper objectMapper = new ObjectMapper()
+     .setSerializationInclusion(Include.NON_NULL);
+//      .enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+
 
   private final List<EntityMetadata> spList;
   private final List<EntityMetadata> idpList;

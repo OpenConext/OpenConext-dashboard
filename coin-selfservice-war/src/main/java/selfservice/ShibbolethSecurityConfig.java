@@ -32,7 +32,6 @@ import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SabEntitlementsFilter;
 import selfservice.filter.VootFilter;
 import selfservice.sab.Sab;
-import selfservice.service.Csa;
 import selfservice.service.IdentityProviderService;
 import selfservice.service.VootClient;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
@@ -44,9 +43,6 @@ import selfservice.shibboleth.mock.MockShibbolethFilter;
 public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private static final Logger LOG = LoggerFactory.getLogger(ShibbolethSecurityConfig.class);
-
-  @Autowired
-  private Csa csa;
 
   @Autowired
   private VootClient vootClient;

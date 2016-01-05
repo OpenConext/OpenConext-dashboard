@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package csa.selenium;
+package selfservice.selenium;
 
 import org.junit.Assert;
 import org.junit.Test;

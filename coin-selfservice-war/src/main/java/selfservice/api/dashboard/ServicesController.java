@@ -1,6 +1,16 @@
 package selfservice.api.dashboard;
 
-import au.com.bytecode.opencsv.CSVWriter;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
+import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -11,22 +21,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import selfservice.domain.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import au.com.bytecode.opencsv.CSVWriter;
+import selfservice.domain.Action;
+import selfservice.domain.Category;
+import selfservice.domain.CoinUser;
+import selfservice.domain.InstitutionIdentityProvider;
+import selfservice.domain.JiraTask;
+import selfservice.domain.Service;
 import selfservice.service.Csa;
 import selfservice.util.SpringSecurity;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import static java.lang.String.format;
-import static java.util.stream.Collectors.joining;
-import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
 @Controller
 @RequestMapping(value = "/dashboard/api/services", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -56,13 +56,15 @@ public class ActionsDaoImplTestIntegration {
 
   @Test
   public void saveAndFind() {
-    Action a = new Action("key", "userid", "username", "john.doe@nl", JiraTask.Type.QUESTION, JiraTask.Status.OPEN, "body", "idp", "sp",
-      "institute", new Date());
+    Action a = new Action("key", "userid", "username", "john.doe@nl", JiraTask.Type.QUESTION, JiraTask.Status.OPEN, "body", "idp", "sp", "institute", new Date());
     a.setIdpName("idpName");
     a.setSpName("spName");
+
     long id = actionsDao.saveAction(a);
     Action savedA = actionsDao.findAction(id);
+
     assertNotNull(savedA);
+
     assertThat(savedA.getBody(), is("body"));
     assertThat(savedA.getJiraKey(), is("key"));
     assertThat(savedA.getUserName(), is("username"));
@@ -76,41 +78,42 @@ public class ActionsDaoImplTestIntegration {
   @Test
   public void findByIdP() {
     for (int i = 0; i < 3; i++) {
-      Action a = new Action("key" + i, "userid", "username", "john.doe@nl", JiraTask.Type.QUESTION, JiraTask.Status.OPEN, "body", "idp",
-        "sp", "foobar", new Date());
+      Action a = new Action("key" + i, "userid", "username", "john.doe@nl", JiraTask.Type.QUESTION, JiraTask.Status.OPEN, "body", "idp", "sp", "foobar", new Date());
       actionsDao.saveAction(a);
     }
 
-    final List<Action> actions = actionsDao.findActionsByIdP("idp");
+    List<Action> actions = actionsDao.findActionsByIdP("idp");
     assertThat(actions.size(), is(3));
-    final List<Action> actions2 = actionsDao.findActionsByIdP("another-idp");
+
+    List<Action> actions2 = actionsDao.findActionsByIdP("another-idp");
     assertThat(actions2.size(), is(0));
   }
 
   @Test
   public void getJiraKeys() {
-    final String idp = "idp123";
+    String idp = "idp123";
     String[] keys = {"TEST-1", "TEST-2", "TEST-3", "TEST-4"};
     for (String key : keys) {
       actionsDao.saveAction(new Action(key, "userid", "username", "john.doe@nl", JiraTask.Type.QUESTION, JiraTask.Status.OPEN, "body", idp, "sp", "institute-123", new Date()));
     }
-    final List<String> fetchedKeys = actionsDao.getKeys(idp);
+
+    List<String> fetchedKeys = actionsDao.getKeys(idp);
+
     assertThat(fetchedKeys, hasItems(keys));
   }
 
   @Test
   public void close() {
-    final String jiraKey = "TEST-1346";
-    Action a = new Action(jiraKey, "userid", "username", "john.doe@nl", JiraTask.Type.QUESTION, JiraTask.Status.OPEN, "body", "idp", "sp",
-      "institute", new Date());
+    String jiraKey = "TEST-1346";
+    Action a = new Action(jiraKey, "userid", "username", "john.doe@nl", JiraTask.Type.QUESTION, JiraTask.Status.OPEN, "body", "idp", "sp", "institute", new Date());
     long id = actionsDao.saveAction(a);
 
-    final Action before = actionsDao.findAction(id);
+    Action before = actionsDao.findAction(id);
     assertThat(before.getStatus(), is(JiraTask.Status.OPEN));
 
     actionsDao.close(jiraKey);
 
-    final Action after = actionsDao.findAction(id);
+    Action after = actionsDao.findAction(id);
     assertThat(after.getStatus(), is(JiraTask.Status.CLOSED));
   }
 

@@ -15,23 +15,27 @@
  */
 package selfservice.service.impl;
 
-import selfservice.domain.ARP;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.ServiceProvider;
-import selfservice.domain.csa.ContactPerson;
-import selfservice.domain.csa.ContactPersonType;
-import selfservice.janus.Janus;
-import selfservice.janus.domain.Contact;
-import selfservice.janus.domain.EntityMetadata;
-import selfservice.janus.domain.JanusEntity;
-import selfservice.service.IdentityProviderService;
-import selfservice.service.ServiceProviderService;
+import static com.google.common.base.Strings.emptyToNull;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.util.Assert.notNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,16 +48,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 
-import static com.google.common.base.Strings.emptyToNull;
-import static java.util.stream.Collectors.toList;
-import static org.springframework.util.Assert.notNull;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import com.google.common.base.Joiner;
+import selfservice.domain.ARP;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.ServiceProvider;
+import selfservice.domain.csa.ContactPerson;
+import selfservice.domain.csa.ContactPersonType;
+import selfservice.janus.Janus;
+import selfservice.janus.domain.Contact;
+import selfservice.janus.domain.EntityMetadata;
+import selfservice.janus.domain.JanusEntity;
+import selfservice.service.IdentityProviderService;
+import selfservice.service.ServiceProviderService;
 
 @Service
 public class ServiceRegistryProviderService implements ServiceProviderService, IdentityProviderService, ApplicationListener<ContextRefreshedEvent> {
@@ -61,8 +66,9 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   private static final Logger LOG = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
   private static final String IN_PRODUCTION = "prodaccepted";
 
-  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-    .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+  private ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(Include.NON_NULL);
+//      .enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+
 
   private List<ServiceProvider> exampleSingleTenants = new ArrayList<>();
 

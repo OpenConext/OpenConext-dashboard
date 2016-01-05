@@ -1,4 +1,4 @@
-package selfservice.model;
+package selfservice.domain;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.containsString;

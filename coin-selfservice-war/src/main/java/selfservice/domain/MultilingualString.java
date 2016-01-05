@@ -80,7 +80,6 @@ public class MultilingualString extends DomainObject {
     }
   }
 
-
   public void setValue(String value) {
     this.addValue(defaultLocale, value);
   }

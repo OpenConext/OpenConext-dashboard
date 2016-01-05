@@ -18,22 +18,22 @@ package selfservice.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.TypeReference;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.core.io.ClassPathResource;
 
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.License;
 import selfservice.domain.csa.Account;
 import selfservice.domain.csa.Article;
 import selfservice.service.CrmService;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.License;
 
 public class LmngServiceMock implements CrmService {
 
-  private ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-          .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+  private ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(Include.NON_NULL);
+      //.enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
 
   private List<Article> articles;
   private License license;

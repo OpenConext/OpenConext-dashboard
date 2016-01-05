@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.filter;
 
-import selfservice.domain.CoinAuthentication;
-import selfservice.domain.CoinAuthority;
-import selfservice.domain.CoinUser;
-import selfservice.domain.Group;
-import selfservice.service.VootClient;
-import selfservice.util.SpringSecurity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+
+import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,11 +29,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
 
-import static selfservice.domain.CoinAuthority.Authority.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
+
+import selfservice.domain.CoinAuthentication;
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinUser;
+import selfservice.domain.Group;
+import selfservice.service.VootClient;
+import selfservice.util.SpringSecurity;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
@@ -46,8 +47,6 @@ import static selfservice.domain.CoinAuthority.Authority.*;
  * object (or not).
  */
 public class VootFilter extends GenericFilterBean {
-
-  private final Logger LOG = LoggerFactory.getLogger(VootFilter.class);
 
   public static final String SESSION_KEY_GROUP_ACCESS = "SESSION_KEY_GROUP_ACCESS";
 

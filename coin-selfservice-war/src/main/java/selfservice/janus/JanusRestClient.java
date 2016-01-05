@@ -20,7 +20,6 @@ import selfservice.janus.domain.EntityMetadata;
 import selfservice.janus.domain.JanusEntity;
 
 import org.apache.commons.codec.binary.Hex;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -37,6 +36,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 
 /**

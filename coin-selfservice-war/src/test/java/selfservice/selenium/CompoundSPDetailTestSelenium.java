@@ -1,4 +1,4 @@
-package csa.selenium;
+package selfservice.selenium;
 
 import java.util.List;
 

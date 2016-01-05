@@ -1,4 +1,4 @@
-package csa.selenium;
+package selfservice.selenium;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;

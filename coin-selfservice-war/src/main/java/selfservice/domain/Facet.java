@@ -21,6 +21,7 @@ package selfservice.domain;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,13 +30,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.SortNatural;
 
 import selfservice.util.DomainObject;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @SuppressWarnings("serial")
@@ -143,5 +144,31 @@ public class Facet extends DomainObject implements Comparable<Facet> {
     return new CompareToBuilder()
       .append(this.getName(), that.getName())
       .toComparison();
+  }
+
+  public static FacetBuilder builder() {
+    return new FacetBuilder();
+  }
+
+  public static class FacetBuilder {
+    private SortedSet<FacetValue> facetValues = new TreeSet<>();
+    private String name;
+
+    public FacetBuilder addFacetValue(FacetValue value) {
+      this.facetValues.add(value);
+      return this;
+    }
+
+    public FacetBuilder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Facet build() {
+      Facet facet = new Facet();
+      facet.setName(name);
+      facet.setFacetValues(facetValues);
+      return facet;
+    }
   }
 }

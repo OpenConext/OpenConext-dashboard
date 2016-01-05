@@ -1,22 +1,23 @@
 package selfservice.api.dashboard;
 
-import selfservice.api.dashboard.RestResponse;
-import selfservice.domain.CoinUser;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.Locale;
 
-import static org.junit.Assert.assertNotNull;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.junit.Test;
+
+import selfservice.domain.CoinUser;
 
 public class RestResponseTest {
 
   @Test
   public void testSerializeToJson() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+    mapper.setSerializationInclusion(Include.NON_NULL);
     CoinUser coinUser = new CoinUser();
     coinUser.setDisplayName("foobar");
     RestResponse response = new RestResponse(Locale.ENGLISH, coinUser);
