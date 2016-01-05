@@ -241,12 +241,13 @@ public class JanusRestClient implements Janus {
 
       LOG.trace("Signed Janus-request is: {}", signedUri);
 
-      final Map restResponse = restTemplate.getForObject(signedUri, Map.class);
+      @SuppressWarnings("unchecked")
+      Map<String, Object> restResponse = restTemplate.getForObject(signedUri, Map.class);
       if (LOG.isTraceEnabled()) {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
       }
 
-      return (restResponse == null) ? null : ARP.fromRestResponse(restResponse);
+      return restResponse == null ? null : ARP.fromRestResponse(restResponse);
     } catch (IOException e) {
       LOG.error("Could not do ARP request to Janus", e);
       throw Throwables.propagate(e);
@@ -264,7 +265,7 @@ public class JanusRestClient implements Janus {
 
       LOG.trace("Signed Janus-request is: {}", signedUri);
 
-      List restResponse = restTemplate.getForObject(signedUri, List.class);
+      List<?> restResponse = restTemplate.getForObject(signedUri, List.class);
 
       if (LOG.isTraceEnabled()) {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
@@ -309,7 +310,7 @@ public class JanusRestClient implements Janus {
    * @throws IOException
    */
   private URI sign(String method, Map<String, String> parameters) throws IOException {
-    Map<String, String> keys = new TreeMap<String, String>();
+    Map<String, String> keys = new TreeMap<>();
     keys.put("janus_key", user);
     keys.put("method", method);
 
@@ -345,8 +346,7 @@ public class JanusRestClient implements Janus {
       }
       url.append(key).append('=').append(URLEncoder.encode(keys.get(key), charsetName));
     }
-    String uri = url.toString();
-    return URI.create(janusUri + "?" + uri);
+    return URI.create(janusUri + "?" + url);
   }
 
 }

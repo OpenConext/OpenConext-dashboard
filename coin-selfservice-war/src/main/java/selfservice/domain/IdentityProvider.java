@@ -17,6 +17,8 @@ package selfservice.domain;
 
 import java.io.Serializable;
 
+import com.google.common.base.MoreObjects;
+
 import org.apache.commons.lang3.StringUtils;
 
 @SuppressWarnings("serial")
@@ -99,11 +101,10 @@ public class IdentityProvider extends Provider implements Serializable {
 
   @Override
   public String toString() {
-    return "IdentityProvider{" +
-      "id='" + id + '\'' +
-      ", institutionId='" + institutionId + '\'' +
-      ", ssoLocation='" + ssoLocation + '\'' +
-      ", sloLocation='" + sloLocation + '\'' +
-      '}';
+    return MoreObjects.toStringHelper(this)
+        .add("id", id)
+        .add("institutionId", institutionId)
+        .add("ssoLocation", ssoLocation)
+        .add("sloLocation", sloLocation).toString();
   }
 }

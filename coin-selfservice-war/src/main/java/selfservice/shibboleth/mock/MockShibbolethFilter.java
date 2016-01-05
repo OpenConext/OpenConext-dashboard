@@ -38,7 +38,6 @@ public class MockShibbolethFilter extends GenericFilterBean {
 
     @Override
     public Enumeration<String> getHeaderNames() {
-      @SuppressWarnings("unchecked")
       List<String> names = Collections.list(super.getHeaderNames());
       names.addAll(headers.keySet());
       return Collections.enumeration(names);

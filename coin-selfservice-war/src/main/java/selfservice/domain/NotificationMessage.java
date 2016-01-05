@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.domain;
 
 import java.io.Serializable;
@@ -26,8 +25,8 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class NotificationMessage implements Serializable {
 
-  private List<String> messageKeys = new ArrayList<String>();
-  private List<Service> arguments = new ArrayList<Service>();
+  private List<String> messageKeys = new ArrayList<>();
+  private List<Service> arguments = new ArrayList<>();
 
   public NotificationMessage() {
     super();

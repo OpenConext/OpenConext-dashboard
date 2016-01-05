@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * License (for software, SaaS, or other) that belongs to an institute, group of
  * individual. A license is typically retrieved from the LMNG.
@@ -94,18 +96,21 @@ public class License implements Serializable {
     this.institutionName = institutionName;
   }
 
-  @Override
-  public String toString() {
-    return "License [startDate=" + startDate + ", endDate=" + endDate + ", licenseNumber=" + licenseNumber + ", institutionName="
-      + institutionName + "]";
-  }
-
   public boolean isGroupLicense() {
     return groupLicense;
   }
 
   public void setGroupLicense(boolean groupLicense) {
     this.groupLicense = groupLicense;
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("startDate", startDate)
+        .add("endDate", endDate)
+        .add("licenseNumber", licenseNumber)
+        .add("institutionName", institutionName).toString();
   }
 
 }

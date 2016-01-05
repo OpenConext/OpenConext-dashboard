@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.domain;
 
 import java.io.Serializable;
 import java.util.Map;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 
 import org.springframework.util.CollectionUtils;
 
@@ -132,22 +134,6 @@ public class ServiceProvider extends Provider implements Serializable {
     return (id == null) ? 0 : id.hashCode();
   }
 
-  @Override
-  public String toString() {
-    final StringBuffer sb = new StringBuffer();
-    sb.append("ServiceProvider");
-    sb.append("{id='").append(id).append('\'');
-    if (arp != null) {
-      sb.append(", arp=").append(arp);
-    }
-    sb.append(", eulaUrl='").append(eulaURL).append('\'');
-    sb.append(", gadgetBaseUrl='").append(gadgetBaseUrl).append('\'');
-    sb.append(", idpVisibleOnly=").append(isIdpVisibleOnly());
-    sb.append(' ').append(super.toString());
-    sb.append('}');
-    return sb.toString();
-  }
-
   public String getApplicationUrl() {
     return applicationUrl;
   }
@@ -162,6 +148,20 @@ public class ServiceProvider extends Provider implements Serializable {
 
   public void setInstitutionId(String institutionId) {
     this.institutionId = institutionId;
+  }
+
+  @Override
+  public String toString() {
+    ToStringHelper toStringHelper = MoreObjects.toStringHelper(this).add("id", id);
+
+    if (arp != null) {
+      toStringHelper.add("arp", arp);
+    }
+
+    return toStringHelper
+        .add("eulaUrl", eulaURL)
+        .add("gadgetBaseUrl", gadgetBaseUrl)
+        .add("idpVisibleOnly", isIdpVisibleOnly()).toString();
   }
 
 }

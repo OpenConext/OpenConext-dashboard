@@ -82,6 +82,7 @@ public class FacetValueDaoImplTestIntegration implements LocaleResolver {
     compoundServiceProviderDao.save(csp);
 
     csp = compoundServiceProviderDao.findOne(csp.getId());
+
     assertEquals(facet.getName(), csp.getFacetValues().first().getFacet().getName());
   }
 
@@ -156,8 +157,8 @@ public class FacetValueDaoImplTestIntegration implements LocaleResolver {
      */
     facetValueDao.unlinkAllCspFromFacet(facet.getId());
     inUseFacetValues = facetValueDao.findInUseFacet(facet.getId());
-    assertEquals(0, inUseFacetValues.size());
 
+    assertEquals(0, inUseFacetValues.size());
   }
 
   @Test
@@ -207,7 +208,6 @@ public class FacetValueDaoImplTestIntegration implements LocaleResolver {
 
     return provider;
   }
-
 
   @Override
   public Locale resolveLocale(HttpServletRequest request) {

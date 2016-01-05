@@ -23,6 +23,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.base.MoreObjects;
 
 @JsonInclude(NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -390,9 +391,8 @@ public class Service implements Comparable<Service>, Serializable {
 
   @Override
   public String toString() {
-    return "Service{" +
-      "id=" + id +
-      ", name='" + name + '\'' +
-      '}';
+    return MoreObjects.toStringHelper(this)
+        .add("id", id)
+        .add("name", name).toString();
   }
 }

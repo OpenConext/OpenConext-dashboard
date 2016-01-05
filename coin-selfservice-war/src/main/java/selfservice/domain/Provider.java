@@ -22,10 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.MoreObjects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.util.CollectionUtils;
 
 import selfservice.domain.csa.ContactPerson;
@@ -53,11 +53,11 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   private String logoUrl;
   private String metadataUrl;
 
-  private List<ContactPerson> contactPersons = new ArrayList<ContactPerson>();
+  private List<ContactPerson> contactPersons = new ArrayList<>();
 
-  private Map<String, String> names = new HashMap<String, String>();
-  private Map<String, String> homeUrls = new HashMap<String, String>();
-  private Map<String, String> descriptions = new HashMap<String, String>();
+  private Map<String, String> names = new HashMap<>();
+  private Map<String, String> homeUrls = new HashMap<>();
+  private Map<String, String> descriptions = new HashMap<>();
 
   private boolean linked;
 
@@ -227,13 +227,13 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   }
 
   public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-      .append("name", name)
-      .append("names", names)
-      .append("type", type)
-      .append("id", getId())
-      .append("contactPersons", getContactPersons())
-      .append("descriptions", descriptions)
+    return MoreObjects.toStringHelper(this)
+      .add("name", name)
+      .add("names", names)
+      .add("type", type)
+      .add("id", getId())
+      .add("contactPersons", contactPersons)
+      .add("descriptions", descriptions)
       .toString();
   }
 }

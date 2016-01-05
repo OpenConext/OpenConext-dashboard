@@ -16,15 +16,27 @@
 
 package selfservice.domain;
 
-import selfservice.domain.CoinAuthority.Authority;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import static selfservice.domain.CoinAuthority.Authority.*;
+import selfservice.domain.CoinAuthority.Authority;
 
 @SuppressWarnings("serial")
 public class CoinUser implements UserDetails {
@@ -54,8 +66,6 @@ public class CoinUser implements UserDetails {
 
   /**
    * Same value as {@link #getUid()}
-   * <p/>
-   * {@inheritDoc}
    */
   @Override
   public String getUsername() {
@@ -235,27 +245,25 @@ public class CoinUser implements UserDetails {
   }
 
   public List<Authority> getAuthorityEnums() {
-    List<Authority> result = new ArrayList<Authority>();
-    for (CoinAuthority authority : this.grantedAuthorities) {
-      result.add(authority.getEnumAuthority());
-    }
-    return result;
+    return grantedAuthorities.stream().map(CoinAuthority::getEnumAuthority).collect(Collectors.toList());
   }
 
   public Optional<IdentityProvider> getByEntityId(String entityId) {
-    for (IdentityProvider institutionIdentityProvider : getInstitutionIdps()) {
-      if (institutionIdentityProvider.getId().equals(entityId)) {
-        return Optional.of(institutionIdentityProvider);
-      }
-    }
-    return Optional.empty();
+    return getInstitutionIdps().stream().filter(iip -> iip.getId().equals(entityId)).findFirst();
   }
 
   @Override
   public String toString() {
-    return "CoinUser [uid=" + uid + ", displayName=" + displayName + ", schacHomeOrganization=" + schacHomeOrganization + ", idp=" + currentIdp
-      + ", institutionIdps=" + institutionIdps + ", institutionId=" + institutionId + ", email=" + email + ", grantedAuthorities="
-      + new ArrayList<CoinAuthority>(grantedAuthorities) + ", attributeMap=" + attributeMap + "]";
+    return MoreObjects.toStringHelper(this)
+        .add("uid", uid)
+        .add("displayName", displayName)
+        .add("schacHomeOrganization", schacHomeOrganization)
+        .add("idp", currentIdp)
+        .add("institutionIdps", institutionIdps)
+        .add("institutionId", institutionId)
+        .add("email", email)
+        .add("grantedAuthorities", grantedAuthorities)
+        .add("attributeMap", attributeMap).toString();
   }
 
 }

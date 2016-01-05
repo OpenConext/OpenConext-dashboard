@@ -2,12 +2,14 @@ package selfservice.domain;
 
 import java.util.List;
 
+import com.google.common.base.MoreObjects;
+
 public class OfferedService {
 
   private Service service;
   private List<InstitutionIdentityProvider> identityProviders;
 
-  public OfferedService() { // only here for json marshalling (sigh...)
+  public OfferedService() {
   }
 
   public OfferedService(Service service) {
@@ -24,9 +26,8 @@ public class OfferedService {
 
   @Override
   public String toString() {
-    return "OfferedService{" +
-      "service=" + service +
-      ", identityProviders=" + identityProviders +
-      '}';
+    return MoreObjects.toStringHelper(this)
+        .add("service", service)
+        .add("identityProviders", identityProviders).toString();
   }
 }

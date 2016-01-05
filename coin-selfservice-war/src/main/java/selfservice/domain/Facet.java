@@ -38,7 +38,6 @@ import org.hibernate.annotations.SortNatural;
 
 import selfservice.util.DomainObject;
 
-
 @SuppressWarnings("serial")
 @Entity
 @Proxy(lazy = false)
@@ -97,7 +96,6 @@ public class Facet extends DomainObject implements Comparable<Facet> {
     this.facetValues.add(facetValue);
     facetValue.setFacet(this);
   }
-
 
   public void removeFacetValue(FacetValue facetValue) {
     this.facetValues.remove(facetValue);

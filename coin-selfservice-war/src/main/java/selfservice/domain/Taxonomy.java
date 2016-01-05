@@ -43,12 +43,7 @@ public class Taxonomy {
 
   @JsonIgnore
   public void restoreCategoryReferences() {
-    for (Category category : categories) {
-      List<CategoryValue> values = category.getValues();
-      for (CategoryValue value : values) {
-        value.setCategory(category);
-      }
-    }
+    categories.forEach(cat -> cat.getValues().forEach(v -> v.setCategory(cat)));
   }
 
 }

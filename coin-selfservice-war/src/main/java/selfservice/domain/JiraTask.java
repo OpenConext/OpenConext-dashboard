@@ -16,8 +16,7 @@
 
 package selfservice.domain;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.google.common.base.MoreObjects;
 
 public class JiraTask {
 
@@ -133,6 +132,13 @@ public class JiraTask {
   }
 
   public String toString() {
-    return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).toString();
+    return MoreObjects.toStringHelper(this)
+        .add("key", key)
+        .add("serviceProvider", serviceProvider)
+        .add("identityProvider", identityProvider)
+        .add("institution", institution)
+        .add("body", body)
+        .add("status", status)
+        .add("issueType", issueType).toString();
   }
 }
