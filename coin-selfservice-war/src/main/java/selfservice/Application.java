@@ -170,7 +170,7 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  public InternalResourceViewResolver viewResolver(@Value("${spring.view.prefix}") String prefix, @Value("${spring.view.suffix}") String suffix) {
+  public InternalResourceViewResolver viewResolver(@Value("${spring.mvc.view.prefix}") String prefix, @Value("${spring.mvc.view.suffix}") String suffix) {
     InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
     internalResourceViewResolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
     internalResourceViewResolver.setPrefix(prefix);

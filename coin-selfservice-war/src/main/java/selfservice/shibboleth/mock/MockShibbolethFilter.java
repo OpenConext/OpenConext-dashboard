@@ -1,15 +1,7 @@
 package selfservice.shibboleth.mock;
 
-import org.apache.commons.io.IOUtils;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.filter.GenericFilterBean;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
+import static selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter.shibHeaders;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -18,8 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
-import static selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter.shibHeaders;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.filter.GenericFilterBean;
 
 public class MockShibbolethFilter extends GenericFilterBean {
 

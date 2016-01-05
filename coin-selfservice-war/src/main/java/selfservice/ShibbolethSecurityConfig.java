@@ -76,8 +76,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   public FilterRegistrationBean mockShibbolethFilter() {
     FilterRegistrationBean shibFilter = new FilterRegistrationBean();
     shibFilter.setFilter(new MockShibbolethFilter());
-    shibFilter.addUrlPatterns("/*");
-    shibFilter.setOrder(1);
+    shibFilter.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
     return shibFilter;
   }
 
