@@ -8,6 +8,12 @@ install:
   - bundle install
   - cd coin-selfservice-standalone && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+script:
+  - mvn verify -Pselenium -B
 after_success:
   - codecov
 # - wget http://build.surfconext.nl/resources/settings.xml
