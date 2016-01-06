@@ -11,7 +11,7 @@ install:
   - cd coin-selfservice-standalone && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 before_script:
-  - mysql -e "create database csa default charset set utf8;
+  - mysql -e "create database csa default character set utf8;
     create user 'csa'@'localhost' identified by 'csa';
     grant all on csa.* to 'csa'@'localhost';" -uroot
   - "export DISPLAY=:99.0"
