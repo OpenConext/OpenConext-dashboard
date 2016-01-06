@@ -15,8 +15,10 @@
  */
 package selfservice.selenium;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
 
     List<WebElement> element = driver.findElements(By.id("form-lmng-id-edit-3"));
 
-    assertNotNull("Element form-3 should exist (expected 4 rows/forms)", element.get(0));
+    assertThat(element, hasSize(1));
   }
 
   @Test

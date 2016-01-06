@@ -15,6 +15,7 @@
  */
 package selfservice.selenium;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -22,6 +23,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -50,8 +52,11 @@ public class SeleniumSupport {
 
   @Before
   public void initializeDriver() {
-    driver = new FirefoxDriver();
-    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+    FirefoxBinary firefoxBinary = new FirefoxBinary();
+    Optional.ofNullable(System.getProperty("DISPLAY")).ifPresent(display -> firefoxBinary.setEnvironmentProperty("DISPLAY", display));
+
+    driver = new FirefoxDriver(firefoxBinary, null);
+    driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
   }
 
   @After
