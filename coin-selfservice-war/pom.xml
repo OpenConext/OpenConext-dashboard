@@ -351,6 +351,7 @@
                   <goal>verify</goal>
                 </goals>
                 <configuration>
+                  <forkCount>0</forkCount>
                   <excludes>
                     <exclude>none</exclude>
                   </excludes>
