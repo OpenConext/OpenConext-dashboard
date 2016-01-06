@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 
 import selfservice.selenium.page.Pages;
@@ -33,6 +35,10 @@ public class SpLmngListControllerTestSelenium extends SeleniumSupport {
   @Test
   public void getLmngIdForSpPageSuccess() {
     Pages.create(getCsaBaseUrl(), driver).loginPage().loginAsAdmin();
+
+    String screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+
+    System.out.println("data:image/png;base64," + screenshot);
 
     List<WebElement> element = driver.findElements(By.id("form-lmng-id-edit-3"));
 
