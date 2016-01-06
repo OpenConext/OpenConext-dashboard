@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.interceptor;
 
-import java.util.List;
 import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,24 +34,25 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-    Optional<Authentication> authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
-    if (modelAndView != null && authentication.isPresent()) {
+    if (modelAndView == null) {
+      return;
+    }
+
+    Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication()).ifPresent(auth -> {
       ModelMap map = modelAndView.getModelMap();
-      Menu menu = createMenu((CoinUser) authentication.get().getPrincipal());
+      Menu menu = createMenu((CoinUser) auth.getPrincipal());
       setSelected(request, menu);
       map.addAttribute("menu", menu);
-    }
+    });
   }
 
   private void setSelected(HttpServletRequest request, Menu menu) {
     String requestURI = request.getRequestURI();
-    List<MenuItem> menuItems = menu.getMenuItems();
-    for (MenuItem menuItem : menuItems) {
-      if (requestURI.endsWith(menuItem.getUrl())) {
-        menuItem.setSelected(true);
-        break;
-      }
-    }
+
+    menu.getMenuItems().stream()
+      .filter(mi -> requestURI.endsWith(mi.getUrl()))
+      .findFirst()
+      .ifPresent(mi -> mi.setSelected(true));
   }
 
   private Menu createMenu(final CoinUser coinUser) {

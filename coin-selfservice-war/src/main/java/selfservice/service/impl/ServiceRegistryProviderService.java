@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
@@ -66,10 +65,6 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
   private static final Logger LOG = LoggerFactory.getLogger(ServiceRegistryProviderService.class);
   private static final String IN_PRODUCTION = "prodaccepted";
 
-  private ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(Include.NON_NULL);
-//      .enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-
-
   private List<ServiceProvider> exampleSingleTenants = new ArrayList<>();
 
   @Autowired
@@ -80,6 +75,9 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
 
   @Value("${singleTenants.config.path}")
   private String singleTenantsConfigPath;
+
+  @Autowired
+  private ObjectMapper objectMapper;
 
   @Override
   public List<ServiceProvider> getAllServiceProviders(String idpId) {

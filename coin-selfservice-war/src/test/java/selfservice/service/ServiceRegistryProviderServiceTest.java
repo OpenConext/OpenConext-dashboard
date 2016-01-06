@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
@@ -27,6 +27,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
+
 import selfservice.domain.ARP;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
@@ -35,15 +47,11 @@ import selfservice.janus.domain.EntityMetadata;
 import selfservice.service.impl.ServiceRegistryProviderService;
 import selfservice.util.JanusRestClientMock;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
-
+@RunWith(MockitoJUnitRunner.class)
 public class ServiceRegistryProviderServiceTest {
+
+  @InjectMocks
+  private ServiceRegistryProviderService serviceRegistryProviderService;
 
   @Mock
   private Janus janus;
@@ -51,26 +59,21 @@ public class ServiceRegistryProviderServiceTest {
   @Mock
   private ResourceLoader resourceLoader;
 
-  @InjectMocks
-  private ServiceRegistryProviderService serviceRegistryProviderService;
-
-  @Before
-  public void before() {
-    serviceRegistryProviderService = new ServiceRegistryProviderService();
-    MockitoAnnotations.initMocks(this);
-  }
+  @Spy
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
   public void getAllServiceProviders() {
     List<EntityMetadata> ems = new ArrayList<>();
-    final EntityMetadata e = new EntityMetadata();
+    EntityMetadata e = new EntityMetadata();
     e.setAppEntityId("entityid");
     e.setWorkflowState("prodaccepted");
     ems.add(e);
     when(janus.getMetadataByEntityId("entityid")).thenReturn(e);
     when(janus.getAllowedSps(anyString())).thenReturn(Arrays.asList("entityid"));
     when(janus.getSpList()).thenReturn(ems);
-    final List<ServiceProvider> allServiceProviders = serviceRegistryProviderService.getAllServiceProviders("anyid");
+
+    List<ServiceProvider> allServiceProviders = serviceRegistryProviderService.getAllServiceProviders("anyid");
     assertThat(allServiceProviders.get(0).getId(), is("entityid"));
   }
 
@@ -78,26 +81,26 @@ public class ServiceRegistryProviderServiceTest {
   public void filteredList() {
     List<EntityMetadata> ems = new ArrayList<>();
 
-    final EntityMetadata linkedEntity = new EntityMetadata();
+    EntityMetadata linkedEntity = new EntityMetadata();
     linkedEntity.setWorkflowState("prodaccepted");
     linkedEntity.setAppEntityId("linkedEntity-idpVisibleOnly");
     linkedEntity.setIdpVisibleOnly(true);
     ems.add(linkedEntity);
 
-    final EntityMetadata linkedEntity2 = new EntityMetadata();
+    EntityMetadata linkedEntity2 = new EntityMetadata();
     linkedEntity2.setWorkflowState("prodaccepted");
     linkedEntity2.setAppEntityId("linkedEntity-not-idpVisibleOnly");
     linkedEntity2.setIdpVisibleOnly(false);
     ems.add(linkedEntity2);
 
-    final EntityMetadata entity = new EntityMetadata();
+    EntityMetadata entity = new EntityMetadata();
     entity.setWorkflowState("prodaccepted");
     entity.setAppEntityId("entity-idpVisibleOnly");
     entity.setIdpVisibleOnly(true);
     ems.add(entity);
 
 
-    final EntityMetadata entity2 = new EntityMetadata();
+    EntityMetadata entity2 = new EntityMetadata();
     entity2.setWorkflowState("prodaccepted");
     entity2.setAppEntityId("entity-not-idpVisibleOnly");
     entity2.setIdpVisibleOnly(false);
@@ -107,14 +110,12 @@ public class ServiceRegistryProviderServiceTest {
     when(janus.getMetadataByEntityId("linkedEntity-not-idpVisibleOnly")).thenReturn(linkedEntity2);
     when(janus.getMetadataByEntityId("entity-idpVisibleOnly")).thenReturn(entity);
     when(janus.getMetadataByEntityId("entity-not-idpVisibleOnly")).thenReturn(entity2);
-
-    when(janus.getAllowedSps(anyString())).thenReturn(
-        Arrays.asList("linkedEntity-idpVisibleOnly", "linkedEntity-not-idpVisibleOnly"));
-
+    when(janus.getAllowedSps(anyString())).thenReturn(ImmutableList.of("linkedEntity-idpVisibleOnly", "linkedEntity-not-idpVisibleOnly"));
     when(janus.getSpList()).thenReturn(ems);
 
-    final List<ServiceProvider> filteredList = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
-    assertThat(filteredList.size(), is(3));
+    List<ServiceProvider> filteredList = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
+
+    assertThat(filteredList, hasSize(3));
   }
 
   /**
@@ -124,41 +125,46 @@ public class ServiceRegistryProviderServiceTest {
   @Test
   public void testFilterWorkflowstate() {
     when(janus.getSpList()).thenReturn(Arrays.asList(entityMetadata("prodaccepted","e1"),entityMetadata("not","e2")));
-    final List<ServiceProvider> sps = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
-    assertEquals(1, sps.size());
+
+    List<ServiceProvider> sps = serviceRegistryProviderService.getAllServiceProviders("myIdpId");
+
+    assertThat(sps, hasSize(1));
   }
 
   @Test
   public void testNameAttributeRetrieval() {
     JanusRestClientMock janusMock = new JanusRestClientMock();
     EntityMetadata metadata = janusMock.getMetadataByEntityId("http://mock-sp");
-    when(janus.getArp("http://mock-sp")).thenReturn(new ARP());
-    ServiceProvider spFound = serviceRegistryProviderService.buildServiceProviderByMetadata(metadata, true);
-    assertEquals("Populair SP (name en)",spFound.getName());
 
+    when(janus.getArp("http://mock-sp")).thenReturn(new ARP());
+
+    ServiceProvider spFound = serviceRegistryProviderService.buildServiceProviderByMetadata(metadata, true);
+
+    assertEquals("Populair SP (name en)",spFound.getName());
   }
 
   @Test
   public void testGetInstituteIdentityProviders(){
-    final String institutionId = "foo";
-    final EntityMetadata shouldBeFound = new EntityMetadata();
+    String institutionId = "foo";
+    EntityMetadata shouldBeFound = new EntityMetadata();
     shouldBeFound.setWorkflowState("prodaccepted");
     shouldBeFound.setAppEntityId("1");
     shouldBeFound.setInstutionId(institutionId);
 
-    final EntityMetadata shouldNotBeFound = new EntityMetadata();
+    EntityMetadata shouldNotBeFound = new EntityMetadata();
     shouldNotBeFound.setWorkflowState("prodaccepted");
     shouldNotBeFound.setAppEntityId("2");
     shouldNotBeFound.setInstutionId("bar");
 
-    final EntityMetadata shouldNotBeFound2 = new EntityMetadata();
+    EntityMetadata shouldNotBeFound2 = new EntityMetadata();
     shouldNotBeFound.setWorkflowState("prodaccepted");
     shouldNotBeFound.setAppEntityId("3");
     shouldNotBeFound.setInstutionId(null);
 
-
     when(janus.getIdpList()).thenReturn(Arrays.asList(shouldBeFound, shouldNotBeFound, shouldNotBeFound2));
-    final List<IdentityProvider> instituteIdentityProviders = this.serviceRegistryProviderService.getInstituteIdentityProviders(institutionId);
+
+    List<IdentityProvider> instituteIdentityProviders = this.serviceRegistryProviderService.getInstituteIdentityProviders(institutionId);
+
     assertThat(instituteIdentityProviders.size(), is(1));
     assertThat("only the idps with the correct institution id must remain", instituteIdentityProviders.get(0).getInstitutionId(), is(institutionId));
   }
@@ -167,11 +173,13 @@ public class ServiceRegistryProviderServiceTest {
   public void testReadingExampleSingleTenants() {
     String path = "dummy-single-tenants-services";
     serviceRegistryProviderService.setSingleTenantsConfigPath(path);
-    when(resourceLoader.getResource(path)).thenReturn(new ClassPathResource(path));
-    serviceRegistryProviderService.refreshExampleSingleTenants();
 
+    when(resourceLoader.getResource(path)).thenReturn(new ClassPathResource(path));
     when(janus.getSpList()).thenReturn(new ArrayList<>());
+
+    serviceRegistryProviderService.refreshExampleSingleTenants();
     List<ServiceProvider> serviceProviders = serviceRegistryProviderService.getAllServiceProviders(true);
+
     assertEquals(3, serviceProviders.size());
     assertTrue(serviceProviders.stream().allMatch(ServiceProvider::isExampleSingleTenant));
   }

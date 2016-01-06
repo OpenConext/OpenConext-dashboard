@@ -203,14 +203,6 @@ public class CsaImpl implements Csa {
     return licenseContactPersonService.licenseContactPersons(idpEntityId);
   }
 
-  private List<Service> restoreCategoryReferences(List<Service> services) {
-    services.forEach(Service::restoreCategoryReferences);
-    return services;
-  }
-
-  /*
-  * Note: this is a deliberate design choice. We want to be able to transparently call Csa services without passing in HttpServletRequest and / or Locale.
-  */
   private String getLocale() {
     Locale locale = null;
     ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

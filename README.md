@@ -47,7 +47,7 @@ To run locally:
     mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=dev"
 
 If you want to debug you can use
-    
+
     ./debug.sh
 
 #### The client

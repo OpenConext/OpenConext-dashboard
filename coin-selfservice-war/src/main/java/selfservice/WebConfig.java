@@ -24,10 +24,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Value("${statsBaseUrl}")
   private String statsBaseUrl;
+
   @Value("${statsClientId}")
   private  String statsClientId;
+
   @Value("${statsScope}")
   private String statsScope;
+
   @Value("${statsRedirectUri}")
   private String statsRedirectUri;
 

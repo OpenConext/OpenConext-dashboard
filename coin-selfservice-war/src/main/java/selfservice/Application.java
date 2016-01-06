@@ -3,35 +3,22 @@ package selfservice;
 import java.net.URI;
 import java.util.Locale;
 
-import javax.sql.DataSource;
-
-import org.apache.catalina.Container;
-import org.apache.catalina.Wrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.ErrorPage;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.janus.Janus;
@@ -55,9 +42,8 @@ import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import selfservice.util.JanusRestClientMock;
 import selfservice.util.LicenseContactPersonService;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class, TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class})
 @EnableJpaRepositories("selfservice.dao")
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class, TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
 
   @Autowired
@@ -79,11 +65,6 @@ public class Application extends SpringBootServletInitializer {
     localeResolver.setDefaultLocale(new Locale("nl"));
     localeResolver.setCookieMaxAge(315360000);
     return localeResolver;
-  }
-
-  @Bean
-  public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-    return new JdbcTemplate(dataSource);
   }
 
   @Bean
@@ -118,11 +99,6 @@ public class Application extends SpringBootServletInitializer {
   @Profile("dev")
   public VootClient mockVootClient(Environment environment) {
     return new VootClientMock();
-  }
-
-  @Bean
-  public EmbeddedServletContainerCustomizer containerCustomizer() {
-    return new ErrorCustomizer();
   }
 
   @Bean
@@ -169,36 +145,4 @@ public class Application extends SpringBootServletInitializer {
     return new LicenseContactPersonService(resourceLoader.getResource(contentFileLocation));
   }
 
-  @Bean
-  public InternalResourceViewResolver viewResolver(@Value("${spring.mvc.view.prefix}") String prefix, @Value("${spring.mvc.view.suffix}") String suffix) {
-    InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-    internalResourceViewResolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    internalResourceViewResolver.setPrefix(prefix);
-    internalResourceViewResolver.setSuffix(suffix);
-    return internalResourceViewResolver;
-  }
-
-  /**
-   * Required because of https://github.com/spring-projects/spring-boot/issues/2825
-   * As the issue says, probably can be removed as of Spring-Boot 1.3.0
-   */
-  private static class ErrorCustomizer implements EmbeddedServletContainerCustomizer {
-      @Override
-      public void customize(ConfigurableEmbeddedServletContainer container) {
-        container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/forbidden"));
-
-        if (container instanceof TomcatEmbeddedServletContainerFactory) {
-          customizeTomcat((TomcatEmbeddedServletContainerFactory) container);
-        }
-      }
-
-      private void customizeTomcat(TomcatEmbeddedServletContainerFactory tomcatFactory) {
-        tomcatFactory.addContextCustomizers(context -> {
-          Container jsp = context.findChild("jsp");
-          if (jsp instanceof Wrapper) {
-            ((Wrapper) jsp).addInitParameter("development", "false");
-          }
-        });
-      }
-  }
 }
