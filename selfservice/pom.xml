@@ -63,7 +63,6 @@
     <dependency>
       <groupId>com.tapstream</groupId>
       <artifactId>rollbar-logback</artifactId>
-      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>

@@ -7,6 +7,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tapstream.rollbar.RollbarFilter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
@@ -100,6 +103,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
         .addLogoutHandler(new DashboardLogoutHandler()).and()
       .csrf().disable()
+      .addFilterBefore(new RollbarFilter(), ChannelProcessingFilter.class)
       .addFilterBefore(
         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), idpService),
         AbstractPreAuthenticatedProcessingFilter.class
