@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import selfservice.domain.LicenseContactPerson;
 import selfservice.sab.Sab;
 import selfservice.sab.SabPerson;
-import selfservice.service.Csa;
+import selfservice.util.LicenseContactPersonService;
 import selfservice.util.SpringSecurity;
 
 @Controller
@@ -28,11 +26,11 @@ import selfservice.util.SpringSecurity;
 public class IdpController extends BaseController {
   public static final List<String> INTERESTING_ROLES = Arrays.asList("SURFconextbeheerder", "SURFconextverantwoordelijke");
 
-  @Resource
+  @Autowired
   private Sab sabClient;
 
-  @Resource
-  private Csa csa;
+  @Autowired
+  private LicenseContactPersonService licenseContactPersonService;
 
   @RequestMapping("/current/roles")
   public ResponseEntity<RestResponse> roles(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
@@ -50,8 +48,7 @@ public class IdpController extends BaseController {
 
   @RequestMapping("/licensecontactpersons")
   public ResponseEntity<RestResponse> licenseContactPerson(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    List<LicenseContactPerson> licenseContactPersons = csa.licenseContactPersons(idpEntityId);
-    return new ResponseEntity<RestResponse>(createRestResponse(licenseContactPersons), HttpStatus.OK);
+    return new ResponseEntity<RestResponse>(createRestResponse(licenseContactPersonService.licenseContactPersons(idpEntityId)), HttpStatus.OK);
   }
 
 }

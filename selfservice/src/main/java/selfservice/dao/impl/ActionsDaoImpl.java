@@ -15,8 +15,6 @@
  */
 package selfservice.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,19 +36,8 @@ public class ActionsDaoImpl implements ActionsDao {
   private final JdbcTemplate jdbcTemplate;
   private final SimpleJdbcInsert insertAction;
 
-  @Autowired
-  public ActionsDaoImpl(JdbcTemplate jdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
-    this.insertAction =
-      new SimpleJdbcInsert(jdbcTemplate.getDataSource())
-        .withTableName("ss_actions")
-        .usingGeneratedKeyColumns("id");
-  }
-
-  private static class ActionRowMapper implements RowMapper<Action> {
-    @Override
-    public Action mapRow(final ResultSet resultSet, final int i) throws SQLException {
-      final Action action = new Action(
+  private static final RowMapper<Action> actionRowMapper = (resultSet, i) -> {
+    Action action = new Action(
         resultSet.getString("jiraKey"),
         resultSet.getString("userId"),
         resultSet.getString("userName"),
@@ -62,17 +49,26 @@ public class ActionsDaoImpl implements ActionsDao {
         resultSet.getString("sp"),
         resultSet.getString("institutionId"),
         resultSet.getTimestamp("requestDate"));
-      action.setId(resultSet.getLong("id"));
-      action.setIdpName(resultSet.getString("idp_name"));
-      action.setSpName(resultSet.getString("sp_name"));
-      return action;
-    }
+    action.setId(resultSet.getLong("id"));
+    action.setIdpName(resultSet.getString("idp_name"));
+    action.setSpName(resultSet.getString("sp_name"));
+
+    return action;
+  };
+
+  @Autowired
+  public ActionsDaoImpl(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+    this.insertAction =
+      new SimpleJdbcInsert(jdbcTemplate.getDataSource())
+        .withTableName("ss_actions")
+        .usingGeneratedKeyColumns("id");
   }
 
   @Override
   public List<Action> findActionsByIdP(String identityProvider) {
     return jdbcTemplate.query("SELECT id, jiraKey, userId, userName, actionType, actionStatus, body, idp, sp, idp_name, sp_name, " +
-        " institutionId, requestDate FROM ss_actions WHERE idp = ? ORDER BY id", new ActionRowMapper(),
+        " institutionId, requestDate FROM ss_actions WHERE idp = ? ORDER BY id", actionRowMapper,
       identityProvider);
   }
 
@@ -88,13 +84,14 @@ public class ActionsDaoImpl implements ActionsDao {
     }
     Number newId = insertAction.executeAndReturnKey(params);
     action.setId(newId.longValue());
+
     return action.getId();
   }
 
   @Override
   public Action findAction(long id) {
     try {
-      return jdbcTemplate.queryForObject("select * from ss_actions where id = ?", new ActionRowMapper(), id);
+      return jdbcTemplate.queryForObject("select * from ss_actions where id = ?", actionRowMapper, id);
     } catch (EmptyResultDataAccessException e) {
       return null;
     }
@@ -107,8 +104,9 @@ public class ActionsDaoImpl implements ActionsDao {
 
   @Override
   public List<String> getKeys(String identityProvider) {
-    return jdbcTemplate.query("SELECT jiraKey FROM ss_actions WHERE actionStatus = 'OPEN' AND idp = ?", (resultSet, i) -> {
-      return resultSet.getString("jiraKey");
-    }, identityProvider);
+    return jdbcTemplate.query(
+        "SELECT jiraKey FROM ss_actions WHERE actionStatus = 'OPEN' AND idp = ?",
+        (resultSet, i) -> resultSet.getString("jiraKey"),
+        identityProvider);
   }
 }

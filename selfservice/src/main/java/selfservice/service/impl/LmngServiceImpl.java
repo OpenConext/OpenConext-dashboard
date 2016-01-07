@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.base.Throwables;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpResponse;
@@ -50,11 +52,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import selfservice.dao.LmngIdentifierDao;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.License;
 import selfservice.domain.csa.Account;
 import selfservice.domain.csa.Article;
 import selfservice.service.CrmService;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.License;
 
 /**
  * Implementation of a licensing service that get's it information from a
@@ -113,29 +115,25 @@ public class LmngServiceImpl implements CrmService {
   @Cacheable(value = "crm")
   @Override
   public List<Article> getArticlesForServiceProviders(List<String> serviceProvidersEntityIds) throws LmngException {
-    List<Article> result = new ArrayList<>();
     try {
       Map<String, String> serviceIds = getLmngServiceIds(serviceProvidersEntityIds);
 
-      // validation, we need at least one serviceId
       if (CollectionUtils.isEmpty(serviceIds)) {
-        return result;
+        return Collections.emptyList();
       }
 
       String soapRequest = lmngUtil.getLmngSoapRequestForSps(serviceIds.keySet(), endpoint);
 
       List<Article> parsedArticles = lmngUtil.parseArticlesResult(getWebServiceResult(soapRequest));
 
-      for (Article article : parsedArticles) {
-        article.setServiceProviderEntityId(serviceIds.get(article.getLmngIdentifier()));
-        result.add(article);
-      }
+      parsedArticles.forEach(article -> article.setServiceProviderEntityId(serviceIds.get(article.getLmngIdentifier())));
+
+      return parsedArticles;
     } catch (Exception e) {
       String exceptionMessage = String.format("Error retrieving articlesForServiceProviders. SP ids: %s", serviceProvidersEntityIds.toString());
       log.error(exceptionMessage, e);
       throw new LmngException(exceptionMessage, e);
     }
-    return result;
   }
 
   @Cacheable(value = "crm")
@@ -233,7 +231,7 @@ public class LmngServiceImpl implements CrmService {
   }
 
   private String getLmngServiceId(String serviceProviderEntityId) {
-    return serviceProviderEntityId == null ? null : lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProviderEntityId);
+    return lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProviderEntityId);
   }
 
   /**
@@ -265,7 +263,7 @@ public class LmngServiceImpl implements CrmService {
 
       return getWebServiceResult(soapRequest);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw Throwables.propagate(e);
     }
   }
 

@@ -18,8 +18,10 @@
  */
 package selfservice.dao.impl;
 
-import java.util.ArrayList;
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +40,12 @@ public class FacetValueDaoImpl implements FacetValueDaoCustom {
   private EntityManager entityManager;
 
   @Override
-  public void linkCspToFacetValue(final long compoundProviderServiceId, final long facetValueId) {
+  public void linkCspToFacetValue(long compoundProviderServiceId, long facetValueId) {
     performLinkAction("insert into facet_value_compound_service_provider (compound_service_provider_id ,facet_value_id ) VALUES (:compoundProviderServiceId, :facetValueId)", compoundProviderServiceId, facetValueId);
   }
 
   @Override
-  public void unlinkCspFromFacetValue(final long compoundProviderServiceId, final long facetValueId) {
+  public void unlinkCspFromFacetValue(long compoundProviderServiceId, long facetValueId) {
     performLinkAction("delete from facet_value_compound_service_provider where compound_service_provider_id = :compoundProviderServiceId AND facet_value_id = :facetValueId", compoundProviderServiceId, facetValueId);
   }
 
@@ -82,12 +84,11 @@ public class FacetValueDaoImpl implements FacetValueDaoCustom {
 
   private List<InUseFacetValue> doFindInUseFacetValue(String sql, long identifier) {
     @SuppressWarnings("unchecked")
-    List<Object[]> dbResult = entityManager.createNativeQuery(sql).setParameter("identifier", identifier).setParameter("locale", MultilingualString.defaultLocale.toString()).getResultList();
-    List<InUseFacetValue> result = new ArrayList<>();
-    for (Object[] s : dbResult) {
-      result.add(new InUseFacetValue((String) s[0], (String) s[1]));
-    }
-    return result;
+    List<Object[]> dbResult = entityManager.createNativeQuery(sql)
+      .setParameter("identifier", identifier)
+      .setParameter("locale", MultilingualString.defaultLocale.toString()).getResultList();
+
+    return dbResult.stream().map(s -> new InUseFacetValue((String) s[0], (String) s[1])).collect(toList());
   }
 
   private int performLinkAction(String sql, long compoundProviderServiceId, long facetValueId) {

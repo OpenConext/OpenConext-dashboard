@@ -32,7 +32,6 @@ import selfservice.domain.Facet;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.InstitutionIdentityProvider;
 import selfservice.domain.License;
-import selfservice.domain.LicenseContactPerson;
 import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.Taxonomy;
@@ -42,7 +41,6 @@ import selfservice.service.Csa;
 import selfservice.service.EmailService;
 import selfservice.service.IdentityProviderService;
 import selfservice.service.ServiceProviderService;
-import selfservice.util.LicenseContactPersonService;
 
 public class CsaImpl implements Csa {
 
@@ -54,9 +52,6 @@ public class CsaImpl implements Csa {
 
   @Value("${administration.jira.ticket.enabled}")
   private boolean createAdministrationJiraTicket;
-
-  @Autowired
-  private LicenseContactPersonService licenseContactPersonService;
 
   @Autowired
   private ServiceProviderService serviceProviderService;
@@ -79,7 +74,7 @@ public class CsaImpl implements Csa {
   @Autowired
   private IdentityProviderService identityProviderService;
 
-  private String defaultLocale = "en";
+  private final String defaultLocale = "en";
 
   @Override
   public List<Service> getServicesForIdp(String idpEntityId) {
@@ -123,33 +118,11 @@ public class CsaImpl implements Csa {
     return result;
   }
 
-//  @Override
-//  public List<IdentityProvider> getInstitutionIdentityProviders(String identityProviderId) {
-//    List<IdentityProvider> result = new ArrayList<>();
-//
-//    identityProviderService.getIdentityProvider(identityProviderId).ifPresent(idp -> {
-//      String institutionId = idp.getInstitutionId();
-//      if (StringUtils.isBlank(institutionId)) {
-//        result.add(idp) ;
-//      } else {
-//        identityProviderService.getInstituteIdentityProviders(institutionId)
-//          .forEach(provider -> result.add(provider));
-//      }
-//    });
-//
-//    return result;
-//  }
-
   @Override
   public List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId) {
     return identityProviderService.getLinkedIdentityProviders(spEntityId).stream()
         .map(this::convertIdentityProviderToInstitutionIdentityProvider)
         .collect(toList());
-  }
-
-  @Override
-  public List<Action> getJiraActions(String idpEntityId) {
-    return actionsService.getActions(idpEntityId);
   }
 
   @Override
@@ -198,11 +171,6 @@ public class CsaImpl implements Csa {
     return action;
   }
 
-  @Override
-  public List<LicenseContactPerson> licenseContactPersons(String idpEntityId) {
-    return licenseContactPersonService.licenseContactPersons(idpEntityId);
-  }
-
   private String getLocale() {
     Locale locale = null;
     ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -236,8 +204,9 @@ public class CsaImpl implements Csa {
   }
 
   private void sendAdministrationEmail(ServiceProvider serviceProvider, IdentityProvider identityProvider, String issueKey, Action action) {
-    String subject = String.format("[Csa (" + getHost() + ") request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
-      action.getType().name(), action.getIdpId(), action.getSpId(), issueKey);
+    String subject = String.format(
+        "[Csa (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
+        getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), issueKey);
 
     StringBuilder body = new StringBuilder();
     body.append("Domain of Reporter: " + action.getInstitutionId() + "\n");
@@ -246,7 +215,6 @@ public class CsaImpl implements Csa {
 
     body.append("IdP EntityID: " + identityProvider.getId() + "\n");
     body.append("IdP Name: " + identityProvider.getName() + "\n");
-
 
     body.append("Request: " + action.getType().name() + "\n");
     body.append("Applicant name: " + action.getUserName() + "\n");

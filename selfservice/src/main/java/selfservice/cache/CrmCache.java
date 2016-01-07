@@ -66,17 +66,15 @@ public class CrmCache extends AbstractCache {
   private Map<String, Article> createNewArticleCache() {
     Map<String, Article> newCache = new HashMap<>();
 
-    // Here we only have to query the articles that have been mapped to an SP, luckily not the whole CRM database.
     for (MappingEntry spAndLmngId : spToLmngId) {
       String spEntityId = spAndLmngId.getKey();
       String lmngId = spAndLmngId.getValue();
+
       List<Article> articlesForServiceProviders = crmService.getArticlesForServiceProviders(Collections.singletonList(spEntityId));
 
       if (articlesForServiceProviders.size() > 1) {
         LOG.info("Unexpected: list of articles for SP ({}) is larger than 1: {}", spEntityId, articlesForServiceProviders);
-        for (Article a : articlesForServiceProviders) {
-          LOG.info("Article found: {}", a);
-        }
+        articlesForServiceProviders.forEach(a -> LOG.info("Article found: {}", a));
       }
 
       if (articlesForServiceProviders.size() >= 1) {
@@ -90,7 +88,7 @@ public class CrmCache extends AbstractCache {
 
   private Map<MappingEntry, License> createNewLicensesCache() {
     Map<MappingEntry, License> newLicenseCache = new HashMap<>();
-    // Nested loop to query the cartesian product of all SPs and all IdPs
+
     for (MappingEntry idpLmngEntry : idpToLmngId) {
       String idpInstitutionId = idpLmngEntry.getKey();
       for (MappingEntry spLmngEntry : spToLmngId) {
