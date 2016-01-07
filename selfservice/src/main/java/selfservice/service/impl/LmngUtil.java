@@ -234,9 +234,7 @@ public class LmngUtil implements CrmUtil {
     Element documentElement = doc.getDocumentElement();
 
     String fetchResultString = getFirstSubElementStringValue(documentElement, RESULT_ELEMENT);
-    if (fetchResultString == null) {
-      log.warn("Webservice response did not contain a 'GetDataResult' element. WebserviceResult:\n" + webserviceResult);
-    } else {
+    if (fetchResultString != null) {
       InputSource fetchInputSource = new InputSource(new StringReader(fetchResultString));
       Document fetchResultDocument = docBuilder.parse(fetchInputSource);
       Element resultset = fetchResultDocument.getDocumentElement();
@@ -247,6 +245,7 @@ public class LmngUtil implements CrmUtil {
         return resultset.getElementsByTagName("result");
       }
     }
+
     return null;
   }
 
