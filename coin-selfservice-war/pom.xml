@@ -13,7 +13,6 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
@@ -30,7 +29,6 @@
   <properties>
     <jetty.host>localhost</jetty.host>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>
-    <selenium.test.url>http://localhost:8080</selenium.test.url>
   </properties>
 
   <dependencies>
@@ -130,11 +128,6 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-firefox-driver</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -253,6 +246,25 @@
           <!--Release Plugin clone from local repo-->
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <exclude>none</exclude>
+              </excludes>
+              <includes>
+                <include>**/*TestIntegration.java</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <extensions>
       <extension>
@@ -332,40 +344,6 @@
                 <goals>
                   <goal>minify</goal>
                 </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>selenium</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-                <configuration>
-                  <forkCount>0</forkCount>
-                  <excludes>
-                    <exclude>none</exclude>
-                  </excludes>
-                  <includes>
-                    <include>**/*TestSelenium.java</include>
-                    <include>**/*TestIntegration.java</include>
-                  </includes>
-                  <systemProperties>
-                    <property>
-                      <name>selenium.test.url</name>
-                      <value>${selenium.test.url}</value>
-                    </property>
-                  </systemProperties>
-                </configuration>
               </execution>
             </executions>
           </plugin>
