@@ -18,13 +18,13 @@
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-selfservice-parent</artifactId>
-    <version>4.1.8-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>coin-selfservice-war</artifactId>
+  <artifactId>selfservice</artifactId>
   <packaging>war</packaging>
-  <name>OpenConext : coin-selfservice-war</name>
+  <name>OpenConext : selfservice</name>
 
   <properties>
     <jetty.host>localhost</jetty.host>

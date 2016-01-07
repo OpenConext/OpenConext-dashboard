@@ -2,4 +2,7 @@
 <configuration>
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
+  <logger name="org.apache.jasper.servlet.TldScanner" level="DEBUG" />
+  <logger name="selfservice" level="DEBUG" />
+
 </configuration>

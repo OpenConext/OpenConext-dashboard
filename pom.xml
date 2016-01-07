@@ -24,13 +24,13 @@
   </parent>
 
   <modules>
-    <module>coin-selfservice-war</module>
-    <module>coin-selfservice-standalone</module>
+    <module>dashboard</module>
+    <module>selfservice</module>
   </modules>
 
   <groupId>org.surfnet.coin</groupId>
   <artifactId>coin-selfservice-parent</artifactId>
-  <version>4.1.8-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 
