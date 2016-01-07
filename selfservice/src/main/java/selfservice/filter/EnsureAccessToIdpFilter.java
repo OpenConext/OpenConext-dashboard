@@ -18,6 +18,8 @@ import java.util.Optional;
 
 public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
+  private static final String DASHBOARD_API_PREFIX = "/dashboard/api";
+
   private IdentityProviderService idpService;
 
   public EnsureAccessToIdpFilter(IdentityProviderService idpService) {
@@ -27,12 +29,17 @@ public class EnsureAccessToIdpFilter extends GenericFilterBean {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
 
-    if (!req.getRequestURI().contains("/users/me")) {
+    if (shouldAccessToIdpBeChecked(req)) {
+      String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
       IdentityProvider idp = idpService.getIdentityProvider(idpEntityId).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
       SpringSecurity.ensureAccess(idp);
     }
+
     chain.doFilter(request, response);
+  }
+
+  private boolean shouldAccessToIdpBeChecked(HttpServletRequest req) {
+    return req.getRequestURI().startsWith(DASHBOARD_API_PREFIX) && !req.getRequestURI().contains("/users/me");
   }
 }
