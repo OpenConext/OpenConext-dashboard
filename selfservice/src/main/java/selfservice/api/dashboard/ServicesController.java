@@ -2,13 +2,14 @@ package selfservice.api.dashboard;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -64,32 +65,31 @@ public class ServicesController extends BaseController {
   public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
-    List<String[]> rows = new ArrayList<>();
-    rows.add(new String[]{
+    List<String[]> rows = Stream.concat(Stream.<String[]>of(new String[] {
         "id", "name", "description", "app-url", "wiki-url", "support-mail",
         "connected", "license", "licenseStatus", "categories", "spEntityId",
-        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant"});
-
-    for (Long id : ids) {
-      Service service = getServiceById(services, id);
-      rows.add(new String[]{
-          String.valueOf(service.getId()),
-          service.getName(),
-          service.getDescription(),
-          service.getAppUrl(),
-          service.getWikiUrl(),
-          service.getSupportMail(),
-          String.valueOf(service.isConnected()),
-          service.getLicense() != null ? service.getLicense().toString() : null,
-          service.getLicenseStatus().name(),
-          service.getCategories().stream().map(Category::getName).collect(joining()),
-          service.getSpEntityId(),
-          service.getSpName(),
-          String.valueOf(service.isPublishedInEdugain()),
-          String.valueOf(service.isNormenkaderPresent()),
-          service.getNormenkaderUrl(),
-          String.valueOf(service.isExampleSingleTenant())});
-    }
+        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant" }),
+        ids.stream()
+        .map(id -> getServiceById(services, id))
+        .map(service ->
+          new String[] {
+            String.valueOf(service.getId()),
+            service.getName(),
+            service.getDescription(),
+            service.getAppUrl(),
+            service.getWikiUrl(),
+            service.getSupportMail(),
+            String.valueOf(service.isConnected()),
+            service.getLicense() != null ? service.getLicense().toString() : null,
+            service.getLicenseStatus().name(),
+            service.getCategories().stream().map(Category::getName).collect(joining()),
+            service.getSpEntityId(),
+            service.getSpName(),
+            String.valueOf(service.isPublishedInEdugain()),
+            String.valueOf(service.isNormenkaderPresent()),
+            service.getNormenkaderUrl(),
+            String.valueOf(service.isExampleSingleTenant()) }
+        )).collect(toList());
 
     response.setHeader("Content-Disposition", format("attachment; filename=service-overview.csv"));
 

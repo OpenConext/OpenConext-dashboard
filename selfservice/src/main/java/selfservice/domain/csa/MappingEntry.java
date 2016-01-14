@@ -1,5 +1,7 @@
 package selfservice.domain.csa;
 
+import com.google.common.base.MoreObjects;
+
 import org.springframework.util.Assert;
 
 public class MappingEntry {
@@ -39,5 +41,12 @@ public class MappingEntry {
   @Override
   public int hashCode() {
     return key.hashCode() ^ value.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(MappingEntry.class)
+        .add("key", key)
+        .add("value", value).toString();
   }
 }

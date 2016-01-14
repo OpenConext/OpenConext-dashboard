@@ -38,7 +38,7 @@ public class UsersController extends BaseController {
   public ResponseEntity<RestResponse> idps() {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (!currentUser.isSuperUser()) {
-      return new ResponseEntity<RestResponse>(HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     List<IdentityProvider> idps = Lists.newArrayList(idpService.getAllIdentityProviders());

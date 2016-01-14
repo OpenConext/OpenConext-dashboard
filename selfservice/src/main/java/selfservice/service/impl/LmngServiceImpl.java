@@ -100,16 +100,20 @@ public class LmngServiceImpl implements CrmService {
 
     // apparently LMNG has a problem retrieving licenses when there has been a revision to the underlying agreement
     // yields the license. For this reason, we have two extra queries that we do when no licenses are found
-    return Arrays.stream(CrmUtil.LicenseRetrievalAttempt.values()).map(attempt -> {
-      try {
-        String soapRequest = lmngUtil.getLmngSoapRequestForIdpAndSp(lmngInstitutionId, Arrays.asList(articleIdentifier), new Date(), endpoint, attempt);
-        String webserviceResult = getWebServiceResult(soapRequest);
-        return lmngUtil.parseLicensesResult(webserviceResult);
-      } catch (Exception e) {
-        log.error("Exception while retrieving licenses for article " + articleIdentifier, e);
-        return Collections.<License>emptyList();
-      }
-    }).filter(r -> r.size() > 0).findFirst().orElse(Collections.<License>emptyList());
+    return Arrays.stream(CrmUtil.LicenseRetrievalAttempt.values())
+        .map(attempt -> {
+          try {
+            String soapRequest = lmngUtil.getLmngSoapRequestForIdpAndSp(lmngInstitutionId, Arrays.asList(articleIdentifier), new Date(), endpoint, attempt);
+            String webserviceResult = getWebServiceResult(soapRequest);
+            return lmngUtil.parseLicensesResult(webserviceResult);
+          } catch (Exception e) {
+            log.error("Exception while retrieving licenses for article " + articleIdentifier, e);
+            return Collections.<License>emptyList();
+          }
+        })
+        .filter(r -> r.size() > 0)
+        .findFirst()
+        .orElse(Collections.emptyList());
   }
 
   @Cacheable(value = "crm")

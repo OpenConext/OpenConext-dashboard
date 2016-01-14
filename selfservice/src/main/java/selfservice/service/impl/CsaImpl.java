@@ -83,8 +83,7 @@ public class CsaImpl implements Csa {
 
   private List<Service> doGetServicesForIdP(String language, String idpEntityId, boolean includeNotLinkedSPs) {
     IdentityProvider identityProvider = Optional.ofNullable(providerCache.getIdentityProvider(idpEntityId))
-        .orElseThrow(() -> new IllegalArgumentException("No IdentityProvider known in SR with name:'" + idpEntityId + "'"));
-
+        .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
     List<String> serviceProviderIdentifiers = providerCache.getServiceProviderIdentifiers(idpEntityId);
 
     List<Service> allServices = servicesCache.getAllServices(language);
@@ -104,9 +103,11 @@ public class CsaImpl implements Csa {
         service.setConnected(isConnected);
 
         // Weave with article and license from caches
-        String institutionId = identityProvider.getInstitutionId();
-        service.setLicense(crmCache.getLicense(service, institutionId));
-        addArticle(crmCache.getArticle(service), service);
+        service.setLicense(crmCache.getLicense(service, identityProvider.getInstitutionId()));
+        getArticle(crmCache.getArticle(service)).ifPresent(crmArticle -> {
+          service.setHasCrmLink(true);
+          service.setCrmArticle(crmArticle);
+        });
 
         if (service.getLicenseStatus() == License.LicenseStatus.HAS_LICENSE_SURFMARKET) {
           service.setLicenseStatus(service.getLicense() != null ? License.LicenseStatus.HAS_LICENSE_SURFMARKET : License.LicenseStatus.NO_LICENSE);
@@ -183,20 +184,20 @@ public class CsaImpl implements Csa {
     return locale != null ? locale.getLanguage() : defaultLocale;
   }
 
-  private void addArticle(Article article, Service service) {
-    // CRM-related properties
-    if (article != null && !article.equals(Article.NONE)) {
-      CrmArticle crmArticle = new CrmArticle();
-      crmArticle.setGuid(article.getLmngIdentifier());
-      if (article.getAndroidPlayStoreMedium() != null) {
-        crmArticle.setAndroidPlayStoreUrl(article.getAndroidPlayStoreMedium().getUrl());
-      }
-      if (article.getAppleAppStoreMedium() != null) {
-        crmArticle.setAppleAppStoreUrl(article.getAppleAppStoreMedium().getUrl());
-      }
-      service.setHasCrmLink(true);
-      service.setCrmArticle(crmArticle);
+  private Optional<CrmArticle> getArticle(Article article) {
+    if (article == null || article.equals(Article.NONE)) {
+      return Optional.empty();
     }
+
+    CrmArticle crmArticle = new CrmArticle();
+    crmArticle.setGuid(article.getLmngIdentifier());
+    if (article.getAndroidPlayStoreMedium() != null) {
+      crmArticle.setAndroidPlayStoreUrl(article.getAndroidPlayStoreMedium().getUrl());
+    }
+    if (article.getAppleAppStoreMedium() != null) {
+      crmArticle.setAppleAppStoreUrl(article.getAppleAppStoreMedium().getUrl());
+    }
+    return Optional.of(crmArticle);
   }
 
   private InstitutionIdentityProvider convertIdentityProviderToInstitutionIdentityProvider(IdentityProvider identityProvider) {
