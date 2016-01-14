@@ -99,7 +99,7 @@ public class CrmCache extends AbstractCache {
 
         List<License> licensesForIdpAndSp = crmService.getLicensesForIdpAndSp(idp, spLmngId);
         if (licensesForIdpAndSp.isEmpty()) {
-          break;
+          continue;
         }
 
         if (licensesForIdpAndSp.size() > 1) {
@@ -127,6 +127,7 @@ public class CrmCache extends AbstractCache {
        */
       return null;
     }
+
     MappingEntry entry = new MappingEntry(idpInstitutionId, service.getSpEntityId());
     License license = licenseCache.get().get(entry);
     LOG.debug("Looked for license for service {} and idpInstitutionId {}, and found: {}", service.getSpEntityId(), idpInstitutionId, license);

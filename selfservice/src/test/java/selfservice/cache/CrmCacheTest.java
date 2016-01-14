@@ -18,11 +18,14 @@
  */
 package selfservice.cache;
 
-import static com.jayway.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -30,39 +33,36 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import com.google.common.collect.ImmutableList;
-import com.jayway.awaitility.Duration;
-
-import selfservice.cache.CrmCache;
 import selfservice.dao.LmngIdentifierDao;
-import selfservice.domain.csa.Article;
-import selfservice.domain.csa.MappingEntry;
-import selfservice.service.CrmService;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
 import selfservice.domain.Service;
+import selfservice.domain.csa.Article;
+import selfservice.domain.csa.MappingEntry;
+import selfservice.service.CrmService;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CrmCacheTest {
 
   private CrmCache cache;
-  private CrmService service;
-  private LmngIdentifierDao dao;
+
+  @Mock
+  private CrmService crmServiceMock;
+
+  @Mock
+  private LmngIdentifierDao lmngIdentifierDaoMock;
 
   @Before
   public void before() throws Exception {
-    service = mock(CrmService.class);
-    dao = mock(LmngIdentifierDao.class);
-
-    when(dao.findAllIdentityProviders()).thenReturn(getIdentityProviders());
-    when(dao.findAllServiceProviders()).thenReturn(getServiceProviders());
-
-    when(service.getLicensesForIdpAndSp(any(IdentityProvider.class), anyString())).thenReturn(ImmutableList.of(createLicense()));
-    when(service.getArticlesForServiceProviders(anyListOf(String.class))).thenReturn(ImmutableList.of(createArticle()));
-
-    cache = new CrmCache(service, dao, 0, 1000);
+    cache = new CrmCache(crmServiceMock, lmngIdentifierDaoMock, 10000, 5000);
   }
 
   @Test
@@ -70,22 +70,57 @@ public class CrmCacheTest {
     Service service = new Service();
     service.setSpEntityId("spId-2");
 
-    await().atMost(Duration.FIVE_SECONDS).until(() -> cache.getLicense(service, "idpId-2"), notNullValue());
+    when(lmngIdentifierDaoMock.findAllIdentityProviders()).thenReturn(getIdentityProviders());
+    when(lmngIdentifierDaoMock.findAllServiceProviders()).thenReturn(getServiceProviders());
+    when(crmServiceMock.getLicensesForIdpAndSp(any(IdentityProvider.class), anyString())).thenReturn(ImmutableList.of(createLicense()));
+
+    cache.doPopulateCache();
+
+    assertThat(cache.getLicense(service, "idpId-2"), notNullValue());
   }
 
   @Test
   public void testGetArticle() {
     Service service = new Service();
     service.setSpEntityId("spId-2");
-    await().atMost(Duration.FIVE_SECONDS).until(() -> cache.getArticle(service), notNullValue());
+
+    when(lmngIdentifierDaoMock.findAllIdentityProviders()).thenReturn(getIdentityProviders());
+    when(lmngIdentifierDaoMock.findAllServiceProviders()).thenReturn(getServiceProviders());
+    when(crmServiceMock.getArticlesForServiceProviders(anyListOf(String.class))).thenReturn(ImmutableList.of(createArticle()));
+
+    cache.doPopulateCache();
+
+    assertThat(cache.getArticle(service), notNullValue());
   }
 
   @Test
   public void noArticleFound() {
-    when(service.getArticlesForServiceProviders(anyListOf(String.class))).thenReturn(Collections.<Article>emptyList());
-    when(dao.findAllServiceProviders()).thenReturn(getProviders("spId"));
+    when(crmServiceMock.getArticlesForServiceProviders(anyListOf(String.class))).thenReturn(Collections.emptyList());
+    when(lmngIdentifierDaoMock.findAllServiceProviders()).thenReturn(getProviders("spId"));
+
     cache.doPopulateCache();
+
     assertNull(cache.getArticle(new Service(1L, "name", "", "", true, "", "spId-0")));
+  }
+
+  @Test
+  public void getAllLicensesForIdpEvenWhenFirstGivesAnEmptyList() {
+    Service service1 = new Service(1L, "sp1", "logo", "website", true, "crmUrl", "sp1");
+    Service service2 = new Service(2L, "sp2", "logo", "website", true, "crmUrl", "sp2");
+    String idpId = "idp";
+    IdentityProvider idp = new IdentityProvider(idpId, idpId, "dummy");
+    License license = new License();
+
+    when(lmngIdentifierDaoMock.findAllServiceProviders()).thenReturn(ImmutableList.of(new MappingEntry("sp1", "lmng-sp1"), new MappingEntry("sp2", "lmng-sp2")));
+    when(lmngIdentifierDaoMock.findAllIdentityProviders()).thenReturn(ImmutableList.of(new MappingEntry("idp", "lmng")));
+
+    when(crmServiceMock.getLicensesForIdpAndSp(idp, "lmng-sp1")).thenReturn(ImmutableList.of());
+    when(crmServiceMock.getLicensesForIdpAndSp(idp, "lmng-sp2")).thenReturn(ImmutableList.of(license));
+
+    cache.doPopulateCache();
+
+    assertThat(cache.getLicense(service1, "idp"), nullValue());
+    assertThat(cache.getLicense(service2, "idp"), is(license));
   }
 
   private License createLicense() {
@@ -112,6 +147,5 @@ public class CrmCacheTest {
     }
     return identityProviders;
   }
-
 
 }
