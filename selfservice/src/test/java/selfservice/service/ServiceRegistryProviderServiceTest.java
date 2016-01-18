@@ -26,9 +26,11 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +44,7 @@ import org.springframework.core.io.ResourceLoader;
 import selfservice.domain.ARP;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
+import selfservice.domain.csa.ContactPerson;
 import selfservice.janus.Janus;
 import selfservice.janus.domain.EntityMetadata;
 import selfservice.service.impl.ServiceRegistryProviderService;
@@ -206,6 +209,25 @@ public class ServiceRegistryProviderServiceTest {
     assertTrue(idps.isEmpty());
   }
 
+  @Test
+  public void shouldCreateContactWithMissingSurname() {
+    Map<String, Object> metadataMap = ImmutableMap.of(
+      Janus.Metadata.CONTACTS_0_TYPE.val(), "technical",
+      Janus.Metadata.CONTACTS_0_GIVENNAME.val(), "Henk",
+      Janus.Metadata.CONTACTS_0_EMAIL.val(), "henk@example.com");
+
+    EntityMetadata metadata = EntityMetadata.fromMetadataMap(metadataMap);
+    metadata.setAppEntityId("appEntityId");
+    metadata.setInstutionId("institutionId");
+
+    IdentityProvider idp = ServiceRegistryProviderService.buildIdentityProviderByMetadata(metadata);
+
+    List<ContactPerson> contactPersons = idp.getContactPersons();
+
+    assertThat(contactPersons, hasSize(1));
+    assertThat(contactPersons.get(0).getEmailAddress(), is("henk@example.com"));
+    assertThat(contactPersons.get(0).getName(), is("Henk"));
+  }
 
   private EntityMetadata entityMetadata(String status, String appEntityId) {
     EntityMetadata e = new EntityMetadata();

@@ -15,6 +15,7 @@
  */
 package selfservice.service.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.util.Assert.notNull;
@@ -245,7 +246,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     idp.setDescriptions(metadata.getDescriptions());
 
     metadata.getContacts().stream().map(c -> {
-      ContactPerson p = new ContactPerson(Joiner.on(' ').join(c.getGivenName(), c.getSurName()), c.getEmailAddress());
+      ContactPerson p = new ContactPerson(Joiner.on(' ').skipNulls().join(c.getGivenName(), c.getSurName()), c.getEmailAddress());
       p.setContactPersonType(contactPersonTypeByJanusContactType(c.getType()));
       p.setTelephoneNumber(c.getTelephoneNumber());
       return p;
@@ -262,26 +263,26 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
    * @throws IllegalArgumentException in case no match can be made.
    */
   public static ContactPersonType contactPersonTypeByJanusContactType(Contact.Type contactType) {
-    ContactPersonType t = null;
-    if (contactType == Contact.Type.technical) {
-      t = ContactPersonType.technical;
-    } else if (contactType == Contact.Type.support) {
-      t = ContactPersonType.help;
-    } else if (contactType == Contact.Type.administrative) {
-      t = ContactPersonType.administrative;
-    } else if (contactType == Contact.Type.billing) {
-      t = ContactPersonType.administrative;
-    } else if (contactType == Contact.Type.other) {
-      t = ContactPersonType.administrative;
-    }
-    if (t == null) {
+    switch (contactType) {
+    case technical:
+      return ContactPersonType.technical;
+    case support:
+      return ContactPersonType.help;
+    case administrative:
+      return ContactPersonType.administrative;
+    case billing:
+      return ContactPersonType.administrative;
+    case other:
+      return ContactPersonType.administrative;
+    default:
       throw new IllegalArgumentException("Unknown Janus-contactType: " + contactType);
     }
-    return t;
   }
 
   @Override
   public Optional<IdentityProvider> getIdentityProvider(String idpEntityId) {
+    checkNotNull(idpEntityId);
+
     try {
       return Optional.of(buildIdentityProviderByMetadata(janusClient.getMetadataByEntityId(idpEntityId)));
     } catch (Exception e) {
