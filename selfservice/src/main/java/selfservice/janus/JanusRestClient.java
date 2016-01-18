@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import static java.util.stream.Collectors.toList;
 import static org.springframework.util.Assert.notNull;
 
 import java.io.IOException;
@@ -70,9 +71,8 @@ public class JanusRestClient implements Janus {
     String keys = Arrays.asList(Metadata.values()).stream().map(Metadata::val).collect(Collectors.joining(","));
     parameters.put("keys", keys);
 
-    URI signedUri;
     try {
-      signedUri = sign("getMetadata", parameters);
+      URI signedUri = sign("getMetadata", parameters);
 
       LOG.trace("Signed Janus-request is: {}", signedUri);
 
@@ -196,34 +196,29 @@ public class JanusRestClient implements Janus {
 
   @Override
   public List<EntityMetadata> getIdpList() {
-
     Map<String, String> parameters = new HashMap<>();
 
     String keys = Arrays.asList(Metadata.values()).stream().map(md -> md.val()).collect(Collectors.joining(","));
     parameters.put("keys", keys);
 
-    URI signedUri;
     try {
-      signedUri = sign("getIdpList", parameters);
+      URI signedUri = sign("getIdpList", parameters);
 
       LOG.trace("Signed Janus-request is: {}", signedUri);
 
       @SuppressWarnings("unchecked")
-      final Map<String, Map<String, Object>> restResponse = restTemplate.getForObject(signedUri, Map.class);
+      Map<String, Map<String, Object>> restResponse = restTemplate.getForObject(signedUri, Map.class);
 
       if (LOG.isTraceEnabled()) {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
       }
 
-      List<EntityMetadata> entities = new ArrayList<>();
-      for (Map.Entry<String, Map<String, Object>> entry : restResponse.entrySet()) {
+      return restResponse.entrySet().stream().map(entry -> {
         String entityId = entry.getKey();
         EntityMetadata e = EntityMetadata.fromMetadataMap(entry.getValue());
         e.setAppEntityId(entityId);
-        entities.add(e);
-      }
-
-      return entities;
+        return e;
+      }).collect(toList());
 
     } catch (IOException e) {
       LOG.error("While doing Janus-request", e);
@@ -235,9 +230,8 @@ public class JanusRestClient implements Janus {
   public ARP getArp(String entityId) {
     Map<String, String> parameters = new HashMap<>();
     parameters.put("entityid", entityId);
-    URI signedUri = null;
     try {
-      signedUri = sign("arp", parameters);
+      URI signedUri = sign("arp", parameters);
 
       LOG.trace("Signed Janus-request is: {}", signedUri);
 
@@ -259,9 +253,8 @@ public class JanusRestClient implements Janus {
     Map<String, String> parameters = new HashMap<>();
     parameters.put("spentityid", spEntityId);
     parameters.put("idpentityid", idpEntityId);
-    URI signedUri = null;
     try {
-      signedUri = sign("isConnectionAllowed", parameters);
+      URI signedUri = sign("isConnectionAllowed", parameters);
 
       LOG.trace("Signed Janus-request is: {}", signedUri);
 
@@ -281,14 +274,13 @@ public class JanusRestClient implements Janus {
   public JanusEntity getEntity(String entityId) {
     Map<String, String> parameters = new HashMap<>();
     parameters.put("entityid", entityId);
-    URI signedUri = null;
     try {
-      signedUri = sign("getEntity", parameters);
+      URI signedUri = sign("getEntity", parameters);
 
       LOG.trace("Signed Janus-request is: {}", signedUri);
 
       @SuppressWarnings("unchecked")
-      final Map<String, Object> restResponse = restTemplate.getForObject(signedUri, Map.class);
+      Map<String, Object> restResponse = restTemplate.getForObject(signedUri, Map.class);
 
       if (LOG.isTraceEnabled()) {
         LOG.trace("Janus-request returned: {}", objectMapper.writeValueAsString(restResponse));
@@ -318,6 +310,7 @@ public class JanusRestClient implements Janus {
 
     keys.put("rest", "1");
     keys.put("userid", user);
+
     Set<String> keySet = keys.keySet();
     StringBuilder toSign = new StringBuilder(secret);
     for (String key : keySet) {
@@ -332,7 +325,7 @@ public class JanusRestClient implements Janus {
       throw new RuntimeException("Cannot use algorithm SHA-512", e);
     }
     digest.reset();
-    final String charsetName = "UTF-8";
+    String charsetName = "UTF-8";
     byte[] input = digest.digest(toSign.toString().getBytes(charsetName));
     char[] value = Hex.encodeHex(input);
     String janus_sig = new String(value);
@@ -344,6 +337,7 @@ public class JanusRestClient implements Janus {
       if (url.length() > 0) {
         url.append('&');
       }
+
       url.append(key).append('=').append(URLEncoder.encode(keys.get(key), charsetName));
     }
     return URI.create(janusUri + "?" + url);

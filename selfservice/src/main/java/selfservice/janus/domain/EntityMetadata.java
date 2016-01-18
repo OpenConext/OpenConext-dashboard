@@ -36,7 +36,7 @@ public class EntityMetadata implements Serializable {
   private static final String LANG_EN = "en";
   private static final String LANG_NL = "nl";
 
-  private Map<String, String> names = new HashMap<String, String>();
+  private Map<String, String> names = new HashMap<>();
   private String oauthConsumerKey;
   private String oauthConsumerSecret;
   private String appTitle;
@@ -48,13 +48,13 @@ public class EntityMetadata implements Serializable {
   private boolean twoLeggedOauthAllowed;
   private boolean consentNotRequired;
   private String appLogoUrl;
-  private Map<String, String> appHomeUrls = new HashMap<String, String>();
+  private Map<String, String> appHomeUrls = new HashMap<>();
   private String eula;
-  private Map<String, String> descriptions = new HashMap<String, String>();
-  private Map<String, String> urls = new HashMap<String, String>();
+  private Map<String, String> descriptions = new HashMap<>();
+  private Map<String, String> urls = new HashMap<>();
   private boolean isIdpVisibleOnly;
   private String workflowState;
-  private List<Contact> contacts = new ArrayList<Contact>();
+  private List<Contact> contacts = new ArrayList<>();
   private String instutionId;
   private String applicationUrl;
   private boolean publishedInEduGain;
@@ -81,7 +81,7 @@ public class EntityMetadata implements Serializable {
     em.setEula(convertToString(metadata,Janus.Metadata.EULA));
     em.setInstutionId(convertToString(metadata,Janus.Metadata.INSITUTION_ID));
     em.setApplicationUrl(convertToString(metadata,Janus.Metadata.APPLICATION_URL));
-    
+
     em.addUrl(LANG_EN, convertToString(metadata,Janus.Metadata.URL_EN));
     em.addUrl(LANG_NL, convertToString(metadata,Janus.Metadata.URL_NL));
 
@@ -95,29 +95,26 @@ public class EntityMetadata implements Serializable {
     if (metadata.get(Janus.Metadata.OAUTH_CONSENTNOTREQUIRED.val()) != null) {
       em.setConsentNotRequired((Boolean) metadata.get(Janus.Metadata.OAUTH_CONSENTNOTREQUIRED.val()));
     }
-    
+
     em.setIdpVisibleOnly(false);
     if (metadata.get(Janus.Metadata.SS_IDP_VISIBLE_ONLY.val()) != null) {
       em.setIdpVisibleOnly((Boolean) metadata.get(Janus.Metadata.SS_IDP_VISIBLE_ONLY.val()));
     }
 
-    final Object c0Mail = metadata.get(Janus.Metadata.CONTACTS_0_EMAIL.val());
-    if (metadata.get(Janus.Metadata.CONTACTS_0_TYPE.val()) != null &&
-        !emptyString(c0Mail)) {
+    Object c0Mail = metadata.get(Janus.Metadata.CONTACTS_0_EMAIL.val());
+    if (metadata.get(Janus.Metadata.CONTACTS_0_TYPE.val()) != null && !emptyString(c0Mail)) {
       Contact contact = getContact0(metadata, (String) c0Mail);
       em.addContact(contact);
     }
 
-    final Object c1Mail = metadata.get(Janus.Metadata.CONTACTS_1_EMAIL.val());
-    if (metadata.get(Janus.Metadata.CONTACTS_1_TYPE.val()) != null &&
-        !emptyString(c1Mail)) {
+    Object c1Mail = metadata.get(Janus.Metadata.CONTACTS_1_EMAIL.val());
+    if (metadata.get(Janus.Metadata.CONTACTS_1_TYPE.val()) != null && !emptyString(c1Mail)) {
       Contact contact = getContact1(metadata, (String) c1Mail);
       em.addContact(contact);
     }
 
-    final Object c2Mail = metadata.get(Janus.Metadata.CONTACTS_2_EMAIL.val());
-    if (metadata.get(Janus.Metadata.CONTACTS_2_TYPE.val()) != null &&
-        !emptyString(c2Mail)) {
+    Object c2Mail = metadata.get(Janus.Metadata.CONTACTS_2_EMAIL.val());
+    if (metadata.get(Janus.Metadata.CONTACTS_2_TYPE.val()) != null && !emptyString(c2Mail)) {
       Contact contact = getContact2(metadata, (String) c2Mail);
       em.addContact(contact);
     }
@@ -125,6 +122,7 @@ public class EntityMetadata implements Serializable {
     if (publishedInEduGain != null) {
       em.setPublishedInEduGain((Boolean) publishedInEduGain);
     }
+
     return em;
   }
 
