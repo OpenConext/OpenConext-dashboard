@@ -149,10 +149,6 @@ public class CompoundServiceProvider extends DomainObject {
     return provider;
   }
 
-  /**
-   * @param article
-   * @return
-   */
   private static Article sanityCheckArticle(Article article) {
     /*
      * Anti pattern, but alternative is numerous null pointer checks and more

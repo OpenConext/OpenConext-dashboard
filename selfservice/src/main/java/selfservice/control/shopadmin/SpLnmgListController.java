@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -103,26 +102,20 @@ public class SpLnmgListController extends BaseController {
       .map(lmngServiceBinding -> lmngServiceBinding.getCompoundServiceProvider().getServiceProviderEntityId())
       .collect(toSet());
 
-    Iterable<CompoundServiceProvider> csps = compoundServiceProviderDao.findAll();
-    Iterator<CompoundServiceProvider> cspIter = csps.iterator();
-    while (cspIter.hasNext()) {
-      CompoundServiceProvider current = cspIter.next();
-      if (spEntitySet.contains(current.getServiceProviderEntityId())) {
-        cspIter.remove();
-      }
-    }
-
-    return StreamSupport.stream(csps.spliterator(), false)
+    return StreamSupport.stream(compoundServiceProviderDao.findAll().spliterator(), false)
+      .filter(current -> !spEntitySet.contains(current.getServiceProviderEntityId()))
       .map(csp -> new LmngServiceBinding(csp.getLmngId(), csp.getServiceProvider(), csp))
       .collect(toList());
   }
 
   private List<LmngServiceBinding> getAllBindings() {
-    return providerService.getAllServiceProviders(false).stream().map(serviceProvider -> {
-      String lmngIdentifier = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
-      CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPByServiceProvider(serviceProvider);
-      return new LmngServiceBinding(lmngIdentifier, serviceProvider, compoundServiceProvider);
-    }).collect(toList());
+    return providerService.getAllServiceProviders(false).stream()
+      .map(serviceProvider -> {
+        String lmngIdentifier = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
+        CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPByServiceProvider(serviceProvider);
+        return new LmngServiceBinding(lmngIdentifier, serviceProvider, compoundServiceProvider);
+      })
+      .collect(toList());
   }
 
   @RequestMapping(value = "/export.csv", produces = "text/csv")
@@ -168,11 +161,11 @@ public class SpLnmgListController extends BaseController {
     Integer index = Integer.valueOf(req.getParameter("index"));
 
     String isClearPressed = req.getParameter("clearbutton");
+
     if (StringUtils.isBlank(lmngId) || StringUtils.isNotBlank(isClearPressed)) {
       log.debug("Clearing lmng identifier for ServiceProvider with ID {}", spId);
       lmngId = null;
     } else {
-      // extra validation (also done in frontend/jquery)
       if (!lmngUtil.isValidGuid(lmngId)) {
         model.put("errorMessage", "jsp.lmng_binding_overview.wrong.guid");
         model.put("messageIndex", index);
@@ -189,6 +182,7 @@ public class SpLnmgListController extends BaseController {
       }
       log.debug("Storing lmng identifier {} for ServiceProvider with ID {}", lmngId, spId);
     }
+
     lmngIdentifierDao.saveOrUpdateLmngIdForServiceProviderId(spId, lmngId);
 
     return listAllSpsLmng(model);

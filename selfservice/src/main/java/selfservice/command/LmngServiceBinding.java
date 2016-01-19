@@ -16,22 +16,18 @@
 
 package selfservice.command;
 
+import com.google.common.base.MoreObjects;
+
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
 
-/**
- * Pojo defining a {@link ServiceProvider} and it's LMNG identifier
- *
- */
 public class LmngServiceBinding {
 
-  private String lmngIdentifier;
-  private ServiceProvider serviceProvider;
-
-  private CompoundServiceProvider compoundServiceProvider;
+  private final String lmngIdentifier;
+  private final ServiceProvider serviceProvider;
+  private final CompoundServiceProvider compoundServiceProvider;
 
   public LmngServiceBinding(String lmngIdentifier, ServiceProvider serviceProvider, CompoundServiceProvider compoundServiceProvider) {
-    super();
     this.lmngIdentifier = lmngIdentifier;
     this.serviceProvider = serviceProvider;
     this.compoundServiceProvider = compoundServiceProvider;
@@ -47,6 +43,15 @@ public class LmngServiceBinding {
 
   public CompoundServiceProvider getCompoundServiceProvider() {
     return compoundServiceProvider;
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(LmngServiceBinding.class)
+        .add("lmngIdentifier", lmngIdentifier)
+        .add("serviceProvider", serviceProvider)
+        .add("compoundServiceProvider", compoundServiceProvider)
+        .toString();
   }
 
 }
