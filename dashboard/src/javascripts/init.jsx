@@ -152,6 +152,7 @@ var App = {
         break;
       default:
         this.render(App.Pages.ServerError());
+        Rollbar.error("Ajax request failed", event);
         console.error("Ajax request failed", event);
     }
   },
