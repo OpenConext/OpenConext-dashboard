@@ -18,5 +18,3 @@ script:
   - mvn verify -B
 after_success:
   - codecov
-# - wget http://build.surfconext.nl/resources/settings.xml
-# - mvn clean deploy --settings settings.xml
