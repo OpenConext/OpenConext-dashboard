@@ -67,7 +67,6 @@ App.Mixins.Chart = {
       if (data.records[0]) {
         callback(data.records[0]);
       } else {
-        Rollbar.warn("Could not find ", App.currentIdp());
         console.log("Could not find ", App.currentIdp());
         this.handleError();
       }
