@@ -16,6 +16,8 @@
 
 package selfservice.domain;
 
+import java.util.EnumSet;
+
 import com.google.common.base.MoreObjects;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -33,7 +35,18 @@ public class CoinAuthority implements GrantedAuthority {
     ROLE_DASHBOARD_VIEWER,
     ROLE_DASHBOARD_SUPER_USER,
 
-    ROLE_DISTRIBUTION_CHANNEL_ADMIN, NA
+    ROLE_DISTRIBUTION_CHANNEL_ADMIN;
+
+    private static final EnumSet<Authority> dashboardAuthorities = EnumSet.of(ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_SUPER_USER, ROLE_DASHBOARD_VIEWER);
+    private static final EnumSet<Authority> csaAuthorities = EnumSet.of(ROLE_DISTRIBUTION_CHANNEL_ADMIN);
+
+    public boolean isDashboardAuthority() {
+      return dashboardAuthorities.contains(this);
+    }
+
+    public boolean isCsaAuthority() {
+      return csaAuthorities.contains(this);
+    }
   }
 
   public CoinAuthority(Authority authority) {

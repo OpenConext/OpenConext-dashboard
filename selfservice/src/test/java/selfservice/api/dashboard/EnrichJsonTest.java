@@ -1,38 +1,41 @@
 package selfservice.api.dashboard;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.*;
-
-import selfservice.api.dashboard.EnrichJson;
-import selfservice.api.dashboard.ExcludeJsonIgnore;
-import selfservice.api.dashboard.RestResponse;
-import selfservice.domain.ARP;
-import selfservice.domain.CoinUser;
-import selfservice.domain.Service;
-import org.junit.Before;
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static selfservice.api.dashboard.EnrichJson.FILTERED_USER_ATTRIBUTES;
 
 import java.util.List;
 import java.util.Locale;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import org.junit.Test;
+
+import selfservice.domain.ARP;
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinAuthority.Authority;
+import selfservice.domain.CoinUser;
+import selfservice.domain.Service;
 
 public class EnrichJsonTest {
 
   private final static String STATS_URL = "https://foo";
-  private Gson gson;
-  private CoinUser coinUser;
 
-  @Before
-  public void setUp() throws Exception {
-    gson = new GsonBuilder().setExclusionStrategies(new ExcludeJsonIgnore()).create();
-    coinUser = RestDataFixture.coinUser("ben");
-  }
+  private Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeJsonIgnore()).create();
 
   @Test
   public void testAddsStatsUrlToCoinUser() throws Exception {
+    CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
     EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
@@ -42,6 +45,7 @@ public class EnrichJsonTest {
 
   @Test
   public void testSuperUserToCoinUser() throws Exception {
+    CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
     EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
@@ -51,6 +55,7 @@ public class EnrichJsonTest {
 
   @Test
   public void testAddDashboardAdminToCoinUser() throws Exception {
+    CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
     EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
@@ -60,6 +65,7 @@ public class EnrichJsonTest {
 
   @Test
   public void testAddFilteredUserAttributesToListOfServices() throws Exception {
+    CoinUser coinUser = RestDataFixture.coinUser("ben");
     coinUser.addAttribute("service", asList("bar"));
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1");
     Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", service -> {
@@ -75,12 +81,13 @@ public class EnrichJsonTest {
     JsonElement jsonElement = createJsonResponse(payload);
     EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(payload);
 
-    assertEquals(0, getServiceFromRoot(jsonElement, 0).getAsJsonArray(EnrichJson.FILTERED_USER_ATTRIBUTES).size());
-    assertEquals(1, getServiceFromRoot(jsonElement, 1).getAsJsonArray(EnrichJson.FILTERED_USER_ATTRIBUTES).size());
+    assertEquals(0, getServiceFromRoot(jsonElement, 0).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
+    assertEquals(1, getServiceFromRoot(jsonElement, 1).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
   }
 
   @Test
   public void testAddFilteredUserAttributesToService() throws Exception {
+    CoinUser coinUser = RestDataFixture.coinUser("ben");
     coinUser.addAttribute("service", asList("bar"));
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", service -> {
       service.setId(10l);
@@ -94,7 +101,23 @@ public class EnrichJsonTest {
     JsonElement jsonElement = createJsonResponse(service1);
     EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(service1);
 
-    assertEquals(1, getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray(EnrichJson.FILTERED_USER_ATTRIBUTES).size());
+    assertEquals(1, getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
+  }
+
+  @Test
+  public void dashboardAuthoritiesShouldBeFiltered() {
+    CoinUser coinUser = RestDataFixture.coinUser("john");
+
+    coinUser.addAuthority(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN));
+    coinUser.addAuthority(new CoinAuthority(Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN));
+
+    JsonElement jsonElement = createJsonResponse(coinUser);
+    EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+
+    List<JsonElement> authorities = Lists.newArrayList(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray("grantedAuthorities"));
+
+    assertThat(authorities, hasSize(1));
+    assertThat(authorities.get(0).getAsJsonObject().get("authority").getAsString(), is(Authority.ROLE_DASHBOARD_ADMIN.name()));
   }
 
   private JsonObject getServiceFromRoot(JsonElement jsonElement, int index) {

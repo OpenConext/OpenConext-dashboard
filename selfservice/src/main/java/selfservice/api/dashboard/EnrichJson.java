@@ -1,18 +1,22 @@
 package selfservice.api.dashboard;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import selfservice.domain.CoinUser;
-import selfservice.domain.Service;
-import selfservice.util.AttributeMapFilter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import selfservice.domain.CoinAuthority.Authority;
+import selfservice.domain.CoinUser;
+import selfservice.domain.Service;
+import selfservice.util.AttributeMapFilter;
 
 /**
  * Class that will enrich json we send back to clients.
@@ -43,10 +47,13 @@ public class EnrichJson {
   private EnrichJson(CoinUser coinUser, String statsUrl) {
     logger.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
     this.currentUser = coinUser;
-    final Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
+    Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
 
     mapping.put(CoinUser.class, (coinUserJsonElement, payload) -> {
       JsonObject user = coinUserJsonElement.getAsJsonObject();
+
+      filterDashboardAuthorities(user);
+
       user.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
       user.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
       user.addProperty(STATS_URL, statsUrl);
@@ -62,6 +69,17 @@ public class EnrichJson {
       }
       serviceJsonElement.getAsJsonObject().add(FILTERED_USER_ATTRIBUTES, filteredUserAttributes);
     });
+  }
+
+  private void filterDashboardAuthorities(JsonObject user) {
+    Iterator<JsonElement> authorities = user.getAsJsonArray("grantedAuthorities").iterator();
+
+    while (authorities.hasNext()) {
+      JsonElement authority = authorities.next();
+      if (authority.isJsonObject() && !Authority.valueOf(authority.getAsJsonObject().get("authority").getAsString()).isDashboardAuthority()) {
+        authorities.remove();
+      }
+    }
   }
 
   public EnrichJson json(JsonElement json) {
