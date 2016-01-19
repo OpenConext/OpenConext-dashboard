@@ -50,7 +50,13 @@ App.Pages.Profile = React.createClass({
         <td title={attributeDescription}>
           {attributeName}
         </td>
-        <td>{App.currentUser.attributeMap[attributeKey]}</td>
+        <td>
+          <ul>
+            {App.currentUser.attributeMap[attributeKey].map(function(value, i) {
+              return <li key={i}>{value}</li>;
+            })}
+          </ul>
+        </td>
       </tr>
       );
   },
