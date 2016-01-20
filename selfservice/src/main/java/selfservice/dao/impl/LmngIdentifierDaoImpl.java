@@ -15,7 +15,6 @@
  */
 package selfservice.dao.impl;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -117,10 +116,6 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
         "SELECT idpId, lmngId FROM ss_idp_lmng_identifiers",
         (rs, rowNum) -> new MappingEntry(rs.getString("idpId"), rs.getString("lmngId")));
 
-    if (result == null) {
-      result = Collections.emptyList();
-    }
-
     log.debug("Got {} results when finding all identity providers", result.size());
 
     return result;
@@ -131,10 +126,6 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
     List<MappingEntry> result = jdbcTemplate.query(
         "SELECT spId, lmngId FROM ss_sp_lmng_identifiers",
         (rs, rowNum) -> new MappingEntry(rs.getString("spId"), rs.getString("lmngId")));
-
-    if (result == null) {
-      result = Collections.emptyList();
-    }
 
     log.debug("Got {} results when finding all service providers", result.size());
 

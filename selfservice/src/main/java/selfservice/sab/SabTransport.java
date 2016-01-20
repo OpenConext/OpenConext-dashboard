@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.sab;
 
 import java.io.IOException;
@@ -21,12 +20,6 @@ import java.io.InputStream;
 
 public interface SabTransport {
 
-  /**
-   * Fire a SAB request
-   *
-   * @param request the request, serialized XML
-   * @return a stream containing the response
-   */
   InputStream getResponse(String request) throws IOException;
 
   InputStream getRestResponse(String organisationAbbreviation, String role);

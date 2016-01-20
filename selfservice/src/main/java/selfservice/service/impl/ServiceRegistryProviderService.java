@@ -45,7 +45,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 
 import selfservice.domain.ARP;
@@ -127,8 +126,10 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
 
   private List<ServiceProvider> getAllServiceProvidersUnfiltered(boolean includeArps, long callDelay) {
     List<ServiceProvider> spList = new ArrayList<>();
+
     try {
-      final List<EntityMetadata> sps = janusClient.getSpList();
+      List<EntityMetadata> sps = janusClient.getSpList();
+
       for (EntityMetadata metadata : sps) {
         if (StringUtils.equals(metadata.getWorkflowState(), IN_PRODUCTION)) {
           spList.add(buildServiceProviderByMetadata(metadata, includeArps));
@@ -189,8 +190,8 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
    * @return {@link ServiceProvider}
    */
   public ServiceProvider buildServiceProviderByMetadata(EntityMetadata metadata, boolean includeArps) {
-    Assert.notNull(metadata, "metadata cannot be null");
-    final String appEntityId = metadata.getAppEntityId();
+    notNull(metadata, "metadata cannot be null");
+    String appEntityId = metadata.getAppEntityId();
     // Get the ARP (if there is any)
     return doBuildServiceProviderByMetadata(metadata, appEntityId, includeArps ? Optional.of(janusClient.getArp(appEntityId)) : Optional.empty());
   }

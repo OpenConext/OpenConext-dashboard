@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.sab;
 
 import static java.lang.String.format;
@@ -46,6 +45,7 @@ import org.springframework.stereotype.Component;
 public class HttpClientTransport implements SabTransport {
 
   private static final int SOCKET_TIMEOUT = 10000;
+
   private final HttpClient httpClient;
 
   private final UsernamePasswordCredentials samlCredentials;
@@ -71,7 +71,7 @@ public class HttpClientTransport implements SabTransport {
   }
 
   @Override
-  public InputStream getResponse(final String request) throws IOException {
+  public InputStream getResponse(String request) throws IOException {
     HttpUriRequest httpRequest = RequestBuilder
         .post()
         .setUri(sabEndpoint)
@@ -81,13 +81,12 @@ public class HttpClientTransport implements SabTransport {
 
   @Override
   public InputStream getRestResponse(String organisationAbbreviation, String role) {
-    HttpGet httpGet = null;
     try {
-      httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, encode(organisationAbbreviation, "UTF-8"), encode(role, "UTF-8")));
+      HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, encode(organisationAbbreviation, "UTF-8"), encode(role, "UTF-8")));
+      return handleRequest(httpGet, restCredentials);
     } catch (UnsupportedEncodingException e) {
       throw Throwables.propagate(e);
     }
-    return handleRequest(httpGet, restCredentials);
   }
 
   private InputStream handleRequest(HttpUriRequest request, UsernamePasswordCredentials credentials) {
