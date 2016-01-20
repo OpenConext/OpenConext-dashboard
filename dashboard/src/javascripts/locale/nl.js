@@ -34,6 +34,7 @@ I18n.translations.nl = {
 
   navigation: {
     apps: "Services",
+    policies: "Policies",
     notifications: "Notificaties",
     history: "Logboek",
     stats: "Statistieken",
@@ -227,7 +228,8 @@ I18n.translations.nl = {
 
   search_user: {
     switch_identity: "Switch identiteit",
-    search: "Filter op naam",
+    search: "Zoek",
+    search_hint: "Filter op naam",
     name: "Naam",
     switch_to: "Switch naar rol",
     switch: {
@@ -315,6 +317,16 @@ I18n.translations.nl = {
     license_contact_name: "Naam",
     license_contact_email: "Email",
     license_contact_phone: "Telefoonnummer"
+  },
+
+  policies: {
+    overview: {
+      search_hint: "Filter op naam",
+      search: "Zoek",
+      name: "Naam",
+      description: "Beschrijving",
+      service: "Service"
+    }
   },
 
   history: {

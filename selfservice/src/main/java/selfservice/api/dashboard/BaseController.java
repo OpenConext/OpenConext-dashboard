@@ -21,11 +21,11 @@ public abstract class BaseController {
     return localeResolver.resolveLocale(request);
   }
 
-  public RestResponse createRestResponse(Object payload) {
+  public <T> RestResponse<T> createRestResponse(T payload) {
     ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
     HttpServletRequest request = sra.getRequest();
 
-    return new RestResponse(this.getLocale(request), payload);
+    return new RestResponse<T>(this.getLocale(request), payload);
   }
 
 }

@@ -5,18 +5,17 @@ import java.util.Locale;
 /**
  * Wraps responses and adds optional links.
  */
-public class RestResponse {
+public class RestResponse<T> {
 
-  private Object payload;
-
+  private T payload;
   private String language;
 
-  public RestResponse(Locale locale, Object payload) {
+  public RestResponse(Locale locale, T payload) {
     this.payload = payload;
     this.language = locale.getLanguage();
   }
 
-  public Object getPayload() {
+  public T getPayload() {
     return payload;
   }
 

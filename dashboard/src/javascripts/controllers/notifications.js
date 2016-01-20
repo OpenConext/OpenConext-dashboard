@@ -1,7 +1,9 @@
 App.Controllers.Notifications = {
 
   initialize: function() {
-    page("/notifications", this.loadNotifications.bind(this), this.index.bind(this));
+    page("/notifications",
+      this.loadNotifications.bind(this),
+      this.index.bind(this));
   },
 
   index: function(ctx                     ) {

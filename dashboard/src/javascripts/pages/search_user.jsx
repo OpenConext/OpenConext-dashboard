@@ -14,14 +14,16 @@ App.Pages.SearchUser = React.createClass({
       <div className="l-mini">
         <div className="mod-super-user">
           <h1>{I18n.t("search_user.switch_identity")}</h1>
-          <form className="search">
+          <div className="mod-super-user-search">
             <fieldset>
+              <i className="fa fa-search"/>
               <input
                 type="search"
                 valueLink={this.linkState("search")}
-                placeholder={I18n.t("search_user.search")} />
+                placeholder={I18n.t("search_user.search_hint")} />
+              <button type="submit">{I18n.t("search_user.search")}</button>
             </fieldset>
-          </form>
+          </div>
           <table>
             <thead>
               <tr>

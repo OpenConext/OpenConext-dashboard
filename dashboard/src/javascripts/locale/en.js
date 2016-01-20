@@ -34,6 +34,7 @@ I18n.translations.en = {
 
   navigation: {
     apps: "Services",
+    policies: "Policies",
     notifications: "Notifications",
     history: "History",
     stats: "Statistics",
@@ -226,7 +227,8 @@ I18n.translations.en = {
 
   search_user: {
     switch_identity: "Switch identity",
-    search: "Filter by name",
+    search: "Search",
+    search_hint: "Filter by name",
     name: "Name",
     switch_to: "Switch to role",
     switch: {
@@ -281,6 +283,16 @@ I18n.translations.en = {
     license_contact_name: "Name",
     license_contact_email: "Email",
     license_contact_phone: "Phonenumber"
+  },
+
+  policies: {
+    overview: {
+      search_hint: "Filter by name",
+      search: "Search",
+      name: "Name",
+      description: "Description",
+      service: "Service"
+    }
   },
 
   history: {

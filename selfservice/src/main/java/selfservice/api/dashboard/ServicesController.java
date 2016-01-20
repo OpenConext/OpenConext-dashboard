@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -39,7 +38,7 @@ import selfservice.service.Csa;
 import selfservice.util.SpringSecurity;
 
 @RestController
-@RequestMapping(value = "/dashboard/api/services", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/dashboard/api/services")
 public class ServicesController extends BaseController {
 
   private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
@@ -48,17 +47,14 @@ public class ServicesController extends BaseController {
   private Csa csa;
 
   @RequestMapping
-  public RestResponse index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    List<Service> services = csa.getServicesForIdp(idpEntityId);
-
-    return createRestResponse(services);
+  public RestResponse<List<Service>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+    return createRestResponse(csa.getServicesForIdp(idpEntityId));
   }
 
   @RequestMapping(value = "/idps")
-  public RestResponse getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
-    List<InstitutionIdentityProvider> providers = csa.serviceUsedBy(spEntityId);
-
-    return createRestResponse(providers);
+  public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                       @RequestParam String spEntityId) {
+    return createRestResponse(csa.serviceUsedBy(spEntityId));
   }
 
   @RequestMapping(value = "/download")
@@ -107,7 +103,7 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/id/{id}")
-  public RestResponse get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
+  public RestResponse<Service> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
     Service service = csa.getServiceForIdp(idpEntityId, id);
 
     // remove arp-labels that are explicitly unused

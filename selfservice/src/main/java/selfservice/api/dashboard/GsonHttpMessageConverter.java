@@ -50,7 +50,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
 
   @Override
   public boolean canWrite(Class<?> clazz, MediaType mediaType) {
-    return clazz.isAssignableFrom(RestResponse.class) && mediaType.equals(MediaType.APPLICATION_JSON);
+    return clazz.isAssignableFrom(RestResponse.class) && mediaType != null && mediaType.equals(MediaType.APPLICATION_JSON);
   }
 
   @Override

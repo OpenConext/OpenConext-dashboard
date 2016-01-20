@@ -23,6 +23,7 @@ App.Components.Navigation = React.createClass({
       <div className="mod-navigation">
         <ul>
           {this.renderItem("/apps", "apps")}
+          {this.renderItem("/policies", "policies")}
           {this.renderItem("/notifications", "notifications")}
           {this.renderItem("/history", "history")}
           {this.renderItem("/statistics", "stats")}
