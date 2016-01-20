@@ -62,26 +62,14 @@ public class SpLnmgListController extends BaseController {
 
   private static final Logger log = LoggerFactory.getLogger(SpLnmgListController.class);
 
-  @Autowired
-  private ServiceProviderService providerService;
-
-  @Autowired
-  private CrmService licensingService;
-
-  @Autowired
-  private LmngIdentifierDao lmngIdentifierDao;
-
-  @Autowired
-  private CompoundSPService compoundSPService;
-
-  @Autowired
-  private CompoundServiceProviderDao compoundServiceProviderDao;
-
-  @Autowired
-  private ExportService exportService;
+  @Autowired private ServiceProviderService providerService;
+  @Autowired private CrmService licensingService;
+  @Autowired private LmngIdentifierDao lmngIdentifierDao;
+  @Autowired private CompoundSPService compoundSPService;
+  @Autowired private CompoundServiceProviderDao compoundServiceProviderDao;
+  @Autowired private ExportService exportService;
 
   private LmngUtil lmngUtil = new LmngUtil();
-
   private UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
 
   @RequestMapping(value = "/all-spslmng")
@@ -139,8 +127,9 @@ public class SpLnmgListController extends BaseController {
 
   private String getBaseUrl(HttpServletRequest request) {
     try {
-      StringBuilder builder = new StringBuilder();
       URI myUri = new URI(request.getRequestURL().toString());
+
+      StringBuilder builder = new StringBuilder();
       builder.append(myUri.getScheme() + "://" + myUri.getHost());
       if (myUri.getPort() > 0) {
         builder.append(":" + myUri.getPort());
@@ -153,14 +142,12 @@ public class SpLnmgListController extends BaseController {
   }
 
   @RequestMapping(value = "/save-splmng", method = RequestMethod.POST)
-  public ModelAndView saveLmngServices(HttpServletRequest req) {
+  public ModelAndView saveLmngServices(HttpServletRequest req,
+      @RequestParam("spIdentifier") String spId, @RequestParam Integer index,
+      @RequestParam(name = "lmngIdentifier", required = false) String lmngId,
+      @RequestParam(name = "clearButton", required = false) String isClearPressed) {
+
     Map<String, Object> model = new HashMap<>();
-
-    String spId = req.getParameter("spIdentifier");
-    String lmngId = req.getParameter("lmngIdentifier");
-    Integer index = Integer.valueOf(req.getParameter("index"));
-
-    String isClearPressed = req.getParameter("clearbutton");
 
     if (StringUtils.isBlank(lmngId) || StringUtils.isNotBlank(isClearPressed)) {
       log.debug("Clearing lmng identifier for ServiceProvider with ID {}", spId);

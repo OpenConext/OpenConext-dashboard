@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.service;
 
 import java.util.List;
 
 import selfservice.command.LmngServiceBinding;
 
-/*
- * Interface for exporting overview and services.
- */
 public interface ExportService {
 
   public String exportServiceBindingsCsv(List<LmngServiceBinding> bindings, String baseUrl);

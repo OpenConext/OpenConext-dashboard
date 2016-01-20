@@ -67,9 +67,6 @@ public interface CrmService {
 
   /**
    * Get the name of the service/product in LMNG belonging to given GUID
-   *
-   * @param lmngId
-   * @return
    */
   String getServiceName(String lmngId);
 
