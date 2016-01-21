@@ -5,6 +5,7 @@ var App = {
   Pages: {},
   Controllers: {},
   Mixins: {},
+  Help: {},
 
   store: {}, // in memory key/value store, to save temporary settings
 

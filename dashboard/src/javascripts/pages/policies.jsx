@@ -17,15 +17,23 @@ App.Pages.Policies = React.createClass({
 
     return (
       <div className="l-main">
-        <div className="mod-policy-search">
-          <fieldset>
-              <i className="fa fa-search"/>
-              <input
-                type="search"
-                valueLink={this.linkState("search")}
-                placeholder={I18n.t("policies.overview.search_hint")}/>
-              <button type="submit">{I18n.t("policies.overview.search")}</button>
-          </fieldset>
+        <div className="l-grid">
+          <div className="l-col-10">
+            <div className="mod-policy-search">
+              <fieldset>
+                  <i className="fa fa-search"/>
+                  <input
+                    type="search"
+                    valueLink={this.linkState("search")}
+                    placeholder={I18n.t("policies.overview.search_hint")}/>
+                  <button type="submit">{I18n.t("policies.overview.search")}</button>
+              </fieldset>
+            </div>
+          </div>
+          <div className="l-col-2 l-push-right">
+            <a href={page.uri("/policies/new")} className="t-button">
+              <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}</a>
+          </div>
         </div>
         <div className="mod-policy-list">
           <table>

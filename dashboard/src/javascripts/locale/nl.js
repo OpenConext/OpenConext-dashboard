@@ -320,6 +320,7 @@ I18n.translations.nl = {
   },
 
   policies: {
+    new_policy: "New policy",
     overview: {
       search_hint: "Filter op naam",
       search: "Zoek",

@@ -1,17 +1,36 @@
-.c-button
-  background: $blue
+%button
   padding: 7px 15px
   border-radius: $br
-  color: #fff
   text-decoration: none
   display: inline-block
-
-  &:hover
-    background: darken($blue,10)
-
-  &.narrow
-    padding: 3px 10px
 
   &.disabled
     opacity: 0.5
     pointer-events: none
+
+  &.narrow
+    padding: 3px 10px
+
+@mixin button-hover($bg-color)
+  background-color: $bg-color
+
+  &:hover
+    background: darken($bg-color,10)
+
+.c-button
+  @extend %button
+  @include button-hover($blue)
+  color: #fff
+
+.n-button
+  @extend %button
+  @include button-hover(white)
+  color: $medium-grey
+  border: 1px solid $medium-grey
+
+.t-button
+  @extend %button
+  @include button-hover($light-grey)
+  color: $blue
+  border: 1px solid $blue
+

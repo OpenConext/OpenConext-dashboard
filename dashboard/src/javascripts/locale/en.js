@@ -286,6 +286,7 @@ I18n.translations.en = {
   },
 
   policies: {
+    new_policy: "Nieuw policy",
     overview: {
       search_hint: "Filter by name",
       search: "Search",
@@ -293,6 +294,35 @@ I18n.translations.en = {
       description: "Description",
       service: "Service"
     }
+  },
+
+  policy_detail: {
+    title: "Create new policy",
+    submit: "Submit",
+    cancel: "Cancel",
+    name: "Name",
+    access: "Access",
+    service: "Service",
+    institutions: "Institutions",
+    attribute: "Attribute",
+    deny: "Deny",
+    deny_info: "Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.",
+    deny_message: "Deny message",
+    deny_message_info: "This is the message displayed to the user if access is denied based on this policy.",
+    deny_message_nl: "Deny message in Dutch",
+    description: "Description",
+    permit: "Permit",
+    permit_info: "Permit policies enforce that a only a successful match of the attributes defined will result in a Permit. No match will result in a Deny.",
+    deny: "Deny",
+    deny_info: "Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.",
+    rule: "Rule",
+    rule_and: "AND",
+    rule_and_info: "Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.",
+    rule_or: "OR",
+    rule_or_info: "Policies defined with a logical OR only require one of the attributes to match the attributes of the person requesting access.",
+    rule_info_add: " Note that attribute values with the same attribute name always be evaluated with the logical OR.",
+    rule_info_add_2: "Note that a Deny access policy always and implicitly uses the logical AND for different attribute names.",
+    autoFormat: "AutoFormat policy description",
   },
 
   history: {

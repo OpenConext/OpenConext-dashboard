@@ -5,6 +5,9 @@ App.Controllers.Policies = {
       this.loadPolicies.bind(this),
       this.overview.bind(this)
     );
+
+    page("/policies/new",
+      this.detail.bind(this));
   },
 
   overview: function (ctx) {
@@ -16,5 +19,16 @@ App.Controllers.Policies = {
       ctx.policies = data.payload;
       next();
     })
-  }
+  },
+
+  detail: function (ctx) {
+      App.render(App.Pages.PolicyDetail({
+            key: "policies",
+            policy: ctx.policy,
+            identityProviders: ctx.identityProviders,
+            serviceProviders: ctx.serviceProviders,
+            allowedAttributes: ctx.allowedAttributes
+          }
+      ));
+  },
 }

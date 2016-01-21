@@ -42,3 +42,45 @@
   padding: 30px
   position: relative
   +clearfix
+
+.l-grid
+  +clearfix
+
+  &.main
+    padding-top: 30px
+    padding-right: 10px
+    padding-bottom: 30px
+    padding-left: 30px
+
+  [class*='l-col']
+    float: left
+    min-height: 1px
+    padding-right: 20px
+
+  .l-col-12
+    width: 100%
+
+  .l-col-11
+    width: 91.66%
+
+  .l-col-10
+    width: 83.33%
+
+  .l-col-6
+    width: 50%
+
+  .l-col-4
+    width: 33.33%
+
+  .l-col-3
+    width: 25%
+
+  .l-col-2
+    width: 16.66%
+
+  .l-col-1
+    width: 8.33%
+
+  .l-push-right
+    float: right
+

@@ -101,7 +101,7 @@ App.Components.HowToConnectPanel = React.createClass({
               <div className="number">{this.props.app.exampleSingleTenant ? 4 : 3}</div>
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea rows="5" valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
             </div>
           </div>
           <p className="cta">
