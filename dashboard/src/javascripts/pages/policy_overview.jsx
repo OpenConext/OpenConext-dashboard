@@ -1,0 +1,126 @@
+/** @jsx React.DOM */
+
+App.Pages.PolicyOverview = React.createClass({
+  mixins: [
+    React.addons.LinkedStateMixin,
+    App.Mixins.SortableTable("policies.overview", "name")
+  ],
+
+  getInitialState: function () {
+    return {
+      search: ""
+    }
+  },
+
+  render: function () {
+    var filteredPolicies = this.filterPolicies(this.props.policies);
+
+    return (
+      <div className="l-main">
+        <div className="l-grid">
+          <div className="l-col-10">
+            <div className="mod-policy-search">
+              <fieldset>
+                  <i className="fa fa-search"/>
+                  <input
+                    type="search"
+                    valueLink={this.linkState("search")}
+                    placeholder={I18n.t("policies.overview.search_hint")}/>
+                  <button type="submit">{I18n.t("policies.overview.search")}</button>
+              </fieldset>
+            </div>
+          </div>
+          <div className="l-col-2 l-push-right">
+            <a href={page.uri("/policies/new")} className="t-button">
+              <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}</a>
+          </div>
+        </div>
+        <div className="mod-policy-list">
+          <table>
+            <thead>
+              <tr>
+                {this.renderSortableHeader("percent_20", "name")}
+                {this.renderSortableHeader("percent_20", "description")}
+                {this.renderSortableHeader("percent_20", "serviceProviderName")}
+                {this.renderSortableHeader("percent_20", "identityProviderNames")}
+                {this.renderSortableHeader("percent_10", "numberOfRevisions")}
+                <th className="percent_5"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.sort(filteredPolicies).map(this.renderPolicy)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  },
+
+  renderPolicy: function (policy, i) {
+    return (
+      <tr key={i}>
+        <td>{policy.name}</td>
+        <td>{policy.description}</td>
+        <td>{policy.serviceProviderName}</td>
+        <td>{this.renderIdpNames(policy)}</td>
+        <td className="number">{this.renderRevisionsLink(policy)}</td>
+        <td>{this.renderControls(policy)}</td>
+      </tr>
+    );
+  },
+
+  renderIdpNames: function (policy) {
+    return policy.identityProviderNames.map(function (name) {
+      return (<p key={name}>{name}</p>)
+    });
+  },
+
+  renderRevisionsLink: function (policy) {
+    var numberOfRevisions = (policy.numberOfRevisions + 1)
+    return (
+      <a href={page.uri("/revisions/:id",{id:policy.id})}
+        onClick={this.handleShowRevisions(policy)}>{numberOfRevisions}</a>
+    );
+  },
+
+  handleShowRevisions: function (policy) {
+  },
+
+  renderControls: function(policy) {
+    if (policy.actionsAllowed) {
+      return (
+          <div className="controls">
+            <a href={page.uri("/policies/:id", {id: policy.id})} onClick={this.handleShowPolicyDetail(policy)}
+               data-tooltip={I18n.t("policies.edit")}> <i className="fa fa-edit"></i>
+            </a>
+            <a href="#" data-tooltip={I18n.t("policies.delete")} onClick={this.handleDeletePolicyDetail(policy)}>
+              <i className="fa fa-remove"></i>
+            </a>
+          </div>
+      );
+    }
+  },
+
+  handleShowPolicyDetail: function (policy) {
+    return  function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      page("/policies/:id", {id: policy.id});
+    };
+  },
+
+  handleDeletePolicyDetail: function (policy) {
+    return function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      alert("Not working yet..." + policy.name);
+    };
+  },
+
+  filterPolicies: function (policies) {
+    return policies.filter(function (policy) {
+      return policy.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
+    }.bind(this));
+  }
+
+});

@@ -292,7 +292,9 @@ I18n.translations.en = {
       search: "Search",
       name: "Name",
       description: "Description",
-      service: "Service"
+      serviceProviderName: "Service",
+      identityProviderNames: "Institution(s)",
+      numberOfRevisions: "Revisions"
     }
   },
 
@@ -313,8 +315,6 @@ I18n.translations.en = {
     description: "Description",
     permit: "Permit",
     permit_info: "Permit policies enforce that a only a successful match of the attributes defined will result in a Permit. No match will result in a Deny.",
-    deny: "Deny",
-    deny_info: "Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.",
     rule: "Rule",
     rule_and: "AND",
     rule_and_info: "Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.",
@@ -468,14 +468,6 @@ I18n.translations.en = {
       "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
         description: "Digital Author Identifier (DAI)"
-      },
-      "Shib-nlEduPersonHomeOrganization": {
-        name: "Display name of Organization",
-        description: "display name of the organization"
-      },
-      "Shib-nlEduPersonStudyBranch": {
-        name: "Study Branch",
-        description: "study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown"
       },
       "Shib-userStatus": {
         name: "Userstatus",
