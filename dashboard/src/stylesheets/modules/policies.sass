@@ -24,12 +24,23 @@
   .label
     color: $blue
 
+  .info
+    font-weight: bold
+
+    &.not-selected
+      color: $medium-grey
+
+  em
+
+    &.not-selected
+      color: $medium-grey
+
   .form-element
     padding: 20px 0
     border-top: 1px solid $border
 
   fieldset
-    padding: 5px 70px 10px 40px
+    padding: 5px 50px 10px 40px
 
     &.success
       border-left: 6px solid $blue
@@ -75,6 +86,52 @@
       background: $medium-grey
       color: #fff
       border-color: $medium-grey
+
+  select
+    font-size: inherit
+    color: $dark-grey
+    border: 1px solid $medium-grey
+    background: white
+    height: 30px
+    width: 100%
+
+  .attribute-values
+    margin: 10px 0px 10px 25px
+    padding-left: 20px
+    border-left: 1px solid $medium-grey
+
+    input
+      margin-bottom: 10px
+
+      &.before-em
+        margin-bottom: 0px
+
+  .attribute-container, .value-container
+    position: relative
+
+    a
+      position: absolute
+      right: 8px
+      top: 4px
+      font-size: 18px
+
+      &.remove
+        color: $remove-red
+
+      &.add
+        color: $blue
+
+  input[type="text"]:disabled
+    background-color: #fbfbfb
+
+  a.plus i
+    margin-right: 10px
+
+  input + em.attribute-value
+    margin-bottom: 10px
+    display: inline-block
+    margin-top: 3px
+
 
 .mod-policy-detail-help
   padding-bottom: 20px

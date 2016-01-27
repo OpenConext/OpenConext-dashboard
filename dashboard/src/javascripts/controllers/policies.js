@@ -7,11 +7,16 @@ App.Controllers.Policies = {
     );
 
     page("/policies/new",
+      this.loadPolicy.bind(this),
+      this.loadServiceProviders.bind(this),
+      this.loadAllowedAttributes.bind(this),
       this.detail.bind(this)
     );
 
     page("/policies/:id",
       this.loadPolicy.bind(this),
+      this.loadServiceProviders.bind(this),
+      this.loadAllowedAttributes.bind(this),
       this.detail.bind(this)
     );
 
@@ -32,9 +37,31 @@ App.Controllers.Policies = {
   },
 
   loadPolicy: function (ctx, next) {
-    var url = App.apiUrl("/policies/:id", {id: ctx.params.id});
+    var url = ctx.params.id ?
+      App.apiUrl("/policies/:id", {id: ctx.params.id}) : App.apiUrl("/policies/new");
     $.get(url, function (data) {
       ctx.policy = data.payload;
+      next();
+    });
+  },
+
+  loadServiceProviders: function (ctx, next) {
+    $.get(App.apiUrl("/services"), function (data) {
+      ctx.serviceProviders = data.payload;
+      next();
+    });
+  },
+
+  loadIdentityProviders: function (ctx, next) {
+    $.get(App.apiUrl(""), function (data) {
+      ctx.identityProviders = data.payload;
+      next();
+    });
+  },
+
+  loadAllowedAttributes: function (ctx, next) {
+    $.get(App.apiUrl("/policies/attributes"), function (data) {
+      ctx.allowedAttributes = data.payload;
       next();
     });
   },
@@ -43,8 +70,8 @@ App.Controllers.Policies = {
     App.render(App.Pages.PolicyDetail({
       key: "policies",
       policy: ctx.policy,
-      identityProviders: ctx.identityProviders,
-      erviceProviders: ctx.serviceProviders,
+      identityProviders: App.currentUser.institutionIdps,
+      serviceProviders: ctx.serviceProviders,
       allowedAttributes: ctx.allowedAttributes
     }));
   },

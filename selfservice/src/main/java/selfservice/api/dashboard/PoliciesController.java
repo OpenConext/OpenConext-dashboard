@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import selfservice.domain.CoinUser;
 import selfservice.domain.Policy;
+import selfservice.domain.Policy.Attribute;
 import selfservice.service.PdpService;
 import selfservice.util.SpringSecurity;
 
-@RestController("/dashboard/api/policies")
+@RestController
+@RequestMapping("/dashboard/api/policies")
 public class PoliciesController extends BaseController {
 
   @Autowired
@@ -27,8 +29,18 @@ public class PoliciesController extends BaseController {
     return createRestResponse(pdpService.allPolicies(currentUser));
   }
 
+  @RequestMapping(path = "/new", method = GET)
+  public RestResponse<Policy> newPolicy() {
+    return createRestResponse(new Policy());
+  }
+
   @RequestMapping(path = "/{id}", method = GET)
   public RestResponse<Policy> policy(@PathVariable("id") Long id) {
     return createRestResponse(pdpService.policy(id));
+  }
+
+  @RequestMapping(path = "/attributes", method = GET)
+  public RestResponse<List<Attribute>> attributes() {
+    return createRestResponse(pdpService.allowedAttributes());
   }
 }

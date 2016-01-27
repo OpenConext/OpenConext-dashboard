@@ -74,6 +74,34 @@ public class Policy {
     return actionsAllowed;
   }
 
+  public List<Attribute> getAttributes() {
+    return attributes;
+  }
+
+  public Date getCreated() {
+    return created;
+  }
+
+  public String getDenyAdvice() {
+    return denyAdvice;
+  }
+
+  public String getDenyAdviceNl() {
+    return denyAdviceNl;
+  }
+
+  public boolean isDenyRule() {
+    return denyRule;
+  }
+
+  public boolean isAllAttributesMustMatch() {
+    return allAttributesMustMatch;
+  }
+
+  public String getServiceProviderId() {
+    return serviceProviderId;
+  }
+
   public String toString() {
     return MoreObjects.toStringHelper(Policy.class)
         .add("name", name)

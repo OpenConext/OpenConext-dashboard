@@ -13,6 +13,7 @@ module.exports = function(grunt) {
       'src/javascripts/lib/select2.js',
       'src/javascripts/lib/jquery.cookie.js',
       'src/javascripts/lib/rollbar.snipet.js',
+      'src/javascripts/lib/underscore.js',
       'tmp/init.js',                    // initializes the namespaces
       'tmp/mixins/*.js',                // all mixins first
       'tmp/**/*.js',                    // compiled jsx files from tmp

@@ -215,9 +215,10 @@ App.Mixins.Chart = {
         <fieldset>
           <h2>{I18n.t('stats.chart.type.name')}</h2>
           <App.Components.Select2Selector
-            value={this.state.chart.type}
+            defaultValue={this.state.chart.type}
             select2selectorId='chart-type'
             options={options}
+            multiple={false}
             handleChange={handleChange} />
         </fieldset>
         {this.renderSpSelect()}
@@ -240,9 +241,10 @@ App.Mixins.Chart = {
       <fieldset>
         <h2>{I18n.t('stats.chart.sp.name')}</h2>
         <App.Components.Select2Selector
-          value={this.state.chart.sp}
+          defaultValue={this.state.chart.sp}
           select2selectorId='sp'
           options={this.state.sps}
+          multiple={false}
           handleChange={handleChange} />
       </fieldset>
     );

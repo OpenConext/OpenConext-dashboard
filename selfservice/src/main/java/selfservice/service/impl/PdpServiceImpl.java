@@ -7,6 +7,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import selfservice.domain.CoinUser;
 import selfservice.domain.Policy;
+import selfservice.domain.Policy.Attribute;
 import selfservice.service.PdpService;
 
 @Service
@@ -70,8 +74,23 @@ public class PdpServiceImpl implements PdpService {
         .accept(APPLICATION_JSON).build();
   }
 
+  @Override
+  public List<Attribute> allowedAttributes() {
+    RequestEntity<?> request = buildRequest("/protected/attributes/");
+    ResponseEntity<List<AllowedAttribute>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<AllowedAttribute>>() {});
+
+    return response.getBody().stream().map(aa -> new Attribute(aa.attributeId, aa.value)).collect(Collectors.toList());
+  }
+
+
   private String authorizationHeaderValue() {
-    System.err.println(username + " " + password);
     return "Basic " + new String(Base64.encode(String.format("%s:%s", username, password).getBytes()));
+  }
+
+  private static final class AllowedAttribute {
+    @JsonProperty("AttributeId")
+    private String attributeId;
+    @JsonProperty("Value")
+    private String value;
   }
 }
