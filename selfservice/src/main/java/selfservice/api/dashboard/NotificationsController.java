@@ -21,7 +21,7 @@ public class NotificationsController extends BaseController {
   private NotificationService notificationService;
 
   @RequestMapping
-  public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+  public ResponseEntity<RestResponse<NotificationMessage>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     NotificationMessage notificationMessage = notificationService.getNotifications(idpEntityId);
     return new ResponseEntity<>(createRestResponse(notificationMessage), HttpStatus.OK);
   }

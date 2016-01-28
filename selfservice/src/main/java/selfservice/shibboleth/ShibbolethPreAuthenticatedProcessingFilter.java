@@ -4,6 +4,12 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.util.StringUtils.hasText;
+import static selfservice.shibboleth.ShibbolethHeader.*;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Email;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_HomeOrg;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Uid;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,31 +34,31 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   private static final Splitter shibHeaderValueSplitter = Splitter.on(';').omitEmptyStrings();
 
-  public static final Map<String, String> shibHeaders;
+  public static final Map<String, ShibbolethHeader> shibHeaders;
 
   static {
-    shibHeaders = ImmutableMap.<String, String>builder()
-      .put("urn:mace:dir:attribute-def:uid", "Shib-uid")
-      .put("urn:mace:dir:attribute-def:sn", "Shib-surName")
-      .put("urn:mace:dir:attribute-def:givenName", "Shib-givenName")
-      .put("urn:mace:dir:attribute-def:cn", "Shib-commonName")
-      .put("urn:mace:dir:attribute-def:displayName", "Shib-displayName")
-      .put("urn:mace:dir:attribute-def:mail", "Shib-email")
-      .put("urn:mace:dir:attribute-def:eduPersonAffiliation", "Shib-eduPersonAffiliation")
-      .put("urn:mace:dir:attribute-def:eduPersonEntitlement", "Shib-eduPersonEntitlement")
-      .put("urn:mace:dir:attribute-def:eduPersonPrincipalName", "Shib-eduPersonPN")
-      .put("urn:mace:dir:attribute-def:preferredLanguage", "Shib-preferredLanguage")
-      .put("urn:mace:terena.org:attribute-def:schacHomeOrganization", "Shib-homeOrg")
-      .put("urn:mace:terena.org:attribute-def:schacHomeOrganizationType", "Shib-schacHomeOrganizationType")
-      .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization", "Shib-nlEduPersonHomeOrganization")
-      .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch", "Shib-nlEduPersonStudyBranch")
-      .put("urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer", "Shib-nlStudielinkNummer")
-      .put("urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier", "Shib-nlDigitalAuthorIdentifier")
-      .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit", "Shib-nlEduPersonOrgUnit")
-      .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1", "Shib-userStatus")
-      .put("urn:oid:1.3.6.1.4.1.5923.1.1.1.1", "Shib-accountstatus")
-      .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2", "Shib-voName")
-      .put("urn:oid:1.3.6.1.4.1.5923.1.5.1.1", "Shib-memberOf")
+    shibHeaders = ImmutableMap.<String, ShibbolethHeader>builder()
+      .put("urn:mace:dir:attribute-def:uid", Shib_Uid)
+      .put("urn:mace:dir:attribute-def:sn", Shib_SurName)
+      .put("urn:mace:dir:attribute-def:givenName", Shib_GivenName)
+      .put("urn:mace:dir:attribute-def:cn", Shib_CommonName)
+      .put("urn:mace:dir:attribute-def:displayName", Shib_DisplayName)
+      .put("urn:mace:dir:attribute-def:mail", Shib_Email)
+      .put("urn:mace:dir:attribute-def:eduPersonAffiliation", Shib_EduPersonAffiliation)
+      .put("urn:mace:dir:attribute-def:eduPersonEntitlement", Shib_EduPersonEntitlement)
+      .put("urn:mace:dir:attribute-def:eduPersonPrincipalName", Shib_EduPersonPN)
+      .put("urn:mace:dir:attribute-def:preferredLanguage", Shib_PreferredLanguage)
+      .put("urn:mace:terena.org:attribute-def:schacHomeOrganization", Shib_HomeOrg)
+      .put("urn:mace:terena.org:attribute-def:schacHomeOrganizationType", Shib_SchacHomeOrganizationType)
+      .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization", Shib_NlEduPersonHomeOrganization)
+      .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch", Shib_NlEduPersonStudyBranch)
+      .put("urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer", Shib_NlStudielinkNummer)
+      .put("urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier", Shib_NlDigitalAuthorIdentifier)
+      .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit", Shib_NlEduPersonOrgUnit)
+      .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1", Shib_UserStatus)
+      .put("urn:oid:1.3.6.1.4.1.5923.1.1.1.1", Shib_Accountstatus)
+      .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2", Shib_VoName)
+      .put("urn:oid:1.3.6.1.4.1.5923.1.5.1.1", Shib_MemberOf)
       .build();
   }
 
@@ -65,20 +71,20 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
   @Override
   protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
-    String uid = getFirstShibHeaderValue("name-id", request)
+    String uid = getFirstShibHeaderValue(Name_Id, request)
         .orElseThrow(() -> new IllegalArgumentException("Missing name-id Shibboleth header"));
 
-    String idpId = getFirstShibHeaderValue("Shib-Authenticating-Authority", request)
+    String idpId = getFirstShibHeaderValue(Shib_Authenticating_Authority, request)
         .orElseThrow(() -> new IllegalArgumentException("Missing Shib-Authenticating-Authority Shibboleth header"));
 
     CoinUser coinUser = new CoinUser();
     coinUser.setUid(uid);
-    coinUser.setDisplayName(getFirstShibHeaderValue("Shib-displayName", request).orElse(null));
-    coinUser.setEmail(getFirstShibHeaderValue("Shib-email", request).orElse(null));
-    coinUser.setSchacHomeOrganization(getFirstShibHeaderValue("Shib-homeOrg", request).orElse(null));
+    coinUser.setDisplayName(getFirstShibHeaderValue(Shib_DisplayName, request).orElse(null));
+    coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
+    coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
 
-    Map<String, List<String>> attributes = shibHeaders.values().stream()
-        .filter(h -> StringUtils.hasText(request.getHeader(h)))
+    Map<ShibbolethHeader, List<String>> attributes = shibHeaders.values().stream()
+        .filter(h -> StringUtils.hasText(request.getHeader(h.getValue())))
         .collect(toMap(h -> h, h -> getShibHeaderValues(h, request)));
     coinUser.setAttributeMap(attributes);
 
@@ -106,12 +112,12 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     }).orElse(Collections.emptyList());
   }
 
-  private Optional<String> getFirstShibHeaderValue(String name, HttpServletRequest request) {
-    return getShibHeaderValues(name, request).stream().findFirst();
+  private Optional<String> getFirstShibHeaderValue(ShibbolethHeader headerName, HttpServletRequest request) {
+    return getShibHeaderValues(headerName, request).stream().findFirst();
   }
 
-  private List<String> getShibHeaderValues(String name, HttpServletRequest request) {
-    String headerValue = request.getHeader(name);
+  private List<String> getShibHeaderValues(ShibbolethHeader headerName, HttpServletRequest request) {
+    String headerValue = request.getHeader(headerName.getValue());
 
     return headerValue == null ? Collections.emptyList() : shibHeaderValueSplitter.splitToList(headerValue);
   }

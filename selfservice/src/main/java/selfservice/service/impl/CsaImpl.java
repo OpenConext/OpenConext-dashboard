@@ -21,7 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import selfservice.cache.CrmCache;
-import selfservice.cache.ProviderCache;
+import selfservice.cache.IdentityProviderCache;
 import selfservice.cache.ServicesCache;
 import selfservice.dao.FacetDao;
 import selfservice.domain.Action;
@@ -66,7 +66,7 @@ public class CsaImpl implements Csa {
   private ServicesCache servicesCache;
 
   @Autowired
-  private ProviderCache providerCache;
+  private IdentityProviderCache identityProviderCache;
 
   @Autowired
   private CrmCache crmCache;
@@ -82,9 +82,9 @@ public class CsaImpl implements Csa {
   }
 
   private List<Service> doGetServicesForIdP(String language, String idpEntityId) {
-    IdentityProvider identityProvider = Optional.ofNullable(providerCache.getIdentityProvider(idpEntityId))
+    IdentityProvider identityProvider = Optional.ofNullable(identityProviderCache.getIdentityProvider(idpEntityId))
         .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
-    List<String> serviceProviderIdentifiers = providerCache.getServiceProviderIdentifiers(idpEntityId);
+    List<String> serviceProviderIdentifiers = identityProviderCache.getServiceProviderIdentifiers(idpEntityId);
 
     return servicesCache.getAllServices(language).stream().filter(service -> {
       boolean isConnected = serviceProviderIdentifiers.contains(service.getSpEntityId());

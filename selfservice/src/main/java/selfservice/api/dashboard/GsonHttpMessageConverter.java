@@ -13,6 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
@@ -22,11 +25,15 @@ import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
+import selfservice.shibboleth.ShibbolethHeader;
 import selfservice.util.SpringSecurity;
 
 public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse> {
 
-  public static final GsonBuilder GSON_BUILDER = new GsonBuilder().setExclusionStrategies(new ExcludeJsonIgnore());
+  public static final GsonBuilder GSON_BUILDER = new GsonBuilder()
+      .setExclusionStrategies(new ExcludeJsonIgnore())
+      .enableComplexMapKeySerialization()
+      .registerTypeAdapter(ShibbolethHeader.class, new ShibbolethHeaderTypeAdapter().nullSafe());
 
   private Gson gson;
 
@@ -115,4 +122,18 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   public void setStatsRedirectUri(String statsRedirectUri) {
     this.statsRedirectUri = statsRedirectUri;
   }
+
+  private static final class ShibbolethHeaderTypeAdapter extends TypeAdapter<ShibbolethHeader> {
+    @Override
+    public void write(JsonWriter out, ShibbolethHeader value) throws IOException {
+      ShibbolethHeader header = (ShibbolethHeader) value;
+      out.value(header.getValue());
+    }
+
+    @Override
+    public ShibbolethHeader read(JsonReader in) throws IOException {
+      return ShibbolethHeader.findByValue(in.nextString());
+    }
+  }
+
 }

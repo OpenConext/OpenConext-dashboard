@@ -102,9 +102,20 @@ public class Policy {
     return serviceProviderId;
   }
 
+  public String getUserDisplayName() {
+    return userDisplayName;
+  }
+
   public String toString() {
     return MoreObjects.toStringHelper(Policy.class)
         .add("name", name)
+        .add("serviceProviderId", serviceProviderId)
+        .add("identityProviderIds", identityProviderIds)
+        .add("denyRule", denyRule)
+        .add("denyAdvice", denyAdvice)
+        .add("denyAdviceNl", denyAdviceNl)
+        .add("attributes", attributes)
+        .add("created", created)
         .add("description", description)
         .add("serviceProviderName", serviceProviderName).toString();
   };
@@ -127,6 +138,13 @@ public class Policy {
 
     public String getValue() {
       return value;
+    }
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(Attribute.class)
+          .add("name", name)
+          .add("value", value).toString();
     }
   }
 }

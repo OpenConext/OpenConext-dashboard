@@ -38,22 +38,22 @@ import com.jayway.awaitility.Duration;
 import org.junit.Before;
 import org.junit.Test;
 
-import selfservice.cache.ProviderCache;
+import selfservice.cache.IdentityProviderCache;
 import selfservice.domain.IdentityProvider;
 import selfservice.service.IdentityProviderService;
 
-public class ProviderCacheTest {
+public class IdentityProviderCacheTest {
 
   public static final String IDP_ID = "http://mock-idp";
 
-  private ProviderCache subject;
+  private IdentityProviderCache subject;
 
   private IdentityProviderService identityProviderServiceMock;
 
   @Before
   public void setUp() throws Exception {
     identityProviderServiceMock = mock(IdentityProviderService.class);
-    subject = new ProviderCache(identityProviderServiceMock, 0, 1000, 0);
+    subject = new IdentityProviderCache(identityProviderServiceMock, 0, 1000, 0);
   }
 
   @Test

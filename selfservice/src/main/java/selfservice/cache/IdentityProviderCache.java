@@ -35,9 +35,9 @@ import selfservice.domain.IdentityProvider;
 import selfservice.service.IdentityProviderService;
 
 @Component
-public class ProviderCache extends AbstractCache {
+public class IdentityProviderCache extends AbstractCache {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ProviderCache.class);
+  private static final Logger LOG = LoggerFactory.getLogger(IdentityProviderCache.class);
   /**
    * This is a lazy-loading cache. Initially, the populateCache() will not do any call to a backend.
    * Each call to getServiceProvider() first checks the cache. If not found, load lazily and put in cache.
@@ -51,7 +51,7 @@ public class ProviderCache extends AbstractCache {
   private final Long callDelay;
 
   @Autowired
-  public ProviderCache(IdentityProviderService idpService,
+  public IdentityProviderCache(IdentityProviderService idpService,
                        @Value("${cache.default.initialDelay}") long initialDelay,
                        @Value("${cache.default.delay}") long delay,
                        @Value("${cacheMillisecondsCallDelay}") long callDelay) {

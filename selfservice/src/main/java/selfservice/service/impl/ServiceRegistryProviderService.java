@@ -145,7 +145,9 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
     } catch (RestClientException e) {
       LOG.error("Could not retrieve 'all SPs' from Janus client", e);
     }
+
     spList.addAll(exampleSingleTenants);
+
     return spList;
   }
 
@@ -342,7 +344,7 @@ public class ServiceRegistryProviderService implements ServiceProviderService, I
       EntityMetadata metadata = EntityMetadata.fromMetadataMap(map);
       @SuppressWarnings("unchecked")
       ARP arp = map.containsKey("attributes") ? ARP.fromAttributes((List<String>) map.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
-      return doBuildServiceProviderByMetadata(metadata, (String) map.get("entityid"),Optional.of(arp));
+      return doBuildServiceProviderByMetadata(metadata, (String) map.get("entityid"), Optional.of(arp));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

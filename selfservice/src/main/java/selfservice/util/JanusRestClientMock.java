@@ -41,8 +41,6 @@ public class JanusRestClientMock implements Janus {
 
   private final ObjectMapper objectMapper = new ObjectMapper()
      .setSerializationInclusion(Include.NON_NULL);
-//      .enable(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-
 
   private final List<EntityMetadata> spList;
   private final List<EntityMetadata> idpList;

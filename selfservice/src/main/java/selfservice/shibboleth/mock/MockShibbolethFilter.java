@@ -1,6 +1,10 @@
 package selfservice.shibboleth.mock;
 
 import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
+import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Uid;
 import static selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter.shibHeaders;
 
 import java.io.IOException;
@@ -67,17 +71,18 @@ public class MockShibbolethFilter extends GenericFilterBean {
       }
       response.getWriter().write(login);
     } else {
-      String idp = "https://idp.surfnet.nl";
+//      String idp = "https://idp.surfnet.nl";
+      String idp =  "http://mock-idp";
 
       req.getSession(true).setAttribute("mockShibbolethUser", userId);
       SetHeader wrapper = new SetHeader(req);
-      wrapper.setHeader("name-id", userId);
-      wrapper.setHeader("Shib-uid", userId);
-      wrapper.setHeader("Shib-Authenticating-Authority", idp);
-      wrapper.setHeader("Shib-displayName", "Jane Roe");
+      wrapper.setHeader(Name_Id.getValue(), userId);
+      wrapper.setHeader(Shib_Uid.getValue(), userId);
+      wrapper.setHeader(Shib_Authenticating_Authority.getValue(), idp);
+      wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
       wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
 
-      wrapper.setHeader(shibHeaders.get("urn:mace:dir:attribute-def:eduPersonEntitlement"), "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
+      wrapper.setHeader(shibHeaders.get("urn:mace:dir:attribute-def:eduPersonEntitlement").getValue(), "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
 
       chain.doFilter(wrapper, response);
     }

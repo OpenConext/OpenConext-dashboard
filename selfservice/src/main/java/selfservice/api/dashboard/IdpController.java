@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import selfservice.domain.LicenseContactPerson;
 import selfservice.sab.Sab;
 import selfservice.sab.SabPerson;
 import selfservice.util.LicenseContactPersonService;
@@ -33,7 +34,7 @@ public class IdpController extends BaseController {
   private LicenseContactPersonService licenseContactPersonService;
 
   @RequestMapping("/current/roles")
-  public ResponseEntity<RestResponse> roles(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+  public ResponseEntity<RestResponse<Map<String, Collection<SabPerson>>>> roles(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     Map<String, Collection<SabPerson>> roleAssignments = new HashMap<>();
 
     SpringSecurity.getCurrentUser().getByEntityId(idpEntityId).ifPresent(idp -> {
@@ -43,12 +44,12 @@ public class IdpController extends BaseController {
       }
     });
 
-    return new ResponseEntity<RestResponse>(createRestResponse(roleAssignments), HttpStatus.OK);
+    return new ResponseEntity<>(createRestResponse(roleAssignments), HttpStatus.OK);
   }
 
   @RequestMapping("/licensecontactpersons")
-  public ResponseEntity<RestResponse> licenseContactPerson(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return new ResponseEntity<RestResponse>(createRestResponse(licenseContactPersonService.licenseContactPersons(idpEntityId)), HttpStatus.OK);
+  public ResponseEntity<RestResponse<List<LicenseContactPerson>>> licenseContactPerson(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+    return new ResponseEntity<>(createRestResponse(licenseContactPersonService.licenseContactPersons(idpEntityId)), HttpStatus.OK);
   }
 
 }

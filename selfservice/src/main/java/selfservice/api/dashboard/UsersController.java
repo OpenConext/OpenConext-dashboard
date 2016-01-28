@@ -31,7 +31,7 @@ public class UsersController extends BaseController {
   private IdentityProviderService idpService;
 
   @RequestMapping("/me")
-  public ResponseEntity<RestResponse> me() {
+  public ResponseEntity<RestResponse<CoinUser>> me() {
     return new ResponseEntity<>(createRestResponse(SpringSecurity.getCurrentUser()), HttpStatus.OK);
   }
 
@@ -51,7 +51,6 @@ public class UsersController extends BaseController {
     payload.put("idps", idps);
     payload.put("roles", roles);
 
-    /// FIXME convert idps to institution identity providers
     return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
   }
 

@@ -1,8 +1,14 @@
 package selfservice.api.dashboard;
 
+import static java.util.Collections.singletonList;
+import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
+
+import java.util.Collections;
+
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
+import selfservice.shibboleth.ShibbolethHeader;
 
 public class RestDataFixture {
 
@@ -24,6 +30,7 @@ public class RestDataFixture {
   public static CoinUser coinUser(String uid, String... idpIds) {
     CoinUser coinUser = new CoinUser();
     coinUser.setUid(uid);
+    coinUser.addAttribute(Name_Id, singletonList(uid));
     for (String idp : idpIds) {
       coinUser.addInstitutionIdp(new IdentityProvider(idp, "institution id", "name"));
       coinUser.addInstitutionIdp(new IdentityProvider(idp, "institution id", "name"));

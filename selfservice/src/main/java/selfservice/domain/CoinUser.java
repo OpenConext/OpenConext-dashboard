@@ -37,6 +37,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import selfservice.domain.CoinAuthority.Authority;
+import selfservice.shibboleth.ShibbolethHeader;
 
 @SuppressWarnings("serial")
 public class CoinUser implements UserDetails {
@@ -44,16 +45,13 @@ public class CoinUser implements UserDetails {
   private String uid;
   private String displayName;
   private String schacHomeOrganization;
-//  private InstitutionIdentityProvider currentIdp;
-//  private InstitutionIdentityProvider switchedToIdp;
   private IdentityProvider currentIdp;
   private IdentityProvider switchedToIdp;
-//  private List<InstitutionIdentityProvider> institutionIdps = new ArrayList<>();
   private List<IdentityProvider> institutionIdps = new ArrayList<>();
   private String institutionId;
   private String email;
   private Set<CoinAuthority> grantedAuthorities = new HashSet<>();
-  private Map<String, List<String>> attributeMap = new HashMap<>();
+  private Map<ShibbolethHeader, List<String>> attributeMap = new HashMap<>();
 
   /**
    * It is not allowed to call this method {@inheritDoc}
@@ -232,15 +230,15 @@ public class CoinUser implements UserDetails {
    *
    * @return Map of user attributes
    */
-  public Map<String, List<String>> getAttributeMap() {
+  public Map<ShibbolethHeader, List<String>> getAttributeMap() {
     return attributeMap;
   }
 
-  public void setAttributeMap(Map<String, List<String>> attributeMap) {
+  public void setAttributeMap(Map<ShibbolethHeader, List<String>> attributeMap) {
     this.attributeMap = attributeMap;
   }
 
-  public void addAttribute(String key, List<String> value) {
+  public void addAttribute(ShibbolethHeader key, List<String> value) {
     this.attributeMap.put(key, value);
   }
 

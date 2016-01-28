@@ -58,7 +58,7 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<RestResponse> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
+  public ResponseEntity<String> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
     List<String[]> rows = Stream.concat(Stream.<String[]>of(new String[] {
@@ -95,7 +95,7 @@ public class ServicesController extends BaseController {
       throw Throwables.propagate(e);
     }
 
-    return new ResponseEntity<RestResponse>(HttpStatus.OK);
+    return new ResponseEntity<String>(HttpStatus.OK);
   }
 
   private Service getServiceById(List<Service> services, Long id) {

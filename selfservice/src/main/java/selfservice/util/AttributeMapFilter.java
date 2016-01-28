@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+import selfservice.shibboleth.ShibbolethHeader;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 
 public class AttributeMapFilter {
@@ -101,9 +102,9 @@ public class AttributeMapFilter {
     return rawValues.stream().filter(value -> patterns.stream().anyMatch(p -> p.matcher(value).matches())).collect(toList());
   }
 
-  public static Collection<ServiceAttribute> filterAttributes(Map<String, List<String>> serviceAttributes, Map<String, List<String>> userAttributes) {
+  public static Collection<ServiceAttribute> filterAttributes(Map<String, List<String>> serviceAttributes, Map<ShibbolethHeader, List<String>> userAttributes) {
     Function<ServiceAttribute, List<String>> userValues = (serviceAttribute) -> {
-      String shibHeader = ShibbolethPreAuthenticatedProcessingFilter.shibHeaders.get(serviceAttribute.getName());
+      ShibbolethHeader shibHeader = ShibbolethPreAuthenticatedProcessingFilter.shibHeaders.get(serviceAttribute.getName());
       return Optional.ofNullable(userAttributes.get(shibHeader))
           .map(v -> valuesToShow(serviceAttribute.getFilters(), v))
           .orElse(Collections.emptyList());

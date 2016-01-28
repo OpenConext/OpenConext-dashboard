@@ -87,6 +87,7 @@ public class UsersControllerTest {
     mockMvc.perform(get(format("/dashboard/api/users/me"))
         .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
     .andExpect(status().isOk())
+    .andExpect(jsonPath("$.payload.attributeMap['name-id']").value(coinUser.getUid()))
     .andExpect(jsonPath("$.payload.uid").value(coinUser.getUid()));
   }
 

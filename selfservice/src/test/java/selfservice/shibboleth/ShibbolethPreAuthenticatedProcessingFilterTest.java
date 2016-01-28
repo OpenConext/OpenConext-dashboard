@@ -6,6 +6,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
 
 import java.util.Optional;
 
@@ -54,14 +56,14 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     assertThat(coinUser.getUid(), is("name-id_value1"));
     assertThat(coinUser.getEmail(), is("Shib-email_value1"));
 
-    assertThat(coinUser.getAttributeMap().get("Shib-eduPersonEntitlement"), contains("Shib-eduPersonEntitlement_value1", "Shib-eduPersonEntitlement_value2"));
+    assertThat(coinUser.getAttributeMap().get(Shib_EduPersonEntitlement), contains("Shib-eduPersonEntitlement_value1", "Shib-eduPersonEntitlement_value2"));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldFailWhenTheNameIdHeaderIsNotSet() {
     HttpServletRequest requestMock = mock(HttpServletRequest.class);
     when(requestMock.getHeader(anyString())).thenReturn("headerValue");
-    when(requestMock.getHeader("name-id")).thenReturn(null);
+    when(requestMock.getHeader(Name_Id.getValue())).thenReturn(null);
 
     subject.getPreAuthenticatedPrincipal(requestMock);
   }

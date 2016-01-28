@@ -4,6 +4,9 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_SurName;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Uid;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +17,7 @@ import com.google.common.collect.ImmutableMap;
 
 import org.junit.Test;
 
+import selfservice.shibboleth.ShibbolethHeader;
 import selfservice.util.AttributeMapFilter.ServiceAttribute;
 
 public class AttributeMapFilterTest {
@@ -23,9 +27,9 @@ public class AttributeMapFilterTest {
     Map<String, List<String>> serviceAttributes = ImmutableMap.of(
         "urn:mace:dir:attribute-def:uid", ImmutableList.of("*"),
         "urn:mace:dir:attribute-def:sn", ImmutableList.of("*"));
-    Map<String, List<String>> userAttributes = ImmutableMap.of(
-        "Shib-surName", ImmutableList.of("Doe"),
-        "Shib-uid", ImmutableList.of("uid"));
+    Map<ShibbolethHeader, List<String>> userAttributes = ImmutableMap.of(
+        Shib_SurName, ImmutableList.of("Doe"),
+        Shib_Uid, ImmutableList.of("uid"));
 
     Collection<ServiceAttribute> filterAttributes = AttributeMapFilter.filterAttributes(serviceAttributes, userAttributes);
 
@@ -43,8 +47,8 @@ public class AttributeMapFilterTest {
 
     Map<String, List<String>> serviceAttributes = ImmutableMap.of(attributeName, valueFilters);
 
-    Map<String, List<String>> userAttributes = ImmutableMap.of(
-        "Shib-eduPersonEntitlement", ImmutableList.of("urn:x-surfnet:surf.nl:surfdrive:quota:100", "urn:mace:terena.org:tcs:personal-user"));
+    Map<ShibbolethHeader, List<String>> userAttributes = ImmutableMap.of(
+        Shib_EduPersonEntitlement, ImmutableList.of("urn:x-surfnet:surf.nl:surfdrive:quota:100", "urn:mace:terena.org:tcs:personal-user"));
 
     Collection<ServiceAttribute> filteredAttributes = AttributeMapFilter.filterAttributes(serviceAttributes, userAttributes);
 

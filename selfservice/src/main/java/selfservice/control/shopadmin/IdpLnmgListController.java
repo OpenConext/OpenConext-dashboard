@@ -34,7 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import selfservice.cache.CrmCache;
-import selfservice.cache.ProviderCache;
+import selfservice.cache.IdentityProviderCache;
 import selfservice.cache.ServicesCache;
 import selfservice.command.LmngIdentityBinding;
 import selfservice.dao.LmngIdentifierDao;
@@ -62,7 +62,7 @@ public class IdpLnmgListController extends BaseController {
   private ServicesCache servicesCache;
 
   @Autowired
-  private ProviderCache providerCache;
+  private IdentityProviderCache providerCache;
 
   @Autowired
   private CrmCache crmCache;

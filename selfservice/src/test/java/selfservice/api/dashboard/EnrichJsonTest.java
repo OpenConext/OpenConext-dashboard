@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static selfservice.api.dashboard.EnrichJson.FILTERED_USER_ATTRIBUTES;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Email;
 
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +68,7 @@ public class EnrichJsonTest {
   @Test
   public void testAddFilteredUserAttributesToListOfServices() throws Exception {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
-    coinUser.addAttribute("service", asList("bar"));
+    coinUser.addAttribute(Shib_DisplayName, asList("bar"));
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1");
     Service service2 = RestDataFixture.serviceWithSpEntityId("id-2", service -> {
       service.setId(2l);
@@ -88,13 +90,13 @@ public class EnrichJsonTest {
   @Test
   public void testAddFilteredUserAttributesToService() throws Exception {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
-    coinUser.addAttribute("service", asList("bar"));
+    coinUser.addAttribute(Shib_Email, asList("bar"));
     Service service1 = RestDataFixture.serviceWithSpEntityId("id-1", service -> {
       service.setId(10l);
       ARP arp = new ARP();
       arp.setNoArp(false);
       arp.setNoAttrArp(false);
-      arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
+      arp.setAttributes(ImmutableMap.of("Shib-email", asList((Object) "bar")));
       service.setArp(arp);
     });
 
