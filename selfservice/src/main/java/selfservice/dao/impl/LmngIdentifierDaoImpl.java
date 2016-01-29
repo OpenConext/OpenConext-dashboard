@@ -13,28 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.dao.impl;
 
-import selfservice.dao.LmngIdentifierDao;
-import selfservice.domain.csa.MappingEntry;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import selfservice.dao.LmngIdentifierDao;
+import selfservice.domain.csa.MappingEntry;
 
 /**
  * Implementation for the DAO that stores identifiers for identityproviders for both local and LMNG scope.
- *
  */
 @Repository
 public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
@@ -50,124 +46,90 @@ public class LmngIdentifierDaoImpl implements LmngIdentifierDao {
 
   @Override
   public String getLmngIdForIdentityProviderId(String identityProviderId) {
-    List<String> result = jdbcTemplate.query("SELECT lmngId FROM ss_idp_lmng_identifiers WHERE idpId = ?", new RowMapper<String>() {
-      @Override
-      public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
-        return resultSet.getString("lmngId");
-      }
-    }, identityProviderId);
-    if (result == null || result.size() == 0) {
-      //log.debug("No LMNG ID found for IdP " + identityProviderId);
+    List<String> result = jdbcTemplate.query(
+        "SELECT lmngId FROM ss_idp_lmng_identifiers WHERE idpId = ?",
+        (resultSet, i) -> resultSet.getString("lmngId"),
+        identityProviderId);
+
+    if (result == null || result.isEmpty()) {
       return null;
     }
-    log.debug("Got LMNG GUID '" + result.get(0) + "' for IdP " + identityProviderId);
+
+    log.debug("Got LMNG GUID '{}' for IdP {}", result.get(0),  identityProviderId);
+
     return result.get(0);
   }
 
   @Override
   public String getLmngIdForServiceProviderId(String spId) {
-    List<String> result = jdbcTemplate.query("SELECT lmngId FROM ss_sp_lmng_identifiers WHERE spId = ?", new RowMapper<String>() {
-      @Override
-      public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
-        return resultSet.getString("lmngId");
-      }
-    }, spId);
-    if (result == null || result.size() == 0) {
-      //log.debug("No LMNG ID found for SP " + spId);
+    List<String> result = jdbcTemplate.query(
+        "SELECT lmngId FROM ss_sp_lmng_identifiers WHERE spId = ?",
+        (resultSet, i) -> resultSet.getString("lmngId"),
+        spId);
+
+    if (result == null || result.isEmpty()) {
       return null;
     }
-    log.debug("Got LMNG GUID '" + result.get(0) + "' for SP " + spId);
+
+    log.debug("Got LMNG GUID '{}' for SP {}", result.get(0), spId);
+
     return result.get(0);
   }
 
   @Override
   public void saveOrUpdateLmngIdForServiceProviderId(String spId, String lmngId) {
-    if (getLmngIdForServiceProviderId(spId)==null) {
+    if (getLmngIdForServiceProviderId(spId) == null) {
       if (lmngId == null) {
         log.debug("No spId and lmngId passed. nothing to do");
       } else {
-        jdbcTemplate.update(
-            "INSERT INTO ss_sp_lmng_identifiers (spId,lmngId) VALUES(" +
-                "?, ?)", spId, lmngId);
+        jdbcTemplate.update("INSERT INTO ss_sp_lmng_identifiers (spId,lmngId) VALUES(?, ?)", spId, lmngId);
       }
     } else {
       if (lmngId == null) {
-        jdbcTemplate.update(
-            "DELETE from ss_sp_lmng_identifiers WHERE spId = ?", spId);
+        jdbcTemplate.update("DELETE from ss_sp_lmng_identifiers WHERE spId = ?", spId);
       } else {
-        jdbcTemplate.update(
-            "UPDATE ss_sp_lmng_identifiers SET lmngId = ? WHERE spId = ?", lmngId, spId);
+        jdbcTemplate.update("UPDATE ss_sp_lmng_identifiers SET lmngId = ? WHERE spId = ?", lmngId, spId);
       }
     }
   }
 
   @Override
   public void saveOrUpdateLmngIdForIdentityProviderId(String idpId, String lmngId) {
-    if (getLmngIdForIdentityProviderId(idpId)==null) {
+    if (getLmngIdForIdentityProviderId(idpId) == null) {
       if (lmngId == null) {
         log.debug("No idpId and lmngId passed. nothing to do");
       } else {
-        jdbcTemplate.update(
-            "INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId) VALUES(" +
-                "?, ?)", idpId, lmngId);
+        jdbcTemplate.update("INSERT INTO ss_idp_lmng_identifiers (idpId,lmngId) VALUES(?, ?)", idpId, lmngId);
       }
     } else {
       if (lmngId == null) {
-        jdbcTemplate.update(
-            "DELETE from ss_idp_lmng_identifiers WHERE idpId = ?", idpId);
+        jdbcTemplate.update("DELETE from ss_idp_lmng_identifiers WHERE idpId = ?", idpId);
       } else {
-        jdbcTemplate.update(
-            "UPDATE ss_idp_lmng_identifiers SET lmngId = ? WHERE idpId = ?", lmngId, idpId);
+        jdbcTemplate.update("UPDATE ss_idp_lmng_identifiers SET lmngId = ? WHERE idpId = ?", lmngId, idpId);
       }
     }
   }
 
   @Override
   public List<MappingEntry> findAllIdentityProviders() {
-    List<MappingEntry> result = jdbcTemplate.query("SELECT idpId, lmngId FROM ss_idp_lmng_identifiers", new RowMapper<MappingEntry>() {
+    List<MappingEntry> result = jdbcTemplate.query(
+        "SELECT idpId, lmngId FROM ss_idp_lmng_identifiers",
+        (rs, rowNum) -> new MappingEntry(rs.getString("idpId"), rs.getString("lmngId")));
 
-      @Override
-      public MappingEntry mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new MappingEntry(rs.getString("idpId"), rs.getString("lmngId"));
-      }
-    });
-    if (result == null) {
-      result = Collections.emptyList();
-    }
     log.debug("Got {} results when finding all identity providers", result.size());
-    return result;
 
+    return result;
   }
 
   @Override
   public List<MappingEntry> findAllServiceProviders() {
-    List<MappingEntry> result = jdbcTemplate.query("SELECT spId, lmngId FROM ss_sp_lmng_identifiers", new RowMapper<MappingEntry>() {
+    List<MappingEntry> result = jdbcTemplate.query(
+        "SELECT spId, lmngId FROM ss_sp_lmng_identifiers",
+        (rs, rowNum) -> new MappingEntry(rs.getString("spId"), rs.getString("lmngId")));
 
-      @Override
-      public MappingEntry mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new MappingEntry(rs.getString("spId"), rs.getString("lmngId"));
-      }
-    });
-    if (result == null) {
-      result = Collections.emptyList();
-    }
     log.debug("Got {} results when finding all service providers", result.size());
+
     return result;
-
   }
 
-  /**
-   * Construct a simple Map from a List of 'Map.Entry''s
-   *
-   * @param list the list to use as input
-   * @param <K> Type of the key of the map
-   * @param <V> Type of the value of the map
-   */
-  public static <K,V> Map<K,V> listOfEntriesToMap(List<Map.Entry<K, V>> list) {
-    Map<K,V> map = new HashMap<K,V>();
-    for (Map.Entry<K,V> e : list) {
-      map.put(e.getKey(), e.getValue());
-    }
-    return map;
-  }
 }
