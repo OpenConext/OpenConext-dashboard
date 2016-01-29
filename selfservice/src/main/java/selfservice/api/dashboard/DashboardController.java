@@ -16,7 +16,6 @@ public class DashboardController {
 
   @RequestMapping(value = "/forbidden")
   public String forbidden() {
-    System.err.println("Trying forbidden page..");
     return "forbidden";
   }
 
