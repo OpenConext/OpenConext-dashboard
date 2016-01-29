@@ -35,6 +35,12 @@ Install Ruby to make management of the dependencies needed easier.
     gem install bundler
     bundle install
 
+Connect to your local mysql database: `mysql -uroot`
+
+    CREATE DATABASE csa DEFAULT CHARACTER SET utf8;
+    create user 'csa'@'localhost' identified by 'csa';
+    grant all on csa.* to 'csa'@'localhost';
+
 #### The Server
 
     cd selfservice
