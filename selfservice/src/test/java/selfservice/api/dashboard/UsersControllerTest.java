@@ -104,6 +104,13 @@ public class UsersControllerTest {
   }
 
   @Test
+  public void thatIdpCanBeSwitchedToEmpty() throws Exception {
+    mockMvc.perform(get("/dashboard/api/users/me/switch-to-idp")
+        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+      .andExpect(status().isNoContent());
+  }
+
+  @Test
   public void thatIdpCanBeSwitched() throws Exception {
     mockMvc.perform(get(format("/dashboard/api/users/me/switch-to-idp?idpId=%s&role=%s", BAR_IDP_ENTITY_ID, CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN))
         .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))

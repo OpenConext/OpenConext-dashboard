@@ -16,23 +16,19 @@
 
 package selfservice.util;
 
-import selfservice.domain.CoinAuthority;
-import selfservice.domain.CoinUser;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.InstitutionIdentityProvider;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Collections;
-import java.util.HashSet;
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinAuthority.Authority;
+import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
 
 public class SpringSecurity {
-
-  /*
-   * For a super users to be able to switch back to his / hers original identity (including
-   * the InstitutionIdentityProvider) we need to store the reference.
-   */
-  private static InstitutionIdentityProvider impersonatedIdentityProvider;
 
   /**
    * Get the  currently logged in user from the security context.
@@ -57,28 +53,27 @@ public class SpringSecurity {
     return authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CoinUser;
   }
 
-  public static InstitutionIdentityProvider getImpersonatedIdentityProvider() {
-    return impersonatedIdentityProvider;
-  }
-
-  public static void setImpersonatedIdentityProvider(InstitutionIdentityProvider impersonatedIdentityProvider) {
-    SpringSecurity.impersonatedIdentityProvider = impersonatedIdentityProvider;
-  }
-
   public static void ensureAccess(IdentityProvider idp) {
     validateIdp(idp);
   }
 
+  public static void clearSwitchedIdp() {
+    CoinUser currentUser = SpringSecurity.getCurrentUser();
+    if (!currentUser.isSuperUser()) {
+      throw new SecurityException("You need to be a super user to clear the selected idp");
+    }
+    currentUser.removeAuthority(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN));
+    currentUser.removeAuthority(new CoinAuthority(Authority.ROLE_DASHBOARD_VIEWER));
+    SpringSecurity.getCurrentUser().setSwitchedToIdp(null);
+  }
+
   public static void setSwitchedToIdp(IdentityProvider idp, String role) {
-    validateIdp(idp);
+    validateIdp(checkNotNull(idp));
+    checkArgument(!isNullOrEmpty(role));
 
     CoinUser currentUser = SpringSecurity.getCurrentUser();
 
-    if (idp == null) {
-      currentUser.setAuthorities(new HashSet<>(Collections.singleton(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER))));
-    } else if (!role.isEmpty()) {
-      currentUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.valueOf(role)));
-    }
+    currentUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.valueOf(role)));
 
     SpringSecurity.getCurrentUser().setSwitchedToIdp(idp);
   }

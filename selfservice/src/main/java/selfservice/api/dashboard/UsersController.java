@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +56,19 @@ public class UsersController extends BaseController {
   }
 
   @RequestMapping("/me/switch-to-idp")
-  public ResponseEntity<RestResponse> currentIdp(@RequestParam(value = "idpId", required = false) String switchToIdp, @RequestParam(value = "role", required = false) String role, HttpServletResponse response) {
-    IdentityProvider identityProvider = idpService.getIdentityProvider(switchToIdp)
-        .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
+  public ResponseEntity<RestResponse> currentIdp(
+      @RequestParam(value = "idpId", required = false) String switchToIdp,
+      @RequestParam(value = "role", required = false) String role,
+      HttpServletResponse response) {
 
-    SpringSecurity.setSwitchedToIdp(identityProvider, role);
+    if (Strings.isNullOrEmpty(switchToIdp)) {
+      SpringSecurity.clearSwitchedIdp();
+    } else {
+      IdentityProvider identityProvider = idpService.getIdentityProvider(switchToIdp)
+          .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
+
+      SpringSecurity.setSwitchedToIdp(identityProvider, role);
+    }
 
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
