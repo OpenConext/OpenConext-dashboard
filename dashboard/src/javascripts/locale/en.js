@@ -286,6 +286,7 @@ I18n.translations.en = {
   },
 
   policies: {
+    confirmation: "Are your sure you want to remove policy '{{policyName}}?'",
     new_policy: "New policy",
     overview: {
       description: "Description",

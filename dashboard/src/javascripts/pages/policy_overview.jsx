@@ -113,7 +113,9 @@ App.Pages.PolicyOverview = React.createClass({
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
-      alert("Not working yet..." + policy.name);
+      if (confirm(I18n.t("policies.confirmation", {policyName: policy.name}))) {
+        App.Controllers.Policies.deletePolicy(policy);
+      }
     };
   },
 

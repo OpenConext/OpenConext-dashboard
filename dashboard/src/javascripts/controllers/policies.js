@@ -94,4 +94,15 @@ App.Controllers.Policies = {
       failureCallback(jqxhr);
     });
   },
+
+  deletePolicy: function (policy) {
+    $.ajax({
+      url: App.apiUrl("/policies/:id", {id: policy.id}),
+      type: 'DELETE'
+    }).done(function () {
+      //App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action: I18n.t("policies.flash_deleted")}));
+      page("/policies");
+    });
+  },
+
 };
