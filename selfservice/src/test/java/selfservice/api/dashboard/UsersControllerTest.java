@@ -1,9 +1,13 @@
 package selfservice.api.dashboard;
 
 import static java.lang.String.format;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -17,6 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,7 +36,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 
 import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.service.IdentityProviderService;
@@ -85,7 +92,7 @@ public class UsersControllerTest {
 
   @Test
   public void returnsIdps() throws Exception {
-    coinUser.setAuthorities(Collections.singleton(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER)));
+    coinUser.setAuthorities(Collections.singleton(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
 
     mockMvc.perform(get(format("/dashboard/api/users/super/idps"))
         .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
@@ -96,7 +103,7 @@ public class UsersControllerTest {
 
   @Test
   public void adminUserCantAccessIdps() throws Exception {
-    coinUser.setAuthorities(Collections.singleton(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN)));
+    coinUser.setAuthorities(Collections.singleton(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
 
     mockMvc.perform(get(format("/dashboard/api/users/super/idps"))
         .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
@@ -105,14 +112,20 @@ public class UsersControllerTest {
 
   @Test
   public void thatIdpCanBeSwitchedToEmpty() throws Exception {
+    coinUser.setAuthorities(Sets.newHashSet(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER), new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
+    coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name"));
+
     mockMvc.perform(get("/dashboard/api/users/me/switch-to-idp")
         .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
       .andExpect(status().isNoContent());
+
+    assertThat(coinUser.getAuthorities(), contains(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
+    assertThat(coinUser.getSwitchedToIdp(), nullValue());
   }
 
   @Test
   public void thatIdpCanBeSwitched() throws Exception {
-    mockMvc.perform(get(format("/dashboard/api/users/me/switch-to-idp?idpId=%s&role=%s", BAR_IDP_ENTITY_ID, CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN))
+    mockMvc.perform(get(format("/dashboard/api/users/me/switch-to-idp?idpId=%s&role=%s", BAR_IDP_ENTITY_ID, Authority.ROLE_DASHBOARD_ADMIN))
         .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
       .andExpect(status().isNoContent());
   }
@@ -120,7 +133,7 @@ public class UsersControllerTest {
   @Test
   public void cannotSwitchToIdpWithoutAccessToIt() throws Exception {
     try {
-      mockMvc.perform(get(format("/dashboard/api/users/me/switch-to-idp?idpId=%s&role=%s", "no access", CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN))
+      mockMvc.perform(get(format("/dashboard/api/users/me/switch-to-idp?idpId=%s&role=%s", "no access", Authority.ROLE_DASHBOARD_ADMIN))
           .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID));
       fail("expected SecurityException");
     } catch (NestedServletException e) {
