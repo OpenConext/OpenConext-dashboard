@@ -25,11 +25,7 @@ var App = {
         return this.authorizeStats();
       }
 
-      $(document).ajaxSend(function (event, jqxhr, settings) {
-        if (settings.url.indexOf(STATS_HOST) < 0) {
-          jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentIdpId());
-        }
-      }.bind(this));
+      $(document).ajaxSend(this.addDefaultHeaders.bind(this));
 
       for (controller in App.Controllers) {
         App.Controllers[controller].initialize();
@@ -167,6 +163,13 @@ var App = {
       } else {
         window.location.href = window.location.protocol + "//" + window.location.host + "/apps";
       }
+    }
+  },
+
+  addDefaultHeaders: function (event, jqxhr, settings) {
+    if (settings.url.indexOf(STATS_HOST) < 0) {
+      jqxhr.setRequestHeader("Content-Type", "application/json");
+      jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentIdpId());
     }
   },
 

@@ -14,7 +14,7 @@ App.Pages.PolicyDetail = React.createClass({
       <div className="l-grid main">
         <div className="l-col-6">
           <div className="mod-policy-detail">
-            <h2>{title}</h2>
+            <h1>{title}</h1>
             {this.renderName(policy)}
             {this.renderDenyPermitRule(policy)}
             {this.renderServiceProvider(policy)}
@@ -159,6 +159,23 @@ App.Pages.PolicyDetail = React.createClass({
     );
   },
 
+  handleChangeIdentityProvider: function (newValue) {
+    var partialState = {identityProviderIds: newValue};
+    partialState.description = this.buildAutoFormattedDescription(partialState);
+    //var scopeSPs = App.currentUser.policyIdpAccessEnforcementRequired && _.isEmpty(newValue);
+
+    //if (scopeSPs) {
+    //var serviceProviders = scopeSPs ? this.parseEntities(App.currentUser.spEntities) : this.parseEntities(this.props.serviceProviders);
+    //  if (this.state.serviceProviderId && !_.any(serviceProviders, 'value', this.state.serviceProviderId)) {
+    //    //Unfortunately we have to set the current value manually as the integration with select2 is done one-way
+    //    var select2ServiceProvider = $('[data-select2selector-id="serviceProvider"]');
+    //    select2ServiceProvider.val("").trigger("change");
+    //  }
+    //  partialState.spDataChanged = true;
+    //}
+    this.setState(partialState);
+  },
+
   renderLogicalRule: function (policy) {
     var allAttributesMustMatch = policy.allAttributesMustMatch;
     var classNameAnd = !policy.allAttributesMustMatch ? "not-selected" : "";
@@ -255,7 +272,7 @@ App.Pages.PolicyDetail = React.createClass({
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.description")}</p>
-          <textarea rows="2" name="description" className="form-input" valueLink={this.linkState("description")} />
+          <textarea rows="4" name="description" className="form-input" valueLink={this.linkState("description")} />
           <input type="checkbox" id="autoFormatDescription" name="autoFormatDescription"
             onChange={this.handleOnChangeAutoFormat}/>
           <label className="note" htmlFor="autoFormatDescription">{I18n.t("policy_detail.autoFormat")}</label>
