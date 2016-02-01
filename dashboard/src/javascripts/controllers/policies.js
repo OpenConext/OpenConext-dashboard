@@ -20,9 +20,12 @@ App.Controllers.Policies = {
       this.detail.bind(this)
     );
 
-    page("policies/revisions",
-      this.revision.bind(this)
+    page("/policies/:id/revisions",
+      this.loadRevisions.bind(this),
+      this.revisions.bind(this)
     );
+
+    console.log("loaded pages...");
   },
 
   overview: function (ctx) {
@@ -76,9 +79,6 @@ App.Controllers.Policies = {
     }));
   },
 
-  revision: function (ctx) {
-  },
-
   saveOrUpdatePolicy: function (policy, failureCallback) {
     var type = policy.id ? "PUT" : "POST";
     var json = JSON.stringify(policy);
@@ -104,5 +104,20 @@ App.Controllers.Policies = {
       page("/policies");
     });
   },
+
+  loadRevisions: function (ctx, next) {
+    var url = App.apiUrl("/policies/:id/revisions", {id: ctx.params.id});
+    $.get(url, function (data) {
+      console.log("got revisions", data);
+      ctx.revisions = data.payload;
+      next();
+    });
+  },
+
+  revisions: function (ctx) {
+    App.render(App.Pages.PolicyRevisions({
+      revisions: ctx.revisions
+    }));
+  }
 
 };

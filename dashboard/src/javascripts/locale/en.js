@@ -334,8 +334,26 @@ I18n.translations.en = {
     rule_or_info: "Policies defined with a logical OR only require one of the attributes to match the attributes of the person requesting access.",
     service: "Service",
     sp_placeholder: "Select the Service Provider - required",
+    sub_title: "Created by {{displayName}} on {{created}}",
     submit: "Submit",
     update_policy: "Update policy",
+  },
+
+  revisions: {
+    active: "Active",
+    allAttributesMustMatch: "Logical OR rule?",
+    attributes: "Attributes",
+    changes_first_html: "This is the first <span class=\"curr\">initial revision {{currRevisionNbr}}</span> created by {{userDisplayName}} from {{authenticatingAuthorityName}} on {{createdDate}}.",
+    changes_info_html: "Showing the changes between <span class=\"prev\"> revision number {{prevRevisionNbr}}</span> and <span class=\"curr\">revision number {{currRevisionNbr}}</span> made by {{userDisplayName}} from {{authenticatingAuthorityName}} on {{createdDate}}.",
+    denyAdvice: "Deny message",
+    denyAdviceNl: "Deny message in Dutch",
+    denyRule: "Access Permit rule?",
+    description: "Description",
+    identityProviderNames: "Institution(s)",
+    name: "Name",
+    revision: "Revision number",
+    serviceProviderName: "Service",
+    title: "Revisions",
   },
 
   history: {

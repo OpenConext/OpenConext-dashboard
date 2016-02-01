@@ -78,12 +78,18 @@ App.Pages.PolicyOverview = React.createClass({
   renderRevisionsLink: function (policy) {
     var numberOfRevisions = (policy.numberOfRevisions + 1)
     return (
-      <a href={page.uri("/revisions/:id",{id:policy.id})}
+      <a href={page.uri("/policies/:id/revisions", {id: policy.id})}
         onClick={this.handleShowRevisions(policy)}>{numberOfRevisions}</a>
     );
   },
 
   handleShowRevisions: function (policy) {
+    return function (e) {
+       console.log("Show revisions..");
+       e.preventDefault();
+       e.stopPropagation();
+       page("/policies/:id/revisions", {id: policy.id});
+     }
   },
 
   renderControls: function(policy) {

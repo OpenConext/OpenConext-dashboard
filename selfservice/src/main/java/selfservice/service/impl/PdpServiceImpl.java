@@ -99,6 +99,14 @@ public class PdpServiceImpl implements PdpService {
     pdpRestTemplate.exchange(request, String.class);
   }
 
+  @Override
+  public List<Policy> revisions(Long id) {
+    RequestEntity<?> request = buildGetRequest("/protected/revisions/" + id);
+    ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {});
+
+    return response.getBody();
+  }
+
   private RequestEntity<?> buildDeleteRequest(String path) {
     return addDefaultHeaders(RequestEntity.delete(buildUri(path))).build();
   }

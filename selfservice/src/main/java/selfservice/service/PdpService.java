@@ -19,4 +19,6 @@ public interface PdpService {
 
   void delete(Long id);
 
+  List<Policy> revisions(Long id);
+
 }

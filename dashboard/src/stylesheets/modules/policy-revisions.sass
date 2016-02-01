@@ -1,0 +1,53 @@
+.mod-policy-revisions, .mod-policy-revisions-help
+  @extend %box
+
+  h1
+    @extend %h1
+    padding: 20px
+
+  .form-element
+    padding: 20px 0
+    border-top: 1px solid $border
+
+  fieldset
+    padding: 5px 50px 10px 40px
+
+    &.success
+      border-left: 6px solid $blue
+
+    &.failure
+      border-left: 6px solid $medium-grey
+
+    p.label
+      margin: 5px 0px
+      color: $blue
+
+      &.before-em
+        margin: 0px
+
+    p.info
+      font-weight: 700
+      margin-top: 5px
+
+      &.not-selected
+        color: $medium-grey
+
+  .compare
+    position: absolute
+    right: 10px
+    top: 15px
+    font-size: 24px
+    padding: 3px 8px
+
+    &:hover, &.selected
+      text-decoration: none
+      background: darken(white, 5)
+
+.mod-policy-revisions-help
+  padding-bottom: 20px
+
+  h2
+    @extend %h2
+    padding: 10px 20px 5px 20px
+  p
+    padding: 0 20px

@@ -1,8 +1,12 @@
-%button
+@mixin button($color, $bg-color)
   padding: 7px 15px
   border-radius: $br
   text-decoration: none
   display: inline-block
+  color: $color
+  background-color: $bg-color
+  border: 1px solid $color
+  white-space: nowrap
 
   &.disabled
     opacity: 0.5
@@ -11,26 +15,23 @@
   &.narrow
     padding: 3px 10px
 
-@mixin button-hover($bg-color)
-  background-color: $bg-color
-
   &:hover
     background: darken($bg-color,10)
 
 .c-button
-  @extend %button
-  @include button-hover($blue)
-  color: #fff
+  @include button(white, $blue)
+  border: 1px solid $blue
+
+  &.white
+    color: $blue
+    background-color: white
+
+    &:hover
+      background: darken(white, 10)
 
 .n-button
-  @extend %button
-  @include button-hover(white)
-  color: $medium-grey
-  border: 1px solid $medium-grey
+  @include button($medium-grey, white)
 
 .t-button
-  @extend %button
-  @include button-hover($light-grey)
-  color: $blue
-  border: 1px solid $blue
+  @include button($blue, $light-grey)
 

@@ -60,8 +60,14 @@ public class PoliciesController extends BaseController {
     pdpService.delete(id);
   }
 
+  @RequestMapping(path = "/{id}/revisions", method = GET)
+  public RestResponse<List<Policy>> revisions(@PathVariable("id") Long id) {
+    return createRestResponse(pdpService.revisions(id));
+  }
+
   @RequestMapping(path = "/attributes", method = GET)
   public RestResponse<List<Attribute>> attributes() {
     return createRestResponse(pdpService.allowedAttributes());
   }
+
 }
