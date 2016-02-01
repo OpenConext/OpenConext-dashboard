@@ -17,6 +17,7 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -98,6 +99,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
       .logout()
+        .logoutUrl("/dashboard/api/logout")
         .invalidateHttpSession(true)
         .deleteCookies("statsToken") // remove stats cookie
         .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
@@ -146,7 +148,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
       statsToken.setMaxAge(0); //deletes the cookie
       httpServletResponse.addCookie(statsToken);
       SecurityContextHolder.getContext().setAuthentication(null);
-      httpServletResponse.setStatus(204); // 204 No content
+      httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
     }
   }
 
@@ -154,7 +156,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-      response.setStatus(204); // 204 No content
+      response.setStatus(HttpStatus.NO_CONTENT.value());
     }
   }
 }
