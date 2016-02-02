@@ -2,6 +2,7 @@ package selfservice.api.dashboard;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -120,6 +121,19 @@ public class UsersControllerTest {
 
     assertThat(coinUser.getAuthorities(), contains(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
     assertThat(coinUser.getSwitchedToIdp(), nullValue());
+  }
+
+  @Test
+  public void nonSuperUserCanSwitchIdpWithoutSpecifyingTheRole() throws Exception {
+    coinUser.setAuthorities(Sets.newHashSet(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
+    coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name"));
+
+    mockMvc.perform(get("/dashboard/api/users/me/switch-to-idp?idpId=" + BAR_IDP_ENTITY_ID)
+        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+      .andExpect(status().isNoContent());
+
+    assertThat(coinUser.getAuthorities(), contains(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
+    assertThat(coinUser.getSwitchedToIdp().getId(), is(BAR_IDP_ENTITY_ID));
   }
 
   @Test
