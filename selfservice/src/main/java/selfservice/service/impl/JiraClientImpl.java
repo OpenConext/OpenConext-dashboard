@@ -30,10 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,7 +77,7 @@ public class JiraClientImpl implements JiraClient {
   @Override
   @SuppressWarnings("unchecked")
   public String create(final JiraTask task, final CoinUser user) {
-    final Map<String, Object> fields = new HashMap<>();
+    Map<String, Object> fields = new HashMap<>();
     fields.put("priority", ImmutableMap.of("id", PRIORITY_MEDIUM_ID));
     fields.put("project", ImmutableMap.of("key", projectKey));
     fields.put("security", ImmutableMap.of("id", DEFAULT_SECURITY_LEVEL_ID));
@@ -83,11 +85,11 @@ public class JiraClientImpl implements JiraClient {
     fields.put(IDP_CUSTOM_FIELD, task.getIdentityProvider());
     fields.put("issuetype", ImmutableMap.of("id", TASKTYPE_TO_ISSUETYPE_CODE.get(task.getIssueType())));
 
-    final SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(task, user);
+    SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(task, user);
     fields.put("summary", summaryAndDescription.summary);
     fields.put("description", summaryAndDescription.description);
 
-    final Map<String, Object> issue = new HashMap<>();
+    Map<String, Object> issue = new HashMap<>();
     issue.put("fields", fields);
 
     HttpEntity<Map<String, Object>> entity = new HttpEntity<>(issue, defaultHeaders);
@@ -112,9 +114,7 @@ public class JiraClientImpl implements JiraClient {
     Joiner.on(",").skipNulls().appendTo(query, keys);
     query.append(")");
 
-    LOG.debug("Sending query to JIRA: {}", query.toString());
-
-    final Map<String, String> searchArgs = ImmutableMap.of("jql", query.toString());
+    Map<String, String> searchArgs = ImmutableMap.of("jql", query.toString());
 
     try {
       HttpEntity<Map<String, String>> entity = new HttpEntity<>(searchArgs, defaultHeaders);
@@ -133,10 +133,17 @@ public class JiraClientImpl implements JiraClient {
               .status(JiraTask.Status.valueOf(((String) statusInfo.get("name")).toUpperCase()))
               .body((String) fields.get("description")).build();
         }).collect(toList());
+    } catch (HttpStatusCodeException e) {
+      if (e.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+        LOG.error("The Jira query \"{}\" was invalid:\n{}", query.toString(), e.getResponseBodyAsString());
+      } else {
+        LOG.error("Jira returned a {} ({}) for query {}:\n{}", e.getStatusCode(), e.getStatusText(), query.toString(), e.getResponseBodyAsString());
+      }
     } catch (RestClientException e) {
-      LOG.error("Error communicating with Jira, return empty list", e);
-      return Collections.emptyList();
+      LOG.error("Error communicating with Jira", e);
     }
+
+    return Collections.emptyList();
   }
 
 }
