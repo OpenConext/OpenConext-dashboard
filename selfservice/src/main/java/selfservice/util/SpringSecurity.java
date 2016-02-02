@@ -69,11 +69,11 @@ public class SpringSecurity {
 
   public static void setSwitchedToIdp(IdentityProvider idp, String role) {
     validateIdp(checkNotNull(idp));
-    checkArgument(!isNullOrEmpty(role));
 
-    CoinUser currentUser = SpringSecurity.getCurrentUser();
-
-    currentUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.valueOf(role)));
+    if (!isNullOrEmpty(role)) {
+      CoinUser currentUser = SpringSecurity.getCurrentUser();
+      currentUser.addAuthority(new CoinAuthority(Authority.valueOf(role)));
+    }
 
     SpringSecurity.getCurrentUser().setSwitchedToIdp(idp);
   }
