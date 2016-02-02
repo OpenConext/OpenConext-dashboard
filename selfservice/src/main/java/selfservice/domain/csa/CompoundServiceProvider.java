@@ -17,6 +17,7 @@ package selfservice.domain.csa;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.springframework.util.Assert.notNull;
 import static org.springframework.util.StringUtils.hasText;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -51,6 +53,7 @@ import org.springframework.util.CollectionUtils;
 
 import selfservice.domain.FacetValue;
 import selfservice.domain.License;
+import selfservice.domain.LicenseStatus;
 import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
 import selfservice.util.DomainObject;
@@ -82,7 +85,7 @@ public class CompoundServiceProvider extends DomainObject {
   private boolean availableForEndUser;
 
   @Column
-  private License.LicenseStatus licenseStatus = License.LicenseStatus.NOT_NEEDED;
+  private LicenseStatus licenseStatus = LicenseStatus.NOT_NEEDED;
 
   @Column
   private boolean normenkaderPresent;
@@ -107,37 +110,37 @@ public class CompoundServiceProvider extends DomainObject {
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "facet_value_compound_service_provider", joinColumns = {
     @JoinColumn(name = "compound_service_provider_id", nullable = false, updatable = false)},
-    inverseJoinColumns = {@JoinColumn(name = "facet_value_id",
-      nullable = false, updatable = false)})
+    inverseJoinColumns = {@JoinColumn(name = "facet_value_id", nullable = false, updatable = false)})
+
   @SortNatural
   private SortedSet<FacetValue> facetValues = new TreeSet<>();
 
 
-  public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Article article) {
-    Assert.notNull(serviceProvider);
-    article = sanityCheckArticle(article);
+  public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Optional<Article> article) {
+    notNull(serviceProvider);
 
     byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
     byte[] detailLogoImageBytes = getImageBytesFromClasspath("500x300.png");
 
     CompoundServiceProvider provider = new CompoundServiceProvider();
     provider.setServiceProvider(serviceProvider);
-    provider.setArticle(article);
+    article.ifPresent(provider::setArticle);
     provider.setAvailableForEndUser(!serviceProvider.isIdpVisibleOnly());
     provider.setExampleSingleTenant(serviceProvider.isExampleSingleTenant());
+
+    buildFieldImage(Field.Key.DETAIL_LOGO, article.map(Article::getDetailLogo).orElse(null), validSrLogo(serviceProvider.getLogoUrl()), detailLogoImageBytes, provider);
+    buildFieldString(Field.Key.ENDUSER_DESCRIPTION_NL, article.map(Article::getEndUserDescriptionNl).orElse(null), null, provider);
+    buildFieldString(Field.Key.INSTITUTION_DESCRIPTION_NL, article.map(Article::getInstitutionDescriptionNl).orElse(null), null, provider);
+    buildFieldString(Field.Key.SERVICE_DESCRIPTION_NL, article.map(Article::getServiceDescriptionNl).orElse(null), serviceProvider.getDescription(Provider.Language.NL), provider);
 
     buildFieldString(Field.Key.TITLE_EN, null, serviceProvider.getName(Provider.Language.EN), provider);
     buildFieldString(Field.Key.TITLE_NL, null, serviceProvider.getName(Provider.Language.NL), provider);
     buildFieldImage(Field.Key.APPSTORE_LOGO, null, validSrLogo(serviceProvider.getLogoUrl()), appStoreLogoImageBytes, provider);
     buildFieldString(Field.Key.APP_URL, null, serviceProvider.getApplicationUrl(), provider);
-    buildFieldImage(Field.Key.DETAIL_LOGO, article.getDetailLogo(), validSrLogo(serviceProvider.getLogoUrl()), detailLogoImageBytes, provider);
     buildFieldString(Field.Key.ENDUSER_DESCRIPTION_EN, null, null, provider);
-    buildFieldString(Field.Key.ENDUSER_DESCRIPTION_NL, article.getEndUserDescriptionNl(), null, provider);
     buildFieldString(Field.Key.EULA_URL, null, serviceProvider.getEulaURL(), provider);
     buildFieldString(Field.Key.INSTITUTION_DESCRIPTION_EN, null, null, provider);
-    buildFieldString(Field.Key.INSTITUTION_DESCRIPTION_NL, article.getInstitutionDescriptionNl(), null, provider);
     buildFieldString(Field.Key.SERVICE_DESCRIPTION_EN, null, serviceProvider.getDescription(Provider.Language.EN), provider);
-    buildFieldString(Field.Key.SERVICE_DESCRIPTION_NL, article.getServiceDescriptionNl(), serviceProvider.getDescription(Provider.Language.NL), provider);
     buildFieldString(Field.Key.SERVICE_URL, null, getServiceUrl(serviceProvider), provider);
     buildFieldString(Field.Key.SUPPORT_MAIL, null, getMail(serviceProvider, ContactPersonType.help), provider);
     buildFieldString(Field.Key.SUPPORT_URL_NL, null, getSupportUrl(serviceProvider, Provider.Language.NL), provider);
@@ -147,14 +150,6 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Field.Key.WIKI_URL_NL, null, null, provider);
 
     return provider;
-  }
-
-  private static Article sanityCheckArticle(Article article) {
-    /*
-     * Anti pattern, but alternative is numerous null pointer checks and more
-     * code. This works as we keep the article inline
-     */
-    return (article == null) ? Article.NONE : article;
   }
 
   public Set<FieldString> getFields() {
@@ -478,14 +473,12 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public void setArticle(Article article) {
-    this.article = sanityCheckArticle(article);
-    if (this.article != null) {
-      this.lmngId = this.article.getLmngProductIdentifier();
-    }
+    this.article = article;
+    this.lmngId = article.getLmngProductIdentifier();
   }
 
   public boolean isArticleAvailable() {
-    return article != null && !Article.NONE.equals(this.article);
+    return article != null;
   }
 
   public List<License> getLicenses() {
@@ -521,11 +514,11 @@ public class CompoundServiceProvider extends DomainObject {
     this.availableForEndUser = availableForEndUser;
   }
 
-  public License.LicenseStatus getLicenseStatus() {
+  public LicenseStatus getLicenseStatus() {
     return licenseStatus;
   }
 
-  public void setLicenseStatus(License.LicenseStatus licenseStatus) {
+  public void setLicenseStatus(LicenseStatus licenseStatus) {
     this.licenseStatus = licenseStatus;
   }
 
@@ -554,7 +547,7 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   private static void buildFieldString(Field.Key key, String lmng, String surfconext, CompoundServiceProvider provider) {
-    FieldString fieldString = null;
+    FieldString fieldString;
     if (hasText(lmng)) {
       fieldString = new FieldString(Field.Source.LMNG, key, null);
     } else if (hasText(surfconext)) {
@@ -564,6 +557,7 @@ public class CompoundServiceProvider extends DomainObject {
     }
 
     updatePossibleFieldOrigin(fieldString);
+
     provider.addFieldString(fieldString);
   }
 
@@ -636,7 +630,6 @@ public class CompoundServiceProvider extends DomainObject {
 
   public static boolean isAllowedCombination(Field.Key key, Field.Source source) {
     CompoundServiceProvider provider = new CompoundServiceProvider();
-    provider.setArticle(Article.NONE);
     provider.setServiceProvider(new ServiceProvider(null));
     switch (source) {
       case LMNG:

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import selfservice.domain.IdentityProvider;
-import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.IdentityProviderService;
-import selfservice.service.impl.CompoundSPService;
+import selfservice.service.impl.CompoundServiceProviderService;
 
 /**
  * Controller that handles the CSP status page (used for the shopmanager to get
@@ -44,7 +44,7 @@ import selfservice.service.impl.CompoundSPService;
 public class CspStatusController extends BaseController {
 
   @Autowired
-  private CompoundSPService compoundSPService;
+  private CompoundServiceProviderService cspService;
 
   @Autowired
   private IdentityProviderService idpService;
@@ -65,15 +65,14 @@ public class CspStatusController extends BaseController {
 
   @RequestMapping(value = "/selectIdp", method = RequestMethod.GET)
   public ModelAndView selectIdp(@RequestParam String filteredIdpId) {
-    IdentityProvider selectedidp = idpService.getIdentityProvider(filteredIdpId).orElseThrow(RuntimeException::new);
-    return statusOverview(selectedidp);
+    return statusOverview(idpService.getIdentityProvider(filteredIdpId).orElseThrow(RuntimeException::new));
   }
 
   private ModelAndView statusOverview(IdentityProvider selectedidp) {
     Map<String, Object> model = new HashMap<>();
-    List<CompoundServiceProvider> services = compoundSPService.getCSPsByIdp(selectedidp);
-    model.put(COMPOUND_SPS, services);
+    model.put(COMPOUND_SPS, cspService.getCompoundServiceProvidersByIdp(selectedidp));
     model.put("filteredIdp", selectedidp.getId());
+
     return new ModelAndView("shopadmin/csp-status-overview", model);
   }
 

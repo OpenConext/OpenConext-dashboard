@@ -18,6 +18,7 @@ package selfservice.domain.csa;
 import static org.junit.Assert.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -37,7 +38,7 @@ public class CompoundServiceProviderTest {
 
     Article article = new Article();
 
-    CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, article);
+    CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
     Map<Field.Key, String> values = provider.getDistributionFieldValues();
     String des = values.get(Field.Key.ENDUSER_DESCRIPTION_EN);
     assertNull(des);
@@ -50,7 +51,7 @@ public class CompoundServiceProviderTest {
     assertEquals("/fieldimages/null.img", appLogo);
 
     serviceProvider.setLogoUrl("https://static.surfconext.nl/media/idp/windesheim.png");
-    provider = CompoundServiceProvider.builder(serviceProvider, article);
+    provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
     appLogo = provider.getAppStoreLogo();
     assertEquals("https://static.surfconext.nl/media/idp/windesheim.png", appLogo);
 

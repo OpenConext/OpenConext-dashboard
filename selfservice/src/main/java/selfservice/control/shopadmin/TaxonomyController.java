@@ -39,7 +39,7 @@ import selfservice.domain.MultilingualString;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.domain.csa.InUseFacetValue;
 import selfservice.domain.csa.IsLinkRequest;
-import selfservice.service.impl.CompoundSPService;
+import selfservice.service.impl.CompoundServiceProviderService;
 
 @Controller
 @RequestMapping(value = "/shopadmin/*")
@@ -58,7 +58,7 @@ public class TaxonomyController extends BaseController {
   private LocalizedStringDao localizedStringDao;
 
   @Autowired
-  private CompoundSPService compoundSPService;
+  private CompoundServiceProviderService compoundSPService;
 
   @RequestMapping("taxonomy-overview.shtml")
   public String getAllFacets(ModelMap model) {

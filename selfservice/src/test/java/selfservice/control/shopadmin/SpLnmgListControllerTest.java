@@ -37,7 +37,7 @@ import selfservice.service.CrmService;
 import selfservice.service.ExportService;
 import selfservice.service.IdentityProviderService;
 import selfservice.service.ServiceProviderService;
-import selfservice.service.impl.CompoundSPService;
+import selfservice.service.impl.CompoundServiceProviderService;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,7 +51,7 @@ public class SpLnmgListControllerTest {
   @Mock private ServiceProviderService providerServiceMock;
   @Mock private CompoundServiceProviderDao compoundServiceProviderDaoMock;
   @Mock private IdentityProviderService identityProviderServiceMock;
-  @Mock private CompoundSPService compoundSPServiceMock;
+  @Mock private CompoundServiceProviderService compoundSPServiceMock;
   @Mock private CrmService crmServiceMock;
   @Mock private ExportService exportServiceMock;
 

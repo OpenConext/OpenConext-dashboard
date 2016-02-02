@@ -38,15 +38,16 @@ public class ActionsServiceImpl implements ActionsService {
   @Override
   public List<Action> getActions(String identityProvider) {
     List<String> openTasks = actionsDao.getKeys(identityProvider);
-    final List<JiraTask> tasks = jiraClient.getTasks(openTasks);
+    List<JiraTask> tasks = jiraClient.getTasks(openTasks);
 
     // does an impromptu status update, only record transitions to 'closed', otherwise we
     // will assume the issue to be 'open' or 'in progress'. The end-user cares only about 'done' or 'not done'?
 
     // TODO the ad-hoc character of this  jira <-> csa synchronization is bothersome.
-    tasks.stream().
-      filter(task -> JiraTask.Status.CLOSED.equals(task.getStatus())).
-      forEach(task -> actionsDao.close(task.getKey()));
+    tasks.stream()
+      .filter(task -> JiraTask.Status.CLOSED.equals(task.getStatus()))
+      .forEach(task -> actionsDao.close(task.getKey()));
+
     return actionsDao.findActionsByIdP(identityProvider);
   }
 

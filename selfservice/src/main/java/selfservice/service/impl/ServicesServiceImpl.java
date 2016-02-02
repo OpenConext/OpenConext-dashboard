@@ -1,10 +1,14 @@
 package selfservice.service.impl;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import com.google.common.collect.ImmutableMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,16 +29,15 @@ public class ServicesServiceImpl implements ServicesService {
 
   private static final Logger LOG = LoggerFactory.getLogger(ServicesServiceImpl.class);
 
-  private final CompoundSPService compoundSPService;
+  private final CompoundServiceProviderService compoundSPService;
   private final CrmService lmngService;
 
   private final String staticBaseUrl;
-
   private final String lmngDeepLinkBaseUrl;
 
   private final String[] guids;
 
-  public ServicesServiceImpl(CompoundSPService compoundSPService, CrmService lmngService, String staticBaseUrl, String lmngDeepLinkBaseUrl, String[] guids) {
+  public ServicesServiceImpl(CompoundServiceProviderService compoundSPService, CrmService lmngService, String staticBaseUrl, String lmngDeepLinkBaseUrl, String[] guids) {
     this.compoundSPService = compoundSPService;
     this.lmngService = lmngService;
     this.staticBaseUrl = staticBaseUrl;
@@ -50,10 +53,8 @@ public class ServicesServiceImpl implements ServicesService {
     List<Service> crmOnlyServices = getCrmOnlyServices();
     servicesEn.addAll(crmOnlyServices);
     servicesNl.addAll(crmOnlyServices);
-    Map<String, List<Service>> result = new HashMap<>();
-    result.put("en", servicesEn);
-    result.put("nl", servicesNl);
-    return result;
+
+    return ImmutableMap.of("en", servicesEn, "nl", servicesNl);
   }
 
   /**
@@ -81,6 +82,7 @@ public class ServicesServiceImpl implements ServicesService {
     addArticle(csp.getArticle(), service);
     service.setLicense(csp.getLicense());
     categories(csp, service, language);
+
     return service;
   }
 
@@ -91,8 +93,7 @@ public class ServicesServiceImpl implements ServicesService {
       if (currentArticle == null) {
         LOG.info("A GUID has been configured that cannot be found in CRM: {}", guid);
       } else {
-        Service currentPS = new Service(0L, currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(),
-          null, true, lmngDeepLinkBaseUrl + guid, null);
+        Service currentPS = new Service(0L, currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(), null, true, lmngDeepLinkBaseUrl + guid, null);
         addArticle(currentArticle, currentPS);
         result.add(currentPS);
       }
@@ -123,15 +124,13 @@ public class ServicesServiceImpl implements ServicesService {
   }
 
   private void screenshots(CompoundServiceProvider csp, Service service) {
-    // Screenshots
     if (csp.getScreenShotsImages() != null) {
-      List<String> screenshots = csp.getScreenShotsImages().stream().map(screenshot -> absoluteUrl(screenshot.getFileUrl())).collect(Collectors.toList());
+      List<String> screenshots = csp.getScreenShotsImages().stream().map(screenshot -> absoluteUrl(screenshot.getFileUrl())).collect(toList());
       service.setScreenshotUrls(screenshots);
     }
   }
 
   private void languageSpecificProperties(CompoundServiceProvider csp, boolean en, Service service) {
-    // Language-specific properties
     if (en) {
       service.setDescription(csp.getServiceDescriptionEn());
       service.setEnduserDescription(csp.getEnduserDescriptionEn());
@@ -156,30 +155,28 @@ public class ServicesServiceImpl implements ServicesService {
   private void categories(CompoundServiceProvider csp, Service service, String locale) {
     // Categories - the category values need to be either in nl or en (as the facet and facet_values are based on the language setting)
     List<Category> categories = new ArrayList<>();
+
     for (FacetValue facetValue : csp.getFacetValues()) {
       Facet facet = facetValue.getFacet();
-      Category category = findCategory(categories, facet);
-      if (category == null) {
-        category = new Category(facet.getLocaleName(locale));
-        categories.add(category);
-      }
+
+      Category category = findCategory(categories, facet).orElseGet(() -> {
+        Category cat = new Category(facet.getLocaleName(locale));
+        categories.add(cat);
+        return cat;
+      });
+
       category.addCategoryValue(new CategoryValue(facetValue.getLocaleValue(locale)));
     }
+
     service.setCategories(categories);
   }
 
-  private Category findCategory(List<Category> categories, Facet facet) {
-    for (Category category : categories) {
-      if (category.getName().equalsIgnoreCase(facet.getName())) {
-        return category;
-      }
-    }
-    return null;
+  private Optional<Category> findCategory(List<Category> categories, Facet facet) {
+    return categories.stream().filter(category -> category.getName().equalsIgnoreCase(facet.getName())).findFirst();
   }
 
   private void addArticle(Article article, Service service) {
-    // CRM-related properties
-    if (article != null && !article.equals(Article.NONE)) {
+    if (article != null) {
       CrmArticle crmArticle = new CrmArticle();
       crmArticle.setGuid(article.getLmngIdentifier());
       if (article.getAndroidPlayStoreMedium() != null) {
@@ -191,7 +188,6 @@ public class ServicesServiceImpl implements ServicesService {
       service.setHasCrmLink(true);
       service.setCrmArticle(crmArticle);
     }
-
   }
 
   /**

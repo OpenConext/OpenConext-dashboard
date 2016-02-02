@@ -17,7 +17,7 @@ import org.springframework.core.io.Resource;
 import net.sf.ehcache.CacheManager;
 import selfservice.cache.ServicesCache;
 import selfservice.service.CrmService;
-import selfservice.service.impl.CompoundSPService;
+import selfservice.service.impl.CompoundServiceProviderService;
 import selfservice.service.impl.ServicesServiceImpl;
 
 @EnableCaching
@@ -40,7 +40,7 @@ public class CacheConfig {
   }
 
   @Bean
-  public ServicesCache servicesCache(CompoundSPService compoundSPService, CrmService crmService,
+  public ServicesCache servicesCache(CompoundServiceProviderService compoundSPService, CrmService crmService,
                                      @Value("${cache.default.initialDelay}") long initialDelay,
                                      @Value("${cache.default.delay}") long delay,
                                      @Value("${cacheMillisecondsCallDelay}") long callDelay,

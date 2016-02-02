@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -203,7 +204,7 @@ public class FacetValueDaoImplTestIntegration implements LocaleResolver {
   }
 
   private CompoundServiceProvider createCompoundServerProvider() {
-    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider("sp-id"), new Article());
+    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider("sp-id"), Optional.of(new Article()));
     provider = compoundServiceProviderDao.save(provider);
 
     return provider;

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.lang3.SerializationUtils;
@@ -113,10 +114,9 @@ public class CrmCache extends AbstractCache {
     return newLicenseCache;
   }
 
-  public License getLicense(Service service, String idpInstitutionId) {
+  public Optional<License> getLicense(Service service, String idpInstitutionId) {
     if (service.getSpEntityId() == null || idpInstitutionId == null) {
-      /*
-       * First check:
+      /* First check:
        *
        * If this is the case then the Service is based upon a CRM guid defined in the csa.properties (key=public.api.lmng.guids). It must be displayed in the
        * services API , however it can't have a license as this is per-sp basis.
@@ -125,21 +125,23 @@ public class CrmCache extends AbstractCache {
        *
        * It is possible that in SR there is no registered institutionID for an IdP. This is a misconfiguration, but not something we want to bring to the attention here.
        */
-      return null;
+      return Optional.empty();
     }
 
     MappingEntry entry = new MappingEntry(idpInstitutionId, service.getSpEntityId());
     License license = licenseCache.get().get(entry);
+
     LOG.debug("Looked for license for service {} and idpInstitutionId {}, and found: {}", service.getSpEntityId(), idpInstitutionId, license);
-    return license;
+
+    return Optional.ofNullable(license);
   }
 
-  public Article getArticle(Service service) {
+  public Optional<Article> getArticle(Service service) {
     if (service.getSpEntityId() == null) {
       // This happens for 'crm only' services, with no reference to Service Registry's services.
-      return null;
+      return Optional.empty();
     }
-    return SerializationUtils.clone(articleCache.get().get(service.getSpEntityId()));
+    return Optional.ofNullable(SerializationUtils.clone(articleCache.get().get(service.getSpEntityId())));
   }
 
   @Override

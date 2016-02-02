@@ -21,12 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import selfservice.domain.Action;
@@ -38,7 +38,7 @@ import selfservice.domain.Service;
 import selfservice.service.Csa;
 import selfservice.util.SpringSecurity;
 
-@Controller
+@RestController
 @RequestMapping(value = "/dashboard/api/services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ServicesController extends BaseController {
 
@@ -48,17 +48,17 @@ public class ServicesController extends BaseController {
   private Csa csa;
 
   @RequestMapping
-  public ResponseEntity<RestResponse> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+  public RestResponse index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
-    return new ResponseEntity<RestResponse>(createRestResponse(services), HttpStatus.OK);
+    return createRestResponse(services);
   }
 
   @RequestMapping(value = "/idps")
-  public ResponseEntity<RestResponse> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                       @RequestParam String spEntityId) {
+  public RestResponse getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
     List<InstitutionIdentityProvider> providers = csa.serviceUsedBy(spEntityId);
-    return new ResponseEntity<RestResponse>(createRestResponse(providers), HttpStatus.OK);
+
+    return createRestResponse(providers);
   }
 
   @RequestMapping(value = "/download")
@@ -107,7 +107,7 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/id/{id}")
-  public ResponseEntity<RestResponse> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
+  public RestResponse get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
     Service service = csa.getServiceForIdp(idpEntityId, id);
 
     // remove arp-labels that are explicitly unused
@@ -117,7 +117,7 @@ public class ServicesController extends BaseController {
       }
     }
 
-    return new ResponseEntity<RestResponse>(createRestResponse(service), HttpStatus.OK);
+    return createRestResponse(service);
   }
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)

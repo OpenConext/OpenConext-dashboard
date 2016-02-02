@@ -19,14 +19,10 @@ import java.util.List;
 
 import selfservice.domain.Action;
 
-/**
- * Service for Actions
- */
 public interface ActionsService {
 
   /**
    * Get a list of all actions of a certain identity provider
-   *
    *
    * @param identityProvider the identity provider
    * @return list of actions

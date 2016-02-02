@@ -20,8 +20,6 @@ package selfservice.cache;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
@@ -32,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 
@@ -100,7 +99,7 @@ public class CrmCacheTest {
 
     cache.doPopulateCache();
 
-    assertNull(cache.getArticle(new Service(1L, "name", "", "", true, "", "spId-0")));
+    assertThat(cache.getArticle(new Service(1L, "name", "", "", true, "", "spId-0")), is(Optional.empty()));
   }
 
   @Test
@@ -119,8 +118,8 @@ public class CrmCacheTest {
 
     cache.doPopulateCache();
 
-    assertThat(cache.getLicense(service1, "idp"), nullValue());
-    assertThat(cache.getLicense(service2, "idp"), is(license));
+    assertThat(cache.getLicense(service1, "idp"), is(Optional.empty()));
+    assertThat(cache.getLicense(service2, "idp"), is(Optional.of(license)));
   }
 
   private License createLicense() {

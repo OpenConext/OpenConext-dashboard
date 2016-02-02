@@ -5,11 +5,11 @@ import static java.util.stream.Collectors.toList;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ import selfservice.domain.CrmArticle;
 import selfservice.domain.Facet;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.InstitutionIdentityProvider;
-import selfservice.domain.License;
+import selfservice.domain.LicenseStatus;
 import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.Taxonomy;
@@ -78,45 +78,42 @@ public class CsaImpl implements Csa {
 
   @Override
   public List<Service> getServicesForIdp(String idpEntityId) {
-    return doGetServicesForIdP(getLocale(), idpEntityId, true);
+    return doGetServicesForIdP(getLocale(), idpEntityId);
   }
 
-  private List<Service> doGetServicesForIdP(String language, String idpEntityId, boolean includeNotLinkedSPs) {
+  private List<Service> doGetServicesForIdP(String language, String idpEntityId) {
     IdentityProvider identityProvider = Optional.ofNullable(providerCache.getIdentityProvider(idpEntityId))
         .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
     List<String> serviceProviderIdentifiers = providerCache.getServiceProviderIdentifiers(idpEntityId);
 
-    List<Service> allServices = servicesCache.getAllServices(language);
-    List<Service> result = new ArrayList<>();
-
-    for (Service service : allServices) {
+    return servicesCache.getAllServices(language).stream().filter(service -> {
       boolean isConnected = serviceProviderIdentifiers.contains(service.getSpEntityId());
-      /*
-       * If a Service is idpOnly then we do want to show it as the institutionId matches that of the Idp, meaning that
-       * an admin from Groningen can see the services offered by Groningen also when they are marked idpOnly - which is often the
-       * case for services offered by universities
-       */
-      boolean showForInstitution = !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId().equalsIgnoreCase(identityProvider.getInstitutionId()));
-      if ((includeNotLinkedSPs && showForInstitution) || (service.isAvailableForEndUser() && isConnected)) {
+      boolean showForInstitution = showServiceForInstitution(identityProvider, service);
+      return showForInstitution || (service.isAvailableForEndUser() && isConnected);
+    }).map(service -> {
+        service.setConnected(serviceProviderIdentifiers.contains(service.getSpEntityId()));
 
-        // Weave with 'is connected' from sp/idp matrix cache
-        service.setConnected(isConnected);
-
-        // Weave with article and license from caches
-        service.setLicense(crmCache.getLicense(service, identityProvider.getInstitutionId()));
-        getArticle(crmCache.getArticle(service)).ifPresent(crmArticle -> {
+        crmCache.getLicense(service, identityProvider.getInstitutionId()).ifPresent(license -> service.setLicense(license));
+        crmCache.getArticle(service).map(this::getArticle).ifPresent(crmArticle -> {
           service.setHasCrmLink(true);
           service.setCrmArticle(crmArticle);
         });
 
-        if (service.getLicenseStatus() == License.LicenseStatus.HAS_LICENSE_SURFMARKET) {
-          service.setLicenseStatus(service.getLicense() != null ? License.LicenseStatus.HAS_LICENSE_SURFMARKET : License.LicenseStatus.NO_LICENSE);
+        if (service.getLicenseStatus() == LicenseStatus.HAS_LICENSE_SURFMARKET) {
+          service.setLicenseStatus(service.getLicense() != null ? LicenseStatus.HAS_LICENSE_SURFMARKET : LicenseStatus.NO_LICENSE);
         }
 
-        result.add(service);
-      }
-    }
-    return result;
+        return service;
+    }).collect(Collectors.toList());
+  }
+
+  /*
+   * If a Service is idpOnly then we do want to show it as the institutionId matches that of the Idp, meaning that
+   * an admin from Groningen can see the services offered by Groningen also when they are marked idpOnly - which is often the
+   * case for services offered by universities
+   */
+  private boolean showServiceForInstitution(IdentityProvider identityProvider, Service service) {
+    return !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId().equalsIgnoreCase(identityProvider.getInstitutionId()));
   }
 
   @Override
@@ -129,6 +126,7 @@ public class CsaImpl implements Csa {
   @Override
   public Taxonomy getTaxonomy() {
     Iterable<Facet> facets = facetDao.findAll();
+
     List<Category> categories = StreamSupport.stream(facets.spliterator(), false).map(facet -> {
       Category category = new Category(facet.getName());
       List<CategoryValue> values = facet.getFacetValues().stream().map(fv -> new CategoryValue(fv.getValue())).collect(toList());
@@ -147,7 +145,7 @@ public class CsaImpl implements Csa {
 
   @Override
   public Service getServiceForIdp(String idpEntityId, long serviceId) {
-    return doGetServicesForIdP(getLocale(), idpEntityId, true).stream()
+    return doGetServicesForIdP(getLocale(), idpEntityId).stream()
         .filter(service -> service.getId() == serviceId)
         .findFirst()
         .orElseThrow(() -> new RuntimeException("Non-existent service ID('" + serviceId + "')"));
@@ -184,11 +182,7 @@ public class CsaImpl implements Csa {
     return locale != null ? locale.getLanguage() : defaultLocale;
   }
 
-  private Optional<CrmArticle> getArticle(Article article) {
-    if (article == null || article.equals(Article.NONE)) {
-      return Optional.empty();
-    }
-
+  private CrmArticle getArticle(Article article) {
     CrmArticle crmArticle = new CrmArticle();
     crmArticle.setGuid(article.getLmngIdentifier());
     if (article.getAndroidPlayStoreMedium() != null) {
@@ -197,7 +191,8 @@ public class CsaImpl implements Csa {
     if (article.getAppleAppStoreMedium() != null) {
       crmArticle.setAppleAppStoreUrl(article.getAppleAppStoreMedium().getUrl());
     }
-    return Optional.of(crmArticle);
+
+    return crmArticle;
   }
 
   private InstitutionIdentityProvider convertIdentityProviderToInstitutionIdentityProvider(IdentityProvider identityProvider) {

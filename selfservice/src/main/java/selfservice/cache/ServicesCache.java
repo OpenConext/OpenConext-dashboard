@@ -18,6 +18,8 @@
  */
 package selfservice.cache;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +29,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
 import selfservice.domain.Service;
 import selfservice.service.ServicesService;
@@ -49,13 +50,14 @@ public class ServicesCache extends AbstractCache {
   }
 
   public List<Service> getAllServices(final String lang) {
-    Assert.isTrue("en".equalsIgnoreCase(lang) || "nl".equalsIgnoreCase(lang), "The only languages supported are 'nl' and 'en'");
+    checkArgument("en".equalsIgnoreCase(lang) || "nl".equalsIgnoreCase(lang), "The only languages supported are 'nl' and 'en'");
 
     List<Service> services = allServicesCache.get().get(lang);
     if (services == null) {
-      LOG.debug("Cache miss for lang '{}', will return empty list", lang);
+      LOG.warn("Cache miss for lang '{}', will return empty list", lang);
       services = Collections.emptyList();
     }
+
     return SerializationUtils.clone(new ArrayList<>(services));
   }
 

@@ -36,8 +36,7 @@ import selfservice.domain.IdentityProvider;
 public abstract class BaseController {
 
   /**
-   * The name of the key under which all compoundSps (e.g. the services) are
-   * stored
+   * The name of the key under which all compoundSps (e.g. the services) are stored
    */
   public static final String COMPOUND_SPS = "compoundSps";
 

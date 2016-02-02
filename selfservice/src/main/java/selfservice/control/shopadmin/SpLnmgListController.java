@@ -48,12 +48,12 @@ import org.springframework.web.servlet.ModelAndView;
 import selfservice.command.LmngServiceBinding;
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.dao.LmngIdentifierDao;
-import selfservice.domain.License;
+import selfservice.domain.LicenseStatus;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.CrmService;
 import selfservice.service.ExportService;
 import selfservice.service.ServiceProviderService;
-import selfservice.service.impl.CompoundSPService;
+import selfservice.service.impl.CompoundServiceProviderService;
 import selfservice.service.impl.LmngUtil;
 
 @Controller
@@ -65,7 +65,7 @@ public class SpLnmgListController extends BaseController {
   @Autowired private ServiceProviderService providerService;
   @Autowired private CrmService licensingService;
   @Autowired private LmngIdentifierDao lmngIdentifierDao;
-  @Autowired private CompoundSPService compoundSPService;
+  @Autowired private CompoundServiceProviderService compoundSPService;
   @Autowired private CompoundServiceProviderDao compoundServiceProviderDao;
   @Autowired private ExportService exportService;
 
@@ -79,7 +79,7 @@ public class SpLnmgListController extends BaseController {
 
     model.put("bindings", lmngServiceBindings);
     model.put("orphans", cspOrphans);
-    model.put("licenseStatuses", License.LicenseStatus.values());
+    model.put("licenseStatuses", LicenseStatus.values());
 
     return new ModelAndView("shopadmin/sp-overview", model);
   }
@@ -229,7 +229,7 @@ public class SpLnmgListController extends BaseController {
   @ResponseBody
   public String updateCspLicenseStatus(@PathVariable("cspId") Long cspId, @PathVariable("newValue") String newValue) {
     CompoundServiceProvider csp = compoundServiceProviderDao.findOne(cspId);
-    csp.setLicenseStatus(License.LicenseStatus.valueOf(newValue));
+    csp.setLicenseStatus(LicenseStatus.valueOf(newValue));
     compoundServiceProviderDao.save(csp);
 
     log.info("Updated CompoundServiceProvider({}) license status: {}", cspId, newValue);

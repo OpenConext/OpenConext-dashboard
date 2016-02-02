@@ -66,7 +66,7 @@ public class Service implements Comparable<Service>, Serializable {
   private CrmArticle crmArticle;
 
   private License license;
-  private License.LicenseStatus licenseStatus;
+  private LicenseStatus licenseStatus;
 
   private ARP arp;
 
@@ -357,11 +357,11 @@ public class Service implements Comparable<Service>, Serializable {
     this.publishedInEdugain = publishedInEdugain;
   }
 
-  public License.LicenseStatus getLicenseStatus() {
+  public LicenseStatus getLicenseStatus() {
     return licenseStatus;
   }
 
-  public void setLicenseStatus(License.LicenseStatus licenseStatus) {
+  public void setLicenseStatus(LicenseStatus licenseStatus) {
     this.licenseStatus = licenseStatus;
   }
 

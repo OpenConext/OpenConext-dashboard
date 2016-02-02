@@ -45,7 +45,7 @@ import selfservice.domain.csa.Field;
 import selfservice.domain.csa.FieldImage;
 import selfservice.domain.csa.FieldString;
 import selfservice.domain.csa.Screenshot;
-import selfservice.service.impl.CompoundSPService;
+import selfservice.service.impl.CompoundServiceProviderService;
 
 @Controller
 @RequestMapping(value = "/shopadmin")
@@ -57,7 +57,7 @@ public class SpLmngDataBindingController extends BaseController {
   private CompoundServiceProviderDao compoundServiceProviderDao;
 
   @Autowired
-  private CompoundSPService compoundSPService;
+  private CompoundServiceProviderService compoundSPService;
 
   @Autowired
   private FieldStringDao fieldStringDao;

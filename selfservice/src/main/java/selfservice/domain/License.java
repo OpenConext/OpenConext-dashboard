@@ -18,7 +18,6 @@ package selfservice.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import com.google.common.base.MoreObjects;
 
@@ -30,29 +29,12 @@ public class License implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public enum LicenseStatus {
-    HAS_LICENSE_SURFMARKET,
-    HAS_LICENSE_SP,
-    NO_LICENSE,
-    NOT_NEEDED,
-    UNKNOWN
-  }
-
-  /*
-   * Optional pattern applied to prevent many, many nullpointer checks and
-   * exceptions
-   */
-  public static final List<License> NONE = null;
-
   private Date startDate;
   private Date endDate;
   private String licenseNumber;
   private String institutionName;
   private boolean groupLicense;
 
-  /**
-   * Default constructor
-   */
   public License() {
   }
 

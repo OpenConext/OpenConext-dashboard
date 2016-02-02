@@ -23,16 +23,9 @@ import java.io.Serializable;
 
 /**
  * Article information. An article is our LMNG implementation of a service.
- * 
  */
 @SuppressWarnings("serial")
 public class Article implements Serializable {
-
-  /*
-   * Optional pattern applied to prevent many, many nullpointer checks and
-   * exceptions
-   */
-  public static final Article NONE = new Article();
 
   private String endUserDescriptionNl;
   private String institutionDescriptionNl;
@@ -46,19 +39,13 @@ public class Article implements Serializable {
   private String lmngProductIdentifier;
   private String lmngIdentifier;
   private String serviceProviderEntityId;
-  
+
   private ArticleMedium appleAppStoreMedium;
   private ArticleMedium androidPlayStoreMedium;
-  
-  /**
-   * Default constructor
-   */
+
   public Article() {
   }
 
-  /**
-   * @param lmngIdentifier
-   */
   public Article(String lmngIdentifier) {
     super();
     this.lmngIdentifier = lmngIdentifier;

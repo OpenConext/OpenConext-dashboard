@@ -90,12 +90,10 @@ public class LmngServiceImpl implements CrmService {
     checkNotNull(identityProvider);
     checkNotNull(articleIdentifier);
 
-    List<License> result = new ArrayList<>();
-
     String lmngInstitutionId = getLmngIdentityId(identityProvider);
 
     if (!StringUtils.hasText(lmngInstitutionId)) {
-      return result;
+      return new ArrayList<>();
     }
 
     // apparently LMNG has a problem retrieving licenses when there has been a revision to the underlying agreement
