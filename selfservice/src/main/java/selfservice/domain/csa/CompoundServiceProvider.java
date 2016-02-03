@@ -15,8 +15,10 @@
  */
 package selfservice.domain.csa;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.util.Assert.notNull;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -31,6 +33,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,7 +51,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.SortNatural;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import selfservice.domain.FacetValue;
@@ -233,11 +235,7 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public List<byte[]> getScreenshots() {
-    List<byte[]> result = new ArrayList<byte[]>();
-    for (Screenshot s : screenShotsImages) {
-      result.add(s.getImage());
-    }
-    return result;
+    return screenShotsImages.stream().map(Screenshot::getImage).collect(toList());
   }
 
   public String getServiceUrl() {
@@ -273,26 +271,26 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public boolean addFieldString(FieldString f) {
-    Assert.notNull(f);
-    f.setCompoundServiceProvider(this);
+    checkNotNull(f).setCompoundServiceProvider(this);
+
     return this.fields.add(f);
   }
 
   public boolean addFieldImage(FieldImage f) {
-    Assert.notNull(f);
-    f.setCompoundServiceProvider(this);
+    checkNotNull(f).setCompoundServiceProvider(this);
+
     return this.fieldImages.add(f);
   }
 
   public boolean addScreenShot(Screenshot s) {
-    Assert.notNull(s);
-    s.setCompoundServiceProvider(this);
+    checkNotNull(s).setCompoundServiceProvider(this);
+
     return this.screenShotsImages.add(s);
   }
 
   public boolean removeScreenShot(Screenshot s) {
-    Assert.notNull(s);
-    s.setCompoundServiceProvider(null);
+    checkNotNull(s).setCompoundServiceProvider(null);
+
     return this.screenShotsImages.remove(s);
   }
 
@@ -303,7 +301,8 @@ public class CompoundServiceProvider extends DomainObject {
    * explicitly retrieve values.
    */
   private Object getFieldValue(Field.Key key) {
-    Assert.notNull(key);
+    checkNotNull(key);
+
     for (FieldString f : this.fields) {
       if (key.equals(f.getKey())) {
         switch (f.getSource()) {
