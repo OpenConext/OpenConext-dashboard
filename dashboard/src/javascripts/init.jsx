@@ -27,6 +27,10 @@ var App = {
 
       $(document).ajaxSend(this.addDefaultHeaders.bind(this));
 
+      this.checkPoliciesAvailable(function (available) {
+        this.policiesAvailable = available;
+      }.bind(this));
+
       for (controller in App.Controllers) {
         App.Controllers[controller].initialize();
       }
@@ -126,6 +130,18 @@ var App = {
     .fail(function (e, xhr) {
       this.redirectTo403Server();
     }.bind(this));
+  },
+
+  checkPoliciesAvailable: function(callback) {
+    $.ajax({
+      url: App.apiUrl("/policies"),
+      method: 'OPTIONS',
+      async: false
+    }).done(function (data, status, jqxhr) {
+      callback(_.isString(jqxhr.getResponseHeader('Allow')));
+    }).fail(function (jqxhr, status, e) {
+      callback(false);
+    });
   },
 
   showSpinner: function () {

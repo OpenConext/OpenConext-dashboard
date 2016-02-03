@@ -24,8 +24,6 @@ App.Controllers.Policies = {
       this.loadRevisions.bind(this),
       this.revisions.bind(this)
     );
-
-    console.log("loaded pages...");
   },
 
   overview: function (ctx) {
@@ -108,7 +106,6 @@ App.Controllers.Policies = {
   loadRevisions: function (ctx, next) {
     var url = App.apiUrl("/policies/:id/revisions", {id: ctx.params.id});
     $.get(url, function (data) {
-      console.log("got revisions", data);
       ctx.revisions = data.payload;
       next();
     });

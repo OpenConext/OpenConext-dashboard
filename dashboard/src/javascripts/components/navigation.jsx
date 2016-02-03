@@ -23,7 +23,7 @@ App.Components.Navigation = React.createClass({
       <div className="mod-navigation">
         <ul>
           {this.renderItem("/apps", "apps")}
-          {this.renderItem("/policies", "policies")}
+          {this.renderPoliciesMenu()}
           {this.renderItem("/notifications", "notifications")}
           {this.renderItem("/history", "history")}
           {this.renderItem("/statistics", "stats")}
@@ -33,6 +33,14 @@ App.Components.Navigation = React.createClass({
         {this.renderSpinner()}
       </div>
     );
+  },
+
+  renderPoliciesMenu: function () {
+    if (App.policiesAvailable) {
+      return this.renderItem("/policies", "policies");
+    } else {
+      return null;
+    }
   },
 
   renderItem: function(href, value) {
