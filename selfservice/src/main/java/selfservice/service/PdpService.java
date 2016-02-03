@@ -21,4 +21,6 @@ public interface PdpService {
 
   List<Policy> revisions(Long id);
 
+  boolean isAvailable();
+
 }

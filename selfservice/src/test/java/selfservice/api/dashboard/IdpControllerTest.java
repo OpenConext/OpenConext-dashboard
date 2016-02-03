@@ -1,6 +1,5 @@
 package selfservice.api.dashboard;
 
-import static java.lang.String.format;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -62,7 +61,7 @@ public class IdpControllerTest {
 
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(idpServiceMock);
 
-    this.mockMvc = standaloneSetup(controller)
+    mockMvc = standaloneSetup(controller)
       .setMessageConverters(new GsonHttpMessageConverter("", "", "", ""))
       .addFilter(ensureAccessToIdp, "/*")
       .setHandlerExceptionResolvers(createExceptionResolver())
@@ -83,7 +82,7 @@ public class IdpControllerTest {
   public void returnsServerErrorOnFailure() throws Exception {
     when(sab.getPersonsInRoleForOrganization(anyString(), anyString())).thenThrow(new RuntimeException("Foo"));
 
-    this.mockMvc.perform(get(format("/dashboard/api/idp/current/roles"))
+    mockMvc.perform(get("/dashboard/api/idp/current/roles")
         .contentType(MediaType.APPLICATION_JSON)
         .header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
       .andExpect(status().isInternalServerError());

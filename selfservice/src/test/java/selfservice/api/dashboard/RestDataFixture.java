@@ -3,12 +3,9 @@ package selfservice.api.dashboard;
 import static java.util.Collections.singletonList;
 import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
 
-import java.util.Collections;
-
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
-import selfservice.shibboleth.ShibbolethHeader;
 
 public class RestDataFixture {
 

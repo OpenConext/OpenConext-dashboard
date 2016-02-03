@@ -22,7 +22,7 @@ public class ActionsController extends BaseController {
   private ActionsService actionsService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public RestResponse index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+  public RestResponse<List<Action>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     return createRestResponse(actionsService.getActions(idpEntityId));
   }
 

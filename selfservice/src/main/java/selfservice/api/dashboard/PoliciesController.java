@@ -38,14 +38,15 @@ public class PoliciesController extends BaseController {
   @Autowired
   private PdpService pdpService;
 
-  @Value("${dashboard.feature.policies}") boolean policiesEnabled;
+  @Value("${dashboard.feature.policies}")
+  protected boolean policiesEnabled;
 
   @RequestMapping(method = OPTIONS)
   public ResponseEntity<Void> options(HttpServletResponse response) {
-    if (policiesEnabled) {
-      // should add check if pdp is available with protected api
-      response.setHeader(HttpHeaders.ALLOW, Joiner.on(",").join(ImmutableList.of(GET, POST, PUT, DELETE)));
-    }
+    String allowHeaderValue = policiesEnabled && pdpService.isAvailable() ?
+      Joiner.on(",").join(ImmutableList.of(GET, POST, PUT, DELETE)): "";
+
+    response.setHeader(HttpHeaders.ALLOW, allowHeaderValue);
 
     return new ResponseEntity<Void>(HttpStatus.OK);
   }
