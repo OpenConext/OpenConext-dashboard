@@ -388,6 +388,7 @@ public class CompoundServiceProvider extends DomainObject {
               break;
           }
         } catch (RuntimeException e) {
+          // WHAT???
           // not a problem here
         }
       }
@@ -398,48 +399,49 @@ public class CompoundServiceProvider extends DomainObject {
   private Object getSurfConextProperty(Field.Key key) {
     switch (key) {
       case SERVICE_DESCRIPTION_NL:
-        return this.serviceProvider.getDescription(Provider.Language.NL);
+        return serviceProvider.getDescription(Provider.Language.NL);
       case SERVICE_DESCRIPTION_EN:
-        return this.serviceProvider.getDescription(Provider.Language.EN);
+        return serviceProvider.getDescription(Provider.Language.EN);
       case APPSTORE_LOGO:
-        return this.serviceProvider.getLogoUrl();
+        return serviceProvider.getLogoUrl();
       case DETAIL_LOGO:
-        return this.serviceProvider.getLogoUrl();
+        return serviceProvider.getLogoUrl();
       case APP_URL:
-        return this.serviceProvider.getApplicationUrl();
+        return serviceProvider.getApplicationUrl();
       case SERVICE_URL:
-        return getServiceUrl(this.serviceProvider);
+        return getServiceUrl(serviceProvider);
       case SUPPORT_URL_NL:
-        return getSupportUrl(this.serviceProvider, Provider.Language.NL);
+        return getSupportUrl(serviceProvider, Provider.Language.NL);
       case SUPPORT_URL_EN:
-        return getSupportUrl(this.serviceProvider, Provider.Language.EN);
+        return getSupportUrl(serviceProvider, Provider.Language.EN);
       case SUPPORT_MAIL:
-        ContactPerson helpCP = this.serviceProvider.getContactPerson(ContactPersonType.help);
+        ContactPerson helpCP = serviceProvider.getContactPerson(ContactPersonType.help);
         return helpCP != null ? helpCP.getEmailAddress() : null;
       case TECHNICAL_SUPPORTMAIL:
-        ContactPerson cp = this.serviceProvider.getContactPerson(ContactPersonType.technical);
+        ContactPerson cp = serviceProvider.getContactPerson(ContactPersonType.technical);
         return cp != null ? cp.getEmailAddress() : null;
       case EULA_URL:
-        return this.serviceProvider.getEulaURL();
+        return serviceProvider.getEulaURL();
       case TITLE_EN:
-        return null != this.serviceProvider ? this.serviceProvider.getName(Provider.Language.EN) : this.serviceProviderEntityId;
+        return serviceProvider != null ? serviceProvider.getName(Provider.Language.EN) : this.serviceProviderEntityId;
       case TITLE_NL:
-        return null != this.serviceProvider ? this.serviceProvider.getName(Provider.Language.NL) : this.serviceProviderEntityId;
+        return serviceProvider != null ? serviceProvider.getName(Provider.Language.NL) : this.serviceProviderEntityId;
       default:
         throw new RuntimeException("SURFConext does not support property: " + key);
     }
   }
 
   private Object getLmngProperty(Field.Key key) {
+    Optional<Article> optionalArticle = Optional.ofNullable(article);
     switch (key) {
       case ENDUSER_DESCRIPTION_NL:
-        return this.article.getEndUserDescriptionNl();
+        return optionalArticle.map(a -> a.getEndUserDescriptionNl()).orElse(null);
       case INSTITUTION_DESCRIPTION_NL:
-        return this.article.getInstitutionDescriptionNl();
+        return optionalArticle.map(a -> a.getInstitutionDescriptionNl()).orElse(null);
       case SERVICE_DESCRIPTION_NL:
-        return this.article.getServiceDescriptionNl();
+        return optionalArticle.map(a -> a.getServiceDescriptionNl()).orElse(null);
       case DETAIL_LOGO:
-        return this.article.getDetailLogo();
+        return optionalArticle.map(a -> a.getDetailLogo()).orElse(null);
       default:
         throw new RuntimeException("LMNG does not support property: " + key);
     }
