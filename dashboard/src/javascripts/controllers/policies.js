@@ -113,6 +113,7 @@ App.Controllers.Policies = {
 
   revisions: function (ctx) {
     App.render(App.Pages.PolicyRevisions({
+      key: "policies",
       revisions: ctx.revisions
     }));
   }
