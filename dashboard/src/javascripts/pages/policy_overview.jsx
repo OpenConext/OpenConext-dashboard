@@ -85,7 +85,6 @@ App.Pages.PolicyOverview = React.createClass({
 
   handleShowRevisions: function (policy) {
     return function (e) {
-       console.log("Show revisions..");
        e.preventDefault();
        e.stopPropagation();
        page("/policies/:id/revisions", {id: policy.id});

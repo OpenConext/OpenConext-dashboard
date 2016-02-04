@@ -74,7 +74,7 @@ App.Pages.PolicyDetail = React.createClass({
               <p className={"info " + classNamePermit}>{I18n.t("policy_detail.permit")}</p>
               <em className={classNamePermit}>{I18n.t("policy_detail.permit_info")}</em>
             </div>
-            <div className="l-col-4">
+            <div className="l-col-4 no-gutter">
               <p className={"info " + classNameDeny}>{I18n.t("policy_detail.deny")}</p>
               <em className={classNameDeny}>{I18n.t("policy_detail.deny_info")}</em>
             </div>
@@ -198,7 +198,7 @@ App.Pages.PolicyDetail = React.createClass({
               <p className={"info " + classNameAnd}>{I18n.t("policy_detail.rule_and")}</p>
               <em className={classNameAnd}>{I18n.t("policy_detail.rule_and_info")}</em>
             </div>
-            <div className="l-col-4">
+            <div className="l-col-4 no-gutter">
               <p className={"info " + classNameOr}>{I18n.t("policy_detail.rule_or")}</p>
               <em className={classNameOr}>{I18n.t("policy_detail.rule_or_info")}</em>
             </div>

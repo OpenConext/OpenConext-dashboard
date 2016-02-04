@@ -74,7 +74,6 @@ public class PdpServiceImpl implements PdpService {
   @Override
   public boolean isAvailable() {
     Set<HttpMethod> options = pdpRestTemplate.optionsForAllow(buildUri("/protected/policies"));
-    System.err.println(options);
     return options.contains(GET);
   }
 

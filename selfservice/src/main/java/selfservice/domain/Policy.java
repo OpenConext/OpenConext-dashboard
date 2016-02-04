@@ -106,6 +106,22 @@ public class Policy {
     return userDisplayName;
   }
 
+  public int getRevisionNbr() {
+    return revisionNbr;
+  }
+
+  public boolean isActivatedSr() {
+    return isActivatedSr;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public String getAuthenticatingAuthorityName() {
+    return authenticatingAuthorityName;
+  }
+
   public String toString() {
     return MoreObjects.toStringHelper(Policy.class)
         .add("name", name)
