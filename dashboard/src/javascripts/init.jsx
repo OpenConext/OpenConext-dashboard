@@ -138,7 +138,8 @@ var App = {
       method: 'OPTIONS',
       async: false
     }).done(function (data, status, jqxhr) {
-      callback(_.isString(jqxhr.getResponseHeader('Allow')));
+      var allowHeader = jqxhr.getResponseHeader('Allow');
+      callback(_.isString(allowHeader) && allowHeader.indexOf('GET') > -1);
     }).fail(function (jqxhr, status, e) {
       callback(false);
     });

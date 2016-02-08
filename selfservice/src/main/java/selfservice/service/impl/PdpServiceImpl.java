@@ -6,6 +6,7 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import java.net.URI;
@@ -25,9 +26,12 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import selfservice.domain.CoinUser;
@@ -41,9 +45,9 @@ public class PdpServiceImpl implements PdpService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PdpServiceImpl.class);
 
-  private static final String X_IDP_ENTITY_ID = "X-IDP-ENTITY-ID";
-  private static final String X_UNSPECIFIED_NAME_ID = "X-UNSPECIFIED-NAME-ID";
-  private static final String X_DISPLAY_NAME = "X-DISPLAY-NAME";
+  protected static final String X_IDP_ENTITY_ID = "X-IDP-ENTITY-ID";
+  protected static final String X_UNSPECIFIED_NAME_ID = "X-UNSPECIFIED-NAME-ID";
+  protected static final String X_DISPLAY_NAME = "X-DISPLAY-NAME";
 
   private final RestTemplate pdpRestTemplate;
   private final String server;
@@ -54,7 +58,7 @@ public class PdpServiceImpl implements PdpService {
     checkArgument(!isNullOrEmpty(username));
     checkArgument(!isNullOrEmpty(password));
 
-    this.pdpRestTemplate = new RestTemplate();
+    this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory());
     this.pdpRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
       CoinUser user = SpringSecurity.getCurrentUser();
 
@@ -71,10 +75,26 @@ public class PdpServiceImpl implements PdpService {
     this.server = server;
   }
 
+  private ClientHttpRequestFactory clientHttpRequestFactory() {
+    HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+    requestFactory.setReadTimeout(2000);
+    requestFactory.setConnectTimeout(2000);
+
+    return requestFactory;
+  }
+
   @Override
   public boolean isAvailable() {
-    Set<HttpMethod> options = pdpRestTemplate.optionsForAllow(buildUri("/protected/policies"));
-    return options.contains(GET);
+    try {
+      Set<HttpMethod> options = pdpRestTemplate.optionsForAllow(buildUri("/protected/policies"));
+
+      // the default spring-boot options call will return all methods.
+      // check if it does not contain PATCH to make sure we get an answer from our own endpoint
+      return options.contains(GET) && !options.contains(PATCH);
+    } catch (RestClientException e) {
+      LOG.warn("PDP protected api was not available", e);
+      return false;
+    }
   }
 
   @Override

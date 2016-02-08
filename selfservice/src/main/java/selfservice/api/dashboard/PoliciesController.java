@@ -7,10 +7,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.net.HttpHeaders;
 
@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import selfservice.domain.Policy;
@@ -34,6 +35,9 @@ import selfservice.service.PdpService;
 public class PoliciesController extends BaseController {
 
   private static final Logger LOG = LoggerFactory.getLogger(PoliciesController.class);
+  private static final String ALLOWED_HEADER_VALUE = ImmutableList.of(GET, POST, PUT, DELETE).stream()
+      .map(RequestMethod::name)
+      .collect(Collectors.joining(","));
 
   @Autowired
   private PdpService pdpService;
@@ -43,8 +47,7 @@ public class PoliciesController extends BaseController {
 
   @RequestMapping(method = OPTIONS)
   public ResponseEntity<Void> options(HttpServletResponse response) {
-    String allowHeaderValue = policiesEnabled && pdpService.isAvailable() ?
-      Joiner.on(",").join(ImmutableList.of(GET, POST, PUT, DELETE)): "";
+    String allowHeaderValue = policiesEnabled && pdpService.isAvailable() ? ALLOWED_HEADER_VALUE : "";
 
     response.setHeader(HttpHeaders.ALLOW, allowHeaderValue);
 
