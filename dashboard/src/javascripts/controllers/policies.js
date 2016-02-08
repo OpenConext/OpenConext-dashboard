@@ -1,6 +1,10 @@
 App.Controllers.Policies = {
 
   initialize: function () {
+    if (!App.policiesAvailable) {
+      return;
+    }
+
     page("/policies",
       this.loadPolicies.bind(this),
       this.overview.bind(this)
