@@ -25,7 +25,7 @@ public abstract class BaseController {
     ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
     HttpServletRequest request = sra.getRequest();
 
-    return new RestResponse<T>(this.getLocale(request), payload);
+    return RestResponse.of(this.getLocale(request), payload);
   }
 
 }

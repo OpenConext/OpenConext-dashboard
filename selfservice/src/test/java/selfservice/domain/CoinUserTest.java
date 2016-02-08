@@ -45,7 +45,7 @@ public class CoinUserTest {
 
   @Test
   public void testSerializeToJson() throws IOException {
-    JsonElement json = gson.toJsonTree(new RestResponse(Locale.ENGLISH, coinUser));
+    JsonElement json = gson.toJsonTree(RestResponse.of(Locale.ENGLISH, coinUser));
     EnrichJson.forUser(coinUser, "/foo").json(json).forPayload(coinUser);
     assertNotNull(json);
   }

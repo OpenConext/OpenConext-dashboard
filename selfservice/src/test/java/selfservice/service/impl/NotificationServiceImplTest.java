@@ -62,8 +62,6 @@ public class NotificationServiceImplTest {
     return authorities;
   }
 
-  ;
-
   @Test
   public void testGetNotificationsWithMessagesFcp() {
     authorities = Arrays.asList(new Authority[]{Authority.ROLE_DASHBOARD_ADMIN});

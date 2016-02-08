@@ -117,26 +117,26 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
-  public ResponseEntity<RestResponse> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+  public ResponseEntity<Void> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                               @RequestParam(value = "comments", required = false) String comments,
                                               @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                               @PathVariable String id) {
     if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST)) {
-      return new ResponseEntity<RestResponse>(HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    return new ResponseEntity<RestResponse>(HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @RequestMapping(value = "/id/{id}/disconnect", method = RequestMethod.POST)
-  public ResponseEntity<RestResponse> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+  public ResponseEntity<Void> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                  @RequestParam(value = "comments", required = false) String comments,
                                                  @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                                  @PathVariable String id) {
     if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.UNLINKREQUEST))
-      return new ResponseEntity<RestResponse>(HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-    return new ResponseEntity<RestResponse>(HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   private boolean createAction(String idpEntityId, String comments, String spEntityId, JiraTask.Type jiraType) {

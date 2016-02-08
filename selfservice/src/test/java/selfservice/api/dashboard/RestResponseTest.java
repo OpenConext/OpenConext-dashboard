@@ -20,7 +20,7 @@ public class RestResponseTest {
     mapper.setSerializationInclusion(Include.NON_NULL);
     CoinUser coinUser = new CoinUser();
     coinUser.setDisplayName("foobar");
-    RestResponse response = new RestResponse(Locale.ENGLISH, coinUser);
+    RestResponse<CoinUser> response = RestResponse.of(Locale.ENGLISH, coinUser);
 
     String json = mapper.writeValueAsString(response);
     assertNotNull(json);

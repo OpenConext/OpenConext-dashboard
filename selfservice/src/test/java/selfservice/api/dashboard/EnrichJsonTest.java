@@ -131,7 +131,7 @@ public class EnrichJsonTest {
   }
 
   private JsonElement createJsonResponse(Object object) {
-    return gson.toJsonTree(new RestResponse(Locale.ENGLISH, object));
+    return gson.toJsonTree(RestResponse.of(Locale.ENGLISH, object));
   }
 
   private JsonElement getPayloadFromRoot(JsonElement jsonElement) {

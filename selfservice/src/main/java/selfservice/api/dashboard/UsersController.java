@@ -3,6 +3,7 @@ package selfservice.api.dashboard;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,7 +37,7 @@ public class UsersController extends BaseController {
   }
 
   @RequestMapping("/super/idps")
-  public ResponseEntity<RestResponse> idps() {
+  public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (!currentUser.isSuperUser()) {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -55,7 +56,7 @@ public class UsersController extends BaseController {
   }
 
   @RequestMapping("/me/switch-to-idp")
-  public ResponseEntity<RestResponse> currentIdp(
+  public ResponseEntity<Void> currentIdp(
       @RequestParam(value = "idpId", required = false) String switchToIdp,
       @RequestParam(value = "role", required = false) String role,
       HttpServletResponse response) {

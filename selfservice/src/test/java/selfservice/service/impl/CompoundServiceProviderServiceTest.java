@@ -64,38 +64,38 @@ public class CompoundServiceProviderServiceTest {
   }
 
   /**
-     * Get a list of all CSPs for a given IDP. This test checks that for SPs in
-     * the ServiceProviderService that have no corresponding CSP yet, one will be
-     * created.
-     */
-    @Test
-    public void testGetCompoundServiceProvidersByIdp() throws Exception {
-  
-      // This is the IDP for whom we want all csps.
-      IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
-  
-      // Two SPs exist
-      List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
-      ServiceProvider sp1 = new ServiceProvider("spId1");
-      ServiceProvider sp2 = new ServiceProvider("spId2");
-      sps.add(sp1);
-      sps.add(sp2);
-  
-      // There is one existing CSP, belonging to sp1.
-      List<CompoundServiceProvider> csps = new ArrayList<CompoundServiceProvider>();
-      CompoundServiceProvider csp1 = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
-      csps.add(csp1);
-  
-      when(serviceProviderService.getServiceProvider("spId1")).thenReturn(sp1);
-      when(serviceProviderService.getServiceProvider("spId2")).thenReturn(sp2);
-      when(compoundServiceProviderDao.findAll()).thenReturn(csps);
-      when(serviceProviderService.getAllServiceProviders("idpId")).thenReturn(sps);
-  
-      cspService.getCompoundServiceProvidersByIdp(idp);
-  
-      // Check that the 'missing' CSP is saved
-      verify(compoundServiceProviderDao, times(1)).save(any(CompoundServiceProvider.class));
-    }
+   * Get a list of all CSPs for a given IDP. This test checks that for SPs in
+   * the ServiceProviderService that have no corresponding CSP yet, one will be
+   * created.
+   */
+  @Test
+  public void testGetCompoundServiceProvidersByIdp() throws Exception {
+
+    // This is the IDP for whom we want all csps.
+    IdentityProvider idp = new IdentityProvider("idpId", "institutionid", "name");
+
+    // Two SPs exist
+    List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
+    ServiceProvider sp1 = new ServiceProvider("spId1");
+    ServiceProvider sp2 = new ServiceProvider("spId2");
+    sps.add(sp1);
+    sps.add(sp2);
+
+    // There is one existing CSP, belonging to sp1.
+    List<CompoundServiceProvider> csps = new ArrayList<CompoundServiceProvider>();
+    CompoundServiceProvider csp1 = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
+    csps.add(csp1);
+
+    when(serviceProviderService.getServiceProvider("spId1")).thenReturn(sp1);
+    when(serviceProviderService.getServiceProvider("spId2")).thenReturn(sp2);
+    when(compoundServiceProviderDao.findAll()).thenReturn(csps);
+    when(serviceProviderService.getAllServiceProviders("idpId")).thenReturn(sps);
+
+    cspService.getCompoundServiceProvidersByIdp(idp);
+
+    // Check that the 'missing' CSP is saved
+    verify(compoundServiceProviderDao, times(1)).save(any(CompoundServiceProvider.class));
+  }
 
   @Test
   public void testGetCSPById() throws Exception {
