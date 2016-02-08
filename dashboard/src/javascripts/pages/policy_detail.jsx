@@ -17,8 +17,8 @@ App.Pages.PolicyDetail = React.createClass({
             <h1>{title}</h1>
             {this.renderName(policy)}
             {this.renderDenyPermitRule(policy)}
-            {this.renderServiceProvider(policy)}
             {this.renderIdentityProvider(policy)}
+            {this.renderServiceProvider(policy)}
             {this.renderLogicalRule(policy)}
             {this.renderAttributes(policy)}
             {this.renderDenyAdvice(policy)}
@@ -298,9 +298,8 @@ App.Pages.PolicyDetail = React.createClass({
     if (_.isEmpty(identityProvidersIds)) {
       this.state.identityProviderNames = [];
     } else {
-      //we can safely do it like this - as nothing should be updated
       this.state.identityProviderNames = identityProvidersIds.map(function (idp) {
-        return I18n.entityName(_.find(this.props.identityProviders, "entityId", idp));
+        return _.find(this.props.identityProviders, "id", idp).name;
       }.bind(this));
 
     }
@@ -308,7 +307,7 @@ App.Pages.PolicyDetail = React.createClass({
     if (_.isEmpty(serviceProviderId)) {
       this.state.serviceProviderName = null;
     } else {
-      this.state.serviceProviderName = I18n.entityName(_.find(this.props.serviceProviders, "entityId", serviceProviderId));
+      this.state.serviceProviderName = _.find(this.props.serviceProviders, "spEntityId", serviceProviderId).name;
     }
   },
 
