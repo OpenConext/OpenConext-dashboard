@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package selfservice.util;
+package selfservice.janus;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,8 +21,8 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import selfservice.domain.ARP;
+import selfservice.janus.JanusRestClientMock;
 import selfservice.janus.domain.EntityMetadata;
-import selfservice.util.JanusRestClientMock;
 
 /**
  * JanusRestClientMockTest.java

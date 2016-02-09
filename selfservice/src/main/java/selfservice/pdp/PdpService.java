@@ -1,4 +1,4 @@
-package selfservice.service;
+package selfservice.pdp;
 
 import java.util.List;
 

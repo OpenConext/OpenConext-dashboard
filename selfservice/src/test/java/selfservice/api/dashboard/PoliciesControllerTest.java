@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import selfservice.service.PdpService;
+import selfservice.pdp.PdpService;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 @RunWith(MockitoJUnitRunner.class)

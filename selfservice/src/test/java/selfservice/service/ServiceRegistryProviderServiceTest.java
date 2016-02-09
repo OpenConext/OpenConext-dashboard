@@ -46,9 +46,9 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.ContactPerson;
 import selfservice.janus.Janus;
+import selfservice.janus.JanusRestClientMock;
 import selfservice.janus.domain.EntityMetadata;
 import selfservice.service.impl.ServiceRegistryProviderService;
-import selfservice.util.JanusRestClientMock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServiceRegistryProviderServiceTest {

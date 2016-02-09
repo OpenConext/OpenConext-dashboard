@@ -41,6 +41,30 @@ public class Policy {
   public Policy() {
   }
 
+  private Policy(PolicyBuilder builder) {
+    this.id = builder.id;
+    this.created = builder.created;
+    this.userDisplayName = builder.userDisplayName;
+    this.actionsAllowed = builder.actionsAllowed;
+    this.revisionNbr = builder.revisionNbr;
+    this.numberOfRevisions = builder.numberOfRevisions;
+    this.serviceProviderName = builder.serviceProviderName;
+
+    this.name = builder.policy.name;
+    this.description = builder.policy.description;
+    this.serviceProviderId = builder.policy.serviceProviderId;
+    this.identityProviderIds = builder.policy.identityProviderIds;
+    this.identityProviderNames = builder.policy.identityProviderNames;
+    this.attributes  = builder.policy.attributes;
+    this.denyAdvice = builder.policy.denyAdvice;
+    this.denyAdviceNl = builder.policy.denyAdviceNl;
+    this.denyRule = builder.policy.denyRule;
+    this.allAttributesMustMatch = builder.policy.allAttributesMustMatch;
+    this.authenticatingAuthorityName = builder.policy.authenticatingAuthorityName;
+    this.isActivatedSr = builder.policy.isActivatedSr;
+    this.active = builder.policy.active;
+  }
+
   public Policy(String name, String description) {
     this.name = name;
     this.description = description;
@@ -163,4 +187,63 @@ public class Policy {
           .add("value", value).toString();
     }
   }
+
+  public static class PolicyBuilder {
+    private final Policy policy;
+    private Long id;
+    private Date created;
+    private String userDisplayName;
+    private boolean actionsAllowed;
+    private int revisionNbr = 0;
+    private int numberOfRevisions = 0;
+    private String serviceProviderName;
+
+    private PolicyBuilder(Policy policy) {
+      this.policy = policy;
+    }
+
+    public static PolicyBuilder of(Policy policy) {
+      return new PolicyBuilder(policy);
+    }
+
+    public PolicyBuilder withId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public PolicyBuilder withCreated(Date created) {
+      this.created = created;
+      return this;
+    }
+
+    public PolicyBuilder withUserDisplayName(String userDisplayName) {
+      this.userDisplayName = userDisplayName;
+      return this;
+    }
+
+    public PolicyBuilder withActionsAllowed(boolean actionsAllowed) {
+      this.actionsAllowed = actionsAllowed;
+      return this;
+    }
+
+    public PolicyBuilder withRevisionNbr(int revisionNbr) {
+      this.revisionNbr = revisionNbr;
+      return this;
+    }
+
+    public PolicyBuilder withNumberOfRevisions(int numberOfRevisions) {
+      this.numberOfRevisions = numberOfRevisions;
+      return this;
+    }
+
+    public PolicyBuilder withServiceProviderName(String serviceProviderName) {
+      this.serviceProviderName = serviceProviderName;
+      return this;
+    }
+
+    public Policy build() {
+      return new Policy(this);
+    }
+  }
+
 }

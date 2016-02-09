@@ -1,4 +1,4 @@
-package selfservice.service.impl;
+package selfservice.pdp;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -30,7 +30,8 @@ import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Policy;
 import selfservice.filter.SpringSecurityUtil;
-import selfservice.service.PdpService;
+import selfservice.pdp.PdpService;
+import selfservice.pdp.PdpServiceImpl;
 
 public class PdpServiceImplTest {
 

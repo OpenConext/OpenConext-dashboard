@@ -23,6 +23,10 @@ import org.springframework.web.servlet.LocaleResolver;
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.janus.Janus;
 import selfservice.janus.JanusRestClient;
+import selfservice.janus.JanusRestClientMock;
+import selfservice.pdp.PdpService;
+import selfservice.pdp.PdpServiceImpl;
+import selfservice.pdp.PdpServiceMock;
 import selfservice.sab.HttpClientTransport;
 import selfservice.sab.Sab;
 import selfservice.sab.SabClient;
@@ -39,7 +43,6 @@ import selfservice.service.impl.LmngServiceMock;
 import selfservice.service.impl.VootClientImpl;
 import selfservice.service.impl.VootClientMock;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
-import selfservice.util.JanusRestClientMock;
 import selfservice.util.LicenseContactPersonService;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class, TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class})
@@ -136,13 +139,25 @@ public class Application extends SpringBootServletInitializer {
 
   @Bean
   @Profile("dev")
-  public CrmService mockcrmService() {
+  public CrmService mockCrmService() {
     return new LmngServiceMock();
   }
 
   @Bean
   public LicenseContactPersonService licenseContactPersonService(@Value("${licenseContactPerson.config.path}") final String contentFileLocation) {
     return new LicenseContactPersonService(resourceLoader.getResource(contentFileLocation));
+  }
+
+  @Bean
+  @Profile("!dev")
+  public PdpService pdpService(@Value("${pdp.server}") String server, @Value("${pdp.username}") String username, @Value("${pdp.password}") String password) {
+    return new PdpServiceImpl(server, username, password);
+  }
+
+  @Bean
+  @Profile("dev")
+  public PdpService mockPdpService() {
+    return new PdpServiceMock();
   }
 
 }

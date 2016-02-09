@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
-import selfservice.service.PdpService;
+import selfservice.pdp.PdpService;
 
 @RestController
 @RequestMapping("/dashboard/api/policies")

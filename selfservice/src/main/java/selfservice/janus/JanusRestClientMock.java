@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package selfservice.util;
+package selfservice.janus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,6 @@ import com.google.common.collect.ImmutableList;
 import org.springframework.core.io.ClassPathResource;
 
 import selfservice.domain.ARP;
-import selfservice.janus.Janus;
 import selfservice.janus.domain.EntityMetadata;
 import selfservice.janus.domain.JanusEntity;
 

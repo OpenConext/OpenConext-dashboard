@@ -1,4 +1,4 @@
-package selfservice.service.impl;
+package selfservice.pdp;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -20,8 +20,6 @@ import com.google.common.collect.ImmutableList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -29,7 +27,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -37,10 +34,8 @@ import org.springframework.web.client.RestTemplate;
 import selfservice.domain.CoinUser;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
-import selfservice.service.PdpService;
 import selfservice.util.SpringSecurity;
 
-@Service
 public class PdpServiceImpl implements PdpService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PdpServiceImpl.class);
@@ -52,8 +47,7 @@ public class PdpServiceImpl implements PdpService {
   private final RestTemplate pdpRestTemplate;
   private final String server;
 
-  @Autowired
-  public PdpServiceImpl(@Value("${pdp.server}") String server, @Value("${pdp.username}") String username, @Value("${pdp.password}") String password) {
+  public PdpServiceImpl(String server, String username, String password) {
     checkArgument(server.startsWith("http"));
     checkArgument(!isNullOrEmpty(username));
     checkArgument(!isNullOrEmpty(password));
