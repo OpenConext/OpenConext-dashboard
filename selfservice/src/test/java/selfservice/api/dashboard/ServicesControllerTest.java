@@ -56,16 +56,14 @@ public class ServicesControllerTest {
 
   private MockMvc mockMvc;
 
-  private List<Service> services;
-  private Service service;
-  private CoinUser coinUser = coinUser("user");
+  private final CoinUser coinUser = coinUser("user");
+  private final Service service = serviceWithSpEntityId(SP_ENTITY_ID);
+  private final List<Service> services = asList(service);
 
   @Before
   public void setup() {
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
-    service = serviceWithSpEntityId(SP_ENTITY_ID);
-    services = asList(service);
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(idpServiceMock);
 
     mockMvc = standaloneSetup(controller)

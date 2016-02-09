@@ -1,39 +1,49 @@
 package selfservice.api.dashboard;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import selfservice.cache.ServicesCache;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
+import selfservice.domain.Service;
 import selfservice.service.IdentityProviderService;
 import selfservice.util.SpringSecurity;
 
-@Controller
+@RestController
 @RequestMapping(value = "/dashboard/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsersController extends BaseController {
 
   @Autowired
   private IdentityProviderService idpService;
 
+  @Autowired
+  private ServicesCache servicesCache;
+
   @RequestMapping("/me")
-  public ResponseEntity<RestResponse<CoinUser>> me() {
-    return new ResponseEntity<>(createRestResponse(SpringSecurity.getCurrentUser()), HttpStatus.OK);
+  public RestResponse<CoinUser> me() {
+    return createRestResponse(SpringSecurity.getCurrentUser());
   }
 
   @RequestMapping("/super/idps")
@@ -56,13 +66,25 @@ public class UsersController extends BaseController {
     return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
+  public RestResponse<List<Service>> serviceProviders(Locale locale) {
+    String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
+
+    List<Service> usersServices = isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
+        : servicesCache.getAllServices(locale.getLanguage()).stream()
+            .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
+            .collect(toList());
+
+    return createRestResponse(usersServices);
+  }
+
   @RequestMapping("/me/switch-to-idp")
   public ResponseEntity<Void> currentIdp(
       @RequestParam(value = "idpId", required = false) String switchToIdp,
       @RequestParam(value = "role", required = false) String role,
       HttpServletResponse response) {
 
-    if (Strings.isNullOrEmpty(switchToIdp)) {
+    if (isNullOrEmpty(switchToIdp)) {
       SpringSecurity.clearSwitchedIdp();
     } else {
       IdentityProvider identityProvider = idpService.getIdentityProvider(switchToIdp)

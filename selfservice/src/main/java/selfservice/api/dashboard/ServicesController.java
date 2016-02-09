@@ -35,6 +35,7 @@ import selfservice.domain.InstitutionIdentityProvider;
 import selfservice.domain.JiraTask;
 import selfservice.domain.Service;
 import selfservice.service.Csa;
+import selfservice.service.IdentityProviderService;
 import selfservice.util.SpringSecurity;
 
 @RestController
@@ -46,15 +47,21 @@ public class ServicesController extends BaseController {
   @Autowired
   private Csa csa;
 
+  @Autowired
+  private IdentityProviderService identityProviderService;
+
   @RequestMapping
   public RestResponse<List<Service>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     return createRestResponse(csa.getServicesForIdp(idpEntityId));
   }
 
   @RequestMapping(value = "/idps")
-  public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                       @RequestParam String spEntityId) {
-    return createRestResponse(csa.serviceUsedBy(spEntityId));
+  public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
+    List<InstitutionIdentityProvider> idps = identityProviderService.getLinkedIdentityProviders(spEntityId).stream()
+        .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(), idp.getInstitutionId()))
+        .collect(toList());
+
+    return createRestResponse(idps);
   }
 
   @RequestMapping(value = "/download")

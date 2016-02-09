@@ -53,9 +53,6 @@ public class CoinUser implements UserDetails {
   private Set<CoinAuthority> grantedAuthorities = new HashSet<>();
   private Map<ShibbolethHeader, List<String>> attributeMap = new HashMap<>();
 
-  /**
-   * It is not allowed to call this method {@inheritDoc}
-   */
   @Override
   @JsonIgnore
   public String getPassword() {

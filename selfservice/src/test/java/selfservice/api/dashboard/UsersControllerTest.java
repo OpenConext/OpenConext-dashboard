@@ -2,6 +2,7 @@ package selfservice.api.dashboard;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
@@ -35,10 +36,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 
+import selfservice.cache.ServicesCache;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
+import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.service.IdentityProviderService;
@@ -56,9 +59,12 @@ public class UsersControllerTest {
   @Mock
   private IdentityProviderService idpServiceMock;
 
+  @Mock
+  private ServicesCache servicesCacheMock;
+
   private MockMvc mockMvc;
 
-  private CoinUser coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);
+  private final CoinUser coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);
 
   @Before
   public void setup() {
@@ -153,5 +159,41 @@ public class UsersControllerTest {
     } catch (NestedServletException e) {
       assertEquals(SecurityException.class, e.getRootCause().getClass());
     }
+  }
+
+  @Test
+  public void aUserWithoutAnInstituionIdHasNoServices() throws Exception{
+    CoinUser user = new CoinUser();
+    user.setInstitutionId(null);
+
+    SpringSecurityUtil.setAuthentication(user);
+
+    mockMvc.perform(get("/dashboard/api/users/me/serviceproviders"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.payload").isArray())
+      .andExpect(jsonPath("$.payload").isEmpty());
+  }
+
+  @Test
+  public void aUserWithAnInstitutionIdHasServices() throws Exception{
+    CoinUser user = new CoinUser();
+    user.setInstitutionId("my-institution-id");
+
+    Service serviceWithInsitutionId = new Service();
+    serviceWithInsitutionId.setInstitutionId("my-institution-id");
+    Service serviceWithWrongInstitiontid = new Service();
+    serviceWithWrongInstitiontid.setInstitutionId("wrong-institution-id");
+    Service serviceWithoutAnInstitutionId = new Service();
+    serviceWithoutAnInstitutionId.setInstitutionId(null);
+
+    SpringSecurityUtil.setAuthentication(user);
+
+    when(servicesCacheMock.getAllServices("en")).thenReturn(ImmutableList.of(serviceWithInsitutionId, serviceWithoutAnInstitutionId, serviceWithWrongInstitiontid));
+
+    mockMvc.perform(get("/dashboard/api/users/me/serviceproviders"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.payload").isArray())
+      .andExpect(jsonPath("$.payload", hasSize(1)))
+      .andExpect(jsonPath("$.payload[0].institutionId", is("my-institution-id")));
   }
 }

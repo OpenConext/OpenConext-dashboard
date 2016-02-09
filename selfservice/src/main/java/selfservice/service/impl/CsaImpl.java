@@ -30,7 +30,6 @@ import selfservice.domain.CategoryValue;
 import selfservice.domain.CrmArticle;
 import selfservice.domain.Facet;
 import selfservice.domain.IdentityProvider;
-import selfservice.domain.InstitutionIdentityProvider;
 import selfservice.domain.LicenseStatus;
 import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
@@ -84,6 +83,7 @@ public class CsaImpl implements Csa {
   private List<Service> doGetServicesForIdP(String language, String idpEntityId) {
     IdentityProvider identityProvider = Optional.ofNullable(identityProviderCache.getIdentityProvider(idpEntityId))
         .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
+
     List<String> serviceProviderIdentifiers = identityProviderCache.getServiceProviderIdentifiers(idpEntityId);
 
     return servicesCache.getAllServices(language).stream().filter(service -> {
@@ -114,13 +114,6 @@ public class CsaImpl implements Csa {
    */
   private boolean showServiceForInstitution(IdentityProvider identityProvider, Service service) {
     return !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId().equalsIgnoreCase(identityProvider.getInstitutionId()));
-  }
-
-  @Override
-  public List<InstitutionIdentityProvider> serviceUsedBy(String spEntityId) {
-    return identityProviderService.getLinkedIdentityProviders(spEntityId).stream()
-        .map(this::convertIdentityProviderToInstitutionIdentityProvider)
-        .collect(toList());
   }
 
   @Override
@@ -193,10 +186,6 @@ public class CsaImpl implements Csa {
     }
 
     return crmArticle;
-  }
-
-  private InstitutionIdentityProvider convertIdentityProviderToInstitutionIdentityProvider(IdentityProvider identityProvider) {
-    return new InstitutionIdentityProvider(identityProvider.getId(), identityProvider.getName(), identityProvider.getInstitutionId());
   }
 
   private void sendAdministrationEmail(ServiceProvider serviceProvider, IdentityProvider identityProvider, String issueKey, Action action) {

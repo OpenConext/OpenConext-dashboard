@@ -24,8 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("serial")
 public class IdentityProvider extends Provider implements Serializable {
 
-  public static final IdentityProvider NONE = new IdentityProvider();
-
   private String id;
   private String institutionId;
   private String ssoLocation;

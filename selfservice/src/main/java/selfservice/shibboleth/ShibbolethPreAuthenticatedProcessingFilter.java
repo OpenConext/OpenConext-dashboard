@@ -102,6 +102,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       Collections.sort(coinUser.getInstitutionIdps(), (lh, rh) -> lh.getName().compareTo(rh.getName()));
     }
 
+    institutionIdentityProviders.stream()
+      .filter(idp -> hasText(idp.getInstitutionId()))
+      .findFirst()
+      .ifPresent(idp -> coinUser.setInstitutionId(idp.getInstitutionId()));
+
     return coinUser;
   }
 

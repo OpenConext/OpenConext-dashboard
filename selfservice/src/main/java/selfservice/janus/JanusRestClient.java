@@ -65,10 +65,10 @@ public class JanusRestClient implements Janus {
 
   @Override
   public EntityMetadata getMetadataByEntityId(String entityId) {
+    String keys = Arrays.asList(Metadata.values()).stream().map(Metadata::val).collect(Collectors.joining(","));
+
     Map<String, String> parameters = new HashMap<>();
     parameters.put("entityid", entityId);
-
-    String keys = Arrays.asList(Metadata.values()).stream().map(Metadata::val).collect(Collectors.joining(","));
     parameters.put("keys", keys);
 
     try {

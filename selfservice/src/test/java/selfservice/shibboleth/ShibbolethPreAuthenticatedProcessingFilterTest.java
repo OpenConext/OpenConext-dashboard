@@ -13,6 +13,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.collect.ImmutableList;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -43,6 +45,21 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     assertThat(coinUser.getUid(), is("name-id_value"));
     assertThat(coinUser.getEmail(), is("Shib-email_value"));
     assertThat(coinUser.getDisplayName(), is("Shib-displayName_value"));
+  }
+
+  @Test
+  public void shouldSetTheInstitionIdOfTheUser() {
+    IdentityProvider idp = new IdentityProvider();
+    idp.setInstitutionId("my-institution-id");
+
+    HttpServletRequest requestMock = mock(HttpServletRequest.class);
+    when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
+    when(idpServiceMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(idp));
+    when(idpServiceMock.getInstituteIdentityProviders("my-institution-id")).thenReturn(ImmutableList.of(idp));
+
+    CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
+
+    assertThat(coinUser.getInstitutionId(), is("my-institution-id"));
   }
 
   @Test

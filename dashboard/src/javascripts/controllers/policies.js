@@ -51,7 +51,7 @@ App.Controllers.Policies = {
   },
 
   loadServiceProviders: function (ctx, next) {
-    $.get(App.apiUrl("/services"), function (data) {
+    $.get(App.apiUrl("/users/me/serviceproviders"), function (data) {
       ctx.serviceProviders = data.payload;
       next();
     });
