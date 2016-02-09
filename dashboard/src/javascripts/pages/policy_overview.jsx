@@ -12,11 +12,18 @@ App.Pages.PolicyOverview = React.createClass({
     }
   },
 
+  componentWillReceiveProps: function (nextProps) {
+    if (!_.isEmpty(this.props) && this.props.flash !== nextProps.flash) {
+      this.setState({hideFlash: false});
+    }
+  },
+
   render: function () {
     var filteredPolicies = this.filterPolicies(this.props.policies);
 
     return (
       <div className="l-main">
+        {this.renderFlash()}
         <div className="l-grid">
           <div className="l-col-10">
             <div className="mod-policy-search">
@@ -54,6 +61,21 @@ App.Pages.PolicyOverview = React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderFlash: function () {
+    var flash = this.props.flash;
+
+    if (flash && !this.state.hideFlash) {
+      return (
+          <div className="flash"><p>{flash}</p><a href="#" onClick={this.closeFlash}><i
+              className="fa fa-remove"></i></a></div>
+      );
+    }
+  },
+
+  closeFlash: function () {
+    this.setState({hideFlash: true});
   },
 
   renderPolicy: function (policy, i) {

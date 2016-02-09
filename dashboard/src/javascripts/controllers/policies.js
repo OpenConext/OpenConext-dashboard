@@ -31,7 +31,7 @@ App.Controllers.Policies = {
   },
 
   overview: function (ctx) {
-    App.render(App.Pages.PolicyOverview({key: "policies", policies: ctx.policies}));
+    App.render(App.Pages.PolicyOverview({key: "policies", policies: ctx.policies, flash: App.getFlash()}));
   },
 
   loadPolicies: function (ctx, next) {
@@ -91,7 +91,7 @@ App.Controllers.Policies = {
       dataType: 'json',
       contentType: 'application/json',
     }).done(function () {
-      //App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action:action}));
+      App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action: action}));
       page("/policies");
     }).fail(function () {
       failureCallback(jqxhr);
@@ -103,7 +103,7 @@ App.Controllers.Policies = {
       url: App.apiUrl("/policies/:id", {id: policy.id}),
       type: 'DELETE'
     }).done(function () {
-      //App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action: I18n.t("policies.flash_deleted")}));
+      App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action: I18n.t("policies.flash_deleted")}));
       page("/policies");
     });
   },

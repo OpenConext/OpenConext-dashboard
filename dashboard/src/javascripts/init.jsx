@@ -201,6 +201,16 @@ var App = {
     }
   },
 
+  setFlash: function (message) {
+    this.store.flash = message;
+  },
+
+  getFlash: function () {
+    var message = this.store.flash;
+    this.store.flash = undefined;
+    return message;
+  },
+
   PubSub: {
     _events: {},
     _lastUid: 0,

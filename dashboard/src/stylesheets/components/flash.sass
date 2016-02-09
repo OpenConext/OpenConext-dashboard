@@ -1,0 +1,32 @@
+div.flash
+  max-width: 1400px
+  margin: 0px auto
+  padding-bottom: 20px
+  text-align: center
+  color: white
+  font-size: large
+  position: relative
+
+  &.full
+    max-width: 100%
+    margin-bottom: 20px
+    padding-top: 0px
+
+    a
+      top: 0px
+
+  p
+    background-color: $green
+    padding: 10px
+    border-radius: 5px
+
+    &.error
+      background-color: $red
+
+  a
+    text-decoration: none
+    position: absolute
+    right: 4px
+    top: 0
+    color: white
+    font-size: small

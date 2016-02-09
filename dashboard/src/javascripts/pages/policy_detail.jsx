@@ -342,7 +342,6 @@ App.Pages.PolicyDetail = React.createClass({
   submitForm: function () {
     App.Controllers.Policies.saveOrUpdatePolicy(this.state, function (jqxhr) {
       jqxhr.isConsumed = true;
-      this.setState({flash: jqxhr.responseJSON.details.name});
     }.bind(this));
   },
 
