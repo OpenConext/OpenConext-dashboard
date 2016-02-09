@@ -2,6 +2,7 @@ package selfservice.api.dashboard;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -97,8 +98,21 @@ public class ServicesControllerTest {
         .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload").isArray())
-      .andExpect(jsonPath("$.payload[0].name").value(service.getName()))
-    ;
+      .andExpect(jsonPath("$.payload[0].name").value(service.getName()));
+  }
+
+  @Test
+  public void retrieveAService() throws Exception {
+    Service service = new Service(11L, "service-name", "http://logo", "http://website", false, null, IDP_ENTITY_ID);
+
+    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(service);
+
+    this.mockMvc.perform(get("/dashboard/api/services/id/11")
+        .contentType(MediaType.APPLICATION_JSON)
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.payload.name", is("service-name")))
+      .andExpect(jsonPath("$.payload.id", is(11)));
   }
 
   @Test(expected = SecurityException.class)
@@ -112,10 +126,9 @@ public class ServicesControllerTest {
 
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/connect")
-        .contentType(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-        .param("spEntityId", SP_ENTITY_ID)
-    )
+        .param("spEntityId", SP_ENTITY_ID))
       .andExpect(status().isOk());
   }
 
@@ -127,8 +140,7 @@ public class ServicesControllerTest {
       post("/dashboard/api/services/id/" + service.getId() + "/disconnect")
         .contentType(MediaType.APPLICATION_JSON)
         .param("spEntityId", SP_ENTITY_ID)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-    )
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
       .andExpect(status().isOk());
   }
 
@@ -140,8 +152,7 @@ public class ServicesControllerTest {
       post("/dashboard/api/services/id/" + service.getId() + "/connect")
         .contentType(MediaType.APPLICATION_JSON)
         .param("spEntityId", SP_ENTITY_ID)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-    )
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
       .andExpect(status().isForbidden());
   }
 

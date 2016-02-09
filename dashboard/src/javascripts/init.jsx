@@ -185,7 +185,6 @@ var App = {
 
   addDefaultHeaders: function (event, jqxhr, settings) {
     if (settings.url.indexOf(STATS_HOST) < 0) {
-      jqxhr.setRequestHeader("Content-Type", "application/json");
       jqxhr.setRequestHeader("X-IDP-ENTITY-ID", this.currentIdpId());
     }
   },

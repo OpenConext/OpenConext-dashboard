@@ -83,12 +83,13 @@ App.Controllers.Policies = {
 
   saveOrUpdatePolicy: function (policy, failureCallback) {
     var type = policy.id ? "PUT" : "POST";
-    var json = JSON.stringify(policy);
     var action = policy.id ? I18n.t("policies.flash_updated") : I18n.t("policies.flash_created");
     var jqxhr = $.ajax({
       url: App.apiUrl("/policies"),
       type: type,
-      data: json
+      data: JSON.stringify(policy),
+      dataType: 'json',
+      contentType: 'application/json',
     }).done(function () {
       //App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action:action}));
       page("/policies");

@@ -83,18 +83,19 @@ App.Controllers.Apps = {
         {comments: comments, spEntityId: app.spEntityId},
         function () {
           if (callback) callback();
-        });
+        }
+      );
     }
   },
 
   disconnect: function (app, comments, callback) {
     if (App.currentUser.dashboardAdmin) {
-      $.post(App.apiUrl("/services/id/" + app.id + "/disconnect"), {
-        comments: comments,
-        spEntityId: app.spEntityId
-      }, function () {
-        if (callback) callback();
-      });
+      $.post(App.apiUrl("/services/id/" + app.id + "/disconnect"),
+        { comments: comments, spEntityId: app.spEntityId },
+        function () {
+          if (callback) callback();
+        }
+      );
     }
   },
 

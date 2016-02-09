@@ -18,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.service.IdentityProviderService;
@@ -39,6 +39,7 @@ public class UsersController extends BaseController {
   @RequestMapping("/super/idps")
   public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
+
     if (!currentUser.isSuperUser()) {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
@@ -46,7 +47,7 @@ public class UsersController extends BaseController {
     List<IdentityProvider> idps = Lists.newArrayList(idpService.getAllIdentityProviders());
     idps.sort((lh, rh) -> lh.getName().compareTo(rh.getName()));
 
-    List<String> roles = Arrays.asList(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER.name(), CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN.name());
+    List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(), Authority.ROLE_DASHBOARD_ADMIN.name());
 
     HashMap<String, List<?>> payload = new HashMap<>();
     payload.put("idps", idps);
