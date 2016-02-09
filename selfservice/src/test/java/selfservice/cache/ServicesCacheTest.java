@@ -50,7 +50,7 @@ public class ServicesCacheTest {
 
     subject = new ServicesCache(servicesServiceMock, 0, 1000L, 0);
 
-    await().atMost(Duration.ONE_SECOND).until(() -> subject.getAllServices("en"), hasSize(1));
+    await().atMost(Duration.TWO_SECONDS).until(() -> subject.getAllServices("en"), hasSize(1));
   }
 
   @Test
