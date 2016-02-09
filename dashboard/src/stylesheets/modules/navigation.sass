@@ -18,6 +18,24 @@
     text-decoration: none
     @extend %h2
 
+    &.beta
+      position: relative
+
+      &:after
+        content: "beta"
+        position: absolute
+        width: 42px
+        height: 22px
+        background: #319bb8
+        top: 10px
+        right: -8px
+        text-align: center
+        font-size: 12px
+        text-transform: uppercase
+        font-weight: 300
+        line-height: 27px
+        transform: rotate(45deg)
+
   .spinner
     left: 50%
     position: fixed

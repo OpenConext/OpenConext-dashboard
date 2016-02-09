@@ -37,17 +37,17 @@ App.Components.Navigation = React.createClass({
 
   renderPoliciesMenu: function () {
     if (App.policiesAvailable) {
-      return this.renderItem("/policies", "policies");
+      return this.renderItem("/policies", "policies", true);
     } else {
       return null;
     }
   },
 
-  renderItem: function(href, value) {
+  renderItem: function(href, value, beta) {
     var className = (this.props.active == value ? "active" : "");
-
+    var betaClassName = beta ? "beta" : "";
     return (
-      <li className={className}><a href={href}>{I18n.t("navigation." + value)}</a></li>
+      <li className={className}><a href={href} className={betaClassName}>{I18n.t("navigation." + value)}</a></li>
     );
   },
 
