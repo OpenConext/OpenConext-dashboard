@@ -26,16 +26,16 @@ App.Help.PolicyDetailHelpEn = React.createClass({
               href="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html#_Toc325047268">here</a>.
           </p>
 
-          <h2>Service</h2>
-
-          <p>The Service determines for which Service this policy applies. You can only link policies to one
-            Service</p>
-
           <h2>Institution</h2>
 
           <p>The Institution determines for which Institution this policy applies. The Institution in this context is
             the Identity Provider which authenticated the user.
             You can link policies to zero or more Institutions</p>
+
+          <h2>Service</h2>
+
+          <p>The Service determines for which Service this policy applies. You can only link policies to one
+            Service.</p>
 
           <h2>Rule</h2>
 

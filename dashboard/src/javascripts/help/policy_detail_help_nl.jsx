@@ -22,14 +22,14 @@ App.Help.PolicyDetailHelpNl = React.createClass({
               target="_blank" href="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html#_Toc325047268">hier</a> worden gevonden.
           </p>
 
-          <h2>Dienst</h2>
-
-          <p>De dienst bepaalt voor welke dienst deze autorisatie regel van toepassing is. Je kan enkel 1 dienst koppelen aan een autorisatie regel.</p>
-
           <h2>Instelling</h2>
 
           <p>De instelling bepaalt voor welke instelling deze autorisatie regel van toepassing is. De instelling in deze context
             is de 'Identity Provider' die de gebruiker heeft geautenticeerd. Je kan 0 of meer instellingen koppelen aan een autorisatie regel.</p>
+
+          <h2>Dienst</h2>
+
+          <p>De dienst bepaalt voor welke dienst deze autorisatie regel van toepassing is. Je kan enkel 1 dienst koppelen aan een autorisatie regel.</p>
 
           <h2>Regel</h2>
 
