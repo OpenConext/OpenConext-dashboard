@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
+import static selfservice.api.dashboard.EnrichJson.FILTERED_USER_ATTRIBUTES;
 import static selfservice.api.dashboard.RestDataFixture.coinUser;
 import static selfservice.api.dashboard.RestDataFixture.serviceWithSpEntityId;
 
@@ -25,7 +26,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -67,7 +67,7 @@ public class ServicesControllerTest {
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(idpServiceMock);
 
     mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new MappingJackson2HttpMessageConverter())
+      .setMessageConverters(new GsonHttpMessageConverter("http:://excample.com", "stats-client-id", "stats-scope", "stats-redirect"))
       .addFilter(ensureAccessToIdp, "/*")
       .build();
 
@@ -111,6 +111,19 @@ public class ServicesControllerTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload.name", is("service-name")))
       .andExpect(jsonPath("$.payload.id", is(11)));
+  }
+
+  @Test
+  public void retrieveAServiceShouldBeEnriched() throws Exception {
+    Service service = new Service(11L, "service-name", "http://logo", "http://website", false, null, IDP_ENTITY_ID);
+
+    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(service);
+
+    this.mockMvc.perform(get("/dashboard/api/services/id/11")
+        .contentType(MediaType.APPLICATION_JSON)
+        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.payload." + FILTERED_USER_ATTRIBUTES).isArray());
   }
 
   @Test(expected = SecurityException.class)

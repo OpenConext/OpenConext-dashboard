@@ -20,7 +20,6 @@ import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.domain.Policy.PolicyBuilder;
 import selfservice.domain.Service;
-import selfservice.service.ServicesService;
 import selfservice.util.SpringSecurity;
 
 public class PdpServiceMock implements PdpService {

@@ -97,7 +97,7 @@ public class EnrichJson {
       if (mapping.containsKey(payload.getClass())) {
         mapping.get(payload.getClass()).apply(payloadAsJsonElement, payload);
       }
-    } else if (!payloadAsJsonElement.isJsonPrimitive()) {
+    } else if (payloadAsJsonElement.isJsonArray()) {
       JsonArray jsonArray = payloadAsJsonElement.getAsJsonArray();
       for (int i = 0; i < jsonArray.size(); i++) {
         Class<?> classOfPayloadElement = ((List<?>) payload).get(i).getClass();

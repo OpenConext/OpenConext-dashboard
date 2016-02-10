@@ -28,7 +28,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import selfservice.shibboleth.ShibbolethHeader;
 import selfservice.util.SpringSecurity;
 
-public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse> {
+public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse<?>> {
 
   public static final GsonBuilder GSON_BUILDER = new GsonBuilder()
       .setExclusionStrategies(new ExcludeJsonIgnore())
@@ -71,12 +71,12 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   }
 
   @Override
-  protected RestResponse readInternal(Class<? extends RestResponse> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+  protected RestResponse<?> readInternal(Class<? extends RestResponse<?>> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
     throw new UnsupportedOperationException("nyi");
   }
 
   @Override
-  protected void writeInternal(RestResponse objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+  protected void writeInternal(RestResponse<?> objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
     JsonElement json = gson.toJsonTree(objectRestResponse);
     EnrichJson.forUser(
         SpringSecurity.getCurrentUser(),

@@ -3,6 +3,7 @@ package selfservice.api.dashboard;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ import selfservice.service.IdentityProviderService;
 import selfservice.util.SpringSecurity;
 
 @RestController
-@RequestMapping(value = "/dashboard/api/services")
+@RequestMapping(value = "/dashboard/api/services", produces = APPLICATION_JSON_VALUE)
 public class ServicesController extends BaseController {
 
   private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
