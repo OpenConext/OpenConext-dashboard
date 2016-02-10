@@ -288,9 +288,9 @@ I18n.translations.en = {
   policies: {
     confirmation: "Are your sure you want to remove policy '{{policyName}}?'",
     flash: "Policy '{{policyName}}' was successfully {{action}}",
-    flash_updated: "updated",
     flash_created: "created",
     flash_deleted: "deleted",
+    flash_updated: "updated",
     new_policy: "New policy",
     overview: {
       description: "Description",
@@ -307,8 +307,10 @@ I18n.translations.en = {
   policy_attributes: {
     attribute: "Attribute",
     attribute_value_placeholder: "Attribute value...",
+    group_info: " The value(s) must be fully qualified group IDs e.g. 'urn:collab:group:surfteams.nl:nl:surfnet:diensten:admins'",
     new_attribute: "Add new attribute....",
     new_value: "Add a new value...",
+    sab_info: " The value(s) must be valid roles in SAB e.g. 'Instellingsbevoegde'",
     values: "Values(s)",
   },
 
