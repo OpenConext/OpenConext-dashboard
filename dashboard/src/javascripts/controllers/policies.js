@@ -31,7 +31,13 @@ App.Controllers.Policies = {
   },
 
   overview: function (ctx) {
-    App.render(App.Pages.PolicyOverview({key: "policies", policies: ctx.policies, flash: App.getFlash()}));
+    var flash = App.getFlash();
+    var shownBeta = $.cookie('shown_beta');
+    if (!shownBeta) {
+      $.cookie('shown_beta', 'true', { expires: 365, path: '/' });
+      flash = { message: I18n.t("policies.beta"), type: 'warning' };
+    }
+    App.render(App.Pages.PolicyOverview({key: "policies", policies: ctx.policies, flash: flash}));
   },
 
   loadPolicies: function (ctx, next) {

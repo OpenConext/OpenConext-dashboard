@@ -300,7 +300,8 @@ I18n.translations.en = {
       search: "Search",
       search_hint: "Filter by name",
       serviceProviderName: "Service",
-    }
+    },
+    beta: "Policies is a new beta service offered by SURFconext. With policies you can restrict access to services based on the attributes of a user. <br>See <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">this page</a> for more info."
   },
 
   policy_attributes: {

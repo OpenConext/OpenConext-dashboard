@@ -37,8 +37,8 @@ App.Pages.PolicyOverview = React.createClass({
               </fieldset>
             </div>
           </div>
-          <div className="l-col-2 l-push-right">
-            <a href={page.uri("/policies/new")} className="t-button">
+          <div className="l-push-right">
+            <a href={page.uri("/policies/new")} className="t-button new-policy">
               <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}</a>
           </div>
         </div>
@@ -68,8 +68,10 @@ App.Pages.PolicyOverview = React.createClass({
 
     if (flash && !this.state.hideFlash) {
       return (
-          <div className="flash"><p>{flash}</p><a href="#" onClick={this.closeFlash}><i
-              className="fa fa-remove"></i></a></div>
+          <div className="flash">
+            <p className={flash.type} dangerouslySetInnerHTML={{__html: flash.message }}></p>
+            <a className="close" href="#" onClick={this.closeFlash}><i className="fa fa-remove"></i></a>
+          </div>
       );
     }
   },

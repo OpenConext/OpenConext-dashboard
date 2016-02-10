@@ -201,14 +201,14 @@ var App = {
     }
   },
 
-  setFlash: function (message) {
-    this.store.flash = message;
+  setFlash: function (message, type) {
+    this.store.flash = {message: message, type: type || 'info'};
   },
 
   getFlash: function () {
-    var message = this.store.flash;
+    var flash = this.store.flash;
     this.store.flash = undefined;
-    return message;
+    return flash;
   },
 
   PubSub: {
