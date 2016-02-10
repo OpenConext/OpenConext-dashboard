@@ -72,7 +72,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
   @Override
   protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
     String uid = getFirstShibHeaderValue(Name_Id, request)
-        .orElseThrow(() -> new IllegalArgumentException("Missing name-id Shibboleth header"));
+        .orElseThrow(() -> new IllegalArgumentException(String.format("Missing name-id Shibboleth header (%s)", request.getRequestURL())));
 
     String idpId = getFirstShibHeaderValue(Shib_Authenticating_Authority, request)
         .orElseThrow(() -> new IllegalArgumentException("Missing Shib-Authenticating-Authority Shibboleth header"));
