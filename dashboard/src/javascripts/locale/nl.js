@@ -325,7 +325,7 @@ I18n.translations.nl = {
     flash_created: "aangemaakt",
     flash_deleted: "verwijderd",
     flash_updated: "bijgewerkt",
-    new_policy: "Nieuwe authorisatie regel",
+    new_policy: "Nieuwe policy",
     overview: {
       description: "Omschrijving",
       identityProviderNames: "Instelling(en)",

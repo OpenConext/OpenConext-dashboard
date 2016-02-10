@@ -37,7 +37,7 @@ App.Pages.PolicyOverview = React.createClass({
               </fieldset>
             </div>
           </div>
-          <div className="l-push-right">
+          <div className="l-col-2">
             <a href={page.uri("/policies/new")} className="t-button new-policy">
               <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}</a>
           </div>
