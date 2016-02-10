@@ -24,18 +24,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import selfservice.domain.Service;
 import selfservice.service.ServicesService;
 
 public class ServicesCache extends AbstractCache {
-
-  private static final Logger LOG = LoggerFactory.getLogger(ServicesCache.class);
 
   private final ServicesService servicesService;
 
@@ -52,11 +49,9 @@ public class ServicesCache extends AbstractCache {
   public List<Service> getAllServices(final String lang) {
     checkArgument("en".equalsIgnoreCase(lang) || "nl".equalsIgnoreCase(lang), "The only languages supported are 'nl' and 'en'");
 
-    List<Service> services = allServicesCache.get().get(lang);
-    if (services == null) {
-      LOG.warn("Cache miss for lang '{}', will return empty list", lang);
-      services = Collections.emptyList();
-    }
+    List<Service> services = Optional.ofNullable(allServicesCache.get())
+        .map(serviceMap -> serviceMap.get(lang))
+        .orElse(Collections.emptyList());
 
     return SerializationUtils.clone(new ArrayList<>(services));
   }

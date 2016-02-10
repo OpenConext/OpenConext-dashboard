@@ -59,7 +59,7 @@ public class ServicesCacheTest {
 
     when(servicesServiceMock.findAll(anyLong())).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service(), new Service())));
 
-    await().atMost(Duration.FIVE_SECONDS).until(() -> subject.getAllServices("en"), hasSize(2));
+    await().atMost(Duration.TWO_SECONDS).until(() -> subject.getAllServices("en"), hasSize(2));
   }
 
   @Test
