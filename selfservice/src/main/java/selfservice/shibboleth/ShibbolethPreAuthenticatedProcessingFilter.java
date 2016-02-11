@@ -3,13 +3,31 @@ package selfservice.shibboleth;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toMap;
+import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
-import static selfservice.shibboleth.ShibbolethHeader.*;
+import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Accountstatus;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_CommonName;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonAffiliation;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonPN;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_Email;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_GivenName;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_HomeOrg;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_MemberOf;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_NlDigitalAuthorIdentifier;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_NlEduPersonHomeOrganization;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_NlEduPersonOrgUnit;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_NlEduPersonStudyBranch;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_NlStudielinkNummer;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_PreferredLanguage;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_SchacHomeOrganizationType;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_SurName;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_Uid;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_UserStatus;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_VoName;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +41,6 @@ import com.google.common.collect.ImmutableMap;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import selfservice.domain.CoinUser;
@@ -90,7 +107,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     List<IdentityProvider> institutionIdentityProviders = getInstitutionIdentityProviders(idpId);
 
-    checkState(!CollectionUtils.isEmpty(institutionIdentityProviders), "no InstitutionIdentityProviders found for '" + idpId + "'");
+    checkState(!isEmpty(institutionIdentityProviders), "no InstitutionIdentityProviders found for '" + idpId + "'");
 
     if (institutionIdentityProviders.size() == 1) {
       IdentityProvider idp = institutionIdentityProviders.get(0);

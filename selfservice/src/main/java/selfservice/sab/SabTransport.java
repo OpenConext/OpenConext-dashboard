@@ -22,5 +22,5 @@ public interface SabTransport {
 
   InputStream getResponse(String request) throws IOException;
 
-  InputStream getRestResponse(String organisationAbbreviation, String role);
+  InputStream getRestResponse(String organisationAbbreviation, String role) throws IOException;
 }

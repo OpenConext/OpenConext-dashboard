@@ -63,9 +63,9 @@ public class SabClient implements Sab {
   @Override
   public Optional<SabRoleHolder> getRoles(String userId) {
     String messageId = UUID.randomUUID().toString();
-    String request = createRequest(userId, messageId);
+    String requestBody = createRequest(userId, messageId);
 
-    try (InputStream is = sabTransport.getResponse(request)) {
+    try (InputStream is = sabTransport.getResponse(requestBody)) {
       return Optional.of(sabResponseParser.parse(is));
     } catch (IOException e) {
       LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());

@@ -15,8 +15,14 @@
  */
 package selfservice.sab;
 
+import static javax.xml.transform.OutputKeys.ENCODING;
+import static javax.xml.transform.OutputKeys.INDENT;
+import static javax.xml.transform.OutputKeys.METHOD;
+import static javax.xml.transform.OutputKeys.OMIT_XML_DECLARATION;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +31,12 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -126,20 +138,34 @@ public class SabResponseParser {
     XPathExpression statusCodeExpression = xpath.compile(XPATH_STATUSCODE);
     String statusCode = (String) statusCodeExpression.evaluate(document, XPathConstants.STRING);
 
-    if (SAMLP_SUCCESS.equals(statusCode)) {
-      // Success, validation returns.
-      return;
-    } else {
+    if (!SAMLP_SUCCESS.equals(statusCode)) {
       // Status message is only set if status code not 'success'.
       XPathExpression statusMessageExpression = xpath.compile(XPATH_STATUSMESSAGE);
       String statusMessage = (String) statusMessageExpression.evaluate(document, XPathConstants.STRING);
 
       if (SAMLP_RESPONDER.equals(statusCode) && statusMessage.startsWith(NOT_FOUND_MESSAGE_PREFIX)) {
         LOG.debug("Given nameId not found in SAB. Is regarded by us as 'valid' response, although server response indicates a server error.");
-        return;
       } else {
-        throw new IOException("Unsuccessful status. Code: '" + statusCode + "', message: " + statusMessage);
+        throw new IOException(String.format("Unsuccessful status. Code: '%s', message: %s, document:\n %s", statusCode, statusMessage, prettyPrintDocument(document)));
       }
+    }
+  }
+
+  private String prettyPrintDocument(Document document) {
+    try {
+      Transformer transformer = TransformerFactory.newInstance().newTransformer();
+      transformer.setOutputProperty(OMIT_XML_DECLARATION, "no");
+      transformer.setOutputProperty(METHOD, "xml");
+      transformer.setOutputProperty(INDENT, "yes");
+      transformer.setOutputProperty(ENCODING, "UTF-8");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+      StringWriter stringWriter = new StringWriter();
+      transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
+      return stringWriter.getBuffer().toString();
+    } catch (TransformerException | TransformerFactoryConfigurationError e) {
+      LOG.error("Failed to pretty print a document", e);
+      return "";
     }
   }
 

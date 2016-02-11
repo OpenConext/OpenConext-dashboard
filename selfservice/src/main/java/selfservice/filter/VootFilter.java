@@ -22,6 +22,7 @@ import static selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANN
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -30,6 +31,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -47,6 +51,8 @@ import selfservice.util.SpringSecurity;
  * object (or not).
  */
 public class VootFilter extends GenericFilterBean {
+
+  private static final Logger logger = LoggerFactory.getLogger(VootFilter.class);
 
   public static final String SESSION_KEY_GROUP_ACCESS = "SESSION_KEY_GROUP_ACCESS";
 
@@ -86,6 +92,10 @@ public class VootFilter extends GenericFilterBean {
 
     addDashboardRole(user);
     addCsaRole(user);
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("Roles based on VOOT {}", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
+    }
 
     SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(user));
 

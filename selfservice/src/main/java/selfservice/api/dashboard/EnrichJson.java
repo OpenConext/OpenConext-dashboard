@@ -1,5 +1,7 @@
 package selfservice.api.dashboard;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -92,6 +94,9 @@ public class EnrichJson {
   }
 
   public void forPayload(Object payload) {
+    checkNotNull(json);
+    checkNotNull(payload);
+
     JsonElement payloadAsJsonElement = json.getAsJsonObject().get("payload");
     if (payloadAsJsonElement.isJsonObject()) {
       if (mapping.containsKey(payload.getClass())) {
