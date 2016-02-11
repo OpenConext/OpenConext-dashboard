@@ -414,7 +414,7 @@
    */
   function parseURL(href, isWindowLocation, isNotAPI) {
     var re = /(?:([a-zA-Z0-9\-]+\:))?(?:\/\/(?:[^@]*@)?([^\/:\?#]+)(?::([0-9]+))?)?([^\?#]*)(?:(\?[^#]+)|\?)?(?:(#.*))?/;
-    if (typeof href !== "undefined" && href !== null && href !== '' && !isWindowLocation) {
+    if (href !== null && href !== '' && !isWindowLocation) {
       var current = parseURL(),
           base = document.getElementsByTagName('base')[0];
       if (!isNotAPI && base && base.getAttribute('href')) {
@@ -436,7 +436,6 @@
     } else {
       href = isWindowLocation ? href : windowLocation.href;
       // if current browser not support History-API
-console.log("no href ", href)
       if (!isSupportHistoryAPI || isNotAPI) {
         // get hash fragment
         href = href.replace(/^[^#]*/, '') || "#";
@@ -444,7 +443,6 @@ console.log("no href ", href)
         // https://github.com/devote/HTML5-History-API/issues/50
         href = windowLocation.protocol.replace(/:.*$|$/, ':') + '//' + windowLocation.host + settings['basepath']
           + href.replace(new RegExp("^#[\/]?(?:" + settings["type"] + ")?"), "");
-        console.log("our new href ", href)
       }
     }
     // that would get rid of the links of the form: /../../
