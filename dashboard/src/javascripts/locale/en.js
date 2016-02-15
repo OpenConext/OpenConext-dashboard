@@ -23,7 +23,7 @@ I18n.translations.en = {
     title: "Dashboard",
     welcome: "Welcome,",
     links: {
-      help_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Dashboard+van+SURFconext+%28EN%29\" target=\"_blank\">Help</a>",
+      help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help</a>",
       logout: "Logout",
       exit: "Exit"
     },
@@ -271,7 +271,7 @@ I18n.translations.en = {
 
   my_idp: {
     title: "My institute",
-    sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">more info</a>):",
+    sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
     role: "Role",
     users: "User(s)",
     SURFconextverantwoordelijke: "SURFconext owner",
@@ -279,14 +279,14 @@ I18n.translations.en = {
     "Dashboard supergebruiker": "Dashboard Super User",
     services_title: "Services provided by your institute:",
     service_name: "Service name",
-    license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">more info</a>):",
+    license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
     license_contact_name: "Name",
     license_contact_email: "Email",
     license_contact_phone: "Phonenumber"
   },
 
   policies: {
-    beta: "Policies is a new beta service offered by SURFconext. With policies you can restrict access to services based on the attributes of a user. <br>See <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">this page</a> for more info.",
+    beta: "Policies is a new beta service offered by SURFconext. With policies you can restrict access to services based on the attributes of a user. <br>See <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\">this page</a> for more info.",
     confirmation: "Are your sure you want to remove policy '{{policyName}}?'",
     flash: "Policy '{{policyName}}' was successfully {{action}}",
     flash_created: "created",
