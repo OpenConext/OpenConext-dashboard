@@ -16,6 +16,7 @@
 package selfservice.service.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.StreamSupport.stream;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
@@ -88,19 +90,14 @@ public class CompoundServiceProviderService {
     Map<String, CompoundServiceProvider> mapByServiceProviderEntityId = stream(compoundServiceProviderDao.findAll().spliterator(), false)
         .collect(toMap(csp -> csp.getServiceProviderEntityId(), identity()));
 
-    // Build a list of CSPs. Create new ones for SPs that have no CSP yet.
-    List<CompoundServiceProvider> all = new ArrayList<>();
-    for (ServiceProvider sp : allServiceProviders) {
-      CompoundServiceProvider csp;
-      if (mapByServiceProviderEntityId.containsKey(sp.getId())) {
-        csp = compound(identityProvider, sp, mapByServiceProviderEntityId.get(sp.getId()));
-      } else {
-        LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
-        csp = createCompoundServiceProvider(identityProvider, sp);
-      }
-      all.add(csp);
-    }
-    return all;
+    return allServiceProviders.stream()
+      .map(sp -> ofNullable(mapByServiceProviderEntityId.get(sp.getId()))
+          .map(csp -> compound(identityProvider, sp, csp))
+          .orElseGet(() -> {
+            LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
+            return createCompoundServiceProvider(identityProvider, sp);
+          })
+      ).collect(Collectors.toList());
   }
 
   private CompoundServiceProvider compound(IdentityProvider identityProvider, ServiceProvider sp, CompoundServiceProvider csp) {
@@ -116,12 +113,6 @@ public class CompoundServiceProviderService {
     return csp;
   }
 
-  /**
-   * Create a CSP for the given SP.
-   *
-   * @param sp the SP
-   * @return the created (and persisted) CSP
-   */
   private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
     Optional<Article> articleO = getArticleForSp(sp);
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, articleO);

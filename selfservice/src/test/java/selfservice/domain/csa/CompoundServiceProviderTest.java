@@ -15,7 +15,10 @@
  */
 package selfservice.domain.csa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.Optional;
@@ -24,9 +27,8 @@ import org.junit.Test;
 
 import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
-import selfservice.domain.csa.Article;
-import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.domain.csa.Field;
+import selfservice.domain.csa.Field.Key;
+import selfservice.domain.csa.Field.Source;
 
 public class CompoundServiceProviderTest {
 
@@ -39,8 +41,8 @@ public class CompoundServiceProviderTest {
     Article article = new Article();
 
     CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
-    Map<Field.Key, String> values = provider.getDistributionFieldValues();
-    String des = values.get(Field.Key.ENDUSER_DESCRIPTION_EN);
+    Map<Key, String> values = provider.getDistributionFieldValues();
+    String des = values.get(Key.ENDUSER_DESCRIPTION_EN);
     assertNull(des);
 
     String detailLogo = provider.getDetailLogo();
@@ -55,25 +57,25 @@ public class CompoundServiceProviderTest {
     appLogo = provider.getAppStoreLogo();
     assertEquals("https://static.surfconext.nl/media/idp/windesheim.png", appLogo);
 
-    des = values.get(Field.Key.ENDUSER_DESCRIPTION_NL);
+    des = values.get(Key.ENDUSER_DESCRIPTION_NL);
     assertNull(des);
   }
 
   @Test
   public void testIsAllowed() {
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Field.Key.INSTITUTION_DESCRIPTION_EN, Field.Source.SURFCONEXT));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Field.Key.APPSTORE_LOGO, Field.Source.SURFCONEXT));
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.INSTITUTION_DESCRIPTION_EN, Source.SURFCONEXT));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.APPSTORE_LOGO, Source.SURFCONEXT));
 
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Field.Key.SERVICE_DESCRIPTION_EN, Field.Source.LMNG));
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Field.Key.APPSTORE_LOGO, Field.Source.LMNG));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Field.Key.SERVICE_DESCRIPTION_NL, Field.Source.LMNG));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Field.Key.INSTITUTION_DESCRIPTION_NL, Field.Source.LMNG));
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_EN, Source.LMNG));
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.APPSTORE_LOGO, Source.LMNG));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.LMNG));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.INSTITUTION_DESCRIPTION_NL, Source.LMNG));
 
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Field.Key.SERVICE_DESCRIPTION_NL, Field.Source.DISTRIBUTIONCHANNEL));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Field.Key.SERVICE_DESCRIPTION_NL, Field.Source.DISTRIBUTIONCHANNEL));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
+    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
 
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Field.Key.ENDUSER_DESCRIPTION_EN, Field.Source.SURFCONEXT));
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Field.Key.ENDUSER_DESCRIPTION_NL, Field.Source.SURFCONEXT));
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.ENDUSER_DESCRIPTION_EN, Source.SURFCONEXT));
+    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.ENDUSER_DESCRIPTION_NL, Source.SURFCONEXT));
   }
 
 }

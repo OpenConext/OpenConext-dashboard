@@ -317,6 +317,7 @@ public class CompoundServiceProvider extends DomainObject {
         }
       }
     }
+
     for (FieldImage f : this.fieldImages) {
       if (key.equals(f.getKey())) {
         switch (f.getSource()) {
@@ -331,6 +332,7 @@ public class CompoundServiceProvider extends DomainObject {
         }
       }
     }
+
     throw new RuntimeException("Unset key (" + key + ") for ('" + this + "'");
   }
 

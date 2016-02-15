@@ -1,5 +1,6 @@
 package selfservice.service.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class ServicesServiceImpl implements ServicesService {
   @Override
   public Map<String, List<Service>> findAll(long callDelay) {
     List<CompoundServiceProvider> allCSPs = compoundSPService.getAllCSPs(callDelay);
+
     List<Service> servicesEn = buildApiServices(allCSPs, "en");
     List<Service> servicesNl = buildApiServices(allCSPs, "nl");
     List<Service> crmOnlyServices = getCrmOnlyServices();
@@ -69,10 +71,10 @@ public class ServicesServiceImpl implements ServicesService {
     return services.stream().map(csp -> buildApiService(csp, language)).collect(Collectors.toList());
   }
 
-  /**
-   * Build a Service object based on the given CSP
-   */
-  public Service buildApiService(CompoundServiceProvider csp, String language) {
+  protected Service buildApiService(CompoundServiceProvider csp, String language) {
+    checkNotNull(csp);
+    checkNotNull(csp.getSp());
+
     boolean isEn = language.equalsIgnoreCase("en");
 
     Service service = new Service();
@@ -110,7 +112,7 @@ public class ServicesServiceImpl implements ServicesService {
     service.setCrmUrl(csp.isArticleAvailable() ? (lmngDeepLinkBaseUrl + csp.getLmngId()) : null);
     service.setDetailLogoUrl(absoluteUrl(csp.getDetailLogo()));
     service.setLogoUrl(absoluteUrl(csp.getAppStoreLogo()));
-    service.setSupportMail(csp.getSupportMail());
+    service.setSupportMail(normalizeEmail(csp.getSupportMail()));
     service.setWebsiteUrl(csp.getServiceUrl());
     service.setArp(csp.getSp().getArp());
     service.setAvailableForEndUser(csp.isAvailableForEndUser());
@@ -121,6 +123,14 @@ public class ServicesServiceImpl implements ServicesService {
     service.setNormenkaderUrl(csp.getNormenkaderUrl());
     service.setNormenkaderPresent(csp.isNormenkaderPresent());
     service.setExampleSingleTenant(csp.isExampleSingleTenant());
+  }
+
+  private String normalizeEmail(String email) {
+    if (email != null && email.startsWith("mailto:")) {
+      return email.substring(7);
+    }
+
+    return email;
   }
 
   private void screenshots(CompoundServiceProvider csp, Service service) {
@@ -190,9 +200,6 @@ public class ServicesServiceImpl implements ServicesService {
     }
   }
 
-  /**
-   * Returns an absolute URL for the given url
-   */
   private String absoluteUrl(final String relativeUrl) {
     if (relativeUrl != null && relativeUrl.startsWith("/")) {
       return this.staticBaseUrl + relativeUrl;

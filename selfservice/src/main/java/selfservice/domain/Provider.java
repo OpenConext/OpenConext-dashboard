@@ -147,12 +147,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     if (CollectionUtils.isEmpty(contactPersons)) {
       return null;
     }
-    for (ContactPerson cp : contactPersons) {
-      if (cp.getContactPersonType().equals(type)) {
-        return cp;
-      }
-    }
-    return null;
+
+    return contactPersons.stream()
+        .filter(cp -> cp.getContactPersonType().equals(type))
+        .findFirst().orElse(null);
   }
 
   public void setContactPersons(List<ContactPerson> contactPersons) {
