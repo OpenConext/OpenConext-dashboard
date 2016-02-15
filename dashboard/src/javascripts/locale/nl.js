@@ -305,7 +305,7 @@ I18n.translations.nl = {
 
   my_idp: {
     title: "Mijn instelling",
-    sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">toelichting</a>):",
+    sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
     role: "Rol",
     users: "Gebruiker(s)",
     SURFconextverantwoordelijke: "SURFconextverantwoordelijke",
@@ -313,7 +313,7 @@ I18n.translations.nl = {
     "Dashboard supergebruiker": "Dashboard supergebruiker",
     services_title: "Deze services worden aangeboden door jouw instelling:",
     service_name: "Naam service",
-    license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">toelichting</a>):",
+    license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
     license_contact_name: "Naam",
     license_contact_email: "Email",
     license_contact_phone: "Telefoonnummer"
