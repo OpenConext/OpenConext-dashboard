@@ -23,7 +23,7 @@ I18n.translations.nl = {
     title: "Dashboard",
     welcome: "Welkom,",
     links: {
-      help_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Dashboard+van+SURFconext+%28NL%29\" target=\"_blank\">Help</a>",
+      help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help</a>",
       logout: "Uitloggen",
       exit: "Exit"
     },
@@ -320,7 +320,7 @@ I18n.translations.nl = {
   },
 
   policies: {
-    beta: "Policies is een nieuwe beta dienst aangeboden door SURFconext. Met policies kan je de toegang beperken tot diensten gebaseerd op attributen van een gebuiker. <br>Zie <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=25198606\">deze pagina</a> voor meer informatie.",
+    beta: "Policies is een nieuwe beta dienst aangeboden door SURFconext. Met policies kan je de toegang beperken tot diensten gebaseerd op attributen van een gebuiker. <br>Zie <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\">deze pagina</a> voor meer informatie.",
     confirmation: "Weet je zeker dat je autorisatie regel {{policyName}} wilt verwijderen?",
     flash: "Autorisatie regel '{{policyName}}' is succesvol {{action}}",
     flash_created: "aangemaakt",
