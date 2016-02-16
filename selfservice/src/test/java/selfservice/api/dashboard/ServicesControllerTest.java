@@ -3,6 +3,7 @@ package selfservice.api.dashboard;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,6 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import selfservice.domain.Action;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
@@ -135,24 +137,30 @@ public class ServicesControllerTest {
   public void thatALinkRequestCanBeMade() throws Exception {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
+    when(csaMock.createAction(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
+
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/connect")
         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
         .param("spEntityId", SP_ENTITY_ID))
-      .andExpect(status().isOk());
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
   }
 
   @Test
   public void thatADisconnectRequestCanBeMade() throws Exception {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
+    when(csaMock.createAction(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
+
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/disconnect")
         .contentType(MediaType.APPLICATION_JSON)
         .param("spEntityId", SP_ENTITY_ID)
         .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
-      .andExpect(status().isOk());
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
   }
 
   @Test
