@@ -41,10 +41,10 @@ import selfservice.service.impl.CompoundServiceProviderService;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SpLnmgListControllerTest {
+public class SpLmngListControllerTest {
 
   @InjectMocks
-  private SpLnmgListController subject = new SpLnmgListController();
+  private SpLmngListController subject = new SpLmngListController();
 
   @Mock private LmngIdentifierDao lmngIdentifierDaoMock;
   @Mock private LocaleResolver localeResolverMock;

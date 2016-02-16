@@ -58,9 +58,9 @@ import selfservice.service.impl.LmngUtil;
 
 @Controller
 @RequestMapping(value = "/shopadmin")
-public class SpLnmgListController extends BaseController {
+public class SpLmngListController extends BaseController {
 
-  private static final Logger log = LoggerFactory.getLogger(SpLnmgListController.class);
+  private static final Logger log = LoggerFactory.getLogger(SpLmngListController.class);
 
   @Autowired private ServiceProviderService providerService;
   @Autowired private CrmService licensingService;
