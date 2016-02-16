@@ -160,7 +160,7 @@ var App = {
       return;
     }
 
-    switch (xhr.status) {
+    switch (jqxhr.status) {
       case 404:
         App.actionNotFound();
         break;
