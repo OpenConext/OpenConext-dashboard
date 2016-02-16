@@ -35,7 +35,7 @@ public class Policy {
   private Date created;
 
   private boolean isActivatedSr;
-  private boolean active;
+  private boolean active = true;
   private boolean actionsAllowed;
 
   public Policy() {

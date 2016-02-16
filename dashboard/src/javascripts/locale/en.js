@@ -294,6 +294,7 @@ I18n.translations.en = {
     flash_updated: "updated",
     new_policy: "New policy",
     overview: {
+      active: "Active",
       description: "Description",
       identityProviderNames: "Institution(s)",
       name: "Name",
@@ -329,6 +330,9 @@ I18n.translations.en = {
     description: "Description",
     idps_placeholder: "Select the Identity Providers - zero or more",
     institutions: "Institutions",
+    isActive: "Active",
+    isActiveDescription: "Mark the policy active",
+    isActiveInfo: " Inactive policies are not evaluated in enforcement decisions",
     name: "Name",
     permit: "Permit",
     permit_info: "Permit policies enforce that a only a successful match of the attributes defined will result in a Permit. No match will result in a Deny.",

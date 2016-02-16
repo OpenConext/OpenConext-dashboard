@@ -328,6 +328,7 @@ I18n.translations.nl = {
     flash_updated: "bijgewerkt",
     new_policy: "Nieuwe policy",
     overview: {
+      active: "Actief",
       description: "Omschrijving",
       identityProviderNames: "Instelling(en)",
       name: "Naam",
@@ -362,6 +363,9 @@ I18n.translations.nl = {
     description: "Omschrijving",
     idps_placeholder: "Selecteer de instellingen - 0 of meer",
     institutions: "Instelling(en)",
+    isActive: "Actief",
+    isActiveDescription: "Markeer de regel actief",
+    isActiveInfo: " Inactieve regels worden niet geevalueerd in access beslissingen",
     name: "Naam",
     permit: "Permit",
     permit_info: "Permit regels dwingen af dat de gebruiker alleen wordt geautoriseerd als de attributen matchen. Als er geen match is dan wordt de gebruiker niet toegelaten tot de dienst.",

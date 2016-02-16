@@ -23,6 +23,7 @@ App.Pages.PolicyDetail = React.createClass({
             {this.renderAttributes(policy)}
             {this.renderDenyAdvice(policy)}
             {this.renderDescription(policy)}
+            {this.renderActive(policy)}
             {this.renderActions(policy)}
           </div>
         </div>
@@ -309,6 +310,24 @@ App.Pages.PolicyDetail = React.createClass({
     } else {
       this.state.serviceProviderName = _.find(this.props.serviceProviders, "spEntityId", serviceProviderId).name;
     }
+  },
+
+  renderActive: function (policy) {
+    return (
+      <div className="form-element">
+        <fieldset className="success">
+          <p className="label">{I18n.t("policy_detail.isActive")}</p>
+          <input type="checkbox" id="isActive" name="isActive" checked={policy.active}
+                 onChange={this.handleOnChangeIsActive}/>
+          <label htmlFor="isActive">{I18n.t("policy_detail.isActiveDescription")}</label>
+          <em className="note"><sup>*</sup>{I18n.t("policy_detail.isActiveInfo")} </em>
+        </fieldset>
+      </div>
+    );
+  },
+
+  handleOnChangeIsActive: function (e) {
+    this.setState({active: !this.state.active});
   },
 
   renderActions: function(policy) {

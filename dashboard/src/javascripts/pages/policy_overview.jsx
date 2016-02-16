@@ -50,6 +50,7 @@ App.Pages.PolicyOverview = React.createClass({
                 {this.renderSortableHeader("percent_20", "description")}
                 {this.renderSortableHeader("percent_20", "serviceProviderName")}
                 {this.renderSortableHeader("percent_20", "identityProviderNames")}
+                {this.renderSortableHeader("percent_10", "active")}
                 {this.renderSortableHeader("percent_10", "numberOfRevisions")}
                 <th className="percent_5"></th>
               </tr>
@@ -87,7 +88,8 @@ App.Pages.PolicyOverview = React.createClass({
         <td>{policy.description}</td>
         <td>{policy.serviceProviderName}</td>
         <td>{this.renderIdpNames(policy)}</td>
-        <td className="number">{this.renderRevisionsLink(policy)}</td>
+        <td><input type="checkbox" defaultChecked={policy.active} disabled="true"/></td>
+        <td>{this.renderRevisionsLink(policy)}</td>
         <td>{this.renderControls(policy)}</td>
       </tr>
     );
