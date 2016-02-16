@@ -34,7 +34,7 @@ I18n.translations.nl = {
 
   navigation: {
     apps: "Services",
-    policies: "Policies",
+    policies: "Autorisatieregels",
     notifications: "Notificaties",
     history: "Logboek",
     stats: "Statistieken",
@@ -321,19 +321,19 @@ I18n.translations.nl = {
 
   policies: {
     beta: "Policies is een nieuwe beta dienst aangeboden door SURFconext. Met policies kan je de toegang beperken tot diensten gebaseerd op attributen van een gebuiker. <br>Zie <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\">deze pagina</a> voor meer informatie.",
-    confirmation: "Weet je zeker dat je autorisatie regel {{policyName}} wilt verwijderen?",
-    flash: "Autorisatie regel '{{policyName}}' is succesvol {{action}}",
+    confirmation: "Weet je zeker dat je autorisatieregel {{policyName}} wilt verwijderen?",
+    flash: "Autorisatieregel '{{policyName}}' is succesvol {{action}}",
     flash_created: "aangemaakt",
     flash_deleted: "verwijderd",
     flash_updated: "bijgewerkt",
-    new_policy: "Nieuwe policy",
+    new_policy: "Nieuwe autorisatieregel",
     overview: {
       active: "Actief",
       description: "Omschrijving",
       identityProviderNames: "Instelling(en)",
       name: "Naam",
       numberOfRevisions: "Revisies",
-      search: "Zoek autorisatie regels...",
+      search: "Zoek autorisatieregels...",
       search_hint: "Filter op naam",
       serviceProviderName: "Dienst",
     }
@@ -354,7 +354,7 @@ I18n.translations.nl = {
     autoFormat: "AutoFormat regel omschrijving",
     cancel: "Annuleer",
     confirmation: "Weet je zeker dat je deze pagina wilt sluiten?",
-    create_policy: "Nieuwe autorisatie regel",
+    create_policy: "Nieuwe autorisatieregel",
     deny: "Deny",
     deny_info: "Deny regels zijn minder gebruikelijk. Als de attributen matchen dan mag de gebruiker niet naar de dienst. Als de attributen niet matchen dan wel.",
     deny_message: "Ongeautoriseerd melding in het Engels",
@@ -371,16 +371,16 @@ I18n.translations.nl = {
     permit_info: "Permit regels dwingen af dat de gebruiker alleen wordt geautoriseerd als de attributen matchen. Als er geen match is dan wordt de gebruiker niet toegelaten tot de dienst.",
     rule: "Regel",
     rule_and: "EN",
-    rule_and_info: "Autorisatie regels met een logische EN dwingen af dat alle gedefinieerde attributen moeten matchen.",
+    rule_and_info: "Autorisatieregels met een logische EN dwingen af dat alle gedefinieerde attributen moeten matchen.",
     rule_info_add: " Attribuut waardes van hetzelfde attribuut zullen altijd worden geevalueerd met de logische OF.",
-    rule_info_add_2: "Een 'Deny' autorisatie regel wordt altijd geevalueerd met de logische EN voor attribuut waarden van verschillende attributen.",
+    rule_info_add_2: "Een 'Deny' autorisatieregel wordt altijd geevalueerd met de logische EN voor attribuut waarden van verschillende attributen.",
     rule_or: "OF",
-    rule_or_info: "Voor autorisatie regels met een logische OF is het slechts vereist dat 1 attribuut matched.",
+    rule_or_info: "Voor autorisatieregels met een logische OF is het slechts vereist dat 1 attribuut matched.",
     service: "Dienst",
     sp_placeholder: "Selecteer de dienst - verplicht",
     sub_title: "Aangemaakt door {{displayName}} op {{created}}",
     submit: "Verstuur",
-    update_policy: "Bijwerken autorisatie regel",
+    update_policy: "Bijwerken autorisatieregel",
   },
 
   revisions: {

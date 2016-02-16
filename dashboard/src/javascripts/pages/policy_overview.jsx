@@ -25,7 +25,7 @@ App.Pages.PolicyOverview = React.createClass({
       <div className="l-main">
         {this.renderFlash()}
         <div className="l-grid">
-          <div className="l-col-10">
+          <div className="l-col-9">
             <div className="mod-policy-search">
               <fieldset>
                   <i className="fa fa-search"/>
@@ -37,7 +37,7 @@ App.Pages.PolicyOverview = React.createClass({
               </fieldset>
             </div>
           </div>
-          <div className="l-col-2 text-right no-gutter">
+          <div className="l-col-3 text-right no-gutter">
             <a href={page.uri("/policies/new")} className="t-button new-policy">
               <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}</a>
           </div>
