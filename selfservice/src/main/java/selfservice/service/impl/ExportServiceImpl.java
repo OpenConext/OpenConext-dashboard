@@ -19,6 +19,8 @@ import java.util.List;
 @Service(value = "exportService")
 public class ExportServiceImpl implements ExportService {
 
+  private static final String[] HEADER = new String[]{"SP Entity", "CRM GUID", "IDP Only Visible", "Field", "CRM value", "SurfConext value", "Distribution Channel Value", "Active Source"};
+
   private static final Logger LOG = LoggerFactory.getLogger(ExportServiceImpl.class);
 
   @Override
@@ -41,7 +43,7 @@ public class ExportServiceImpl implements ExportService {
   }
 
   private void writeHeader(CSVWriter csvWriter) {
-    csvWriter.writeNext(new String[]{"SP Entity", "CRM GUID", "available EndUser", "IDP Only Visible", "Field", "CRM value", "SurfConext value", "Distribution Channel Value", "Active Source"});
+    csvWriter.writeNext(HEADER);
   }
 
   private void writeStringFields(final CSVWriter csvWriter, final LmngServiceBinding binding) {
@@ -49,10 +51,10 @@ public class ExportServiceImpl implements ExportService {
     for (FieldString field : csp.getFields()) {
       String name = null == binding.getServiceProvider() ? binding.getCompoundServiceProvider().getServiceProviderEntityId() : binding.getServiceProvider().getName();
       String idpOnly = null == binding.getServiceProvider() ? "" : Boolean.toString(binding.getServiceProvider().isIdpVisibleOnly());
-      csvWriter.writeNext(new String[]{
+
+      csvWriter.writeNext(new String[] {
           name,
           binding.getLmngIdentifier(),
-          Boolean.toString(csp.isAvailableForEndUser()),
           idpOnly,
           field.getKey().name(),
           csp.getLmngFieldValues().get(field.getKey()),
@@ -69,15 +71,14 @@ public class ExportServiceImpl implements ExportService {
         String name = null == binding.getServiceProvider() ? binding.getCompoundServiceProvider().getServiceProviderEntityId() : binding.getServiceProvider().getName();
         String idpOnly = null == binding.getServiceProvider() ? "" : Boolean.toString(binding.getServiceProvider().isIdpVisibleOnly());
 
-        csvWriter.writeNext(new String[]{
+        csvWriter.writeNext(new String[] {
             name,
             binding.getLmngIdentifier(),
-            Boolean.toString(csp.isAvailableForEndUser()),
             idpOnly,
             field.getKey().name(),
             csp.getLmngFieldValues().get(field.getKey()),
             csp.getSurfConextFieldValues().get(field.getKey()),
-            baseUrl + "/fieldimages/"+field.getId() +".img",
+            baseUrl + "/fieldimages/" + field.getId() + ".img",
             field.getSource().name()
         });
       }
@@ -91,7 +92,6 @@ public class ExportServiceImpl implements ExportService {
         csvWriter.writeNext(new String[] {
             name,
             binding.getLmngIdentifier(),
-            Boolean.toString(csp.isAvailableForEndUser()),
             Boolean.toString(binding.getServiceProvider().isIdpVisibleOnly()),
             "_SCREENSHOT_",
             "",

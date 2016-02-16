@@ -57,7 +57,6 @@ public class Service implements Comparable<Service>, Serializable {
 
   private boolean connected;
   private boolean hasCrmLink;
-  private boolean availableForEndUser;
   private boolean idpVisibleOnly;
   private boolean publishedInEdugain;
   private boolean normenkaderPresent;
@@ -307,14 +306,6 @@ public class Service implements Comparable<Service>, Serializable {
         value.setCategory(category);
       }
     }
-  }
-
-  public boolean isAvailableForEndUser() {
-    return availableForEndUser;
-  }
-
-  public void setAvailableForEndUser(boolean availableForEndUser) {
-    this.availableForEndUser = availableForEndUser;
   }
 
   public boolean isIdpVisibleOnly() {

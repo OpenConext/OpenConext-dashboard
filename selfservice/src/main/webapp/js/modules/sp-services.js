@@ -38,10 +38,6 @@ app.spServices = function () {
         });
     };
 
-    $('#sp_overview_table').find("input[type='checkbox'][name='availableForEndUser']").click(function () {
-      performAjaxUpdate(this, "update-enduser-visible", $(this).is(':checked'));
-    });
-
     $('#sp_overview_table').find("input[type='checkbox'][name='normenkaderPresent']").click(function () {
       toggleFormElements($(this));
       performAjaxUpdate(this, "update-normenkader-present", $(this).is(':checked'));

@@ -115,7 +115,6 @@ public class ServicesServiceImpl implements ServicesService {
     service.setSupportMail(normalizeEmail(csp.getSupportMail()));
     service.setWebsiteUrl(csp.getServiceUrl());
     service.setArp(csp.getSp().getArp());
-    service.setAvailableForEndUser(csp.isAvailableForEndUser());
     service.setIdpVisibleOnly(csp.getSp().isIdpVisibleOnly());
     service.setInstitutionId(csp.getSp().getInstitutionId());
     service.setPublishedInEdugain(csp.getSp().isPublishedInEdugain());

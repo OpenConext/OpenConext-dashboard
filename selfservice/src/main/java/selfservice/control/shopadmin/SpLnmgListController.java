@@ -201,18 +201,6 @@ public class SpLnmgListController extends BaseController {
     return listAllSpsLmng(model);
   }
 
-  @RequestMapping(value = "/update-enduser-visible/{cspId}/{newValue}", method = RequestMethod.PUT)
-  @ResponseBody
-  public String updateCspPublicApi(@PathVariable("cspId") Long cspId, @PathVariable("newValue") boolean newValue) {
-    CompoundServiceProvider csp = compoundServiceProviderDao.findOne(cspId);
-    csp.setAvailableForEndUser(newValue);
-    compoundServiceProviderDao.save(csp);
-
-    log.info("Updated CompoundServiceProvider({}) to be available for end users: {}", cspId, newValue);
-
-    return "ok";
-  }
-
   @RequestMapping(value = "/update-normenkader-present/{cspId}/{newValue}", method = RequestMethod.PUT)
   @ResponseBody
   public String updateCspNormenKaderPresent(@PathVariable("cspId") Long cspId, @PathVariable("newValue") boolean newValue) {

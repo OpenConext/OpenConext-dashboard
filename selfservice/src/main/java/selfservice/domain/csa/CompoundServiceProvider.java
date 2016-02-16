@@ -84,9 +84,6 @@ public class CompoundServiceProvider extends DomainObject {
   private String lmngId;
 
   @Column
-  private boolean availableForEndUser;
-
-  @Column
   private LicenseStatus licenseStatus = LicenseStatus.NOT_NEEDED;
 
   @Column
@@ -127,7 +124,6 @@ public class CompoundServiceProvider extends DomainObject {
     CompoundServiceProvider provider = new CompoundServiceProvider();
     provider.setServiceProvider(serviceProvider);
     article.ifPresent(provider::setArticle);
-    provider.setAvailableForEndUser(!serviceProvider.isIdpVisibleOnly());
     provider.setExampleSingleTenant(serviceProvider.isExampleSingleTenant());
 
     buildFieldImage(Field.Key.DETAIL_LOGO, article.map(Article::getDetailLogo).orElse(null), validSrLogo(serviceProvider.getLogoUrl()), detailLogoImageBytes, provider);
@@ -507,14 +503,6 @@ public class CompoundServiceProvider extends DomainObject {
 
   public boolean isArticleLicenseAvailable() {
     return isArticleAvailable() && isLicenseAvailable();
-  }
-
-  public boolean isAvailableForEndUser() {
-    return availableForEndUser;
-  }
-
-  public void setAvailableForEndUser(boolean availableForEndUser) {
-    this.availableForEndUser = availableForEndUser;
   }
 
   public LicenseStatus getLicenseStatus() {

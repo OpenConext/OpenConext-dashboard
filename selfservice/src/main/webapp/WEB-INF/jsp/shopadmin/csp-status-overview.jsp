@@ -54,7 +54,6 @@
                       <th><spring:message code="jsp.cspstatus.csp.grouplicense"/></th>
                       <th><spring:message code="jsp.cspstatus.csp.license.expire"/></th>
                       <th><spring:message code="jsp.cspstatus.csp.islinked"/></th>
-                      <th><spring:message code="jsp.lmng_binding_overview.enduser"/></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -109,16 +108,6 @@
                         <td>
                           <c:choose>
                             <c:when test="${compoundSp.sp.linked}">
-                              <i class="icon-ok"/>
-                            </c:when>
-                            <c:otherwise>
-                              <i class="icon-remove icon-greyed-out"/>
-                            </c:otherwise>
-                          </c:choose>
-                        </td>
-                        <td>
-                          <c:choose>
-                            <c:when test="${compoundSp.availableForEndUser}">
                               <i class="icon-ok"/>
                             </c:when>
                             <c:otherwise>

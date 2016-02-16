@@ -89,7 +89,7 @@ public class CsaImpl implements Csa {
     return servicesCache.getAllServices(language).stream().filter(service -> {
       boolean isConnected = serviceProviderIdentifiers.contains(service.getSpEntityId());
       boolean showForInstitution = showServiceForInstitution(identityProvider, service);
-      return showForInstitution || (service.isAvailableForEndUser() && isConnected);
+      return showForInstitution || isConnected;
     }).map(service -> {
         service.setConnected(serviceProviderIdentifiers.contains(service.getSpEntityId()));
 

@@ -46,10 +46,6 @@
             <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.dummy" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.dummy.help" />"></i>
           </th>
           <th>
-            <spring:message code="jsp.lmng_binding_overview.enduser"/>
-            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.enduser" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.enduser.help" />"></i>
-          </th>
-          <th>
             <spring:message code="jsp.lmng_binding_overview.normenkader"/>
             <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.normenkader" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.normenkader.help" />"></i>
           </th>
@@ -100,11 +96,6 @@
               </td>
               <td class="center">
                   ${binding.compoundServiceProvider.exampleSingleTenant == true ? "<i class='icon-ok'> </i>" : "<i class='icon-remove icon-greyed-out'> </i>"}
-              </td>
-              <td class="center">
-                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
-                <c:set var="checked" value="${binding.compoundServiceProvider.availableForEndUser}"></c:set>
-                <input type="checkbox" name="availableForEndUser" value="${checked}" data-compound-service-provider-id="${binding.compoundServiceProvider.id}" ${checked ? 'checked' : ''}>
               </td>
               <td class="center">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
@@ -179,9 +170,6 @@
             <spring:message code="jsp.lmng_binding_overview.idponly"/>
           </th>
           <th>
-            <spring:message code="jsp.lmng_binding_overview.enduser"/>
-          </th>
-          <th>
             <spring:message code="jsp.lmng_binding_overview.lmngid"/>
           </th>
           <th>
@@ -195,33 +183,27 @@
           </th>
         </tr>
         </thead>
-        <tbody>        
+        <tbody>
         <c:forEach items="${orphans}" var="orphan" varStatus="status">
           <tr>
             <td title="${orphan.serviceProvider.id} - ${fn:substring(orphan.serviceProvider.descriptions[locale.language], 0, 40)}">
                 ${fn:substring(orphan.compoundServiceProvider.titleEn, 0, 40)}
-              </td>
-              <td class="center">
-                ${orphan.serviceProvider.idpVisibleOnly == true ? "<i class='icon-ok'> </i>" : "<i class='icon-remove icon-greyed-out'> </i>"}
-              </td>
-              <td class="center">
-                <c:set var="checked" value="${orphan.compoundServiceProvider.availableForEndUser}"></c:set>
-                <input type="checkbox" name="availableForEndUser" disabled="true" value="${checked}" data-compound-service-provider-id="${orphan.compoundServiceProvider.id}" ${checked ? 'checked' : ''}>
-              </td>
-              <td>
-                <input id="lmngId-${status.index}" value="${orphan.lmngIdentifier}" disabled="true" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
-              </td>
-              <td>
-              </td>
-              <td>
-              </td>
-              <td>
-               <p id="delete-${status.index}" data-delete-sp="delete-form-${status.index}" class="btn btn-small icon-trash"></p>
-               <form:form id="delete-form-${status.index}" method="post" action="delete-csp.shtml">
-                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
-                <input type="hidden" name="cspId" value="${orphan.compoundServiceProvider.id}"></input>
-               </form:form>
-              </td>
+            </td>
+            <td class="center">
+              ${orphan.serviceProvider.idpVisibleOnly == true ? "<i class='icon-ok'> </i>" : "<i class='icon-remove icon-greyed-out'> </i>"}
+            </td>
+            <td>
+              <input id="lmngId-${status.index}" value="${orphan.lmngIdentifier}" disabled="true" class="lmngIdentifier" type="text" name="lmngIdentifier"/>
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+             <p id="delete-${status.index}" data-delete-sp="delete-form-${status.index}" class="btn btn-small icon-trash"></p>
+             <form:form id="delete-form-${status.index}" method="post" action="delete-csp.shtml">
+              <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+              <input type="hidden" name="cspId" value="${orphan.compoundServiceProvider.id}"></input>
+             </form:form>
+            </td>
           </tr>
         </c:forEach>
         </tbody>

@@ -30,7 +30,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import selfservice.domain.Action;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
