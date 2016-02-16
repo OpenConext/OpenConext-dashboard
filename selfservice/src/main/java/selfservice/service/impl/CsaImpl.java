@@ -156,10 +156,11 @@ public class CsaImpl implements Csa {
     if (createAdministrationJiraTicket) {
       actionsService.registerJiraIssueCreation(action);
     }
-    action = actionsService.registerAction(action);
+    action = actionsService.saveAction(action);
     if (sendAdministrationEmail) {
       sendAdministrationEmail(serviceProvider, identityProvider, issueKey, action);
     }
+
     return action;
   }
 

@@ -9,6 +9,7 @@ import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -66,7 +67,7 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<String> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
+  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
     List<String[]> rows = Stream.concat(Stream.<String[]>of(new String[] {
@@ -103,7 +104,7 @@ public class ServicesController extends BaseController {
       throw Throwables.propagate(e);
     }
 
-    return new ResponseEntity<String>(HttpStatus.OK);
+    return ResponseEntity.ok().build();
   }
 
   private Service getServiceById(List<Service> services, Long id) {
@@ -125,36 +126,35 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
-  public ResponseEntity<Void> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+  public ResponseEntity<RestResponse<Action>> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                               @RequestParam(value = "comments", required = false) String comments,
                                               @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                               @PathVariable String id) {
-    if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST)) {
-      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
 
-    return new ResponseEntity<>(HttpStatus.OK);
+    return createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST)
+        .map(action -> ResponseEntity.ok(createRestResponse(action)))
+        .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
   }
 
   @RequestMapping(value = "/id/{id}/disconnect", method = RequestMethod.POST)
-  public ResponseEntity<Void> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+  public ResponseEntity<RestResponse<Action>> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                  @RequestParam(value = "comments", required = false) String comments,
                                                  @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                                  @PathVariable String id) {
-    if (!createAction(idpEntityId, comments, spEntityId, JiraTask.Type.UNLINKREQUEST))
-      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-    return new ResponseEntity<>(HttpStatus.OK);
+    return createAction(idpEntityId, comments, spEntityId, JiraTask.Type.UNLINKREQUEST)
+        .map(action -> ResponseEntity.ok(createRestResponse(action)))
+        .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
   }
 
-  private boolean createAction(String idpEntityId, String comments, String spEntityId, JiraTask.Type jiraType) {
+  private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, JiraTask.Type jiraType) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
-      return false;
+      return Optional.empty();
     }
 
     if (Strings.isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
-      return false;
+      return Optional.empty();
     }
 
     Action action = new Action();
@@ -167,8 +167,6 @@ public class ServicesController extends BaseController {
     action.setSpId(spEntityId);
     action.setInstitutionId(currentUser.getIdp().getInstitutionId());
 
-    csa.createAction(action);
-
-    return true;
+    return Optional.of(csa.createAction(action));
   }
 }

@@ -81,8 +81,10 @@ App.Controllers.Apps = {
       $.post(
         App.apiUrl("/services/id/" + app.id + "/connect"),
         {comments: comments, spEntityId: app.spEntityId},
-        function () {
-          if (callback) callback();
+        function (data) {
+          if (_.isFunction(callback)) {
+            callback(data.payload);
+          }
         }
       );
     }
@@ -92,8 +94,10 @@ App.Controllers.Apps = {
     if (App.currentUser.dashboardAdmin) {
       $.post(App.apiUrl("/services/id/" + app.id + "/disconnect"),
         { comments: comments, spEntityId: app.spEntityId },
-        function () {
-          if (callback) callback();
+        function (data) {
+          if (_.isFunction(callback)) {
+            callback(data.payload);
+          }
         }
       );
     }

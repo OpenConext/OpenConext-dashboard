@@ -143,11 +143,15 @@ App.Components.HowToConnectPanel = React.createClass({
   },
 
   renderDoneStep: function() {
+    var subtitle = this.state.action.jiraKey ?
+      I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
+      I18n.t("how_to_connect_panel.done_subtitle_html");
+
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("how_to_connect_panel.done_title")}</h1>
-          <p dangerouslySetInnerHTML={{ __html: I18n.t("how_to_connect_panel.done_subtitle_html") }} />
+          <p dangerouslySetInnerHTML={{ __html: subtitle}} />
           <br />
           <p className="cta">
             <a href="/apps" className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
@@ -210,16 +214,16 @@ App.Components.HowToConnectPanel = React.createClass({
 
   handleMakeConnection: function() {
     if (this.state.accepted) {
-      App.Controllers.Apps.makeConnection(this.props.app, this.state.comments, function() {
-        this.setState({currentStep: "done"});
+      App.Controllers.Apps.makeConnection(this.props.app, this.state.comments, function(action) {
+        this.setState({currentStep: "done", action: action});
       }.bind(this));
     }
   },
 
   handleDisconnect: function() {
     if (this.state.accepted) {
-      App.Controllers.Apps.disconnect(this.props.app, this.state.comments, function() {
-        this.setState({currentStep: "done-disconnect"});
+      App.Controllers.Apps.disconnect(this.props.app, this.state.comments, function(action) {
+        this.setState({currentStep: "done-disconnect", action: action});
       }.bind(this));
     }
   }

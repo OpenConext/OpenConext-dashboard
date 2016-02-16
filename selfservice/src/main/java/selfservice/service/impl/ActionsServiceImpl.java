@@ -69,7 +69,7 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   @Override
-  public Action registerAction(Action action) {
+  public Action saveAction(Action action) {
     actionsDao.saveAction(action);
     return action;
   }

@@ -39,5 +39,5 @@ public interface ActionsService {
    * Register the creation of an Action
    * @param action the original action
    */
-  Action registerAction(Action action);
+  Action saveAction(Action action);
 }
