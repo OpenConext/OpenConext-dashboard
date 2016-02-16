@@ -119,17 +119,15 @@ var App = {
   },
 
   fetchUserData: function (callback) {
-    $.get(App.apiUrl("/users/me" + window.location.search), function (data) {
-      if (!data.payload) {
-        this.redirectTo403Server();
-        return;
-      }
-      I18n.locale = data.language;
-      callback(data.payload);
-    }.bind(this))
-    .fail(function (e, xhr) {
-      this.redirectTo403Server();
-    }.bind(this));
+    $.get(App.apiUrl("/users/me" + window.location.search))
+      .done(function (data) {
+        if (!data.payload) {
+          this.redirectTo403Server();
+          return;
+        }
+        I18n.locale = data.language;
+        callback(data.payload);
+      }.bind(this));
   },
 
   checkPoliciesAvailable: function(callback) {
@@ -157,7 +155,11 @@ var App = {
     }
   },
 
-  ajaxError: function (event, xhr) {
+  ajaxError: function (event, jqxhr) {
+    if (jqxhr.readyState == 0 || jqxhr.status == 0) {
+      return;
+    }
+
     switch (xhr.status) {
       case 404:
         App.actionNotFound();
@@ -166,9 +168,9 @@ var App = {
         this.redirectTo403Server();
         break;
       default:
-        this.render(App.Pages.ServerError());
         Rollbar.error("Ajax request failed", event);
         console.error("Ajax request failed", event);
+        this.render(App.Pages.ServerError());
     }
   },
 
