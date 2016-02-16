@@ -6,7 +6,6 @@ module.exports = function(grunt) {
     'build/application.js': [
       'src/javascripts/lib/react-with-addons.js',
       'src/javascripts/lib/jquery-2.1.1.js',
-      'src/javascripts/lib/history.js',
       'src/javascripts/lib/page.js',
       'src/javascripts/lib/i18n.js',
       'src/javascripts/lib/spin.js',
