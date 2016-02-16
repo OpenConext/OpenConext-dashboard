@@ -156,15 +156,15 @@ I18n.translations.nl = {
   },
 
   attributes_policy_panel: {
-    title: "Attributen",
-    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn. Als dit niet het geval is, zijn er extra stappen nodig om de connectie te activeren.",
-    attribute: "Attribuut",
-    your_value: "Jouw waarde",
-    hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
     arp: {
-      noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen zullen worden uitgewisseld met {{name}}.",
-      noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}."
-    }
+      noarp: "Er is geen 'Attribute Release Policy' bekend. Mogelijk worden alle bekende attributen uitgewisseld, of is er een 'attribute manipulation script' voor deze Service Provider actief.",
+      noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}.",
+    },
+    attribute: "Attribuut",
+    hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
+    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn. Als dit niet het geval is, zijn er extra stappen nodig om de connectie te activeren.",
+    title: "Attributen",
+    your_value: "Jouw waarde",
   },
 
   idp_usage_panel: {

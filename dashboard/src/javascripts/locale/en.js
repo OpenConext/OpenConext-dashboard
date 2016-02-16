@@ -156,15 +156,15 @@ I18n.translations.en = {
   },
 
   attributes_policy_panel: {
-    title: "Attributes",
-    subtitle: "The following attributes will be exchanged with {{name}}. Please note: All attributes should contain the right value(s). If attributes are missing, additional steps might be needed to ensure a working connection.",
-    attribute: "Attribute",
-    your_value: "Your value",
-    hint: "The attributes and their values ​​for your personal account are displayed. This might not be representative for other accounts within your organization.",
     arp: {
-      noarp: "There is no 'Attribute Release Policy' specified. All known attributes will be exchanged with {{name}}.",
-      noattr: "No attributes will be exchanged with {{name}}."
-    }
+      noarp: "There is no 'Attribute Release Policy' specified. All known attributes may be exchanged, or a custom 'attribute manipulation script' might be in effect for this Service Provider.",
+      noattr: "No attributes will be exchanged with {{name}}.",
+    },
+    attribute: "Attribute",
+    hint: "The attributes and their values for your personal account are displayed. This might not be representative for other accounts within your organization.",
+    subtitle: "The following attributes will be exchanged with {{name}}. Please note: All attributes should contain the right value(s). If attributes are missing, additional steps might be needed to ensure a working connection.",
+    title: "Attributes",
+    your_value: "Your value",
   },
   idp_usage_panel: {
     title: "Used by",
