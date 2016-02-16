@@ -34,7 +34,7 @@ I18n.translations.en = {
 
   navigation: {
     apps: "Services",
-    policies: "Policies",
+    policies: "Authorization policies",
     notifications: "Notifications",
     history: "History",
     stats: "Statistics",
@@ -286,13 +286,13 @@ I18n.translations.en = {
   },
 
   policies: {
-    beta: "Policies is a new beta service offered by SURFconext. With policies you can restrict access to services based on the attributes of a user. <br>See <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\">this page</a> for more info.",
+    beta: "Authorization policies is a new beta service offered by SURFconext. With authorization policies you can restrict access to services based on the attributes of a user. <br>See <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\">this page</a> for more info.",
     confirmation: "Are your sure you want to remove policy '{{policyName}}?'",
-    flash: "Policy '{{policyName}}' was successfully {{action}}",
+    flash: "Authorization policy '{{policyName}}' was successfully {{action}}",
     flash_created: "created",
     flash_deleted: "deleted",
     flash_updated: "updated",
-    new_policy: "New policy",
+    new_policy: "New authorization policy",
     overview: {
       active: "Active",
       description: "Description",
@@ -321,7 +321,7 @@ I18n.translations.en = {
     autoFormat: "AutoFormat policy description",
     cancel: "Cancel",
     confirmation: "Are your sure you want to leave this page?",
-    create_policy: "Create new policy",
+    create_policy: "Create new authorization policy",
     deny: "Deny",
     deny_info: "Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.",
     deny_message: "Deny message",
@@ -331,8 +331,8 @@ I18n.translations.en = {
     idps_placeholder: "Select the Identity Providers - zero or more",
     institutions: "Institutions",
     isActive: "Active",
-    isActiveDescription: "Mark the policy active",
-    isActiveInfo: " Inactive policies are not evaluated in enforcement decisions",
+    isActiveDescription: "Mark the authorization policy active",
+    isActiveInfo: " Inactive authorization policies are not evaluated in enforcement decisions",
     name: "Name",
     permit: "Permit",
     permit_info: "Permit policies enforce that a only a successful match of the attributes defined will result in a Permit. No match will result in a Deny.",
@@ -340,14 +340,14 @@ I18n.translations.en = {
     rule_and: "AND",
     rule_and_info: "Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.",
     rule_info_add: " Note that attribute values with the same attribute name always be evaluated with the logical OR.",
-    rule_info_add_2: "Note that a Deny access policy always and implicitly uses the logical AND for different attribute names.",
+    rule_info_add_2: "Note that a Deny access authorization policy always and implicitly uses the logical AND for different attribute names.",
     rule_or: "OR",
     rule_or_info: "Policies defined with a logical OR only require one of the attributes to match the attributes of the person requesting access.",
     service: "Service",
     sp_placeholder: "Select the Service Provider - required",
     sub_title: "Created by {{displayName}} on {{created}}",
     submit: "Submit",
-    update_policy: "Update policy",
+    update_policy: "Update authorization policy",
   },
 
   revisions: {
