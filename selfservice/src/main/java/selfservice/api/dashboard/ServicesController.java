@@ -57,6 +57,11 @@ public class ServicesController extends BaseController {
     return createRestResponse(csa.getServicesForIdp(idpEntityId));
   }
 
+  @RequestMapping(value = "/connected")
+  public RestResponse<List<Service>> connected(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
+    return createRestResponse(csa.getServicesForIdp(idpEntityId).stream().filter(Service::isConnected).collect(toList()));
+  }
+
   @RequestMapping(value = "/idps")
   public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
     List<InstitutionIdentityProvider> idps = identityProviderService.getLinkedIdentityProviders(spEntityId).stream()
@@ -65,6 +70,7 @@ public class ServicesController extends BaseController {
 
     return createRestResponse(idps);
   }
+
 
   @RequestMapping(value = "/download")
   public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {

@@ -112,8 +112,12 @@ App.Pages.PolicyDetail = React.createClass({
   },
 
   renderServiceProvider: function (policy) {
+    var scopedSPs = _.isEmpty(policy.identityProviderIds);
     var classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
-    var serviceProviders = this.props.serviceProviders.map(function (sp) { return {value: sp.spEntityId, display: sp.spName};});
+    var serviceProviders = (scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders).map(function (sp) {
+      return {value: sp.spEntityId, display: sp.spName};
+    });
+
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
@@ -123,10 +127,9 @@ App.Pages.PolicyDetail = React.createClass({
             placeholder={I18n.t("policy_detail.sp_placeholder")}
             select2selectorId="serviceProvider"
             options={serviceProviders}
-            dataChanged={policy.spDataChanged}
             multiple={false}
             handleChange={this.handleChangeServiceProvider}/>
-          {this.renderScopedWarning([])}
+          {this.renderScopedWarning(scopedSPs)}
         </fieldset>
       </div>
     );
@@ -139,6 +142,9 @@ App.Pages.PolicyDetail = React.createClass({
   },
 
   renderScopedWarning: function (scopedSPs) {
+    if (scopedSPs) {
+      return (<em className="note"><sup>*</sup>{I18n.t("policy_detail.spScopeInfo")} </em>);
+    }
   },
 
   renderIdentityProvider: function (policy) {
@@ -152,7 +158,6 @@ App.Pages.PolicyDetail = React.createClass({
                 placeholder={I18n.t("policy_detail.idps_placeholder")}
                 select2selectorId={"identityProvider"}
                 options={providers}
-                dataChanged={false}
                 multiple={true}
                 handleChange={this.handleChangeIdentityProvider}/>
         </fieldset>
@@ -162,18 +167,23 @@ App.Pages.PolicyDetail = React.createClass({
 
   handleChangeIdentityProvider: function (newValue) {
     var partialState = {identityProviderIds: newValue};
-    partialState.description = this.buildAutoFormattedDescription(partialState);
-    //var scopeSPs = App.currentUser.policyIdpAccessEnforcementRequired && _.isEmpty(newValue);
 
-    //if (scopeSPs) {
-    //var serviceProviders = scopeSPs ? this.parseEntities(App.currentUser.spEntities) : this.parseEntities(this.props.serviceProviders);
-    //  if (this.state.serviceProviderId && !_.any(serviceProviders, 'value', this.state.serviceProviderId)) {
-    //    //Unfortunately we have to set the current value manually as the integration with select2 is done one-way
-    //    var select2ServiceProvider = $('[data-select2selector-id="serviceProvider"]');
-    //    select2ServiceProvider.val("").trigger("change");
-    //  }
-    //  partialState.spDataChanged = true;
-    //}
+    var noIdpSelected = _.isEmpty(newValue);
+
+    if (noIdpSelected) {
+      var serviceProviders = this.props.institutionServiceProviders.map(function (sp) {
+        return {value: sp.spEntityId, display: sp.spName};
+      });
+
+      if (this.state.serviceProviderId && !_.some(serviceProviders, function (sp) { return sp.value === this.state.serviceProviderId; }.bind(this))) {
+        //Unfortunately we have to set the current value manually as the integration with select2 is done one-way
+        var select2ServiceProvider = $('[data-select2selector-id="serviceProvider"]');
+        select2ServiceProvider.val("").trigger("change");
+      }
+    }
+
+    partialState.description = this.buildAutoFormattedDescription(partialState);
+
     this.setState(partialState);
   },
 
@@ -295,20 +305,22 @@ App.Pages.PolicyDetail = React.createClass({
   },
 
   provideProviderNames: function (partialState) {
-    var identityProvidersIds = partialState.identityProviderIds !== undefined ? partialState.identityProviderIds : this.state.identityProviderIds;
+    var identityProvidersIds = _.isUndefined(partialState.identityProviderIds) ? this.state.identityProviderIds : partialState.identityProviderIds;
+
     if (_.isEmpty(identityProvidersIds)) {
       this.state.identityProviderNames = [];
     } else {
       this.state.identityProviderNames = identityProvidersIds.map(function (idp) {
-        return _.find(this.props.identityProviders, "id", idp).name;
+        return _.find(this.props.identityProviders, function (provider) { return provider.id === idp; }).name;
       }.bind(this));
 
     }
-    var serviceProviderId = partialState.serviceProviderId !== undefined ? partialState.serviceProviderId : this.state.serviceProviderId;
+
+    var serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.serviceProviderId : partialState.serviceProviderId;
     if (_.isEmpty(serviceProviderId)) {
       this.state.serviceProviderName = null;
     } else {
-      this.state.serviceProviderName = _.find(this.props.serviceProviders, "spEntityId", serviceProviderId).name;
+      this.state.serviceProviderName = _.find(this.props.connectedServiceProviders, function (sp) { return sp.spEntityId === serviceProviderId; }).name;
     }
   },
 

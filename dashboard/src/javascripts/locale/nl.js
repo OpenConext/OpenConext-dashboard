@@ -381,6 +381,7 @@ I18n.translations.nl = {
     rule_or: "OF",
     rule_or_info: "Voor autorisatieregels met een logische OF is het slechts vereist dat 1 attribuut matched.",
     service: "Dienst",
+    spScopeInfo: "De beschikbare diensten zijn beperkt tot je eigen diensten zolang er geen Instelling is gekozen",
     sp_placeholder: "Selecteer de dienst - verplicht",
     sub_title: "Aangemaakt door {{displayName}} op {{created}}",
     submit: "Verstuur",

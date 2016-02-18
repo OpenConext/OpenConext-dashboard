@@ -90,6 +90,10 @@ public class Policy {
     return numberOfRevisions;
   }
 
+  public List<String> getIdentityProviderIds() {
+    return identityProviderIds;
+  }
+
   public List<String> getIdentityProviderNames() {
     return identityProviderNames;
   }

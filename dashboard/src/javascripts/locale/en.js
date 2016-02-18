@@ -348,6 +348,7 @@ I18n.translations.en = {
     rule_or: "OR",
     rule_or_info: "Policies defined with a logical OR only require one of the attributes to match the attributes of the person requesting access.",
     service: "Service",
+    spScopeInfo: "The available Services are scoped to your services if you don't select an Institution",
     sp_placeholder: "Select the Service Provider - required",
     sub_title: "Created by {{displayName}} on {{created}}",
     submit: "Submit",
