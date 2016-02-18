@@ -27,7 +27,9 @@ App.Components.Header = React.createClass({
   },
 
   renderProfileLink: function() {
-    if (!App.currentUser.superUser) {
+    if (_.isUndefined(App.currentUser)) {
+      return;
+    } else if (!App.currentUser.superUser) {
       return (
         <span>
           {I18n.t("header.welcome")}&nbsp;
@@ -55,7 +57,7 @@ App.Components.Header = React.createClass({
   },
 
   renderDropDown: function() {
-    if (!App.currentUser.superUser && this.state.dropDownActive) {
+    if (App.currentUser && !App.currentUser.superUser && this.state.dropDownActive) {
       return (
         <ul>
           <h2>{I18n.t("header.you")}</h2>
@@ -69,7 +71,9 @@ App.Components.Header = React.createClass({
   },
 
   renderExitLogout: function() {
-    if (App.currentUser.superUser && App.currentUser.switchedToIdp) {
+    if (_.isUndefined(App.currentUser)) {
+      return;
+    } else if (App.currentUser.superUser && App.currentUser.switchedToIdp) {
       return (
         <li><a href="/exit">{I18n.t("header.links.exit")}</a></li>
       );

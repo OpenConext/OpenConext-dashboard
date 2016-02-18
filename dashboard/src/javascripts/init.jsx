@@ -52,7 +52,7 @@ var App = {
   },
 
   superUserNotSwitched: function () {
-    return this.currentUser.superUser && !this.currentUser.switchedToIdp;
+    return this.currentUser && this.currentUser.superUser && !this.currentUser.switchedToIdp;
   },
 
   pageRequested: function () {
