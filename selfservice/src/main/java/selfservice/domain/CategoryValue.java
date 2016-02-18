@@ -37,12 +37,9 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
   public CategoryValue() {
   }
 
-  public CategoryValue(String value) {
+  public CategoryValue(String value, Category category) {
     this.value = value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
+    this.category = category;
   }
 
   public void setCount(int count) {
@@ -60,10 +57,6 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
   @JsonIgnore
   public Category getCategory() {
     return category;
-  }
-
-  public void setCategory(Category category) {
-    this.category = category;
   }
 
   /*

@@ -19,7 +19,7 @@ public class TaxonomyTest {
   @Test
   public void testCyclicDependencyJsonDeserialization() throws Exception {
     Category category = new Category("test_category");
-    category.setValues(singletonList(new CategoryValue("test_category_value")));
+    category.setValues(singletonList(new CategoryValue("test_category_value", category)));
 
     Taxonomy taxonomy = new Taxonomy(singletonList(category));
 

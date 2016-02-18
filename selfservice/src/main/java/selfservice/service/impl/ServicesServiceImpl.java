@@ -174,7 +174,7 @@ public class ServicesServiceImpl implements ServicesService {
         return cat;
       });
 
-      category.addCategoryValue(new CategoryValue(facetValue.getLocaleValue(locale)));
+      category.addCategoryValue(new CategoryValue(facetValue.getLocaleValue(locale), category));
     }
 
     service.setCategories(categories);

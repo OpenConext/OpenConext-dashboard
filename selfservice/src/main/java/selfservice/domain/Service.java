@@ -122,44 +122,6 @@ public class Service implements Comparable<Service>, Serializable {
     this.crmUrl = crmUrl;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    Service service = (Service) o;
-
-    if (id != service.id) return false;
-    if (name != null ? !name.equals(service.name) : service.name != null) return false;
-
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = (int) (id ^ (id >>> 32));
-    result = 31 * result + (name != null ? name.hashCode() : 0);
-    return result;
-  }
-
-  @Override
-  public int compareTo(Service other) {
-    if (other == null) {
-      return 1;
-    }
-    String otherName = other.getName();
-    if (this.name == null && otherName == null) {
-      return -1;
-    }
-    if (this.name == null) {
-      return -1;
-    }
-    if (otherName == null) {
-      return 1;
-    }
-    return this.name.compareTo(otherName);
-  }
-
   public boolean isConnected() {
     return connected;
   }
@@ -296,18 +258,6 @@ public class Service implements Comparable<Service>, Serializable {
     this.arp = arp;
   }
 
-  public void restoreCategoryReferences() {
-    if (categories == null) {
-      return;
-    }
-    for (Category category : categories) {
-      List<CategoryValue> values = category.getValues();
-      for (CategoryValue value : values) {
-        value.setCategory(category);
-      }
-    }
-  }
-
   public boolean isIdpVisibleOnly() {
     return idpVisibleOnly;
   }
@@ -378,6 +328,44 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setExampleSingleTenant(boolean exampleSingleTenant) {
     this.exampleSingleTenant = exampleSingleTenant;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Service service = (Service) o;
+
+    if (id != service.id) return false;
+    if (name != null ? !name.equals(service.name) : service.name != null) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = (int) (id ^ (id >>> 32));
+    result = 31 * result + (name != null ? name.hashCode() : 0);
+    return result;
+  }
+
+  @Override
+  public int compareTo(Service other) {
+    if (other == null) {
+      return 1;
+    }
+    String otherName = other.getName();
+    if (this.name == null && otherName == null) {
+      return -1;
+    }
+    if (this.name == null) {
+      return -1;
+    }
+    if (otherName == null) {
+      return 1;
+    }
+    return this.name.compareTo(otherName);
   }
 
   @Override

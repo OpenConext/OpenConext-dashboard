@@ -20,8 +20,6 @@ package selfservice.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Taxonomy {
 
   private List<Category> categories;
@@ -35,15 +33,6 @@ public class Taxonomy {
 
   public List<Category> getCategories() {
     return categories;
-  }
-
-  public void setCategories(List<Category> categories) {
-    this.categories = categories;
-  }
-
-  @JsonIgnore
-  public void restoreCategoryReferences() {
-    categories.forEach(cat -> cat.getValues().forEach(v -> v.setCategory(cat)));
   }
 
 }

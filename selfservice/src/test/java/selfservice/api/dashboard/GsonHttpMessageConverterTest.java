@@ -39,9 +39,8 @@ public class GsonHttpMessageConverterTest {
 
   @Test
   public void testCategoryValue() throws Exception {
-    CategoryValue categoryValue = new CategoryValue("");
     Category category = new Category();
-    categoryValue.setCategory(category);
+    CategoryValue categoryValue = new CategoryValue("", category);
     category.setValues(Arrays.asList(categoryValue));
 
     converter.write(RestResponse.of(Locale.ENGLISH, categoryValue), MediaType.APPLICATION_JSON, outputMessage);

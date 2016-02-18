@@ -28,7 +28,6 @@ import selfservice.domain.Action;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import selfservice.domain.CrmArticle;
-import selfservice.domain.Facet;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.LicenseStatus;
 import selfservice.domain.Service;
@@ -118,21 +117,18 @@ public class CsaImpl implements Csa {
 
   @Override
   public Taxonomy getTaxonomy() {
-    Iterable<Facet> facets = facetDao.findAll();
-
-    List<Category> categories = StreamSupport.stream(facets.spliterator(), false).map(facet -> {
+    List<Category> categories = StreamSupport.stream(facetDao.findAll().spliterator(), false).map(facet -> {
       Category category = new Category(facet.getName());
-      List<CategoryValue> values = facet.getFacetValues().stream().map(fv -> new CategoryValue(fv.getValue())).collect(toList());
+
+      List<CategoryValue> values = facet.getFacetValues().stream().map(fv ->
+        new CategoryValue(fv.getValue(), category)
+      ).collect(toList());
+
       category.setValues(values);
+
       return category;
     }).collect(toList());
 
-    for (Category category : categories) {
-      List<CategoryValue> values = category.getValues();
-      for (CategoryValue value : values) {
-        value.setCategory(category);
-      }
-    }
     return new Taxonomy(categories);
   }
 
