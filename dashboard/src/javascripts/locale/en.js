@@ -52,27 +52,30 @@ I18n.translations.en = {
     },
     static: {
       connection: {
-        name: "Service connected",
+        all: "All",
         has_connection: "Yes",
-        no_connection: "No"
+        name: "Service connected",
+        no_connection: "No",
       },
       license: {
-        name: "License",
-        unknown: "Unknown",
-        not_needed: "Not needed",
-        no_license: "No",
         has_license_sp: "Yes, with service provider",
-        has_license_surfmarket: "Yes, with SURFmarket"
+        has_license_surfmarket: "Yes, with SURFmarket",
+        name: "License",
+        no_license: "No",
+        not_needed: "Not needed",
+        unknown: "Unknown",
       },
       used_by_idp: {
+        all: "All",
         name: "Offered by my institution",
+        no: "No",
         yes: "Yes",
-        no: "No"
       },
       published_edugain: {
+        all: "All",
         name: "Published in eduGAIN federation",
+        no: "No",
         yes: "Yes",
-        no: "No"
       }
     }
   },

@@ -52,9 +52,10 @@ I18n.translations.nl = {
     },
     static: {
       connection: {
-        name: "Dienst gekoppeld",
+        all: "Alle",
         has_connection: "Ja",
-        no_connection: "Nee"
+        name: "Dienst gekoppeld",
+        no_connection: "Nee",
       },
       license: {
         name: "Licentie",
@@ -65,14 +66,16 @@ I18n.translations.nl = {
         has_license_surfmarket: "Ja, bij SURFmarket"
       },
       used_by_idp: {
+        all: "Alle",
         name: "Aangeboden door mijn instelling",
+        no: "Nee",
         yes: "Ja",
-        no: "Nee"
       },
       published_edugain: {
+        all: "Alle",
         name: "Gepubliceerd in eduGAIN federatie",
+        no: "Nee",
         yes: "Ja",
-        no: "Nee"
       }
     }
   },

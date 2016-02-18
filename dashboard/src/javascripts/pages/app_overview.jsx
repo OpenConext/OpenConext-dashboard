@@ -10,9 +10,18 @@ App.Pages.AppOverview = React.createClass({
     return {
       search: "",
       radioButtonFacets: ["connection", "used_by_idp", "published_edugain"],
-      activeFacets: App.store.activeFacets || {},
+      activeFacets: App.store.activeFacets || this.initialActiveFacets(),
       hiddenFacets: App.store.hiddenFacets || {}
     }
+  },
+
+  initialActiveFacets: function () {
+    return this.staticFacets().filter(function (facet) {
+      return facet.oneOptionAllowed;
+    }).reduce(function (o, v) {
+      o[v.searchValue] = ["all"];
+      return o;
+    }, {});
   },
 
   render: function () {
@@ -146,19 +155,13 @@ App.Pages.AppOverview = React.createClass({
   handleFacetChange: function (facet, facetValue, checked) {
     var selectedFacets = $.extend({}, this.state.activeFacets);
     var facetValues = selectedFacets[facet];
-    if (facetValues) {
-      checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
-    } else {
+
+    if (this.state.radioButtonFacets.indexOf(facet) > -1 || _.isUndefined(facetValues)) {
       facetValues = selectedFacets[facet] = [facetValue];
+    } else {
+      checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
     }
-    /*
-     * Special case. For some static facets we only want one value (e.g. either 'yes' or 'no')
-     */
-    if (this.state.radioButtonFacets.indexOf(facet) > -1 && checked && facetValues.length === 2) {
-      //we use radio buttons for one-value-facets, but we do want the ability to de-select them
-      var nbr = (facetValues[0] === facetValues[1] ? 2 : 1);
-      facetValues.splice(0, nbr);
-    }
+
     this.setState({activeFacets: selectedFacets});
     App.store.activeFacets = selectedFacets;
   },
@@ -178,7 +181,7 @@ App.Pages.AppOverview = React.createClass({
   handleResetFilters: function () {
     this.setState({
       search: "",
-      activeFacets: {},
+      activeFacets: this.initialActiveFacets(),
       hiddenFacets: {}
     });
 
@@ -222,11 +225,12 @@ App.Pages.AppOverview = React.createClass({
         }).length;
       });
     };
+
     facets.forEach(function (facet) {
       switch (facet.searchValue) {
         case "connection":
           filter(facet, function (app, facetValue) {
-            return facetValue.searchValue === "yes" ? app.connected : !app.connected;
+            return facetValue.searchValue === "all" || (facetValue.searchValue === "yes" ? app.connected : !app.connected);
           });
           break;
         case "license":
@@ -237,13 +241,13 @@ App.Pages.AppOverview = React.createClass({
         case "used_by_idp":
           filter(facet, function (app, facetValue) {
             var usedByIdp = App.currentIdp().institutionId === app.institutionId;
-            return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
+            return facetValue.searchValue === "all" || (facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp);
           });
           break;
         case "published_edugain":
           filter(facet, function (app, facetValue) {
             var published = app.publishedInEdugain || false;
-            return facetValue.searchValue === "yes" ? published : !published;
+            return facetValue.searchValue === "all" || (facetValue.searchValue === "yes" ? published : !published);
           });
           break;
         default:
@@ -261,11 +265,8 @@ App.Pages.AppOverview = React.createClass({
   },
 
   filterConnectionFacet: function (app) {
-    var connectionFacetValues = this.state.activeFacets["connection"] || [];
-    if (connectionFacetValues.length > 0) {
-      return app.connected ? connectionFacetValues[0] === "yes" : connectionFacetValues[0] === "no";
-    }
-    return true;
+    var connectionFacetValue = this.state.activeFacets["connection"][0];
+    return connectionFacetValue === "all" || (app.connected ? connectionFacetValue === "yes" : connectionFacetValue === "no");
   },
 
   filterLicenseFacet: function (app) {
@@ -274,19 +275,13 @@ App.Pages.AppOverview = React.createClass({
   },
 
   filterIdpService: function (app) {
-    var usedByIdpFacetValues = this.state.activeFacets["used_by_idp"] || [];
-    if (usedByIdpFacetValues.length > 0) {
-      return App.currentIdp().institutionId === app.institutionId ? usedByIdpFacetValues[0] === "yes" : usedByIdpFacetValues[0] === "no";
-    }
-    return true;
+    var usedByIdpFacetValue = this.state.activeFacets["used_by_idp"][0];
+    return usedByIdpFacetValue === "all" || (App.currentIdp().institutionId === app.institutionId ? usedByIdpFacetValue === "yes" : usedByIdpFacetValue === "no");
   },
 
   filterPublishedEdugain: function (app) {
-    var edugainFacetValues = this.state.activeFacets["published_edugain"] || [];
-    if (edugainFacetValues.length > 0) {
-      return app.publishedInEdugain ? edugainFacetValues[0] === "yes" : edugainFacetValues[0] === "no";
-    }
-    return true;
+    var edugainFacetValue = this.state.activeFacets["published_edugain"][0];
+    return edugainFacetValue === "all" || (app.publishedInEdugain ? edugainFacetValue === "yes" : edugainFacetValue === "no");
   },
 
   filterByFacets: function (app) {
@@ -330,7 +325,8 @@ App.Pages.AppOverview = React.createClass({
       oneOptionAllowed: true,
       values: [
         {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
-        {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"}
+        {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"},
+        {value: I18n.t("facets.static.connection.all"), searchValue: "all"},
       ]
     }, {
       name: I18n.t("facets.static.used_by_idp.name"),
@@ -338,7 +334,8 @@ App.Pages.AppOverview = React.createClass({
       oneOptionAllowed: true,
       values: [
         {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
-        {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"}
+        {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"},
+        {value: I18n.t("facets.static.used_by_idp.all"), searchValue: "all"},
       ]
     }, {
       name: I18n.t("facets.static.published_edugain.name"),
@@ -346,7 +343,8 @@ App.Pages.AppOverview = React.createClass({
       oneOptionAllowed: true,
       values: [
         {value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes"},
-        {value: I18n.t("facets.static.published_edugain.no"), searchValue: "no"}
+        {value: I18n.t("facets.static.published_edugain.no"), searchValue: "no"},
+        {value: I18n.t("facets.static.published_edugain.all"), searchValue: "all"},
       ]
     }, {
       name: I18n.t("facets.static.license.name"),
@@ -357,7 +355,7 @@ App.Pages.AppOverview = React.createClass({
         {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},
         {value: I18n.t("facets.static.license.no_license"), searchValue: "NO_LICENSE"},
         {value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED"},
-        {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"}
+        {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"},
       ]
     }];
   }
