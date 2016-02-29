@@ -76,12 +76,9 @@ public class ServicesController extends BaseController {
   public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
-    List<String[]> rows = Stream.concat(Stream.<String[]>of(new String[] {
-        "id", "name", "description", "app-url", "wiki-url", "support-mail",
-        "connected", "license", "licenseStatus", "categories", "spEntityId",
-        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant" }),
-        ids.stream()
+    Stream<String[]> values = ids.stream()
         .map(id -> getServiceById(services, id))
+        .flatMap(opt -> opt.map(Stream::of).orElse(Stream.empty()))
         .map(service ->
           new String[] {
             String.valueOf(service.getId()),
@@ -99,8 +96,14 @@ public class ServicesController extends BaseController {
             String.valueOf(service.isPublishedInEdugain()),
             String.valueOf(service.isNormenkaderPresent()),
             service.getNormenkaderUrl(),
-            String.valueOf(service.isExampleSingleTenant()) }
-        )).collect(toList());
+            String.valueOf(service.isExampleSingleTenant()) });
+
+    Stream<String[]> headers = Stream.<String[]>of(new String[] {
+        "id", "name", "description", "app-url", "wiki-url", "support-mail",
+        "connected", "license", "licenseStatus", "categories", "spEntityId",
+        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant" });
+
+    List<String[]> rows = Stream.concat(headers, values).collect(toList());
 
     response.setHeader("Content-Disposition", format("attachment; filename=service-overview.csv"));
 
@@ -113,8 +116,8 @@ public class ServicesController extends BaseController {
     return ResponseEntity.ok().build();
   }
 
-  private Service getServiceById(List<Service> services, Long id) {
-    return services.stream().filter(service -> service.getId() == id).findFirst().orElse(null);
+  private Optional<Service> getServiceById(List<Service> services, Long id) {
+    return services.stream().filter(service -> service.getId() == id).findFirst();
   }
 
   @RequestMapping(value = "/id/{id}")

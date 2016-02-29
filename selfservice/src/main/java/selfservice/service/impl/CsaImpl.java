@@ -103,7 +103,7 @@ public class CsaImpl implements Csa {
         }
 
         return service;
-    }).collect(Collectors.toList());
+    }).collect(toList());
   }
 
   /*
