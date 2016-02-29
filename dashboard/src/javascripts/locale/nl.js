@@ -81,26 +81,33 @@ I18n.translations.nl = {
   },
 
   apps: {
-    overview: {
-      name: "Service",
-      license: "Licentie",
-      license_unknown: "Onbekend",
-      connected: "Dienst gekoppeld",
-      search_hint: "Zoeken",
-      search: "Zoek",
-      connect: "",
-      connect_button: "Activeren",
-      no_results: "Geen services beschikbaar"
-    },
     detail: {
-      overview: "Overzicht",
-      license_info: "Licentie",
+      application_usage: "Service gebruik",
       attribute_policy: "Attributen",
-      idp_usage: "Gebruikt door",
       how_to_connect: "Dienst koppelen",
       how_to_disconnect: "Dienst ontkoppelen",
-      application_usage: "Service gebruik"
-    }
+      idp_usage: "Gebruikt door",
+      license_info: "Licentie",
+      overview: "Overzicht",
+    },
+    overview: {
+      connect: "",
+      connect_button: "Activeren",
+      connected: "Dienst gekoppeld",
+      license: "Licentie afgesloten",
+      license_needed: "Licentie vereist",
+      license_present: {
+        na: "n.v.t.",
+        no: "Nee",
+        unknown: "Onbekend",
+        yes: "Ja",
+      },
+      license_unknown: "Onbekend",
+      name: "Service",
+      no_results: "Geen services beschikbaar",
+      search: "Zoek",
+      search_hint: "Zoeken",
+    },
   },
 
   app_meta: {

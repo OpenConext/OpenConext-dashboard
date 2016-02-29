@@ -39,7 +39,6 @@ public class License implements Serializable {
   }
 
   public License(Date startDate, Date endDate, String licenseNumber, String institutionName) {
-    super();
     this.startDate = startDate;
     this.endDate = endDate;
     this.licenseNumber = licenseNumber;

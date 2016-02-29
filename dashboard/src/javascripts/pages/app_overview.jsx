@@ -70,6 +70,7 @@ App.Pages.AppOverview = React.createClass({
               <thead>
               <tr>
                 {this.renderSortableHeader("percent_25", "name")}
+                {this.renderSortableHeader("percent_15", "license_needed")}
                 {this.renderSortableHeader("percent_15", "license")}
                 {this.renderSortableHeader("percent_15", "connected")}
                 {connect}
@@ -101,7 +102,8 @@ App.Pages.AppOverview = React.createClass({
     return (
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
         <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td>
-        {this.renderLicenseStatus(app)}
+        {this.renderLicenseNeeded(app)}
+        {this.renderLicensePresent(app)}
         {App.renderYesNo(app.connected)}
         {connect}
       </tr>
@@ -120,10 +122,30 @@ App.Pages.AppOverview = React.createClass({
     }
   },
 
-  renderLicenseStatus: function (app) {
+  renderLicenseNeeded: function (app) {
     return (
       <td
         className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
+    );
+  },
+
+  renderLicensePresent: function (app) {
+    switch (app.licenseStatus) {
+      case "HAS_LICENSE_SURFMARKET":
+      case "HAS_LICENSE_SP":
+        licensePresent = app.license ? "yes" : "no";
+        break;
+      case "NO_LICENSE":
+      case "NOT_NEEDED":
+        licensePresent = "na";
+        break;
+      default:
+        licensePresent = "unknown";
+        break;
+    }
+
+    return (
+      <td>{I18n.t("apps.overview.license_present." + licensePresent)}</td>
     );
   },
 

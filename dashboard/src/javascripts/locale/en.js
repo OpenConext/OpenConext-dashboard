@@ -81,26 +81,33 @@ I18n.translations.en = {
   },
 
   apps: {
-    overview: {
-      name: "Service",
-      license: "License",
-      license_unknown: "Unknown",
-      connected: "Connected",
-      search_hint: "Filter by name",
-      search: "Search",
-      connect: "",
-      connect_button: "Connect",
-      no_results: "No services available"
-    },
     detail: {
-      overview: "Overview",
-      license_info: "License",
+      application_usage: "Service usage",
       attribute_policy: "Attributes",
-      idp_usage: "Used by",
       how_to_connect: "Activate service",
       how_to_disconnect: "Deactivate service",
-      application_usage: "Service usage"
-    }
+      idp_usage: "Used by",
+      license_info: "License",
+      overview: "Overview",
+    },
+    overview: {
+      connect: "",
+      connect_button: "Connect",
+      connected: "Connected",
+      license: "License",
+      license_needed: "Licentie required",
+      license_present: {
+        na: "n.a.",
+        no: "No",
+        unknown: "Unknown",
+        yes: "Yes",
+      },
+      license_unknown: "Unknown",
+      name: "Service",
+      no_results: "No services available",
+      search: "Search",
+      search_hint: "Filter by name",
+    },
   },
 
   app_meta: {

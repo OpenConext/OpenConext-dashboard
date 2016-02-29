@@ -86,7 +86,7 @@
                           </c:choose>
                         </td>
                         <td>
-                          <p>${compoundSp.licenseStatus}</p>
+                          <spring:message code="jsp.lmng_binding_overview.license_status.${compoundSp.licenseStatus}"/>
                         </td>
                         <td>
                           <c:if test="${not empty compoundSp.license}">
