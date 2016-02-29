@@ -145,7 +145,7 @@ App.Pages.AppOverview = React.createClass({
     }
 
     return (
-      <td>{I18n.t("apps.overview.license_present." + licensePresent)}</td>
+      <td className={licensePresent}>{I18n.t("apps.overview.license_present." + licensePresent)}</td>
     );
   },
 
