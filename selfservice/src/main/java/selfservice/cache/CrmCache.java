@@ -104,10 +104,10 @@ public class CrmCache extends AbstractCache {
         }
 
         if (licensesForIdpAndSp.size() > 1) {
-          LOG.warn("Unexpected: list of licenses by IdP and SP ({} and {}) is larger than 1: {}", idpInstitutionId, spEntityId, licensesForIdpAndSp.size());
+          LOG.info("Unexpected: list of licenses by IdP and SP ({} and {}) is larger than 1: {}", idpInstitutionId, spEntityId, licensesForIdpAndSp.size());
         }
+
         License license = licensesForIdpAndSp.get(0);
-        LOG.trace("License found by IdP and SP ({} and {}): {}", idpInstitutionId, spEntityId, license);
         newLicenseCache.put(new MappingEntry(idpInstitutionId, spEntityId), license);
       }
     }
