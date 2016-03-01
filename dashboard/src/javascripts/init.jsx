@@ -82,15 +82,14 @@ var App = {
 
   render: function (page) {
     if (this.mainComponent) {
-      this.mainComponent.setProps({
-        page: page
-      });
+      this.mainComponent.setProps({page: page});
     } else {
       this.mainComponent = React.renderComponent(App.Components.Main({page: page}), document.getElementById("app"));
     }
   },
 
   stop: function () {
+    this.mainComponent = null;
     var node = document.getElementById("app");
     React.unmountComponentAtNode(node);
     React.renderComponent(App.Pages.Logout(), node);
