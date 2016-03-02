@@ -1,51 +1,26 @@
 package selfservice.shibboleth;
 
-import static com.google.common.base.Preconditions.checkState;
-import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toMap;
-import static org.springframework.util.CollectionUtils.isEmpty;
-import static org.springframework.util.StringUtils.hasText;
-import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_Accountstatus;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_CommonName;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_DisplayName;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonAffiliation;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonPN;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_Email;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_GivenName;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_HomeOrg;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_MemberOf;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_NlDigitalAuthorIdentifier;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_NlEduPersonHomeOrganization;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_NlEduPersonOrgUnit;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_NlEduPersonStudyBranch;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_NlStudielinkNummer;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_PreferredLanguage;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_SchacHomeOrganizationType;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_SurName;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_Uid;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_UserStatus;
-import static selfservice.shibboleth.ShibbolethHeader.Shib_VoName;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableMap;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import org.springframework.util.StringUtils;
+import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
+import selfservice.serviceregistry.ServiceRegistry;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableMap;
-
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
-import org.springframework.util.StringUtils;
-
-import selfservice.domain.CoinUser;
-import selfservice.domain.IdentityProvider;
-import selfservice.service.IdentityProviderService;
+import static com.google.common.base.Preconditions.checkState;
+import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toMap;
+import static org.springframework.util.CollectionUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasText;
+import static selfservice.shibboleth.ShibbolethHeader.*;
 
 public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthenticatedProcessingFilter {
 
@@ -79,11 +54,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       .build();
   }
 
-  private final IdentityProviderService idpService;
+  private final ServiceRegistry serviceRegistry;
 
-  public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, IdentityProviderService idpService) {
+  public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, ServiceRegistry serviceRegistry) {
     setAuthenticationManager(authenticationManager);
-    this.idpService = idpService;
+    this.serviceRegistry = serviceRegistry;
   }
 
   @Override
@@ -128,9 +103,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
   }
 
   private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {
-    return idpService.getIdentityProvider(idpId).map(idp -> {
+    return serviceRegistry.getIdentityProvider(idpId).map(idp -> {
       String institutionId = idp.getInstitutionId();
-      return hasText(institutionId) ? idpService.getInstituteIdentityProviders(institutionId) : singletonList(idp);
+      return hasText(institutionId) ? serviceRegistry.getInstituteIdentityProviders(institutionId) : singletonList(idp);
     }).orElse(Collections.emptyList());
   }
 

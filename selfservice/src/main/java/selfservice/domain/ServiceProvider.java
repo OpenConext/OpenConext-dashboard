@@ -15,57 +15,53 @@
  */
 package selfservice.domain;
 
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.MoreObjects.ToStringHelper;
-
-import org.springframework.util.CollectionUtils;
-
 @SuppressWarnings("serial")
-public class ServiceProvider extends Provider implements Serializable {
+public class ServiceProvider extends Provider implements Serializable, Cloneable {
 
-  private String id;
-  private String gadgetBaseUrl;
   private String applicationUrl;
   private String institutionId;
   private String eulaURL;
 
-  private boolean display;
+  private boolean idpVisibleOnly;
   private boolean publishedInEdugain;
   private boolean exampleSingleTenant;
 
   private ARP arp;
 
-  private Map<String, String> urls;
+  private Map<String, String> urls = new HashMap<>();
 
   public ServiceProvider(String id) {
-    this.id = id;
+    setId(id);
   }
 
-  public String getId() {
-    return id;
-  }
+  public ServiceProvider(Map<String, Object> metaData) {
+    super(metaData);
+    this.applicationUrl = (String) metaData.get("coin:application_url");
+    this.institutionId = (String) metaData.get("coin:institution_id");
+    this.eulaURL = (String) metaData.get("coin:eula");
 
-  public void setId(String id) {
-    this.id = id;
+    this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
+    this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
+    this.arp = metaData.containsKey("attributes") ? ARP.fromAttributes((List<String>) metaData.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
+
+    addUrl("en", (String) metaData.get("url:en"));
+    addUrl("nl", (String) metaData.get("url:en"));
   }
 
   public boolean isIdpVisibleOnly() {
-    return !display;
-  }
-
-  public void setIdpVisibleOnly(boolean idpVisibleOnly) {
-    this.display = !idpVisibleOnly;
+    return idpVisibleOnly;
   }
 
   public String getEulaURL() {
     return eulaURL;
-  }
-
-  public void setEulaURL(String eulaURL) {
-    this.eulaURL = eulaURL;
   }
 
   public Map<String, String> getUrls() {
@@ -76,32 +72,18 @@ public class ServiceProvider extends Provider implements Serializable {
     return CollectionUtils.isEmpty(this.urls) ? null : urls.values().iterator().next();
   }
 
-  public void setUrls(Map<String, String> urls) {
-    this.urls = urls;
-  }
-
-  public String getGadgetBaseUrl() {
-    return gadgetBaseUrl;
-  }
-
-  public void setGadgetBaseUrl(String gadgetBaseUrl) {
-    this.gadgetBaseUrl = gadgetBaseUrl;
+  private void addUrl(String lang, String url) {
+    if (StringUtils.hasText(url)) {
+      this.urls.put(lang, url);
+    }
   }
 
   public ARP getArp() {
     return arp;
   }
 
-  public void setArp(ARP arp) {
-    this.arp = arp;
-  }
-
   public boolean isPublishedInEdugain() {
     return publishedInEdugain;
-  }
-
-  public void setPublishedInEdugain(boolean publishedInEdugain) {
-    this.publishedInEdugain = publishedInEdugain;
   }
 
   public boolean isExampleSingleTenant() {
@@ -112,56 +94,35 @@ public class ServiceProvider extends Provider implements Serializable {
     this.exampleSingleTenant = exampleSingleTenant;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ServiceProvider that = (ServiceProvider) o;
-
-    if (id != null ? !id.equals(that.id) : that.id != null) {
-      return false;
-    }
-
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    return (id == null) ? 0 : id.hashCode();
-  }
-
   public String getApplicationUrl() {
     return applicationUrl;
-  }
-
-  public void setApplicationUrl(String applicationUrl) {
-    this.applicationUrl = applicationUrl;
   }
 
   public String getInstitutionId() {
     return institutionId;
   }
 
-  public void setInstitutionId(String institutionId) {
-    this.institutionId = institutionId;
-  }
-
   @Override
   public String toString() {
-    ToStringHelper toStringHelper = MoreObjects.toStringHelper(this).add("id", id);
+    return "ServiceProvider{" +
+      "id='" + getId() + '\'' +
+      ", applicationUrl='" + applicationUrl + '\'' +
+      ", institutionId='" + institutionId + '\'' +
+      ", eulaURL='" + eulaURL + '\'' +
+      ", idpVisibleOnly=" + idpVisibleOnly +
+      ", publishedInEdugain=" + publishedInEdugain +
+      ", exampleSingleTenant=" + exampleSingleTenant +
+      ", arp=" + arp +
+      ", urls=" + urls +
+      '}';
+  }
 
-    if (arp != null) {
-      toStringHelper.add("arp", arp);
+  public ServiceProvider clone()  {
+    try {
+      return (ServiceProvider) super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e);
     }
-
-    return toStringHelper
-        .add("eulaUrl", eulaURL)
-        .add("gadgetBaseUrl", gadgetBaseUrl)
-        .add("idpVisibleOnly", isIdpVisibleOnly()).toString();
   }
 
 }

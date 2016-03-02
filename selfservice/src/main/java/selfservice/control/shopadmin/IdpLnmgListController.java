@@ -16,13 +16,6 @@
 
 package selfservice.control.shopadmin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +25,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
 import selfservice.cache.CrmCache;
-import selfservice.cache.IdentityProviderCache;
 import selfservice.cache.ServicesCache;
 import selfservice.command.LmngIdentityBinding;
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.IdentityProvider;
 import selfservice.service.CrmService;
-import selfservice.service.IdentityProviderService;
-import selfservice.service.ServiceProviderService;
 import selfservice.service.impl.LmngUtil;
+import selfservice.serviceregistry.ServiceRegistry;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/shopadmin")
@@ -50,7 +46,7 @@ public class IdpLnmgListController extends BaseController {
   private static final Logger log = LoggerFactory.getLogger(IdpLnmgListController.class);
 
   @Autowired
-  private IdentityProviderService idpService;
+  private ServiceRegistry serviceRegistry;
 
   @Autowired
   private CrmService licensingService;
@@ -62,13 +58,7 @@ public class IdpLnmgListController extends BaseController {
   private ServicesCache servicesCache;
 
   @Autowired
-  private IdentityProviderCache providerCache;
-
-  @Autowired
   private CrmCache crmCache;
-
-  @Autowired
-  private ServiceProviderService serviceProviderService;
 
   private LmngUtil lmngUtil = new LmngUtil();
 
@@ -79,7 +69,7 @@ public class IdpLnmgListController extends BaseController {
     }
 
     List<LmngIdentityBinding> lmngIdpBindings = new ArrayList<>();
-    for (IdentityProvider identityProvider : idpService.getAllIdentityProviders()) {
+    for (IdentityProvider identityProvider : serviceRegistry.getAllIdentityProviders()) {
       LmngIdentityBinding lmngIdentityBinding = new LmngIdentityBinding(identityProvider);
       String lmngId = lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getInstitutionId());
       lmngIdentityBinding.setLmngIdentifier(lmngId);
@@ -102,7 +92,7 @@ public class IdpLnmgListController extends BaseController {
 
     String isClearPressed = req.getParameter("clearbutton");
     if (StringUtils.isBlank(lmngId) || StringUtils.isNotBlank(isClearPressed)) {
-      log.debug("Clearing lmng identifier for IdentityProvider with institutionID " + idpId );
+      log.debug("Clearing lmng identifier for IdentityProvider with institutionID " + idpId);
       lmngId = null;
     } else {
       // extra validation (also done in frontend/jquery)
@@ -121,7 +111,7 @@ public class IdpLnmgListController extends BaseController {
         model.put("messageIndex", index);
       }
 
-      log.debug("Storing lmng identifier '" + lmngId + "' for IdentityProvider with institutionID " + idpId );
+      log.debug("Storing lmng identifier '" + lmngId + "' for IdentityProvider with institutionID " + idpId);
     }
     lmngIdentifierDao.saveOrUpdateLmngIdForIdentityProviderId(idpId, lmngId);
     return listAllIdps(model);
@@ -130,10 +120,9 @@ public class IdpLnmgListController extends BaseController {
   @RequestMapping(value = "/clean-cache", method = RequestMethod.GET)
   public RedirectView cleanCrmCache() {
     log.info("Cleaning caches");
-    serviceProviderService.refreshExampleSingleTenants();
+    serviceRegistry.refreshMetaData();
     licensingService.evictCache();
     servicesCache.evict();
-    providerCache.evict();
     crmCache.evict();
     return new RedirectView("all-spslmng.shtml", true);
   }

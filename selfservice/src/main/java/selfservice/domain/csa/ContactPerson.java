@@ -45,14 +45,11 @@ public class ContactPerson implements Serializable {
   @XStreamAsAttribute
   private ContactPersonType contactPersonType;
 
-  public ContactPerson(String name, String emailAddress) {
+  public ContactPerson(String name, String emailAddress, String telephoneNumber, ContactPersonType contactPersonType) {
     this.name = name;
     this.emailAddress = emailAddress;
-  }
-
-  public ContactPerson(ContactPersonType contactPersonType, String emailAddress) {
+    this.telephoneNumber = telephoneNumber;
     this.contactPersonType = contactPersonType;
-    this.emailAddress = emailAddress;
   }
 
   public String getName() {

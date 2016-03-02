@@ -89,7 +89,7 @@ public class LmngServiceImplIT {
   @Test
   public void testRetrieveLicenseWithTwoRevisions() throws LmngException {
     IdentityProvider identityProvider = new IdentityProvider();
-    identityProvider.setId("erasmus");
+   // identityProvider.setId("erasmus");
     identityProvider.setInstitutionId("Erasmus");
     final String lmngId = "{A14817CC-1B10-DC11-A6C7-0019B9DE3AA4}";
     final String articleId = "{A9666CC8-4491-E211-9DB6-0050569E0011}";

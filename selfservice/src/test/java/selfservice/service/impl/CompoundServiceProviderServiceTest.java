@@ -16,20 +16,11 @@
 
 package selfservice.service.impl;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.IdentityProvider;
@@ -37,8 +28,15 @@ import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.CrmService;
-import selfservice.service.ServiceProviderService;
-import selfservice.service.impl.CompoundServiceProviderService;
+import selfservice.serviceregistry.ServiceRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class CompoundServiceProviderServiceTest {
 
@@ -46,7 +44,7 @@ public class CompoundServiceProviderServiceTest {
   private CompoundServiceProviderService cspService;
 
   @Mock
-  private ServiceProviderService serviceProviderService;
+  private ServiceRegistry serviceRegistry;
 
   @Mock
   private CrmService licensingService;
@@ -86,10 +84,10 @@ public class CompoundServiceProviderServiceTest {
     CompoundServiceProvider csp1 = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
     csps.add(csp1);
 
-    when(serviceProviderService.getServiceProvider("spId1")).thenReturn(sp1);
-    when(serviceProviderService.getServiceProvider("spId2")).thenReturn(sp2);
+    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(sp1);
+    when(serviceRegistry.getServiceProvider("spId2")).thenReturn(sp2);
     when(compoundServiceProviderDao.findAll()).thenReturn(csps);
-    when(serviceProviderService.getAllServiceProviders("idpId")).thenReturn(sps);
+    when(serviceRegistry.getAllServiceProviders("idpId")).thenReturn(sps);
 
     cspService.getCompoundServiceProvidersByIdp(idp);
 
@@ -104,8 +102,8 @@ public class CompoundServiceProviderServiceTest {
     ServiceProvider sp2 = new ServiceProvider("spId2");
     sps.add(sp1);
     sps.add(sp2);
-    when(serviceProviderService.getAllServiceProviders("idpid")).thenReturn(sps);
-    when(serviceProviderService.getServiceProvider("spId1")).thenReturn(sp1);
+    when(serviceRegistry.getAllServiceProviders("idpid")).thenReturn(sps);
+    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(sp1);
 
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
     when(compoundServiceProviderDao.findOne(1L)).thenReturn(csp);

@@ -1,29 +1,28 @@
 package selfservice.filter;
 
-import selfservice.domain.IdentityProvider;
-import selfservice.service.IdentityProviderService;
-import selfservice.util.SpringSecurity;
 import org.springframework.web.filter.GenericFilterBean;
+import selfservice.domain.IdentityProvider;
+import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.util.SpringSecurity;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
-
 import java.io.IOException;
 import java.util.Optional;
+
+import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
 public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
   private static final String DASHBOARD_API_PREFIX = "/dashboard/api";
 
-  private IdentityProviderService idpService;
+  private ServiceRegistry serviceRegistry;
 
-  public EnsureAccessToIdpFilter(IdentityProviderService idpService) {
-    this.idpService = idpService;
+  public EnsureAccessToIdpFilter(ServiceRegistry serviceRegistry) {
+    this.serviceRegistry = serviceRegistry;
   }
 
   @Override
@@ -32,7 +31,7 @@ public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
     if (shouldAccessToIdpBeChecked(req)) {
       String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
-      IdentityProvider idp = idpService.getIdentityProvider(idpEntityId).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
+      IdentityProvider idp = serviceRegistry.getIdentityProvider(idpEntityId).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
       SpringSecurity.ensureAccess(idp);
     }
 

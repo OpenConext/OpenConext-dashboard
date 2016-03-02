@@ -15,25 +15,12 @@
  */
 package selfservice.service.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Optional.ofNullable;
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.StreamSupport.stream;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.License;
@@ -41,7 +28,19 @@ import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.CrmService;
-import selfservice.service.ServiceProviderService;
+import selfservice.serviceregistry.ServiceRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.StreamSupport.stream;
 
 /**
  * Abstraction for the Compound Service Providers. This deals with persistence
@@ -56,23 +55,19 @@ public class CompoundServiceProviderService {
   private CompoundServiceProviderDao compoundServiceProviderDao;
 
   @Autowired
-  private ServiceProviderService serviceProviderService;
+  private ServiceRegistry serviceRegistry;
 
   @Autowired
   private CrmService licensingService;
 
-  public List<CompoundServiceProvider> getAllCSPs(long callDelay) {
+  public List<CompoundServiceProvider> getAllCSPs() {
     List<ServiceProvider> allServiceProviders;
-    if (callDelay > 0) {
-      allServiceProviders = serviceProviderService.getAllServiceProvidersRateLimited(callDelay);
-    } else {
-      allServiceProviders = serviceProviderService.getAllServiceProviders(true);
-    }
+      allServiceProviders = serviceRegistry.getAllServiceProviders();
     return getCSPs(null, allServiceProviders);
   }
 
   public List<CompoundServiceProvider> getAllBareCSPs() {
-    List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(false);
+    List<ServiceProvider> allServiceProviders = serviceRegistry.getAllServiceProviders();
     return getCSPs(null, allServiceProviders);
   }
 
@@ -81,7 +76,7 @@ public class CompoundServiceProviderService {
       return new ArrayList<>();
     }
 
-    List<ServiceProvider> allServiceProviders = serviceProviderService.getAllServiceProviders(identityProvider.getId());
+    List<ServiceProvider> allServiceProviders = serviceRegistry.getAllServiceProviders(identityProvider.getId());
 
     return getCSPs(identityProvider, allServiceProviders);
   }
@@ -142,7 +137,7 @@ public class CompoundServiceProviderService {
       LOG.debug("Cannot find CSP by id {}, will return null", compoundSpId);
       return null;
     }
-    ServiceProvider sp = serviceProviderService.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
+    ServiceProvider sp = serviceRegistry.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
     if (sp == null) {
       LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
       return csp;
@@ -158,7 +153,7 @@ public class CompoundServiceProviderService {
   }
 
   public CompoundServiceProvider getCSPByServiceProviderEntityId(String serviceProviderEntityId) {
-    ServiceProvider serviceProvider = serviceProviderService.getServiceProvider(serviceProviderEntityId);
+    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(serviceProviderEntityId);
     checkNotNull(serviceProvider, "No such SP with entityId: " + serviceProviderEntityId);
 
     return getCSPByServiceProvider(serviceProvider);

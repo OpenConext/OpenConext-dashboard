@@ -46,7 +46,7 @@ public class ServicesCacheTest {
   @Before
   public void setUp() throws Exception {
     servicesServiceMock = mock(ServicesService.class);
-    when(servicesServiceMock.findAll(anyLong())).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service())));
+    when(servicesServiceMock.findAll()).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service())));
 
     subject = new ServicesCache(servicesServiceMock, 0, 1000L, 0);
 
@@ -57,7 +57,7 @@ public class ServicesCacheTest {
   public void getServices() throws Exception {
     assertThat(subject.getAllServices("en"), hasSize(1));
 
-    when(servicesServiceMock.findAll(anyLong())).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service(), new Service())));
+    when(servicesServiceMock.findAll()).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service(), new Service())));
 
     await().atMost(Duration.TWO_SECONDS).until(() -> subject.getAllServices("en"), hasSize(2));
   }

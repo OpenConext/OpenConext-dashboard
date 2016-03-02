@@ -16,6 +16,8 @@
 package selfservice.domain;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Objects;
 
 import com.google.common.base.MoreObjects;
 
@@ -24,16 +26,13 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("serial")
 public class IdentityProvider extends Provider implements Serializable {
 
-  private String id;
   private String institutionId;
-  private String ssoLocation;
-  private String sloLocation;
 
   public IdentityProvider() {
   }
 
   public IdentityProvider(String id, String institutionId, String name) {
-    this.id = id;
+    setId(id);
     this.institutionId = institutionId;
     if (StringUtils.isNotBlank(name)) {
       setName(name);
@@ -42,12 +41,9 @@ public class IdentityProvider extends Provider implements Serializable {
     }
   }
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
+  public IdentityProvider(Map<String, Object> metaData) {
+    super(metaData);
+    this.institutionId = (String) metaData.get("coin:institution_id");
   }
 
   public String getInstitutionId() {
@@ -58,51 +54,11 @@ public class IdentityProvider extends Provider implements Serializable {
     this.institutionId = institutionId;
   }
 
-  public String getSsoLocation() {
-    return ssoLocation;
-  }
-
-  public void setSsoLocation(String ssoLocation) {
-    this.ssoLocation = ssoLocation;
-  }
-
-  public String getSloLocation() {
-    return sloLocation;
-  }
-
-  public void setSloLocation(String sloLocation) {
-    this.sloLocation = sloLocation;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    IdentityProvider that = (IdentityProvider) o;
-
-    if (id != null ? !id.equals(that.id) : that.id != null) {
-      return false;
-    }
-
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    return (id == null) ? 0 : id.hashCode();
-  }
-
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("id", id)
-        .add("institutionId", institutionId)
-        .add("ssoLocation", ssoLocation)
-        .add("sloLocation", sloLocation).toString();
+    return "IdentityProvider{" +
+      "id='" + getId() + '\'' +
+      ", institutionId='" + institutionId + '\'' +
+      '}';
   }
 }

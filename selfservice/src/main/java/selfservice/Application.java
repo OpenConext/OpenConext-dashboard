@@ -1,8 +1,5 @@
 package selfservice;
 
-import java.net.URI;
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -16,14 +13,11 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.LocaleResolver;
-
 import selfservice.dao.LmngIdentifierDao;
-import selfservice.janus.Janus;
-import selfservice.janus.JanusRestClient;
-import selfservice.janus.JanusRestClientMock;
 import selfservice.pdp.PdpService;
 import selfservice.pdp.PdpServiceImpl;
 import selfservice.pdp.PdpServiceMock;
@@ -34,16 +28,15 @@ import selfservice.sab.SabClientMock;
 import selfservice.service.CrmService;
 import selfservice.service.Csa;
 import selfservice.service.VootClient;
-import selfservice.service.impl.CsaImpl;
-import selfservice.service.impl.JiraClient;
-import selfservice.service.impl.JiraClientImpl;
-import selfservice.service.impl.JiraClientMock;
-import selfservice.service.impl.LmngServiceImpl;
-import selfservice.service.impl.LmngServiceMock;
-import selfservice.service.impl.VootClientImpl;
-import selfservice.service.impl.VootClientMock;
+import selfservice.service.impl.*;
+import selfservice.serviceregistry.ClassPathResourceServiceRegistry;
+import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.UrlResourceServiceRegistry;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import selfservice.util.LicenseContactPersonService;
+
+import java.io.IOException;
+import java.util.Locale;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class, TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class})
 @EnableJpaRepositories("selfservice.dao")
@@ -105,15 +98,22 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Profile("!dev")
-  public Janus janus(@Value("${janus.uri}") String uri, @Value("${janus.user}") String user, @Value("${janus.secret}") String secret) throws Exception {
-    return new JanusRestClient(new URI(uri), user, secret);
+  @Profile({"test","acc","prod"})
+  public ServiceRegistry urlResourceServiceRegistry(
+    @Value("${metadata.username}") String username,
+    @Value("${metadata.password}") String password,
+    @Value("${metadata.idpRemotePath}") String idpRemotePath,
+    @Value("${metadata.spRemotePath}") String spRemotePath,
+    @Value("${period.metadata.refresh.minutes}") int period,
+    @Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws IOException {
+    Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
+    return new UrlResourceServiceRegistry(username, password, idpRemotePath, spRemotePath, period, resource);
   }
-
   @Bean
   @Profile("dev")
-  public Janus mockJanus() {
-    return new JanusRestClientMock();
+  public ServiceRegistry classPathServiceRegistry(@Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws Exception {
+    Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
+    return new ClassPathResourceServiceRegistry(true, resource);
   }
 
   @Bean

@@ -1,44 +1,30 @@
 package selfservice.service.impl;
 
-import static java.util.stream.Collectors.toList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import selfservice.cache.CrmCache;
+import selfservice.cache.ServicesCache;
+import selfservice.dao.FacetDao;
+import selfservice.domain.*;
+import selfservice.domain.csa.Article;
+import selfservice.service.ActionsService;
+import selfservice.service.Csa;
+import selfservice.service.EmailService;
+import selfservice.serviceregistry.ServiceRegistry;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
-
-import selfservice.cache.CrmCache;
-import selfservice.cache.IdentityProviderCache;
-import selfservice.cache.ServicesCache;
-import selfservice.dao.FacetDao;
-import selfservice.domain.Action;
-import selfservice.domain.Category;
-import selfservice.domain.CategoryValue;
-import selfservice.domain.CrmArticle;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.LicenseStatus;
-import selfservice.domain.Service;
-import selfservice.domain.ServiceProvider;
-import selfservice.domain.Taxonomy;
-import selfservice.domain.csa.Article;
-import selfservice.service.ActionsService;
-import selfservice.service.Csa;
-import selfservice.service.EmailService;
-import selfservice.service.IdentityProviderService;
-import selfservice.service.ServiceProviderService;
+import static java.util.stream.Collectors.toList;
 
 public class CsaImpl implements Csa {
 
@@ -52,9 +38,6 @@ public class CsaImpl implements Csa {
   private boolean createAdministrationJiraTicket;
 
   @Autowired
-  private ServiceProviderService serviceProviderService;
-
-  @Autowired
   private FacetDao facetDao;
 
   @Autowired
@@ -64,13 +47,10 @@ public class CsaImpl implements Csa {
   private ServicesCache servicesCache;
 
   @Autowired
-  private IdentityProviderCache identityProviderCache;
+  private ServiceRegistry serviceRegistry;
 
   @Autowired
   private CrmCache crmCache;
-
-  @Autowired
-  private IdentityProviderService identityProviderService;
 
   private final String defaultLocale = "en";
 
@@ -80,10 +60,9 @@ public class CsaImpl implements Csa {
   }
 
   private List<Service> doGetServicesForIdP(String language, String idpEntityId) {
-    IdentityProvider identityProvider = Optional.ofNullable(identityProviderCache.getIdentityProvider(idpEntityId))
-        .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
+    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(idpEntityId).orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
 
-    List<String> serviceProviderIdentifiers = identityProviderCache.getServiceProviderIdentifiers(idpEntityId);
+    List<String> serviceProviderIdentifiers = serviceRegistry.getAllServiceProviders(idpEntityId).stream().map(Provider::getId).collect(toList());
 
     return servicesCache.getAllServices(language).stream().filter(service -> {
       boolean isConnected = serviceProviderIdentifiers.contains(service.getSpEntityId());
@@ -142,8 +121,8 @@ public class CsaImpl implements Csa {
 
   @Override
   public Action createAction(Action action) {
-    ServiceProvider serviceProvider = serviceProviderService.getServiceProvider(action.getSpId());
-    IdentityProvider identityProvider = identityProviderService.getIdentityProvider(action.getIdpId()).orElseThrow(RuntimeException::new);
+    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(action.getSpId());
+    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(action.getIdpId()).orElseThrow(RuntimeException::new);
 
     action.setSpName(serviceProvider.getName());
     action.setIdpName(identityProvider.getName());
