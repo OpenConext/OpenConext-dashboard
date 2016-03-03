@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static selfservice.util.StreamUtils.filterEmpty;
 
-public class ClassPathResourceServiceRegistry implements ServiceRegistry{
+public class ClassPathResourceServiceRegistry implements ServiceRegistry {
 
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -34,7 +34,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry{
 
   private final static ObjectMapper objectMapper = new ObjectMapper();
 
-  public ClassPathResourceServiceRegistry(boolean initialize, Resource singleTenantsConfigPath) throws IOException {
+  public ClassPathResourceServiceRegistry(boolean initialize, Resource singleTenantsConfigPath) {
     //this provides subclasses a hook to set properties before initializing metadata
     this.singleTenantsConfigPath = singleTenantsConfigPath;
     this.parseSingleTenants();
@@ -107,37 +107,48 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry{
         filteredList.add(sp);
       }
     }
+    filteredList.addAll(exampleSingleTenants);
     return filteredList;
   }
 
   @Override
   public ServiceProvider getServiceProvider(String spEntityId, String idpEntityId) {
-    Optional<ServiceProvider> optional = exampleSingleTenants.stream().filter(sp -> sp.getId().equals(spEntityId)).collect(StreamUtils.singletonOptionalCollector());
+    Optional<ServiceProvider> optional = getSingleTenant(spEntityId);
     if (optional.isPresent()) {
       return optional.get();
     }
-      ServiceProvider serviceProvider = serviceProviderMap.get(spEntityId);
+    ServiceProvider serviceProvider = serviceProviderMap.get(spEntityId);
 
-      // Check if the IdP can connect to this service
-      if (idpEntityId != null) {
-        IdentityProvider identityProvider = identityProviderMap.get(idpEntityId);
-        if (isConnectionAllowed(serviceProvider, identityProvider)) {
-          ServiceProvider clone = serviceProvider.clone();
-          clone.setLinked(true);
-          return clone;
-        }
+    // Check if the IdP can connect to this service
+    if (idpEntityId != null) {
+      IdentityProvider identityProvider = identityProviderMap.get(idpEntityId);
+      if (isConnectionAllowed(serviceProvider, identityProvider)) {
+        ServiceProvider clone = serviceProvider.clone();
+        clone.setLinked(true);
+        return clone;
       }
-      return serviceProvider;
+    }
+    return serviceProvider;
+  }
+
+  private Optional<ServiceProvider> getSingleTenant(String spEntityId) {
+    return exampleSingleTenants.stream().filter(sp -> sp.getId().equals(spEntityId)).collect(StreamUtils.singletonOptionalCollector());
   }
 
   @Override
   public ServiceProvider getServiceProvider(String spEntityId) {
+    Optional<ServiceProvider> optional = getSingleTenant(spEntityId);
+    if (optional.isPresent()) {
+      return optional.get();
+    }
     return serviceProviderMap.get(spEntityId);
   }
 
   @Override
   public List<ServiceProvider> getAllServiceProviders() {
-    return new ArrayList<>(serviceProviderMap.values());
+    ArrayList<ServiceProvider> serviceProviders = new ArrayList<>(serviceProviderMap.values());
+    serviceProviders.addAll(exampleSingleTenants);
+    return serviceProviders;
   }
 
   @Override
@@ -174,7 +185,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry{
   private void parseSingleTenants() {
     try {
       File[] dummySps = singleTenantsConfigPath.getFile().listFiles((dir, name) -> name.endsWith("json"));
-      Arrays.stream(dummySps).map(this::parse).collect(toList());
+      this.exampleSingleTenants = Arrays.stream(dummySps).map(this::parse).collect(toList());
       this.exampleSingleTenants.forEach(sp -> sp.setExampleSingleTenant(true));
       LOG.info("Read {} example single tenant services from {}", exampleSingleTenants.size(), singleTenantsConfigPath.getFilename());
     } catch (Exception e) {

@@ -5,6 +5,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.Executors.newScheduledThreadPool;
@@ -25,11 +26,15 @@ public class UrlResourceServiceRegistry extends ClassPathResourceServiceRegistry
     String idpRemotePath,
     String spRemotePath,
     int period,
-    Resource singleTenantsConfigPath) throws IOException {
+    Resource singleTenantsConfigPath) {
     super(false, singleTenantsConfigPath);
 
-    this.idpUrlResource = new BasicAuthenticationUrlResource(idpRemotePath, username, password);
-    this.spUrlResource = new BasicAuthenticationUrlResource(spRemotePath, username, password);
+    try {
+      this.idpUrlResource = new BasicAuthenticationUrlResource(idpRemotePath, username, password);
+      this.spUrlResource = new BasicAuthenticationUrlResource(spRemotePath, username, password);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
 
     this.idpRemotePath = idpRemotePath;
     this.spRemotePath = spRemotePath;
