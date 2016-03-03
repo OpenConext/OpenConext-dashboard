@@ -98,7 +98,7 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Profile({"test","acc","prod"})
+  @Profile("!dev")
   public ServiceRegistry urlResourceServiceRegistry(
     @Value("${metadata.username}") String username,
     @Value("${metadata.password}") String password,
@@ -107,8 +107,10 @@ public class Application extends SpringBootServletInitializer {
     @Value("${period.metadata.refresh.minutes}") int period,
     @Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws IOException {
     Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
+
     return new UrlResourceServiceRegistry(username, password, idpRemotePath, spRemotePath, period, resource);
   }
+
   @Bean
   @Profile("dev")
   public ServiceRegistry classPathServiceRegistry(@Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws Exception {
