@@ -21,10 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import com.google.common.base.MoreObjects;
 
 import org.springframework.util.CollectionUtils;
 
@@ -83,7 +79,6 @@ public class ARP implements Serializable {
   public void setNoAttrArp(boolean noAttrArp) {
     this.noAttrArp = noAttrArp;
   }
-
 
   @Override
   public String toString() {

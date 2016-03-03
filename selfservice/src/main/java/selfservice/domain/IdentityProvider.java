@@ -17,9 +17,6 @@ package selfservice.domain;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Objects;
-
-import com.google.common.base.MoreObjects;
 
 import org.apache.commons.lang3.StringUtils;
 

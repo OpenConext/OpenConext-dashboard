@@ -1,16 +1,9 @@
 package selfservice.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.stream.Collector;
-
-import static java.util.Spliterator.ORDERED;
-import static java.util.Spliterators.spliteratorUnknownSize;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.StreamSupport.stream;
 
 public abstract class StreamUtils {
 

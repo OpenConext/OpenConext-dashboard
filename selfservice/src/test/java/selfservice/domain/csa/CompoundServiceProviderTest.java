@@ -27,7 +27,6 @@ import java.util.Optional;
 
 import org.junit.Test;
 
-import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.Field.Key;
 import selfservice.domain.csa.Field.Source;

@@ -36,13 +36,10 @@ public class ServicesCache extends AbstractCache {
 
   private final ServicesService servicesService;
 
-  private final Long callDelay;
-
   private AtomicReference<Map<String, List<Service>>> allServicesCache = new AtomicReference<>();
 
-  public ServicesCache(ServicesService servicesService, long delay, long duration, long callDelay) {
+  public ServicesCache(ServicesService servicesService, long delay, long duration) {
     super(delay, duration);
-    this.callDelay = callDelay;
     this.servicesService = servicesService;
   }
 

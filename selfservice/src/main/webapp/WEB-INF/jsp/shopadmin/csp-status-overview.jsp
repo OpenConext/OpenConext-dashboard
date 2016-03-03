@@ -68,20 +68,20 @@
                         <td>
                           <c:choose>
                             <c:when test="${compoundSp.articleAvailable}">
-                              <i class="icon-ok"/>
+                              <i class="icon-ok"></i>
                             </c:when>
                             <c:otherwise>
-                              <i class="icon-remove icon-greyed-out"/>
+                              <i class="icon-remove icon-greyed-out"></i>
                             </c:otherwise>
                           </c:choose>
                         </td>
                         <td>
                           <c:choose>
                             <c:when test="${compoundSp.licenseAvailable}">
-                              <i class="icon-ok"/>
+                              <i class="icon-ok"></i>
                             </c:when>
                             <c:otherwise>
-                              <i class="icon-remove icon-greyed-out"/>
+                              <i class="icon-remove icon-greyed-out"></i>
                             </c:otherwise>
                           </c:choose>
                         </td>
@@ -92,10 +92,10 @@
                           <c:if test="${not empty compoundSp.license}">
                             <c:choose>
                               <c:when test="${compoundSp.license.groupLicense}">
-                                <i class="icon-ok"/>
+                                <i class="icon-ok"></i>
                               </c:when>
                               <c:otherwise>
-                                <i class="icon-remove icon-greyed-out"/>
+                                <i class="icon-remove icon-greyed-out"></i>
                               </c:otherwise>
                             </c:choose>
                           </c:if>
@@ -108,10 +108,10 @@
                         <td>
                           <c:choose>
                             <c:when test="${compoundSp.sp.linked}">
-                              <i class="icon-ok"/>
+                              <i class="icon-ok"></i>
                             </c:when>
                             <c:otherwise>
-                              <i class="icon-remove icon-greyed-out"/>
+                              <i class="icon-remove icon-greyed-out"></i>
                             </c:otherwise>
                           </c:choose>
                         </td>

@@ -23,7 +23,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +33,6 @@ import com.jayway.awaitility.Duration;
 import org.junit.Before;
 import org.junit.Test;
 
-import selfservice.cache.ServicesCache;
 import selfservice.domain.Service;
 import selfservice.service.ServicesService;
 
@@ -48,7 +46,7 @@ public class ServicesCacheTest {
     servicesServiceMock = mock(ServicesService.class);
     when(servicesServiceMock.findAll()).thenReturn(ImmutableMap.of("en", ImmutableList.of(new Service())));
 
-    subject = new ServicesCache(servicesServiceMock, 0, 1000L, 0);
+    subject = new ServicesCache(servicesServiceMock, 0, 1000L);
 
     await().atMost(Duration.TWO_SECONDS).until(() -> subject.getAllServices("en"), hasSize(1));
   }

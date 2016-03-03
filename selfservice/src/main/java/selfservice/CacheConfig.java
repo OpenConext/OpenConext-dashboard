@@ -43,11 +43,10 @@ public class CacheConfig {
   public ServicesCache servicesCache(CompoundServiceProviderService compoundSPService, CrmService crmService,
                                      @Value("${cache.default.initialDelay}") long initialDelay,
                                      @Value("${cache.default.delay}") long delay,
-                                     @Value("${cacheMillisecondsCallDelay}") long callDelay,
                                      @Value("${static.baseurl}") String staticBaseUrl,
                                      @Value("${lmngDeepLinkBaseUrl}") String lmngDeepLinkBaseUrl,
                                      @Value("${public.api.lmng.guids}") String[] guids) {
-    return new ServicesCache(new ServicesServiceImpl(compoundSPService, crmService, staticBaseUrl, lmngDeepLinkBaseUrl, guids), initialDelay, delay, callDelay);
+    return new ServicesCache(new ServicesServiceImpl(compoundSPService, crmService, staticBaseUrl, lmngDeepLinkBaseUrl, guids), initialDelay, delay);
   }
 
 }
