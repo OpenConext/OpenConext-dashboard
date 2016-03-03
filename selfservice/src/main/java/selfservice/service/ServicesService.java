@@ -24,6 +24,6 @@ import selfservice.domain.Service;
 
 public interface ServicesService {
 
-  Map<String, List<Service>> findAll(long rateLimit);
+  Map<String, List<Service>> findAll();
 
 }

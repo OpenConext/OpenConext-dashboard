@@ -1,6 +1,28 @@
 package selfservice.api.dashboard;
 
-import static java.lang.String.format;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.web.servlet.MockMvc;
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.Service;
+import selfservice.filter.EnsureAccessToIdpFilter;
+import selfservice.filter.SpringSecurityUtil;
+import selfservice.service.Csa;
+import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
+
+import java.util.List;
+import java.util.Optional;
+
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
@@ -16,30 +38,6 @@ import static selfservice.api.dashboard.EnrichJson.FILTERED_USER_ATTRIBUTES;
 import static selfservice.api.dashboard.RestDataFixture.coinUser;
 import static selfservice.api.dashboard.RestDataFixture.serviceWithSpEntityId;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.web.servlet.MockMvc;
-
-import selfservice.domain.CoinAuthority;
-import selfservice.domain.CoinUser;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.Service;
-import selfservice.filter.EnsureAccessToIdpFilter;
-import selfservice.filter.SpringSecurityUtil;
-import selfservice.service.Csa;
-import selfservice.service.IdentityProviderService;
-import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
-
 @RunWith(MockitoJUnitRunner.class)
 public class ServicesControllerTest {
 
@@ -50,7 +48,7 @@ public class ServicesControllerTest {
   private ServicesController controller;
 
   @Mock
-  private IdentityProviderService idpServiceMock;
+  private ServiceRegistry serviceRegistryMock;
 
   @Mock
   private Csa csaMock;
@@ -65,7 +63,7 @@ public class ServicesControllerTest {
   public void setup() {
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
-    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(idpServiceMock);
+    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(serviceRegistryMock);
 
     mockMvc = standaloneSetup(controller)
       .setMessageConverters(new GsonHttpMessageConverter("http:://excample.com", "stats-client-id", "stats-scope", "stats-redirect"))
@@ -79,8 +77,8 @@ public class ServicesControllerTest {
 
     SpringSecurityUtil.setAuthentication(coinUser);
 
-    when(idpServiceMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
-    when(idpServiceMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
+    when(serviceRegistryMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
+    when(serviceRegistryMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
   }
 
   @After
@@ -93,8 +91,8 @@ public class ServicesControllerTest {
     when(csaMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
 
     this.mockMvc.perform(get("/dashboard/api/services")
-        .contentType(MediaType.APPLICATION_JSON)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+      .contentType(MediaType.APPLICATION_JSON)
+      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload").isArray())
       .andExpect(jsonPath("$.payload[0].name").value(service.getName()));
@@ -107,8 +105,8 @@ public class ServicesControllerTest {
     when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(service);
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
-        .contentType(MediaType.APPLICATION_JSON)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+      .contentType(MediaType.APPLICATION_JSON)
+      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload.name", is("service-name")))
       .andExpect(jsonPath("$.payload.id", is(11)));
@@ -121,15 +119,15 @@ public class ServicesControllerTest {
     when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(service);
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
-        .contentType(MediaType.APPLICATION_JSON)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+      .contentType(MediaType.APPLICATION_JSON)
+      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload." + FILTERED_USER_ATTRIBUTES).isArray());
   }
 
   @Test(expected = SecurityException.class)
   public void failsWhenUserHasNoAccessToIdp() throws Exception {
-    this.mockMvc.perform(get(format("/dashboard/api/services")).contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, "no access"));
+    this.mockMvc.perform(get("/dashboard/api/services").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, "no access"));
   }
 
   @Test

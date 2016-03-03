@@ -28,7 +28,7 @@ import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
-import selfservice.service.IdentityProviderService;
+import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.util.SpringSecurity;
 
 @RestController
@@ -36,7 +36,7 @@ import selfservice.util.SpringSecurity;
 public class UsersController extends BaseController {
 
   @Autowired
-  private IdentityProviderService idpService;
+  private ServiceRegistry serviceRegistry;
 
   @Autowired
   private ServicesCache servicesCache;
@@ -54,7 +54,7 @@ public class UsersController extends BaseController {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    List<IdentityProvider> idps = Lists.newArrayList(idpService.getAllIdentityProviders());
+    List<IdentityProvider> idps = Lists.newArrayList(serviceRegistry.getAllIdentityProviders());
     idps.sort((lh, rh) -> lh.getName().compareTo(rh.getName()));
 
     List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(), Authority.ROLE_DASHBOARD_ADMIN.name());
@@ -87,7 +87,7 @@ public class UsersController extends BaseController {
     if (isNullOrEmpty(switchToIdp)) {
       SpringSecurity.clearSwitchedIdp();
     } else {
-      IdentityProvider identityProvider = idpService.getIdentityProvider(switchToIdp)
+      IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(switchToIdp)
           .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
 
       SpringSecurity.setSwitchedToIdp(identityProvider, role);

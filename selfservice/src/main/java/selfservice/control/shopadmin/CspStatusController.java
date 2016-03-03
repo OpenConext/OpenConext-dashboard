@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import selfservice.domain.IdentityProvider;
-import selfservice.service.IdentityProviderService;
 import selfservice.service.impl.CompoundServiceProviderService;
+import selfservice.serviceregistry.ServiceRegistry;
 
 /**
  * Controller that handles the CSP status page (used for the shopmanager to get
@@ -47,11 +47,11 @@ public class CspStatusController extends BaseController {
   private CompoundServiceProviderService cspService;
 
   @Autowired
-  private IdentityProviderService idpService;
+  private ServiceRegistry serviceRegistry;
 
   @ModelAttribute(value = "allIdps")
   public List<IdentityProvider> getAllIdps() {
-    List<IdentityProvider> identityProviders = idpService.getAllIdentityProviders();
+    List<IdentityProvider> identityProviders = serviceRegistry.getAllIdentityProviders();
     Collections.sort(identityProviders);
     return identityProviders;
   }
@@ -65,7 +65,7 @@ public class CspStatusController extends BaseController {
 
   @RequestMapping(value = "/selectIdp", method = RequestMethod.GET)
   public ModelAndView selectIdp(@RequestParam String filteredIdpId) {
-    return statusOverview(idpService.getIdentityProvider(filteredIdpId).orElseThrow(RuntimeException::new));
+    return statusOverview(serviceRegistry.getIdentityProvider(filteredIdpId).orElseThrow(RuntimeException::new));
   }
 
   private ModelAndView statusOverview(IdentityProvider selectedidp) {

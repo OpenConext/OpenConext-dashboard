@@ -15,22 +15,16 @@
  */
 package selfservice.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.base.MoreObjects;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.util.CollectionUtils;
-
 import selfservice.domain.csa.ContactPerson;
 import selfservice.domain.csa.ContactPersonType;
-import selfservice.domain.csa.ProviderType;
+
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * Abstract class for either ServiceProvider or IdentityProvider
@@ -38,28 +32,64 @@ import selfservice.domain.csa.ProviderType;
 @SuppressWarnings("serial")
 public abstract class Provider implements Comparable<Provider>, Serializable {
 
-  public enum Language {
-    EN, NL;
-  }
-
-  private ProviderType type;
-
+  private String id;
   /**
    * Name of the Provider. SURFfederatie knows only 1 value, SURFconext supports a value per language.
    * This name field can be used for sorting
    */
   private String name;
-  private String homeUrl;
   private String logoUrl;
-  private String metadataUrl;
-
-  private List<ContactPerson> contactPersons = new ArrayList<>();
 
   private Map<String, String> names = new HashMap<>();
   private Map<String, String> homeUrls = new HashMap<>();
   private Map<String, String> descriptions = new HashMap<>();
 
   private boolean linked;
+
+  private List<ContactPerson> contactPersons = new ArrayList<>();
+
+  private boolean allowedAll;
+  private Set<String> allowedEntityIds;
+
+  public Provider() {
+  }
+
+  public Provider(Map<String, Object> metaData) {
+    this.id = (String) metaData.get("entityid");
+    addName("en", (String) metaData.get("name:en"));
+    addName("nl", (String) metaData.get("name:nl"));
+    this.name = names.isEmpty() ? (String) metaData.get("entityid") : names.getOrDefault("en", names.get("nl"));
+    this.logoUrl = (String) metaData.get("logo:0:url");
+    addHomeUrl("en", (String) metaData.get("OrganizationURL:en"));
+    addHomeUrl("nl", (String) metaData.get("OrganizationURL:nl"));
+    addDescription("en", "description:en");
+    addDescription("nl", "description:nl");
+    IntStream.rangeClosed(0, 2).forEach(i -> {
+      String contactType = (String) metaData.get("contacts:" + i + ":contactType");
+      if (contactType != null) {
+        addContactPerson(new ContactPerson(
+          (safeString(metaData.get("contacts:" + i + ":givenName")) + " " + safeString(metaData.get("contacts:" + i + ":surName"))).trim(),
+          (String) metaData.get("contacts:" + i + ":emailAddress"),
+          (String) metaData.get("contacts:" + i + ":telephoneNumber"),
+          contactPersonType(contactType)
+        ));
+      }
+    });
+    this.allowedAll = getAllowedAll(metaData);
+    this.allowedEntityIds = getAllowedEntries(metaData);
+  }
+
+  public enum Language {
+    EN, NL;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  protected void setId(String id) {
+    this.id = id;
+  }
 
   public boolean isLinked() {
     return linked;
@@ -69,74 +99,22 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     this.linked = linked;
   }
 
-  public abstract String getId();
-
-  public abstract void setId(String id);
-
-  public ProviderType getType() {
-    return type;
-  }
-
-  public void setType(ProviderType type) {
-    this.type = type;
-  }
-
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getHomeUrl() {
-    return homeUrl;
-  }
-
-  public void setHomeUrl(String homeUrl) {
-    this.homeUrl = homeUrl;
   }
 
   public Map<String, String> getHomeUrls() {
     return homeUrls;
   }
 
-  public void setHomeUrls(Map<String, String> homeUrls) {
-    this.homeUrls = homeUrls;
-  }
-
-  public void addHomeUrl(String language, String homeUrl) {
-    this.homeUrls.put(language, homeUrl);
+  private void addHomeUrl(String language, String homeUrl) {
+    if (homeUrl != null) {
+      this.homeUrls.put(language, homeUrl);
+    }
   }
 
   public String getLogoUrl() {
     return logoUrl;
-  }
-
-  public void setLogoUrl(String logoUrl) {
-    this.logoUrl = logoUrl;
-  }
-
-  public String getMetadataUrl() {
-    return metadataUrl;
-  }
-
-  public void setMetadataUrl(String metadataUrl) {
-    this.metadataUrl = metadataUrl;
-  }
-
-  /**
-   * @deprecated use #getDescriptions with the language code as key
-   */
-  public String getDescription() {
-    return this.descriptions.get(Language.EN.name().toLowerCase());
-  }
-
-  /**
-   * @deprecated use #addDescriptions with the language code as key
-   */
-  public void setDescription(String description) {
-    addDescription(Language.EN.name().toLowerCase(), description);
   }
 
   public List<ContactPerson> getContactPersons() {
@@ -147,14 +125,9 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     if (CollectionUtils.isEmpty(contactPersons)) {
       return null;
     }
-
     return contactPersons.stream()
-        .filter(cp -> cp.getContactPersonType().equals(type))
-        .findFirst().orElse(null);
-  }
-
-  public void setContactPersons(List<ContactPerson> contactPersons) {
-    this.contactPersons = contactPersons;
+      .filter(cp -> cp.getContactPersonType().equals(type))
+      .findFirst().orElse(null);
   }
 
   public void addContactPerson(ContactPerson contactPerson) {
@@ -177,12 +150,14 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
   }
 
-  public void setNames(Map<String, String> names) {
-    this.names = names;
+  protected void setName(String name) {
+    this.name = name;
   }
 
-  public void addName(String language, String name) {
-    this.names.put(language, name);
+  protected void addName(String language, String name) {
+    if (name != null) {
+      this.names.put(language, name);
+    }
   }
 
   public String getDescription(Language language) {
@@ -193,28 +168,45 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
   }
 
-  public Map<String, String> getDescriptions() {
-    return descriptions;
-  }
-
-  public void setDescriptions(Map<String, String> descriptions) {
-    this.descriptions = descriptions;
-  }
-
-  public void addDescription(String language, String description) {
+  private void addDescription(String language, String description) {
     this.descriptions.put(language, description);
   }
 
-  public static Comparator<Provider> firstStatusThenName() {
-    return new Comparator<Provider>() {
-      @Override
-      public int compare(Provider o1, Provider o2) {
-        return new CompareToBuilder()
-          .append(!o1.isLinked(), !o2.isLinked())
-          .append(o1.getName(), o2.getName())
-          .toComparison();
-      }
-    };
+  public boolean isAllowedAll() {
+    return allowedAll;
+  }
+
+  public Set<String> getAllowedEntityIds() {
+    return allowedEntityIds;
+  }
+
+  protected boolean booleanValue(Object metadataValue) {
+    return metadataValue != null && metadataValue.equals("1");
+  }
+
+  protected String safeString(Object o) {
+    return o != null ? o.toString() : "";
+  }
+
+  private ContactPersonType contactPersonType(String contactType) {
+    switch (contactType) {
+      case "technical":
+        return ContactPersonType.technical;
+      case "support":
+        return ContactPersonType.help;
+      default:
+        return ContactPersonType.administrative;
+    }
+  }
+
+  private Set<String> getAllowedEntries(Map<String, Object> entry) {
+    List<String> allowedEntities = (List<String>) entry.getOrDefault("allowedEntities", Collections.emptyList());
+    return new HashSet<>(allowedEntities);
+  }
+
+  private boolean getAllowedAll(Map<String, Object> entry) {
+    String allowedall = (String) entry.getOrDefault("allowedall", "yes");
+    return allowedall.equals("yes");
   }
 
   @Override
@@ -224,11 +216,23 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
       .toComparison();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Provider provider = (Provider) o;
+    return Objects.equals(id, provider.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("name", name)
       .add("names", names)
-      .add("type", type)
       .add("id", getId())
       .add("contactPersons", contactPersons)
       .add("descriptions", descriptions)

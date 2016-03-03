@@ -15,11 +15,13 @@
  */
 package selfservice.domain.csa;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,10 +36,11 @@ public class CompoundServiceProviderTest {
 
   @Test
   public void testBuilder() {
-    ServiceProvider serviceProvider = new ServiceProvider("id");
-    serviceProvider.addDescription(Provider.Language.EN.name().toLowerCase(), "EN description");
-    serviceProvider.setLogoUrl(CompoundServiceProvider.SR_DEFAULT_LOGO_VALUE);
+    ServiceProvider serviceProvider = new ServiceProvider(
+      metaData(new String[]{
+        "entityid", "id"
 
+      }));
     Article article = new Article();
 
     CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
@@ -52,13 +55,21 @@ public class CompoundServiceProviderTest {
     String appLogo = provider.getAppStoreLogo();
     assertEquals("/fieldimages/null.img", appLogo);
 
-    serviceProvider.setLogoUrl("https://static.surfconext.nl/media/idp/windesheim.png");
+    serviceProvider = new ServiceProvider(
+      metaData(new String[]{
+        "entityid", "id"}, new String[]{"logo:0:url", "https://static.surfconext.nl/media/idp/windesheim.png"}));
     provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
     appLogo = provider.getAppStoreLogo();
     assertEquals("https://static.surfconext.nl/media/idp/windesheim.png", appLogo);
 
     des = values.get(Key.ENDUSER_DESCRIPTION_NL);
     assertNull(des);
+  }
+
+  private Map<String, Object> metaData(String[]... args) {
+    Map<String, Object> metaData = new HashMap<>();
+    asList(args).forEach((arg) -> metaData.put(arg[0], arg[1]));
+    return metaData;
   }
 
   @Test

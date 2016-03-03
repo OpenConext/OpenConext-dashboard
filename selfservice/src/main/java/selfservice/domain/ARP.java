@@ -28,6 +28,9 @@ import com.google.common.base.MoreObjects;
 
 import org.springframework.util.CollectionUtils;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+
 /**
  * Attribute Release Policy
  */
@@ -81,50 +84,54 @@ public class ARP implements Serializable {
     this.noAttrArp = noAttrArp;
   }
 
+
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(ARP.class)
-        .add("name", name)
-        .add("description", description)
-        .add("attributes", attributes)
-        .toString();
+    return "ARP{" +
+      "name='" + name + '\'' +
+      ", description='" + description + '\'' +
+      ", attributes=" + attributes +
+      ", noArp=" + noArp +
+      ", noAttrArp=" + noAttrArp +
+      '}';
   }
 
   @SuppressWarnings("unchecked")
   public static ARP fromRestResponse(Map<String, Object> response) {
-        ARP arp = new ARP();
+    ARP arp = new ARP();
 
-        arp.setNoArp(false);
-        arp.setNoAttrArp(false);
+    arp.setNoArp(false);
+    arp.setNoAttrArp(false);
 
-        if (response.isEmpty()) {
-          arp.setNoArp(true);
-          return arp;
-        }
+    if (response.isEmpty()) {
+      arp.setNoArp(true);
+      return arp;
+    }
 
-        arp.setName((String) response.get("name"));
-        arp.setDescription((String) response.get("description"));
-        final Object attr = response.get("attributes");
-        if (attr instanceof Map) {
-          arp.setAttributes((Map<String, List<Object>>) attr);
-        } else {
-          // If 'no attributes', Janus will return not a hash, but an empty array
-          arp.setNoAttrArp(true);
-        }
-        return arp;
-      }
+    arp.setName((String) response.get("name"));
+    arp.setDescription((String) response.get("description"));
+    final Object attr = response.get("attributes");
+    if (attr instanceof Map) {
+      arp.setAttributes((Map<String, List<Object>>) attr);
+    } else {
+      // If 'no attributes', Janus will return not a hash, but an empty array
+      arp.setNoAttrArp(true);
+    }
+    return arp;
+  }
 
-      public static ARP fromAttributes(List<String> attributes) {
-        if (CollectionUtils.isEmpty(attributes)) {
-          return ARP.fromRestResponse(new HashMap<>());
-        }
-        ARP arp = new ARP();
-        arp.setName("arp");
-        arp.setDescription("arp");
-        Map<String, List<Object>> mappedAttributes = attributes.stream().collect(Collectors.toMap(Function.identity(), attr -> Arrays.asList("*")));
-        arp.setAttributes(mappedAttributes);
-        return arp;
-      }
+  public static ARP fromAttributes(List<String> attributes) {
+    if (CollectionUtils.isEmpty(attributes)) {
+      return ARP.fromRestResponse(new HashMap<>());
+    }
+    ARP arp = new ARP();
+    arp.setName("arp");
+    arp.setDescription("arp");
+    List<Object> star = Arrays.asList("*");
+    Map<String, List<Object>> mappedAttributes = attributes.stream().collect(toMap(identity(), attr -> star));
+    arp.setAttributes(mappedAttributes);
+    return arp;
+  }
 
 
 }

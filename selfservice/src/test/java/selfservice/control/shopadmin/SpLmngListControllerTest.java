@@ -35,9 +35,8 @@ import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.CrmService;
 import selfservice.service.ExportService;
-import selfservice.service.IdentityProviderService;
-import selfservice.service.ServiceProviderService;
 import selfservice.service.impl.CompoundServiceProviderService;
+import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -48,9 +47,8 @@ public class SpLmngListControllerTest {
 
   @Mock private LmngIdentifierDao lmngIdentifierDaoMock;
   @Mock private LocaleResolver localeResolverMock;
-  @Mock private ServiceProviderService providerServiceMock;
+  @Mock private ServiceRegistry serviceRegistryMock;
   @Mock private CompoundServiceProviderDao compoundServiceProviderDaoMock;
-  @Mock private IdentityProviderService identityProviderServiceMock;
   @Mock private CompoundServiceProviderService compoundSPServiceMock;
   @Mock private CrmService crmServiceMock;
   @Mock private ExportService exportServiceMock;
@@ -62,13 +60,13 @@ public class SpLmngListControllerTest {
     when(localeResolverMock.resolveLocale(any(HttpServletRequest.class))).thenReturn(Locale.ENGLISH);
 
     mockMvc = standaloneSetup(subject)
-        .addFilter(new ShibbolethPreAuthenticatedProcessingFilter(auth -> auth, identityProviderServiceMock))
+        .addFilter(new ShibbolethPreAuthenticatedProcessingFilter(auth -> auth, serviceRegistryMock))
         .build();
   }
 
   @Test
   public void listAllSpsLmngShouldSetModelAttributes() throws Exception {
-    when(identityProviderServiceMock.getIdentityProvider("idpId")).thenReturn(Optional.of(new IdentityProvider()));
+    when(serviceRegistryMock.getIdentityProvider("idpId")).thenReturn(Optional.of(new IdentityProvider()));
     when(compoundServiceProviderDaoMock.findAll()).thenReturn(ImmutableList.of());
 
     mockMvc.perform(get("/shopadmin/all-spslmng")
@@ -88,8 +86,8 @@ public class SpLmngListControllerTest {
     CompoundServiceProvider orphan = new CompoundServiceProvider();
     orphan.setServiceProvider(new ServiceProvider("sp3"));
 
-    when(identityProviderServiceMock.getIdentityProvider("idpId")).thenReturn(Optional.of(new IdentityProvider()));
-    when(providerServiceMock.getAllServiceProviders(false)).thenReturn(ImmutableList.of(sp1));
+    when(serviceRegistryMock.getIdentityProvider("idpId")).thenReturn(Optional.of(new IdentityProvider()));
+    when(serviceRegistryMock.getAllServiceProviders()).thenReturn(ImmutableList.of(sp1));
     when(compoundSPServiceMock.getCSPByServiceProvider(sp1)).thenReturn(csp1);
     when(lmngIdentifierDaoMock.getLmngIdForServiceProviderId("sp1")).thenReturn("lmng1");
     when(lmngIdentifierDaoMock.getLmngIdForServiceProviderId("sp2")).thenReturn("lmng2");
@@ -120,7 +118,7 @@ public class SpLmngListControllerTest {
   @Test
   public void saveLmngServiceShouldSetLmngId() throws Exception {
     String validGuid = "{00000000-0000-0000-0000-000000000000}";
-    when(identityProviderServiceMock.getIdentityProvider("idpId")).thenReturn(Optional.of(new IdentityProvider()));
+    when(serviceRegistryMock.getIdentityProvider("idpId")).thenReturn(Optional.of(new IdentityProvider()));
     when(compoundServiceProviderDaoMock.findAll()).thenReturn(ImmutableList.of());
     when(crmServiceMock.getServiceName(validGuid)).thenReturn("serviceName");
 

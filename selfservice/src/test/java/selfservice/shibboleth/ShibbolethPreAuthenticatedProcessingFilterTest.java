@@ -1,5 +1,18 @@
 package selfservice.shibboleth;
 
+import com.google.common.collect.ImmutableList;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
+import selfservice.serviceregistry.ServiceRegistry;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,22 +22,6 @@ import static org.mockito.Mockito.when;
 import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
 
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.google.common.collect.ImmutableList;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import selfservice.domain.CoinUser;
-import selfservice.domain.IdentityProvider;
-import selfservice.service.IdentityProviderService;
-
 @RunWith(MockitoJUnitRunner.class)
 public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
@@ -32,13 +29,13 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
   private ShibbolethPreAuthenticatedProcessingFilter subject;
 
   @Mock
-  private IdentityProviderService idpServiceMock;
+  private ServiceRegistry serviceRegistryMock;
 
   @Test
   public void shouldCreateACoinUserBasedOnShibbolethHeaders() {
     HttpServletRequest requestMock = mock(HttpServletRequest.class);
     when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-    when(idpServiceMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(new IdentityProvider()));
+    when(serviceRegistryMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(new IdentityProvider()));
 
     CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
@@ -54,8 +51,8 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
     HttpServletRequest requestMock = mock(HttpServletRequest.class);
     when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-    when(idpServiceMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(idp));
-    when(idpServiceMock.getInstituteIdentityProviders("my-institution-id")).thenReturn(ImmutableList.of(idp));
+    when(serviceRegistryMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(idp));
+    when(serviceRegistryMock.getInstituteIdentityProviders("my-institution-id")).thenReturn(ImmutableList.of(idp));
 
     CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
@@ -66,7 +63,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
   public void shouldSplitMultiValueAttribute() {
     HttpServletRequest requestMock = mock(HttpServletRequest.class);
     when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value1;" + invocation.getArguments()[0] + "_value2");
-    when(idpServiceMock.getIdentityProvider("Shib-Authenticating-Authority_value1")).thenReturn(Optional.of(new IdentityProvider()));
+    when(serviceRegistryMock.getIdentityProvider("Shib-Authenticating-Authority_value1")).thenReturn(Optional.of(new IdentityProvider()));
 
     CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 

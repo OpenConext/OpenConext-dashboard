@@ -33,7 +33,8 @@ import selfservice.domain.CoinUser;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.sab.Sab;
-import selfservice.service.IdentityProviderService;
+
+import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,7 +47,7 @@ public class IdpControllerTest {
   private IdpController controller;
 
   @Mock
-  private IdentityProviderService idpServiceMock;
+  private ServiceRegistry serviceRegistryMock;
 
   @Mock
   private Sab sab;
@@ -59,7 +60,7 @@ public class IdpControllerTest {
   public void setup() {
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
-    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(idpServiceMock);
+    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(serviceRegistryMock);
 
     mockMvc = standaloneSetup(controller)
       .setMessageConverters(new GsonHttpMessageConverter("", "", "", ""))
@@ -69,8 +70,8 @@ public class IdpControllerTest {
 
     SpringSecurityUtil.setAuthentication(coinUser);
 
-    when(idpServiceMock.getAllIdentityProviders()).thenReturn(ImmutableList.of(idp(BAR_IDP_ENTITY_ID), idp(FOO_IDP_ENTITY_ID)));
-    when(idpServiceMock.getIdentityProvider(FOO_IDP_ENTITY_ID)).thenReturn(Optional.of(idp(FOO_IDP_ENTITY_ID)));
+    when(serviceRegistryMock.getAllIdentityProviders()).thenReturn(ImmutableList.of(idp(BAR_IDP_ENTITY_ID), idp(FOO_IDP_ENTITY_ID)));
+    when(serviceRegistryMock.getIdentityProvider(FOO_IDP_ENTITY_ID)).thenReturn(Optional.of(idp(FOO_IDP_ENTITY_ID)));
   }
 
   @After

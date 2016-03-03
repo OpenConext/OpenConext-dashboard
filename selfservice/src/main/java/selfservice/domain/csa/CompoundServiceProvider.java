@@ -603,7 +603,7 @@ public class CompoundServiceProvider extends DomainObject {
         return homeUrl;
       }
     }
-    return sp.getHomeUrl();
+    return null;
   }
 
   private static String getSupportUrl(ServiceProvider sp, Provider.Language lang) {
@@ -621,7 +621,7 @@ public class CompoundServiceProvider extends DomainObject {
 
   public static boolean isAllowedCombination(Field.Key key, Field.Source source) {
     CompoundServiceProvider provider = new CompoundServiceProvider();
-    provider.setServiceProvider(new ServiceProvider(null));
+    provider.setServiceProvider(new ServiceProvider(""));
     switch (source) {
       case LMNG:
         try {

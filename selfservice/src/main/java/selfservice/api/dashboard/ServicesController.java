@@ -1,11 +1,19 @@
 package selfservice.api.dashboard;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
+import au.com.bytecode.opencsv.CSVWriter;
+import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableSet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import selfservice.domain.*;
+import selfservice.service.Csa;
+import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.util.SpringSecurity;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
@@ -13,32 +21,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableSet;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import au.com.bytecode.opencsv.CSVWriter;
-import selfservice.domain.Action;
-import selfservice.domain.Category;
-import selfservice.domain.CoinUser;
-import selfservice.domain.InstitutionIdentityProvider;
-import selfservice.domain.JiraTask;
-import selfservice.domain.Service;
-import selfservice.service.Csa;
-import selfservice.service.IdentityProviderService;
-import selfservice.util.SpringSecurity;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
 @RestController
 @RequestMapping(value = "/dashboard/api/services", produces = APPLICATION_JSON_VALUE)
@@ -50,7 +37,7 @@ public class ServicesController extends BaseController {
   private Csa csa;
 
   @Autowired
-  private IdentityProviderService identityProviderService;
+  private ServiceRegistry serviceRegistry;
 
   @RequestMapping
   public RestResponse<List<Service>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
@@ -64,7 +51,7 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/idps")
   public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
-    List<InstitutionIdentityProvider> idps = identityProviderService.getLinkedIdentityProviders(spEntityId).stream()
+    List<InstitutionIdentityProvider> idps = serviceRegistry.getLinkedIdentityProviders(spEntityId).stream()
         .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(), idp.getInstitutionId()))
         .collect(toList());
 

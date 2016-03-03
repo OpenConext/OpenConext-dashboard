@@ -39,7 +39,7 @@ public class ServicesServiceImplTest {
   @Test
   public void emailAddressesShouldBeNormalized() {
     ServiceProvider serviceProvider = new ServiceProvider("sp-id");
-    serviceProvider.addContactPerson(new ContactPerson(ContactPersonType.help, "mailto:john@example.com"));
+    serviceProvider.addContactPerson(new ContactPerson("John Doe", "mailto:john@example.com", "1234", ContactPersonType.help));
     CompoundServiceProvider csp = new CompoundServiceProvider();
     csp.setId(1L);
     csp.setServiceProvider(serviceProvider);

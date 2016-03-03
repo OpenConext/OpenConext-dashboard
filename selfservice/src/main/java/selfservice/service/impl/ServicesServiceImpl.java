@@ -47,8 +47,8 @@ public class ServicesServiceImpl implements ServicesService {
   }
 
   @Override
-  public Map<String, List<Service>> findAll(long callDelay) {
-    List<CompoundServiceProvider> allCSPs = compoundSPService.getAllCSPs(callDelay);
+  public Map<String, List<Service>> findAll() {
+    List<CompoundServiceProvider> allCSPs = compoundSPService.getAllCSPs();
 
     List<Service> servicesEn = buildApiServices(allCSPs, "en");
     List<Service> servicesNl = buildApiServices(allCSPs, "nl");
