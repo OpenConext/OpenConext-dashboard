@@ -168,6 +168,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
   }
 
+  public Map<String, String> getDescriptions() {
+    return descriptions;
+  }
+
   private void addDescription(String language, String description) {
     this.descriptions.put(language, description);
   }
