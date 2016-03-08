@@ -30,7 +30,7 @@ App.Components.DownloadButton = React.createClass({
       link.click();
       document.body.removeChild(link);
     } else {
-      location.replace(uri);
+      location.replace(url);
     }
   },
 
