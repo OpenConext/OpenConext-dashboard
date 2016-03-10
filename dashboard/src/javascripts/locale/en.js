@@ -94,10 +94,10 @@ I18n.translations.en = {
       connect: "",
       connect_button: "Connect",
       connected: "Connected",
-      license: "License",
-      license_needed: "Licentie required",
+      license: "License secured",
+      license_needed: "License required",
       license_present: {
-        na: "n.a.",
+        na: "n/a",
         no: "No",
         unknown: "Unknown",
         yes: "Yes",
