@@ -1,8 +1,5 @@
 module.exports = function(grunt) {
   var jsFiles = {
-    'build/rollbar_config.js': [
-      'src/javascripts/rollbar_config.js',
-    ],
     'build/application.js': [
       'src/javascripts/lib/react-with-addons.js',
       'src/javascripts/lib/jquery-2.1.1.js',
@@ -13,7 +10,6 @@ module.exports = function(grunt) {
       'src/javascripts/lib/select2.js',
       'src/javascripts/lib/jquery.cookie.js',
       'src/javascripts/lib/object-assign.js',
-      'src/javascripts/lib/rollbar.snipet.js',
       'src/javascripts/lib/underscore.js',
       'tmp/init.js',                    // initializes the namespaces
       'tmp/mixins/*.js',                // all mixins first
@@ -173,7 +169,6 @@ module.exports = function(grunt) {
           src: ['**/*.css'],
           dest: 'dist/css/'
         }, {
-          'dist/rollbar_config.js': 'build/rollbar_config.js',
           'dist/application-<%= now %>.min.js': 'build/application.min.js',
           'dist/application-<%= now %>.min.css': 'build/application.min.css'
         }]

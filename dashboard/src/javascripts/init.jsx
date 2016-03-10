@@ -167,7 +167,6 @@ var App = {
         this.redirectTo403Server();
         break;
       default:
-        Rollbar.error("Ajax request failed", event);
         console.error("Ajax request failed", event);
         this.render(App.Pages.ServerError());
     }

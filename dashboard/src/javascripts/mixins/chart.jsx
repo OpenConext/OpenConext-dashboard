@@ -337,7 +337,6 @@ App.Mixins.Chart = {
     ).done(function (data) {
       callback(data);
     }).fail(function () {
-      Rollbar.warn("Could not download csv");
       console.log("Could not download csv");
     });
   },
