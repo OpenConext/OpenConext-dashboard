@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -56,12 +57,13 @@ public class PdpServiceImpl implements PdpService {
     this.pdpRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
       CoinUser user = SpringSecurity.getCurrentUser();
 
-      request.getHeaders().add(AUTHORIZATION, authorizationHeaderValue(username, password));
-      request.getHeaders().add(ACCEPT, APPLICATION_JSON.toString());
-      request.getHeaders().add(CONTENT_TYPE, APPLICATION_JSON.toString());
-      request.getHeaders().add(X_IDP_ENTITY_ID, user.getIdp().getId());
-      request.getHeaders().add(X_UNSPECIFIED_NAME_ID, user.getUid());
-      request.getHeaders().add(X_DISPLAY_NAME, user.getDisplayName());
+      HttpHeaders headers = request.getHeaders();
+      headers.setContentType(APPLICATION_JSON);
+      headers.setAccept(ImmutableList.of(APPLICATION_JSON));
+      headers.set(AUTHORIZATION, authorizationHeaderValue(username, password));
+      headers.set(X_IDP_ENTITY_ID, user.getIdp().getId());
+      headers.set(X_UNSPECIFIED_NAME_ID, user.getUid());
+      headers.set(X_DISPLAY_NAME, user.getDisplayName());
 
       return execution.execute(request, body);
     }));

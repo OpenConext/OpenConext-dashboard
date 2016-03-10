@@ -2,6 +2,7 @@ package selfservice.pdp;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.options;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
@@ -97,5 +98,18 @@ public class PdpServiceImplTest {
     List<Policy> policies = pdpService.policies();
 
     assertThat(policies, hasSize(1));
+  }
+
+  @Test
+  public void createPdpRequestShouldHaveCorrectContentType() {
+    stubFor(post(urlEqualTo("/pdp/api/protected/policies"))
+        .withHeader(CONTENT_TYPE, matching("application/json"))
+        .willReturn(aResponse().withStatus(200)
+            .withHeader(CONTENT_TYPE, JSON_UTF_8.toString())
+            .withBody("{\"id\": 2}")));
+
+    Policy policy = pdpService.create(new Policy());
+
+    assertThat(policy.getId(), is(2L));
   }
 }
