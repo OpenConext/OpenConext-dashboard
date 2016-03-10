@@ -27,7 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -112,7 +112,7 @@ public class PdpServiceImpl implements PdpService {
     try {
       ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
       return response.getBody();
-    } catch (HttpClientErrorException e) {
+    } catch (HttpStatusCodeException e) {
       LOG.error("Response error: {} {}:\n {}", e.getStatusCode(), e.getStatusText(), e.getResponseBodyAsString());
       throw Throwables.propagate(e);
     }
