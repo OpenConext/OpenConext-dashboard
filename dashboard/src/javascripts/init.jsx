@@ -155,7 +155,7 @@ var App = {
   },
 
   ajaxError: function (event, jqxhr) {
-    if (jqxhr.readyState == 0 || jqxhr.status == 0) {
+    if (jqxhr.isConsumed || jqxhr.readyState == 0 || jqxhr.status == 0) {
       return;
     }
 

@@ -2,19 +2,23 @@ package selfservice.pdp;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
@@ -23,11 +27,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.codec.Base64;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -47,6 +53,7 @@ public class PdpServiceImpl implements PdpService {
 
   private final RestTemplate pdpRestTemplate;
   private final String server;
+  private final ObjectMapper objectMapper;
 
   public PdpServiceImpl(String server, String username, String password) {
     checkArgument(server.startsWith("http"));
@@ -69,6 +76,7 @@ public class PdpServiceImpl implements PdpService {
     }));
 
     this.server = server;
+    this.objectMapper = new ObjectMapper();
   }
 
   private ClientHttpRequestFactory clientHttpRequestFactory() {
@@ -114,9 +122,32 @@ public class PdpServiceImpl implements PdpService {
     try {
       ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
       return response.getBody();
-    } catch (HttpStatusCodeException e) {
-      LOG.error("Response error: {} {}:\n {}", e.getStatusCode(), e.getStatusText(), e.getResponseBodyAsString());
-      throw Throwables.propagate(e);
+    } catch (HttpStatusCodeException sce) {
+      if (sce.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+        Optional<PolicyNameNotUniqueException> exception = extractException(sce.getResponseBodyAsByteArray());
+        if (exception.isPresent()) {
+          throw exception.get();
+        }
+      }
+
+      LOG.error("Response error: {} {}:\n {}", sce.getStatusCode(), sce.getStatusText(), sce.getResponseBodyAsString());
+      throw Throwables.propagate(sce);
+    }
+  }
+
+  private Optional<PolicyNameNotUniqueException> extractException(byte[] byteArray) {
+    try {
+      JsonNode readTree = objectMapper.readTree(byteArray);
+
+      return Optional.ofNullable(readTree.findValue("details")).map(details -> {
+        Iterable<Map.Entry<String, JsonNode>> fields = () -> details.fields();
+        return StreamSupport.stream(fields.spliterator(), false)
+            .map(entry -> entry.getValue().asText())
+            .filter(StringUtils::hasText)
+            .collect(Collectors.joining(", "));
+      }).map(PolicyNameNotUniqueException::new);
+    } catch (IOException e) {
+      return Optional.empty();
     }
   }
 

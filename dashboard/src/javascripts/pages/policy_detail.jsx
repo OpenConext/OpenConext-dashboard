@@ -11,27 +11,47 @@ App.Pages.PolicyDetail = React.createClass({
     var policy = this.state;
     var title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
     return (
-      <div className="l-grid main">
-        <div className="l-col-6">
-          <div className="mod-policy-detail">
-            <h1>{title}</h1>
-            {this.renderName(policy)}
-            {this.renderDenyPermitRule(policy)}
-            {this.renderIdentityProvider(policy)}
-            {this.renderServiceProvider(policy)}
-            {this.renderLogicalRule(policy)}
-            {this.renderAttributes(policy)}
-            {this.renderDenyAdvice(policy)}
-            {this.renderDescription(policy)}
-            {this.renderActive(policy)}
-            {this.renderActions(policy)}
+      <div className="l-main">
+        {this.renderFlash()}
+        <div className="l-grid">
+          <div className="l-col-6">
+            <div className="mod-policy-detail">
+              <h1>{title}</h1>
+              {this.renderName(policy)}
+              {this.renderDenyPermitRule(policy)}
+              {this.renderIdentityProvider(policy)}
+              {this.renderServiceProvider(policy)}
+              {this.renderLogicalRule(policy)}
+              {this.renderAttributes(policy)}
+              {this.renderDenyAdvice(policy)}
+              {this.renderDescription(policy)}
+              {this.renderActive(policy)}
+              {this.renderActions(policy)}
+            </div>
           </div>
-        </div>
-        <div className="l-col-6">
-          {this.renderHelp()}
+          <div className="l-col-6 no-gutter">
+            {this.renderHelp()}
+          </div>
         </div>
       </div>
     );
+  },
+
+  renderFlash: function () {
+    var flash = this.state.flash;
+
+    if (flash && !this.state.hideFlash) {
+      return (
+          <div className="flash">
+            <p className={flash.type} dangerouslySetInnerHTML={{__html: flash.message }}></p>
+            <a className="close" href="#" onClick={this.closeFlash}><i className="fa fa-remove"></i></a>
+          </div>
+      );
+    }
+  },
+
+  closeFlash: function () {
+    this.setState({hideFlash: true});
   },
 
   renderHelp: function () {
@@ -373,6 +393,7 @@ App.Pages.PolicyDetail = React.createClass({
   submitForm: function () {
     App.Controllers.Policies.saveOrUpdatePolicy(this.state, function (jqxhr) {
       jqxhr.isConsumed = true;
+      this.setState({flash: { type: "error", message: jqxhr.responseJSON.message}});
     }.bind(this));
   },
 

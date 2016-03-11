@@ -1,8 +1,11 @@
 package selfservice.api.dashboard;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -15,7 +18,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import selfservice.domain.Policy;
 import selfservice.pdp.PdpService;
+import selfservice.pdp.PolicyNameNotUniqueException;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,7 +39,7 @@ public class PoliciesControllerTest {
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
     this.mockMvc = standaloneSetup(controller)
-      .dispatchOptions(true).build();
+        .dispatchOptions(true).build();
   }
 
   @Test
@@ -55,5 +60,13 @@ public class PoliciesControllerTest {
     mockMvc.perform(options("/dashboard/api/policies"))
       .andExpect(header().string("Allow", ""))
       .andExpect(status().isOk());
+  }
+
+  @Test
+  public void creatingAPdpWithADuplicateName() throws Exception {
+    when(pdpServiceMock.create(any(Policy.class))).thenThrow(new PolicyNameNotUniqueException("errormessage"));
+
+    mockMvc.perform(post("/dashboard/api/policies").contentType(APPLICATION_JSON).content("{\"name\": \"duplicate\"}"))
+      .andExpect(status().isBadRequest());
   }
 }

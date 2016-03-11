@@ -47,6 +47,10 @@ public class PdpServiceMock implements PdpService {
 
   @Override
   public Policy create(Policy policy) {
+    policies.values().stream().filter(p -> p.getName().equals(policy.getName())).findAny().ifPresent(duplicate -> {
+      throw new PolicyNameNotUniqueException(String.format("Policy name '%s' already exists", policy.getName()));
+    });
+
     Policy policyWithId = savePolicy(policy);
 
     policies.put(policyWithId.getId(), policyWithId);

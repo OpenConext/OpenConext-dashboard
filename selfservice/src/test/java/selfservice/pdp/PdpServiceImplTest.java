@@ -2,9 +2,9 @@ package selfservice.pdp;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.options;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.google.common.io.BaseEncoding.base64;
@@ -15,7 +15,9 @@ import static com.google.common.net.MediaType.JSON_UTF_8;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -31,8 +33,6 @@ import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Policy;
 import selfservice.filter.SpringSecurityUtil;
-import selfservice.pdp.PdpService;
-import selfservice.pdp.PdpServiceImpl;
 
 public class PdpServiceImplTest {
 
@@ -111,5 +111,20 @@ public class PdpServiceImplTest {
     Policy policy = pdpService.create(new Policy());
 
     assertThat(policy.getId(), is(2L));
+  }
+
+  @Test
+  public void createPdpRequestWithADuplicateName() {
+    stubFor(post(urlEqualTo("/pdp/api/protected/policies"))
+        .willReturn(aResponse().withStatus(400)
+            .withHeader(CONTENT_TYPE, JSON_UTF_8.toString())
+            .withBody("{\"timestamp\":1457623248928,\"status\":400,\"error\":\"Bad Request\",\"path\":\"//protected/policies\",\"details\":{\"name\":\"Policy name must be unique. asdf is already taken\"}}")));
+
+    try {
+      pdpService.create(new Policy());
+      fail("Should throw PolicyException");
+    } catch (PolicyNameNotUniqueException e) {
+      assertThat(e.getMessage(), startsWith("Policy name must be unique"));
+    }
   }
 }
