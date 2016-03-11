@@ -143,7 +143,6 @@ app.table = function() {
         {'sType' : 'spnames'},
         {'sType' : 'spnames'},
         {'sType' : 'spnames'}]
-
     });
 
     $('#csp-statusses').dataTable({
@@ -154,9 +153,15 @@ app.table = function() {
       oLanguage : {
         sSearch : '_INPUT_'
       },
-      aoColumns : [ {
-        'sType' : 'spnames'
-      }, null, null, null, null, null, null ]
+      aoColumns : [
+        {'sType' : 'spnames'},
+        {'sType' : 'boolean'},
+        {'sType' : 'boolean'},
+        {'sType' : 'spnames'},
+        {'bSortable': false},
+        {'bSortable': false},
+        {'sType' : 'boolean'},
+      ]
     });
 
     $('#csp-statusses-short').dataTable({
@@ -167,9 +172,10 @@ app.table = function() {
       oLanguage : {
         sSearch : '_INPUT_'
       },
-      aoColumns : [ {
-        'sType' : 'spnames'
-      }, null ]
+      aoColumns : [
+        {'sType' : 'spnames'},
+        null
+      ]
     });
   };
 
