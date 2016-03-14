@@ -61,7 +61,6 @@ I18n.translations.en = {
         has_license_sp: "Yes, with service provider",
         has_license_surfmarket: "Yes, with SURFmarket",
         name: "License",
-        no_license: "No",
         not_needed: "Not needed",
         unknown: "Unknown",
       },

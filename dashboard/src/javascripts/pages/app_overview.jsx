@@ -132,10 +132,11 @@ App.Pages.AppOverview = React.createClass({
   renderLicensePresent: function (app) {
     switch (app.licenseStatus) {
       case "HAS_LICENSE_SURFMARKET":
-      case "HAS_LICENSE_SP":
         licensePresent = app.license ? "yes" : "no";
         break;
-      case "NO_LICENSE":
+      case "HAS_LICENSE_SP":
+        licensePresent = "unknown";
+        break;
       case "NOT_NEEDED":
         licensePresent = "na";
         break;
