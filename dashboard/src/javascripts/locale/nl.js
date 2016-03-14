@@ -84,6 +84,7 @@ I18n.translations.nl = {
     detail: {
       application_usage: "Service gebruik",
       attribute_policy: "Attributen",
+      close_screenshot: "Sluiten",
       how_to_connect: "Dienst koppelen",
       how_to_disconnect: "Dienst ontkoppelen",
       idp_usage: "Gebruikt door",

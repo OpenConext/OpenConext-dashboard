@@ -84,6 +84,7 @@ I18n.translations.en = {
     detail: {
       application_usage: "Service usage",
       attribute_policy: "Attributes",
+      close_screenshot: "Close",
       how_to_connect: "Activate service",
       how_to_disconnect: "Deactivate service",
       idp_usage: "Used by",
