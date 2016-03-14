@@ -37,6 +37,8 @@ import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -83,7 +85,7 @@ public class CompoundServiceProvider extends DomainObject {
   @Column
   private String lmngId;
 
-  @Column
+  @Enumerated(EnumType.STRING)
   private LicenseStatus licenseStatus = LicenseStatus.NOT_NEEDED;
 
   @Column

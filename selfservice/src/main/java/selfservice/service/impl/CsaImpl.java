@@ -77,10 +77,6 @@ public class CsaImpl implements Csa {
           service.setCrmArticle(crmArticle);
         });
 
-        if (service.getLicenseStatus() == LicenseStatus.HAS_LICENSE_SURFMARKET) {
-          service.setLicenseStatus(service.getLicense() != null ? LicenseStatus.HAS_LICENSE_SURFMARKET : LicenseStatus.NO_LICENSE);
-        }
-
         return service;
     }).collect(toList());
   }
