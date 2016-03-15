@@ -1,12 +1,15 @@
 package selfservice.api.dashboard;
 
 import au.com.bytecode.opencsv.CSVWriter;
+
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import selfservice.domain.*;
 import selfservice.service.Csa;
@@ -69,8 +72,8 @@ public class ServicesController extends BaseController {
         .map(service ->
           new String[] {
             String.valueOf(service.getId()),
-            service.getName(),
-            service.getDescription(),
+            stripBreakingWhitespace(service.getName()),
+            stripBreakingWhitespace(service.getDescription()),
             service.getAppUrl(),
             service.getWikiUrl(),
             service.getSupportMail(),
@@ -101,6 +104,10 @@ public class ServicesController extends BaseController {
     }
 
     return ResponseEntity.ok().build();
+  }
+
+  private String stripBreakingWhitespace(String input) {
+    return Optional.ofNullable(input).map(CharMatcher.BREAKING_WHITESPACE::removeFrom).orElse(null);
   }
 
   private Optional<Service> getServiceById(List<Service> services, Long id) {
