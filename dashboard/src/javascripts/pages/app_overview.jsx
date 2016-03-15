@@ -9,19 +9,9 @@ App.Pages.AppOverview = React.createClass({
   getInitialState: function () {
     return {
       search: "",
-      radioButtonFacets: ["connection", "used_by_idp", "published_edugain"],
-      activeFacets: App.store.activeFacets || this.initialActiveFacets(),
+      activeFacets: App.store.activeFacets || {},
       hiddenFacets: App.store.hiddenFacets || {}
     }
-  },
-
-  initialActiveFacets: function () {
-    return this.staticFacets().filter(function (facet) {
-      return facet.oneOptionAllowed;
-    }).reduce(function (o, v) {
-      o[v.searchValue] = ["all"];
-      return o;
-    }, {});
   },
 
   render: function () {
@@ -179,16 +169,16 @@ App.Pages.AppOverview = React.createClass({
     var selectedFacets = $.extend({}, this.state.activeFacets);
     var facetValues = selectedFacets[facet];
 
-    if (this.state.radioButtonFacets.indexOf(facet) > -1 || _.isUndefined(facetValues)) {
+    if (_.isUndefined(facetValues)) {
       facetValues = selectedFacets[facet] = [facetValue];
     } else {
       checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
     }
 
     this.setState({activeFacets: selectedFacets});
+
     App.store.activeFacets = selectedFacets;
   },
-
 
   handleFacetHide: function (facet) {
     var hiddenFacets = $.extend({}, this.state.hiddenFacets);
@@ -204,7 +194,7 @@ App.Pages.AppOverview = React.createClass({
   handleResetFilters: function () {
     this.setState({
       search: "",
-      activeFacets: this.initialActiveFacets(),
+      activeFacets: {},
       hiddenFacets: {}
     });
 
@@ -218,14 +208,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   filterAppsForExclusiveFilters: function (apps) {
-    var filteredApps = apps.filter(this.filterBySearchQuery);
-    if (!$.isEmptyObject(this.state.activeFacets)) {
-      filteredApps = filteredApps.filter(this.filterConnectionFacet);
-      filteredApps = filteredApps.filter(this.filterIdpService);
-      filteredApps = filteredApps.filter(this.filterPublishedEdugain);
-    }
-
-    return filteredApps;
+    return apps.filter(this.filterBySearchQuery);
   },
 
   filterAppsForInclusiveFilters: function (apps) {
@@ -234,6 +217,9 @@ App.Pages.AppOverview = React.createClass({
     if (!$.isEmptyObject(this.state.activeFacets)) {
       filteredApps = filteredApps.filter(this.filterByFacets);
       filteredApps = filteredApps.filter(this.filterLicenseFacet);
+      filteredApps = filteredApps.filter(this.filterConnectionFacet);
+      filteredApps = filteredApps.filter(this.filterIdpService);
+      filteredApps = filteredApps.filter(this.filterPublishedEdugain);
     }
 
     return filteredApps;
@@ -253,7 +239,7 @@ App.Pages.AppOverview = React.createClass({
       switch (facet.searchValue) {
         case "connection":
           filter(facet, function (app, facetValue) {
-            return facetValue.searchValue === "all" || (facetValue.searchValue === "yes" ? app.connected : !app.connected);
+            return facetValue.searchValue === "yes" ? app.connected : !app.connected;
           });
           break;
         case "license":
@@ -264,13 +250,13 @@ App.Pages.AppOverview = React.createClass({
         case "used_by_idp":
           filter(facet, function (app, facetValue) {
             var usedByIdp = App.currentIdp().institutionId === app.institutionId;
-            return facetValue.searchValue === "all" || (facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp);
+            return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
           });
           break;
         case "published_edugain":
           filter(facet, function (app, facetValue) {
             var published = app.publishedInEdugain || false;
-            return facetValue.searchValue === "all" || (facetValue.searchValue === "yes" ? published : !published);
+            return facetValue.searchValue === "yes" ? published : !published;
           });
           break;
         default:
@@ -287,24 +273,28 @@ App.Pages.AppOverview = React.createClass({
     return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
   },
 
-  filterConnectionFacet: function (app) {
-    var connectionFacetValue = this.state.activeFacets["connection"][0];
-    return connectionFacetValue === "all" || (app.connected ? connectionFacetValue === "yes" : connectionFacetValue === "no");
-  },
-
   filterLicenseFacet: function (app) {
     var licenseFacetValues = this.state.activeFacets["license"] || [];
     return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
   },
 
+  filterConnectionFacet: function (app) {
+    return this.filterYesNoFacet("connection", app.connected);
+  },
+
   filterIdpService: function (app) {
-    var usedByIdpFacetValue = this.state.activeFacets["used_by_idp"][0];
-    return usedByIdpFacetValue === "all" || (App.currentIdp().institutionId === app.institutionId ? usedByIdpFacetValue === "yes" : usedByIdpFacetValue === "no");
+    return this.filterYesNoFacet("used_by_idp", App.currentIdp().institutionId === app.institutionId);
   },
 
   filterPublishedEdugain: function (app) {
-    var edugainFacetValue = this.state.activeFacets["published_edugain"][0];
-    return edugainFacetValue === "all" || (app.publishedInEdugain ? edugainFacetValue === "yes" : edugainFacetValue === "no");
+    return this.filterYesNoFacet("published_edugain", app.publishedInEdugain);
+  },
+
+  filterYesNoFacet: function (name, yes) {
+    var values = this.state.activeFacets[name] || [];
+    return values.length === 0
+      || (yes && _.contains(values, "yes"))
+      || (!yes && _.contains(values, "no"));
   },
 
   filterByFacets: function (app) {
@@ -345,34 +335,27 @@ App.Pages.AppOverview = React.createClass({
     return [{
       name: I18n.t("facets.static.connection.name"),
       searchValue: "connection",
-      oneOptionAllowed: true,
       values: [
         {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
         {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"},
-        {value: I18n.t("facets.static.connection.all"), searchValue: "all"},
       ]
     }, {
       name: I18n.t("facets.static.used_by_idp.name"),
       searchValue: "used_by_idp",
-      oneOptionAllowed: true,
       values: [
         {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
         {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"},
-        {value: I18n.t("facets.static.used_by_idp.all"), searchValue: "all"},
       ]
     }, {
       name: I18n.t("facets.static.published_edugain.name"),
       searchValue: "published_edugain",
-      oneOptionAllowed: true,
       values: [
         {value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes"},
         {value: I18n.t("facets.static.published_edugain.no"), searchValue: "no"},
-        {value: I18n.t("facets.static.published_edugain.all"), searchValue: "all"},
       ]
     }, {
       name: I18n.t("facets.static.license.name"),
       searchValue: "license",
-      oneOptionAllowed: false,
       values: [
         {value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET"},
         {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},

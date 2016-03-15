@@ -79,7 +79,6 @@ App.Components.Facets = React.createClass({
   },
 
   renderFacetValue: function (facet, facetValue) {
-    var type = facet.oneOptionAllowed ? "radio" : "checkbox";
     var facetName = facet.searchValue || facet.name;
     var value = facetValue.searchValue || facetValue.value;
 
@@ -87,7 +86,7 @@ App.Components.Facets = React.createClass({
       <label key={facetValue.value} className={facetValue.count === 0 ? "greyed-out" : ""}>
         <input
           checked={Array.isArray(this.props.selectedFacets[facetName]) && this.props.selectedFacets[facetName].indexOf(value) > -1}
-          type={type}
+          type="checkbox"
           onChange={this.handleSelectFacet(facetName, value)}/>
         {facetValue.value} ({facetValue.count})
       </label>
