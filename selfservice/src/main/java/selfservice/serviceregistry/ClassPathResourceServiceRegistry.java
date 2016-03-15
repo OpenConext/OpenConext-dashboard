@@ -1,24 +1,32 @@
 package selfservice.serviceregistry;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static selfservice.util.StreamUtils.filterEmpty;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
-import selfservice.util.StreamUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.function.Function;
-
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static selfservice.util.StreamUtils.filterEmpty;
 
 public class ClassPathResourceServiceRegistry implements ServiceRegistry {
 
@@ -44,8 +52,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
 
   @Override
   public Optional<IdentityProvider> getIdentityProvider(String idpEntityId) {
-    IdentityProvider identityProvider = identityProviderMap.get(idpEntityId);
-    return identityProvider == null ? Optional.empty() : Optional.of(identityProvider);
+    return Optional.ofNullable(identityProviderMap.get(idpEntityId));
   }
 
   @Override
@@ -131,16 +138,12 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
   }
 
   private Optional<ServiceProvider> getSingleTenant(String spEntityId) {
-    return exampleSingleTenants.stream().filter(sp -> sp.getId().equals(spEntityId)).collect(StreamUtils.singletonOptionalCollector());
+    return exampleSingleTenants.stream().filter(sp -> sp.getId().equals(spEntityId)).findFirst();
   }
 
   @Override
   public ServiceProvider getServiceProvider(String spEntityId) {
-    Optional<ServiceProvider> optional = getSingleTenant(spEntityId);
-    if (optional.isPresent()) {
-      return optional.get();
-    }
-    return serviceProviderMap.get(spEntityId);
+    return getSingleTenant(spEntityId).orElseGet(() -> serviceProviderMap.get(spEntityId));
   }
 
   @Override
@@ -180,7 +183,6 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
     return new ClassPathResource("service-registry/service-providers.json");
   }
 
-
   private void parseSingleTenants() {
     try {
       File[] dummySps = singleTenantsConfigPath.getFile().listFiles((dir, name) -> name.endsWith("json"));
@@ -194,8 +196,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
 
   private ServiceProvider parse(File file) {
     try {
-      return serviceProvider(objectMapper.readValue(file, new TypeReference<Map<String, Object>>() {
-      }));
+      return serviceProvider(objectMapper.readValue(file, new TypeReference<Map<String, Object>>() {}));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -210,8 +211,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
   }
 
   private <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T> provider) throws IOException {
-    List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Map<String, Object>>>() {
-    });
+    List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Map<String, Object>>>() { });
     return providers.stream().map(provider).collect(toMap(Provider::getId, prov -> prov));
   }
 

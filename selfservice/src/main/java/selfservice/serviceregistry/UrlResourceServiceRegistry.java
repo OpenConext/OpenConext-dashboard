@@ -75,5 +75,4 @@ public class UrlResourceServiceRegistry extends ClassPathResourceServiceRegistry
     }
   }
 
-
 }
