@@ -31,6 +31,7 @@ import selfservice.service.CrmService;
 import selfservice.serviceregistry.ServiceRegistry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,9 +62,7 @@ public class CompoundServiceProviderService {
   private CrmService licensingService;
 
   public List<CompoundServiceProvider> getAllCSPs() {
-    List<ServiceProvider> allServiceProviders;
-      allServiceProviders = serviceRegistry.getAllServiceProviders();
-    return getCSPs(null, allServiceProviders);
+    return getCSPs(null, serviceRegistry.getAllServiceProviders());
   }
 
   public List<CompoundServiceProvider> getAllBareCSPs() {
@@ -179,9 +178,7 @@ public class CompoundServiceProviderService {
   private Optional<Article> getArticleForSp(ServiceProvider sp) {
     checkNotNull(sp);
 
-    List<String> allSpsIds = new ArrayList<>();
-    allSpsIds.add(sp.getId());
-    List<Article> articles = licensingService.getArticlesForServiceProviders(allSpsIds);
+    List<Article> articles = licensingService.getArticlesForServiceProviders(Collections.singletonList(sp.getId()));
 
     return articles.stream().filter(article -> article.getServiceProviderEntityId().equals(sp.getId())).findFirst();
   }

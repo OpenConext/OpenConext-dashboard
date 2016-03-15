@@ -62,13 +62,13 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     this.logoUrl = (String) metaData.get("logo:0:url");
     addHomeUrl("en", (String) metaData.get("OrganizationURL:en"));
     addHomeUrl("nl", (String) metaData.get("OrganizationURL:nl"));
-    addDescription("en", "description:en");
-    addDescription("nl", "description:nl");
+    addDescription("en", (String) metaData.get("description:en"));
+    addDescription("nl", (String) metaData.get("description:nl"));
     IntStream.rangeClosed(0, 2).forEach(i -> {
       String contactType = (String) metaData.get("contacts:" + i + ":contactType");
       if (contactType != null) {
         addContactPerson(new ContactPerson(
-          (safeString(metaData.get("contacts:" + i + ":givenName")) + " " + safeString(metaData.get("contacts:" + i + ":surName"))).trim(),
+          safeString(metaData.get("contacts:" + i + ":givenName") + " " + safeString(metaData.get("contacts:" + i + ":surName"))).trim(),
           (String) metaData.get("contacts:" + i + ":emailAddress"),
           (String) metaData.get("contacts:" + i + ":telephoneNumber"),
           contactPersonType(contactType)
