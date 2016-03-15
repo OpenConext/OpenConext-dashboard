@@ -57,16 +57,19 @@ public class CsaImpl implements Csa {
 
   @Override
   public List<Service> getServicesForIdp(String idpEntityId) {
-    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(idpEntityId).orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
+    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(idpEntityId)
+        .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name: '%s'", idpEntityId)));
 
-    List<String> serviceProviderIdentifiers = serviceRegistry.getAllServiceProviders(idpEntityId).stream().map(Provider::getId).collect(toList());
+    List<String> connectedServiceProviderIdentifiers = serviceRegistry.getAllServiceProviders(idpEntityId).stream()
+        .filter(sp -> sp.isLinked())
+        .map(Provider::getId).collect(toList());
 
     return servicesCache.getAllServices(getLocale()).stream().filter(service -> {
-      boolean isConnected = serviceProviderIdentifiers.contains(service.getSpEntityId());
+      boolean isConnected = connectedServiceProviderIdentifiers.contains(service.getSpEntityId());
       boolean showForInstitution = showServiceForInstitution(identityProvider, service);
       return showForInstitution || isConnected;
     }).map(service -> {
-        service.setConnected(serviceProviderIdentifiers.contains(service.getSpEntityId()));
+        service.setConnected(connectedServiceProviderIdentifiers.contains(service.getSpEntityId()));
 
         crmCache.getLicense(service, identityProvider.getInstitutionId()).ifPresent(license -> service.setLicense(license));
         crmCache.getArticle(service).map(this::getArticle).ifPresent(crmArticle -> {
