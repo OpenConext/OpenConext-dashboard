@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toList;
@@ -56,15 +57,11 @@ public class CsaImpl implements Csa {
 
   @Override
   public List<Service> getServicesForIdp(String idpEntityId) {
-    return doGetServicesForIdP(getLocale(), idpEntityId);
-  }
-
-  private List<Service> doGetServicesForIdP(String language, String idpEntityId) {
     IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(idpEntityId).orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name:'%s'", idpEntityId)));
 
     List<String> serviceProviderIdentifiers = serviceRegistry.getAllServiceProviders(idpEntityId).stream().map(Provider::getId).collect(toList());
 
-    return servicesCache.getAllServices(language).stream().filter(service -> {
+    return servicesCache.getAllServices(getLocale()).stream().filter(service -> {
       boolean isConnected = serviceProviderIdentifiers.contains(service.getSpEntityId());
       boolean showForInstitution = showServiceForInstitution(identityProvider, service);
       return showForInstitution || isConnected;
@@ -108,11 +105,10 @@ public class CsaImpl implements Csa {
   }
 
   @Override
-  public Service getServiceForIdp(String idpEntityId, long serviceId) {
-    return doGetServicesForIdP(getLocale(), idpEntityId).stream()
+  public Optional<Service> getServiceForIdp(String idpEntityId, long serviceId) {
+    return getServicesForIdp(idpEntityId).stream()
         .filter(service -> service.getId() == serviceId)
-        .findFirst()
-        .orElseThrow(() -> new RuntimeException("Non-existent service ID('" + serviceId + "')"));
+        .findFirst();
   }
 
   @Override

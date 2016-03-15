@@ -102,7 +102,7 @@ public class ServicesControllerTest {
   public void retrieveAService() throws Exception {
     Service service = new Service(11L, "service-name", "http://logo", "http://website", false, null, IDP_ENTITY_ID);
 
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(service);
+    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -116,13 +116,23 @@ public class ServicesControllerTest {
   public void retrieveAServiceShouldBeEnriched() throws Exception {
     Service service = new Service(11L, "service-name", "http://logo", "http://website", false, null, IDP_ENTITY_ID);
 
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(service);
+    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
       .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.payload." + FILTERED_USER_ATTRIBUTES).isArray());
+  }
+
+  @Test
+  public void retrieveANonExistingService() throws Exception {
+    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.empty());
+
+    this.mockMvc.perform(get("/dashboard/api/services/id/11")
+      .contentType(MediaType.APPLICATION_JSON)
+      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+      .andExpect(status().isNotFound());
   }
 
   @Test(expected = SecurityException.class)

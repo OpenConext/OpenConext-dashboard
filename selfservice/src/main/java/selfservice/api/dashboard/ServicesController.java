@@ -108,17 +108,17 @@ public class ServicesController extends BaseController {
   }
 
   @RequestMapping(value = "/id/{id}")
-  public RestResponse<Service> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
-    Service service = csa.getServiceForIdp(idpEntityId, id);
-
-    // remove arp-labels that are explicitly unused
-    for (String label : IGNORED_ARP_LABELS) {
-      if (service.getArp() != null) {
-        service.getArp().getAttributes().remove(label);
+  public ResponseEntity<RestResponse<Service>> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
+    return csa.getServiceForIdp(idpEntityId, id).map(service -> {
+      // remove arp-labels that are explicitly unused
+      for (String label : IGNORED_ARP_LABELS) {
+        if (service.getArp() != null) {
+          service.getArp().getAttributes().remove(label);
+        }
       }
-    }
 
-    return createRestResponse(service);
+      return ResponseEntity.ok(createRestResponse(service));
+    }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
