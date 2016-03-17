@@ -58,16 +58,16 @@ App.Pages.AppOverview = React.createClass({
           <div className="mod-app-list">
             <table>
               <thead>
-              <tr>
-                {this.renderSortableHeader("percent_25", "name")}
-                {this.renderSortableHeader("percent_15", "license_needed")}
-                {this.renderSortableHeader("percent_15", "license")}
-                {this.renderSortableHeader("percent_15", "connected")}
-                {connect}
-              </tr>
+                <tr>
+                  {this.renderSortableHeader("percent_25", "name")}
+                  {this.renderSortableHeader("percent_15", "licenseStatus")}
+                  {this.renderSortableHeader("percent_15", "license")}
+                  {this.renderSortableHeader("percent_15", "connected")}
+                  {connect}
+                </tr>
               </thead>
               <tbody>
-              {filteredApps.length > 0 ? this.sort(filteredApps).map(this.renderApp) : this.renderEmpty()}
+                {filteredApps.length > 0 ? this.sort(filteredApps).map(this.renderApp) : this.renderEmpty()}
               </tbody>
             </table>
           </div>

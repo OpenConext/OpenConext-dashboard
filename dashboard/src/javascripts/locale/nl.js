@@ -95,7 +95,7 @@ I18n.translations.nl = {
       connect_button: "Activeren",
       connected: "Dienst gekoppeld",
       license: "Licentie afgesloten",
-      license_needed: "Licentie vereist",
+      licenseStatus: "Licentie vereist",
       license_present: {
         na: "n.v.t.",
         no: "Nee",

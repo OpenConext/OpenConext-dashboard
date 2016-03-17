@@ -95,7 +95,7 @@ I18n.translations.en = {
       connect_button: "Connect",
       connected: "Connected",
       license: "License secured",
-      license_needed: "License required",
+      licenseStatus: "License required",
       license_present: {
         na: "n/a",
         no: "No",
