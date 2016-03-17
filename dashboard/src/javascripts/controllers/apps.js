@@ -58,7 +58,7 @@ App.Controllers.Apps = {
             return facetValue.value === unknown.value;
           });
           if (!filtered[0]) {
-            facet.values.push(unknown);
+            facet.values.push($.extend({}, unknown));
           }
         }
       });
