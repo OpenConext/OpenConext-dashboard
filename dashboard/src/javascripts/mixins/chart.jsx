@@ -327,32 +327,13 @@ App.Mixins.Chart = {
   },
 
   downloadIdpSpCsvFile: function (callback) {
-    $.get(
-      "https://" + STATS_HOST + "/api/v1/idpsplogins/" + this.state.chart.idp + "/" + this.state.chart.sp + "/d.csv",
-      {
-        "from": this.state.chart.periodFrom.format("YYYY-MM-DD"),
-        "to": this.state.chart.periodTo.format("YYYY-MM-DD"),
-        "access_token": App.currentUser.statsToken
-      }
-    ).done(function (data) {
-      callback(data);
-    }).fail(function () {
-      console.log("Could not download csv");
-    });
+    var url = "https://" + STATS_HOST + "/api/v1/idpsplogins/" + this.state.chart.idp + "/" + this.state.chart.sp + "/d.csv";
+    window.open(url + "?access_token=" + App.currentUser.statsToken + "&from=" + this.state.chart.periodFrom.format("YYYY-MM-DD") + "&to=" + this.state.chart.periodTo.format("YYYY-MM-DD"));
   },
 
-  downloadIdpSpBarCsvFile: function (callback) {
-    $.get(
-      "https://" + STATS_HOST + "/api/v1/splogins/" + this.state.chart.idp + ".csv",
-      {
-        "period": this.getPeriod(),
-        "access_token": App.currentUser.statsToken
-      }
-    ).done(function (data) {
-      callback(data);
-    }).fail(function () {
-      console.log("Could not download csv");
-    });
+  downloadIdpSpBarCsvFile: function () {
+    var url = "https://" + STATS_HOST + "/api/v1/splogins/" + this.state.chart.idp + ".csv";
+    window.open(url + "?access_token=" + App.currentUser.statsToken + "&period=" + this.getPeriod());
   },
 
   renderDownload: function () {

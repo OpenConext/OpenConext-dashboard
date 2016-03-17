@@ -119,5 +119,4 @@ App.Components.Facets = React.createClass({
     this.props.onReset();
   }
 
-
 });
