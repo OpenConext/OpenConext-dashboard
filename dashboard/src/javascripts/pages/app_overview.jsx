@@ -15,7 +15,7 @@ App.Pages.AppOverview = React.createClass({
   },
 
   render: function () {
-    var filteredApps = this.filterAppsForExclusiveFilters(this.props.apps);
+    var filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.props.apps);
 
     if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
       var connect = (
@@ -26,8 +26,8 @@ App.Pages.AppOverview = React.createClass({
     }
 
     var facets = this.staticFacets().concat(this.props.facets);
-    this.addNumbers(filteredApps, facets);
-    filteredApps = this.filterAppsForInclusiveFilters(filteredApps);
+    this.addNumbers(filteredExclusiveApps, facets);
+    var filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
 
     return (
       <div className="l-main">
@@ -216,10 +216,9 @@ App.Pages.AppOverview = React.createClass({
 
     if (!$.isEmptyObject(this.state.activeFacets)) {
       filteredApps = filteredApps.filter(this.filterByFacets);
-      filteredApps = filteredApps.filter(this.filterLicenseFacet);
-      filteredApps = filteredApps.filter(this.filterConnectionFacet);
-      filteredApps = filteredApps.filter(this.filterIdpService);
-      filteredApps = filteredApps.filter(this.filterPublishedEdugain);
+      this.staticFacets().forEach(function (facetObject) {
+        filteredApps = filteredApps.filter(facetObject.filterApp);
+      });
     }
 
     return filteredApps;
@@ -228,8 +227,16 @@ App.Pages.AppOverview = React.createClass({
   addNumbers: function (filteredApps, facets) {
     var me = this;
     var filter = function (facet, filterFunction) {
+      var filteredWithoutCurrentFacetApps = filteredApps;
+
+      me.staticFacets().filter(function (facetObject) {
+        return facetObject.searchValue != facet.searchValue;
+      }).forEach(function (facetObject) {
+        filteredWithoutCurrentFacetApps = filteredWithoutCurrentFacetApps.filter(facetObject.filterApp);
+      });
+
       facet.values.forEach(function (facetValue) {
-        facetValue.count = filteredApps.filter(function (app) {
+        facetValue.count = filteredWithoutCurrentFacetApps.filter(function (app) {
           return filterFunction(app, facetValue);
         }).length;
       });
@@ -271,23 +278,6 @@ App.Pages.AppOverview = React.createClass({
 
   filterBySearchQuery: function (app) {
     return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
-  },
-
-  filterLicenseFacet: function (app) {
-    var licenseFacetValues = this.state.activeFacets["license"] || [];
-    return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
-  },
-
-  filterConnectionFacet: function (app) {
-    return this.filterYesNoFacet("connection", app.connected);
-  },
-
-  filterIdpService: function (app) {
-    return this.filterYesNoFacet("used_by_idp", App.currentIdp().institutionId === app.institutionId);
-  },
-
-  filterPublishedEdugain: function (app) {
-    return this.filterYesNoFacet("published_edugain", app.publishedInEdugain);
   },
 
   filterYesNoFacet: function (name, yes) {
@@ -338,21 +328,30 @@ App.Pages.AppOverview = React.createClass({
       values: [
         {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
         {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"},
-      ]
+      ],
+      filterApp: function (app) {
+        return this.filterYesNoFacet("connection", app.connected);
+      }.bind(this),
     }, {
       name: I18n.t("facets.static.used_by_idp.name"),
       searchValue: "used_by_idp",
       values: [
         {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
         {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"},
-      ]
+      ],
+      filterApp: function (app) {
+        return this.filterYesNoFacet("used_by_idp", App.currentIdp().institutionId === app.institutionId);
+      }.bind(this),
     }, {
       name: I18n.t("facets.static.published_edugain.name"),
       searchValue: "published_edugain",
       values: [
         {value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes"},
         {value: I18n.t("facets.static.published_edugain.no"), searchValue: "no"},
-      ]
+      ],
+      filterApp: function (app) {
+        return this.filterYesNoFacet("published_edugain", app.publishedInEdugain);
+      }.bind(this),
     }, {
       name: I18n.t("facets.static.license.name"),
       searchValue: "license",
@@ -361,7 +360,11 @@ App.Pages.AppOverview = React.createClass({
         {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},
         {value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED"},
         {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"},
-      ]
+      ],
+      filterApp: function (app) {
+        var licenseFacetValues = this.state.activeFacets["license"] || [];
+        return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
+      }.bind(this)
     }];
   }
 
