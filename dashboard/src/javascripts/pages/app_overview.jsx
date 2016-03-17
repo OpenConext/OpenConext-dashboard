@@ -215,7 +215,7 @@ App.Pages.AppOverview = React.createClass({
     var filteredApps = apps;
 
     if (!$.isEmptyObject(this.state.activeFacets)) {
-      filteredApps = filteredApps.filter(this.filterByFacets);
+      filteredApps = filteredApps.filter(this.filterByFacets(this.state.activeFacets));
       this.staticFacets().forEach(function (facetObject) {
         filteredApps = filteredApps.filter(facetObject.filterApp);
       });
@@ -227,9 +227,12 @@ App.Pages.AppOverview = React.createClass({
   addNumbers: function (filteredApps, facets) {
     var me = this;
     var filter = function (facet, filterFunction) {
-      var filteredWithoutCurrentFacetApps = filteredApps;
+      var activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key, object) {
+        return key !== facet.name;
+      });
+      var filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
 
-      me.staticFacets().filter(function (facetObject) {
+      this.staticFacets().filter(function (facetObject) {
         return facetObject.searchValue != facet.searchValue;
       }).forEach(function (facetObject) {
         filteredWithoutCurrentFacetApps = filteredWithoutCurrentFacetApps.filter(facetObject.filterApp);
@@ -240,7 +243,7 @@ App.Pages.AppOverview = React.createClass({
           return filterFunction(app, facetValue);
         }).length;
       });
-    };
+    }.bind(this);
 
     facets.forEach(function (facet) {
       switch (facet.searchValue) {
@@ -287,20 +290,22 @@ App.Pages.AppOverview = React.createClass({
       || (!yes && _.contains(values, "no"));
   },
 
-  filterByFacets: function (app) {
-    var normalizedCategories = this.normalizeCategories(app);
-    for (var facet in this.state.activeFacets) {
-      var facetValues = this.state.activeFacets[facet] || [];
-      if (normalizedCategories[facet] && facetValues.length > 0) {
-        var hits = normalizedCategories[facet].filter(function (facetValue) {
-          return facetValues.indexOf(facetValue) > -1;
-        });
-        if (hits.length === 0) {
-          return false;
+  filterByFacets: function (facets) {
+    return function (app) {
+      var normalizedCategories = this.normalizeCategories(app);
+      for (var facet in facets) {
+        var facetValues = facets[facet] || [];
+        if (normalizedCategories[facet] && facetValues.length > 0) {
+          var hits = normalizedCategories[facet].filter(function (facetValue) {
+            return facetValues.indexOf(facetValue) > -1;
+          });
+          if (hits.length === 0) {
+            return false;
+          }
         }
       }
-    }
-    return true;
+      return true;
+    }.bind(this);
   },
 
   normalizeCategories: function (app) {
