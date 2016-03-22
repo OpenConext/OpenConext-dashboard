@@ -41,7 +41,7 @@ public class NotificationServiceImpl implements NotificationService {
   public NotificationMessage getNotifications(String idpId) {
     NotificationMessage notificationMessage = new NotificationMessage();
 
-    boolean isFcp = getAuthorities().contains(Authority.ROLE_DASHBOARD_ADMIN) || getAuthorities().contains(Authority.ROLE_DASHBOARD_VIEWER);
+    boolean isFcp = getAuthorities().stream().anyMatch(auth -> auth == Authority.ROLE_DASHBOARD_ADMIN || auth == Authority.ROLE_DASHBOARD_VIEWER);
 
     if (!isFcp) {
       return notificationMessage;
