@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
+import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -83,6 +85,8 @@ public class PdpServiceImpl implements PdpService {
     HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
     requestFactory.setReadTimeout(2000);
     requestFactory.setConnectTimeout(2000);
+    requestFactory.setHttpClient(HttpClients.custom()
+        .disableCookieManagement().build());
 
     return requestFactory;
   }
@@ -104,16 +108,20 @@ public class PdpServiceImpl implements PdpService {
   @Override
   public List<Policy> policies() {
     RequestEntity<?> request = buildGetRequest("/protected/policies");
-    ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {});
 
-    return response.getBody();
+    return executeWithExceptionLogging(() -> {
+      ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {});
+      return response.getBody();
+    });
   }
 
   public Policy policy(Long id) {
     RequestEntity<?> request = buildGetRequest("/protected/policies/" + id);
-    ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
 
-    return response.getBody();
+    return executeWithExceptionLogging(() -> {
+      ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
+      return response.getBody();
+    });
   }
 
   @Override
@@ -154,23 +162,49 @@ public class PdpServiceImpl implements PdpService {
   @Override
   public Policy update(Policy policy) {
     RequestEntity<?> request = buildPutRequest("/protected/policies", policy);
-    ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
-
-    return response.getBody();
+    return executeWithExceptionLogging(() -> {
+      ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
+      return response.getBody();
+    });
   }
 
   @Override
   public void delete(Long id) {
     RequestEntity<?> request = buildDeleteRequest("/protected/policies/" + id);
-    pdpRestTemplate.exchange(request, String.class);
+    executeWithExceptionLogging(() -> pdpRestTemplate.exchange(request, String.class));
   }
 
   @Override
   public List<Policy> revisions(Long id) {
     RequestEntity<?> request = buildGetRequest("/protected/revisions/" + id);
-    ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {});
 
-    return response.getBody();
+    return executeWithExceptionLogging(() -> {
+      ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {});
+      return response.getBody();
+    });
+  }
+
+  @Override
+  public List<Attribute> allowedAttributes() {
+    RequestEntity<?> request = buildGetRequest("/protected/attributes/");
+
+    return executeWithExceptionLogging(() -> {
+      ResponseEntity<List<AllowedAttribute>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<AllowedAttribute>>() {});
+      return response.getBody().stream().map(aa -> new Attribute(aa.attributeId, aa.value)).collect(Collectors.toList());
+    });
+  }
+
+  private String authorizationHeaderValue(String username, String password) {
+    return "Basic " + new String(Base64.encode(String.format("%s:%s", username, password).getBytes()));
+  }
+
+  private <T> T executeWithExceptionLogging(Supplier<T> makeRequest) {
+    try {
+      return makeRequest.get();
+    } catch (HttpStatusCodeException sce) {
+      LOG.error("Response error: {} {}:\n {}", sce.getStatusCode(), sce.getStatusText(), sce.getResponseBodyAsString());
+      throw Throwables.propagate(sce);
+    }
   }
 
   private RequestEntity<?> buildDeleteRequest(String path) {
@@ -194,17 +228,6 @@ public class PdpServiceImpl implements PdpService {
     return URI.create(String.format("%s/pdp/api%s", server, path));
   }
 
-  @Override
-  public List<Attribute> allowedAttributes() {
-    RequestEntity<?> request = buildGetRequest("/protected/attributes/");
-    ResponseEntity<List<AllowedAttribute>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<AllowedAttribute>>() {});
-
-    return response.getBody().stream().map(aa -> new Attribute(aa.attributeId, aa.value)).collect(Collectors.toList());
-  }
-
-  private String authorizationHeaderValue(String username, String password) {
-    return "Basic " + new String(Base64.encode(String.format("%s:%s", username, password).getBytes()));
-  }
 
   private static final class AllowedAttribute {
     @JsonProperty("AttributeId")
