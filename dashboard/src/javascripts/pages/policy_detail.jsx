@@ -298,7 +298,6 @@ App.Pages.PolicyDetail = React.createClass({
 
   renderDescription: function (policy) {
     var classNameStatus = _.isEmpty(policy.description) ? "failure" : "success";
-    var policy = {description: ""};
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
@@ -312,7 +311,7 @@ App.Pages.PolicyDetail = React.createClass({
     );
   },
 
-  handleOnChangeAutoFormat: function () {
+  handleOnChangeAutoFormat: function (e) {
     var partialState = {autoFormat: !this.state.autoFormat};
     if (partialState.autoFormat) {
       partialState.savedDescription = this.state.description;
@@ -325,22 +324,26 @@ App.Pages.PolicyDetail = React.createClass({
   },
 
   provideProviderNames: function (partialState) {
-    var identityProvidersIds = _.isUndefined(partialState.identityProviderIds) ? this.state.identityProviderIds : partialState.identityProviderIds;
+    var identityProviderIds = _.isUndefined(partialState.identityProviderIds) ? this.state.identityProviderIds : partialState.identityProviderIds;
 
-    if (_.isEmpty(identityProvidersIds)) {
+    if (_.isEmpty(identityProviderIds)) {
       this.state.identityProviderNames = [];
     } else {
-      this.state.identityProviderNames = identityProvidersIds.map(function (idp) {
-        return _.find(this.props.identityProviders, function (provider) { return provider.id === idp; }).name;
+      this.state.identityProviderNames = identityProviderIds.map(function (idp) {
+        var provider = _.find(this.props.identityProviders, function (provider) { return provider.id === idp; });
+        return provider.name;
       }.bind(this));
-
     }
 
     var serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.serviceProviderId : partialState.serviceProviderId;
     if (_.isEmpty(serviceProviderId)) {
       this.state.serviceProviderName = null;
     } else {
-      this.state.serviceProviderName = _.find(this.props.connectedServiceProviders, function (sp) { return sp.spEntityId === serviceProviderId; }).name;
+      var scopedSPs = _.isEmpty(identityProviderIds);
+      var serviceProvider = _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
+        return sp.spEntityId === serviceProviderId;
+      });
+      this.state.serviceProviderName = serviceProvider.name;
     }
   },
 

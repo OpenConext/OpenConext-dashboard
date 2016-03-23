@@ -49,5 +49,4 @@ App.Utils.AutoFormat = {
     return description;
   }
 
-
 };
