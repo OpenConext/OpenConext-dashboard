@@ -17,8 +17,6 @@ import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
 public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
-  private static final String DASHBOARD_API_PREFIX = "/dashboard/api";
-
   private ServiceRegistry serviceRegistry;
 
   public EnsureAccessToIdpFilter(ServiceRegistry serviceRegistry) {
@@ -39,6 +37,7 @@ public class EnsureAccessToIdpFilter extends GenericFilterBean {
   }
 
   private boolean shouldAccessToIdpBeChecked(HttpServletRequest req) {
-    return req.getRequestURI().startsWith(DASHBOARD_API_PREFIX) && !req.getRequestURI().contains("/users/me");
+    String requestURI = req.getRequestURI();
+    return requestURI.startsWith("/dashboard/api") && !requestURI.contains("/users/me") && !requestURI.contains("/jsError");
   }
 }
