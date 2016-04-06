@@ -34,15 +34,15 @@ public class BasicAuthenticationUrlResource extends UrlResource {
   }
 
   public boolean isModified(int minutes) throws IOException {
-      HttpURLConnection con = (HttpURLConnection) this.getURL().openConnection();
-      con.setRequestMethod("HEAD");
-      setHeaders(con);
+    HttpURLConnection con = (HttpURLConnection) this.getURL().openConnection();
+    con.setRequestMethod("HEAD");
+    setHeaders(con);
 
-      String lastRefresh = RFC_1123_DATE_TIME.format(ZonedDateTime.now(GMT).minusMinutes(minutes));
-      con.setRequestProperty(IF_MODIFIED_SINCE, lastRefresh);
+    String lastRefresh = RFC_1123_DATE_TIME.format(ZonedDateTime.now(GMT).minusMinutes(minutes));
+    con.setRequestProperty(IF_MODIFIED_SINCE, lastRefresh);
 
-      int responseCode = con.getResponseCode();
-      return responseCode != HttpStatus.NOT_MODIFIED.value();
+    int responseCode = con.getResponseCode();
+    return responseCode != HttpStatus.NOT_MODIFIED.value();
   }
 
   protected void setHeaders(URLConnection con) {
