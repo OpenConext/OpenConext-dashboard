@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 
 import org.slf4j.Logger;
@@ -97,7 +98,8 @@ public class JiraClientImpl implements JiraClient {
       Map<String, String> result = restTemplate.postForObject(baseUrl + "/issue", entity, Map.class);
       return result.get("key");
     } catch (HttpClientErrorException e) {
-      throw new RuntimeException(e.getResponseBodyAsString());
+      LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}", e.getStatusCode(), e.getStatusText(), e.getResponseBodyAsString());
+      throw Throwables.propagate(e);
     }
   }
 
