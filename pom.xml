@@ -47,7 +47,6 @@
     <ehcache.version>2.5.1</ehcache.version>
     <guava.version>18.0</guava.version>
     <java.version>1.8</java.version>
-    <rollbar-logback.version>0.1.4</rollbar-logback.version>
     <spring-security-oauth2.version>2.0.8.RELEASE</spring-security-oauth2.version>
     <xstream.version>1.4.2</xstream.version>
   </properties>
@@ -68,17 +67,6 @@
         <groupId>com.jayway.awaitility</groupId>
         <artifactId>awaitility</artifactId>
         <version>1.6.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.tapstream</groupId>
-        <artifactId>rollbar-logback</artifactId>
-        <version>${rollbar-logback.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>com.thoughtworks.xstream</groupId>

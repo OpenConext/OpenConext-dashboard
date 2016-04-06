@@ -61,10 +61,6 @@
       <artifactId>javax.mail</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.tapstream</groupId>
-      <artifactId>rollbar-logback</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
     </dependency>

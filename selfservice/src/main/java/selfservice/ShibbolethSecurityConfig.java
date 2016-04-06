@@ -1,14 +1,5 @@
 package selfservice;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.tapstream.rollbar.RollbarFilter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +17,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
-
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SabEntitlementsFilter;
 import selfservice.filter.VootFilter;
@@ -41,6 +30,12 @@ import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import selfservice.shibboleth.ShibbolethUserDetailService;
 import selfservice.shibboleth.mock.MockShibbolethFilter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -105,7 +100,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
         .addLogoutHandler(new DashboardLogoutHandler()).and()
       .csrf().disable()
-      .addFilterBefore(new RollbarFilter(), ChannelProcessingFilter.class)
       .addFilterBefore(
         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), serviceRegistry),
         AbstractPreAuthenticatedProcessingFilter.class
