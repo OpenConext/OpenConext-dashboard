@@ -55,8 +55,11 @@ public class SabClientTest {
 
     SabTransport transport = mock(SabTransport.class);
     sabClient = new SabClient(transport);
-    when(transport.getRestResponse(anyString(), anyString())).thenThrow(new RuntimeException("Intentionally"));
-    final Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(organisation, role);
+
+    when(transport.getRestResponse(anyString(), anyString())).thenThrow(new IOException("Intentionally"));
+
+    Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(organisation, role);
+
     assertNotNull(personsInRoleForOrganization);
   }
 

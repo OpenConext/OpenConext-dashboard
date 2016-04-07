@@ -16,12 +16,12 @@
 package selfservice.sab;
 
 import static java.lang.String.format;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URLEncoder;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
@@ -84,7 +84,7 @@ public class HttpClientTransport implements SabTransport {
 
   @Override
   public InputStream getRestResponse(String organisationAbbreviation, String role) throws IOException {
-    HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, UTF_8.encode(organisationAbbreviation), UTF_8.encode(role)));
+    HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, URLEncoder.encode(organisationAbbreviation, "UTF-8"), URLEncoder.encode(role, "UTF-8")));
     return handleRequest(httpGet, restCredentials);
   }
 
