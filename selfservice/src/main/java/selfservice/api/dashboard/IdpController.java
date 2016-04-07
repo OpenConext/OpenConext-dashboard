@@ -2,11 +2,12 @@ package selfservice.api.dashboard;
 
 import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.ImmutableList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,8 @@ import selfservice.util.SpringSecurity;
 @Controller
 @RequestMapping(value = "/dashboard/api/idp", produces = MediaType.APPLICATION_JSON_VALUE)
 public class IdpController extends BaseController {
-  public static final List<String> INTERESTING_ROLES = Arrays.asList("SURFconextbeheerder", "SURFconextverantwoordelijke");
+
+  public static final List<String> INTERESTING_ROLES = ImmutableList.of("SURFconextbeheerder", "SURFconextverantwoordelijke");
 
   @Autowired
   private Sab sabClient;
@@ -39,8 +41,8 @@ public class IdpController extends BaseController {
 
     SpringSecurity.getCurrentUser().getByEntityId(idpEntityId).ifPresent(idp -> {
       for (final String role : INTERESTING_ROLES) {
-        Collection<SabPerson> rolesForOrganization = sabClient.getPersonsInRoleForOrganization(idp.getInstitutionId(), role);
-        roleAssignments.put(role, rolesForOrganization);
+        Collection<SabPerson> persons = sabClient.getPersonsInRoleForOrganization(idp.getInstitutionId(), role);
+        roleAssignments.put(role, persons);
       }
     });
 

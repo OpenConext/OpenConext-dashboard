@@ -89,7 +89,7 @@ public class SabClient implements Sab {
           .filter(p -> p.hasRole(role))
           .collect(toList());
     } catch (IOException | RuntimeException e) {
-      LOG.warn("Could not retrieve SAB info");
+      LOG.warn("Could not retrieve SAB info", e);
       return Collections.emptyList();
     }
   }
