@@ -102,14 +102,13 @@ public class SabClient implements Sab {
    * @return Serialized XML
    */
   public String createRequest(String userId, String messageId) {
-    String template;
     try (InputStream is = this.getClass().getResourceAsStream(REQUEST_TEMPLATE_LOCATION)) {
-      template = IOUtils.toString(is, "UTF-8");
+      String template = IOUtils.toString(is, "UTF-8");
+      String issueInstant = XML_DATE_TIME_FORMAT.print(new Date().getTime());
+      return MessageFormat.format(template, messageId, issueInstant, userId);
     } catch (IOException e) {
       throw Throwables.propagate(e);
     }
-    String issueInstant = XML_DATE_TIME_FORMAT.print(new Date().getTime());
-    return MessageFormat.format(template, messageId, issueInstant, userId);
   }
 
 }
