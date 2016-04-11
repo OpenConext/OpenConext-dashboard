@@ -1,48 +1,37 @@
 package selfservice.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
-import selfservice.cache.CrmCache;
-import selfservice.cache.ServicesCache;
-import selfservice.dao.FacetDao;
-import selfservice.domain.*;
-import selfservice.domain.csa.Article;
-import selfservice.service.ActionsService;
-import selfservice.service.Csa;
-import selfservice.service.EmailService;
-import selfservice.serviceregistry.ServiceRegistry;
+import static java.util.stream.Collectors.toList;
 
-import javax.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-import static java.util.stream.Collectors.toList;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import selfservice.cache.CrmCache;
+import selfservice.cache.ServicesCache;
+import selfservice.dao.FacetDao;
+import selfservice.domain.Category;
+import selfservice.domain.CategoryValue;
+import selfservice.domain.CrmArticle;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.Provider;
+import selfservice.domain.Service;
+import selfservice.domain.Taxonomy;
+import selfservice.domain.csa.Article;
+import selfservice.service.Csa;
+import selfservice.serviceregistry.ServiceRegistry;
 
 public class CsaImpl implements Csa {
 
   @Autowired
-  private EmailService emailService;
-
-  @Value("${administration.email.enabled}")
-  private boolean sendAdministrationEmail;
-
-  @Value("${administration.jira.ticket.enabled}")
-  private boolean createAdministrationJiraTicket;
-
-  @Autowired
   private FacetDao facetDao;
-
-  @Autowired
-  private ActionsService actionsService;
 
   @Autowired
   private ServicesCache servicesCache;
@@ -114,26 +103,6 @@ public class CsaImpl implements Csa {
         .findFirst();
   }
 
-  @Override
-  public Action createAction(Action action) {
-    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(action.getSpId());
-    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(action.getIdpId()).orElseThrow(RuntimeException::new);
-
-    action.setSpName(serviceProvider.getName());
-    action.setIdpName(identityProvider.getName());
-
-    String issueKey = null;
-    if (createAdministrationJiraTicket) {
-      actionsService.registerJiraIssueCreation(action);
-    }
-    action = actionsService.saveAction(action);
-    if (sendAdministrationEmail) {
-      sendAdministrationEmail(serviceProvider, identityProvider, issueKey, action);
-    }
-
-    return action;
-  }
-
   private String getLocale() {
     Locale locale = null;
     ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -159,36 +128,4 @@ public class CsaImpl implements Csa {
     return crmArticle;
   }
 
-  private void sendAdministrationEmail(ServiceProvider serviceProvider, IdentityProvider identityProvider, String issueKey, Action action) {
-    String subject = String.format(
-        "[Csa (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
-        getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), issueKey);
-
-    StringBuilder body = new StringBuilder();
-    body.append("Domain of Reporter: " + action.getInstitutionId() + "\n");
-    body.append("SP EntityID: " + serviceProvider.getId() + "\n");
-    body.append("SP Name: " + serviceProvider.getName() + "\n");
-
-    body.append("IdP EntityID: " + identityProvider.getId() + "\n");
-    body.append("IdP Name: " + identityProvider.getName() + "\n");
-
-    body.append("Request: " + action.getType().name() + "\n");
-    body.append("Applicant name: " + action.getUserName() + "\n");
-    body.append("Applicant email: " + action.getUserEmail() + " \n");
-    body.append("Mail applicant: mailto:" + action.getUserEmail() + "?CC=surfconext-beheer@surfnet.nl&SUBJECT=[" + issueKey + "]%20" + action.getType().name() + "%20to%20" + serviceProvider.getName() + "&BODY=Beste%20" + action.getUserName() + " \n");
-
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:MM");
-    body.append("Time: " + sdf.format(new Date()) + "\n");
-    body.append("Remark from User:\n");
-    body.append(action.getBody());
-    emailService.sendMail(action.getUserEmail(), subject.toString(), body.toString());
-  }
-
-  private String getHost() {
-    try {
-      return InetAddress.getLocalHost().toString();
-    } catch (UnknownHostException e) {
-      return "UNKNOWN";
-    }
-  }
 }

@@ -16,6 +16,7 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
+import selfservice.service.ActionsService;
 import selfservice.service.Csa;
 import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
@@ -52,6 +53,9 @@ public class ServicesControllerTest {
 
   @Mock
   private Csa csaMock;
+
+  @Mock
+  private ActionsService actionsServiceMock;
 
   private MockMvc mockMvc;
 
@@ -144,7 +148,7 @@ public class ServicesControllerTest {
   public void thatALinkRequestCanBeMade() throws Exception {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-    when(csaMock.createAction(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
+    when(actionsServiceMock.create(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/connect")
@@ -159,7 +163,7 @@ public class ServicesControllerTest {
   public void thatADisconnectRequestCanBeMade() throws Exception {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-    when(csaMock.createAction(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
+    when(actionsServiceMock.create(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/disconnect")

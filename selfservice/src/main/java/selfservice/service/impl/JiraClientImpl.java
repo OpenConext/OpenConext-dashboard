@@ -17,13 +17,14 @@ package selfservice.service.impl;
 
 import static java.util.stream.Collectors.toList;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 
@@ -34,35 +35,34 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import selfservice.domain.JiraTask;
-import selfservice.domain.CoinUser;
+import selfservice.domain.Action;
+import selfservice.domain.Action.Type;
 import selfservice.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 
 public class JiraClientImpl implements JiraClient {
   private static final Logger LOG = LoggerFactory.getLogger(JiraClientImpl.class);
 
-  private static final String SP_CUSTOM_FIELD = "customfield_10100";
-  private static final String IDP_CUSTOM_FIELD = "customfield_10101";
+  private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+  private static final String SP_CUSTOM_FIELD = "10100";
+  private static final String IDP_CUSTOM_FIELD = "10101";
   private static final String DEFAULT_SECURITY_LEVEL_ID = "10100";
-
-  private static final Map<JiraTask.Type, String> TASKTYPE_TO_ISSUETYPE_CODE = ImmutableMap.of(
-    JiraTask.Type.QUESTION, "16",
-    JiraTask.Type.LINKREQUEST, "13",
-    JiraTask.Type.UNLINKREQUEST, "17");
-
   private static final String PRIORITY_MEDIUM_ID = "3";
+
+  private static final Map<Action.Type, String> TASKTYPE_TO_ISSUETYPE_CODE = ImmutableMap.of(
+    Type.QUESTION, "16",
+    Type.LINKREQUEST, "13",
+    Type.UNLINKREQUEST, "17");
 
   private final String baseUrl;
   private final RestTemplate restTemplate;
   private final String projectKey;
   private final HttpHeaders defaultHeaders;
-
 
   public JiraClientImpl(final String baseUrl, final String username, final String password, final String projectKey) {
     this.projectKey = projectKey;
@@ -77,16 +77,16 @@ public class JiraClientImpl implements JiraClient {
 
   @Override
   @SuppressWarnings("unchecked")
-  public String create(final JiraTask task, final CoinUser user) {
+  public String create(final Action action) {
     Map<String, Object> fields = new HashMap<>();
     fields.put("priority", ImmutableMap.of("id", PRIORITY_MEDIUM_ID));
     fields.put("project", ImmutableMap.of("key", projectKey));
     fields.put("security", ImmutableMap.of("id", DEFAULT_SECURITY_LEVEL_ID));
-    fields.put(SP_CUSTOM_FIELD, task.getServiceProvider());
-    fields.put(IDP_CUSTOM_FIELD, task.getIdentityProvider());
-    fields.put("issuetype", ImmutableMap.of("id", TASKTYPE_TO_ISSUETYPE_CODE.get(task.getIssueType())));
+    fields.put("customfield_" + SP_CUSTOM_FIELD, action.getSpId());
+    fields.put("customfield_" + IDP_CUSTOM_FIELD, action.getIdpId());
+    fields.put("issuetype", ImmutableMap.of("id", TASKTYPE_TO_ISSUETYPE_CODE.get(action.getType())));
 
-    SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(task, user);
+    SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action);
     fields.put("summary", summaryAndDescription.summary);
     fields.put("description", summaryAndDescription.description);
 
@@ -105,47 +105,52 @@ public class JiraClientImpl implements JiraClient {
 
   @Override
   @SuppressWarnings("unchecked")
-  public List<JiraTask> getTasks(final List<String> keys) {
-    if (CollectionUtils.isEmpty(keys)) {
-      return Collections.emptyList();
-    }
-
-    StringBuilder query = new StringBuilder("project = ");
-    query.append(projectKey);
-    query.append(" AND key IN (");
-    Joiner.on(",").skipNulls().appendTo(query, keys);
-    query.append(")");
-
-    Map<String, String> searchArgs = ImmutableMap.of("jql", query.toString());
+  public List<Action> getTasks(String idp) {
+    String query = buildQueryForIdp(idp);
 
     try {
-      HttpEntity<Map<String, String>> entity = new HttpEntity<>(searchArgs, defaultHeaders);
+      HttpEntity<Map<String, String>> entity = new HttpEntity<>(ImmutableMap.of("jql", query), defaultHeaders);
+
       Map<String, Object> result = restTemplate.postForObject(baseUrl + "/search?expand=all", entity, Map.class);
 
-      List<Map<String, Object>> issues = (List<Map<String, Object>>) result.get("issues");
-      return issues.stream().map(issue -> {
+      return ((List<Map<String, Object>>) result.get("issues")).stream().map(issue -> {
           Map<String, Object> fields = (Map<String, Object>) issue.get("fields");
-          Map<String, Object> statusInfo = (Map<String, Object>) fields.get("status");
 
-          return new JiraTask.Builder()
-              .key((String) issue.get("key"))
-              .identityProvider(Optional.ofNullable((String) fields.get(IDP_CUSTOM_FIELD)).orElse(""))
-              .serviceProvider(Optional.ofNullable((String) fields.get(SP_CUSTOM_FIELD)).orElse(""))
-              .institution("???")
-              .status(JiraTask.Status.valueOf(((String) statusInfo.get("name")).toUpperCase()))
+          String issueType = (String) ((Map<String, Object>) fields.get("issuetype")).get("id");
+
+          return Action.builder()
+              .jiraKey((String) issue.get("key"))
+              .idpId(Optional.ofNullable((String) fields.get("customfield_" + IDP_CUSTOM_FIELD)).orElse(""))
+              .spId(Optional.ofNullable((String) fields.get("customfield_" + SP_CUSTOM_FIELD)).orElse(""))
+              .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
+              .type(findType(issueType))
+              .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
               .body((String) fields.get("description")).build();
         }).collect(toList());
+
     } catch (HttpStatusCodeException e) {
       if (e.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-        LOG.error("The Jira query \"{}\" was invalid:\n{}", query.toString(), e.getResponseBodyAsString());
+        LOG.error("The Jira query \"{}\" was invalid:\n{}", query, e.getResponseBodyAsString());
       } else {
-        LOG.error("Jira returned a {} ({}) for query {}:\n{}", e.getStatusCode(), e.getStatusText(), query.toString(), e.getResponseBodyAsString());
+        LOG.error("Jira returned a {} ({}) for query {}:\n{}", e.getStatusCode(), e.getStatusText(), query, e.getResponseBodyAsString());
       }
     } catch (RestClientException e) {
       LOG.error("Error communicating with Jira", e);
     }
 
     return Collections.emptyList();
+  }
+
+  private Action.Type findType(String issueType) {
+    Action.Type type = TASKTYPE_TO_ISSUETYPE_CODE.entrySet().stream()
+        .filter(entry -> entry.getValue().equals(issueType))
+        .map(Map.Entry::getKey)
+        .findFirst().orElseThrow(() -> new RuntimeException("no issue type for " + issueType));
+    return type;
+  }
+
+  private String buildQueryForIdp(String idp) {
+    return String.format("project = %s AND cf[%s]~\"%s\"", projectKey, IDP_CUSTOM_FIELD, idp);
   }
 
 }

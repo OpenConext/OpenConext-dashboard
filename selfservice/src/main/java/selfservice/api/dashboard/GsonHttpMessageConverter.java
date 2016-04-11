@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   public static final GsonBuilder GSON_BUILDER = new GsonBuilder()
       .setExclusionStrategies(new ExcludeJsonIgnore())
       .enableComplexMapKeySerialization()
+      .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter().nullSafe())
       .registerTypeAdapter(ShibbolethHeader.class, new ShibbolethHeaderTypeAdapter().nullSafe());
 
   private Gson gson;
@@ -121,6 +124,21 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
 
   public void setStatsRedirectUri(String statsRedirectUri) {
     this.statsRedirectUri = statsRedirectUri;
+  }
+
+  private static final class ZonedDateTimeTypeAdapter extends TypeAdapter<ZonedDateTime> {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+    @Override
+    public void write(JsonWriter out, ZonedDateTime value) throws IOException {
+      out.value(DATE_FORMATTER.format(value));
+    }
+
+    @Override
+    public ZonedDateTime read(JsonReader in) throws IOException {
+      return ZonedDateTime.parse(in.nextString(), DATE_FORMATTER);
+    }
   }
 
   private static final class ShibbolethHeaderTypeAdapter extends TypeAdapter<ShibbolethHeader> {

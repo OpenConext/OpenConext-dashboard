@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package selfservice.domain;
+
+import java.time.ZonedDateTime;
+import java.util.Comparator;
+import java.util.Optional;
+
+import com.google.common.base.MoreObjects;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Strings.isNullOrEmpty;
-
-import java.util.Comparator;
-import java.util.Date;
-
 public class Action {
 
-  private long id;
+  public enum Type { LINKREQUEST, UNLINKREQUEST, QUESTION }
+
   private String jiraKey;
-  private String userId;
   private String userName;
   private String userEmail;
   private String body;
@@ -38,41 +37,32 @@ public class Action {
   private String idpName;
   private String spName;
 
-  private Date requestDate = new Date();
-  private JiraTask.Type type;
-  private JiraTask.Status status = JiraTask.Status.OPEN;
-  private String institutionId;
+  private ZonedDateTime requestDate;
+  private Type type;
+  private String status;
 
   private String subject;
 
-  public Action() {
+  private Action(Builder builder) {
+    this.jiraKey = builder.jiraKey;
+    this.userName = builder.userName;
+    this.userEmail = builder.userEmail;
+    this.body = builder.body;
+    this.idpId = builder.idpId;
+    this.spId = builder.spId;
+    this.spName = builder.spName;
+    this.idpName = builder.idpName;
+    this.requestDate = builder.requestDate;
+    this.type = builder.type;
+    this.status = builder.status;
   }
 
-  public Action(String jiraKey, String userId, String userName, String userEmail, JiraTask.Type type, JiraTask.Status status, String body, String idpId,
-                String spId, String institutionId, Date requestDate) {
-    this.userId = userId;
-    this.jiraKey = jiraKey;
-    this.userName = userName;
-    this.userEmail = userEmail;
-    this.body = body;
-    this.idpId = idpId;
-    this.spId = spId;
-    this.requestDate = requestDate;
-    this.type = type;
-    this.status = status;
-    this.institutionId = institutionId;
-  }
-
-  public String getJiraKey() {
-    return jiraKey;
+  public Optional<String> getJiraKey() {
+    return Optional.ofNullable(jiraKey);
   }
 
   public String getUserName() {
     return userName;
-  }
-
-  public String getUserId() {
-    return userId;
   }
 
   public String getBody() {
@@ -87,112 +77,159 @@ public class Action {
     return spId;
   }
 
-  public Date getRequestDate() {
+  public String getIdpName() {
+    return idpName;
+  }
+
+  public ZonedDateTime getRequestDate() {
     return requestDate;
   }
 
-  public JiraTask.Type getType() {
+  public Type getType() {
     return type;
   }
 
-  public JiraTask.Status getStatus() {
+  public String getStatus() {
     return status;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getInstitutionId() {
-    return institutionId;
-  }
-
-  public void setJiraKey(String jiraKey) {
-    this.jiraKey = jiraKey;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public void setBody(String body) {
-    this.body = body;
-  }
-
-  public void setIdpId(String idpId) {
-    this.idpId = idpId;
-  }
-
-  public void setSpId(String spId) {
-    this.spId = spId;
-  }
-
-  public void setRequestDate(Date requestDate) {
-    this.requestDate = requestDate;
-  }
-
-  public void setType(JiraTask.Type type) {
-    this.type = type;
-  }
-
-  public void setStatus(JiraTask.Status status) {
-    this.status = status;
-  }
-
-  public void setInstitutionId(String institutionId) {
-    checkArgument(!isNullOrEmpty(institutionId));
-    this.institutionId = institutionId;
   }
 
   public String getUserEmail() {
     return userEmail;
   }
 
-  public void setUserEmail(String userEmail) {
-    this.userEmail = userEmail;
-  }
-
   public String getSubject() {
     return subject;
   }
 
-  public void setSubject(String subject) {
-    this.subject = subject;
-  }
-
-  public String getIdpName() {
-    return idpName;
-  }
-
-  public void setIdpName(String idpName) {
-    this.idpName = idpName;
-  }
+//  public String getIdpName() {
+//    return idpName;
+//  }
 
   public String getSpName() {
     return spName;
   }
 
-  public void setSpName(String spName) {
-    this.spName = spName;
-  }
-
   /**
    * get a Comparator that sorts by date ascending: newest first
-   *
-   * @return
    */
   public static Comparator<? super Action> sortByDateAsc() {
     return (a1, a2) -> new CompareToBuilder()
       .append(a1.getRequestDate(), a2.getRequestDate())
       .toComparison();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(Action.class)
+        .add("type", type)
+        .add("status", status)
+        .add("jiraKey", jiraKey)
+        .add("userName", userName)
+        .add("userEmail", userEmail)
+        .add("requestDate", requestDate)
+        .add("idpId", idpId)
+        .add("spId", spId)
+        .add("spName", spName)
+        .add("body", body).toString();
+  }
+
+  public Builder unbuild() {
+    return new Builder(this);
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+
+    private String jiraKey;
+    private String userName;
+    private String userEmail;
+    private Type type;
+    private String status;
+    private String body;
+    private String idpId;
+    private String spId;
+    private String spName;
+    private String idpName;
+    private ZonedDateTime requestDate;
+
+    private Builder() {
+    }
+
+    private Builder(Action action) {
+      this.jiraKey = action.jiraKey;
+      this.userName = action.userName;
+      this.userEmail = action.userEmail;
+      this.type = action.type;
+      this.status = action.status;
+      this.body = action.body;
+      this.idpId = action.idpId;
+      this.spId = action.spId;
+      this.spName = action.spName;
+      this.idpName = action.idpName;
+      this.requestDate = action.requestDate;
+    }
+
+    public Builder requestDate(ZonedDateTime requestDate) {
+      this.requestDate = requestDate;
+      return this;
+    }
+
+    public Builder userEmail(String userEmail) {
+      this.userEmail = userEmail;
+      return this;
+    }
+
+    public Builder userName(String userName) {
+      this.userName = userName;
+      return this;
+    }
+
+    public Builder jiraKey(String jiraKey) {
+      this.jiraKey = jiraKey;
+      return this;
+    }
+
+    public Builder type(Type type) {
+      this.type = type;
+      return this;
+    }
+
+    public Builder body(String body) {
+      this.body = body;
+      return this;
+    }
+
+    public Builder idpId(String idpId) {
+      this.idpId = idpId;
+      return this;
+    }
+
+    public Builder spId(String spId) {
+      this.spId = spId;
+      return this;
+    }
+
+    public Builder spName(String spName) {
+      this.spName = spName;
+      return this;
+    }
+
+    public Builder idpName(String idpName) {
+      this.idpName = idpName;
+      return this;
+    }
+
+    public Builder status(String status) {
+      this.status = status;
+      return this;
+    }
+
+    public Action build() {
+      return new Action(this);
+    }
   }
 
 }

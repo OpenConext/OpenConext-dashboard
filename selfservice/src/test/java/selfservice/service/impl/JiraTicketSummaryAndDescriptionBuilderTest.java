@@ -6,29 +6,25 @@ import static selfservice.service.impl.JiraTicketSummaryAndDescriptionBuilder.bu
 
 import org.junit.Test;
 
-import selfservice.domain.JiraTask;
-import selfservice.domain.JiraTask.Type;
-import selfservice.domain.CoinUser;
+import selfservice.domain.Action;
 import selfservice.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 
 public class JiraTicketSummaryAndDescriptionBuilderTest {
 
   @Test
   public void a_question_should_contain_the_actual_question_in_the_description() {
-    JiraTask task = new JiraTask.Builder().issueType(Type.QUESTION).body("my question").build();
-    CoinUser user = new CoinUser();
+    Action action = Action.builder().type(Action.Type.QUESTION).body("my question").build();
 
-    SummaryAndDescription summaryAndDescription = build(task, user);
+    SummaryAndDescription summaryAndDescription = build(action);
 
     assertThat(summaryAndDescription.description, containsString("Question: my question"));
   }
 
   @Test
   public void a_request_should_contain_the_user_remarks() {
-    JiraTask task = new JiraTask.Builder().issueType(Type.LINKREQUEST).body("my remarks").build();
-    CoinUser user = new CoinUser();
+    Action action = Action.builder().type(Action.Type.LINKREQUEST).body("my remarks").build();
 
-    SummaryAndDescription summaryAndDescription = build(task, user);
+    SummaryAndDescription summaryAndDescription = build(action);
 
     assertThat(summaryAndDescription.description, containsString("Remark from user: my remarks"));
   }

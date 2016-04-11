@@ -15,58 +15,44 @@
  */
 package selfservice.service.impl;
 
-import java.util.ArrayList;
+import static java.util.stream.Collectors.toList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import selfservice.domain.JiraTask;
-import selfservice.domain.CoinUser;
+import selfservice.domain.Action;
 
 public class JiraClientMock implements JiraClient {
 
   private static final Logger LOG = LoggerFactory.getLogger(JiraClientMock.class);
-  private Map<String, JiraTask> repository;
 
-  private int counter = 0;
+  private Map<String, Action> repository = new HashMap<>();
 
-  public JiraClientMock() {
-    repository = new HashMap<>();
-  }
+  private AtomicInteger counter = new AtomicInteger(0);
 
   @Override
-  public String create(final JiraTask task, CoinUser user) {
+  public String create(final Action action) {
     String key = generateKey();
-    repository.put(key, new JiraTask.Builder()
-      .key(key)
-      .identityProvider(task.getIdentityProvider())
-      .serviceProvider(task.getServiceProvider())
-      .institution(task.getInstitution())
-      .issueType(task.getIssueType())
-      .body(task.getBody())
-      .status(JiraTask.Status.OPEN)
-      .build());
-    LOG.debug("Added task (key '{}') to repository: {}", key, task);
+
+    repository.put(key, action.unbuild().jiraKey(key).build());
+
+    LOG.debug("Added task (key '{}') to repository: {}", key, action);
+
     return key;
   }
 
   private String generateKey() {
-    return "TASK-" + counter++;
+    return "TASK-" + counter.incrementAndGet();
   }
 
   @Override
-  public List<JiraTask> getTasks(final List<String> keys) {
-    List<JiraTask> tasks = new ArrayList<>();
-    for (String key : keys) {
-      final JiraTask task = repository.get(key);
-      if (task != null) {
-        tasks.add(task);
-      }
-    }
-    return tasks;
+  public List<Action> getTasks(String idp) {
+    return repository.values().stream().filter(action -> action.getIdpId().equals(idp)).collect(toList());
   }
 
 }

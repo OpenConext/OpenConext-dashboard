@@ -424,10 +424,6 @@ I18n.translations.nl = {
       UNLINKREQUEST: "Ontbinden met {{serviceName}}",
       QUESTION: "Vraag"
     },
-    statusses: {
-      OPEN: "In behandeling",
-      CLOSED: "Afgehandeld"
-    }
   },
 
   profile: {

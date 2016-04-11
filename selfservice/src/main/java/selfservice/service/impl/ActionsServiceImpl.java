@@ -15,63 +15,134 @@
  */
 package selfservice.service.impl;
 
+import static java.util.stream.Collectors.toList;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import selfservice.dao.impl.ActionsDaoImpl;
 import selfservice.domain.Action;
-import selfservice.domain.JiraTask;
-import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.ServiceProvider;
 import selfservice.service.ActionsService;
+import selfservice.service.EmailService;
+import selfservice.serviceregistry.ServiceRegistry;
 
-@Service(value = "actionsService")
+@Service
 public class ActionsServiceImpl implements ActionsService {
 
-  @Autowired
-  private ActionsDaoImpl actionsDao;
+  private static final Pattern namePattern = Pattern.compile("^Applicant name: (.*)$", Pattern.MULTILINE);
+  private static final Pattern emailPattern = Pattern.compile("^Applicant email: (.*)$", Pattern.MULTILINE);
+
 
   @Autowired
   private JiraClient jiraClient;
 
+  @Autowired
+  private EmailService emailService;
+
+  @Autowired
+  private ServiceRegistry serviceRegistry;
+
+  @Value("${administration.email.enabled}")
+  private boolean sendAdministrationEmail;
+
   @Override
   public List<Action> getActions(String identityProvider) {
-    List<String> openTasks = actionsDao.getKeys(identityProvider);
-    List<JiraTask> tasks = jiraClient.getTasks(openTasks);
+    List<Action> tasks = jiraClient.getTasks(identityProvider);
 
-    // does an impromptu status update, only record transitions to 'closed', otherwise we
-    // will assume the issue to be 'open' or 'in progress'. The end-user cares only about 'done' or 'not done'?
+    return tasks.stream().map(this::addNames).map(this::addUser).collect(toList());
+  }
 
-    // TODO the ad-hoc character of this  jira <-> csa synchronization is bothersome.
-    tasks.stream()
-      .filter(task -> JiraTask.Status.CLOSED.equals(task.getStatus()))
-      .forEach(task -> actionsDao.close(task.getKey()));
+  private Action addUser(Action action) {
+    String body = action.getBody();
 
-    return actionsDao.findActionsByIdP(identityProvider);
+    Optional<String> userEmail = findUserEmail(body);
+    Optional<String> userName = findUserName(body);
+
+    return action.unbuild()
+        .userEmail(userEmail.orElse("unknown"))
+        .userName(userName.orElse("unknown")).build();
+  }
+
+  private Optional<String> findUserEmail(String body) {
+    return matchingGroup(emailPattern, body);
+  }
+
+  private Optional<String> findUserName(String body) {
+    return matchingGroup(namePattern, body);
+  }
+
+  private Optional<String> matchingGroup(Pattern pattern, String input) {
+    Matcher matcher = pattern.matcher(input);
+    if (matcher.find()) {
+      return Optional.ofNullable(matcher.group(1));
+    }
+
+    return Optional.empty();
   }
 
   @Override
-  public void registerJiraIssueCreation(Action action) {
-    JiraTask task = new JiraTask.Builder()
-      .body(action.getUserEmail() + ("\n\n" + action.getBody()))
-      .identityProvider(action.getIdpId()).serviceProvider(action.getSpId())
-      .institution(action.getInstitutionId()).issueType(action.getType())
-      .status(JiraTask.Status.OPEN).build();
+  public Action create(Action action) {
+    String jiraKey = jiraClient.create(action);
 
-    CoinUser coinUser = new CoinUser();
-    coinUser.setDisplayName(action.getUserName());
-    coinUser.setEmail(action.getUserEmail());
-    coinUser.setUid(action.getUserId());
+    Action savedAction = addNames(action).unbuild().jiraKey(jiraKey).build();
 
-    String jiraKey = jiraClient.create(task, coinUser);
-    action.setJiraKey(jiraKey);
+    sendAdministrationEmail(savedAction);
+
+    return savedAction;
   }
 
-  @Override
-  public Action saveAction(Action action) {
-    actionsDao.saveAction(action);
-    return action;
+  private Action addNames(Action action) {
+    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(action.getSpId());
+    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(action.getIdpId()).orElseThrow(RuntimeException::new);
+
+    return action.unbuild()
+        .idpName(identityProvider.getName())
+        .spName(serviceProvider.getName()).build();
   }
 
+  private void sendAdministrationEmail(Action action) {
+    if (!sendAdministrationEmail) {
+      return;
+    }
+    String subject = String.format(
+        "[Csa (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
+        getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey().orElse("???"));
+
+    StringBuilder body = new StringBuilder();
+    body.append("SP EntityID: " + action.getSpId() + "\n");
+    body.append("SP Name: " + action.getSpName() + "\n");
+
+    body.append("IdP EntityID: " + action.getIdpId() + "\n");
+    body.append("IdP Name: " + action.getIdpName() + "\n");
+
+    body.append("Request: " + action.getType().name() + "\n");
+    body.append("Applicant name: " + action.getUserName() + "\n");
+    body.append("Applicant email: " + action.getUserEmail() + " \n");
+    body.append("Mail applicant: mailto:" + action.getUserEmail() + "?CC=surfconext-beheer@surfnet.nl&SUBJECT=[" + action.getJiraKey().orElse("???") + "]%20" + action.getType().name() + "%20to%20" + action.getSpName() + "&BODY=Beste%20" + action.getUserName() + " \n");
+
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:MM");
+    body.append("Time: " + sdf.format(new Date()) + "\n");
+    body.append("Remark from User:\n");
+    body.append(action.getBody());
+    emailService.sendMail(action.getUserEmail(), subject.toString(), body.toString());
+  }
+
+  private String getHost() {
+    try {
+      return InetAddress.getLocalHost().toString();
+    } catch (UnknownHostException e) {
+      return "UNKNOWN";
+    }
+  }
 }

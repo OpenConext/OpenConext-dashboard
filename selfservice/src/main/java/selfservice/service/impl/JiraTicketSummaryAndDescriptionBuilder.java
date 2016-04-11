@@ -1,60 +1,57 @@
 package selfservice.service.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static selfservice.domain.JiraTask.Type.LINKREQUEST;
-import static selfservice.domain.JiraTask.Type.QUESTION;
-import static selfservice.domain.JiraTask.Type.UNLINKREQUEST;
+import static selfservice.domain.Action.Type.LINKREQUEST;
+import static selfservice.domain.Action.Type.QUESTION;
+import static selfservice.domain.Action.Type.UNLINKREQUEST;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.common.base.MoreObjects;
 
-import selfservice.domain.JiraTask;
-import selfservice.domain.CoinUser;
+import selfservice.domain.Action;
 
 class JiraTicketSummaryAndDescriptionBuilder {
 
-  static SummaryAndDescription build(final JiraTask task, final CoinUser user) {
-    checkNotNull(task.getIssueType());
-    checkNotNull(user);
+  static SummaryAndDescription build(final Action action) {
+    checkNotNull(action);
 
     StringBuilder description = new StringBuilder();
 
     final StringBuilder summary = new StringBuilder();
 
-    if (task.getIssueType().equals(QUESTION)) {
-      description.append("Question: ").append(task.getBody()).append("\n");
+    if (action.getType().equals(QUESTION)) {
+      description.append("Question: ").append(action.getBody()).append("\n");
       summary.
         append("Question about ").
-        append(task.getServiceProvider());
-    } else if (LINKREQUEST.equals(task.getIssueType())) {
+        append(action.getSpId());
+    } else if (LINKREQUEST.equals(action.getType())) {
       description.append("Request: Create a new connection").append("\n");
       summary.
         append("New connection for IdP ").
-        append(task.getIdentityProvider()).
+        append(action.getIdpId()).
         append(" to SP ").
-        append(task.getServiceProvider());
-    } else if (UNLINKREQUEST.equals(task.getIssueType())) {
+        append(action.getSpId());
+    } else if (UNLINKREQUEST.equals(action.getType())) {
       description.append("Request: terminate a connection").append("\n");
       summary.
         append("Disconnect IdP ").
-        append(task.getIdentityProvider()).
+        append(action.getIdpId()).
         append(" and SP ").
-        append(task.getServiceProvider());
+        append(action.getSpId());
     } else {
-      throw new IllegalArgumentException("Don't know how to handle tasks of type " + task.getIssueType());
+      throw new IllegalArgumentException("Don't know how to handle tasks of type " + action.getType());
     }
 
-    description.append("Applicant name: ").append(user.getDisplayName()).append("\n");
-    description.append("Applicant email: ").append(user.getEmail()).append("\n");
-    description.append("Identity Provider: ").append(task.getIdentityProvider()).append("\n");
-    description.append("Service Provider: ").append(task.getServiceProvider()).append("\n");
+    description.append("Applicant name: ").append(action.getUserName()).append("\n");
+    description.append("Applicant email: ").append(action.getUserEmail()).append("\n");
+    description.append("Identity Provider: ").append(action.getIdpId()).append("\n");
+    description.append("Service Provider: ").append(action.getSpId()).append("\n");
     description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
-    description.append("Service Provider: ").append(task.getServiceProvider()).append("\n");
 
-    if (!task.getIssueType().equals(QUESTION)) {
-      description.append("Remark from user: ").append(task.getBody()).append("\n");
+    if (!action.getType().equals(QUESTION)) {
+      description.append("Remark from user: ").append(action.getBody()).append("\n");
     }
 
     return new SummaryAndDescription(summary.toString(), description.toString());

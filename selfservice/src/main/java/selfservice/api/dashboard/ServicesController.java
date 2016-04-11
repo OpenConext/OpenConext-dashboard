@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import selfservice.domain.*;
+import selfservice.service.ActionsService;
 import selfservice.service.Csa;
 import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.util.SpringSecurity;
@@ -40,6 +41,9 @@ public class ServicesController extends BaseController {
 
   @Autowired
   private ServiceRegistry serviceRegistry;
+
+  @Autowired
+  private ActionsService actionsService;
 
   @RequestMapping
   public RestResponse<List<Service>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
@@ -133,7 +137,7 @@ public class ServicesController extends BaseController {
                                               @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                               @PathVariable String id) {
 
-    return createAction(idpEntityId, comments, spEntityId, JiraTask.Type.LINKREQUEST)
+    return createAction(idpEntityId, comments, spEntityId, Action.Type.LINKREQUEST)
         .map(action -> ResponseEntity.ok(createRestResponse(action)))
         .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
   }
@@ -144,12 +148,12 @@ public class ServicesController extends BaseController {
                                                  @RequestParam(value = "spEntityId", required = true) String spEntityId,
                                                  @PathVariable String id) {
 
-    return createAction(idpEntityId, comments, spEntityId, JiraTask.Type.UNLINKREQUEST)
+    return createAction(idpEntityId, comments, spEntityId, Action.Type.UNLINKREQUEST)
         .map(action -> ResponseEntity.ok(createRestResponse(action)))
         .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
   }
 
-  private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, JiraTask.Type jiraType) {
+  private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, Action.Type jiraType) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
       return Optional.empty();
@@ -159,16 +163,16 @@ public class ServicesController extends BaseController {
       return Optional.empty();
     }
 
-    Action action = new Action();
-    action.setUserId(currentUser.getUid());
-    action.setUserEmail(currentUser.getEmail());
-    action.setUserName(currentUser.getDisplayName());
-    action.setType(jiraType);
-    action.setBody(comments);
-    action.setIdpId(idpEntityId);
-    action.setSpId(spEntityId);
-    action.setInstitutionId(currentUser.getIdp().getInstitutionId());
+    Action action = Action.builder()
+        .userEmail(currentUser.getEmail())
+        .userName(currentUser.getUsername())
+        .body(comments)
+        .spId(spEntityId)
+        .spId(spEntityId)
+        .type(jiraType).build();
 
-    return Optional.of(csa.createAction(action));
+    Action savedAction = actionsService.create(action);
+
+    return Optional.of(savedAction);
   }
 }

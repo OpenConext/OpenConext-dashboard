@@ -1,5 +1,6 @@
 package selfservice.serviceregistry;
 
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static selfservice.util.StreamUtils.filterEmpty;
@@ -212,7 +213,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
 
   private <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T> provider) throws IOException {
     List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Map<String, Object>>>() { });
-    return providers.stream().map(provider).collect(toMap(Provider::getId, prov -> prov));
+    return providers.stream().map(provider).collect(toMap(Provider::getId, identity()));
   }
 
   private boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {

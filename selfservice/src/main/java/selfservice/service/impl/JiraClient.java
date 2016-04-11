@@ -17,26 +17,12 @@ package selfservice.service.impl;
 
 import java.util.List;
 
-import selfservice.domain.JiraTask;
-import selfservice.domain.CoinUser;
+import selfservice.domain.Action;
 
 public interface JiraClient {
 
-  /**
-   * Create a new task in Jira.
-   *
-   * @param task the task you want to create
-   * @param user the user which issued the request
-   * @return the new task key if creation succeeded
-   */
-  String create(JiraTask task, CoinUser user) throws IllegalStateException;
+  String create(Action action) throws IllegalStateException;
 
-  /**
-   * Retrieve specific tasks from Jira.
-   *
-   * @param keys a list of the task keys you want to retrieve
-   * @return a list of tasks.
-   */
-  List<JiraTask> getTasks(List<String> keys);
+  List<Action> getTasks(String idp);
 
 }

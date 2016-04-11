@@ -391,10 +391,6 @@ I18n.translations.en = {
       UNLINKREQUEST: "Disconnect from {{serviceName}}",
       QUESTION: "Question"
     },
-    statusses: {
-      OPEN: "Pending",
-      CLOSED: "Closed"
-    }
   },
 
   stats: {

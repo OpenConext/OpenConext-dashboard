@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +26,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.LocaleResolver;
 
 import selfservice.domain.Action;
-import selfservice.domain.JiraTask.Status;
-import selfservice.domain.JiraTask.Type;
 import selfservice.service.ActionsService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,7 +50,10 @@ public class ActionsControllerTest {
 
   @Test
   public void getActionsForAnIdp() throws Exception {
-    Action action = new Action("jiraKey", "userId", "userName", "userEmail", Type.LINKREQUEST, Status.OPEN, "body", "idpId", "spId", "institutionId", new Date());
+    Action action = Action.builder()
+        .jiraKey("jiraKey").userName("userName").userEmail("userEmail")
+        .type(Action.Type.LINKREQUEST).status("Open")
+        .body("body").idpId("idpId").spId("spId").requestDate(ZonedDateTime.now()).build();
 
     when(actionsServiceMock.getActions("idpId")).thenReturn(ImmutableList.of(action));
 

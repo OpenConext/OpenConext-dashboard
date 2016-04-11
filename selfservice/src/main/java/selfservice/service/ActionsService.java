@@ -29,15 +29,6 @@ public interface ActionsService {
    */
   List<Action> getActions(String identityProvider);
 
-  /**
-   * Register the creation of a JIRA issue.
-   * @param action the original action
-   */
-  void registerJiraIssueCreation(Action action);
+  Action create(Action action);
 
-  /**
-   * Register the creation of an Action
-   * @param action the original action
-   */
-  Action saveAction(Action action);
 }
