@@ -53,13 +53,13 @@ public class UrlResourceServiceRegistryTest {
 
   @Test
   public void testGetSingleTenantService() {
-    ServiceProvider serviceProvider = subject.getServiceProvider("https://google.dummy.sp");
+    ServiceProvider serviceProvider = subject.getServiceProvider("https://google.dummy.sp").get();
     assertTrue(serviceProvider.isExampleSingleTenant());
   }
 
   @Test
   public void testGetServiceProvider() {
-    ServiceProvider serviceProvider = subject.getServiceProvider("https://teams.surfconext.nl/shibboleth");
+    ServiceProvider serviceProvider = subject.getServiceProvider("https://teams.surfconext.nl/shibboleth").get();
     assertFalse(serviceProvider.isExampleSingleTenant());
   }
 

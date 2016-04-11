@@ -84,8 +84,8 @@ public class CompoundServiceProviderServiceTest {
     CompoundServiceProvider csp1 = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
     csps.add(csp1);
 
-    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(sp1);
-    when(serviceRegistry.getServiceProvider("spId2")).thenReturn(sp2);
+    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
+    when(serviceRegistry.getServiceProvider("spId2")).thenReturn(Optional.of(sp2));
     when(compoundServiceProviderDao.findAll()).thenReturn(csps);
     when(serviceRegistry.getAllServiceProviders("idpId")).thenReturn(sps);
 
@@ -103,7 +103,7 @@ public class CompoundServiceProviderServiceTest {
     sps.add(sp1);
     sps.add(sp2);
     when(serviceRegistry.getAllServiceProviders("idpid")).thenReturn(sps);
-    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(sp1);
+    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
 
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
     when(compoundServiceProviderDao.findOne(1L)).thenReturn(csp);

@@ -72,7 +72,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
     if (this.exampleSingleTenants.stream().anyMatch(sp -> sp.getId().equals(spId))) {
       return new ArrayList<>();
     }
-    ServiceProvider serviceProvider = getServiceProvider(spId);
+    ServiceProvider serviceProvider = getServiceProvider(spId).orElseThrow(RuntimeException::new);
     if (serviceProvider.isAllowedAll()) {
       return identityProviderMap.values().stream().filter(identityProvider ->
         identityProvider.isAllowedAll() || identityProvider.getAllowedEntityIds().contains(spId)).collect(toList());
@@ -143,8 +143,8 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
   }
 
   @Override
-  public ServiceProvider getServiceProvider(String spEntityId) {
-    return getSingleTenant(spEntityId).orElseGet(() -> serviceProviderMap.get(spEntityId));
+  public Optional<ServiceProvider> getServiceProvider(String spEntityId) {
+    return Optional.ofNullable(getSingleTenant(spEntityId).orElseGet(() -> serviceProviderMap.get(spEntityId)));
   }
 
   @Override

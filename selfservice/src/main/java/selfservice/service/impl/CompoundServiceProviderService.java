@@ -152,7 +152,7 @@ public class CompoundServiceProviderService {
   }
 
   public CompoundServiceProvider getCSPByServiceProviderEntityId(String serviceProviderEntityId) {
-    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(serviceProviderEntityId);
+    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(serviceProviderEntityId).orElseThrow(RuntimeException::new);
     checkNotNull(serviceProvider, "No such SP with entityId: " + serviceProviderEntityId);
 
     return getCSPByServiceProvider(serviceProvider);

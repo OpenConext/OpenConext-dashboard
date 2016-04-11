@@ -103,12 +103,12 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   private Action addNames(Action action) {
-    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(action.getSpId());
-    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(action.getIdpId()).orElseThrow(RuntimeException::new);
+    Optional<ServiceProvider> serviceProvider = serviceRegistry.getServiceProvider(action.getSpId());
+    Optional<IdentityProvider> identityProvider = serviceRegistry.getIdentityProvider(action.getIdpId());
 
     return action.unbuild()
-        .idpName(identityProvider.getName())
-        .spName(serviceProvider.getName()).build();
+        .idpName(identityProvider.map(IdentityProvider::getName).orElse("???"))
+        .spName(serviceProvider.map(ServiceProvider::getName).orElse("???")).build();
   }
 
   private void sendAdministrationEmail(Action action) {

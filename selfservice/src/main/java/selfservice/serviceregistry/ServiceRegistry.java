@@ -31,7 +31,7 @@ public interface ServiceRegistry {
    * @param spEntityId the entity id of the ServiceProvider
    * @return the {@link ServiceProvider} object.
    */
-  ServiceProvider getServiceProvider(String spEntityId);
+  Optional<ServiceProvider> getServiceProvider(String spEntityId);
 
   /**
    * Get a list of all available Service Providers (IDP independent).
