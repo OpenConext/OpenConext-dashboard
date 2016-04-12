@@ -3,7 +3,6 @@ package selfservice.api.dashboard;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -52,7 +52,9 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/connected")
   public RestResponse<List<Service>> connected(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return createRestResponse(csa.getServicesForIdp(idpEntityId).stream().filter(Service::isConnected).collect(toList()));
+    return createRestResponse(csa.getServicesForIdp(idpEntityId).stream()
+        .filter(Service::isConnected)
+        .collect(toList()));
   }
 
   @RequestMapping(value = "/idps")
@@ -119,16 +121,20 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/id/{id}")
   public ResponseEntity<RestResponse<Service>> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
-    return csa.getServiceForIdp(idpEntityId, id).map(service -> {
-      // remove arp-labels that are explicitly unused
-      for (String label : IGNORED_ARP_LABELS) {
-        if (service.getArp() != null) {
-          service.getArp().getAttributes().remove(label);
-        }
-      }
+    return csa.getServiceForIdp(idpEntityId, id)
+        .map(this::removeExplicitlyUnusedArpLabels)
+        .map(service -> ResponseEntity.ok(createRestResponse(service)))
+        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  }
 
-      return ResponseEntity.ok(createRestResponse(service));
-    }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  private Service removeExplicitlyUnusedArpLabels(Service service) {
+    if (service.getArp() == null) {
+      return service;
+    }
+
+    IGNORED_ARP_LABELS.forEach(label -> service.getArp().getAttributes().remove(label));
+
+    return service;
   }
 
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
@@ -159,7 +165,7 @@ public class ServicesController extends BaseController {
       return Optional.empty();
     }
 
-    if (Strings.isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
+    if (isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
       return Optional.empty();
     }
 
@@ -167,12 +173,10 @@ public class ServicesController extends BaseController {
         .userEmail(currentUser.getEmail())
         .userName(currentUser.getUsername())
         .body(comments)
-        .spId(spEntityId)
+        .idpId(idpEntityId)
         .spId(spEntityId)
         .type(jiraType).build();
 
-    Action savedAction = actionsService.create(action);
-
-    return Optional.of(savedAction);
+    return Optional.of(actionsService.create(action));
   }
 }

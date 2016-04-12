@@ -10,6 +10,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
+
+import selfservice.domain.Action;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
@@ -148,7 +150,13 @@ public class ServicesControllerTest {
   public void thatALinkRequestCanBeMade() throws Exception {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-    when(actionsServiceMock.create(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
+    Action expectedAction = Action.builder()
+        .type(Action.Type.LINKREQUEST)
+        .userName(coinUser.getUsername())
+        .spId(SP_ENTITY_ID)
+        .idpId(IDP_ENTITY_ID).build();
+
+    when(actionsServiceMock.create(expectedAction)).thenAnswer(invocation -> invocation.getArguments()[0]);
 
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/connect")

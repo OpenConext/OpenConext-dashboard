@@ -133,6 +133,94 @@ public class Action {
         .add("body", body).toString();
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((body == null) ? 0 : body.hashCode());
+    result = prime * result + ((idpId == null) ? 0 : idpId.hashCode());
+    result = prime * result + ((idpName == null) ? 0 : idpName.hashCode());
+    result = prime * result + ((jiraKey == null) ? 0 : jiraKey.hashCode());
+    result = prime * result + ((requestDate == null) ? 0 : requestDate.hashCode());
+    result = prime * result + ((spId == null) ? 0 : spId.hashCode());
+    result = prime * result + ((spName == null) ? 0 : spName.hashCode());
+    result = prime * result + ((status == null) ? 0 : status.hashCode());
+    result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    result = prime * result + ((userEmail == null) ? 0 : userEmail.hashCode());
+    result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Action other = (Action) obj;
+    if (body == null) {
+      if (other.body != null)
+        return false;
+    } else if (!body.equals(other.body))
+      return false;
+    if (idpId == null) {
+      if (other.idpId != null)
+        return false;
+    } else if (!idpId.equals(other.idpId))
+      return false;
+    if (idpName == null) {
+      if (other.idpName != null)
+        return false;
+    } else if (!idpName.equals(other.idpName))
+      return false;
+    if (jiraKey == null) {
+      if (other.jiraKey != null)
+        return false;
+    } else if (!jiraKey.equals(other.jiraKey))
+      return false;
+    if (requestDate == null) {
+      if (other.requestDate != null)
+        return false;
+    } else if (!requestDate.equals(other.requestDate))
+      return false;
+    if (spId == null) {
+      if (other.spId != null)
+        return false;
+    } else if (!spId.equals(other.spId))
+      return false;
+    if (spName == null) {
+      if (other.spName != null)
+        return false;
+    } else if (!spName.equals(other.spName))
+      return false;
+    if (status == null) {
+      if (other.status != null)
+        return false;
+    } else if (!status.equals(other.status))
+      return false;
+    if (subject == null) {
+      if (other.subject != null)
+        return false;
+    } else if (!subject.equals(other.subject))
+      return false;
+    if (type != other.type)
+      return false;
+    if (userEmail == null) {
+      if (other.userEmail != null)
+        return false;
+    } else if (!userEmail.equals(other.userEmail))
+      return false;
+    if (userName == null) {
+      if (other.userName != null)
+        return false;
+    } else if (!userName.equals(other.userName))
+      return false;
+    return true;
+  }
+
   public Builder unbuild() {
     return new Builder(this);
   }

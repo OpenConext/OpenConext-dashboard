@@ -23,9 +23,6 @@ public interface ActionsService {
 
   /**
    * Get a list of all actions of a certain identity provider
-   *
-   * @param identityProvider the identity provider
-   * @return list of actions
    */
   List<Action> getActions(String identityProvider);
 

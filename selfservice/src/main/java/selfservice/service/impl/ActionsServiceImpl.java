@@ -107,14 +107,15 @@ public class ActionsServiceImpl implements ActionsService {
     Optional<IdentityProvider> identityProvider = serviceRegistry.getIdentityProvider(action.getIdpId());
 
     return action.unbuild()
-        .idpName(identityProvider.map(IdentityProvider::getName).orElse("???"))
-        .spName(serviceProvider.map(ServiceProvider::getName).orElse("???")).build();
+        .idpName(identityProvider.map(IdentityProvider::getName).orElse("Unknown idp"))
+        .spName(serviceProvider.map(ServiceProvider::getName).orElse("Unknown sp")).build();
   }
 
   private void sendAdministrationEmail(Action action) {
     if (!sendAdministrationEmail) {
       return;
     }
+
     String subject = String.format(
         "[Csa (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
         getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey().orElse("???"));
