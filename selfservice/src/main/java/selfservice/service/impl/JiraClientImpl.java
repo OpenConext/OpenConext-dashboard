@@ -15,10 +15,12 @@
  */
 package selfservice.service.impl;
 
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -106,7 +108,7 @@ public class JiraClientImpl implements JiraClient {
   @Override
   @SuppressWarnings("unchecked")
   public List<Action> getTasks(String idp) {
-    String query = buildQueryForIdp(idp);
+    String query = buildQueryForIdp(idp, TASKTYPE_TO_ISSUETYPE_CODE.values());
 
     try {
       HttpEntity<Map<String, String>> entity = new HttpEntity<>(ImmutableMap.of("jql", query), defaultHeaders);
@@ -149,8 +151,8 @@ public class JiraClientImpl implements JiraClient {
     return type;
   }
 
-  private String buildQueryForIdp(String idp) {
-    return String.format("project = %s AND cf[%s]~\"%s\"", projectKey, IDP_CUSTOM_FIELD, idp);
+  private String buildQueryForIdp(String idp, Collection<String> issueTypeIds) {
+    return String.format("project = %s AND issueType IN (%s) AND cf[%s]~\"%s\"", projectKey, issueTypeIds.stream().collect(joining(", ")), IDP_CUSTOM_FIELD, idp);
   }
 
 }
