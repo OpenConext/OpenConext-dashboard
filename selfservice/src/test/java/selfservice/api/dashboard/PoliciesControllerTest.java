@@ -18,7 +18,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinUser;
 import selfservice.domain.Policy;
+import selfservice.filter.SpringSecurityUtil;
 import selfservice.pdp.PdpService;
 import selfservice.pdp.PolicyNameNotUniqueException;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
@@ -64,9 +67,22 @@ public class PoliciesControllerTest {
 
   @Test
   public void creatingAPdpWithADuplicateName() throws Exception {
+    CoinUser user = RestDataFixture.coinUser("henk");
+    user.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
+
+    SpringSecurityUtil.setAuthentication(user);
+
     when(pdpServiceMock.create(any(Policy.class))).thenThrow(new PolicyNameNotUniqueException("errormessage"));
 
     mockMvc.perform(post("/dashboard/api/policies").contentType(APPLICATION_JSON).content("{\"name\": \"duplicate\"}"))
       .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void onlyADashboardAdminCanCreateAPolicy() throws Exception {
+    SpringSecurityUtil.setAuthentication(RestDataFixture.coinUser("henk"));
+
+    mockMvc.perform(post("/dashboard/api/policies").contentType(APPLICATION_JSON).content("{\"name\": \"my first rule\"}"))
+      .andExpect(status().isForbidden());
   }
 }

@@ -11,6 +11,7 @@ App.Controllers.Policies = {
     );
 
     page("/policies/new",
+      this.checkUserIsAdmin.bind(this),
       this.loadPolicy.bind(this),
       this.loadInstitutionServiceProviders.bind(this),
       this.loadConnectedServiceProviders.bind(this),
@@ -19,6 +20,7 @@ App.Controllers.Policies = {
     );
 
     page("/policies/:id",
+      this.checkUserIsAdmin.bind(this),
       this.loadPolicy.bind(this),
       this.loadInstitutionServiceProviders.bind(this),
       this.loadConnectedServiceProviders.bind(this),
@@ -30,6 +32,14 @@ App.Controllers.Policies = {
       this.loadRevisions.bind(this),
       this.revisions.bind(this)
     );
+  },
+
+  checkUserIsAdmin: function (ctx, next) {
+    if (App.currentUser.dashboardAdmin) {
+      next();
+    } else {
+      App.redirectTo403Server();
+    }
   },
 
   overview: function (ctx) {

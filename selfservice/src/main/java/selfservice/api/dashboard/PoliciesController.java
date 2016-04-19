@@ -7,6 +7,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.pdp.PdpService;
+import selfservice.util.SpringSecurity;
 
 @RestController
 @RequestMapping("/dashboard/api/policies")
@@ -60,20 +62,30 @@ public class PoliciesController extends BaseController {
   }
 
   @RequestMapping(method = POST)
-  public RestResponse<Policy> createPolicy(@RequestBody Policy policy) {
-    LOG.info("Create a policy: {}", policy);
-    return createRestResponse(pdpService.create(policy));
+  public ResponseEntity<RestResponse<Policy>> createPolicy(@RequestBody Policy policy) {
+    return whenDashboardAdmin(() -> {
+      LOG.debug("Create a policy: {}", policy);
+      return createRestResponse(pdpService.create(policy));
+    });
   }
 
   @RequestMapping(method = PUT)
-  public RestResponse<Policy> updatePoliciy(@RequestBody Policy policy) {
-    LOG.info("Update a policy: {}", policy);
-    return createRestResponse(pdpService.update(policy));
+  public ResponseEntity<RestResponse<Policy>> updatePoliciy(@RequestBody Policy policy) {
+    return whenDashboardAdmin(() -> {
+      LOG.debug("Update a policy: {}", policy);
+      return createRestResponse(pdpService.update(policy));
+    });
   }
 
   @RequestMapping(path = "/new", method = GET)
-  public RestResponse<Policy> newPolicy() {
-    return createRestResponse(new Policy());
+  public ResponseEntity<RestResponse<Policy>> newPolicy() {
+    return whenDashboardAdmin(() -> createRestResponse(new Policy()));
+  }
+
+  private <T> ResponseEntity<T> whenDashboardAdmin(Supplier<T> supplier) {
+    return SpringSecurity.getCurrentUser().isDashboardAdmin()
+        ? ResponseEntity.ok(supplier.get())
+        : new ResponseEntity<T>(HttpStatus.FORBIDDEN);
   }
 
   @RequestMapping(path = "/{id}", method = GET)

@@ -24,24 +24,7 @@ App.Pages.PolicyOverview = React.createClass({
     return (
       <div className="l-main">
         {this.renderFlash()}
-        <div className="l-grid">
-          <div className="l-col-9">
-            <div className="mod-policy-search">
-              <fieldset>
-                  <i className="fa fa-search"/>
-                  <input
-                    type="search"
-                    valueLink={this.linkState("search")}
-                    placeholder={I18n.t("policies.overview.search_hint")}/>
-                  <button type="submit">{I18n.t("policies.overview.search")}</button>
-              </fieldset>
-            </div>
-          </div>
-          <div className="l-col-3 text-right no-gutter">
-            <a href={page.uri("/policies/new")} className="t-button new-policy">
-              <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}</a>
-          </div>
-        </div>
+        {this.renderHeader()}
         <div className="mod-policy-list">
           <table>
             <thead>
@@ -52,7 +35,7 @@ App.Pages.PolicyOverview = React.createClass({
                 {this.renderSortableHeader("percent_20", "identityProviderNames")}
                 {this.renderSortableHeader("percent_10", "active")}
                 {this.renderSortableHeader("percent_10", "numberOfRevisions")}
-                <th className="percent_5"></th>
+                {App.currentUser.dashboardAdmin ? (<th className="percent_5"></th>) : null}
               </tr>
             </thead>
             <tbody>
@@ -62,6 +45,41 @@ App.Pages.PolicyOverview = React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderHeader: function () {
+    var search = (
+      <div className="mod-policy-search">
+        <fieldset>
+            <i className="fa fa-search"/>
+            <input
+              type="search"
+              valueLink={this.linkState("search")}
+              placeholder={I18n.t("policies.overview.search_hint")}/>
+            <button type="submit">{I18n.t("policies.overview.search")}</button>
+        </fieldset>
+      </div>
+    );
+
+    return App.currentUser.dashboardAdmin ?
+      (
+        <div className="l-grid">
+          <div className="l-col-9">
+            {search}
+          </div>
+          <div className="l-col-3 text-right no-gutter">
+            <a href={page.uri("/policies/new")} className="t-button new-policy">
+              <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}
+            </a>
+          </div>
+        </div>
+     ) : (
+       <div className="l-grid">
+         <div className="l-col-12 no-gutter">
+           {search}
+         </div>
+       </div>
+     );
   },
 
   renderFlash: function () {
@@ -90,7 +108,7 @@ App.Pages.PolicyOverview = React.createClass({
         <td>{this.renderIdpNames(policy)}</td>
         <td><input type="checkbox" defaultChecked={policy.active} disabled="true"/></td>
         <td>{this.renderRevisionsLink(policy)}</td>
-        <td>{this.renderControls(policy)}</td>
+        {App.currentUser.dashboardAdmin ? (<td>{this.renderControls(policy)}</td>) : null}
       </tr>
     );
   },
