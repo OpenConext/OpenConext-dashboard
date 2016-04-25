@@ -27,10 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import selfservice.domain.CoinUser;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.domain.ServiceProvider;
 import selfservice.pdp.PdpService;
+import selfservice.service.EmailService;
 import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.util.SpringSecurity;
 
@@ -48,6 +50,9 @@ public class PoliciesController extends BaseController {
 
   @Autowired
   private ServiceRegistry serviceRegistry;
+
+  @Autowired
+  private EmailService emailService;
 
   @Value("${dashboard.feature.policies}")
   protected boolean policiesEnabled;
@@ -73,11 +78,25 @@ public class PoliciesController extends BaseController {
 
       ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(policy.getServiceProviderId()).get();
       if (!serviceProvider.isPolicyEnforcementDecisionRequired()) {
-        LOG.warn("We should send an email");
+        sendNewPolicyWithoutEnforcementDecisionEnabledEmail(policy, SpringSecurity.getCurrentUser());
       }
 
       return createRestResponse(pdpService.create(policy));
     });
+  }
+
+  private void sendNewPolicyWithoutEnforcementDecisionEnabledEmail(Policy policy, CoinUser user) {
+    String subject = String.format("Nieuwe autorisatieregel %s", policy.getServiceProviderName());
+
+    StringBuilder body = new StringBuilder();
+    body.append(String.format(
+        "Voor %s is voor het eerst een autorisatieregel (met naam %s) aangemaakt door %s (%s) van %s.\n",
+        policy.getServiceProviderName(), policy.getName(), user.getDisplayName(), user.getEmail(), user.getInstitutionId()));
+    body.append("In Janus staat voor die dienst nog NIET geconfigureerd dat er moet worden gecontroleerd op policies.\n");
+    body.append("Als na controle van de regel in de PDP die regel goed lijkt, voeg dan in Janus in het Meta-tabblad de Entry 'coin:policy_enforcement_decision_required' toe aan de dienst, ");
+    body.append("push de metadata en informeer de aanmaker van de regel.");
+
+    emailService.sendMail("no-reply@surfconext.nl", subject.toString(), body.toString());
   }
 
   @RequestMapping(method = PUT)

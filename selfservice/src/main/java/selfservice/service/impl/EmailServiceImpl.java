@@ -1,5 +1,8 @@
 package selfservice.service.impl;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
+
 import org.springframework.mail.SimpleMailMessage;
 
 import selfservice.service.EmailService;
@@ -7,25 +10,22 @@ import selfservice.util.mail.Emailer;
 
 public class EmailServiceImpl implements EmailService {
 
-  private final String administrativeEmail;
+  private final String[] administrativeEmails;
 
   private final Emailer emailer;
 
-  public EmailServiceImpl(String administrativeEmail, Emailer emailer) {
-    this.administrativeEmail = administrativeEmail;
+  public EmailServiceImpl(String administrativeEmails, Emailer emailer) {
+    this.administrativeEmails = Iterables.toArray(Splitter.on(",").split(administrativeEmails), String.class);
     this.emailer = emailer;
   }
 
   @Override
   public void sendMail(String from, String subject, String body) {
-    StringBuilder content = new StringBuilder("The following question was posted on self service portal:\n\n");
-    content.append(body);
-
     SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
     simpleMailMessage.setFrom(from);
-    simpleMailMessage.setTo(administrativeEmail);
+    simpleMailMessage.setTo(administrativeEmails);
     simpleMailMessage.setSubject(subject);
-    simpleMailMessage.setText(content.toString());
+    simpleMailMessage.setText(body);
 
     emailer.sendAsync(simpleMailMessage);
   }
