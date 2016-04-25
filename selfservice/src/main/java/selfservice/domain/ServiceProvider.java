@@ -26,22 +26,20 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class ServiceProvider extends Provider implements Serializable, Cloneable {
 
-  private String applicationUrl;
-  private String institutionId;
-  private String eulaURL;
+  private final String applicationUrl;
+  private final String institutionId;
+  private final String eulaURL;
 
-  private boolean idpVisibleOnly;
-  private boolean publishedInEdugain;
+  private final boolean idpVisibleOnly;
+  private final boolean publishedInEdugain;
+  private final boolean policyEnforcementDecisionRequired;
   private boolean exampleSingleTenant;
 
-  private ARP arp;
+  private final ARP arp;
 
-  private Map<String, String> urls = new HashMap<>();
+  private final Map<String, String> urls = new HashMap<>();
 
-  public ServiceProvider(String id) {
-    setId(id);
-  }
-
+  @SuppressWarnings("unchecked")
   public ServiceProvider(Map<String, Object> metaData) {
     super(metaData);
     this.applicationUrl = (String) metaData.get("coin:application_url");
@@ -50,6 +48,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
+    this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
     this.arp = metaData.containsKey("attributes") ? ARP.fromAttributes((List<String>) metaData.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
 
     addUrl("en", (String) metaData.get("url:en"));
@@ -58,6 +57,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public boolean isIdpVisibleOnly() {
     return idpVisibleOnly;
+  }
+
+  public boolean isPolicyEnforcementDecisionRequired() {
+    return policyEnforcementDecisionRequired;
   }
 
   public String getEulaURL() {
@@ -111,6 +114,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
       ", eulaURL='" + eulaURL + '\'' +
       ", idpVisibleOnly=" + idpVisibleOnly +
       ", publishedInEdugain=" + publishedInEdugain +
+      ", policyEnforcementDecisionRequired=" + policyEnforcementDecisionRequired +
       ", exampleSingleTenant=" + exampleSingleTenant +
       ", arp=" + arp +
       ", urls=" + urls +

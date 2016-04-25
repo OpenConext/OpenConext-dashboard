@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +38,7 @@ public class ActionsServiceImplTest {
   public void forBackwardCompatibilityShouldFillUserFromBody() {
 
     when(serviceRegistryMock.getIdentityProvider("idp")).thenReturn(Optional.of(new IdentityProvider("idp", "idp-institution", "idp-name")));
-    when(serviceRegistryMock.getServiceProvider("sp")).thenReturn(Optional.of(new ServiceProvider("sp")));
+    when(serviceRegistryMock.getServiceProvider("sp")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "sp"))));
     when(jiraClientMock.getTasks("idp")).thenReturn(ImmutableList.of(Action.builder()
         .idpId("idp")
         .spId("sp")

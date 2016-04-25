@@ -204,6 +204,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
   }
 
   private Set<String> getAllowedEntries(Map<String, Object> entry) {
+    @SuppressWarnings("unchecked")
     List<String> allowedEntities = (List<String>) entry.getOrDefault("allowedEntities", Collections.emptyList());
     return new HashSet<>(allowedEntities);
   }

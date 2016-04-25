@@ -27,7 +27,7 @@ public class UrlResourceServiceRegistryTest {
 
   @Before
   public void before() throws Exception {
-    //wireMockRule can not be static
+    // wireMockRule can not be static
     if (subject == null) {
       String spResponse = IOUtils.toString(new ClassPathResource("service-registry-test/service-providers.json").getInputStream());
       stubFor(get(urlEqualTo("/sp")).willReturn(aResponse().withStatus(200).withHeader("Content-Type", "application/json").withBody(spResponse)));
@@ -121,6 +121,22 @@ public class UrlResourceServiceRegistryTest {
   public void testGetLinkedServiceProviderIDs() {
     List<String> ids = subject.getLinkedServiceProviderIDs("http://federatie.amc.nl/adfs/services/trust");
     assertEquals(656, ids.size());
+  }
+
+  @Test
+  public void service_provider_should_have_policy_enforcement_descision_required() {
+    ServiceProvider serviceProvider = subject.getServiceProvider("https://teams.surfconext.nl/shibboleth").get();
+
+    assertTrue(serviceProvider.isPolicyEnforcementDecisionRequired());
+  }
+
+  @Test
+  public void service_provider_should_not_have_policy_enforcement_descision_required() {
+    ServiceProvider serviceProviderWithAttributeSetToZero = subject.getServiceProvider("https://serviceregistry.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp").get();
+    ServiceProvider serviceProviderWithMissingAttribute = subject.getServiceProvider("https://conext.proteon.nl/shibboleth-sp").get();
+
+    assertFalse(serviceProviderWithAttributeSetToZero.isPolicyEnforcementDecisionRequired());
+    assertFalse(serviceProviderWithMissingAttribute.isPolicyEnforcementDecisionRequired());
   }
 
   @Test

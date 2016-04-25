@@ -33,6 +33,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -46,6 +47,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -58,10 +61,11 @@ import org.springframework.util.CollectionUtils;
 import selfservice.domain.FacetValue;
 import selfservice.domain.License;
 import selfservice.domain.LicenseStatus;
-import selfservice.domain.Provider;
+import selfservice.domain.Provider.Language;
 import selfservice.domain.ServiceProvider;
+import selfservice.domain.csa.Field.Key;
+import selfservice.domain.csa.Field.Source;
 import selfservice.util.DomainObject;
-
 
 @SuppressWarnings("serial")
 @Entity
@@ -128,26 +132,26 @@ public class CompoundServiceProvider extends DomainObject {
     article.ifPresent(provider::setArticle);
     provider.setExampleSingleTenant(serviceProvider.isExampleSingleTenant());
 
-    buildFieldImage(Field.Key.DETAIL_LOGO, article.map(Article::getDetailLogo).orElse(null), validSrLogo(serviceProvider.getLogoUrl()), detailLogoImageBytes, provider);
-    buildFieldString(Field.Key.ENDUSER_DESCRIPTION_NL, article.map(Article::getEndUserDescriptionNl).orElse(null), null, provider);
-    buildFieldString(Field.Key.INSTITUTION_DESCRIPTION_NL, article.map(Article::getInstitutionDescriptionNl).orElse(null), null, provider);
-    buildFieldString(Field.Key.SERVICE_DESCRIPTION_NL, article.map(Article::getServiceDescriptionNl).orElse(null), serviceProvider.getDescription(Provider.Language.NL), provider);
+    buildFieldImage(Key.DETAIL_LOGO, article.map(Article::getDetailLogo).orElse(null), validSrLogo(serviceProvider.getLogoUrl()), detailLogoImageBytes, provider);
+    buildFieldString(Key.ENDUSER_DESCRIPTION_NL, article.map(Article::getEndUserDescriptionNl).orElse(null), null, provider);
+    buildFieldString(Key.INSTITUTION_DESCRIPTION_NL, article.map(Article::getInstitutionDescriptionNl).orElse(null), null, provider);
+    buildFieldString(Key.SERVICE_DESCRIPTION_NL, article.map(Article::getServiceDescriptionNl).orElse(null), serviceProvider.getDescription(Language.NL), provider);
 
-    buildFieldString(Field.Key.TITLE_EN, null, serviceProvider.getName(Provider.Language.EN), provider);
-    buildFieldString(Field.Key.TITLE_NL, null, serviceProvider.getName(Provider.Language.NL), provider);
-    buildFieldImage(Field.Key.APPSTORE_LOGO, null, validSrLogo(serviceProvider.getLogoUrl()), appStoreLogoImageBytes, provider);
-    buildFieldString(Field.Key.APP_URL, null, serviceProvider.getApplicationUrl(), provider);
-    buildFieldString(Field.Key.ENDUSER_DESCRIPTION_EN, null, null, provider);
-    buildFieldString(Field.Key.EULA_URL, null, serviceProvider.getEulaURL(), provider);
-    buildFieldString(Field.Key.INSTITUTION_DESCRIPTION_EN, null, null, provider);
-    buildFieldString(Field.Key.SERVICE_DESCRIPTION_EN, null, serviceProvider.getDescription(Provider.Language.EN), provider);
-    buildFieldString(Field.Key.SERVICE_URL, null, getServiceUrl(serviceProvider), provider);
-    buildFieldString(Field.Key.SUPPORT_MAIL, null, getMail(serviceProvider, ContactPersonType.help), provider);
-    buildFieldString(Field.Key.SUPPORT_URL_NL, null, getSupportUrl(serviceProvider, Provider.Language.NL), provider);
-    buildFieldString(Field.Key.SUPPORT_URL_EN, null, getSupportUrl(serviceProvider, Provider.Language.EN), provider);
-    buildFieldString(Field.Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), provider);
-    buildFieldString(Field.Key.WIKI_URL_EN, null, null, provider);
-    buildFieldString(Field.Key.WIKI_URL_NL, null, null, provider);
+    buildFieldString(Key.TITLE_EN, null, serviceProvider.getName(Language.EN), provider);
+    buildFieldString(Key.TITLE_NL, null, serviceProvider.getName(Language.NL), provider);
+    buildFieldImage(Key.APPSTORE_LOGO, null, validSrLogo(serviceProvider.getLogoUrl()), appStoreLogoImageBytes, provider);
+    buildFieldString(Key.APP_URL, null, serviceProvider.getApplicationUrl(), provider);
+    buildFieldString(Key.ENDUSER_DESCRIPTION_EN, null, null, provider);
+    buildFieldString(Key.EULA_URL, null, serviceProvider.getEulaURL(), provider);
+    buildFieldString(Key.INSTITUTION_DESCRIPTION_EN, null, null, provider);
+    buildFieldString(Key.SERVICE_DESCRIPTION_EN, null, serviceProvider.getDescription(Language.EN), provider);
+    buildFieldString(Key.SERVICE_URL, null, getServiceUrl(serviceProvider), provider);
+    buildFieldString(Key.SUPPORT_MAIL, null, getMail(serviceProvider, ContactPersonType.help), provider);
+    buildFieldString(Key.SUPPORT_URL_NL, null, getSupportUrl(serviceProvider, Language.NL), provider);
+    buildFieldString(Key.SUPPORT_URL_EN, null, getSupportUrl(serviceProvider, Language.EN), provider);
+    buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), provider);
+    buildFieldString(Key.WIKI_URL_EN, null, null, provider);
+    buildFieldString(Key.WIKI_URL_NL, null, null, provider);
 
     return provider;
   }
@@ -189,47 +193,47 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public String getTitleNl() {
-    return (String) getFieldValue(Field.Key.TITLE_NL);
+    return (String) getFieldValue(Key.TITLE_NL);
   }
 
   public String getTitleEn() {
-    return (String) getFieldValue(Field.Key.TITLE_EN);
+    return (String) getFieldValue(Key.TITLE_EN);
   }
 
   public String getServiceDescriptionNl() {
-    return (String) getFieldValue(Field.Key.SERVICE_DESCRIPTION_NL);
+    return (String) getFieldValue(Key.SERVICE_DESCRIPTION_NL);
   }
 
   public String getServiceDescriptionEn() {
-    return (String) getFieldValue(Field.Key.SERVICE_DESCRIPTION_EN);
+    return (String) getFieldValue(Key.SERVICE_DESCRIPTION_EN);
   }
 
   public String getInstitutionDescriptionNl() {
-    return (String) getFieldValue(Field.Key.INSTITUTION_DESCRIPTION_NL);
+    return (String) getFieldValue(Key.INSTITUTION_DESCRIPTION_NL);
   }
 
   public String getInstitutionDescriptionEn() {
-    return (String) getFieldValue(Field.Key.INSTITUTION_DESCRIPTION_EN);
+    return (String) getFieldValue(Key.INSTITUTION_DESCRIPTION_EN);
   }
 
   public String getEnduserDescriptionNl() {
-    return (String) getFieldValue(Field.Key.ENDUSER_DESCRIPTION_NL);
+    return (String) getFieldValue(Key.ENDUSER_DESCRIPTION_NL);
   }
 
   public String getEnduserDescriptionEn() {
-    return (String) getFieldValue(Field.Key.ENDUSER_DESCRIPTION_EN);
+    return (String) getFieldValue(Key.ENDUSER_DESCRIPTION_EN);
   }
 
   public String getAppStoreLogo() {
-    return (String) getFieldValue(Field.Key.APPSTORE_LOGO);
+    return (String) getFieldValue(Key.APPSTORE_LOGO);
   }
 
   public String getDetailLogo() {
-    return (String) getFieldValue(Field.Key.DETAIL_LOGO);
+    return (String) getFieldValue(Key.DETAIL_LOGO);
   }
 
   public String getAppUrl() {
-    return (String) getFieldValue(Field.Key.APP_URL);
+    return (String) getFieldValue(Key.APP_URL);
   }
 
   public List<byte[]> getScreenshots() {
@@ -237,35 +241,35 @@ public class CompoundServiceProvider extends DomainObject {
   }
 
   public String getServiceUrl() {
-    return (String) getFieldValue(Field.Key.SERVICE_URL);
+    return (String) getFieldValue(Key.SERVICE_URL);
   }
 
   public String getSupportUrlNl() {
-    return (String) getFieldValue(Field.Key.SUPPORT_URL_NL);
+    return (String) getFieldValue(Key.SUPPORT_URL_NL);
   }
 
   public String getSupportUrlEn() {
-    return (String) getFieldValue(Field.Key.SUPPORT_URL_EN);
+    return (String) getFieldValue(Key.SUPPORT_URL_EN);
   }
 
   public String getEulaUrl() {
-    return (String) getFieldValue(Field.Key.EULA_URL);
+    return (String) getFieldValue(Key.EULA_URL);
   }
 
   public String getWikiUrlEn() {
-    return (String) getFieldValue(Field.Key.WIKI_URL_EN);
+    return (String) getFieldValue(Key.WIKI_URL_EN);
   }
 
   public String getWikiUrlNl() {
-    return (String) getFieldValue(Field.Key.WIKI_URL_NL);
+    return (String) getFieldValue(Key.WIKI_URL_NL);
   }
 
   public String getSupportMail() {
-    return (String) getFieldValue(Field.Key.SUPPORT_MAIL);
+    return (String) getFieldValue(Key.SUPPORT_MAIL);
   }
 
   public String getTechnicalSupportMail() {
-    return (String) getFieldValue(Field.Key.TECHNICAL_SUPPORTMAIL);
+    return (String) getFieldValue(Key.TECHNICAL_SUPPORTMAIL);
   }
 
   public boolean addFieldString(FieldString f) {
@@ -298,7 +302,7 @@ public class CompoundServiceProvider extends DomainObject {
    * Objects (e.g. Service Provider and License). Therefore we have chosen to
    * explicitly retrieve values.
    */
-  private Object getFieldValue(Field.Key key) {
+  private Object getFieldValue(Key key) {
     checkNotNull(key);
 
     for (FieldString f : this.fields) {
@@ -344,16 +348,16 @@ public class CompoundServiceProvider extends DomainObject {
     throw new RuntimeException("Unknown Field class: " + field.getClass());
   }
 
-  public Map<Field.Key, String> getSurfConextFieldValues() {
-    return getFieldValues(Field.Source.SURFCONEXT);
+  public Map<Key, String> getSurfConextFieldValues() {
+    return getFieldValues(Source.SURFCONEXT);
   }
 
-  public Map<Field.Key, String> getLmngFieldValues() {
-    return getFieldValues(Field.Source.LMNG);
+  public Map<Key, String> getLmngFieldValues() {
+    return getFieldValues(Source.LMNG);
   }
 
-  public Map<Field.Key, String> getDistributionFieldValues() {
-    return getFieldValues(Field.Source.DISTRIBUTIONCHANNEL);
+  public Map<Key, String> getDistributionFieldValues() {
+    return getFieldValues(Source.DISTRIBUTIONCHANNEL);
   }
 
   /**
@@ -361,10 +365,10 @@ public class CompoundServiceProvider extends DomainObject {
    *
    * @return Map with all Keys currently supported by SURFconext
    */
-  private Map<Field.Key, String> getFieldValues(Field.Source source) {
-    Field.Key[] values = Field.Key.values();
-    Map<Field.Key, String> result = new HashMap<Field.Key, String>();
-    if (source.equals(Field.Source.DISTRIBUTIONCHANNEL)) {
+  private Map<Key, String> getFieldValues(Source source) {
+    Key[] values = Key.values();
+    Map<Key, String> result = new HashMap<Key, String>();
+    if (source.equals(Source.DISTRIBUTIONCHANNEL)) {
       for (FieldString field : this.fields) {
         result.put(field.getKey(), field.getValue());
       }
@@ -373,7 +377,7 @@ public class CompoundServiceProvider extends DomainObject {
       }
 
     } else {
-      for (Field.Key key : values) {
+      for (Key key : values) {
         try {
           switch (source) {
             case SURFCONEXT:
@@ -395,55 +399,54 @@ public class CompoundServiceProvider extends DomainObject {
     return result;
   }
 
-  private Object getSurfConextProperty(Field.Key key) {
-    switch (key) {
-      case SERVICE_DESCRIPTION_NL:
-        return serviceProvider.getDescription(Provider.Language.NL);
-      case SERVICE_DESCRIPTION_EN:
-        return serviceProvider.getDescription(Provider.Language.EN);
-      case APPSTORE_LOGO:
-        return serviceProvider.getLogoUrl();
-      case DETAIL_LOGO:
-        return serviceProvider.getLogoUrl();
-      case APP_URL:
-        return serviceProvider.getApplicationUrl();
-      case SERVICE_URL:
-        return getServiceUrl(serviceProvider);
-      case SUPPORT_URL_NL:
-        return getSupportUrl(serviceProvider, Provider.Language.NL);
-      case SUPPORT_URL_EN:
-        return getSupportUrl(serviceProvider, Provider.Language.EN);
-      case SUPPORT_MAIL:
-        ContactPerson helpCP = serviceProvider.getContactPerson(ContactPersonType.help);
+  private static final ImmutableMap<Key, Function<CompoundServiceProvider, Object>> surfConextProperties = new ImmutableMap.Builder<Key, Function<CompoundServiceProvider, Object>>()
+      .put(Key.SERVICE_DESCRIPTION_NL, provider -> provider.serviceProvider.getDescription(Language.NL))
+      .put(Key.SERVICE_DESCRIPTION_EN, provider -> provider.serviceProvider.getDescription(Language.EN))
+      .put(Key.APPSTORE_LOGO, provider -> provider.serviceProvider.getLogoUrl())
+      .put(Key.DETAIL_LOGO, provider -> provider.serviceProvider.getLogoUrl())
+      .put(Key.APP_URL, provider -> provider.serviceProvider.getApplicationUrl())
+      .put(Key.SERVICE_URL, provider -> getServiceUrl(provider.serviceProvider))
+      .put(Key.SUPPORT_URL_NL, provider -> getSupportUrl(provider.serviceProvider, Language.NL))
+      .put(Key.SUPPORT_URL_EN, provider -> getSupportUrl(provider.serviceProvider, Language.EN))
+      .put(Key.SUPPORT_MAIL, provider -> {
+        ContactPerson helpCP = provider.serviceProvider.getContactPerson(ContactPersonType.help);
         return helpCP != null ? helpCP.getEmailAddress() : null;
-      case TECHNICAL_SUPPORTMAIL:
-        ContactPerson cp = serviceProvider.getContactPerson(ContactPersonType.technical);
+      })
+      .put(Key.TECHNICAL_SUPPORTMAIL, provider -> {
+        ContactPerson cp = provider.serviceProvider.getContactPerson(ContactPersonType.technical);
         return cp != null ? cp.getEmailAddress() : null;
-      case EULA_URL:
-        return serviceProvider.getEulaURL();
-      case TITLE_EN:
-        return serviceProvider != null ? serviceProvider.getName(Provider.Language.EN) : this.serviceProviderEntityId;
-      case TITLE_NL:
-        return serviceProvider != null ? serviceProvider.getName(Provider.Language.NL) : this.serviceProviderEntityId;
-      default:
-        throw new RuntimeException("SURFConext does not support property: " + key);
-    }
+      })
+      .put(Key.EULA_URL, provider -> provider.serviceProvider.getEulaURL())
+      .put(Key.TITLE_NL, provider -> Optional.ofNullable(provider.serviceProvider).map(sp -> sp.getName(Language.NL)).orElse(provider.serviceProviderEntityId))
+      .put(Key.TITLE_EN, provider -> Optional.ofNullable(provider.serviceProvider).map(sp -> sp.getName(Language.EN)).orElse(provider.serviceProviderEntityId))
+      .build();
+
+  private static final ImmutableMap<Key, Function<Optional<Article>, Object>> lmngProperites = new ImmutableMap.Builder<Key, Function<Optional<Article>, Object>>()
+      .put(Key.ENDUSER_DESCRIPTION_NL, article -> article.map(Article::getEndUserDescriptionNl).orElse(null))
+      .put(Key.INSTITUTION_DESCRIPTION_NL, article -> article.map(Article::getInstitutionDescriptionNl).orElse(null))
+      .put(Key.SERVICE_DESCRIPTION_NL, article -> article.map(Article::getServiceDescriptionNl).orElse(null))
+      .put(Key.DETAIL_LOGO, article -> article.map(Article::getDetailLogo).orElse(null))
+      .build();
+
+  private Object getSurfConextProperty(Key key) {
+    return Optional.ofNullable(surfConextProperties.get(key))
+        .orElseThrow(() -> new RuntimeException("SURFConext does not support property: " + key))
+        .apply(this);
   }
 
-  private Object getLmngProperty(Field.Key key) {
+  private static boolean isSupportedSurfConextProperty(Key key) {
+    return surfConextProperties.containsKey(key);
+  }
+
+  private Object getLmngProperty(Key key) {
     Optional<Article> optionalArticle = Optional.ofNullable(article);
-    switch (key) {
-      case ENDUSER_DESCRIPTION_NL:
-        return optionalArticle.map(a -> a.getEndUserDescriptionNl()).orElse(null);
-      case INSTITUTION_DESCRIPTION_NL:
-        return optionalArticle.map(a -> a.getInstitutionDescriptionNl()).orElse(null);
-      case SERVICE_DESCRIPTION_NL:
-        return optionalArticle.map(a -> a.getServiceDescriptionNl()).orElse(null);
-      case DETAIL_LOGO:
-        return optionalArticle.map(a -> a.getDetailLogo()).orElse(null);
-      default:
-        throw new RuntimeException("LMNG does not support property: " + key);
-    }
+    return Optional.ofNullable(lmngProperites.get(key))
+        .orElseThrow(() -> new RuntimeException("LMNG does not support property: " + key))
+        .apply(optionalArticle);
+  }
+
+  private static boolean isSupportedLmngProperty(Key key) {
+    return lmngProperites.containsKey(key);
   }
 
   @Override
@@ -539,14 +542,14 @@ public class CompoundServiceProvider extends DomainObject {
     this.exampleSingleTenant = exampleSingleTenant;
   }
 
-  private static void buildFieldString(Field.Key key, String lmng, String surfconext, CompoundServiceProvider provider) {
+  private static void buildFieldString(Key key, String lmng, String surfconext, CompoundServiceProvider provider) {
     FieldString fieldString;
     if (hasText(lmng)) {
-      fieldString = new FieldString(Field.Source.LMNG, key, null);
+      fieldString = new FieldString(Source.LMNG, key, null);
     } else if (hasText(surfconext)) {
-      fieldString = new FieldString(Field.Source.SURFCONEXT, key, null);
+      fieldString = new FieldString(Source.SURFCONEXT, key, null);
     } else {
-      fieldString = new FieldString(Field.Source.DISTRIBUTIONCHANNEL, key, null);
+      fieldString = new FieldString(Source.DISTRIBUTIONCHANNEL, key, null);
     }
 
     updatePossibleFieldOrigin(fieldString);
@@ -554,15 +557,15 @@ public class CompoundServiceProvider extends DomainObject {
     provider.addFieldString(fieldString);
   }
 
-  private static void buildFieldImage(Field.Key key, String lmng, String surfconext, byte[] distributionChannel, CompoundServiceProvider provider) {
+  private static void buildFieldImage(Key key, String lmng, String surfconext, byte[] distributionChannel, CompoundServiceProvider provider) {
     FieldImage fieldImage;
     byte[] nullByte = null;
     if (hasText(lmng)) {
-      fieldImage = new FieldImage(Field.Source.LMNG, key, nullByte);
+      fieldImage = new FieldImage(Source.LMNG, key, nullByte);
     } else if (hasText(surfconext)) {
-      fieldImage = new FieldImage(Field.Source.SURFCONEXT, key, nullByte);
+      fieldImage = new FieldImage(Source.SURFCONEXT, key, nullByte);
     } else {
-      fieldImage = new FieldImage(Field.Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
+      fieldImage = new FieldImage(Source.DISTRIBUTIONCHANNEL, key, distributionChannel);
     }
 
     updatePossibleFieldOrigin(fieldImage);
@@ -571,12 +574,12 @@ public class CompoundServiceProvider extends DomainObject {
 
   private static void updatePossibleFieldOrigin(Field field) {
     // Cloud Distribution is always a possible origin for fields
-    if (isAllowedCombination(field.getKey(), Field.Source.LMNG)) {
+    if (isAllowedCombination(field.getKey(), Source.LMNG)) {
       field.setAvailableInSurfMarket(TRUE);
     } else {
       field.setAvailableInSurfMarket(FALSE);
     }
-    if (isAllowedCombination(field.getKey(), Field.Source.SURFCONEXT)) {
+    if (isAllowedCombination(field.getKey(), Source.SURFCONEXT)) {
       field.setAvailableInSurfConext(TRUE);
     } else {
       field.setAvailableInSurfConext(FALSE);
@@ -596,11 +599,11 @@ public class CompoundServiceProvider extends DomainObject {
   private static String getServiceUrl(ServiceProvider sp) {
     Map<String, String> homeUrls = sp.getHomeUrls();
     if (!CollectionUtils.isEmpty(homeUrls)) {
-      String homeUrl = homeUrls.get(Provider.Language.NL.name().toLowerCase());
+      String homeUrl = homeUrls.get(Language.NL.name().toLowerCase());
       if (StringUtils.isNotBlank(homeUrl)) {
         return homeUrl;
       }
-      homeUrl = homeUrls.get(Provider.Language.EN.name().toLowerCase());
+      homeUrl = homeUrls.get(Language.EN.name().toLowerCase());
       if (StringUtils.isNotBlank(homeUrl)) {
         return homeUrl;
       }
@@ -608,7 +611,7 @@ public class CompoundServiceProvider extends DomainObject {
     return null;
   }
 
-  private static String getSupportUrl(ServiceProvider sp, Provider.Language lang) {
+  private static String getSupportUrl(ServiceProvider sp, Language lang) {
     Map<String, String> urls = sp.getUrls();
     if (CollectionUtils.isEmpty(urls)) {
       return sp.getUrl();
@@ -621,24 +624,12 @@ public class CompoundServiceProvider extends DomainObject {
     return (helpCP == null ? null : helpCP.getEmailAddress());
   }
 
-  public static boolean isAllowedCombination(Field.Key key, Field.Source source) {
-    CompoundServiceProvider provider = new CompoundServiceProvider();
-    provider.setServiceProvider(new ServiceProvider(""));
+  public static boolean isAllowedCombination(Key key, Source source) {
     switch (source) {
       case LMNG:
-        try {
-          provider.getLmngProperty(key);
-          return true;
-        } catch (RuntimeException e) {
-          return false;
-        }
+        return isSupportedLmngProperty(key);
       case SURFCONEXT:
-        try {
-          provider.getSurfConextProperty(key);
-          return true;
-        } catch (RuntimeException e) {
-          return false;
-        }
+        return isSupportedSurfConextProperty(key);
       default:
         return true;
     }

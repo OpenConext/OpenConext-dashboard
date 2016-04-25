@@ -27,6 +27,8 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,7 +206,7 @@ public class FacetValueDaoImplTestIntegration implements LocaleResolver {
   }
 
   private CompoundServiceProvider createCompoundServerProvider() {
-    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider("sp-id"), Optional.of(new Article()));
+    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider(ImmutableMap.of("entityid", "sp-id")), Optional.of(new Article()));
     provider = compoundServiceProviderDao.save(provider);
 
     return provider;

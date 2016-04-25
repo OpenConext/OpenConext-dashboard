@@ -18,6 +18,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -80,11 +81,11 @@ public class SpLmngListControllerTest {
 
   @Test
   public void listAllSpsLmngShouldHaveAOrpahn() throws Exception {
-    ServiceProvider sp1 = new ServiceProvider("sp1");
+    ServiceProvider sp1 = new ServiceProvider(ImmutableMap.of("entityid", "sp1"));
     CompoundServiceProvider csp1 = new CompoundServiceProvider();
     csp1.setServiceProvider(sp1);
     CompoundServiceProvider orphan = new CompoundServiceProvider();
-    orphan.setServiceProvider(new ServiceProvider("sp3"));
+    orphan.setServiceProvider(new ServiceProvider(ImmutableMap.of("entityid", "sp3")));
 
     when(serviceRegistryMock.getIdentityProvider("idpId")).thenReturn(Optional.of(new IdentityProvider()));
     when(serviceRegistryMock.getAllServiceProviders()).thenReturn(ImmutableList.of(sp1));

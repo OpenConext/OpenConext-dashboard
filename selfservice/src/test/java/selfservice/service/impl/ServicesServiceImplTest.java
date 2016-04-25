@@ -6,6 +6,7 @@ import static selfservice.domain.csa.Field.Source.DISTRIBUTIONCHANNEL;
 import static selfservice.domain.csa.Field.Source.LMNG;
 import static selfservice.domain.csa.Field.Source.SURFCONEXT;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 
 import org.junit.Before;
@@ -38,7 +39,7 @@ public class ServicesServiceImplTest {
 
   @Test
   public void emailAddressesShouldBeNormalized() {
-    ServiceProvider serviceProvider = new ServiceProvider("sp-id");
+    ServiceProvider serviceProvider = new ServiceProvider(ImmutableMap.of("entityid", "sp-id"));
     serviceProvider.addContactPerson(new ContactPerson("John Doe", "mailto:john@example.com", "1234", ContactPersonType.help));
     CompoundServiceProvider csp = new CompoundServiceProvider();
     csp.setId(1L);

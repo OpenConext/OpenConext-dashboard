@@ -15,15 +15,16 @@
  */
 package selfservice.domain.csa;
 
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static selfservice.domain.csa.CompoundServiceProvider.isAllowedCombination;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import com.google.common.collect.ImmutableMap;
 
 import org.junit.Test;
 
@@ -35,11 +36,7 @@ public class CompoundServiceProviderTest {
 
   @Test
   public void testBuilder() {
-    ServiceProvider serviceProvider = new ServiceProvider(
-      metaData(new String[]{
-        "entityid", "id"
-
-      }));
+    ServiceProvider serviceProvider = new ServiceProvider(ImmutableMap.of("entityid", "id"));
     Article article = new Article();
 
     CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
@@ -54,38 +51,31 @@ public class CompoundServiceProviderTest {
     String appLogo = provider.getAppStoreLogo();
     assertEquals("/fieldimages/null.img", appLogo);
 
-    serviceProvider = new ServiceProvider(
-      metaData(new String[]{
-        "entityid", "id"}, new String[]{"logo:0:url", "https://static.surfconext.nl/media/idp/windesheim.png"}));
+    serviceProvider = new ServiceProvider(ImmutableMap.of("entityid", "id", "logo:0:url", "https://static.surfconext.nl/media/idp/windesheim.png"));
     provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
     appLogo = provider.getAppStoreLogo();
     assertEquals("https://static.surfconext.nl/media/idp/windesheim.png", appLogo);
 
     des = values.get(Key.ENDUSER_DESCRIPTION_NL);
-    assertNull(des);
-  }
 
-  private Map<String, Object> metaData(String[]... args) {
-    Map<String, Object> metaData = new HashMap<>();
-    asList(args).forEach((arg) -> metaData.put(arg[0], arg[1]));
-    return metaData;
+    assertNull(des);
   }
 
   @Test
   public void testIsAllowed() {
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.INSTITUTION_DESCRIPTION_EN, Source.SURFCONEXT));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.APPSTORE_LOGO, Source.SURFCONEXT));
+    assertTrue(isAllowedCombination(Key.APPSTORE_LOGO, Source.SURFCONEXT));
+    assertTrue(isAllowedCombination(Key.APP_URL, Source.SURFCONEXT));
+    assertFalse(isAllowedCombination(Key.INSTITUTION_DESCRIPTION_EN, Source.SURFCONEXT));
+    assertFalse(isAllowedCombination(Key.ENDUSER_DESCRIPTION_EN, Source.SURFCONEXT));
+    assertFalse(isAllowedCombination(Key.ENDUSER_DESCRIPTION_NL, Source.SURFCONEXT));
 
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_EN, Source.LMNG));
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.APPSTORE_LOGO, Source.LMNG));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.LMNG));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.INSTITUTION_DESCRIPTION_NL, Source.LMNG));
+    assertFalse(isAllowedCombination(Key.SERVICE_DESCRIPTION_EN, Source.LMNG));
+    assertFalse(isAllowedCombination(Key.APPSTORE_LOGO, Source.LMNG));
+    assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.LMNG));
+    assertTrue(isAllowedCombination(Key.INSTITUTION_DESCRIPTION_NL, Source.LMNG));
 
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
-    assertTrue(CompoundServiceProvider.isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
-
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.ENDUSER_DESCRIPTION_EN, Source.SURFCONEXT));
-    assertFalse(CompoundServiceProvider.isAllowedCombination(Key.ENDUSER_DESCRIPTION_NL, Source.SURFCONEXT));
+    assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
+    assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
   }
 
 }

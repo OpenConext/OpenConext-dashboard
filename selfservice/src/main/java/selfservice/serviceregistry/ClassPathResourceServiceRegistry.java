@@ -33,17 +33,15 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
 
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
-  private Map<String, IdentityProvider> identityProviderMap = new HashMap<>();
-  private Map<String, ServiceProvider> serviceProviderMap = new HashMap<>();
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
-  private List<ServiceProvider> exampleSingleTenants = new ArrayList<>();
+  private final Resource singleTenantsConfigPath;
 
-  private Resource singleTenantsConfigPath;
-
-  private final static ObjectMapper objectMapper = new ObjectMapper();
+  private volatile Map<String, IdentityProvider> identityProviderMap = new HashMap<>();
+  private volatile Map<String, ServiceProvider> serviceProviderMap = new HashMap<>();
+  private volatile List<ServiceProvider> exampleSingleTenants = new ArrayList<>();
 
   public ClassPathResourceServiceRegistry(boolean initialize, Resource singleTenantsConfigPath) {
-    //this provides subclasses a hook to set properties before initializing metadata
     this.singleTenantsConfigPath = singleTenantsConfigPath;
     this.parseSingleTenants();
     if (initialize) {
@@ -170,7 +168,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
       /*
        * By design we catch the error and not rethrow it.
        * UrlResourceServiceRegistry has timing issues when the server reboots and required endpoints are not available yet.
-       * ClassPathResourceServiceRegistry is only used in dev mode and any logged errors will end up in Rollbar
+       * ClassPathResourceServiceRegistry is only used in dev mode
        */
       LOG.error("Error in refreshing / initializing metadata", e);
     }

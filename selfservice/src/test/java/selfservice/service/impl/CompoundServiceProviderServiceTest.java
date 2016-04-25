@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.google.common.collect.ImmutableMap;
+
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -74,8 +76,8 @@ public class CompoundServiceProviderServiceTest {
 
     // Two SPs exist
     List<ServiceProvider> sps = new ArrayList<ServiceProvider>();
-    ServiceProvider sp1 = new ServiceProvider("spId1");
-    ServiceProvider sp2 = new ServiceProvider("spId2");
+    ServiceProvider sp1 = new ServiceProvider(ImmutableMap.of("entityid", "spId1"));
+    ServiceProvider sp2 = new ServiceProvider(ImmutableMap.of("entityid", "spId2"));
     sps.add(sp1);
     sps.add(sp2);
 
@@ -98,8 +100,8 @@ public class CompoundServiceProviderServiceTest {
   @Test
   public void testGetCSPById() throws Exception {
     List<ServiceProvider> sps = new ArrayList<>();
-    ServiceProvider sp1 = new ServiceProvider("spId1");
-    ServiceProvider sp2 = new ServiceProvider("spId2");
+    ServiceProvider sp1 = new ServiceProvider(ImmutableMap.of("entityid", "spId1"));
+    ServiceProvider sp2 = new ServiceProvider(ImmutableMap.of("entityid", "spId2"));
     sps.add(sp1);
     sps.add(sp2);
     when(serviceRegistry.getAllServiceProviders("idpid")).thenReturn(sps);
@@ -109,6 +111,7 @@ public class CompoundServiceProviderServiceTest {
     when(compoundServiceProviderDao.findOne(1L)).thenReturn(csp);
     IdentityProvider idp = new IdentityProvider("idpid", "instid", "thename");
     CompoundServiceProvider gottenCSP = cspService.getCSPById(idp, 1L);
+
     assertTrue(csp == gottenCSP);
     assertTrue(sp1 == gottenCSP.getServiceProvider());
   }
