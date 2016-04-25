@@ -158,6 +158,7 @@ App.Pages.PolicyDetail = React.createClass({
   handleChangeServiceProvider: function (newValue) {
     var partialState = {serviceProviderId: newValue};
     partialState.description = this.buildAutoFormattedDescription(partialState);
+    partialState.policyEnforcementDecisionRequired = this.findServiceProvider(newValue).policyEnforcementDecisionRequired;
     this.setState(partialState);
   },
 
@@ -345,6 +346,13 @@ App.Pages.PolicyDetail = React.createClass({
       });
       this.state.serviceProviderName = serviceProvider.name;
     }
+  },
+
+  findServiceProvider: function (serviceProviderId) {
+      var scopedSPs = _.isEmpty(this.state.identityProviderIds);
+      return _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
+        return sp.spEntityId === serviceProviderId;
+      });
   },
 
   renderActive: function (policy) {

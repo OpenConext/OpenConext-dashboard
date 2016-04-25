@@ -336,6 +336,7 @@ I18n.translations.nl = {
     flash: "Autorisatieregel '{{policyName}}' is succesvol {{action}}",
     flash_created: "aangemaakt",
     flash_deleted: "verwijderd",
+    flash_first: "Dit is de eerste autorisatieregel voor deze dienst. Het SURFconext Team moet een handeling doen om de regel actief te maken. Er is een notificatie gestuurd naar het SURFconext Team. Er wordt contact met u opgenomen.",
     flash_updated: "bijgewerkt",
     new_policy: "Nieuwe autorisatieregel",
     overview: {

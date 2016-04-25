@@ -116,6 +116,7 @@ public class ServicesServiceImpl implements ServicesService {
     service.setWebsiteUrl(csp.getServiceUrl());
     service.setArp(csp.getSp().getArp());
     service.setIdpVisibleOnly(csp.getSp().isIdpVisibleOnly());
+    service.setPolicyEnforcementDecisionRequired(csp.getSp().isPolicyEnforcementDecisionRequired());
     service.setInstitutionId(csp.getSp().getInstitutionId());
     service.setPublishedInEdugain(csp.getSp().isPublishedInEdugain());
     service.setLicenseStatus(csp.getLicenseStatus());

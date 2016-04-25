@@ -61,6 +61,7 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean publishedInEdugain;
   private boolean normenkaderPresent;
   private boolean exampleSingleTenant;
+  private boolean policyEnforcementDecisionRequired;
 
   private CrmArticle crmArticle;
 
@@ -266,6 +267,14 @@ public class Service implements Comparable<Service>, Serializable {
     this.idpVisibleOnly = idpVisibleOnly;
   }
 
+  public boolean isPolicyEnforcementDecisionRequired() {
+    return policyEnforcementDecisionRequired;
+  }
+
+  public void setPolicyEnforcementDecisionRequired(boolean policyEnforcementDecisionRequired) {
+    this.policyEnforcementDecisionRequired = policyEnforcementDecisionRequired;
+  }
+
   public String getInstitutionId() {
     return institutionId;
   }
@@ -374,4 +383,5 @@ public class Service implements Comparable<Service>, Serializable {
         .add("id", id)
         .add("name", name).toString();
   }
+
 }

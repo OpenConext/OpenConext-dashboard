@@ -117,7 +117,11 @@ App.Controllers.Policies = {
       dataType: 'json',
       contentType: 'application/json',
     }).done(function () {
-      App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action: action}));
+      if (policy.policyEnforcementDecisionRequired) {
+        App.setFlash(I18n.t("policies.flash", {policyName: policy.name, action: action}));
+      } else {
+        App.setFlash(I18n.t("policies.flash_first", {policyName: policy.name, action: action}), 'warning');
+      }
       page("/policies");
     }).fail(function () {
       failureCallback(jqxhr);

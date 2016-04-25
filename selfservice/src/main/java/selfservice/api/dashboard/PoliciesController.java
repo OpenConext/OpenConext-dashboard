@@ -29,7 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
+import selfservice.domain.ServiceProvider;
 import selfservice.pdp.PdpService;
+import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.util.SpringSecurity;
 
 @RestController
@@ -43,6 +45,9 @@ public class PoliciesController extends BaseController {
 
   @Autowired
   private PdpService pdpService;
+
+  @Autowired
+  private ServiceRegistry serviceRegistry;
 
   @Value("${dashboard.feature.policies}")
   protected boolean policiesEnabled;
@@ -65,6 +70,12 @@ public class PoliciesController extends BaseController {
   public ResponseEntity<RestResponse<Policy>> createPolicy(@RequestBody Policy policy) {
     return whenDashboardAdmin(() -> {
       LOG.debug("Create a policy: {}", policy);
+
+      ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(policy.getServiceProviderId()).get();
+      if (!serviceProvider.isPolicyEnforcementDecisionRequired()) {
+        LOG.warn("We should send an email");
+      }
+
       return createRestResponse(pdpService.create(policy));
     });
   }
