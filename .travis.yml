@@ -1,11 +1,16 @@
+sudo: false
 language: java
 jdk:
   - oraclejdk8
 services:
   - mysql
+cache:
+  bundler: true
+  directories:
+    - $HOME/.m2
+    - node_modules
 before_install:
   - gem install bundler
-  - pip install --user codecov
 install:
   - bundle install
   - cd dashboard && npm install && cd ..
@@ -17,4 +22,4 @@ before_script:
 script:
   - mvn verify -B
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
