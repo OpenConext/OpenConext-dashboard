@@ -3,6 +3,7 @@ package selfservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -38,7 +39,11 @@ import selfservice.util.LicenseContactPersonService;
 import java.io.IOException;
 import java.util.Locale;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class, TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class})
+@SpringBootApplication(exclude = {
+    SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class,
+    TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class,
+    MetricFilterAutoConfiguration.class
+ })
 @EnableJpaRepositories("selfservice.dao")
 public class Application extends SpringBootServletInitializer {
 
