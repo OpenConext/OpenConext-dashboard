@@ -15,6 +15,11 @@ I18n.translations.en = {
     no: "No"
   },
 
+  browser_not_supported: {
+    title: "Your browser is not supported.",
+    description_html: "Your version of Internet Explorer {{ieVersion}} is not supported. Please update your browser to a more modern version."
+  },
+
   date: {
     month_names: [null, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   },

@@ -15,6 +15,11 @@ I18n.translations.nl = {
     no: "Nee"
   },
 
+  browser_not_supported: {
+    title: "Uw browser wordt niet ondersteund.",
+    description_html: "Uw versie van Internet Explorer {{ieVersion}} wordt niet ondersteunt. Update uw browser naar een modernere versie."
+  },
+
   date: {
     month_names: [null, "januari", "fabruari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "ocktober", "november", "december"]
   },
