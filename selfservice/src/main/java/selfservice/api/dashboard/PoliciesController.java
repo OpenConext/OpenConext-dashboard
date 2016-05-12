@@ -77,6 +77,7 @@ public class PoliciesController extends BaseController {
       LOG.debug("Create a policy: {}", policy);
 
       ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(policy.getServiceProviderId()).get();
+      LOG.debug("PolicyEnforcementDecisionRequired:" + serviceProvider.isPolicyEnforcementDecisionRequired());
       if (!serviceProvider.isPolicyEnforcementDecisionRequired()) {
         sendNewPolicyWithoutEnforcementDecisionEnabledEmail(policy, SpringSecurity.getCurrentUser());
       }
