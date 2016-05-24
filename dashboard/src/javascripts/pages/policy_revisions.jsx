@@ -11,7 +11,9 @@ App.Pages.PolicyRevisions = React.createClass({
         <div className="l-col-6">
           <div className="mod-policy-revisions">
             <h1>{I18n.t("revisions.title")}</h1>
-            {this.renderRevisions()}
+            <form>
+              {this.renderRevisions()}
+            </form>
           </div>
         </div>
         <div className="l-col-6">

@@ -9,14 +9,16 @@ App.Components.Facets = React.createClass({
         <div className="header">
           <h1>{I18n.t("facets.title")}</h1>
         </div>
-        <fieldset>
-          {this.renderResetFilters()}
-          {this.renderDownloadButton()}
-        </fieldset>
-        {facets.map(this.renderFacet)}
-        <fieldset>
-          {this.renderTotals()}
-        </fieldset>
+        <form>
+          <fieldset>
+            {this.renderResetFilters()}
+            {this.renderDownloadButton()}
+          </fieldset>
+          {facets.map(this.renderFacet)}
+          <fieldset>
+            {this.renderTotals()}
+          </fieldset>
+        </form>
       </div>
     );
   },

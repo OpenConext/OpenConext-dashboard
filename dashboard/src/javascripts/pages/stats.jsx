@@ -27,8 +27,10 @@ App.Pages.Stats = React.createClass({
               <h1>{I18n.t('stats.filters.name')}</h1>
               {this.renderDownload()}
             </div>
-            {this.renderChartTypeSelect()}
-            {this.renderPeriodSelect()}
+            <form>
+              {this.renderChartTypeSelect()}
+              {this.renderPeriodSelect()}
+            </form>
           </div>
         </div>
         <div className="l-right">

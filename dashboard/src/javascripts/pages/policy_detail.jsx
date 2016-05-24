@@ -17,16 +17,18 @@ App.Pages.PolicyDetail = React.createClass({
           <div className="l-col-6">
             <div className="mod-policy-detail">
               <h1>{title}</h1>
-              {this.renderName(policy)}
-              {this.renderDenyPermitRule(policy)}
-              {this.renderIdentityProvider(policy)}
-              {this.renderServiceProvider(policy)}
-              {this.renderLogicalRule(policy)}
-              {this.renderAttributes(policy)}
-              {this.renderDenyAdvice(policy)}
-              {this.renderDescription(policy)}
-              {this.renderActive(policy)}
-              {this.renderActions(policy)}
+              <form>
+                {this.renderName(policy)}
+                {this.renderDenyPermitRule(policy)}
+                {this.renderIdentityProvider(policy)}
+                {this.renderServiceProvider(policy)}
+                {this.renderLogicalRule(policy)}
+                {this.renderAttributes(policy)}
+                {this.renderDenyAdvice(policy)}
+                {this.renderDescription(policy)}
+                {this.renderActive(policy)}
+                {this.renderActions(policy)}
+              </form>
             </div>
           </div>
           <div className="l-col-6 no-gutter">
