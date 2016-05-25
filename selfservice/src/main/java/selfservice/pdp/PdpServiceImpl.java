@@ -114,8 +114,7 @@ public class PdpServiceImpl implements PdpService {
     RequestEntity<?> request = buildGetRequest("/protected/policies");
 
     return executeWithExceptionLogging(() -> {
-      ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {});
-      return response.getBody();
+      return pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {}).getBody();
     });
   }
 
@@ -123,8 +122,7 @@ public class PdpServiceImpl implements PdpService {
     RequestEntity<?> request = buildGetRequest("/protected/policies/" + id);
 
     return executeWithExceptionLogging(() -> {
-      ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
-      return response.getBody();
+      return pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {}).getBody();
     });
   }
 

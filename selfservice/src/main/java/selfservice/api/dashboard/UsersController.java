@@ -12,8 +12,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.common.collect.Lists;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,8 +52,9 @@ public class UsersController extends BaseController {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    List<IdentityProvider> idps = Lists.newArrayList(serviceRegistry.getAllIdentityProviders());
-    idps.sort((lh, rh) -> lh.getName().compareTo(rh.getName()));
+    List<IdentityProvider> idps = serviceRegistry.getAllIdentityProviders().stream()
+        .sorted((lh, rh) -> lh.getName().compareTo(rh.getName()))
+        .collect(toList());
 
     List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(), Authority.ROLE_DASHBOARD_ADMIN.name());
 
