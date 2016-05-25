@@ -53,6 +53,17 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- lock logback until this is in: https://github.com/qos-ch/logback/commit/2ba396a20e44d2f0985987ddc68ba410f24078ae -->
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.1.6</version>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>1.1.6</version>
+      </dependency>
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock</artifactId>
