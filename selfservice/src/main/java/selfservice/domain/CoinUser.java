@@ -213,9 +213,8 @@ public class CoinUser implements UserDetails {
     this.currentIdp = idp;
   }
 
-
-  public IdentityProvider getSwitchedToIdp() {
-    return switchedToIdp;
+  public Optional<IdentityProvider> getSwitchedToIdp() {
+    return Optional.ofNullable(switchedToIdp);
   }
 
   public void setSwitchedToIdp(IdentityProvider switchedToIdp) {
@@ -258,7 +257,8 @@ public class CoinUser implements UserDetails {
         .add("institutionId", institutionId)
         .add("email", email)
         .add("grantedAuthorities", grantedAuthorities)
-        .add("attributeMap", attributeMap).toString();
+        .add("attributeMap", attributeMap)
+        .add("switchedToIdp", switchedToIdp).toString();
   }
 
 }

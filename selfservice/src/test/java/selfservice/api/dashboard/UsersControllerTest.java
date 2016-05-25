@@ -120,7 +120,7 @@ public class UsersControllerTest {
       .andExpect(status().isNoContent());
 
     assertThat(coinUser.getAuthorities(), contains(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
-    assertThat(coinUser.getSwitchedToIdp(), nullValue());
+    assertThat(coinUser.getSwitchedToIdp(), is(Optional.empty()));
   }
 
   @Test
@@ -133,7 +133,7 @@ public class UsersControllerTest {
       .andExpect(status().isNoContent());
 
     assertThat(coinUser.getAuthorities(), contains(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
-    assertThat(coinUser.getSwitchedToIdp().getId(), is(BAR_IDP_ENTITY_ID));
+    assertThat(coinUser.getSwitchedToIdp().get().getId(), is(BAR_IDP_ENTITY_ID));
   }
 
   @Test

@@ -41,6 +41,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.util.SpringSecurity;
@@ -63,14 +64,17 @@ public class PdpServiceImpl implements PdpService {
     checkArgument(!isNullOrEmpty(password));
 
     this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory());
+
     this.pdpRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
       CoinUser user = SpringSecurity.getCurrentUser();
+
+      IdentityProvider idp = user.getSwitchedToIdp().orElse(user.getIdp());
 
       HttpHeaders headers = request.getHeaders();
       headers.setContentType(APPLICATION_JSON);
       headers.setAccept(ImmutableList.of(APPLICATION_JSON));
       headers.set(AUTHORIZATION, authorizationHeaderValue(username, password));
-      headers.set(X_IDP_ENTITY_ID, user.getIdp().getId());
+      headers.set(X_IDP_ENTITY_ID, idp.getId());
       headers.set(X_UNSPECIFIED_NAME_ID, user.getUid());
       headers.set(X_DISPLAY_NAME, user.getDisplayName());
 
