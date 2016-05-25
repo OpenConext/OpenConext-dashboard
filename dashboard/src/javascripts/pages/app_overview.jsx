@@ -45,15 +45,17 @@ App.Pages.AppOverview = React.createClass({
         </div>
         <div className="l-right">
           <div className="mod-app-search">
-            <fieldset>
-              <i className="fa fa-search"/>
-              <input
-                type="search"
-                valueLink={this.linkState("search")}
-                placeholder={I18n.t("apps.overview.search_hint")}/>
+            <form>
+              <fieldset>
+                <i className="fa fa-search"/>
+                <input
+                  type="search"
+                  valueLink={this.linkState("search")}
+                  placeholder={I18n.t("apps.overview.search_hint")}/>
 
-              <button type="submit">{I18n.t("apps.overview.search")}</button>
-            </fieldset>
+                <button type="submit">{I18n.t("apps.overview.search")}</button>
+              </fieldset>
+            </form>
           </div>
           <div className="mod-app-list">
             <table>
