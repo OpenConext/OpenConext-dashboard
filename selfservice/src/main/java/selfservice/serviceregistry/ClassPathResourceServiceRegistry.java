@@ -164,11 +164,9 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
       identityProviderMap = parseProviders(getIdpResource(), this::identityProvider);
       serviceProviderMap = parseProviders(getSpResource(), this::serviceProvider);
       LOG.debug("Initialized SR Resources. Number of IDPs {}. Number of SPs {}", identityProviderMap.size(), serviceProviderMap.size());
-    } catch (RuntimeException | IOException e) {
+    } catch (Throwable e) {
       /*
-       * By design we catch the error and not rethrow it.
-       * UrlResourceServiceRegistry has timing issues when the server reboots and required endpoints are not available yet.
-       * ClassPathResourceServiceRegistry is only used in dev mode
+       * By design we catch the error and not rethrow it as this would cancel future scheduling
        */
       LOG.error("Error in refreshing / initializing metadata", e);
     }
@@ -188,8 +186,9 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
       this.exampleSingleTenants = Arrays.stream(dummySps).map(this::parse).collect(toList());
       this.exampleSingleTenants.forEach(sp -> sp.setExampleSingleTenant(true));
       LOG.info("Read {} example single tenant services from {}", exampleSingleTenants.size(), singleTenantsConfigPath.getFilename());
-    } catch (Exception e) {
-      throw new RuntimeException("Unable to read example single tenants services", e);
+    } catch (Throwable e) {
+      // Do not rethrow as we can break the scheduling of subsequent tasks
+      LOG.error("Error in single tenants", e);
     }
   }
 

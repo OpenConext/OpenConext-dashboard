@@ -66,7 +66,7 @@ public class UrlResourceServiceRegistry extends ClassPathResourceServiceRegistry
       } else {
         LOG.debug("Not refreshing SP metadata. Not modified");
       }
-    } catch (IOException e) {
+    } catch (Throwable e) {
       /*
        * By design we catch the error and not rethrow it.
        * UrlResourceServiceRegistry has timing issues when the server reboots and required endpoints are not available yet.
