@@ -37,7 +37,7 @@ App.Components.Navigation = React.createClass({
 
   renderPoliciesMenu: function () {
     if (App.policiesAvailable) {
-      return this.renderItem("/policies", "policies", true);
+      return this.renderItem("/policies", "policies");
     } else {
       return null;
     }
