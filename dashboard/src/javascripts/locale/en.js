@@ -302,7 +302,6 @@ I18n.translations.en = {
   },
 
   policies: {
-    beta: "Authorization policies is a new beta service offered by SURFconext. With authorization policies you can restrict access to services based on the attributes of a user. <br>See <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Autorisatieregels\">this page</a> for more info.",
     confirmation: "Are your sure you want to remove policy '{{policyName}}?'",
     flash: "Authorization policy '{{policyName}}' was successfully {{action}}",
     flash_created: "created",

@@ -43,11 +43,10 @@ App.Components.Navigation = React.createClass({
     }
   },
 
-  renderItem: function(href, value, beta) {
+  renderItem: function(href, value) {
     var className = (this.props.active == value ? "active" : "");
-    var betaClassName = beta ? "beta" : "";
     return (
-      <li className={className}><a href={href} className={betaClassName}>{I18n.t("navigation." + value)}</a></li>
+      <li className={className}><a href={href}>{I18n.t("navigation." + value)}</a></li>
     );
   },
 

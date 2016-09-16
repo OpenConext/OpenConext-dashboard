@@ -336,7 +336,6 @@ I18n.translations.nl = {
   },
 
   policies: {
-    beta: "Policies (autorisatieregels) is een nieuwe beta feature van SURFconext. Met policies kan je de toegang tot diensten beperken, gebaseerd op attributen van een gebuiker. <br>Zie <a class=\"link\" target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Autorisatieregels\">deze pagina</a> voor meer informatie.",
     confirmation: "Weet je zeker dat je autorisatieregel {{policyName}} wilt verwijderen?",
     flash: "Autorisatieregel '{{policyName}}' is succesvol {{action}}",
     flash_created: "aangemaakt",
