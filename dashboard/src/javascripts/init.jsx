@@ -74,7 +74,8 @@ var App = {
     }
     var parser = document.createElement('a');
     parser.href = decodeURIComponent(url);
-    return parser.pathname
+    var pathname = parser.pathname;
+    return pathname[0] === "/" ? pathname : "/" + pathname;
   },
 
   rootPath: function () {
