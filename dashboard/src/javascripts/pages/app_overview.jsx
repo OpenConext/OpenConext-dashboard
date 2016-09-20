@@ -124,7 +124,11 @@ App.Pages.AppOverview = React.createClass({
   renderLicensePresent: function (app) {
     switch (app.licenseStatus) {
       case "HAS_LICENSE_SURFMARKET":
-        licensePresent = app.license ? "yes" : "no";
+        if (!app.hasCrmLink) {
+          licensePresent = "unknown";
+        } else {
+          licensePresent = app.license ? "yes" : "no";
+        }
         break;
       case "HAS_LICENSE_SP":
         licensePresent = "unknown";
