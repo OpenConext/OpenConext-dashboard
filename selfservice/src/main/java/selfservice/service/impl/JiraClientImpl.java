@@ -111,7 +111,7 @@ public class JiraClientImpl implements JiraClient {
     String query = buildQueryForIdp(idp, TASKTYPE_TO_ISSUETYPE_CODE.values());
 
     try {
-      HttpEntity<Map<String, String>> entity = new HttpEntity<>(ImmutableMap.of("jql", query), defaultHeaders);
+      HttpEntity<Map<String, String>> entity = new HttpEntity<>(ImmutableMap.of("jql", query, "maxResults", "100"), defaultHeaders);
 
       Map<String, Object> result = restTemplate.postForObject(baseUrl + "/search?expand=all", entity, Map.class);
 
@@ -152,7 +152,7 @@ public class JiraClientImpl implements JiraClient {
   }
 
   private String buildQueryForIdp(String idp, Collection<String> issueTypeIds) {
-    return String.format("project = %s AND issueType IN (%s) AND cf[%s]~\"%s\"", projectKey, issueTypeIds.stream().collect(joining(", ")), IDP_CUSTOM_FIELD, idp);
+    return String.format("project = %s AND issueType IN (%s) AND cf[%s]~\"%s\" ORDER BY created DESC", projectKey, issueTypeIds.stream().collect(joining(", ")), IDP_CUSTOM_FIELD, idp);
   }
 
 }
