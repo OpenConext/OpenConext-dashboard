@@ -1,46 +1,42 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.AppDetail = React.createClass({
-  panelMap: {
-    "overview": {
-      component: App.Components.OverviewPanel,
-      icon: "fa-list"
-    },
-    "license_info": {
-      component: App.Components.LicenseInfoPanel,
-      icon: "fa-file-text-o"
-    },
-    "application_usage": {
-      component: App.Components.ApplicationUsagePanel,
-      icon: "fa-area-chart"
-    },
-    "attribute_policy": {
-      component: App.Components.AttributePolicyPanel,
-      icon: "fa-table"
-    },
-    "idp_usage": {
-      component: App.Components.IdpUsagePanel,
-      icon: "fa-clipboard"
-    },
-    "how_to_connect": {
-      component: App.Components.HowToConnectPanel,
-      icon: "fa-chain"
-    }
-  },
+  // panelMap: {
+  //   "overview": {
+  //     component: App.Components.OverviewPanel,
+  //     icon: "fa-list"
+  //   },
+  //   "license_info": {
+  //     component: App.Components.LicenseInfoPanel,
+  //     icon: "fa-file-text-o"
+  //   },
+  //   "application_usage": {
+  //     component: App.Components.ApplicationUsagePanel,
+  //     icon: "fa-area-chart"
+  //   },
+  //   "attribute_policy": {
+  //     component: App.Components.AttributePolicyPanel,
+  //     icon: "fa-table"
+  //   },
+  //   "idp_usage": {
+  //     component: App.Components.IdpUsagePanel,
+  //     icon: "fa-clipboard"
+  //   },
+  //   "how_to_connect": {
+  //     component: App.Components.HowToConnectPanel,
+  //     icon: "fa-chain"
+  //   }
+  // },
 
-  getInitialState: function () {
-    return {
+class AppDetail extends React {
+  constructor() {
+    super();
+
+    this.state = {
       activePanel: this.props.activePanel
-    }
-  },
+    };
+  }
 
-  getDefaultProps: function () {
-    return {
-      activePanel: "overview"
-    }
-  },
-
-  render: function () {
+  render() {
     return (
       <div className="l-center">
         <div className="l-left">
@@ -64,9 +60,9 @@ App.Pages.AppDetail = React.createClass({
 
       </div>
     );
-  },
+  }
 
-  renderNavItem: function (panelKey, force) {
+  renderNavItem(panelKey, force) {
     // do not include app usage in the top left menu
     if (panelKey == "application_usage" && force != true) {
       return;
@@ -96,9 +92,9 @@ App.Pages.AppDetail = React.createClass({
         </a>
       </li>
     );
-  },
+  }
 
-  renderActivePanel: function () {
+  renderActivePanel() {
     var panel = this.panelMap[this.state.activePanel];
     if (!panel || (this.state.activePanel == "how_to_connect" && !(App.currentUser.dashboardAdmin && App.currentIdp().institutionId))) {
       panel = this.panelMap["overview"];
@@ -108,9 +104,9 @@ App.Pages.AppDetail = React.createClass({
       app: this.props.app,
       institutions: this.props.institutions
     });
-  },
+  }
 
-  handleSwitchPanel: function (panel) {
+  handleSwitchPanel(panel) {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -123,4 +119,10 @@ App.Pages.AppDetail = React.createClass({
       page.replace(path, null, init, null );
     }.bind(this);
   }
-});
+}
+
+AppDetail.defaultProps = {
+  activePanel: "overview"
+};
+
+export default AppDetail;

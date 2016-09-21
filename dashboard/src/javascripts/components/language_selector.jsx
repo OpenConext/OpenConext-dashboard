@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.LanguageSelector = React.createClass({
-  render: function () {
+class LanguageSelector extends React.Component {
+  render() {
     return (
       <ul className="language">
         {[
@@ -10,9 +10,9 @@ App.Components.LanguageSelector = React.createClass({
         ]}
       </ul>
     );
-  },
+  }
 
-  renderLocaleChooser: function(locale) {
+  renderLocaleChooser(locale) {
     return (
       <li key={locale}>
         <a
@@ -24,9 +24,9 @@ App.Components.LanguageSelector = React.createClass({
         </a>
       </li>
     );
-  },
+  }
 
-  handleChooseLocale: function(locale) {
+  handleChooseLocale(locale) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -35,4 +35,6 @@ App.Components.LanguageSelector = React.createClass({
       }
     }
   }
-});
+}
+
+export default LanguageSelector;

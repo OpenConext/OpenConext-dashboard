@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.IdpUsagePanel = React.createClass({
-  render: function () {
+class IdpUsagePanel extends React.Component {
+  render() {
     var subtitle = this.props.institutions.length === 0 ? I18n.t("idp_usage_panel.subtitle_none", {name: this.props.app.name}) : I18n.t("idp_usage_panel.subtitle", {name: this.props.app.name});
     return (
       <div className="l-middle">
@@ -15,9 +15,9 @@ App.Components.IdpUsagePanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderUsedByInstitutions: function (institutions) {
+  renderUsedByInstitutions(institutions) {
     return (<table>
       <tbody>
       {institutions.sort(function (l, r) {
@@ -25,9 +25,9 @@ App.Components.IdpUsagePanel = React.createClass({
       }).map(this.renderInstitution)}
       </tbody>
     </table>)
-  },
+  }
 
-  renderInstitution: function (institution) {
+  renderInstitution(institution) {
     var value = (institution.displayName && institution.displayName.trim().length > 0) ? institution.displayName : institution.name;
     return (
       <tr key={institution.id}>
@@ -36,4 +36,6 @@ App.Components.IdpUsagePanel = React.createClass({
     );
   }
 
-});
+}
+
+export default IdpUsagePanel;

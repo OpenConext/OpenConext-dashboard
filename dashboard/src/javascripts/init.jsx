@@ -1,6 +1,11 @@
-/** @jsx React.DOM */
+import I18n from "./lib/i18n";
+import $ from "./lib/jquery-2.1.1";
+import page from "./lib/page";
+import _ from "./lib/underscore";
 
-var App = {
+import "./pages/not_found";
+
+window.App = {
   Components: {},
   Pages: {},
   Controllers: {},
@@ -107,7 +112,7 @@ var App = {
   },
 
   apiUrl: function (value, params) {
-    return page.uri(BASE_URL + value, params);
+    return page.uri(window.BASE_URL + value, params);
   },
 
   renderYesNo: function (value) {

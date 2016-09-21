@@ -1,13 +1,15 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.Header = React.createClass({
-  getInitialState: function() {
-    return {
+class Header extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       dropDownActive: false
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <div className="mod-header">
         <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
@@ -24,9 +26,9 @@ App.Components.Header = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderProfileLink: function() {
+  renderProfileLink() {
     if (_.isUndefined(App.currentUser)) {
       return;
     } else if (!App.currentUser.superUser) {
@@ -46,17 +48,17 @@ App.Components.Header = React.createClass({
         </span>
       );
     }
-  },
+  }
 
-  renderDropDownIndicator: function() {
+  renderDropDownIndicator() {
     if (this.state.dropDownActive) {
       return <i className="fa fa-caret-up" />;
     } else {
       return <i className="fa fa-caret-down" />;
     }
-  },
+  }
 
-  renderDropDown: function() {
+  renderDropDown() {
     if (App.currentUser && !App.currentUser.superUser && this.state.dropDownActive) {
       return (
         <ul>
@@ -68,9 +70,9 @@ App.Components.Header = React.createClass({
         </ul>
       );
     }
-  },
+  }
 
-  renderExitLogout: function() {
+  renderExitLogout() {
     if (_.isUndefined(App.currentUser)) {
       return;
     } else if (App.currentUser.superUser && App.currentUser.switchedToIdp) {
@@ -82,15 +84,17 @@ App.Components.Header = React.createClass({
         <li><a href="/logout">{I18n.t("header.links.logout")}</a></li>
       );
     }
-  },
+  }
 
-  handleClose: function() {
+  handleClose() {
     this.setState({dropDownActive: false});
-  },
+  }
 
-  handleToggle: function(e) {
+  handleToggle(e) {
     e.preventDefault();
     e.stopPropagation();
     this.setState({dropDownActive: !this.state.dropDownActive});
   }
-});
+}
+
+export default Header;

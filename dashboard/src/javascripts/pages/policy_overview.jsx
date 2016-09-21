@@ -1,24 +1,24 @@
-/** @jsx React.DOM */
+import React from "react";
+  // mixins: [
+  //   React.addons.LinkedStateMixin,
+  //   App.Mixins.SortableTable("policies.overview", "name")
+  // ],
+class PolicyOverview extends React.Component {
+  constructor() {
+    super();
 
-App.Pages.PolicyOverview = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin,
-    App.Mixins.SortableTable("policies.overview", "name")
-  ],
-
-  getInitialState: function () {
-    return {
+    this.state = {
       search: ""
     }
-  },
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!_.isEmpty(this.props) && this.props.flash !== nextProps.flash) {
       this.setState({hideFlash: false});
     }
-  },
+  }
 
-  render: function () {
+  render() {
     var filteredPolicies = this.filterPolicies(this.props.policies);
 
     return (
@@ -45,9 +45,9 @@ App.Pages.PolicyOverview = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderHeader: function () {
+  renderHeader() {
     var search = (
       <div className="mod-policy-search">
         <fieldset>
@@ -80,9 +80,9 @@ App.Pages.PolicyOverview = React.createClass({
          </div>
        </div>
      );
-  },
+  }
 
-  renderFlash: function () {
+  renderFlash() {
     var flash = this.props.flash;
 
     if (flash && !this.state.hideFlash) {
@@ -93,13 +93,13 @@ App.Pages.PolicyOverview = React.createClass({
           </div>
       );
     }
-  },
+  }
 
-  closeFlash: function () {
+  closeFlash() {
     this.setState({hideFlash: true});
-  },
+  }
 
-  renderPolicy: function (policy, i) {
+  renderPolicy(policy, i) {
     return (
       <tr key={i}>
         <td>{policy.name}</td>
@@ -111,31 +111,31 @@ App.Pages.PolicyOverview = React.createClass({
         {App.currentUser.dashboardAdmin ? (<td>{this.renderControls(policy)}</td>) : null}
       </tr>
     );
-  },
+  }
 
-  renderIdpNames: function (policy) {
+  renderIdpNames(policy) {
     return policy.identityProviderNames.map(function (name) {
       return (<p key={name}>{name}</p>)
     });
-  },
+  }
 
-  renderRevisionsLink: function (policy) {
+  renderRevisionsLink(policy) {
     var numberOfRevisions = (policy.numberOfRevisions + 1)
     return (
       <a href={page.uri("/policies/:id/revisions", {id: policy.id})}
         onClick={this.handleShowRevisions(policy)}>{numberOfRevisions}</a>
     );
-  },
+  }
 
-  handleShowRevisions: function (policy) {
+  handleShowRevisions(policy) {
     return function (e) {
        e.preventDefault();
        e.stopPropagation();
        page("/policies/:id/revisions", {id: policy.id});
      }
-  },
+  }
 
-  renderControls: function(policy) {
+  renderControls(policy) {
     if (policy.actionsAllowed) {
       return (
           <div className="controls">
@@ -148,17 +148,17 @@ App.Pages.PolicyOverview = React.createClass({
           </div>
       );
     }
-  },
+  }
 
-  handleShowPolicyDetail: function (policy) {
+  handleShowPolicyDetail(policy) {
     return  function (e) {
       e.preventDefault();
       e.stopPropagation();
       page("/policies/:id", {id: policy.id});
     };
-  },
+  }
 
-  handleDeletePolicyDetail: function (policy) {
+  handleDeletePolicyDetail(policy) {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -166,12 +166,13 @@ App.Pages.PolicyOverview = React.createClass({
         App.Controllers.Policies.deletePolicy(policy);
       }
     };
-  },
+  }
 
-  filterPolicies: function (policies) {
+  filterPolicies(policies) {
     return policies.filter(function (policy) {
       return policy.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
     }.bind(this));
   }
+}
 
-});
+export default PolicyOverview;

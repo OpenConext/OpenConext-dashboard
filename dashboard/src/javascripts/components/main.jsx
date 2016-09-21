@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.Main = React.createClass({
-  render: function () {
+class Main extends React.Component {
+  render() {
     return (
       <div>
         <div className="l-header">
@@ -14,11 +14,13 @@ App.Components.Main = React.createClass({
         <App.Components.Footer />
       </div>
     );
-  },
+  }
 
-  renderNavigation: function() {
+  renderNavigation() {
     if (!App.superUserNotSwitched()) {
       return <App.Components.Navigation active={this.props.page.props.key} loading={this.props.loading} />;
     }
   }
-});
+}
+
+export default Main;

@@ -1,11 +1,13 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.PolicyRevisions = React.createClass({
-  getInitialState: function () {
-    return {data: []};
-  },
+class PolicyRevisions extends React.Component {
+  constructor() {
+    super()
 
-  render: function () {
+    this.state = {data: []};
+  }
+
+  render() {
     return (
       <div className="l-grid main">
         <div className="l-col-6">
@@ -21,18 +23,18 @@ App.Pages.PolicyRevisions = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderRevisions: function () {
+  renderRevisions() {
     this.props.revisions.sort(function (rev1, rev2) {
       return rev2.created - rev1.created;
     });
     return this.props.revisions.map(function (revision, index) {
       return this.renderRevision(revision, index);
     }.bind(this));
-  },
+  }
 
-  renderRevision: function (revision, index) {
+  renderRevision(revision, index) {
     var classNameStatus = index === 0 ? "success" : "failure";
     var linkClassName = this.state.curr && this.state.curr.revisionNbr === revision.revisionNbr ? "selected" : "";
     return (
@@ -49,9 +51,9 @@ App.Pages.PolicyRevisions = React.createClass({
           </fieldset>
         </div>
     );
-  },
+  }
 
-  renderRevisionMetadata: function (revision) {
+  renderRevisionMetadata(revision) {
     return (
       <div>
         <p className="label before-em">{revision.name}</p>
@@ -59,15 +61,15 @@ App.Pages.PolicyRevisions = React.createClass({
         <p className="before-em smaller">{I18n.t("policy_detail.sub_title", {displayName: revision.userDisplayName, created: this.createdDate(revision)})}</p>
       </div>
     );
-  },
+  }
 
-  createdDate: function (revision) {
+  createdDate(revision) {
     var created = moment(revision.created);
     created.locale(I18n.locale);
     return created.format('LLLL');
-  },
+  }
 
-  handleCompare: function (revision) {
+  handleCompare(revision) {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -77,9 +79,9 @@ App.Pages.PolicyRevisions = React.createClass({
       this.setState({curr: revision});
       this.setState({prev: prev[0]});
     }.bind(this);
-  },
+  }
 
-  renderComparePanel: function () {
+  renderComparePanel() {
     var prev = this.state.prev;
     var curr = this.state.curr;
     if (prev || curr) {
@@ -87,9 +89,9 @@ App.Pages.PolicyRevisions = React.createClass({
     } else {
       return this.renderAboutPage();
     }
-  },
+  }
 
-  renderDiff: function (prev, curr) {
+  renderDiff(prev, curr) {
    var properties = [
       "name", "description", "denyRule", "serviceProviderName", "identityProviderNames",
       "allAttributesMustMatch", "attributes", "denyAdvice", "denyAdviceNl", "active"
@@ -126,9 +128,9 @@ App.Pages.PolicyRevisions = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderPropertyDiff: function (prev, curr) {
+  renderPropertyDiff(prev, curr) {
     var previous = _.isArray(prev) ? prev.join(", ") : prev;
     var current = _.isArray(curr) ? curr.join(", ") : curr;
     if (previous === current) {
@@ -141,15 +143,15 @@ App.Pages.PolicyRevisions = React.createClass({
         <span className="diff curr">{current.toString()}</span>
       </div>)
     }
-  },
+  }
 
-  classNamePropertyDiff: function (prev, curr) {
+  classNamePropertyDiff(prev, curr) {
     var previous = _.isArray(prev) ? prev.join(", ") : prev;
     var current = _.isArray(curr) ? curr.join(", ") : curr;
     return previous !== current ? "changed" : "no-change";
-  },
+  }
 
-  renderTopDiff: function (prev, curr) {
+  renderTopDiff(prev, curr) {
     var translationKey = prev.revisionNbr !== undefined && prev.revisionNbr !== curr.revisionNbr ? "revisions.changes_info_html" : "revisions.changes_first_html";
 
     var topDiffHtml =
@@ -164,9 +166,9 @@ App.Pages.PolicyRevisions = React.createClass({
     return (
       <div className="top-diff" dangerouslySetInnerHTML={{__html:topDiffHtml}} />
     );
-  },
+  }
 
-  renderAttributesDiff: function (prev, curr) {
+  renderAttributesDiff(prev, curr) {
     var attrPrevGrouped = _.groupBy(prev.attributes, function (attr) {
       return attr.name;
     });
@@ -260,14 +262,15 @@ App.Pages.PolicyRevisions = React.createClass({
             })
           }
         </div>);
-  },
+  }
 
-  renderAboutPage: function () {
+  renderAboutPage() {
     return (
       <div className="mod-policy-revisions-about">
         {I18n.locale === "en" ? <App.Help.PolicyRevisionsHelpEn/> : <App.Help.PolicyRevisionsHelpNl/>}
       </div>
     );
-  },
+  }
+}
 
-})
+export default PolicyRevisions;

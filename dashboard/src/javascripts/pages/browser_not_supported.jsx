@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.BrowserNotSupported = React.createClass({
-  render: function () {
+class BrowserNotSupported extends React.Component {
+  render() {
     return (
       <div className="mod-not-found">
         <h1>{I18n.t("browser_not_supported.title")}</h1>
@@ -9,5 +9,6 @@ App.Pages.BrowserNotSupported = React.createClass({
       </div>
     );
   }
+}
 
-});
+export default BrowserNotSupported;

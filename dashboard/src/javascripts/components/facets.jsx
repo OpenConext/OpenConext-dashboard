@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.Facets = React.createClass({
-  render: function () {
+class Facets extends React.Component {
+  render() {
     var facets = this.props.facets;
 
     return (
@@ -21,18 +21,18 @@ App.Components.Facets = React.createClass({
         </form>
       </div>
     );
-  },
+  }
 
-  renderResetFilters: function () {
+  renderResetFilters() {
     return (
       <a
         className={"c-button" + (this.props.filteredCount >= this.props.totalCount ? " disabled" : "")}
         href="#"
         onClick={this.handleResetFilters}>{I18n.t("facets.reset")}</a>
     );
-  },
+  }
 
-  renderTotals: function () {
+  renderTotals() {
     var count = this.props.filteredCount;
     var total = this.props.totalCount;
 
@@ -41,9 +41,9 @@ App.Components.Facets = React.createClass({
     } else {
       return I18n.t("facets.totals.filtered", {count: count, total: total})
     }
-  },
+  }
 
-  renderFacet: function (facet) {
+  renderFacet(facet) {
     return (
       <fieldset key={facet.name}>
         <a href="#" onClick={this.handleFacetToggle(facet)}>
@@ -54,33 +54,33 @@ App.Components.Facets = React.createClass({
         {this.renderFacetOptions(facet)}
       </fieldset>
     );
-  },
+  }
 
-  renderFacetOptions: function (facet) {
+  renderFacetOptions(facet) {
     if (!this.props.hiddenFacets[facet.name]) {
       return (
         facet.values.map(function (value) {
           return this.renderFacetValue(facet, value);
         }.bind(this)));
     }
-  },
+  }
 
-  handleFacetToggle: function (facet) {
+  handleFacetToggle(facet) {
     return function (e) {
       e.stopPropagation();
       this.props.onHide(facet);
     }.bind(this);
-  },
+  }
 
-  renderDropDownIndicator: function (facet) {
+  renderDropDownIndicator(facet) {
     if (this.props.hiddenFacets[facet.name]) {
       return <i className="fa fa-caret-down float-right"/>;
     } else {
       return <i className="fa fa-caret-up float-right"/>;
     }
-  },
+  }
 
-  renderFacetValue: function (facet, facetValue) {
+  renderFacetValue(facet, facetValue) {
     var facetName = facet.searchValue || facet.name;
     var value = facetValue.searchValue || facetValue.value;
 
@@ -93,32 +93,34 @@ App.Components.Facets = React.createClass({
         {facetValue.value} ({facetValue.count})
       </label>
     );
-  },
+  }
 
-  renderDownloadButton: function () {
+  renderDownloadButton() {
     return (
       <a href="#" className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
          onClick={this.handleDownload}>{I18n.t("facets.download")}</a>
     );
-  },
+  }
 
-  handleDownload: function (e) {
+  handleDownload(e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.onDownload();
-  },
+  }
 
-  handleSelectFacet: function (facet, facetValue) {
+  handleSelectFacet(facet, facetValue) {
     return function (e) {
       e.stopPropagation();
       this.props.onChange(facet, facetValue, e.target.checked);
     }.bind(this);
-  },
+  }
 
-  handleResetFilters: function (e) {
+  handleResetFilters(e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.onReset();
   }
 
-});
+}
+
+export default Facets;

@@ -1,19 +1,19 @@
-/** @jsx React.DOM */
+import React from "react";
+  // mixins: [
+  //   React.addons.LinkedStateMixin
+  // ],
+class HowToConnectPanel extends React.Component {
+  constructor() {
+    super();
 
-App.Components.HowToConnectPanel = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin
-  ],
-
-  getInitialState: function() {
-    return {
+    this.state = {
       currentStep: this.props.app.connected ? "disconnect" : "connect",
       accepted: false,
       comments: ""
     }
-  },
+  }
 
-  render: function() {
+  render() {
     switch (this.state.currentStep) {
       case "disconnect":
         return this.renderDisconnectStep();
@@ -24,9 +24,9 @@ App.Components.HowToConnectPanel = React.createClass({
       case "done-disconnect":
         return this.renderDoneDisconnectStep();
     }
-  },
+  }
 
-  renderConnectStep: function() {
+  renderConnectStep() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -110,9 +110,9 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderWikiUrl: function() {
+  renderWikiUrl() {
     if (this.props.app.wikiUrl) {
       return (
         <li>
@@ -123,9 +123,9 @@ App.Components.HowToConnectPanel = React.createClass({
         </li>
       );
     }
-  },
+  }
 
-  renderSingleTenantServiceWarning: function() {
+  renderSingleTenantServiceWarning() {
     if (this.props.app.exampleSingleTenant) {
       return (
         <div>
@@ -140,9 +140,9 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       );
     }
-  },
+  }
 
-  renderDoneStep: function() {
+  renderDoneStep() {
     var subtitle = this.state.action.jiraKey ?
       I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
       I18n.t("how_to_connect_panel.done_subtitle_html");
@@ -159,9 +159,9 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderDoneDisconnectStep: function() {
+  renderDoneDisconnectStep() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -174,9 +174,9 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderDisconnectStep: function() {
+  renderDisconnectStep() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -202,29 +202,31 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  handleGotoStep: function(step) {
+  handleGotoStep(step) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
       this.setState({currentStep: step});
     }.bind(this);
-  },
+  }
 
-  handleMakeConnection: function() {
+  handleMakeConnection() {
     if (this.state.accepted) {
       App.Controllers.Apps.makeConnection(this.props.app, this.state.comments, function(action) {
         this.setState({currentStep: "done", action: action});
       }.bind(this));
     }
-  },
+  }
 
-  handleDisconnect: function() {
+  handleDisconnect() {
     if (this.state.accepted) {
       App.Controllers.Apps.disconnect(this.props.app, this.state.comments, function(action) {
         this.setState({currentStep: "done-disconnect", action: action});
       }.bind(this));
     }
   }
-});
+}
+
+export default HowToConnectPanel;

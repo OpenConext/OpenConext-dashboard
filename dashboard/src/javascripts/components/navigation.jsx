@@ -1,8 +1,8 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.Navigation = React.createClass({
+class Navigation extends React.Component {
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     if (this.props.loading) {
       if (!this.spinner) {
         this.spinner = new Spinner({
@@ -16,9 +16,9 @@ App.Components.Navigation = React.createClass({
     } else {
       this.spinner = null;
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <div className="mod-navigation">
         <ul>
@@ -33,26 +33,28 @@ App.Components.Navigation = React.createClass({
         {this.renderSpinner()}
       </div>
     );
-  },
+  }
 
-  renderPoliciesMenu: function () {
+  renderPoliciesMenu() {
     if (App.policiesAvailable) {
       return this.renderItem("/policies", "policies");
     } else {
       return null;
     }
-  },
+  }
 
-  renderItem: function(href, value) {
+  renderItem(href, value) {
     var className = (this.props.active == value ? "active" : "");
     return (
       <li className={className}><a href={href}>{I18n.t("navigation." + value)}</a></li>
     );
-  },
+  }
 
-  renderSpinner: function() {
+  renderSpinner() {
     if (this.props.loading) {
       return <div className="spinner" ref="spinner" />;
     }
   }
-});
+}
+
+export default Navigation;

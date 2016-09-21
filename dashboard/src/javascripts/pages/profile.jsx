@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.Profile = React.createClass({
-  render: function() {
+class Profile extends React.Component {
+  render() {
     var attributeKeys = Object.keys(App.currentUser.attributeMap);
     var roles = App.currentUser.grantedAuthorities;
     return (
@@ -39,9 +39,9 @@ App.Pages.Profile = React.createClass({
         </div>
       </div>
       );
-  },
+  }
 
-  renderAttribute: function(attributeKey) {
+  renderAttribute(attributeKey) {
     // Use [] to get the value from I18n because attributeKey can contain (.) dot's.
     var attributeName = I18n.t("profile.attribute_map")[attributeKey]["name"]
     var attributeDescription = I18n.t("profile.attribute_map")[attributeKey]["description"]
@@ -59,9 +59,9 @@ App.Pages.Profile = React.createClass({
         </td>
       </tr>
       );
-  },
+  }
 
-  renderRole: function(role) {
+  renderRole(role) {
     return (
       <tr key={role.authority}>
         <td>{I18n.t("profile.roles." + role.authority + ".name")}</td>
@@ -69,5 +69,6 @@ App.Pages.Profile = React.createClass({
       </tr>
       );
   }
+}
 
-});
+export default Profile;

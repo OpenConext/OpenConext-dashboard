@@ -1,14 +1,15 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.DownloadButton = React.createClass({
-
-  onDownload: function (e) {
+class DownloadButton extends React.Component {
+  onDownload(e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.genFile();
-  },
+  }
 
-  render: function () {
+  render() {
     return <a href="#" className={this.props.className} onClick={this.onDownload}>{this.props.title}</a>;
   }
-});
+}
+
+export default DownloadButton;

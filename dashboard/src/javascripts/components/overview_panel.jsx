@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.OverviewPanel = React.createClass({
-  render: function () {
+class OverviewPanel extends React.Component {
+  render() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -27,9 +27,9 @@ App.Components.OverviewPanel = React.createClass({
         <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
-  },
+  }
 
-  renderWikiUrl: function () {
+  renderWikiUrl() {
     if (this.props.app.wikiUrl) {
       return (
         <div className="mod-title">
@@ -38,9 +38,9 @@ App.Components.OverviewPanel = React.createClass({
         </div>
       );
     }
-  },
+  }
 
-  renderNormenKader: function () {
+  renderNormenKader() {
     var html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
       I18n.t("overview_panel.normen_kader_html", {name: this.props.app.name, link: this.props.app.normenkaderUrl}) :
       I18n.t("overview_panel.no_normen_kader_html", {name: this.props.app.name});
@@ -50,9 +50,9 @@ App.Components.OverviewPanel = React.createClass({
         <h3
           dangerouslySetInnerHTML={{ __html: html }}/>
       </div>);
-  },
+  }
 
-  renderSingleTenantService: function() {
+  renderSingleTenantService() {
     if (this.props.app.exampleSingleTenant) {
       return (
         <div className="mod-description">
@@ -61,9 +61,9 @@ App.Components.OverviewPanel = React.createClass({
           dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
       </div>);
     }
-  },
+  }
 
-  renderDescription: function () {
+  renderDescription() {
     var hasText = function (value) {
       return value && value.trim().length > 0;
     };
@@ -76,13 +76,13 @@ App.Components.OverviewPanel = React.createClass({
     } else {
       return <p>{I18n.t("overview_panel.no_description")}</p>;
     }
-  },
+  }
 
-  renderConnection: function () {
+  renderConnection() {
     return this.props.app.connected ? this.renderHasConnection() : this.renderNoConnection();
-  },
+  }
 
-  renderHasConnection: function () {
+  renderHasConnection() {
     if (App.currentUser.dashboardAdmin) {
       var disconnect = <p><a href="#"
                              onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
@@ -97,9 +97,9 @@ App.Components.OverviewPanel = React.createClass({
         {disconnect}
       </div>
     );
-  },
+  }
 
-  renderNoConnection: function () {
+  renderNoConnection() {
     if (App.currentUser.dashboardAdmin) {
       var connect = <p><a href="#"
                           onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
@@ -115,4 +115,6 @@ App.Components.OverviewPanel = React.createClass({
       </div>
     );
   }
-});
+}
+
+export default OverviewPanel;

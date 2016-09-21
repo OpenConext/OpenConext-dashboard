@@ -1,23 +1,25 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.Period = React.createClass({
-  getInitialState: function() {
-    return {
+class Period extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       date: this.props.initialDate.format("YYYY-MM-DD"),
       error: false
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <fieldset>
         <h2>{this.props.title}</h2>
         <input type="text" value={this.state.date} onChange={this.handlePeriodDateChanged} className={this.state.error ? 'error' : ''} />
       </fieldset>
     );
-  },
+  }
 
-  handlePeriodDateChanged: function(event) {
+  handlePeriodDateChanged(event) {
     event.preventDefault();
     event.stopPropagation();
     this.setState({date: event.target.value});
@@ -29,4 +31,6 @@ App.Components.Period = React.createClass({
       this.setState({error: true});
     }
   }
-});
+}
+
+export default Period;

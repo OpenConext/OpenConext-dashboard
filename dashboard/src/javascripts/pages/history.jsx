@@ -1,9 +1,9 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.History = React.createClass({
-  mixins: [App.Mixins.SortableTable("history", "requestDate", true)],
+  // mixins: [App.Mixins.SortableTable("history", "requestDate", true)],
+class History extends React.Component {
 
-  render: function() {
+  render() {
     return (
       <div className="l-mini">
 
@@ -27,9 +27,9 @@ App.Pages.History = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderAction: function(action) {
+  renderAction(action) {
     return (
       <tr key={action.jiraKey}>
         <td className="percent_15">{moment(action.requestDate).format("DD-MM-YYYY")}</td>
@@ -39,9 +39,11 @@ App.Pages.History = React.createClass({
         <td className="percent_25">{action.status}</td>
       </tr>
     );
-  },
+  }
 
-  convertRequestDateForSort: function(value) {
+  convertRequestDateForSort(value) {
     return Date.parse(value);
   }
-});
+}
+
+export default History;

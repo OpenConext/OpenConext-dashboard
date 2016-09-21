@@ -1,15 +1,16 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.SearchUser = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  // mixins: [React.addons.LinkedStateMixin],
+class SearchUser extends React.Component {
+  constructor() {
+    super();
 
-  getInitialState: function() {
-    return {
+    this.state = {
       search: ""
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <div className="l-mini">
         <div className="mod-super-user">
@@ -40,9 +41,9 @@ App.Pages.SearchUser = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderItem: function(idp) {
+  renderItem(idp) {
     return (
       <tr key={idp.name}>
         <td>{idp.name}</td>
@@ -55,17 +56,17 @@ App.Pages.SearchUser = React.createClass({
         </td>
       </tr>
     );
-  },
+  }
 
-  renderSwitchToRole: function(idp, role) {
+  renderSwitchToRole(idp, role) {
     return (
       <a key={role} href="#" className="c-button" onClick={this.handleSwitchToUser(idp, role)}>
         {I18n.t("search_user.switch." + role.toLowerCase())}
       </a>
     );
-  },
+  }
 
-  handleSwitchToUser: function(idp, role) {
+  handleSwitchToUser(idp, role) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -73,13 +74,15 @@ App.Pages.SearchUser = React.createClass({
         page("/");
       });
     }
-  },
+  }
 
-  filteredIdps: function() {
+  filteredIdps() {
     return this.props.idps.filter(this.filterBySearchQuery);
-  },
+  }
 
-  filterBySearchQuery: function(idp) {
+  filterBySearchQuery(idp) {
     return idp.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
   }
-});
+}
+
+export default SearchUser;

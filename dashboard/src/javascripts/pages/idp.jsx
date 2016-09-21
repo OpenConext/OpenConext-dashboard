@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.MyIdp = React.createClass({
-  render: function () {
+class MyIdp extends React.Component {
+  render() {
     var roles = Object.keys(this.props.roles);
     return (
       <div className="l-mini">
@@ -14,9 +14,9 @@ App.Pages.MyIdp = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderRoles: function (roles) {
+  renderRoles(roles) {
     return (
       <table>
         <thead>
@@ -30,9 +30,9 @@ App.Pages.MyIdp = React.createClass({
         </tbody>
       </table>
     );
-  },
+  }
 
-  renderRole: function (role) {
+  renderRole(role) {
     var names = this.props.roles[role].map(function (r) {
       return r.firstName + " " + r.surname
     }).sort().join(", ");
@@ -43,9 +43,9 @@ App.Pages.MyIdp = React.createClass({
         <td>{names}</td>
       </tr>
     );
-  },
+  }
 
-  renderLicenseContactPerson: function (licenseContactPerson) {
+  renderLicenseContactPerson(licenseContactPerson) {
     return (
       <tr>
         <td>{licenseContactPerson.name}</td>
@@ -53,9 +53,9 @@ App.Pages.MyIdp = React.createClass({
         <td>{licenseContactPerson.phone}</td>
       </tr>
     );
-  },
+  }
 
-  renderLicenseContactPersons: function (licenseContactPersons) {
+  renderLicenseContactPersons(licenseContactPersons) {
     if (licenseContactPersons && licenseContactPersons.length > 0) {
       return (
         <div>
@@ -76,5 +76,6 @@ App.Pages.MyIdp = React.createClass({
       );
     }
   }
+}
 
-});
+export default MyIdp;

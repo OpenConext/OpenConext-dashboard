@@ -1,20 +1,23 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.AppOverview = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin,
-    App.Mixins.SortableTable("apps.overview", "name")
-  ],
+  // mixins: [
+  //   React.addons.LinkedStateMixin,
+  //   App.Mixins.SortableTable("apps.overview", "name")
+  // ],
 
-  getInitialState: function () {
-    return {
+
+class AppOverview extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       search: "",
       activeFacets: App.store.activeFacets || {},
       hiddenFacets: App.store.hiddenFacets || {}
     }
-  },
+  }
 
-  render: function () {
+  render() {
     var filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.props.apps);
 
     if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
@@ -76,13 +79,13 @@ App.Pages.AppOverview = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderEmpty: function () {
+  renderEmpty() {
     return <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>;
-  },
+  }
 
-  renderApp: function (app) {
+  renderApp(app) {
     if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
       var connect = (
         <td className="right">
@@ -100,9 +103,9 @@ App.Pages.AppOverview = React.createClass({
         {connect}
       </tr>
     );
-  },
+  }
 
-  licenseStatusClassName: function (app) {
+  licenseStatusClassName(app) {
     switch (app.licenseStatus) {
       case "HAS_LICENSE_SURFMARKET":
       case "HAS_LICENSE_SP":
@@ -112,16 +115,16 @@ App.Pages.AppOverview = React.createClass({
       default:
         return "";
     }
-  },
+  }
 
-  renderLicenseNeeded: function (app) {
+  renderLicenseNeeded(app) {
     return (
       <td
         className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
     );
-  },
+  }
 
-  renderLicensePresent: function (app) {
+  renderLicensePresent(app) {
     switch (app.licenseStatus) {
       case "HAS_LICENSE_SURFMARKET":
         if (!app.hasCrmLink) {
@@ -144,34 +147,34 @@ App.Pages.AppOverview = React.createClass({
     return (
       <td className={licensePresent}>{I18n.t("apps.overview.license_present." + licensePresent)}</td>
     );
-  },
+  }
 
-  renderConnectButton: function (app) {
+  renderConnectButton(app) {
     if (!app.connected) {
       return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect_button")}</a>;
     }
-  },
+  }
 
-  handleShowAppDetail: function (app) {
+  handleShowAppDetail(app) {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
       page("/apps/:id", {id: app.id});
     }
-  },
+  }
 
-  handleShowHowToConnect: function (app) {
+  handleShowHowToConnect(app) {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
       page("/apps/:id/how_to_connect", {id: app.id});
     }
-  },
+  }
 
   /*
    * this.state.activeFacets is a object with facet names and the values are arrays with all select values
    */
-  handleFacetChange: function (facet, facetValue, checked) {
+  handleFacetChange(facet, facetValue, checked) {
     var selectedFacets = $.extend({}, this.state.activeFacets);
     var facetValues = selectedFacets[facet];
 
@@ -184,9 +187,9 @@ App.Pages.AppOverview = React.createClass({
     this.setState({activeFacets: selectedFacets});
 
     App.store.activeFacets = selectedFacets;
-  },
+  }
 
-  handleFacetHide: function (facet) {
+  handleFacetHide(facet) {
     var hiddenFacets = $.extend({}, this.state.hiddenFacets);
     if (hiddenFacets[facet.name]) {
       delete hiddenFacets[facet.name];
@@ -195,9 +198,9 @@ App.Pages.AppOverview = React.createClass({
     }
     this.setState({hiddenFacets: hiddenFacets});
     App.store.hiddenFacets = hiddenFacets;
-  },
+  }
 
-  handleResetFilters: function () {
+  handleResetFilters() {
     this.setState({
       search: "",
       activeFacets: {},
@@ -206,18 +209,18 @@ App.Pages.AppOverview = React.createClass({
 
     App.store.activeFacets = null;
     App.store.hiddenFacets = null;
-  },
+  }
 
-  handleDownloadOverview: function () {
+  handleDownloadOverview() {
     var filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.props.apps));
     App.Controllers.Apps.downloadOverview(filteredApps);
-  },
+  }
 
-  filterAppsForExclusiveFilters: function (apps) {
+  filterAppsForExclusiveFilters(apps) {
     return apps.filter(this.filterBySearchQuery);
-  },
+  }
 
-  filterAppsForInclusiveFilters: function (apps) {
+  filterAppsForInclusiveFilters(apps) {
     var filteredApps = apps;
 
     if (!$.isEmptyObject(this.state.activeFacets)) {
@@ -228,9 +231,9 @@ App.Pages.AppOverview = React.createClass({
     }
 
     return filteredApps;
-  },
+  }
 
-  addNumbers: function (filteredApps, facets) {
+  addNumbers(filteredApps, facets) {
     var me = this;
     var filter = function (facet, filterFunction) {
       var activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key, object) {
@@ -283,20 +286,20 @@ App.Pages.AppOverview = React.createClass({
           });
       }
     });
-  },
+  }
 
-  filterBySearchQuery: function (app) {
+  filterBySearchQuery(app) {
     return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
-  },
+  }
 
-  filterYesNoFacet: function (name, yes) {
+  filterYesNoFacet(name, yes) {
     var values = this.state.activeFacets[name] || [];
     return values.length === 0
       || (yes && _.contains(values, "yes"))
       || (!yes && _.contains(values, "no"));
-  },
+  }
 
-  filterByFacets: function (facets) {
+  filterByFacets(facets) {
     return function (app) {
       var normalizedCategories = this.normalizeCategories(app);
       for (var facet in facets) {
@@ -312,9 +315,9 @@ App.Pages.AppOverview = React.createClass({
       }
       return true;
     }.bind(this);
-  },
+  }
 
-  normalizeCategories: function (app) {
+  normalizeCategories(app) {
     var normalizedCategories = {}
     app.categories.forEach(function (category) {
       normalizedCategories[category.name] = category.values.map(function (categoryValue) {
@@ -322,17 +325,17 @@ App.Pages.AppOverview = React.createClass({
       });
     });
     return normalizedCategories;
-  },
+  }
 
-  convertLicenseForSort: function (value, app) {
+  convertLicenseForSort(value, app) {
     return app.licenseStatus;
-  },
+  }
 
-  convertNameForSort: function (value) {
+  convertNameForSort(value) {
     return value.toLowerCase();
-  },
+  }
 
-  staticFacets: function () {
+  staticFacets() {
     return [{
       name: I18n.t("facets.static.connection.name"),
       searchValue: "connection",
@@ -379,4 +382,6 @@ App.Pages.AppOverview = React.createClass({
     }];
   }
 
-});
+}
+
+export default AppOverview;

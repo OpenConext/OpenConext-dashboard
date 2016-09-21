@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.Notifications = React.createClass({
-  render: function() {
+class Notifications extends React.Component {
+  render() {
     var notificationMessage = this.props.notificationMessage;
     return (
       <div className="l-mini">
@@ -31,13 +31,13 @@ App.Pages.Notifications = React.createClass({
         </div>
       </div>
       );
-  },
+  }
 
-  renderNotificationMessage: function(messageKey) {
+  renderNotificationMessage(messageKey) {
     return <p key={messageKey}>{I18n.t(messageKey)}</p>
-  },
+  }
 
-  renderNotification: function(notificationArgument) {
+  renderNotification(notificationArgument) {
     return (
       <tr key={notificationArgument.id}>
         <td>
@@ -48,7 +48,8 @@ App.Pages.Notifications = React.createClass({
         {App.renderYesNo(notificationArgument.license)}
         {App.renderYesNo(notificationArgument.connected)}
       </tr>
-      );
+    );
   }
+}
 
-});
+export default Notifications;

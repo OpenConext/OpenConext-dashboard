@@ -1,8 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.AttributePolicyPanel = React.createClass({
-  render: function () {
-
+class AttributePolicyPanel extends React.Component {
+  render() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -13,9 +12,9 @@ App.Components.AttributePolicyPanel = React.createClass({
         {this.renderAttributeReleasePolicy(this.props.app)}
       </div>
     );
-  },
+  }
 
-  renderAttributeReleasePolicy: function (app) {
+  renderAttributeReleasePolicy(app) {
     if (app.arp.noArp) {
       return (
         <p>{I18n.t("attributes_policy_panel.arp.noarp", {name: app.name})}</p>
@@ -46,9 +45,9 @@ App.Components.AttributePolicyPanel = React.createClass({
 
       );
     }
-  },
+  }
 
-  renderAttribute: function (attribute) {
+  renderAttribute(attribute) {
     return (
       <tr key={attribute.name}>
         <td>{attribute.name}</td>
@@ -59,11 +58,13 @@ App.Components.AttributePolicyPanel = React.createClass({
         </td>
       </tr>
     );
-  },
+  }
 
-  renderAttributeValue: function (attributeValue) {
+  renderAttributeValue(attributeValue) {
     return (
       <li key={attributeValue}>{attributeValue}</li>
     );
   }
-});
+}
+
+export default AttributePolicyPanel;

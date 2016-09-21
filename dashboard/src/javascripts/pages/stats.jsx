@@ -1,13 +1,13 @@
-/** @jsx React.DOM */
+import React from "react";
+  // mixins: [
+  //   React.addons.LinkedStateMixin,
+  //   App.Mixins.Chart,
+  // ],
+class Stats extends React.Component {
 
-App.Pages.Stats = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin,
-    App.Mixins.Chart,
-  ],
-
-  getInitialState: function () {
-    return {
+  constructor() {
+    super();
+    this.state = {
       chart: {
         type: 'idpspbar',
         periodFrom: moment().subtract(1, 'months'),
@@ -16,9 +16,9 @@ App.Pages.Stats = React.createClass({
         periodDate: moment().subtract(1, 'days'),
       }
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <div className="l-main">
         <div className="l-left">
@@ -41,5 +41,6 @@ App.Pages.Stats = React.createClass({
       </div>
     );
   }
-});
+}
 
+export default Stats;

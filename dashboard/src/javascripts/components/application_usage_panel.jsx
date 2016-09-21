@@ -1,13 +1,13 @@
-/** @jsx React.DOM */
+import React from "react";
+  // mixins: [
+  //   React.addons.LinkedStateMixin,
+  //   App.Mixins.Chart,
+  // ],
+class ApplicationUsagePanel extends React.Component {
+  constructor() {
+    super();
 
-App.Components.ApplicationUsagePanel = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin,
-    App.Mixins.Chart,
-  ],
-
-  getInitialState: function() {
-    return {
+    this.state = {
       chart: {
         type: 'idpsp',
         periodFrom: moment().subtract(1, 'months'),
@@ -16,18 +16,18 @@ App.Components.ApplicationUsagePanel = React.createClass({
         periodDate: moment(),
       }
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     this.retrieveSp(this.props.app.spEntityId, function(sp) {
       var newState = React.addons.update(this.state, {
         chart: {sp: {$set: sp.id}}
       });
       this.setState(newState);
     }.bind(this));
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -47,4 +47,6 @@ App.Components.ApplicationUsagePanel = React.createClass({
       </div>
     );
   }
-});
+}
+
+export default ApplicationUsagePanel;

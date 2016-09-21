@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.AppMeta = React.createClass({
-  render: function() {
+class AppMeta extends React.Component {
+  render() {
     return (
       <div className="l-right">
         <div className="mod-app-meta">
@@ -22,9 +22,9 @@ App.Components.AppMeta = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderUrl: function(key, link, target) {
+  renderUrl(key, link, target) {
     if (link) {
       if (!target) {
         target = "_blank";
@@ -37,9 +37,9 @@ App.Components.AppMeta = React.createClass({
         </div>
       );
     }
-  },
+  }
 
-  renderLogo: function() {
+  renderLogo() {
     if (this.props.app.detailLogoUrl) {
       return (
         <div className='logo'>
@@ -48,4 +48,6 @@ App.Components.AppMeta = React.createClass({
       );
     }
   }
-});
+}
+
+export default AppMeta;

@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Help.PolicyRevisionsHelpNl = React.createClass({
-  render: function () {
+class PolicyRevisionsHelpNl extends React.Component {
+  render() {
     return (
         <div className="form-element about">
           <h1>Wat zijn autorisatieregel revisies?</h1>
@@ -18,4 +18,6 @@ App.Help.PolicyRevisionsHelpNl = React.createClass({
         </div>
     );
   }
-});
+}
+
+export default PolicyRevisionsHelpNl;

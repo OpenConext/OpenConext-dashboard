@@ -1,13 +1,15 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.IDPSelector = React.createClass({
-  getInitialState: function() {
-    return {
+class IDPSelector extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       activeIdp: (App.currentUser.switchedToIdp || App.currentUser.currentIdp).id
     }
-  },
+  }
 
-  render: function () {
+  render() {
     if (App.currentUser.institutionIdps.length > 0) {
       return (
         <li className="select-idp">
@@ -18,17 +20,17 @@ App.Components.IDPSelector = React.createClass({
     } else {
       return null;
     }
-  },
+  }
 
-  renderMenu: function() {
+  renderMenu() {
     return (
       <ul>
         {App.currentUser.institutionIdps.map(this.renderItem)}
       </ul>
     );
-  },
+  }
 
-  renderItem: function(idp) {
+  renderItem(idp) {
     return (
       <li key={idp.id}>
         <a href="#" onClick={this.handleChooseIdp(idp)}>
@@ -37,9 +39,9 @@ App.Components.IDPSelector = React.createClass({
         </a>
       </li>
     );
-  },
+  }
 
-  renderActiveIndicator: function(idp) {
+  renderActiveIndicator(idp) {
     if (this.state.activeIdp == idp.id) {
       return (
         <i className="fa fa-caret-right" />
@@ -47,9 +49,9 @@ App.Components.IDPSelector = React.createClass({
     } else {
       return "";
     }
-  },
+  }
 
-  handleChooseIdp: function(idp) {
+  handleChooseIdp(idp) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -59,4 +61,6 @@ App.Components.IDPSelector = React.createClass({
       }.bind(this));
     }.bind(this)
   }
-});
+}
+
+export default IDPSelector;

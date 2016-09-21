@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.LicenseInfoPanel = React.createClass({
-  render: function() {
+class LicenseInfoPanel extends React.Component {
+  render() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -14,9 +14,9 @@ App.Components.LicenseInfoPanel = React.createClass({
         {this.renderLicenseStatus()}
       </div>
     );
-  },
+  }
 
-  renderLicenseStatus: function() {
+  renderLicenseStatus() {
     switch (this.props.app.licenseStatus) {
       case "HAS_LICENSE_SURFMARKET":
         return this.renderHasLicense(I18n.t("license_info_panel.has_license_surfmarket_html")) ;
@@ -29,17 +29,17 @@ App.Components.LicenseInfoPanel = React.createClass({
       case "UNKNOWN":
         return this.renderUnknownLicense();
     }
-  },
+  }
 
-  renderHasLicense: function(msg) {
+  renderHasLicense(msg) {
     return (
       <div className="mod-title">
         <h3 dangerouslySetInnerHTML={{ __html: msg}} />
       </div>
     );
-  },
+  }
 
-  renderNoLicense: function() {
+  renderNoLicense() {
     return (
       <div className="mod-title">
         <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_html")}} />
@@ -47,17 +47,17 @@ App.Components.LicenseInfoPanel = React.createClass({
         <div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_description_html")}} />
       </div>
     );
-  },
+  }
 
-  renderNoLicenseNeeded: function() {
+  renderNoLicenseNeeded() {
     return (
       <div className="mod-title">
         <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.not_needed_html")}} />
       </div>
     );
-  },
+  }
 
-  renderUnknownLicense: function() {
+  renderUnknownLicense() {
     return (
       <div className="mod-title">
         <h3>{I18n.t("license_info_panel.unknown_license")}</h3>
@@ -66,4 +66,6 @@ App.Components.LicenseInfoPanel = React.createClass({
       </div>
     );
   }
-});
+}
+
+export default LicenseInfoPanel;
