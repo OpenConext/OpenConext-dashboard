@@ -32,6 +32,14 @@ App.Help.PolicyDetailHelpEn = React.createClass({
             the Identity Provider which authenticated the user.
             You can link policies to zero or more Institutions</p>
 
+          <br/>
+          <p>
+            If you keep the Institution field empty (you select zero Institutions), you can only make authorization
+            policies for Service Providers owned by your Institution. The policy will apply to all Institutions
+            connected to that service. If you select 1 or more Insitutions, your authorization policy can be applied
+            to any Service Provider those Institutions are connected to.
+          </p>
+
           <h2>Service</h2>
 
           <p>The Service determines for which Service this policy applies. You can only link policies to one
