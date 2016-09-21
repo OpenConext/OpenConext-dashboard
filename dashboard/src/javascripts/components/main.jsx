@@ -3,16 +3,6 @@ import React from "react";
 class Main extends React.Component {
   render() {
     return (
-      <div>
-        <div className="l-header">
-          <App.Components.Header />
-          {this.renderNavigation()}
-        </div>
-
-        {this.props.page}
-
-        <App.Components.Footer />
-      </div>
     );
   }
 

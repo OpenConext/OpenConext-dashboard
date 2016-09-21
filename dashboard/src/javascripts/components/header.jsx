@@ -1,4 +1,7 @@
 import React from "react";
+import I18n from "../lib/i18n";
+import _ from "lodash";
+import LanguageSelector from "./language_selector";
 
 class Header extends React.Component {
   constructor() {
@@ -18,7 +21,7 @@ class Header extends React.Component {
             {this.renderProfileLink()}
             {this.renderDropDown()}
           </div>
-          <App.Components.LanguageSelector />
+          <LanguageSelector />
           <ul className="links">
             <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html") }}></li>
             {this.renderExitLogout()}
@@ -29,14 +32,15 @@ class Header extends React.Component {
   }
 
   renderProfileLink() {
-    if (_.isUndefined(App.currentUser)) {
+    const { currentUser } = this.context;
+    if (_.isUndefined(currentUser)) {
       return;
-    } else if (!App.currentUser.superUser) {
+    } else if (!currentUser.superUser) {
       return (
         <span>
           {I18n.t("header.welcome")}&nbsp;
           <a href="#" onClick={this.handleToggle}>
-            {App.currentUser.displayName}
+            {currentUser.displayName}
             {this.renderDropDownIndicator()}
           </a>
         </span>
@@ -44,7 +48,7 @@ class Header extends React.Component {
     } else {
       return (
         <span>
-          {I18n.t("header.welcome")}&nbsp;{App.currentUser.displayName}
+          {I18n.t("header.welcome")}&nbsp;{currentUser.displayName}
         </span>
       );
     }
@@ -59,7 +63,8 @@ class Header extends React.Component {
   }
 
   renderDropDown() {
-    if (App.currentUser && !App.currentUser.superUser && this.state.dropDownActive) {
+    const { currentUser } = this.context;
+    if (currentUser && !currentUser.superUser && this.state.dropDownActive) {
       return (
         <ul>
           <h2>{I18n.t("header.you")}</h2>
@@ -73,9 +78,10 @@ class Header extends React.Component {
   }
 
   renderExitLogout() {
-    if (_.isUndefined(App.currentUser)) {
+    const { currentUser } = this.context;
+    if (_.isUndefined(currentUser)) {
       return;
-    } else if (App.currentUser.superUser && App.currentUser.switchedToIdp) {
+    } else if (currentUser.superUser && currentUser.switchedToIdp) {
       return (
         <li><a href="/exit">{I18n.t("header.links.exit")}</a></li>
       );
@@ -96,5 +102,9 @@ class Header extends React.Component {
     this.setState({dropDownActive: !this.state.dropDownActive});
   }
 }
+
+Header.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default Header;

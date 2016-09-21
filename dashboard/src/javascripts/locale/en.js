@@ -4,6 +4,7 @@
 // ie "Hello {{name}}" Do not add any spaces around the variable name.
 // Provide the values as: I18n.t("key", {name: "John Doe"})
 
+import I18n from "../lib/i18n";
 
 I18n.translations.en = {
   code: "EN",
@@ -17,7 +18,7 @@ I18n.translations.en = {
 
   browser_not_supported: {
     title: "Your browser is not supported.",
-    description_html: "Your version of Internet Explorer {{ieVersion}} is not supported. Please update your browser to a more modern version."
+    description_html: "Your version of Internet Explorer is not supported. Please update your browser to a more modern version."
   },
 
   date: {

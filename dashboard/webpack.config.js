@@ -9,7 +9,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const extractCSS = new ExtractTextPlugin("application-[contenthash].css");
 
 const PATHS = {
-  app: path.join(__dirname, "src/javascripts/application.js"),
+  app: path.join(__dirname, "src/javascripts"),
   build: path.join(__dirname, "dist")
 };
 

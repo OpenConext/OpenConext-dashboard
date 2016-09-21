@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "../lib/i18n";
 
 class Navigation extends React.Component {
 
@@ -23,7 +24,7 @@ class Navigation extends React.Component {
       <div className="mod-navigation">
         <ul>
           {this.renderItem("/apps", "apps")}
-          {this.renderPoliciesMenu()}
+          {this.renderItem("/policies", "policies")}
           {this.renderItem("/notifications", "notifications")}
           {this.renderItem("/history", "history")}
           {this.renderItem("/statistics", "stats")}
@@ -33,14 +34,6 @@ class Navigation extends React.Component {
         {this.renderSpinner()}
       </div>
     );
-  }
-
-  renderPoliciesMenu() {
-    if (App.policiesAvailable) {
-      return this.renderItem("/policies", "policies");
-    } else {
-      return null;
-    }
   }
 
   renderItem(href, value) {
