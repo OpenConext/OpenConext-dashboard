@@ -1,4 +1,7 @@
 import React from "react";
+import I18n from "../lib/i18n";
+
+import Contact from "./contact";
 
 class AppMeta extends React.Component {
   render() {
@@ -14,7 +17,7 @@ class AppMeta extends React.Component {
             </address>
           </div>
 
-          <App.Components.Contact email={this.props.app.supportMail} />
+          <Contact email={this.props.app.supportMail} />
           {this.renderUrl("support", this.props.app.supportUrl)}
           {this.renderUrl("login", this.props.app.appUrl)}
           {this.renderUrl("website", this.props.app.websiteUrl)}

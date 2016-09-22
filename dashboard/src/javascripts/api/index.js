@@ -1,3 +1,5 @@
+import qs from "qs";
+
 const apiPath = "/dashboard/api";
 
 export function apiUrl(path) {
@@ -63,6 +65,22 @@ export function getApps(idpId) {
 
 export function downloadOverview(idpId, ids) {
   return fetchJson("/services/download", {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}
+
+export function getApp(appId, idpId) {
+  return fetchJson(`/services/id/${appId}`,{
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}
+
+export function getIdps(spEntityId, idpId) {
+  return fetchJson(`/services/idps?${qs.stringify({ spEntityId })}`, {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }

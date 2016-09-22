@@ -17,6 +17,8 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Navigation from "./components/navigation";
 import BrowserNotSupported from "./pages/browser_not_supported";
+
+import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
 
 import "./locale/en";
@@ -39,7 +41,9 @@ class App extends React.Component {
           </div>
 
           {this.props.page}
-          <Match pattern="/apps" component={AppOverview} />
+          <Match exactly pattern="/apps/:id/:activePanel" component={AppDetail} />
+          <Match exactly pattern="/apps/:id" component={AppDetail} />
+          <Match exactly pattern="/apps" component={AppOverview} />
 
           <Footer />
         </div>

@@ -3,6 +3,7 @@ import I18n from "../lib/i18n";
 import qs from "qs";
 import reactMixin from 'react-mixin';
 import SortableHeader from '../components/sortable_header';
+import Link from 'react-router/Link';
 
 import { apiUrl, getApps, getFacets } from "../api";
 import sort from "../utils/sort";
@@ -19,7 +20,6 @@ class AppOverview extends React.Component {
   constructor() {
     super();
 
-    console.log(store);
     this.state = {
       apps: [],
       facets: [],
@@ -33,11 +33,38 @@ class AppOverview extends React.Component {
 
   componentWillMount() {
     const { currentUser } = this.context;
-    getFacets().then((data) => {
-      this.setState({ facets: data.payload });
-    });
-    getApps(currentUser.getCurrentIdpId()).then((data) => {
-      this.setState({ apps: data.payload });
+
+    Promise.all([
+      getFacets().then((data) => {
+        return data.payload;
+      }),
+      getApps(currentUser.getCurrentIdpId()).then((data) => {
+        return data.payload;
+      })
+    ]).then(data => {
+      const [facets, apps] = data;
+
+      // We need to sanitize the categories data for each app to ensure the facet totals are correct
+      var unknown = {value: I18n.t("facets.unknown")};
+      facets.forEach(function (facet) {
+        apps.forEach(function (app) {
+          app.categories = app.categories || [];
+          var appCategory = app.categories.filter(function (category) {
+            return category.name === facet.name;
+          });
+          if (appCategory.length === 0) {
+            app.categories.push({name: facet.name, values: [unknown]});
+            var filtered = facet.values.filter(function (facetValue) {
+              return facetValue.value === unknown.value;
+            });
+            if (!filtered[0]) {
+              facet.values.push(Object.assign({}, unknown));
+            }
+          }
+        });
+      });
+
+      this.setState({ apps, facets });
     });
   }
 
@@ -115,6 +142,7 @@ class AppOverview extends React.Component {
     );
   }
 
+
   renderSortableHeader(className, attribute) {
     return (
       <SortableHeader
@@ -146,11 +174,9 @@ class AppOverview extends React.Component {
       );
     }
 
-    //FIXME: fix page 
     return (
-      <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
-        {/* <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td> */}
-        <td>{ app.name }</td>
+      <tr key={app.id} onClick={(e) => this.handleShowAppDetail(e, app)}>
+        <td><Link to={`apps/${app.id}`}>{ app.name }</Link></td>
         {this.renderLicenseNeeded(app)}
         {this.renderLicensePresent(app)}
         <YesNo value={app.connected} />
@@ -211,12 +237,10 @@ class AppOverview extends React.Component {
     }
   }
 
-  handleShowAppDetail(app) {
-    return function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      page("/apps/:id", {id: app.id});
-    }
+  handleShowAppDetail(e, app) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.context.router.transitionTo(`/apps/${app.id}`);
   }
 
   handleShowHowToConnect(app) {
@@ -440,7 +464,8 @@ class AppOverview extends React.Component {
 }
 
 AppOverview.contextTypes = {
-  currentUser: React.PropTypes.object
+  currentUser: React.PropTypes.object,
+  router: React.PropTypes.object
 };
 
 export default AppOverview;

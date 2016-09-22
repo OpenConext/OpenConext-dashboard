@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "../lib/i18n";
 
 class LicenseInfo extends React.Component {
   render() {

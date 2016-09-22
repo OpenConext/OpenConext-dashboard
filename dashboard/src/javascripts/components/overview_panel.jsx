@@ -1,4 +1,8 @@
 import React from "react";
+import I18n from "../lib/i18n";
+
+import LicenseInfo from "./license_info";
+import Screenshots from "./screenshots";
 
 class OverviewPanel extends React.Component {
   render() {
@@ -10,7 +14,7 @@ class OverviewPanel extends React.Component {
 
         <div className="mod-connection">
           {this.renderConnection()}
-          <App.Components.LicenseInfo app={this.props.app} onSwitchPanel={this.props.onSwitchPanel}/>
+          <LicenseInfo app={this.props.app} onSwitchPanel={this.props.onSwitchPanel}/>
         </div>
 
         {this.renderWikiUrl()}
@@ -24,7 +28,7 @@ class OverviewPanel extends React.Component {
 
         {this.renderSingleTenantService()}
 
-        <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
+        <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
   }
@@ -83,9 +87,10 @@ class OverviewPanel extends React.Component {
   }
 
   renderHasConnection() {
-    if (App.currentUser.dashboardAdmin) {
+    const { currentUser } = this.context;
+    if (currentUser.dashboardAdmin) {
       var disconnect = <p><a href="#"
-                             onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
+          onClick={(e) => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
       </p>;
     }
 
@@ -102,7 +107,7 @@ class OverviewPanel extends React.Component {
   renderNoConnection() {
     if (App.currentUser.dashboardAdmin) {
       var connect = <p><a href="#"
-                          onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
+          onClick={(e) => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
       </p>;
     }
 
@@ -116,5 +121,9 @@ class OverviewPanel extends React.Component {
     );
   }
 }
+
+OverviewPanel.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default OverviewPanel;
