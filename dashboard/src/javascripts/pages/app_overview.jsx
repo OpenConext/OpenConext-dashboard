@@ -1,26 +1,59 @@
 import React from "react";
+import I18n from "../lib/i18n";
+import qs from "qs";
+import reactMixin from 'react-mixin';
+import SortableHeader from '../components/sortable_header';
 
-  // mixins: [
-  //   React.addons.LinkedStateMixin,
-  //   App.Mixins.SortableTable("apps.overview", "name")
-  // ],
+import { apiUrl, getApps, getFacets } from "../api";
+import sort from "../utils/sort";
 
+import Facets from "../components/facets";
+import YesNo from "../components/yes-no";
+
+let store = {
+  activeFacets: null,
+  hiddenFacets: null
+};
 
 class AppOverview extends React.Component {
   constructor() {
     super();
 
+    console.log(store);
     this.state = {
+      apps: [],
+      facets: [],
       search: "",
-      activeFacets: App.store.activeFacets || {},
-      hiddenFacets: App.store.hiddenFacets || {}
+      activeFacets: store.activeFacets || {},
+      hiddenFacets: store.hiddenFacets || {},
+      sortAttribute: "name",
+      sortAscending: undefined
     }
   }
 
-  render() {
-    var filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.props.apps);
+  componentWillMount() {
+    const { currentUser } = this.context;
+    getFacets().then((data) => {
+      this.setState({ facets: data.payload });
+    });
+    getApps(currentUser.getCurrentIdpId()).then((data) => {
+      this.setState({ apps: data.payload });
+    });
+  }
 
-    if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
+  handleSort(sortObject) {
+    this.setState({
+      sortAttribute: sortObject.sortAttribute,
+      sortAscending: sortObject.sortAscending
+    });
+  }
+
+  render() {
+    const { currentUser } = this.context;
+    const { sortAttribute, sortAscending } = this.state;
+    var filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
+
+    if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
       var connect = (
         <th className="percent_10 right">
           {I18n.t("apps.overview.connect")}
@@ -28,23 +61,23 @@ class AppOverview extends React.Component {
       );
     }
 
-    var facets = this.staticFacets().concat(this.props.facets);
+    var facets = this.staticFacets().concat(this.state.facets);
     this.addNumbers(filteredExclusiveApps, facets);
     var filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
 
     return (
       <div className="l-main">
         <div className="l-left">
-          <App.Components.Facets
+          <Facets
             facets={facets}
             selectedFacets={this.state.activeFacets}
             hiddenFacets={this.state.hiddenFacets}
             filteredCount={filteredApps.length}
-            totalCount={this.props.apps.length}
-            onChange={this.handleFacetChange}
-            onHide={this.handleFacetHide}
-            onReset={this.handleResetFilters}
-            onDownload={this.handleDownloadOverview}/>
+            totalCount={this.state.apps.length}
+            onChange={this.handleFacetChange.bind(this)}
+            onHide={this.handleFacetHide.bind(this)}
+            onReset={this.handleResetFilters.bind(this)}
+            onDownload={this.handleDownloadOverview.bind(this)}/>
         </div>
         <div className="l-right">
           <div className="mod-app-search">
@@ -53,7 +86,8 @@ class AppOverview extends React.Component {
                 <i className="fa fa-search"/>
                 <input
                   type="search"
-                  valueLink={this.linkState("search")}
+                  value={this.state.search}
+                  onChange={(e) => this.setState({ search: e.target.value })}
                   placeholder={I18n.t("apps.overview.search_hint")}/>
 
                 <button type="submit">{I18n.t("apps.overview.search")}</button>
@@ -72,7 +106,7 @@ class AppOverview extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {filteredApps.length > 0 ? this.sort(filteredApps).map(this.renderApp) : this.renderEmpty()}
+                {filteredApps.length > 0 ? sort(filteredApps, sortAttribute, sortAscending).map(app => this.renderApp(app)) : this.renderEmpty()}
               </tbody>
             </table>
           </div>
@@ -81,12 +115,30 @@ class AppOverview extends React.Component {
     );
   }
 
+  renderSortableHeader(className, attribute) {
+    return (
+      <SortableHeader
+        sortAttribute={this.state.sortAttribute}
+        attribute={attribute}
+        sortAscending={this.state.sortAscending}
+        localeKey="apps.overview"
+        className={className}
+        onSort={this.handleSort.bind(this)}
+        />
+    );
+  }
+
   renderEmpty() {
-    return <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>;
+    return (
+      <tr>
+        <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>;
+      </tr>
+    );
   }
 
   renderApp(app) {
-    if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
+    const { currentUser } = this.context;
+    if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
       var connect = (
         <td className="right">
           {this.renderConnectButton(app)}
@@ -94,12 +146,14 @@ class AppOverview extends React.Component {
       );
     }
 
+    //FIXME: fix page 
     return (
       <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
-        <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td>
+        {/* <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td> */}
+        <td>{ app.name }</td>
         {this.renderLicenseNeeded(app)}
         {this.renderLicensePresent(app)}
-        {App.renderYesNo(app.connected)}
+        <YesNo value={app.connected} />
         {connect}
       </tr>
     );
@@ -125,6 +179,8 @@ class AppOverview extends React.Component {
   }
 
   renderLicensePresent(app) {
+    let licensePresent = "unknown";
+
     switch (app.licenseStatus) {
       case "HAS_LICENSE_SURFMARKET":
         if (!app.hasCrmLink) {
@@ -175,7 +231,7 @@ class AppOverview extends React.Component {
    * this.state.activeFacets is a object with facet names and the values are arrays with all select values
    */
   handleFacetChange(facet, facetValue, checked) {
-    var selectedFacets = $.extend({}, this.state.activeFacets);
+    var selectedFacets = _.merge({}, this.state.activeFacets);
     var facetValues = selectedFacets[facet];
 
     if (_.isUndefined(facetValues)) {
@@ -186,18 +242,18 @@ class AppOverview extends React.Component {
 
     this.setState({activeFacets: selectedFacets});
 
-    App.store.activeFacets = selectedFacets;
+    store.activeFacets = selectedFacets;
   }
 
   handleFacetHide(facet) {
-    var hiddenFacets = $.extend({}, this.state.hiddenFacets);
+    var hiddenFacets = _.merge({}, this.state.hiddenFacets);
     if (hiddenFacets[facet.name]) {
       delete hiddenFacets[facet.name];
     } else {
       hiddenFacets[facet.name] = true;
     }
     this.setState({hiddenFacets: hiddenFacets});
-    App.store.hiddenFacets = hiddenFacets;
+    store.hiddenFacets = hiddenFacets;
   }
 
   handleResetFilters() {
@@ -207,23 +263,27 @@ class AppOverview extends React.Component {
       hiddenFacets: {}
     });
 
-    App.store.activeFacets = null;
-    App.store.hiddenFacets = null;
+    store.activeFacets = null;
+    store.hiddenFacets = null;
   }
 
   handleDownloadOverview() {
-    var filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.props.apps));
-    App.Controllers.Apps.downloadOverview(filteredApps);
+    const { currentUser } = this.context;
+    const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
+    const ids = filteredApps.map(app => app.id);
+    const queryString = qs.stringify({ idpEntityId: currentUser.getCurrentIdpId(), id: ids }, { arrayFormat: 'brackets' });
+
+    window.open(apiUrl(`/services/download?${queryString}`));
   }
 
   filterAppsForExclusiveFilters(apps) {
-    return apps.filter(this.filterBySearchQuery);
+    return apps.filter(this.filterBySearchQuery.bind(this));
   }
 
   filterAppsForInclusiveFilters(apps) {
     var filteredApps = apps;
 
-    if (!$.isEmptyObject(this.state.activeFacets)) {
+    if (!_.isEmpty(this.state.activeFacets)) {
       filteredApps = filteredApps.filter(this.filterByFacets(this.state.activeFacets));
       this.staticFacets().forEach(function (facetObject) {
         filteredApps = filteredApps.filter(facetObject.filterApp);
@@ -234,6 +294,7 @@ class AppOverview extends React.Component {
   }
 
   addNumbers(filteredApps, facets) {
+    const { currentUser } = this.context;
     var me = this;
     var filter = function (facet, filterFunction) {
       var activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key, object) {
@@ -268,7 +329,7 @@ class AppOverview extends React.Component {
           break;
         case "used_by_idp":
           filter(facet, function (app, facetValue) {
-            var usedByIdp = App.currentIdp().institutionId === app.institutionId;
+            var usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
             return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
           });
           break;
@@ -295,8 +356,8 @@ class AppOverview extends React.Component {
   filterYesNoFacet(name, yes) {
     var values = this.state.activeFacets[name] || [];
     return values.length === 0
-      || (yes && _.contains(values, "yes"))
-      || (!yes && _.contains(values, "no"));
+      || (yes && _.includes(values, "yes"))
+      || (!yes && _.includes(values, "no"));
   }
 
   filterByFacets(facets) {
@@ -327,15 +388,9 @@ class AppOverview extends React.Component {
     return normalizedCategories;
   }
 
-  convertLicenseForSort(value, app) {
-    return app.licenseStatus;
-  }
-
-  convertNameForSort(value) {
-    return value.toLowerCase();
-  }
-
   staticFacets() {
+    const { currentUser } = this.context;
+
     return [{
       name: I18n.t("facets.static.connection.name"),
       searchValue: "connection",
@@ -354,7 +409,7 @@ class AppOverview extends React.Component {
         {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"},
       ],
       filterApp: function (app) {
-        return this.filterYesNoFacet("used_by_idp", App.currentIdp().institutionId === app.institutionId);
+        return this.filterYesNoFacet("used_by_idp", currentUser.getCurrentIdp().institutionId === app.institutionId);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.published_edugain.name"),
@@ -383,5 +438,9 @@ class AppOverview extends React.Component {
   }
 
 }
+
+AppOverview.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default AppOverview;

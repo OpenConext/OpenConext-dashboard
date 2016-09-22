@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "../lib/i18n";
 
 class Facets extends React.Component {
   render() {
@@ -14,7 +15,7 @@ class Facets extends React.Component {
             {this.renderResetFilters()}
             {this.renderDownloadButton()}
           </fieldset>
-          {facets.map(this.renderFacet)}
+          { facets.map((facet) => this.renderFacet(facet)) }
           <fieldset>
             {this.renderTotals()}
           </fieldset>
@@ -28,7 +29,7 @@ class Facets extends React.Component {
       <a
         className={"c-button" + (this.props.filteredCount >= this.props.totalCount ? " disabled" : "")}
         href="#"
-        onClick={this.handleResetFilters}>{I18n.t("facets.reset")}</a>
+        onClick={this.handleResetFilters.bind(this)}>{I18n.t("facets.reset")}</a>
     );
   }
 
@@ -98,7 +99,7 @@ class Facets extends React.Component {
   renderDownloadButton() {
     return (
       <a href="#" className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
-         onClick={this.handleDownload}>{I18n.t("facets.download")}</a>
+         onClick={this.handleDownload.bind(this)}>{I18n.t("facets.download")}</a>
     );
   }
 

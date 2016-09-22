@@ -6,14 +6,18 @@ require("isomorphic-fetch");
 import React from "react";
 import { render } from "react-dom";
 import Router from "react-router/BrowserRouter";
+import Match from 'react-router/Match';
 import I18n from "./lib/i18n";
 import { browserSupported } from "./lib/browser_supported";
+
+import CurrentUser from "./models/current-user";
 
 import { getUserData } from "./api";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Navigation from "./components/navigation";
 import BrowserNotSupported from "./pages/browser_not_supported";
+import AppOverview from "./pages/app_overview";
 
 import "./locale/en";
 import "./locale/nl";
@@ -35,6 +39,7 @@ class App extends React.Component {
           </div>
 
           {this.props.page}
+          <Match pattern="/apps" component={AppOverview} />
 
           <Footer />
         </div>
@@ -52,7 +57,7 @@ if (browserSupported()) {
   .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden")
   .then(json => {
     I18n.locale = json.language;
-    render(<App currentUser={json.payload} />, document.getElementById("app"));
+    render(<App currentUser={new CurrentUser(json.payload)} />, document.getElementById("app"));
   });
 } else {
   render(<BrowserNotSupported />, document.getElementById("app"));

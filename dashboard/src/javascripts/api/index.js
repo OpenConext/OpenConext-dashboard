@@ -1,6 +1,6 @@
 const apiPath = "/dashboard/api";
 
-function url(path) {
+export function apiUrl(path) {
   return apiPath + path;
 }
 
@@ -24,16 +24,16 @@ function validFetch(path, options) {
     "Content-Type": "application/json"
   };
 
-  const fetchOptions = Object.assign({}, { headers }, options, {
+  const fetchOptions = _.merge({}, { headers }, options, {
     credentials: "same-origin"
   });
 
-  return fetch(url(path), fetchOptions)
+  return fetch(apiUrl(path), fetchOptions)
   .then(validateResponse);
 }
 
-function fetchJson(path) {
-  return validFetch(path)
+function fetchJson(path, options = {}) {
+  return validFetch(path, options)
   .then(parseJson);
 }
 
@@ -47,4 +47,24 @@ function fetchPost(path, body) {
 
 export function getUserData() {
   return fetchJson("/users/me");
+}
+
+export function getFacets() {
+  return fetchJson("/facets");
+}
+
+export function getApps(idpId) {
+  return fetchJson("/services", {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}
+
+export function downloadOverview(idpId, ids) {
+  return fetchJson("/services/download", {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
 }
