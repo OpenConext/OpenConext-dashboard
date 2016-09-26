@@ -7,6 +7,7 @@ import React from "react";
 import { render } from "react-dom";
 import Router from "react-router/BrowserRouter";
 import Match from 'react-router/Match';
+import Miss from 'react-router/Miss';
 import Redirect from 'react-router/Redirect';
 import I18n from "./lib/i18n";
 import { browserSupported } from "./lib/browser_supported";
@@ -23,6 +24,7 @@ import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
 import PolicyOverview from "./pages/policy_overview";
 import PolicyDetail from "./pages/policy_detail";
+import NotFound from "./pages/not_found";
 
 import "./locale/en";
 import "./locale/nl";
@@ -70,6 +72,7 @@ class App extends React.Component {
           <Match exactly pattern="/apps" component={AppOverview} />
           <Match exactly pattern="/policies" component={PolicyOverview} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/new" component={PolicyDetail} />
+          <Miss component={NotFound} />
 
           <Footer />
         </div>
