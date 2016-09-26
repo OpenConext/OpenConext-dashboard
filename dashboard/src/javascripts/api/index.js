@@ -110,3 +110,7 @@ export function getAllowedAttributes() {
 export function getNewPolicy() {
   return fetchJson('/policies/new');
 }
+
+export function logout() {
+  return validFetch("/logout");
+}

@@ -2,6 +2,9 @@ import React from "react";
 import I18n from "../lib/i18n";
 import _ from "lodash";
 import LanguageSelector from "./language_selector";
+import Logout from "../pages/logout";
+import { render } from "react-dom";
+import { logout } from "../api";
 
 class Header extends React.Component {
   constructor() {
@@ -87,9 +90,14 @@ class Header extends React.Component {
       );
     } else {
       return (
-        <li><a href="/logout">{I18n.t("header.links.logout")}</a></li>
+        <li><a href="#" onClick={this.handleLogoutClick.bind(this)}>{I18n.t("header.links.logout")}</a></li>
       );
     }
+  }
+
+  handleLogoutClick(e) {
+    e.preventDefault();
+    logout().then(() => render(<Logout />, document.getElementById("app")));
   }
 
   handleClose() {
