@@ -118,3 +118,11 @@ export function logout() {
 export function switchToIdp(idpId, role) {
   return validFetch('/users/me/switch-to-idp?' + qs.stringify({ idpId, role }));
 }
+
+export function getNotifications(idpId) {
+  return fetchJson('/notifications', {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}

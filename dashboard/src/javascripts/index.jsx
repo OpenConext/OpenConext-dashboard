@@ -24,6 +24,7 @@ import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
 import PolicyOverview from "./pages/policy_overview";
 import PolicyDetail from "./pages/policy_detail";
+import Notifications from "./pages/notifications";
 import NotFound from "./pages/not_found";
 
 import "./locale/en";
@@ -71,6 +72,7 @@ class App extends React.Component {
           <Match exactly pattern="/apps/:id" component={AppDetail} />
           <Match exactly pattern="/apps" component={AppOverview} />
           <Match exactly pattern="/policies" component={PolicyOverview} />
+          <Match exactly pattern="/notifications" component={Notifications} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/new" component={PolicyDetail} />
           <Miss component={NotFound} />
 

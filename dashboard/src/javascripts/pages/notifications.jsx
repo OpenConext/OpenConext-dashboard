@@ -1,17 +1,38 @@
 import React from "react";
+import Link from "react-router/Link";
+
+import I18n from "../lib/i18n";
+
+import { getNotifications } from "../api";
+import YesNo from "../components/yes-no";
 
 class Notifications extends React.Component {
+  constructor() { super(); this.state = {
+      notificationMessage: {
+        messageKeys: [],
+        arguments: []
+      }
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+
+    getNotifications(currentUser.getCurrentIdpId())
+      .then(data => this.setState({ notificationMessage: data.payload }));
+  }
+
   render() {
-    var notificationMessage = this.props.notificationMessage;
+    var notificationMessage = this.state.notificationMessage;
     return (
       <div className="l-mini">
 
         <div className="mod-notifications">
           <h1>{I18n.t("notifications.title")}</h1>
 
-          <p>
+          <div>
             {notificationMessage.messageKeys.map(this.renderNotificationMessage)}
-          </p>
+          </div>
           <br />
           <table>
             <thead>
@@ -41,15 +62,19 @@ class Notifications extends React.Component {
     return (
       <tr key={notificationArgument.id}>
         <td>
-          <a href={"/apps/" + notificationArgument.id}>
+          <Link to={"/apps/" + notificationArgument.id}>
             {notificationArgument.name}
-          </a>
+          </Link>
         </td>
-        {App.renderYesNo(notificationArgument.license)}
-        {App.renderYesNo(notificationArgument.connected)}
+        <YesNo value={notificationArgument.license} />
+        <YesNo value={notificationArgument.connected} />
       </tr>
     );
   }
 }
+
+Notifications.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default Notifications;
