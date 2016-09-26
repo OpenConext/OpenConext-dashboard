@@ -96,19 +96,6 @@ function authorizeStats(statsUrl) {
   window.location = statsUrl + "&state=" + window.location;
 }
 
-function pageRequested() {
-  //the redirect_uri goes to /, but we have stored the requested href in the state parameter
-  var locationHash = window.location.hash.substr(1);
-  var url = locationHash.substr(locationHash.indexOf("state=")).split("&")[0].split("=")[1];
-  if (!url) {
-    return url;
-  }
-  var parser = document.createElement('a');
-  parser.href = decodeURIComponent(url);
-  var pathname = parser.pathname;
-  return pathname[0] === "/" ? pathname : "/" + pathname;
-}
-
 if (browserSupported()) {
   getUserData()
   .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden")
@@ -120,8 +107,6 @@ if (browserSupported()) {
     if (!currentUser.statsToken) {
       return authorizeStats(currentUser.statsUrl);
     }
-
-    // window.location = pageRequested();
 
     render(<App currentUser={currentUser} />, document.getElementById("app"));
   });
