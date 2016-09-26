@@ -158,7 +158,7 @@ class AppOverview extends React.Component {
   renderEmpty() {
     return (
       <tr>
-        <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>;
+        <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>
       </tr>
     );
   }
