@@ -1,16 +1,29 @@
 import React from "react";
 
+import I18n from "../lib/i18n";
+
+import { switchToIdp } from "../api";
+
 class IDPSelector extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      activeIdp: (App.currentUser.switchedToIdp || App.currentUser.currentIdp).id
-    }
+      activeIdp: null
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+    this.setState({
+      activeIdp: (currentUser.switchedToIdp || currentUser.getCurrentIdp()).id
+    });
   }
 
   render() {
-    if (App.currentUser.institutionIdps.length > 0) {
+    const { currentUser } = this.context;
+
+    if (currentUser.institutionIdps.length > 0) {
       return (
         <li className="select-idp">
           <h2>{I18n.t("header.switch_idp")}</h2>
@@ -23,9 +36,11 @@ class IDPSelector extends React.Component {
   }
 
   renderMenu() {
+    const { currentUser } = this.context;
+
     return (
       <ul>
-        {App.currentUser.institutionIdps.map(this.renderItem)}
+        {currentUser.institutionIdps.map(this.renderItem.bind(this))}
       </ul>
     );
   }
@@ -55,12 +70,15 @@ class IDPSelector extends React.Component {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      App.Controllers.User.switchToIdp(idp, null, function() {
-        this.setState({ activeIdp: idp.id });
-        page.replace(window.history.state.path);
-      }.bind(this));
+      switchToIdp(idp.id, null).then(() => {
+        location.reload();
+      });
     }.bind(this)
   }
 }
+
+IDPSelector.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default IDPSelector;

@@ -1,6 +1,8 @@
 import React from "react";
 import I18n from "../lib/i18n";
 
+import Link from "react-router/Link";
+
 class Navigation extends React.Component {
 
   componentDidUpdate() {
@@ -39,7 +41,9 @@ class Navigation extends React.Component {
   renderItem(href, value) {
     var className = (this.props.active == value ? "active" : "");
     return (
-      <li className={className}><a href={href}>{I18n.t("navigation." + value)}</a></li>
+      <li className={className}>
+        <Link to={href}>{I18n.t("navigation." + value)}</Link>
+      </li>
     );
   }
 

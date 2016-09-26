@@ -5,6 +5,8 @@ import LanguageSelector from "./language_selector";
 import Logout from "../pages/logout";
 import { render } from "react-dom";
 import { logout } from "../api";
+import Link from "react-router/Link";
+import IDPSelector from "../components/idp_selector";
 
 class Header extends React.Component {
   constructor() {
@@ -18,7 +20,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className="mod-header">
-        <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
+        <h1 className="title"><Link to="/">{I18n.t("header.title")}</Link></h1>
         <div className="meta">
           <div className="name">
             {this.renderProfileLink()}
@@ -42,7 +44,7 @@ class Header extends React.Component {
       return (
         <span>
           {I18n.t("header.welcome")}&nbsp;
-          <a href="#" onClick={this.handleToggle}>
+          <a href="#" onClick={this.handleToggle.bind(this)}>
             {currentUser.displayName}
             {this.renderDropDownIndicator()}
           </a>
@@ -72,9 +74,9 @@ class Header extends React.Component {
         <ul>
           <h2>{I18n.t("header.you")}</h2>
           <ul>
-            <li><a href="/profile" onClick={this.handleClose}>{I18n.t("header.profile")}</a></li>
+            <li><Link to="/profile" onClick={this.handleClose.bind(this)}>{I18n.t("header.profile")}</Link></li>
           </ul>
-          <App.Components.IDPSelector />
+          <IDPSelector />
         </ul>
       );
     }
