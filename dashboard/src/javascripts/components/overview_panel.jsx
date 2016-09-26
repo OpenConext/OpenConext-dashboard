@@ -105,7 +105,9 @@ class OverviewPanel extends React.Component {
   }
 
   renderNoConnection() {
-    if (App.currentUser.dashboardAdmin) {
+    const { currentUser } = this.context;
+
+    if (currentUser.dashboardAdmin) {
       var connect = <p><a href="#"
           onClick={(e) => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
       </p>;

@@ -7,6 +7,9 @@ import AppMeta from "../components/app_meta";
 import OverviewPanel from "../components/overview_panel";
 import LicenseInfoPanel from "../components/license_info_panel";
 import ApplicationUsagePanel from "../components/application_usage_panel";
+import AttributePolicyPanel from "../components/attribute_policy_panel";
+import IdpUsagePanel from "../components/idp_usage_panel";
+import HowToConnectPanel from "../components/how_to_connect_panel";
 
 class AppDetail extends React.Component {
   constructor() {
@@ -26,15 +29,15 @@ class AppDetail extends React.Component {
         icon: "fa-area-chart"
       },
       "attribute_policy": {
-        // component: App.Components.AttributePolicyPanel,
+        component: AttributePolicyPanel,
         icon: "fa-table"
       },
       "idp_usage": {
-        // component: App.Components.IdpUsagePanel,
+        component: IdpUsagePanel,
         icon: "fa-clipboard"
       },
       "how_to_connect": {
-        // component: App.Components.HowToConnectPanel,
+        component: HowToConnectPanel,
         icon: "fa-chain"
       }
     };

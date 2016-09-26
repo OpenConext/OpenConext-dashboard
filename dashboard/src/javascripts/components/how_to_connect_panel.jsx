@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "../lib/i18n";
   // mixins: [
   //   React.addons.LinkedStateMixin
   // ],
@@ -7,10 +8,14 @@ class HowToConnectPanel extends React.Component {
     super();
 
     this.state = {
-      currentStep: this.props.app.connected ? "disconnect" : "connect",
+      currentStep: 'connect',
       accepted: false,
       comments: ""
     }
+  }
+
+  componentWillMount() {
+    this.setState({ currentStep: this.props.app.connected ? 'disconnect' : 'connect' });
   }
 
   render() {
@@ -42,14 +47,14 @@ class HowToConnectPanel extends React.Component {
               <ul>
                 <li>
                   {I18n.t("how_to_connect_panel.check")}&nbsp;
-                  <a onClick={this.props.onSwitchPanel("license_info")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "license_info")} href="#">
                     {I18n.t("how_to_connect_panel.license_info")}
                   </a>
                 </li>
 
                 <li>
                   {I18n.t("how_to_connect_panel.check")}&nbsp;
-                  <a onClick={this.props.onSwitchPanel("attribute_policy")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
                     {I18n.t("how_to_connect_panel.attributes_policy")}
                   </a>
                 </li>
@@ -64,7 +69,7 @@ class HowToConnectPanel extends React.Component {
               <ul>
                 <li>
                   {I18n.t("how_to_connect_panel.provide_attributes.before")}
-                  <a onClick={this.props.onSwitchPanel("attribute_policy")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
                     {I18n.t("how_to_connect_panel.attributes")}
                   </a>
                   {I18n.t("how_to_connect_panel.provide_attributes.after")}
@@ -72,7 +77,7 @@ class HowToConnectPanel extends React.Component {
 
                 <li>
                   {I18n.t("how_to_connect_panel.forward_permission.before")}
-                  <a onClick={this.props.onSwitchPanel("attribute_policy")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
                     {I18n.t("how_to_connect_panel.attributes")}
                   </a>
                   {I18n.t("how_to_connect_panel.forward_permission.after", { app: this.props.app.name })}
@@ -80,7 +85,7 @@ class HowToConnectPanel extends React.Component {
 
                 <li>
                   {I18n.t("how_to_connect_panel.obtain_license.before")}
-                  <a onClick={this.props.onSwitchPanel("license_info")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "license_info")} href="#">
                     {I18n.t("how_to_connect_panel.license")}
                   </a>
                   {I18n.t("how_to_connect_panel.obtain_license.after", { app: this.props.app.name })}
@@ -89,7 +94,7 @@ class HowToConnectPanel extends React.Component {
               <br />
               <p>
                 <label>
-                  <input type="checkbox" checkedLink={this.linkState("accepted")} />
+                  <input type="checkbox" checked={this.state.accepted} onChange={e => this.setState({ accepted: e.target.checked })} />
                   &nbsp;
                   {I18n.t("how_to_connect_panel.accept")}
                 </label>
@@ -101,7 +106,7 @@ class HowToConnectPanel extends React.Component {
               <div className="number">{this.props.app.exampleSingleTenant ? 4 : 3}</div>
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea rows="5" valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea rows="5" value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
             </div>
           </div>
           <p className="cta">
@@ -188,9 +193,9 @@ class HowToConnectPanel extends React.Component {
             <div className="content">
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea value={this.state.comments} onChange={(e) => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
               <label>
-                <input type="checkbox" checkedLink={this.linkState("accepted")} />
+                <input type="checkbox" checked={this.state.checked} onChange={e => this.setState({ accepted: e.target.checked})} />
 
                 {I18n.t("how_to_connect_panel.accept_disconnect", {app: this.props.app.name})}
               </label>
