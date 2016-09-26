@@ -126,3 +126,11 @@ export function getNotifications(idpId) {
     }
   });
 }
+
+export function getActions(idpId) {
+  return fetchJson('/actions', {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}

@@ -1,7 +1,48 @@
 import React from "react";
 
+import I18n from "../lib/i18n";
+
+import { getActions } from "../api";
+import sort from '../utils/sort';
+
+import SortableHeader from "../components/sortable_header";
+
   // mixins: [App.Mixins.SortableTable("history", "requestDate", true)],
 class History extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      actions: [],
+      sortAttribute: "requestDate",
+      sortAscending: true
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+    getActions(currentUser.getCurrentIdpId()).then(data => this.setState({ actions: data.payload }));
+  }
+
+  handleSort(sortObject) {
+    this.setState({
+      sortAttribute: sortObject.sortAttribute,
+      sortAscending: sortObject.sortAscending
+    });
+  }
+
+  renderSortableHeader(className, attribute) {
+    return (
+      <SortableHeader
+        sortAttribute={this.state.sortAttribute}
+        attribute={attribute}
+        sortAscending={this.state.sortAscending}
+        localeKey="history"
+        className={className}
+        onSort={this.handleSort.bind(this)}
+        />
+    );
+  }
 
   render() {
     return (
@@ -21,7 +62,7 @@ class History extends React.Component {
               </tr>
             </thead>
             <tbody>
-            {this.sort(this.props.actions).map(this.renderAction)}
+            { sort(this.state.actions).map(this.renderAction.bind(this)) }
             </tbody>
           </table>
         </div>
@@ -45,5 +86,9 @@ class History extends React.Component {
     return Date.parse(value);
   }
 }
+
+History.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default History;
