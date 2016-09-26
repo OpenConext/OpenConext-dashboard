@@ -28,7 +28,6 @@
     "qs": "^6.2.1",
     "react": "15.3.2",
     "react-dom": "15.3.2",
-    "react-mixin": "^2.0.2",
     "react-router": "4.0.0-alpha.3",
     "sass-loader": "4.0.2",
     "style-loader": "0.13.1",

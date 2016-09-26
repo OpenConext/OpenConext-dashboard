@@ -1,7 +1,6 @@
 import React from "react";
 import I18n from "../lib/i18n";
 import qs from "qs";
-import reactMixin from 'react-mixin';
 import SortableHeader from '../components/sortable_header';
 import Link from 'react-router/Link';
 
