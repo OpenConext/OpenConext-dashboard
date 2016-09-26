@@ -1,20 +1,26 @@
 import React from "react";
 
+import moment from "../lib/moment";
+
 class Period extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      date: this.props.initialDate.format("YYYY-MM-DD"),
+      date: moment(),
       error: false
     }
+  }
+
+  componentWillMount() {
+    this.setState({ date: this.props.initialDate.format("YYYY-MM-DD")});
   }
 
   render() {
     return (
       <fieldset>
         <h2>{this.props.title}</h2>
-        <input type="text" value={this.state.date} onChange={this.handlePeriodDateChanged} className={this.state.error ? 'error' : ''} />
+        <input type="text" value={this.state.date} onChange={e => this.handlePeriodDateChanged(e)} className={this.state.error ? 'error' : ''} />
       </fieldset>
     );
   }

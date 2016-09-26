@@ -34,7 +34,7 @@ function validFetch(path, options) {
   .then(validateResponse);
 }
 
-function fetchJson(path, options = {}) {
+export function fetchJson(path, options = {}) {
   return validFetch(path, options)
   .then(parseJson);
 }

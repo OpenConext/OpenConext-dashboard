@@ -7,6 +7,7 @@ import React from "react";
 import { render } from "react-dom";
 import Router from "react-router/BrowserRouter";
 import Match from 'react-router/Match';
+import Redirect from 'react-router/Redirect';
 import I18n from "./lib/i18n";
 import { browserSupported } from "./lib/browser_supported";
 
@@ -24,6 +25,23 @@ import AppOverview from "./pages/app_overview";
 import "./locale/en";
 import "./locale/nl";
 
+const MatchStartRoute = () => {
+    //the redirect_uri goes to /, but we have stored the requested href in the state parameter
+    var locationHash = window.location.hash.substr(1);
+    var url = locationHash.substr(locationHash.indexOf("state=")).split("&")[0].split("=")[1];
+    if (!url) {
+      return <Redirect to={{
+        pathname: "/apps"
+      }} />
+    }
+    var parser = document.createElement('a');
+    parser.href = decodeURIComponent(url);
+    var pathname = parser.pathname;
+    return <Redirect to={{
+      pathname: pathname
+    }} />
+};
+
 class App extends React.Component {
   getChildContext() {
     return {
@@ -40,7 +58,7 @@ class App extends React.Component {
             <Navigation />
           </div>
 
-          {this.props.page}
+          <MatchStartRoute exactly pattern="/" />
           <Match exactly pattern="/apps/:id/:activePanel" component={AppDetail} />
           <Match exactly pattern="/apps/:id" component={AppDetail} />
           <Match exactly pattern="/apps" component={AppOverview} />
@@ -53,15 +71,47 @@ class App extends React.Component {
 }
 
 App.childContextTypes = {
-  currentUser: React.PropTypes.object
+  currentUser: React.PropTypes.object,
+  router: React.PropTypes.object
 };
+
+function fetchStatsToken() {
+  var locationHash = window.location.hash.substr(1);
+  return locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
+}
+
+function authorizeStats(statsUrl) {
+  window.location = statsUrl + "&state=" + window.location;
+}
+
+function pageRequested() {
+  //the redirect_uri goes to /, but we have stored the requested href in the state parameter
+  var locationHash = window.location.hash.substr(1);
+  var url = locationHash.substr(locationHash.indexOf("state=")).split("&")[0].split("=")[1];
+  if (!url) {
+    return url;
+  }
+  var parser = document.createElement('a');
+  parser.href = decodeURIComponent(url);
+  var pathname = parser.pathname;
+  return pathname[0] === "/" ? pathname : "/" + pathname;
+}
 
 if (browserSupported()) {
   getUserData()
   .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden")
   .then(json => {
     I18n.locale = json.language;
-    render(<App currentUser={new CurrentUser(json.payload)} />, document.getElementById("app"));
+    const currentUser = new CurrentUser(json.payload);
+    currentUser.statsToken = fetchStatsToken();
+
+    if (!currentUser.statsToken) {
+      return authorizeStats(currentUser.statsUrl);
+    }
+
+    // window.location = pageRequested();
+
+    render(<App currentUser={currentUser} />, document.getElementById("app"));
   });
 } else {
   render(<BrowserNotSupported />, document.getElementById("app"));

@@ -5,6 +5,8 @@ import { getApp, getIdps } from "../api";
 
 import AppMeta from "../components/app_meta";
 import OverviewPanel from "../components/overview_panel";
+import LicenseInfoPanel from "../components/license_info_panel";
+import ApplicationUsagePanel from "../components/application_usage_panel";
 
 class AppDetail extends React.Component {
   constructor() {
@@ -16,11 +18,11 @@ class AppDetail extends React.Component {
         icon: "fa-list"
       },
       "license_info": {
-        // component: App.Components.LicenseInfoPanel,
+        component: LicenseInfoPanel,
         icon: "fa-file-text-o"
       },
       "application_usage": {
-        // component: App.Components.ApplicationUsagePanel,
+        component: ApplicationUsagePanel,
         icon: "fa-area-chart"
       },
       "attribute_policy": {

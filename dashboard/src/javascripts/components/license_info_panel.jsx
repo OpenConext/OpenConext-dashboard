@@ -1,4 +1,7 @@
 import React from "react";
+import I18n from "../lib/i18n";
+
+import LicenseInfo from "./license_info";
 
 class LicenseInfoPanel extends React.Component {
   render() {
@@ -9,7 +12,7 @@ class LicenseInfoPanel extends React.Component {
         </div>
 
         <div className="mod-connection">
-          <App.Components.LicenseInfo app={this.props.app} split={false} />
+          <LicenseInfo app={this.props.app} split={false} />
         </div>
         {this.renderLicenseStatus()}
       </div>

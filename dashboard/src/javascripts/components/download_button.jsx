@@ -8,7 +8,7 @@ class DownloadButton extends React.Component {
   }
 
   render() {
-    return <a href="#" className={this.props.className} onClick={this.onDownload}>{this.props.title}</a>;
+    return <a href="#" className={this.props.className} onClick={e => this.onDownload(e)}>{this.props.title}</a>;
   }
 }
 
