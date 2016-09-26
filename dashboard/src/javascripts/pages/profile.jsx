@@ -1,9 +1,12 @@
 import React from "react";
 
+import I18n from '../lib/i18n';
+
 class Profile extends React.Component {
   render() {
-    var attributeKeys = Object.keys(App.currentUser.attributeMap);
-    var roles = App.currentUser.grantedAuthorities;
+    const { currentUser } = this.context;
+    var attributeKeys = Object.keys(currentUser.attributeMap);
+    var roles = currentUser.grantedAuthorities;
     return (
       <div className="l-mini">
 
@@ -19,7 +22,7 @@ class Profile extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {attributeKeys.map(this.renderAttribute)}
+              {attributeKeys.map(this.renderAttribute.bind(this))}
             </tbody>
           </table>
           <h3>{I18n.t("profile.my_roles")}</h3>
@@ -42,6 +45,7 @@ class Profile extends React.Component {
   }
 
   renderAttribute(attributeKey) {
+    const { currentUser } = this.context;
     // Use [] to get the value from I18n because attributeKey can contain (.) dot's.
     var attributeName = I18n.t("profile.attribute_map")[attributeKey]["name"]
     var attributeDescription = I18n.t("profile.attribute_map")[attributeKey]["description"]
@@ -52,7 +56,7 @@ class Profile extends React.Component {
         </td>
         <td>
           <ul>
-            {App.currentUser.attributeMap[attributeKey].map(function(value, i) {
+            {currentUser.attributeMap[attributeKey].map(function(value, i) {
               return <li key={i}>{value}</li>;
             })}
           </ul>
@@ -70,5 +74,9 @@ class Profile extends React.Component {
       );
   }
 }
+
+Profile.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default Profile;
