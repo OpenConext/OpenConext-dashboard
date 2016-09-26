@@ -48,7 +48,7 @@ function fetchPost(path, body) {
 }
 
 export function getUserData() {
-  return fetchJson("/users/me");
+  return fetchJson("/users/me" + window.location.search);
 }
 
 export function getFacets() {
