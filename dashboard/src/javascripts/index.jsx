@@ -28,27 +28,23 @@ import "./locale/en";
 import "./locale/nl";
 
 const MatchStartRoute = () => {
-    //the redirect_uri goes to /, but we have stored the requested href in the state parameter
-    var locationHash = window.location.hash.substr(1);
-    var url = locationHash.substr(locationHash.indexOf("state=")).split("&")[0].split("=")[1];
-    if (!url) {
-      return <Redirect to={{
-        pathname: "/apps"
-      }} />
-    }
-    var parser = document.createElement('a');
-    parser.href = decodeURIComponent(url);
-    var pathname = parser.pathname;
-    return <Redirect to={{
-      pathname: pathname
-    }} />
+  //the redirect_uri goes to /, but we have stored the requested href in the state parameter
+  var locationHash = window.location.hash.substr(1);
+  var url = locationHash.substr(locationHash.indexOf("state=")).split("&")[0].split("=")[1];
+  if (!url) {
+    return <Redirect to={{ pathname: "/apps" }} />
+  }
+  var parser = document.createElement('a');
+  parser.href = decodeURIComponent(url);
+  var pathname = parser.pathname;
+  return <Redirect to={{ pathname: pathname !== "/" && pathname || "/apps" }} />
 };
 
 const ProtectedRoute = ({ component: Component, currentUser: currentUser, ...rest }) => {
   if (currentUser.dashboardAdmin) {
     return <Match component={Component} {...rest} />
   } else {
-    window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden";
+    return null;
   }
 };
 
@@ -98,7 +94,7 @@ function authorizeStats(statsUrl) {
 
 if (browserSupported()) {
   getUserData()
-  .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden")
+  .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=/")
   .then(json => {
     I18n.locale = json.language;
     const currentUser = new CurrentUser(json.payload);
