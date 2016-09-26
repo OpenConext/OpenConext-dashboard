@@ -3,7 +3,6 @@
 App.Mixins.SortableTable = function(localeKey, attr, sortAscending) {
   var converterForAttribute = function(attr) {
     var attrName = attr.charAt(0).toUpperCase() + attr.slice(1);
-    console.log(attrName, this)
     return this["convert" + attrName + "ForSort"];
   }
 

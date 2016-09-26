@@ -1,12 +1,16 @@
 import React from "react";
+import $ from "../lib/jquery-2.1.1";
 
 class Select2Selector extends React.Component {
   constructor() {
     super();
-    var initialValue = this.props.defaultValue || (this.props.multiple ? [] : '');
     this.state = {
-      value: initialValue
+      value: ''
     }
+  }
+
+  componentWillMount() {
+    this.setState({ value: this.props.defaultValue || (this.props.multiple ? [] : '')});
   }
 
   componentDidMount() {

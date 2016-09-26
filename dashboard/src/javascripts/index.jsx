@@ -21,6 +21,8 @@ import BrowserNotSupported from "./pages/browser_not_supported";
 
 import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
+import PolicyOverview from "./pages/policy_overview";
+import PolicyDetail from "./pages/policy_detail";
 
 import "./locale/en";
 import "./locale/nl";
@@ -40,6 +42,14 @@ const MatchStartRoute = () => {
     return <Redirect to={{
       pathname: pathname
     }} />
+};
+
+const ProtectedRoute = ({ component: Component, currentUser: currentUser, ...rest }) => {
+  if (currentUser.dashboardAdmin) {
+    return <Match component={Component} {...rest} />
+  } else {
+    window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/forbidden";
+  }
 };
 
 class App extends React.Component {
@@ -62,6 +72,8 @@ class App extends React.Component {
           <Match exactly pattern="/apps/:id/:activePanel" component={AppDetail} />
           <Match exactly pattern="/apps/:id" component={AppDetail} />
           <Match exactly pattern="/apps" component={AppOverview} />
+          <Match exactly pattern="/policies" component={PolicyOverview} />
+          <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/new" component={PolicyDetail} />
 
           <Footer />
         </div>

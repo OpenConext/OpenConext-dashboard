@@ -1,4 +1,12 @@
 import React from "react";
+import I18n from "../lib/i18n";
+
+import Link from 'react-router/Link';
+
+import { getPolicies } from "../api";
+import sort from "../utils/sort";
+
+import SortableHeader from "../components/sortable_header";
   // mixins: [
   //   React.addons.LinkedStateMixin,
   //   App.Mixins.SortableTable("policies.overview", "name")
@@ -8,8 +16,16 @@ class PolicyOverview extends React.Component {
     super();
 
     this.state = {
-      search: ""
+      search: "",
+      sortAttribute: "name",
+      sortAscending: undefined,
+      policies: []
     }
+  }
+
+  componentWillMount() {
+    getPolicies().then(data => this.setState({ policies: data.payload }));
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,7 +35,8 @@ class PolicyOverview extends React.Component {
   }
 
   render() {
-    var filteredPolicies = this.filterPolicies(this.props.policies);
+    var filteredPolicies = this.filterPolicies(this.state.policies);
+    const { currentUser } = this.context;
 
     return (
       <div className="l-main">
@@ -35,15 +52,35 @@ class PolicyOverview extends React.Component {
                 {this.renderSortableHeader("percent_20", "identityProviderNames")}
                 {this.renderSortableHeader("percent_10", "active")}
                 {this.renderSortableHeader("percent_10", "numberOfRevisions")}
-                {App.currentUser.dashboardAdmin ? (<th className="percent_5"></th>) : null}
+                {currentUser.dashboardAdmin ? (<th className="percent_5"></th>) : null}
               </tr>
             </thead>
             <tbody>
-              {this.sort(filteredPolicies).map(this.renderPolicy)}
+              {sort(filteredPolicies).map(this.renderPolicy)}
             </tbody>
           </table>
         </div>
       </div>
+    );
+  }
+
+  handleSort(sortObject) {
+    this.setState({
+      sortAttribute: sortObject.sortAttribute,
+      sortAscending: sortObject.sortAscending
+    });
+  }
+
+  renderSortableHeader(className, attribute) {
+    return (
+      <SortableHeader
+        sortAttribute={this.state.sortAttribute}
+        attribute={attribute}
+        sortAscending={this.state.sortAscending}
+        className={className}
+        localeKey="policies.overview"
+        onSort={this.handleSort.bind(this)}
+        />
     );
   }
 
@@ -54,23 +91,25 @@ class PolicyOverview extends React.Component {
             <i className="fa fa-search"/>
             <input
               type="search"
-              valueLink={this.linkState("search")}
+              value={this.state.search}
+              onChange={e => this.setState({ search: e.target.value })}
               placeholder={I18n.t("policies.overview.search_hint")}/>
             <button type="submit">{I18n.t("policies.overview.search")}</button>
         </fieldset>
       </div>
     );
 
-    return App.currentUser.dashboardAdmin ?
+    const { currentUser } = this.context;
+    return currentUser.dashboardAdmin ?
       (
         <div className="l-grid">
           <div className="l-col-9">
             {search}
           </div>
           <div className="l-col-3 text-right no-gutter">
-            <a href={page.uri("/policies/new")} className="t-button new-policy">
+            <Link to={"/policies/new"} className="t-button new-policy">
               <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}
-            </a>
+            </Link>
           </div>
         </div>
      ) : (
@@ -174,5 +213,9 @@ class PolicyOverview extends React.Component {
     }.bind(this));
   }
 }
+
+PolicyOverview.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default PolicyOverview;

@@ -86,3 +86,27 @@ export function getIdps(spEntityId, idpId) {
     }
   });
 }
+
+export function getPolicies() {
+  return fetchJson("/policies");
+}
+
+export function getInstitutionServiceProviders() {
+  return fetchJson('/users/me/serviceproviders');
+}
+
+export function getConnectedServiceProviders(idpId) {
+  return fetchJson('/services/connected', {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}
+
+export function getAllowedAttributes() {
+  return fetchJson('/policies/attributes');
+}
+
+export function getNewPolicy() {
+  return fetchJson('/policies/new');
+}

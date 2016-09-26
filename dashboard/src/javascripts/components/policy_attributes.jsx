@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "../lib/i18n";
 
 class PolicyAttributes extends React.Component {
   markAttributes(policy) {
@@ -12,7 +13,11 @@ class PolicyAttributes extends React.Component {
   constructor() {
     super();
 
-    this.state = this.markAttributes(this.props.policy);
+    this.state = {};
+  }
+
+  componentWillMount() {
+    this.setState(this.markAttributes(this.props.policy));
   }
 
   componentWillReceiveProps(nextProps) {

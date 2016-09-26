@@ -1,45 +1,69 @@
 import React from "react";
+import I18n from "../lib/i18n";
+
+import { getInstitutionServiceProviders, getConnectedServiceProviders, getAllowedAttributes, getNewPolicy } from "../api";
+
+import Select2Selector from "../components/select2_selector";
+import PolicyAttributes from "../components/policy_attributes";
+import PolicyDetailHelpEn from "../help/policy_detail_help_en";
+import PolicyDetailHelpNl from "../help/policy_detail_help_nl";
 
   // mixins: [React.addons.LinkedStateMixin],
 class PolicyDetail extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      institutionServiceProviders: [],
+      connectedServiceProviders: [],
+      allowedAttributes: [],
+      policy: null
+    };
   }
 
-  componentWillWount() {
-    this.setState(this.props.policy);
-  },
+  componentWillMount() {
+    const { currentUser } = this.context;
+
+    getNewPolicy().then(data => this.setState({ policy: data.payload }));
+    getInstitutionServiceProviders().then(data => this.setState({ institutionServiceProviders: data.payload }));
+    getConnectedServiceProviders(currentUser.getCurrentIdpId())
+      .then(data => this.setState({ connectedServiceProviders: data.payload }));
+    getAllowedAttributes().then(data => this.setState({ allowedAttributes: data.payload }));
+  }
 
   render() {
-    var policy = this.state;
-    var title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
-    return (
-      <div className="l-main">
-        {this.renderFlash()}
-        <div className="l-grid">
-          <div className="l-col-6">
-            <div className="mod-policy-detail">
-              <h1>{title}</h1>
-              <form>
-                {this.renderName(policy)}
-                {this.renderDenyPermitRule(policy)}
-                {this.renderIdentityProvider(policy)}
-                {this.renderServiceProvider(policy)}
-                {this.renderLogicalRule(policy)}
-                {this.renderAttributes(policy)}
-                {this.renderDenyAdvice(policy)}
-                {this.renderDescription(policy)}
-                {this.renderActive(policy)}
-                {this.renderActions(policy)}
-              </form>
+    const { policy } = this.state;
+    if (policy) {
+      var title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
+      return (
+        <div className="l-main">
+          {this.renderFlash()}
+          <div className="l-grid">
+            <div className="l-col-6">
+              <div className="mod-policy-detail">
+                <h1>{title}</h1>
+                <form>
+                  {this.renderName(policy)}
+                  {this.renderDenyPermitRule(policy)}
+                  {this.renderIdentityProvider(policy)}
+                  {this.renderServiceProvider(policy)}
+                  {this.renderLogicalRule(policy)}
+                  {this.renderAttributes(policy)}
+                  {this.renderDenyAdvice(policy)}
+                  {this.renderDescription(policy)}
+                  {this.renderActive(policy)}
+                  {this.renderActions(policy)}
+                </form>
+              </div>
+            </div>
+            <div className="l-col-6 no-gutter">
+              {this.renderHelp()}
             </div>
           </div>
-          <div className="l-col-6 no-gutter">
-            {this.renderHelp()}
-          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 
   renderFlash() {
@@ -62,7 +86,7 @@ class PolicyDetail extends React.Component {
   renderHelp() {
     return (
       <div className="mod-policy-detail-help">
-        {I18n.locale === "en" ? <App.Help.PolicyDetailHelpEn/> : <App.Help.PolicyDetailHelpNl/>}
+        {I18n.locale === "en" ? <PolicyDetailHelpEn/> : <PolicyDetailHelpNl/>}
       </div>
     );
   }
@@ -73,7 +97,7 @@ class PolicyDetail extends React.Component {
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.name")}</p>
-          <input type="text" name="name" className="form-input" valueLink={this.linkState("name")}/>
+          <input type="text" name="name" className="form-input" value={this.state.name} onChange={e => this.setState({ name: e.target.value })}/>
         </fieldset>
       </div>
     );
@@ -91,7 +115,7 @@ class PolicyDetail extends React.Component {
           <div className="l-grid">
             <div className="l-col-4">
               <p className="label">{I18n.t("policy_detail.access")}</p>
-              <div id="ios_checkbox" className={classNameSelected + " ios-ui-select"} onClick={this.toggleDenyRule}>
+              <div id="ios_checkbox" className={classNameSelected + " ios-ui-select"} onClick={e => this.toggleDenyRule(e)}>
                 <div className="inner"></div>
                 <p>{policyPermit}</p>
               </div>
@@ -116,7 +140,7 @@ class PolicyDetail extends React.Component {
       partialState.allAttributesMustMatch = true;
     }
     partialState.description = this.buildAutoFormattedDescription(partialState);
-    this.setState(partialState);
+    this.setState({...this.state, ...partialState});
   }
 
   buildAutoFormattedDescription(partialState) {
@@ -139,7 +163,7 @@ class PolicyDetail extends React.Component {
   renderServiceProvider(policy) {
     var scopedSPs = _.isEmpty(policy.identityProviderIds);
     var classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
-    var serviceProviders = (scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders).map(function (sp) {
+    var serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(function (sp) {
       return {value: sp.spEntityId, display: sp.spName};
     });
 
@@ -147,7 +171,7 @@ class PolicyDetail extends React.Component {
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.service")}</p>
-          <App.Components.Select2Selector
+          <Select2Selector
             defaultValue={policy.serviceProviderId}
             placeholder={I18n.t("policy_detail.sp_placeholder")}
             select2selectorId="serviceProvider"
@@ -174,12 +198,13 @@ class PolicyDetail extends React.Component {
   }
 
   renderIdentityProvider(policy) {
-    var providers = this.props.identityProviders.map(function (idp) { return { value: idp.id, display: idp.name }});
+    const { currentUser } = this.context;
+    var providers = currentUser.institutionIdps.map(function (idp) { return { value: idp.id, display: idp.name }});
     return (
       <div className="form-element">
         <fieldset className="success">
           <p className="label">{I18n.t("policy_detail.institutions")}</p>
-            <App.Components.Select2Selector
+            <Select2Selector
                 defaultValue={policy.identityProviderIds}
                 placeholder={I18n.t("policy_detail.idps_placeholder")}
                 select2selectorId={"identityProvider"}
@@ -274,9 +299,9 @@ class PolicyDetail extends React.Component {
   }
 
   renderAttributes(policy) {
-    return (<App.Components.PolicyAttributes
-        policy={this.state}
-        allowedAttributes={this.props.allowedAttributes}
+    return (<PolicyAttributes
+        policy={this.state.policy}
+        allowedAttributes={this.state.allowedAttributes}
         setAttributeState={this.setAttributeState}/>);
   }
 
@@ -293,10 +318,10 @@ class PolicyDetail extends React.Component {
           <p className="label">{I18n.t("policy_detail.deny_message")}</p>
           <em>{I18n.t("policy_detail.deny_message_info")}</em>
           <input type="text" name="denyMessage" className="form-input"
-                 valueLink={this.linkState("denyAdvice")}/>
+            value={this.state.denyAdvice} onChange={e => this.setState({ denyAdvice: e.target. value })} />
           <p className="label">{I18n.t("policy_detail.deny_message_nl")}</p>
           <input type="text" name="denyMessageNl" className="form-input"
-                 valueLink={this.linkState("denyAdviceNl")} />
+            value={this.state.denyAdviceNl} onChange={e => this.setState({ denyAdviceNl: e.target.value})} />
         </fieldset>
       </div>
     );
@@ -308,7 +333,7 @@ class PolicyDetail extends React.Component {
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.description")}</p>
-          <textarea rows="4" name="description" className="form-input" valueLink={this.linkState("description")} />
+          <textarea rows="4" name="description" value={this.state.description} className="form-input" onChange={e => this.setState({ description: e.target.value })} />
           <input type="checkbox" id="autoFormatDescription" name="autoFormatDescription"
             onChange={this.handleOnChangeAutoFormat}/>
           <label className="note" htmlFor="autoFormatDescription">{I18n.t("policy_detail.autoFormat")}</label>
@@ -397,7 +422,7 @@ class PolicyDetail extends React.Component {
   }
 
   isValidPolicy() {
-    var policy = this.state;
+    const { policy } = this.state;
     var emptyAttributes = policy.attributes.filter(function (attr) {
       return _.isEmpty(attr.value);
     });
@@ -419,5 +444,9 @@ class PolicyDetail extends React.Component {
     }
   }
 }
+
+PolicyDetail.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default PolicyDetail;
