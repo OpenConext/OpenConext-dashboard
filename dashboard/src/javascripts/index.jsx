@@ -97,7 +97,7 @@ function authorizeStats(statsUrl) {
 
 if (browserSupported()) {
   getUserData()
-  .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=/")
+  .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=" + window.location.pathname)
   .then(json => {
     I18n.locale = json.language;
     const currentUser = new CurrentUser(json.payload);
