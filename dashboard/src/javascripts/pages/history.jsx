@@ -4,6 +4,7 @@ import I18n from "../lib/i18n";
 
 import { getActions } from "../api";
 import sort from '../utils/sort';
+import moment from "../lib/moment";
 
 import SortableHeader from "../components/sortable_header";
 
