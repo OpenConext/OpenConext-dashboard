@@ -7,10 +7,7 @@ import { apiUrl, retrieveIdp, retrieveSp, retrieveSps } from "../api/stats";
 import Period from "./period";
 import DownloadButton from "./download_button";
 import Chart from "./chart";
-  // mixins: [
-  //   React.addons.LinkedStateMixin,
-  //   App.Mixins.Chart,
-  // ],
+
 class ApplicationUsagePanel extends React.Component {
   constructor() {
     super();
