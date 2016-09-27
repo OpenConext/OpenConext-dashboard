@@ -1,8 +1,8 @@
 import React from "react";
 import I18n from "../lib/i18n";
-  // mixins: [
-  //   React.addons.LinkedStateMixin
-  // ],
+
+import { makeConnection } from "../api";
+
 class HowToConnectPanel extends React.Component {
   constructor() {
     super();
@@ -110,7 +110,7 @@ class HowToConnectPanel extends React.Component {
             </div>
           </div>
           <p className="cta">
-            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleMakeConnection}>{I18n.t("how_to_connect_panel.connect")}</a>
+            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleMakeConnection.bind(this)}>{I18n.t("how_to_connect_panel.connect")}</a>
           </p>
         </div>
       </div>
@@ -217,11 +217,11 @@ class HowToConnectPanel extends React.Component {
     }.bind(this);
   }
 
-  handleMakeConnection() {
-    if (this.state.accepted) {
-      App.Controllers.Apps.makeConnection(this.props.app, this.state.comments, function(action) {
-        this.setState({currentStep: "done", action: action});
-      }.bind(this));
+  handleMakeConnection(e) {
+    e.preventDefault();
+    if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
+      makeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
+      .then(action => this.setState({currentStep: "done", action: action}));
     }
   }
 
@@ -233,5 +233,9 @@ class HowToConnectPanel extends React.Component {
     }
   }
 }
+
+HowToConnectPanel.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default HowToConnectPanel;

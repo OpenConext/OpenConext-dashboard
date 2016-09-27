@@ -22,8 +22,7 @@ export function parseJson(res) {
 
 function validFetch(path, options) {
   const headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json"
+    "Accept": "application/json"
   };
 
   const fetchOptions = _.merge({}, { headers }, options, {
@@ -43,8 +42,16 @@ function fetchDelete(path) {
   return validFetch(path, { method: "delete" });
 }
 
-function fetchPost(path, body) {
-  return validFetch(path, { method: "post", body: JSON.stringify(body) });
+function fetchPost(path, body, options = {}) {
+  var data = new FormData();
+
+  for (var key in body) {
+    if (body.hasOwnProperty(key)) {
+      data.append(key, body[key]);
+    }
+  }
+
+  return validFetch(path, Object.assign({}, { method: "post", body: data }, options));
 }
 
 export function getUserData() {
@@ -133,4 +140,14 @@ export function getActions(idpId) {
       "X-IDP-ENTITY-ID": idpId
     }
   });
+}
+
+export function makeConnection(idpId, app, comments) {
+  return fetchPost(`/services/id/${app.id}/connect`, {comments: comments, spEntityId: app.spEntityId}, {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  })
+  .then(parseJson)
+  .then(json => json.payload);
 }
