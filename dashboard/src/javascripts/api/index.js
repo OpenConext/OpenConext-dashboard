@@ -1,4 +1,5 @@
 import qs from "qs";
+import spinner from "../lib/spin";
 
 const apiPath = "/dashboard/api";
 
@@ -7,6 +8,8 @@ export function apiUrl(path) {
 }
 
 function validateResponse(res) {
+  spinner.stop();
+
   if (!res.ok) {
     const error = new Error(res.statusText);
     error.response = res;
@@ -29,7 +32,12 @@ function validFetch(path, options) {
     credentials: "same-origin"
   });
 
+  spinner.start();
   return fetch(apiUrl(path), fetchOptions)
+  .catch(err => {
+    spinner.stop();
+    throw err;
+  })
   .then(validateResponse);
 }
 

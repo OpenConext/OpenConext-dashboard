@@ -1,12 +1,27 @@
 import React from "react";
 import I18n from "../lib/i18n";
 
+import Spinner from "spin.js";
+import spinner from "../lib/spin";
+
 import Link from "react-router/Link";
 
 class Navigation extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      loading: false
+    };
+  }
+
+  componentWillMount() {
+    spinner.onStart = () => this.setState({loading: true});
+    spinner.onStop = () => this.setState({loading: false});
+  }
 
   componentDidUpdate() {
-    if (this.props.loading) {
+    if (this.state.loading) {
       if (!this.spinner) {
         this.spinner = new Spinner({
           lines: 25, // The number of lines to draw
@@ -14,7 +29,7 @@ class Navigation extends React.Component {
           width: 4, // The line thickness
           radius: 20, // The radius of the inner circle
           color: '#4DB3CF', // #rgb or #rrggbb or array of colors
-        }).spin(this.refs.spinner.getDOMNode());
+        }).spin(this.spinnerNode);
       }
     } else {
       this.spinner = null;
@@ -43,8 +58,8 @@ class Navigation extends React.Component {
   }
 
   renderSpinner() {
-    if (this.props.loading) {
-      return <div className="spinner" ref="spinner" />;
+    if (this.state.loading) {
+      return <div className="spinner" ref={spinner => this.spinnerNode = spinner}/>;
     }
   }
 }
