@@ -1,6 +1,6 @@
 import React from "react";
 
-import moment from "../lib/moment";
+import moment from "moment";
 
 class Period extends React.Component {
   constructor() {

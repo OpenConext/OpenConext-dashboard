@@ -1,9 +1,5 @@
 import React from "react";
-  // mixins: [
-  //   React.addons.LinkedStateMixin,
-  //   App.Mixins.Chart,
-  // ],
-import moment from "../lib/moment";
+import moment from "moment";
 import I18n from "../lib/i18n";
 
 import { apiUrl, retrieveIdp, retrieveSps } from "../api/stats";

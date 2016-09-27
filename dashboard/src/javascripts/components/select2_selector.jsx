@@ -1,5 +1,5 @@
 import React from "react";
-import $ from "../lib/jquery-2.1.1";
+import $ from "jquery";
 
 class Select2Selector extends React.Component {
   constructor() {

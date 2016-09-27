@@ -1,5 +1,5 @@
 import I18n from "./lib/i18n";
-import $ from "./lib/jquery-2.1.1";
+import $ from "jquery";
 import page from "./lib/page";
 import _ from "./lib/underscore";
 

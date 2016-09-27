@@ -1,7 +1,7 @@
 import React from "react";
 
 import I18n from "../lib/i18n";
-import moment from "../lib/moment";
+import moment from "moment";
 
 import { apiUrl, retrieveIdp, retrieveSp, retrieveSps } from "../api/stats";
 import Period from "./period";

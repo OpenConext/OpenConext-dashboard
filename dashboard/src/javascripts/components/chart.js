@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from "../lib/i18n";
-import $ from "../lib/jquery-2.1.1";
+import $ from "jquery";
 
 import { STATS_HOST } from "../api/stats";
 
