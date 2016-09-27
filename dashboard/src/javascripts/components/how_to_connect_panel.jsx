@@ -1,7 +1,7 @@
 import React from "react";
 import I18n from "../lib/i18n";
 
-import { makeConnection } from "../api";
+import { makeConnection, removeConnection } from "../api";
 
 class HowToConnectPanel extends React.Component {
   constructor() {
@@ -202,7 +202,7 @@ class HowToConnectPanel extends React.Component {
             </div>
           </div>
           <p className="cta">
-            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleDisconnect}>{I18n.t("how_to_connect_panel.disconnect")}</a>
+            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleDisconnect.bind(this)}>{I18n.t("how_to_connect_panel.disconnect")}</a>
           </p>
         </div>
       </div>
@@ -225,11 +225,11 @@ class HowToConnectPanel extends React.Component {
     }
   }
 
-  handleDisconnect() {
-    if (this.state.accepted) {
-      App.Controllers.Apps.disconnect(this.props.app, this.state.comments, function(action) {
-        this.setState({currentStep: "done-disconnect", action: action});
-      }.bind(this));
+  handleDisconnect(e) {
+    e.preventDefault();
+    if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
+      removeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
+      .then(action => this.setState({currentStep: "done-disconnect", action: action}));
     }
   }
 }

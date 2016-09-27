@@ -151,3 +151,13 @@ export function makeConnection(idpId, app, comments) {
   .then(parseJson)
   .then(json => json.payload);
 }
+
+export function removeConnection(idpId, app, comments) {
+  return fetchPost(`/services/id/${app.id}/disconnect`, {comments: comments, spEntityId: app.spEntityId}, {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  })
+  .then(parseJson)
+  .then(json => json.payload);
+}
