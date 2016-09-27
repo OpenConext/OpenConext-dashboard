@@ -175,7 +175,7 @@ class AppOverview extends React.Component {
 
     return (
       <tr key={app.id} onClick={(e) => this.handleShowAppDetail(e, app)}>
-        <td><Link to={`apps/${app.id}`}>{ app.name }</Link></td>
+        <td><Link to={`apps/${app.id}/overview`}>{ app.name }</Link></td>
         {this.renderLicenseNeeded(app)}
         {this.renderLicensePresent(app)}
         <YesNo value={app.connected} />
@@ -232,22 +232,14 @@ class AppOverview extends React.Component {
 
   renderConnectButton(app) {
     if (!app.connected) {
-      return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect_button")}</a>;
+      return <Link to={`/apps/${app.id}/how_to_connect`} className="c-button narrow" onClick={(e) => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
     }
   }
 
   handleShowAppDetail(e, app) {
     e.preventDefault();
     e.stopPropagation();
-    this.context.router.transitionTo(`/apps/${app.id}`);
-  }
-
-  handleShowHowToConnect(app) {
-    return function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      page("/apps/:id/how_to_connect", {id: app.id});
-    }
+    this.context.router.transitionTo(`/apps/${app.id}/overview`);
   }
 
   /*

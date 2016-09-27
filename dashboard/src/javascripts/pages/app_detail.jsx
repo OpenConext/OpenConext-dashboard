@@ -119,7 +119,7 @@ class AppDetail extends React.Component {
     var panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
-        <a href="#" onClick={(e) => this.handleSwitchPanel(e, panelKey)}
+        <a href={`/apps/${this.props.params.id}/${panelKey}`} onClick={(e) => this.handleSwitchPanel(e, panelKey)}
            className={panelKey == this.props.params.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}
@@ -146,15 +146,10 @@ class AppDetail extends React.Component {
 
     e.preventDefault();
     e.stopPropagation();
-    this.setState({activePanel: panel});
 
     router.transitionTo(`/apps/${this.props.params.id}/${panel}`);
   }
 }
-
-AppDetail.defaultProps = {
-  activePanel: "overview"
-};
 
 AppDetail.contextTypes = {
   currentUser: React.PropTypes.object,
