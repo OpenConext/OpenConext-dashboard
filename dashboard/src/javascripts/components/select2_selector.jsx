@@ -16,6 +16,7 @@ class Select2Selector extends React.Component {
   componentDidMount() {
     var rootNode = $('[data-select2selector-id="' + this.props.select2selectorId + '"]');
     var minimumResultsForSearch = this.props.minimumResultsForSearch || 7
+    console.log(rootNode);
     rootNode.select2({
       width: '100%',
       placeholder: this.props.placeholder,

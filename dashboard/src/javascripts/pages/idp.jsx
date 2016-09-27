@@ -1,8 +1,32 @@
 import React from "react";
+import I18n from "../lib/i18n";
+
+import { getLicenseContactPerson, getIdpRolesWithUsers } from "../api";
 
 class MyIdp extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      roles: {},
+      licenseContactPersons: []
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+    const idpId = currentUser.getCurrentIdp();
+
+    getIdpRolesWithUsers(idpId).then(data => {
+      this.setState({ roles: data.payload});
+    });
+    getLicenseContactPerson(idpId).then(data => {
+      this.setState({ licenseContactPersons: data.payload });
+    });
+  }
+
   render() {
-    var roles = Object.keys(this.props.roles);
+    var roles = Object.keys(this.state.roles);
     return (
       <div className="l-mini">
         <div className="mod-idp">
@@ -10,7 +34,7 @@ class MyIdp extends React.Component {
 
           <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html") }}></p>
           {this.renderRoles(roles)}
-          {this.renderLicenseContactPersons(this.props.licenseContactPersons)}
+          {this.renderLicenseContactPersons(this.state.licenseContactPersons)}
         </div>
       </div>
     );
@@ -26,14 +50,14 @@ class MyIdp extends React.Component {
         </tr>
         </thead>
         <tbody>
-        {roles.map(this.renderRole)}
+        {roles.map(this.renderRole.bind(this))}
         </tbody>
       </table>
     );
   }
 
   renderRole(role) {
-    var names = this.props.roles[role].map(function (r) {
+    var names = this.state.roles[role].map(function (r) {
       return r.firstName + " " + r.surname
     }).sort().join(", ");
     var roleName = I18n.t("my_idp")[role];
@@ -69,7 +93,7 @@ class MyIdp extends React.Component {
             </tr>
             </thead>
             <tbody>
-            {licenseContactPersons.map(this.renderLicenseContactPerson)}
+            {licenseContactPersons.map(this.renderLicenseContactPerson.bind(this))}
             </tbody>
           </table>
         </div>
@@ -77,5 +101,9 @@ class MyIdp extends React.Component {
     }
   }
 }
+
+MyIdp.contextTypes = {
+  currentUser: React.PropTypes.object
+};
 
 export default MyIdp;

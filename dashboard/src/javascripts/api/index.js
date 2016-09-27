@@ -161,3 +161,19 @@ export function removeConnection(idpId, app, comments) {
   .then(parseJson)
   .then(json => json.payload);
 }
+
+export function getIdpRolesWithUsers(idpId) {
+  return fetchJson('/idp/current/roles', {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}
+
+export function getLicenseContactPerson(idpId) {
+  return fetchJson('/idp/licensecontactpersons', {
+    "headers": {
+      "X-IDP-ENTITY-ID": idpId
+    }
+  });
+}
