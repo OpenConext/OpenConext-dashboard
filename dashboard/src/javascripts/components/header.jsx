@@ -20,7 +20,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className="mod-header">
-        <h1 className="title"><Link to="/">{I18n.t("header.title")}</Link></h1>
+        <h1 className="title"><Link to="/apps">{I18n.t("header.title")}</Link></h1>
         <div className="meta">
           <div className="name">
             {this.renderProfileLink()}
