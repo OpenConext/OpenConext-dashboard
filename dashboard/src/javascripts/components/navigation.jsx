@@ -39,12 +39,7 @@ class Navigation extends React.Component {
   }
 
   renderItem(href, value) {
-    var className = (this.props.active == value ? "active" : "");
-    return (
-      <li className={className}>
-        <Link to={href}>{I18n.t("navigation." + value)}</Link>
-      </li>
-    );
+    return <li><Link to={href} activeClassName="active">{I18n.t("navigation." + value)}</Link></li>;
   }
 
   renderSpinner() {
