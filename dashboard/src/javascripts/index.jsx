@@ -18,6 +18,8 @@ import { getUserData } from "./api";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Navigation from "./components/navigation";
+import ProtectedRoute from "./components/protected_route";
+import MatchStartRoute from "./components/match_start_route";
 import BrowserNotSupported from "./pages/browser_not_supported";
 
 import AppDetail from "./pages/app_detail";
@@ -30,30 +32,10 @@ import Profile from "./pages/profile";
 import Stats from "./pages/stats";
 import MyIdp from "./pages/idp";
 import NotFound from "./pages/not_found";
+import SearchUser from "./pages/search_user";
 
 import "./locale/en";
 import "./locale/nl";
-
-const MatchStartRoute = () => {
-  //the redirect_uri goes to /, but we have stored the requested href in the state parameter
-  var locationHash = window.location.hash.substr(1);
-  var url = locationHash.substr(locationHash.indexOf("state=")).split("&")[0].split("=")[1];
-  if (!url) {
-    return <Redirect to={{ pathname: "/apps" }} />
-  }
-  var parser = document.createElement('a');
-  parser.href = decodeURIComponent(url);
-  var pathname = parser.pathname;
-  return <Redirect to={{ pathname: pathname !== "/" && pathname || "/apps" }} />
-};
-
-const ProtectedRoute = ({ component: Component, currentUser: currentUser, ...rest }) => {
-  if (currentUser.dashboardAdmin) {
-    return <Match component={Component} {...rest} />
-  } else {
-    return null;
-  }
-};
 
 class App extends React.Component {
   getChildContext() {
@@ -68,10 +50,10 @@ class App extends React.Component {
         <div>
           <div className="l-header">
             <Header />
-            <Navigation />
+            {this.renderNavigation()}
           </div>
 
-          <MatchStartRoute exactly pattern="/" />
+          <MatchStartRoute />
           <Match exactly pattern="/apps/:id/:activePanel" component={AppDetail} />
           <Match exactly pattern="/apps/:id" render={({params: {id}}) => {
             return <Redirect to={`/apps/${id}/overview`} />;
@@ -83,6 +65,7 @@ class App extends React.Component {
           <Match exactly pattern="/profile" component={Profile} />
           <Match exactly pattern="/statistics" component={Stats} />
           <Match exactly pattern="/my-idp" component={MyIdp} />
+          <Match exactly pattern="/users/search" component={SearchUser} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/new" component={PolicyDetail} />
           <Miss component={NotFound} />
 
@@ -91,6 +74,10 @@ class App extends React.Component {
       </Router>
     );
   }
+
+  renderNavigation() {
+    return this.props.currentUser.superUserNotSwitched() ? null : <Navigation />;
+  }
 }
 
 App.childContextTypes = {
@@ -98,28 +85,20 @@ App.childContextTypes = {
   router: React.PropTypes.object
 };
 
-function fetchStatsToken() {
-  var locationHash = window.location.hash.substr(1);
-  return locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
-}
-
-function authorizeStats(statsUrl) {
-  window.location = statsUrl + "&state=" + window.location;
-}
-
 if (browserSupported()) {
   getUserData()
   .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=" + window.location.pathname)
   .then(json => {
     I18n.locale = json.language;
     const currentUser = new CurrentUser(json.payload);
-    currentUser.statsToken = fetchStatsToken();
+    var locationHash = window.location.hash.substr(1);
+    currentUser.statsToken = locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
 
     if (!currentUser.statsToken) {
-      return authorizeStats(currentUser.statsUrl);
+      window.location = currentUser.statsUrl + "&state=" + window.location;
+    } else {
+      render(<App currentUser={currentUser} />, document.getElementById("app"));
     }
-
-    render(<App currentUser={currentUser} />, document.getElementById("app"));
   });
 } else {
   render(<BrowserNotSupported />, document.getElementById("app"));

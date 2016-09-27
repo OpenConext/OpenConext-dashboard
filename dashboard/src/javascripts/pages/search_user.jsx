@@ -1,13 +1,21 @@
 import React from "react";
+import I18n from "../lib/i18n";
 
-  // mixins: [React.addons.LinkedStateMixin],
+import { getIdpsForSuper, switchToIdp } from "../api";
+
 class SearchUser extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      search: ""
+      search: "",
+      idps: [],
+      roles: []
     }
+  }
+
+  componentWillMount() {
+    getIdpsForSuper().then(json => this.setState({idps: json.idps, roles: json.roles}));
   }
 
   render() {
@@ -21,7 +29,8 @@ class SearchUser extends React.Component {
                 <i className="fa fa-search"/>
                 <input
                   type="search"
-                  valueLink={this.linkState("search")}
+                  value={this.state.search}
+                  onChange={(e) => this.setState({search: e.target.value})}
                   placeholder={I18n.t("search_user.search_hint")} />
                 <button type="submit">{I18n.t("search_user.search")}</button>
               </fieldset>
@@ -35,7 +44,7 @@ class SearchUser extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.filteredIdps().map(this.renderItem)}
+              {this.filteredIdps().map(this.renderItem.bind(this))}
             </tbody>
           </table>
         </div>
@@ -49,7 +58,7 @@ class SearchUser extends React.Component {
         <td>{idp.name}</td>
         <td className="center">
           {
-            this.props.roles.map(function(role) {
+            this.state.roles.map(function(role) {
               return this.renderSwitchToRole(idp, role);
             }.bind(this))
           }
@@ -70,14 +79,14 @@ class SearchUser extends React.Component {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      App.Controllers.User.switchToIdp(idp, role, function() {
-        page("/");
+      switchToIdp(idp.id, role).then(() => {
+        window.location = "/";
       });
     }
   }
 
   filteredIdps() {
-    return this.props.idps.filter(this.filterBySearchQuery);
+    return this.state.idps.filter(this.filterBySearchQuery.bind(this));
   }
 
   filterBySearchQuery(idp) {

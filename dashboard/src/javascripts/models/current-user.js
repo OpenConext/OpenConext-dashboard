@@ -23,6 +23,10 @@ class CurrentUser {
   getCurrentIdpId() {
     return this.getCurrentIdp().id;
   }
+
+  superUserNotSwitched() {
+    return this.superUser && !this.switchedToIdp;
+  }
 }
 
 export default CurrentUser;

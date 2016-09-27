@@ -122,6 +122,10 @@ export function logout() {
   return validFetch("/logout");
 }
 
+export function exit() {
+  return validFetch('/users/me/switch-to-idp');
+}
+
 export function switchToIdp(idpId, role) {
   return validFetch('/users/me/switch-to-idp?' + qs.stringify({ idpId, role }));
 }
@@ -176,4 +180,9 @@ export function getLicenseContactPerson(idpId) {
       "X-IDP-ENTITY-ID": idpId
     }
   });
+}
+
+export function getIdpsForSuper() {
+  return fetchJson("/users/super/idps")
+  .then(json => json.payload);
 }

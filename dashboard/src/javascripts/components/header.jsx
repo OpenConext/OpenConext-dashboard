@@ -4,7 +4,7 @@ import _ from "lodash";
 import LanguageSelector from "./language_selector";
 import Logout from "../pages/logout";
 import { render } from "react-dom";
-import { logout } from "../api";
+import { exit, logout } from "../api";
 import Link from "react-router/Link";
 import IDPSelector from "../components/idp_selector";
 
@@ -88,7 +88,7 @@ class Header extends React.Component {
       return;
     } else if (currentUser.superUser && currentUser.switchedToIdp) {
       return (
-        <li><a href="/exit">{I18n.t("header.links.exit")}</a></li>
+        <li><a href="#" onClick={this.handleExitClick.bind(this)}>{I18n.t("header.links.exit")}</a></li>
       );
     } else {
       return (
@@ -100,6 +100,11 @@ class Header extends React.Component {
   handleLogoutClick(e) {
     e.preventDefault();
     logout().then(() => render(<Logout />, document.getElementById("app")));
+  }
+
+  handleExitClick(e) {
+    e.preventDefault();
+    exit().then(() => window.location = "/");
   }
 
   handleClose() {
