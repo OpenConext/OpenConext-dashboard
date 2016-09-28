@@ -17,7 +17,7 @@ class Chart extends React.Component {
     this.setState({ error: this.props.chart.error });
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(newProps) {
     if (this.props.chart.error !== newProps.chart.error) {
       this.setState({ error: newProps.chart.error });
     }
