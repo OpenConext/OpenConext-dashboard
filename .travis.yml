@@ -11,7 +11,7 @@ cache:
     - $HOME/.m2
     - node_modules
 install:
-  - cd dashboard && npm install && cd ..
+  - cd dashboard && nvm install $(cat .node-version) && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 before_script:
   - mysql -e "create database csa default character set utf8;
