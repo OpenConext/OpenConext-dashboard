@@ -3,12 +3,23 @@ import I18n from "i18n-js";
 import $ from "jquery";
 
 import { STATS_HOST } from "../api/stats";
+import { getPeriod } from "../utils/period";
 
 class Chart extends React.Component {
   constructor() {
     super();
     this.state = {
-      error: null
+      error: false
+    }
+  }
+
+  componentWillMount() {
+    this.setState({ error: this.props.chart.error });
+  }
+
+  componentWillUpdate() {
+    if (this.props.chart.error !== newProps.chart.error) {
+      this.setState({ error: newProps.chart.error });
     }
   }
 
@@ -23,6 +34,8 @@ class Chart extends React.Component {
       return;
     }
 
+    this.setState({ error: false });
+
     var chartId = this.chart.id;
     var setMinimumHeightOfChart = function (height) {
       $("#" + chartId).css('min-height', height + 'px');
@@ -32,10 +45,12 @@ class Chart extends React.Component {
       imagePath: STATS_HOST + "/api/js/graphs-v1/images/amcharts/"
     };
 
-    switch (this.props.chart.type) {
+    const { chart } = this.props;
+
+    switch (chart.type) {
       case 'idpspbar':
         options = _.merge(options, {
-          period: this.getPeriod(),
+          period: getPeriod(chart.periodDate, chart.periodType),
           dataCallbacks: [function(data) {
             var height = Math.max(data.numRecords * 25, 300);
             setMinimumHeightOfChart(height);
@@ -44,8 +59,8 @@ class Chart extends React.Component {
         break;
       case 'idpsp':
         options = _.merge(options, {
-          sp: this.props.chart.sp,
-          period: this.getPeriod(), // why is this needed??
+          sp: chart.sp,
+          period: getPeriod(chart.periodDate, chart.periodType), // why is this needed??
           periodFrom: this.props.chart.periodFrom.format("YYYY-MM-DD"),
           periodTo: this.props.chart.periodTo.format("YYYY-MM-DD"),
           dataCallbacks: [function(data) {
@@ -64,22 +79,6 @@ class Chart extends React.Component {
       this.context.currentUser.statsToken,
       options
     );
-  }
-
-  getPeriod() {
-    var moment = this.props.chart.periodDate;
-    switch (this.props.chart.periodType) {
-      case 'y':
-        return moment.year();
-      case 'q':
-        return moment.year() + 'q' + moment.quarter();
-      case 'm':
-        return moment.year() + 'm' + (moment.month() + 1);
-      case 'w':
-        return moment.year() + 'w' + moment.week();
-      case 'd':
-        return moment.year() + 'd' + moment.dayOfYear();
-    }
   }
 
   renderError() {

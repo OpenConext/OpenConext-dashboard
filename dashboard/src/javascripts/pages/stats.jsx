@@ -7,6 +7,8 @@ import { getPeriod } from "../utils/period";
 
 import DownloadButton from "../components/download_button";
 import Select2Selector from "../components/select2_selector";
+import Period from "../components/period";
+import Chart from "../components/chart";
 
 class Stats extends React.Component {
 
@@ -19,6 +21,7 @@ class Stats extends React.Component {
         periodTo: moment().subtract(1, 'days'),
         periodType: 'm',
         periodDate: moment().subtract(1, 'days'),
+        error: false
       }
     }
   }
@@ -32,9 +35,10 @@ class Stats extends React.Component {
           return {display: sp.name, value: sp.id};
         });
 
-        this.setState({ chart: { ...this.state.chart, sps: newSps }});
+        this.setState({ sps: newSps });
       });
-    });
+    })
+    .catch(() => this.setState({ chart: { ...this.state.chart, error: true }}));
   }
 
   downloadIdpSpBarCsvFile() {
@@ -95,6 +99,7 @@ class Stats extends React.Component {
       this.setState({ chart: { ...this.state.chart, sp: sp }});
     };
 
+
     return (
       <fieldset>
         <h2>{I18n.t('stats.chart.sp.name')}</h2>
@@ -103,6 +108,69 @@ class Stats extends React.Component {
           select2selectorId='sp'
           options={this.state.sps}
           multiple={false}
+          handleChange={handleChange.bind(this)} />
+      </fieldset>
+    );
+  }
+
+  renderPeriodSelect() {
+    if (this.state.chart.type === 'idpsp') {
+      const handleChangePeriodFrom = (moment) => {
+        this.setState({ chart: { ...this.state.chart, periodFrom: moment }});
+      };
+
+      const handleChangePeriodTo = (moment) => {
+        this.setState({ chart: { ...this.state.chart, periodTo: moment }});
+      };
+
+      return (
+        <div>
+          <Period
+            initialDate={this.state.chart.periodFrom}
+            title={I18n.t('stats.chart.periodFrom.name')}
+            handleChange={handleChangePeriodFrom.bind(this)} />
+          <Period
+            initialDate={this.state.chart.periodTo}
+            title={I18n.t('stats.chart.periodTo.name')}
+            handleChange={handleChangePeriodTo.bind(this)} />
+        </div>
+      );
+    } else {
+      const handleChange = (moment) => {
+        this.setState({ chart: { ...this.state.chart, periodDate: moment }});
+      };
+
+      return (
+        <div>
+          {this.renderPeriodTypeSelect()}
+          <Period
+            initialDate={this.state.chart.periodDate}
+            title={I18n.t('stats.chart.periodDate.name')}
+            handleChange={handleChange.bind(this)} />
+        </div>
+      );
+    }
+  }
+
+  renderPeriodTypeSelect() {
+    var options = [
+      {display: I18n.t('stats.chart.period.day'), value: 'd'},
+      {display: I18n.t('stats.chart.period.week'), value: 'w'},
+      {display: I18n.t('stats.chart.period.month'), value: 'm'},
+      {display: I18n.t('stats.chart.period.quarter'), value: 'q'},
+      {display: I18n.t('stats.chart.period.year'), value: 'y'}
+    ];
+
+    const handleChange = function(value) {
+      this.setState({ chart: { ...this.state.chart, periodType: value }});
+    };
+
+    return (
+      <fieldset>
+        <h2>{I18n.t('stats.chart.period.name')}</h2>
+        <Select2Selector
+          defaultValue={this.state.chart.periodType}
+          options={options}
           handleChange={handleChange.bind(this)} />
       </fieldset>
     );
@@ -119,13 +187,13 @@ class Stats extends React.Component {
             </div>
             <form>
               {this.renderChartTypeSelect()}
-              {/* {this.renderPeriodSelect()} */}
+              {this.renderPeriodSelect()}
             </form>
           </div>
         </div>
         <div className="l-right">
           <div className="mod-chart">
-            {/* {this.renderChart()} */}
+            <Chart chart={this.state.chart} />
           </div>
         </div>
       </div>

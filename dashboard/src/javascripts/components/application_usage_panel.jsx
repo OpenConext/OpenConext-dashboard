@@ -19,6 +19,7 @@ class ApplicationUsagePanel extends React.Component {
         periodTo: moment(),
         periodType: 'm',
         periodDate: moment(),
+        error: false
       }
     }
   }
@@ -28,7 +29,9 @@ class ApplicationUsagePanel extends React.Component {
 
     retrieveSp(this.props.app.spEntityId, currentUser.statsToken).then(sp => {
       this.setState({ chart: { ...this.state.chart, sp: sp.id }});
-    });
+    })
+    .catch(() => this.setState({ chart: { ...this.state.chart, error: true }}));
+
     retrieveIdp(currentUser.getCurrentIdp().id, currentUser.getCurrentIdp().institutionId, currentUser.statsToken).then(idp => {
       this.setState({ chart: { ...this.state.chart, idp: idp.id }});
 
@@ -39,7 +42,8 @@ class ApplicationUsagePanel extends React.Component {
 
         this.setState({ chart: { ...this.state.chart, sps: newSps }});
       });
-    });
+    })
+    .catch(() => this.setState({ chart: { ...this.state.chart, error: true }}));
   }
 
   downloadIdpSpCsvFile() {
