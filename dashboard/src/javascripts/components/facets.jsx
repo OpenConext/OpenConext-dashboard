@@ -1,5 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
+import { FacetShape } from "../shapes";
 
 class Facets extends React.Component {
   render() {
@@ -37,7 +38,7 @@ class Facets extends React.Component {
     const count = this.props.filteredCount;
     const total = this.props.totalCount;
 
-    if (count == total) {
+    if (count === total) {
       return I18n.t("facets.totals.all", {total: total});
     } else {
       return I18n.t("facets.totals.filtered", {count: count, total: total});
@@ -64,6 +65,7 @@ class Facets extends React.Component {
           return this.renderFacetValue(facet, value);
         }.bind(this)));
     }
+    return null;
   }
 
   handleFacetToggle(facet) {
@@ -123,5 +125,17 @@ class Facets extends React.Component {
   }
 
 }
+
+Facets.propTypes = {
+  onReset: React.PropTypes.func.isRequired,
+  onDownload: React.PropTypes.func.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  onHide: React.PropTypes.func.isRequired,
+  facets: React.PropTypes.arrayOf(FacetShape),
+  filteredCount: React.PropTypes.number.isRequired,
+  totalCount: React.PropTypes.number.isRequired,
+  hiddenFacets: React.PropTypes.objectOf(React.PropTypes.bool),
+  selectedFacets: React.PropTypes.objectOf(React.PropTypes.arrayOf(React.PropTypes.string))
+};
 
 export default Facets;

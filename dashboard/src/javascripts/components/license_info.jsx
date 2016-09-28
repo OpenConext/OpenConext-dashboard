@@ -1,5 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
+import { AppShape } from "../shapes";
 
 class LicenseInfo extends React.Component {
   render() {
@@ -13,6 +14,8 @@ class LicenseInfo extends React.Component {
       return this.renderNoLicenseNeeded();
     case "UNKNOWN":
       return this.renderUnknownLicense();
+    default:
+      return null;
     }
   }
 
@@ -79,6 +82,12 @@ class LicenseInfo extends React.Component {
 
 LicenseInfo.defaultProps = {
   split: true
+};
+
+LicenseInfo.propTypes = {
+  app: AppShape.isRequired,
+  onSwitchPanel: React.PropTypes.func,
+  split: React.PropTypes.bool
 };
 
 export default LicenseInfo;

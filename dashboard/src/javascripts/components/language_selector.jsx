@@ -18,7 +18,7 @@ class LanguageSelector extends React.Component {
       <li key={locale}>
         <a
           href="#"
-          className={I18n.currentLocale() == locale ? "selected" : ""}
+          className={I18n.currentLocale() === locale ? "selected" : ""}
           title={I18n.t("select_locale", {locale: locale})}
           onClick={this.handleChooseLocale(locale)}>
           {I18n.t("code", {locale: locale})}
@@ -31,7 +31,7 @@ class LanguageSelector extends React.Component {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      if (I18n.currentLocale() != locale) {
+      if (I18n.currentLocale() !== locale) {
         window.location.search = "lang=" + locale;
       }
     };

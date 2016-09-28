@@ -8,5 +8,7 @@ export const AppShape = React.PropTypes.shape({
   websiteUrl: React.PropTypes.string,
   eulaUrl: React.PropTypes.string,
   detailLogoUrl: React.PropTypes.string,
-  spEntityId: React.PropTypes.string
+  spEntityId: React.PropTypes.string,
+  exampleSingleTenant: React.PropTypes.bool,
+  connected: React.PropTypes.bool
 });

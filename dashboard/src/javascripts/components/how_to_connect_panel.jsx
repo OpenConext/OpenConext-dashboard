@@ -1,6 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 
+import { AppShape } from "../shapes";
 import { makeConnection, removeConnection } from "../api";
 
 class HowToConnectPanel extends React.Component {
@@ -28,6 +29,8 @@ class HowToConnectPanel extends React.Component {
       return this.renderDoneStep();
     case "done-disconnect":
       return this.renderDoneDisconnectStep();
+    default:
+      return null;
     }
   }
 
@@ -128,6 +131,8 @@ class HowToConnectPanel extends React.Component {
         </li>
       );
     }
+
+    return null;
   }
 
   renderSingleTenantServiceWarning() {
@@ -145,6 +150,8 @@ class HowToConnectPanel extends React.Component {
         </div>
       );
     }
+
+    return null;
   }
 
   renderDoneStep() {
@@ -236,6 +243,11 @@ class HowToConnectPanel extends React.Component {
 
 HowToConnectPanel.contextTypes = {
   currentUser: React.PropTypes.object
+};
+
+HowToConnectPanel.propTypes = {
+  app: AppShape.isRequired,
+  onSwitchPanel: React.PropTypes.func.isRequired
 };
 
 export default HowToConnectPanel;

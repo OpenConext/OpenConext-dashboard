@@ -1,6 +1,8 @@
 import React from "react";
 import I18n from "i18n-js";
 
+import { AppShape } from "../shapes";
+
 class IdpUsagePanel extends React.Component {
   render() {
     const subtitle = this.props.institutions.length === 0 ? I18n.t("idp_usage_panel.subtitle_none", {name: this.props.app.name}) : I18n.t("idp_usage_panel.subtitle", {name: this.props.app.name});
@@ -38,5 +40,14 @@ class IdpUsagePanel extends React.Component {
   }
 
 }
+
+IdpUsagePanel.propTypes = {
+  app: AppShape.isRequired,
+  institutions: React.PropTypes.arrayOf(React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired,
+    displayName: React.PropTypes.string,
+    id: React.PropTypes.string.isRequired
+  })).isRequired
+};
 
 export default IdpUsagePanel;

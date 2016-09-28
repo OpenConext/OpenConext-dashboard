@@ -57,7 +57,7 @@ class IDPSelector extends React.Component {
   }
 
   renderActiveIndicator(idp) {
-    if (this.state.activeIdp == idp.id) {
+    if (this.state.activeIdp === idp.id) {
       return (
         <i className="fa fa-caret-right" />
       );

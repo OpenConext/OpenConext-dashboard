@@ -38,7 +38,7 @@ class Header extends React.Component {
   renderProfileLink() {
     const { currentUser } = this.context;
     if (_.isUndefined(currentUser)) {
-      return;
+      return null;
     } else if (!currentUser.superUser) {
       return (
         <span>
@@ -79,12 +79,14 @@ class Header extends React.Component {
         </ul>
       );
     }
+
+    return null;
   }
 
   renderExitLogout() {
     const { currentUser } = this.context;
     if (_.isUndefined(currentUser)) {
-      return;
+      return null;
     } else if (currentUser.superUser && currentUser.switchedToIdp) {
       return (
         <li><a href="#" onClick={this.handleExitClick.bind(this)}>{I18n.t("header.links.exit")}</a></li>
