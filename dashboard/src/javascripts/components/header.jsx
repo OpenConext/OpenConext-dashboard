@@ -1,6 +1,5 @@
 import React from "react";
 import I18n from "i18n-js";
-import _ from "lodash";
 import LanguageSelector from "./language_selector";
 import Logout from "../pages/logout";
 import { render } from "react-dom";

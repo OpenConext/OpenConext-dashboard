@@ -2,6 +2,7 @@ require("../stylesheets/application.sass");
 require("../css/select2.min.css");
 require("es6-promise").polyfill();
 require("isomorphic-fetch");
+require("lodash");
 
 import React from "react";
 import { render } from "react-dom";
