@@ -1,6 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 import $ from "jquery";
+import moment from "moment";
 
 import { STATS_HOST } from "../api/stats";
 import { getPeriod } from "../utils/period";
@@ -23,7 +24,7 @@ class Chart extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.chart === prevProps.chart) {
       return;
     }
@@ -85,6 +86,7 @@ class Chart extends React.Component {
     if (this.state.error) {
       return <span dangerouslySetInnerHTML={{ __html: I18n.t("application_usage_panel.error_html") }}/>;
     }
+    return null;
   }
 
   render() {
@@ -101,6 +103,17 @@ class Chart extends React.Component {
 
 Chart.contextTypes = {
   currentUser: React.PropTypes.object
+};
+
+Chart.propTypes = {
+  chart: React.PropTypes.shape({
+    type: React.PropTypes.string,
+    periodTo: React.PropTypes.instanceOf(moment),
+    periodFrom: React.PropTypes.instanceOf(moment),
+    error: React.PropTypes.bool,
+    idp: React.PropTypes.string,
+    sp: React.PropTypes.string
+  }).isRequired
 };
 
 export default Chart;

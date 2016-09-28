@@ -16,15 +16,16 @@ class SortableHeader extends React.Component {
 
     this.props.onSort({
       sortAttribute: this.props.attribute,
-      sortAscending: this.props.sortAttribute == this.props.attribute ? !this.props.sortAscending : false
+      sortAscending: this.props.sortAttribute === this.props.attribute ? !this.props.sortAscending : false
     });
   }
 
   render() {
-    if (this.props.sortAttribute == this.props.attribute) {
-      var icon = this.renderSortDirection();
+    let icon;
+    if (this.props.sortAttribute === this.props.attribute) {
+      icon = this.renderSortDirection();
     } else {
-      var icon = <i className="fa fa-sort"></i>;
+      icon = <i className="fa fa-sort"></i>;
     }
 
     return (
@@ -37,5 +38,18 @@ class SortableHeader extends React.Component {
     );
   }
 }
+
+SortableHeader.propTypes = {
+  sortAscending: React.PropTypes.bool,
+  onSort: React.PropTypes.func.isRequired,
+  attribute: React.PropTypes.string.isRequired,
+  sortAttribute: React.PropTypes.string.isRequired,
+  className: React.PropTypes.string,
+  localeKey: React.PropTypes.string.isRequired
+};
+
+SortableHeader.defaultProps = {
+  className: ""
+};
 
 export default SortableHeader;

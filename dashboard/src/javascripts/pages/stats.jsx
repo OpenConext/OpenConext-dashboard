@@ -93,12 +93,12 @@ class Stats extends React.Component {
 
   renderSpSelect() {
     if (this.state.chart.type !== "idpsp") {
-      return;
+      return null;
     }
+
     const handleChange = (sp) => {
       this.setState({ chart: { ...this.state.chart, sp: sp }});
     };
-
 
     return (
       <fieldset>

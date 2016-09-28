@@ -1,6 +1,8 @@
 import React from "react";
 import I18n from "i18n-js";
 
+import { AppShape } from "../shapes";
+
 class AttributePolicyPanel extends React.Component {
   render() {
     return (
@@ -67,5 +69,9 @@ class AttributePolicyPanel extends React.Component {
     );
   }
 }
+
+AttributePolicyPanel.propTypes = {
+  app: AppShape.isRequired
+};
 
 export default AttributePolicyPanel;

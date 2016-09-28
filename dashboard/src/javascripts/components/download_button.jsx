@@ -12,4 +12,14 @@ class DownloadButton extends React.Component {
   }
 }
 
+DownloadButton.propTypes = {
+  className: React.PropTypes.string,
+  genFile: React.PropTypes.func.isRequired,
+  title: React.PropTypes.string.isRequired
+};
+
+DownloadButton.defaultProps = {
+  className: ""
+};
+
 export default DownloadButton;

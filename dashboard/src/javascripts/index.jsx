@@ -13,7 +13,7 @@ import Redirect from "react-router/Redirect";
 import I18n from "i18n-js";
 import { browserSupported } from "./lib/browser_supported";
 
-import CurrentUser from "./models/current-user";
+import CurrentUser from "./models/current_user";
 
 import { getUserData } from "./api";
 import Header from "./components/header";
@@ -86,9 +86,13 @@ App.childContextTypes = {
   router: React.PropTypes.object
 };
 
+App.propTypes = {
+  currentUser: React.PropTypes.instanceOf(CurrentUser).isRequired
+};
+
 if (browserSupported()) {
   getUserData()
-  .catch(err => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=" + window.location.pathname)
+  .catch(() => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=" + window.location.pathname)
   .then(json => {
     I18n.locale = json.language;
     const currentUser = new CurrentUser(json.payload);

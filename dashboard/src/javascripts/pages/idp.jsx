@@ -98,6 +98,8 @@ class MyIdp extends React.Component {
           </table>
         </div>
       );
+    } else {
+      return null;
     }
   }
 }

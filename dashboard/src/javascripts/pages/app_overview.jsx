@@ -8,7 +8,7 @@ import { apiUrl, getApps, getFacets } from "../api";
 import sort from "../utils/sort";
 
 import Facets from "../components/facets";
-import YesNo from "../components/yes-no";
+import YesNo from "../components/yes_no";
 
 const store = {
   activeFacets: null,
@@ -78,9 +78,10 @@ class AppOverview extends React.Component {
     const { currentUser } = this.context;
     const { sortAttribute, sortAscending } = this.state;
     const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
+    let connect = null;
 
     if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
-      var connect = (
+      connect = (
         <th className="percent_10 right">
           {I18n.t("apps.overview.connect")}
         </th>
@@ -165,8 +166,9 @@ class AppOverview extends React.Component {
 
   renderApp(app) {
     const { currentUser } = this.context;
+    let connect = null;
     if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
-      var connect = (
+      connect = (
         <td className="right">
           {this.renderConnectButton(app)}
         </td>
@@ -234,6 +236,7 @@ class AppOverview extends React.Component {
     if (!app.connected) {
       return <Link to={`/apps/${app.id}/how_to_connect`} className="c-button narrow" onClick={(e) => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
     }
+    return null;
   }
 
   handleShowAppDetail(e, app) {
@@ -379,13 +382,15 @@ class AppOverview extends React.Component {
     return function (app) {
       const normalizedCategories = this.normalizeCategories(app);
       for (const facet in facets) {
-        const facetValues = facets[facet] || [];
-        if (normalizedCategories[facet] && facetValues.length > 0) {
-          const hits = normalizedCategories[facet].filter(function (facetValue) {
-            return facetValues.indexOf(facetValue) > -1;
-          });
-          if (hits.length === 0) {
-            return false;
+        if (facets.hasOwnProperty(facet)) {
+          const facetValues = facets[facet] || [];
+          if (normalizedCategories[facet] && facetValues.length > 0) {
+            const hits = normalizedCategories[facet].filter(function (facetValue) {
+              return facetValues.indexOf(facetValue) > -1;
+            });
+            if (hits.length === 0) {
+              return false;
+            }
           }
         }
       }

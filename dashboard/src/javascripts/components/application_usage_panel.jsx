@@ -3,6 +3,7 @@ import React from "react";
 import I18n from "i18n-js";
 import moment from "moment";
 
+import { AppShape } from "../shapes";
 import { apiUrl, retrieveIdp, retrieveSp, retrieveSps } from "../api/stats";
 import Period from "./period";
 import DownloadButton from "./download_button";
@@ -68,6 +69,8 @@ class ApplicationUsagePanel extends React.Component {
         />
       );
     }
+
+    return null;
   }
 
   renderPeriodSelect() {
@@ -116,6 +119,10 @@ class ApplicationUsagePanel extends React.Component {
 
 ApplicationUsagePanel.contextTypes = {
   currentUser: React.PropTypes.object
+};
+
+ApplicationUsagePanel.propTypes = {
+  app: AppShape.isRequired
 };
 
 export default ApplicationUsagePanel;

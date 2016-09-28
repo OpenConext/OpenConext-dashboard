@@ -1,5 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
+import Header from "../components/header";
+import Footer from "../components/footer";
 
 class BrowserNotSupported extends React.Component {
   render() {

@@ -7,7 +7,8 @@ module.exports = {
   },
   "globals": {
     "fetch": false,
-    "_": false
+    "_": false,
+    "SurfCharts": false
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -50,6 +51,7 @@ module.exports = {
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "react/forbid-prop-types": "error"
   }
 };

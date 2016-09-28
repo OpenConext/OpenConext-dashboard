@@ -1,6 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 
+import { AppShape } from "../shapes";
 import Contact from "./contact";
 
 class AppMeta extends React.Component {
@@ -29,17 +30,16 @@ class AppMeta extends React.Component {
 
   renderUrl(key, link, target) {
     if (link) {
-      if (!target) {
-        target = "_blank";
-      }
+      const linkTarget = target ? target : "_blank";
       return (
         <div className="contact">
           <address>
-            <a href={link} target={target}>{I18n.t("app_meta." + key)}</a>
+            <a href={link} target={linkTarget}>{I18n.t("app_meta." + key)}</a>
           </address>
         </div>
       );
     }
+    return null;
   }
 
   renderLogo() {
@@ -50,7 +50,12 @@ class AppMeta extends React.Component {
         </div>
       );
     }
+    return null;
   }
 }
+
+AppMeta.propTypes = {
+  app: AppShape.isRequired
+};
 
 export default AppMeta;

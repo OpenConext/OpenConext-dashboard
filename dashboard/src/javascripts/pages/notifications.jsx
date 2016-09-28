@@ -4,7 +4,7 @@ import Link from "react-router/Link";
 import I18n from "i18n-js";
 
 import { getNotifications } from "../api";
-import YesNo from "../components/yes-no";
+import YesNo from "../components/yes_no";
 
 class Notifications extends React.Component {
   constructor() { super(); this.state = {

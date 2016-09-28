@@ -46,10 +46,6 @@ export function fetchJson(path, options = {}) {
   .then(parseJson);
 }
 
-function fetchDelete(path) {
-  return validFetch(path, { method: "delete" });
-}
-
 function fetchPost(path, body, options = {}) {
   const data = new FormData();
 
@@ -72,14 +68,6 @@ export function getFacets() {
 
 export function getApps(idpId) {
   return fetchJson("/services", {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
-}
-
-export function downloadOverview(idpId, ids) {
-  return fetchJson("/services/download", {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }
