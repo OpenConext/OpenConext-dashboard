@@ -9,7 +9,6 @@ OpenConext is an OpenSource technology stack for creating and running Collaborat
 
 OpenConext was developed by SURFnet as part of the SURFworks programme. SURFnet runs an instance of the platform for research and education in The Netherlands as SURFconext
 
-
 OpenConext: [https://www.openconext.org](https://www.openconext.org)
 
 SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
@@ -22,24 +21,21 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 - Java 8
 - Maven 3
 - MySQL 5.5
-- Gruntjs
+- NodeJS 6.2.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
 
 ### Building and running
 
-Install Ruby to make management of the dependencies needed easier.
-
 #### Setup
-
-    brew install rbenv
-    rbenv install
-    gem install bundler
-    bundle install
 
 Connect to your local mysql database: `mysql -uroot`
 
     CREATE DATABASE csa DEFAULT CHARACTER SET utf8;
     create user 'csa'@'localhost' identified by 'csa';
     grant all on csa.* to 'csa'@'localhost';
+
+There is a `docker-compose` file available for mysql:
+
+    docker-compose up -d
 
 #### The Server
 
@@ -63,26 +59,20 @@ If you want to debug you can use
 
 Initial setup if you do:
 
-    brew install npm;
-    npm install -g grunt-cli;
-    npm install;
-
-When new grunt dependencies are added:
-
+    nvm install
     npm install
+
+Add new dependencies to `devDependencies`:
+
+    npm install --save-dev ${dep}
 
 To build:
 
-    grunt watch
+    npm run webpack
 
 To run locally:
 
-    grunt server
-
-
-#### Running all at once
-
-    foreman start
+    npm run webpack-dev-server
 
 When you browse to the [application homepage](http://localhost:8001/) you will be prompted for a login.
 
