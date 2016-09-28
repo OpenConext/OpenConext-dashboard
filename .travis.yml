@@ -5,14 +5,10 @@ jdk:
 services:
   - mysql
 cache:
-  bundler: true
   directories:
     - $HOME/.m2
     - node_modules
-before_install:
-  - gem install bundler
 install:
-  - bundle install
   - cd dashboard && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 before_script:
