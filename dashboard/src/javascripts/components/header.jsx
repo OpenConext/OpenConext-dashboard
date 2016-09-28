@@ -13,7 +13,7 @@ class Header extends React.Component {
 
     this.state = {
       dropDownActive: false
-    }
+    };
   }
 
   render() {

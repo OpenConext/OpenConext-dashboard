@@ -3,7 +3,7 @@ import I18n from "i18n-js";
 
 class Facets extends React.Component {
   render() {
-    var facets = this.props.facets;
+    const facets = this.props.facets;
 
     return (
       <div className="mod-filters">
@@ -34,13 +34,13 @@ class Facets extends React.Component {
   }
 
   renderTotals() {
-    var count = this.props.filteredCount;
-    var total = this.props.totalCount;
+    const count = this.props.filteredCount;
+    const total = this.props.totalCount;
 
     if (count == total) {
-      return I18n.t("facets.totals.all", {total: total})
+      return I18n.t("facets.totals.all", {total: total});
     } else {
-      return I18n.t("facets.totals.filtered", {count: count, total: total})
+      return I18n.t("facets.totals.filtered", {count: count, total: total});
     }
   }
 
@@ -82,8 +82,8 @@ class Facets extends React.Component {
   }
 
   renderFacetValue(facet, facetValue) {
-    var facetName = facet.searchValue || facet.name;
-    var value = facetValue.searchValue || facetValue.value;
+    const facetName = facet.searchValue || facet.name;
+    const value = facetValue.searchValue || facetValue.value;
 
     return (
       <label key={facetValue.value} className={facetValue.count === 0 ? "greyed-out" : ""}>

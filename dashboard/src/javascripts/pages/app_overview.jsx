@@ -1,8 +1,8 @@
 import React from "react";
 import I18n from "i18n-js";
 import qs from "qs";
-import SortableHeader from '../components/sortable_header';
-import Link from 'react-router/Link';
+import SortableHeader from "../components/sortable_header";
+import Link from "react-router/Link";
 
 import { apiUrl, getApps, getFacets } from "../api";
 import sort from "../utils/sort";
@@ -10,7 +10,7 @@ import sort from "../utils/sort";
 import Facets from "../components/facets";
 import YesNo from "../components/yes-no";
 
-let store = {
+const store = {
   activeFacets: null,
   hiddenFacets: null
 };
@@ -27,7 +27,7 @@ class AppOverview extends React.Component {
       hiddenFacets: store.hiddenFacets || {},
       sortAttribute: "name",
       sortAscending: undefined
-    }
+    };
   }
 
   componentWillMount() {
@@ -44,16 +44,16 @@ class AppOverview extends React.Component {
       const [facets, apps] = data;
 
       // We need to sanitize the categories data for each app to ensure the facet totals are correct
-      var unknown = {value: I18n.t("facets.unknown")};
+      const unknown = {value: I18n.t("facets.unknown")};
       facets.forEach(function (facet) {
         apps.forEach(function (app) {
           app.categories = app.categories || [];
-          var appCategory = app.categories.filter(function (category) {
+          const appCategory = app.categories.filter(function (category) {
             return category.name === facet.name;
           });
           if (appCategory.length === 0) {
             app.categories.push({name: facet.name, values: [unknown]});
-            var filtered = facet.values.filter(function (facetValue) {
+            const filtered = facet.values.filter(function (facetValue) {
               return facetValue.value === unknown.value;
             });
             if (!filtered[0]) {
@@ -77,7 +77,7 @@ class AppOverview extends React.Component {
   render() {
     const { currentUser } = this.context;
     const { sortAttribute, sortAscending } = this.state;
-    var filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
+    const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
 
     if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
       var connect = (
@@ -87,9 +87,9 @@ class AppOverview extends React.Component {
       );
     }
 
-    var facets = this.staticFacets().concat(this.state.facets);
+    const facets = this.staticFacets().concat(this.state.facets);
     this.addNumbers(filteredExclusiveApps, facets);
-    var filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
+    const filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
 
     return (
       <div className="l-main">
@@ -186,13 +186,13 @@ class AppOverview extends React.Component {
 
   licenseStatusClassName(app) {
     switch (app.licenseStatus) {
-      case "HAS_LICENSE_SURFMARKET":
-      case "HAS_LICENSE_SP":
-        return "yes"
-      case "NO_LICENSE":
-        return "no";
-      default:
-        return "";
+    case "HAS_LICENSE_SURFMARKET":
+    case "HAS_LICENSE_SP":
+      return "yes";
+    case "NO_LICENSE":
+      return "no";
+    default:
+      return "";
     }
   }
 
@@ -207,22 +207,22 @@ class AppOverview extends React.Component {
     let licensePresent = "unknown";
 
     switch (app.licenseStatus) {
-      case "HAS_LICENSE_SURFMARKET":
-        if (!app.hasCrmLink) {
-          licensePresent = "unknown";
-        } else {
-          licensePresent = app.license ? "yes" : "no";
-        }
-        break;
-      case "HAS_LICENSE_SP":
+    case "HAS_LICENSE_SURFMARKET":
+      if (!app.hasCrmLink) {
         licensePresent = "unknown";
-        break;
-      case "NOT_NEEDED":
-        licensePresent = "na";
-        break;
-      default:
-        licensePresent = "unknown";
-        break;
+      } else {
+        licensePresent = app.license ? "yes" : "no";
+      }
+      break;
+    case "HAS_LICENSE_SP":
+      licensePresent = "unknown";
+      break;
+    case "NOT_NEEDED":
+      licensePresent = "na";
+      break;
+    default:
+      licensePresent = "unknown";
+      break;
     }
 
     return (
@@ -246,8 +246,8 @@ class AppOverview extends React.Component {
    * this.state.activeFacets is a object with facet names and the values are arrays with all select values
    */
   handleFacetChange(facet, facetValue, checked) {
-    var selectedFacets = _.merge({}, this.state.activeFacets);
-    var facetValues = selectedFacets[facet];
+    const selectedFacets = _.merge({}, this.state.activeFacets);
+    let facetValues = selectedFacets[facet];
 
     if (_.isUndefined(facetValues)) {
       facetValues = selectedFacets[facet] = [facetValue];
@@ -261,7 +261,7 @@ class AppOverview extends React.Component {
   }
 
   handleFacetHide(facet) {
-    var hiddenFacets = _.merge({}, this.state.hiddenFacets);
+    const hiddenFacets = _.merge({}, this.state.hiddenFacets);
     if (hiddenFacets[facet.name]) {
       delete hiddenFacets[facet.name];
     } else {
@@ -286,7 +286,7 @@ class AppOverview extends React.Component {
     const { currentUser } = this.context;
     const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
     const ids = filteredApps.map(app => app.id);
-    const queryString = qs.stringify({ idpEntityId: currentUser.getCurrentIdpId(), id: ids }, { arrayFormat: 'brackets' });
+    const queryString = qs.stringify({ idpEntityId: currentUser.getCurrentIdpId(), id: ids }, { arrayFormat: "brackets" });
 
     window.open(apiUrl(`/services/download?${queryString}`));
   }
@@ -296,7 +296,7 @@ class AppOverview extends React.Component {
   }
 
   filterAppsForInclusiveFilters(apps) {
-    var filteredApps = apps;
+    let filteredApps = apps;
 
     if (!_.isEmpty(this.state.activeFacets)) {
       filteredApps = filteredApps.filter(this.filterByFacets(this.state.activeFacets));
@@ -310,12 +310,12 @@ class AppOverview extends React.Component {
 
   addNumbers(filteredApps, facets) {
     const { currentUser } = this.context;
-    var me = this;
-    var filter = function (facet, filterFunction) {
-      var activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key, object) {
+    const me = this;
+    const filter = function (facet, filterFunction) {
+      const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key, object) {
         return key !== facet.name;
       });
-      var filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
+      let filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
 
       this.staticFacets().filter(function (facetObject) {
         return facetObject.searchValue != facet.searchValue;
@@ -332,34 +332,34 @@ class AppOverview extends React.Component {
 
     facets.forEach(function (facet) {
       switch (facet.searchValue) {
-        case "connection":
-          filter(facet, function (app, facetValue) {
-            return facetValue.searchValue === "yes" ? app.connected : !app.connected;
-          });
-          break;
-        case "license":
-          filter(facet, function (app, facetValue) {
-            return app.licenseStatus === facetValue.searchValue;
-          });
-          break;
-        case "used_by_idp":
-          filter(facet, function (app, facetValue) {
-            var usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
-            return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
-          });
-          break;
-        case "published_edugain":
-          filter(facet, function (app, facetValue) {
-            var published = app.publishedInEdugain || false;
-            return facetValue.searchValue === "yes" ? published : !published;
-          });
-          break;
-        default:
-          filter(facet, function (app, facetValue) {
-            var categories = me.normalizeCategories(app);
-            var appTags = categories[facet.name] || [];
-            return appTags.indexOf(facetValue.value) > -1;
-          });
+      case "connection":
+        filter(facet, function (app, facetValue) {
+          return facetValue.searchValue === "yes" ? app.connected : !app.connected;
+        });
+        break;
+      case "license":
+        filter(facet, function (app, facetValue) {
+          return app.licenseStatus === facetValue.searchValue;
+        });
+        break;
+      case "used_by_idp":
+        filter(facet, function (app, facetValue) {
+          const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
+          return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
+        });
+        break;
+      case "published_edugain":
+        filter(facet, function (app, facetValue) {
+          const published = app.publishedInEdugain || false;
+          return facetValue.searchValue === "yes" ? published : !published;
+        });
+        break;
+      default:
+        filter(facet, function (app, facetValue) {
+          const categories = me.normalizeCategories(app);
+          const appTags = categories[facet.name] || [];
+          return appTags.indexOf(facetValue.value) > -1;
+        });
       }
     });
   }
@@ -369,7 +369,7 @@ class AppOverview extends React.Component {
   }
 
   filterYesNoFacet(name, yes) {
-    var values = this.state.activeFacets[name] || [];
+    const values = this.state.activeFacets[name] || [];
     return values.length === 0
       || (yes && _.includes(values, "yes"))
       || (!yes && _.includes(values, "no"));
@@ -377,11 +377,11 @@ class AppOverview extends React.Component {
 
   filterByFacets(facets) {
     return function (app) {
-      var normalizedCategories = this.normalizeCategories(app);
-      for (var facet in facets) {
-        var facetValues = facets[facet] || [];
+      const normalizedCategories = this.normalizeCategories(app);
+      for (const facet in facets) {
+        const facetValues = facets[facet] || [];
         if (normalizedCategories[facet] && facetValues.length > 0) {
-          var hits = normalizedCategories[facet].filter(function (facetValue) {
+          const hits = normalizedCategories[facet].filter(function (facetValue) {
             return facetValues.indexOf(facetValue) > -1;
           });
           if (hits.length === 0) {
@@ -394,7 +394,7 @@ class AppOverview extends React.Component {
   }
 
   normalizeCategories(app) {
-    var normalizedCategories = {}
+    const normalizedCategories = {};
     app.categories.forEach(function (category) {
       normalizedCategories[category.name] = category.values.map(function (categoryValue) {
         return categoryValue.value;
@@ -446,7 +446,7 @@ class AppOverview extends React.Component {
         {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"},
       ],
       filterApp: function (app) {
-        var licenseFacetValues = this.state.activeFacets["license"] || [];
+        const licenseFacetValues = this.state.activeFacets["license"] || [];
         return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
       }.bind(this)
     }];

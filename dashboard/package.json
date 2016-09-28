@@ -5,10 +5,12 @@
   "private": true,
   "scripts": {
     "webpack": "webpack -p --config webpack.config.prod.js",
-    "webpack-dev-server": "webpack-dev-server -d --host 0.0.0.0"
+    "webpack-dev-server": "webpack-dev-server -d --host 0.0.0.0",
+    "lint": "eslint --ext .js --ext .jsx --ignore-pattern '**/node_modules/**' --ignore-pattern 'dist/**/*.js' '*.js' '**/*.js' '*.jsx' '**/*.jsx'"
   },
   "devDependencies": {
     "babel-core": "6.14.0",
+    "babel-eslint": "7.0.0",
     "babel-loader": "6.2.5",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-polyfill": "6.13.0",
@@ -17,6 +19,8 @@
     "compass-mixins": "0.12.10",
     "css-loader": "0.25.0",
     "es6-promise": "3.3.1",
+    "eslint": "3.6.1",
+    "eslint-plugin-react": "6.3.0",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
     "glob": "7.1.0",

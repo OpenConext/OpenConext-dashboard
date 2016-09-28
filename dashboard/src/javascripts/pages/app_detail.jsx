@@ -116,7 +116,7 @@ class AppDetail extends React.Component {
       key = panelKey;
     }
 
-    var panel = this.panelMap[panelKey];
+    const panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
         <a href={`/apps/${this.props.params.id}/${panelKey}`} onClick={(e) => this.handleSwitchPanel(e, panelKey)}
@@ -131,7 +131,7 @@ class AppDetail extends React.Component {
   renderActivePanel() {
     const { activePanel } = this.props.params;
     const { currentUser } = this.context;
-    var panel = this.panelMap[activePanel];
+    let panel = this.panelMap[activePanel];
     if (!panel || (activePanel == "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
       panel = this.panelMap["overview"];
     }

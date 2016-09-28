@@ -11,7 +11,7 @@ class SearchUser extends React.Component {
       search: "",
       idps: [],
       roles: []
-    }
+    };
   }
 
   componentWillMount() {
@@ -82,7 +82,7 @@ class SearchUser extends React.Component {
       switchToIdp(idp.id, role).then(() => {
         window.location = "/";
       });
-    }
+    };
   }
 
   filteredIdps() {

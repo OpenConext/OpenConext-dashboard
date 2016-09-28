@@ -73,7 +73,7 @@ class IDPSelector extends React.Component {
       switchToIdp(idp.id, null).then(() => {
         location.reload();
       });
-    }.bind(this)
+    }.bind(this);
   }
 }
 

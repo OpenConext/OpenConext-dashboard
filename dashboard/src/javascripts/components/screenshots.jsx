@@ -10,7 +10,7 @@ class Screenshots extends React.Component {
   }
 
   render() {
-    var screenshotsUrls = this.props.screenshotUrls;
+    let screenshotsUrls = this.props.screenshotUrls;
     if (!screenshotsUrls) {
       screenshotsUrls = [];
     }

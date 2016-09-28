@@ -26,7 +26,7 @@ class MyIdp extends React.Component {
   }
 
   render() {
-    var roles = Object.keys(this.state.roles);
+    const roles = Object.keys(this.state.roles);
     return (
       <div className="l-mini">
         <div className="mod-idp">
@@ -57,10 +57,10 @@ class MyIdp extends React.Component {
   }
 
   renderRole(role) {
-    var names = this.state.roles[role].map(function (r) {
-      return r.firstName + " " + r.surname
+    const names = this.state.roles[role].map(function (r) {
+      return r.firstName + " " + r.surname;
     }).sort().join(", ");
-    var roleName = I18n.t("my_idp")[role];
+    const roleName = I18n.t("my_idp")[role];
     return (
       <tr key={role}>
         <td>{roleName}</td>

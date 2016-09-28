@@ -17,7 +17,7 @@ class SortableHeader extends React.Component {
     this.props.onSort({
       sortAttribute: this.props.attribute,
       sortAscending: this.props.sortAttribute == this.props.attribute ? !this.props.sortAscending : false
-    })
+    });
   }
 
   render() {

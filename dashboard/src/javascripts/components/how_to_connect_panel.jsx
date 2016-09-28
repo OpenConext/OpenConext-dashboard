@@ -8,26 +8,26 @@ class HowToConnectPanel extends React.Component {
     super();
 
     this.state = {
-      currentStep: 'connect',
+      currentStep: "connect",
       accepted: false,
       comments: ""
-    }
+    };
   }
 
   componentWillMount() {
-    this.setState({ currentStep: this.props.app.connected ? 'disconnect' : 'connect' });
+    this.setState({ currentStep: this.props.app.connected ? "disconnect" : "connect" });
   }
 
   render() {
     switch (this.state.currentStep) {
-      case "disconnect":
-        return this.renderDisconnectStep();
-      case "connect":
-        return this.renderConnectStep();
-      case "done":
-        return this.renderDoneStep();
-      case "done-disconnect":
-        return this.renderDoneDisconnectStep();
+    case "disconnect":
+      return this.renderDisconnectStep();
+    case "connect":
+      return this.renderConnectStep();
+    case "done":
+      return this.renderDoneStep();
+    case "done-disconnect":
+      return this.renderDoneDisconnectStep();
     }
   }
 
@@ -148,7 +148,7 @@ class HowToConnectPanel extends React.Component {
   }
 
   renderDoneStep() {
-    var subtitle = this.state.action.jiraKey ?
+    const subtitle = this.state.action.jiraKey ?
       I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
       I18n.t("how_to_connect_panel.done_subtitle_html");
 

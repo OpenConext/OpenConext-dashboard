@@ -7,7 +7,7 @@ class MatchStartRoute extends React.Component {
     const locationHash = window.location.hash.substr(1);
     const url = locationHash.substr(locationHash.indexOf("state=")).split("&")[0].split("=")[1];
     if (url) {
-      var parser = document.createElement('a');
+      const parser = document.createElement("a");
       parser.href = decodeURIComponent(url);
       pathname = parser.pathname;
       pathname = pathname[0] === "/" ? pathname : "/" + pathname;
@@ -28,7 +28,7 @@ class MatchStartRoute extends React.Component {
   render() {
     return null;
   }
-};
+}
 
 MatchStartRoute.contextTypes = {
   router: React.PropTypes.object,

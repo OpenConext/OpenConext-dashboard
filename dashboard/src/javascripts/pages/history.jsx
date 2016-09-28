@@ -3,7 +3,7 @@ import React from "react";
 import I18n from "i18n-js";
 
 import { getActions } from "../api";
-import sort from '../utils/sort';
+import sort from "../utils/sort";
 import moment from "moment";
 
 import SortableHeader from "../components/sortable_header";

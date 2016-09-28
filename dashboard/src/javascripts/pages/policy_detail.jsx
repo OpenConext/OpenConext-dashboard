@@ -34,7 +34,7 @@ class PolicyDetail extends React.Component {
   render() {
     const { policy } = this.state;
     if (policy) {
-      var title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
+      const title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
       return (
         <div className="l-main">
           {this.renderFlash()}
@@ -67,7 +67,7 @@ class PolicyDetail extends React.Component {
   }
 
   renderFlash() {
-    var flash = this.state.flash;
+    const flash = this.state.flash;
 
     if (flash && !this.state.hideFlash) {
       return (
@@ -92,7 +92,7 @@ class PolicyDetail extends React.Component {
   }
 
   renderName(policy) {
-    var classNameStatus = _.isEmpty(policy.name) ? "failure" : "success";
+    const classNameStatus = _.isEmpty(policy.name) ? "failure" : "success";
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
@@ -104,10 +104,10 @@ class PolicyDetail extends React.Component {
   }
 
   renderDenyPermitRule(policy) {
-    var classNameSelected = policy.denyRule ? "checked" : "";
-    var classNamePermit = policy.denyRule ? "not-selected" : "";
-    var classNameDeny = !policy.denyRule ? "not-selected" : "";
-    var policyPermit = policy.denyRule ? I18n.t("policy_detail.deny") : I18n.t("policy_detail.permit");
+    const classNameSelected = policy.denyRule ? "checked" : "";
+    const classNamePermit = policy.denyRule ? "not-selected" : "";
+    const classNameDeny = !policy.denyRule ? "not-selected" : "";
+    const policyPermit = policy.denyRule ? I18n.t("policy_detail.deny") : I18n.t("policy_detail.permit");
 
     return (
       <div className="form-element">
@@ -135,7 +135,7 @@ class PolicyDetail extends React.Component {
   }
 
   toggleDenyRule(e) {
-    var partialState = {denyRule: !this.state.denyRule};
+    const partialState = {denyRule: !this.state.denyRule};
     if (!this.state.denyRule) {
       partialState.allAttributesMustMatch = true;
     }
@@ -147,13 +147,13 @@ class PolicyDetail extends React.Component {
     if (this.state.autoFormat) {
       this.provideProviderNames(partialState);
       //we don't want to merge the partialState and this.state before the update
-      var policy = {
+      const policy = {
         identityProviderNames: this.state.identityProviderNames,
         serviceProviderName: this.state.serviceProviderName,
         attributes: partialState.attributes || this.state.attributes,
         denyRule: partialState.denyRule !== undefined ? partialState.denyRule : this.state.denyRule,
         allAttributesMustMatch: partialState.allAttributesMustMatch !== undefined ? partialState.allAttributesMustMatch : this.state.allAttributesMustMatch
-      }
+      };
       return App.Utils.AutoFormat.description(policy);
     } else {
       return this.state.description;
@@ -161,9 +161,9 @@ class PolicyDetail extends React.Component {
   }
 
   renderServiceProvider(policy) {
-    var scopedSPs = _.isEmpty(policy.identityProviderIds);
-    var classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
-    var serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(function (sp) {
+    const scopedSPs = _.isEmpty(policy.identityProviderIds);
+    const classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
+    const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(function (sp) {
       return {value: sp.spEntityId, display: sp.spName};
     });
 
@@ -185,7 +185,7 @@ class PolicyDetail extends React.Component {
   }
 
   handleChangeServiceProvider(newValue) {
-    var partialState = {serviceProviderId: newValue};
+    const partialState = {serviceProviderId: newValue};
     partialState.description = this.buildAutoFormattedDescription(partialState);
     partialState.policyEnforcementDecisionRequired = this.findServiceProvider(newValue).policyEnforcementDecisionRequired;
     this.setState(partialState);
@@ -199,7 +199,7 @@ class PolicyDetail extends React.Component {
 
   renderIdentityProvider(policy) {
     const { currentUser } = this.context;
-    var providers = currentUser.institutionIdps.map(function (idp) { return { value: idp.id, display: idp.name }});
+    const providers = currentUser.institutionIdps.map(function (idp) { return { value: idp.id, display: idp.name };});
     return (
       <div className="form-element">
         <fieldset className="success">
@@ -217,18 +217,18 @@ class PolicyDetail extends React.Component {
   }
 
   handleChangeIdentityProvider(newValue) {
-    var partialState = {identityProviderIds: newValue};
+    const partialState = {identityProviderIds: newValue};
 
-    var noIdpSelected = _.isEmpty(newValue);
+    const noIdpSelected = _.isEmpty(newValue);
 
     if (noIdpSelected) {
-      var serviceProviders = this.props.institutionServiceProviders.map(function (sp) {
+      const serviceProviders = this.props.institutionServiceProviders.map(function (sp) {
         return {value: sp.spEntityId, display: sp.spName};
       });
 
       if (this.state.serviceProviderId && !_.some(serviceProviders, function (sp) { return sp.value === this.state.serviceProviderId; }.bind(this))) {
         //Unfortunately we have to set the current value manually as the integration with select2 is done one-way
-        var select2ServiceProvider = $('[data-select2selector-id="serviceProvider"]');
+        const select2ServiceProvider = $("[data-select2selector-id=\"serviceProvider\"]");
         select2ServiceProvider.val("").trigger("change");
       }
     }
@@ -239,9 +239,9 @@ class PolicyDetail extends React.Component {
   }
 
   renderLogicalRule(policy) {
-    var allAttributesMustMatch = policy.allAttributesMustMatch;
-    var classNameAnd = !policy.allAttributesMustMatch ? "not-selected" : "";
-    var classNameOr = policy.allAttributesMustMatch ? "not-selected" : "";
+    const allAttributesMustMatch = policy.allAttributesMustMatch;
+    const classNameAnd = !policy.allAttributesMustMatch ? "not-selected" : "";
+    const classNameOr = policy.allAttributesMustMatch ? "not-selected" : "";
 
     return (
       <div className="form-element">
@@ -271,7 +271,7 @@ class PolicyDetail extends React.Component {
   }
 
   renderRule(value, selected) {
-    var className = value + " " + (selected ? "selected" : "");
+    const className = value + " " + (selected ? "selected" : "");
     if (this.state.denyRule) {
       return (
         <li key={value}>
@@ -291,8 +291,8 @@ class PolicyDetail extends React.Component {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
-      var allAttributesMustMatch = (value === I18n.t("policy_detail.rule_and"));
-      var partialState = {allAttributesMustMatch: allAttributesMustMatch};
+      const allAttributesMustMatch = (value === I18n.t("policy_detail.rule_and"));
+      const partialState = {allAttributesMustMatch: allAttributesMustMatch};
       partialState.description = this.buildAutoFormattedDescription(partialState);
       this.setState(partialState);
     }.bind(this);
@@ -311,7 +311,7 @@ class PolicyDetail extends React.Component {
   }
 
   renderDenyAdvice(policy)  {
-    var classNameStatus = _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl) ? "failure" : "success";
+    const classNameStatus = _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl) ? "failure" : "success";
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
@@ -328,7 +328,7 @@ class PolicyDetail extends React.Component {
   }
 
   renderDescription(policy) {
-    var classNameStatus = _.isEmpty(policy.description) ? "failure" : "success";
+    const classNameStatus = _.isEmpty(policy.description) ? "failure" : "success";
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
@@ -343,7 +343,7 @@ class PolicyDetail extends React.Component {
   }
 
   handleOnChangeAutoFormat(e) {
-    var partialState = {autoFormat: !this.state.autoFormat};
+    const partialState = {autoFormat: !this.state.autoFormat};
     if (partialState.autoFormat) {
       partialState.savedDescription = this.state.description;
       this.provideProviderNames(partialState);
@@ -355,23 +355,23 @@ class PolicyDetail extends React.Component {
   }
 
   provideProviderNames(partialState) {
-    var identityProviderIds = _.isUndefined(partialState.identityProviderIds) ? this.state.identityProviderIds : partialState.identityProviderIds;
+    const identityProviderIds = _.isUndefined(partialState.identityProviderIds) ? this.state.identityProviderIds : partialState.identityProviderIds;
 
     if (_.isEmpty(identityProviderIds)) {
       this.state.identityProviderNames = [];
     } else {
       this.state.identityProviderNames = identityProviderIds.map(function (idp) {
-        var provider = _.find(this.props.identityProviders, function (provider) { return provider.id === idp; });
+        const provider = _.find(this.props.identityProviders, function (provider) { return provider.id === idp; });
         return provider.name;
       }.bind(this));
     }
 
-    var serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.serviceProviderId : partialState.serviceProviderId;
+    const serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.serviceProviderId : partialState.serviceProviderId;
     if (_.isEmpty(serviceProviderId)) {
       this.state.serviceProviderName = null;
     } else {
-      var scopedSPs = _.isEmpty(identityProviderIds);
-      var serviceProvider = _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
+      const scopedSPs = _.isEmpty(identityProviderIds);
+      const serviceProvider = _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
         return sp.spEntityId === serviceProviderId;
       });
       this.state.serviceProviderName = serviceProvider.name;
@@ -379,10 +379,10 @@ class PolicyDetail extends React.Component {
   }
 
   findServiceProvider(serviceProviderId) {
-      var scopedSPs = _.isEmpty(this.state.identityProviderIds);
-      return _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
-        return sp.spEntityId === serviceProviderId;
-      });
+    const scopedSPs = _.isEmpty(this.state.identityProviderIds);
+    return _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
+      return sp.spEntityId === serviceProviderId;
+    });
   }
 
   renderActive(policy) {
@@ -404,7 +404,7 @@ class PolicyDetail extends React.Component {
   }
 
   renderActions(policy) {
-    var classNameSubmit = this.isValidPolicy() ? "" : "disabled";
+    const classNameSubmit = this.isValidPolicy() ? "" : "disabled";
     return (
       <div className="form-element">
         <fieldset>
@@ -423,10 +423,10 @@ class PolicyDetail extends React.Component {
 
   isValidPolicy() {
     const { policy } = this.state;
-    var emptyAttributes = policy.attributes.filter(function (attr) {
+    const emptyAttributes = policy.attributes.filter(function (attr) {
       return _.isEmpty(attr.value);
     });
-    var inValid = _.isEmpty(policy.name) || _.isEmpty(policy.description) || _.isEmpty(policy.serviceProviderId)
+    const inValid = _.isEmpty(policy.name) || _.isEmpty(policy.description) || _.isEmpty(policy.serviceProviderId)
         || _.isEmpty(policy.attributes) || emptyAttributes.length > 0 || _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl);
     return !inValid;
   }

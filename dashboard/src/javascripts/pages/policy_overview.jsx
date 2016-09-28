@@ -1,7 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 
-import Link from 'react-router/Link';
+import Link from "react-router/Link";
 
 import { getPolicies } from "../api";
 import sort from "../utils/sort";
@@ -20,7 +20,7 @@ class PolicyOverview extends React.Component {
       sortAttribute: "name",
       sortAscending: undefined,
       policies: []
-    }
+    };
   }
 
   componentWillMount() {
@@ -35,7 +35,7 @@ class PolicyOverview extends React.Component {
   }
 
   render() {
-    var filteredPolicies = this.filterPolicies(this.state.policies);
+    const filteredPolicies = this.filterPolicies(this.state.policies);
     const { currentUser } = this.context;
 
     return (
@@ -85,7 +85,7 @@ class PolicyOverview extends React.Component {
   }
 
   renderHeader() {
-    var search = (
+    const search = (
       <div className="mod-policy-search">
         <fieldset>
             <i className="fa fa-search"/>
@@ -122,7 +122,7 @@ class PolicyOverview extends React.Component {
   }
 
   renderFlash() {
-    var flash = this.props.flash;
+    const flash = this.props.flash;
 
     if (flash && !this.state.hideFlash) {
       return (
@@ -154,12 +154,12 @@ class PolicyOverview extends React.Component {
 
   renderIdpNames(policy) {
     return policy.identityProviderNames.map(function (name) {
-      return (<p key={name}>{name}</p>)
+      return (<p key={name}>{name}</p>);
     });
   }
 
   renderRevisionsLink(policy) {
-    var numberOfRevisions = (policy.numberOfRevisions + 1)
+    const numberOfRevisions = (policy.numberOfRevisions + 1);
     return (
       <a href={page.uri("/policies/:id/revisions", {id: policy.id})}
         onClick={this.handleShowRevisions(policy)}>{numberOfRevisions}</a>
@@ -168,10 +168,10 @@ class PolicyOverview extends React.Component {
 
   handleShowRevisions(policy) {
     return function (e) {
-       e.preventDefault();
-       e.stopPropagation();
-       page("/policies/:id/revisions", {id: policy.id});
-     }
+      e.preventDefault();
+      e.stopPropagation();
+      page("/policies/:id/revisions", {id: policy.id});
+    };
   }
 
   renderControls(policy) {

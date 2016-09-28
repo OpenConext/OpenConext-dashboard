@@ -8,11 +8,11 @@ import YesNo from "../components/yes-no";
 
 class Notifications extends React.Component {
   constructor() { super(); this.state = {
-      notificationMessage: {
-        messageKeys: [],
-        arguments: []
-      }
-    };
+    notificationMessage: {
+      messageKeys: [],
+      arguments: []
+    }
+  };
   }
 
   componentWillMount() {
@@ -23,7 +23,7 @@ class Notifications extends React.Component {
   }
 
   render() {
-    var notificationMessage = this.state.notificationMessage;
+    const notificationMessage = this.state.notificationMessage;
     return (
       <div className="l-mini">
 
@@ -44,7 +44,7 @@ class Notifications extends React.Component {
             </thead>
             <tbody>
               {notificationMessage.arguments.sort(function(l, r) {
-                return l.name.localeCompare(r.name)
+                return l.name.localeCompare(r.name);
               }).map(this.renderNotification)}
             </tbody>
           </table>
@@ -55,7 +55,7 @@ class Notifications extends React.Component {
   }
 
   renderNotificationMessage(messageKey) {
-    return <p key={messageKey}>{I18n.t(messageKey)}</p>
+    return <p key={messageKey}>{I18n.t(messageKey)}</p>;
   }
 
   renderNotification(notificationArgument) {

@@ -7,9 +7,9 @@ require("lodash");
 import React from "react";
 import { render } from "react-dom";
 import Router from "react-router/BrowserRouter";
-import Match from 'react-router/Match';
-import Miss from 'react-router/Miss';
-import Redirect from 'react-router/Redirect';
+import Match from "react-router/Match";
+import Miss from "react-router/Miss";
+import Redirect from "react-router/Redirect";
 import I18n from "i18n-js";
 import { browserSupported } from "./lib/browser_supported";
 
@@ -92,7 +92,7 @@ if (browserSupported()) {
   .then(json => {
     I18n.locale = json.language;
     const currentUser = new CurrentUser(json.payload);
-    var locationHash = window.location.hash.substr(1);
+    const locationHash = window.location.hash.substr(1);
     currentUser.statsToken = locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
 
     if (!currentUser.statsToken) {

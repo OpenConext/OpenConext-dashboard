@@ -25,14 +25,14 @@ class PolicyAttributes extends React.Component {
   }
 
   addAttribute(attrName) {
-    var attributes = this.state.attributes || [];
-    var index = attributes.length + 1;
+    const attributes = this.state.attributes || [];
+    const index = attributes.length + 1;
     attributes.push({name: attrName, value: "", index: index});
     this.props.setAttributeState({attributes: attributes});
   }
 
   removeAttribute(name) {
-    var attributes = this.state.attributes || [];
+    let attributes = this.state.attributes || [];
     attributes = this.state.attributes.filter(function (attribute) {
       return attribute.name !== name;
     });
@@ -48,7 +48,7 @@ class PolicyAttributes extends React.Component {
     return function (e) {
       this.preventProp(e);
       //change attribute value
-      var attributes = this.state.attributes.map(function (attr) {
+      const attributes = this.state.attributes.map(function (attr) {
         if (attr.name === attrName && attr.index === index) {
           attr.value = e.target.value;
         }
@@ -62,7 +62,7 @@ class PolicyAttributes extends React.Component {
     return function (e) {
       this.preventProp(e);
       //remove attribute value
-      var attributes = this.state.attributes.filter(function (attr) {
+      const attributes = this.state.attributes.filter(function (attr) {
         return !(attr.name === attrName && attr.index === index);
       });
       this.props.setAttributeState({attributes: attributes});
@@ -80,7 +80,7 @@ class PolicyAttributes extends React.Component {
   handleNewAttribute(e) {
     this.preventProp(e);
     //change attribute value
-    var attrName = e.target.value;
+    const attrName = e.target.value;
     this.addAttribute(attrName);
   }
 
@@ -104,7 +104,7 @@ class PolicyAttributes extends React.Component {
   }
 
   renderAttributeValue(attrName, attribute, index) {
-    var className = this.renderAttributeInfo(attrName, index) === undefined ? "" : "before-em";
+    const className = this.renderAttributeInfo(attrName, index) === undefined ? "" : "before-em";
     return (
         <div className="value-container" key={"div-" + attrName + "-" + attribute.index}>
           <input type="text" name="value" className={"form-input " + className}
@@ -118,24 +118,24 @@ class PolicyAttributes extends React.Component {
           </a>
 
         </div>
-    )
+    );
   }
 
   render() {
-    var policy = this.state;
-    var grouped = _.groupBy(policy.attributes, function (attr) {
+    const policy = this.state;
+    const grouped = _.groupBy(policy.attributes, function (attr) {
       return attr.name;
     });
-    var attrNames = Object.keys(grouped);
-    var allowedAttributes = this.props.allowedAttributes.filter(function (attr) {
+    const attrNames = Object.keys(grouped);
+    const allowedAttributes = this.props.allowedAttributes.filter(function (attr) {
       return _.isEmpty(grouped[attr.name]);
     });
-    var self = this;
-    var emptyAttributes = policy.attributes.filter(function (attr) {
+    const self = this;
+    const emptyAttributes = policy.attributes.filter(function (attr) {
       return _.isEmpty(attr.value);
     });
-    var validClassName = (_.isEmpty(policy.attributes) || emptyAttributes.length > 0) ? "failure" : "success";
-    var css = this.props.css || "";
+    const validClassName = (_.isEmpty(policy.attributes) || emptyAttributes.length > 0) ? "failure" : "success";
+    const css = this.props.css || "";
     return (
         <div className="form-element">
             <fieldset className={css+" "+validClassName}>

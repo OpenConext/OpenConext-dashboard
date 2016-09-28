@@ -28,7 +28,7 @@ class Navigation extends React.Component {
           length: 25, // The length of each line
           width: 4, // The line thickness
           radius: 20, // The radius of the inner circle
-          color: '#4DB3CF', // #rgb or #rrggbb or array of colors
+          color: "#4DB3CF", // #rgb or #rrggbb or array of colors
         }).spin(this.spinnerNode);
       }
     } else {

@@ -51,9 +51,9 @@ function fetchDelete(path) {
 }
 
 function fetchPost(path, body, options = {}) {
-  var data = new FormData();
+  const data = new FormData();
 
-  for (var key in body) {
+  for (const key in body) {
     if (body.hasOwnProperty(key)) {
       data.append(key, body[key]);
     }
@@ -107,11 +107,11 @@ export function getPolicies() {
 }
 
 export function getInstitutionServiceProviders() {
-  return fetchJson('/users/me/serviceproviders');
+  return fetchJson("/users/me/serviceproviders");
 }
 
 export function getConnectedServiceProviders(idpId) {
-  return fetchJson('/services/connected', {
+  return fetchJson("/services/connected", {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }
@@ -119,11 +119,11 @@ export function getConnectedServiceProviders(idpId) {
 }
 
 export function getAllowedAttributes() {
-  return fetchJson('/policies/attributes');
+  return fetchJson("/policies/attributes");
 }
 
 export function getNewPolicy() {
-  return fetchJson('/policies/new');
+  return fetchJson("/policies/new");
 }
 
 export function logout() {
@@ -131,15 +131,15 @@ export function logout() {
 }
 
 export function exit() {
-  return validFetch('/users/me/switch-to-idp');
+  return validFetch("/users/me/switch-to-idp");
 }
 
 export function switchToIdp(idpId, role) {
-  return validFetch('/users/me/switch-to-idp?' + qs.stringify({ idpId, role }));
+  return validFetch("/users/me/switch-to-idp?" + qs.stringify({ idpId, role }));
 }
 
 export function getNotifications(idpId) {
-  return fetchJson('/notifications', {
+  return fetchJson("/notifications", {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }
@@ -147,7 +147,7 @@ export function getNotifications(idpId) {
 }
 
 export function getActions(idpId) {
-  return fetchJson('/actions', {
+  return fetchJson("/actions", {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }
@@ -175,7 +175,7 @@ export function removeConnection(idpId, app, comments) {
 }
 
 export function getIdpRolesWithUsers(idpId) {
-  return fetchJson('/idp/current/roles', {
+  return fetchJson("/idp/current/roles", {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }
@@ -183,7 +183,7 @@ export function getIdpRolesWithUsers(idpId) {
 }
 
 export function getLicenseContactPerson(idpId) {
-  return fetchJson('/idp/licensecontactpersons', {
+  return fetchJson("/idp/licensecontactpersons", {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }

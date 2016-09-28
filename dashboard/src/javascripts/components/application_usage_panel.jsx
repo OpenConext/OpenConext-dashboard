@@ -14,14 +14,14 @@ class ApplicationUsagePanel extends React.Component {
 
     this.state = {
       chart: {
-        type: 'idpsp',
-        periodFrom: moment().subtract(1, 'months'),
+        type: "idpsp",
+        periodFrom: moment().subtract(1, "months"),
         periodTo: moment(),
-        periodType: 'm',
+        periodType: "m",
         periodDate: moment(),
         error: false
       }
-    }
+    };
   }
 
   componentWillMount() {
@@ -36,7 +36,7 @@ class ApplicationUsagePanel extends React.Component {
       this.setState({ chart: { ...this.state.chart, idp: idp.id }});
 
       retrieveSps(idp.id, currentUser.statsToken).then(sps => {
-        var newSps = sps.map(function (sp) {
+        const newSps = sps.map(function (sp) {
           return {display: sp.name, value: sp.id};
         });
 
@@ -73,20 +73,20 @@ class ApplicationUsagePanel extends React.Component {
   renderPeriodSelect() {
     const handleChangePeriodFrom = (moment) => {
       this.setState({ chart: { ...this.state.chart, periodFrom: moment }});
-    }
+    };
     const handleChangePeriodTo = (moment) => {
       this.setState({ chart: { ...this.state.chart, periodTo: moment }});
-    }
+    };
 
     return (
       <div>
         <Period
           initialDate={this.state.chart.periodFrom}
-          title={I18n.t('stats.chart.periodFrom.name')}
+          title={I18n.t("stats.chart.periodFrom.name")}
           handleChange={handleChangePeriodFrom} />
         <Period
           initialDate={this.state.chart.periodTo}
-          title={I18n.t('stats.chart.periodTo.name')}
+          title={I18n.t("stats.chart.periodTo.name")}
           handleChange={handleChangePeriodTo} />
       </div>
     );

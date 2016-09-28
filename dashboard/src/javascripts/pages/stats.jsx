@@ -16,14 +16,14 @@ class Stats extends React.Component {
     super();
     this.state = {
       chart: {
-        type: 'idpspbar',
-        periodFrom: moment().subtract(1, 'months'),
-        periodTo: moment().subtract(1, 'days'),
-        periodType: 'm',
-        periodDate: moment().subtract(1, 'days'),
+        type: "idpspbar",
+        periodFrom: moment().subtract(1, "months"),
+        periodTo: moment().subtract(1, "days"),
+        periodType: "m",
+        periodDate: moment().subtract(1, "days"),
         error: false
       }
-    }
+    };
   }
   componentWillMount() {
     const { currentUser } = this.context;
@@ -31,7 +31,7 @@ class Stats extends React.Component {
       this.setState({ chart: { ...this.state.chart, idp: idp.id }});
 
       retrieveSps(idp.id, currentUser.statsToken).then(sps => {
-        var newSps = sps.map(function (sp) {
+        const newSps = sps.map(function (sp) {
           return {display: sp.name, value: sp.id};
         });
 
@@ -63,14 +63,14 @@ class Stats extends React.Component {
   }
 
   renderChartTypeSelect() {
-    var options = [
-      {display: I18n.t('stats.chart.type.idpspbar'), value: 'idpspbar'},
-      {display: I18n.t('stats.chart.type.idpsp'), value: 'idpsp'}
+    const options = [
+      {display: I18n.t("stats.chart.type.idpspbar"), value: "idpspbar"},
+      {display: I18n.t("stats.chart.type.idpsp"), value: "idpsp"}
     ];
 
-    var handleChange = (value) => {
+    const handleChange = (value) => {
       this.setState({ chart: { ...this.state.chart, type: value }});
-      if (value === 'idpsp' && !this.state.chart.sp && this.state.sps.length > 0) {
+      if (value === "idpsp" && !this.state.chart.sp && this.state.sps.length > 0) {
         this.setState({ chart: { ...this.state.chart, sp: this.state.sps[0].value }});
       }
     };
@@ -78,7 +78,7 @@ class Stats extends React.Component {
     return (
       <div>
         <fieldset>
-          <h2>{I18n.t('stats.chart.type.name')}</h2>
+          <h2>{I18n.t("stats.chart.type.name")}</h2>
           <Select2Selector
             defaultValue={this.state.chart.type}
             select2selectorId='chart-type'
@@ -92,7 +92,7 @@ class Stats extends React.Component {
   }
 
   renderSpSelect() {
-    if (this.state.chart.type !== 'idpsp') {
+    if (this.state.chart.type !== "idpsp") {
       return;
     }
     const handleChange = (sp) => {
@@ -102,7 +102,7 @@ class Stats extends React.Component {
 
     return (
       <fieldset>
-        <h2>{I18n.t('stats.chart.sp.name')}</h2>
+        <h2>{I18n.t("stats.chart.sp.name")}</h2>
         <Select2Selector
           defaultValue={this.state.chart.sp}
           select2selectorId='sp'
@@ -114,7 +114,7 @@ class Stats extends React.Component {
   }
 
   renderPeriodSelect() {
-    if (this.state.chart.type === 'idpsp') {
+    if (this.state.chart.type === "idpsp") {
       const handleChangePeriodFrom = (moment) => {
         this.setState({ chart: { ...this.state.chart, periodFrom: moment }});
       };
@@ -127,11 +127,11 @@ class Stats extends React.Component {
         <div>
           <Period
             initialDate={this.state.chart.periodFrom}
-            title={I18n.t('stats.chart.periodFrom.name')}
+            title={I18n.t("stats.chart.periodFrom.name")}
             handleChange={handleChangePeriodFrom.bind(this)} />
           <Period
             initialDate={this.state.chart.periodTo}
-            title={I18n.t('stats.chart.periodTo.name')}
+            title={I18n.t("stats.chart.periodTo.name")}
             handleChange={handleChangePeriodTo.bind(this)} />
         </div>
       );
@@ -145,7 +145,7 @@ class Stats extends React.Component {
           {this.renderPeriodTypeSelect()}
           <Period
             initialDate={this.state.chart.periodDate}
-            title={I18n.t('stats.chart.periodDate.name')}
+            title={I18n.t("stats.chart.periodDate.name")}
             handleChange={handleChange.bind(this)} />
         </div>
       );
@@ -153,12 +153,12 @@ class Stats extends React.Component {
   }
 
   renderPeriodTypeSelect() {
-    var options = [
-      {display: I18n.t('stats.chart.period.day'), value: 'd'},
-      {display: I18n.t('stats.chart.period.week'), value: 'w'},
-      {display: I18n.t('stats.chart.period.month'), value: 'm'},
-      {display: I18n.t('stats.chart.period.quarter'), value: 'q'},
-      {display: I18n.t('stats.chart.period.year'), value: 'y'}
+    const options = [
+      {display: I18n.t("stats.chart.period.day"), value: "d"},
+      {display: I18n.t("stats.chart.period.week"), value: "w"},
+      {display: I18n.t("stats.chart.period.month"), value: "m"},
+      {display: I18n.t("stats.chart.period.quarter"), value: "q"},
+      {display: I18n.t("stats.chart.period.year"), value: "y"}
     ];
 
     const handleChange = function(value) {
@@ -167,7 +167,7 @@ class Stats extends React.Component {
 
     return (
       <fieldset>
-        <h2>{I18n.t('stats.chart.period.name')}</h2>
+        <h2>{I18n.t("stats.chart.period.name")}</h2>
         <Select2Selector
           defaultValue={this.state.chart.periodType}
           options={options}
@@ -182,7 +182,7 @@ class Stats extends React.Component {
         <div className="l-left">
           <div className="mod-filters">
             <div className="header">
-              <h1>{I18n.t('stats.filters.name')}</h1>
+              <h1>{I18n.t("stats.filters.name")}</h1>
               {this.renderDownload()}
             </div>
             <form>

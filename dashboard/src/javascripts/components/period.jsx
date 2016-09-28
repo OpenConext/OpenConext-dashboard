@@ -9,7 +9,7 @@ class Period extends React.Component {
     this.state = {
       date: moment(),
       error: false
-    }
+    };
   }
 
   componentWillMount() {
@@ -20,7 +20,7 @@ class Period extends React.Component {
     return (
       <fieldset>
         <h2>{this.props.title}</h2>
-        <input type="text" value={this.state.date} onChange={e => this.handlePeriodDateChanged(e)} className={this.state.error ? 'error' : ''} />
+        <input type="text" value={this.state.date} onChange={e => this.handlePeriodDateChanged(e)} className={this.state.error ? "error" : ""} />
       </fieldset>
     );
   }
@@ -29,7 +29,7 @@ class Period extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     this.setState({date: event.target.value});
-    var m = moment(event.target.value, "YYYY-MM-DD", true);
+    const m = moment(event.target.value, "YYYY-MM-DD", true);
     if (m.isValid()) {
       this.setState({error: false});
       this.props.handleChange(m);

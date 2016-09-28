@@ -1,10 +1,10 @@
 import React from "react";
 
-import Select2 from 'react-select2-wrapper';
+import Select2 from "react-select2-wrapper";
 
 class Select2Selector extends React.Component {
   render() {
-    const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : '');
+    const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : "");
     const data = this.props.options.map((option) => ({ text: option.display, id: option.value }));
     const minimumResultsForSearch = this.props.minimumResultsForSearch || 7;
 
@@ -16,7 +16,7 @@ class Select2Selector extends React.Component {
         onSelect={(e) => this.props.handleChange(e.target.value)}
         options={{
           placeholder: this.props.placeholder,
-          width: '100%',
+          width: "100%",
           allowClear: false,
           forceBelow: true,
           minimumResultsForSearch: minimumResultsForSearch

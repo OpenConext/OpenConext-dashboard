@@ -1,6 +1,6 @@
-import qs from 'qs';
+import qs from "qs";
 
-export const STATS_HOST = 'https://stats.surfconext.nl';
+export const STATS_HOST = "https://stats.surfconext.nl";
 const apiPath = `${STATS_HOST}/api/v1`;
 
 export function apiUrl(path) {
@@ -40,11 +40,11 @@ export function fetchJson(path, options = {}) {
 }
 
 export function retrieveSp(entityId, statsToken) {
-  return fetchJson('/entity/sp.json?' + qs.stringify({
-    'entityid': entityId,
-    'active': 1,
-    'state': 'PA',
-    'access_token': statsToken
+  return fetchJson("/entity/sp.json?" + qs.stringify({
+    "entityid": entityId,
+    "active": 1,
+    "state": "PA",
+    "access_token": statsToken
   })).then(data => {
     if (data.records[0]) {
       return data.records[0];
@@ -55,11 +55,11 @@ export function retrieveSp(entityId, statsToken) {
 }
 
 export function retrieveIdp(currentIdpId, currentIdpInstitutionId, statsToken) {
-  return fetchJson('/entity/idp.json?' + qs.stringify({
-    'entityid': currentIdpId,
-    'institution': currentIdpInstitutionId,
-    'state': 'PA',
-    'access_token': statsToken
+  return fetchJson("/entity/idp.json?" + qs.stringify({
+    "entityid": currentIdpId,
+    "institution": currentIdpInstitutionId,
+    "state": "PA",
+    "access_token": statsToken
   })).then(data => {
     if (data.records[0]) {
       return data.records[0];

@@ -34,7 +34,7 @@ class LanguageSelector extends React.Component {
       if (I18n.currentLocale() != locale) {
         window.location.search = "lang=" + locale;
       }
-    }
+    };
   }
 }
 

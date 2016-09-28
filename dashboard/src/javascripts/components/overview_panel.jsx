@@ -45,7 +45,7 @@ class OverviewPanel extends React.Component {
   }
 
   renderNormenKader() {
-    var html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
+    const html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
       I18n.t("overview_panel.normen_kader_html", {name: this.props.app.name, link: this.props.app.normenkaderUrl}) :
       I18n.t("overview_panel.no_normen_kader_html", {name: this.props.app.name});
     return (
@@ -68,7 +68,7 @@ class OverviewPanel extends React.Component {
   }
 
   renderDescription() {
-    var hasText = function (value) {
+    const hasText = function (value) {
       return value && value.trim().length > 0;
     };
     if (hasText(this.props.app.enduserDescription)) {

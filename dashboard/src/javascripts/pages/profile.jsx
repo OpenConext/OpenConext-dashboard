@@ -5,8 +5,8 @@ import I18n from "i18n-js";
 class Profile extends React.Component {
   render() {
     const { currentUser } = this.context;
-    var attributeKeys = Object.keys(currentUser.attributeMap);
-    var roles = currentUser.grantedAuthorities;
+    const attributeKeys = Object.keys(currentUser.attributeMap);
+    const roles = currentUser.grantedAuthorities;
     return (
       <div className="l-mini">
 
@@ -47,8 +47,8 @@ class Profile extends React.Component {
   renderAttribute(attributeKey) {
     const { currentUser } = this.context;
     // Use [] to get the value from I18n because attributeKey can contain (.) dot's.
-    var attributeName = I18n.t("profile.attribute_map")[attributeKey]["name"]
-    var attributeDescription = I18n.t("profile.attribute_map")[attributeKey]["description"]
+    const attributeName = I18n.t("profile.attribute_map")[attributeKey]["name"];
+    const attributeDescription = I18n.t("profile.attribute_map")[attributeKey]["description"];
     return (
       <tr key={attributeKey}>
         <td title={attributeDescription}>

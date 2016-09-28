@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import I18n from "i18n-js";
 import $ from "jquery";
 
@@ -10,7 +10,7 @@ class Chart extends React.Component {
     super();
     this.state = {
       error: false
-    }
+    };
   }
 
   componentWillMount() {
@@ -30,17 +30,17 @@ class Chart extends React.Component {
     if (!this.props.chart.idp) {
       return;
     }
-    if (this.props.chart.type === 'idpsp' && !this.props.chart.sp) {
+    if (this.props.chart.type === "idpsp" && !this.props.chart.sp) {
       return;
     }
 
     this.setState({ error: false });
 
-    var chartId = this.chart.id;
-    var setMinimumHeightOfChart = function (height) {
-      $("#" + chartId).css('min-height', height + 'px');
+    const chartId = this.chart.id;
+    const setMinimumHeightOfChart = function (height) {
+      $("#" + chartId).css("min-height", height + "px");
     };
-    var options = {
+    let options = {
       idp: this.props.chart.idp,
       imagePath: STATS_HOST + "/api/js/graphs-v1/images/amcharts/"
     };
@@ -48,29 +48,29 @@ class Chart extends React.Component {
     const { chart } = this.props;
 
     switch (chart.type) {
-      case 'idpspbar':
-        options = _.merge(options, {
-          period: getPeriod(chart.periodDate, chart.periodType),
-          dataCallbacks: [function(data) {
-            var height = Math.max(data.numRecords * 25, 300);
-            setMinimumHeightOfChart(height);
-          }]
-        });
-        break;
-      case 'idpsp':
-        options = _.merge(options, {
-          sp: chart.sp,
-          period: getPeriod(chart.periodDate, chart.periodType), // why is this needed??
-          periodFrom: this.props.chart.periodFrom.format("YYYY-MM-DD"),
-          periodTo: this.props.chart.periodTo.format("YYYY-MM-DD"),
-          dataCallbacks: [function(data) {
-            var height = Math.min(data.entities[0].records.reduce(function(prevValue, currentValue) {
-              return Math.max(prevValue, currentValue.logins * 10);
-            }, 300), 800);
-            setMinimumHeightOfChart(height);
-          }]
-        });
-        break;
+    case "idpspbar":
+      options = _.merge(options, {
+        period: getPeriod(chart.periodDate, chart.periodType),
+        dataCallbacks: [function(data) {
+          const height = Math.max(data.numRecords * 25, 300);
+          setMinimumHeightOfChart(height);
+        }]
+      });
+      break;
+    case "idpsp":
+      options = _.merge(options, {
+        sp: chart.sp,
+        period: getPeriod(chart.periodDate, chart.periodType), // why is this needed??
+        periodFrom: this.props.chart.periodFrom.format("YYYY-MM-DD"),
+        periodTo: this.props.chart.periodTo.format("YYYY-MM-DD"),
+        dataCallbacks: [function(data) {
+          const height = Math.min(data.entities[0].records.reduce(function(prevValue, currentValue) {
+            return Math.max(prevValue, currentValue.logins * 10);
+          }, 300), 800);
+          setMinimumHeightOfChart(height);
+        }]
+      });
+      break;
     }
 
     this.chart = new SurfCharts(
