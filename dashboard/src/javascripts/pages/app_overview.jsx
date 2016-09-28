@@ -1,5 +1,5 @@
 import React from "react";
-import I18n from "../lib/i18n";
+import I18n from "i18n-js";
 import qs from "qs";
 import SortableHeader from '../components/sortable_header';
 import Link from 'react-router/Link';

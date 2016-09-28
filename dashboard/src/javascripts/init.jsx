@@ -1,4 +1,4 @@
-import I18n from "./lib/i18n";
+import I18n from "i18n-js";
 import $ from "jquery";
 import page from "./lib/page";
 import _ from "./lib/underscore";

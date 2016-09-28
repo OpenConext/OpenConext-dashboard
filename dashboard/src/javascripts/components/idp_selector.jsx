@@ -1,6 +1,6 @@
 import React from "react";
 
-import I18n from "../lib/i18n";
+import I18n from "i18n-js";
 
 import { switchToIdp } from "../api";
 

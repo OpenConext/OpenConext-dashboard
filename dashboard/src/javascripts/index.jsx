@@ -9,7 +9,7 @@ import Router from "react-router/BrowserRouter";
 import Match from 'react-router/Match';
 import Miss from 'react-router/Miss';
 import Redirect from 'react-router/Redirect';
-import I18n from "./lib/i18n";
+import I18n from "i18n-js";
 import { browserSupported } from "./lib/browser_supported";
 
 import CurrentUser from "./models/current-user";

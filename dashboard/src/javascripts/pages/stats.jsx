@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import I18n from "../lib/i18n";
+import I18n from "i18n-js";
 
 import { apiUrl, retrieveIdp, retrieveSps } from "../api/stats";
 import { getPeriod } from "../utils/period";

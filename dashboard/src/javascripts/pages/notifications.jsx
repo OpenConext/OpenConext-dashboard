@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "react-router/Link";
 
-import I18n from "../lib/i18n";
+import I18n from "i18n-js";
 
 import { getNotifications } from "../api";
 import YesNo from "../components/yes-no";

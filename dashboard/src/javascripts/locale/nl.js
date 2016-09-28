@@ -4,7 +4,7 @@
 // ie "Hello {{name}}" Do not add any spaces around the variable name.
 // Provide the values as: I18n.t("key", {name: "John Doe"})
 
-import I18n from "../lib/i18n";
+import I18n from "i18n-js";
 
 I18n.translations.nl = {
   code: "NL",
