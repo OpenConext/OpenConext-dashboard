@@ -125,7 +125,7 @@ class PolicyDetail extends React.Component {
     );
   }
 
-  toggleDenyRule(e) {
+  toggleDenyRule() {
     const partialState = { denyRule: !this.state.policy.denyRule };
     if (!this.state.policydenyRule) {
       partialState.allAttributesMustMatch = true;
@@ -147,9 +147,9 @@ class PolicyDetail extends React.Component {
         allAttributesMustMatch: partialState.allAttributesMustMatch !== undefined ? partialState.allAttributesMustMatch : policy.allAttributesMustMatch
       };
       return AutoFormat.description(newPolicy);
-    } else {
-      return this.state.description;
     }
+
+    return this.state.description;
   }
 
   renderServiceProvider(policy) {
@@ -187,11 +187,13 @@ class PolicyDetail extends React.Component {
     if (scopedSPs) {
       return (<em className="note"><sup>*</sup>{I18n.t("policy_detail.spScopeInfo")} </em>);
     }
+
+    return null;
   }
 
   renderIdentityProvider(policy) {
     const { currentUser } = this.context;
-    const providers = currentUser.institutionIdps.map(idp => { return { value: idp.id, display: idp.name };});
+    const providers = currentUser.institutionIdps.map(idp => ({ value: idp.id, display: idp.name }));
     return (
       <div className="form-element">
         <fieldset className="success">
@@ -210,8 +212,6 @@ class PolicyDetail extends React.Component {
 
   handleChangeIdentityProvider(newValue) {
     const partialState = { identityProviderIds: newValue };
-
-    const noIdpSelected = _.isEmpty(newValue);
 
     partialState.description = this.buildAutoFormattedDescription(partialState);
 
@@ -252,19 +252,20 @@ class PolicyDetail extends React.Component {
 
   renderRule(value, selected) {
     const className = value + " " + (selected ? "selected" : "");
+
     if (this.state.policy.denyRule) {
       return (
         <li key={value}>
           <span className={className}>{value}</span>
         </li>
       );
-    } else {
-      return (
-        <li key={value}>
-          <a href="#" className={className} onClick={this.handleChooseRule(value)}>{value}</a>
-        </li>
-      );
-    }
+    } 
+
+    return (
+      <li key={value}>
+        <a href="#" className={className} onClick={this.handleChooseRule(value)}>{value}</a>
+      </li>
+    );
   }
 
   handleChooseRule(value) {
@@ -278,7 +279,7 @@ class PolicyDetail extends React.Component {
     }.bind(this);
   }
 
-  renderAttributes(policy) {
+  renderAttributes() {
     return (<PolicyAttributes
         policy={this.state.policy}
         allowedAttributes={this.state.allowedAttributes}
@@ -322,7 +323,7 @@ class PolicyDetail extends React.Component {
     );
   }
 
-  handleOnChangeAutoFormat(e) {
+  handleOnChangeAutoFormat() {
     const { policy } = this.state;
     const partialState = { autoFormat: !policy.policyautoFormat };
     if (partialState.autoFormat) {
@@ -381,11 +382,11 @@ class PolicyDetail extends React.Component {
     );
   }
 
-  handleOnChangeIsActive(e) {
+  handleOnChangeIsActive() {
     this.setState({ policy: { ...this.state.policy, active: !this.state.policy.active } });
   }
 
-  renderActions(policy) {
+  renderActions() {
     const classNameSubmit = this.isValidPolicy() ? "" : "disabled";
     return (
       <div className="form-element">
@@ -442,6 +443,12 @@ class PolicyDetail extends React.Component {
 PolicyDetail.contextTypes = {
   currentUser: React.PropTypes.object,
   router: React.PropTypes.object
+};
+
+PolicyDetail.propTypes = {
+  params: React.PropTypes.Shape({
+    id: React.PropTypes.string
+  })
 };
 
 export default PolicyDetail;

@@ -102,9 +102,9 @@ class PolicyRevisions extends React.Component {
     const curr = this.state.curr;
     if (prev || curr) {
       return this.renderDiff(prev, curr);
-    } else {
-      return this.renderAboutPage();
     }
+
+    return this.renderAboutPage();
   }
 
   renderDiff(passedPrev, curr) {
@@ -154,12 +154,14 @@ class PolicyRevisions extends React.Component {
       return (<span className="diff no-change">{current.toString()}</span>);
     } else if (previous === undefined) {
       return <span className="diff curr">{current.toString()}</span>;
-    } else {
-      return (<div>
+    }
+
+    return (
+      <div>
         <span className="diff prev">{previous.toString()}</span>
         <span className="diff curr">{current.toString()}</span>
-      </div>);
-    }
+      </div>
+    );
   }
 
   classNamePropertyDiff(prev, curr) {
@@ -218,15 +220,16 @@ class PolicyRevisions extends React.Component {
         }).length > 0;
 
         result[attrName] = { values: newValues, status: "no-change", anyValuesChanged: anyValuesChanged };
-        return result;
-      } else {
-        // these are the added attributes that are in curr and not in prev
-        result[attrName] = { values: attributes.map(attribute => {
-          return { value: attribute.value, status: "curr" };
-        }), status: "curr" };
 
         return result;
-      }
+      } 
+
+      // these are the added attributes that are in curr and not in prev
+      result[attrName] = { values: attributes.map(attribute => {
+        return { value: attribute.value, status: "curr" };
+      }), status: "curr" };
+
+      return result;
     }, {});
 
     const prevNames = Object.keys(attrPrevGrouped);
