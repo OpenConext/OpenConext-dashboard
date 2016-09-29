@@ -48,9 +48,9 @@ export function retrieveSp(entityId, statsToken) {
   })).then(data => {
     if (data.records[0]) {
       return data.records[0];
-    } else {
-      throw new Error(`Could not find entityId ${entityId}`);
     }
+
+    throw new Error(`Could not find entityId ${entityId}`);
   });
 }
 
@@ -63,9 +63,9 @@ export function retrieveIdp(currentIdpId, currentIdpInstitutionId, statsToken) {
   })).then(data => {
     if (data.records[0]) {
       return data.records[0];
-    } else {
-      throw new Error(`Could not find ${currentIdpId}`);
     }
+
+    throw new Error(`Could not find ${currentIdpId}`);
   });
 }
 

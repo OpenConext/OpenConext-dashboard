@@ -126,7 +126,7 @@ class PolicyDetail extends React.Component {
   }
 
   toggleDenyRule(e) {
-    var partialState = {denyRule: !this.state.policy.denyRule};
+    const partialState = {denyRule: !this.state.policy.denyRule};
     if (!this.state.policydenyRule) {
       partialState.allAttributesMustMatch = true;
     }
@@ -145,7 +145,7 @@ class PolicyDetail extends React.Component {
         attributes: partialState.attributes || policy.attributes,
         denyRule: partialState.denyRule !== undefined ? partialState.denyRule : policy.denyRule,
         allAttributesMustMatch: partialState.allAttributesMustMatch !== undefined ? partialState.allAttributesMustMatch : policy.allAttributesMustMatch
-      }
+      };
       return AutoFormat.description(newPolicy);
     } else {
       return this.state.description;
@@ -251,7 +251,7 @@ class PolicyDetail extends React.Component {
   }
 
   renderRule(value, selected) {
-    var className = value + " " + (selected ? "selected" : "");
+    const className = value + " " + (selected ? "selected" : "");
     if (this.state.policy.denyRule) {
       return (
         <li key={value}>
@@ -324,7 +324,7 @@ class PolicyDetail extends React.Component {
 
   handleOnChangeAutoFormat(e) {
     const { policy } = this.state;
-    var partialState = {autoFormat: !policy.policyautoFormat};
+    const partialState = {autoFormat: !policy.policyautoFormat};
     if (partialState.autoFormat) {
       partialState.savedDescription = policy.description;
       this.provideProviderNames(partialState);
@@ -337,23 +337,23 @@ class PolicyDetail extends React.Component {
 
   provideProviderNames(partialState) {
     const { currentUser } = this.context;
-    var identityProviderIds = _.isUndefined(partialState.identityProviderIds) ? this.state.policy.identityProviderIds : partialState.identityProviderIds;
+    const identityProviderIds = _.isUndefined(partialState.identityProviderIds) ? this.state.policy.identityProviderIds : partialState.identityProviderIds;
 
     if (_.isEmpty(identityProviderIds)) {
       this.setState({ policy: { ...this.state.policy, identityProviderNames: [] }});
     } else {
       this.setState({ policy: { ...this.state.policy, identityProviderNames: identityProviderIds.map((idp) => {
-        var provider = _.find(currentUser.institutionIdps, (provider) => provider.id === idp);
+        const provider = _.find(currentUser.institutionIdps, (provider) => provider.id === idp);
         return provider.name;
       })}});
     }
 
-    var serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.policy.serviceProviderId : partialState.serviceProviderId;
+    const serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.policy.serviceProviderId : partialState.serviceProviderId;
     if (_.isEmpty(serviceProviderId)) {
       this.setState({ policy: { ...this.state.policy, serviceProviderName: null }});
     } else {
-      var scopedSPs = _.isEmpty(identityProviderIds);
-      var serviceProvider = _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, function (sp) {
+      const scopedSPs = _.isEmpty(identityProviderIds);
+      const serviceProvider = _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, function (sp) {
         return sp.spEntityId === serviceProviderId;
       });
       this.setState({ policy: { ...this.state.policy, serviceProviderName: serviceProvider.name }});
@@ -361,10 +361,10 @@ class PolicyDetail extends React.Component {
   }
 
   findServiceProvider(serviceProviderId) {
-      var scopedSPs = _.isEmpty(this.state.policy.identityProviderIds);
-      return _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, (sp) => {
-        return sp.spEntityId === serviceProviderId;
-      });
+    const scopedSPs = _.isEmpty(this.state.policy.identityProviderIds);
+    return _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, (sp) => {
+      return sp.spEntityId === serviceProviderId;
+    });
   }
 
   renderActive(policy) {

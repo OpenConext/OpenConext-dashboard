@@ -30,9 +30,9 @@ class IDPSelector extends React.Component {
           {this.renderMenu()}
         </li>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   renderMenu() {
@@ -61,9 +61,9 @@ class IDPSelector extends React.Component {
       return (
         <i className="fa fa-caret-right" />
       );
-    } else {
-      return "";
     }
+
+    return "";
   }
 
   handleChooseIdp(idp) {

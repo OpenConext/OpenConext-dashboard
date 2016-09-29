@@ -49,21 +49,21 @@ class Header extends React.Component {
           </a>
         </span>
       );
-    } else {
-      return (
-        <span>
-          {I18n.t("header.welcome")}&nbsp;{currentUser.displayName}
-        </span>
-      );
     }
+
+    return (
+      <span>
+        {I18n.t("header.welcome")}&nbsp;{currentUser.displayName}
+      </span>
+    );
   }
 
   renderDropDownIndicator() {
     if (this.state.dropDownActive) {
       return <i className="fa fa-caret-up" />;
-    } else {
-      return <i className="fa fa-caret-down" />;
     }
+
+    return <i className="fa fa-caret-down" />;
   }
 
   renderDropDown() {
@@ -91,11 +91,11 @@ class Header extends React.Component {
       return (
         <li><a href="#" onClick={this.handleExitClick.bind(this)}>{I18n.t("header.links.exit")}</a></li>
       );
-    } else {
-      return (
-        <li><a href="#" onClick={this.handleLogoutClick.bind(this)}>{I18n.t("header.links.logout")}</a></li>
-      );
     }
+
+    return (
+      <li><a href="#" onClick={this.handleLogoutClick.bind(this)}>{I18n.t("header.links.logout")}</a></li>
+    );
   }
 
   handleLogoutClick(e) {

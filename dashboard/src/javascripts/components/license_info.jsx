@@ -22,9 +22,9 @@ class LicenseInfo extends React.Component {
   renderSplitClass(classNames) {
     if (this.props.split) {
       return classNames + " split";
-    } else {
-      return classNames;
     }
+
+    return classNames;
   }
 
   renderHasLicense() {

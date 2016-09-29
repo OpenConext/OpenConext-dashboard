@@ -5,9 +5,9 @@ class SortableHeader extends React.Component {
   renderSortDirection() {
     if (this.props.sortAscending) {
       return <i className="fa fa-sort-asc"></i>;
-    } else {
-      return <i className="fa fa-sort-desc"></i>;
     }
+
+    return <i className="fa fa-sort-desc"></i>;
   }
 
   handleSort(e) {

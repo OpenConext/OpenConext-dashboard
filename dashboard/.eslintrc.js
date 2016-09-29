@@ -52,6 +52,7 @@ module.exports = {
       "error",
       "always"
     ],
-    "react/forbid-prop-types": "error"
+    "react/forbid-prop-types": "error",
+    "no-else-return": "error"
   }
 };

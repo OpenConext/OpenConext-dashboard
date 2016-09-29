@@ -83,9 +83,9 @@ class OverviewPanel extends React.Component {
       return <p dangerouslySetInnerHTML={{ __html: this.props.app.institutionDescription}}/>;
     } else if (hasText(this.props.app.description)) {
       return <p dangerouslySetInnerHTML={{ __html: this.props.app.description}}/>;
-    } else {
-      return <p>{I18n.t("overview_panel.no_description")}</p>;
     }
+
+    return <p>{I18n.t("overview_panel.no_description")}</p>;
   }
 
   renderConnection() {

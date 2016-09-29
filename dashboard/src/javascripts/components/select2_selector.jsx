@@ -6,9 +6,9 @@ class Select2Selector extends React.Component {
   onChange(val) {
     if (_.isArray(val)) {
       return this.props.handleChange(val.map(v => v.value));
-    } else {
-      return this.props.handleChange(val.value);
     }
+
+    return this.props.handleChange(val.value);
   }
 
   render() {

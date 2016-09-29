@@ -12,9 +12,9 @@ class Contact extends React.Component {
           </address>
         </div>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 }
 

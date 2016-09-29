@@ -26,28 +26,27 @@ class AttributePolicyPanel extends React.Component {
       return (
         <p>{I18n.t("attributes_policy_panel.arp.noattr", {name: app.name})}</p>
       );
-    } else {
-      return (
-        <div className="mod-attributes">
-          <table>
-            <thead>
+    }
+
+    return (
+      <div className="mod-attributes">
+        <table>
+          <thead>
             <tr>
               <th>{I18n.t("attributes_policy_panel.attribute")}</th>
               <th>{I18n.t("attributes_policy_panel.your_value")}
                 <span className="star">*</span>
               </th>
             </tr>
-            </thead>
-            <tbody>
+          </thead>
+          <tbody>
             {app.filteredUserAttributes.map(this.renderAttribute)}
-            </tbody>
-          </table>
-          <p>
-            <span className="star">*</span> {I18n.t("attributes_policy_panel.hint")}</p>
-        </div>
-
-      );
-    }
+          </tbody>
+        </table>
+        <p>
+          <span className="star">*</span> {I18n.t("attributes_policy_panel.hint")}</p>
+      </div>
+    );
   }
 
   renderAttribute(attribute) {

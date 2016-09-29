@@ -6,9 +6,9 @@ import CurrentUser from "../models/current_user";
 export default function ProtectedRoute({ component, currentUser, ...rest }) {
   if (currentUser.dashboardAdmin) {
     return <Match component={component} {...rest} />;
-  } else {
-    return null;
   }
+
+  return null;
 }
 
 ProtectedRoute.propTypes = {

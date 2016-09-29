@@ -136,21 +136,21 @@ class Stats extends React.Component {
             handleChange={handleChangePeriodTo.bind(this)} />
         </div>
       );
-    } else {
-      const handleChange = (moment) => {
-        this.setState({ chart: { ...this.state.chart, periodDate: moment }});
-      };
-
-      return (
-        <div>
-          {this.renderPeriodTypeSelect()}
-          <Period
-            initialDate={this.state.chart.periodDate}
-            title={I18n.t("stats.chart.periodDate.name")}
-            handleChange={handleChange.bind(this)} />
-        </div>
-      );
     }
+
+    const handleChange = (moment) => {
+      this.setState({ chart: { ...this.state.chart, periodDate: moment }});
+    };
+
+    return (
+      <div>
+        {this.renderPeriodTypeSelect()}
+        <Period
+          initialDate={this.state.chart.periodDate}
+          title={I18n.t("stats.chart.periodDate.name")}
+          handleChange={handleChange.bind(this)} />
+      </div>
+    );
   }
 
   renderPeriodTypeSelect() {

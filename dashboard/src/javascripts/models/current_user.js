@@ -15,9 +15,9 @@ class CurrentUser {
   getCurrentIdp() {
     if (this.superUser && this.switchedToIdp) {
       return this.switchedToIdp;
-    } else {
-      return this.switchedToIdp || this.currentIdp;
     }
+
+    return this.switchedToIdp || this.currentIdp;
   }
 
   getCurrentIdpId() {

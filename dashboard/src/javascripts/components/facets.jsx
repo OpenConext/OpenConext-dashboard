@@ -40,9 +40,9 @@ class Facets extends React.Component {
 
     if (count === total) {
       return I18n.t("facets.totals.all", {total: total});
-    } else {
-      return I18n.t("facets.totals.filtered", {count: count, total: total});
     }
+
+    return I18n.t("facets.totals.filtered", {count: count, total: total});
   }
 
   renderFacet(facet) {
@@ -78,9 +78,9 @@ class Facets extends React.Component {
   renderDropDownIndicator(facet) {
     if (this.props.hiddenFacets[facet.name]) {
       return <i className="fa fa-caret-down float-right"/>;
-    } else {
-      return <i className="fa fa-caret-up float-right"/>;
     }
+
+    return <i className="fa fa-caret-up float-right"/>;
   }
 
   renderFacetValue(facet, facetValue) {
