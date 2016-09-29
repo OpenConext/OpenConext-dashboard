@@ -446,7 +446,7 @@ PolicyDetail.contextTypes = {
 };
 
 PolicyDetail.propTypes = {
-  params: React.PropTypes.Shape({
+  params: React.PropTypes.shape({
     id: React.PropTypes.string
   })
 };
