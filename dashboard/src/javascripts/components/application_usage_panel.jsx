@@ -37,7 +37,7 @@ class ApplicationUsagePanel extends React.Component {
       this.setState({ chart: { ...this.state.chart, idp: idp.id }});
 
       retrieveSps(idp.id, currentUser.statsToken).then(sps => {
-        const newSps = sps.map(function (sp) {
+        const newSps = sps.map(sp => {
           return {display: sp.name, value: sp.id};
         });
 
@@ -74,10 +74,10 @@ class ApplicationUsagePanel extends React.Component {
   }
 
   renderPeriodSelect() {
-    const handleChangePeriodFrom = (moment) => {
+    const handleChangePeriodFrom = moment => {
       this.setState({ chart: { ...this.state.chart, periodFrom: moment }});
     };
-    const handleChangePeriodTo = (moment) => {
+    const handleChangePeriodTo = moment => {
       this.setState({ chart: { ...this.state.chart, periodTo: moment }});
     };
 

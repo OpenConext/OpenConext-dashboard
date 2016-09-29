@@ -71,9 +71,9 @@ export function retrieveIdp(currentIdpId, currentIdpInstitutionId, statsToken) {
 
 export function retrieveSps(idpId, statsToken) {
   return fetchJson(`/active/idp/${idpId}?` + qs.stringify({ access_token: statsToken })).then(data => {
-    return data.entities.filter(function (sp) {
+    return data.entities.filter(sp => {
       return sp.name;
-    }).sort(function (a, b) {
+    }).sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
   });

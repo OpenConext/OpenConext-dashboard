@@ -70,7 +70,7 @@ class AppDetail extends React.Component {
           <div className="l-left">
             <div className="mod-app-nav">
               <ul>
-                {Object.keys(this.panelMap).map((panelKey) => this.renderNavItem(panelKey))}
+                {Object.keys(this.panelMap).map(panelKey => this.renderNavItem(panelKey))}
               </ul>
             </div>
             <br />
@@ -119,7 +119,7 @@ class AppDetail extends React.Component {
     const panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
-        <a href={`/apps/${this.props.params.id}/${panelKey}`} onClick={(e) => this.handleSwitchPanel(e, panelKey)}
+        <a href={`/apps/${this.props.params.id}/${panelKey}`} onClick={e => this.handleSwitchPanel(e, panelKey)}
            className={panelKey === this.props.params.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}

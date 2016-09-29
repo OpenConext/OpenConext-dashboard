@@ -30,7 +30,7 @@ class SortableHeader extends React.Component {
 
     return (
       <th className={this.props.className}>
-        <a href="#" onClick={(e) => this.handleSort(e)}>
+        <a href="#" onClick={e => this.handleSort(e)}>
           {I18n.t(this.props.localeKey + "." + this.props.attribute)}
           {icon}
         </a>

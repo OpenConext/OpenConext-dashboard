@@ -34,10 +34,10 @@ class AppOverview extends React.Component {
     const { currentUser } = this.context;
 
     Promise.all([
-      getFacets().then((data) => {
+      getFacets().then(data => {
         return data.payload;
       }),
-      getApps(currentUser.getCurrentIdpId()).then((data) => {
+      getApps(currentUser.getCurrentIdpId()).then(data => {
         return data.payload;
       })
     ]).then(data => {
@@ -45,15 +45,15 @@ class AppOverview extends React.Component {
 
       // We need to sanitize the categories data for each app to ensure the facet totals are correct
       const unknown = {value: I18n.t("facets.unknown")};
-      facets.forEach(function (facet) {
-        apps.forEach(function (app) {
+      facets.forEach(facet => {
+        apps.forEach(app => {
           app.categories = app.categories || [];
-          const appCategory = app.categories.filter(function (category) {
+          const appCategory = app.categories.filter(category => {
             return category.name === facet.name;
           });
           if (appCategory.length === 0) {
             app.categories.push({name: facet.name, values: [unknown]});
-            const filtered = facet.values.filter(function (facetValue) {
+            const filtered = facet.values.filter(facetValue => {
               return facetValue.value === unknown.value;
             });
             if (!filtered[0]) {
@@ -114,7 +114,7 @@ class AppOverview extends React.Component {
                 <input
                   type="search"
                   value={this.state.search}
-                  onChange={(e) => this.setState({ search: e.target.value })}
+                  onChange={e => this.setState({ search: e.target.value })}
                   placeholder={I18n.t("apps.overview.search_hint")}/>
 
                 <button type="submit">{I18n.t("apps.overview.search")}</button>
@@ -176,7 +176,7 @@ class AppOverview extends React.Component {
     }
 
     return (
-      <tr key={app.id} onClick={(e) => this.handleShowAppDetail(e, app)}>
+      <tr key={app.id} onClick={e => this.handleShowAppDetail(e, app)}>
         <td><Link to={`apps/${app.id}/overview`}>{ app.name }</Link></td>
         {this.renderLicenseNeeded(app)}
         {this.renderLicensePresent(app)}
@@ -234,7 +234,7 @@ class AppOverview extends React.Component {
 
   renderConnectButton(app) {
     if (!app.connected) {
-      return <Link to={`/apps/${app.id}/how_to_connect`} className="c-button narrow" onClick={(e) => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
+      return <Link to={`/apps/${app.id}/how_to_connect`} className="c-button narrow" onClick={e => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
     }
     return null;
   }
@@ -303,7 +303,7 @@ class AppOverview extends React.Component {
 
     if (!_.isEmpty(this.state.activeFacets)) {
       filteredApps = filteredApps.filter(this.filterByFacets(this.state.activeFacets));
-      this.staticFacets().forEach(function (facetObject) {
+      this.staticFacets().forEach(facetObject => {
         filteredApps = filteredApps.filter(facetObject.filterApp);
       });
     }
@@ -315,50 +315,50 @@ class AppOverview extends React.Component {
     const { currentUser } = this.context;
     const me = this;
     const filter = function (facet, filterFunction) {
-      const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key) {
+      const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, (value, key) => {
         return key !== facet.name;
       });
       let filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
 
-      this.staticFacets().filter(function (facetObject) {
+      this.staticFacets().filter(facetObject => {
         return facetObject.searchValue !== facet.searchValue;
-      }).forEach(function (facetObject) {
+      }).forEach(facetObject => {
         filteredWithoutCurrentFacetApps = filteredWithoutCurrentFacetApps.filter(facetObject.filterApp);
       });
 
-      facet.values.forEach(function (facetValue) {
-        facetValue.count = filteredWithoutCurrentFacetApps.filter(function (app) {
+      facet.values.forEach(facetValue => {
+        facetValue.count = filteredWithoutCurrentFacetApps.filter(app => {
           return filterFunction(app, facetValue);
         }).length;
       });
     }.bind(this);
 
-    facets.forEach(function (facet) {
+    facets.forEach(facet => {
       switch (facet.searchValue) {
       case "connection":
-        filter(facet, function (app, facetValue) {
+        filter(facet, (app, facetValue) => {
           return facetValue.searchValue === "yes" ? app.connected : !app.connected;
         });
         break;
       case "license":
-        filter(facet, function (app, facetValue) {
+        filter(facet, (app, facetValue) => {
           return app.licenseStatus === facetValue.searchValue;
         });
         break;
       case "used_by_idp":
-        filter(facet, function (app, facetValue) {
+        filter(facet, (app, facetValue) => {
           const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
           return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
         });
         break;
       case "published_edugain":
-        filter(facet, function (app, facetValue) {
+        filter(facet, (app, facetValue) => {
           const published = app.publishedInEdugain || false;
           return facetValue.searchValue === "yes" ? published : !published;
         });
         break;
       default:
-        filter(facet, function (app, facetValue) {
+        filter(facet, (app, facetValue) => {
           const categories = me.normalizeCategories(app);
           const appTags = categories[facet.name] || [];
           return appTags.indexOf(facetValue.value) > -1;
@@ -385,7 +385,7 @@ class AppOverview extends React.Component {
         if (facets.hasOwnProperty(facet)) {
           const facetValues = facets[facet] || [];
           if (normalizedCategories[facet] && facetValues.length > 0) {
-            const hits = normalizedCategories[facet].filter(function (facetValue) {
+            const hits = normalizedCategories[facet].filter(facetValue => {
               return facetValues.indexOf(facetValue) > -1;
             });
             if (hits.length === 0) {
@@ -400,8 +400,8 @@ class AppOverview extends React.Component {
 
   normalizeCategories(app) {
     const normalizedCategories = {};
-    app.categories.forEach(function (category) {
-      normalizedCategories[category.name] = category.values.map(function (categoryValue) {
+    app.categories.forEach(category => {
+      normalizedCategories[category.name] = category.values.map(categoryValue => {
         return categoryValue.value;
       });
     });

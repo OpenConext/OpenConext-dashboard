@@ -57,7 +57,7 @@ class MyIdp extends React.Component {
   }
 
   renderRole(role) {
-    const names = this.state.roles[role].map(function (r) {
+    const names = this.state.roles[role].map(r => {
       return r.firstName + " " + r.surname;
     }).sort().join(", ");
     const roleName = I18n.t("my_idp")[role];

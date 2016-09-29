@@ -1,9 +1,9 @@
 const converters = {
-  name: (value) => value.toLowerCase(),
+  name: value => value.toLowerCase(),
   license: (value, app) => app.licenseStatus,
 };
 
-const converterForAttribute = (attr) => {
+const converterForAttribute = attr => {
   return converters[attr];
 };
 

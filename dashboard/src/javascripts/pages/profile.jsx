@@ -56,7 +56,7 @@ class Profile extends React.Component {
         </td>
         <td>
           <ul>
-            {currentUser.attributeMap[attributeKey].map(function(value, i) {
+            {currentUser.attributeMap[attributeKey].map((value, i) => {
               return <li key={i}>{value}</li>;
             })}
           </ul>

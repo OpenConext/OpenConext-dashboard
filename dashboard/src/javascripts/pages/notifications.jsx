@@ -43,7 +43,7 @@ class Notifications extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {notificationMessage.arguments.sort(function(l, r) {
+              {notificationMessage.arguments.sort((l, r) => {
                 return l.name.localeCompare(r.name);
               }).map(this.renderNotification)}
             </tbody>

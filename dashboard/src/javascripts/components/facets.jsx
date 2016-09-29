@@ -16,7 +16,7 @@ class Facets extends React.Component {
             {this.renderResetFilters()}
             {this.renderDownloadButton()}
           </fieldset>
-          { facets.map((facet) => this.renderFacet(facet)) }
+          { facets.map(facet => this.renderFacet(facet)) }
           <fieldset>
             {this.renderTotals()}
           </fieldset>
@@ -61,9 +61,9 @@ class Facets extends React.Component {
   renderFacetOptions(facet) {
     if (!this.props.hiddenFacets[facet.name]) {
       return (
-        facet.values.map(function (value) {
+        facet.values.map(value => {
           return this.renderFacetValue(facet, value);
-        }.bind(this)));
+        }));
     }
     return null;
   }

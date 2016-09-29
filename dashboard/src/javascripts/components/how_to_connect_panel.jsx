@@ -200,7 +200,7 @@ class HowToConnectPanel extends React.Component {
             <div className="content">
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea value={this.state.comments} onChange={(e) => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
               <label>
                 <input type="checkbox" checked={this.state.checked} onChange={e => this.setState({ accepted: e.target.checked})} />
 

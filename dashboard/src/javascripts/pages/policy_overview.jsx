@@ -129,7 +129,7 @@ class PolicyOverview extends React.Component {
   }
 
   renderIdpNames(policy) {
-    return policy.identityProviderNames.map(function (name) {
+    return policy.identityProviderNames.map(name => {
       return (<p key={name}>{name}</p>);
     });
   }
@@ -174,9 +174,9 @@ class PolicyOverview extends React.Component {
   }
 
   filterPolicies(policies) {
-    return policies.filter(function (policy) {
+    return policies.filter(policy => {
       return policy.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
-    }.bind(this));
+    });
   }
 }
 

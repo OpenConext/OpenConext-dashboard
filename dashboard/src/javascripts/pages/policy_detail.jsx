@@ -155,7 +155,7 @@ class PolicyDetail extends React.Component {
   renderServiceProvider(policy) {
     const scopedSPs = _.isEmpty(policy.identityProviderIds);
     const classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
-    const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(function (sp) {
+    const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(sp => {
       return {value: sp.spEntityId, display: sp.spName};
     });
 
@@ -191,7 +191,7 @@ class PolicyDetail extends React.Component {
 
   renderIdentityProvider(policy) {
     const { currentUser } = this.context;
-    const providers = currentUser.institutionIdps.map(function (idp) { return { value: idp.id, display: idp.name };});
+    const providers = currentUser.institutionIdps.map(idp => { return { value: idp.id, display: idp.name };});
     return (
       <div className="form-element">
         <fieldset className="success">
@@ -342,8 +342,8 @@ class PolicyDetail extends React.Component {
     if (_.isEmpty(identityProviderIds)) {
       this.setState({ policy: { ...this.state.policy, identityProviderNames: [] }});
     } else {
-      this.setState({ policy: { ...this.state.policy, identityProviderNames: identityProviderIds.map((idp) => {
-        const provider = _.find(currentUser.institutionIdps, (provider) => provider.id === idp);
+      this.setState({ policy: { ...this.state.policy, identityProviderNames: identityProviderIds.map(idp => {
+        const provider = _.find(currentUser.institutionIdps, provider => provider.id === idp);
         return provider.name;
       })}});
     }
@@ -353,7 +353,7 @@ class PolicyDetail extends React.Component {
       this.setState({ policy: { ...this.state.policy, serviceProviderName: null }});
     } else {
       const scopedSPs = _.isEmpty(identityProviderIds);
-      const serviceProvider = _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, function (sp) {
+      const serviceProvider = _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, sp => {
         return sp.spEntityId === serviceProviderId;
       });
       this.setState({ policy: { ...this.state.policy, serviceProviderName: serviceProvider.name }});
@@ -362,7 +362,7 @@ class PolicyDetail extends React.Component {
 
   findServiceProvider(serviceProviderId) {
     const scopedSPs = _.isEmpty(this.state.policy.identityProviderIds);
-    return _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, (sp) => {
+    return _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, sp => {
       return sp.spEntityId === serviceProviderId;
     });
   }
@@ -405,7 +405,7 @@ class PolicyDetail extends React.Component {
 
   isValidPolicy() {
     const { policy } = this.state;
-    const emptyAttributes = policy.attributes.filter(function (attr) {
+    const emptyAttributes = policy.attributes.filter(attr => {
       return _.isEmpty(attr.value);
     });
     const inValid = _.isEmpty(policy.name) || _.isEmpty(policy.description) || _.isEmpty(policy.serviceProviderId)
@@ -427,7 +427,7 @@ class PolicyDetail extends React.Component {
       }
       this.context.router.transitionTo("/policies");
     })
-    .catch((e) => {
+    .catch(e => {
       setFlash(e, "error");
     });
   }

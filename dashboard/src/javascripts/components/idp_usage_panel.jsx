@@ -23,7 +23,7 @@ class IdpUsagePanel extends React.Component {
   renderUsedByInstitutions(institutions) {
     return (<table>
       <tbody>
-      {institutions.sort(function (l, r) {
+      {institutions.sort((l, r) => {
         return l.name.localeCompare(r.name);
       }).map(this.renderInstitution)}
       </tbody>

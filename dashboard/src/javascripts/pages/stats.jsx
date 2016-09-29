@@ -31,7 +31,7 @@ class Stats extends React.Component {
       this.setState({ chart: { ...this.state.chart, idp: idp.id }});
 
       retrieveSps(idp.id, currentUser.statsToken).then(sps => {
-        const newSps = sps.map(function (sp) {
+        const newSps = sps.map(sp => {
           return {display: sp.name, value: sp.id};
         });
 
@@ -68,7 +68,7 @@ class Stats extends React.Component {
       {display: I18n.t("stats.chart.type.idpsp"), value: "idpsp"}
     ];
 
-    const handleChange = (value) => {
+    const handleChange = value => {
       const newState = { chart: { ...this.state.chart, type: value }};
       if (value === "idpsp" && !this.state.chart.sp && this.state.sps.length > 0) {
         newState.chart.sp = this.state.sps[0].value;
@@ -97,7 +97,7 @@ class Stats extends React.Component {
       return null;
     }
 
-    const handleChange = (sp) => {
+    const handleChange = sp => {
       this.setState({ chart: { ...this.state.chart, sp: sp }});
     };
 
@@ -116,11 +116,11 @@ class Stats extends React.Component {
 
   renderPeriodSelect() {
     if (this.state.chart.type === "idpsp") {
-      const handleChangePeriodFrom = (moment) => {
+      const handleChangePeriodFrom = moment => {
         this.setState({ chart: { ...this.state.chart, periodFrom: moment }});
       };
 
-      const handleChangePeriodTo = (moment) => {
+      const handleChangePeriodTo = moment => {
         this.setState({ chart: { ...this.state.chart, periodTo: moment }});
       };
 
@@ -138,7 +138,7 @@ class Stats extends React.Component {
       );
     }
 
-    const handleChange = (moment) => {
+    const handleChange = moment => {
       this.setState({ chart: { ...this.state.chart, periodDate: moment }});
     };
 

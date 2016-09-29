@@ -42,12 +42,12 @@ class PolicyRevisions extends React.Component {
   }
 
   renderRevisions() {
-    this.state.revisions.sort(function (rev1, rev2) {
+    this.state.revisions.sort((rev1, rev2) => {
       return rev2.created - rev1.created;
     });
-    return this.state.revisions.map(function (revision, index) {
+    return this.state.revisions.map((revision, index) => {
       return this.renderRevision(revision, index);
-    }.bind(this));
+    });
   }
 
   renderRevision(revision, index) {
@@ -89,7 +89,7 @@ class PolicyRevisions extends React.Component {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
-      const prev = this.state.revisions.filter(function (rev) {
+      const prev = this.state.revisions.filter(rev => {
         return rev.revisionNbr === (revision.revisionNbr - 1);
       });
       this.setState({curr: revision});
@@ -138,7 +138,7 @@ class PolicyRevisions extends React.Component {
         {this.renderTopDiff(prev, curr)}
         <div className="diff-panel">
           {
-            properties.map(function (prop) {
+            properties.map(prop => {
               return renderPropertyDiff(prev, curr, prop);
             })
           }
@@ -186,34 +186,34 @@ class PolicyRevisions extends React.Component {
   }
 
   renderAttributesDiff(prev, curr) {
-    const attrPrevGrouped = _.groupBy(prev.attributes, function (attr) {
+    const attrPrevGrouped = _.groupBy(prev.attributes, attr => {
       return attr.name;
     });
 
-    const attrCurrGrouped = _.groupBy(curr.attributes, function (attr) {
+    const attrCurrGrouped = _.groupBy(curr.attributes, attr => {
       return attr.name;
     });
 
-    const attrResult = _.reduce(attrCurrGrouped, function (result, attributes, attrName) {
+    const attrResult = _.reduce(attrCurrGrouped, (result, attributes, attrName) => {
       if (attrPrevGrouped.hasOwnProperty(attrName)) {
         //find out the diff in values
         const prevValues = _.map(attrPrevGrouped[attrName], "value");
         const currValues = _.map(attributes, "value");
 
-        const deleted = _.difference(prevValues, currValues).map(function (deletedValue) {
+        const deleted = _.difference(prevValues, currValues).map(deletedValue => {
           return {value: deletedValue, status: "prev"};
         });
-        const added = _.difference(currValues, prevValues).map(function (addedValue) {
+        const added = _.difference(currValues, prevValues).map(addedValue => {
           return {value: addedValue, status: "curr"};
         });
-        const unchanged = currValues.filter(function (value) {
+        const unchanged = currValues.filter(value => {
           return prevValues.indexOf(value) !== -1;
-        }).map(function (unchangedValue) {
+        }).map(unchangedValue => {
           return {value: unchangedValue, status: "no-change"};
         });
 
         const newValues = deleted.concat(added).concat(unchanged);
-        const anyValuesChanged = newValues.filter(function (val) {
+        const anyValuesChanged = newValues.filter(val => {
           return val.status === "prev" || val.status === "curr";
         }).length > 0;
 
@@ -221,7 +221,7 @@ class PolicyRevisions extends React.Component {
         return result;
       } else {
         // these are the added attributes that are in curr and not in prev
-        result[attrName] = {values: attributes.map(function (attribute) {
+        result[attrName] = {values: attributes.map(attribute => {
           return {value: attribute.value, status: "curr"};
         }), status: "curr"};
 
@@ -232,16 +232,16 @@ class PolicyRevisions extends React.Component {
     const prevNames = Object.keys(attrPrevGrouped);
 
     // add the deleted attributes that are in prev and not in curr
-    prevNames.forEach(function (name) {
+    prevNames.forEach(name => {
       if (!attrResult.hasOwnProperty(name)) {
-        attrResult[name] = {values: attrPrevGrouped[name].map(function (attribute) {
+        attrResult[name] = {values: attrPrevGrouped[name].map(attribute => {
           return {value: attribute.value, status: "prev"};
         }), status: "prev"};
       }
     });
 
-    const attributesUnchanged = _.values(attrResult).filter(function (attribuut) {
-      return (attribuut.status === "prev" || attribuut.status === "curr") && attribuut.values.filter(function (value) {
+    const attributesUnchanged = _.values(attrResult).filter(attribuut => {
+      return (attribuut.status === "prev" || attribuut.status === "curr") && attribuut.values.filter(value => {
         return value.value === "prev" || value.value === "curr";
       }).length === 0;
     }).length === 0 ;
@@ -251,7 +251,7 @@ class PolicyRevisions extends React.Component {
         <div className={"diff-element " + (attributesUnchanged ? "no-change" : "changed")}>
           <p className="label">{I18n.t("revisions.attributes")}</p>
           {
-            attributeNames.map(function (attributeName) {
+            attributeNames.map(attributeName => {
               return (
                 <div key={attributeName}>
                   <div className="attribute-container">
@@ -261,7 +261,7 @@ class PolicyRevisions extends React.Component {
                                       && attrResult[attributeName].anyValuesChanged ? "diff-element changed" : "")}>
                     <p className="label">{I18n.t("policy_attributes.values")}</p>
                     {
-                      attrResult[attributeName].values.map(function (value) {
+                      attrResult[attributeName].values.map(value => {
                         return (
                           <div className="value-container"
                                key={attributeName + "-" +

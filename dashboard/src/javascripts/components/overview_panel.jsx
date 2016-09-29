@@ -98,7 +98,7 @@ class OverviewPanel extends React.Component {
     let disconnect = null;
     if (currentUser.dashboardAdmin) {
       disconnect = <p><a href="#"
-          onClick={(e) => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
+          onClick={e => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
       </p>;
     }
 
@@ -118,7 +118,7 @@ class OverviewPanel extends React.Component {
     let connect = null;
     if (currentUser.dashboardAdmin) {
       connect = <p><a href="#"
-          onClick={(e) => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
+          onClick={e => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
       </p>;
     }
 

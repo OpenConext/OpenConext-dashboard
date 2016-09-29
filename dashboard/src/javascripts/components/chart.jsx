@@ -65,7 +65,7 @@ class Chart extends React.Component {
         periodFrom: this.props.chart.periodFrom.format("YYYY-MM-DD"),
         periodTo: this.props.chart.periodTo.format("YYYY-MM-DD"),
         dataCallbacks: [function(data) {
-          const height = Math.min(data.entities[0].records.reduce(function(prevValue, currentValue) {
+          const height = Math.min(data.entities[0].records.reduce((prevValue, currentValue) => {
             return Math.max(prevValue, currentValue.logins * 10);
           }, 300), 800);
           setMinimumHeightOfChart(height);
@@ -94,7 +94,7 @@ class Chart extends React.Component {
       <div className="body">
         {this.renderError()}
         <div className="chart-container">
-          <div id="chart" className="chart" ref={(chart) => this.chart = chart }/>
+          <div id="chart" className="chart" ref={chart => this.chart = chart }/>
         </div>
       </div>
     );

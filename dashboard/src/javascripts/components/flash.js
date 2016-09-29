@@ -10,7 +10,7 @@ class Flash extends React.Component {
       flash: null
     };
 
-    this.callback = (flash) => this.setState({ flash: flash });
+    this.callback = flash => this.setState({ flash: flash });
   }
 
   componentWillMount() {

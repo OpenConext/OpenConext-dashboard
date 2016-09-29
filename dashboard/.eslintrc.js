@@ -53,6 +53,8 @@ module.exports = {
       "always"
     ],
     "react/forbid-prop-types": "error",
-    "no-else-return": "error"
+    "no-else-return": "error",
+    "prefer-arrow-callback": "error",
+    "arrow-parens": ["error", "as-needed"]
   }
 };

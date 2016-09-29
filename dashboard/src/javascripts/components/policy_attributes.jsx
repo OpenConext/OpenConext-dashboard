@@ -3,7 +3,7 @@ import I18n from "i18n-js";
 
 class PolicyAttributes extends React.Component {
   markAttributes(policy) {
-    policy.attributes = policy.attributes.map(function (attr, index) {
+    policy.attributes = policy.attributes.map((attr, index) => {
       attr.index = index;
       return attr;
     });
@@ -33,7 +33,7 @@ class PolicyAttributes extends React.Component {
 
   removeAttribute(name) {
     let attributes = this.state.attributes || [];
-    attributes = this.state.attributes.filter(function (attribute) {
+    attributes = this.state.attributes.filter(attribute => {
       return attribute.name !== name;
     });
     this.props.setAttributeState({attributes: attributes});
@@ -48,7 +48,7 @@ class PolicyAttributes extends React.Component {
     return function (e) {
       this.preventProp(e);
       //change attribute value
-      const attributes = this.state.attributes.map(function (attr) {
+      const attributes = this.state.attributes.map(attr => {
         if (attr.name === attrName && attr.index === index) {
           attr.value = e.target.value;
         }
@@ -62,7 +62,7 @@ class PolicyAttributes extends React.Component {
     return function (e) {
       this.preventProp(e);
       //remove attribute value
-      const attributes = this.state.attributes.filter(function (attr) {
+      const attributes = this.state.attributes.filter(attr => {
         return !(attr.name === attrName && attr.index === index);
       });
       this.props.setAttributeState({attributes: attributes});
@@ -123,15 +123,15 @@ class PolicyAttributes extends React.Component {
 
   render() {
     const policy = this.state;
-    const grouped = _.groupBy(policy.attributes, function (attr) {
+    const grouped = _.groupBy(policy.attributes, attr => {
       return attr.name;
     });
     const attrNames = Object.keys(grouped);
-    const allowedAttributes = this.props.allowedAttributes.filter(function (attr) {
+    const allowedAttributes = this.props.allowedAttributes.filter(attr => {
       return _.isEmpty(grouped[attr.name]);
     });
     const self = this;
-    const emptyAttributes = policy.attributes.filter(function (attr) {
+    const emptyAttributes = policy.attributes.filter(attr => {
       return _.isEmpty(attr.value);
     });
     const validClassName = (_.isEmpty(policy.attributes) || emptyAttributes.length > 0) ? "failure" : "success";
@@ -140,7 +140,7 @@ class PolicyAttributes extends React.Component {
         <div className="form-element">
             <fieldset className={css+" "+validClassName}>
             {
-              attrNames.map(function (attrName) {
+              attrNames.map(attrName => {
                 return (
                     <div key={attrName}>
                       <p className="label">{I18n.t("policy_attributes.attribute")}</p>
@@ -155,7 +155,7 @@ class PolicyAttributes extends React.Component {
                       <div className="attribute-values">
                         <p className="label">{I18n.t("policy_attributes.values")}</p>
                         {
-                          grouped[attrName].map(function (attribute, index) {
+                          grouped[attrName].map((attribute, index) => {
                             return self.renderAttributeValue(attrName, attribute, index);
                           })
                         }
@@ -172,7 +172,7 @@ class PolicyAttributes extends React.Component {
             <select value="" onChange={self.handleNewAttribute.bind(this)}>
               <option value="" disabled="disabled">{I18n.t("policy_attributes.new_attribute")}</option>
               {
-                allowedAttributes.map(function (allowedAttribute) {
+                allowedAttributes.map(allowedAttribute => {
                   return (<option value={allowedAttribute.name}
                                   key={allowedAttribute.name}>{allowedAttribute.name}</option>);
                 })

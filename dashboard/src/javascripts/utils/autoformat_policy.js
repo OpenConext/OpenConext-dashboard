@@ -5,25 +5,25 @@ export default {
   },
 
   attributes: function (attributes, allAttributesMustMatch) {
-    const otherAttr = attributes.filter(function (attr) {
+    const otherAttr = attributes.filter(attr => {
       return attr.name !== "urn:collab:group:surfteams.nl";
     });
     if (otherAttr.length === 0) {
       return ".";
     }
-    var attributes = _.groupBy(otherAttr, function (attr) {
+    var attributes = _.groupBy(otherAttr, attr => {
       return attr.name;
     });
     const attributeNames = Object.keys(attributes);
     const length = attributeNames.length;
-    const lines = attributeNames.map(function (attributeName, index) {
-      const values = attributes[attributeName].map(function (attribute) {
+    const lines = attributeNames.map((attributeName, index) => {
+      const values = attributes[attributeName].map(attribute => {
         return this.addQuotes(attribute.value);
-      }.bind(this)).join(" or ");
+      }).join(" or ");
       const logical = index === (length - 1) ? "" : allAttributesMustMatch ? " and " : " or ";
       const result = "he/ she has the value " + values + " for attribute '" + attributeName + "'" + logical;
       return result;
-    }.bind(this));
+    });
     return lines.join("");
 
   },
@@ -32,12 +32,12 @@ export default {
     const idps = _.isEmpty(policy.identityProviderNames) ? "" : " from " + policy.identityProviderNames.map(this.addQuotes).join(" or ");
     const sp = this.addQuotes(policy.serviceProviderName) || "?";
     const attrs = policy.attributes || [];
-    const teamMembershipAttr = attrs.filter(function (attr) {
+    const teamMembershipAttr = attrs.filter(attr => {
       return attr.name === "urn:collab:group:surfteams.nl";
     });
-    const teamMembership = teamMembershipAttr.length > 0 ? " he/ she is a member of the team " + teamMembershipAttr.map(function (attr) {
+    const teamMembership = teamMembershipAttr.length > 0 ? " he/ she is a member of the team " + teamMembershipAttr.map(attr => {
       return this.addQuotes(attr.value);
-    }.bind(this)).join(" or ") : "";
+    }).join(" or ") : "";
 
     const and = teamMembershipAttr.length === 0 || teamMembershipAttr.length === attrs.length ? "" : policy.allAttributesMustMatch ? " and" : " or";
     const only = policy.denyRule ? "not" : "only";

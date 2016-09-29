@@ -30,7 +30,7 @@ class SearchUser extends React.Component {
                 <input
                   type="search"
                   value={this.state.search}
-                  onChange={(e) => this.setState({search: e.target.value})}
+                  onChange={e => this.setState({search: e.target.value})}
                   placeholder={I18n.t("search_user.search_hint")} />
                 <button type="submit">{I18n.t("search_user.search")}</button>
               </fieldset>
@@ -58,9 +58,9 @@ class SearchUser extends React.Component {
         <td>{idp.name}</td>
         <td className="center">
           {
-            this.state.roles.map(function(role) {
+            this.state.roles.map(role => {
               return this.renderSwitchToRole(idp, role);
-            }.bind(this))
+            })
           }
         </td>
       </tr>
