@@ -96,15 +96,15 @@ class AppDetail extends React.Component {
   renderNavItem(panelKey, force) {
     const { currentUser } = this.context;
     // do not include app usage in the top left menu
-    if (panelKey == "application_usage" && force != true) {
-      return;
+    if (panelKey === "application_usage" && force !== true) {
+      return null;
     }
 
     let key = null;
 
-    if (panelKey == "how_to_connect") {
+    if (panelKey === "how_to_connect") {
       if (!(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId)) {
-        return;
+        return null;
       }
 
       if (this.state.app.connected) {
@@ -120,7 +120,7 @@ class AppDetail extends React.Component {
     return (
       <li key={panelKey}>
         <a href={`/apps/${this.props.params.id}/${panelKey}`} onClick={(e) => this.handleSwitchPanel(e, panelKey)}
-           className={panelKey == this.props.params.activePanel ? "current" : ""}>
+           className={panelKey === this.props.params.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}
         </a>
@@ -132,7 +132,7 @@ class AppDetail extends React.Component {
     const { activePanel } = this.props.params;
     const { currentUser } = this.context;
     let panel = this.panelMap[activePanel];
-    if (!panel || (activePanel == "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
+    if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
       panel = this.panelMap["overview"];
     }
 
@@ -154,6 +154,13 @@ class AppDetail extends React.Component {
 AppDetail.contextTypes = {
   currentUser: React.PropTypes.object,
   router: React.PropTypes.object
+};
+
+AppDetail.propTypes = {
+  params: React.PropTypes.shape({
+    id: React.PropTypes.string.isRequired,
+    activePanel: React.PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default AppDetail;

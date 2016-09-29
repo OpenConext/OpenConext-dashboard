@@ -315,13 +315,13 @@ class AppOverview extends React.Component {
     const { currentUser } = this.context;
     const me = this;
     const filter = function (facet, filterFunction) {
-      const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key, object) {
+      const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key) {
         return key !== facet.name;
       });
       let filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
 
       this.staticFacets().filter(function (facetObject) {
-        return facetObject.searchValue != facet.searchValue;
+        return facetObject.searchValue !== facet.searchValue;
       }).forEach(function (facetObject) {
         filteredWithoutCurrentFacetApps = filteredWithoutCurrentFacetApps.filter(facetObject.filterApp);
       });
