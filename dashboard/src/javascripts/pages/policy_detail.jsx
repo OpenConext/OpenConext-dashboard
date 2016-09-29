@@ -213,12 +213,6 @@ class PolicyDetail extends React.Component {
 
     const noIdpSelected = _.isEmpty(newValue);
 
-    if (noIdpSelected) {
-      var serviceProviders = this.state.institutionServiceProviders.map(function (sp) {
-        return {value: sp.spEntityId, display: sp.spName};
-      });
-    }
-
     partialState.description = this.buildAutoFormattedDescription(partialState);
 
     this.setState({ policy: { ...this.state.policy, ...partialState }});
@@ -356,7 +350,7 @@ class PolicyDetail extends React.Component {
 
     var serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.policy.serviceProviderId : partialState.serviceProviderId;
     if (_.isEmpty(serviceProviderId)) {
-      this.state.policy.serviceProviderName = null;
+      this.setState({ policy: { ...this.state.policy, serviceProviderName: null }});
     } else {
       var scopedSPs = _.isEmpty(identityProviderIds);
       var serviceProvider = _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, function (sp) {
