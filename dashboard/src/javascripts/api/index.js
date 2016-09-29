@@ -155,7 +155,7 @@ export function getActions(idpId) {
 }
 
 export function makeConnection(idpId, app, comments) {
-  return fetchPost(`/services/id/${app.id}/connect`, {comments: comments, spEntityId: app.spEntityId}, {
+  return fetchPost(`/services/id/${app.id}/connect`, { comments: comments, spEntityId: app.spEntityId }, {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }
@@ -165,7 +165,7 @@ export function makeConnection(idpId, app, comments) {
 }
 
 export function removeConnection(idpId, app, comments) {
-  return fetchPost(`/services/id/${app.id}/disconnect`, {comments: comments, spEntityId: app.spEntityId}, {
+  return fetchPost(`/services/id/${app.id}/disconnect`, { comments: comments, spEntityId: app.spEntityId }, {
     "headers": {
       "X-IDP-ENTITY-ID": idpId
     }

@@ -27,7 +27,7 @@ class Header extends React.Component {
           </div>
           <LanguageSelector />
           <ul className="links">
-            <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html") }}></li>
+            <li dangerouslySetInnerHTML={{ __html: I18n.t("header.links.help_html") }}></li>
             {this.renderExitLogout()}
           </ul>
         </div>
@@ -109,13 +109,13 @@ class Header extends React.Component {
   }
 
   handleClose() {
-    this.setState({dropDownActive: false});
+    this.setState({ dropDownActive: false });
   }
 
   handleToggle(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.setState({dropDownActive: !this.state.dropDownActive});
+    this.setState({ dropDownActive: !this.state.dropDownActive });
   }
 }
 

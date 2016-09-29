@@ -27,8 +27,8 @@ class PolicyAttributes extends React.Component {
   addAttribute(attrName) {
     const attributes = this.state.attributes || [];
     const index = attributes.length + 1;
-    attributes.push({name: attrName, value: "", index: index});
-    this.props.setAttributeState({attributes: attributes});
+    attributes.push({ name: attrName, value: "", index: index });
+    this.props.setAttributeState({ attributes: attributes });
   }
 
   removeAttribute(name) {
@@ -36,7 +36,7 @@ class PolicyAttributes extends React.Component {
     attributes = this.state.attributes.filter(attribute => {
       return attribute.name !== name;
     });
-    this.props.setAttributeState({attributes: attributes});
+    this.props.setAttributeState({ attributes: attributes });
   }
 
   preventProp(e) {
@@ -45,7 +45,7 @@ class PolicyAttributes extends React.Component {
   }
 
   handleAttributeValueChanged(attrName, index) {
-    return function (e) {
+    return function(e) {
       this.preventProp(e);
       //change attribute value
       const attributes = this.state.attributes.map(attr => {
@@ -54,23 +54,23 @@ class PolicyAttributes extends React.Component {
         }
         return attr;
       });
-      this.props.setAttributeState({attributes: attributes});
+      this.props.setAttributeState({ attributes: attributes });
     }.bind(this);
   }
 
   handleRemoveAttributeValue(attrName, index) {
-    return function (e) {
+    return function(e) {
       this.preventProp(e);
       //remove attribute value
       const attributes = this.state.attributes.filter(attr => {
         return !(attr.name === attrName && attr.index === index);
       });
-      this.props.setAttributeState({attributes: attributes});
+      this.props.setAttributeState({ attributes: attributes });
     }.bind(this);
   }
 
   handleNewAttributeValue(attrName) {
-    return function (e) {
+    return function(e) {
       this.preventProp(e);
       //change attribute value
       this.addAttribute(attrName);
@@ -85,7 +85,7 @@ class PolicyAttributes extends React.Component {
   }
 
   handleRemoveAttribute(attrName) {
-    return function (e) {
+    return function(e) {
       this.preventProp(e);
       //change attribute value
       this.removeAttribute(attrName);

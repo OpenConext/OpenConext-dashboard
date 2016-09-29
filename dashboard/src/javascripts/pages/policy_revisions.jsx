@@ -74,7 +74,7 @@ class PolicyRevisions extends React.Component {
       <div>
         <p className="label before-em">{revision.name}</p>
         <p className="before-em">{I18n.t("revisions.revision") + " " + revision.revisionNbr}</p>
-        <p className="before-em smaller">{I18n.t("policy_detail.sub_title", {displayName: revision.userDisplayName, created: this.createdDate(revision)})}</p>
+        <p className="before-em smaller">{I18n.t("policy_detail.sub_title", { displayName: revision.userDisplayName, created: this.createdDate(revision) })}</p>
       </div>
     );
   }
@@ -86,14 +86,14 @@ class PolicyRevisions extends React.Component {
   }
 
   handleCompare(revision) {
-    return function (e) {
+    return function(e) {
       e.preventDefault();
       e.stopPropagation();
       const prev = this.state.revisions.filter(rev => {
         return rev.revisionNbr === (revision.revisionNbr - 1);
       });
-      this.setState({curr: revision});
-      this.setState({prev: prev[0]});
+      this.setState({ curr: revision });
+      this.setState({ prev: prev[0] });
     }.bind(this);
   }
 
@@ -115,10 +115,10 @@ class PolicyRevisions extends React.Component {
     ];
     //means someone if looking at the first initial revision
     if (!prev) {
-      prev = {attributes: []};
+      prev = { attributes: [] };
     }
 
-    const renderPropertyDiff = function (prev, curr, name) {
+    const renderPropertyDiff = function(prev, curr, name) {
       const diffElement = name === "attributes" ?
         this.renderAttributesDiff(prev, curr) :
         <div className={"diff-element " + this.classNamePropertyDiff(prev[name], curr[name])}>
@@ -181,7 +181,7 @@ class PolicyRevisions extends React.Component {
       });
 
     return (
-      <div className="top-diff" dangerouslySetInnerHTML={{__html:topDiffHtml}} />
+      <div className="top-diff" dangerouslySetInnerHTML={{ __html:topDiffHtml }} />
     );
   }
 
@@ -201,15 +201,15 @@ class PolicyRevisions extends React.Component {
         const currValues = _.map(attributes, "value");
 
         const deleted = _.difference(prevValues, currValues).map(deletedValue => {
-          return {value: deletedValue, status: "prev"};
+          return { value: deletedValue, status: "prev" };
         });
         const added = _.difference(currValues, prevValues).map(addedValue => {
-          return {value: addedValue, status: "curr"};
+          return { value: addedValue, status: "curr" };
         });
         const unchanged = currValues.filter(value => {
           return prevValues.indexOf(value) !== -1;
         }).map(unchangedValue => {
-          return {value: unchangedValue, status: "no-change"};
+          return { value: unchangedValue, status: "no-change" };
         });
 
         const newValues = deleted.concat(added).concat(unchanged);
@@ -217,13 +217,13 @@ class PolicyRevisions extends React.Component {
           return val.status === "prev" || val.status === "curr";
         }).length > 0;
 
-        result[attrName] = {values: newValues, status: "no-change", anyValuesChanged: anyValuesChanged};
+        result[attrName] = { values: newValues, status: "no-change", anyValuesChanged: anyValuesChanged };
         return result;
       } else {
         // these are the added attributes that are in curr and not in prev
-        result[attrName] = {values: attributes.map(attribute => {
-          return {value: attribute.value, status: "curr"};
-        }), status: "curr"};
+        result[attrName] = { values: attributes.map(attribute => {
+          return { value: attribute.value, status: "curr" };
+        }), status: "curr" };
 
         return result;
       }
@@ -234,9 +234,9 @@ class PolicyRevisions extends React.Component {
     // add the deleted attributes that are in prev and not in curr
     prevNames.forEach(name => {
       if (!attrResult.hasOwnProperty(name)) {
-        attrResult[name] = {values: attrPrevGrouped[name].map(attribute => {
-          return {value: attribute.value, status: "prev"};
-        }), status: "prev"};
+        attrResult[name] = { values: attrPrevGrouped[name].map(attribute => {
+          return { value: attribute.value, status: "prev" };
+        }), status: "prev" };
       }
     });
 

@@ -29,22 +29,22 @@ class ApplicationUsagePanel extends React.Component {
     const { currentUser } = this.context;
 
     retrieveSp(this.props.app.spEntityId, currentUser.statsToken).then(sp => {
-      this.setState({ chart: { ...this.state.chart, sp: sp.id }});
+      this.setState({ chart: { ...this.state.chart, sp: sp.id } });
     })
-    .catch(() => this.setState({ chart: { ...this.state.chart, error: true }}));
+    .catch(() => this.setState({ chart: { ...this.state.chart, error: true } }));
 
     retrieveIdp(currentUser.getCurrentIdp().id, currentUser.getCurrentIdp().institutionId, currentUser.statsToken).then(idp => {
-      this.setState({ chart: { ...this.state.chart, idp: idp.id }});
+      this.setState({ chart: { ...this.state.chart, idp: idp.id } });
 
       retrieveSps(idp.id, currentUser.statsToken).then(sps => {
         const newSps = sps.map(sp => {
-          return {display: sp.name, value: sp.id};
+          return { display: sp.name, value: sp.id };
         });
 
-        this.setState({ chart: { ...this.state.chart, sps: newSps }});
+        this.setState({ chart: { ...this.state.chart, sps: newSps } });
       });
     })
-    .catch(() => this.setState({ chart: { ...this.state.chart, error: true }}));
+    .catch(() => this.setState({ chart: { ...this.state.chart, error: true } }));
   }
 
   downloadIdpSpCsvFile() {
@@ -75,10 +75,10 @@ class ApplicationUsagePanel extends React.Component {
 
   renderPeriodSelect() {
     const handleChangePeriodFrom = moment => {
-      this.setState({ chart: { ...this.state.chart, periodFrom: moment }});
+      this.setState({ chart: { ...this.state.chart, periodFrom: moment } });
     };
     const handleChangePeriodTo = moment => {
-      this.setState({ chart: { ...this.state.chart, periodTo: moment }});
+      this.setState({ chart: { ...this.state.chart, periodTo: moment } });
     };
 
     return (

@@ -16,8 +16,8 @@ class Navigation extends React.Component {
   }
 
   componentWillMount() {
-    spinner.onStart = () => this.setState({loading: true});
-    spinner.onStop = () => this.setState({loading: false});
+    spinner.onStart = () => this.setState({ loading: true });
+    spinner.onStop = () => this.setState({ loading: false });
   }
 
   componentDidUpdate() {

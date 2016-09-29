@@ -28,17 +28,17 @@ class Stats extends React.Component {
   componentWillMount() {
     const { currentUser } = this.context;
     retrieveIdp(currentUser.getCurrentIdp().id, currentUser.getCurrentIdp().institutionId, currentUser.statsToken).then(idp => {
-      this.setState({ chart: { ...this.state.chart, idp: idp.id }});
+      this.setState({ chart: { ...this.state.chart, idp: idp.id } });
 
       retrieveSps(idp.id, currentUser.statsToken).then(sps => {
         const newSps = sps.map(sp => {
-          return {display: sp.name, value: sp.id};
+          return { display: sp.name, value: sp.id };
         });
 
         this.setState({ sps: newSps });
       });
     })
-    .catch(() => this.setState({ chart: { ...this.state.chart, error: true }}));
+    .catch(() => this.setState({ chart: { ...this.state.chart, error: true } }));
   }
 
   downloadIdpSpBarCsvFile() {
@@ -64,12 +64,12 @@ class Stats extends React.Component {
 
   renderChartTypeSelect() {
     const options = [
-      {display: I18n.t("stats.chart.type.idpspbar"), value: "idpspbar"},
-      {display: I18n.t("stats.chart.type.idpsp"), value: "idpsp"}
+      { display: I18n.t("stats.chart.type.idpspbar"), value: "idpspbar" },
+      { display: I18n.t("stats.chart.type.idpsp"), value: "idpsp" }
     ];
 
     const handleChange = value => {
-      const newState = { chart: { ...this.state.chart, type: value }};
+      const newState = { chart: { ...this.state.chart, type: value } };
       if (value === "idpsp" && !this.state.chart.sp && this.state.sps.length > 0) {
         newState.chart.sp = this.state.sps[0].value;
       }
@@ -98,7 +98,7 @@ class Stats extends React.Component {
     }
 
     const handleChange = sp => {
-      this.setState({ chart: { ...this.state.chart, sp: sp }});
+      this.setState({ chart: { ...this.state.chart, sp: sp } });
     };
 
     return (
@@ -117,11 +117,11 @@ class Stats extends React.Component {
   renderPeriodSelect() {
     if (this.state.chart.type === "idpsp") {
       const handleChangePeriodFrom = moment => {
-        this.setState({ chart: { ...this.state.chart, periodFrom: moment }});
+        this.setState({ chart: { ...this.state.chart, periodFrom: moment } });
       };
 
       const handleChangePeriodTo = moment => {
-        this.setState({ chart: { ...this.state.chart, periodTo: moment }});
+        this.setState({ chart: { ...this.state.chart, periodTo: moment } });
       };
 
       return (
@@ -139,7 +139,7 @@ class Stats extends React.Component {
     }
 
     const handleChange = moment => {
-      this.setState({ chart: { ...this.state.chart, periodDate: moment }});
+      this.setState({ chart: { ...this.state.chart, periodDate: moment } });
     };
 
     return (
@@ -155,15 +155,15 @@ class Stats extends React.Component {
 
   renderPeriodTypeSelect() {
     const options = [
-      {display: I18n.t("stats.chart.period.day"), value: "d"},
-      {display: I18n.t("stats.chart.period.week"), value: "w"},
-      {display: I18n.t("stats.chart.period.month"), value: "m"},
-      {display: I18n.t("stats.chart.period.quarter"), value: "q"},
-      {display: I18n.t("stats.chart.period.year"), value: "y"}
+      { display: I18n.t("stats.chart.period.day"), value: "d" },
+      { display: I18n.t("stats.chart.period.week"), value: "w" },
+      { display: I18n.t("stats.chart.period.month"), value: "m" },
+      { display: I18n.t("stats.chart.period.quarter"), value: "q" },
+      { display: I18n.t("stats.chart.period.year"), value: "y" }
     ];
 
     const handleChange = function(value) {
-      this.setState({ chart: { ...this.state.chart, periodType: value }});
+      this.setState({ chart: { ...this.state.chart, periodType: value } });
     };
 
     return (

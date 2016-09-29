@@ -15,7 +15,7 @@ class SearchUser extends React.Component {
   }
 
   componentWillMount() {
-    getIdpsForSuper().then(json => this.setState({idps: json.idps, roles: json.roles}));
+    getIdpsForSuper().then(json => this.setState({ idps: json.idps, roles: json.roles }));
   }
 
   render() {
@@ -30,7 +30,7 @@ class SearchUser extends React.Component {
                 <input
                   type="search"
                   value={this.state.search}
-                  onChange={e => this.setState({search: e.target.value})}
+                  onChange={e => this.setState({ search: e.target.value })}
                   placeholder={I18n.t("search_user.search_hint")} />
                 <button type="submit">{I18n.t("search_user.search")}</button>
               </fieldset>

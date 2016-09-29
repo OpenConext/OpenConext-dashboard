@@ -32,10 +32,10 @@ class Screenshots extends React.Component {
   }
 
   showScreenshot(index) {
-    return function (event) {
+    return function(event) {
       event.preventDefault();
       event.stopPropagation();
-      this.setState({open: true, index: index});
+      this.setState({ open: true, index: index });
     }.bind(this);
   }
 
@@ -57,7 +57,7 @@ class Screenshots extends React.Component {
   closeScreenshot(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.setState({open: false});
+    this.setState({ open: false });
   }
 }
 

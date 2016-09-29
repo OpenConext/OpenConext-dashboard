@@ -10,7 +10,7 @@ class AttributePolicyPanel extends React.Component {
         <div className="mod-title">
           <h1>{I18n.t("attributes_policy_panel.title")}</h1>
 
-          <p>{I18n.t("attributes_policy_panel.subtitle", {name: this.props.app.name})}</p>
+          <p>{I18n.t("attributes_policy_panel.subtitle", { name: this.props.app.name })}</p>
         </div>
         {this.renderAttributeReleasePolicy(this.props.app)}
       </div>
@@ -20,11 +20,11 @@ class AttributePolicyPanel extends React.Component {
   renderAttributeReleasePolicy(app) {
     if (app.arp.noArp) {
       return (
-        <p>{I18n.t("attributes_policy_panel.arp.noarp", {name: app.name})}</p>
+        <p>{I18n.t("attributes_policy_panel.arp.noarp", { name: app.name })}</p>
       );
     } else if (app.arp.noAttrArp) {
       return (
-        <p>{I18n.t("attributes_policy_panel.arp.noattr", {name: app.name})}</p>
+        <p>{I18n.t("attributes_policy_panel.arp.noattr", { name: app.name })}</p>
       );
     }
 

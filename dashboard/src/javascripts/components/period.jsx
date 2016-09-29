@@ -13,7 +13,7 @@ class Period extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ date: this.props.initialDate.format("YYYY-MM-DD")});
+    this.setState({ date: this.props.initialDate.format("YYYY-MM-DD") });
   }
 
   render() {
@@ -28,13 +28,13 @@ class Period extends React.Component {
   handlePeriodDateChanged(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.setState({date: event.target.value});
+    this.setState({ date: event.target.value });
     const m = moment(event.target.value, "YYYY-MM-DD", true);
     if (m.isValid()) {
-      this.setState({error: false});
+      this.setState({ error: false });
       this.props.handleChange(m);
     } else {
-      this.setState({error: true});
+      this.setState({ error: true });
     }
   }
 }

@@ -25,7 +25,7 @@ class LicenseInfoPanel extends React.Component {
     case "HAS_LICENSE_SURFMARKET":
       return this.renderHasLicense(I18n.t("license_info_panel.has_license_surfmarket_html")) ;
     case "HAS_LICENSE_SP":
-      return this.renderHasLicense(I18n.t("license_info_panel.has_license_sp_html", {serviceName: this.props.app.name , serviceUrl: this.props.app.serviceUrl})) ;
+      return this.renderHasLicense(I18n.t("license_info_panel.has_license_sp_html", { serviceName: this.props.app.name , serviceUrl: this.props.app.serviceUrl })) ;
     case "NO_LICENSE":
       return this.renderNoLicense();
     case "NOT_NEEDED":
@@ -40,7 +40,7 @@ class LicenseInfoPanel extends React.Component {
   renderHasLicense(msg) {
     return (
       <div className="mod-title">
-        <h3 dangerouslySetInnerHTML={{ __html: msg}} />
+        <h3 dangerouslySetInnerHTML={{ __html: msg }} />
       </div>
     );
   }
@@ -48,9 +48,9 @@ class LicenseInfoPanel extends React.Component {
   renderNoLicense() {
     return (
       <div className="mod-title">
-        <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_html")}} />
+        <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_html") }} />
         <br />
-        <div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_description_html")}} />
+        <div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.no_license_description_html") }} />
       </div>
     );
   }
@@ -58,7 +58,7 @@ class LicenseInfoPanel extends React.Component {
   renderNoLicenseNeeded() {
     return (
       <div className="mod-title">
-        <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.not_needed_html")}} />
+        <h3 dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.not_needed_html") }} />
       </div>
     );
   }
@@ -68,7 +68,7 @@ class LicenseInfoPanel extends React.Component {
       <div className="mod-title">
         <h3>{I18n.t("license_info_panel.unknown_license")}</h3>
         <br />
-        <div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.unknown_license_description_html")}} />
+        <div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.unknown_license_description_html") }} />
       </div>
     );
   }

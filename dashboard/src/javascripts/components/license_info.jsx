@@ -30,7 +30,7 @@ class LicenseInfo extends React.Component {
   renderHasLicense() {
     const licenseStatus = this.props.app.licenseStatus === "HAS_LICENSE_SURFMARKET" ? I18n.t("license_info.has_license_surfmarket") : I18n.t("license_info.has_license_sp");
     const license = this.props.app.license;
-    const licenseInfo = (license && license.endDate) ? I18n.t("license_info.valid", {date: I18n.strftime(new Date(license.endDate), "%-d %B %Y")}) : "";
+    const licenseInfo = (license && license.endDate) ? I18n.t("license_info.valid", { date: I18n.strftime(new Date(license.endDate), "%-d %B %Y") }) : "";
     return (
       <div className={this.renderSplitClass("license yes")}>
         <i className="fa fa-file-text-o"></i>

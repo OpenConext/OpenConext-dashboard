@@ -14,7 +14,7 @@ class Flash extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ flash: getFlash()});
+    this.setState({ flash: getFlash() });
     emitter.addListener("flash", this.callback);
   }
 
@@ -32,7 +32,7 @@ class Flash extends React.Component {
     if (flash) {
       return (
         <div className="flash">
-          <p className={flash.type} dangerouslySetInnerHTML={{__html: flash.message }}></p>
+          <p className={flash.type} dangerouslySetInnerHTML={{ __html: flash.message }}></p>
           <a className="close" href="#" onClick={() => this.closeFlash()}>
             <i className="fa fa-remove"></i>
           </a>

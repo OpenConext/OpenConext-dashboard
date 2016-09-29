@@ -76,7 +76,7 @@ class History extends React.Component {
       <tr key={action.jiraKey}>
         <td className="percent_15">{moment(action.requestDate).format("DD-MM-YYYY")}</td>
         <td className="percent_15">{action.userName}</td>
-        <td className="percent_25">{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
+        <td className="percent_25">{I18n.t("history.action_types." + action.type, { serviceName: action.spName })}</td>
         <td className="percent_20">{action.jiraKey}</td>
         <td className="percent_25">{action.status}</td>
       </tr>

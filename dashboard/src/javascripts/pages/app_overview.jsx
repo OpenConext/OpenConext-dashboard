@@ -44,7 +44,7 @@ class AppOverview extends React.Component {
       const [facets, apps] = data;
 
       // We need to sanitize the categories data for each app to ensure the facet totals are correct
-      const unknown = {value: I18n.t("facets.unknown")};
+      const unknown = { value: I18n.t("facets.unknown") };
       facets.forEach(facet => {
         apps.forEach(app => {
           app.categories = app.categories || [];
@@ -52,7 +52,7 @@ class AppOverview extends React.Component {
             return category.name === facet.name;
           });
           if (appCategory.length === 0) {
-            app.categories.push({name: facet.name, values: [unknown]});
+            app.categories.push({ name: facet.name, values: [unknown] });
             const filtered = facet.values.filter(facetValue => {
               return facetValue.value === unknown.value;
             });
@@ -258,7 +258,7 @@ class AppOverview extends React.Component {
       checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
     }
 
-    this.setState({activeFacets: selectedFacets});
+    this.setState({ activeFacets: selectedFacets });
 
     store.activeFacets = selectedFacets;
   }
@@ -270,7 +270,7 @@ class AppOverview extends React.Component {
     } else {
       hiddenFacets[facet.name] = true;
     }
-    this.setState({hiddenFacets: hiddenFacets});
+    this.setState({ hiddenFacets: hiddenFacets });
     store.hiddenFacets = hiddenFacets;
   }
 
@@ -314,7 +314,7 @@ class AppOverview extends React.Component {
   addNumbers(filteredApps, facets) {
     const { currentUser } = this.context;
     const me = this;
-    const filter = function (facet, filterFunction) {
+    const filter = function(facet, filterFunction) {
       const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, (value, key) => {
         return key !== facet.name;
       });
@@ -379,7 +379,7 @@ class AppOverview extends React.Component {
   }
 
   filterByFacets(facets) {
-    return function (app) {
+    return function(app) {
       const normalizedCategories = this.normalizeCategories(app);
       for (const facet in facets) {
         if (facets.hasOwnProperty(facet)) {
@@ -415,42 +415,42 @@ class AppOverview extends React.Component {
       name: I18n.t("facets.static.connection.name"),
       searchValue: "connection",
       values: [
-        {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
-        {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"},
+        { value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes" },
+        { value: I18n.t("facets.static.connection.no_connection"), searchValue: "no" },
       ],
-      filterApp: function (app) {
+      filterApp: function(app) {
         return this.filterYesNoFacet("connection", app.connected);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.used_by_idp.name"),
       searchValue: "used_by_idp",
       values: [
-        {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
-        {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"},
+        { value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes" },
+        { value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no" },
       ],
-      filterApp: function (app) {
+      filterApp: function(app) {
         return this.filterYesNoFacet("used_by_idp", currentUser.getCurrentIdp().institutionId === app.institutionId);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.published_edugain.name"),
       searchValue: "published_edugain",
       values: [
-        {value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes"},
-        {value: I18n.t("facets.static.published_edugain.no"), searchValue: "no"},
+        { value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes" },
+        { value: I18n.t("facets.static.published_edugain.no"), searchValue: "no" },
       ],
-      filterApp: function (app) {
+      filterApp: function(app) {
         return this.filterYesNoFacet("published_edugain", app.publishedInEdugain);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.license.name"),
       searchValue: "license",
       values: [
-        {value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET"},
-        {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},
-        {value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED"},
-        {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"},
+        { value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET" },
+        { value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP" },
+        { value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED" },
+        { value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN" },
       ],
-      filterApp: function (app) {
+      filterApp: function(app) {
         const licenseFacetValues = this.state.activeFacets["license"] || [];
         return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
       }.bind(this)

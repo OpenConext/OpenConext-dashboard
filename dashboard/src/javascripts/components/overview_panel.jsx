@@ -50,8 +50,8 @@ class OverviewPanel extends React.Component {
 
   renderNormenKader() {
     const html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
-      I18n.t("overview_panel.normen_kader_html", {name: this.props.app.name, link: this.props.app.normenkaderUrl}) :
-      I18n.t("overview_panel.no_normen_kader_html", {name: this.props.app.name});
+      I18n.t("overview_panel.normen_kader_html", { name: this.props.app.name, link: this.props.app.normenkaderUrl }) :
+      I18n.t("overview_panel.no_normen_kader_html", { name: this.props.app.name });
     return (
       <div className="mod-description">
         <h2>{I18n.t("overview_panel.normen_kader")}</h2>
@@ -66,7 +66,7 @@ class OverviewPanel extends React.Component {
         <div className="mod-description">
         <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
         <h3
-          dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
+          dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", { name: this.props.app.name }) }}/>
       </div>);
     }
 
@@ -74,15 +74,15 @@ class OverviewPanel extends React.Component {
   }
 
   renderDescription() {
-    const hasText = function (value) {
+    const hasText = function(value) {
       return value && value.trim().length > 0;
     };
     if (hasText(this.props.app.enduserDescription)) {
-      return <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription}}/>;
+      return <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription }}/>;
     } else if (hasText(this.props.app.institutionDescription)) {
-      return <p dangerouslySetInnerHTML={{ __html: this.props.app.institutionDescription}}/>;
+      return <p dangerouslySetInnerHTML={{ __html: this.props.app.institutionDescription }}/>;
     } else if (hasText(this.props.app.description)) {
-      return <p dangerouslySetInnerHTML={{ __html: this.props.app.description}}/>;
+      return <p dangerouslySetInnerHTML={{ __html: this.props.app.description }}/>;
     }
 
     return <p>{I18n.t("overview_panel.no_description")}</p>;

@@ -5,7 +5,7 @@ import { AppShape } from "../shapes";
 
 class IdpUsagePanel extends React.Component {
   render() {
-    const subtitle = this.props.institutions.length === 0 ? I18n.t("idp_usage_panel.subtitle_none", {name: this.props.app.name}) : I18n.t("idp_usage_panel.subtitle", {name: this.props.app.name});
+    const subtitle = this.props.institutions.length === 0 ? I18n.t("idp_usage_panel.subtitle_none", { name: this.props.app.name }) : I18n.t("idp_usage_panel.subtitle", { name: this.props.app.name });
     return (
       <div className="l-middle">
         <div className="mod-title">

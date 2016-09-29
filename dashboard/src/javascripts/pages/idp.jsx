@@ -18,7 +18,7 @@ class MyIdp extends React.Component {
     const idpId = currentUser.getCurrentIdp();
 
     getIdpRolesWithUsers(idpId).then(data => {
-      this.setState({ roles: data.payload});
+      this.setState({ roles: data.payload });
     });
     getLicenseContactPerson(idpId).then(data => {
       this.setState({ licenseContactPersons: data.payload });
@@ -32,7 +32,7 @@ class MyIdp extends React.Component {
         <div className="mod-idp">
           <h1>{I18n.t("my_idp.title")}</h1>
 
-          <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html") }}></p>
+          <p dangerouslySetInnerHTML={{ __html: I18n.t("my_idp.sub_title_html") }}></p>
           {this.renderRoles(roles)}
           {this.renderLicenseContactPersons(this.state.licenseContactPersons)}
         </div>
@@ -83,7 +83,7 @@ class MyIdp extends React.Component {
     if (licenseContactPersons && licenseContactPersons.length > 0) {
       return (
         <div>
-          <p className="next" dangerouslySetInnerHTML={{__html: I18n.t("my_idp.license_contact_html") }}></p>
+          <p className="next" dangerouslySetInnerHTML={{ __html: I18n.t("my_idp.license_contact_html") }}></p>
           <table>
             <thead>
             <tr>

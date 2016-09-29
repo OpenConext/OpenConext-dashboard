@@ -38,7 +38,7 @@ class HowToConnectPanel extends React.Component {
     return (
       <div className="l-middle">
         <div className="mod-title">
-          <h1>{I18n.t("how_to_connect_panel.connect_title", {app: this.props.app.name})}</h1>
+          <h1>{I18n.t("how_to_connect_panel.connect_title", { app: this.props.app.name })}</h1>
           <p>{I18n.t("how_to_connect_panel.info_sub_title")}</p>
         </div>
 
@@ -144,7 +144,7 @@ class HowToConnectPanel extends React.Component {
             <div className="number">3</div>
             <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
             <p
-              dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
+              dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", { name: this.props.app.name }) }}/>
             <p>{I18n.t("how_to_connect_panel.single_tenant_service_warning")}</p>
           </div>
         </div>
@@ -156,14 +156,14 @@ class HowToConnectPanel extends React.Component {
 
   renderDoneStep() {
     const subtitle = this.state.action.jiraKey ?
-      I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
+      I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", { jiraKey: this.state.action.jiraKey }) :
       I18n.t("how_to_connect_panel.done_subtitle_html");
 
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("how_to_connect_panel.done_title")}</h1>
-          <p dangerouslySetInnerHTML={{ __html: subtitle}} />
+          <p dangerouslySetInnerHTML={{ __html: subtitle }} />
           <br />
           <p className="cta">
             <a href="/apps" className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
@@ -192,7 +192,7 @@ class HowToConnectPanel extends React.Component {
     return (
       <div className="l-middle">
         <div className="mod-title">
-          <h1>{I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name})}</h1>
+          <h1>{I18n.t("how_to_connect_panel.disconnect_title", { app: this.props.app.name })}</h1>
         </div>
 
         <div className="mod-connect">
@@ -202,9 +202,9 @@ class HowToConnectPanel extends React.Component {
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
               <textarea value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
               <label>
-                <input type="checkbox" checked={this.state.checked} onChange={e => this.setState({ accepted: e.target.checked})} />
+                <input type="checkbox" checked={this.state.checked} onChange={e => this.setState({ accepted: e.target.checked })} />
 
-                {I18n.t("how_to_connect_panel.accept_disconnect", {app: this.props.app.name})}
+                {I18n.t("how_to_connect_panel.accept_disconnect", { app: this.props.app.name })}
               </label>
             </div>
           </div>
@@ -220,7 +220,7 @@ class HowToConnectPanel extends React.Component {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.setState({currentStep: step});
+      this.setState({ currentStep: step });
     }.bind(this);
   }
 
@@ -228,7 +228,7 @@ class HowToConnectPanel extends React.Component {
     e.preventDefault();
     if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
       makeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
-      .then(action => this.setState({currentStep: "done", action: action}));
+      .then(action => this.setState({ currentStep: "done", action: action }));
     }
   }
 
@@ -236,7 +236,7 @@ class HowToConnectPanel extends React.Component {
     e.preventDefault();
     if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
       removeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
-      .then(action => this.setState({currentStep: "done-disconnect", action: action}));
+      .then(action => this.setState({ currentStep: "done-disconnect", action: action }));
     }
   }
 }

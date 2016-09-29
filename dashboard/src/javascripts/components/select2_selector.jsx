@@ -22,7 +22,7 @@ class Select2Selector extends React.Component {
         options={data}
         multi={this.props.multiple}
         onChange={val => this.onChange(val)}
-        style={{width: "100%"}}
+        style={{ width: "100%" }}
         placeholder={this.props.placeholder}
         searchable={data.length >= minimumResultsForSearch}
         clearable={false}

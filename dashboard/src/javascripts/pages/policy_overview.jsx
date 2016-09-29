@@ -159,14 +159,14 @@ class PolicyOverview extends React.Component {
   }
 
   handleDeletePolicyDetail(policy) {
-    return function (e) {
+    return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      if (confirm(I18n.t("policies.confirmation", {policyName: policy.name}))) {
+      if (confirm(I18n.t("policies.confirmation", { policyName: policy.name }))) {
         deletePolicy(policy.id).then(() => {
           getPolicies().then(data => {
             this.setState({ policies: data.payload });
-            setFlash(I18n.t("policies.flash", {policyName: policy.name, action: I18n.t("policies.flash_deleted")}));
+            setFlash(I18n.t("policies.flash", { policyName: policy.name, action: I18n.t("policies.flash_deleted") }));
           });
         });
       }

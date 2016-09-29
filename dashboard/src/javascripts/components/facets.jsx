@@ -39,10 +39,10 @@ class Facets extends React.Component {
     const total = this.props.totalCount;
 
     if (count === total) {
-      return I18n.t("facets.totals.all", {total: total});
+      return I18n.t("facets.totals.all", { total: total });
     }
 
-    return I18n.t("facets.totals.filtered", {count: count, total: total});
+    return I18n.t("facets.totals.filtered", { count: count, total: total });
   }
 
   renderFacet(facet) {
@@ -69,7 +69,7 @@ class Facets extends React.Component {
   }
 
   handleFacetToggle(facet) {
-    return function (e) {
+    return function(e) {
       e.stopPropagation();
       this.props.onHide(facet);
     }.bind(this);
@@ -112,7 +112,7 @@ class Facets extends React.Component {
   }
 
   handleSelectFacet(facet, facetValue) {
-    return function (e) {
+    return function(e) {
       e.stopPropagation();
       this.props.onChange(facet, facetValue, e.target.checked);
     }.bind(this);

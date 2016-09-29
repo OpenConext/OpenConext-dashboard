@@ -7,12 +7,15 @@ import { getNotifications } from "../api";
 import YesNo from "../components/yes_no";
 
 class Notifications extends React.Component {
-  constructor() { super(); this.state = {
-    notificationMessage: {
-      messageKeys: [],
-      arguments: []
-    }
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      notificationMessage: {
+        messageKeys: [],
+        arguments: []
+      }
+    };
   }
 
   componentWillMount() {

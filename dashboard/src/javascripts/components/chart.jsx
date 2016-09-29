@@ -38,7 +38,7 @@ class Chart extends React.Component {
     this.setState({ error: false });
 
     const chartId = this.chart.id;
-    const setMinimumHeightOfChart = function (height) {
+    const setMinimumHeightOfChart = function(height) {
       $("#" + chartId).css("min-height", height + "px");
     };
     let options = {

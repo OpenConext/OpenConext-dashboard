@@ -1,10 +1,10 @@
 export default {
 
-  addQuotes: function (str) {
+  addQuotes: function(str) {
     return (_.isEmpty(str)) ? str : "'" + str + "'";
   },
 
-  attributes: function (attributes, allAttributesMustMatch) {
+  attributes: function(attributes, allAttributesMustMatch) {
     const otherAttr = attributes.filter(attr => {
       return attr.name !== "urn:collab:group:surfteams.nl";
     });
@@ -28,7 +28,7 @@ export default {
 
   },
 
-  description: function (policy) {
+  description: function(policy) {
     const idps = _.isEmpty(policy.identityProviderNames) ? "" : " from " + policy.identityProviderNames.map(this.addQuotes).join(" or ");
     const sp = this.addQuotes(policy.serviceProviderName) || "?";
     const attrs = policy.attributes || [];
