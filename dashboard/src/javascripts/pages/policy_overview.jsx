@@ -48,7 +48,7 @@ class PolicyOverview extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {sort(filteredPolicies).map(this.renderPolicy.bind(this))}
+              {sort(filteredPolicies, this.state.sortAttribute, this.state.sortAscending).map(this.renderPolicy.bind(this))}
             </tbody>
           </table>
         </div>
