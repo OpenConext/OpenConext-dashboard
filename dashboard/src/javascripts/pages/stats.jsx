@@ -68,9 +68,9 @@ class Stats extends React.Component {
       {display: I18n.t("stats.chart.type.idpsp"), value: "idpsp"}
     ];
 
-    var handleChange = (value) => {
+    const handleChange = (value) => {
       const newState = { chart: { ...this.state.chart, type: value }};
-      if (value === 'idpsp' && !this.state.chart.sp && this.state.sps.length > 0) {
+      if (value === "idpsp" && !this.state.chart.sp && this.state.sps.length > 0) {
         newState.chart.sp = this.state.sps[0].value;
       }
       this.setState(newState);

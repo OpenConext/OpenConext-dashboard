@@ -192,7 +192,7 @@ export function getIdpsForSuper() {
 }
 
 export function createPolicy(policy) {
-  return postJson('/policies', policy, {
+  return postJson("/policies", policy, {
     headers: {
       "Content-Type": "application/json"
     }
@@ -200,7 +200,7 @@ export function createPolicy(policy) {
 }
 
 export function updatePolicy(policy) {
-  return putJson('/policies', policy, {
+  return putJson("/policies", policy, {
     headers: {
       "Content-Type": "application/json"
     }

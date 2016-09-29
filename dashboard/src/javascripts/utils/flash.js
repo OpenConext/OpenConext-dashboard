@@ -13,6 +13,6 @@ export function getFlash() {
 
 export function setFlash(message, type) {
   clearTimeout(timeout);
-  flash = { message, type: type || 'info' };
+  flash = { message, type: type || "info" };
   emitter.emit("flash", flash);
 }

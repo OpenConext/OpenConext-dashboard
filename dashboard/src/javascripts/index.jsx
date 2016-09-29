@@ -37,7 +37,7 @@ import SearchUser from "./pages/search_user";
 
 import "./locale/en";
 import "./locale/nl";
-import 'react-select/dist/react-select.css';
+import "react-select/dist/react-select.css";
 
 class App extends React.Component {
   getChildContext() {
