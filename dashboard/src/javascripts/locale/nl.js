@@ -525,14 +525,6 @@ I18n.translations.nl = {
         name: "DAI",
         description: "Digital Author Identifier (DAI)"
       },
-      "Shib-nlEduPersonHomeOrganization": {
-        name: "Weergavenaam van de Instelling",
-        description: "weergavenaam van de instelling"
-      },
-      "Shib-nlEduPersonStudyBranch": {
-        name: "Opleiding",
-        description: "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft"
-      },
       "Shib-userStatus": {
         name: "Gebruikersstatus",
         description: "Status van deze gebruiker in SURFconext"

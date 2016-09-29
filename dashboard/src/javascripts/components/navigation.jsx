@@ -61,6 +61,7 @@ class Navigation extends React.Component {
     if (this.state.loading) {
       return <div className="spinner" ref={spinner => this.spinnerNode = spinner}/>;
     }
+    return null;
   }
 }
 

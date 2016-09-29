@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "i18n-js";
 
 class Screenshots extends React.Component {
   constructor() {
@@ -34,7 +35,6 @@ class Screenshots extends React.Component {
     return function (event) {
       event.preventDefault();
       event.stopPropagation();
-      console.log("Clicked..", index);
       this.setState({open: true, index: index});
     }.bind(this);
   }
@@ -50,6 +50,8 @@ class Screenshots extends React.Component {
         </div>
       );
     }
+
+    return null;
   }
 
   closeScreenshot(event) {
@@ -58,5 +60,9 @@ class Screenshots extends React.Component {
     this.setState({open: false});
   }
 }
+
+Screenshots.propTypes = {
+  screenshotUrls: React.PropTypes.arrayOf(React.PropTypes.string)
+};
 
 export default Screenshots;

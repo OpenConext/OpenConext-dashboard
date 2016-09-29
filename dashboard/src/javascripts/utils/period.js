@@ -10,5 +10,7 @@ export const getPeriod = (moment, type) => {
     return moment.year() + "w" + moment.week();
   case "d":
     return moment.year() + "d" + moment.dayOfYear();
+  default:
+    return null;
   }
 };

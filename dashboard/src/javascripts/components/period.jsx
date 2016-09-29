@@ -39,4 +39,10 @@ class Period extends React.Component {
   }
 }
 
+Period.propTypes = {
+  initialDate: React.PropTypes.instanceOf(moment).isRequired,
+  title: React.PropTypes.string.isRequired,
+  handleChange: React.PropTypes.func.isRequired
+};
+
 export default Period;

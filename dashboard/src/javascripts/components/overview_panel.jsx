@@ -4,6 +4,8 @@ import I18n from "i18n-js";
 import LicenseInfo from "./license_info";
 import Screenshots from "./screenshots";
 
+import { AppShape } from "../shapes";
+
 class OverviewPanel extends React.Component {
   render() {
     return (
@@ -42,6 +44,8 @@ class OverviewPanel extends React.Component {
         </div>
       );
     }
+
+    return null;
   }
 
   renderNormenKader() {
@@ -65,6 +69,8 @@ class OverviewPanel extends React.Component {
           dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
       </div>);
     }
+
+    return null;
   }
 
   renderDescription() {
@@ -88,8 +94,10 @@ class OverviewPanel extends React.Component {
 
   renderHasConnection() {
     const { currentUser } = this.context;
+
+    let disconnect = null;
     if (currentUser.dashboardAdmin) {
-      var disconnect = <p><a href="#"
+      disconnect = <p><a href="#"
           onClick={(e) => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
       </p>;
     }
@@ -107,8 +115,9 @@ class OverviewPanel extends React.Component {
   renderNoConnection() {
     const { currentUser } = this.context;
 
+    let connect = null;
     if (currentUser.dashboardAdmin) {
-      var connect = <p><a href="#"
+      connect = <p><a href="#"
           onClick={(e) => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
       </p>;
     }
@@ -126,6 +135,11 @@ class OverviewPanel extends React.Component {
 
 OverviewPanel.contextTypes = {
   currentUser: React.PropTypes.object
+};
+
+OverviewPanel.propTypes = {
+  app: AppShape.isRequired,
+  onSwitchPanel: React.PropTypes.func.isRequired
 };
 
 export default OverviewPanel;

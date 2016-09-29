@@ -2,6 +2,7 @@ import React from "react";
 import I18n from "i18n-js";
 
 import LicenseInfo from "./license_info";
+import { AppShape } from "../shapes";
 
 class LicenseInfoPanel extends React.Component {
   render() {
@@ -31,6 +32,8 @@ class LicenseInfoPanel extends React.Component {
       return this.renderNoLicenseNeeded();
     case "UNKNOWN":
       return this.renderUnknownLicense();
+    default:
+      return null;
     }
   }
 
@@ -70,5 +73,9 @@ class LicenseInfoPanel extends React.Component {
     );
   }
 }
+
+LicenseInfoPanel.propTypes = {
+  app: AppShape.isRequired
+};
 
 export default LicenseInfoPanel;
