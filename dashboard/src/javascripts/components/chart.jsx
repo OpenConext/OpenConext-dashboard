@@ -53,7 +53,7 @@ class Chart extends React.Component {
       options = _.merge(options, {
         period: getPeriod(chart.periodDate, chart.periodType),
         dataCallbacks: [function(data) {
-          const height = Math.max(data.numRecords * 25, 300);
+          const height = Math.max(data.numRecords * 50, 300);
           setMinimumHeightOfChart(height);
         }]
       });
