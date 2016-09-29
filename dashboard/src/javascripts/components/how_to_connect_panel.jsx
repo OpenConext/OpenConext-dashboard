@@ -1,36 +1,44 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Components.HowToConnectPanel = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin
-  ],
+import { AppShape } from "../shapes";
+import { makeConnection, removeConnection } from "../api";
 
-  getInitialState: function() {
-    return {
-      currentStep: this.props.app.connected ? "disconnect" : "connect",
+class HowToConnectPanel extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      currentStep: "connect",
       accepted: false,
       comments: ""
-    }
-  },
+    };
+  }
 
-  render: function() {
+  componentWillMount() {
+    this.setState({ currentStep: this.props.app.connected ? "disconnect" : "connect" });
+  }
+
+  render() {
     switch (this.state.currentStep) {
-      case "disconnect":
-        return this.renderDisconnectStep();
-      case "connect":
-        return this.renderConnectStep();
-      case "done":
-        return this.renderDoneStep();
-      case "done-disconnect":
-        return this.renderDoneDisconnectStep();
+    case "disconnect":
+      return this.renderDisconnectStep();
+    case "connect":
+      return this.renderConnectStep();
+    case "done":
+      return this.renderDoneStep();
+    case "done-disconnect":
+      return this.renderDoneDisconnectStep();
+    default:
+      return null;
     }
-  },
+  }
 
-  renderConnectStep: function() {
+  renderConnectStep() {
     return (
       <div className="l-middle">
         <div className="mod-title">
-          <h1>{I18n.t("how_to_connect_panel.connect_title", {app: this.props.app.name})}</h1>
+          <h1>{I18n.t("how_to_connect_panel.connect_title", { app: this.props.app.name })}</h1>
           <p>{I18n.t("how_to_connect_panel.info_sub_title")}</p>
         </div>
 
@@ -42,14 +50,14 @@ App.Components.HowToConnectPanel = React.createClass({
               <ul>
                 <li>
                   {I18n.t("how_to_connect_panel.check")}&nbsp;
-                  <a onClick={this.props.onSwitchPanel("license_info")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "license_info")} href="#">
                     {I18n.t("how_to_connect_panel.license_info")}
                   </a>
                 </li>
 
                 <li>
                   {I18n.t("how_to_connect_panel.check")}&nbsp;
-                  <a onClick={this.props.onSwitchPanel("attribute_policy")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
                     {I18n.t("how_to_connect_panel.attributes_policy")}
                   </a>
                 </li>
@@ -64,7 +72,7 @@ App.Components.HowToConnectPanel = React.createClass({
               <ul>
                 <li>
                   {I18n.t("how_to_connect_panel.provide_attributes.before")}
-                  <a onClick={this.props.onSwitchPanel("attribute_policy")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
                     {I18n.t("how_to_connect_panel.attributes")}
                   </a>
                   {I18n.t("how_to_connect_panel.provide_attributes.after")}
@@ -72,7 +80,7 @@ App.Components.HowToConnectPanel = React.createClass({
 
                 <li>
                   {I18n.t("how_to_connect_panel.forward_permission.before")}
-                  <a onClick={this.props.onSwitchPanel("attribute_policy")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
                     {I18n.t("how_to_connect_panel.attributes")}
                   </a>
                   {I18n.t("how_to_connect_panel.forward_permission.after", { app: this.props.app.name })}
@@ -80,7 +88,7 @@ App.Components.HowToConnectPanel = React.createClass({
 
                 <li>
                   {I18n.t("how_to_connect_panel.obtain_license.before")}
-                  <a onClick={this.props.onSwitchPanel("license_info")} href="#">
+                  <a onClick={e => this.props.onSwitchPanel(e, "license_info")} href="#">
                     {I18n.t("how_to_connect_panel.license")}
                   </a>
                   {I18n.t("how_to_connect_panel.obtain_license.after", { app: this.props.app.name })}
@@ -89,7 +97,7 @@ App.Components.HowToConnectPanel = React.createClass({
               <br />
               <p>
                 <label>
-                  <input type="checkbox" checkedLink={this.linkState("accepted")} />
+                  <input type="checkbox" checked={this.state.accepted} onChange={e => this.setState({ accepted: e.target.checked })} />
                   &nbsp;
                   {I18n.t("how_to_connect_panel.accept")}
                 </label>
@@ -101,18 +109,18 @@ App.Components.HowToConnectPanel = React.createClass({
               <div className="number">{this.props.app.exampleSingleTenant ? 4 : 3}</div>
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea rows="5" valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea rows="5" value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
             </div>
           </div>
           <p className="cta">
-            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleMakeConnection}>{I18n.t("how_to_connect_panel.connect")}</a>
+            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleMakeConnection.bind(this)}>{I18n.t("how_to_connect_panel.connect")}</a>
           </p>
         </div>
       </div>
     );
-  },
+  }
 
-  renderWikiUrl: function() {
+  renderWikiUrl() {
     if (this.props.app.wikiUrl) {
       return (
         <li>
@@ -123,9 +131,11 @@ App.Components.HowToConnectPanel = React.createClass({
         </li>
       );
     }
-  },
 
-  renderSingleTenantServiceWarning: function() {
+    return null;
+  }
+
+  renderSingleTenantServiceWarning() {
     if (this.props.app.exampleSingleTenant) {
       return (
         <div>
@@ -134,24 +144,26 @@ App.Components.HowToConnectPanel = React.createClass({
             <div className="number">3</div>
             <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
             <p
-              dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
+              dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", { name: this.props.app.name }) }}/>
             <p>{I18n.t("how_to_connect_panel.single_tenant_service_warning")}</p>
           </div>
         </div>
       );
     }
-  },
 
-  renderDoneStep: function() {
-    var subtitle = this.state.action.jiraKey ?
-      I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
+    return null;
+  }
+
+  renderDoneStep() {
+    const subtitle = this.state.action.jiraKey ?
+      I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", { jiraKey: this.state.action.jiraKey }) :
       I18n.t("how_to_connect_panel.done_subtitle_html");
 
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("how_to_connect_panel.done_title")}</h1>
-          <p dangerouslySetInnerHTML={{ __html: subtitle}} />
+          <p dangerouslySetInnerHTML={{ __html: subtitle }} />
           <br />
           <p className="cta">
             <a href="/apps" className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
@@ -159,9 +171,9 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderDoneDisconnectStep: function() {
+  renderDoneDisconnectStep() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -174,13 +186,13 @@ App.Components.HowToConnectPanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderDisconnectStep: function() {
+  renderDisconnectStep() {
     return (
       <div className="l-middle">
         <div className="mod-title">
-          <h1>{I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name})}</h1>
+          <h1>{I18n.t("how_to_connect_panel.disconnect_title", { app: this.props.app.name })}</h1>
         </div>
 
         <div className="mod-connect">
@@ -188,43 +200,54 @@ App.Components.HowToConnectPanel = React.createClass({
             <div className="content">
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea valueLink={this.linkState("comments")} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
               <label>
-                <input type="checkbox" checkedLink={this.linkState("accepted")} />
+                <input type="checkbox" checked={this.state.checked} onChange={e => this.setState({ accepted: e.target.checked })} />
 
-                {I18n.t("how_to_connect_panel.accept_disconnect", {app: this.props.app.name})}
+                {I18n.t("how_to_connect_panel.accept_disconnect", { app: this.props.app.name })}
               </label>
             </div>
           </div>
           <p className="cta">
-            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleDisconnect}>{I18n.t("how_to_connect_panel.disconnect")}</a>
+            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleDisconnect.bind(this)}>{I18n.t("how_to_connect_panel.disconnect")}</a>
           </p>
         </div>
       </div>
     );
-  },
+  }
 
-  handleGotoStep: function(step) {
+  handleGotoStep(step) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.setState({currentStep: step});
+      this.setState({ currentStep: step });
     }.bind(this);
-  },
+  }
 
-  handleMakeConnection: function() {
-    if (this.state.accepted) {
-      App.Controllers.Apps.makeConnection(this.props.app, this.state.comments, function(action) {
-        this.setState({currentStep: "done", action: action});
-      }.bind(this));
-    }
-  },
-
-  handleDisconnect: function() {
-    if (this.state.accepted) {
-      App.Controllers.Apps.disconnect(this.props.app, this.state.comments, function(action) {
-        this.setState({currentStep: "done-disconnect", action: action});
-      }.bind(this));
+  handleMakeConnection(e) {
+    e.preventDefault();
+    if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
+      makeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
+      .then(action => this.setState({ currentStep: "done", action: action }));
     }
   }
-});
+
+  handleDisconnect(e) {
+    e.preventDefault();
+    if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
+      removeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
+      .then(action => this.setState({ currentStep: "done-disconnect", action: action }));
+    }
+  }
+}
+
+HowToConnectPanel.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+HowToConnectPanel.propTypes = {
+  app: AppShape.isRequired,
+  onSwitchPanel: React.PropTypes.func.isRequired
+};
+
+export default HowToConnectPanel;

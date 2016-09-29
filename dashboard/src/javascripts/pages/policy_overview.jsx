@@ -1,29 +1,38 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Pages.PolicyOverview = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin,
-    App.Mixins.SortableTable("policies.overview", "name")
-  ],
+import Link from "react-router/Link";
 
-  getInitialState: function () {
-    return {
-      search: ""
-    }
-  },
+import { deletePolicy, getPolicies } from "../api";
+import { setFlash } from "../utils/flash";
+import sort from "../utils/sort";
 
-  componentWillReceiveProps: function (nextProps) {
-    if (!_.isEmpty(this.props) && this.props.flash !== nextProps.flash) {
-      this.setState({hideFlash: false});
-    }
-  },
+import Flash from "../components/flash";
+import SortableHeader from "../components/sortable_header";
 
-  render: function () {
-    var filteredPolicies = this.filterPolicies(this.props.policies);
+class PolicyOverview extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      search: "",
+      sortAttribute: "name",
+      sortAscending: undefined,
+      policies: []
+    };
+  }
+
+  componentWillMount() {
+    getPolicies().then(data => this.setState({ policies: data.payload }));
+  }
+
+  render() {
+    const filteredPolicies = this.filterPolicies(this.state.policies);
+    const { currentUser } = this.context;
 
     return (
       <div className="l-main">
-        {this.renderFlash()}
+        <Flash />
         {this.renderHeader()}
         <div className="mod-policy-list">
           <table>
@@ -35,42 +44,64 @@ App.Pages.PolicyOverview = React.createClass({
                 {this.renderSortableHeader("percent_20", "identityProviderNames")}
                 {this.renderSortableHeader("percent_10", "active")}
                 {this.renderSortableHeader("percent_10", "numberOfRevisions")}
-                {App.currentUser.dashboardAdmin ? (<th className="percent_5"></th>) : null}
+                {currentUser.dashboardAdmin ? (<th className="percent_5"></th>) : null}
               </tr>
             </thead>
             <tbody>
-              {this.sort(filteredPolicies).map(this.renderPolicy)}
+              {sort(filteredPolicies).map(this.renderPolicy.bind(this))}
             </tbody>
           </table>
         </div>
       </div>
     );
-  },
+  }
 
-  renderHeader: function () {
-    var search = (
+  handleSort(sortObject) {
+    this.setState({
+      sortAttribute: sortObject.sortAttribute,
+      sortAscending: sortObject.sortAscending
+    });
+  }
+
+  renderSortableHeader(className, attribute) {
+    return (
+      <SortableHeader
+        sortAttribute={this.state.sortAttribute}
+        attribute={attribute}
+        sortAscending={this.state.sortAscending}
+        className={className}
+        localeKey="policies.overview"
+        onSort={this.handleSort.bind(this)}
+        />
+    );
+  }
+
+  renderHeader() {
+    const search = (
       <div className="mod-policy-search">
         <fieldset>
             <i className="fa fa-search"/>
             <input
               type="search"
-              valueLink={this.linkState("search")}
+              value={this.state.search}
+              onChange={e => this.setState({ search: e.target.value })}
               placeholder={I18n.t("policies.overview.search_hint")}/>
             <button type="submit">{I18n.t("policies.overview.search")}</button>
         </fieldset>
       </div>
     );
 
-    return App.currentUser.dashboardAdmin ?
+    const { currentUser } = this.context;
+    return currentUser.dashboardAdmin ?
       (
         <div className="l-grid">
           <div className="l-col-9">
             {search}
           </div>
           <div className="l-col-3 text-right no-gutter">
-            <a href={page.uri("/policies/new")} className="t-button new-policy">
+            <Link to={"/policies/new"} className="t-button new-policy">
               <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}
-            </a>
+            </Link>
           </div>
         </div>
      ) : (
@@ -80,26 +111,10 @@ App.Pages.PolicyOverview = React.createClass({
          </div>
        </div>
      );
-  },
+  }
 
-  renderFlash: function () {
-    var flash = this.props.flash;
-
-    if (flash && !this.state.hideFlash) {
-      return (
-          <div className="flash">
-            <p className={flash.type} dangerouslySetInnerHTML={{__html: flash.message }}></p>
-            <a className="close" href="#" onClick={this.closeFlash}><i className="fa fa-remove"></i></a>
-          </div>
-      );
-    }
-  },
-
-  closeFlash: function () {
-    this.setState({hideFlash: true});
-  },
-
-  renderPolicy: function (policy, i) {
+  renderPolicy(policy, i) {
+    const { currentUser } = this.context;
     return (
       <tr key={i}>
         <td>{policy.name}</td>
@@ -108,70 +123,65 @@ App.Pages.PolicyOverview = React.createClass({
         <td>{this.renderIdpNames(policy)}</td>
         <td><input type="checkbox" defaultChecked={policy.active} disabled="true"/></td>
         <td>{this.renderRevisionsLink(policy)}</td>
-        {App.currentUser.dashboardAdmin ? (<td>{this.renderControls(policy)}</td>) : null}
+        {currentUser.dashboardAdmin ? (<td>{this.renderControls(policy)}</td>) : null}
       </tr>
     );
-  },
+  }
 
-  renderIdpNames: function (policy) {
-    return policy.identityProviderNames.map(function (name) {
-      return (<p key={name}>{name}</p>)
+  renderIdpNames(policy) {
+    return policy.identityProviderNames.map(name => {
+      return (<p key={name}>{name}</p>);
     });
-  },
+  }
 
-  renderRevisionsLink: function (policy) {
-    var numberOfRevisions = (policy.numberOfRevisions + 1)
+  renderRevisionsLink(policy) {
+    const numberOfRevisions = (policy.numberOfRevisions + 1);
     return (
-      <a href={page.uri("/policies/:id/revisions", {id: policy.id})}
-        onClick={this.handleShowRevisions(policy)}>{numberOfRevisions}</a>
+      <Link to={`/policies/${policy.id}/revisions`}>{numberOfRevisions}</Link>
     );
-  },
+  }
 
-  handleShowRevisions: function (policy) {
-    return function (e) {
-       e.preventDefault();
-       e.stopPropagation();
-       page("/policies/:id/revisions", {id: policy.id});
-     }
-  },
-
-  renderControls: function(policy) {
+  renderControls(policy) {
     if (policy.actionsAllowed) {
       return (
           <div className="controls">
-            <a href={page.uri("/policies/:id", {id: policy.id})} onClick={this.handleShowPolicyDetail(policy)}
-               data-tooltip={I18n.t("policies.edit")}> <i className="fa fa-edit"></i>
-            </a>
-            <a href="#" data-tooltip={I18n.t("policies.delete")} onClick={this.handleDeletePolicyDetail(policy)}>
+            <Link to={`/policies/${policy.id}`} data-tooltip={I18n.t("policies.edit")}>
+              <i className="fa fa-edit"></i>
+            </Link>
+            <a href="#" data-tooltip={I18n.t("policies.delete")} onClick={this.handleDeletePolicyDetail(policy).bind(this)}>
               <i className="fa fa-remove"></i>
             </a>
           </div>
       );
     }
-  },
 
-  handleShowPolicyDetail: function (policy) {
-    return  function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      page("/policies/:id", {id: policy.id});
-    };
-  },
-
-  handleDeletePolicyDetail: function (policy) {
-    return function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (confirm(I18n.t("policies.confirmation", {policyName: policy.name}))) {
-        App.Controllers.Policies.deletePolicy(policy);
-      }
-    };
-  },
-
-  filterPolicies: function (policies) {
-    return policies.filter(function (policy) {
-      return policy.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
-    }.bind(this));
+    return null;
   }
 
-});
+  handleDeletePolicyDetail(policy) {
+    return function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (confirm(I18n.t("policies.confirmation", { policyName: policy.name }))) {
+        deletePolicy(policy.id).then(() => {
+          getPolicies().then(data => {
+            this.setState({ policies: data.payload });
+            setFlash(I18n.t("policies.flash", { policyName: policy.name, action: I18n.t("policies.flash_deleted") }));
+          });
+        });
+      }
+    };
+  }
+
+  filterPolicies(policies) {
+    return policies.filter(policy => {
+      return policy.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
+    });
+  }
+}
+
+PolicyOverview.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+export default PolicyOverview;

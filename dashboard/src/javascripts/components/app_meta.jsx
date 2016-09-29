@@ -1,7 +1,11 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Components.AppMeta = React.createClass({
-  render: function() {
+import { AppShape } from "../shapes";
+import Contact from "./contact";
+
+class AppMeta extends React.Component {
+  render() {
     return (
       <div className="l-right">
         <div className="mod-app-meta">
@@ -14,7 +18,7 @@ App.Components.AppMeta = React.createClass({
             </address>
           </div>
 
-          <App.Components.Contact email={this.props.app.supportMail} />
+          <Contact email={this.props.app.supportMail} />
           {this.renderUrl("support", this.props.app.supportUrl)}
           {this.renderUrl("login", this.props.app.appUrl)}
           {this.renderUrl("website", this.props.app.websiteUrl)}
@@ -22,24 +26,23 @@ App.Components.AppMeta = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderUrl: function(key, link, target) {
+  renderUrl(key, link, target) {
     if (link) {
-      if (!target) {
-        target = "_blank";
-      }
+      const linkTarget = target ? target : "_blank";
       return (
         <div className="contact">
           <address>
-            <a href={link} target={target}>{I18n.t("app_meta." + key)}</a>
+            <a href={link} target={linkTarget}>{I18n.t("app_meta." + key)}</a>
           </address>
         </div>
       );
     }
-  },
+    return null;
+  }
 
-  renderLogo: function() {
+  renderLogo() {
     if (this.props.app.detailLogoUrl) {
       return (
         <div className='logo'>
@@ -47,5 +50,12 @@ App.Components.AppMeta = React.createClass({
         </div>
       );
     }
+    return null;
   }
-});
+}
+
+AppMeta.propTypes = {
+  app: AppShape.isRequired
+};
+
+export default AppMeta;

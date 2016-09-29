@@ -1,22 +1,46 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Pages.MyIdp = React.createClass({
-  render: function () {
-    var roles = Object.keys(this.props.roles);
+import { getLicenseContactPerson, getIdpRolesWithUsers } from "../api";
+
+class MyIdp extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      roles: {},
+      licenseContactPersons: []
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+    const idpId = currentUser.getCurrentIdp();
+
+    getIdpRolesWithUsers(idpId).then(data => {
+      this.setState({ roles: data.payload });
+    });
+    getLicenseContactPerson(idpId).then(data => {
+      this.setState({ licenseContactPersons: data.payload });
+    });
+  }
+
+  render() {
+    const roles = Object.keys(this.state.roles);
     return (
       <div className="l-mini">
         <div className="mod-idp">
           <h1>{I18n.t("my_idp.title")}</h1>
 
-          <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html") }}></p>
+          <p dangerouslySetInnerHTML={{ __html: I18n.t("my_idp.sub_title_html") }}></p>
           {this.renderRoles(roles)}
-          {this.renderLicenseContactPersons(this.props.licenseContactPersons)}
+          {this.renderLicenseContactPersons(this.state.licenseContactPersons)}
         </div>
       </div>
     );
-  },
+  }
 
-  renderRoles: function (roles) {
+  renderRoles(roles) {
     return (
       <table>
         <thead>
@@ -26,26 +50,26 @@ App.Pages.MyIdp = React.createClass({
         </tr>
         </thead>
         <tbody>
-        {roles.map(this.renderRole)}
+        {roles.map(this.renderRole.bind(this))}
         </tbody>
       </table>
     );
-  },
+  }
 
-  renderRole: function (role) {
-    var names = this.props.roles[role].map(function (r) {
-      return r.firstName + " " + r.surname
+  renderRole(role) {
+    const names = this.state.roles[role].map(r => {
+      return r.firstName + " " + r.surname;
     }).sort().join(", ");
-    var roleName = I18n.t("my_idp")[role];
+    const roleName = I18n.t("my_idp")[role];
     return (
       <tr key={role}>
         <td>{roleName}</td>
         <td>{names}</td>
       </tr>
     );
-  },
+  }
 
-  renderLicenseContactPerson: function (licenseContactPerson) {
+  renderLicenseContactPerson(licenseContactPerson) {
     return (
       <tr>
         <td>{licenseContactPerson.name}</td>
@@ -53,13 +77,13 @@ App.Pages.MyIdp = React.createClass({
         <td>{licenseContactPerson.phone}</td>
       </tr>
     );
-  },
+  }
 
-  renderLicenseContactPersons: function (licenseContactPersons) {
+  renderLicenseContactPersons(licenseContactPersons) {
     if (licenseContactPersons && licenseContactPersons.length > 0) {
       return (
         <div>
-          <p className="next" dangerouslySetInnerHTML={{__html: I18n.t("my_idp.license_contact_html") }}></p>
+          <p className="next" dangerouslySetInnerHTML={{ __html: I18n.t("my_idp.license_contact_html") }}></p>
           <table>
             <thead>
             <tr>
@@ -69,12 +93,19 @@ App.Pages.MyIdp = React.createClass({
             </tr>
             </thead>
             <tbody>
-            {licenseContactPersons.map(this.renderLicenseContactPerson)}
+            {licenseContactPersons.map(this.renderLicenseContactPerson.bind(this))}
             </tbody>
           </table>
         </div>
       );
     }
-  }
 
-});
+    return null;
+  }
+}
+
+MyIdp.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+export default MyIdp;

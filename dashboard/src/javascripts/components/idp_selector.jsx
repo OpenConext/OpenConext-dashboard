@@ -1,34 +1,51 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.IDPSelector = React.createClass({
-  getInitialState: function() {
-    return {
-      activeIdp: (App.currentUser.switchedToIdp || App.currentUser.currentIdp).id
-    }
-  },
+import I18n from "i18n-js";
 
-  render: function () {
-    if (App.currentUser.institutionIdps.length > 0) {
+import { switchToIdp } from "../api";
+
+class IDPSelector extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      activeIdp: null
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+    this.setState({
+      activeIdp: (currentUser.switchedToIdp || currentUser.getCurrentIdp()).id
+    });
+  }
+
+  render() {
+    const { currentUser } = this.context;
+
+    if (currentUser.institutionIdps.length > 0) {
       return (
         <li className="select-idp">
           <h2>{I18n.t("header.switch_idp")}</h2>
           {this.renderMenu()}
         </li>
       );
-    } else {
-      return null;
     }
-  },
 
-  renderMenu: function() {
+    return null;
+  }
+
+  renderMenu() {
+    const { currentUser } = this.context;
+
     return (
       <ul>
-        {App.currentUser.institutionIdps.map(this.renderItem)}
+        {currentUser.institutionIdps.map(this.renderItem.bind(this))}
       </ul>
     );
-  },
+  }
 
-  renderItem: function(idp) {
+  renderItem(idp) {
     return (
       <li key={idp.id}>
         <a href="#" onClick={this.handleChooseIdp(idp)}>
@@ -37,26 +54,31 @@ App.Components.IDPSelector = React.createClass({
         </a>
       </li>
     );
-  },
+  }
 
-  renderActiveIndicator: function(idp) {
-    if (this.state.activeIdp == idp.id) {
+  renderActiveIndicator(idp) {
+    if (this.state.activeIdp === idp.id) {
       return (
         <i className="fa fa-caret-right" />
       );
-    } else {
-      return "";
     }
-  },
 
-  handleChooseIdp: function(idp) {
+    return "";
+  }
+
+  handleChooseIdp(idp) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      App.Controllers.User.switchToIdp(idp, null, function() {
-        this.setState({ activeIdp: idp.id });
-        page.replace(window.history.state.path);
-      }.bind(this));
-    }.bind(this)
+      switchToIdp(idp.id, null).then(() => {
+        location.reload();
+      });
+    }.bind(this);
   }
-});
+}
+
+IDPSelector.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+export default IDPSelector;

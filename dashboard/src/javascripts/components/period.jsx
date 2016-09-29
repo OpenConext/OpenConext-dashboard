@@ -1,32 +1,48 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Components.Period = React.createClass({
-  getInitialState: function() {
-    return {
-      date: this.props.initialDate.format("YYYY-MM-DD"),
+import moment from "moment";
+
+class Period extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      date: moment(),
       error: false
-    }
-  },
+    };
+  }
 
-  render: function () {
+  componentWillMount() {
+    this.setState({ date: this.props.initialDate.format("YYYY-MM-DD") });
+  }
+
+  render() {
     return (
       <fieldset>
         <h2>{this.props.title}</h2>
-        <input type="text" value={this.state.date} onChange={this.handlePeriodDateChanged} className={this.state.error ? 'error' : ''} />
+        <input type="text" value={this.state.date} onChange={e => this.handlePeriodDateChanged(e)} className={this.state.error ? "error" : ""} />
       </fieldset>
     );
-  },
+  }
 
-  handlePeriodDateChanged: function(event) {
+  handlePeriodDateChanged(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.setState({date: event.target.value});
-    var m = moment(event.target.value, "YYYY-MM-DD", true);
+    this.setState({ date: event.target.value });
+    const m = moment(event.target.value, "YYYY-MM-DD", true);
     if (m.isValid()) {
-      this.setState({error: false});
+      this.setState({ error: false });
       this.props.handleChange(m);
     } else {
-      this.setState({error: true});
+      this.setState({ error: true });
     }
   }
-});
+}
+
+Period.propTypes = {
+  initialDate: React.PropTypes.instanceOf(moment).isRequired,
+  title: React.PropTypes.string.isRequired,
+  handleChange: React.PropTypes.func.isRequired
+};
+
+export default Period;

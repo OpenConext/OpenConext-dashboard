@@ -1,14 +1,17 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Components.Screenshots = React.createClass({
-  getInitialState: function() {
-    return {
+class Screenshots extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       open: false
     };
-  },
+  }
 
-  render: function() {
-    var screenshotsUrls = this.props.screenshotUrls;
+  render() {
+    let screenshotsUrls = this.props.screenshotUrls;
     if (!screenshotsUrls) {
       screenshotsUrls = [];
     }
@@ -18,26 +21,25 @@ App.Components.Screenshots = React.createClass({
         {this.renderOpenScreenshot()}
       </div>
     );
-  },
+  }
 
-  renderScreenshotThumbnail: function(screenshot, index) {
+  renderScreenshotThumbnail(screenshot, index) {
     return (
       <a key={index} className="screenshot-thumb" href="#" onClick={this.showScreenshot(index)}>
         <img src={screenshot} />
       </a>
     );
-  },
+  }
 
-  showScreenshot: function (index) {
-    return function (event) {
+  showScreenshot(index) {
+    return function(event) {
       event.preventDefault();
       event.stopPropagation();
-      console.log("Clicked..", index);
-      this.setState({open: true, index: index});
+      this.setState({ open: true, index: index });
     }.bind(this);
-  },
+  }
 
-  renderOpenScreenshot: function() {
+  renderOpenScreenshot() {
     if (this.state.open) {
       return (
         <div className="lightbox-overlay">
@@ -48,12 +50,19 @@ App.Components.Screenshots = React.createClass({
         </div>
       );
     }
-  },
 
-  closeScreenshot: function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState({open: false});
+    return null;
   }
 
-});
+  closeScreenshot(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState({ open: false });
+  }
+}
+
+Screenshots.propTypes = {
+  screenshotUrls: React.PropTypes.arrayOf(React.PropTypes.string)
+};
+
+export default Screenshots;

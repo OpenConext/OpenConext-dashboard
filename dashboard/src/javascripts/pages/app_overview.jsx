@@ -1,47 +1,110 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
+import qs from "qs";
+import SortableHeader from "../components/sortable_header";
+import Link from "react-router/Link";
 
-App.Pages.AppOverview = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin,
-    App.Mixins.SortableTable("apps.overview", "name")
-  ],
+import { apiUrl, getApps, getFacets } from "../api";
+import sort from "../utils/sort";
 
-  getInitialState: function () {
-    return {
+import Facets from "../components/facets";
+import YesNo from "../components/yes_no";
+
+const store = {
+  activeFacets: null,
+  hiddenFacets: null
+};
+
+class AppOverview extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      apps: [],
+      facets: [],
       search: "",
-      activeFacets: App.store.activeFacets || {},
-      hiddenFacets: App.store.hiddenFacets || {}
-    }
-  },
+      activeFacets: store.activeFacets || {},
+      hiddenFacets: store.hiddenFacets || {},
+      sortAttribute: "name",
+      sortAscending: undefined
+    };
+  }
 
-  render: function () {
-    var filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.props.apps);
+  componentWillMount() {
+    const { currentUser } = this.context;
 
-    if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
-      var connect = (
+    Promise.all([
+      getFacets().then(data => {
+        return data.payload;
+      }),
+      getApps(currentUser.getCurrentIdpId()).then(data => {
+        return data.payload;
+      })
+    ]).then(data => {
+      const [facets, apps] = data;
+
+      // We need to sanitize the categories data for each app to ensure the facet totals are correct
+      const unknown = { value: I18n.t("facets.unknown") };
+      facets.forEach(facet => {
+        apps.forEach(app => {
+          app.categories = app.categories || [];
+          const appCategory = app.categories.filter(category => {
+            return category.name === facet.name;
+          });
+          if (appCategory.length === 0) {
+            app.categories.push({ name: facet.name, values: [unknown] });
+            const filtered = facet.values.filter(facetValue => {
+              return facetValue.value === unknown.value;
+            });
+            if (!filtered[0]) {
+              facet.values.push(Object.assign({}, unknown));
+            }
+          }
+        });
+      });
+
+      this.setState({ apps, facets });
+    });
+  }
+
+  handleSort(sortObject) {
+    this.setState({
+      sortAttribute: sortObject.sortAttribute,
+      sortAscending: sortObject.sortAscending
+    });
+  }
+
+  render() {
+    const { currentUser } = this.context;
+    const { sortAttribute, sortAscending } = this.state;
+    const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
+    let connect = null;
+
+    if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
+      connect = (
         <th className="percent_10 right">
           {I18n.t("apps.overview.connect")}
         </th>
       );
     }
 
-    var facets = this.staticFacets().concat(this.props.facets);
+    const facets = this.staticFacets().concat(this.state.facets);
     this.addNumbers(filteredExclusiveApps, facets);
-    var filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
+    const filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
 
     return (
       <div className="l-main">
         <div className="l-left">
-          <App.Components.Facets
+          <Facets
             facets={facets}
             selectedFacets={this.state.activeFacets}
             hiddenFacets={this.state.hiddenFacets}
             filteredCount={filteredApps.length}
-            totalCount={this.props.apps.length}
-            onChange={this.handleFacetChange}
-            onHide={this.handleFacetHide}
-            onReset={this.handleResetFilters}
-            onDownload={this.handleDownloadOverview}/>
+            totalCount={this.state.apps.length}
+            onChange={this.handleFacetChange.bind(this)}
+            onHide={this.handleFacetHide.bind(this)}
+            onReset={this.handleResetFilters.bind(this)}
+            onDownload={this.handleDownloadOverview.bind(this)}/>
         </div>
         <div className="l-right">
           <div className="mod-app-search">
@@ -50,7 +113,8 @@ App.Pages.AppOverview = React.createClass({
                 <i className="fa fa-search"/>
                 <input
                   type="search"
-                  valueLink={this.linkState("search")}
+                  value={this.state.search}
+                  onChange={e => this.setState({ search: e.target.value })}
                   placeholder={I18n.t("apps.overview.search_hint")}/>
 
                 <button type="submit">{I18n.t("apps.overview.search")}</button>
@@ -69,22 +133,42 @@ App.Pages.AppOverview = React.createClass({
                 </tr>
               </thead>
               <tbody>
-                {filteredApps.length > 0 ? this.sort(filteredApps).map(this.renderApp) : this.renderEmpty()}
+                {filteredApps.length > 0 ? sort(filteredApps, sortAttribute, sortAscending).map(app => this.renderApp(app)) : this.renderEmpty()}
               </tbody>
             </table>
           </div>
         </div>
       </div>
     );
-  },
+  }
 
-  renderEmpty: function () {
-    return <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>;
-  },
 
-  renderApp: function (app) {
-    if (App.currentUser.dashboardAdmin && App.currentIdp().institutionId) {
-      var connect = (
+  renderSortableHeader(className, attribute) {
+    return (
+      <SortableHeader
+        sortAttribute={this.state.sortAttribute}
+        attribute={attribute}
+        sortAscending={this.state.sortAscending}
+        localeKey="apps.overview"
+        className={className}
+        onSort={this.handleSort.bind(this)}
+        />
+    );
+  }
+
+  renderEmpty() {
+    return (
+      <tr>
+        <td className="empty" colSpan="4">{I18n.t("apps.overview.no_results")}</td>
+      </tr>
+    );
+  }
+
+  renderApp(app) {
+    const { currentUser } = this.context;
+    let connect = null;
+    if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
+      connect = (
         <td className="right">
           {this.renderConnectButton(app)}
         </td>
@@ -92,88 +176,81 @@ App.Pages.AppOverview = React.createClass({
     }
 
     return (
-      <tr key={app.id} onClick={this.handleShowAppDetail(app)}>
-        <td><a href={page.uri("/apps/:id", {id: app.id})}>{app.name}</a></td>
+      <tr key={app.id} onClick={e => this.handleShowAppDetail(e, app)}>
+        <td><Link to={`apps/${app.id}/overview`}>{ app.name }</Link></td>
         {this.renderLicenseNeeded(app)}
         {this.renderLicensePresent(app)}
-        {App.renderYesNo(app.connected)}
+        <YesNo value={app.connected} />
         {connect}
       </tr>
     );
-  },
+  }
 
-  licenseStatusClassName: function (app) {
+  licenseStatusClassName(app) {
     switch (app.licenseStatus) {
-      case "HAS_LICENSE_SURFMARKET":
-      case "HAS_LICENSE_SP":
-        return "yes"
-      case "NO_LICENSE":
-        return "no";
-      default:
-        return "";
+    case "HAS_LICENSE_SURFMARKET":
+    case "HAS_LICENSE_SP":
+      return "yes";
+    case "NO_LICENSE":
+      return "no";
+    default:
+      return "";
     }
-  },
+  }
 
-  renderLicenseNeeded: function (app) {
+  renderLicenseNeeded(app) {
     return (
       <td
         className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
     );
-  },
+  }
 
-  renderLicensePresent: function (app) {
+  renderLicensePresent(app) {
+    let licensePresent = "unknown";
+
     switch (app.licenseStatus) {
-      case "HAS_LICENSE_SURFMARKET":
-        if (!app.hasCrmLink) {
-          licensePresent = "unknown";
-        } else {
-          licensePresent = app.license ? "yes" : "no";
-        }
-        break;
-      case "HAS_LICENSE_SP":
+    case "HAS_LICENSE_SURFMARKET":
+      if (!app.hasCrmLink) {
         licensePresent = "unknown";
-        break;
-      case "NOT_NEEDED":
-        licensePresent = "na";
-        break;
-      default:
-        licensePresent = "unknown";
-        break;
+      } else {
+        licensePresent = app.license ? "yes" : "no";
+      }
+      break;
+    case "HAS_LICENSE_SP":
+      licensePresent = "unknown";
+      break;
+    case "NOT_NEEDED":
+      licensePresent = "na";
+      break;
+    default:
+      licensePresent = "unknown";
+      break;
     }
 
     return (
       <td className={licensePresent}>{I18n.t("apps.overview.license_present." + licensePresent)}</td>
     );
-  },
+  }
 
-  renderConnectButton: function (app) {
+  renderConnectButton(app) {
     if (!app.connected) {
-      return <a onClick={this.handleShowHowToConnect(app)} className="c-button narrow">{I18n.t("apps.overview.connect_button")}</a>;
+      return <Link to={`/apps/${app.id}/how_to_connect`} className="c-button narrow" onClick={e => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
     }
-  },
+    return null;
+  }
 
-  handleShowAppDetail: function (app) {
-    return function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      page("/apps/:id", {id: app.id});
-    }
-  },
-
-  handleShowHowToConnect: function (app) {
-    return function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      page("/apps/:id/how_to_connect", {id: app.id});
-    }
-  },
+  handleShowAppDetail(e, app) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.context.router.transitionTo(`/apps/${app.id}/overview`);
+  }
 
   /*
    * this.state.activeFacets is a object with facet names and the values are arrays with all select values
    */
-  handleFacetChange: function (facet, facetValue, checked) {
-    var selectedFacets = $.extend({}, this.state.activeFacets);
-    var facetValues = selectedFacets[facet];
+  handleFacetChange(facet, facetValue, checked) {
+    const selectedFacets = _.merge({}, this.state.activeFacets);
+    let facetValues = selectedFacets[facet];
 
     if (_.isUndefined(facetValues)) {
       facetValues = selectedFacets[facet] = [facetValue];
@@ -181,202 +258,210 @@ App.Pages.AppOverview = React.createClass({
       checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
     }
 
-    this.setState({activeFacets: selectedFacets});
+    this.setState({ activeFacets: selectedFacets });
 
-    App.store.activeFacets = selectedFacets;
-  },
+    store.activeFacets = selectedFacets;
+  }
 
-  handleFacetHide: function (facet) {
-    var hiddenFacets = $.extend({}, this.state.hiddenFacets);
+  handleFacetHide(facet) {
+    const hiddenFacets = _.merge({}, this.state.hiddenFacets);
     if (hiddenFacets[facet.name]) {
       delete hiddenFacets[facet.name];
     } else {
       hiddenFacets[facet.name] = true;
     }
-    this.setState({hiddenFacets: hiddenFacets});
-    App.store.hiddenFacets = hiddenFacets;
-  },
+    this.setState({ hiddenFacets: hiddenFacets });
+    store.hiddenFacets = hiddenFacets;
+  }
 
-  handleResetFilters: function () {
+  handleResetFilters() {
     this.setState({
       search: "",
       activeFacets: {},
       hiddenFacets: {}
     });
 
-    App.store.activeFacets = null;
-    App.store.hiddenFacets = null;
-  },
+    store.activeFacets = null;
+    store.hiddenFacets = null;
+  }
 
-  handleDownloadOverview: function () {
-    var filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.props.apps));
-    App.Controllers.Apps.downloadOverview(filteredApps);
-  },
+  handleDownloadOverview() {
+    const { currentUser } = this.context;
+    const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
+    const ids = filteredApps.map(app => app.id);
+    const queryString = qs.stringify({ idpEntityId: currentUser.getCurrentIdpId(), id: ids }, { arrayFormat: "brackets" });
 
-  filterAppsForExclusiveFilters: function (apps) {
-    return apps.filter(this.filterBySearchQuery);
-  },
+    window.open(apiUrl(`/services/download?${queryString}`));
+  }
 
-  filterAppsForInclusiveFilters: function (apps) {
-    var filteredApps = apps;
+  filterAppsForExclusiveFilters(apps) {
+    return apps.filter(this.filterBySearchQuery.bind(this));
+  }
 
-    if (!$.isEmptyObject(this.state.activeFacets)) {
+  filterAppsForInclusiveFilters(apps) {
+    let filteredApps = apps;
+
+    if (!_.isEmpty(this.state.activeFacets)) {
       filteredApps = filteredApps.filter(this.filterByFacets(this.state.activeFacets));
-      this.staticFacets().forEach(function (facetObject) {
+      this.staticFacets().forEach(facetObject => {
         filteredApps = filteredApps.filter(facetObject.filterApp);
       });
     }
 
     return filteredApps;
-  },
+  }
 
-  addNumbers: function (filteredApps, facets) {
-    var me = this;
-    var filter = function (facet, filterFunction) {
-      var activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, function (value, key, object) {
+  addNumbers(filteredApps, facets) {
+    const { currentUser } = this.context;
+    const me = this;
+    const filter = function(facet, filterFunction) {
+      const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, (value, key) => {
         return key !== facet.name;
       });
-      var filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
+      let filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
 
-      this.staticFacets().filter(function (facetObject) {
-        return facetObject.searchValue != facet.searchValue;
-      }).forEach(function (facetObject) {
+      this.staticFacets().filter(facetObject => {
+        return facetObject.searchValue !== facet.searchValue;
+      }).forEach(facetObject => {
         filteredWithoutCurrentFacetApps = filteredWithoutCurrentFacetApps.filter(facetObject.filterApp);
       });
 
-      facet.values.forEach(function (facetValue) {
-        facetValue.count = filteredWithoutCurrentFacetApps.filter(function (app) {
+      facet.values.forEach(facetValue => {
+        facetValue.count = filteredWithoutCurrentFacetApps.filter(app => {
           return filterFunction(app, facetValue);
         }).length;
       });
     }.bind(this);
 
-    facets.forEach(function (facet) {
+    facets.forEach(facet => {
       switch (facet.searchValue) {
-        case "connection":
-          filter(facet, function (app, facetValue) {
-            return facetValue.searchValue === "yes" ? app.connected : !app.connected;
-          });
-          break;
-        case "license":
-          filter(facet, function (app, facetValue) {
-            return app.licenseStatus === facetValue.searchValue;
-          });
-          break;
-        case "used_by_idp":
-          filter(facet, function (app, facetValue) {
-            var usedByIdp = App.currentIdp().institutionId === app.institutionId;
-            return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
-          });
-          break;
-        case "published_edugain":
-          filter(facet, function (app, facetValue) {
-            var published = app.publishedInEdugain || false;
-            return facetValue.searchValue === "yes" ? published : !published;
-          });
-          break;
-        default:
-          filter(facet, function (app, facetValue) {
-            var categories = me.normalizeCategories(app);
-            var appTags = categories[facet.name] || [];
-            return appTags.indexOf(facetValue.value) > -1;
-          });
+      case "connection":
+        filter(facet, (app, facetValue) => {
+          return facetValue.searchValue === "yes" ? app.connected : !app.connected;
+        });
+        break;
+      case "license":
+        filter(facet, (app, facetValue) => {
+          return app.licenseStatus === facetValue.searchValue;
+        });
+        break;
+      case "used_by_idp":
+        filter(facet, (app, facetValue) => {
+          const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
+          return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
+        });
+        break;
+      case "published_edugain":
+        filter(facet, (app, facetValue) => {
+          const published = app.publishedInEdugain || false;
+          return facetValue.searchValue === "yes" ? published : !published;
+        });
+        break;
+      default:
+        filter(facet, (app, facetValue) => {
+          const categories = me.normalizeCategories(app);
+          const appTags = categories[facet.name] || [];
+          return appTags.indexOf(facetValue.value) > -1;
+        });
       }
     });
-  },
+  }
 
-  filterBySearchQuery: function (app) {
+  filterBySearchQuery(app) {
     return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
-  },
+  }
 
-  filterYesNoFacet: function (name, yes) {
-    var values = this.state.activeFacets[name] || [];
+  filterYesNoFacet(name, yes) {
+    const values = this.state.activeFacets[name] || [];
     return values.length === 0
-      || (yes && _.contains(values, "yes"))
-      || (!yes && _.contains(values, "no"));
-  },
+      || (yes && _.includes(values, "yes"))
+      || (!yes && _.includes(values, "no"));
+  }
 
-  filterByFacets: function (facets) {
-    return function (app) {
-      var normalizedCategories = this.normalizeCategories(app);
-      for (var facet in facets) {
-        var facetValues = facets[facet] || [];
-        if (normalizedCategories[facet] && facetValues.length > 0) {
-          var hits = normalizedCategories[facet].filter(function (facetValue) {
-            return facetValues.indexOf(facetValue) > -1;
-          });
-          if (hits.length === 0) {
-            return false;
+  filterByFacets(facets) {
+    return function(app) {
+      const normalizedCategories = this.normalizeCategories(app);
+      for (const facet in facets) {
+        if (facets.hasOwnProperty(facet)) {
+          const facetValues = facets[facet] || [];
+          if (normalizedCategories[facet] && facetValues.length > 0) {
+            const hits = normalizedCategories[facet].filter(facetValue => {
+              return facetValues.indexOf(facetValue) > -1;
+            });
+            if (hits.length === 0) {
+              return false;
+            }
           }
         }
       }
       return true;
     }.bind(this);
-  },
+  }
 
-  normalizeCategories: function (app) {
-    var normalizedCategories = {}
-    app.categories.forEach(function (category) {
-      normalizedCategories[category.name] = category.values.map(function (categoryValue) {
+  normalizeCategories(app) {
+    const normalizedCategories = {};
+    app.categories.forEach(category => {
+      normalizedCategories[category.name] = category.values.map(categoryValue => {
         return categoryValue.value;
       });
     });
     return normalizedCategories;
-  },
+  }
 
-  convertLicenseForSort: function (value, app) {
-    return app.licenseStatus;
-  },
+  staticFacets() {
+    const { currentUser } = this.context;
 
-  convertNameForSort: function (value) {
-    return value.toLowerCase();
-  },
-
-  staticFacets: function () {
     return [{
       name: I18n.t("facets.static.connection.name"),
       searchValue: "connection",
       values: [
-        {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
-        {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"},
+        { value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes" },
+        { value: I18n.t("facets.static.connection.no_connection"), searchValue: "no" },
       ],
-      filterApp: function (app) {
+      filterApp: function(app) {
         return this.filterYesNoFacet("connection", app.connected);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.used_by_idp.name"),
       searchValue: "used_by_idp",
       values: [
-        {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
-        {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"},
+        { value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes" },
+        { value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no" },
       ],
-      filterApp: function (app) {
-        return this.filterYesNoFacet("used_by_idp", App.currentIdp().institutionId === app.institutionId);
+      filterApp: function(app) {
+        return this.filterYesNoFacet("used_by_idp", currentUser.getCurrentIdp().institutionId === app.institutionId);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.published_edugain.name"),
       searchValue: "published_edugain",
       values: [
-        {value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes"},
-        {value: I18n.t("facets.static.published_edugain.no"), searchValue: "no"},
+        { value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes" },
+        { value: I18n.t("facets.static.published_edugain.no"), searchValue: "no" },
       ],
-      filterApp: function (app) {
+      filterApp: function(app) {
         return this.filterYesNoFacet("published_edugain", app.publishedInEdugain);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.license.name"),
       searchValue: "license",
       values: [
-        {value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET"},
-        {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},
-        {value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED"},
-        {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"},
+        { value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET" },
+        { value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP" },
+        { value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED" },
+        { value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN" },
       ],
-      filterApp: function (app) {
-        var licenseFacetValues = this.state.activeFacets["license"] || [];
+      filterApp: function(app) {
+        const licenseFacetValues = this.state.activeFacets["license"] || [];
         return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
       }.bind(this)
     }];
   }
 
-});
+}
+
+AppOverview.contextTypes = {
+  currentUser: React.PropTypes.object,
+  router: React.PropTypes.object
+};
+
+export default AppOverview;

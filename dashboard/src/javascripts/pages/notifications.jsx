@@ -1,17 +1,41 @@
-/** @jsx React.DOM */
+import React from "react";
+import Link from "react-router/Link";
 
-App.Pages.Notifications = React.createClass({
-  render: function() {
-    var notificationMessage = this.props.notificationMessage;
+import I18n from "i18n-js";
+
+import { getNotifications } from "../api";
+import YesNo from "../components/yes_no";
+
+class Notifications extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      notificationMessage: {
+        messageKeys: [],
+        arguments: []
+      }
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+
+    getNotifications(currentUser.getCurrentIdpId())
+      .then(data => this.setState({ notificationMessage: data.payload }));
+  }
+
+  render() {
+    const notificationMessage = this.state.notificationMessage;
     return (
       <div className="l-mini">
 
         <div className="mod-notifications">
           <h1>{I18n.t("notifications.title")}</h1>
 
-          <p>
+          <div>
             {notificationMessage.messageKeys.map(this.renderNotificationMessage)}
-          </p>
+          </div>
           <br />
           <table>
             <thead>
@@ -22,8 +46,8 @@ App.Pages.Notifications = React.createClass({
               </tr>
             </thead>
             <tbody>
-              {notificationMessage.arguments.sort(function(l, r) {
-                return l.name.localeCompare(r.name)
+              {notificationMessage.arguments.sort((l, r) => {
+                return l.name.localeCompare(r.name);
               }).map(this.renderNotification)}
             </tbody>
           </table>
@@ -31,24 +55,29 @@ App.Pages.Notifications = React.createClass({
         </div>
       </div>
       );
-  },
+  }
 
-  renderNotificationMessage: function(messageKey) {
-    return <p key={messageKey}>{I18n.t(messageKey)}</p>
-  },
+  renderNotificationMessage(messageKey) {
+    return <p key={messageKey}>{I18n.t(messageKey)}</p>;
+  }
 
-  renderNotification: function(notificationArgument) {
+  renderNotification(notificationArgument) {
     return (
       <tr key={notificationArgument.id}>
         <td>
-          <a href={"/apps/" + notificationArgument.id}>
+          <Link to={"/apps/" + notificationArgument.id}>
             {notificationArgument.name}
-          </a>
+          </Link>
         </td>
-        {App.renderYesNo(notificationArgument.license)}
-        {App.renderYesNo(notificationArgument.connected)}
+        <YesNo value={notificationArgument.license} />
+        <YesNo value={notificationArgument.connected} />
       </tr>
-      );
+    );
   }
+}
 
-});
+Notifications.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+export default Notifications;

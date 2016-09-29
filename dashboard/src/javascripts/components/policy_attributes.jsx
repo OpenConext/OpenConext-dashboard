@@ -1,104 +1,118 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Components.PolicyAttributes = React.createClass({
-
-  markAttributes: function (policy) {
-    policy.attributes = policy.attributes.map(function (attr, index) {
+class PolicyAttributes extends React.Component {
+  markAttributes(policy) {
+    policy.attributes = policy.attributes.map((attr, index) => {
       attr.index = index;
       return attr;
     });
     return policy;
-  },
+  }
 
-  getInitialState: function () {
-    return this.markAttributes(this.props.policy);
-  },
+  constructor() {
+    super();
 
-  componentWillReceiveProps: function (nextProps) {
+    this.state = {};
+  }
+
+  componentWillMount() {
+    this.setState(this.markAttributes(this.props.policy));
+  }
+
+  componentWillReceiveProps(nextProps) {
     this.state = this.markAttributes(nextProps.policy);
-  },
+  }
 
-  addAttribute: function (attrName) {
-    var attributes = this.state.attributes || [];
-    var index = attributes.length + 1;
-    attributes.push({name: attrName, value: "", index: index});
-    this.props.setAttributeState({attributes: attributes});
-  },
+  addAttribute(attrName) {
+    const attributes = this.state.attributes || [];
+    const index = attributes.length + 1;
+    attributes.push({ name: attrName, value: "", index: index });
+    this.props.setAttributeState({ attributes: attributes });
+  }
 
-  removeAttribute: function (name) {
-    var attributes = this.state.attributes || [];
-    attributes = this.state.attributes.filter(function (attribute) {
+  removeAttribute(name) {
+    let attributes = this.state.attributes || [];
+    attributes = this.state.attributes.filter(attribute => {
       return attribute.name !== name;
     });
-    this.props.setAttributeState({attributes: attributes});
-  },
+    this.props.setAttributeState({ attributes: attributes });
+  }
 
-  preventProp: function preventProp(e) {
+  preventProp(e) {
     e.preventDefault();
     e.stopPropagation();
-  },
+  }
 
-  handleAttributeValueChanged: function (attrName, index) {
-    return function (e) {
+  handleAttributeValueChanged(attrName, index) {
+    return function(e) {
       this.preventProp(e);
       //change attribute value
-      var attributes = this.state.attributes.map(function (attr) {
+      const attributes = this.state.attributes.map(attr => {
         if (attr.name === attrName && attr.index === index) {
           attr.value = e.target.value;
         }
         return attr;
       });
-      this.props.setAttributeState({attributes: attributes});
+      this.props.setAttributeState({ attributes: attributes });
     }.bind(this);
-  },
+  }
 
-  handleRemoveAttributeValue: function (attrName, index) {
-    return function (e) {
+  handleRemoveAttributeValue(attrName, index) {
+    return function(e) {
       this.preventProp(e);
       //remove attribute value
-      var attributes = this.state.attributes.filter(function (attr) {
+      const attributes = this.state.attributes.filter(attr => {
         return !(attr.name === attrName && attr.index === index);
       });
-      this.props.setAttributeState({attributes: attributes});
+      this.props.setAttributeState({ attributes: attributes });
     }.bind(this);
-  },
+  }
 
-  handleNewAttributeValue: function (attrName) {
-    return function (e) {
+  handleNewAttributeValue(attrName) {
+    return function(e) {
       this.preventProp(e);
       //change attribute value
       this.addAttribute(attrName);
     }.bind(this);
-  },
+  }
 
-  handleNewAttribute: function (e) {
+  handleNewAttribute(e) {
     this.preventProp(e);
     //change attribute value
-    var attrName = e.target.value;
+    const attrName = e.target.value;
     this.addAttribute(attrName);
-  },
+  }
 
-  handleRemoveAttribute: function (attrName) {
-    return function (e) {
+  handleRemoveAttribute(attrName) {
+    return function(e) {
       this.preventProp(e);
       //change attribute value
       this.removeAttribute(attrName);
     }.bind(this);
-  },
+  }
 
-  renderAttributeInfo: function(attrName, index) {
+  renderAttributeInfo(attrName, index) {
     if (index !== 0) {
-      return;
+      return null;
     }
     if ("urn:collab:sab:surfnet.nl" === attrName) {
-      return (<em className="attribute-value"><sup>*</sup>{I18n.t("policy_attributes.sab_info")}</em>);
+      return (
+        <em className="attribute-value">
+          <sup>*</sup>{I18n.t("policy_attributes.sab_info")}
+        </em>
+      );
     } else if ("urn:collab:group:surfteams.nl" === attrName) {
-      return (<em className="attribute-value"><sup>*</sup>{I18n.t("policy_attributes.group_info")}</em>);
+      return (
+        <em className="attribute-value">
+        <sup>*</sup>{I18n.t("policy_attributes.group_info")}</em>);
     }
-  },
 
-  renderAttributeValue: function (attrName, attribute, index) {
-    var className = this.renderAttributeInfo(attrName, index) === undefined ? "" : "before-em";
+    return null;
+  }
+
+  renderAttributeValue(attrName, attribute, index) {
+    const className = this.renderAttributeInfo(attrName, index) === undefined ? "" : "before-em";
     return (
         <div className="value-container" key={"div-" + attrName + "-" + attribute.index}>
           <input type="text" name="value" className={"form-input " + className}
@@ -112,29 +126,29 @@ App.Components.PolicyAttributes = React.createClass({
           </a>
 
         </div>
-    )
-  },
+    );
+  }
 
-  render: function () {
-    var policy = this.state;
-    var grouped = _.groupBy(policy.attributes, function (attr) {
+  render() {
+    const policy = this.state;
+    const grouped = _.groupBy(policy.attributes, attr => {
       return attr.name;
     });
-    var attrNames = Object.keys(grouped);
-    var allowedAttributes = this.props.allowedAttributes.filter(function (attr) {
+    const attrNames = Object.keys(grouped);
+    const allowedAttributes = this.props.allowedAttributes.filter(attr => {
       return _.isEmpty(grouped[attr.name]);
     });
-    var self = this;
-    var emptyAttributes = policy.attributes.filter(function (attr) {
+    const self = this;
+    const emptyAttributes = policy.attributes.filter(attr => {
       return _.isEmpty(attr.value);
     });
-    var validClassName = (_.isEmpty(policy.attributes) || emptyAttributes.length > 0) ? "failure" : "success";
-    var css = this.props.css || "";
+    const validClassName = (_.isEmpty(policy.attributes) || emptyAttributes.length > 0) ? "failure" : "success";
+    const css = this.props.css || "";
     return (
         <div className="form-element">
             <fieldset className={css+" "+validClassName}>
             {
-              attrNames.map(function (attrName) {
+              attrNames.map(attrName => {
                 return (
                     <div key={attrName}>
                       <p className="label">{I18n.t("policy_attributes.attribute")}</p>
@@ -149,7 +163,7 @@ App.Components.PolicyAttributes = React.createClass({
                       <div className="attribute-values">
                         <p className="label">{I18n.t("policy_attributes.values")}</p>
                         {
-                          grouped[attrName].map(function (attribute, index) {
+                          grouped[attrName].map((attribute, index) => {
                             return self.renderAttributeValue(attrName, attribute, index);
                           })
                         }
@@ -163,17 +177,32 @@ App.Components.PolicyAttributes = React.createClass({
               })
             }
             <p className="label">{I18n.t("policy_attributes.attribute")}</p>
-            <select value="" onChange={self.handleNewAttribute}>
+            <select value="" onChange={self.handleNewAttribute.bind(this)}>
               <option value="" disabled="disabled">{I18n.t("policy_attributes.new_attribute")}</option>
               {
-                allowedAttributes.map(function (allowedAttribute) {
+                allowedAttributes.map(allowedAttribute => {
                   return (<option value={allowedAttribute.name}
                                   key={allowedAttribute.name}>{allowedAttribute.name}</option>);
                 })
               }
             </select>
           </fieldset>
-        </div>);
-
+        </div>
+    );
   }
-});
+}
+
+PolicyAttributes.propTypes = {
+  css: React.PropTypes.string,
+  setAttributeState: React.PropTypes.func,
+  allowedAttributes: React.PropTypes.arrayOf(React.PropTypes.shape({
+    name: React.PropTypes.string
+  })),
+  policy: React.PropTypes.shape({
+    attributes: React.PropTypes.arrayOf(React.PropTypes.shape({
+      value: React.PropTypes.string
+    }))
+  })
+};
+
+export default PolicyAttributes;

@@ -1,86 +1,104 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Pages.PolicyDetail = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+import { createPolicy, updatePolicy, getPolicy, getInstitutionServiceProviders, getConnectedServiceProviders, getAllowedAttributes, getNewPolicy } from "../api";
+import { setFlash } from "../utils/flash";
 
-  getInitialState: function () {
-    return this.props.policy;
-  },
+import Flash from "../components/flash";
+import Select2Selector from "../components/select2_selector";
+import PolicyAttributes from "../components/policy_attributes";
+import PolicyDetailHelpEn from "../help/policy_detail_help_en";
+import PolicyDetailHelpNl from "../help/policy_detail_help_nl";
 
-  render: function () {
-    var policy = this.state;
-    var title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
-    return (
-      <div className="l-main">
-        {this.renderFlash()}
-        <div className="l-grid">
-          <div className="l-col-6">
-            <div className="mod-policy-detail">
-              <h1>{title}</h1>
-              <form>
-                {this.renderName(policy)}
-                {this.renderDenyPermitRule(policy)}
-                {this.renderIdentityProvider(policy)}
-                {this.renderServiceProvider(policy)}
-                {this.renderLogicalRule(policy)}
-                {this.renderAttributes(policy)}
-                {this.renderDenyAdvice(policy)}
-                {this.renderDescription(policy)}
-                {this.renderActive(policy)}
-                {this.renderActions(policy)}
-              </form>
+import AutoFormat from "../utils/autoformat_policy";
+
+class PolicyDetail extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      institutionServiceProviders: [],
+      connectedServiceProviders: [],
+      allowedAttributes: [],
+      policy: null
+    };
+  }
+
+  componentWillMount() {
+    const { currentUser } = this.context;
+
+    getInstitutionServiceProviders().then(data => this.setState({ institutionServiceProviders: data.payload }));
+    getConnectedServiceProviders(currentUser.getCurrentIdpId())
+      .then(data => this.setState({ connectedServiceProviders: data.payload }));
+    getAllowedAttributes().then(data => this.setState({ allowedAttributes: data.payload }));
+
+    if (this.props.params.id) {
+      getPolicy(this.props.params.id).then(data => this.setState({ policy: data.payload }));
+    } else {
+      getNewPolicy().then(data => this.setState({ policy: data.payload }));
+    }
+  }
+
+  render() {
+    const { policy } = this.state;
+    if (policy) {
+      const title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
+      return (
+        <div className="l-main">
+          <Flash />
+          <div className="l-grid">
+            <div className="l-col-6">
+              <div className="mod-policy-detail">
+                <h1>{title}</h1>
+                <form>
+                  {this.renderName(policy)}
+                  {this.renderDenyPermitRule(policy)}
+                  {this.renderIdentityProvider(policy)}
+                  {this.renderServiceProvider(policy)}
+                  {this.renderLogicalRule(policy)}
+                  {this.renderAttributes(policy)}
+                  {this.renderDenyAdvice(policy)}
+                  {this.renderDescription(policy)}
+                  {this.renderActive(policy)}
+                  {this.renderActions(policy)}
+                </form>
+              </div>
+            </div>
+            <div className="l-col-6 no-gutter">
+              {this.renderHelp()}
             </div>
           </div>
-          <div className="l-col-6 no-gutter">
-            {this.renderHelp()}
-          </div>
         </div>
-      </div>
-    );
-  },
-
-  renderFlash: function () {
-    var flash = this.state.flash;
-
-    if (flash && !this.state.hideFlash) {
-      return (
-          <div className="flash">
-            <p className={flash.type} dangerouslySetInnerHTML={{__html: flash.message }}></p>
-            <a className="close" href="#" onClick={this.closeFlash}><i className="fa fa-remove"></i></a>
-          </div>
       );
     }
-  },
+    return null;
+  }
 
-  closeFlash: function () {
-    this.setState({hideFlash: true});
-  },
-
-  renderHelp: function () {
+  renderHelp() {
     return (
       <div className="mod-policy-detail-help">
-        {I18n.locale === "en" ? <App.Help.PolicyDetailHelpEn/> : <App.Help.PolicyDetailHelpNl/>}
+        {I18n.locale === "en" ? <PolicyDetailHelpEn/> : <PolicyDetailHelpNl/>}
       </div>
     );
-  },
+  }
 
-  renderName: function (policy) {
-    var classNameStatus = _.isEmpty(policy.name) ? "failure" : "success";
+  renderName(policy) {
+    const classNameStatus = _.isEmpty(policy.name) ? "failure" : "success";
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.name")}</p>
-          <input type="text" name="name" className="form-input" valueLink={this.linkState("name")}/>
+          <input type="text" name="name" className="form-input" value={this.state.policy.name || ""} onChange={e => this.setState({ policy: { ...this.state.policy, name: e.target.value } })}/>
         </fieldset>
       </div>
     );
-  },
+  }
 
-  renderDenyPermitRule: function (policy) {
-    var classNameSelected = policy.denyRule ? "checked" : "";
-    var classNamePermit = policy.denyRule ? "not-selected" : "";
-    var classNameDeny = !policy.denyRule ? "not-selected" : "";
-    var policyPermit = policy.denyRule ? I18n.t("policy_detail.deny") : I18n.t("policy_detail.permit");
+  renderDenyPermitRule(policy) {
+    const classNameSelected = policy.denyRule ? "checked" : "";
+    const classNamePermit = policy.denyRule ? "not-selected" : "";
+    const classNameDeny = !policy.denyRule ? "not-selected" : "";
+    const policyPermit = policy.denyRule ? I18n.t("policy_detail.deny") : I18n.t("policy_detail.permit");
 
     return (
       <div className="form-element">
@@ -88,7 +106,7 @@ App.Pages.PolicyDetail = React.createClass({
           <div className="l-grid">
             <div className="l-col-4">
               <p className="label">{I18n.t("policy_detail.access")}</p>
-              <div id="ios_checkbox" className={classNameSelected + " ios-ui-select"} onClick={this.toggleDenyRule}>
+              <div id="ios_checkbox" className={classNameSelected + " ios-ui-select"} onClick={e => this.toggleDenyRule(e)}>
                 <div className="inner"></div>
                 <p>{policyPermit}</p>
               </div>
@@ -105,115 +123,105 @@ App.Pages.PolicyDetail = React.createClass({
         </fieldset>
       </div>
     );
-  },
+  }
 
-  toggleDenyRule: function (e) {
-    var partialState = {denyRule: !this.state.denyRule};
-    if (!this.state.denyRule) {
+  toggleDenyRule() {
+    const partialState = { denyRule: !this.state.policy.denyRule };
+    if (!this.state.policydenyRule) {
       partialState.allAttributesMustMatch = true;
     }
     partialState.description = this.buildAutoFormattedDescription(partialState);
-    this.setState(partialState);
-  },
+    this.setState({ policy: { ...this.state.policy, ...partialState } });
+  }
 
-  buildAutoFormattedDescription: function (partialState) {
-    if (this.state.autoFormat) {
+  buildAutoFormattedDescription(partialState) {
+    const { policy } = this.state;
+    if (policy.autoFormat) {
       this.provideProviderNames(partialState);
       //we don't want to merge the partialState and this.state before the update
-      var policy = {
-        identityProviderNames: this.state.identityProviderNames,
-        serviceProviderName: this.state.serviceProviderName,
-        attributes: partialState.attributes || this.state.attributes,
-        denyRule: partialState.denyRule !== undefined ? partialState.denyRule : this.state.denyRule,
-        allAttributesMustMatch: partialState.allAttributesMustMatch !== undefined ? partialState.allAttributesMustMatch : this.state.allAttributesMustMatch
-      }
-      return App.Utils.AutoFormat.description(policy);
-    } else {
-      return this.state.description;
+      const newPolicy = {
+        identityProviderNames: policy.identityProviderNames,
+        serviceProviderName: policy.serviceProviderName,
+        attributes: partialState.attributes || policy.attributes,
+        denyRule: partialState.denyRule !== undefined ? partialState.denyRule : policy.denyRule,
+        allAttributesMustMatch: partialState.allAttributesMustMatch !== undefined ? partialState.allAttributesMustMatch : policy.allAttributesMustMatch
+      };
+      return AutoFormat.description(newPolicy);
     }
-  },
 
-  renderServiceProvider: function (policy) {
-    var scopedSPs = _.isEmpty(policy.identityProviderIds);
-    var classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
-    var serviceProviders = (scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders).map(function (sp) {
-      return {value: sp.spEntityId, display: sp.spName};
+    return this.state.description;
+  }
+
+  renderServiceProvider(policy) {
+    const scopedSPs = _.isEmpty(policy.identityProviderIds);
+    const classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
+    const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(sp => {
+      return { value: sp.spEntityId, display: sp.spName };
     });
 
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.service")}</p>
-          <App.Components.Select2Selector
+          <Select2Selector
             defaultValue={policy.serviceProviderId}
             placeholder={I18n.t("policy_detail.sp_placeholder")}
             select2selectorId="serviceProvider"
             options={serviceProviders}
             multiple={false}
-            handleChange={this.handleChangeServiceProvider}/>
+            handleChange={this.handleChangeServiceProvider.bind(this)}/>
           {this.renderScopedWarning(scopedSPs)}
         </fieldset>
       </div>
     );
-  },
+  }
 
-  handleChangeServiceProvider: function (newValue) {
-    var partialState = {serviceProviderId: newValue};
+  handleChangeServiceProvider(newValue) {
+    const partialState = { serviceProviderId: newValue };
     partialState.description = this.buildAutoFormattedDescription(partialState);
     partialState.policyEnforcementDecisionRequired = this.findServiceProvider(newValue).policyEnforcementDecisionRequired;
-    this.setState(partialState);
-  },
+    this.setState({ policy: { ...this.state.policy, ...partialState } });
+  }
 
-  renderScopedWarning: function (scopedSPs) {
+  renderScopedWarning(scopedSPs) {
     if (scopedSPs) {
       return (<em className="note"><sup>*</sup>{I18n.t("policy_detail.spScopeInfo")} </em>);
     }
-  },
 
-  renderIdentityProvider: function (policy) {
-    var providers = this.props.identityProviders.map(function (idp) { return { value: idp.id, display: idp.name }});
+    return null;
+  }
+
+  renderIdentityProvider(policy) {
+    const { currentUser } = this.context;
+    const providers = currentUser.institutionIdps.map(idp => ({ value: idp.id, display: idp.name }));
     return (
       <div className="form-element">
         <fieldset className="success">
           <p className="label">{I18n.t("policy_detail.institutions")}</p>
-            <App.Components.Select2Selector
+            <Select2Selector
                 defaultValue={policy.identityProviderIds}
                 placeholder={I18n.t("policy_detail.idps_placeholder")}
                 select2selectorId={"identityProvider"}
                 options={providers}
                 multiple={true}
-                handleChange={this.handleChangeIdentityProvider}/>
+                handleChange={this.handleChangeIdentityProvider.bind(this)}/>
         </fieldset>
       </div>
     );
-  },
+  }
 
-  handleChangeIdentityProvider: function (newValue) {
-    var partialState = {identityProviderIds: newValue};
-
-    var noIdpSelected = _.isEmpty(newValue);
-
-    if (noIdpSelected) {
-      var serviceProviders = this.props.institutionServiceProviders.map(function (sp) {
-        return {value: sp.spEntityId, display: sp.spName};
-      });
-
-      if (this.state.serviceProviderId && !_.some(serviceProviders, function (sp) { return sp.value === this.state.serviceProviderId; }.bind(this))) {
-        //Unfortunately we have to set the current value manually as the integration with select2 is done one-way
-        var select2ServiceProvider = $('[data-select2selector-id="serviceProvider"]');
-        select2ServiceProvider.val("").trigger("change");
-      }
-    }
+  handleChangeIdentityProvider(newValue) {
+    const partialState = { identityProviderIds: newValue };
 
     partialState.description = this.buildAutoFormattedDescription(partialState);
 
-    this.setState(partialState);
-  },
+    this.setState({ policy: { ...this.state.policy, ...partialState } });
+  }
 
-  renderLogicalRule: function (policy) {
-    var allAttributesMustMatch = policy.allAttributesMustMatch;
-    var classNameAnd = !policy.allAttributesMustMatch ? "not-selected" : "";
-    var classNameOr = policy.allAttributesMustMatch ? "not-selected" : "";
+  renderLogicalRule(policy) {
+    const allAttributesMustMatch = policy.allAttributesMustMatch;
+    const classNameAnd = !policy.allAttributesMustMatch ? "not-selected" : "";
+    const classNameOr = policy.allAttributesMustMatch ? "not-selected" : "";
 
     return (
       <div className="form-element">
@@ -240,179 +248,207 @@ App.Pages.PolicyDetail = React.createClass({
         </fieldset>
       </div>
     );
-  },
+  }
 
-  renderRule: function (value, selected) {
-    var className = value + " " + (selected ? "selected" : "");
-    if (this.state.denyRule) {
+  renderRule(value, selected) {
+    const className = value + " " + (selected ? "selected" : "");
+
+    if (this.state.policy.denyRule) {
       return (
         <li key={value}>
           <span className={className}>{value}</span>
         </li>
       );
-    } else {
-      return (
-        <li key={value}>
-          <a href="#" className={className} onClick={this.handleChooseRule(value)}>{value}</a>
-        </li>
-      );
-    }
-  },
+    } 
 
-  handleChooseRule: function (value) {
-    return function (e) {
+    return (
+      <li key={value}>
+        <a href="#" className={className} onClick={this.handleChooseRule(value)}>{value}</a>
+      </li>
+    );
+  }
+
+  handleChooseRule(value) {
+    return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      var allAttributesMustMatch = (value === I18n.t("policy_detail.rule_and"));
-      var partialState = {allAttributesMustMatch: allAttributesMustMatch};
+      const allAttributesMustMatch = (value === I18n.t("policy_detail.rule_and"));
+      const partialState = { allAttributesMustMatch: allAttributesMustMatch };
       partialState.description = this.buildAutoFormattedDescription(partialState);
-      this.setState(partialState);
+      this.setState({ policy: { ...this.state.policy, ...partialState } });
     }.bind(this);
-  },
+  }
 
-  renderAttributes: function (policy) {
-    return (<App.Components.PolicyAttributes
-        policy={this.state}
-        allowedAttributes={this.props.allowedAttributes}
-        setAttributeState={this.setAttributeState}/>);
-  },
+  renderAttributes() {
+    return (<PolicyAttributes
+        policy={this.state.policy}
+        allowedAttributes={this.state.allowedAttributes}
+        setAttributeState={this.setAttributeState.bind(this)}/>);
+  }
 
-  setAttributeState: function (newAttributeState) {
+  setAttributeState(newAttributeState) {
     newAttributeState.description = this.buildAutoFormattedDescription(newAttributeState);
-    this.setState(newAttributeState);
-  },
+    this.setState({ policy: { ...this.state.policy, ...newAttributeState } });
+  }
 
-  renderDenyAdvice: function (policy)  {
-    var classNameStatus = _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl) ? "failure" : "success";
+  renderDenyAdvice(policy)  {
+    const classNameStatus = _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl) ? "failure" : "success";
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.deny_message")}</p>
           <em>{I18n.t("policy_detail.deny_message_info")}</em>
           <input type="text" name="denyMessage" className="form-input"
-                 valueLink={this.linkState("denyAdvice")}/>
+            value={this.state.policy.denyAdvice || ""} onChange={e => this.setState({ policy: { ...this.state.policy, denyAdvice: e.target. value } })} />
           <p className="label">{I18n.t("policy_detail.deny_message_nl")}</p>
           <input type="text" name="denyMessageNl" className="form-input"
-                 valueLink={this.linkState("denyAdviceNl")} />
+            value={this.state.policy.denyAdviceNl || ""} onChange={e => this.setState({ policy: { ...this.state.policy, denyAdviceNl: e.target.value } })} />
         </fieldset>
       </div>
     );
-  },
+  }
 
-  renderDescription: function (policy) {
-    var classNameStatus = _.isEmpty(policy.description) ? "failure" : "success";
+  renderDescription(policy) {
+    const classNameStatus = _.isEmpty(policy.description) ? "failure" : "success";
     return (
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.description")}</p>
-          <textarea rows="4" name="description" className="form-input" valueLink={this.linkState("description")} />
+          <textarea rows="4" name="description" value={this.state.policy.description || ""} className="form-input" onChange={e => this.setState({ policy: { ...this.state.policy, description: e.target.value } })} />
           <input type="checkbox" id="autoFormatDescription" name="autoFormatDescription"
-            onChange={this.handleOnChangeAutoFormat}/>
+            onChange={this.handleOnChangeAutoFormat.bind(this)}/>
           <label className="note" htmlFor="autoFormatDescription">{I18n.t("policy_detail.autoFormat")}</label>
         </fieldset>
       </div>
     );
-  },
+  }
 
-  handleOnChangeAutoFormat: function (e) {
-    var partialState = {autoFormat: !this.state.autoFormat};
+  handleOnChangeAutoFormat() {
+    const { policy } = this.state;
+    const partialState = { autoFormat: !policy.policyautoFormat };
     if (partialState.autoFormat) {
-      partialState.savedDescription = this.state.description;
+      partialState.savedDescription = policy.description;
       this.provideProviderNames(partialState);
-      partialState.description = App.Utils.AutoFormat.description(this.state);
+      partialState.description = AutoFormat.description(policy);
     } else {
-      partialState.description = this.state.savedDescription || "";
+      partialState.description = policy.savedDescription || "";
     }
-    this.setState(partialState);
-  },
+    this.setState({ policy: { ...this.state.policy, ...partialState } });
+  }
 
-  provideProviderNames: function (partialState) {
-    var identityProviderIds = _.isUndefined(partialState.identityProviderIds) ? this.state.identityProviderIds : partialState.identityProviderIds;
+  provideProviderNames(partialState) {
+    const { currentUser } = this.context;
+    const identityProviderIds = _.isUndefined(partialState.identityProviderIds) ? this.state.policy.identityProviderIds : partialState.identityProviderIds;
 
     if (_.isEmpty(identityProviderIds)) {
-      this.state.identityProviderNames = [];
+      this.setState({ policy: { ...this.state.policy, identityProviderNames: [] } });
     } else {
-      this.state.identityProviderNames = identityProviderIds.map(function (idp) {
-        var provider = _.find(this.props.identityProviders, function (provider) { return provider.id === idp; });
+      this.setState({ policy: { ...this.state.policy, identityProviderNames: identityProviderIds.map(idp => {
+        const provider = _.find(currentUser.institutionIdps, provider => provider.id === idp);
         return provider.name;
-      }.bind(this));
+      }) } });
     }
 
-    var serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.serviceProviderId : partialState.serviceProviderId;
+    const serviceProviderId = _.isUndefined(partialState.serviceProviderId) ? this.state.policy.serviceProviderId : partialState.serviceProviderId;
     if (_.isEmpty(serviceProviderId)) {
-      this.state.serviceProviderName = null;
+      this.setState({ policy: { ...this.state.policy, serviceProviderName: null } });
     } else {
-      var scopedSPs = _.isEmpty(identityProviderIds);
-      var serviceProvider = _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
+      const scopedSPs = _.isEmpty(identityProviderIds);
+      const serviceProvider = _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, sp => {
         return sp.spEntityId === serviceProviderId;
       });
-      this.state.serviceProviderName = serviceProvider.name;
+      this.setState({ policy: { ...this.state.policy, serviceProviderName: serviceProvider.name } });
     }
-  },
+  }
 
-  findServiceProvider: function (serviceProviderId) {
-      var scopedSPs = _.isEmpty(this.state.identityProviderIds);
-      return _.find(scopedSPs ? this.props.institutionServiceProviders : this.props.connectedServiceProviders, function (sp) {
-        return sp.spEntityId === serviceProviderId;
-      });
-  },
+  findServiceProvider(serviceProviderId) {
+    const scopedSPs = _.isEmpty(this.state.policy.identityProviderIds);
+    return _.find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, sp => {
+      return sp.spEntityId === serviceProviderId;
+    });
+  }
 
-  renderActive: function (policy) {
+  renderActive(policy) {
     return (
       <div className="form-element">
         <fieldset className="success">
           <p className="label">{I18n.t("policy_detail.isActive")}</p>
           <input type="checkbox" id="isActive" name="isActive" checked={policy.active}
-                 onChange={this.handleOnChangeIsActive}/>
+                 onChange={this.handleOnChangeIsActive.bind(this)}/>
           <label htmlFor="isActive">{I18n.t("policy_detail.isActiveDescription")}</label>
           <em className="note"><sup>*</sup>{I18n.t("policy_detail.isActiveInfo")} </em>
         </fieldset>
       </div>
     );
-  },
+  }
 
-  handleOnChangeIsActive: function (e) {
-    this.setState({active: !this.state.active});
-  },
+  handleOnChangeIsActive() {
+    this.setState({ policy: { ...this.state.policy, active: !this.state.policy.active } });
+  }
 
-  renderActions: function(policy) {
-    var classNameSubmit = this.isValidPolicy() ? "" : "disabled";
+  renderActions() {
+    const classNameSubmit = this.isValidPolicy() ? "" : "disabled";
     return (
       <div className="form-element">
         <fieldset>
           <div className="l-grid">
             <div className="l-col-3">
-              <a className={"c-button " + classNameSubmit} href="#" onClick={this.submitForm}>{I18n.t("policy_detail.submit")}</a>
+              <a className={"c-button " + classNameSubmit} href="#" onClick={this.submitForm.bind(this)}>{I18n.t("policy_detail.submit")}</a>
             </div>
             <div className="l-col-3">
-              <a className="n-button" href="#" onClick={this.cancelForm}>{I18n.t("policy_detail.cancel")}</a>
+              <a className="n-button" href="#" onClick={this.cancelForm.bind(this)}>{I18n.t("policy_detail.cancel")}</a>
             </div>
           </div>
         </fieldset>
       </div>
     );
-  },
+  }
 
-  isValidPolicy: function () {
-    var policy = this.state;
-    var emptyAttributes = policy.attributes.filter(function (attr) {
+  isValidPolicy() {
+    const { policy } = this.state;
+    const emptyAttributes = policy.attributes.filter(attr => {
       return _.isEmpty(attr.value);
     });
-    var inValid = _.isEmpty(policy.name) || _.isEmpty(policy.description) || _.isEmpty(policy.serviceProviderId)
+    const inValid = _.isEmpty(policy.name) || _.isEmpty(policy.description) || _.isEmpty(policy.serviceProviderId)
         || _.isEmpty(policy.attributes) || emptyAttributes.length > 0 || _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl);
     return !inValid;
-  },
+  }
 
-  submitForm: function () {
-    App.Controllers.Policies.saveOrUpdatePolicy(this.state, function (jqxhr) {
-      jqxhr.isConsumed = true;
-      this.setState({flash: { type: "error", message: jqxhr.responseJSON.message}});
-    }.bind(this));
-  },
+  submitForm() {
+    const { policy } = this.state;
 
-  cancelForm: function () {
+    const apiCall = policy.id ? updatePolicy : createPolicy;
+    const action = policy.id ? I18n.t("policies.flash_updates") : I18n.t("policies.flash_created");
+
+    apiCall(policy).then(() => {
+      if (policy.policyEnforcementDecisionRequired) {
+        setFlash(I18n.t("policies.flash", { policyName: policy.name, action }));
+      } else {
+        setFlash(I18n.t("policies.flash_first"));
+      }
+      this.context.router.transitionTo("/policies");
+    })
+    .catch(e => {
+      setFlash(e, "error");
+    });
+  }
+
+  cancelForm() {
     if (confirm(I18n.t("policy_detail.confirmation"))) {
-      page("/policies");
+      this.context.router.transitionTo("/policies");
     }
   }
-})
+}
+
+PolicyDetail.contextTypes = {
+  currentUser: React.PropTypes.object,
+  router: React.PropTypes.object
+};
+
+PolicyDetail.propTypes = {
+  params: React.PropTypes.shape({
+    id: React.PropTypes.string
+  })
+};
+
+export default PolicyDetail;

@@ -4,6 +4,7 @@
 // ie "Hello {{name}}" Do not add any spaces around the variable name.
 // Provide the values as: I18n.t("key", {name: "John Doe"})
 
+import I18n from "i18n-js";
 
 I18n.translations.nl = {
   code: "NL",
@@ -17,7 +18,7 @@ I18n.translations.nl = {
 
   browser_not_supported: {
     title: "Uw browser wordt niet ondersteund.",
-    description_html: "Uw versie van Internet Explorer {{ieVersion}} wordt niet ondersteunt. Update uw browser naar een modernere versie."
+    description_html: "Uw versie van Internet Explorer wordt niet ondersteunt. Update uw browser naar een modernere versie."
   },
 
   date: {
@@ -523,14 +524,6 @@ I18n.translations.nl = {
       "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
         description: "Digital Author Identifier (DAI)"
-      },
-      "Shib-nlEduPersonHomeOrganization": {
-        name: "Weergavenaam van de Instelling",
-        description: "weergavenaam van de instelling"
-      },
-      "Shib-nlEduPersonStudyBranch": {
-        name: "Opleiding",
-        description: "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft"
       },
       "Shib-userStatus": {
         name: "Gebruikersstatus",

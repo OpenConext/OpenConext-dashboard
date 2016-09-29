@@ -1,7 +1,13 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Components.OverviewPanel = React.createClass({
-  render: function () {
+import LicenseInfo from "./license_info";
+import Screenshots from "./screenshots";
+
+import { AppShape } from "../shapes";
+
+class OverviewPanel extends React.Component {
+  render() {
     return (
       <div className="l-middle">
         <div className="mod-title">
@@ -10,7 +16,7 @@ App.Components.OverviewPanel = React.createClass({
 
         <div className="mod-connection">
           {this.renderConnection()}
-          <App.Components.LicenseInfo app={this.props.app} onSwitchPanel={this.props.onSwitchPanel}/>
+          <LicenseInfo app={this.props.app} onSwitchPanel={this.props.onSwitchPanel}/>
         </div>
 
         {this.renderWikiUrl()}
@@ -24,12 +30,12 @@ App.Components.OverviewPanel = React.createClass({
 
         {this.renderSingleTenantService()}
 
-        <App.Components.Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
+        <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
-  },
+  }
 
-  renderWikiUrl: function () {
+  renderWikiUrl() {
     if (this.props.app.wikiUrl) {
       return (
         <div className="mod-title">
@@ -38,54 +44,61 @@ App.Components.OverviewPanel = React.createClass({
         </div>
       );
     }
-  },
 
-  renderNormenKader: function () {
-    var html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
-      I18n.t("overview_panel.normen_kader_html", {name: this.props.app.name, link: this.props.app.normenkaderUrl}) :
-      I18n.t("overview_panel.no_normen_kader_html", {name: this.props.app.name});
+    return null;
+  }
+
+  renderNormenKader() {
+    const html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
+      I18n.t("overview_panel.normen_kader_html", { name: this.props.app.name, link: this.props.app.normenkaderUrl }) :
+      I18n.t("overview_panel.no_normen_kader_html", { name: this.props.app.name });
     return (
       <div className="mod-description">
         <h2>{I18n.t("overview_panel.normen_kader")}</h2>
         <h3
           dangerouslySetInnerHTML={{ __html: html }}/>
       </div>);
-  },
+  }
 
-  renderSingleTenantService: function() {
+  renderSingleTenantService() {
     if (this.props.app.exampleSingleTenant) {
       return (
         <div className="mod-description">
         <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
         <h3
-          dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name}) }}/>
+          dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", { name: this.props.app.name }) }}/>
       </div>);
     }
-  },
 
-  renderDescription: function () {
-    var hasText = function (value) {
+    return null;
+  }
+
+  renderDescription() {
+    const hasText = function(value) {
       return value && value.trim().length > 0;
     };
     if (hasText(this.props.app.enduserDescription)) {
-      return <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription}}/>;
+      return <p dangerouslySetInnerHTML={{ __html: this.props.app.enduserDescription }}/>;
     } else if (hasText(this.props.app.institutionDescription)) {
-      return <p dangerouslySetInnerHTML={{ __html: this.props.app.institutionDescription}}/>;
+      return <p dangerouslySetInnerHTML={{ __html: this.props.app.institutionDescription }}/>;
     } else if (hasText(this.props.app.description)) {
-      return <p dangerouslySetInnerHTML={{ __html: this.props.app.description}}/>;
-    } else {
-      return <p>{I18n.t("overview_panel.no_description")}</p>;
+      return <p dangerouslySetInnerHTML={{ __html: this.props.app.description }}/>;
     }
-  },
 
-  renderConnection: function () {
+    return <p>{I18n.t("overview_panel.no_description")}</p>;
+  }
+
+  renderConnection() {
     return this.props.app.connected ? this.renderHasConnection() : this.renderNoConnection();
-  },
+  }
 
-  renderHasConnection: function () {
-    if (App.currentUser.dashboardAdmin) {
-      var disconnect = <p><a href="#"
-                             onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
+  renderHasConnection() {
+    const { currentUser } = this.context;
+
+    let disconnect = null;
+    if (currentUser.dashboardAdmin) {
+      disconnect = <p><a href="#"
+          onClick={e => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
       </p>;
     }
 
@@ -97,12 +110,15 @@ App.Components.OverviewPanel = React.createClass({
         {disconnect}
       </div>
     );
-  },
+  }
 
-  renderNoConnection: function () {
-    if (App.currentUser.dashboardAdmin) {
-      var connect = <p><a href="#"
-                          onClick={this.props.onSwitchPanel("how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
+  renderNoConnection() {
+    const { currentUser } = this.context;
+
+    let connect = null;
+    if (currentUser.dashboardAdmin) {
+      connect = <p><a href="#"
+          onClick={e => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
       </p>;
     }
 
@@ -115,4 +131,15 @@ App.Components.OverviewPanel = React.createClass({
       </div>
     );
   }
-});
+}
+
+OverviewPanel.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+OverviewPanel.propTypes = {
+  app: AppShape.isRequired,
+  onSwitchPanel: React.PropTypes.func.isRequired
+};
+
+export default OverviewPanel;

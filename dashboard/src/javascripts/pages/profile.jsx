@@ -1,9 +1,12 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.Profile = React.createClass({
-  render: function() {
-    var attributeKeys = Object.keys(App.currentUser.attributeMap);
-    var roles = App.currentUser.grantedAuthorities;
+import I18n from "i18n-js";
+
+class Profile extends React.Component {
+  render() {
+    const { currentUser } = this.context;
+    const attributeKeys = Object.keys(currentUser.attributeMap);
+    const roles = currentUser.grantedAuthorities;
     return (
       <div className="l-mini">
 
@@ -19,7 +22,7 @@ App.Pages.Profile = React.createClass({
               </tr>
             </thead>
             <tbody>
-              {attributeKeys.map(this.renderAttribute)}
+              {attributeKeys.map(this.renderAttribute.bind(this))}
             </tbody>
           </table>
           <h3>{I18n.t("profile.my_roles")}</h3>
@@ -39,12 +42,13 @@ App.Pages.Profile = React.createClass({
         </div>
       </div>
       );
-  },
+  }
 
-  renderAttribute: function(attributeKey) {
+  renderAttribute(attributeKey) {
+    const { currentUser } = this.context;
     // Use [] to get the value from I18n because attributeKey can contain (.) dot's.
-    var attributeName = I18n.t("profile.attribute_map")[attributeKey]["name"]
-    var attributeDescription = I18n.t("profile.attribute_map")[attributeKey]["description"]
+    const attributeName = I18n.t("profile.attribute_map")[attributeKey]["name"];
+    const attributeDescription = I18n.t("profile.attribute_map")[attributeKey]["description"];
     return (
       <tr key={attributeKey}>
         <td title={attributeDescription}>
@@ -52,16 +56,16 @@ App.Pages.Profile = React.createClass({
         </td>
         <td>
           <ul>
-            {App.currentUser.attributeMap[attributeKey].map(function(value, i) {
+            {currentUser.attributeMap[attributeKey].map((value, i) => {
               return <li key={i}>{value}</li>;
             })}
           </ul>
         </td>
       </tr>
       );
-  },
+  }
 
-  renderRole: function(role) {
+  renderRole(role) {
     return (
       <tr key={role.authority}>
         <td>{I18n.t("profile.roles." + role.authority + ".name")}</td>
@@ -69,5 +73,10 @@ App.Pages.Profile = React.createClass({
       </tr>
       );
   }
+}
 
-});
+Profile.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+export default Profile;
