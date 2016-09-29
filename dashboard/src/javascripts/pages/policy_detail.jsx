@@ -32,7 +32,7 @@ class PolicyDetail extends React.Component {
       .then(data => this.setState({ connectedServiceProviders: data.payload }));
     getAllowedAttributes().then(data => this.setState({ allowedAttributes: data.payload }));
 
-    if (this.props.params.id) {
+    if (this.props.params.id !== "new") {
       getPolicy(this.props.params.id).then(data => this.setState({ policy: data.payload }));
     } else {
       getNewPolicy().then(data => this.setState({ policy: data.payload }));

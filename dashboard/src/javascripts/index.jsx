@@ -69,9 +69,8 @@ class App extends React.Component {
           <Match exactly pattern="/statistics" component={Stats} />
           <Match exactly pattern="/my-idp" component={MyIdp} />
           <Match exactly pattern="/users/search" component={SearchUser} />
-          <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/new" component={PolicyDetail} />
-          <Match exactly pattern="/policies/:id/revisions" component={PolicyRevisions} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/:id" component={PolicyDetail} />
+          <Match exactly pattern="/policies/:id/revisions" component={PolicyRevisions} />
           <Miss component={NotFound} />
 
           <Footer />
