@@ -33,7 +33,10 @@ class Select2Selector extends React.Component {
 
 Select2Selector.propTypes = {
   handleChange: React.PropTypes.func.isRequired,
-  defaultValue: React.PropTypes.string,
+  defaultValue: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.arrayOf(React.PropTypes.string)
+  ]),
   multiple: React.PropTypes.bool,
   options: React.PropTypes.arrayOf(React.PropTypes.shape({
     display: React.PropTypes.string,

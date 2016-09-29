@@ -421,7 +421,7 @@ class PolicyDetail extends React.Component {
 
     apiCall(policy).then(() => {
       if (policy.policyEnforcementDecisionRequired) {
-        setFlash(I18n.t("policies.flash", { policyName: policy.name, action: I18n.t(action) }));
+        setFlash(I18n.t("policies.flash", { policyName: policy.name, action }));
       } else {
         setFlash(I18n.t("policies.flash_first"));
       }
