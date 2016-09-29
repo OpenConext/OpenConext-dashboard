@@ -163,7 +163,6 @@ class Stats extends React.Component {
     ];
 
     const handleChange = function(value) {
-      console.log(value);
       this.setState({ chart: { ...this.state.chart, periodType: value }});
     };
 

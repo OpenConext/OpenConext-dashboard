@@ -66,6 +66,10 @@ function putJson(path, body, options = {}) {
   return validFetch(path, Object.assign({}, { method: "put", body: JSON.stringify(body) }, options));
 }
 
+function fetchDelete(path) {
+  return validFetch(path, { method: "delete" });
+}
+
 export function getUserData() {
   return fetchJson("/users/me" + window.location.search);
 }

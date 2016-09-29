@@ -154,6 +154,8 @@ class PolicyOverview extends React.Component {
           </div>
       );
     }
+
+    return null;
   }
 
   handleDeletePolicyDetail(policy) {
