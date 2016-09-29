@@ -19,5 +19,6 @@ before_script:
     grant all on csa.* to 'csa'@'localhost';" -uroot
 script:
   - mvn verify -B
+  - cd dashboard && nvm install $(cat .node-version) && npm run lint
 after_success:
   - bash <(curl -s https://codecov.io/bash)
