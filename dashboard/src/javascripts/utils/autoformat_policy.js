@@ -1,4 +1,4 @@
-App.Utils.AutoFormat = {
+export default {
 
   addQuotes: function (str) {
     return (_.isEmpty(str)) ? str : "'" + str + "'";

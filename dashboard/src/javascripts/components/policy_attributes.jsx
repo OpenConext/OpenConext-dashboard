@@ -169,7 +169,7 @@ class PolicyAttributes extends React.Component {
               })
             }
             <p className="label">{I18n.t("policy_attributes.attribute")}</p>
-            <select value="" onChange={self.handleNewAttribute}>
+            <select value="" onChange={self.handleNewAttribute.bind(this)}>
               <option value="" disabled="disabled">{I18n.t("policy_attributes.new_attribute")}</option>
               {
                 allowedAttributes.map(function (allowedAttribute) {

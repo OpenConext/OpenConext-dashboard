@@ -1,26 +1,31 @@
 import React from "react";
 
-import Select2 from "react-select2-wrapper";
+import Select2 from "react-select";
 
 class Select2Selector extends React.Component {
+  onChange(val) {
+    if (_.isArray(val)) {
+      return this.props.handleChange(val.map(v => v.value));
+    } else {
+      return this.props.handleChange(val.value);
+    }
+  }
+
   render() {
-    const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : "");
-    const data = this.props.options.map((option) => ({ text: option.display, id: option.value }));
+    const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : '');
+    const data = this.props.options.map((option) => ({ label: option.display, value: option.value }));
     const minimumResultsForSearch = this.props.minimumResultsForSearch || 7;
 
     return (
       <Select2
         value={defaultValue}
-        data={data}
-        multiple={this.props.multiple}
-        onSelect={(e) => this.props.handleChange(e.target.value)}
-        options={{
-          placeholder: this.props.placeholder,
-          width: "100%",
-          allowClear: false,
-          forceBelow: true,
-          minimumResultsForSearch: minimumResultsForSearch
-        }}
+        options={data}
+        multi={this.props.multiple}
+        onChange={val => this.onChange(val)}
+        style={{width: '100%'}}
+        placeholder={this.props.placeholder}
+        searchable={data.length >= minimumResultsForSearch}
+        clearable={false}
       />
     );
   }

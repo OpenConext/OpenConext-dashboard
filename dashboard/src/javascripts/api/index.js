@@ -58,6 +58,14 @@ function fetchPost(path, body, options = {}) {
   return validFetch(path, Object.assign({}, { method: "post", body: data }, options));
 }
 
+function postJson(path, body, options = {}) {
+  return validFetch(path, Object.assign({}, { method: "post", body: JSON.stringify(body) }, options));
+}
+
+function putJson(path, body, options = {}) {
+  return validFetch(path, Object.assign({}, { method: "put", body: JSON.stringify(body) }, options));
+}
+
 export function getUserData() {
   return fetchJson("/users/me" + window.location.search);
 }
@@ -181,4 +189,28 @@ export function getLicenseContactPerson(idpId) {
 export function getIdpsForSuper() {
   return fetchJson("/users/super/idps")
   .then(json => json.payload);
+}
+
+export function createPolicy(policy) {
+  return postJson('/policies', policy, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+export function updatePolicy(policy) {
+  return putJson('/policies', policy, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+export function deletePolicy(policyId) {
+  return fetchDelete(`/policies/${policyId}`);
+}
+
+export function getPolicy(policyId) {
+  return fetchJson(`/policies/${policyId}`);
 }

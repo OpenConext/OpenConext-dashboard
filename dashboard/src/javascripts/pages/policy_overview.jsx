@@ -3,14 +3,13 @@ import I18n from "i18n-js";
 
 import Link from "react-router/Link";
 
-import { getPolicies } from "../api";
+import { deletePolicy, getPolicies } from "../api";
+import { setFlash } from "../utils/flash";
 import sort from "../utils/sort";
 
+import Flash from "../components/flash";
 import SortableHeader from "../components/sortable_header";
-  // mixins: [
-  //   React.addons.LinkedStateMixin,
-  //   App.Mixins.SortableTable("policies.overview", "name")
-  // ],
+
 class PolicyOverview extends React.Component {
   constructor() {
     super();
@@ -25,13 +24,6 @@ class PolicyOverview extends React.Component {
 
   componentWillMount() {
     getPolicies().then(data => this.setState({ policies: data.payload }));
-
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEmpty(this.props) && this.props.flash !== nextProps.flash) {
-      this.setState({hideFlash: false});
-    }
   }
 
   render() {
@@ -40,7 +32,7 @@ class PolicyOverview extends React.Component {
 
     return (
       <div className="l-main">
-        {this.renderFlash()}
+        <Flash />
         {this.renderHeader()}
         <div className="mod-policy-list">
           <table>
@@ -56,7 +48,7 @@ class PolicyOverview extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {sort(filteredPolicies).map(this.renderPolicy)}
+              {sort(filteredPolicies).map(this.renderPolicy.bind(this))}
             </tbody>
           </table>
         </div>
@@ -121,24 +113,8 @@ class PolicyOverview extends React.Component {
      );
   }
 
-  renderFlash() {
-    const flash = this.props.flash;
-
-    if (flash && !this.state.hideFlash) {
-      return (
-          <div className="flash">
-            <p className={flash.type} dangerouslySetInnerHTML={{__html: flash.message }}></p>
-            <a className="close" href="#" onClick={this.closeFlash}><i className="fa fa-remove"></i></a>
-          </div>
-      );
-    }
-  }
-
-  closeFlash() {
-    this.setState({hideFlash: true});
-  }
-
   renderPolicy(policy, i) {
+    const { currentUser } = this.context;
     return (
       <tr key={i}>
         <td>{policy.name}</td>
@@ -147,7 +123,7 @@ class PolicyOverview extends React.Component {
         <td>{this.renderIdpNames(policy)}</td>
         <td><input type="checkbox" defaultChecked={policy.active} disabled="true"/></td>
         <td>{this.renderRevisionsLink(policy)}</td>
-        {App.currentUser.dashboardAdmin ? (<td>{this.renderControls(policy)}</td>) : null}
+        {currentUser.dashboardAdmin ? (<td>{this.renderControls(policy)}</td>) : null}
       </tr>
     );
   }
@@ -161,27 +137,18 @@ class PolicyOverview extends React.Component {
   renderRevisionsLink(policy) {
     const numberOfRevisions = (policy.numberOfRevisions + 1);
     return (
-      <a href={page.uri("/policies/:id/revisions", {id: policy.id})}
-        onClick={this.handleShowRevisions(policy)}>{numberOfRevisions}</a>
+      <Link to={`/policies/${policy.id}/revisions`}>{numberOfRevisions}</Link>
     );
-  }
-
-  handleShowRevisions(policy) {
-    return function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      page("/policies/:id/revisions", {id: policy.id});
-    };
   }
 
   renderControls(policy) {
     if (policy.actionsAllowed) {
       return (
           <div className="controls">
-            <a href={page.uri("/policies/:id", {id: policy.id})} onClick={this.handleShowPolicyDetail(policy)}
-               data-tooltip={I18n.t("policies.edit")}> <i className="fa fa-edit"></i>
-            </a>
-            <a href="#" data-tooltip={I18n.t("policies.delete")} onClick={this.handleDeletePolicyDetail(policy)}>
+            <Link to={`/policies/${policy.id}`} data-tooltip={I18n.t("policies.edit")}>
+              <i className="fa fa-edit"></i>
+            </Link>
+            <a href="#" data-tooltip={I18n.t("policies.delete")} onClick={this.handleDeletePolicyDetail(policy).bind(this)}>
               <i className="fa fa-remove"></i>
             </a>
           </div>
@@ -189,20 +156,17 @@ class PolicyOverview extends React.Component {
     }
   }
 
-  handleShowPolicyDetail(policy) {
-    return  function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      page("/policies/:id", {id: policy.id});
-    };
-  }
-
   handleDeletePolicyDetail(policy) {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
       if (confirm(I18n.t("policies.confirmation", {policyName: policy.name}))) {
-        App.Controllers.Policies.deletePolicy(policy);
+        deletePolicy(policy.id).then(() => {
+          getPolicies().then(data => {
+            this.setState({ policies: data.payload });
+            setFlash(I18n.t("policies.flash", {policyName: policy.name, action: I18n.t("policies.flash_deleted")}));
+          });
+        });
       }
     };
   }

@@ -68,11 +68,12 @@ class Stats extends React.Component {
       {display: I18n.t("stats.chart.type.idpsp"), value: "idpsp"}
     ];
 
-    const handleChange = (value) => {
-      this.setState({ chart: { ...this.state.chart, type: value }});
-      if (value === "idpsp" && !this.state.chart.sp && this.state.sps.length > 0) {
-        this.setState({ chart: { ...this.state.chart, sp: this.state.sps[0].value }});
+    var handleChange = (value) => {
+      const newState = { chart: { ...this.state.chart, type: value }};
+      if (value === 'idpsp' && !this.state.chart.sp && this.state.sps.length > 0) {
+        newState.chart.sp = this.state.sps[0].value;
       }
+      this.setState(newState);
     };
 
     return (
@@ -162,6 +163,7 @@ class Stats extends React.Component {
     ];
 
     const handleChange = function(value) {
+      console.log(value);
       this.setState({ chart: { ...this.state.chart, periodType: value }});
     };
 

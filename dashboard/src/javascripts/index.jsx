@@ -37,6 +37,7 @@ import SearchUser from "./pages/search_user";
 
 import "./locale/en";
 import "./locale/nl";
+import 'react-select/dist/react-select.css';
 
 class App extends React.Component {
   getChildContext() {
@@ -68,6 +69,7 @@ class App extends React.Component {
           <Match exactly pattern="/my-idp" component={MyIdp} />
           <Match exactly pattern="/users/search" component={SearchUser} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/new" component={PolicyDetail} />
+          <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/:id" component={PolicyDetail} />
           <Miss component={NotFound} />
 
           <Footer />
