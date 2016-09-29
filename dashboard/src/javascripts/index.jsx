@@ -27,6 +27,7 @@ import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
 import PolicyOverview from "./pages/policy_overview";
 import PolicyDetail from "./pages/policy_detail";
+import PolicyRevisions from "./pages/policy_revisions";
 import Notifications from "./pages/notifications";
 import History from "./pages/history";
 import Profile from "./pages/profile";
@@ -69,6 +70,7 @@ class App extends React.Component {
           <Match exactly pattern="/my-idp" component={MyIdp} />
           <Match exactly pattern="/users/search" component={SearchUser} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/new" component={PolicyDetail} />
+          <Match exactly pattern="/policies/:id/revisions" component={PolicyRevisions} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/:id" component={PolicyDetail} />
           <Miss component={NotFound} />
 

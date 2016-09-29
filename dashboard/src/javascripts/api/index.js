@@ -218,3 +218,7 @@ export function deletePolicy(policyId) {
 export function getPolicy(policyId) {
   return fetchJson(`/policies/${policyId}`);
 }
+
+export function getPolicyRevisions(policyId) {
+  return fetchJson(`/policies/${policyId}/revisions`);
+}

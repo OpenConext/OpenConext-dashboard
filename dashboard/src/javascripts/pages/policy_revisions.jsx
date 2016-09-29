@@ -1,10 +1,26 @@
 import React from "react";
+import I18n from "i18n-js";
+import moment from "moment";
+
+import { getPolicyRevisions } from "../api";
+
+import PolicyRevisionsHelpEn from "../help/policy_revisions_help_en";
+import PolicyRevisionsHelpNl from "../help/policy_revisions_help_nl";
 
 class PolicyRevisions extends React.Component {
   constructor() {
     super();
 
-    this.state = {data: []};
+    this.state = {
+      data: [],
+      revisions: []
+    };
+  }
+
+  componentWillMount() {
+    getPolicyRevisions(this.props.params.id).then(data => {
+      this.setState({ revisions: data.payload });
+    });
   }
 
   render() {
@@ -26,10 +42,10 @@ class PolicyRevisions extends React.Component {
   }
 
   renderRevisions() {
-    this.props.revisions.sort(function (rev1, rev2) {
+    this.state.revisions.sort(function (rev1, rev2) {
       return rev2.created - rev1.created;
     });
-    return this.props.revisions.map(function (revision, index) {
+    return this.state.revisions.map(function (revision, index) {
       return this.renderRevision(revision, index);
     }.bind(this));
   }
@@ -73,7 +89,7 @@ class PolicyRevisions extends React.Component {
     return function (e) {
       e.preventDefault();
       e.stopPropagation();
-      const prev = this.props.revisions.filter(function (rev) {
+      const prev = this.state.revisions.filter(function (rev) {
         return rev.revisionNbr === (revision.revisionNbr - 1);
       });
       this.setState({curr: revision});
@@ -91,7 +107,8 @@ class PolicyRevisions extends React.Component {
     }
   }
 
-  renderDiff(prev, curr) {
+  renderDiff(passedPrev, curr) {
+    let prev = passedPrev;
     const properties = [
       "name", "description", "denyRule", "serviceProviderName", "identityProviderNames",
       "allAttributesMustMatch", "attributes", "denyAdvice", "denyAdviceNl", "active"
@@ -110,7 +127,7 @@ class PolicyRevisions extends React.Component {
         </div>;
 
       return (
-        <div className="diff-container">
+        <div className="diff-container" key={name}>
           { diffElement }
         </div>
       );
@@ -180,8 +197,8 @@ class PolicyRevisions extends React.Component {
     const attrResult = _.reduce(attrCurrGrouped, function (result, attributes, attrName) {
       if (attrPrevGrouped.hasOwnProperty(attrName)) {
         //find out the diff in values
-        const prevValues = _.pluck(attrPrevGrouped[attrName], "value");
-        const currValues = _.pluck(attributes, "value");
+        const prevValues = _.map(attrPrevGrouped[attrName], "value");
+        const currValues = _.map(attributes, "value");
 
         const deleted = _.difference(prevValues, currValues).map(function (deletedValue) {
           return {value: deletedValue, status: "prev"};
@@ -197,7 +214,7 @@ class PolicyRevisions extends React.Component {
 
         const newValues = deleted.concat(added).concat(unchanged);
         const anyValuesChanged = newValues.filter(function (val) {
-          return val.status == "prev" || val.status === "curr";
+          return val.status === "prev" || val.status === "curr";
         }).length > 0;
 
         result[attrName] = {values: newValues, status: "no-change", anyValuesChanged: anyValuesChanged};
@@ -267,10 +284,16 @@ class PolicyRevisions extends React.Component {
   renderAboutPage() {
     return (
       <div className="mod-policy-revisions-about">
-        {I18n.locale === "en" ? <App.Help.PolicyRevisionsHelpEn/> : <App.Help.PolicyRevisionsHelpNl/>}
+        {I18n.locale === "en" ? <PolicyRevisionsHelpEn/> : <PolicyRevisionsHelpNl/>}
       </div>
     );
   }
 }
+
+PolicyRevisions.propTypes = {
+  params: React.PropTypes.shape({
+    id: React.PropTypes.string
+  })
+};
 
 export default PolicyRevisions;
