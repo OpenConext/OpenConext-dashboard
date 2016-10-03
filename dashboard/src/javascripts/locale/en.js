@@ -310,6 +310,7 @@ I18n.translations.en = {
     flash_first: "This is the first authorization policy for this service. Before it becomes active, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.",
     flash_updated: "updated",
     new_policy: "New authorization policy",
+    how_to: "How-to",
     overview: {
       active: "Active",
       description: "Description",
