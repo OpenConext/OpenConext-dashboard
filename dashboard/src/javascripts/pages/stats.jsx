@@ -6,7 +6,7 @@ import { apiUrl, retrieveIdp, retrieveSps } from "../api/stats";
 import { getPeriod } from "../utils/period";
 
 import DownloadButton from "../components/download_button";
-import Select2Selector from "../components/select2_selector";
+import SelectWrapper from "../components/select_wrapper";
 import Period from "../components/period";
 import Chart from "../components/chart";
 
@@ -25,6 +25,7 @@ class Stats extends React.Component {
       }
     };
   }
+
   componentWillMount() {
     const { currentUser } = this.context;
     retrieveIdp(currentUser.getCurrentIdp().id, currentUser.getCurrentIdp().institutionId, currentUser.statsToken).then(idp => {
@@ -80,9 +81,8 @@ class Stats extends React.Component {
       <div>
         <fieldset>
           <h2>{I18n.t("stats.chart.type.name")}</h2>
-          <Select2Selector
+          <SelectWrapper
             defaultValue={this.state.chart.type}
-            select2selectorId='chart-type'
             options={options}
             multiple={false}
             handleChange={handleChange.bind(this)} />
@@ -104,9 +104,8 @@ class Stats extends React.Component {
     return (
       <fieldset>
         <h2>{I18n.t("stats.chart.sp.name")}</h2>
-        <Select2Selector
+        <SelectWrapper
           defaultValue={this.state.chart.sp}
-          select2selectorId='sp'
           options={this.state.sps}
           multiple={false}
           handleChange={handleChange.bind(this)} />
@@ -169,7 +168,7 @@ class Stats extends React.Component {
     return (
       <fieldset>
         <h2>{I18n.t("stats.chart.period.name")}</h2>
-        <Select2Selector
+        <SelectWrapper
           defaultValue={this.state.chart.periodType}
           options={options}
           handleChange={handleChange.bind(this)} />

@@ -5,7 +5,7 @@ import { createPolicy, updatePolicy, getPolicy, getInstitutionServiceProviders, 
 import { setFlash } from "../utils/flash";
 
 import Flash from "../components/flash";
-import Select2Selector from "../components/select2_selector";
+import SelectWrapper from "../components/select_wrapper";
 import PolicyAttributes from "../components/policy_attributes";
 import PolicyDetailHelpEn from "../help/policy_detail_help_en";
 import PolicyDetailHelpNl from "../help/policy_detail_help_nl";
@@ -163,10 +163,9 @@ class PolicyDetail extends React.Component {
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.service")}</p>
-          <Select2Selector
+          <SelectWrapper
             defaultValue={policy.serviceProviderId}
             placeholder={I18n.t("policy_detail.sp_placeholder")}
-            select2selectorId="serviceProvider"
             options={serviceProviders}
             multiple={false}
             handleChange={this.handleChangeServiceProvider.bind(this)}/>
@@ -198,10 +197,9 @@ class PolicyDetail extends React.Component {
       <div className="form-element">
         <fieldset className="success">
           <p className="label">{I18n.t("policy_detail.institutions")}</p>
-            <Select2Selector
+            <SelectWrapper
                 defaultValue={policy.identityProviderIds}
                 placeholder={I18n.t("policy_detail.idps_placeholder")}
-                select2selectorId={"identityProvider"}
                 options={providers}
                 multiple={true}
                 handleChange={this.handleChangeIdentityProvider.bind(this)}/>
