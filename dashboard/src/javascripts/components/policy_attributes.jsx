@@ -21,7 +21,7 @@ class PolicyAttributes extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.state = this.markAttributes(nextProps.policy);
+    this.setState(this.markAttributes(nextProps.policy));
   }
 
   addAttribute(attrName) {

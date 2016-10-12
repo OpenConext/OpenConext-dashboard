@@ -8,7 +8,7 @@ class SelectWrapper extends React.Component {
       return this.props.handleChange(val.map(v => v.value));
     }
 
-    return this.props.handleChange(val.value);
+    return this.props.handleChange(val.value, val.label);
   }
 
   render() {
