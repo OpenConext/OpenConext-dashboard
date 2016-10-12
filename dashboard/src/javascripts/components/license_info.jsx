@@ -1,5 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
+import Link from "react-router/Link";
 import { AppShape } from "../shapes";
 
 class LicenseInfo extends React.Component {
@@ -42,8 +43,12 @@ class LicenseInfo extends React.Component {
 
   renderNoLicense() {
     let link;
-    if (this.props.onSwitchPanel) {
-      link = <p><a href="#" onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("license_info.license_info")}</a></p>;
+    if (this.props.showLinks) {
+      link = (
+        <p>
+          <Link to={`/apps/${this.props.app.id}/license_info`}>{I18n.t("license_info.license_info")}</Link>
+        </p>
+      );
     }
     return (
       <div className={this.renderSplitClass("license no")}>
@@ -65,11 +70,14 @@ class LicenseInfo extends React.Component {
 
   renderUnknownLicense() {
     let link;
-    if (this.props.onSwitchPanel) {
-      link = <p><a href="#"
-                       onClick={this.props.onSwitchPanel("license_info")}>{I18n.t("license_info.license_unknown_info")}</a>
-      </p>;
+    if (this.props.showLinks) {
+      link = (
+        <p>
+          <Link to={`/apps/${this.props.app.id}/license_info`}>{I18n.t("license_info.license_unknown_info")}</Link>
+        </p>
+      );
     }
+
     return (
       <div className={this.renderSplitClass("license unknown")}>
         <i className="fa fa-file-text-o"></i>
@@ -81,12 +89,13 @@ class LicenseInfo extends React.Component {
 }
 
 LicenseInfo.defaultProps = {
+  showLinks: false,
   split: true
 };
 
 LicenseInfo.propTypes = {
   app: AppShape.isRequired,
-  onSwitchPanel: React.PropTypes.func,
+  showLinks: React.PropTypes.bool,
   split: React.PropTypes.bool
 };
 

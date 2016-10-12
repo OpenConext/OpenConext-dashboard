@@ -1,5 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
+import Link from "react-router/Link";
 
 import { getApp, getIdps } from "../api";
 
@@ -119,11 +120,11 @@ class AppDetail extends React.Component {
     const panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
-        <a href={`/apps/${this.props.params.id}/${panelKey}`} onClick={e => this.handleSwitchPanel(e, panelKey)}
+        <Link to={`/apps/${this.props.params.id}/${panelKey}`}
            className={panelKey === this.props.params.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}
-        </a>
+        </Link>
       </li>
     );
   }
@@ -138,16 +139,7 @@ class AppDetail extends React.Component {
 
     const Component = panel.component;
 
-    return <Component app={this.state.app} institutions={this.state.institutions} onSwitchPanel={(e, panel) => this.handleSwitchPanel(e, panel)} />;
-  }
-
-  handleSwitchPanel(e, panel) {
-    const { router } = this.context;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    router.transitionTo(`/apps/${this.props.params.id}/${panel}`);
+    return <Component app={this.state.app} institutions={this.state.institutions} />;
   }
 }
 

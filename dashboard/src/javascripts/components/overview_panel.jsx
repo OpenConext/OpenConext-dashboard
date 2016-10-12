@@ -1,5 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
+import Link from "react-router/Link";
 
 import LicenseInfo from "./license_info";
 import Screenshots from "./screenshots";
@@ -16,7 +17,7 @@ class OverviewPanel extends React.Component {
 
         <div className="mod-connection">
           {this.renderConnection()}
-          <LicenseInfo app={this.props.app} onSwitchPanel={this.props.onSwitchPanel}/>
+          <LicenseInfo app={this.props.app} showLinks />
         </div>
 
         {this.renderWikiUrl()}
@@ -97,8 +98,8 @@ class OverviewPanel extends React.Component {
 
     let disconnect = null;
     if (currentUser.dashboardAdmin) {
-      disconnect = <p><a href="#"
-          onClick={e => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.disconnect")}</a>
+      disconnect = <p>
+        <Link to={`/apps/${this.props.app.id}/how_to_connect`}>{I18n.t("overview_panel.disconnect")}</Link>
       </p>;
     }
 
@@ -117,8 +118,8 @@ class OverviewPanel extends React.Component {
 
     let connect = null;
     if (currentUser.dashboardAdmin) {
-      connect = <p><a href="#"
-          onClick={e => this.props.onSwitchPanel(e, "how_to_connect")}>{I18n.t("overview_panel.how_to_connect")}</a>
+      connect = <p>
+        <Link to={`/apps/${this.props.app.id}/how_to_connect`}>{I18n.t("overview_panel.how_to_connect")}</Link>
       </p>;
     }
 
@@ -138,8 +139,7 @@ OverviewPanel.contextTypes = {
 };
 
 OverviewPanel.propTypes = {
-  app: AppShape.isRequired,
-  onSwitchPanel: React.PropTypes.func.isRequired
+  app: AppShape.isRequired
 };
 
 export default OverviewPanel;

@@ -1,5 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
+import Link from "react-router/Link";
 
 import { AppShape } from "../shapes";
 import { makeConnection, removeConnection } from "../api";
@@ -34,6 +35,10 @@ class HowToConnectPanel extends React.Component {
     }
   }
 
+  getPanelRoute(panel) {
+    return `/apps/${this.props.app.id}/${panel}`;
+  }
+
   renderConnectStep() {
     return (
       <div className="l-middle">
@@ -50,16 +55,16 @@ class HowToConnectPanel extends React.Component {
               <ul>
                 <li>
                   {I18n.t("how_to_connect_panel.check")}&nbsp;
-                  <a onClick={e => this.props.onSwitchPanel(e, "license_info")} href="#">
+                  <Link to={this.getPanelRoute("license_info")}>
                     {I18n.t("how_to_connect_panel.license_info")}
-                  </a>
+                  </Link>
                 </li>
 
                 <li>
                   {I18n.t("how_to_connect_panel.check")}&nbsp;
-                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
+                  <Link to={this.getPanelRoute("attribute_policy")}>
                     {I18n.t("how_to_connect_panel.attributes_policy")}
-                  </a>
+                  </Link>
                 </li>
 
                 {this.renderWikiUrl()}
@@ -72,25 +77,25 @@ class HowToConnectPanel extends React.Component {
               <ul>
                 <li>
                   {I18n.t("how_to_connect_panel.provide_attributes.before")}
-                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
+                  <Link to={this.getPanelRoute("attribute_policy")}>
                     {I18n.t("how_to_connect_panel.attributes")}
-                  </a>
+                  </Link>
                   {I18n.t("how_to_connect_panel.provide_attributes.after")}
                 </li>
 
                 <li>
                   {I18n.t("how_to_connect_panel.forward_permission.before")}
-                  <a onClick={e => this.props.onSwitchPanel(e, "attribute_policy")} href="#">
+                  <Link to={this.getPanelRoute("attribute_policy")}>
                     {I18n.t("how_to_connect_panel.attributes")}
-                  </a>
+                  </Link>
                   {I18n.t("how_to_connect_panel.forward_permission.after", { app: this.props.app.name })}
                 </li>
 
                 <li>
                   {I18n.t("how_to_connect_panel.obtain_license.before")}
-                  <a onClick={e => this.props.onSwitchPanel(e, "license_info")} href="#">
+                  <Link to={this.getPanelRoute("license_info")}>
                     {I18n.t("how_to_connect_panel.license")}
-                  </a>
+                  </Link>
                   {I18n.t("how_to_connect_panel.obtain_license.after", { app: this.props.app.name })}
                 </li>
               </ul>
@@ -242,12 +247,12 @@ class HowToConnectPanel extends React.Component {
 }
 
 HowToConnectPanel.contextTypes = {
-  currentUser: React.PropTypes.object
+  currentUser: React.PropTypes.object,
+  router: React.PropTypes.object
 };
 
 HowToConnectPanel.propTypes = {
-  app: AppShape.isRequired,
-  onSwitchPanel: React.PropTypes.func.isRequired
+  app: AppShape.isRequired
 };
 
 export default HowToConnectPanel;
