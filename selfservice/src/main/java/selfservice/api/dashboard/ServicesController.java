@@ -169,14 +169,25 @@ public class ServicesController extends BaseController {
       return Optional.empty();
     }
 
-    Action action = Action.builder()
-        .userEmail(currentUser.getEmail())
-        .userName(currentUser.getUsername())
-        .body(comments)
-        .idpId(idpEntityId)
-        .spId(spEntityId)
-        .type(jiraType).build();
+    List<Service> services = csa.getServicesForIdp(idpEntityId);
+    Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
-    return Optional.of(actionsService.create(action));
+    if (optional.isPresent()) {
+      Service service = optional.get();
+
+      Action action = Action.builder()
+              .userEmail(currentUser.getEmail())
+              .userName(currentUser.getUsername())
+              .body(comments)
+              .idpId(idpEntityId)
+              .spId(spEntityId)
+              .service(service)
+              .type(jiraType).build();
+
+      return Optional.of(actionsService.create(action));
+    }
+
+    return Optional.empty();
+
   }
 }

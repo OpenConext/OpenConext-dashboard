@@ -11,6 +11,7 @@ import java.util.Date;
 import com.google.common.base.MoreObjects;
 
 import selfservice.domain.Action;
+import selfservice.domain.LicenseStatus;
 
 class JiraTicketSummaryAndDescriptionBuilder {
 
@@ -48,6 +49,8 @@ class JiraTicketSummaryAndDescriptionBuilder {
     description.append("Applicant email: ").append(action.getUserEmail()).append("\n");
     description.append("Identity Provider: ").append(action.getIdpId()).append("\n");
     description.append("Service Provider: ").append(action.getSpId()).append("\n");
+    description.append("License required: ").append(action.getService().getLicenseStatus().getName()).append("\n");
+    description.append("License secured: ").append(licenseSecured(action)).append("\n");
     description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
 
     if (!action.getType().equals(QUESTION)) {
@@ -55,6 +58,26 @@ class JiraTicketSummaryAndDescriptionBuilder {
     }
 
     return new SummaryAndDescription(summary.toString(), description.toString());
+  }
+
+  static String licenseSecured(Action action) {
+    LicenseStatus status = action.getService().getLicenseStatus();
+
+    switch(status) {
+      case HAS_LICENSE_SP:
+        return "Unknown";
+      case HAS_LICENSE_SURFMARKET:
+        if (!action.getService().isHasCrmLink()) {
+          return "Unknown";
+        } else if (action.getService().getLicense() != null) {
+          return "Yes";
+        }
+        return "No";
+      case NOT_NEEDED:
+        return "n/a";
+      default:
+        return "Unknown";
+    }
   }
 
   static class SummaryAndDescription {

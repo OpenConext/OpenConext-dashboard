@@ -42,6 +42,7 @@ public class Action {
   private String status;
 
   private String subject;
+  private Service service;
 
   private Action(Builder builder) {
     this.jiraKey = builder.jiraKey;
@@ -55,6 +56,7 @@ public class Action {
     this.requestDate = builder.requestDate;
     this.type = builder.type;
     this.status = builder.status;
+    this.service = builder.service;
   }
 
   public Optional<String> getJiraKey() {
@@ -99,6 +101,10 @@ public class Action {
 
   public String getSubject() {
     return subject;
+  }
+
+  public Service getService() {
+    return service;
   }
 
 //  public String getIdpName() {
@@ -242,6 +248,7 @@ public class Action {
     private String spName;
     private String idpName;
     private ZonedDateTime requestDate;
+    private Service service;
 
     private Builder() {
     }
@@ -258,6 +265,7 @@ public class Action {
       this.spName = action.spName;
       this.idpName = action.idpName;
       this.requestDate = action.requestDate;
+      this.service = action.service;
     }
 
     public Builder requestDate(ZonedDateTime requestDate) {
@@ -312,6 +320,11 @@ public class Action {
 
     public Builder status(String status) {
       this.status = status;
+      return this;
+    }
+
+    public Builder service(Service service) {
+      this.service = service;
       return this;
     }
 
