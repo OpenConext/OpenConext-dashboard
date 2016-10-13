@@ -345,6 +345,8 @@ I18n.translations.nl = {
     flash_updated: "bijgewerkt",
     new_policy: "Nieuwe autorisatieregel",
     how_to: "Uitleg",
+    pdp_unreachable: "PDP niet bereikbaar",
+    pdp_unreachable_description: "Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.",
     overview: {
       active: "Actief",
       description: "Omschrijving",

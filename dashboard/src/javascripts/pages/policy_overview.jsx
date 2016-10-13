@@ -18,18 +18,29 @@ class PolicyOverview extends React.Component {
       search: "",
       sortAttribute: "name",
       sortAscending: undefined,
-      policies: []
+      policies: [],
+      unreachable: false
     };
   }
 
   componentWillMount() {
-    getPolicies().then(data => this.setState({ policies: data.payload }));
+    getPolicies()
+    .then(data => this.setState({ policies: data.payload }))
+    .catch(() => this.setState({ unreachable: true }));
   }
 
   render() {
     const filteredPolicies = this.filterPolicies(this.state.policies);
     const { currentUser } = this.context;
 
+    if (this.state.unreachable) {
+      return (
+        <div className="mod-not-found">
+          <h1>{I18n.t("policies.pdp_unreachable")}</h1>
+          <p>{I18n.t("policies.pdp_unreachable_description")} </p>
+        </div>
+      );
+    }
     return (
       <div className="l-main">
         <Flash />

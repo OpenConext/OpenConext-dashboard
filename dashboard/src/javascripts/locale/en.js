@@ -311,6 +311,8 @@ I18n.translations.en = {
     flash_updated: "updated",
     new_policy: "New authorization policy",
     how_to: "How-to",
+    pdp_unreachable: "PDP unreachable",
+    pdp_unreachable_description: "Currently unable to fetch the policies from PDP. Please try again later.",
     overview: {
       active: "Active",
       description: "Description",
