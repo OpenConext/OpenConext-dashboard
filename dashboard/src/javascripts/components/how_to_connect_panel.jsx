@@ -12,7 +12,8 @@ class HowToConnectPanel extends React.Component {
     this.state = {
       currentStep: "connect",
       accepted: false,
-      comments: ""
+      comments: "",
+      failed: false
     };
   }
 
@@ -21,6 +22,15 @@ class HowToConnectPanel extends React.Component {
   }
 
   render() {
+    if (this.state.failed) {
+      return (
+        <div className="mod-not-found">
+          <h1>{I18n.t("how_to_connect_panel.jira_unreachable")}</h1>
+          <p>{I18n.t("how_to_connect_panel.jira_unreachable_description")} </p>
+        </div>
+      );
+    }
+
     switch (this.state.currentStep) {
     case "disconnect":
       return this.renderDisconnectStep();
@@ -233,7 +243,8 @@ class HowToConnectPanel extends React.Component {
     e.preventDefault();
     if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
       makeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
-      .then(action => this.setState({ currentStep: "done", action: action }));
+      .then(action => this.setState({ currentStep: "done", action: action }))
+      .catch(() => this.setState({ failed: true }));
     }
   }
 
@@ -241,7 +252,8 @@ class HowToConnectPanel extends React.Component {
     e.preventDefault();
     if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
       removeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
-      .then(action => this.setState({ currentStep: "done-disconnect", action: action }));
+      .then(action => this.setState({ currentStep: "done-disconnect", action: action }))
+      .catch(() => this.setState({ failed: true }));
     }
   }
 }

@@ -216,6 +216,8 @@ I18n.translations.en = {
     },
     info_sub_title: "You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.",
     info_title: "Activate connection",
+    jira_unreachable: "Something went wrong with your request",
+    jira_unreachable_description: "It is currently not possible to do a request. Please try again later.",
     license: "license",
     license_info: "license information",
     obtain_license: {

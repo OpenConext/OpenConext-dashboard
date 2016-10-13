@@ -217,6 +217,8 @@ I18n.translations.nl = {
     },
     info_sub_title: "Je kunt een verbinding activeren vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
     info_title: "Verbinding activeren",
+    jira_unreachable: "Er is iets mis gegaan bij de aanvraag",
+    jira_unreachable_description: "Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.",
     license: "licentie",
     license_info: "de licentieinformatie",
     obtain_license: {
