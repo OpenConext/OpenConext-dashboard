@@ -268,13 +268,13 @@ I18n.translations.nl = {
         idpsp: "Logins per SP"
       },
       periodFrom: {
-        name: "Datum vanaf (yyyy-mm-dd)"
+        name: "Datum vanaf"
       },
       periodTo: {
-        name: "Datum tot (yyyy-mm-dd)"
+        name: "Datum tot"
       },
       periodDate: {
-        name: "Datum (yyyy-mm-dd)"
+        name: "Datum"
       },
       period: {
         name: "Periode",

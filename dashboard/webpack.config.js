@@ -33,7 +33,7 @@ module.exports = {
     loaders: [
       { test: /\.s(c|a)ss$/, loader: extractCSS.extract("style", "css?sourceMap!sass?sourceMap!import-glob") },
       { test: /\.css$/, loader: extractCSS.extract("style?sourceMap", "css?sourceMap") },
-      { test: /\.(png|jpg)$/, loader: "file" },
+      { test: /\.(png|jpg|gif)$/, loader: "file" },
       { test: /\.((woff2?|svg)(\?v=[0-9]\.[0-9]\.[0-9]))|(woff2?|svg)$/, loader: "url?limit=10000" },
       { test: /\.((ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9]))|(ttf|eot)$/, loader: "file" },
       {

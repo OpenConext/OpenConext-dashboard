@@ -102,15 +102,14 @@ class ApplicationUsagePanel extends React.Component {
           <h1>{I18n.t("application_usage_panel.title")}</h1>
         </div>
         <div className="mod-usage">
-          <div className="mod-usage">
-            <div className="header">
-              <div className="options">
-                { this.renderDownload() }
-                {this.renderPeriodSelect()}
-              </div>
+          <div className="header">
+            <div className="options">
+              { this.renderDownload() }
+              {this.renderPeriodSelect()}
             </div>
-            <Chart chart={this.state.chart} />
+            <div style={{ clear: "both" }}></div>
           </div>
+          <Chart chart={this.state.chart} />
         </div>
       </div>
     );

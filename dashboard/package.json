@@ -38,6 +38,7 @@
     "react-dom": "15.3.2",
     "react-router": "4.0.0-alpha.4",
     "react-select": "^1.0.0-rc.2",
+    "react-widgets": "3.4.4",
     "sass-loader": "4.0.2",
     "spin.js": "2.3.2",
     "style-loader": "0.13.1",

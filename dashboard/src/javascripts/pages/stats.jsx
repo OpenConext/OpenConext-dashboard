@@ -145,6 +145,7 @@ class Stats extends React.Component {
       <div>
         {this.renderPeriodTypeSelect()}
         <Period
+          period={this.state.chart.periodType}
           initialDate={this.state.chart.periodDate}
           title={I18n.t("stats.chart.periodDate.name")}
           handleChange={handleChange.bind(this)} />
@@ -178,7 +179,7 @@ class Stats extends React.Component {
 
   render() {
     return (
-      <div className="l-main">
+      <div className="l-main stats">
         <div className="l-left">
           <div className="mod-filters">
             <div className="header">

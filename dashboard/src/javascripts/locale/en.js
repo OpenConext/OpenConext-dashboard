@@ -415,13 +415,13 @@ I18n.translations.en = {
         idpsp: "Logins per SP"
       },
       periodFrom: {
-        name: "Date from (yyyy-mm-dd)"
+        name: "Date from"
       },
       periodTo: {
-        name: "Date to (yyyy-mm-dd)"
+        name: "Date to"
       },
       periodDate: {
-        name: "Date (yyyy-mm-dd)"
+        name: "Date"
       },
       period: {
         name: "Period",
