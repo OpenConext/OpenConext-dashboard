@@ -85,6 +85,7 @@ public class ServicesControllerTest {
 
     when(serviceRegistryMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
     when(serviceRegistryMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
+    when(csaMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
   }
 
   @After
