@@ -17,7 +17,7 @@ class Screenshots extends React.Component {
     }
     return (
       <div className="mod-screenshots">
-        {screenshotsUrls.map(this.renderScreenshotThumbnail)}
+        {screenshotsUrls.map(this.renderScreenshotThumbnail.bind(this))}
         {this.renderOpenScreenshot()}
       </div>
     );
@@ -43,8 +43,8 @@ class Screenshots extends React.Component {
     if (this.state.open) {
       return (
         <div className="lightbox-overlay">
-          <a href="#" className="close-btn" onClick={this.closeScreenshot}>{I18n.t("apps.detail.close_screenshot")}</a>
-          <a href="#" onClick={this.closeScreenshot}>
+          <a href="#" className="close-btn" onClick={this.closeScreenshot.bind(this)}>{I18n.t("apps.detail.close_screenshot")}</a>
+          <a href="#" onClick={this.closeScreenshot.bind(this)}>
             <img src={this.props.screenshotUrls[this.state.index]}/>
           </a>
         </div>
