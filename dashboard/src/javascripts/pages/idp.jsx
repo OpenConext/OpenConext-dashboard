@@ -14,13 +14,10 @@ class MyIdp extends React.Component {
   }
 
   componentWillMount() {
-    const { currentUser } = this.context;
-    const idpId = currentUser.getCurrentIdp();
-
-    getIdpRolesWithUsers(idpId).then(data => {
+    getIdpRolesWithUsers().then(data => {
       this.setState({ roles: data.payload });
     });
-    getLicenseContactPerson(idpId).then(data => {
+    getLicenseContactPerson().then(data => {
       this.setState({ licenseContactPersons: data.payload });
     });
   }

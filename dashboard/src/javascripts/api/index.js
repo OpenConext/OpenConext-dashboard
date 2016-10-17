@@ -1,5 +1,6 @@
 import qs from "qs";
 import spinner from "../lib/spin";
+import { getCurrentUser } from "../models/current_user";
 
 const apiPath = "/dashboard/api";
 
@@ -27,6 +28,12 @@ function validFetch(path, options) {
   const headers = {
     "Accept": "application/json"
   };
+
+  const currentUser = getCurrentUser();
+
+  if (currentUser) {
+    headers["X-IDP-ENTITY-ID"] = currentUser.getCurrentIdpId();
+  }
 
   const fetchOptions = _.merge({}, { headers }, options, {
     credentials: "same-origin"
@@ -78,28 +85,16 @@ export function getFacets() {
   return fetchJson("/facets");
 }
 
-export function getApps(idpId) {
-  return fetchJson("/services", {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+export function getApps() {
+  return fetchJson("/services");
 }
 
-export function getApp(appId, idpId) {
-  return fetchJson(`/services/id/${appId}`,{
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+export function getApp(appId) {
+  return fetchJson(`/services/id/${appId}`);
 }
 
-export function getIdps(spEntityId, idpId) {
-  return fetchJson(`/services/idps?${qs.stringify({ spEntityId })}`, {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+export function getIdps(spEntityId) {
+  return fetchJson(`/services/idps?${qs.stringify({ spEntityId })}`);
 }
 
 export function getPolicies() {
@@ -138,56 +133,32 @@ export function switchToIdp(idpId, role) {
   return validFetch("/users/me/switch-to-idp?" + qs.stringify({ idpId, role }));
 }
 
-export function getNotifications(idpId) {
-  return fetchJson("/notifications", {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+export function getNotifications() {
+  return fetchJson("/notifications");
 }
 
-export function getActions(idpId) {
-  return fetchJson("/actions", {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+export function getActions() {
+  return fetchJson("/actions");
 }
 
-export function makeConnection(idpId, app, comments) {
-  return fetchPost(`/services/id/${app.id}/connect`, { comments: comments, spEntityId: app.spEntityId }, {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  })
+export function makeConnection(app, comments) {
+  return fetchPost(`/services/id/${app.id}/connect`, { comments: comments, spEntityId: app.spEntityId })
   .then(parseJson)
   .then(json => json.payload);
 }
 
-export function removeConnection(idpId, app, comments) {
-  return fetchPost(`/services/id/${app.id}/disconnect`, { comments: comments, spEntityId: app.spEntityId }, {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  })
+export function removeConnection(app, comments) {
+  return fetchPost(`/services/id/${app.id}/disconnect`, { comments: comments, spEntityId: app.spEntityId })
   .then(parseJson)
   .then(json => json.payload);
 }
 
-export function getIdpRolesWithUsers(idpId) {
-  return fetchJson("/idp/current/roles", {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+export function getIdpRolesWithUsers() {
+  return fetchJson("/idp/current/roles");
 }
 
-export function getLicenseContactPerson(idpId) {
-  return fetchJson("/idp/licensecontactpersons", {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+export function getLicenseContactPerson() {
+  return fetchJson("/idp/licensecontactpersons");
 }
 
 export function getIdpsForSuper() {

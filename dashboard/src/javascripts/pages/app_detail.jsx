@@ -50,13 +50,10 @@ class AppDetail extends React.Component {
   }
 
   componentWillMount() {
-    const { currentUser } = this.context;
-    const idpId = currentUser.getCurrentIdpId();
-
-    getApp(this.props.params.id, idpId).then(data => {
+    getApp(this.props.params.id).then(data => {
       const app = data.payload;
 
-      return getIdps(app.spEntityId, idpId).then(data => {
+      return getIdps(app.spEntityId).then(data => {
         const institutions = data.payload;
         this.setState({ app, institutions });
       });

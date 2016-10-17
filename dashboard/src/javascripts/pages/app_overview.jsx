@@ -31,13 +31,11 @@ class AppOverview extends React.Component {
   }
 
   componentWillMount() {
-    const { currentUser } = this.context;
-
     Promise.all([
       getFacets().then(data => {
         return data.payload;
       }),
-      getApps(currentUser.getCurrentIdpId()).then(data => {
+      getApps().then(data => {
         return data.payload;
       })
     ]).then(data => {

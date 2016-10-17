@@ -242,7 +242,7 @@ class HowToConnectPanel extends React.Component {
   handleMakeConnection(e) {
     e.preventDefault();
     if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
-      makeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
+      makeConnection(this.props.app, this.state.comments)
       .then(action => this.setState({ currentStep: "done", action: action }))
       .catch(() => this.setState({ failed: true }));
     }
@@ -251,7 +251,7 @@ class HowToConnectPanel extends React.Component {
   handleDisconnect(e) {
     e.preventDefault();
     if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
-      removeConnection(this.context.currentUser.getCurrentIdpId(), this.props.app, this.state.comments)
+      removeConnection(this.props.app, this.state.comments)
       .then(action => this.setState({ currentStep: "done-disconnect", action: action }))
       .catch(() => this.setState({ failed: true }));
     }

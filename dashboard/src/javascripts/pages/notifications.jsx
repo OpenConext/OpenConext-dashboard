@@ -19,10 +19,7 @@ class Notifications extends React.Component {
   }
 
   componentWillMount() {
-    const { currentUser } = this.context;
-
-    getNotifications(currentUser.getCurrentIdpId())
-      .then(data => this.setState({ notificationMessage: data.payload }));
+    getNotifications().then(data => this.setState({ notificationMessage: data.payload }));
   }
 
   render() {

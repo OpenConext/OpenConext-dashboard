@@ -8,7 +8,6 @@ import moment from "moment";
 
 import SortableHeader from "../components/sortable_header";
 
-  // mixins: [App.Mixins.SortableTable("history", "requestDate", true)],
 class History extends React.Component {
 
   constructor() {
@@ -21,8 +20,7 @@ class History extends React.Component {
   }
 
   componentWillMount() {
-    const { currentUser } = this.context;
-    getActions(currentUser.getCurrentIdpId()).then(data => this.setState({ actions: data.payload }));
+    getActions().then(data => this.setState({ actions: data.payload }));
   }
 
   handleSort(sortObject) {

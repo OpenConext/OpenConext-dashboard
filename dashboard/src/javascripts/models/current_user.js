@@ -1,3 +1,5 @@
+let currentUser = null;
+
 class CurrentUser {
   constructor(rawUser) {
     this.attributeMap = rawUser.attributeMap;
@@ -28,5 +30,12 @@ class CurrentUser {
     return this.superUser && !this.switchedToIdp;
   }
 }
+
+export const createCurrentUser = payload => {
+  currentUser = new CurrentUser(payload);
+  return currentUser;
+};
+
+export const getCurrentUser = () => currentUser;
 
 export default CurrentUser;
