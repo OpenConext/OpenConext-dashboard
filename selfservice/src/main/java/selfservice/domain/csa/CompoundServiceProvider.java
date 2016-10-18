@@ -152,7 +152,13 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), provider);
     buildFieldString(Key.WIKI_URL_EN, null, null, provider);
     buildFieldString(Key.WIKI_URL_NL, null, null, provider);
-
+    buildFieldString(Key.INTERFED_SOURCE, null, serviceProvider.getInterfedSource(), provider);
+    buildFieldString(Key.PRIVACY_STATEMENT_URL_EN, null, serviceProvider.getPrivacyStatementUrlEn(), provider);
+    buildFieldString(Key.PRIVACY_STATEMENT_URL_NL, null, serviceProvider.getPrivacyStatementUrlNl(), provider);
+    buildFieldString(Key.REGISTRATION_INFO_URL, null, serviceProvider.getRegistrationInfo(), provider);
+    buildFieldString(Key.REGISTRATION_POLICY_URL_EN, null, serviceProvider.getRegistrationPolicyUrlEn(), provider);
+    buildFieldString(Key.REGISTRATION_POLICY_URL_NL, null, serviceProvider.getRegistrationPolicyUrlNl(), provider);
+    
     return provider;
   }
 
@@ -264,6 +270,30 @@ public class CompoundServiceProvider extends DomainObject {
     return (String) getFieldValue(Key.WIKI_URL_NL);
   }
 
+  public String getInterfedSource() {
+    return (String) getFieldValue(Key.INTERFED_SOURCE);
+  }
+  
+  public String getPrivacyStatementUrlEn() {
+    return (String) getFieldValue(Key.PRIVACY_STATEMENT_URL_EN);
+  }
+  
+  public String getPrivacyStatementUrlNl() {
+    return (String) getFieldValue(Key.PRIVACY_STATEMENT_URL_NL);
+  }
+  
+  public String getRegistrationInfo() {
+    return (String) getFieldValue(Key.REGISTRATION_INFO_URL);
+  }
+  
+  public String getRegistrationPolicyUrlEn() {
+    return (String) getFieldValue(Key.REGISTRATION_POLICY_URL_EN);
+  }
+  
+  public String getRegistrationPolicyUrlNl() {
+    return (String) getFieldValue(Key.REGISTRATION_POLICY_URL_NL);
+  }
+  
   public String getSupportMail() {
     return (String) getFieldValue(Key.SUPPORT_MAIL);
   }
@@ -419,6 +449,12 @@ public class CompoundServiceProvider extends DomainObject {
       .put(Key.EULA_URL, provider -> provider.serviceProvider.getEulaURL())
       .put(Key.TITLE_NL, provider -> Optional.ofNullable(provider.serviceProvider).map(sp -> sp.getName(Language.NL)).orElse(provider.serviceProviderEntityId))
       .put(Key.TITLE_EN, provider -> Optional.ofNullable(provider.serviceProvider).map(sp -> sp.getName(Language.EN)).orElse(provider.serviceProviderEntityId))
+      .put(Key.INTERFED_SOURCE, provider -> provider.serviceProvider.getInterfedSource())
+      .put(Key.PRIVACY_STATEMENT_URL_EN, provider -> provider.serviceProvider.getPrivacyStatementUrlEn())
+      .put(Key.PRIVACY_STATEMENT_URL_NL, provider -> provider.serviceProvider.getPrivacyStatementUrlNl())
+      .put(Key.REGISTRATION_INFO_URL, provider -> provider.serviceProvider.getRegistrationInfo())
+      .put(Key.REGISTRATION_POLICY_URL_EN, provider -> provider.serviceProvider.getRegistrationPolicyUrlEn())
+      .put(Key.REGISTRATION_POLICY_URL_NL, provider -> provider.serviceProvider.getRegistrationPolicyUrlNl())
       .build();
 
   private static final ImmutableMap<Key, Function<Optional<Article>, Object>> lmngProperites = new ImmutableMap.Builder<Key, Function<Optional<Article>, Object>>()

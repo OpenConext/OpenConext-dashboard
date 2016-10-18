@@ -51,6 +51,12 @@ public class Service implements Comparable<Service>, Serializable {
   private String spEntityId;
   private String spName;
   private String normenkaderUrl;
+  private String interfedSource;
+  private String privacyStatementUrlEn;
+  private String privacyStatementUrlNl;
+  private String registrationInfoUrl;
+  private String registrationPolicyUrlEn;
+  private String registrationPolicyUrlNl;
 
   private List<String> screenshotUrls = new ArrayList<>();
   private List<Category> categories = new ArrayList<>();
@@ -337,6 +343,54 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setExampleSingleTenant(boolean exampleSingleTenant) {
     this.exampleSingleTenant = exampleSingleTenant;
+  }
+
+  public String getInterfedSource() {
+    return interfedSource;
+  }
+
+  public void setInterfedSource(String interfedSource) {
+    this.interfedSource = interfedSource;
+  }
+  
+  public String getPrivacyStatementUrlEn() {
+    return privacyStatementUrlEn;
+  }
+
+  public void setPrivacyStatementUrlEn(String privacyStatementUrlEn) {
+    this.privacyStatementUrlEn = privacyStatementUrlEn;
+  }
+
+  public String getPrivacyStatementUrlNl() {
+    return privacyStatementUrlNl;
+  }
+
+  public void setPrivacyStatementUrlNl(String privacyStatementUrlNl) {
+    this.privacyStatementUrlNl = privacyStatementUrlNl;
+  }
+
+  public String getRegistrationInfoUrl() {
+    return registrationInfoUrl;
+  }
+
+  public void setRegistrationInfoUrl(String registrationInfo) {
+    this.registrationInfoUrl = registrationInfo;
+  }
+
+  public String getRegistrationPolicyUrlEn() {
+    return registrationPolicyUrlEn;
+  }
+
+  public void setRegistrationPolicyUrlEn(String registrationPolicyUrlEn) {
+    this.registrationPolicyUrlEn = registrationPolicyUrlEn;
+  }
+
+  public String getRegistrationPolicyUrlNl() {
+    return registrationPolicyUrlNl;
+  }
+
+  public void setRegistrationPolicyUrlNl(String registrationPolicyUrlNl) {
+    this.registrationPolicyUrlNl = registrationPolicyUrlNl;
   }
 
   @Override

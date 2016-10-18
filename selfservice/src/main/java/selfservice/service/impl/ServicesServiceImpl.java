@@ -123,6 +123,12 @@ public class ServicesServiceImpl implements ServicesService {
     service.setNormenkaderUrl(csp.getNormenkaderUrl());
     service.setNormenkaderPresent(csp.isNormenkaderPresent());
     service.setExampleSingleTenant(csp.isExampleSingleTenant());
+    service.setInterfedSource(csp.getInterfedSource());
+    service.setPrivacyStatementUrlEn(csp.getPrivacyStatementUrlEn());
+    service.setPrivacyStatementUrlNl(csp.getPrivacyStatementUrlNl());
+    service.setRegistrationInfoUrl(csp.getRegistrationInfo());
+    service.setRegistrationPolicyUrlEn(csp.getRegistrationPolicyUrlEn());
+    service.setRegistrationPolicyUrlNl(csp.getRegistrationPolicyUrlNl());
   }
 
   private String normalizeEmail(String email) {

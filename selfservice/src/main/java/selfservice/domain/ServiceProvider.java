@@ -29,7 +29,13 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private final String applicationUrl;
   private final String institutionId;
   private final String eulaURL;
-
+  private final String interfedSource;
+  private final String privacyStatementUrlEn;
+  private final String privacyStatementUrlNl;
+  private final String registrationInfo;
+  private final String registrationPolicyUrlEn;
+  private final String registrationPolicyUrlNl;
+  
   private final boolean idpVisibleOnly;
   private final boolean publishedInEdugain;
   private final boolean policyEnforcementDecisionRequired;
@@ -45,7 +51,13 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.applicationUrl = (String) metaData.get("coin:application_url");
     this.institutionId = (String) metaData.get("coin:institution_id");
     this.eulaURL = (String) metaData.get("coin:eula");
-
+    this.interfedSource = (String) metaData.get("coin:interfed_source");
+    this.privacyStatementUrlEn = (String) metaData.get("mdui:PrivacyStatementURL:en");
+    this.privacyStatementUrlNl = (String) metaData.get("mdui:PrivacyStatementURL:nl");
+    this.registrationInfo = (String) metaData.get("mdrpi:RegistrationInfo");
+    this.registrationPolicyUrlEn = (String) metaData.get("mdrpi:RegistrationPolicy:en");
+    this.registrationPolicyUrlNl = (String) metaData.get("mdrpi:RegistrationPolicy:nl");
+    
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
     this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
@@ -65,6 +77,30 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public String getEulaURL() {
     return eulaURL;
+  }
+  
+  public String getInterfedSource() {
+    return interfedSource;
+  }
+
+  public String getPrivacyStatementUrlEn() {
+    return privacyStatementUrlEn;
+  }
+
+  public String getPrivacyStatementUrlNl() {
+    return privacyStatementUrlNl;
+  }
+
+  public String getRegistrationInfo() {
+    return registrationInfo;
+  }
+
+  public String getRegistrationPolicyUrlEn() {
+    return registrationPolicyUrlEn;
+  }
+
+  public String getRegistrationPolicyUrlNl() {
+    return registrationPolicyUrlNl;
   }
 
   public Map<String, String> getUrls() {

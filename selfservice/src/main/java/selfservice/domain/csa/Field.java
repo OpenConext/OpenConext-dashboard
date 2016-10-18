@@ -76,8 +76,14 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
       put(Key.SUPPORT_MAIL,                 "In Service Registry: contact type support");
       put(Key.TECHNICAL_SUPPORTMAIL,        "In Service Registry: contact type technical");
       put(Key.APPSTORE_LOGO,                "In Serivce Registry: logo:0:url");
-      put(Key.TITLE_EN,                           "In Service Registry: names:en");
-      put(Key.TITLE_NL,                           "In Service Registry: names:nl");
+      put(Key.TITLE_EN,                     "In Service Registry: names:en");
+      put(Key.TITLE_NL,                     "In Service Registry: names:nl");
+      put(Key.INTERFED_SOURCE,              "In Service Registry: coin:interfed_source");
+      put(Key.PRIVACY_STATEMENT_URL_EN,     "In Service Registry: mdui:PrivacyStatementURL:en");
+      put(Key.PRIVACY_STATEMENT_URL_NL,     "In Service Registry: mdui:PrivacyStatementURL:nl");
+      put(Key.REGISTRATION_INFO_URL,            "In Service Registry: mdrpi:RegistrationInfo");
+      put(Key.REGISTRATION_POLICY_URL_EN,   "In Service Registry: mdrpi:RegistrationPolicy:en");
+      put(Key.REGISTRATION_POLICY_URL_NL,   "In Service Registry: mdrpi:RegistrationPolicy:nl");
     }
   };
 
@@ -138,7 +144,19 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
 
     WIKI_URL_EN,
 
-    WIKI_URL_NL;
+    WIKI_URL_NL,
+    
+    INTERFED_SOURCE,
+    
+    PRIVACY_STATEMENT_URL_EN,
+    
+    PRIVACY_STATEMENT_URL_NL,
+    
+    REGISTRATION_INFO_URL,
+    
+    REGISTRATION_POLICY_URL_EN,
+    
+    REGISTRATION_POLICY_URL_NL;
   }
 
   public Source getSource() {
