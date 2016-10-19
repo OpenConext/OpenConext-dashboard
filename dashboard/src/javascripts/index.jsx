@@ -11,6 +11,7 @@ import Miss from "react-router/Miss";
 import Redirect from "react-router/Redirect";
 import I18n from "i18n-js";
 import { browserSupported } from "./lib/browser_supported";
+import moment from "moment";
 
 import CurrentUser, { createCurrentUser } from "./models/current_user";
 
@@ -97,6 +98,7 @@ if (browserSupported()) {
   .catch(() => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home?redirectTo=" + window.location.pathname)
   .then(json => {
     I18n.locale = json.language;
+    moment.locale(json.language);
     const currentUser = createCurrentUser(json.payload);
     const locationHash = window.location.hash.substr(1);
     currentUser.statsToken = locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
