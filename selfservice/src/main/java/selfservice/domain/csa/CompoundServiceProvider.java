@@ -159,7 +159,9 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.REGISTRATION_POLICY_URL_EN, null, serviceProvider.getRegistrationPolicyUrlEn(), provider);
     buildFieldString(Key.REGISTRATION_POLICY_URL_NL, null, serviceProvider.getRegistrationPolicyUrlNl(), provider);
     buildFieldString(Key.ENTITY_CATEGORIES_1, null, serviceProvider.getEntityCategories1(), provider);
+    buildFieldString(Key.ENTITY_CATEGORIES_1_FRIENDLY_NAME, null, null, provider);
     buildFieldString(Key.ENTITY_CATEGORIES_2, null, serviceProvider.getEntityCategories2(), provider);
+    buildFieldString(Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME, null, null, provider);
 
     return provider;
   }
@@ -303,7 +305,15 @@ public class CompoundServiceProvider extends DomainObject {
   public String getEntityCategories2() {
     return (String) getFieldValue(Key.ENTITY_CATEGORIES_2);
   }
-  
+
+  public String getEntityCategories1FriendlyName() {
+    return (String) getFieldValue(Key.ENTITY_CATEGORIES_1_FRIENDLY_NAME);
+  }
+
+  public String getEntityCategories2FriendlyName() {
+    return (String) getFieldValue(Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME);
+  }
+
   public String getSupportMail() {
     return (String) getFieldValue(Key.SUPPORT_MAIL);
   }

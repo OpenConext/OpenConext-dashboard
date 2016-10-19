@@ -29,9 +29,11 @@ class OverviewPanel extends React.Component {
           {this.renderDescription()}
         </div>
 
-        {this.renderNormenKader()}
+        { this.renderNormenKader() }
 
-        {this.renderSingleTenantService()}
+        { this.renderSingleTenantService() }
+
+        { this.renderEntityCategories() }
 
         <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
@@ -45,6 +47,34 @@ class OverviewPanel extends React.Component {
           <h3>{I18n.t("overview_panel.interfed_source")} {this.props.app.interfedSource}</h3>
         </div>
       );
+    }
+
+    return null;
+  }
+
+  renderEntityCategory(field) {
+    const entityCategory = this.props.app[field];
+    if (entityCategory) {
+      return (
+        <li>
+          <a href={entityCategory} target="_blank">{ this.props.app[`${field}FriendlyName`] || entityCategory}</a>
+        </li>
+      )
+    }
+
+    return null;
+  }
+
+  renderEntityCategories() {
+    const { app } = this.props;
+
+    if (app.entityCategories1 || app.entityCategories2) {
+      return (
+        <ul>
+          { this.renderEntityCategory('entityCategories1')}
+          { this.renderEntityCategory('entityCategories2')}
+        </ul>
+      )
     }
 
     return null;

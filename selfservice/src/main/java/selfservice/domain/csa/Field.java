@@ -160,7 +160,11 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
 
     ENTITY_CATEGORIES_1,
 
-    ENTITY_CATEGORIES_2;
+    ENTITY_CATEGORIES_2,
+
+    ENTITY_CATEGORIES_1_FRIENDLY_NAME,
+
+    ENTITY_CATEGORIES_2_FRIENDLY_NAME;
   }
 
   public Source getSource() {

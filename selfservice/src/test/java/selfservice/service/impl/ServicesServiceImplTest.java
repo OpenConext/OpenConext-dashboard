@@ -68,8 +68,11 @@ public class ServicesServiceImplTest {
         new FieldString(SURFCONEXT, Key.PRIVACY_STATEMENT_URL_NL, "http://privacy.statement/nl"),
         new FieldString(SURFCONEXT, Key.REGISTRATION_INFO_URL, "http://registration.info"),
         new FieldString(SURFCONEXT, Key.REGISTRATION_POLICY_URL_EN, "http://registration.policy/en"),
-        new FieldString(SURFCONEXT, Key.REGISTRATION_POLICY_URL_NL, "http://registration.policy/nl")
-
+        new FieldString(SURFCONEXT, Key.REGISTRATION_POLICY_URL_NL, "http://registration.policy/nl"),
+        new FieldString(SURFCONEXT, Key.ENTITY_CATEGORIES_1, "http://entity.cat/1"),
+        new FieldString(SURFCONEXT, Key.ENTITY_CATEGORIES_2, "http://entity.cat/2"),
+        new FieldString(DISTRIBUTIONCHANNEL, Key.ENTITY_CATEGORIES_1_FRIENDLY_NAME, "Entity category 1"),
+        new FieldString(DISTRIBUTIONCHANNEL, Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME, "Entity category 2")
     ));
 
     Service service = subject.buildApiService(csp, "nl");
