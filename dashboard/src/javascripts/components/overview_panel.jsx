@@ -59,7 +59,7 @@ class OverviewPanel extends React.Component {
         <li>
           <a href={entityCategory} target="_blank">{ this.props.app[`${field}FriendlyName`] || entityCategory}</a>
         </li>
-      )
+      );
     }
 
     return null;
@@ -71,10 +71,10 @@ class OverviewPanel extends React.Component {
     if (app.entityCategories1 || app.entityCategories2) {
       return (
         <ul>
-          { this.renderEntityCategory('entityCategories1')}
-          { this.renderEntityCategory('entityCategories2')}
+          { this.renderEntityCategory("entityCategories1")}
+          { this.renderEntityCategory("entityCategories2")}
         </ul>
-      )
+      );
     }
 
     return null;
