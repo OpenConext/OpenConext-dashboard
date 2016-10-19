@@ -343,6 +343,11 @@ class AppOverview extends React.Component {
           return app.licenseStatus === facetValue.searchValue;
         });
         break;
+      case "interfed_source":
+        filter(facet, (app, facetValue) => {
+          return app.interfedSource === facetValue.searchValue;
+        });
+        break;
       case "used_by_idp":
         filter(facet, (app, facetValue) => {
           const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
@@ -439,6 +444,18 @@ class AppOverview extends React.Component {
       filterApp: function(app) {
         return this.filterYesNoFacet("published_edugain", app.publishedInEdugain);
       }.bind(this),
+    }, {
+      name: I18n.t("facets.static.interfed_source.name"),
+      searchValue: "interfed_source",
+      values: [
+        { value: I18n.t("facets.static.interfed_source.surfconext"), searchValue: "SURFconext" },
+        { value: I18n.t("facets.static.interfed_source.edugain"), searchValue: "eduGAIN" },
+        { value: I18n.t("facets.static.interfed_source.entree"), searchValue: "Kennisnet Entree" },
+      ],
+      filterApp: function(app) {
+        const sourceFacetValues = this.state.activeFacets["interfed_source"] || [];
+        return sourceFacetValues.length === 0 || sourceFacetValues.indexOf(app.interfedSource) > -1;
+      }.bind(this)
     }, {
       name: I18n.t("facets.static.license.name"),
       searchValue: "license",

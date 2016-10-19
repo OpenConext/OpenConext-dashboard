@@ -81,6 +81,12 @@ I18n.translations.en = {
         name: "Published in eduGAIN federation",
         no: "No",
         yes: "Yes",
+      },
+      interfed_source: {
+        name: "Interfederation source",
+        surfconext: "SURFconext",
+        edugain: "eduGAIN",
+        entree: "Kennisnet Entree"
       }
     }
   },
@@ -121,7 +127,10 @@ I18n.translations.en = {
     eula: "Terms & Conditions",
     website: "Website",
     support: "Support pages",
-    login: "Login page"
+    login: "Login page",
+    registration_info: "Registration info",
+    registration_policy: "Registration policy",
+    privacy_statement: "Privacy statement"
   },
 
   license_info_panel: {
@@ -168,7 +177,8 @@ I18n.translations.en = {
     normen_kader_html: "{{name}} has published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education <a href=\"{{link}}\" target=\"_blank\">online</a>. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>",
     no_normen_kader_html: "{{name}} has not published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>",
     single_tenant_service: "Single tenant service",
-    single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>"
+    single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
+    interfed_source: "Interfederation source:"
   },
 
   attributes_policy_panel: {

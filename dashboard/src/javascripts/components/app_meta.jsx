@@ -23,6 +23,9 @@ class AppMeta extends React.Component {
           {this.renderUrl("login", this.props.app.appUrl)}
           {this.renderUrl("website", this.props.app.websiteUrl)}
           {this.renderUrl("eula", this.props.app.eulaUrl)}
+          {this.renderUrl("registration_policy", this.props.app.registrationPolicyUrl)}
+          {this.renderUrl("registration_info", this.props.app.registrationInfoUrl)}
+          {this.renderUrl("privacy_statement", this.props.app.privacyStatementUrl)}
         </div>
       </div>
     );

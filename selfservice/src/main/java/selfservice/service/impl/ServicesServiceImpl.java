@@ -124,11 +124,7 @@ public class ServicesServiceImpl implements ServicesService {
     service.setNormenkaderPresent(csp.isNormenkaderPresent());
     service.setExampleSingleTenant(csp.isExampleSingleTenant());
     service.setInterfedSource(csp.getInterfedSource());
-    service.setPrivacyStatementUrlEn(csp.getPrivacyStatementUrlEn());
-    service.setPrivacyStatementUrlNl(csp.getPrivacyStatementUrlNl());
     service.setRegistrationInfoUrl(csp.getRegistrationInfo());
-    service.setRegistrationPolicyUrlEn(csp.getRegistrationPolicyUrlEn());
-    service.setRegistrationPolicyUrlNl(csp.getRegistrationPolicyUrlNl());
   }
 
   private String normalizeEmail(String email) {
@@ -156,6 +152,8 @@ public class ServicesServiceImpl implements ServicesService {
       service.setServiceUrl(csp.getSupportUrlEn());
       service.setWikiUrl(csp.getWikiUrlEn());
       service.setSpName(csp.getSp().getName(Provider.Language.EN));
+      service.setRegistrationPolicyUrl(csp.getRegistrationPolicyUrlEn());
+      service.setPrivacyStatementUrl(csp.getPrivacyStatementUrlEn());
     } else {
       service.setDescription(csp.getServiceDescriptionNl());
       service.setEnduserDescription(csp.getEnduserDescriptionNl());
@@ -165,6 +163,8 @@ public class ServicesServiceImpl implements ServicesService {
       service.setServiceUrl(csp.getSupportUrlNl());
       service.setWikiUrl(csp.getWikiUrlNl());
       service.setSpName(csp.getSp().getName(Provider.Language.NL));
+      service.setPrivacyStatementUrl(csp.getPrivacyStatementUrlNl());
+      service.setRegistrationPolicyUrl(csp.getRegistrationPolicyUrlNl());
     }
   }
 

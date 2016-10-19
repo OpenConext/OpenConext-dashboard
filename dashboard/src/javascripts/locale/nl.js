@@ -81,6 +81,12 @@ I18n.translations.nl = {
         name: "Gepubliceerd in eduGAIN federatie",
         no: "Nee",
         yes: "Ja",
+      },
+      interfed_source: {
+        name: "Interfederatie bron",
+        surfconext: "SURFconext",
+        edugain: "eduGAIN",
+        entree: "Kennisnet Entree"
       }
     }
   },
@@ -121,7 +127,10 @@ I18n.translations.nl = {
     eula: "Algemene voorwaarden",
     website: "Website",
     support: "Support pagina",
-    login: "Login pagina"
+    login: "Login pagina",
+    registration_info: "Registratie info",
+    registration_policy: "Registratie beleid",
+    privacy_statement: "Privacyverklaring"
   },
 
   license_info_panel: {
@@ -168,7 +177,8 @@ I18n.translations.nl = {
     normen_kader_html: "{{name}} heeft zijn compliance en non-compliance met het Juridisch normenkader cloudservices hoger onderwijs <a href=\"{{link}}\" target=\"_blank\">hier</a> gepubliceerd. Voor meer informatie over het framework zie de <a href=\"https://www.surf.nl/kennis-en-innovatie/kennisbank/2013/juridisch-normenkader-cloud-services-hoger-onderwijs.html\" target=\"_blank\">SURFnet website</a>",
     no_normen_kader_html: "Het is onbekend in welke mate {{name}} voldoet aan het Juridisch normenkader cloudservices hoger onderwijs. Voor meer informatie over het framework zie de <a href=\"https://www.surf.nl/kennis-en-innovatie/kennisbank/2013/juridisch-normenkader-cloud-services-hoger-onderwijs.html\" target=\"_blank\">SURFnet website</a>",
     single_tenant_service: "Single tenant dienst",
-    single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten."
+    single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
+    interfed_source: "Interfederatie bron:"
   },
 
   attributes_policy_panel: {

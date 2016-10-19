@@ -52,11 +52,9 @@ public class Service implements Comparable<Service>, Serializable {
   private String spName;
   private String normenkaderUrl;
   private String interfedSource;
-  private String privacyStatementUrlEn;
-  private String privacyStatementUrlNl;
+  private String privacyStatementUrl;
   private String registrationInfoUrl;
-  private String registrationPolicyUrlEn;
-  private String registrationPolicyUrlNl;
+  private String registrationPolicyUrl;
 
   private List<String> screenshotUrls = new ArrayList<>();
   private List<Category> categories = new ArrayList<>();
@@ -353,20 +351,12 @@ public class Service implements Comparable<Service>, Serializable {
     this.interfedSource = interfedSource;
   }
   
-  public String getPrivacyStatementUrlEn() {
-    return privacyStatementUrlEn;
+  public String getPrivacyStatementUrl() {
+    return privacyStatementUrl;
   }
 
-  public void setPrivacyStatementUrlEn(String privacyStatementUrlEn) {
-    this.privacyStatementUrlEn = privacyStatementUrlEn;
-  }
-
-  public String getPrivacyStatementUrlNl() {
-    return privacyStatementUrlNl;
-  }
-
-  public void setPrivacyStatementUrlNl(String privacyStatementUrlNl) {
-    this.privacyStatementUrlNl = privacyStatementUrlNl;
+  public void setPrivacyStatementUrl(String privacyStatementUrl) {
+    this.privacyStatementUrl = privacyStatementUrl;
   }
 
   public String getRegistrationInfoUrl() {
@@ -376,21 +366,13 @@ public class Service implements Comparable<Service>, Serializable {
   public void setRegistrationInfoUrl(String registrationInfo) {
     this.registrationInfoUrl = registrationInfo;
   }
-
-  public String getRegistrationPolicyUrlEn() {
-    return registrationPolicyUrlEn;
+  
+  public String getRegistrationPolicyUrl() {
+    return registrationPolicyUrl;
   }
 
-  public void setRegistrationPolicyUrlEn(String registrationPolicyUrlEn) {
-    this.registrationPolicyUrlEn = registrationPolicyUrlEn;
-  }
-
-  public String getRegistrationPolicyUrlNl() {
-    return registrationPolicyUrlNl;
-  }
-
-  public void setRegistrationPolicyUrlNl(String registrationPolicyUrlNl) {
-    this.registrationPolicyUrlNl = registrationPolicyUrlNl;
+  public void setRegistrationPolicyUrl(String registrationPolicyUrl) {
+    this.registrationPolicyUrl = registrationPolicyUrl;
   }
 
   @Override

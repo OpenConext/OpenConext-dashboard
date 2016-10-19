@@ -51,7 +51,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.applicationUrl = (String) metaData.get("coin:application_url");
     this.institutionId = (String) metaData.get("coin:institution_id");
     this.eulaURL = (String) metaData.get("coin:eula");
-    this.interfedSource = (String) metaData.get("coin:interfed_source");
+    this.interfedSource = (String) metaData.getOrDefault("coin:interfed_source", "SURFconext");
     this.privacyStatementUrlEn = (String) metaData.get("mdui:PrivacyStatementURL:en");
     this.privacyStatementUrlNl = (String) metaData.get("mdui:PrivacyStatementURL:nl");
     this.registrationInfo = (String) metaData.get("mdrpi:RegistrationInfo");
@@ -64,7 +64,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.arp = metaData.containsKey("attributes") ? ARP.fromAttributes((List<String>) metaData.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
 
     addUrl("en", (String) metaData.get("url:en"));
-    addUrl("nl", (String) metaData.get("url:en"));
+    addUrl("nl", (String) metaData.get("url:nl"));
   }
 
   public boolean isIdpVisibleOnly() {

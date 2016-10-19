@@ -20,6 +20,8 @@ class OverviewPanel extends React.Component {
           <LicenseInfo app={this.props.app} showLinks />
         </div>
 
+        {this.renderInterfedSource()}
+
         {this.renderWikiUrl()}
 
         <div className="mod-description">
@@ -34,6 +36,18 @@ class OverviewPanel extends React.Component {
         <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
+  }
+
+  renderInterfedSource() {
+    if (this.props.app.interfedSource !== "SURFconext") {
+      return (
+        <div className="mod-interfed">
+          <h3>{I18n.t("overview_panel.interfed_source")} {this.props.app.interfedSource}</h3>
+        </div>
+      );
+    }
+
+    return null;
   }
 
   renderWikiUrl() {
