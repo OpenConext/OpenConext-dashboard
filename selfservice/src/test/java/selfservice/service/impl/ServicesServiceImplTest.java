@@ -62,7 +62,14 @@ public class ServicesServiceImplTest {
         new FieldString(SURFCONEXT, Key.DETAIL_LOGO, "logo.img"),
         new FieldString(SURFCONEXT, Key.EULA_URL, "http://service.example.com/eula"),
         new FieldString(SURFCONEXT, Key.APP_URL, "http://service.example.com"),
-        new FieldString(SURFCONEXT, Key.SUPPORT_MAIL, "mailto:notused@example.com")
+        new FieldString(SURFCONEXT, Key.SUPPORT_MAIL, "mailto:notused@example.com"),
+        new FieldString(SURFCONEXT, Key.INTERFED_SOURCE, "eduGAIN"),
+        new FieldString(SURFCONEXT, Key.PRIVACY_STATEMENT_URL_EN, "http://privacy.statement/en"),
+        new FieldString(SURFCONEXT, Key.PRIVACY_STATEMENT_URL_NL, "http://privacy.statement/nl"),
+        new FieldString(SURFCONEXT, Key.REGISTRATION_INFO_URL, "http://registration.info"),
+        new FieldString(SURFCONEXT, Key.REGISTRATION_POLICY_URL_EN, "http://registration.policy/en"),
+        new FieldString(SURFCONEXT, Key.REGISTRATION_POLICY_URL_NL, "http://registration.policy/nl")
+
     ));
 
     Service service = subject.buildApiService(csp, "nl");
