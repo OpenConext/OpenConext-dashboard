@@ -68,7 +68,7 @@ class MyIdp extends React.Component {
 
   renderLicenseContactPerson(licenseContactPerson) {
     return (
-      <tr>
+      <tr key={licenseContactPerson.email}>
         <td>{licenseContactPerson.name}</td>
         <td>{licenseContactPerson.email}</td>
         <td>{licenseContactPerson.phone}</td>
