@@ -156,7 +156,11 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
     
     REGISTRATION_POLICY_URL_EN,
     
-    REGISTRATION_POLICY_URL_NL;
+    REGISTRATION_POLICY_URL_NL,
+
+    ENTITY_CATEGORIES_1,
+
+    ENTITY_CATEGORIES_2;
   }
 
   public Source getSource() {

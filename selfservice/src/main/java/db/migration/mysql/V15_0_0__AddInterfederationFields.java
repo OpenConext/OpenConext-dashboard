@@ -28,6 +28,10 @@ public class V15_0_0__AddInterfederationFields implements SpringJdbcMigration {
           "values (?, ?, NULL, ?)", Field.Key.REGISTRATION_POLICY_URL_EN.ordinal(), Field.Source.SURFCONEXT.ordinal(), id);
       jdbcTemplate.update("insert into field_string (field_key, field_source, field_value, compound_service_provider_id)" +
           "values (?, ?, NULL, ?)", Field.Key.REGISTRATION_POLICY_URL_NL.ordinal(), Field.Source.SURFCONEXT.ordinal(), id);
+      jdbcTemplate.update("insert into field_string (field_key, field_source, field_value, compound_service_provider_id)" +
+              "values (?, ?, NULL, ?)", Field.Key.ENTITY_CATEGORIES_1.ordinal(), Field.Source.SURFCONEXT.ordinal(), id);
+      jdbcTemplate.update("insert into field_string (field_key, field_source, field_value, compound_service_provider_id)" +
+              "values (?, ?, NULL, ?)", Field.Key.ENTITY_CATEGORIES_2.ordinal(), Field.Source.SURFCONEXT.ordinal(), id);
     }
   }
 }

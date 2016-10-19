@@ -125,6 +125,9 @@ public class ServicesServiceImpl implements ServicesService {
     service.setExampleSingleTenant(csp.isExampleSingleTenant());
     service.setInterfedSource(csp.getInterfedSource());
     service.setRegistrationInfoUrl(csp.getRegistrationInfo());
+    service.setEntityCategories1(csp.getEntityCategories1());
+    service.setEntityCategories2(csp.getEntityCategories2());
+
   }
 
   private String normalizeEmail(String email) {

@@ -158,7 +158,9 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.REGISTRATION_INFO_URL, null, serviceProvider.getRegistrationInfo(), provider);
     buildFieldString(Key.REGISTRATION_POLICY_URL_EN, null, serviceProvider.getRegistrationPolicyUrlEn(), provider);
     buildFieldString(Key.REGISTRATION_POLICY_URL_NL, null, serviceProvider.getRegistrationPolicyUrlNl(), provider);
-    
+    buildFieldString(Key.ENTITY_CATEGORIES_1, null, serviceProvider.getEntityCategories1(), provider);
+    buildFieldString(Key.ENTITY_CATEGORIES_2, null, serviceProvider.getEntityCategories2(), provider);
+
     return provider;
   }
 
@@ -292,6 +294,14 @@ public class CompoundServiceProvider extends DomainObject {
   
   public String getRegistrationPolicyUrlNl() {
     return (String) getFieldValue(Key.REGISTRATION_POLICY_URL_NL);
+  }
+
+  public String getEntityCategories1() {
+    return (String) getFieldValue(Key.ENTITY_CATEGORIES_1);
+  }
+
+  public String getEntityCategories2() {
+    return (String) getFieldValue(Key.ENTITY_CATEGORIES_2);
   }
   
   public String getSupportMail() {
@@ -455,6 +465,9 @@ public class CompoundServiceProvider extends DomainObject {
       .put(Key.REGISTRATION_INFO_URL, provider -> provider.serviceProvider.getRegistrationInfo())
       .put(Key.REGISTRATION_POLICY_URL_EN, provider -> provider.serviceProvider.getRegistrationPolicyUrlEn())
       .put(Key.REGISTRATION_POLICY_URL_NL, provider -> provider.serviceProvider.getRegistrationPolicyUrlNl())
+      .put(Key.ENTITY_CATEGORIES_1, provider -> provider.serviceProvider.getEntityCategories1())
+      .put(Key.ENTITY_CATEGORIES_2, provider -> provider.serviceProvider.getEntityCategories2())
+
       .build();
 
   private static final ImmutableMap<Key, Function<Optional<Article>, Object>> lmngProperites = new ImmutableMap.Builder<Key, Function<Optional<Article>, Object>>()
