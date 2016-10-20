@@ -1,6 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 import Link from "react-router/Link";
+import moment from "moment";
 
 import LicenseInfo from "./license_info";
 import Screenshots from "./screenshots";
@@ -40,11 +41,24 @@ class OverviewPanel extends React.Component {
     );
   }
 
+  renderPublishInEdugainDate() {
+    if (this.props.app.publishInEdugainDate) {
+      return (
+        <div>
+          { I18n.t("overview_panel.publish_in_edugain_date")} { moment(this.props.app.publishInEdugainDate).format("LL") }
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   renderInterfedSource() {
     if (this.props.app.interfedSource !== "SURFconext") {
       return (
         <div className="mod-interfed">
           <h3>{I18n.t("overview_panel.interfed_source")} {this.props.app.interfedSource}</h3>
+          { this.renderPublishInEdugainDate() }
         </div>
       );
     }

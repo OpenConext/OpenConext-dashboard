@@ -178,7 +178,8 @@ I18n.translations.nl = {
     no_normen_kader_html: "Het is onbekend in welke mate {{name}} voldoet aan het Juridisch normenkader cloudservices hoger onderwijs. Voor meer informatie over het framework zie de <a href=\"https://www.surf.nl/kennis-en-innovatie/kennisbank/2013/juridisch-normenkader-cloud-services-hoger-onderwijs.html\" target=\"_blank\">SURFnet website</a>",
     single_tenant_service: "Single tenant dienst",
     single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
-    interfed_source: "Interfederatie bron:"
+    interfed_source: "Interfederatie bron:",
+    publish_in_edugain_date: "Gepubliceerd in eduGAIN op:"
   },
 
   attributes_policy_panel: {

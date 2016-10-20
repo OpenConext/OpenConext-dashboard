@@ -59,6 +59,7 @@ public class Service implements Comparable<Service>, Serializable {
   private String entityCategories2;
   private String entityCategories1FriendlyName;
   private String entityCategories2FriendlyName;
+  private String publishInEdugainDate;
 
   private List<String> screenshotUrls = new ArrayList<>();
   private List<Category> categories = new ArrayList<>();
@@ -313,6 +314,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setPublishedInEdugain(boolean publishedInEdugain) {
     this.publishedInEdugain = publishedInEdugain;
+  }
+
+  public String getPublishInEdugainDate() {
+    return publishInEdugainDate;
+  }
+
+  public void setPublishInEdugainDate(String publishInEdugainDate) {
+    this.publishInEdugainDate = publishInEdugainDate;
   }
 
   public LicenseStatus getLicenseStatus() {

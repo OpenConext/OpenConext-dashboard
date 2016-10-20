@@ -37,6 +37,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private final String registrationPolicyUrlNl;
   private final String entityCategories1;
   private final String entityCategories2;
+  private final String publishInEdugainDate;
   
   private final boolean idpVisibleOnly;
   private final boolean publishedInEdugain;
@@ -61,6 +62,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.registrationPolicyUrlNl = (String) metaData.get("mdrpi:RegistrationPolicy:nl");
     this.entityCategories1 = (String) metaData.get("coin:entity_categories:1");
     this.entityCategories2 = (String) metaData.get("coin:entity_categories:2");
+    this.publishInEdugainDate = (String) metaData.get("coin:publish_in_edugain_date");
     
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
@@ -105,6 +107,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public String getRegistrationPolicyUrlNl() {
     return registrationPolicyUrlNl;
+  }
+
+  public String getPublishInEdugainDate() {
+    return publishInEdugainDate;
   }
 
   public Map<String, String> getUrls() {

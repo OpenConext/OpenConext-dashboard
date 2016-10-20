@@ -178,7 +178,8 @@ I18n.translations.en = {
     no_normen_kader_html: "{{name}} has not published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>",
     single_tenant_service: "Single tenant service",
     single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
-    interfed_source: "Interfederation source:"
+    interfed_source: "Interfederation source:",
+    publish_in_edugain_date: "Published in eduGAIN on:"
   },
 
   attributes_policy_panel: {

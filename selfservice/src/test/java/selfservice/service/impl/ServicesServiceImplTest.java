@@ -72,7 +72,8 @@ public class ServicesServiceImplTest {
         new FieldString(SURFCONEXT, Key.ENTITY_CATEGORIES_1, "http://entity.cat/1"),
         new FieldString(SURFCONEXT, Key.ENTITY_CATEGORIES_2, "http://entity.cat/2"),
         new FieldString(DISTRIBUTIONCHANNEL, Key.ENTITY_CATEGORIES_1_FRIENDLY_NAME, "Entity category 1"),
-        new FieldString(DISTRIBUTIONCHANNEL, Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME, "Entity category 2")
+        new FieldString(DISTRIBUTIONCHANNEL, Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME, "Entity category 2"),
+        new FieldString(SURFCONEXT, Key.PUBLISH_IN_EDUGAIN_DATE, "2016-10-15T15:10:11Z")
     ));
 
     Service service = subject.buildApiService(csp, "nl");

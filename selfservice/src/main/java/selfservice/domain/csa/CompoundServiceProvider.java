@@ -162,6 +162,7 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.ENTITY_CATEGORIES_1_FRIENDLY_NAME, null, null, provider);
     buildFieldString(Key.ENTITY_CATEGORIES_2, null, serviceProvider.getEntityCategories2(), provider);
     buildFieldString(Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME, null, null, provider);
+    buildFieldString(Key.PUBLISH_IN_EDUGAIN_DATE, null, serviceProvider.getPublishInEdugainDate(), provider);
 
     return provider;
   }
@@ -312,6 +313,10 @@ public class CompoundServiceProvider extends DomainObject {
 
   public String getEntityCategories2FriendlyName() {
     return (String) getFieldValue(Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME);
+  }
+
+  public String getPublishInEdugainDate() {
+    return (String) getFieldValue(Key.PUBLISH_IN_EDUGAIN_DATE);
   }
 
   public String getSupportMail() {
@@ -477,6 +482,7 @@ public class CompoundServiceProvider extends DomainObject {
       .put(Key.REGISTRATION_POLICY_URL_NL, provider -> provider.serviceProvider.getRegistrationPolicyUrlNl())
       .put(Key.ENTITY_CATEGORIES_1, provider -> provider.serviceProvider.getEntityCategories1())
       .put(Key.ENTITY_CATEGORIES_2, provider -> provider.serviceProvider.getEntityCategories2())
+      .put(Key.PUBLISH_IN_EDUGAIN_DATE, provider -> provider.serviceProvider.getPublishInEdugainDate())
 
       .build();
 
