@@ -161,7 +161,7 @@ public class ServicesController extends BaseController {
 
   private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, Action.Type jiraType) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
-    if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
+    if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
       return Optional.empty();
     }
 
