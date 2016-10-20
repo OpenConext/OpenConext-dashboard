@@ -33,10 +33,6 @@ public class V15_0_0__AddInterfederationFields implements SpringJdbcMigration {
       jdbcTemplate.update("insert into field_string (field_key, field_source, field_value, compound_service_provider_id)" +
               "values (?, ?, NULL, ?)", Field.Key.ENTITY_CATEGORIES_2.ordinal(), Field.Source.SURFCONEXT.ordinal(), id);
       jdbcTemplate.update("insert into field_string (field_key, field_source, field_value, compound_service_provider_id)" +
-              "values (?, ?, NULL, ?)", Field.Key.ENTITY_CATEGORIES_1_FRIENDLY_NAME.ordinal(), Field.Source.DISTRIBUTIONCHANNEL.ordinal(), id);
-      jdbcTemplate.update("insert into field_string (field_key, field_source, field_value, compound_service_provider_id)" +
-              "values (?, ?, NULL, ?)", Field.Key.ENTITY_CATEGORIES_2_FRIENDLY_NAME.ordinal(), Field.Source.DISTRIBUTIONCHANNEL.ordinal(), id);
-      jdbcTemplate.update("insert into field_string (field_key, field_source, field_value, compound_service_provider_id)" +
               "values (?, ?, NULL, ?)", Field.Key.PUBLISH_IN_EDUGAIN_DATE.ordinal(), Field.Source.SURFCONEXT.ordinal(), id);
     }
   }

@@ -57,8 +57,6 @@ public class Service implements Comparable<Service>, Serializable {
   private String registrationPolicyUrl;
   private String entityCategories1;
   private String entityCategories2;
-  private String entityCategories1FriendlyName;
-  private String entityCategories2FriendlyName;
   private String publishInEdugainDate;
 
   private List<String> screenshotUrls = new ArrayList<>();
@@ -402,22 +400,6 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setEntityCategories2(String entityCategories2) {
     this.entityCategories2 = entityCategories2;
-  }
-
-  public String getEntityCategories1FriendlyName() {
-    return entityCategories1FriendlyName;
-  }
-
-  public void setEntityCategories1FriendlyName(String entityCategories1FriendlyName) {
-    this.entityCategories1FriendlyName = entityCategories1FriendlyName;
-  }
-
-  public String getEntityCategories2FriendlyName() {
-    return entityCategories2FriendlyName;
-  }
-
-  public void setEntityCategories2FriendlyName(String entityCategories2FriendlyName) {
-    this.entityCategories2FriendlyName = entityCategories2FriendlyName;
   }
 
   @Override

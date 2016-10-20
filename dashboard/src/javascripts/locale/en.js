@@ -179,7 +179,11 @@ I18n.translations.en = {
     single_tenant_service: "Single tenant service",
     single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
     interfed_source: "Interfederation source:",
-    publish_in_edugain_date: "Published in eduGAIN on:"
+    publish_in_edugain_date: "Published in eduGAIN on:",
+    entity_category: {
+      "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
+      "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
+    }
   },
 
   attributes_policy_panel: {

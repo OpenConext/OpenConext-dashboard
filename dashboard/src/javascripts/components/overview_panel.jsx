@@ -71,7 +71,7 @@ class OverviewPanel extends React.Component {
     if (entityCategory) {
       return (
         <li>
-          <a href={entityCategory} target="_blank">{ this.props.app[`${field}FriendlyName`] || entityCategory}</a>
+          <a href={entityCategory} target="_blank">{ I18n.t(`overview_panel.entity_category.${entityCategory.replace(/\./g, "")}`) }</a>
         </li>
       );
     }
