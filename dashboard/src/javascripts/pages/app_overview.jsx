@@ -348,6 +348,11 @@ class AppOverview extends React.Component {
           return app.interfedSource === facetValue.searchValue;
         });
         break;
+      case "entity_category":
+        filter(facet, (app, facetValue) => {
+          return app.entityCategories1 === facetValue.searchValue || app.entityCategories2 === facetValue.searchValue;
+        });
+        break;
       case "used_by_idp":
         filter(facet, (app, facetValue) => {
           const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
@@ -455,6 +460,17 @@ class AppOverview extends React.Component {
       filterApp: function(app) {
         const sourceFacetValues = this.state.activeFacets["interfed_source"] || [];
         return sourceFacetValues.length === 0 || sourceFacetValues.indexOf(app.interfedSource) > -1;
+      }.bind(this)
+    }, {
+      name: I18n.t("facets.static.entity_category.name"),
+      searchValue: "entity_category",
+      values: [
+        { value: I18n.t("facets.static.entity_category.code_of_conduct"), searchValue: "http://www.geant.net/uri/dataprotection-code-of-conduct/v1" },
+        { value: I18n.t("facets.static.entity_category.research_and_scholarship"), searchValue: "http://refeds.org/category/research-and-scholarship" }
+      ],
+      filterApp: function(app) {
+        const sourceFacetValues = this.state.activeFacets["entity_category"] || [];
+        return sourceFacetValues.length === 0 || sourceFacetValues.indexOf(app.entityCategories1) > -1 || sourceFacetValues.indexOf(app.entityCategories2) > -1;
       }.bind(this)
     }, {
       name: I18n.t("facets.static.license.name"),

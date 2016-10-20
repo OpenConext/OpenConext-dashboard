@@ -87,6 +87,11 @@ I18n.translations.en = {
         surfconext: "SURFconext",
         edugain: "eduGAIN",
         entree: "Kennisnet Entree"
+      },
+      entity_category: {
+        name: "Entity category",
+        code_of_conduct: "Code of Conduct",
+        research_and_scholarship: "Research and Scholarship"
       }
     }
   },
