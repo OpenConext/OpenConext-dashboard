@@ -191,7 +191,7 @@ I18n.translations.nl = {
     interfed_source: "Interfederatie bron:",
     publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
     supports_ssa: "Ondersteunt SSA",
-    not_supports_ssa: "Ondersteunt niet SSA",
+    not_supports_ssa: "Ondersteunt geen SSA",
     entity_category: {
       "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
       "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
