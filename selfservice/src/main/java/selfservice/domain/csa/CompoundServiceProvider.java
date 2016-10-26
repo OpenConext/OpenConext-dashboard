@@ -101,6 +101,9 @@ public class CompoundServiceProvider extends DomainObject {
   @Column
   private boolean exampleSingleTenant;
 
+  @Column
+  private boolean strongAuthentication;
+
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
   @SortNatural
   private SortedSet<FieldString> fields = new TreeSet<>();
@@ -315,6 +318,10 @@ public class CompoundServiceProvider extends DomainObject {
 
   public String getTechnicalSupportMail() {
     return (String) getFieldValue(Key.TECHNICAL_SUPPORTMAIL);
+  }
+
+  public boolean getStrongAuthentication() {
+    return (boolean) getFieldValue(Key.STRONG_AUTHENTICATION);
   }
 
   public boolean addFieldString(FieldString f) {
@@ -595,6 +602,14 @@ public class CompoundServiceProvider extends DomainObject {
 
   public void setExampleSingleTenant(boolean exampleSingleTenant) {
     this.exampleSingleTenant = exampleSingleTenant;
+  }
+
+  public boolean isStrongAuthentication() {
+    return strongAuthentication;
+  }
+
+  public void setStrongAuthentication(boolean strongAuthentication) {
+    this.strongAuthentication = strongAuthentication;
   }
 
   private static void buildFieldString(Key key, String lmng, String surfconext, CompoundServiceProvider provider) {

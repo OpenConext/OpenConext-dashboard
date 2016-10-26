@@ -19,6 +19,7 @@ class OverviewPanel extends React.Component {
         <div className="mod-connection">
           {this.renderConnection()}
           <LicenseInfo app={this.props.app} showLinks />
+          { this.renderStrongAuthentication() }
         </div>
 
         {this.renderInterfedSource()}
@@ -39,6 +40,22 @@ class OverviewPanel extends React.Component {
         <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
+  }
+
+  renderStrongAuthentication() {
+    return (
+      <div className={`strong-authentication ${this.props.app.strongAuthentication ? "yes" : "no-needed"} split`}>
+        { this.renderStrongAuthenticationContent() }
+      </div>
+    );
+  }
+
+  renderStrongAuthenticationContent() {
+    if (this.props.app.strongAuthentication) {
+      return <div><i className="fa fa-lock"></i> <h2>{ I18n.t("overview_panel.supports_ssa") }</h2></div>;
+    }
+
+    return <div><i className="fa fa-unlock"></i> <h2>{ I18n.t("overview_panel.not_supports_ssa") }</h2></div>;
   }
 
   renderPublishInEdugainDate() {

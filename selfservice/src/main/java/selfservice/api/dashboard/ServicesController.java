@@ -91,12 +91,13 @@ public class ServicesController extends BaseController {
             String.valueOf(service.isPublishedInEdugain()),
             String.valueOf(service.isNormenkaderPresent()),
             service.getNormenkaderUrl(),
-            String.valueOf(service.isExampleSingleTenant()) });
+            String.valueOf(service.isExampleSingleTenant()),
+            String.valueOf(service.isStrongAuthentication()) });
 
     Stream<String[]> headers = Stream.<String[]>of(new String[] {
         "id", "name", "description", "app-url", "wiki-url", "support-mail",
         "connected", "license", "licenseStatus", "categories", "spEntityId",
-        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant" });
+        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant", "strongAuthentication" });
 
     List<String[]> rows = Stream.concat(headers, values).collect(toList());
 

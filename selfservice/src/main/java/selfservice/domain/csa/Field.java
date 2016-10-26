@@ -162,7 +162,9 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
 
     ENTITY_CATEGORIES_2,
 
-    PUBLISH_IN_EDUGAIN_DATE;
+    PUBLISH_IN_EDUGAIN_DATE,
+
+    STRONG_AUTHENTICATION;
   }
 
   public Source getSource() {

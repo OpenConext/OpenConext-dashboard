@@ -92,6 +92,11 @@ I18n.translations.nl = {
         name: "Entity categorie",
         code_of_conduct: "Code of Conduct",
         research_and_scholarship: "Research and Scholarship"
+      },
+      strong_authentication: {
+        name: "Ondersteunt SSA",
+        yes: "Ja",
+        no: "Nee"
       }
     }
   },
@@ -185,6 +190,8 @@ I18n.translations.nl = {
     single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
     interfed_source: "Interfederatie bron:",
     publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
+    supports_ssa: "Ondersteunt SSA",
+    not_supports_ssa: "Ondersteunt niet SSA",
     entity_category: {
       "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
       "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"

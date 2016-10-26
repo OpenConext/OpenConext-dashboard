@@ -365,6 +365,12 @@ class AppOverview extends React.Component {
           return facetValue.searchValue === "yes" ? published : !published;
         });
         break;
+      case "strong_authentication":
+        filter(facet, (app, facetValue) => {
+          const strongAuthentication = app.strongAuthentication || false;
+          return facetValue.searchValue === "yes" ? strongAuthentication : !strongAuthentication;
+        });
+        break;
       default:
         filter(facet, (app, facetValue) => {
           const categories = me.normalizeCategories(app);
@@ -484,6 +490,16 @@ class AppOverview extends React.Component {
       filterApp: function(app) {
         const licenseFacetValues = this.state.activeFacets["license"] || [];
         return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
+      }.bind(this)
+    }, {
+      name: I18n.t("facets.static.strong_authentication.name"),
+      searchValue: "strong_authentication",
+      values: [
+        { value: I18n.t("facets.static.strong_authentication.yes"), searchValue: "yes" },
+        { value: I18n.t("facets.static.strong_authentication.no"), searchValue: "no" }
+      ],
+      filterApp: function(app) {
+        return this.filterYesNoFacet("strong_authentication", app.strongAuthentication);
       }.bind(this)
     }];
   }

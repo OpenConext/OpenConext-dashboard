@@ -69,6 +69,7 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean normenkaderPresent;
   private boolean exampleSingleTenant;
   private boolean policyEnforcementDecisionRequired;
+  private boolean strongAuthentication;
 
   private CrmArticle crmArticle;
 
@@ -400,6 +401,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setEntityCategories2(String entityCategories2) {
     this.entityCategories2 = entityCategories2;
+  }
+
+  public boolean isStrongAuthentication() {
+    return strongAuthentication;
+  }
+
+  public void setStrongAuthentication(boolean strongAuthentication) {
+    this.strongAuthentication = strongAuthentication;
   }
 
   @Override
