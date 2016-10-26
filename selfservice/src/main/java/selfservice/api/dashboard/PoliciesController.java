@@ -73,6 +73,10 @@ public class PoliciesController extends BaseController {
 
   @RequestMapping(method = POST)
   public ResponseEntity<RestResponse<Policy>> createPolicy(@RequestBody Policy policy) {
+    if (SpringSecurity.getCurrentUser().isSuperUser()) {
+      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+    
     return whenDashboardAdmin(() -> {
       LOG.debug("Create a policy: {}", policy);
 
@@ -102,6 +106,10 @@ public class PoliciesController extends BaseController {
 
   @RequestMapping(method = PUT)
   public ResponseEntity<RestResponse<Policy>> updatePoliciy(@RequestBody Policy policy) {
+    if (SpringSecurity.getCurrentUser().isSuperUser()) {
+      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+    
     return whenDashboardAdmin(() -> {
       LOG.debug("Update a policy: {}", policy);
       return createRestResponse(pdpService.update(policy));
