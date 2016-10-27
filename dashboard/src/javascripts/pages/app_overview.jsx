@@ -382,7 +382,7 @@ class AppOverview extends React.Component {
   }
 
   filterBySearchQuery(app) {
-    return app.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
+    return Object.values(app.names).some(name => name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0);
   }
 
   filterYesNoFacet(name, yes) {
