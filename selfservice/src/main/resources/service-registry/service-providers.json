@@ -342,6 +342,7 @@
   "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:persistent",
   "url:en": "https://imogen.surfnet.nl/testsp/",
   "url:nl": "https://imogen.surfnet.nl/testsp/",
+  "coin:institution_id": "SURFNET",
   "allowedEntities": []
 }, {
   "entityid": "https://pdp.test.surfconext.nl/shibboleth",

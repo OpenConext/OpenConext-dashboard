@@ -65,6 +65,25 @@ public class UsersController extends BaseController {
     return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/me/guest-enabled-services", method = RequestMethod.GET)
+  public RestResponse<List<Service>> guestEnabledServiceProviders(Locale locale) {
+    String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
+
+    List<Service> usersServices = isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
+        : servicesCache.getAllServices(locale.getLanguage()).stream()
+            .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
+            .filter(service -> serviceRegistry
+                .getLinkedIdentityProviders(service.getSpEntityId())
+                .stream()
+                .map(IdentityProvider::getId)
+                .collect(toList())
+                .contains("https://www.onegini.me")
+            )
+            .collect(toList());
+
+    return createRestResponse(usersServices);
+  }
+  
   @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
   public RestResponse<List<Service>> serviceProviders(Locale locale) {
     String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
