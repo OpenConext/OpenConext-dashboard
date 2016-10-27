@@ -19,7 +19,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -61,6 +63,8 @@ public class Service implements Comparable<Service>, Serializable {
 
   private List<String> screenshotUrls = new ArrayList<>();
   private List<Category> categories = new ArrayList<>();
+  private Map<String, String> names = new HashMap<>();
+
 
   private boolean connected;
   private boolean hasCrmLink;
@@ -265,6 +269,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setArp(ARP arp) {
     this.arp = arp;
+  }
+  
+  public Map<String, String> getNames() {
+    return names;
+  }
+
+  public void setNames(Map<String, String> names) {
+    this.names = names;
   }
 
   public boolean isIdpVisibleOnly() {
