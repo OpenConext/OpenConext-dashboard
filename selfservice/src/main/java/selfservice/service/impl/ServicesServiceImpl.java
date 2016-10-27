@@ -130,6 +130,7 @@ public class ServicesServiceImpl implements ServicesService {
     service.setPublishInEdugainDate(csp.getPublishInEdugainDate());
     service.setStrongAuthentication(csp.isStrongAuthentication());
     service.setNames(csp.getSp().getNames());
+    service.setDescriptions(csp.getSp().getDescriptions());
   }
 
   private String normalizeEmail(String email) {

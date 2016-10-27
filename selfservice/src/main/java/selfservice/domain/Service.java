@@ -64,7 +64,7 @@ public class Service implements Comparable<Service>, Serializable {
   private List<String> screenshotUrls = new ArrayList<>();
   private List<Category> categories = new ArrayList<>();
   private Map<String, String> names = new HashMap<>();
-
+  private Map<String, String> descriptions = new HashMap<>();
 
   private boolean connected;
   private boolean hasCrmLink;
@@ -277,6 +277,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setNames(Map<String, String> names) {
     this.names = names;
+  }
+ 
+  public Map<String, String> getDescriptions() {
+    return descriptions;
+  }
+
+  public void setDescriptions(Map<String, String> descriptions) {
+    this.descriptions = descriptions;
   }
 
   public boolean isIdpVisibleOnly() {
