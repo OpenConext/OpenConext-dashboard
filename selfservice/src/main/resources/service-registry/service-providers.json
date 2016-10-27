@@ -343,7 +343,8 @@
   "url:en": "https://imogen.surfnet.nl/testsp/",
   "url:nl": "https://imogen.surfnet.nl/testsp/",
   "coin:institution_id": "SURFNET",
-  "allowedEntities": []
+  "allowedEntities": [],
+  "coin:no_consent_required": "1"
 }, {
   "entityid": "https://pdp.test.surfconext.nl/shibboleth",
   "allowedall": "no",

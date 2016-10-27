@@ -74,6 +74,7 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean exampleSingleTenant;
   private boolean policyEnforcementDecisionRequired;
   private boolean strongAuthentication;
+  private boolean noConsentRequired;
 
   private CrmArticle crmArticle;
 
@@ -429,6 +430,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setStrongAuthentication(boolean strongAuthentication) {
     this.strongAuthentication = strongAuthentication;
+  }
+
+  public boolean isNoConsentRequired() {
+    return noConsentRequired;
+  }
+
+  public void setNoConsentRequired(boolean noConsentRequired) {
+    this.noConsentRequired = noConsentRequired;
   }
 
   @Override

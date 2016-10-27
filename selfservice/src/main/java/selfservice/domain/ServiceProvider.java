@@ -38,8 +38,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private final String entityCategories1;
   private final String entityCategories2;
   private final String publishInEdugainDate;
-  private boolean noConsentRequired;
-
   private final boolean idpVisibleOnly;
   private final boolean publishedInEdugain;
   private final boolean policyEnforcementDecisionRequired;
@@ -64,7 +62,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.entityCategories1 = (String) metaData.get("coin:entity_categories:1");
     this.entityCategories2 = (String) metaData.get("coin:entity_categories:2");
     this.publishInEdugainDate = (String) metaData.get("coin:publish_in_edugain_date");
-    this.noConsentRequired = booleanValue(metaData.get("coin:no_consent_required"));
 
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
@@ -159,10 +156,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public String getEntityCategories2() {
     return entityCategories2;
-  }
-
-  public boolean isNoConsentRequired() {
-    return noConsentRequired;
   }
 
   @Override

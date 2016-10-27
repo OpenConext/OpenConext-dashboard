@@ -131,6 +131,7 @@ public class ServicesServiceImpl implements ServicesService {
     service.setStrongAuthentication(csp.isStrongAuthentication());
     service.setNames(csp.getSp().getNames());
     service.setDescriptions(csp.getSp().getDescriptions());
+    service.setNoConsentRequired(csp.getSp().isNoConsentRequired());
   }
 
   private String normalizeEmail(String email) {
