@@ -355,6 +355,7 @@ I18n.translations.nl = {
     sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
     role: "Rol",
     users: "Gebruiker(s)",
+    settings: "Instellingen",
     SURFconextverantwoordelijke: "SURFconextverantwoordelijke",
     SURFconextbeheerder: "SURFconextbeheerder",
     "Dashboard supergebruiker": "Dashboard supergebruiker",
@@ -363,7 +364,38 @@ I18n.translations.nl = {
     license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
     license_contact_name: "Naam",
     license_contact_email: "Email",
-    license_contact_phone: "Telefoonnummer"
+    license_contact_phone: "Telefoonnummer",
+    institution: "Instelling",
+    services: "Services",
+    edit: "Wijzigingsverzoek aanmaken",
+    name: {
+      en: "Naam (en)",
+      nl: "Naam (nl)"
+    },
+    keywords: {
+      en: "Trefwoorden (en)",
+      nl: "Trefwoorden (nl)"
+    },
+    published_in_edugain: "Gepubliceerd in eduGAIN",
+    date_published_in_edugain: "Datum gepubliceerd in eduGAIN",
+    logo_url: "Logo",
+    contact: "Contactpersonen",
+    contact_name: "Contact naam",
+    contact_email: "Contact email",
+    contact_type: "Contact type",
+    contact_types: {
+      technical: "Technisch",
+      support: "Ondersteuning",
+      administrative: "Administratief"
+    },
+    description: {
+      en: "Beschrijving (en)",
+      nl: "Beschrijving (nl)"
+    },
+    guest_enabled: "Gast-toegang ingeschakeld",
+    no_consent_required: "Geen goedkeuring vereist",
+    edit_message: "De volgende velden kunnen worden aangepast.",
+    save: "Maak wijzigingsverzoek aan"
   },
 
   policies: {
