@@ -49,8 +49,10 @@ class JiraTicketSummaryAndDescriptionBuilder {
     description.append("Applicant email: ").append(action.getUserEmail()).append("\n");
     description.append("Identity Provider: ").append(action.getIdpId()).append("\n");
     description.append("Service Provider: ").append(action.getSpId()).append("\n");
-    description.append("License required: ").append(action.getService().getLicenseStatus().getName()).append("\n");
-    description.append("License secured: ").append(licenseSecured(action)).append("\n");
+    if (action.getService() != null && action.getService().getLicenseStatus() != null) {
+      description.append("License required: ").append(action.getService().getLicenseStatus().getName()).append("\n");
+      description.append("License secured: ").append(licenseSecured(action)).append("\n");
+    }
     description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
 
     if (!action.getType().equals(QUESTION)) {
