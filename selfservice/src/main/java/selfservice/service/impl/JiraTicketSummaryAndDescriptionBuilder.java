@@ -12,6 +12,9 @@ import com.google.common.base.MoreObjects;
 
 import selfservice.domain.Action;
 import selfservice.domain.LicenseStatus;
+import selfservice.domain.ServiceProviderSettings;
+import selfservice.domain.Settings;
+import selfservice.domain.csa.ContactPerson;
 
 class JiraTicketSummaryAndDescriptionBuilder {
 
@@ -22,7 +25,36 @@ class JiraTicketSummaryAndDescriptionBuilder {
 
     final StringBuilder summary = new StringBuilder();
 
-    if (action.getType().equals(QUESTION)) {
+
+    if (action.getType().equals(QUESTION) && action.getSettings() != null) {
+      Settings settings = action.getSettings();
+      description.append("Please update settings to the following: \n").
+        append("Keywords NL: ").append(settings.getKeywordsNl()).append("\n").
+        append("Keywords EN: ").append(settings.getKeywordsEn()).append("\n").
+        append("Published in eduGAIN: ").append(settings.isPublishedInEdugain()).append("\n");
+
+      int index = 0;
+      for (ContactPerson cp : settings.getContactPersons()) {
+        description.append("\n");
+        description.append("Contact Name ").append(index).append(": ").append(cp.getName()).append("\n");
+        description.append("Contact Email ").append(index).append(": ").append(cp.getEmailAddress()).append("\n");
+        description.append("Contact Telephone ").append(index).append(": ").append(cp.getTelephoneNumber()).append("\n");
+        description.append("Contact Type ").append(index).append(": ").append(cp.getContactPersonType().toString()).append("\n");
+        index++;
+      }
+      
+      for (ServiceProviderSettings sp : settings.getServiceProviderSettings()) {
+        description.append("\n");
+        description.append("Service Provider ID: ").append(sp.getSpEntityId()).append("\n");
+        description.append("Service Provider Guest Login Enabled: ").append(sp.isHasGuestEnabled()).append("\n");
+        description.append("Service Provider No Consent Required: ").append(sp.isNoConsentRequired()).append("\n");
+        description.append("Service Provider Published In Edugain: ").append(sp.isPublishedInEdugain()).append("\n");
+      }
+      
+      description.append("\n");
+      
+      summary.append("Change settings of ").append(action.getIdpId());
+    } else if (action.getType().equals(QUESTION)) {
       description.append("Question: ").append(action.getBody()).append("\n");
       summary.
         append("Question about ").

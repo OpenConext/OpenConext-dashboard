@@ -199,5 +199,9 @@ export function getPolicyRevisions(policyId) {
 }
 
 export function sendChangeRequest(data) {
-  return postJson("/users/me/settings", data);
+  return postJson("/users/me/settings", data, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 }

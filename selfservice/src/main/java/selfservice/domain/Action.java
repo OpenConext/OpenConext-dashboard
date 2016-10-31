@@ -43,6 +43,7 @@ public class Action {
 
   private String subject;
   private Service service;
+  private Settings settings;
 
   private Action(Builder builder) {
     this.jiraKey = builder.jiraKey;
@@ -57,6 +58,7 @@ public class Action {
     this.type = builder.type;
     this.status = builder.status;
     this.service = builder.service;
+    this.settings = builder.settings;
   }
 
   public Optional<String> getJiraKey() {
@@ -113,6 +115,10 @@ public class Action {
 
   public String getSpName() {
     return spName;
+  }
+  
+  public Settings getSettings() {
+    return settings;
   }
 
   /**
@@ -249,6 +255,7 @@ public class Action {
     private String idpName;
     private ZonedDateTime requestDate;
     private Service service;
+    private Settings settings;
 
     private Builder() {
     }
@@ -266,6 +273,7 @@ public class Action {
       this.idpName = action.idpName;
       this.requestDate = action.requestDate;
       this.service = action.service;
+      this.settings = action.settings;
     }
 
     public Builder requestDate(ZonedDateTime requestDate) {
@@ -325,6 +333,11 @@ public class Action {
 
     public Builder service(Service service) {
       this.service = service;
+      return this;
+    }
+    
+    public Builder settings(Settings settings) {
+      this.settings = settings;
       return this;
     }
 
