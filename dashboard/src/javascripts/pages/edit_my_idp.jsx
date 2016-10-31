@@ -11,7 +11,7 @@ class EditMyIdp extends React.Component {
     const currentIdp = currentUser.getCurrentIdp();
 
     this.state = {
-      institutionServiceProviders: [],
+      serviceProviders: [],
       keywordsEn: currentIdp.keywords.en || "",
       keywordsNl: currentIdp.keywords.nl || "",
       publishedInEdugain: !!currentIdp.publishedInEdugain,
@@ -36,7 +36,7 @@ class EditMyIdp extends React.Component {
         return sp;
       });
       this.setState({
-        institutionServiceProviders: institutionServiceProvidersData.payload
+        serviceProviders: institutionServiceProvidersData.payload
       });
     });
   }
@@ -64,7 +64,7 @@ class EditMyIdp extends React.Component {
   }
 
   getService(serviceId) {
-    return this.state.institutionServiceProviders.find(s => s.id === serviceId);
+    return this.state.serviceProviders.find(s => s.id === serviceId);
   }
 
   renderServiceCheckbox(serviceId, fieldName) {
@@ -94,7 +94,7 @@ class EditMyIdp extends React.Component {
     const { target: { checked } } = e;
 
     this.setState(currentState => {
-      const service = currentState.institutionServiceProviders.find(s => s.id === serviceId);
+      const service = currentState.serviceProviders.find(s => s.id === serviceId);
       service[fieldName] = checked;
       return currentState;
     });
@@ -201,7 +201,7 @@ class EditMyIdp extends React.Component {
     return (
       <div>
         <h2>{ I18n.t("my_idp.services") }</h2>
-        { this.state.institutionServiceProviders.map(s => this.renderService(s))}
+        { this.state.serviceProviders.map(s => this.renderService(s))}
       </div>
     );
   }
@@ -246,7 +246,17 @@ class EditMyIdp extends React.Component {
   saveRequest(e) {
     e.preventDefault();
 
-    sendChangeRequest(this.state);
+    const request = _.cloneDeep(this.state);
+    request.serviceProviders = request.serviceProviders.map(s => {
+      return {
+        spEntityId: s.spEntityId,
+        publishedInEdugain: s.publishedInEdugain,
+        hasGuestEnabled: s.hasGuestEnabled,
+        noConsentRequired: s.noConsentRequired
+      };
+    });
+
+    sendChangeRequest(request);
   }
 
   render() {
