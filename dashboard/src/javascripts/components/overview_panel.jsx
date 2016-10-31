@@ -101,10 +101,13 @@ class OverviewPanel extends React.Component {
 
     if (app.entityCategories1 || app.entityCategories2) {
       return (
-        <ul>
-          { this.renderEntityCategory("entityCategories1")}
-          { this.renderEntityCategory("entityCategories2")}
-        </ul>
+        <div className="mod-description">
+          <h2 key="title">{I18n.t("overview_panel.entity_categories")}</h2>
+          <ul key="list">
+            { this.renderEntityCategory("entityCategories1")}
+            { this.renderEntityCategory("entityCategories2")}
+          </ul>
+        </div>
       );
     }
 

@@ -24,9 +24,23 @@ class AppMeta extends React.Component {
           {this.renderUrl("website", this.props.app.websiteUrl)}
           {this.renderUrl("eula", this.props.app.eulaUrl)}
           {this.renderUrl("registration_policy", this.props.app.registrationPolicyUrl)}
-          {this.renderUrl("registration_info", this.props.app.registrationInfoUrl)}
           {this.renderUrl("privacy_statement", this.props.app.privacyStatementUrl)}
+          {this.renderRegistrationInfo(this.props.app.registrationInfoUrl)}
         </div>
+      </div>
+    );
+  }
+
+  renderRegistrationInfo(url) {
+    if (!url) {
+      return null;
+    }
+
+    return (
+      <div className="contact">
+        <address>
+          <span dangerouslySetInnerHTML={{ __html: I18n.t("app_meta.registration_info_html", {url}) }}/>
+        </address>
       </div>
     );
   }

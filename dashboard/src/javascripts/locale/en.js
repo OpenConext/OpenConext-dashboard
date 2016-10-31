@@ -83,18 +83,18 @@ I18n.translations.en = {
         yes: "Yes",
       },
       interfed_source: {
-        name: "Interfederation source",
+        name: "Federation source",
         surfconext: "SURFconext",
         edugain: "eduGAIN",
         entree: "Kennisnet Entree"
       },
       entity_category: {
-        name: "Entity category",
+        name: "eduGAIN Entity Category",
         code_of_conduct: "Code of Conduct",
         research_and_scholarship: "Research and Scholarship"
       },
       strong_authentication: {
-        name: "Supports SSA",
+        name: "Supports SURFconext Strong Authentication",
         yes: "Yes",
         no: "No"
       }
@@ -138,7 +138,7 @@ I18n.translations.en = {
     website: "Website",
     support: "Support pages",
     login: "Login page",
-    registration_info: "Registration info",
+    registration_info_html: "This Service Provider is available in SURFconext through <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. The Service Provider is registered by the following federation: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
     registration_policy: "Registration policy",
     privacy_statement: "Privacy statement"
   },
@@ -188,10 +188,11 @@ I18n.translations.en = {
     no_normen_kader_html: "{{name}} has not published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>",
     single_tenant_service: "Single tenant service",
     single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
-    interfed_source: "Interfederation source:",
+    interfed_source: "Federation source:",
     publish_in_edugain_date: "Published in eduGAIN on:",
-    supports_ssa: "Supports SSA",
-    not_supports_ssa: "Does not support SSA",
+    supports_ssa: "Supports SURFconext Strong Authentication",
+    not_supports_ssa: "Does not support SURFconext Strong Authentication",
+    entity_categories: "Supported Entity Categories",
     entity_category: {
       "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
       "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
