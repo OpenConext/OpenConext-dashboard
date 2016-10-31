@@ -39,7 +39,7 @@ class AppMeta extends React.Component {
     return (
       <div className="contact">
         <address>
-          <span dangerouslySetInnerHTML={{ __html: I18n.t("app_meta.registration_info_html", {url}) }}/>
+          <span dangerouslySetInnerHTML={{ __html: I18n.t("app_meta.registration_info_html", { url }) }}/>
         </address>
       </div>
     );
