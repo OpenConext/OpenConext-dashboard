@@ -165,7 +165,7 @@ class EditMyIdp extends React.Component {
       <input
         type="text"
         value={this.state.contactPersons[i][field]}
-        onChange={(e) => this.changeContactPersonField(e, field, i)}
+        onChange={e => this.changeContactPersonField(e, field, i)}
       />
     );
   }
@@ -181,11 +181,11 @@ class EditMyIdp extends React.Component {
   renderContactPerson(contactPerson, i) {
     return (
       <tr key={i}>
-        <td>{ this.renderContactPersonInput('name', i) }</td>
-        <td>{ this.renderContactPersonInput('emailAddress', i) }</td>
-        <td>{ this.renderContactPersonInput('telephoneNumber', i) }</td>
+        <td>{ this.renderContactPersonInput("name", i) }</td>
+        <td>{ this.renderContactPersonInput("emailAddress", i) }</td>
+        <td>{ this.renderContactPersonInput("telephoneNumber", i) }</td>
         <td>
-          <select onChange={e => this.changeContactPersonField(e, 'contactPersonType', i)}>
+          <select onChange={e => this.changeContactPersonField(e, "contactPersonType", i)}>
             { 
               ["support", "administrative", "technical"].map(type => {
                 return <option key={type} value={type}>{ I18n.t("my_idp.contact_types." + type) }</option>;
