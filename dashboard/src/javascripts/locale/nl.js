@@ -382,6 +382,7 @@ I18n.translations.nl = {
     contact: "Contactpersonen",
     contact_name: "Contact naam",
     contact_email: "Contact email",
+    contact_telephone: "Contact telephone",
     contact_type: "Contact type",
     contact_types: {
       technical: "Technisch",

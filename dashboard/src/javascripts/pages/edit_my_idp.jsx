@@ -10,20 +10,20 @@ class EditMyIdp extends React.Component {
     const { currentUser } = context;
     const currentIdp = currentUser.getCurrentIdp();
 
-    const newState = {
+    this.state = {
       institutionServiceProviders: [],
       keywordsEn: currentIdp.keywords.en || "",
       keywordsNl: currentIdp.keywords.nl || "",
-      publishedInEdugain: !!currentIdp.publishedInEdugain
+      publishedInEdugain: !!currentIdp.publishedInEdugain,
+      contactPersons: currentIdp.contactPersons.map(contactPerson => {
+        return {
+          name: contactPerson.name || "",
+          emailAddress: contactPerson.emailAddress || "",
+          contactPersonType: contactPerson.contactPersonType,
+          telephoneNumber: contactPerson.telephoneNumber || ""
+        };
+      })
     };
-
-    currentIdp.contactPersons.forEach((contactPerson, i) => {
-      newState[`contactPersonName${i}`] = contactPerson.name || "";
-      newState[`contactPersonEmailAddress${i}`] = contactPerson.emailAddress || "";
-      newState[`contactPersonType${i}`] = contactPerson.contactPersonType || "";
-    });
-
-    this.state = newState;
   }
 
   componentWillMount() {
@@ -144,6 +144,7 @@ class EditMyIdp extends React.Component {
             <tr>
               <th className="percent_35">{I18n.t("my_idp.contact_name")}</th>
               <th className="percent_35">{I18n.t("my_idp.contact_email")}</th>
+              <th className="percent_35">{I18n.t("my_idp.contact_telephone")}</th>
               <th className="percent_35">{I18n.t("my_idp.contact_type")}</th>
             </tr>
             </thead>
@@ -159,13 +160,32 @@ class EditMyIdp extends React.Component {
     return null;
   }
 
+  renderContactPersonInput(field, i) {
+    return (
+      <input
+        type="text"
+        value={this.state.contactPersons[i][field]}
+        onChange={(e) => this.changeContactPersonField(e, field, i)}
+      />
+    );
+  }
+
+  changeContactPersonField(e, field, i) {
+    const { value } = e.target;
+    this.setState(newState => {
+      newState.contactPersons[i][field] = value;
+      return newState;
+    });
+  }
+
   renderContactPerson(contactPerson, i) {
     return (
       <tr key={i}>
-        <td>{ this.renderInput(`contactPersonName${i}`) }</td>
-        <td>{ this.renderInput(`contactPersonEmailAddress${i}`) }</td>
+        <td>{ this.renderContactPersonInput('name', i) }</td>
+        <td>{ this.renderContactPersonInput('emailAddress', i) }</td>
+        <td>{ this.renderContactPersonInput('telephoneNumber', i) }</td>
         <td>
-          <select>
+          <select onChange={e => this.changeContactPersonField(e, 'contactPersonType', i)}>
             { 
               ["support", "administrative", "technical"].map(type => {
                 return <option key={type} value={type}>{ I18n.t("my_idp.contact_types." + type) }</option>;

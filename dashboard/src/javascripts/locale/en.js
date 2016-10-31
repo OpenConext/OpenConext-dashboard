@@ -349,6 +349,7 @@ I18n.translations.en = {
     contact_name: "Contact name",
     contact_email: "Contact email",
     contact_type: "Contact type",
+    contact_telephone: "Contact telephone",
     contact_types: {
       technical: "Technical",
       support: "Support",
@@ -361,7 +362,8 @@ I18n.translations.en = {
     guest_enabled: "Guest access enabled",
     no_consent_required: "No consent required",
     edit_message: "You are able to edit the following fields.",
-    save: "Create change request"
+    save: "Create change request",
+
   },
 
   policies: {
