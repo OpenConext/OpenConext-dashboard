@@ -197,3 +197,7 @@ export function getPolicy(policyId) {
 export function getPolicyRevisions(policyId) {
   return fetchJson(`/policies/${policyId}/revisions`);
 }
+
+export function sendChangeRequest(data) {
+  return postJson("/users/me/settings", data);
+}

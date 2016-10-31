@@ -1,7 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 
-import { getInstitutionServiceProviders, getGuestEnabledServices } from "../api";
+import { getInstitutionServiceProviders, getGuestEnabledServices, sendChangeRequest } from "../api";
 
 class EditMyIdp extends React.Component {
   constructor(props, context) {
@@ -12,11 +12,9 @@ class EditMyIdp extends React.Component {
 
     const newState = {
       institutionServiceProviders: [],
-      institutionNameEn: currentIdp.names.en || "",
-      institutionNameNl: currentIdp.names.nl || "",
       keywordsEn: currentIdp.keywords.en || "",
       keywordsNl: currentIdp.keywords.nl || "",
-      publishedInEdugain: currentIdp.publishedInEdugain || ""
+      publishedInEdugain: !!currentIdp.publishedInEdugain
     };
 
     currentIdp.contactPersons.forEach((contactPerson, i) => {
@@ -225,6 +223,12 @@ class EditMyIdp extends React.Component {
     );
   }
 
+  saveRequest(e) {
+    e.preventDefault();
+
+    sendChangeRequest(this.state);
+  }
+
   render() {
     return (
       <div className="l-mini">
@@ -232,7 +236,7 @@ class EditMyIdp extends React.Component {
           <h1>{ I18n.t("my_idp.settings") }</h1>
           { this.renderIdpFields() }
           { this.renderServicesFields() }
-          <a href="#" className="t-button">{ I18n.t("my_idp.save") }</a>
+          <a href="#" className="t-button" onClick={e => this.saveRequest(e)}>{ I18n.t("my_idp.save") }</a>
         </div>
       </div>
     );
