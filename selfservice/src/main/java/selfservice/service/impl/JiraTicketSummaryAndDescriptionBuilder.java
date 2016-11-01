@@ -49,7 +49,12 @@ class JiraTicketSummaryAndDescriptionBuilder {
         description.append("Service Provider Guest Login Enabled: ").append(sp.isHasGuestEnabled()).append("\n");
         description.append("Service Provider No Consent Required: ").append(sp.isNoConsentRequired()).append("\n");
         description.append("Service Provider Published In Edugain: ").append(sp.isPublishedInEdugain()).append("\n");
+        description.append("Service Provider Description EN: ").append(sp.getDescriptionEn()).append("\n");
+        description.append("Service Provider Description NL: ").append(sp.getDescriptionNl()).append("\n");
       }
+      description.append("\n");
+      
+      description.append("Additional comments: ").append(settings.getComments()).append("\n");
       
       description.append("\n");
       

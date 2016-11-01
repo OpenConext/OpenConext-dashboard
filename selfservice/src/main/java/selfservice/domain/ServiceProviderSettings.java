@@ -5,6 +5,8 @@ public class ServiceProviderSettings {
   private boolean hasGuestEnabled;
   private boolean noConsentRequired;
   private boolean publishedInEdugain;
+  private String descriptionEn;
+  private String descriptionNl;
   
   public ServiceProviderSettings() {
   }
@@ -39,6 +41,22 @@ public class ServiceProviderSettings {
 
   public void setPublishedInEdugain(boolean publishedInEdugain) {
     this.publishedInEdugain = publishedInEdugain;
+  }
+
+  public String getDescriptionEn() {
+    return descriptionEn;
+  }
+
+  public void setDescriptionEn(String descriptionEn) {
+    this.descriptionEn = descriptionEn;
+  }
+
+  public String getDescriptionNl() {
+    return descriptionNl;
+  }
+
+  public void setDescriptionNl(String descriptionNl) {
+    this.descriptionNl = descriptionNl;
   }
   
   

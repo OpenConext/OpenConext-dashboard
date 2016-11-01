@@ -8,6 +8,7 @@ public class Settings {
   private String keywordsNl;
   private String keywordsEn;
   private boolean publishedInEdugain;
+  private String comments;
   
   private List<ContactPerson> contactPersons;
   private List<ServiceProviderSettings> serviceProviderSettings;
@@ -53,6 +54,14 @@ public class Settings {
 
   public void setServiceProviderSettings(List<ServiceProviderSettings> serviceProviderSettings) {
     this.serviceProviderSettings = serviceProviderSettings;
+  }
+
+  public String getComments() {
+    return comments;
+  }
+
+  public void setComments(String comments) {
+    this.comments = comments;
   }
   
 }
