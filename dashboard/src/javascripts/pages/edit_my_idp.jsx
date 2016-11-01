@@ -1,5 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
+import { setFlash } from "../utils/flash";
 
 import { getInstitutionServiceProviders, getGuestEnabledServices, sendChangeRequest } from "../api";
 
@@ -15,6 +16,7 @@ class EditMyIdp extends React.Component {
       keywordsEn: currentIdp.keywords.en || "",
       keywordsNl: currentIdp.keywords.nl || "",
       publishedInEdugain: !!currentIdp.publishedInEdugain,
+      comments: "",
       contactPersons: currentIdp.contactPersons.map(contactPerson => {
         return {
           name: contactPerson.name || "",
@@ -67,6 +69,19 @@ class EditMyIdp extends React.Component {
     return this.state.serviceProviderSettings.find(s => s.id === serviceId);
   }
 
+  renderServiceInput(serviceId, fieldName) {
+    const service = this.getService(serviceId);
+
+    return (
+      <input
+        type="text"
+        value={_.get(service, fieldName)}
+        id={`${serviceId} ${fieldName}`}
+        onChange={e => this.changeServiceField(serviceId, fieldName, e)}
+      />
+    );
+  }
+
   renderServiceCheckbox(serviceId, fieldName) {
     const service = this.getService(serviceId);
 
@@ -96,6 +111,16 @@ class EditMyIdp extends React.Component {
     this.setState(currentState => {
       const service = currentState.serviceProviderSettings.find(s => s.id === serviceId);
       service[fieldName] = checked;
+      return currentState;
+    });
+  }
+
+  changeServiceField(serviceId, fieldName, e) {
+    const { target: { value } } = e;
+
+    this.setState(currentState => {
+      const service = currentState.serviceProviderSettings.find(s => s.id === serviceId);
+      _.set(service, fieldName, value);
       return currentState;
     });
   }
@@ -142,10 +167,10 @@ class EditMyIdp extends React.Component {
           <table>
             <thead>
             <tr>
-              <th className="percent_35">{I18n.t("my_idp.contact_name")}</th>
-              <th className="percent_35">{I18n.t("my_idp.contact_email")}</th>
-              <th className="percent_35">{I18n.t("my_idp.contact_telephone")}</th>
-              <th className="percent_35">{I18n.t("my_idp.contact_type")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
             </tr>
             </thead>
             <tbody>
@@ -212,19 +237,19 @@ class EditMyIdp extends React.Component {
         <tbody>
           <tr>
             <td>{ I18n.t("my_idp.name.en") }</td>
-            <td>{ service.names.en}</td>
+            <td>{ service.names.en }</td>
           </tr>
           <tr>
             <td>{ I18n.t("my_idp.name.nl") }</td>
-            <td>{ service.names.nl}</td>
+            <td>{ service.names.nl }</td>
           </tr>
           <tr>
             <td>{ I18n.t("my_idp.description.en") }</td>
-            <td>{ service.description}</td>
+            <td>{ this.renderServiceInput(service.id, "descriptions.en") }</td>
           </tr>
           <tr>
             <td>{ I18n.t("my_idp.description.nl") }</td>
-            <td>{ service.description}</td>
+            <td>{ this.renderServiceInput(service.id, "descriptions.nl") }</td>
           </tr>
           <tr>
             <td>{ I18n.t("my_idp.published_in_edugain") }</td>
@@ -250,13 +275,20 @@ class EditMyIdp extends React.Component {
     request.serviceProviderSettings = request.serviceProviderSettings.map(s => {
       return {
         spEntityId: s.spEntityId,
+        descriptionEn: s.descriptions.en,
+        descriptionNl: s.descriptions.nl,
         publishedInEdugain: s.publishedInEdugain,
         hasGuestEnabled: s.hasGuestEnabled,
         noConsentRequired: s.noConsentRequired
       };
     });
 
-    sendChangeRequest(request);
+    sendChangeRequest(request)
+    .then(() => {
+      setFlash(I18n.t("my_idp.change_request_created"));
+      this.context.router.transitionTo("/my-idp");
+    })
+    .catch(() => setFlash(I18n.t("my_idp.change_request_failed", "error")));
   }
 
   render() {
@@ -266,7 +298,9 @@ class EditMyIdp extends React.Component {
           <h1>{ I18n.t("my_idp.settings") }</h1>
           { this.renderIdpFields() }
           { this.renderServicesFields() }
-          <a href="#" className="t-button" onClick={e => this.saveRequest(e)}>{ I18n.t("my_idp.save") }</a>
+          <h2>{ I18n.t("my_idp.comments") }</h2>
+          <textarea value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} />
+          <a href="#" className="t-button save policy-button" onClick={e => this.saveRequest(e)}>{ I18n.t("my_idp.save") }</a>
         </div>
       </div>
     );
@@ -274,7 +308,8 @@ class EditMyIdp extends React.Component {
 }
 
 EditMyIdp.contextTypes = {
-  currentUser: React.PropTypes.object
+  currentUser: React.PropTypes.object,
+  router: React.PropTypes.object
 };
 
 export default EditMyIdp;

@@ -1,6 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 import Link from "react-router/Link";
+import Flash from "../components/flash";
 
 import { getLicenseContactPerson, getIdpRolesWithUsers, getInstitutionServiceProviders, getGuestEnabledServices } from "../api";
 
@@ -32,6 +33,7 @@ class MyIdp extends React.Component {
     const roles = Object.keys(this.state.roles);
     return (
       <div className="l-mini">
+        <Flash />
         <div className="mod-idp">
           <h1>{I18n.t("my_idp.title")}</h1>
 
@@ -39,8 +41,10 @@ class MyIdp extends React.Component {
           {this.renderRoles(roles)}
           {this.renderLicenseContactPersons(this.state.licenseContactPersons)}
 
-          <h1>{ I18n.t("my_idp.settings") }</h1>
-          <Link className="t-button" to={"/my-idp/edit"}>{ I18n.t("my_idp.edit")}</Link>
+          <div className="l-grid settings-header">
+            <h1 className="l-col-8">{ I18n.t("my_idp.settings") }</h1>
+            <Link className="t-button l-col-4 policy-button" to={"/my-idp/edit"}>{ I18n.t("my_idp.edit")}</Link>
+          </div>
           { this.renderIdpFields() }
           { this.renderServicesFields() }
         </div>
@@ -202,6 +206,7 @@ class MyIdp extends React.Component {
             <tr>
               <th className="percent_35">{I18n.t("my_idp.license_contact_name")}</th>
               <th className="percent_35">{I18n.t("my_idp.license_contact_email")}</th>
+              <th className="percent_35">{I18n.t("my_idp.license_contact_email")}</th>
               <th className="percent_35">{I18n.t("my_idp.license_contact_phone")}</th>
             </tr>
             </thead>
@@ -224,9 +229,10 @@ class MyIdp extends React.Component {
           <table>
             <thead>
             <tr>
-              <th className="percent_35">{I18n.t("my_idp.contact_name")}</th>
-              <th className="percent_35">{I18n.t("my_idp.contact_email")}</th>
-              <th className="percent_35">{I18n.t("my_idp.contact_type")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
+              <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
             </tr>
             </thead>
             <tbody>
@@ -245,6 +251,7 @@ class MyIdp extends React.Component {
       <tr key={i}>
         <td>{contactPerson.name}</td>
         <td>{contactPerson.emailAddress}</td>
+        <td>{contactPerson.telephoneNumber}</td>
         <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType) }</td>
       </tr>
     );

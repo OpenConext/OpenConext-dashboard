@@ -363,7 +363,9 @@ I18n.translations.en = {
     no_consent_required: "No consent required",
     edit_message: "You are able to edit the following fields.",
     save: "Create change request",
-
+    change_request_created: "Successfully created your change request.",
+    change_request_failed: "Failed to create your change request.",
+    comments: "Comments"
   },
 
   policies: {
