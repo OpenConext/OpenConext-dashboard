@@ -58,7 +58,7 @@ class JiraTicketSummaryAndDescriptionBuilder {
       
       description.append("\n");
       
-      summary.append("Change settings of ").append(action.getIdpId());
+      summary.append("Change settings for ").append(action.getIdpId());
     } else if (action.getType().equals(QUESTION)) {
       description.append("Question: ").append(action.getBody()).append("\n");
       summary.
