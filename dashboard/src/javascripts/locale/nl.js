@@ -340,6 +340,8 @@ I18n.translations.nl = {
   },
 
   notifications: {
+    connect: "Activeren",
+    disconnect: "Deactiveren",
     title: "Notificaties",
     icon: "Icoon",
     name: "Naam",

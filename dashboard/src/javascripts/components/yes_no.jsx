@@ -9,7 +9,7 @@ class YesNo extends React.Component {
 }
 
 YesNo.propTypes = {
-  value: React.PropTypes.bool.isRequired
+  value: React.PropTypes.bool
 };
 
 export default YesNo;

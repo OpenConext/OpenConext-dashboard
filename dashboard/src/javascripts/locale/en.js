@@ -306,6 +306,8 @@ I18n.translations.en = {
   },
 
   notifications: {
+    connect: "Connect",
+    disconnect: "Disconnect",
     title: "Notifications",
     icon: "Icon",
     name: "Name",

@@ -37,15 +37,16 @@ class Notifications extends React.Component {
           <table>
             <thead>
               <tr>
-                <th className="percent_60">{I18n.t("notifications.name")}</th>
+                <th className="percent_40">{I18n.t("notifications.name")}</th>
                 <th className="percent_20">{I18n.t("notifications.license")}</th>
                 <th className="percent_20">{I18n.t("notifications.connection")}</th>
+                <th className="percent_20">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
               {notificationMessage.arguments.sort((l, r) => {
                 return l.name.localeCompare(r.name);
-              }).map(this.renderNotification)}
+              }).map(this.renderNotification.bind(this))}
             </tbody>
           </table>
 
@@ -68,8 +69,14 @@ class Notifications extends React.Component {
         </td>
         <YesNo value={notificationArgument.license} />
         <YesNo value={notificationArgument.connected} />
+        <td>{this.renderConnectButton(notificationArgument.id, notificationArgument.connected)}</td>
       </tr>
     );
+  }
+
+  renderConnectButton(id, connected) {
+    const label = connected ? I18n.t("notifications.disconnect") : I18n.t("notifications.connect");
+    return <Link to={`/apps/${id}/how_to_connect`} className="c-button narrow" onClick={e => e.stopPropagation()}>{label}</Link>;
   }
 }
 
