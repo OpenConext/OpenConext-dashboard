@@ -59,7 +59,8 @@ public class JiraClientImpl implements JiraClient {
   private static final Map<Action.Type, String> TASKTYPE_TO_ISSUETYPE_CODE = ImmutableMap.of(
     Type.QUESTION, "16",
     Type.LINKREQUEST, "13",
-    Type.UNLINKREQUEST, "17");
+    Type.UNLINKREQUEST, "17",
+    Type.CHANGE, "10000");
 
   private final String baseUrl;
   private final RestTemplate restTemplate;

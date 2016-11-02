@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static selfservice.domain.Action.Type.LINKREQUEST;
 import static selfservice.domain.Action.Type.QUESTION;
 import static selfservice.domain.Action.Type.UNLINKREQUEST;
+import static selfservice.domain.Action.Type.CHANGE;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +27,7 @@ class JiraTicketSummaryAndDescriptionBuilder {
     final StringBuilder summary = new StringBuilder();
 
 
-    if (action.getType().equals(QUESTION) && action.getSettings() != null) {
+    if (action.getType().equals(CHANGE)) {
       Settings settings = action.getSettings();
       description.append("Please update settings to the following: \n").
         append("Keywords NL: ").append(settings.getKeywordsNl()).append("\n").

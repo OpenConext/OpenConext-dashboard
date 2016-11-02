@@ -140,7 +140,7 @@ public class UsersController extends BaseController {
         .userName(currentUser.getUsername())
         .idpId(idpEntityId)
         .settings(settings)
-        .type(Action.Type.QUESTION).build();
+        .type(Action.Type.CHANGE).build();
 
     actionsService.create(action);
 
