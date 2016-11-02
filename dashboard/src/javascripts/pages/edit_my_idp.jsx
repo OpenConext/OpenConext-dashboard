@@ -236,6 +236,10 @@ class EditMyIdp extends React.Component {
       <table key={service.id} className="services">
         <tbody>
           <tr>
+            <td>{ I18n.t("my_idp.entity_id") }</td>
+            <td>{ service.spEntityId}</td>
+          </tr>
+          <tr>
             <td>{ I18n.t("my_idp.name.en") }</td>
             <td>{ service.names.en }</td>
           </tr>

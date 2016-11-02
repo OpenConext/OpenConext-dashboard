@@ -368,6 +368,7 @@ I18n.translations.nl = {
     institution: "Instelling",
     services: "Services",
     edit: "Wijzigingsverzoek aanmaken",
+    entity_id: "Entity ID",
     name: {
       en: "Naam (en)",
       nl: "Naam (nl)"

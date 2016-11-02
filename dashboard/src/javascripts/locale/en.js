@@ -334,6 +334,7 @@ I18n.translations.en = {
     institution: "Institution",
     services: "Services",
     edit: "Create change-request",
+    entity_id: "Entity ID",
     name: {
       en: "Name (en)",
       nl: "Name (nl)"
