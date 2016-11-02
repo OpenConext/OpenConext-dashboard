@@ -35,6 +35,7 @@ import Stats from "./pages/stats";
 import MyIdp from "./pages/idp";
 import NotFound from "./pages/not_found";
 import SearchUser from "./pages/search_user";
+import EditMyIdp from "./pages/edit_my_idp";
 
 import "./locale/en";
 import "./locale/nl";
@@ -68,6 +69,7 @@ class App extends React.Component {
           <Match exactly pattern="/profile" component={Profile} />
           <Match exactly pattern="/statistics" component={Stats} />
           <Match exactly pattern="/my-idp" component={MyIdp} />
+          <Match exactly pattern="/my-idp/edit" component={EditMyIdp} />
           <Match exactly pattern="/users/search" component={SearchUser} />
           <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/:id" component={PolicyDetail} />
           <Match exactly pattern="/policies/:id/revisions" component={PolicyRevisions} />

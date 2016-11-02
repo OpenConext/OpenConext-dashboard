@@ -39,7 +39,7 @@ public class JiraClientMock implements JiraClient {
   public String create(final Action action) {
     String key = generateKey();
 
-    repository.put(key, action.unbuild().jiraKey(key).build());
+    repository.put(key, action.unbuild().jiraKey(key).body(action.getBody() == null ? "" : action.getBody()).build());
 
     LOG.debug("Added task (key '{}') to repository: {}", key, action);
 

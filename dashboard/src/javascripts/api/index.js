@@ -105,6 +105,10 @@ export function getInstitutionServiceProviders() {
   return fetchJson("/users/me/serviceproviders");
 }
 
+export function getGuestEnabledServices() {
+  return fetchJson("/users/me/guest-enabled-services");
+}
+
 export function getConnectedServiceProviders(idpId) {
   return fetchJson("/services/connected", {
     "headers": {
@@ -192,4 +196,12 @@ export function getPolicy(policyId) {
 
 export function getPolicyRevisions(policyId) {
   return fetchJson(`/policies/${policyId}/revisions`);
+}
+
+export function sendChangeRequest(data) {
+  return postJson("/users/me/settings", data, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 }

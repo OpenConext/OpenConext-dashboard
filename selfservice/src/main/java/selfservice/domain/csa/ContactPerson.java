@@ -51,6 +51,9 @@ public class ContactPerson implements Serializable {
     this.telephoneNumber = telephoneNumber;
     this.contactPersonType = contactPersonType;
   }
+  
+  public ContactPerson() {
+  }
 
   public String getName() {
     return name;

@@ -321,6 +321,7 @@ I18n.translations.en = {
     sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
     role: "Role",
     users: "User(s)",
+    settings: "Settings",
     SURFconextverantwoordelijke: "SURFconext owner",
     SURFconextbeheerder: "SURFconext maintainer",
     "Dashboard supergebruiker": "Dashboard Super User",
@@ -329,7 +330,43 @@ I18n.translations.en = {
     license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
     license_contact_name: "Name",
     license_contact_email: "Email",
-    license_contact_phone: "Phonenumber"
+    license_contact_phone: "Phonenumber",
+    institution: "Institution",
+    services: "Services",
+    edit: "Create change-request",
+    entity_id: "Entity ID",
+    name: {
+      en: "Name (en)",
+      nl: "Name (nl)"
+    },
+    keywords: {
+      en: "Keywords (en)",
+      nl: "Keywords (nl)"
+    },
+    published_in_edugain: "Published in eduGAIN",
+    date_published_in_edugain: "Date published in eduGAIN",
+    logo_url: "Logo",
+    contact: "Contact persons",
+    contact_name: "Contact name",
+    contact_email: "Contact email",
+    contact_type: "Contact type",
+    contact_telephone: "Contact telephone",
+    contact_types: {
+      technical: "Technical",
+      support: "Support",
+      administrative: "Administrative"
+    },
+    description: {
+      en: "Description (en)",
+      nl: "Description (nl)"
+    },
+    guest_enabled: "Guest access enabled",
+    no_consent_required: "No consent required",
+    edit_message: "You are able to edit the following fields.",
+    save: "Create change request",
+    change_request_created: "Successfully created your change request.",
+    change_request_failed: "Failed to create your change request.",
+    comments: "Comments"
   },
 
   policies: {
