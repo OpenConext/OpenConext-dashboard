@@ -41,10 +41,7 @@ class MyIdp extends React.Component {
           {this.renderRoles(roles)}
           {this.renderLicenseContactPersons(this.state.licenseContactPersons)}
 
-          <div className="l-grid settings-header">
-            <h1 className="l-col-8">{ I18n.t("my_idp.settings") }</h1>
-            <Link className="t-button l-col-4 policy-button" to={"/my-idp/edit"}>{ I18n.t("my_idp.edit")}</Link>
-          </div>
+          <h1>{ I18n.t("my_idp.settings") }</h1>
           { this.renderIdpFields() }
           { this.renderServicesFields() }
         </div>
@@ -114,7 +111,10 @@ class MyIdp extends React.Component {
     const currentIdp = currentUser.getCurrentIdp();
     return (
       <div>
-        <h2>{ I18n.t("my_idp.institution") }</h2>
+        <div className="l-grid settings-header">
+          <h2 className="l-col-8">{ I18n.t("my_idp.institution") }</h2>
+          <Link className="t-button l-col-4 policy-button" to={"/my-idp/edit"}>{ I18n.t("my_idp.edit")}</Link>
+        </div>
         <table className="institution">
           <tbody>
             <tr>
