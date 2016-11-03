@@ -52,7 +52,10 @@ class MyIdp extends React.Component {
   renderServicesFields() {
     return (
       <div>
-        <h1>{ I18n.t("my_idp.services") }</h1>
+        <div className="l-grid settings-header">
+          <h1 className="l-col-8">{ I18n.t("my_idp.services") }</h1>
+          <Link className="t-button l-col-4 policy-button" to={"/my-idp/edit"}>{ I18n.t("my_idp.edit")}</Link>
+        </div>
         { this.state.institutionServiceProviders.map(s => this.renderService(s))}
       </div>
     );
