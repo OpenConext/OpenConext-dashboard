@@ -191,7 +191,6 @@ I18n.translations.en = {
     interfed_source: "Federation source:",
     publish_in_edugain_date: "Published in eduGAIN on:",
     supports_ssa: "Supports SURFconext Strong Authentication",
-    not_supports_ssa: "Does not support SURFconext Strong Authentication",
     entity_categories: "Supported Entity Categories",
     entity_category: {
       "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
@@ -323,7 +322,7 @@ I18n.translations.en = {
     sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
     role: "Role",
     users: "User(s)",
-    settings: "Settings",
+    settings: "Settings for my own institute and services",
     SURFconextverantwoordelijke: "SURFconext owner",
     SURFconextbeheerder: "SURFconext maintainer",
     "Dashboard supergebruiker": "Dashboard Super User",
@@ -363,7 +362,7 @@ I18n.translations.en = {
       nl: "Description (nl)"
     },
     guest_enabled: "Guest access enabled",
-    no_consent_required: "No consent required",
+    no_consent_required: "Consent disabled",
     edit_message: "You are able to edit the following fields.",
     save: "Create change request",
     change_request_created: "Successfully created your change request.",
@@ -467,7 +466,8 @@ I18n.translations.en = {
     action_types: {
       LINKREQUEST: "Connect to {{serviceName}}",
       UNLINKREQUEST: "Disconnect from {{serviceName}}",
-      QUESTION: "Question"
+      QUESTION: "Question",
+      CHANGE: "Change"
     },
   },
 

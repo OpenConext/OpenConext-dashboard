@@ -136,7 +136,7 @@ class EditMyIdp extends React.Component {
         <table className="institution">
           <tbody>
             <tr>
-              <td>{ I18n.t("my_idp.keywords.en") }</td>
+              <td className="percent_40">{ I18n.t("my_idp.keywords.en") }</td>
               <td>
                 { this.renderInput("keywordsEn") }
               </td>
@@ -236,7 +236,7 @@ class EditMyIdp extends React.Component {
       <table key={service.id} className="services">
         <tbody>
           <tr>
-            <td>{ I18n.t("my_idp.entity_id") }</td>
+            <td className="percent_40">{ I18n.t("my_idp.entity_id") }</td>
             <td>{ service.spEntityId}</td>
           </tr>
           <tr>

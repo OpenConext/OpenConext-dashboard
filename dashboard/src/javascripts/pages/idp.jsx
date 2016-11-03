@@ -67,7 +67,7 @@ class MyIdp extends React.Component {
         <table className="services">
           <tbody>
             <tr>
-              <td>{ I18n.t("my_idp.entity_id") }</td>
+              <td className="percent_40">{ I18n.t("my_idp.entity_id") }</td>
               <td>{ service.spEntityId}</td>
             </tr>
             <tr>
@@ -122,7 +122,7 @@ class MyIdp extends React.Component {
         <table className="institution">
           <tbody>
             <tr>
-              <td>{ I18n.t("my_idp.name.en") }</td>
+              <td className="percent_40">{ I18n.t("my_idp.name.en") }</td>
               <td>{ currentIdp.names.en }</td>
             </tr>
             <tr>

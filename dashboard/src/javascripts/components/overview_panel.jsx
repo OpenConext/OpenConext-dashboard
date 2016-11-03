@@ -10,13 +10,18 @@ import { AppShape } from "../shapes";
 
 class OverviewPanel extends React.Component {
   render() {
+    let connectionClass = "mod-connection";
+    if (this.props.app.strongAuthentication) {
+      connectionClass += " ssa";
+    }
+
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{this.props.app.name}</h1>
         </div>
 
-        <div className="mod-connection">
+        <div className={connectionClass}>
           {this.renderConnection()}
           <LicenseInfo app={this.props.app} showLinks />
           { this.renderStrongAuthentication() }
@@ -55,7 +60,7 @@ class OverviewPanel extends React.Component {
       return <div><i className="fa fa-lock"></i> <h2>{ I18n.t("overview_panel.supports_ssa") }</h2></div>;
     }
 
-    return <div><i className="fa fa-unlock"></i> <h2>{ I18n.t("overview_panel.not_supports_ssa") }</h2></div>;
+    return null;
   }
 
   renderPublishInEdugainDate() {
