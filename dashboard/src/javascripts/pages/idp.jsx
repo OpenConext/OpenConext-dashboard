@@ -115,6 +115,7 @@ class MyIdp extends React.Component {
     const currentIdp = currentUser.getCurrentIdp();
     return (
       <div>
+        <p>{ I18n.t("my_idp.settings_text") }</p>
         <div className="l-grid settings-header">
           <h2 className="l-col-8">{ I18n.t("my_idp.institution") }</h2>
           <Link className="t-button l-col-4 policy-button" to={"/my-idp/edit"}>{ I18n.t("my_idp.edit")}</Link>

@@ -323,6 +323,7 @@ I18n.translations.en = {
     role: "Role",
     users: "User(s)",
     settings: "Settings for my own institute and services",
+    settings_text: "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
     SURFconextverantwoordelijke: "SURFconext owner",
     SURFconextbeheerder: "SURFconext maintainer",
     "Dashboard supergebruiker": "Dashboard Super User",
@@ -334,7 +335,7 @@ I18n.translations.en = {
     license_contact_phone: "Phonenumber",
     institution: "Institution",
     services: "Services",
-    edit: "Create change-request",
+    edit: "Create change request",
     entity_id: "Entity ID",
     name: {
       en: "Name (en)",
