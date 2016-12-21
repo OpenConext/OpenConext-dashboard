@@ -40,7 +40,7 @@ class AttributePolicyPanel extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {app.filteredUserAttributes.map(this.renderAttribute)}
+            {app.filteredUserAttributes.map(this.renderAttribute.bind(this))}
           </tbody>
         </table>
         <p>
