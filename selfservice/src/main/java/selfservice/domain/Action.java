@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 
 public class Action {
 
-  public enum Type { LINKREQUEST, UNLINKREQUEST, QUESTION }
+  public enum Type { LINKREQUEST, UNLINKREQUEST, QUESTION, CHANGE }
 
   private String jiraKey;
   private String userName;
@@ -42,6 +42,8 @@ public class Action {
   private String status;
 
   private String subject;
+  private Service service;
+  private Settings settings;
 
   private Action(Builder builder) {
     this.jiraKey = builder.jiraKey;
@@ -55,6 +57,8 @@ public class Action {
     this.requestDate = builder.requestDate;
     this.type = builder.type;
     this.status = builder.status;
+    this.service = builder.service;
+    this.settings = builder.settings;
   }
 
   public Optional<String> getJiraKey() {
@@ -101,12 +105,20 @@ public class Action {
     return subject;
   }
 
+  public Service getService() {
+    return service;
+  }
+
 //  public String getIdpName() {
 //    return idpName;
 //  }
 
   public String getSpName() {
     return spName;
+  }
+  
+  public Settings getSettings() {
+    return settings;
   }
 
   /**
@@ -242,6 +254,8 @@ public class Action {
     private String spName;
     private String idpName;
     private ZonedDateTime requestDate;
+    private Service service;
+    private Settings settings;
 
     private Builder() {
     }
@@ -258,6 +272,8 @@ public class Action {
       this.spName = action.spName;
       this.idpName = action.idpName;
       this.requestDate = action.requestDate;
+      this.service = action.service;
+      this.settings = action.settings;
     }
 
     public Builder requestDate(ZonedDateTime requestDate) {
@@ -312,6 +328,16 @@ public class Action {
 
     public Builder status(String status) {
       this.status = status;
+      return this;
+    }
+
+    public Builder service(Service service) {
+      this.service = service;
+      return this;
+    }
+    
+    public Builder settings(Settings settings) {
+      this.settings = settings;
       return this;
     }
 

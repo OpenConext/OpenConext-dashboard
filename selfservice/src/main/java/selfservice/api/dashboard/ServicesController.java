@@ -91,12 +91,13 @@ public class ServicesController extends BaseController {
             String.valueOf(service.isPublishedInEdugain()),
             String.valueOf(service.isNormenkaderPresent()),
             service.getNormenkaderUrl(),
-            String.valueOf(service.isExampleSingleTenant()) });
+            String.valueOf(service.isExampleSingleTenant()),
+            String.valueOf(service.isStrongAuthentication()) });
 
     Stream<String[]> headers = Stream.<String[]>of(new String[] {
         "id", "name", "description", "app-url", "wiki-url", "support-mail",
         "connected", "license", "licenseStatus", "categories", "spEntityId",
-        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant" });
+        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant", "strongAuthentication" });
 
     List<String[]> rows = Stream.concat(headers, values).collect(toList());
 
@@ -161,7 +162,7 @@ public class ServicesController extends BaseController {
 
   private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, Action.Type jiraType) {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
-    if (currentUser.isSuperUser() || currentUser.isDashboardViewer()) {
+    if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
       return Optional.empty();
     }
 
@@ -169,14 +170,25 @@ public class ServicesController extends BaseController {
       return Optional.empty();
     }
 
-    Action action = Action.builder()
-        .userEmail(currentUser.getEmail())
-        .userName(currentUser.getUsername())
-        .body(comments)
-        .idpId(idpEntityId)
-        .spId(spEntityId)
-        .type(jiraType).build();
+    List<Service> services = csa.getServicesForIdp(idpEntityId);
+    Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
-    return Optional.of(actionsService.create(action));
+    if (optional.isPresent()) {
+      Service service = optional.get();
+
+      Action action = Action.builder()
+              .userEmail(currentUser.getEmail())
+              .userName(currentUser.getUsername())
+              .body(comments)
+              .idpId(idpEntityId)
+              .spId(spEntityId)
+              .service(service)
+              .type(jiraType).build();
+
+      return Optional.of(actionsService.create(action));
+    }
+
+    return Optional.empty();
+
   }
 }

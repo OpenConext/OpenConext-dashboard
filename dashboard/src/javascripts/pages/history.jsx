@@ -1,9 +1,49 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Pages.History = React.createClass({
-  mixins: [App.Mixins.SortableTable("history", "requestDate", true)],
+import I18n from "i18n-js";
 
-  render: function() {
+import { getActions } from "../api";
+import sort from "../utils/sort";
+import moment from "moment";
+
+import SortableHeader from "../components/sortable_header";
+
+class History extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      actions: [],
+      sortAttribute: "requestDate",
+      sortAscending: true
+    };
+  }
+
+  componentWillMount() {
+    getActions().then(data => this.setState({ actions: data.payload }));
+  }
+
+  handleSort(sortObject) {
+    this.setState({
+      sortAttribute: sortObject.sortAttribute,
+      sortAscending: sortObject.sortAscending
+    });
+  }
+
+  renderSortableHeader(className, attribute) {
+    return (
+      <SortableHeader
+        sortAttribute={this.state.sortAttribute}
+        attribute={attribute}
+        sortAscending={this.state.sortAscending}
+        localeKey="history"
+        className={className}
+        onSort={this.handleSort.bind(this)}
+        />
+    );
+  }
+
+  render() {
     return (
       <div className="l-mini">
 
@@ -21,27 +61,33 @@ App.Pages.History = React.createClass({
               </tr>
             </thead>
             <tbody>
-            {this.sort(this.props.actions).map(this.renderAction)}
+            { sort(this.state.actions).map(this.renderAction.bind(this)) }
             </tbody>
           </table>
         </div>
       </div>
     );
-  },
+  }
 
-  renderAction: function(action) {
+  renderAction(action) {
     return (
-      <tr key={action.id}>
-        <td className="percent_15">{new Date(action.requestDate).format("dd-MM-yyyy")}</td>
+      <tr key={action.jiraKey}>
+        <td className="percent_15">{moment(action.requestDate).format("DD-MM-YYYY")}</td>
         <td className="percent_15">{action.userName}</td>
-        <td className="percent_25">{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
+        <td className="percent_25">{I18n.t("history.action_types." + action.type, { serviceName: action.spName })}</td>
         <td className="percent_20">{action.jiraKey}</td>
         <td className="percent_25">{action.status}</td>
       </tr>
     );
-  },
+  }
 
-  convertRequestDateForSort: function(value) {
+  convertRequestDateForSort(value) {
     return Date.parse(value);
   }
-});
+}
+
+History.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+export default History;

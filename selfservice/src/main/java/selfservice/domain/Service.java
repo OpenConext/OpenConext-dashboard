@@ -19,7 +19,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -51,9 +53,18 @@ public class Service implements Comparable<Service>, Serializable {
   private String spEntityId;
   private String spName;
   private String normenkaderUrl;
+  private String interfedSource;
+  private String privacyStatementUrl;
+  private String registrationInfoUrl;
+  private String registrationPolicyUrl;
+  private String entityCategories1;
+  private String entityCategories2;
+  private String publishInEdugainDate;
 
   private List<String> screenshotUrls = new ArrayList<>();
   private List<Category> categories = new ArrayList<>();
+  private Map<String, String> names = new HashMap<>();
+  private Map<String, String> descriptions = new HashMap<>();
 
   private boolean connected;
   private boolean hasCrmLink;
@@ -62,6 +73,8 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean normenkaderPresent;
   private boolean exampleSingleTenant;
   private boolean policyEnforcementDecisionRequired;
+  private boolean strongAuthentication;
+  private boolean noConsentRequired;
 
   private CrmArticle crmArticle;
 
@@ -258,6 +271,22 @@ public class Service implements Comparable<Service>, Serializable {
   public void setArp(ARP arp) {
     this.arp = arp;
   }
+  
+  public Map<String, String> getNames() {
+    return names;
+  }
+
+  public void setNames(Map<String, String> names) {
+    this.names = names;
+  }
+ 
+  public Map<String, String> getDescriptions() {
+    return descriptions;
+  }
+
+  public void setDescriptions(Map<String, String> descriptions) {
+    this.descriptions = descriptions;
+  }
 
   public boolean isIdpVisibleOnly() {
     return idpVisibleOnly;
@@ -307,6 +336,14 @@ public class Service implements Comparable<Service>, Serializable {
     this.publishedInEdugain = publishedInEdugain;
   }
 
+  public String getPublishInEdugainDate() {
+    return publishInEdugainDate;
+  }
+
+  public void setPublishInEdugainDate(String publishInEdugainDate) {
+    this.publishInEdugainDate = publishInEdugainDate;
+  }
+
   public LicenseStatus getLicenseStatus() {
     return licenseStatus;
   }
@@ -337,6 +374,70 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setExampleSingleTenant(boolean exampleSingleTenant) {
     this.exampleSingleTenant = exampleSingleTenant;
+  }
+
+  public String getInterfedSource() {
+    return interfedSource;
+  }
+
+  public void setInterfedSource(String interfedSource) {
+    this.interfedSource = interfedSource;
+  }
+  
+  public String getPrivacyStatementUrl() {
+    return privacyStatementUrl;
+  }
+
+  public void setPrivacyStatementUrl(String privacyStatementUrl) {
+    this.privacyStatementUrl = privacyStatementUrl;
+  }
+
+  public String getRegistrationInfoUrl() {
+    return registrationInfoUrl;
+  }
+
+  public void setRegistrationInfoUrl(String registrationInfo) {
+    this.registrationInfoUrl = registrationInfo;
+  }
+  
+  public String getRegistrationPolicyUrl() {
+    return registrationPolicyUrl;
+  }
+
+  public void setRegistrationPolicyUrl(String registrationPolicyUrl) {
+    this.registrationPolicyUrl = registrationPolicyUrl;
+  }
+
+  public String getEntityCategories1() {
+    return entityCategories1;
+  }
+
+  public void setEntityCategories1(String entityCategories1) {
+    this.entityCategories1 = entityCategories1;
+  }
+
+  public String getEntityCategories2() {
+    return entityCategories2;
+  }
+
+  public void setEntityCategories2(String entityCategories2) {
+    this.entityCategories2 = entityCategories2;
+  }
+
+  public boolean isStrongAuthentication() {
+    return strongAuthentication;
+  }
+
+  public void setStrongAuthentication(boolean strongAuthentication) {
+    this.strongAuthentication = strongAuthentication;
+  }
+
+  public boolean isNoConsentRequired() {
+    return noConsentRequired;
+  }
+
+  public void setNoConsentRequired(boolean noConsentRequired) {
+    this.noConsentRequired = noConsentRequired;
   }
 
   @Override

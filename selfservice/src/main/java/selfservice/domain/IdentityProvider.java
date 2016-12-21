@@ -16,6 +16,7 @@
 package selfservice.domain;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 public class IdentityProvider extends Provider implements Serializable {
 
   private String institutionId;
+  private Map<String, String> keywords = new HashMap<>();
 
   public IdentityProvider() {
   }
@@ -41,6 +43,8 @@ public class IdentityProvider extends Provider implements Serializable {
   public IdentityProvider(Map<String, Object> metaData) {
     super(metaData);
     this.institutionId = (String) metaData.get("coin:institution_id");
+    addKeywords("en", (String) metaData.get("keywords:en"));
+    addKeywords("nl", (String) metaData.get("keywords:nl"));
   }
 
   public String getInstitutionId() {
@@ -50,7 +54,17 @@ public class IdentityProvider extends Provider implements Serializable {
   public void setInstitutionId(String institutionId) {
     this.institutionId = institutionId;
   }
+  
+  public Map<String, String> getKeywords() {
+    return keywords;
+  }
 
+  private void addKeywords(String language, String keywords) {
+    if (keywords != null) {
+      this.keywords.put(language, keywords);
+    }
+  }
+  
   @Override
   public String toString() {
     return "IdentityProvider{" +

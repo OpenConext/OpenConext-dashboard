@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Help.PolicyDetailHelpNl = React.createClass({
-  render: function () {
+class PolicyDetailHelpNl extends React.Component {
+  render() {
     return (
         <div className="form-element about">
           <h1>Hoe maak je autorisatieregels?</h1>
@@ -26,6 +26,13 @@ App.Help.PolicyDetailHelpNl = React.createClass({
 
           <p>De instelling bepaalt voor welke instelling deze autorisatieregel van toepassing is. De instelling in deze context
             is de 'Identity Provider' die de gebruiker heeft geauthentiseerd. Je kan 0 of meer instellingen koppelen aan een autorisatieregel.</p>
+          <br/>
+          <p>
+
+            Als je het veld Instelling(en) leeg laat (je koppelt dus 0 instellingen), dan kun je alleen een autorisatieregel maken voor diensten
+            waar jouw instelling eigenaar van is. De regel geldt dan voor alle instellingen die gebruik maken van die dienst. Als je 1 of meer
+            instellingen selecteert dan kun je een autorisatieregel maken voor alle diensten die de geselecteerde instelling(en) afnemen.
+          </p>
 
           <h2>Dienst</h2>
 
@@ -48,4 +55,6 @@ App.Help.PolicyDetailHelpNl = React.createClass({
         </div>
     );
   }
-});
+}
+
+export default PolicyDetailHelpNl;

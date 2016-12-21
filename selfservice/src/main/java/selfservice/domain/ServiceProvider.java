@@ -29,7 +29,15 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private final String applicationUrl;
   private final String institutionId;
   private final String eulaURL;
-
+  private final String interfedSource;
+  private final String privacyStatementUrlEn;
+  private final String privacyStatementUrlNl;
+  private final String registrationInfo;
+  private final String registrationPolicyUrlEn;
+  private final String registrationPolicyUrlNl;
+  private final String entityCategories1;
+  private final String entityCategories2;
+  private final String publishInEdugainDate;
   private final boolean idpVisibleOnly;
   private final boolean publishedInEdugain;
   private final boolean policyEnforcementDecisionRequired;
@@ -45,6 +53,15 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.applicationUrl = (String) metaData.get("coin:application_url");
     this.institutionId = (String) metaData.get("coin:institution_id");
     this.eulaURL = (String) metaData.get("coin:eula");
+    this.interfedSource = (String) metaData.getOrDefault("coin:interfed_source", "SURFconext");
+    this.privacyStatementUrlEn = (String) metaData.get("mdui:PrivacyStatementURL:en");
+    this.privacyStatementUrlNl = (String) metaData.get("mdui:PrivacyStatementURL:nl");
+    this.registrationInfo = (String) metaData.get("mdrpi:RegistrationInfo");
+    this.registrationPolicyUrlEn = (String) metaData.get("mdrpi:RegistrationPolicy:en");
+    this.registrationPolicyUrlNl = (String) metaData.get("mdrpi:RegistrationPolicy:nl");
+    this.entityCategories1 = (String) metaData.get("coin:entity_categories:1");
+    this.entityCategories2 = (String) metaData.get("coin:entity_categories:2");
+    this.publishInEdugainDate = (String) metaData.get("coin:publish_in_edugain_date");
 
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
@@ -52,7 +69,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.arp = metaData.containsKey("attributes") ? ARP.fromAttributes((List<String>) metaData.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
 
     addUrl("en", (String) metaData.get("url:en"));
-    addUrl("nl", (String) metaData.get("url:en"));
+    addUrl("nl", (String) metaData.get("url:nl"));
   }
 
   public boolean isIdpVisibleOnly() {
@@ -65,6 +82,34 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public String getEulaURL() {
     return eulaURL;
+  }
+  
+  public String getInterfedSource() {
+    return interfedSource;
+  }
+
+  public String getPrivacyStatementUrlEn() {
+    return privacyStatementUrlEn;
+  }
+
+  public String getPrivacyStatementUrlNl() {
+    return privacyStatementUrlNl;
+  }
+
+  public String getRegistrationInfo() {
+    return registrationInfo;
+  }
+
+  public String getRegistrationPolicyUrlEn() {
+    return registrationPolicyUrlEn;
+  }
+
+  public String getRegistrationPolicyUrlNl() {
+    return registrationPolicyUrlNl;
+  }
+
+  public String getPublishInEdugainDate() {
+    return publishInEdugainDate;
   }
 
   public Map<String, String> getUrls() {
@@ -103,6 +148,14 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public String getInstitutionId() {
     return institutionId;
+  }
+
+  public String getEntityCategories1() {
+    return entityCategories1;
+  }
+
+  public String getEntityCategories2() {
+    return entityCategories2;
   }
 
   @Override

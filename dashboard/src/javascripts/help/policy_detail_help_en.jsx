@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
+import React from "react";
 
-App.Help.PolicyDetailHelpEn = React.createClass({
-  render: function () {
+class PolicyDetailHelpEn extends React.Component {
+  render() {
     return (
         <div className="form-element about">
           <h1>How to create Policies?</h1>
@@ -32,6 +32,14 @@ App.Help.PolicyDetailHelpEn = React.createClass({
             the Identity Provider which authenticated the user.
             You can link policies to zero or more Institutions</p>
 
+          <br/>
+          <p>
+            If you keep the Institution field empty (you select zero Institutions), you can only make authorization
+            policies for Service Providers owned by your Institution. The policy will apply to all Institutions
+            connected to that service. If you select 1 or more Insitutions, your authorization policy can be applied
+            to any Service Provider those Institutions are connected to.
+          </p>
+
           <h2>Service</h2>
 
           <p>The Service determines for which Service this policy applies. You can only link policies to one
@@ -55,4 +63,6 @@ App.Help.PolicyDetailHelpEn = React.createClass({
         </div>
     );
   }
-});
+}
+
+export default PolicyDetailHelpEn;

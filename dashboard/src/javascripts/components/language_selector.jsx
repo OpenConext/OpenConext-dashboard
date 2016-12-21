@@ -1,7 +1,8 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Components.LanguageSelector = React.createClass({
-  render: function () {
+class LanguageSelector extends React.Component {
+  render() {
     return (
       <ul className="language">
         {[
@@ -10,29 +11,31 @@ App.Components.LanguageSelector = React.createClass({
         ]}
       </ul>
     );
-  },
+  }
 
-  renderLocaleChooser: function(locale) {
+  renderLocaleChooser(locale) {
     return (
       <li key={locale}>
         <a
           href="#"
-          className={I18n.currentLocale() == locale ? "selected" : ""}
-          title={I18n.t("select_locale", {locale: locale})}
+          className={I18n.currentLocale() === locale ? "selected" : ""}
+          title={I18n.t("select_locale", { locale: locale })}
           onClick={this.handleChooseLocale(locale)}>
-          {I18n.t("code", {locale: locale})}
+          {I18n.t("code", { locale: locale })}
         </a>
       </li>
     );
-  },
+  }
 
-  handleChooseLocale: function(locale) {
+  handleChooseLocale(locale) {
     return function(e) {
       e.preventDefault();
       e.stopPropagation();
-      if (I18n.currentLocale() != locale) {
+      if (I18n.currentLocale() !== locale) {
         window.location.search = "lang=" + locale;
       }
-    }
+    };
   }
-});
+}
+
+export default LanguageSelector;

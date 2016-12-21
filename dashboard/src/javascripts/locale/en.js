@@ -4,6 +4,7 @@
 // ie "Hello {{name}}" Do not add any spaces around the variable name.
 // Provide the values as: I18n.t("key", {name: "John Doe"})
 
+import I18n from "i18n-js";
 
 I18n.translations.en = {
   code: "EN",
@@ -17,7 +18,7 @@ I18n.translations.en = {
 
   browser_not_supported: {
     title: "Your browser is not supported.",
-    description_html: "Your version of Internet Explorer {{ieVersion}} is not supported. Please update your browser to a more modern version."
+    description_html: "Your version of Internet Explorer is not supported. Please update your browser to a more modern version."
   },
 
   date: {
@@ -28,7 +29,7 @@ I18n.translations.en = {
     title: "Dashboard",
     welcome: "Welcome,",
     links: {
-      help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help</a>",
+      help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
       logout: "Logout",
       exit: "Exit"
     },
@@ -80,6 +81,22 @@ I18n.translations.en = {
         name: "Published in eduGAIN federation",
         no: "No",
         yes: "Yes",
+      },
+      interfed_source: {
+        name: "Federation source",
+        surfconext: "SURFconext",
+        edugain: "eduGAIN",
+        entree: "Kennisnet Entree"
+      },
+      entity_category: {
+        name: "eduGAIN Entity Category",
+        code_of_conduct: "Code of Conduct",
+        research_and_scholarship: "Research and Scholarship"
+      },
+      strong_authentication: {
+        name: "Supports SURFconext Strong Authentication",
+        yes: "Yes",
+        no: "No"
       }
     }
   },
@@ -120,7 +137,10 @@ I18n.translations.en = {
     eula: "Terms & Conditions",
     website: "Website",
     support: "Support pages",
-    login: "Login page"
+    login: "Login page",
+    registration_info_html: "This Service Provider is available in SURFconext through <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. The Service Provider is registered by the following federation: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
+    registration_policy: "Registration policy",
+    privacy_statement: "Privacy statement"
   },
 
   license_info_panel: {
@@ -167,7 +187,15 @@ I18n.translations.en = {
     normen_kader_html: "{{name}} has published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education <a href=\"{{link}}\" target=\"_blank\">online</a>. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>",
     no_normen_kader_html: "{{name}} has not published its compliance and possible noncompliance with the Framework of Legal Standards for Cloud Services in Higher Education. For more information about the Framework see the <a href=\"https://www.surf.nl/en/knowledge-and-innovation/knowledge-base/2013/framework-of-legal-standards-for-cloud-services-in-higher-education.html\" target=\"_blank\">SURFnet website</a>",
     single_tenant_service: "Single tenant service",
-    single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>"
+    single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
+    interfed_source: "Federation source:",
+    publish_in_edugain_date: "Published in eduGAIN on:",
+    supports_ssa: "Supports SURFconext Strong Authentication",
+    entity_categories: "Supported Entity Categories",
+    entity_category: {
+      "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
+      "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
+    }
   },
 
   attributes_policy_panel: {
@@ -215,6 +243,8 @@ I18n.translations.en = {
     },
     info_sub_title: "You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.",
     info_title: "Activate connection",
+    jira_unreachable: "Something went wrong with your request",
+    jira_unreachable_description: "It is currently not possible to do a request. Please try again later.",
     license: "license",
     license_info: "license information",
     obtain_license: {
@@ -275,6 +305,8 @@ I18n.translations.en = {
   },
 
   notifications: {
+    connect: "Connect",
+    disconnect: "Disconnect",
     title: "Notifications",
     icon: "Icon",
     name: "Name",
@@ -290,6 +322,8 @@ I18n.translations.en = {
     sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
     role: "Role",
     users: "User(s)",
+    settings: "Settings for my own institute and services",
+    settings_text: "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
     SURFconextverantwoordelijke: "SURFconext owner",
     SURFconextbeheerder: "SURFconext maintainer",
     "Dashboard supergebruiker": "Dashboard Super User",
@@ -298,7 +332,43 @@ I18n.translations.en = {
     license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
     license_contact_name: "Name",
     license_contact_email: "Email",
-    license_contact_phone: "Phonenumber"
+    license_contact_phone: "Phonenumber",
+    institution: "Institution",
+    services: "Services",
+    edit: "Create change request",
+    entity_id: "Entity ID",
+    name: {
+      en: "Name (en)",
+      nl: "Name (nl)"
+    },
+    keywords: {
+      en: "Keywords (en)",
+      nl: "Keywords (nl)"
+    },
+    published_in_edugain: "Published in eduGAIN",
+    date_published_in_edugain: "Date published in eduGAIN",
+    logo_url: "Logo",
+    contact: "Contact persons",
+    contact_name: "Contact name",
+    contact_email: "Contact email",
+    contact_type: "Contact type",
+    contact_telephone: "Contact telephone",
+    contact_types: {
+      technical: "Technical",
+      support: "Support",
+      administrative: "Administrative"
+    },
+    description: {
+      en: "Description (en)",
+      nl: "Description (nl)"
+    },
+    guest_enabled: "Guest access enabled",
+    no_consent_required: "Consent disabled",
+    edit_message: "You are able to edit the following fields.",
+    save: "Create change request",
+    change_request_created: "Successfully created your change request.",
+    change_request_failed: "Failed to create your change request.",
+    comments: "Comments"
   },
 
   policies: {
@@ -309,6 +379,9 @@ I18n.translations.en = {
     flash_first: "This is the first authorization policy for this service. Before it becomes active, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.",
     flash_updated: "updated",
     new_policy: "New authorization policy",
+    how_to: "How-to",
+    pdp_unreachable: "PDP unreachable",
+    pdp_unreachable_description: "Currently unable to fetch the policies from PDP. Please try again later.",
     overview: {
       active: "Active",
       description: "Description",
@@ -394,7 +467,8 @@ I18n.translations.en = {
     action_types: {
       LINKREQUEST: "Connect to {{serviceName}}",
       UNLINKREQUEST: "Disconnect from {{serviceName}}",
-      QUESTION: "Question"
+      QUESTION: "Question",
+      CHANGE: "Change"
     },
   },
 
@@ -409,13 +483,13 @@ I18n.translations.en = {
         idpsp: "Logins per SP"
       },
       periodFrom: {
-        name: "Date from (yyyy-mm-dd)"
+        name: "Date from"
       },
       periodTo: {
-        name: "Date to (yyyy-mm-dd)"
+        name: "Date to"
       },
       periodDate: {
-        name: "Date (yyyy-mm-dd)"
+        name: "Date"
       },
       period: {
         name: "Period",

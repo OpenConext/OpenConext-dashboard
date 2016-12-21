@@ -50,6 +50,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   private boolean allowedAll;
   private Set<String> allowedEntityIds;
+  private boolean noConsentRequired;
 
   public Provider() {
   }
@@ -77,6 +78,8 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     });
     this.allowedAll = getAllowedAll(metaData);
     this.allowedEntityIds = getAllowedEntries(metaData);
+    this.noConsentRequired = booleanValue(metaData.get("coin:no_consent_required"));
+
   }
 
   public enum Language {
@@ -174,6 +177,14 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   private void addDescription(String language, String description) {
     this.descriptions.put(language, description);
+  }
+
+  public void setNoConsentRequired(boolean noConsentRequired) {
+    this.noConsentRequired = noConsentRequired;
+  }
+
+  public boolean isNoConsentRequired() {
+    return noConsentRequired;
   }
 
   public boolean isAllowedAll() {

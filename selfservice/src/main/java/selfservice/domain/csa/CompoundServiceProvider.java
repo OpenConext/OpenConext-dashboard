@@ -101,6 +101,9 @@ public class CompoundServiceProvider extends DomainObject {
   @Column
   private boolean exampleSingleTenant;
 
+  @Column
+  private boolean strongAuthentication;
+
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "compoundServiceProvider")
   @SortNatural
   private SortedSet<FieldString> fields = new TreeSet<>();
@@ -152,6 +155,15 @@ public class CompoundServiceProvider extends DomainObject {
     buildFieldString(Key.TECHNICAL_SUPPORTMAIL, null, getMail(serviceProvider, ContactPersonType.technical), provider);
     buildFieldString(Key.WIKI_URL_EN, null, null, provider);
     buildFieldString(Key.WIKI_URL_NL, null, null, provider);
+    buildFieldString(Key.INTERFED_SOURCE, null, serviceProvider.getInterfedSource(), provider);
+    buildFieldString(Key.PRIVACY_STATEMENT_URL_EN, null, serviceProvider.getPrivacyStatementUrlEn(), provider);
+    buildFieldString(Key.PRIVACY_STATEMENT_URL_NL, null, serviceProvider.getPrivacyStatementUrlNl(), provider);
+    buildFieldString(Key.REGISTRATION_INFO_URL, null, serviceProvider.getRegistrationInfo(), provider);
+    buildFieldString(Key.REGISTRATION_POLICY_URL_EN, null, serviceProvider.getRegistrationPolicyUrlEn(), provider);
+    buildFieldString(Key.REGISTRATION_POLICY_URL_NL, null, serviceProvider.getRegistrationPolicyUrlNl(), provider);
+    buildFieldString(Key.ENTITY_CATEGORIES_1, null, serviceProvider.getEntityCategories1(), provider);
+    buildFieldString(Key.ENTITY_CATEGORIES_2, null, serviceProvider.getEntityCategories2(), provider);
+    buildFieldString(Key.PUBLISH_IN_EDUGAIN_DATE, null, serviceProvider.getPublishInEdugainDate(), provider);
 
     return provider;
   }
@@ -264,12 +276,52 @@ public class CompoundServiceProvider extends DomainObject {
     return (String) getFieldValue(Key.WIKI_URL_NL);
   }
 
+  public String getInterfedSource() {
+    return (String) getFieldValue(Key.INTERFED_SOURCE);
+  }
+  
+  public String getPrivacyStatementUrlEn() {
+    return (String) getFieldValue(Key.PRIVACY_STATEMENT_URL_EN);
+  }
+  
+  public String getPrivacyStatementUrlNl() {
+    return (String) getFieldValue(Key.PRIVACY_STATEMENT_URL_NL);
+  }
+  
+  public String getRegistrationInfo() {
+    return (String) getFieldValue(Key.REGISTRATION_INFO_URL);
+  }
+  
+  public String getRegistrationPolicyUrlEn() {
+    return (String) getFieldValue(Key.REGISTRATION_POLICY_URL_EN);
+  }
+  
+  public String getRegistrationPolicyUrlNl() {
+    return (String) getFieldValue(Key.REGISTRATION_POLICY_URL_NL);
+  }
+
+  public String getEntityCategories1() {
+    return (String) getFieldValue(Key.ENTITY_CATEGORIES_1);
+  }
+
+  public String getEntityCategories2() {
+    return (String) getFieldValue(Key.ENTITY_CATEGORIES_2);
+  }
+
+  public String getPublishInEdugainDate() {
+    return (String) getFieldValue(Key.PUBLISH_IN_EDUGAIN_DATE);
+  }
+
   public String getSupportMail() {
     return (String) getFieldValue(Key.SUPPORT_MAIL);
   }
 
   public String getTechnicalSupportMail() {
     return (String) getFieldValue(Key.TECHNICAL_SUPPORTMAIL);
+  }
+
+  public boolean getStrongAuthentication() {
+    return (boolean) getFieldValue(Key.STRONG_AUTHENTICATION);
   }
 
   public boolean addFieldString(FieldString f) {
@@ -419,6 +471,16 @@ public class CompoundServiceProvider extends DomainObject {
       .put(Key.EULA_URL, provider -> provider.serviceProvider.getEulaURL())
       .put(Key.TITLE_NL, provider -> Optional.ofNullable(provider.serviceProvider).map(sp -> sp.getName(Language.NL)).orElse(provider.serviceProviderEntityId))
       .put(Key.TITLE_EN, provider -> Optional.ofNullable(provider.serviceProvider).map(sp -> sp.getName(Language.EN)).orElse(provider.serviceProviderEntityId))
+      .put(Key.INTERFED_SOURCE, provider -> provider.serviceProvider.getInterfedSource())
+      .put(Key.PRIVACY_STATEMENT_URL_EN, provider -> provider.serviceProvider.getPrivacyStatementUrlEn())
+      .put(Key.PRIVACY_STATEMENT_URL_NL, provider -> provider.serviceProvider.getPrivacyStatementUrlNl())
+      .put(Key.REGISTRATION_INFO_URL, provider -> provider.serviceProvider.getRegistrationInfo())
+      .put(Key.REGISTRATION_POLICY_URL_EN, provider -> provider.serviceProvider.getRegistrationPolicyUrlEn())
+      .put(Key.REGISTRATION_POLICY_URL_NL, provider -> provider.serviceProvider.getRegistrationPolicyUrlNl())
+      .put(Key.ENTITY_CATEGORIES_1, provider -> provider.serviceProvider.getEntityCategories1())
+      .put(Key.ENTITY_CATEGORIES_2, provider -> provider.serviceProvider.getEntityCategories2())
+      .put(Key.PUBLISH_IN_EDUGAIN_DATE, provider -> provider.serviceProvider.getPublishInEdugainDate())
+
       .build();
 
   private static final ImmutableMap<Key, Function<Optional<Article>, Object>> lmngProperites = new ImmutableMap.Builder<Key, Function<Optional<Article>, Object>>()
@@ -540,6 +602,14 @@ public class CompoundServiceProvider extends DomainObject {
 
   public void setExampleSingleTenant(boolean exampleSingleTenant) {
     this.exampleSingleTenant = exampleSingleTenant;
+  }
+
+  public boolean isStrongAuthentication() {
+    return strongAuthentication;
+  }
+
+  public void setStrongAuthentication(boolean strongAuthentication) {
+    this.strongAuthentication = strongAuthentication;
   }
 
   private static void buildFieldString(Key key, String lmng, String surfconext, CompoundServiceProvider provider) {

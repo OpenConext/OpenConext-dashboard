@@ -4,6 +4,7 @@
 // ie "Hello {{name}}" Do not add any spaces around the variable name.
 // Provide the values as: I18n.t("key", {name: "John Doe"})
 
+import I18n from "i18n-js";
 
 I18n.translations.nl = {
   code: "NL",
@@ -17,7 +18,7 @@ I18n.translations.nl = {
 
   browser_not_supported: {
     title: "Uw browser wordt niet ondersteund.",
-    description_html: "Uw versie van Internet Explorer {{ieVersion}} wordt niet ondersteunt. Update uw browser naar een modernere versie."
+    description_html: "Uw versie van Internet Explorer wordt niet ondersteunt. Update uw browser naar een modernere versie."
   },
 
   date: {
@@ -28,7 +29,7 @@ I18n.translations.nl = {
     title: "Dashboard",
     welcome: "Welkom,",
     links: {
-      help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help</a>",
+      help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
       logout: "Uitloggen",
       exit: "Exit"
     },
@@ -80,6 +81,22 @@ I18n.translations.nl = {
         name: "Gepubliceerd in eduGAIN federatie",
         no: "Nee",
         yes: "Ja",
+      },
+      interfed_source: {
+        name: "Federatie bron",
+        surfconext: "SURFconext",
+        edugain: "eduGAIN",
+        entree: "Kennisnet Entree"
+      },
+      entity_category: {
+        name: "eduGAIN Entity Categorie",
+        code_of_conduct: "Code of Conduct",
+        research_and_scholarship: "Research and Scholarship"
+      },
+      strong_authentication: {
+        name: "Ondersteunt SURFconext Sterke Authenticatie",
+        yes: "Ja",
+        no: "Nee"
       }
     }
   },
@@ -120,7 +137,10 @@ I18n.translations.nl = {
     eula: "Algemene voorwaarden",
     website: "Website",
     support: "Support pagina",
-    login: "Login pagina"
+    login: "Login pagina",
+    registration_info_html: "Deze Service Provider is beschikbaar in SURFconext via <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. De Service Provider is door de volgende federatie geregistreerd: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
+    registration_policy: "Registratie beleid",
+    privacy_statement: "Privacyverklaring"
   },
 
   license_info_panel: {
@@ -167,7 +187,15 @@ I18n.translations.nl = {
     normen_kader_html: "{{name}} heeft zijn compliance en non-compliance met het Juridisch normenkader cloudservices hoger onderwijs <a href=\"{{link}}\" target=\"_blank\">hier</a> gepubliceerd. Voor meer informatie over het framework zie de <a href=\"https://www.surf.nl/kennis-en-innovatie/kennisbank/2013/juridisch-normenkader-cloud-services-hoger-onderwijs.html\" target=\"_blank\">SURFnet website</a>",
     no_normen_kader_html: "Het is onbekend in welke mate {{name}} voldoet aan het Juridisch normenkader cloudservices hoger onderwijs. Voor meer informatie over het framework zie de <a href=\"https://www.surf.nl/kennis-en-innovatie/kennisbank/2013/juridisch-normenkader-cloud-services-hoger-onderwijs.html\" target=\"_blank\">SURFnet website</a>",
     single_tenant_service: "Single tenant dienst",
-    single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten."
+    single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
+    interfed_source: "Federatie bron:",
+    publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
+    supports_ssa: "Ondersteunt SURFconext Sterke Authenticatie",
+    entity_categories: "Ondersteunde Entity Categories",
+    entity_category: {
+      "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
+      "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
+    }
   },
 
   attributes_policy_panel: {
@@ -216,6 +244,8 @@ I18n.translations.nl = {
     },
     info_sub_title: "Je kunt een verbinding activeren vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
     info_title: "Verbinding activeren",
+    jira_unreachable: "Er is iets mis gegaan bij de aanvraag",
+    jira_unreachable_description: "Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.",
     license: "licentie",
     license_info: "de licentieinformatie",
     obtain_license: {
@@ -265,13 +295,13 @@ I18n.translations.nl = {
         idpsp: "Logins per SP"
       },
       periodFrom: {
-        name: "Datum vanaf (yyyy-mm-dd)"
+        name: "Datum vanaf"
       },
       periodTo: {
-        name: "Datum tot (yyyy-mm-dd)"
+        name: "Datum tot"
       },
       periodDate: {
-        name: "Datum (yyyy-mm-dd)"
+        name: "Datum"
       },
       period: {
         name: "Periode",
@@ -309,6 +339,8 @@ I18n.translations.nl = {
   },
 
   notifications: {
+    connect: "Activeren",
+    disconnect: "Deactiveren",
     title: "Notificaties",
     icon: "Icoon",
     name: "Naam",
@@ -324,6 +356,8 @@ I18n.translations.nl = {
     sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
     role: "Rol",
     users: "Gebruiker(s)",
+    settings: "Gegevens van mijn eigen instelling en diensten",
+    settings_text: "Hieronder staan enkele gegevens van jouw instelling en van Service Providers die door jouw instelling in SURFconext worden aangeboden. Deze gegevens worden in SURFconext gebruikt, bijvoorbeeld in de Where Are You From-pagina. Je kunt deze gegevens wijzigen door te klikken op 'Wijzigingsverzoek aanmaken'.",
     SURFconextverantwoordelijke: "SURFconextverantwoordelijke",
     SURFconextbeheerder: "SURFconextbeheerder",
     "Dashboard supergebruiker": "Dashboard supergebruiker",
@@ -332,7 +366,43 @@ I18n.translations.nl = {
     license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
     license_contact_name: "Naam",
     license_contact_email: "Email",
-    license_contact_phone: "Telefoonnummer"
+    license_contact_phone: "Telefoonnummer",
+    institution: "Instelling",
+    services: "Services",
+    edit: "Wijzigingsverzoek aanmaken",
+    entity_id: "Entity ID",
+    name: {
+      en: "Naam (en)",
+      nl: "Naam (nl)"
+    },
+    keywords: {
+      en: "Trefwoorden (en)",
+      nl: "Trefwoorden (nl)"
+    },
+    published_in_edugain: "Gepubliceerd in eduGAIN",
+    date_published_in_edugain: "Datum gepubliceerd in eduGAIN",
+    logo_url: "Logo",
+    contact: "Contactpersonen",
+    contact_name: "Contact naam",
+    contact_email: "Contact email",
+    contact_telephone: "Contact telephone",
+    contact_type: "Contact type",
+    contact_types: {
+      technical: "Technisch",
+      support: "Ondersteuning",
+      administrative: "Administratief"
+    },
+    description: {
+      en: "Beschrijving (en)",
+      nl: "Beschrijving (nl)"
+    },
+    guest_enabled: "Gast-toegang ingeschakeld",
+    no_consent_required: "Consent uitgeschakeld",
+    edit_message: "De volgende velden kunnen worden aangepast.",
+    save: "Maak wijzigingsverzoek aan",
+    change_request_created: "Het wijzigingsverzoek is succesvol aangemaakt.",
+    change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
+    comments: "Opmerkingen"
   },
 
   policies: {
@@ -343,6 +413,9 @@ I18n.translations.nl = {
     flash_first: "Dit is de eerste autorisatieregel voor deze dienst. Het SURFconext Team moet een handeling doen om de regel actief te maken. Er is een notificatie gestuurd naar het SURFconext Team. Er wordt contact met u opgenomen.",
     flash_updated: "bijgewerkt",
     new_policy: "Nieuwe autorisatieregel",
+    how_to: "Uitleg",
+    pdp_unreachable: "PDP niet bereikbaar",
+    pdp_unreachable_description: "Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.",
     overview: {
       active: "Actief",
       description: "Omschrijving",
@@ -427,7 +500,8 @@ I18n.translations.nl = {
     action_types: {
       LINKREQUEST: "Verbinden met {{serviceName}}",
       UNLINKREQUEST: "Ontbinden met {{serviceName}}",
-      QUESTION: "Vraag"
+      QUESTION: "Vraag",
+      CHANGE: "Wijziging"
     },
   },
 
@@ -523,14 +597,6 @@ I18n.translations.nl = {
       "Shib-nlDigitalAuthorIdentifier": {
         name: "DAI",
         description: "Digital Author Identifier (DAI)"
-      },
-      "Shib-nlEduPersonHomeOrganization": {
-        name: "Weergavenaam van de Instelling",
-        description: "weergavenaam van de instelling"
-      },
-      "Shib-nlEduPersonStudyBranch": {
-        name: "Opleiding",
-        description: "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft"
       },
       "Shib-userStatus": {
         name: "Gebruikersstatus",

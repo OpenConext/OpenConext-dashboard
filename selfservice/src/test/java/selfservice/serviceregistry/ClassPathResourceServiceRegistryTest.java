@@ -18,7 +18,7 @@ public class ClassPathResourceServiceRegistryTest {
   @Test
   public void testIdentityProviders() {
     List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
-    assertEquals(8, identityProviders.size());
+    assertEquals(9, identityProviders.size());
   }
 
   @Test

@@ -1,83 +1,111 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
+import Link from "react-router/Link";
 
-App.Pages.AppDetail = React.createClass({
-  panelMap: {
-    "overview": {
-      component: App.Components.OverviewPanel,
-      icon: "fa-list"
-    },
-    "license_info": {
-      component: App.Components.LicenseInfoPanel,
-      icon: "fa-file-text-o"
-    },
-    "application_usage": {
-      component: App.Components.ApplicationUsagePanel,
-      icon: "fa-area-chart"
-    },
-    "attribute_policy": {
-      component: App.Components.AttributePolicyPanel,
-      icon: "fa-table"
-    },
-    "idp_usage": {
-      component: App.Components.IdpUsagePanel,
-      icon: "fa-clipboard"
-    },
-    "how_to_connect": {
-      component: App.Components.HowToConnectPanel,
-      icon: "fa-chain"
-    }
-  },
+import { getApp, getIdps } from "../api";
 
-  getInitialState: function () {
-    return {
-      activePanel: this.props.activePanel
-    }
-  },
+import AppMeta from "../components/app_meta";
+import OverviewPanel from "../components/overview_panel";
+import LicenseInfoPanel from "../components/license_info_panel";
+import ApplicationUsagePanel from "../components/application_usage_panel";
+import AttributePolicyPanel from "../components/attribute_policy_panel";
+import IdpUsagePanel from "../components/idp_usage_panel";
+import HowToConnectPanel from "../components/how_to_connect_panel";
 
-  getDefaultProps: function () {
-    return {
-      activePanel: "overview"
-    }
-  },
+class AppDetail extends React.Component {
+  constructor() {
+    super();
 
-  render: function () {
-    return (
-      <div className="l-center">
-        <div className="l-left">
-          <div className="mod-app-nav">
-            <ul>
-              {Object.keys(this.panelMap).map(this.renderNavItem)}
-            </ul>
+    this.panelMap = {
+      "overview": {
+        component: OverviewPanel,
+        icon: "fa-list"
+      },
+      "license_info": {
+        component: LicenseInfoPanel,
+        icon: "fa-file-text-o"
+      },
+      "application_usage": {
+        component: ApplicationUsagePanel,
+        icon: "fa-area-chart"
+      },
+      "attribute_policy": {
+        component: AttributePolicyPanel,
+        icon: "fa-table"
+      },
+      "idp_usage": {
+        component: IdpUsagePanel,
+        icon: "fa-clipboard"
+      },
+      "how_to_connect": {
+        component: HowToConnectPanel,
+        icon: "fa-chain"
+      }
+    };
+
+    this.state = {
+      app: null,
+      institutions: []
+    };
+  }
+
+  componentWillMount() {
+    getApp(this.props.params.id).then(data => {
+      const app = data.payload;
+
+      return getIdps(app.spEntityId).then(data => {
+        const institutions = data.payload;
+        this.setState({ app, institutions });
+      });
+    });
+
+  }
+
+  render() {
+    if (this.state.app) {
+      return (
+        <div className="l-center">
+          <div className="l-left">
+            <div className="mod-app-nav">
+              <ul>
+                {Object.keys(this.panelMap).map(panelKey => this.renderNavItem(panelKey))}
+              </ul>
+            </div>
+            <br />
+
+            <div className="mod-app-nav">
+              <ul>
+                {this.renderNavItem("application_usage", true)}
+              </ul>
+            </div>
           </div>
-          <br />
 
-          <div className="mod-app-nav">
-            <ul>
-              {this.renderNavItem("application_usage", true)}
-            </ul>
-          </div>
+          <AppMeta app={this.state.app} />
+
+          {this.renderActivePanel()}
+
         </div>
-
-        <App.Components.AppMeta app={this.props.app} onSwitchPanel={this.handleSwitchPanel}/>
-
-        {this.renderActivePanel()}
-
-      </div>
-    );
-  },
-
-  renderNavItem: function (panelKey, force) {
-    // do not include app usage in the top left menu
-    if (panelKey == "application_usage" && force != true) {
-      return;
+      );
     }
 
-    if (panelKey == "how_to_connect") {
-      if (!(App.currentUser.dashboardAdmin && App.currentIdp().institutionId)) {
-        return;
+    return null;
+  }
+
+  renderNavItem(panelKey, force) {
+    const { currentUser } = this.context;
+    // do not include app usage in the top left menu
+    if (panelKey === "application_usage" && force !== true) {
+      return null;
+    }
+
+    let key = null;
+
+    if (panelKey === "how_to_connect") {
+      if (!(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId)) {
+        return null;
       }
 
-      if (this.props.app.connected) {
+      if (this.state.app.connected) {
         key = "how_to_disconnect";
       } else {
         key = "how_to_connect";
@@ -86,41 +114,42 @@ App.Pages.AppDetail = React.createClass({
       key = panelKey;
     }
 
-    var panel = this.panelMap[panelKey];
+    const panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
-        <a href="#" onClick={this.handleSwitchPanel(panelKey)}
-           className={panelKey == this.state.activePanel ? "current" : ""}>
+        <Link to={`/apps/${this.props.params.id}/${panelKey}`}
+           className={panelKey === this.props.params.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}
-        </a>
+        </Link>
       </li>
     );
-  },
+  }
 
-  renderActivePanel: function () {
-    var panel = this.panelMap[this.state.activePanel];
-    if (!panel || (this.state.activePanel == "how_to_connect" && !(App.currentUser.dashboardAdmin && App.currentIdp().institutionId))) {
+  renderActivePanel() {
+    const { activePanel } = this.props.params;
+    const { currentUser } = this.context;
+    let panel = this.panelMap[activePanel];
+    if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
       panel = this.panelMap["overview"];
     }
-    return panel.component({
-      onSwitchPanel: this.handleSwitchPanel,
-      app: this.props.app,
-      institutions: this.props.institutions
-    });
-  },
 
-  handleSwitchPanel: function (panel) {
-    return function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.setState({activePanel: panel});
-      var init = {
-        app: this.props.app,
-        institutions: this.props.institutions
-      };
-      var path = page.uri("/apps/:id/:active_panel", {id: this.props.app.id, active_panel: panel});
-      page.replace(path, null, init, null );
-    }.bind(this);
+    const Component = panel.component;
+
+    return <Component app={this.state.app} institutions={this.state.institutions} />;
   }
-});
+}
+
+AppDetail.contextTypes = {
+  currentUser: React.PropTypes.object,
+  router: React.PropTypes.object
+};
+
+AppDetail.propTypes = {
+  params: React.PropTypes.shape({
+    id: React.PropTypes.string.isRequired,
+    activePanel: React.PropTypes.string.isRequired
+  }).isRequired
+};
+
+export default AppDetail;

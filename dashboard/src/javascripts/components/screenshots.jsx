@@ -1,59 +1,68 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
 
-App.Components.Screenshots = React.createClass({
-  getInitialState: function() {
-    return {
+class Screenshots extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       open: false
     };
-  },
+  }
 
-  render: function() {
-    var screenshotsUrls = this.props.screenshotUrls;
+  render() {
+    let screenshotsUrls = this.props.screenshotUrls;
     if (!screenshotsUrls) {
       screenshotsUrls = [];
     }
     return (
       <div className="mod-screenshots">
-        {screenshotsUrls.map(this.renderScreenshotThumbnail)}
+        {screenshotsUrls.map(this.renderScreenshotThumbnail.bind(this))}
         {this.renderOpenScreenshot()}
       </div>
     );
-  },
+  }
 
-  renderScreenshotThumbnail: function(screenshot, index) {
+  renderScreenshotThumbnail(screenshot, index) {
     return (
       <a key={index} className="screenshot-thumb" href="#" onClick={this.showScreenshot(index)}>
         <img src={screenshot} />
       </a>
     );
-  },
+  }
 
-  showScreenshot: function (index) {
-    return function (event) {
+  showScreenshot(index) {
+    return function(event) {
       event.preventDefault();
       event.stopPropagation();
-      console.log("Clicked..", index);
-      this.setState({open: true, index: index});
+      this.setState({ open: true, index: index });
     }.bind(this);
-  },
+  }
 
-  renderOpenScreenshot: function() {
+  renderOpenScreenshot() {
     if (this.state.open) {
       return (
         <div className="lightbox-overlay">
-          <a href="#" className="close-btn" onClick={this.closeScreenshot}>{I18n.t("apps.detail.close_screenshot")}</a>
-          <a href="#" onClick={this.closeScreenshot}>
+          <a href="#" className="close-btn" onClick={this.closeScreenshot.bind(this)}>{I18n.t("apps.detail.close_screenshot")}</a>
+          <a href="#" onClick={this.closeScreenshot.bind(this)}>
             <img src={this.props.screenshotUrls[this.state.index]}/>
           </a>
         </div>
       );
     }
-  },
 
-  closeScreenshot: function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState({open: false});
+    return null;
   }
 
-});
+  closeScreenshot(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState({ open: false });
+  }
+}
+
+Screenshots.propTypes = {
+  screenshotUrls: React.PropTypes.arrayOf(React.PropTypes.string)
+};
+
+export default Screenshots;

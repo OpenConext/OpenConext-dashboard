@@ -122,6 +122,7 @@ app.table = function() {
         {'sType' : 'spnames'},
         {'sType' : 'boolean'},
         {'sType' : 'boolean'},
+        {'sType' : 'boolean'},
         {'bSortable': false},
         {'bSortable': false},
         {'bSortable': false},

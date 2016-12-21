@@ -213,6 +213,18 @@ public class SpLmngListController extends BaseController {
     return "ok";
   }
 
+  @RequestMapping(value = "/update-strong-authentication/{cspId}/{newValue}", method = RequestMethod.PUT)
+  @ResponseBody
+  public String updateStrongAuthentication(@PathVariable("cspId") Long cspId, @PathVariable("newValue") boolean newValue) {
+    CompoundServiceProvider csp = compoundServiceProviderDao.findOne(cspId);
+    csp.setStrongAuthentication(newValue);
+    compoundServiceProviderDao.save(csp);
+
+    log.info("Updated CompoundServiceProvider({}) to strong authentication: {}", cspId, newValue);
+
+    return "ok";
+  }
+
   @RequestMapping(value = "/update-license-status/{cspId}/{newValue}", method = RequestMethod.PUT)
   @ResponseBody
   public String updateCspLicenseStatus(@PathVariable("cspId") Long cspId, @PathVariable("newValue") String newValue) {

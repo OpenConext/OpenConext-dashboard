@@ -2,18 +2,16 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
+node_js:
+  - 6
 services:
   - mysql
 cache:
-  bundler: true
   directories:
     - $HOME/.m2
     - node_modules
-before_install:
-  - gem install bundler
 install:
-  - bundle install
-  - cd dashboard && npm install && cd ..
+  - cd dashboard && nvm install $(cat .node-version) && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 before_script:
   - mysql -e "create database csa default character set utf8;
@@ -21,5 +19,6 @@ before_script:
     grant all on csa.* to 'csa'@'localhost';" -uroot
 script:
   - mvn verify -B
+  - cd dashboard && nvm install $(cat .node-version) && npm run lint
 after_success:
   - bash <(curl -s https://codecov.io/bash)

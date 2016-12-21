@@ -46,6 +46,10 @@
             <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.dummy" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.dummy.help" />"></i>
           </th>
           <th>
+            <spring:message code="jsp.lmng_binding_overview.strong_authentication"/>
+            <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.strong_authentication" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.strong_authentication.help" />"></i>
+          </th>
+          <th>
             <spring:message code="jsp.lmng_binding_overview.normenkader"/>
             <i class="inlinehelp icon-question-sign" data-title="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.normenkader" />" data-content="<spring:message htmlEscape="true" code="jsp.lmng_binding_overview.normenkader.help" />"></i>
           </th>
@@ -96,6 +100,11 @@
               </td>
               <td class="center">
                   ${binding.compoundServiceProvider.exampleSingleTenant == true ? "<i class='icon-ok'> </i>" : "<i class='icon-remove icon-greyed-out'> </i>"}
+              </td>
+              <td class="center">
+                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
+                <c:set var="strongAuthenticationChecked" value="${binding.compoundServiceProvider.strongAuthentication}"></c:set>
+                <input type="checkbox" name="strongAuthentication" value="${strongAuthenticationChecked}" data-compound-service-provider-id="${binding.compoundServiceProvider.id}" ${strongAuthenticationChecked ? 'checked' : ''}>
               </td>
               <td class="center">
                 <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>

@@ -43,6 +43,10 @@ app.spServices = function () {
       performAjaxUpdate(this, "update-normenkader-present", $(this).is(':checked'));
     });
 
+    $('#sp_overview_table').find("input[type='checkbox'][name='strongAuthentication']").click(function () {
+      performAjaxUpdate(this, "update-strong-authentication", $(this).is(':checked'));
+    });
+
     $('#sp_overview_table').find("select[name='licenseStatus']").change(function () {
       performAjaxUpdate(this, "update-license-status", this.value);
     });

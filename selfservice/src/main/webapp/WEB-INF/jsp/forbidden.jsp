@@ -3,12 +3,12 @@
 <head>
   <title>Access denied</title>
   <meta charset='utf-8'/>
-  <link href="/css/application.css" media="screen" rel="stylesheet"/>
+  <link href="/application.css" media="screen" rel="stylesheet"/>
 </head>
 <body>
 
 <div class="l-header">
-  <div class="mod-header"><h1 class="title">Dashboard</h1></div>
+  <div class="mod-header"><h1 class="title"><a href="/">Dashboard</a></h1></div>
 </div>
 <div class="l-main">
   <div class="l-rights">

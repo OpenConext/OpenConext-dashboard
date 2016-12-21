@@ -1,96 +1,126 @@
-/** @jsx React.DOM */
+import React from "react";
+import I18n from "i18n-js";
+import LanguageSelector from "./language_selector";
+import Logout from "../pages/logout";
+import { render } from "react-dom";
+import { exit, logout } from "../api";
+import Link from "react-router/Link";
+import IDPSelector from "../components/idp_selector";
 
-App.Components.Header = React.createClass({
-  getInitialState: function() {
-    return {
+class Header extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       dropDownActive: false
-    }
-  },
+    };
+  }
 
-  render: function () {
+  render() {
     return (
       <div className="mod-header">
-        <h1 className="title"><a href="/">{I18n.t("header.title")}</a></h1>
+        <h1 className="title"><Link to="/apps">{I18n.t("header.title")}</Link></h1>
         <div className="meta">
           <div className="name">
             {this.renderProfileLink()}
             {this.renderDropDown()}
           </div>
-          <App.Components.LanguageSelector />
+          <LanguageSelector />
           <ul className="links">
-            <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html") }}></li>
+            <li dangerouslySetInnerHTML={{ __html: I18n.t("header.links.help_html") }}></li>
             {this.renderExitLogout()}
           </ul>
         </div>
       </div>
     );
-  },
+  }
 
-  renderProfileLink: function() {
-    if (_.isUndefined(App.currentUser)) {
-      return;
-    } else if (!App.currentUser.superUser) {
+  renderProfileLink() {
+    const { currentUser } = this.context;
+    if (_.isUndefined(currentUser)) {
+      return null;
+    } else if (!currentUser.superUser) {
       return (
         <span>
           {I18n.t("header.welcome")}&nbsp;
-          <a href="#" onClick={this.handleToggle}>
-            {App.currentUser.displayName}
+          <a href="#" onClick={this.handleToggle.bind(this)}>
+            {currentUser.displayName}
             {this.renderDropDownIndicator()}
           </a>
         </span>
       );
-    } else {
-      return (
-        <span>
-          {I18n.t("header.welcome")}&nbsp;{App.currentUser.displayName}
-        </span>
-      );
     }
-  },
 
-  renderDropDownIndicator: function() {
+    return (
+      <span>
+        {I18n.t("header.welcome")}&nbsp;{currentUser.displayName}
+      </span>
+    );
+  }
+
+  renderDropDownIndicator() {
     if (this.state.dropDownActive) {
       return <i className="fa fa-caret-up" />;
-    } else {
-      return <i className="fa fa-caret-down" />;
     }
-  },
 
-  renderDropDown: function() {
-    if (App.currentUser && !App.currentUser.superUser && this.state.dropDownActive) {
+    return <i className="fa fa-caret-down" />;
+  }
+
+  renderDropDown() {
+    const { currentUser } = this.context;
+    if (currentUser && !currentUser.superUser && this.state.dropDownActive) {
       return (
         <ul>
           <h2>{I18n.t("header.you")}</h2>
           <ul>
-            <li><a href="/profile" onClick={this.handleClose}>{I18n.t("header.profile")}</a></li>
+            <li><Link to="/profile" onClick={this.handleClose.bind(this)}>{I18n.t("header.profile")}</Link></li>
           </ul>
-          <App.Components.IDPSelector />
+          <IDPSelector />
         </ul>
       );
     }
-  },
 
-  renderExitLogout: function() {
-    if (_.isUndefined(App.currentUser)) {
-      return;
-    } else if (App.currentUser.superUser && App.currentUser.switchedToIdp) {
+    return null;
+  }
+
+  renderExitLogout() {
+    const { currentUser } = this.context;
+    if (_.isUndefined(currentUser)) {
+      return null;
+    } else if (currentUser.superUser && currentUser.switchedToIdp) {
       return (
-        <li><a href="/exit">{I18n.t("header.links.exit")}</a></li>
-      );
-    } else {
-      return (
-        <li><a href="/logout">{I18n.t("header.links.logout")}</a></li>
+        <li><a href="#" onClick={this.handleExitClick.bind(this)}>{I18n.t("header.links.exit")}</a></li>
       );
     }
-  },
 
-  handleClose: function() {
-    this.setState({dropDownActive: false});
-  },
+    return (
+      <li><a href="#" onClick={this.handleLogoutClick.bind(this)}>{I18n.t("header.links.logout")}</a></li>
+    );
+  }
 
-  handleToggle: function(e) {
+  handleLogoutClick(e) {
+    e.preventDefault();
+    logout().then(() => render(<Logout />, document.getElementById("app")));
+  }
+
+  handleExitClick(e) {
+    e.preventDefault();
+    exit().then(() => window.location = "/");
+  }
+
+  handleClose() {
+    this.setState({ dropDownActive: false });
+  }
+
+  handleToggle(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.setState({dropDownActive: !this.state.dropDownActive});
+    this.setState({ dropDownActive: !this.state.dropDownActive });
   }
-});
+}
+
+Header.contextTypes = {
+  currentUser: React.PropTypes.object
+};
+
+export default Header;
