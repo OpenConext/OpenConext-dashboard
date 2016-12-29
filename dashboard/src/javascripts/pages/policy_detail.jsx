@@ -392,6 +392,7 @@ class PolicyDetail extends React.Component {
 
   submitForm() {
     const {policy} = this.state;
+    policy.description = this.renderAutoformatDescription(policy);
 
     const apiCall = policy.id ? updatePolicy : createPolicy;
     const action = policy.id ? I18n.t("policies.flash_updates") : I18n.t("policies.flash_created");
