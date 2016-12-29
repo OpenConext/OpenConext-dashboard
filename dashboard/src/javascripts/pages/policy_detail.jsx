@@ -279,7 +279,7 @@ class PolicyDetail extends React.Component {
   }
 
   handleChooseRule(value) {
-    return function (e) {
+    return function(e) {
       e.preventDefault();
       e.stopPropagation();
       const allAttributesMustMatch = (value === I18n.t("policy_detail.rule_and"));
@@ -405,9 +405,9 @@ class PolicyDetail extends React.Component {
     })
       .catch(e => {
         if (e.response && e.response.json) {
-          e.response.json().then((json) => {
+          e.response.json().then(json => {
             let message = "error";
-            if (json.exception && json.exception.indexOf('PolicyNameNotUniqueException') > 0) {
+            if (json.exception && json.exception.indexOf("PolicyNameNotUniqueException") > 0) {
               message = I18n.t("policies.policy_name_not_unique_exception");
             }
             setFlash(message, "error");

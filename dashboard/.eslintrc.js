@@ -41,7 +41,7 @@ module.exports = {
     "brace-style": ["error", "1tbs"],
     "space-before-function-paren": ["error", "never"],
     "keyword-spacing": "error",
-    "object-curly-spacing": ["error", "always"],
+    // "object-curly-spacing": ["error", "never"],
     "space-in-parens": "error",
     "array-bracket-spacing": "error"
   }
