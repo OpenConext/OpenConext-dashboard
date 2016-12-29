@@ -86,7 +86,7 @@ I18n.translations.nl = {
         name: "Federatie bron",
         surfconext: "SURFconext",
         edugain: "eduGAIN",
-        entree: "Kennisnet Entree"
+        entree: "Entree"
       },
       entity_category: {
         name: "eduGAIN Entity Categorie",
@@ -390,6 +390,7 @@ I18n.translations.nl = {
     contact_types: {
       technical: "Technisch",
       support: "Ondersteuning",
+      help: "Ondersteuning",
       administrative: "Administratief"
     },
     description: {
@@ -414,6 +415,7 @@ I18n.translations.nl = {
     flash_updated: "bijgewerkt",
     new_policy: "Nieuwe autorisatieregel",
     how_to: "Uitleg",
+    policy_name_not_unique_exception: "Deze autorisatieregel naam is al in gebruik",
     pdp_unreachable: "PDP niet bereikbaar",
     pdp_unreachable_description: "Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.",
     overview: {

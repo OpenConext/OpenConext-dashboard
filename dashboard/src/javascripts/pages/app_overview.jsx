@@ -446,22 +446,12 @@ class AppOverview extends React.Component {
         return this.filterYesNoFacet("used_by_idp", currentUser.getCurrentIdp().institutionId === app.institutionId);
       }.bind(this),
     }, {
-      name: I18n.t("facets.static.published_edugain.name"),
-      searchValue: "published_edugain",
-      values: [
-        { value: I18n.t("facets.static.published_edugain.yes"), searchValue: "yes" },
-        { value: I18n.t("facets.static.published_edugain.no"), searchValue: "no" },
-      ],
-      filterApp: function(app) {
-        return this.filterYesNoFacet("published_edugain", app.publishedInEdugain);
-      }.bind(this),
-    }, {
       name: I18n.t("facets.static.interfed_source.name"),
       searchValue: "interfed_source",
       values: [
         { value: I18n.t("facets.static.interfed_source.surfconext"), searchValue: "SURFconext" },
         { value: I18n.t("facets.static.interfed_source.edugain"), searchValue: "eduGAIN" },
-        { value: I18n.t("facets.static.interfed_source.entree"), searchValue: "Kennisnet Entree" },
+        { value: I18n.t("facets.static.interfed_source.entree"), searchValue: "Entree" },
       ],
       filterApp: function(app) {
         const sourceFacetValues = this.state.activeFacets["interfed_source"] || [];

@@ -86,7 +86,7 @@ I18n.translations.en = {
         name: "Federation source",
         surfconext: "SURFconext",
         edugain: "eduGAIN",
-        entree: "Kennisnet Entree"
+        entree: "Entree"
       },
       entity_category: {
         name: "eduGAIN Entity Category",
@@ -356,6 +356,7 @@ I18n.translations.en = {
     contact_types: {
       technical: "Technical",
       support: "Support",
+      help: "Support",
       administrative: "Administrative"
     },
     description: {
@@ -380,6 +381,7 @@ I18n.translations.en = {
     flash_updated: "updated",
     new_policy: "New authorization policy",
     how_to: "How-to",
+    policy_name_not_unique_exception: "This policy name is already in use",
     pdp_unreachable: "PDP unreachable",
     pdp_unreachable_description: "Currently unable to fetch the policies from PDP. Please try again later.",
     overview: {
