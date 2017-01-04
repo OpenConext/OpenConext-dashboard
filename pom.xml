@@ -30,7 +30,7 @@
 
   <groupId>org.surfnet.coin</groupId>
   <artifactId>coin-selfservice-parent</artifactId>
-  <version>5.1.15</version>
+  <version>5.1.13-SNAPSHOT</version>
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 
@@ -218,7 +218,7 @@
     <repository>
       <id>openconext-snapshots</id>
       <name>OpenConext public snapshot repository</name>
-      <url>https://build.surfconext.nl/repository/public/snapshots</url>
+      <url>https://build.openconext.org/repository/public/snapshots</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -229,7 +229,7 @@
     <repository>
       <id>openconext-releases</id>
       <name>OpenConext public releases repository</name>
-      <url>https://build.surfconext.nl/repository/public/releases</url>
+      <url>https://build.openconext.org/repository/public/releases</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -241,7 +241,7 @@
     <repository>
       <id>openconext-third-party-releases</id>
       <name>OpenConext third-party repository</name>
-      <url>https://build.surfconext.nl/repository/public/third-party</url>
+      <url>https://build.openconext.org/repository/public/third-party</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -255,12 +255,12 @@
     <repository>
       <id>openconext-releases</id>
       <name>OpenConext public releases repository</name>
-      <url>dav:https://build.surfconext.nl/repository/public/releases</url>
+      <url>dav:https://build.openconext.org/repository/public/releases</url>
     </repository>
     <snapshotRepository>
       <id>openconext-snapshots</id>
       <name>OpenConext public snapshot repository</name>
-      <url>dav:https://build.surfconext.nl/repository/public/snapshots</url>
+      <url>dav:https://build.openconext.org/repository/public/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 </project>
