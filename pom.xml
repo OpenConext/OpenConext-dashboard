@@ -30,7 +30,7 @@
 
   <groupId>org.surfnet.coin</groupId>
   <artifactId>coin-selfservice-parent</artifactId>
-  <version>5.1.13</version>
+  <version>5.1.14-SNAPSHOT</version>
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 
@@ -40,7 +40,7 @@
     <connection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</connection>
     <url>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</url>
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-selfservice.git</developerConnection>
-    <tag>v5.1.13</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
