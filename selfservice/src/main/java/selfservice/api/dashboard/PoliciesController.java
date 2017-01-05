@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,7 +97,8 @@ public class PoliciesController extends BaseController {
     StringBuilder body = new StringBuilder();
     body.append(String.format(
         "Voor %s is voor het eerst een autorisatieregel (met naam %s) aangemaakt door %s (%s) van %s.\n",
-        policy.getServiceProviderName(), policy.getName(), user.getDisplayName(), user.getEmail(), user.getInstitutionId()));
+      StringUtils.hasText(policy.getServiceProviderName()) ?
+        policy.getServiceProviderName() : policy.getServiceProviderId(), policy.getName(), user.getDisplayName(), user.getEmail(), user.getInstitutionId()));
     body.append("In Janus staat voor die dienst nog NIET geconfigureerd dat er moet worden gecontroleerd op policies.\n");
     body.append("Als na controle van de regel in de PDP die regel goed lijkt, voeg dan in Janus in het Meta-tabblad de Entry 'coin:policy_enforcement_decision_required' toe aan de dienst, ");
     body.append("push de metadata en informeer de aanmaker van de regel.");

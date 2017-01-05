@@ -1,8 +1,16 @@
 import React from "react";
 import I18n from "i18n-js";
 
-import { createPolicy, updatePolicy, getPolicy, getInstitutionServiceProviders, getConnectedServiceProviders, getAllowedAttributes, getNewPolicy } from "../api";
-import { setFlash } from "../utils/flash";
+import {
+  createPolicy,
+  updatePolicy,
+  getPolicy,
+  getInstitutionServiceProviders,
+  getConnectedServiceProviders,
+  getAllowedAttributes,
+  getNewPolicy
+} from "../api";
+import {setFlash} from "../utils/flash";
 
 import Flash from "../components/flash";
 import SelectWrapper from "../components/select_wrapper";
@@ -26,22 +34,22 @@ class PolicyDetail extends React.Component {
   }
 
   componentWillMount() {
-    const { currentUser } = this.context;
+    const {currentUser} = this.context;
 
-    getInstitutionServiceProviders().then(data => this.setState({ institutionServiceProviders: data.payload }));
+    getInstitutionServiceProviders().then(data => this.setState({institutionServiceProviders: data.payload}));
     getConnectedServiceProviders(currentUser.getCurrentIdpId())
-      .then(data => this.setState({ connectedServiceProviders: data.payload }));
-    getAllowedAttributes().then(data => this.setState({ allowedAttributes: data.payload }));
+      .then(data => this.setState({connectedServiceProviders: data.payload}));
+    getAllowedAttributes().then(data => this.setState({allowedAttributes: data.payload}));
 
     if (this.props.params.id !== "new") {
-      getPolicy(this.props.params.id).then(data => this.setState({ policy: data.payload }));
+      getPolicy(this.props.params.id).then(data => this.setState({policy: data.payload}));
     } else {
-      getNewPolicy().then(data => this.setState({ policy: data.payload }));
+      getNewPolicy().then(data => this.setState({policy: data.payload}));
     }
   }
 
   render() {
-    const { policy } = this.state;
+    const {policy} = this.state;
     if (policy) {
       const title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
       return (
@@ -89,7 +97,8 @@ class PolicyDetail extends React.Component {
       <div className="form-element">
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.name")}</p>
-          <input type="text" name="name" className="form-input" value={this.state.policy.name || ""} onChange={this.handleOnChangeName.bind(this)} />
+          <input type="text" name="name" className="form-input" value={this.state.policy.name || ""}
+                 onChange={this.handleOnChangeName.bind(this)}/>
         </fieldset>
       </div>
     );
@@ -107,7 +116,8 @@ class PolicyDetail extends React.Component {
           <div className="l-grid">
             <div className="l-col-4">
               <p className="label">{I18n.t("policy_detail.access")}</p>
-              <div id="ios_checkbox" className={classNameSelected + " ios-ui-select"} onClick={e => this.toggleDenyRule(e)}>
+              <div id="ios_checkbox" className={classNameSelected + " ios-ui-select"}
+                   onClick={e => this.toggleDenyRule(e)}>
                 <div className="inner"></div>
                 <p>{policyPermit}</p>
               </div>
@@ -127,11 +137,11 @@ class PolicyDetail extends React.Component {
   }
 
   toggleDenyRule() {
-    const partialState = { denyRule: !this.state.policy.denyRule };
+    const partialState = {denyRule: !this.state.policy.denyRule};
     if (!this.state.policydenyRule) {
       partialState.allAttributesMustMatch = true;
     }
-    this.setState({ policy: { ...this.state.policy, ...partialState } });
+    this.setState({policy: {...this.state.policy, ...partialState}});
   }
 
   renderAutoformatDescription(policy) {
@@ -146,7 +156,7 @@ class PolicyDetail extends React.Component {
     const scopedSPs = _.isEmpty(policy.identityProviderIds);
     const classNameStatus = _.isEmpty(policy.serviceProviderId) ? "failure" : "success";
     const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(sp => {
-      return { value: sp.spEntityId, display: sp.spName };
+      return {value: sp.spEntityId, display: sp.spName};
     });
 
     return (
@@ -166,12 +176,14 @@ class PolicyDetail extends React.Component {
   }
 
   handleChangeServiceProvider(newValue, newLabel) {
-    this.setState({ policy: {
-      ...this.state.policy,
-      serviceProviderId: newValue,
-      serviceProviderName: newLabel,
-      policyEnforcementDecisionRequired: this.findServiceProvider(newValue).policyEnforcementDecisionRequired
-    } });
+    this.setState({
+      policy: {
+        ...this.state.policy,
+        serviceProviderId: newValue,
+        serviceProviderName: newLabel,
+        policyEnforcementDecisionRequired: this.findServiceProvider(newValue).policyEnforcementDecisionRequired
+      }
+    });
   }
 
   renderScopedWarning(scopedSPs) {
@@ -183,25 +195,25 @@ class PolicyDetail extends React.Component {
   }
 
   renderIdentityProvider(policy) {
-    const { currentUser } = this.context;
-    const providers = currentUser.institutionIdps.map(idp => ({ value: idp.id, display: idp.name }));
+    const {currentUser} = this.context;
+    const providers = currentUser.institutionIdps.map(idp => ({value: idp.id, display: idp.name}));
     return (
       <div className="form-element">
         <fieldset className="success">
           <p className="label">{I18n.t("policy_detail.institutions")}</p>
-            <SelectWrapper
-                defaultValue={policy.identityProviderIds}
-                placeholder={I18n.t("policy_detail.idps_placeholder")}
-                options={providers}
-                multiple={true}
-                handleChange={this.handleChangeIdentityProvider.bind(this)}/>
+          <SelectWrapper
+            defaultValue={policy.identityProviderIds}
+            placeholder={I18n.t("policy_detail.idps_placeholder")}
+            options={providers}
+            multiple={true}
+            handleChange={this.handleChangeIdentityProvider.bind(this)}/>
         </fieldset>
       </div>
     );
   }
 
   handleChangeIdentityProvider(newValue) {
-    this.setState({ policy: { ...this.state.policy, identityProviderIds: newValue } });
+    this.setState({policy: {...this.state.policy, identityProviderIds: newValue}});
   }
 
   renderLogicalRule(policy) {
@@ -245,7 +257,7 @@ class PolicyDetail extends React.Component {
           <span className={className}>{value}</span>
         </li>
       );
-    } 
+    }
 
     return (
       <li key={value}>
@@ -255,15 +267,15 @@ class PolicyDetail extends React.Component {
   }
 
   handleOnChangeDescription(e) {
-    this.setState({ policy: { ...this.state.policy, description: e.target.value } });
+    this.setState({policy: {...this.state.policy, description: e.target.value}});
   }
 
   handleOnChangeAutoFormat() {
-    this.setState({ autoFormat: !this.state.autoFormat });
+    this.setState({autoFormat: !this.state.autoFormat});
   }
 
   handleOnChangeName(e) {
-    this.setState({ policy: { ...this.state.policy, name: e.target.value } });
+    this.setState({policy: {...this.state.policy, name: e.target.value}});
   }
 
   handleChooseRule(value) {
@@ -271,22 +283,22 @@ class PolicyDetail extends React.Component {
       e.preventDefault();
       e.stopPropagation();
       const allAttributesMustMatch = (value === I18n.t("policy_detail.rule_and"));
-      this.setState({ policy: { ...this.state.policy, allAttributesMustMatch } });
+      this.setState({policy: {...this.state.policy, allAttributesMustMatch}});
     }.bind(this);
   }
 
   renderAttributes() {
     return (<PolicyAttributes
-        policy={this.state.policy}
-        allowedAttributes={this.state.allowedAttributes}
-        setAttributeState={this.setAttributeState.bind(this)}/>);
+      policy={this.state.policy}
+      allowedAttributes={this.state.allowedAttributes}
+      setAttributeState={this.setAttributeState.bind(this)}/>);
   }
 
   setAttributeState(newAttributeState) {
-    this.setState({ policy: { ...this.state.policy, ...newAttributeState } });
+    this.setState({policy: {...this.state.policy, ...newAttributeState}});
   }
 
-  renderDenyAdvice(policy)  {
+  renderDenyAdvice(policy) {
     const classNameStatus = _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl) ? "failure" : "success";
     return (
       <div className="form-element">
@@ -294,10 +306,12 @@ class PolicyDetail extends React.Component {
           <p className="label">{I18n.t("policy_detail.deny_message")}</p>
           <em>{I18n.t("policy_detail.deny_message_info")}</em>
           <input type="text" name="denyMessage" className="form-input"
-            value={this.state.policy.denyAdvice || ""} onChange={e => this.setState({ policy: { ...this.state.policy, denyAdvice: e.target. value } })} />
+                 value={this.state.policy.denyAdvice || ""}
+                 onChange={e => this.setState({policy: {...this.state.policy, denyAdvice: e.target.value}})}/>
           <p className="label">{I18n.t("policy_detail.deny_message_nl")}</p>
           <input type="text" name="denyMessageNl" className="form-input"
-            value={this.state.policy.denyAdviceNl || ""} onChange={e => this.setState({ policy: { ...this.state.policy, denyAdviceNl: e.target.value } })} />
+                 value={this.state.policy.denyAdviceNl || ""}
+                 onChange={e => this.setState({policy: {...this.state.policy, denyAdviceNl: e.target.value}})}/>
         </fieldset>
       </div>
     );
@@ -311,10 +325,10 @@ class PolicyDetail extends React.Component {
         <fieldset className={classNameStatus}>
           <p className="label">{I18n.t("policy_detail.description")}</p>
           <textarea rows="4" name="description"
-            value={description} className="form-input"
-            onChange={this.handleOnChangeDescription.bind(this)} />
+                    value={description} className="form-input"
+                    onChange={this.handleOnChangeDescription.bind(this)}/>
           <input type="checkbox" id="autoFormatDescription" name="autoFormatDescription"
-            onChange={this.handleOnChangeAutoFormat.bind(this)}/>
+                 onChange={this.handleOnChangeAutoFormat.bind(this)}/>
           <label className="note" htmlFor="autoFormatDescription">{I18n.t("policy_detail.autoFormat")}</label>
         </fieldset>
       </div>
@@ -343,7 +357,7 @@ class PolicyDetail extends React.Component {
   }
 
   handleOnChangeIsActive() {
-    this.setState({ policy: { ...this.state.policy, active: !this.state.policy.active } });
+    this.setState({policy: {...this.state.policy, active: !this.state.policy.active}});
   }
 
   renderActions() {
@@ -353,7 +367,8 @@ class PolicyDetail extends React.Component {
         <fieldset>
           <div className="l-grid">
             <div className="l-col-3">
-              <a className={"c-button " + classNameSubmit} href="#" onClick={this.submitForm.bind(this)}>{I18n.t("policy_detail.submit")}</a>
+              <a className={"c-button " + classNameSubmit} href="#"
+                 onClick={this.submitForm.bind(this)}>{I18n.t("policy_detail.submit")}</a>
             </div>
             <div className="l-col-3">
               <a className="n-button" href="#" onClick={this.cancelForm.bind(this)}>{I18n.t("policy_detail.cancel")}</a>
@@ -365,33 +380,44 @@ class PolicyDetail extends React.Component {
   }
 
   isValidPolicy() {
-    const { policy } = this.state;
+    const {policy} = this.state;
     const emptyAttributes = policy.attributes.filter(attr => {
       return _.isEmpty(attr.value);
     });
     const description = this.renderAutoformatDescription(policy);
     const inValid = _.isEmpty(policy.name) || _.isEmpty(description) || _.isEmpty(policy.serviceProviderId)
-        || _.isEmpty(policy.attributes) || emptyAttributes.length > 0 || _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl);
+      || _.isEmpty(policy.attributes) || emptyAttributes.length > 0 || _.isEmpty(policy.denyAdvice) || _.isEmpty(policy.denyAdviceNl);
     return !inValid;
   }
 
   submitForm() {
-    const { policy } = this.state;
+    const {policy} = this.state;
+    policy.description = this.renderAutoformatDescription(policy);
 
     const apiCall = policy.id ? updatePolicy : createPolicy;
     const action = policy.id ? I18n.t("policies.flash_updates") : I18n.t("policies.flash_created");
-
     apiCall(policy).then(() => {
       if (policy.policyEnforcementDecisionRequired) {
-        setFlash(I18n.t("policies.flash", { policyName: policy.name, action }));
+        setFlash(I18n.t("policies.flash", {policyName: policy.name, action}));
       } else {
         setFlash(I18n.t("policies.flash_first"));
       }
       this.context.router.transitionTo("/policies");
     })
-    .catch(e => {
-      setFlash(e, "error");
-    });
+      .catch(e => {
+        if (e.response && e.response.json) {
+          e.response.json().then(json => {
+            let message = "error";
+            if (json.exception && json.exception.indexOf("PolicyNameNotUniqueException") > 0) {
+              message = I18n.t("policies.policy_name_not_unique_exception");
+            }
+            setFlash(message, "error");
+          });
+        } else {
+          setFlash(e, "error");
+        }
+
+      });
   }
 
   cancelForm() {
