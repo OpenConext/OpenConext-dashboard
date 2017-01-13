@@ -171,9 +171,9 @@ public class PdpServiceImpl implements PdpService {
   }
 
   @Override
-  public void delete(Long id) {
+  public ResponseEntity<String> delete(Long id) {
     RequestEntity<?> request = buildDeleteRequest("/protected/policies/" + id);
-    executeWithExceptionLogging(() -> pdpRestTemplate.exchange(request, String.class));
+    return executeWithExceptionLogging(() -> pdpRestTemplate.exchange(request, String.class));
   }
 
   @Override

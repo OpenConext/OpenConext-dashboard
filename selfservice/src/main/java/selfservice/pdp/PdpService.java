@@ -2,6 +2,7 @@ package selfservice.pdp;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 
@@ -17,7 +18,7 @@ public interface PdpService {
 
   List<Attribute> allowedAttributes();
 
-  void delete(Long id);
+  ResponseEntity<String> delete(Long id);
 
   List<Policy> revisions(Long id);
 

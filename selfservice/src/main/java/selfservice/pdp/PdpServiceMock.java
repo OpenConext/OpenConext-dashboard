@@ -15,6 +15,7 @@ import com.google.common.collect.Multimaps;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
 import selfservice.cache.ServicesCache;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
@@ -71,8 +72,9 @@ public class PdpServiceMock implements PdpService {
   }
 
   @Override
-  public void delete(Long id) {
+  public ResponseEntity<String> delete(Long id) {
     policies.removeAll(id);
+    return null;
   }
 
   @Override
