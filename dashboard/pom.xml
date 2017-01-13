@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-selfservice-parent</artifactId>
-    <version>5.1.15-SNAPSHOT</version>
+    <version>5.1.16</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
