@@ -20,9 +20,8 @@ public class DashboardController {
   }
 
   @RequestMapping(value = "/home")
-  public void home(@RequestParam(value = "redirectTo", required = false, defaultValue = "/") String redirectTo,
-                   HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.sendRedirect(redirectTo);
+  public void home(HttpServletResponse response) throws IOException {
+    response.sendRedirect("/");
   }
 
 }

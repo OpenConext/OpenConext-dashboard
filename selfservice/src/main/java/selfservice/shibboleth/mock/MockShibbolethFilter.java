@@ -64,14 +64,9 @@ public class MockShibbolethFilter extends GenericFilterBean {
         .orElse((String) req.getSession().getAttribute("mockShibbolethUser"));
 
     if (userId == null) {
-      String redirectTo = request.getParameter("redirectTo");
       String login = IOUtils.toString(new ClassPathResource("mockLogin.html").getInputStream());
-      if (redirectTo != null) {
-        login = login.replaceFirst("@@redirectTo@@", redirectTo);
-      }
       response.getWriter().write(login);
     } else {
-//      String idp = "https://idp.surfnet.nl";
       String idp =  "http://mock-idp";
 
       req.getSession(true).setAttribute("mockShibbolethUser", userId);
