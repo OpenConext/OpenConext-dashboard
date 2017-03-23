@@ -104,7 +104,7 @@ public abstract class BaseController {
   }
 
   private IdentityProvider selectProvider(HttpServletRequest request, String idpId) {
-    Assert.hasText(idpId);
+    Assert.hasText(idpId, "Idp ID hasText");
     CoinUser user = (CoinUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     for (IdentityProvider idp : user.getInstitutionIdps()) {
       if (idp.getId().equals(idpId)) {

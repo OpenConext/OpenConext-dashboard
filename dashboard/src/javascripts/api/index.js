@@ -1,6 +1,6 @@
 import qs from "qs";
 import spinner from "../lib/spin";
-import { getCurrentUser } from "../models/current_user";
+import {getCurrentUser} from "../models/current_user";
 
 const apiPath = "/dashboard/api";
 
@@ -35,22 +35,22 @@ function validFetch(path, options) {
     headers["X-IDP-ENTITY-ID"] = currentUser.getCurrentIdpId();
   }
 
-  const fetchOptions = _.merge({}, { headers }, options, {
+  const fetchOptions = _.merge({}, {headers}, options, {
     credentials: "same-origin"
   });
 
   spinner.start();
   return fetch(apiUrl(path), fetchOptions)
-  .catch(err => {
-    spinner.stop();
-    throw err;
-  })
-  .then(validateResponse);
+    .catch(err => {
+      spinner.stop();
+      throw err;
+    })
+    .then(validateResponse);
 }
 
 export function fetchJson(path, options = {}) {
   return validFetch(path, options)
-  .then(parseJson);
+    .then(parseJson);
 }
 
 function fetchPost(path, body, options = {}) {
@@ -62,23 +62,44 @@ function fetchPost(path, body, options = {}) {
     }
   }
 
-  return validFetch(path, Object.assign({}, { method: "post", body: data }, options));
+  return validFetch(path, Object.assign({}, {method: "post", body: data}, options));
 }
 
 function postJson(path, body, options = {}) {
-  return validFetch(path, Object.assign({}, { method: "post", body: JSON.stringify(body) }, options));
+  return validFetch(path, Object.assign({}, {method: "post", body: JSON.stringify(body)}, options));
 }
 
 function putJson(path, body, options = {}) {
-  return validFetch(path, Object.assign({}, { method: "put", body: JSON.stringify(body) }, options));
+  return validFetch(path, Object.assign({}, {method: "put", body: JSON.stringify(body)}, options));
 }
 
 function fetchDelete(path) {
-  return validFetch(path, { method: "delete" });
+  return validFetch(path, {method: "delete"});
 }
 
-export function getUserData() {
-  return fetchJson("/users/me" + window.location.search);
+function S4() {
+  return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+}
+
+export function getUserData(redirect = "manual") {
+  const fetchOptions = {
+    headers: {
+      Accept: "application/json"
+    },
+    credentials: "same-origin",
+    redirect: redirect
+  };
+  spinner.start();
+  return fetch(apiUrl("/users/me" + window.location.search), fetchOptions)
+    .then(response => {
+      spinner.stop();
+      if (response.ok) {
+        return parseJson(response);
+      } else {
+        const guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+        document.location = document.location + '?guid=' + guid;
+      }
+    });
 }
 
 export function getFacets() {
@@ -94,7 +115,7 @@ export function getApp(appId) {
 }
 
 export function getIdps(spEntityId) {
-  return fetchJson(`/services/idps?${qs.stringify({ spEntityId })}`);
+  return fetchJson(`/services/idps?${qs.stringify({spEntityId})}`);
 }
 
 export function getPolicies() {
@@ -134,7 +155,7 @@ export function exit() {
 }
 
 export function switchToIdp(idpId, role) {
-  return validFetch("/users/me/switch-to-idp?" + qs.stringify({ idpId, role }));
+  return validFetch("/users/me/switch-to-idp?" + qs.stringify({idpId, role}));
 }
 
 export function getNotifications() {
@@ -146,15 +167,15 @@ export function getActions() {
 }
 
 export function makeConnection(app, comments) {
-  return fetchPost(`/services/id/${app.id}/connect`, { comments: comments, spEntityId: app.spEntityId })
-  .then(parseJson)
-  .then(json => json.payload);
+  return fetchPost(`/services/id/${app.id}/connect`, {comments: comments, spEntityId: app.spEntityId})
+    .then(parseJson)
+    .then(json => json.payload);
 }
 
 export function removeConnection(app, comments) {
-  return fetchPost(`/services/id/${app.id}/disconnect`, { comments: comments, spEntityId: app.spEntityId })
-  .then(parseJson)
-  .then(json => json.payload);
+  return fetchPost(`/services/id/${app.id}/disconnect`, {comments: comments, spEntityId: app.spEntityId})
+    .then(parseJson)
+    .then(json => json.payload);
 }
 
 export function getIdpRolesWithUsers() {
@@ -167,7 +188,7 @@ export function getLicenseContactPerson() {
 
 export function getIdpsForSuper() {
   return fetchJson("/users/super/idps")
-  .then(json => json.payload);
+    .then(json => json.payload);
 }
 
 export function createPolicy(policy) {

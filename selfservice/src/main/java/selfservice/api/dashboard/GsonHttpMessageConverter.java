@@ -104,10 +104,10 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   }
 
   private Charset getCharset(HttpHeaders headers) {
-    if (headers == null || headers.getContentType() == null || headers.getContentType().getCharSet() == null) {
+    if (headers == null || headers.getContentType() == null || headers.getContentType().getCharset() == null) {
       return StandardCharsets.UTF_8;
     }
-    return headers.getContentType().getCharSet();
+    return headers.getContentType().getCharset();
   }
 
   public void setStatsBaseUrl(String statsBaseUrl) {

@@ -10,8 +10,8 @@ public class MappingEntry {
   private String value;
 
   public MappingEntry(String key, String value) {
-    Assert.notNull(key);
-    Assert.notNull(value);
+    Assert.notNull(key, "Key not null");
+    Assert.notNull(value, "Value not null");
     this.key = key;
     this.value = value;
   }

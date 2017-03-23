@@ -125,7 +125,7 @@ public class CompoundServiceProvider extends DomainObject {
 
 
   public static CompoundServiceProvider builder(ServiceProvider serviceProvider, Optional<Article> article) {
-    notNull(serviceProvider);
+    notNull(serviceProvider, "ServiceProvider null");
 
     byte[] appStoreLogoImageBytes = getImageBytesFromClasspath("300x300.png");
     byte[] detailLogoImageBytes = getImageBytesFromClasspath("500x300.png");

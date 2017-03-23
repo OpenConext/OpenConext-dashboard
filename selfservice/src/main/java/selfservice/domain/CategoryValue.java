@@ -69,9 +69,9 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
    */
   @JsonIgnore
   public String getSearchValue() {
-    Assert.notNull(category);
-    Assert.hasLength(category.getName());
-    Assert.hasLength(value);
+    Assert.notNull(category, "Category not null");
+    Assert.hasLength(category.getName(), "Category name not null");
+    Assert.hasLength(value, "Category value not null");
 
     return category.getName().replaceAll(" ", "_").toLowerCase() + "_" + getValue().replaceAll(" ", "_").toLowerCase();
   }

@@ -97,7 +97,6 @@ App.propTypes = {
 
 if (browserSupported()) {
   getUserData()
-  .catch(() => window.location = window.location.protocol + "//" + window.location.host + "/dashboard/api/home")
   .then(json => {
     I18n.locale = json.language;
     moment.locale(json.language);

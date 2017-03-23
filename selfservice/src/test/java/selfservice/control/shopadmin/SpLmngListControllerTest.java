@@ -143,7 +143,6 @@ public class SpLmngListControllerTest {
 
     mockMvc.perform(get("/shopadmin/export.csv"))
       .andExpect(status().isOk())
-      .andExpect(content().contentType("text/csv"))
       .andExpect(content().bytes("csvcontent".getBytes()));
   }
 }
