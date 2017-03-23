@@ -59,6 +59,8 @@
   "logo:0:width": "96",
   "name:en": "OpenConext Mujina IDP",
   "name:nl": "OpenConext Mujina IDP",
+  "coin:publish_in_edugain": "1",
+  "coin:publish_in_edugain_date": "2015-06-30T13:30:00Z",
   "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
   "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
   "NameIDFormats:1": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",

@@ -37,9 +37,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private final String registrationPolicyUrlNl;
   private final String entityCategories1;
   private final String entityCategories2;
-  private final String publishInEdugainDate;
   private final boolean idpVisibleOnly;
-  private final boolean publishedInEdugain;
   private final boolean policyEnforcementDecisionRequired;
   private boolean exampleSingleTenant;
 
@@ -61,10 +59,8 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.registrationPolicyUrlNl = (String) metaData.get("mdrpi:RegistrationPolicy:nl");
     this.entityCategories1 = (String) metaData.get("coin:entity_categories:1");
     this.entityCategories2 = (String) metaData.get("coin:entity_categories:2");
-    this.publishInEdugainDate = (String) metaData.get("coin:publish_in_edugain_date");
 
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
-    this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
     this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
     this.arp = metaData.containsKey("attributes") ? ARP.fromAttributes((List<String>) metaData.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
 
@@ -108,10 +104,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     return registrationPolicyUrlNl;
   }
 
-  public String getPublishInEdugainDate() {
-    return publishInEdugainDate;
-  }
-
   public Map<String, String> getUrls() {
     return urls;
   }
@@ -128,10 +120,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public ARP getArp() {
     return arp;
-  }
-
-  public boolean isPublishedInEdugain() {
-    return publishedInEdugain;
   }
 
   public boolean isExampleSingleTenant() {
@@ -166,7 +154,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
       ", institutionId='" + institutionId + '\'' +
       ", eulaURL='" + eulaURL + '\'' +
       ", idpVisibleOnly=" + idpVisibleOnly +
-      ", publishedInEdugain=" + publishedInEdugain +
       ", policyEnforcementDecisionRequired=" + policyEnforcementDecisionRequired +
       ", exampleSingleTenant=" + exampleSingleTenant +
       ", arp=" + arp +

@@ -636,7 +636,9 @@
   "name:en": "OpenConext AA",
   "name:nl": "OpenConext AA",
   "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
-  "allowedEntities": []
+  "allowedEntities": [],
+  "coin:publish_in_edugain": "1",
+  "coin:publish_in_edugain_date": "2015-04-07T20:00:00Z"
 }, {
   "entityid": "https://acc.iavans.nl/Shibboleth.sso/Metadata",
   "allowedall": "yes",

@@ -2,6 +2,7 @@ import React from "react";
 import I18n from "i18n-js";
 import Link from "react-router/Link";
 import Flash from "../components/flash";
+import moment from "moment";
 
 import { getLicenseContactPerson, getIdpRolesWithUsers, getInstitutionServiceProviders, getGuestEnabledServices } from "../api";
 
@@ -63,7 +64,6 @@ class MyIdp extends React.Component {
 
   renderService(service) {
     const hasGuestEnabled = this.state.guestEnabledServices.find(s => s.id === service.id) != null;
-
     return (
       <div key={service.id}>
         <h2>{ service.name }</h2>
@@ -96,7 +96,7 @@ class MyIdp extends React.Component {
             { service.publishedInEdugain &&
               <tr>
                 <td>{ I18n.t("my_idp.date_published_in_edugain") }</td>
-                <td>{ service.publishedInEdugainDate }</td>
+                <td>{ service.publishInEdugainDate }</td>
               </tr>
             }
             <tr>
@@ -148,7 +148,7 @@ class MyIdp extends React.Component {
             { currentIdp.publishedInEdugain &&
               <tr>
                 <td>{ I18n.t("my_idp.date_published_in_edugain") }</td>
-                <td>{ currentIdp.publishedInEdugainDate }</td>
+                <td>{ this.renderDate(currentIdp.publishInEdugainDate) }</td>
               </tr>
             }
             <tr>
@@ -163,6 +163,12 @@ class MyIdp extends React.Component {
         { this.renderContactPersons(currentIdp.contactPersons) }
       </div>
     );
+  }
+
+  renderDate(dateString) {
+    const date = moment(dateString);
+    date.locale(I18n.locale);
+    return date.format("LLLL");
   }
 
   renderRoles(roles) {
