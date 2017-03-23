@@ -95,10 +95,10 @@ export function getUserData(redirect = "manual") {
       spinner.stop();
       if (response.ok) {
         return parseJson(response);
-      } else {
-        const guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
-        document.location = document.location + '?guid=' + guid;
       }
+      const guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+      document.location = document.location + "?guid=" + guid;
+      return {};
     });
 }
 
