@@ -99,9 +99,8 @@ export function getUserData(redirect = "manual") {
       const guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
       if (document.location.href.indexOf("guid") > -1) {
         return {noAccess: true};
-      } else {
-        document.location = document.location + "?guid=" + guid;
       }
+      document.location = document.location + "?guid=" + guid;
       return {};
     });
 }
