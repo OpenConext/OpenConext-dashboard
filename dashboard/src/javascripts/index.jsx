@@ -22,6 +22,7 @@ import Navigation from "./components/navigation";
 import ProtectedRoute from "./components/protected_route";
 import MatchStartRoute from "./components/match_start_route";
 import BrowserNotSupported from "./pages/browser_not_supported";
+import ServerError from "./pages/server_error";
 
 import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
@@ -98,6 +99,10 @@ App.propTypes = {
 if (browserSupported()) {
   getUserData()
   .then(json => {
+    if (json.noAccess === true) {
+      render(<ServerError />, document.getElementById("app"));
+      return;
+    }
     I18n.locale = json.language;
     moment.locale(json.language);
     const currentUser = createCurrentUser(json.payload);

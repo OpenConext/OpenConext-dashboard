@@ -288,7 +288,6 @@ class AppOverview extends React.Component {
     const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
     const ids = filteredApps.map(app => app.id);
     const queryString = qs.stringify({ idpEntityId: currentUser.getCurrentIdpId(), id: ids }, { arrayFormat: "brackets" });
-
     window.open(apiUrl(`/services/download?${queryString}`));
   }
 

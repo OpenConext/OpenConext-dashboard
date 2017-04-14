@@ -318,8 +318,8 @@ I18n.translations.nl = {
   },
 
   server_error: {
-    title: "Er is iets misgegaan tijdens het openen van de pagina.",
-    description_html: "Probeer het later nog eens of neem contract op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
+    title: "Je hebt onvoldoende rechten om de Dashboard applicatie te gebruikem.",
+    description_html: "Neem contract op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> in het geval dat je denkt dat dit niet juist is."
   },
 
   not_found: {

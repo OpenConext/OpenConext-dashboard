@@ -289,8 +289,8 @@ I18n.translations.en = {
   },
 
   server_error: {
-    title: "Something went wrong when opening this page.",
-    description_html: "Please try again later or contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
+    title: "You don't have sufficient access right to access the Dashboard application.",
+    description_html: "Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you think this is incorrect."
   },
 
   logout: {
