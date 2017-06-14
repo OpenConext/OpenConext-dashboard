@@ -1,0 +1,30 @@
+{
+  "id": 57,
+  "name": "another send email test",
+  "description": "A user from \u0027SURFnet | Test | Mujina\u0027is only allowed to access \u0027SURFconext Dashboard [ACC]\u0027 when he/ she has the value \u0027asdf\u0027 for attribute \u0027urn:mace:terena.org:attribute-def:schacHomeOrganizationType\u0027",
+  "serviceProviderId": "https://dashboard.acc.surfconext.nl",
+  "serviceProviderName": "SURFconext Dashboard [ACC]",
+  "identityProviderIds": [
+    "http://mock-idp"
+  ],
+  "identityProviderNames": [
+    "SURFnet | Test | Mujina"
+  ],
+  "attributes": [
+    {
+      "name": "urn:mace:terena.org:attribute-def:schacHomeOrganizationType",
+      "value": "asdf"
+    }
+  ],
+  "denyAdvice": "asf",
+  "denyAdviceNl": "asdf",
+  "denyRule": false,
+  "allAttributesMustMatch": false,
+  "userDisplayName": "admin",
+  "numberOfRevisions": 0,
+  "revisionNbr": 0,
+  "created": "May 2, 2016 1:00:41 PM",
+  "isActivatedSr": false,
+  "active": true,
+  "actionsAllowed": false
+}
