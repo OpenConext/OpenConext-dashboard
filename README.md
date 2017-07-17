@@ -21,7 +21,7 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 - Java 8
 - Maven 3
 - MySQL 5.5
-- NodeJS 6.2.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
+- NodeJS 7.10.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
 
 ### Building and running
 
@@ -60,19 +60,19 @@ If you want to debug you can use
 Initial setup if you do:
 
     nvm install
-    npm install
+    yarn install
 
 Add new dependencies to `devDependencies`:
 
-    npm install --save-dev ${dep}
+    yarn add ${dep} --dev
 
 To build:
 
-    npm run webpack
+    yarn run webpack
 
 To run locally:
 
-    npm run webpack-dev-server
+    yarn run webpack-dev-server
 
 When you browse to the [application homepage](http://localhost:8001/dashboard/api/home) you will be prompted for a login.
 
