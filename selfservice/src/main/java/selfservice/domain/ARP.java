@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.util.CollectionUtils;
 
@@ -123,7 +125,9 @@ public class ARP implements Serializable {
     arp.setName("arp");
     arp.setDescription("arp");
     List<Object> star = Arrays.asList("*");
-    Map<String, List<Object>> mappedAttributes = attributes.stream().collect(toMap(identity(), attr -> star));
+
+    Set<String> uniqueAttributes = attributes.stream().filter(attribute -> attribute.startsWith("urn")).collect(Collectors.toSet());
+    Map<String, List<Object>> mappedAttributes = uniqueAttributes.stream().collect(toMap(identity(), attr -> star));
     arp.setAttributes(mappedAttributes);
     return arp;
   }

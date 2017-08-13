@@ -25,5 +25,9 @@ public class ClassPathResourceServiceRegistryTest {
   public void testServiceProviders() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
     assertEquals(34, serviceProviders.size());
+
+    ServiceProvider serviceProvider = serviceProviders.stream().filter(sp -> sp.getId().equals("https://teams.test.surfconext.nl/shibboleth")).findFirst().get();
+    int size = serviceProvider.getArp().getAttributes().size();
+    assertEquals(4, size);
   }
 }
