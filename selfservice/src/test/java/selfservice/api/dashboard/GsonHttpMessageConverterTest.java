@@ -25,7 +25,7 @@ public class GsonHttpMessageConverterTest {
   @Before
   public void setUp() throws Exception {
     outputMessage = new MockHttpOutputMessage();
-    converter = new GsonHttpMessageConverter("https://foo", "bar", "scope", "/foobar");
+    converter = new GsonHttpMessageConverter("https://foo", "oauth/authorize.php","bar", "scope", "/foobar");
   }
 
   @Test
