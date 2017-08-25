@@ -90,8 +90,10 @@ public class VootFilter extends GenericFilterBean {
 
     CoinUser user = SpringSecurity.getCurrentUser();
 
-    addDashboardRole(user);
-    addCsaRole(user);
+    List<Group> groups = vootClient.groups(user.getUid());
+
+    addDashboardRole(user, groups);
+    addCsaRole(user, groups);
 
     if (logger.isDebugEnabled()) {
       logger.debug("Roles based on VOOT {}", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
@@ -102,16 +104,13 @@ public class VootFilter extends GenericFilterBean {
     session.setAttribute(PROCESSED, "true");
   }
 
-  private void addCsaRole(CoinUser user) {
-    boolean isAdmin = vootClient.hasAccess(user.getUid(), adminDistributionTeam);
-    if (isAdmin) {
+  private void addCsaRole(CoinUser user, List<Group> groups) {
+    if (groupsContains(adminDistributionTeam, groups)) {
       user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
     }
   }
 
-  private void addDashboardRole(CoinUser user) {
-    List<Group> groups = vootClient.groups(user.getUid());
-
+  private void addDashboardRole(CoinUser user, List<Group> groups) {
     if (groupsContains(dashboardSuperUser, groups)) {
       user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
     } else if (groupsContains(dashboardAdmin, groups)) {

@@ -1,6 +1,21 @@
 package selfservice.api.dashboard;
 
-import static java.lang.String.format;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpInputMessage;
+import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.AbstractHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import selfservice.shibboleth.ShibbolethHeader;
+import selfservice.util.SpringSecurity;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -11,43 +26,28 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpInputMessage;
-import org.springframework.http.HttpOutputMessage;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.AbstractHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.HttpMessageNotWritableException;
-
-import selfservice.shibboleth.ShibbolethHeader;
-import selfservice.util.SpringSecurity;
+import static java.lang.String.format;
 
 public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestResponse<?>> {
 
   public static final GsonBuilder GSON_BUILDER = new GsonBuilder()
-      .setExclusionStrategies(new ExcludeJsonIgnore())
-      .enableComplexMapKeySerialization()
-      .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter().nullSafe())
-      .registerTypeAdapter(ShibbolethHeader.class, new ShibbolethHeaderTypeAdapter().nullSafe());
+    .setExclusionStrategies(new ExcludeJsonIgnore())
+    .enableComplexMapKeySerialization()
+    .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter().nullSafe())
+    .registerTypeAdapter(ShibbolethHeader.class, new ShibbolethHeaderTypeAdapter().nullSafe());
 
   private Gson gson;
 
   private String statsBaseUrl;
+  private String statsAuthorizePath;
   private String statsClientId;
   private String statsScope;
   private String statsRedirectUri;
 
-  public GsonHttpMessageConverter(String statsBaseUr, String statsClientId, String statsScope, String statsRedirectUri) {
+  public GsonHttpMessageConverter(String statsBaseUr, String statsAuthorizePath, String statsClientId, String statsScope, String statsRedirectUri) {
     this.gson = GSON_BUILDER.create();
     this.statsBaseUrl = statsBaseUr;
+    this.statsAuthorizePath = statsAuthorizePath;
     this.statsClientId = statsClientId;
     this.statsScope = statsScope;
     this.statsRedirectUri = statsRedirectUri;
@@ -82,17 +82,18 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   protected void writeInternal(RestResponse<?> objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
     JsonElement json = gson.toJsonTree(objectRestResponse);
     EnrichJson.forUser(
-        SpringSecurity.getCurrentUser(),
-        format(
-            "%s/oauth/authorize.php?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",
-            statsBaseUrl,
-            statsClientId,
-            statsScope,
-            statsRedirectUri
-            )
-        )
-        .json(json)
-        .forPayload(objectRestResponse.getPayload());
+      SpringSecurity.getCurrentUser(),
+      format(
+        "%s/%s?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",
+        statsBaseUrl,
+        statsAuthorizePath,
+        statsClientId,
+        statsScope,
+        statsRedirectUri
+      )
+    )
+      .json(json)
+      .forPayload(objectRestResponse.getPayload());
 
     Charset charset = getCharset(outputMessage.getHeaders());
 

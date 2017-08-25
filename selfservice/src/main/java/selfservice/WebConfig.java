@@ -25,6 +25,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Value("${statsBaseUrl}")
   private String statsBaseUrl;
 
+  @Value("${statsAuthorizePath}")
+  private String statsAuthorizePath;
+
   @Value("${statsClientId}")
   private  String statsClientId;
 
@@ -59,6 +62,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-    converters.add(new GsonHttpMessageConverter(statsBaseUrl, statsClientId, statsScope, statsRedirectUri));
+    converters.add(new GsonHttpMessageConverter(statsBaseUrl, statsAuthorizePath, statsClientId, statsScope, statsRedirectUri));
   }
 }
