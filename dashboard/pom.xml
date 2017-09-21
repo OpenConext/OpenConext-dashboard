@@ -6,6 +6,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <version>5.1.23</version>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>dashboard</artifactId>
   <packaging>pom</packaging>
