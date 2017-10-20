@@ -26,6 +26,8 @@ public class VootClientMock implements VootClient {
         return asList(new Group("dashboard.admin"));
       case "viewer":
         return asList(new Group("dashboard.viewer"));
+      case "csa":
+        return asList(new Group("csa.admins"));
       default:
         return Collections.emptyList();
     }

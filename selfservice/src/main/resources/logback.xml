@@ -3,5 +3,6 @@
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
   <logger name="selfservice" level="DEBUG" />
+  <logger name="org.springframework" level="INFO" />
 
 </configuration>

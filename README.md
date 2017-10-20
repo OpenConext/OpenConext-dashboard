@@ -22,6 +22,7 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 - Maven 3
 - MySQL 5.5
 - NodeJS 7.10.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
+- yarn 1.1.0
 
 ### Building and running
 
@@ -60,20 +61,22 @@ If you want to debug you can use
 Initial setup if you do:
 
     nvm install
-    yarn install
-
-Add new dependencies to `devDependencies`:
-
-    yarn add ${dep} --dev
-
 To build:
 
     yarn run webpack
 
 To run locally:
 
-    yarn run webpack-dev-server
+    npm run webpack-dev-server
 
 When you browse to the [application homepage](http://localhost:8001/dashboard/api/home) you will be prompted for a login.
 
 A list of available log-ins can be found in the mocked implementation of the [VootClient](selfservice/src/main/java/selfservice/service/impl/VootClientMock.java).
+
+When you want to test the back-office CSA application then: 
+```
+cd selfservice
+./debug.sh 
+``` 
+And the application is available on [localhost:8280](http://localhost:8280). Note that because of credentials exclusivity you can't run both apps in the same
+browser.

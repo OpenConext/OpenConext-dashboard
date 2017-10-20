@@ -69,14 +69,15 @@ class HowToConnectPanel extends React.Component {
                     {I18n.t("how_to_connect_panel.license_info")}
                   </Link>
                 </li>
-
                 <li>
                   {I18n.t("how_to_connect_panel.check")}&nbsp;
                   <Link to={this.getPanelRoute("attribute_policy")}>
                     {I18n.t("how_to_connect_panel.attributes_policy")}
                   </Link>
                 </li>
-
+                <li>
+                  <span dangerouslySetInnerHTML={{ __html: I18n.t("how_to_connect_panel.processing_agreements") }} />
+                </li>
                 {this.renderWikiUrl()}
               </ul>
             </div>
