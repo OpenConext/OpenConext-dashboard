@@ -1,4 +1,5 @@
 #!/bin/bash
-rm -Rf dist/*
-yarn install
-yarn run webpack
+echo "Build already?"
+#rm -Rf dist/*
+#yarn install
+#yarn run webpack
