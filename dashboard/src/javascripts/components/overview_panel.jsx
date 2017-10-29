@@ -133,9 +133,8 @@ class OverviewPanel extends React.Component {
   }
 
   renderNormenKader() {
-    const html = (this.props.app.normenkaderPresent && this.props.app.normenkaderUrl) ?
-      I18n.t("overview_panel.normen_kader_html", { name: this.props.app.name, link: this.props.app.normenkaderUrl }) :
-      I18n.t("overview_panel.no_normen_kader_html", { name: this.props.app.name });
+    const html = (this.props.app.normenkaderPresent) ?
+      I18n.t("overview_panel.normen_kader_html") : I18n.t("overview_panel.no_normen_kader_html");
     return (
       <div className="mod-description">
         <h2>{I18n.t("overview_panel.normen_kader")}</h2>
