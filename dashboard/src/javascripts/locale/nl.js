@@ -226,7 +226,7 @@ I18n.translations.nl = {
     cancel: "Annuleren",
     check: "Controleer",
     checklist: "Loop deze checklist na voordat je een connectie activeert:",
-    processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://www.surf.nl/nieuws/2016/08/ondersteuning-surfmarket-bij-sluiten-bewerkersovereenkomsten.html\" target=\"_blank\">bewerkersovereenkomst</a> heeft, en zo ja, of die geregeld is.",
+    processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://www.surf.nl/nieuws/2016/08/ondersteuning-surfmarket-bij-sluiten-bewerkersovereenkomsten.html\" target=\"_blank\">bewerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
     comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
     comments_placeholder: "Voer hier je opmerkingen in...",
     comments_title: "Eventuele opmerkingen?",
