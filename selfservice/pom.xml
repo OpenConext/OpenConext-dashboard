@@ -25,6 +25,7 @@
   <artifactId>selfservice</artifactId>
   <packaging>war</packaging>
   <name>OpenConext : selfservice</name>
+  <version>5.1.27</version>
 
   <properties>
     <jetty.host>localhost</jetty.host>
