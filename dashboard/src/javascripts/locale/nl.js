@@ -146,7 +146,7 @@ I18n.translations.nl = {
   license_info_panel: {
     title: "Licentie informatie",
     has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
-    has_license_sp_html: "Er is via <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> een licentie afgesloten voor deze service.",
+    has_license_sp_html: "Een licentie voor <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
     no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
     not_needed_html: "Voor deze dienst is geen licentie nodig",
     unknown_license: "Het is onbekend welke licentie voor deze service geldt.",
