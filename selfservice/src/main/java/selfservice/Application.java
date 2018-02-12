@@ -103,7 +103,7 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Profile("!devX")
+  @Profile("!dev")
   public Manage urlResourceServiceRegistry(
     @Value("${manage.username}") String username,
     @Value("${manage.password}") String password,
@@ -116,7 +116,7 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Profile("devX")
+  @Profile("dev")
   public Manage classPathServiceRegistry(@Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws Exception {
     Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
     return new ClassPathResourceManage(true, resource);
