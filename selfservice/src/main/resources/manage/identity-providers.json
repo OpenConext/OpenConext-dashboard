@@ -1,0 +1,783 @@
+[
+  {
+    "_id": "03508e2c-7abe-4c34-89e9-1b44e11eb174",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "created": "2012-06-12T10:38:32+02:00",
+      "disableConsent": [],
+      "eid": 2,
+      "entityid": "https://engine.test2.surfconext.nl/authentication/idp/metadata",
+      "id": 2,
+      "ip": "172.18.5.1",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://engine.test2.surfconext.nl/authentication/idp/single-sign-on",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@openconext.org",
+        "contacts:0:givenName": "Support",
+        "contacts:0:surName": "OpenConext",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "support@openconext.org",
+        "contacts:1:givenName": "Support",
+        "contacts:1:surName": "OpenConext",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "support@openconext.org",
+        "contacts:2:givenName": "Support",
+        "contacts:2:surName": "OpenConext",
+        "description:en": "OpenConext SSO Proxy",
+        "description:nl": "OpenConext SSO Proxy",
+        "displayName:en": "OpenConext Engine",
+        "displayName:nl": "OpenConext Engine",
+        "keywords:en": "openconext engine engineblock proxy sso saml2",
+        "keywords:nl": "openconext engine engineblock proxy sso saml2",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "OpenConext Engine",
+        "name:nl": "OpenConext Engine"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 0,
+      "revisionnote": "Entity created.",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "admin"
+    },
+    "revision": {
+      "created": 1339490312000,
+      "number": 0,
+      "updatedBy": "admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "9e6a6a03-5755-4e84-a6c8-ed082925d9cb",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "created": "2017-07-20T12:14:33+02:00",
+      "disableConsent": [],
+      "eid": 6,
+      "entityid": "http://mock-idp",
+      "id": 1164,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "SingleSignOnService:0:Location": "https://mujina-idp.test2.surfconext.nl/SingleSignOnService",
+        "certData": "MIIDEzCCAfugAwIBAgIJAKoK/heBjcOYMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNVBAoMFU9yZ2FuaXphdGlvbiwgQ049T0lEQzAeFw0xNTExMTExMDEyMTVaFw0yNTExMTAxMDEyMTVaMCAxHjAcBgNVBAoMFU9yZ2FuaXphdGlvbiwgQ049T0lEQzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANBGwJ/qpTQNiSgUglSE2UzEkUow+wS8r67etxoEhlzJZfgK/k5TfG1wICDqapHAxEVgUM10aBHRctNocA5wmlHtxdidhzRZroqHwpKy2BmsKX5Z2oK25RLpsyusB1KroemgA/CjUnI6rIL1xxFn3KyOFh1ZBLUQtKNQeMS7HFGgSDAp+sXuTFujz12LFDugX0T0KB5a1+0l8y0PEa0yGa1oi6seONx849ZHxM0PRvUunWkuTM+foZ0jZpFapXe02yWMqhc/2iYMieE/3GvOguJchJt6R+cut8VBb6ubKUIGK7pmoq/TB6DVXpvsHqsDJXechxcicu4pdKVDHSec850CAwEAAaNQME4wHQYDVR0OBBYEFK7RqjoodSYVXGTVEdLf3kJflP/sMB8GA1UdIwQYMBaAFK7RqjoodSYVXGTVEdLf3kJflP/sMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBADNZkxlFXh4F45muCbnQd+WmaXlGvb9tkUyAIxVL8AIu8J18F420vpnGpoUAE+Hy3evBmp2nkrFAgmr055fAjpHeZFgDZBAPCwYd3TNMDeSyMta3Ka+oS7GRFDePkMEm+kH4/rITNKUF1sOvWBTSowk9TudEDyFqgGntcdu/l/zRxvx33y3LMG5USD0x4X4IKjRrRN1BbcKgi8dq10C3jdqNancTuPoqT3WWzRvVtB/q34B7F74/6JzgEoOCEHufBMp4ZFu54P0yEGtWfTwTzuoZobrChVVBt4w/XZagrRtUCDNwRpHNbpjxYudbqLqpi1MQpV9oht/BpTHVJG2i0ro=",
+        "coin:guest_qualifier": "All",
+        "coin:institution_id": "surfconext",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "support@openconext.org",
+        "contacts:0:givenName": "Support",
+        "contacts:0:surName": "OpenConext",
+        "contacts:0:telephoneNumber": "0612345678",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "support@openconext.org",
+        "contacts:1:givenName": "Support",
+        "contacts:1:surName": "OpenConext",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "support@openconext.org",
+        "contacts:2:givenName": "Support",
+        "contacts:2:surName": "OpenConext",
+        "contacts:3:contactType": "technical",
+        "description:en": "OpenConext Mujina Test Identity Provider",
+        "description:nl": "OpenConext Mujina Test Identity Provider",
+        "displayName:en": "OpenConext Mujina IDP",
+        "displayName:nl": "OpenConext Mujina IDP",
+        "keywords:en": "mock idp mujina",
+        "keywords:nl": "mock idp mujina",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "OpenConext Mujina IDP",
+        "name:nl": "OpenConext Mujina IDP"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 13,
+      "revisionnote": "Allow all Service Providers access to OpenConext Mujina IDP",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1518000216616,
+      "number": 21,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 8
+  },
+  {
+    "_id": "12033fa4-6b5a-49e0-8755-1dbae2804bb3",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://profile.test2.surfconext.nl/authentication/metadata"
+        },
+        {
+          "name": "https://teams.test2.surfconext.nl/shibboleth"
+        },
+        {
+          "name": "https://oidc.test2.surfconext.nl"
+        },
+        {
+          "name": "https://eduproxy.test2.surfconext.nl"
+        },
+        {
+          "name": "https://link.test2.surfconext.nl/shibboleth"
+        }
+      ],
+      "allowedall": false,
+      "created": "2017-08-25T09:58:45+02:00",
+      "disableConsent": [],
+      "eid": 19,
+      "entityid": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/saml2/idp/metadata.php",
+      "id": 1386,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/saml2/idp/SSOService.php",
+        "certData": "MIIEKzCCAxOgAwIBAgIJAOzoS9n/L1biMA0GCSqGSIb3DQEBCwUAMIGrMQswCQYDVQQGEwJOTDEQMA4GA1UECAwHVXRyZWNodDEQMA4GA1UEBwwHVXRyZWNodDETMBEGA1UECgwKU1VSRm5ldCBidjEZMBcGA1UECwwQVHJ1c3QgJiBTZWN1cml0eTEoMCYGA1UEAwwfdGhraS1zaWQucHQtNDgudXRyLnN1cmZjbG91ZC5ubDEeMBwGCSqGSIb3DQEJARYPdGhraUBzdXJmbmV0Lm5sMB4XDTE2MDQxMzExNTMyMloXDTI2MDQxMzExNTMyMlowgasxCzAJBgNVBAYTAk5MMRAwDgYDVQQIDAdVdHJlY2h0MRAwDgYDVQQHDAdVdHJlY2h0MRMwEQYDVQQKDApTVVJGbmV0IGJ2MRkwFwYDVQQLDBBUcnVzdCAmIFNlY3VyaXR5MSgwJgYDVQQDDB90aGtpLXNpZC5wdC00OC51dHIuc3VyZmNsb3VkLm5sMR4wHAYJKoZIhvcNAQkBFg90aGtpQHN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC8st01FnoLBHQcjF5/j6S/IgIfMV1jc4kA8rqysCwDA+nUfIZrJ/Qa3eBzdF3B0kpjI6iFGqMTgnc19Se7xNwvveO1BGOcw7sxxn5nMN7oS7183+ZLVszQMc7M/3xig4XpP0lWjASX1WFlg3lfjDsfzE7FbwyT7l0rNv1TvHLX8Ua2r4GHMFK6mbC685CBQdv7XrMqilFpIjq+AhE6mPfGtVHfIm6YJsmXGnDdjrM5jEgE+cIshw79VJ/SBztaI1+VbrpP+NpDC7O9CHjMFnnKZQmRgVeX8aCVjOVtlwwZ/je9qXFX+fov40GOXOVNH8qfKj2tk+esMLnTdOASkmN5AgMBAAGjUDBOMB0GA1UdDgQWBBQPakqoi9yT6huUtsxENIyqItvFoTAfBgNVHSMEGDAWgBQPakqoi9yT6huUtsxENIyqItvFoTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQChwKqpiB6tw9dLAvhgodGFFZbZT3ujOsXAi5YhUginfm/+NhS1FGxqnI6cR1grVmQOKYO5DctWjpyhGXM7vQYodqGSH4HiEiI3mQ84yQdC92NvE+LIC0bpXU4/dRvvtfMlli70PpiZgrGsDsBcb/eNDhWw6qSwii4BB11Yvp8aJ8Q1aYqnXUxs3UuZpoWSGOM7cNwUn/k0PxvgdRZ/QsWXG/QaabrRJtxXcacPqqKgs1dLY/8aqSLh2bz2Cl0/g+BW6krDqUCtGqOT/AM+K1E1IfpBeaCdjtDCaU1kh4FnCrQOMV6VLfGm7NgYQ9EgdZ681LnJCCOOKcBhvcGy6R5q",
+        "coin:guest_qualifier": "Some",
+        "coin:publish_in_edugain": "1",
+        "coin:publish_in_edugain_date": "2016-03-09T11:30:00Z",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "thijs.kinkhorst@surfnet.nl",
+        "contacts:0:givenName": "Thijs",
+        "contacts:0:surName": "Kinkhorst",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "keywords:en": "thki thijs kinkhorst sid ssp",
+        "keywords:nl": "thki thijs kinkhorst sid ssp",
+        "logo:0:height": "80",
+        "logo:0:url": "https://static.surfconext.nl/media/idp/avat_st.jpg",
+        "logo:0:width": "80",
+        "name:en": "thkidp",
+        "name:nl": "thkidp",
+        "shibmd:scope:0:allowed": "boehoe.nl"
+      },
+      "metadataurl": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/saml2/idp/metadata.php",
+      "notes": null,
+      "revisionid": 13,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1508759319625,
+      "number": 14,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 1
+  },
+  {
+    "_id": "a94ab875-8323-427c-a32f-dfd258621e19",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://profile.test2.surfconext.nl/authentication/metadata"
+        },
+        {
+          "name": "https://serviceregistry.test2.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+        },
+        {
+          "name": "https://teams.test2.surfconext.nl/shibboleth"
+        },
+        {
+          "name": "https://pdp.test2.surfconext.nl/shibboleth"
+        },
+        {
+          "name": "https://oidc.test2.surfconext.nl"
+        },
+        {
+          "name": "https://kibana.test2.surfconext.nl"
+        },
+        {
+          "name": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/metadata.php/default-sp"
+        },
+        {
+          "name": "https://spdashboard.test2.surfconext.nl/saml/metadata"
+        },
+        {
+          "name": "https://link.test2.surfconext.nl/shibboleth"
+        },
+        {
+          "name": "https://authz.test2.surfconext.nl/shibboleth"
+        },
+        {
+          "name": "https://dashboard.test.surfconext.nl"
+        },
+        {
+          "name": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/metadata.php/default-sp"
+        },
+        {
+          "name": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/module.php/saml/sp/metadata.php/default-sp"
+        }
+      ],
+      "allowedall": false,
+      "created": "2017-08-21T15:44:55+02:00",
+      "disableConsent": [],
+      "eid": 20,
+      "entityid": "https://idp.surfnet.nl",
+      "id": 1326,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "OrganizationDisplayName:en": "SURFnet B.V.",
+        "OrganizationName:en": "SURFnet B.V.",
+        "OrganizationURL:en": "https://www.surfnet.nl",
+        "OrganizationURL:nl": "http://www.surfnet.nl/",
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://idp.surfnet.nl/saml2/idp/SSOService.php",
+        "certData": "MIIDizCCAnOgAwIBAgIJAO/Ki1NEqa1bMA0GCSqGSIb3DQEBBQUAMFwxCzAJBgNVBAYTAk5MMQswCQYDVQQIDAJVVDEQMA4GA1UEBwwHVXRyZWNodDEVMBMGA1UECgwMU1VSRm5ldCBCLlYuMRcwFQYDVQQDDA5pZHAuc3VyZm5ldC5ubDAeFw0xMzA0MDQwNzM4MzRaFw0zMzA0MDMwNzM4MzRaMFwxCzAJBgNVBAYTAk5MMQswCQYDVQQIDAJVVDEQMA4GA1UEBwwHVXRyZWNodDEVMBMGA1UECgwMU1VSRm5ldCBCLlYuMRcwFQYDVQQDDA5pZHAuc3VyZm5ldC5ubDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMonlhxwvAqi4zJ5vogOfkFtOTHdYQFsYCskecUIiyfw2NpdPM0i0y2MNlS04J0s9gYiyBV+QBtywacysJ6MZgbyaW4kZdZLrR/lJupvzNlqYmKHzrvaixeRSaZ2P9UHtZ8iDXKjmauDvHHC4+U8BDhocbQGjqEAmbwcNQFSUjCMLlaNvx94NCFrmU56od2B6bHMh3W8oCuf16aYLICLA5jowcI8k31YpVtdUMYf2GxVj5JNA5ToPNJZAlgxxQw1rjpVJ9adC5yytulidik35ECnPZu8aBDv9Rq+q1TJVmOwcy5qsYLR/h6YCEGk7/mAO/KgOEpiZCIW7uT28Y5DRd8CAwEAAaNQME4wHQYDVR0OBBYEFJp7+Z5E3cs70w9UiEvE9vWxvZBvMB8GA1UdIwQYMBaAFJp7+Z5E3cs70w9UiEvE9vWxvZBvMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAG4aLa++i+08FsEmo9V90rzq9PrnkQjyMoRWDeX0nNy0BXYWn0PP4c90+PCOGRsfeW5Gw1S1x9CJY/0CU1nlHnSIxS1yKnzrTpvgrZh3olxbqr47lY55akxqSLed9FE0sB765xk3u6U4RmKqI1z4geuGpev5pGAxkOJ04DcMCUUZoZIwt957FLxb46LHFlmoZdPxNQdatXjbprLXLauW/Y1qT34qSusOhBxXaXvwNEXcgjo79K1YYmsYXZe+LpGmondxitbAUbISWH78yG9ay/wE/gCk9HVU5IB8oT+IsA25TO3kcagiKge+AVu4cjaL6HGwJyjuIzWlmqvIKKjTb/w=",
+        "coin:guest_qualifier": "None",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "john@example.com",
+        "contacts:0:givenName": "john",
+        "contacts:0:surName": "doe",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "mary@example.com",
+        "contacts:1:givenName": "mary",
+        "contacts:1:surName": "doe",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "steward@example.com",
+        "contacts:2:givenName": "steward",
+        "contacts:2:surName": "doe",
+        "description:en": "SURFnet B.V.",
+        "keywords:en": "SURFnet BV SURF rabbit surf surfnet",
+        "keywords:nl": "SURFnet BV SURF konijn surf surfnet",
+        "logo:0:height": "60",
+        "logo:0:url": "https://wayf.surfnet.nl/federate/surfnet/img/logo/surfnet.png",
+        "logo:0:width": "120",
+        "name:en": "SURFnet B.V.",
+        "name:nl": "SURFnet B.V."
+      },
+      "metadataurl": "https://idp.surfnet.nl/saml2/idp/metadata.php",
+      "notes": null,
+      "revisionid": 18,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:surfnet.nl:geesink"
+    },
+    "revision": {
+      "created": 1514114995444,
+      "number": 24,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 6
+  },
+  {
+    "_id": "c331c7d1-3ecd-4c20-b472-779d1f35abdd",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "created": "2016-04-25T16:37:49+02:00",
+      "disableConsent": [],
+      "eid": 21,
+      "entityid": "http://login.aai.braindrops.org/adfs/services/trust",
+      "id": 43,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://login.aai.braindrops.org/adfs/ls/",
+        "SingleSignOnService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "SingleSignOnService:1:Location": "https://login.aai.braindrops.org/adfs/ls/",
+        "certData": "MIIC7DCCAdSgAwIBAgIQEHDm/P0VSIRHRdj6jf0sAzANBgkqhkiG9w0BAQsFADAyMTAwLgYDVQQDEydBREZTIFNpZ25pbmcgLSBsb2dpbi5hYWkuYnJhaW5kcm9wcy5vcmcwHhcNMTYwMjEwMDAwMjE3WhcNMjEwMjA4MDAwMjE3WjAyMTAwLgYDVQQDEydBREZTIFNpZ25pbmcgLSBsb2dpbi5hYWkuYnJhaW5kcm9wcy5vcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDH2B1UTilMsnwR73smXmLgrh1K9mLpJ9X+SrMIdGAXWkXonAhqaXvkewgNvWQpRay8H9Kw3pPfCPrhvPnAV/Dewbq1ZlJIlXYzseexsV8WBxv23f+NFkJfb/hCoy0FTNbUrsqJ6U537nO1TicsLYrE1/5aukj9k5JtW7HR+5gTEsNml9f/gjMGQqOgUYfw7lCLqHkCPX7IB8SiINGlHAaj5yl9HHv2daNRGvXvDNCJtPfyQHHcyzz3DD7yjJ/p0epkDTohn9eRg6L2xUM6pl7DAu+LjKsmXCgdl61dfZcNhaMwul8wNHKqBnL4vSXNUI1plqTPdkEk4CRYRr3DIVWVAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAI3ayhmunQ8KTnAA+mELXoll1iMEh6Y6ACx3B9q8d5kUnUaxG+UtFohA7SbUr5fwTbGwtqz/wSFvHinS5Sk6Fmn7li3WIN3MhhxsLCdaM/q7Ij56KBPdzIW0PlQlX+tU6F3hW8TciN0UsM9u+cQmbq0G94gFyQAgsK7f8jNrBVIX6MaBF0TAzd0f9z9WnMtExYfJ9+raUpUFtP2CQ9kN2S4z0AM4nvQNCmFPDTzwMPdlsMwH6njcgDATbEelnQc4tlSGL6aLdLOjEMO0qswDxmLapdW1O0c3dMIKVAMgkm/vc88zB81AwW3bsFovFVWmWtoiUirmIfYzE35wRqea7Us=",
+        "coin:disable_scoping": "1",
+        "coin:guest_qualifier": "None",
+        "contacts:0:contactType": "support",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "logo:0:height": "74",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/SURFdropsADFS.png",
+        "logo:0:width": "180",
+        "name:en": "SURFdrops ADFS IdP",
+        "name:nl": "SURFdrops ADFS IdP"
+      },
+      "metadataurl": "https://login.aai.braindrops.org/FederationMetadata/2007-06/FederationMetadata.xml",
+      "notes": null,
+      "revisionid": 7,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1461595069000,
+      "number": 7,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "5e2d8a81-789f-4503-89aa-e1b93d0dfb4f",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/metadata.php/default-sp"
+        }
+      ],
+      "allowedall": false,
+      "created": "2017-06-22T14:28:26+02:00",
+      "disableConsent": [
+        {
+          "name": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/metadata.php/default-sp"
+        }
+      ],
+      "eid": 25,
+      "entityid": "https://idin.surfconext.nl/saml2/idp/metadata.php",
+      "id": 919,
+      "ip": "145.100.191.114",
+      "manipulation": "if (isset($attributes) and ($attributes !== FALSE)) {\r\n    $uids = $attributes['urn:mace:dir:attribute-def:uid'];\r\n    if (is_array($uids)) {\r\n      $uid = $uids[0];\r\n    } else {\r\n      $uid = $uids;\r\n    }\r\n    //$attributes['urn:mace:dir:attribute-def:uid'] = array(ldap_escape($uid, null, LDAP_ESCAPE_DN));\r\n    $attributes['urn:mace:dir:attribute-def:uid'] = array(str_replace('=','',$uid));\r\n\r\n}\r\n",
+      "metaDataFields": {
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://idin.surfconext.nl/saml2/idp/SSOService.php",
+        "certData": "MIIDITCCAgmgAwIBAgIJAISPaYGJ9hmGMA0GCSqGSIb3DQEBCwUAMCcxJTAjBgNVBAMMHFNBTUwgSURQIFNpZ25pbmcgY2VydGlmaWNhdGUwHhcNMTYwMzEwMDkyMTM2WhcNMTYwNDA5MDkyMTM2WjAnMSUwIwYDVQQDDBxTQU1MIElEUCBTaWduaW5nIGNlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt1x4CVJOID3XxLhb4NgO7e087QhRJBSUYkZmOXcqU7t3cqJF8HPLdiWFMB9Fo47PSzLvlRAiZ+Gp3abI9MNesqwc67et8IxhKeLBVOfQzdjhfi3/tt2mQfeHn9qFR3wDSDBdoUMSDizpGoj/KZi17L4ZJcrv3AVeMdIr7b/KWA8nXPkNfg+5142mg1V1niMHd+STNWgp1rjS+/NnHDm4grY1jPt8aSorGsCBHnyVId4wTtoZddYgZOjHQ4IsvziWloLj8QWQNWE+316DUb/Pa5yfNMVtR+red9dJOMxnXpF/yd9/Kid+Hz/MkfxoCGqZp7quCUvTY8O226A1siH3CwIDAQABo1AwTjAdBgNVHQ4EFgQUV4HjrhcvxReWlCqJB0yQMM3eQOwwHwYDVR0jBBgwFoAUV4HjrhcvxReWlCqJB0yQMM3eQOwwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEApbAC/vADC/fiepL4LsJvMI2hIYHuIyRpHvrz2x9LJauRI1YiuQzcsGpnj5IjHZlQ1YO1ZPf1CRcjEr/e4XVZH7MrGc5WCQJ9T3FGeQ9x8N7xf4B7neto2K3sZv+/sVs+OyY6S48x5+7nOnIrzWdggP9FPiVfwIzYjhMmv3IbBGb0fA7su+wKfgzNrivEQidCXjGRwr4Zp2Ec4LzxjEiwxhHE231WFwT2xCDlwDJdq4uxmQDVNvR97rhDiQzsxJjYseT9iu1U/L3UfMb+pGaPMf7kzO0NbVLJYCuzNuIrwPG/hi+PXYFz2n/dXvpOaTucElJQmdJb9aY5KQmKoXgXyw==",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "iDIN",
+        "description:nl": "iDIN",
+        "keywords:en": "iDIN",
+        "keywords:nl": "iDIN",
+        "logo:0:height": "60",
+        "logo:0:url": "https://idin.surfconext.nl/module.php/idin/images/iDIN%20logo.png",
+        "logo:0:width": "120",
+        "name:en": "iDIN",
+        "name:nl": "iDIN"
+      },
+      "metadataurl": "https://idin.surfconext.nl/saml2/idp/metadata.php",
+      "notes": null,
+      "revisionid": 12,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1498134506000,
+      "number": 12,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "6bfeb758-df78-47a2-9049-1e096374d54d",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://profile.test2.surfconext.nl/authentication/metadata"
+        },
+        {
+          "name": "http://mock-sp"
+        },
+        {
+          "name": "https://serviceregistry.test2.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+        },
+        {
+          "name": "https://teams.test2.surfconext.nl/shibboleth"
+        },
+        {
+          "name": "https://oidc.test2.surfconext.nl"
+        },
+        {
+          "name": "https://authz-playground.test2.surfconext.nl"
+        },
+        {
+          "name": "https://support.test2.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+        },
+        {
+          "name": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/module.php/saml/sp/metadata.php/default-sp"
+        },
+        {
+          "name": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/metadata.php/default-sp"
+        }
+      ],
+      "allowedall": false,
+      "created": "2017-09-14T14:51:11+02:00",
+      "disableConsent": [],
+      "eid": 51,
+      "entityid": "https://idp.diy.surfconext.nl/saml2/idp/metadata.php",
+      "id": 1410,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://idp.diy.surfconext.nl/saml2/idp/SSOService.php",
+        "certData": "MIIE0zCCA7ugAwIBAgIJAMeqml0MvrPFMA0GCSqGSIb3DQEBBQUAMIGhMQswCQYDVQQGEwJOTDEQMA4GA1UECBMHVXRyZWNodDEQMA4GA1UEBxMHVXRyZWNodDEQMA4GA1UEChMHU1VSRm5ldDETMBEGA1UECxMKU1VSRmNvbmV4dDEaMBgGA1UEAxMRZGl5LnN1cmZjb25leHQubmwxKzApBgkqhkiG9w0BCQEWHHN1cmZjb25leHQtYmVoZWVyQHN1cmZuZXQubmwwHhcNMTExMjA5MjM1ODM1WhcNMjExMjA4MjM1ODM1WjCBoTELMAkGA1UEBhMCTkwxEDAOBgNVBAgTB1V0cmVjaHQxEDAOBgNVBAcTB1V0cmVjaHQxEDAOBgNVBAoTB1NVUkZuZXQxEzARBgNVBAsTClNVUkZjb25leHQxGjAYBgNVBAMTEWRpeS5zdXJmY29uZXh0Lm5sMSswKQYJKoZIhvcNAQkBFhxzdXJmY29uZXh0LWJlaGVlckBzdXJmbmV0Lm5sMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwiRJ3ZjEnXb6aM7vjt/QZjsC+RH/TUoRxU4XB7jQSybI3jgBO3a4DFOEyyj29BhJdKB1zVbo3nUMgiWsFONUwMV4J1T4ANrcdzkWcJ+y7RCvUA7hK8C3y4CFBFuwVRZ1U03+MYJp5oerJxg3PrpjWj4AifKGQ5Er6BpmHsxUv7OnpXy007PIyFhm3c7WQdKWfPOanLmSaBglTs38+ET+/mKHKxPRmcfraMvepwf2b7u/9D7JvL0O9mW11NPxzDfhgf4T/axBsgU4EuRtneaY3QzWUYWZEfbYAconYWc+Zgv7VpcXsOZMvaoYZbfuJdLadblCI/sluYo5TY91Z76O6QIDAQABo4IBCjCCAQYwHQYDVR0OBBYEFHW4Pywn3PgnsNWrZDtaW35G2k9OMIHWBgNVHSMEgc4wgcuAFHW4Pywn3PgnsNWrZDtaW35G2k9OoYGnpIGkMIGhMQswCQYDVQQGEwJOTDEQMA4GA1UECBMHVXRyZWNodDEQMA4GA1UEBxMHVXRyZWNodDEQMA4GA1UEChMHU1VSRm5ldDETMBEGA1UECxMKU1VSRmNvbmV4dDEaMBgGA1UEAxMRZGl5LnN1cmZjb25leHQubmwxKzApBgkqhkiG9w0BCQEWHHN1cmZjb25leHQtYmVoZWVyQHN1cmZuZXQubmyCCQDHqppdDL6zxTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4IBAQB10RA+Cnrbxth80ApR9h8gFj79O1NE8E2cUWeK8zyg+ElPM91bZdxP0DJgjBljbQaoTn78bktb0qGEBZ92Q1jNn3KQBiG/Y49QlirZIylywB/NRH8VJWO9HblkTmaTe4j1hfNMy9YjLF9xN/6N2drnyPM2qGeXHTPdaMILi4P1WVvwR0A9y8HySZyucuoQwGfyA6F0Q7UEBIwKQdJ7eH+1taiyTR3Rg3wkADL4lyT2I44R9D4TjTJ1175nhgAERZgOlSFHXQIfiRGSpCATPXzpoXl0ejGErvqDk36fQIGtafUM07liuRd0hhJ1vRSw3t/loHju8RUN9lqgnkagGR+M",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "SURFconext-beheer@surfnet.nl",
+        "contacts:0:givenName": "DIYIDP",
+        "contacts:0:surName": "Supportdesk",
+        "contacts:0:telephoneNumber": "088-SURFDIY",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "bage+diysupport@surfnet.nl",
+        "contacts:1:surName": "",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "SURFconext DIY IdP - This IdP is for testing only",
+        "description:nl": "SURFconext DIY IdP - This IdP is for testing only",
+        "logo:0:height": "160",
+        "logo:0:url": "https://static.surfconext.nl/media/idp/surfnet.png",
+        "logo:0:width": "200",
+        "name:en": "SURFconext DIY IdP - This IdP is for testing only",
+        "name:nl": "SURFconext DIY IdP - This IdP is for testing only"
+      },
+      "metadataurl": "https://idp.diy.surfconext.nl/simplesaml/saml2/idp/metadata.php",
+      "notes": null,
+      "revisionid": 16,
+      "revisionnote": "Add Bart test RP to DIY whitelist",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:surfnet.nl:geesink"
+    },
+    "revision": {
+      "created": 1518097942553,
+      "number": 23,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 7
+  },
+  {
+    "_id": "7c11bc4a-f4d9-4e09-877f-fd1b523e50a4",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://profile.test2.surfconext.nl/authentication/metadata"
+        }
+      ],
+      "allowedall": false,
+      "created": "2017-07-12T09:59:59+02:00",
+      "disableConsent": [],
+      "eid": 63,
+      "entityid": "https://idp.mrvanes.com/saml2/idp/metadata.php",
+      "id": 1044,
+      "ip": "145.100.191.114",
+      "manipulation": "$attributes['urn:mace:dir:attribute-def:uid'][0] .= 'AM-IdP';\r\n$attributes['idp'][0] = 'New';",
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://idp.mrvanes.com/saml2/idp/SSOService.php",
+        "certData": "MIIDgDCCAmigAwIBAgIJAJs/jMvZIRjLMA0GCSqGSIb3DQEBBQUAMGYxCzAJBgNVBAYTAk5MMRgwFgYDVQQKEw9pZHAubXJ2YW5lcy5jb20xGDAWBgNVBAMTD2lkcC5tcnZhbmVzLmNvbTEjMCEGCSqGSIb3DQEJARYUaW5mb0BpZHAubXJ2YW5lcy5jb20wHhcNMTMwMzA1MTUxNDA5WhcNMzMwMjI4MTUxNDA5WjBmMQswCQYDVQQGEwJOTDEYMBYGA1UEChMPaWRwLm1ydmFuZXMuY29tMRgwFgYDVQQDEw9pZHAubXJ2YW5lcy5jb20xIzAhBgkqhkiG9w0BCQEWFGluZm9AaWRwLm1ydmFuZXMuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv0nX/xHhfcont9WGWLFXJPQ6RILJzGszj5K0GFAeQ84BB4EXbcr+uQhDVG0tXNYW3cx1Rdc8detRw450Ql+7kL6QLkRQkLL8h0ExcvXrFARipabyk1ApnaHTu4VENDq5sTplADBW1ntKz+cZlcAkrlfx7X53zSQUbjVAoiP4faX5kxUS2gjT1Zhd9q/7Tw05OOT30dynMN3xMSWjvmaQMMgPWRjW3VRkGy0GGgnXTgSnXKuVpYxizx47NbRdBNPFMOiYqCIZAc16KzDImoQDxNwnyqnb71hMjK+MikCd29SjNzpV/5TEhWbP8prS6ZmRtyaaUBc9t2yLxIIQr4vsQwIDAQABozEwLzAtBgNVHREEJjAkgg9pZHAubXJ2YW5lcy5jb22CESouaWRwLm1ydmFuZXMuY29tMA0GCSqGSIb3DQEBBQUAA4IBAQALKmS/1xpDuwffmJ/oiTSVHA1nuR1wRvQ0t9LWTAgDVhpHN6RJkxgJDypGimLYZuwlUgpNH+UwNX6IiY+6KMYhQiMxQZ7ettTj2dPBppV6ZvzXh8M5wl+chHIUdr1SDIkUtss0dSgEgT6huv+4w6A+YWDMEsTMQ6i+Q48BcABKEQBKx8QoMtHMUd+Y/C5se5e1LQc9XBqs7GlbTjs/zkY8QnLNtNPiHoYdckCD2Q7DdRp5mbu9dtFKfk55TioMnafC96X0nsJaJVAi+0XxVd+IK7azycVIjE5DhtTKElh7a3/NilK9xRKnxR38nioaK5kfzHMwpW/SnKtcDnoWZJWC",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "idp@mrvanes.com",
+        "contacts:0:surName": "Administrator",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "logo:0:height": "60",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png?id=00000001",
+        "logo:0:width": "120",
+        "name:en": "MrVanes",
+        "name:nl": "MrVanes"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 13,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1499846399000,
+      "number": 13,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "ff99e7aa-7c8e-47f0-855f-d6976380e62e",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://profile.test2.surfconext.nl/authentication/metadata"
+        },
+        {
+          "name": "https://serviceregistry.test2.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp"
+        },
+        {
+          "name": "https://teams.test2.surfconext.nl/shibboleth"
+        },
+        {
+          "name": "https://pdp.test2.surfconext.nl/shibboleth"
+        }
+      ],
+      "allowedall": false,
+      "created": "2017-07-12T09:58:30+02:00",
+      "disableConsent": [],
+      "eid": 84,
+      "entityid": "https://shibtestidp.pt-27.utr.surfcloud.nl/idp/shibboleth",
+      "id": 1029,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "SingleSignOnService:0:Location": "https://shibtestidp.pt-27.utr.surfcloud.nl/idp/profile/SAML2/POST/SSO",
+        "SingleSignOnService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:1:Location": "https://shibtestidp.pt-27.utr.surfcloud.nl/idp/profile/SAML2/Redirect/SSO",
+        "certData": "MIIDdjCCAl6gAwIBAgIVAKJcpMfTlYgys0KixclAj3BdvQG3MA0GCSqGSIb3DQEBBQUAMC0xKzApBgNVBAMMInNoaWJ0ZXN0aWRwLnB0LTI3LnV0ci5zdXJmY2xvdWQubmwwHhcNMTUwNDE2MTQ1MTEyWhcNMzUwNDE2MTQ1MTEyWjAtMSswKQYDVQQDDCJzaGlidGVzdGlkcC5wdC0yNy51dHIuc3VyZmNsb3VkLm5sMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk3sfu4sfSMPH79cqKzUDCTdoHcaiEbeClKNdZo58W+mu6p6TwVt+vY22bysuBUegB8/YCW4LCHgl/qoEGoGXhtzbq05bOd4RD33QHWy7Kl44X++jP8br7NdzMV54scSff73HQ0BkrIA6h+FI2hDR49EE+72cSVLQZM4BpzvV/Gz18RHXKy8VSM334Wol16gPFPjPQ4jeXbQNLwH6kuVxInzN6rjpTRwFj7+FMmAbkYXEg58vhwKNLCy4eYMgrS+WH84PBu9UZsWvDBZwUnoWs/tH1q9wTcyCQQAY/K7XHyquMrdWlU/GMwbqOzvVfrI6Znywec2KKv7HW+U+PKtZ7QIDAQABo4GMMIGJMB0GA1UdDgQWBBSi5n6SzeV7VTnPJ2lAvMovEAl5FjBoBgNVHREEYTBfgiJzaGlidGVzdGlkcC5wdC0yNy51dHIuc3VyZmNsb3VkLm5shjlodHRwczovL3NoaWJ0ZXN0aWRwLnB0LTI3LnV0ci5zdXJmY2xvdWQubmwvaWRwL3NoaWJib2xldGgwDQYJKoZIhvcNAQEFBQADggEBAGCqIdcrk75bcBi2/lcsPrL47/u3/xkmjoTjNgWAzo2jlqWXynRrNxSlkLXFH0NzLO+zjkQT2t2s7XsLmaORxjGXiH3KUYgerFddcPFp9JYiqE4ZDaXuVAj3pbqB5VwrdljSlvcDXhm17B3DifMtsmTuHLeD7VMNXDCkRtEYgcCfmUEtsIPv6x1sNt3rNVbhzHqvtIu454Q1tOSNZOO+zUz2aiUMgdxchHZ94wl2Qt8OptwDMSiQPaIZyIZXyHzq5ozeUCYaIMOTCkDHdRHr2RBiIZ+7f0swS2oN7LVvkI+yJ7bnzOsm0NO+jJeTl5Icv1a8jCB/iTlD+NyqP58XnWU=",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "EncAssertion Shib IdP",
+        "name:nl": "EncAssertion Shib IdP",
+        "shibmd:scope:0:allowed": "surfcloud.nl"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 5,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1499846310000,
+      "number": 5,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "7cadd4c8-307f-4b2d-a906-4606a307a4b5",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": false,
+      "created": "2017-07-26T08:25:40+02:00",
+      "disableConsent": [],
+      "eid": 129,
+      "entityid": "Miko test",
+      "id": 1188,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://miko-test.local",
+        "certData": "aaaaaaaaaaaaaaa",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "test@example.com",
+        "contacts:0:givenName": "John",
+        "contacts:0:surName": "Doe",
+        "contacts:1:contactType": "billing",
+        "contacts:1:emailAddress": "test@example.com",
+        "contacts:1:givenName": "John",
+        "contacts:1:surName": "Doe",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "test@example.com",
+        "contacts:2:givenName": "John",
+        "contacts:2:surName": "Doe",
+        "contacts:3:contactType": "administrative",
+        "description:en": "Miko test IdP",
+        "description:nl": "Miko test IdP",
+        "keywords:en": "Miko test IdP",
+        "keywords:nl": "Miko test IdP",
+        "logo:0:height": "60",
+        "logo:0:url": "https://s-media-cache-ak0.pinimg.com/originals/54/c3/2f/54c32f4f9f2b6dfd4c7036afac460cda.jpg",
+        "logo:0:width": "120",
+        "name:en": "Miko test IdP",
+        "name:nl": "Miko test IdP"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 3,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1501050340000,
+      "number": 3,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "4a3cfdf2-a076-49c9-ba87-dc7fe388d3a8",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "created": "2017-08-21T15:02:25+02:00",
+      "disableConsent": [],
+      "eid": 135,
+      "entityid": "https://pieter.aai.surfnet.nl/simplesamlphp/saml2/idp/metadata.php",
+      "id": 1323,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://pieter.aai.surfnet.nl/simplesamlphp/saml2/idp/SSOService.php",
+        "certData": "MIIDljCCAn4CCQCf5qiSFFL8GTANBgkqhkiG9w0BAQUFADCBjDELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxEzARBgNVBAoMClNVUkZuZXQgYnYxIjAgBgNVBAMMGXBpZXRlci5hYWkuc3VyZm5ldC5ubCBJZFAxIDAeBgkqhkiG9w0BCQEWEXBpZXRlckBzdXJmbmV0Lm5sMB4XDTE0MDIxODIxMjY0OFoXDTI0MDIxNjIxMjY0OFowgYwxCzAJBgNVBAYTAk5MMRAwDgYDVQQIDAdVdHJlY2h0MRAwDgYDVQQHDAdVdHJlY2h0MRMwEQYDVQQKDApTVVJGbmV0IGJ2MSIwIAYDVQQDDBlwaWV0ZXIuYWFpLnN1cmZuZXQubmwgSWRQMSAwHgYJKoZIhvcNAQkBFhFwaWV0ZXJAc3VyZm5ldC5ubDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALAlPPLgPQ96Q4H2zjxnUtjfP8sc48p3euo7nt7DMqF5LvpRemRFUV1wmsFJ/7o8aGiN7eNxlhjM9uOkdj17UBy/jzCuGFbYoroe3FmVBdX0foJNxltu5JtYJF81HYnYZyIMSGyzrT9vxwHf3oM3YgIaWpjVKO+2Ud/pwEeTIEY/R0CHe/VM4KejHV570cvMosmVjMqQhMePR8obMkDDGS9JkGDtN7q7x9T3EF8sZXdXe84B11NqinHtxXF+QdXnTeZmD85cr7wtkAxDB7iBYoD+/HFsiw9sGxHMs+B4tX+mcyfQAt8Xzw+w9uSWi85u6xXiRXeZmvsycoy6CyuB5McCAwEAATANBgkqhkiG9w0BAQUFAAOCAQEArbt4ooNReiSCp00BdWiooOz8cNdDAdx2iW2+gRdUev+xSPJ86I3l/51xt52XcJtEmGEZA6BVm/nHTMg1uWYGvioWsIeThqR7doKlY7Np7o6ASjxCb/GQhVQczwxcxpKoXyfR9yP28backHzTaaxxFCEjnKcGA+NGAdzUz12g+05o620mklmSmuO+dhos3AyLb9qnSpdmJTi5fyJbdZLEph0jM1zJLLVyT0wsN1kWjQq0hB1MpVYwESFWAv4ZdqWWcaOBW36bouEQ+tKpvpaeMvzzT5Nb8SGX07eiOWspt3rJNAQ8K404QL2VSWk/iG3dkvaDyESa0SjcD50L37VOXQ==",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "pieter@surfnet.nl",
+        "contacts:0:givenName": "Pieter",
+        "contacts:0:surName": "van der Meulen",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "pieter@surfnet.nl",
+        "contacts:1:surName": "van der Meulen",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "pieter@surfnet.nl",
+        "contacts:2:givenName": "Pieter",
+        "contacts:2:surName": "van der Meulen",
+        "contacts:3:contactType": "technical",
+        "contacts:3:emailAddress": "pieter@surfnet.nl",
+        "contacts:3:givenName": "Pieter",
+        "contacts:3:surName": "van der Meulen",
+        "description:en": "pieter.aai.surfnet.nl IdP",
+        "description:nl": "pieter.aai.surfnet.nl IdP",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "pieter.aai.surfnet.nl IdP",
+        "name:nl": "pieter.aai.surfnet.nl IdP"
+      },
+      "metadataurl": "https://pieter.aai.surfnet.nl/simplesamlphp/saml2/idp/metadata.php",
+      "notes": null,
+      "revisionid": 5,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1503320545000,
+      "number": 5,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "dbe93378-107c-48a1-ba56-b68292831956",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "created": "2017-09-23T17:30:10+02:00",
+      "disableConsent": [],
+      "eid": 152,
+      "entityid": "http://adfs-2012.test2.surfconext.nl/adfs/services/trust",
+      "id": 1457,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://adfs-2012.test2.surfconext.nl/adfs/ls/",
+        "SingleSignOnService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "SingleSignOnService:1:Location": "https://adfs-2012.test2.surfconext.nl/adfs/ls/",
+        "certData": "MIIC9jCCAd6gAwIBAgIQIdyDMb/vx6ZDdVveVxGojDANBgkqhkiG9w0BAQsFADA3MTUwMwYDVQQDEyxBREZTIFNpZ25pbmcgLSBhZGZzLTIwMTIudGVzdDIuc3VyZmNvbmV4dC5ubDAeFw0xNzA5MjMxNDQ4NTVaFw0xODA5MjMxNDQ4NTVaMDcxNTAzBgNVBAMTLEFERlMgU2lnbmluZyAtIGFkZnMtMjAxMi50ZXN0Mi5zdXJmY29uZXh0Lm5sMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuUnEhPiZyJwWg7xNuYx3o+QH1j03DijuhyEMUtUOhLyWFT1MW1G9RTsob+fwLVeJrmnzexxxt92SvEL0xSQkYcNj55ANu80KL//bZKOtFarVfjwZEwdVHNBYRmC/Fq2sKR0pm1WV5SR4XJQbgKgjyVL9bwiuCo7OITcruG0uDe/yZtJlmaPioQQ2Ef+cf0RFhdppEahNozXHddMRcvfHzYic8k20/ME0lfcN8YT17y2butTDlNB+E16fI0ymvESdVMdJU+PjGKjaI9/WG1jjjOSWqbsDiJzA4NtyyAslrdVEV5RQcET+LFu0vVywGE2amE+ompDGW8x788VEoT2WJwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBcbw00GLhu5FcEiWvBH7DrghMaALVKuoSTjWq2ikl5D8w/AHcUCgfaWRvTp1MGFvyOxJ0uoGmsa0vlDytocUcNW/INalxDw108JqHH3t4QlxsmsROWpszZ01qmY1YTXfquPH/a8v9zEII4quD4wno4ARC6qKwlZWIuEgpq8m5AFmnPue46rWi1tsUlfIZV74LCPsKDBGIrb7C+sS7kO6Fy9KavXI0kP0KdrZXLIpxpvPIFPPxlOoQx43HbNZyVScfwZYGVBmGN6Tqs2Tt8Ksl8yM1UpjXaxpLJjPAgXafKQzVRiTEsGGaKNZ88RYDTS3O0WihzwYp/16mt/rO0v/mo",
+        "coin:disable_scoping": "1",
+        "coin:guest_qualifier": "All",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "pieter@surfnet.nl",
+        "contacts:0:givenName": "Pieter",
+        "contacts:0:surName": "van der Meulen",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "ADFS 2012 test2.surfconext.nl",
+        "description:nl": "ADFS 2012 test2.surfconext.nl",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "ADFS 2012 test2.surfconext.nl",
+        "name:nl": "ADFS 2012 test2.surfconext.nl"
+      },
+      "metadataurl": "https://adfs-2012.test2.surfconext.nl/FederationMetadata/2007-06/FederationMetadata.xml",
+      "notes": null,
+      "revisionid": 8,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1506180610000,
+      "number": 8,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 0
+  },
+  {
+    "_id": "c8d8670f-ce0a-4973-9a03-19598c23ff2c",
+    "data": {
+      "allowedEntities": [],
+      "allowedall": true,
+      "disableConsent": [],
+      "entityid": "https://beta.surfnet.nl/SURFdropjesIdP",
+      "metaDataFields": {
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "SingleSignOnService:0:Location": "https://beta.surfnet.nl/simplesaml/saml2/idp/SSOService.php",
+        "certData": "MIIEdjCCA16gAwIBAgIRALcDQnHscLnQAL4GULGaHsIwDQYJKoZIhvcNAQEFBQAwNjELMAkGA1UEBhMCTkwxDzANBgNVBAoTBlRFUkVOQTEWMBQGA1UEAxMNVEVSRU5BIFNTTCBDQTAeFw0wOTEwMjYwMDAwMDBaFw0xMjEwMjUyMzU5NTlaMFExCzAJBgNVBAYTAk5MMRUwEwYDVQQKEwxTVVJGbmV0IEIuVi4xETAPBgNVBAsTCFNlcnZpY2VzMRgwFgYDVQQDEw9iZXRhLnN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC7D6V4dl41AF70veMMQqL7kpk+p06qU9EW2YUuJAnwhRO1SfbiqPweitLE7ReXfK/vSPvdFG194gZjJ4JS7M7pP00eolfEK6ljLhMoUrzbBuEc5LoQB6HsOogod7YrJiVRXLzM4bV2LzbyjAwBgForoM4l576CjbN/NDAPO3YvbktodR5DH/nPiw/5L7w2KS3x55xUd8clY7Nji9W7XbviMUAugSkkC2ethl0AMpdmk6BI5pjyr6KCUrGz9bKl101yUGhrkHy1NpHagOoxakkgVDgi2Erf8aDnkCe8A419m2mBD1WA9uQWF5eMpiY8fDMwjwSFDFoSUlJPhiKN8vpnAgMBAAGjggFiMIIBXjAfBgNVHSMEGDAWgBQMvZNoDPPeq6NJays3V0fqkOO57TAdBgNVHQ4EFgQUrCpeMIzTW5M13G4ib1B+yq7Fm60wDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMBgGA1UdIAQRMA8wDQYLKwYBBAGyMQECAh0wOgYDVR0fBDMwMTAvoC2gK4YpaHR0cDovL2NybC50Y3MudGVyZW5hLm9yZy9URVJFTkFTU0xDQS5jcmwwbQYIKwYBBQUHAQEEYTBfMDUGCCsGAQUFBzAChilodHRwOi8vY3J0LnRjcy50ZXJlbmEub3JnL1RFUkVOQVNTTENBLmNydDAmBggrBgEFBQcwAYYaaHR0cDovL29jc3AudGNzLnRlcmVuYS5vcmcwGgYDVR0RBBMwEYIPYmV0YS5zdXJmbmV0Lm5sMA0GCSqGSIb3DQEBBQUAA4IBAQC8iCICDbP4/8JTDeLPfo/n6roOvpMsteQt7X5oN2Ka1xgKflpBGqJO5o3PcnfP437kcLRTnp6XDyTfS4eyZdxCqCECR2Pb8nbULVFv9hyF6asIWUfbJ67CFcRIpcuaD5habSrg8+rT86DjKdtYQKwbKL+rNbOsg6/ROR7vJgbSqrBLraXvl8HDUq5+lSF/II4LHVzNM8TpQlMY4ynRP6GEjcNUTH3IFKPQk+NwBYQqJ83Uil/36kbXsHQ81o/Vp6it7tlvLBOP1EN9jNGUXZuAqvFphNkwEJpABx1x4ukY8bZVl6QzQ79P48oGxOaIy27/g1FVkGqRtA4UPABcn0sJ",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "Henny.Bekker@surfnet.nl",
+        "contacts:0:givenName": "Henny",
+        "contacts:0:surName": "Bekker",
+        "description:en": "An IdP, operated by Henny Bekker, for testing purposes.",
+        "description:nl": "Een IdP, beheerd door Henny Bekker, voor het testen van aansluitingen.",
+        "logo:0:height": "74",
+        "logo:0:url": "https://beta.surfnet.nl/coin/SURFdropsBeta.jpg",
+        "logo:0:width": "180",
+        "name:en": "SURFdrops beta IdP",
+        "name:nl": "SURFdrops beta IdP"
+      },
+      "metadataurl": "https://beta.surfnet.nl/simplesaml/saml2/idp/metadata.php",
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-idp"
+    },
+    "revision": {
+      "created": 1516965666008,
+      "number": 2,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_idp",
+    "version": 2
+  }
+]

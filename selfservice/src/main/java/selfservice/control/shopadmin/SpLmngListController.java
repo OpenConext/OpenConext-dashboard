@@ -54,7 +54,7 @@ import selfservice.service.CrmService;
 import selfservice.service.ExportService;
 import selfservice.service.impl.CompoundServiceProviderService;
 import selfservice.service.impl.LmngUtil;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 @Controller
 @RequestMapping(value = "/shopadmin")
@@ -62,7 +62,7 @@ public class SpLmngListController extends BaseController {
 
   private static final Logger log = LoggerFactory.getLogger(SpLmngListController.class);
 
-  @Autowired private ServiceRegistry serviceRegistry;
+  @Autowired private Manage manage;
   @Autowired private CrmService licensingService;
   @Autowired private LmngIdentifierDao lmngIdentifierDao;
   @Autowired private CompoundServiceProviderService compoundSPService;
@@ -97,7 +97,7 @@ public class SpLmngListController extends BaseController {
   }
 
   private List<LmngServiceBinding> getAllBindings() {
-    return serviceRegistry.getAllServiceProviders().stream()
+    return manage.getAllServiceProviders().stream()
       .map(serviceProvider -> {
         String lmngIdentifier = lmngIdentifierDao.getLmngIdForServiceProviderId(serviceProvider.getId());
         CompoundServiceProvider compoundServiceProvider = compoundSPService.getCSPByServiceProvider(serviceProvider);

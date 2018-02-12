@@ -1,0 +1,3879 @@
+[
+  {
+    "_id": "46171992-a3f3-414a-9079-4cd2ee38392c",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2012-06-12T10:38:18+02:00",
+      "eid": 1,
+      "entityid": "https://engine.test2.surfconext.nl/authentication/sp/metadata",
+      "id": 1,
+      "ip": "172.18.5.1",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://engine.test2.surfconext.nl/authentication/sp/consume-assertion",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@openconext.org",
+        "contacts:0:givenName": "Support",
+        "contacts:0:surName": "OpenConext",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "support@openconext.org",
+        "contacts:1:givenName": "Support",
+        "contacts:1:surName": "OpenConext",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "support@openconext.org",
+        "contacts:2:givenName": "Support",
+        "contacts:2:surName": "OpenConext",
+        "description:en": "OpenConext SSO Proxy",
+        "description:nl": "OpenConext SSO Proxy",
+        "displayName:en": "OpenConext Engine",
+        "displayName:nl": "OpenConext Engine",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "OpenConext Engine",
+        "name:nl": "OpenConext Engine"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 0,
+      "revisionnote": "Entity created.",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "admin"
+    },
+    "revision": {
+      "created": 1339490298000,
+      "number": 0,
+      "updatedBy": "admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "002231f8-40c3-4fa0-9b8a-fbda1a4ae65c",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-09-12T15:55:53+02:00",
+      "eid": 3,
+      "entityid": "https://profile.test2.surfconext.nl/authentication/metadata",
+      "id": 1404,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://profile.test2.surfconext.nl/authentication/consume-assertion",
+        "AssertionConsumerService:0:index": "0",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:1": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "NameIDFormats:2": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "coin:attribute_aggregation_required": "1",
+        "coin:display_unconnected_idps_wayf": "1",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@openconext.org",
+        "contacts:0:givenName": "Support",
+        "contacts:0:surName": "OpenConext",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "support@openconext.org",
+        "contacts:1:givenName": "Support voor",
+        "contacts:1:surName": "OpenConext",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "support@openconext.org",
+        "contacts:2:givenName": "Support",
+        "contacts:2:surName": "OpenConext",
+        "contacts:3:contactType": "technical",
+        "description:en": "OpenConext Profile management",
+        "description:nl": "OpenConext Profile management",
+        "displayName:en": "OpenConext Profile",
+        "displayName:nl": "OpenConext Profile",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "OpenConext Profile",
+        "name:nl": "OpenConext Profile",
+        "url:en": "https://www.surfconext.nl",
+        "url:nl": "https://www.surfconext.nl"
+      },
+      "metadataurl": "https://profile.test2.surfconext.nl/authentication/metadata",
+      "notes": null,
+      "revisionid": 55,
+      "revisionnote": "a",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:morsch"
+    },
+    "revision": {
+      "created": 1518172303118,
+      "number": 65,
+      "updatedBy": "backdoor_api_user"
+    },
+    "type": "saml20_sp",
+    "version": 10
+  },
+  {
+    "_id": "76171457-6ed5-4505-9071-9e0e47557985",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "sab",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonOrcid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "voot",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "pseudo_email",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-09-07T08:54:07+02:00",
+      "eid": 7,
+      "entityid": "http://mock-sp",
+      "id": 1401,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://mujina-sp.test2.surfconext.nl/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:1": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "NameIDFormats:2": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "coin:attribute_aggregation_required": "1",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@openconext.org",
+        "contacts:0:givenName": "Support",
+        "contacts:0:surName": "OpenConext",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "support@openconext.org",
+        "contacts:1:givenName": "Support",
+        "contacts:1:surName": "OpenConext",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "support@openconext.org",
+        "contacts:2:givenName": "Support",
+        "contacts:2:surName": "OpenConext",
+        "contacts:3:contactType": "technical",
+        "description:en": "OpenConext Mujina Test Service Provider",
+        "description:nl": "OpenConext Mujina Test Service Provider",
+        "displayName:en": "OpenConext Mujina SP",
+        "displayName:nl": "OpenConext Mujina SP",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "OpenConext Mujina SP",
+        "name:nl": "OpenConext Mujina SP"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 10,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1508321111336,
+      "number": 15,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 5
+  },
+  {
+    "_id": "d2764e36-1f3a-4f4c-be2a-c7a7224b42b6",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-07-14T13:56:09+02:00",
+      "eid": 9,
+      "entityid": "https://serviceregistry.test2.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+      "id": 1086,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://serviceregistry.test2.surfconext.nl/simplesaml/module.php/saml/sp/saml2-acs.php/default-sp",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:1": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "NameIDFormats:2": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@openconext.org",
+        "contacts:0:givenName": "Support",
+        "contacts:0:surName": "OpenConext",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "support@openconext.org",
+        "contacts:1:givenName": "Support",
+        "contacts:1:surName": "OpenConext",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "support@openconext.org",
+        "contacts:2:givenName": "Support",
+        "contacts:2:surName": "OpenConext",
+        "contacts:3:contactType": "technical",
+        "description:en": "OpenConext Service Registry, register all SPs and IdPs here",
+        "description:nl": "OpenConext Service Registry, register all SPs and IdPs here",
+        "displayName:en": "OpenConext ServiceRegistry",
+        "displayName:nl": "OpenConext ServiceRegistry",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "OpenConext ServiceRegistry",
+        "name:nl": "OpenConext ServiceRegistry"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 5,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "admin"
+    },
+    "revision": {
+      "created": 1500033369000,
+      "number": 5,
+      "updatedBy": "admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "1d3f0d93-b3c5-4bdb-8906-8d1b76d9df91",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-07-18T08:39:17+02:00",
+      "eid": 11,
+      "entityid": "https://teams.test2.surfconext.nl/shibboleth",
+      "id": 1107,
+      "ip": "145.100.191.114",
+      "manipulation": "",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://teams.test2.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "OrganizationDisplayName:en": "display_en",
+        "OrganizationDisplayName:nl": "orgdisplaynameNL",
+        "OrganizationName:en": "name_en",
+        "OrganizationName:nl": "org_name_nl",
+        "OrganizationURL:en": "http://org_en",
+        "OrganizationURL:nl": "http://org_name_nl",
+        "certData": "MIIEdjCCA16gAwIBAgIRALcDQnHscLnQAL4GULGaHsIwDQYJKoZIhvcNAQEFBQAwNjELMAkGA1UEBhMCTkwxDzANBgNVBAoTBlRFUkVOQTEWMBQGA1UEAxMNVEVSRU5BIFNTTCBDQTAeFw0wOTEwMjYwMDAwMDBaFw0xMjEwMjUyMzU5NTlaMFExCzAJBgNVBAYTAk5MMRUwEwYDVQQKEwxTVVJGbmV0IEIuVi4xETAPBgNVBAsTCFNlcnZpY2VzMRgwFgYDVQQDEw9iZXRhLnN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC7D6V4dl41AF70veMMQqL7kpk+p06qU9EW2YUuJAnwhRO1SfbiqPweitLE7ReXfK/vSPvdFG194gZjJ4JS7M7pP00eolfEK6ljLhMoUrzbBuEc5LoQB6HsOogod7YrJiVRXLzM4bV2LzbyjAwBgForoM4l576CjbN/NDAPO3YvbktodR5DH/nPiw/5L7w2KS3x55xUd8clY7Nji9W7XbviMUAugSkkC2ethl0AMpdmk6BI5pjyr6KCUrGz9bKl101yUGhrkHy1NpHagOoxakkgVDgi2Erf8aDnkCe8A419m2mBD1WA9uQWF5eMpiY8fDMwjwSFDFoSUlJPhiKN8vpnAgMBAAGjggFiMIIBXjAfBgNVHSMEGDAWgBQMvZNoDPPeq6NJays3V0fqkOO57TAdBgNVHQ4EFgQUrCpeMIzTW5M13G4ib1B+yq7Fm60wDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMBgGA1UdIAQRMA8wDQYLKwYBBAGyMQECAh0wOgYDVR0fBDMwMTAvoC2gK4YpaHR0cDovL2NybC50Y3MudGVyZW5hLm9yZy9URVJFTkFTU0xDQS5jcmwwbQYIKwYBBQUHAQEEYTBfMDUGCCsGAQUFBzAChilodHRwOi8vY3J0LnRjcy50ZXJlbmEub3JnL1RFUkVOQVNTTENBLmNydDAmBggrBgEFBQcwAYYaaHR0cDovL29jc3AudGNzLnRlcmVuYS5vcmcwGgYDVR0RBBMwEYIPYmV0YS5zdXJmbmV0Lm5sMA0GCSqGSIb3DQEBBQUAA4IBAQC8iCICDbP4/8JTDeLPfo/n6roOvpMsteQt7X5oN2Ka1xgKflpBGqJO5o3PcnfP437kcLRTnp6XDyTfS4eyZdxCqCECR2Pb8nbULVFv9hyF6asIWUfbJ67CFcRIpcuaD5habSrg8+rT86DjKdtYQKwbKL+rNbOsg6/ROR7vJgbSqrBLraXvl8HDUq5+lSF/II4LHVzNM8TpQlMY4ynRP6GEjcNUTH3IFKPQk+NwBYQqJ83Uil/36kbXsHQ81o/Vp6it7tlvLBOP1EN9jNGUXZuAqvFphNkwEJpABx1x4ukY8bZVl6QzQ79P48oGxOaIy27/g1FVkGqRtA4UPABcn0sJ",
+        "certData2": "MIIEdjCCA16gAwIBAgIRALcDQnHscLnQAL4GULGaHsIwDQYJKoZIhvcNAQEFBQAwNjELMAkGA1UEBhMCTkwxDzANBgNVBAoTBlRFUkVOQTEWMBQGA1UEAxMNVEVSRU5BIFNTTCBDQTAeFw0wOTEwMjYwMDAwMDBaFw0xMjEwMjUyMzU5NTlaMFExCzAJBgNVBAYTAk5MMRUwEwYDVQQKEwxTVVJGbmV0IEIuVi4xETAPBgNVBAsTCFNlcnZpY2VzMRgwFgYDVQQDEw9iZXRhLnN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC7D6V4dl41AF70veMMQqL7kpk+p06qU9EW2YUuJAnwhRO1SfbiqPweitLE7ReXfK/vSPvdFG194gZjJ4JS7M7pP00eolfEK6ljLhMoUrzbBuEc5LoQB6HsOogod7YrJiVRXLzM4bV2LzbyjAwBgForoM4l576CjbN/NDAPO3YvbktodR5DH/nPiw/5L7w2KS3x55xUd8clY7Nji9W7XbviMUAugSkkC2ethl0AMpdmk6BI5pjyr6KCUrGz9bKl101yUGhrkHy1NpHagOoxakkgVDgi2Erf8aDnkCe8A419m2mBD1WA9uQWF5eMpiY8fDMwjwSFDFoSUlJPhiKN8vpnAgMBAAGjggFiMIIBXjAfBgNVHSMEGDAWgBQMvZNoDPPeq6NJays3V0fqkOO57TAdBgNVHQ4EFgQUrCpeMIzTW5M13G4ib1B+yq7Fm60wDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMBgGA1UdIAQRMA8wDQYLKwYBBAGyMQECAh0wOgYDVR0fBDMwMTAvoC2gK4YpaHR0cDovL2NybC50Y3MudGVyZW5hLm9yZy9URVJFTkFTU0xDQS5jcmwwbQYIKwYBBQUHAQEEYTBfMDUGCCsGAQUFBzAChilodHRwOi8vY3J0LnRjcy50ZXJlbmEub3JnL1RFUkVOQVNTTENBLmNydDAmBggrBgEFBQcwAYYaaHR0cDovL29jc3AudGNzLnRlcmVuYS5vcmcwGgYDVR0RBBMwEYIPYmV0YS5zdXJmbmV0Lm5sMA0GCSqGSIb3DQEBBQUAA4IBAQC8iCICDbP4/8JTDeLPfo/n6roOvpMsteQt7X5oN2Ka1xgKflpBGqJO5o3PcnfP437kcLRTnp6XDyTfS4eyZdxCqCECR2Pb8nbULVFv9hyF6asIWUfbJ67CFcRIpcuaD5habSrg8+rT86DjKdtYQKwbKL+rNbOsg6/ROR7vJgbSqrBLraXvl8HDUq5+lSF/II4LHVzNM8TpQlMY4ynRP6GEjcNUTH3IFKPQk+NwBYQqJ83Uil/36kbXsHQ81o/Vp6it7tlvLBOP1EN9jNGUXZuAqvFphNkwEJpABx1x4ukY8bZVl6QzQ79P48oGxOaIy27/g1FVkGqRtA4UPABcn0sJ",
+        "coin:display_unconnected_idps_wayf": "1",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:institution_id": "surfconext",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "test@surfnet.nl",
+        "contacts:0:givenName": "Doe",
+        "contacts:0:surName": "John",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "test@surfnet.nl",
+        "contacts:1:givenName": "Doe",
+        "contacts:1:surName": "John",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "test@surfnet.nl",
+        "contacts:2:givenName": "Doe",
+        "contacts:2:surName": "John",
+        "contacts:3:contactType": "technical",
+        "contacts:3:emailAddress": "test@surfnet.nl",
+        "contacts:3:givenName": "Doe",
+        "contacts:3:surName": "John",
+        "description:en": "dec",
+        "description:nl": "dec",
+        "displayName:en": "OpenConext Teams Display EN",
+        "displayName:nl": "OpenConext Teams Display NL",
+        "logo:0:height": "60",
+        "logo:0:url": "https://logo",
+        "logo:0:width": "120",
+        "name:en": "OpenConext Teams",
+        "name:nl": "OpenConext Teams",
+        "redirect.sign": "0",
+        "url:en": "http://url.nl",
+        "url:nl": "http://url.nl"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 27,
+      "revisionnote": "ere",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1517849531065,
+      "number": 44,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 17
+  },
+  {
+    "_id": "ef62cdb0-c2ad-4858-aa78-8d137c2806e1",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-06-20T15:26:22+02:00",
+      "eid": 16,
+      "entityid": "https://authz-admin.test2.surfconext.nl/shibboleth",
+      "id": 906,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://authz-admin.test2.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:no_consent_required": "1",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "displayName:en": "OpenConext Authz Admin",
+        "displayName:nl": "OpenConext Authz Admin",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext Authz Admin",
+        "name:nl": "OpenConext Authz Admin"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 5,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1515513172220,
+      "number": 6,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "10ac04c9-78e8-4786-af49-a6ce7c6281ca",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2012-06-25T16:34:29+02:00",
+      "eid": 15,
+      "entityid": "https://authz.test2.surfconext.nl/shibboleth",
+      "id": 13,
+      "ip": "172.18.5.1",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://authz.test2.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "coin:no_consent_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "displayName:en": "OpenConext Authz Server",
+        "displayName:nl": "OpenConext Authz Server",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext Authz Server",
+        "name:nl": "OpenConext Authz Server"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 0,
+      "revisionnote": "Entity created.",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:john.doe"
+    },
+    "revision": {
+      "created": 1340634869000,
+      "number": 0,
+      "updatedBy": "urn:collab:person:example.com:john.doe"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "66bb904e-a94a-41da-b5bf-24c7445cf7ef",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2012-06-25T16:34:29+02:00",
+      "eid": 17,
+      "entityid": "https://pdp.test2.surfconext.nl/shibboleth",
+      "id": 15,
+      "ip": "172.18.5.1",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://pdp.test2.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "coin:no_consent_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "displayName:en": "OpenConext PDP Server",
+        "displayName:nl": "OpenConext PDP Server",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext PDP Server",
+        "name:nl": "OpenConext PDP Server"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 0,
+      "revisionnote": "Entity created.",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:john.doe"
+    },
+    "revision": {
+      "created": 1340634869000,
+      "number": 0,
+      "updatedBy": "urn:collab:person:example.com:john.doe"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "419c10f4-5549-4354-bbb0-572a2e655a6d",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonOrcid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "voot",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-08-03T11:03:14+02:00",
+      "eid": 18,
+      "entityid": "https://oidc.test2.surfconext.nl",
+      "id": 1212,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://oidc.test2.surfconext.nl/saml/SSO",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://oidc.test2.surfconext.nl/saml/SSO",
+        "AssertionConsumerService:1:index": "1",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "certData": "MIIDEzCCAfugAwIBAgIJAKoK/heBjcOYMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNVBAoMFU9yZ2Fu aXphdGlvbiwgQ049T0lEQzAeFw0xNTExMTExMDEyMTVaFw0yNTExMTAxMDEyMTVaMCAxHjAcBgNV BAoMFU9yZ2FuaXphdGlvbiwgQ049T0lEQzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB ANBGwJ/qpTQNiSgUglSE2UzEkUow+wS8r67etxoEhlzJZfgK/k5TfG1wICDqapHAxEVgUM10aBHR ctNocA5wmlHtxdidhzRZroqHwpKy2BmsKX5Z2oK25RLpsyusB1KroemgA/CjUnI6rIL1xxFn3KyO Fh1ZBLUQtKNQeMS7HFGgSDAp+sXuTFujz12LFDugX0T0KB5a1+0l8y0PEa0yGa1oi6seONx849ZH xM0PRvUunWkuTM+foZ0jZpFapXe02yWMqhc/2iYMieE/3GvOguJchJt6R+cut8VBb6ubKUIGK7pm oq/TB6DVXpvsHqsDJXechxcicu4pdKVDHSec850CAwEAAaNQME4wHQYDVR0OBBYEFK7RqjoodSYV XGTVEdLf3kJflP/sMB8GA1UdIwQYMBaAFK7RqjoodSYVXGTVEdLf3kJflP/sMAwGA1UdEwQFMAMB Af8wDQYJKoZIhvcNAQEFBQADggEBADNZkxlFXh4F45muCbnQd+WmaXlGvb9tkUyAIxVL8AIu8J18 F420vpnGpoUAE+Hy3evBmp2nkrFAgmr055fAjpHeZFgDZBAPCwYd3TNMDeSyMta3Ka+oS7GRFDeP kMEm+kH4/rITNKUF1sOvWBTSowk9TudEDyFqgGntcdu/l/zRxvx33y3LMG5USD0x4X4IKjRrRN1B bcKgi8dq10C3jdqNancTuPoqT3WWzRvVtB/q34B7F74/6JzgEoOCEHufBMp4ZFu54P0yEGtWfTwT zuoZobrChVVBt4w/XZagrRtUCDNwRpHNbpjxYudbqLqpi1MQpV9oht/BpTHVJG2i0ro=",
+        "coin:attribute_aggregation_required": "1",
+        "coin:trusted_proxy": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "OpenConext OIDC",
+        "description:nl": "OpenConext OIDC",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext OIDC",
+        "name:nl": "OpenConext OIDC",
+        "redirect.sign": "1"
+      },
+      "metadataurl": "https://oidc.test2.surfconext.nl/saml/metadata",
+      "notes": null,
+      "revisionid": 40,
+      "revisionnote": "Enable attribute aggregation",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:geesink"
+    },
+    "revision": {
+      "created": 1518016975245,
+      "number": 47,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 7
+  },
+  {
+    "_id": "da64d8aa-a5cd-4854-8b33-e3c98bc6f178",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-09-12T16:03:36+02:00",
+      "eid": 22,
+      "entityid": "https://aa.test2.surfconext.nl/shibboleth",
+      "id": 1407,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://aa.test2.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "coin:no_consent_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "OpenConext AA",
+        "description:nl": "OpenConext AA",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext AA",
+        "name:nl": "OpenConext AA"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 4,
+      "revisionnote": "No consent voor filmpje",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:morsch"
+    },
+    "revision": {
+      "created": 1505225016000,
+      "number": 4,
+      "updatedBy": "urn:collab:person:surfnet.nl:morsch"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "9bd213c5-3cae-44fc-8971-1552b29d1d7d",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2016-05-18T10:23:24+02:00",
+      "eid": 23,
+      "entityid": "https://attribute-mapper.test2.surfconext.nl",
+      "id": 53,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://attribute-mapper.test2.surfconext.nl/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "description:en": "OpenConext Attribute Mapper",
+        "description:nl": "OpenConext Attribute Mapper",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext Attribute Mapper",
+        "name:nl": "OpenConext Attribute Mapper"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 4,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1463559804000,
+      "number": 4,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "fe07cd27-c683-4d1b-91c5-acf4f4e9bafd",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://idin.surfconext.nl/saml2/idp/metadata.php"
+        }
+      ],
+      "allowedall": false,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2016-05-26T09:55:54+02:00",
+      "eid": 24,
+      "entityid": "https://eduproxy.test2.surfconext.nl",
+      "id": 72,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://eduproxy.test2.surfconext.nl/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "coin:attribute_aggregation_required": "1",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "description:en": "OpenConext eduProxy",
+        "description:nl": "OpenConext eduProxy",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext eduProxy",
+        "name:nl": "OpenConext eduProxy"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 6,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1464249354000,
+      "number": 6,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "cad9d930-6527-437e-b57a-df5c97f2ae2d",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "orcid",
+              "value": "*"
+            },
+            {
+              "source": "orcid",
+              "value": "test"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "sab",
+              "value": "reg*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-08-22T14:17:40+02:00",
+      "eid": 26,
+      "entityid": "https://eduproxy.localhost.surfconext.nl",
+      "id": 1380,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "http://localhost:8080/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "EduProxy localhost",
+        "description:nl": "EduProxy localhost",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "EduProxy localhost",
+        "name:nl": "EduProxy localhost"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 4,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1503404260000,
+      "number": 4,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "1e855078-8ea9-4e49-ae2c-09e4a67d6c58",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2016-06-07T15:34:07+02:00",
+      "eid": 27,
+      "entityid": "https://makr.conext.surfnetlabs.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+      "id": 87,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://makr.conext.surfnetlabs.nl/simplesaml/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://makr.conext.surfnetlabs.nl/simplesaml/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:1:index": "2",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "certData": "MIIDdzCCAl+gAwIBAgIJANlU50jAk+DcMA0GCSqGSIb3DQEBCwUAMFIxCzAJBgNVBAYTAk5MMRAwDgYDVQQIDAdVdHJlY2h0MRAwDgYDVQQHDAdVdHJlY2h0MRAwDgYDVQQKDAdTVVJGbmV0MQ0wCwYDVQQDDARtYWtyMB4XDTE0MDUxNDExMDc0N1oXDTI0MDUxMzExMDc0N1owUjELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxEDAOBgNVBAoMB1NVUkZuZXQxDTALBgNVBAMMBG1ha3IwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDgR5oF/KddPnRL0v5nUlMWkIGjCK8vrT9bUhupx/ncfdU9Tij7r0TlNzsTe6Cr141+UbRu/ACI1zWpa43GEcgVI8I7YQss/KnYdHLlqWk0pLK0xPrcWVkMXv0Xdt8dBOVMxHZJ7jFnVUfyKhmrv+Qtx0dLnlLiB46jmqjlYW9VRwzFRTMcuwqBFQwb0vIfUb9lGsdgaHBb1KJLgC1oB6vJmr/s14/2kJ++GskQIo7tIGHdnfNSsRuF1192x8DgwdHYOE5pkHCgIj7rMywkcqnTjEVl2PJI8Hkf664l57h96htgYUw/dbReZkhZCcUoX/hTqUS7oj0zC9Gw07fQHORlAgMBAAGjUDBOMB0GA1UdDgQWBBRY+4wftkfxa8G6ofYu6fINu67zSjAfBgNVHSMEGDAWgBRY+4wftkfxa8G6ofYu6fINu67zSjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBmVEj0Sh+DCzO8Pp7AxHwGgBuarvEZOskaCD5+QnghAfPHXOy8/gTON4EZY+fiboxxf7b6y6Iyouz6PBgzn2AkqvGnzX3Hgey7pM1YaQio61XamEyEh9NjI3Y++ZbZo7Uoc9Q+7t9kgGMP2PPhcxmVXheY+Larc6SER0qNzxC+XUhejrKoBHxN1L7BzYdrQ+p4csPWVnDN6K7FKFuyVe9QsbvpNK/ti1ci49JmKLbNv03oyqOQKTJovlohSzSD/D0EpPK77w5nlSWKpem1NBk6Q5T32tw46GgiV6M/qDpQzM6/UxF3dJrHrXHW0hgwLBNMx+wPzwOatKQWfyndavYN",
+        "coin:attribute_aggregation_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "maarten@surfnet.nl",
+        "contacts:0:givenName": "Maarten",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "description:en": "MaKr Test Service",
+        "logo:0:height": "90",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/MaKr.png",
+        "logo:0:width": "250",
+        "name:en": "MaKr Test Service"
+      },
+      "metadataurl": "https://makr.conext.surfnetlabs.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+      "notes": null,
+      "revisionid": 6,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:maarten"
+    },
+    "revision": {
+      "created": 1465306447000,
+      "number": 6,
+      "updatedBy": "urn:collab:person:surfnet.nl:maarten"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "685e5b88-a575-4865-bc56-33bb32667e09",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": false,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-06-22T14:17:16+02:00",
+      "eid": 28,
+      "entityid": "https://idensys.localhost.surfconext.nl",
+      "id": 915,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "http://localhost:8080/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "coin:do_not_add_attribute_aliases": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "Idensys Local",
+        "description:nl": "Idensys Local",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Idensys Local",
+        "name:nl": "Idensys Local"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 6,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1498133836000,
+      "number": 6,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "3aae7c63-c6d8-4750-b189-7ec1277ba2d3",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": true
+      },
+      "created": "2017-06-22T16:06:27+02:00",
+      "eid": 32,
+      "entityid": "http://sts.edugroepen.nl/adfs/services/trust",
+      "id": 923,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://login.edugroepen.nl/signin-edugain",
+        "AssertionConsumerService:0:index": "0",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "OrganizationDisplayName:en": "2AT BV",
+        "OrganizationDisplayName:nl": "2AT BV",
+        "OrganizationName:en": "2AT BV",
+        "OrganizationName:nl": "2AT BV",
+        "OrganizationURL:en": "http://www.2at.nl/",
+        "OrganizationURL:nl": "http://www.2at.nl/",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:interfed_source": "eduGAIN",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "info@edugroepen.nl",
+        "contacts:0:givenName": "EDUgroepen",
+        "contacts:0:surName": "2AT",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@edugroepen.nl",
+        "contacts:1:givenName": "EDUgroepen",
+        "contacts:1:surName": "2AT",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "info@edugroepen.nl",
+        "contacts:2:givenName": "EDUgroepen",
+        "contacts:2:surName": "2AT",
+        "contacts:3:contactType": "technical",
+        "description:en": "Collaboration platform for working in groups in the educational sector.",
+        "description:nl": "Samenwerkingsplatform om in groepen samen te werken in de educatieve sector.",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "EDUgroepen",
+        "name:nl": "EDUgroepen",
+        "url:en": "http://www.2at.nl/",
+        "url:nl": "http://www.2at.nl/"
+      },
+      "metadataurl": "https://login.edugroepen.nl/signin-edugain/federationmetadata.xml",
+      "notes": null,
+      "revisionid": 7,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1498140387000,
+      "number": 7,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "f9233508-a095-471b-94cc-e155204d223d",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-04-14T11:08:11+02:00",
+      "eid": 40,
+      "entityid": "https://dashboard.test.surfconext.nl",
+      "id": 819,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://dashboard.test.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "AssertionConsumerService:0:index": "1",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://dashboard.test.surfconext.nl/Shibboleth.sso/SAML2/Artifact",
+        "AssertionConsumerService:1:index": "3",
+        "AssertionConsumerService:2:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:PAOS",
+        "AssertionConsumerService:2:Location": "https://dashboard.test.surfconext.nl/Shibboleth.sso/SAML2/ECP",
+        "AssertionConsumerService:2:index": "4",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "certData": "MIIDADCCAeigAwIBAgIJAIodzfoES3R1MA0GCSqGSIb3DQEBBQUAMB4xHDAaBgNVBAMTE2NkazAyLmNvaW4uc3VyZi5uZXQwHhcNMTQwODI3MDg1NTE2WhcNMjQwODI0MDg1NTE2WjAeMRwwGgYDVQQDExNjZGswMi5jb2luLnN1cmYubmV0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvctwtFUleqf6OJSe+hplZMRD7f7DthPvsvxePtZFNEEE9RcLlXy+xwiIdbdWpsqzHpkbhWZoFy5JTdeAwpczI7l+XrfLHgwN0K6SH8b87gvzcZsPScg0j/izK39ADmdFttdFhvKS23cnJGBJByZVOAHeoVboIIeNhbM82oW8SsGFsPq86yUnrbNqeqsDZPpvppXAhc8IV3Ym1myQTy/xs3FntKv9gyswhhhqZSr1LzoQW7sq+x0fZzg5MyRTRWdRM4TPwYP8LU7dCIqgywVSJSyF006sypY9q3cj7IQhXayBifgKquRSvgBUnAKVq8k3axWNoLKOpR1xo2IHMiRN8wIDAQABo0EwPzAeBgNVHREEFzAVghNjZGswMi5jb2luLnN1cmYubmV0MB0GA1UdDgQWBBRg7ZG+y66dG/fop9qgvteJbW9T9jANBgkqhkiG9w0BAQUFAAOCAQEAb8KA4Yi+EVPNiuDAXtGFLaqCXh1C633ps2zdszoHm5h9D6j9W+l75NpgR/sYWOxZYImF/upPYDeydUp9kdpX0l/GVD7iGimP7vm5Hny+2krcSadTpc6UeXJf5mf0EdunKLXg29JhQ197ixh942SBuVMpB0XRj7hF7QTREROPNcsAZG2546Bpdfss7Rf7FXP0BpckfyIPhjvvHorsqeFnmAIuvidt4WIFH6GEVmNBPkhuTlBlggZSWwUdvVq1hk5qq/JueUNoa7pvJom+YpMOtU6AKS0tIC/veiKJrVc19kiUqylq6skWFavwW3/SD83qHCm8nLhvThc0fd2bbptK2A==",
+        "coin:do_not_add_attribute_aliases": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Dashboard test"
+      },
+      "metadataurl": "https://",
+      "notes": null,
+      "revisionid": 10,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1510834756517,
+      "number": 11,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "8d20785f-0121-4c81-982e-70ae7c17d142",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2016-10-18T16:05:59+02:00",
+      "eid": 43,
+      "entityid": "bazo:test",
+      "id": 241,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 1,
+      "revisionnote": "Entity created.",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:kinkhorst"
+    },
+    "revision": {
+      "created": 1476799559000,
+      "number": 1,
+      "updatedBy": "urn:collab:person:surfnet.nl:kinkhorst"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "c18b188f-ca7b-418d-b602-e8a66ab2f290",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "sab",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonOrcid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "voot",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-08-07T13:57:26+02:00",
+      "eid": 54,
+      "entityid": "https://authz-playground.test2.surfconext.nl",
+      "id": 1266,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://oidc.test2.surfconext.nl/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "coin:attribute_aggregation_required": "1",
+        "coin:do_not_add_attribute_aliases": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "Authz playground OIDC client",
+        "description:nl": "Authz playground OIDC client",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext Authz-playground  OIDC - SURFnet",
+        "name:nl": "OpenConext Authz-playground  OIDC - SURFnet"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 25,
+      "revisionnote": "Added attribute aggration",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:geesink"
+    },
+    "revision": {
+      "created": 1518105946091,
+      "number": 29,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 4
+  },
+  {
+    "_id": "204c1c27-98dd-4572-8954-91291cf9b7dd",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "pseudo_email",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2016-11-29T15:52:40+01:00",
+      "eid": 57,
+      "entityid": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/metadata.php/default-sp",
+      "id": 429,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:1:index": "2",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "certData": "MIID7TCCAtWgAwIBAgIJALg+M+9CfcwwMA0GCSqGSIb3DQEBBQUAMIGMMQswCQYDVQQGEwJOTDEQMA4GA1UECAwHVXRyZWNodDEQMA4GA1UEBwwHVXRyZWNodDEQMA4GA1UECgwHU1VSRm5ldDEMMAoGA1UECwwDQ0lTMRowGAYDVQQDDBFpbW9nZW4uc3VyZm5ldC5ubDEdMBsGCSqGSIb3DQEJARYOYmFzQHN1cmZuZXQubmwwHhcNMTQwNTA5MDkzNjA5WhcNMjQwNTA4MDkzNjA5WjCBjDELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxEDAOBgNVBAoMB1NVUkZuZXQxDDAKBgNVBAsMA0NJUzEaMBgGA1UEAwwRaW1vZ2VuLnN1cmZuZXQubmwxHTAbBgkqhkiG9w0BCQEWDmJhc0BzdXJmbmV0Lm5sMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7YAoRbvj5YHajvC6HF57uJAuBhU9M9o5S8k3M2gQTMMK6zRbN1GwYOr8cqmAZ4h9zGVFGy6+bI7Bnlssf6SNrgPQ91OuDrovwF/gMoQ1gIoE36fAWFqSySeknBUxkmYvAf8ayLrIhkZgmf+AkbnUsf3nSGOyhqvKY80uSx0ElRZeg/xVwtKBkyQhvNcMdOb4T0xz1ZRnstxrw2sgcVJQOXco/PVK4UYs1HLeywT0oipuykO2MuITGg1C456Sb2SywMeoEhTtlB/bYHlRR3VJO0m3nZn2KJkCmqMsLMl/PbByTgaW8aI8/pFDm1wj0MHg+z9SQIqi3Ci1MzEwnvRvqwIDAQABo1AwTjAdBgNVHQ4EFgQU7nb/cI7nJDkmDYzfNUHAdxp1C34wHwYDVR0jBBgwFoAU7nb/cI7nJDkmDYzfNUHAdxp1C34wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAQEAKg4KyuFzOeNPt8m5v4hrgU2j8FsHa2SQx3B9s15N2a5PomFKuwRRp0lV/41QPoScv++n0NERDhXKNM3zX8vzCF0MfVww1b/H+tyD3Tin0b0hceuahuHOdRFnziH6AgBUcTmMACx60OFXXTclEog7dR6X4y6KPmigTsjL8uoJSexRAdpHl8yeHkHVJPKxgM3jK2/ThLZX9zxzhvehVdQxo6tXB601CEoT07/GHSfAN6sLya0kEvIHx399u///vlUkf1HfW4hc/W9SQhNtZ43O+ZBO+9cojmnIel07NFEIAXJGAgmfQSYknSa+KjxHheAPYoyhyCqMbngbGbjt6LiQiA==",
+        "coin:attribute_aggregation_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "bas@surfnet.nl",
+        "contacts:0:givenName": "Bas",
+        "contacts:0:surName": "Zoetekouw",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Bas Test SP Imogen",
+        "name:nl": "Bas Test SP Imogen"
+      },
+      "metadataurl": "https://imogen.surfnet.nl/testsp/module.php/saml/sp/metadata.php/default-sp",
+      "notes": null,
+      "revisionid": 9,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:bas"
+    },
+    "revision": {
+      "created": 1512470720345,
+      "number": 13,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 4
+  },
+  {
+    "_id": "5d236a53-017d-4cb7-9838-0a1c8b99876e",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2016-12-09T15:26:30+01:00",
+      "eid": 69,
+      "entityid": "https://sp.mrvanes.com/saml2/module.php/saml/sp/metadata.php/test-sp",
+      "id": 570,
+      "ip": "145.100.191.114",
+      "manipulation": "$attributes['urn:mace:dir:attribute-def:uid'][0] .= 'AM-SP';\r\n$attributes['sp'][0] = 'New';",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://sp.mrvanes.com/saml2/module.php/saml/sp/saml2-acs.php/test-sp",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://sp.mrvanes.com/saml2/module.php/saml/sp/saml2-acs.php/test-sp",
+        "AssertionConsumerService:1:index": "2",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "certData": "MIIDeDCCAmCgAwIBAgIJAKDWdhNpgBqIMA0GCSqGSIb3DQEBBQUAMGMxCzAJBgNVBAYTAk5MMRcwFQYDVQQKEw5zcC5tcnZhbmVzLmNvbTEXMBUGA1UEAxMOc3AubXJ2YW5lcy5jb20xIjAgBgkqhkiG9w0BCQEWE2luZm9Ac3AubXJ2YW5lcy5jb20wHhcNMTQwMjI3MjAzMzQzWhcNMzQwMjIyMjAzMzQzWjBjMQswCQYDVQQGEwJOTDEXMBUGA1UEChMOc3AubXJ2YW5lcy5jb20xFzAVBgNVBAMTDnNwLm1ydmFuZXMuY29tMSIwIAYJKoZIhvcNAQkBFhNpbmZvQHNwLm1ydmFuZXMuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2WyV5Q46fsBwkpJjkfmf43u5pF/dnIGo1VpTRcr8ukvYHl05jQTClRUYVMUhLaYik4VAXbjOtdJZcdXmfVqHbJdmBbOQogaQMnT0cevQnIy57sTiVgbTBLurAhyLnB6YnFMKtHMCr6eRNMoGEmgSDJJOpKJHZI9zmIWtFY3V+QYCkLaptWo4pBgO3al7FjEPfUVi65mSj7cMFsQEDbaiNjphG4jyg5CNM/T4m26NIsXops8lILoi+PL8KzeANupcscgh1jW/KfxeyjBCKvIasIuqlAg5wAmYznTRPWq+vnaXITWK4Pz7XIrSTdjose9bur9sk5vs9fzYkdRq0nOfHwIDAQABoy8wLTArBgNVHREEJDAigg5zcC5tcnZhbmVzLmNvbYIQKi5zcC5tcnZhbmVzLmNvbTANBgkqhkiG9w0BAQUFAAOCAQEAcf+j4BP7VgU42HmTD+Zx/cu743yPyNSQzRZTiiLj10BR0HarcahvK1x+JMB0buNna9v/QXtpEiARk9FSkZG3Mv5xjN7x2I7JP0QQCISrW96iO3KDn8F1s++el1vyVk5lZJ509o9UQPk7kCz28apt45KAEGqPE9uoQsVF+tVJivTzZQWs55TE7VHZCPM5U1fGaxdm9gCGc2iGiYt3E1q804QTfwOuGkbtS0SYK2scbcvSgrerE/UK9XbiXI2+MmhvgSiymLoBxRPr6j4THkRqpGmesC73E8XwomFXHM+4/Y3kPvesoAjzmP5WCsQPjSyFlecWnDdVOimA//yRMhGl7Q==",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "sp@mrvanes.com",
+        "contacts:0:givenName": "Administrator",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "MrVanes",
+        "name:nl": "MrVanes"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 5,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1481293590000,
+      "number": 5,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "f012b6e0-751f-41f5-960d-c82548808a08",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2016-12-06T16:19:28+01:00",
+      "eid": 72,
+      "entityid": "https://support.test2.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+      "id": 537,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://support.test2.surfconext.nl/simplesaml/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://support.test2.surfconext.nl/simplesaml/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:1:index": "2",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "surfconext-beheer@surfnet.nl",
+        "contacts:0:givenName": "SURFconext",
+        "contacts:0:surName": "Operations",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "OpenConext test SP form",
+        "description:nl": "OpenConext test SP formulier",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OpenConext test SP form",
+        "name:nl": "OpenConext test SP formulier"
+      },
+      "metadataurl": "https://support.test2.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+      "notes": null,
+      "revisionid": 4,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:geesink"
+    },
+    "revision": {
+      "created": 1481037568000,
+      "number": 4,
+      "updatedBy": "urn:collab:person:surfnet.nl:geesink"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "0b4d0537-1e8d-44bc-bc2a-3f3bac377888",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": true
+      },
+      "created": "2016-12-09T17:12:56+01:00",
+      "eid": 81,
+      "entityid": "https://www.ccreader.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+      "id": 585,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://www.ccreader.nl/simplesaml/module.php/saml/sp/saml2-acs.php/default-sp",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "te@fjasdk.nl",
+        "contacts:0:givenName": "teaw",
+        "contacts:0:surName": "fasd",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "test@example.com",
+        "contacts:1:givenName": "test",
+        "contacts:1:surName": "tester",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "tefds@fsadf.nl",
+        "contacts:2:givenName": "fasd",
+        "contacts:2:surName": "sadf",
+        "description:en": "asdfasd",
+        "description:nl": "fsadf",
+        "logo:0:height": "300",
+        "logo:0:url": "http://www.batuira.com/wp-content/uploads/2016/03/LogoAtDistancia-500x300.png",
+        "logo:0:width": "500",
+        "name:en": "fsdsafd",
+        "name:nl": "fasdf",
+        "url:en": "http://te.euf.nl",
+        "url:nl": "http://te.euf.nl"
+      },
+      "metadataurl": "https://www.ccreader.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+      "notes": null,
+      "revisionid": 1,
+      "revisionnote": "Updated entity from intakeform id: 7f104f13-bdfa-11e6-a0a6-005056953814",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "aansluitform"
+    },
+    "revision": {
+      "created": 1481299976000,
+      "number": 1,
+      "updatedBy": "aansluitform"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "229becd5-8e43-4982-bd9a-00f4809504e3",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-02-24T12:35:47+01:00",
+      "eid": 86,
+      "entityid": "thijstest",
+      "id": 632,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 1,
+      "revisionnote": "Entity created.",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1487936147000,
+      "number": 1,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "3ec2ce37-a19f-40d6-955a-4de0e4a510a6",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-02-24T12:39:39+01:00",
+      "eid": 89,
+      "entityid": "thijstest6",
+      "id": 638,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "coin:do_not_add_attribute_aliases": "1",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 1,
+      "revisionnote": "Entity created.",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1487936379000,
+      "number": 1,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "20296618-dd1a-4d3b-b214-9e65796b6b84",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonOrcid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "voot",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-07-21T10:09:20+02:00",
+      "eid": 91,
+      "entityid": "https://oidc.localhost.surfconext.nl",
+      "id": 1170,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "http://localhost:8080/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "coin:attribute_aggregation_required": "1",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:trusted_proxy": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "OIDC Local",
+        "description:nl": "OIDC Local",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "OIDC Local",
+        "name:nl": "OIDC Local"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 4,
+      "revisionnote": "Test local OIDC with attribute aggregation",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1517908088316,
+      "number": 5,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "399b96e4-b7df-4783-9899-60d2e421c231",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-03-20T11:29:14+01:00",
+      "eid": 94,
+      "entityid": "https://surfdrive-tst.surf.nl/",
+      "id": 691,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://engine.test2.surfconext.nl/authentication/sp/consume-assertion",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:1:Location": "https://surfdrive-tst.surf.nl/Shibboleth.sso/SAML2/POST",
+        "AssertionConsumerService:1:index": "1",
+        "AssertionConsumerService:2:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:2:Location": "https://surfdrive-tst.surf.nl/Shibboleth.sso/SAML2/Artifact",
+        "AssertionConsumerService:2:index": "3",
+        "AssertionConsumerService:3:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:PAOS",
+        "AssertionConsumerService:3:Location": "https://surfdrive-tst.surf.nl/Shibboleth.sso/SAML2/ECP",
+        "AssertionConsumerService:3:index": "4",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "certData": "MIIC+zCCAmSgAwIBAgIJAPJvLjQsRR4iMA0GCSqGSIb3DQEBBQUAMF0xCzAJBgNVBAYTAk5MMRAwDgYDVQQIEwdVdHJlY2h0MRAwDgYDVQQHEwdVdHJlY2h0MRAwDgYDVQQKEwdTVVJGbmV0MRgwFgYDVQQDEw90ZXN0MiBzYW1sIGNlcnQwHhcNMTUwMzI0MTQwMzE3WhcNMjUwMzIxMTQwMzE3WjBdMQswCQYDVQQGEwJOTDEQMA4GA1UECBMHVXRyZWNodDEQMA4GA1UEBxMHVXRyZWNodDEQMA4GA1UEChMHU1VSRm5ldDEYMBYGA1UEAxMPdGVzdDIgc2FtbCBjZXJ0MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxKYrnW8NwqdRwRwaHulueL69gQFTJbdfoASLhYie2bOioJyJw1f+cAvpjsl4SVYpvEseIetXH8Lgpk7K73PkDJL8dFg4sEjFF6jgmjrOES3ox/gtTd9d/VwPHI/vPIcGy1sbVJ4pEMFl5d8GOAzoJkNWdPj9wV4rv4uv35May8wIDAQABo4HCMIG/MB0GA1UdDgQWBBTTIaPwpKpJlY8eIMSzNRZUjStbijCBjwYDVR0jBIGHMIGEgBTTIaPwpKpJlY8eIMSzNRZUjStbiqFhpF8wXTELMAkGA1UEBhMCTkwxEDAOBgNVBAgTB1V0cmVjaHQxEDAOBgNVBAcTB1V0cmVjaHQxEDAOBgNVBAoTB1NVUkZuZXQxGDAWBgNVBAMTD3Rlc3QyIHNhbWwgY2VydIIJAPJvLjQsRR4iMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADgYEAK8EvTU0LgHJsSugorOemgRlppMfJAeOmuuZNhSMY2QhumFOZpaAb8NFIwUKUVyyJnSo7k6ktHCKI94sQs976242hTDDYEwWJD9HhAsAqOo21Ua8gZT38/wm62e3KgrKXvnljAbKPXDXJM4akz7y6H6wvvIGT6f0f0iJWHq34jww=",
+        "certData2": "MIIGATCCA+mgAwIBAgIJAN/3zN7BWgr5MA0GCSqGSIb3DQEBBQUAMIGWMQswCQYDVQQGEwJOTDESMBAGA1UEBwwJQW1zdGVyZGFtMREwDwYDVQQKDAhTVVJGc2FyYTEXMBUGA1UECwwOZVNjaWVuY2UmQ2xvdWQxHjAcBgNVBAMMFXN1cmZkcml2ZS10c3Quc3VyZi5ubDEnMCUGCSqGSIb3DQEJARYYc3VyZmRyaXZlLXRnQHN1cmZzYXJhLm5sMB4XDTE1MDIwMzE2MDcxM1oXDTI1MDEzMTE2MDcxM1owgZYxCzAJBgNVBAYTAk5MMRIwEAYDVQQHDAlBbXN0ZXJkYW0xETAPBgNVBAoMCFNVUkZzYXJhMRcwFQYDVQQLDA5lU2NpZW5jZSZDbG91ZDEeMBwGA1UEAwwVc3VyZmRyaXZlLXRzdC5zdXJmLm5sMScwJQYJKoZIhvcNAQkBFhhzdXJmZHJpdmUtdGdAc3VyZnNhcmEubmwwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDqtSITZnPK5IFTECC1iAJUJt51qtBUc7yIC2//m4NaFTEoehj5/c/HfCTgqKcEGE6sGDgxyR4IcyxfJNmW3gP9zDlqQfXn9WhKc8b9S2/kwZg/tzyP7kuABLAAA2PumgEegnu5/sD6GGzeKAN9If94v84A7mMegRtuXy7njTsnoGnaad0iGrnS9v6PRKIcwR9krWJEEzEH8IiVD/vV0GLK4DFdc6Bz1pFLZlZnktzkavDzztSN6OXNcz9cfco5Uc/fMV+zhfohh/QmdPEcnUKpUzhb8Rpw+72K5TI2Tr7Nhrzf2SYRuoOYoqTERjHn4O7/Q1gkh6AuFU9/dzPOtjE7EkToDjIy5wZm7JausKURzPdtvhrpZPBpG2nphLgZOllDSXbbjGC2ZGJ+OCunYK/bI8ml/V+tEtMZA7JqXyt9OwhIg46047y9FvnU/UKDyxBn7b5bI1ewI5w/5ovDt7SM78IABOXahG9unA+y4O6dw2eziPy0xscsj1LYlw98qwYRIlRHCeKhh2lmJaXfzIejNfi2aTZLSbsC4Rab/OyvwJzAxqph0Nq+XmNGi/C0iUZdgK1GLqOplM+eZMBTp8VQcoSUJEOlRbyCP4a0aHQ764HEw8x1HgFq8didJz/+sqmpMqdm714Cumqa+gjAgy5gBnlVnF9R3IPpMQ33bM076wIDAQABo1AwTjAdBgNVHQ4EFgQUZ/idSNQ8q7Q8r0h5RWcfeY8TgCAwHwYDVR0jBBgwFoAUZ/idSNQ8q7Q8r0h5RWcfeY8TgCAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAgEAdVImJNjgOxlf4HlMiazsKJv6VMcYOrCG+Ch5EOaxScgkFCxm5zb1VPK5hMCcycwLDUcQi2OBoKeqZCTWz+/DVtbE4cLXrMoYd8OGxJNj/AkCi0fRukkvj4Sna0MSNj20s+8/HALAKUZtvPOtj+d3MB0BCK+bcsYMTwc14xRdFWH8iOfi6k4rtCWBOV6pCqLr5u0848hJNWHstXu+dGcBhusEKqrVDdQwJX8WUpDYi+x2fueA2zx5UG276TTDOfCTLtVt75lwncNX/+CJDiHCMh60Mg9oCf1GhUft92t/u3fQDYf979WF1itDK/dDwBT4KXV6agPnQvR4hHiZDAOlbTlHGjbDzLQnU1O1/Io6zBanUqPErSZbC/1JWu7lrUmJxVPnlbL/AMdEZNwD5jQOjKAJE0icICv6P5VsUtd3qhH1I4CR/g0wGRIzS3j1UBxWhTpmJfIfY6iPpTZ8r/8crQ41CKjOjcOC3I5gCaTEYv7+xmV9mkH6B3+Vl+TiRzYholgRKzzlz826rgUfB9pmV9hK5tWe1ple4w1g2xXdC4+98lsgAwvg4QB3PCMYLC0+o7ldlclMqJB5ahx23y2xGog0kc8CjC5SD7r1titduXz7HQO9sVfVAQUUWk0nXNu9HK4KcgAzeDqmW5CpPggZm3/wgCfiE0Ep5L6EXtcn0aE=",
+        "coin:do_not_add_attribute_aliases": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@openconext.org",
+        "contacts:0:givenName": "Support",
+        "contacts:0:surName": "OpenConext",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "support@openconext.org",
+        "contacts:1:givenName": "Support",
+        "contacts:1:surName": "OpenConext",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "support@openconext.org",
+        "contacts:2:givenName": "Support",
+        "contacts:2:surName": "OpenConext",
+        "contacts:3:contactType": "technical",
+        "description:en": "SURFdrive test",
+        "description:nl": "SURFdrive test",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.test2.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "SURFdrive test",
+        "name:nl": "SURFdrive test"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 4,
+      "revisionnote": "to prod",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1490005754000,
+      "number": 4,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "e89e517a-4360-4f7f-8255-d91346b4301d",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-03-23T13:43:59+01:00",
+      "eid": 97,
+      "entityid": "https://mujina.sp.localhost.surfconext.nl ",
+      "id": 769,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "http://localhost:9090/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:publish_in_edugain": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "Localhost Mujina SP",
+        "description:nl": "Localhost Mujina SP",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Localhost Mujina SP",
+        "name:nl": "Localhost Mujina SP",
+        "redirect.sign": "1"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 10,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1514969721439,
+      "number": 11,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "c3efee44-f7ee-4338-80e4-53a850ad2580",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "http://mock-idp"
+        },
+        {
+          "name": "https://idp.surfnet.nl"
+        },
+        {
+          "name": "https://idp.diy.surfconext.nl/saml2/idp/metadata.php"
+        }
+      ],
+      "allowedall": false,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "voot",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "surfmarket_entitlements",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonOrcid": [
+            {
+              "source": "orcid",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-04-03T10:36:39+02:00",
+      "eid": 103,
+      "entityid": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/module.php/saml/sp/metadata.php/default-sp",
+      "id": 817,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:1:index": "2",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "certData": "MIIFIjCCBAqgAwIBAgISAxO4RllMHGgwH6m+Fi8YG4/ZMA0GCSqGSIb3DQEBCwUAMEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQDExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xNjEwMjAwNDQzMDBaFw0xNzAxMTgwNDQzMDBaMCoxKDAmBgNVBAMTH3Roa2ktc2lkLnB0LTQ4LnV0ci5zdXJmY2xvdWQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDP7o5xf5FRQtzOhTz34ystJddWP25aQ80WsR85Ij1gmwdA5yzPmIijYBFCVxOG6lN7awBIebLZGwP37K3jrxM3l3PkxELPaxGVufjoKervqxWYhIlPi2DdBEenSoheYEszYtv3O2/Ny+tRi140hcIWH7CMWYSZ352nFXJnc7TE33YO4tR1+yjOGzTaoCqh5y97ny/FWNHE0Tsig8rQhJ9yqg5EwzEjkUIwPkq+24MkJHRajA5zWvQ2/DGDDjg0OJFIOUhQwSF1mqA/cr0gY7iq5Dul8y0voVqPoF6s2vcqZouzbV6UnLxis2LI2mi7Kd4GFqyN+yQNfQ0y6L49rjyVAgMBAAGjggIgMIICHDAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFMm5evvFt+gHu0oGR+4ONh1uZBYHMB8GA1UdIwQYMBaAFKhKamMEfd265tE5t6ZFZe/zqOyhMHAGCCsGAQUFBwEBBGQwYjAvBggrBgEFBQcwAYYjaHR0cDovL29jc3AuaW50LXgzLmxldHNlbmNyeXB0Lm9yZy8wLwYIKwYBBQUHMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5vcmcvMCoGA1UdEQQjMCGCH3Roa2ktc2lkLnB0LTQ4LnV0ci5zdXJmY2xvdWQubmwwgf4GA1UdIASB9jCB8zAIBgZngQwBAgEwgeYGCysGAQQBgt8TAQEBMIHWMCYGCCsGAQUFBwIBFhpodHRwOi8vY3BzLmxldHNlbmNyeXB0Lm9yZzCBqwYIKwYBBQUHAgIwgZ4MgZtUaGlzIENlcnRpZmljYXRlIG1heSBvbmx5IGJlIHJlbGllZCB1cG9uIGJ5IFJlbHlpbmcgUGFydGllcyBhbmQgb25seSBpbiBhY2NvcmRhbmNlIHdpdGggdGhlIENlcnRpZmljYXRlIFBvbGljeSBmb3VuZCBhdCBodHRwczovL2xldHNlbmNyeXB0Lm9yZy9yZXBvc2l0b3J5LzANBgkqhkiG9w0BAQsFAAOCAQEAPIo1TNkNNxPuGqtEk/egBGN920K30SlZdljiXD7ivMaoUP+AMF6zXU9rf4CKgc3m4Ooi9ASVcjpHRGfqvcGGlCSHh5PhNvYcx/x4Xonf/ODkSr4mcDrecszL1U6lTc68HJ3p1MKwdcxChkXwp1EAoAJYxRNKAV2axtcXQlT1zCjfbMTAAO3jPDBFT7am9EPMfJsy9Q6vMGFdUmPXhLGVMTEZbi11uhmnt2gastMl5lU7xGJUJxDwO2ip5ApK3d8gXatsJRg75eiAwdO9CU8MEDh51JC3ACVGSjUE07L4PrkEj0wKgz9Jpv5gXIXD5MoFviKQeXIJbG1DbVGD/eBavA==",
+        "coin:attribute_aggregation_required": "1",
+        "coin:display_unconnected_idps_wayf": "0",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:eula": "https://www.eftepedia.nl/?eula",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "test@example.com",
+        "contacts:0:givenName": "TH",
+        "contacts:0:surName": "KI",
+        "contacts:0:telephoneNumber": "0800SURFTHIJS",
+        "contacts:1:contactType": "other",
+        "contacts:1:emailAddress": "cert@example.org",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "logo:0:height": "41",
+        "logo:0:url": "https://static.surfconext.nl/media/idp/avat_st.jpg",
+        "logo:0:width": "60",
+        "mdui:PrivacyStatementURL:en": "https://www.eftepedia.nl/?en",
+        "mdui:PrivacyStatementURL:nl": "https://www.eftepedia.nl/?nl",
+        "name:en": "thki sid",
+        "name:nl": "thki sid"
+      },
+      "metadataurl": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/module.php/saml/sp/metadata.php/default-sp",
+      "notes": null,
+      "revisionid": 6,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1516025390904,
+      "number": 25,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 19
+  },
+  {
+    "_id": "b72158a2-ffd1-4633-9ee3-a6a6244a21f5",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-08-29T16:56:23+02:00",
+      "eid": 105,
+      "entityid": "https://kibana.test2.surfconext.nl",
+      "id": 1395,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://oidc.test2.surfconext.nl/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "certData": "MIIDEzCCAfugAwIBAgIJAKoK/heBjcOYMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNVBAoMFU9yZ2Fu aXphdGlvbiwgQ049T0lEQzAeFw0xNTExMTExMDEyMTVaFw0yNTExMTAxMDEyMTVaMCAxHjAcBgNV BAoMFU9yZ2FuaXphdGlvbiwgQ049T0lEQzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB ANBGwJ/qpTQNiSgUglSE2UzEkUow+wS8r67etxoEhlzJZfgK/k5TfG1wICDqapHAxEVgUM10aBHR ctNocA5wmlHtxdidhzRZroqHwpKy2BmsKX5Z2oK25RLpsyusB1KroemgA/CjUnI6rIL1xxFn3KyO Fh1ZBLUQtKNQeMS7HFGgSDAp+sXuTFujz12LFDugX0T0KB5a1+0l8y0PEa0yGa1oi6seONx849ZH xM0PRvUunWkuTM+foZ0jZpFapXe02yWMqhc/2iYMieE/3GvOguJchJt6R+cut8VBb6ubKUIGK7pm oq/TB6DVXpvsHqsDJXechxcicu4pdKVDHSec850CAwEAAaNQME4wHQYDVR0OBBYEFK7RqjoodSYV XGTVEdLf3kJflP/sMB8GA1UdIwQYMBaAFK7RqjoodSYVXGTVEdLf3kJflP/sMAwGA1UdEwQFMAMB Af8wDQYJKoZIhvcNAQEFBQADggEBADNZkxlFXh4F45muCbnQd+WmaXlGvb9tkUyAIxVL8AIu8J18 F420vpnGpoUAE+Hy3evBmp2nkrFAgmr055fAjpHeZFgDZBAPCwYd3TNMDeSyMta3Ka+oS7GRFDeP kMEm+kH4/rITNKUF1sOvWBTSowk9TudEDyFqgGntcdu/l/zRxvx33y3LMG5USD0x4X4IKjRrRN1B bcKgi8dq10C3jdqNancTuPoqT3WWzRvVtB/q34B7F74/6JzgEoOCEHufBMp4ZFu54P0yEGtWfTwT zuoZobrChVVBt4w/XZagrRtUCDNwRpHNbpjxYudbqLqpi1MQpV9oht/BpTHVJG2i0ro=",
+        "coin:attribute_aggregation_required": "1",
+        "coin:do_not_add_attribute_aliases": "1",
+        "coin:policy_enforcement_decision_required": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "SURFconext Kibana | SURFnet",
+        "description:nl": "SURFconext Kibana | SURFnet",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "SURFconext Kibana | SURFnet",
+        "name:nl": "SURFconext Kibana | SURFnet",
+        "url:en": "https://kibana.test2.surfconext.nl",
+        "url:nl": "https://kibana.test2.surfconext.nl"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 9,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:surfnet.nl:geesink"
+    },
+    "revision": {
+      "created": 1514907162925,
+      "number": 12,
+      "updatedBy": "urn:collab:person:example.com:geesink"
+    },
+    "type": "saml20_sp",
+    "version": 3
+  },
+  {
+    "_id": "46ab2591-fc86-4222-8328-12468f81a584",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-06-21T14:04:14+02:00",
+      "eid": 111,
+      "entityid": "test-del-me",
+      "id": 912,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "coin:do_not_add_attribute_aliases": "1",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 1,
+      "revisionnote": "Entity created.",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1498046654000,
+      "number": 1,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "a342c8e2-479e-475d-a6c1-edce2a995c11",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-08-07T15:38:53+02:00",
+      "eid": 117,
+      "entityid": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/metadata.php/second-sp",
+      "id": 1275,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/saml2-acs.php/second-sp",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/saml2-acs.php/second-sp",
+        "AssertionConsumerService:1:index": "2",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "NameIDFormats:1": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "NameIDFormats:2": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "certData": "MIIDlDCCAnwCCQCEcEA84Q/IrDANBgkqhkiG9w0BAQUFADCBizELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxEzARBgNVBAoMClNVUkZuZXQgYnYxITAfBgNVBAMMGHBpZXRlci5hYWkuc3VyZm5ldC5ubCBTUDEgMB4GCSqGSIb3DQEJARYRcGlldGVyQHN1cmZuZXQubmwwHhcNMTQwMjE4MjEyODM0WhcNMjQwMjE2MjEyODM0WjCBizELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxEzARBgNVBAoMClNVUkZuZXQgYnYxITAfBgNVBAMMGHBpZXRlci5hYWkuc3VyZm5ldC5ubCBTUDEgMB4GCSqGSIb3DQEJARYRcGlldGVyQHN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMtxMLiNG70MDGjdOuU2taiB4Wb+3qr1HLBxlgitahe2e5Hq/xduk7S85e4kBxRphPF2wXGqjXp86e+lF9IUN5EwTxT1M6CoXEnFEjJltc+IhdfGw7rV85tg+pLQ+U/VZT8JowDKIRZ+4FaNb84K3bsLAK2xvkUtsT7J7VEYGyaz/hHhQKlLDpdgLCDDWF0dwD0MQz4hD4wG928DcV2MAHeCMOHnTcFA0K/Rn1mo97IpmObtgxk57cupElwsf8jh5ORUdXkc61Oq4tpfl2Uiyg9SyMuA1JroqC1bigepuCrWY5hv0xhP6knDVQaXVF79RuFGRJUcfv8g0ee2V5AZlDAgMBAAEwDQYJKoZIhvcNAQEFBQADggEBAB1QkdCjfmAlfLJm9q/2A+DtcABstqmnppIoPJv5hXlsKuBXZ/xtZwv1YyX4TND2JfZ222AGYX50p51F5kiW0jRdjIbCevp3zxrwGuGkpMQjnNTFJont5umNHYD/+GGG0FZwgeCGUG9XqvyArhm8kVE2N9GfpxE5pXhTbaphSuql86d7HddudrV4vMAwPftLpwxjFrUNIfnXV7Qf2dH0XxIVxUwY8IVjd+CoLLDAiz6FgoDJTx5ri7qIR/zgXBc2xC+3F7tXdJyqTzXt28P/uKH/KXGBl2qoM8TOKElumMEyB9b03B2x/6pJJAy8ZdEShk0f7QEj8SPUCkcoz3IZkkw=",
+        "coin:additional_logging": "1",
+        "coin:trusted_proxy": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "pieter@surfnet.nl",
+        "contacts:0:givenName": "Pieter van der Meulen",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "pieter.aai.surfnet.nl second-sp (TEST, Trusted Proxy)",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "redirect.sign": "1"
+      },
+      "metadataurl": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/metadata.php/second-sp",
+      "notes": null,
+      "revisionid": 10,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1502113133000,
+      "number": 10,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "6c2b8196-43d6-43f8-ae5f-2f2fedf38635",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-08-29T17:01:42+02:00",
+      "eid": 120,
+      "entityid": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/metadata.php/default-sp",
+      "id": 1398,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:0:index": "0",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://pieter.aai.surfnet.nl/simplesamlphp/module.php/saml/sp/saml2-acs.php/default-sp",
+        "AssertionConsumerService:1:index": "2",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "certData": "MIIDlDCCAnwCCQCEcEA84Q/IrDANBgkqhkiG9w0BAQUFADCBizELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxEzARBgNVBAoMClNVUkZuZXQgYnYxITAfBgNVBAMMGHBpZXRlci5hYWkuc3VyZm5ldC5ubCBTUDEgMB4GCSqGSIb3DQEJARYRcGlldGVyQHN1cmZuZXQubmwwHhcNMTQwMjE4MjEyODM0WhcNMjQwMjE2MjEyODM0WjCBizELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxEzARBgNVBAoMClNVUkZuZXQgYnYxITAfBgNVBAMMGHBpZXRlci5hYWkuc3VyZm5ldC5ubCBTUDEgMB4GCSqGSIb3DQEJARYRcGlldGVyQHN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMtxMLiNG70MDGjdOuU2taiB4Wb+3qr1HLBxlgitahe2e5Hq/xduk7S85e4kBxRphPF2wXGqjXp86e+lF9IUN5EwTxT1M6CoXEnFEjJltc+IhdfGw7rV85tg+pLQ+U/VZT8JowDKIRZ+4FaNb84K3bsLAK2xvkUtsT7J7VEYGyaz/hHhQKlLDpdgLCDDWF0dwD0MQz4hD4wG928DcV2MAHeCMOHnTcFA0K/Rn1mo97IpmObtgxk57cupElwsf8jh5ORUdXkc61Oq4tpfl2Uiyg9SyMuA1JroqC1bigepuCrWY5hv0xhP6knDVQaXVF79RuFGRJUcfv8g0ee2V5AZlDAgMBAAEwDQYJKoZIhvcNAQEFBQADggEBAB1QkdCjfmAlfLJm9q/2A+DtcABstqmnppIoPJv5hXlsKuBXZ/xtZwv1YyX4TND2JfZ222AGYX50p51F5kiW0jRdjIbCevp3zxrwGuGkpMQjnNTFJont5umNHYD/+GGG0FZwgeCGUG9XqvyArhm8kVE2N9GfpxE5pXhTbaphSuql86d7HddudrV4vMAwPftLpwxjFrUNIfnXV7Qf2dH0XxIVxUwY8IVjd+CoLLDAiz6FgoDJTx5ri7qIR/zgXBc2xC+3F7tXdJyqTzXt28P/uKH/KXGBl2qoM8TOKElumMEyB9b03B2x/6pJJAy8ZdEShk0f7QEj8SPUCkcoz3IZkkw=",
+        "coin:additional_logging": "1",
+        "coin:trusted_proxy": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "pieter@surfnet.nl",
+        "contacts:0:givenName": "Pieter van der Meulen",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "pieter.aai.surfnet.nl second-sp (PROD, Trusted Proxy)",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 9,
+      "revisionnote": "No ARP",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1504018902000,
+      "number": 9,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "8c4cb816-346b-4da1-bbe8-7092f0c68e56",
+    "data": {
+      "active": true,
+      "allowedEntities": [
+        {
+          "name": "https://engine.test2.surfconext.nl/authentication/idp/metadata"
+        },
+        {
+          "name": "http://mock-idp"
+        },
+        {
+          "name": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/saml2/idp/metadata.php"
+        },
+        {
+          "name": "https://idp.surfnet.nl"
+        },
+        {
+          "name": "http://login.aai.braindrops.org/adfs/services/trust"
+        },
+        {
+          "name": "https://idin.surfconext.nl/saml2/idp/metadata.php"
+        },
+        {
+          "name": "https://idp.diy.surfconext.nl/saml2/idp/metadata.php"
+        },
+        {
+          "name": "https://idp.mrvanes.com/saml2/idp/metadata.php"
+        },
+        {
+          "name": "https://shibtestidp.pt-27.utr.surfcloud.nl/idp/shibboleth"
+        }
+      ],
+      "allowedall": false,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-09-21T15:45:46+02:00",
+      "eid": 123,
+      "entityid": "https://manage.test2.surfconext.nl/shibboleth",
+      "id": 1418,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://manage.test2.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "billing",
+        "contacts:3:contactType": "technical",
+        "description:en": "Manage",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Manage"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 7,
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1508333513329,
+      "number": 8,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "3b98d47c-81e7-4eab-a385-d93b8156abb0",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonOrcid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:oid:1.3.6.1.4.1.1076.20.40.40.1": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "created": "2017-08-07T15:36:10+02:00",
+      "eid": 132,
+      "entityid": "http://ikbesta",
+      "id": 1272,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "NameIDFormats:0": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "NameIDFormats:1": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "NameIDFormats:2": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "contacts:0:contactType": "technical",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 3,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1502112970000,
+      "number": 3,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "fb8f3b96-877d-4531-b0f0-f46f62380f2b",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-08-21T16:49:19+02:00",
+      "eid": 138,
+      "entityid": "https://sa-gw.test2.surfconext.nl/authentication/metadata",
+      "id": 1377,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://sa-gw.test2.surfconext.nl/authentication/consume-assertion",
+        "AssertionConsumerService:0:index": "0",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "certData": "MIIC4jCCAcoCCQCzJJjkKSx0AzANBgkqhkiG9w0BAQsFADAzMRgwFgYDVQQDDA9HYXRld2F5IFNBTUwgU1AxFzAVBgNVBAoMDkRldmVsb3BtZW50IFZNMB4XDTE3MDgxNzExNDczNVoXDTIyMDgxNjExNDczNVowMzEYMBYGA1UEAwwPR2F0ZXdheSBTQU1MIFNQMRcwFQYDVQQKDA5EZXZlbG9wbWVudCBWTTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMiyuj8HsyeH+MTRr01BsghbDY3rowhJ9bs72ZJIT21KnQAChdEOd6bWYGYQxlruOexTtaLZLqadFA65eTw/1YVcsoy8S++7n/prJnc6TL70rC8gNvlfXuCYn5iCGFRzApKHAo9kubPzsWupndXz+m0ShB/2KMsVF0r0WF3YorfsMxDDCXZtesE6jr67CoCIb7Yrq0wHekgBU2+ndDAoYt94jD6uc3NuhXnsfNi2VzT2wPAq9FyTY5gPV7QnhNB03t0aQdtbYTU6IibRxB8lAkJrjvC08H1mtBFuMKQy1TmnyGR7154RbWgR8ace+n//IVBeu2pjOosKl2ZVm5Rg9hMCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAtiCio6K7HR4ApnCjcAmqtGHb5/z3O6Bvk/L/dTfehcfOVh+0AphJf9fQFMr4bBDmSeDVq7pBt1q/j/N9zVixo+Fw7RtDkCFYhM8aM1L8Y/42yOQSQfUWLIgfXuhYjLOLB3QFVOazAlwClhjaqYv7yRlL2PIpBk4oLaKA/GKcl/FsmU1iEzGpPwy+5H6n/prqhMd6nmwOrhhBR4w5fbisgTUl7on0uUQhooRVeCyIDh5UTM5ww17USNHbarA8W8zgYqT+nmvO4K/4Sg6QnpL/e7CSCY0Q79DUnErQy2d0zj0+dcz0Jt57jECaZ3xc9QtOdulEtqhwGEE8Jsn6HIcPTg==",
+        "coin:trusted_proxy": "1",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "pieter@surfnet.nl",
+        "contacts:0:givenName": "Pieter",
+        "contacts:0:surName": "van der Meulen",
+        "contacts:1:contactType": "technical",
+        "contacts:2:contactType": "technical",
+        "contacts:3:contactType": "technical",
+        "description:en": "Stepup Gateway sa.gw.test2.surfconext.nl",
+        "description:nl": "Stepup-Gateway sa.gw.test2.surfconext.nl",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Stepup-Gateway sa.gw.test2.surfconext.nl",
+        "name:nl": "Stepup-Gateway sa.gw.test2.surfconext.nl",
+        "redirect.sign": "1"
+      },
+      "metadataurl": "https://sa-gw.test2.surfconext.nl/authentication/metadata",
+      "notes": null,
+      "revisionid": 8,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1503326959000,
+      "number": 8,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "490c1d11-2344-4966-bbc7-4942b79ca83f",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-08-21T16:36:32+02:00",
+      "eid": 141,
+      "entityid": "https://sa.test2.surfconext.nl/authentication/metadata",
+      "id": 1371,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://sa.test2.surfconext.nl/authentication/consume-assertion",
+        "AssertionConsumerService:0:index": "0",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "pieter.vanderMeulen@surfnet.nl",
+        "contacts:0:givenName": "Pieter",
+        "contacts:0:surName": "van der Meulen",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "pieter.vanderMeulen@surfnet.nl",
+        "contacts:1:givenName": "Pieter",
+        "contacts:1:surName": "van der Meulen",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "pieter.vanderMeulen@surfnet.nl",
+        "contacts:2:givenName": "Pieter",
+        "contacts:2:surName": "van der Meulen",
+        "contacts:3:contactType": "technical",
+        "description:en": "Stepup-Selfservice sa.test2.surfconext.nl",
+        "description:nl": "Stepup-Selfservice sa.test2.surfconext.nl",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Stepup-Selfservice sa.test2.surfconext.nl",
+        "name:nl": "Stepup-Selfservice sa.test2.surfconext.nl",
+        "redirect.sign": "1",
+        "url:en": "https://sa.test2.surfconext.nl",
+        "url:nl": "https://sa.test2.surfconext.nl"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 5,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1503326192000,
+      "number": 5,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "02888ea6-33be-49ec-b084-0c49e7ecbd5c",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": false
+      },
+      "created": "2017-08-21T16:35:52+02:00",
+      "eid": 144,
+      "entityid": "https://ra.test2.surfconext.nl/authentication/metadata",
+      "id": 1368,
+      "ip": "145.100.191.114",
+      "manipulation": null,
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://ra.test2.surfconext.nl/authentication/consume-assertion",
+        "AssertionConsumerService:0:index": "0",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "pieter.vanderMeulen@surfnet.nl",
+        "contacts:0:givenName": "Pieter",
+        "contacts:0:surName": "van der Meulen",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "pieter.vanderMeulen@surfnet.nl",
+        "contacts:1:givenName": "Pieter",
+        "contacts:1:surName": "van der Meulen",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "pieter.vanderMeulen@surfnet.nl",
+        "contacts:2:givenName": "Pieter",
+        "contacts:2:surName": "van der Meulen",
+        "contacts:3:contactType": "technical",
+        "description:en": "Stepup-RA ra.test2.surfconext.nl",
+        "description:nl": "Stepup-RA ra.test2.surfconext.nl",
+        "logo:0:height": "60",
+        "logo:0:url": "https://.png",
+        "logo:0:width": "120",
+        "name:en": "Stepup-RA ra.test2.surfconext.nl",
+        "name:nl": "Stepup-RA ra.test2.surfconext.nl",
+        "redirect.sign": "1",
+        "url:en": "https://ra.test2.surfconext.nl",
+        "url:nl": "https://ra.test2.surfconext.nl"
+      },
+      "metadataurl": null,
+      "notes": null,
+      "revisionid": 6,
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-sp",
+      "user": "urn:collab:person:example.com:admin"
+    },
+    "revision": {
+      "created": 1503326152000,
+      "number": 6,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "4b0e422d-d0d0-4b9e-a521-fdd1ee5d2bad",
+    "data": {
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "voot",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://spdashboard.test2.surfconext.nl/saml/metadata",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://spdashboard.test2.surfconext.nl/saml/acs",
+        "AssertionConsumerService:0:index": "0",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "coin:attribute_aggregation_required": "1",
+        "name:en": "SURFconext SPDashboard | SURFnet",
+        "name:nl": "SURFconext SPDashboard | SURFnet"
+      },
+      "metadataurl": "https://spdashboard.test2.surfconext.nl/saml/metadata",
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1517494933471,
+      "number": 10,
+      "updatedBy": "urn:collab:person:example.com:geesink"
+    },
+    "type": "saml20_sp",
+    "version": 10
+  },
+  {
+    "_id": "471fa5ee-f998-41cb-bda4-f682850a3fe5",
+    "data": {
+      "allowedEntities": [
+        {
+          "name": "http://mock-idp"
+        },
+        {
+          "name": "https://thki-sid.pt-48.utr.surfcloud.nl/ssp/saml2/idp/metadata.php"
+        },
+        {
+          "name": "https://idp.surfnet.nl"
+        },
+        {
+          "name": "https://pieter.aai.surfnet.nl/simplesamlphp/saml2/idp/metadata.php"
+        }
+      ],
+      "allowedall": false,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://link.test2.surfconext.nl/shibboleth",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://link.test2.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "AssertionConsumerService:0:index": "1",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:URI",
+        "AssertionConsumerService:1:Location": "https://link.test2.surfconext.nl/Shibboleth.sso/SAML2/POST-SimpleSign",
+        "AssertionConsumerService:1:index": "2",
+        "AssertionConsumerService:2:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:2:Location": "https://link.test2.surfconext.nl/Shibboleth.sso/SAML2/Artifact",
+        "AssertionConsumerService:2:index": "3",
+        "AssertionConsumerService:3:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:PAOS",
+        "AssertionConsumerService:3:Location": "https://link.test2.surfconext.nl/Shibboleth.sso/SAML2/ECP",
+        "AssertionConsumerService:3:index": "4",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "SingleLogoutService_Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "SingleLogoutService_Location": "https://link.test2.surfconext.nl/Shibboleth.sso/SLO/Artifact",
+        "certData": "MIIDBjCCAe6gAwIBAgIJAKJyajSqDm65MA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNV\nBAMTFXQwNy5hbXMuc3VyZmNvbmV4dC5ubDAeFw0xNjAzMDgxNDQ0NTRaFw0yNjAz\nMDYxNDQ0NTRaMCAxHjAcBgNVBAMTFXQwNy5hbXMuc3VyZmNvbmV4dC5ubDCCASIw\nDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMvrERDoobw5VVan3/+4sevUXrZl\ngxTN6cgMGA+df2YQ+K5s7ktEDvIfi2dk+l+xHwENWcEto2VURII+CmOiLWgfVsn0\n3RIHgsGUg+u2buVzStlYI3tv/oNPhKXUUmFZNM9DzbNWsDW5iIwH+iFJr9BEQPFk\noBMfsN+6v0usV4FMLHywoqiKKOcRgHWB2cFDdRNewEjAnvDNmpzftM1Pvs+Q+mfy\nAM9tTUQd49PlyN5L4j6sWTmWGg/MbQMa5rfvMC09g5ZBUsDthLmwyinb2HU9K5zK\n3I78y2y2bPMxl12XXX5PqTyv+Nnmiz+hyfDI9LZy68y3F1e9fYEOJII21kECAwEA\nAaNDMEEwIAYDVR0RBBkwF4IVdDA3LmFtcy5zdXJmY29uZXh0Lm5sMB0GA1UdDgQW\nBBS0KNo7FPWh63B9NtJewqoDzANw+jANBgkqhkiG9w0BAQUFAAOCAQEAY6jpfYvF\nJQyutkkMcG96NyPOA0aP9DX9v0uDBBR2GhcvEjb/pd3JEKpkFnqjenOHLRIhUwWR\nUyBhhhJ9AaUt3VIYxfg9+7zodfHrieVbxwCCLBnGKioRPS9iZahRSCS6JJnr0p9C\nktTFhI4mck81UQ6hUrkpVA3ldrszNEexKNXS9PB5QK3d8rRcnuZKUNFT67qPV2R6\nTJEaZJOCD4IsWfj5EroRbuR40Lyild3km9+nh9GccVv2WGrhj7T/qAuw5lXvB+Xq\n7LAttvKzW/eqGgQm1RAte7PNmQMFuR88LYCsXydKWKu/f6sj4rJUEenlHJ4zAoZn\n/v7XcVdv9JgYwQ==\n",
+        "coin:no_consent_required": "1",
+        "name:en": "SURFconext Linking Service | SURFconext",
+        "name:nl": "SURFconext Linking Service | SURFconext"
+      },
+      "metadataurl": "https://link.test2.surfconext.nl/Shibboleth.sso/Metadata",
+      "revisionnote": "No revision note",
+      "state": "prodaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1508759245402,
+      "number": 1,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "0fa499ab-b2d4-410b-a833-78f9cbbeeaf6",
+    "data": {
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://sandbox.orcid.org/saml2/sp/1",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://sandbox.orcid.org/Shibboleth.sso/SAML2/POST",
+        "AssertionConsumerService:0:index": "1",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign",
+        "AssertionConsumerService:1:Location": "https://sandbox.orcid.org/Shibboleth.sso/SAML2/POST-SimpleSign",
+        "AssertionConsumerService:1:index": "2",
+        "AssertionConsumerService:2:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:2:Location": "https://sandbox.orcid.org/Shibboleth.sso/SAML2/Artifact",
+        "AssertionConsumerService:2:index": "3",
+        "AssertionConsumerService:3:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:PAOS",
+        "AssertionConsumerService:3:Location": "https://sandbox.orcid.org/Shibboleth.sso/SAML2/ECP",
+        "AssertionConsumerService:3:index": "4",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "OrganizationDisplayName:en": "ORCID",
+        "OrganizationName:en": "ORCID, Inc",
+        "OrganizationURL:en": "http://orcid.org/",
+        "SingleLogoutService_Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "SingleLogoutService_Location": "https://sandbox.orcid.org/Shibboleth.sso/SLO/Artifact",
+        "certData": "MIIDADCCAeigAwIBAgIJAM1asLyoeon+MA0GCSqGSIb3DQEBBQUAMB4xHDAaBgNVBAMTE3NhbmRib3gtNC5vcmNpZC5vcmcwHhcNMTUwOTAxMTgzMjM4WhcNMjUwODI5MTgzMjM4WjAeMRwwGgYDVQQDExNzYW5kYm94LTQub3JjaWQub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv7jOv9VG9Lmgm19OfB1PIV10B67hEUFxWRk9T04+A+UIV5P8jsS2qKTW59vukCVx1BH6FAfda4Cis214owtLodgUOL7MbPKiMlcz/0om3iRcUiNW8p1BTupyTszsD3xGoATEzB2/3J3d5JJwdsxpc/DbvBPxgblZemex+fSDxg2PvEColjgkgYzWtEGuBErIiipUgeguijCbbjtNePzQYvMZ54mRtHc1bAwzXIsNRaZ5UYuWzuj7zvRvqt3ob+deLGPLZBPCuQHOAsZLr2nYeptE2h9q2NWUs+XMT5YxwbLbYXYxoZzbnWuqRhwZhrCYa3Gwuc6UhzAFfVXDWl/ZQQIDAQABo0EwPzAeBgNVHREEFzAVghNzYW5kYm94LTQub3JjaWQub3JnMB0GA1UdDgQWBBSb8wteXtLHwKzSF0CfYzTpUoBTqzANBgkqhkiG9w0BAQUFAAOCAQEAX7sJirbSPFe4tn9IoU9/fR0zna2sVGKi2PNVWCVJmAfvomArHlMxh3VR6l9zYwvdzvWZNUU/YjH/i5KSHUCNMLbwMeMCoex5VE/hbEXYrkidydQ7pqMGLjOhGVa4XH93wYMsbLqF5NgCi8MX/HjU7LL+9+xoDGUSmQrsx7Pe7B3Gj54Ui/p9oaP7K5eY1SLZzJHiy4wo7Gn75zWVu8WHhc3tTguactD/0oiYsovpzgKsQ55R7bLOTD44fEIZblMBqHoQOubbo8NKa+yJ74dKPSUFvx6t6LzA8URm+CgvpYR2CS4l691bU1aXdAVZ4gUi4yJF+P00QeMYL/jYzi/mKw==",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "support@orcid.org",
+        "contacts:0:givenName": "ORCID Support",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@orcid.org",
+        "contacts:1:givenName": "ORCID Team",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "support@orcid.org",
+        "contacts:2:givenName": "ORCID Development Team",
+        "description:en": "ORCID\u2019s vision is a world where all who participate in research, scholarship, and innovation are uniquely identified and connected to their contributions and affiliations across disciplines, borders, and time. The ORCID Sandbox test environment primary is used for testing ORCID API functions.",
+        "mdrpi:RegistrationInfo": "http://www.surfconext.nl/",
+        "mdrpi:RegistrationPolicy:en": "https://wiki.surfnet.nl/display/eduGAIN/EduGAIN",
+        "name:en": "ORCID Sandbox (test) SP"
+      },
+      "metadataurl": "http://mds.edugain.org/",
+      "revisionnote": "No revision note",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1510695877287,
+      "number": 0,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "966312d0-b8f9-4aff-8b5b-ef431902edc6",
+    "data": {
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://rocva.print.ricoh.nl/DSF/",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://rocva.print.ricoh.nl/DSF/FederatedSSO/SAML2/AssertionConsumerService.aspx",
+        "AssertionConsumerService:0:index": "0",
+        "SingleLogoutService_Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "SingleLogoutService_Location": "https://rocva.print.ricoh.nl/DSF/FederatedSSO/SAML2/SLOReturnLanding.aspx",
+        "certData": "MIIDJzCCAg+gAwIBAgIIbwNMvnIwcfYwDQYJKoZIhvcNAQELBQAwFzEVMBMGA1UEAwwMODIuMjAxLjY0LjE5MB4XDTE1MDcwMzAwMDAwMFoXDTM1MDcwMzAwMDAwMFowFzEVMBMGA1UEAwwMODIuMjAxLjY0LjE5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo7QBQGn0hy7RI4KgaLlFoZ3dcGkXjdYRtsCaeonzDG6O6L/u78FWUUWfR3FfNqjiO9h4bJiD5jREKtQTIRarFpiOYy606wiZSFoTF4N5dujB1HameCAXgsW/tZSqAiu2DInjfbHGKzSdaiobBVBPivyunl7jGOY2rF5VIZgxUtgzQBTRhlwXXzDTzalQ8EhmA3MszYyy/s/dk4ZkeBLINr0dy/7i9FN8N76nu9mgjRYBvEcVghXiOgvKZHB71BYVipyZUi3WrwymrrNY+ausyjdViiu1o7kZCYLnn/KVlwcXUK715BsJOoi4wN2ubKpcjpZ+0QvZq7bHQOHCnlAlxQIDAQABo3cwdTBGBgNVHSMEPzA9gBQJxaFNizlnL4aoGKSgOYACNefkq6EbpBkwFzEVMBMGA1UEAwwMODIuMjAxLjY0LjE5gghvA0y+cjBx9jAdBgNVHQ4EFgQUCcWhTYs5Zy+GqBikoDmAAjXn5KswDAYDVR0TAQH/BAIwADANBgkqhkiG9w0BAQsFAAOCAQEAWUKPcASK5JlhAjqVUJ59Lj0LizNyMqMey+TElBHURxwDNqh9RcgRAc+Mt+Jmxl5txJQtOohmy2+wGuDKaOEPrcP1NhBwXWBraw/sbD2g5e6Mv520eiIH7X/dTgzol2da32kAmXiOHJpuEYK0/6+O4RDB1QavIFV6I+Q6gGe4bYHIuufUwNxBg2gxaFdtW1MMnyu918NZfpSysGmM7Ts7KgNkshFIc8k7Go841eyTfQ7tVyX4sWFo/Jxf0/pMxXIKfrAzagZ0IqJt3QIvo9iq+gVVRf8YPnlGeLKlhKzqlwFsUFQd9shiil4aCwCogAMXj1I4ddny3wQTZp/ifp1ovA==",
+        "coin:attr_motivation:cn": "Administreren gebruiker",
+        "coin:attr_motivation:eduPersonAffiliation": "Administreren gebruiker",
+        "coin:attr_motivation:givenName": "Administreren gebruiker",
+        "coin:attr_motivation:mail": "Administreren gebruiker",
+        "coin:attr_motivation:schacHomeOrganization": "Administreren gebruiker",
+        "coin:attr_motivation:schacHomeOrganizationType": "Administreren gebruiker",
+        "coin:attr_motivation:sn": "Administreren gebruiker",
+        "coin:original_metadata_url": "https://rocva.print.ricoh.nl/dsf/Saml2Metadata.ashx",
+        "coin:privacy:access_data": "heel mooi",
+        "coin:privacy:certification": "1",
+        "coin:privacy:certification_location": "sadfs",
+        "coin:privacy:certification_valid_from": "1447455600",
+        "coin:privacy:certification_valid_to": "1542668400",
+        "coin:privacy:country": "mooier",
+        "coin:privacy:other_info": "moi",
+        "coin:privacy:privacy_policy": "1",
+        "coin:privacy:privacy_policy_url": "fsdf",
+        "coin:privacy:security_measures": "mooist",
+        "coin:privacy:sn_dpa_why_not": "fasdf",
+        "coin:privacy:surfmarket_dpa_agreement": "1",
+        "coin:privacy:surfnet_dpa_agreement": "0",
+        "coin:privacy:what_data": "mooi zeg",
+        "coin:service_team_id": "urn:collab:group:test.surfteams.nl:nl:surfnet:diensten:teundraaitschaduw",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "sjors.janssens@ricoh.nl",
+        "contacts:0:givenName": "Sjors",
+        "contacts:0:surName": "Jansssens",
+        "contacts:0:telephoneNumber": "",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "michel.leek@ricoh.nl",
+        "contacts:1:givenName": "Michel",
+        "contacts:1:surName": "Leek",
+        "contacts:1:telephoneNumber": "",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "paul.lamers@ricoh.nl",
+        "contacts:2:givenName": "Paul",
+        "contacts:2:surName": "Lamers",
+        "contacts:2:telephoneNumber": "",
+        "description:en": "ROCVA print",
+        "description:nl": "ROCVA print",
+        "name:en": "ROCVA print",
+        "name:nl": "ROCVA print"
+      },
+      "metadataurl": "https://rocva.print.ricoh.nl/dsf/Saml2Metadata.ashx",
+      "revisionnote": "123456",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1510840247511,
+      "number": 1,
+      "updatedBy": "sp-dashboard"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "31f02aff-81c3-4e72-b0ed-addca9523f47",
+    "data": {
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            },
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "idp",
+              "value": "*"
+            },
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            },
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            },
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            },
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://hu.testvision.nl/online/services/SAML.svc",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://hu.testvision.nl/online/services/SAML.svc/SAMLConsumer",
+        "AssertionConsumerService:0:index": "1",
+        "OrganizationDisplayName:nl": "Teelen",
+        "OrganizationName:nl": "Teelen Kennismanagement",
+        "OrganizationURL:nl": "www.testvision.nl",
+        "certData": "MIIC/jCCAeagAwIBAgIQnJqzW0gHd4pMAaVzBnaxFzANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwpURVNUVklTSU9OMB4XDTE3MTAyNjA5MDM0NVoXDTM5MTIzMTIzNTk1OVowFTETMBEGA1UEAxMKVEVTVFZJU0lPTjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKpFXaEYo6YVqQC/O7ixIzSFlW5YeFPb30ffQTuYISowWd2GY/G9lDgLctcXcUOrjPpkSDUGkRPhAA+VdOuZC86On0sYoq7+3aJtEWzX0ktuZB1rl4a2HShs2PwuFhPt61rHZFLVlUY+/AuqSJIMpfmEsc2mbuyJ+JCE3FK3eYsRJyUMlfsu/yPkKhWbD7b/oOCZL7Zl99170V5Qkl/Y8FZYP8C7WWdqr/87QQJofhaaRxe/WJDt3HHqgO4tdAlwA7RZgFq0tdkRMBp4K2Grfcew7LyvDe6TFybFLxm3GcY90RvxGHS2MxJrSYx9WGYduFYW+QqfOM8hrEnfoArG5ocCAwEAAaNKMEgwRgYDVR0BBD8wPYAQ99CVzN1Js2FIMHhVI2q+4aEXMBUxEzARBgNVBAMTClRFU1RWSVNJT06CEJyas1tIB3eKTAGlcwZ2sRcwDQYJKoZIhvcNAQELBQADggEBAJwiu0ChjwKxikISLbBMUBxC8MRiQOEDM1JqqYZAEUj1VNBaQQnnvUwlrtSOAe0E6WrtdXy1cQHJuoNggS3S8AZ6UpYRI1r9Y2DJKyvvqqK7JwS1zRy2VZ64I8LoOkGbbmp0bkdxtj2FSSXSqULOwgidTzXvj0rfN/OWY8bJRqXyARlaNbEDkoYRWXLFw1Od7oz/9Ozi/pr6tU2uHHxvL+JUbbFgnp06wwtLe+UpwnYSjhQkulwMZs7AP2/qoYEn7OiA/rrmkkr1pbR5frX4u0/akZSnL4XEi3It/RU0L8pvTuOlkN+sNcFmWTP7D7fYhwDaIPQTFMd+xJ8R8+uNIv4=",
+        "coin:application_url": "https://hu.testvision.nl/online/ontwikkelaars",
+        "coin:original_metadata_url": "https://hu.testvision.nl/online/services/SAML.svc/SAMLMeta",
+        "coin:privacy:access_data": "heel mooi",
+        "coin:privacy:certification": "1",
+        "coin:privacy:certification_location": "sadfs",
+        "coin:privacy:certification_valid_from": "1447455600",
+        "coin:privacy:certification_valid_to": "1542668400",
+        "coin:privacy:country": "mooier",
+        "coin:privacy:other_info": "moi",
+        "coin:privacy:privacy_policy": "1",
+        "coin:privacy:privacy_policy_url": "fsdf",
+        "coin:privacy:security_measures": "mooist",
+        "coin:privacy:sn_dpa_why_not": "fasdf",
+        "coin:privacy:surfmarket_dpa_agreement": "1",
+        "coin:privacy:surfnet_dpa_agreement": "0",
+        "coin:privacy:what_data": "mooi zeg",
+        "coin:service_team_id": "urn:collab:group:test.surfteams.nl:nl:surfnet:diensten:teundraaitschaduw",
+        "contacts:0:contactType": "administrative",
+        "contacts:0:emailAddress": "info@teelen.nl",
+        "contacts:0:givenName": "",
+        "contacts:0:surName": "Teelen informatie",
+        "contacts:0:telephoneNumber": "+31571277400",
+        "contacts:1:contactType": "support",
+        "contacts:1:emailAddress": "helpdesk@testvision.nl",
+        "contacts:1:givenName": "",
+        "contacts:1:surName": "Testvision Support",
+        "contacts:1:telephoneNumber": "+31571277416",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "support@teelen.nl",
+        "contacts:2:givenName": "",
+        "contacts:2:surName": "Technical Support",
+        "contacts:2:telephoneNumber": "+31571277416",
+        "description:en": "TestVision Online suppports fully web-based developing and taking tests, including statistical analysis of questions and tests.",
+        "description:nl": "TestVision Online ondersteunt u volledig webbased bij de ontwikkeling, afname en statistische analyse van vragen en toetsen.",
+        "name:en": "TestVision Online",
+        "name:nl": "TestVision Online"
+      },
+      "metadataurl": "https://hu.testvision.nl/online/services/SAML.svc/SAMLMeta",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1510841101179,
+      "number": 1,
+      "updatedBy": "sp-dashboard"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "11f96d4f-f371-4b33-9bbf-194862b91379",
+    "data": {
+      "allowedall": true,
+      "arp": {
+        "attributes": {},
+        "enabled": true
+      },
+      "entityid": "https://sso.us.bitglass.net",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://portal.us.bitglass.net/sso/acs/",
+        "AssertionConsumerService:0:index": "0",
+        "coin:attr_motivation:mail": "Bitglass uses the e-mail address for internal registration.",
+        "coin:original_metadata_url": "https://portal.us.bitglass.net/sso/metadata/",
+        "coin:privacy:access_data": "heel mooi",
+        "coin:privacy:certification": "1",
+        "coin:privacy:certification_location": "sadfs",
+        "coin:privacy:certification_valid_from": "1447455600",
+        "coin:privacy:certification_valid_to": "1542668400",
+        "coin:privacy:country": "mooier",
+        "coin:privacy:other_info": "moi",
+        "coin:privacy:privacy_policy": "1",
+        "coin:privacy:privacy_policy_url": "fsdf",
+        "coin:privacy:security_measures": "mooist",
+        "coin:privacy:sn_dpa_why_not": "fasdf",
+        "coin:privacy:surfmarket_dpa_agreement": "1",
+        "coin:privacy:surfnet_dpa_agreement": "0",
+        "coin:privacy:what_data": "mooi zeg",
+        "coin:service_team_id": "urn:collab:group:test.surfteams.nl:nl:surfnet:diensten:teundraaitschaduw",
+        "contacts:0:contactType": "administrative",
+        "contacts:0:emailAddress": "martijn@bitglass.com",
+        "contacts:0:givenName": "Martijn",
+        "contacts:0:surName": "Duijm",
+        "contacts:0:telephoneNumber": "",
+        "description:en": "",
+        "description:nl": "",
+        "name:en": "bitglas",
+        "name:nl": "bitglas"
+      },
+      "metadataurl": "https://portal.us.bitglass.net/sso/metadata/",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1510840413646,
+      "number": 1,
+      "updatedBy": "sp-dashboard"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "d3225317-05f0-4364-92b9-afb167f85b1e",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://engine.surfconext.nl/authentication/sp/metadata/test/0943",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://engine.surfconext.nl/authentication/sp/consume-assertion",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "OrganizationDisplayName:en": "SURFnet",
+        "OrganizationName:en": "SURFnet BV",
+        "OrganizationURL:en": "http://www.surfnet.nl/en/Pages/default.aspx",
+        "certData": "MIID3zCCAsegAwIBAgIJAMVC9xn1ZfsuMA0GCSqGSIb3DQEBCwUAMIGFMQswCQYD\r\nVQQGEwJOTDEQMA4GA1UECAwHVXRyZWNodDEQMA4GA1UEBwwHVXRyZWNodDEVMBMG\r\nA1UECgwMU1VSRm5ldCBCLlYuMRMwEQYDVQQLDApTVVJGY29uZXh0MSYwJAYDVQQD\r\nDB1lbmdpbmUuc3VyZmNvbmV4dC5ubCAyMDE0MDUwNTAeFw0xNDA1MDUxNDIyMzVa\r\nFw0xOTA1MDUxNDIyMzVaMIGFMQswCQYDVQQGEwJOTDEQMA4GA1UECAwHVXRyZWNo\r\ndDEQMA4GA1UEBwwHVXRyZWNodDEVMBMGA1UECgwMU1VSRm5ldCBCLlYuMRMwEQYD\r\nVQQLDApTVVJGY29uZXh0MSYwJAYDVQQDDB1lbmdpbmUuc3VyZmNvbmV4dC5ubCAy\r\nMDE0MDUwNTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKthMDbB0jKH\r\nefPzmRu9t2h7iLP4wAXr42bHpjzTEk6gttHFb4l/hFiz1YBI88TjiH6hVjnozo/Y\r\nHA2c51us+Y7g0XoS7653lbUN/EHzvDMuyis4Xi2Ijf1A/OUQfH1iFUWttIgtWK9+\r\nfatXoGUS6tirQvrzVh6ZstEp1xbpo1SF6UoVl+fh7tM81qz+Crr/Kroan0UjpZOF\r\nTwxPoK6fdLgMAieKSCRmBGpbJHbQ2xxbdykBBrBbdfzIX4CDepfjE9h/40ldw5jR\r\nn3e392jrS6htk23N9BWWrpBT5QCk0kH3h/6F1Dm6TkyG9CDtt73/anuRkvXbeygI\r\n4wml9bL3rE8CAwEAAaNQME4wHQYDVR0OBBYEFD+Ac7akFxaMhBQAjVfvgGfY8hNK\r\nMB8GA1UdIwQYMBaAFD+Ac7akFxaMhBQAjVfvgGfY8hNKMAwGA1UdEwQFMAMBAf8w\r\nDQYJKoZIhvcNAQELBQADggEBAC8L9D67CxIhGo5aGVu63WqRHBNOdo/FAGI7LURD\r\nFeRmG5nRw/VXzJLGJksh4FSkx7aPrxNWF1uFiDZ80EuYQuIv7bDLblK31ZEbdg1R\r\n9LgiZCdYSr464I7yXQY9o6FiNtSKZkQO8EsscJPPy/Zp4uHAnADWACkOUHiCbcKi\r\nUUFu66dX0Wr/v53Gekz487GgVRs8HEeT9MU1reBKRgdENR8PNg4rbQfLc3YQKLWK\r\n7yWnn/RenjDpuCiePj8N8/80tGgrNgK/6fzM3zI18sSywnXLswxqDb/J+jgVxnQ6\r\nMrsTf1urM8MnfcxG/82oHIwfMh/sXPCZpo+DTLkhQxctJ3M=",
+        "coin:attr_motivation:displayName": "xx",
+        "coin:attr_motivation:mail": "yy",
+        "coin:attr_motivation:schacHomeOrganization": "ww",
+        "coin:attr_motivation:uid": "aaa",
+        "coin:original_metadata_url": "https://engine.surfconext.nl/authentication/sp/metadata",
+        "coin:service_team_id": "team-ibuildings",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "help@surfconext.nl",
+        "contacts:0:givenName": "SURFconext",
+        "contacts:0:surName": "Helpdesk",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "support@surfconext.nl",
+        "contacts:1:givenName": "SURFconext",
+        "contacts:1:surName": "Administrative Contact",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "support@surfconext.nl",
+        "contacts:2:givenName": "SURFconext",
+        "contacts:2:surName": "Technical Support",
+        "description:en": "SURFconext is a collaboration infrastructure that creates new opportunities to collaborate online based on a combination of applications from different providers.\r\n\r\nTest",
+        "description:nl": "SURFconext is een samenwerkingsinfrastructuur die nieuwe vormen van samenwerken mogelijk maakt door diensten van verschillende aanbieders te combineren.\r\n\r\nTest",
+        "logo:0:height": "160",
+        "logo:0:url": "https://static.surfconext.nl/media/idp/surfnet.png",
+        "logo:0:width": "200",
+        "name:en": "SURFconext | SURFnet updated by spdash",
+        "name:nl": "SURFconext | SURFnet updated by spdash"
+      },
+      "metadataurl": "https://engine.surfconext.nl/authentication/sp/metadata",
+      "revisionnote": "Rev 2",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1513845999375,
+      "number": 1,
+      "updatedBy": "sp-dashboard"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "229e1e7e-1146-4ed0-91f4-c7155aa43939",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "http://sp.proto.utwente.nl",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://www.proto.utwente.nl/saml2/acs",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "certData": "MIIGljCCBH6gAwIBAgIJAOqZk6QdUMchMA0GCSqGSIb3DQEBCwUAMIHfMQswCQYD\r\nVQQGEwJOTDETMBEGA1UECAwKT3Zlcmlqc3NlbDERMA8GA1UEBwwIRW5zY2hlZGUx\r\nEzARBgNVBAoMClMuQS4gUHJvdG8xPTA7BgNVBAsMNEhhdmUgWW91IFRyaWVkIFR1\r\ncm5pbmcgSXQgT2ZmIEFuZCBPbiBBZ2FpbiBjb21taXR0ZWUxKjAoBgNVBAMMIVMu\r\nQS4gUHJvdG8gU0FNTDIgU2VydmljZSBQcm92aWRlcjEoMCYGCSqGSIb3DQEJARYZ\r\nc3lzYWRtaW5AcHJvdG8udXR3ZW50ZS5ubDAeFw0xNzA0MTExNDE1MDVaFw0yNzA0\r\nMDkxNDE1MDVaMIHfMQswCQYDVQQGEwJOTDETMBEGA1UECAwKT3Zlcmlqc3NlbDER\r\nMA8GA1UEBwwIRW5zY2hlZGUxEzARBgNVBAoMClMuQS4gUHJvdG8xPTA7BgNVBAsM\r\nNEhhdmUgWW91IFRyaWVkIFR1cm5pbmcgSXQgT2ZmIEFuZCBPbiBBZ2FpbiBjb21t\r\naXR0ZWUxKjAoBgNVBAMMIVMuQS4gUHJvdG8gU0FNTDIgU2VydmljZSBQcm92aWRl\r\ncjEoMCYGCSqGSIb3DQEJARYZc3lzYWRtaW5AcHJvdG8udXR3ZW50ZS5ubDCCAiIw\r\nDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAMXivo2pgbYM0pr8pHdD+k+8W+y/\r\n2Cw8Nol2MBypicvCMDnOEeIFwyt3exSPHMReYT6zbPBpjb3dA26rUk6F3+mk2iTZ\r\ny230GzUiv38uc1S8N6VbFD6bzua0ORDmRNcFOXXgqxiIpfSQaj9EWFXOFl8Wv73T\r\n71zQhcboNyyHHvaroyY55knjtvSHxjQ5QmYZkyhb/WmbIT9QGnGgdNM5UcCioKM1\r\njGZcKkY3etv5IujiwLK4vWeozwdP8BaK45vnPNh60bJUTmxXXTFcq6ZmzbKqEm38\r\nMF4PHkmB316c/g8TfIP9+VBca3O5tZ17qZ0Weijg5jqYzwBYsYuuw4ZR2cfLE6o4\r\nXkdDzdEUejlsG3oVyoMo3WUh5kBpMGrEKFEjM2cMNN4FdDwmS2scjy/PT7YQjPWq\r\naYnx2qpL6k8FwMQcIAi6dtszmMoEo4Zjt5Md9yjdF0QyhKu5OJ7lCnQK1TY1jHKn\r\n/XtVHn1DDBeqc003frq6uqrWYmHeV3l4ho+LIg8n655v5Y2qrbXDtvWN4EOvrfKi\r\n2C93KSZt0oxLiQ2h8hm2ZK1fsaWwmrOAsPzfzwudN9r2crS0qUnLAg4hDGA15ilz\r\n3F0L3xWlJhinOMeZY/nDU5/umbts08yj3AcRbRMr5SFB22TsuBExKX9ccyGvEaLn\r\nCGD23n5azwz488JNAgMBAAGjUzBRMB0GA1UdDgQWBBSgZ8oKMdBJR4/keLTfIpiB\r\nVvjTSTAfBgNVHSMEGDAWgBSgZ8oKMdBJR4/keLTfIpiBVvjTSTAPBgNVHRMBAf8E\r\nBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQCHtdfgY/8w/IG27R61jN9S55GnKU84\r\np8ZUfjx7uz0UaSfcjJHsb15PbKVlrpIA3CmKFT7jDGpC5A78nuA8cDRDTBWIhXCv\r\nn9PSomsrwIzSclA+dcprT3LMJ1+vricERaQYw+EmyCk40nUhDp4+CpML+jympUDE\r\nVNuY0trqmd/pmw3eLSmnLnHsr8270UT4sl0bFRBdY9t6f2J27af9KHEH8RlRkFGO\r\ncnqBVLKez+gRZDA9mk95OMOhMQEPBPw/hMoscZjAZ9am4MpaXxGfxFlnHJGSFmlR\r\n+h/EJ6DK94gQxNidcEuELQEazRZotXnbbQd+VKANqBS2Oj1TynFXgJWjSkt1ydJm\r\nDHk6TTf6Xd4nL8H6suCsNdahJBnO2wirifAFa3h5qoj0qaF9HIjNko5oO5Kru/Qi\r\nt8gDblpPYsYqpovgFQFRUJQb9TmDZoxVThNtZJY2ITvw9ob06an21BN5bx+zL/7o\r\nUbTQNE/cyDX9NNTb9HQsfq6RktUoAV9yh2vJEY0kUm8S6ESpKCpryYnr20U0Upo5\r\nXkzEFKnf59AunK9ZbZu18JR/o3rI6DoXAAgV9n9MjrIVfz06vV5emENDEJXu3Bm+\r\nW3WXeQvu4b6fOmqK6HCU0suf5gIMcuS9y0lJXp+1UEOhGzt9nbUbLrT41NEOKQaI\r\nJ31qBSoV2Ouzfw==",
+        "coin:application_url": "https://www.proto.utwente.nl",
+        "coin:original_metadata_url": "https://support.surfconext.nl/registration/subscription/fc02ce9c-ba2f-11e7-b84f-005056953e45/metadata",
+        "coin:privacy:access_data": "heel mooi",
+        "coin:privacy:certification": "1",
+        "coin:privacy:certification_location": "sadfs",
+        "coin:privacy:certification_valid_from": "1447455600",
+        "coin:privacy:certification_valid_to": "1542668400",
+        "coin:privacy:country": "mooier",
+        "coin:privacy:other_info": "moi",
+        "coin:privacy:privacy_policy": "1",
+        "coin:privacy:privacy_policy_url": "fsdf",
+        "coin:privacy:security_measures": "mooist",
+        "coin:privacy:sn_dpa_why_not": "fasdf",
+        "coin:privacy:surfmarket_dpa_agreement": "1",
+        "coin:privacy:surfnet_dpa_agreement": "0",
+        "coin:privacy:what_data": "mooi zeg",
+        "coin:service_team_id": "urn:collab:group:test.surfteams.nl:nl:surfnet:diensten:teundraaitschaduw",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "ict@proto.utwente.nl",
+        "contacts:0:givenName": "Have You Tried Turning It Off And On Again committee",
+        "contacts:0:surName": "committee",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "sysadmin@proto.utwente.nl",
+        "contacts:1:givenName": "Have You Tried Turning It Off And On Again",
+        "contacts:1:surName": "committee",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "ict@proto.utwente.nl",
+        "contacts:2:givenName": "Have You Tried Turning It Off And On Again committee",
+        "contacts:2:surName": "committee",
+        "description:en": "The website of S.A. Proto allows members and guests of the association to perform tasks related to their membership, activities, purchases and the likes.",
+        "description:nl": "De website van S.A. Proto stelt leden en gasten van de vereniging in staat om o.a. lidmaatschapsgegevens in te zien, zich in te schrijven voor activiteiten en dergelijke.",
+        "logo:0:height": "300",
+        "logo:0:url": "https://jonathan.dev.saproto.nl/assets/og-image.png",
+        "logo:0:width": "500",
+        "name:en": "S.A. Proto",
+        "name:nl": "S.A. Proto"
+      },
+      "metadataurl": "https://support.surfconext.nl/registration/subscription/fc02ce9c-ba2f-11e7-b84f-005056953e45/metadata",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1513872760565,
+      "number": 1,
+      "updatedBy": "sp-dashboard"
+    },
+    "type": "saml20_sp",
+    "version": 1
+  },
+  {
+    "_id": "77336497-7740-4869-afeb-715f707b3714",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://teams.surfconext.nl/shibboleth",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://teams.surfconext.nl/Shibboleth.sso/SAML2/POST",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "certData": "MIIEGDCCAoCgAwIBAgIJANDjHIuieXMWMA0GCSqGSIb3DQEBCwUAMCYxJDAiBgNV\r\nBAMTG2phcHA1LnByZC51dHIuc3VyZmNvbmV4dC5ubDAeFw0xNjA5MjIwODIwNDVa\r\nFw0yNjA5MjAwODIwNDVaMCYxJDAiBgNVBAMTG2phcHA1LnByZC51dHIuc3VyZmNv\r\nbmV4dC5ubDCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBANfPobLNY3Gj\r\nvZq6LO7FHPG1G1yXKXCaxMDm6UFauKGtaPKloludPj/ptosCba/t9IKeror5HhVt\r\ndVabeTo0rNpyo4d8YX2MMatRvyKG6B/R3kY6H0j7LyZRtrX6QjvVrjd7OjIIAL8w\r\nJAMwglOhnheKT7fxdYGzSLd+202/sm78cI6l4UwtH47Ra0DCMEA4hJOzu/JREppK\r\nw6GsTIL4ioZOTgiVR0NU2LCz00kNThWVmV711aOMGumjwszBTuUDHE65K6SZG9oH\r\netJgJCINQk556DzgbN1WFWIJs0DjSwekCHHAM3eql1W7ypBAy4p0koKMBAIUxL2Z\r\n5rxPyXAbY+7hhKNOdS7nJV52AhNqc5qEczmpqEjYmFnrnzG9+1oMl9Wn/VgmniM6\r\nnUaU6er8TSd0LIq2mDiSMUj9p9q3lHoV5Il1/q15SbKG5tFDXAG1BGI1CiKz1FBj\r\n/aeOBTTUNn1RoFtlnc6V+0gCR+XDYZxFouSHZVowiEa9b/+/qh0lmQIDAQABo0kw\r\nRzAmBgNVHREEHzAdghtqYXBwNS5wcmQudXRyLnN1cmZjb25leHQubmwwHQYDVR0O\r\nBBYEFNYqqqO73W5Y9XkPvMsvklogJQN9MA0GCSqGSIb3DQEBCwUAA4IBgQCNrc5Q\r\npVtiuQ31Vqvos9MxH5ssR7o/nXu4qfzpV4ANXrq83bXgBJGxlrrbtFS/0I3ZwQNB\r\npkwV9edsjhQGu0+lkQmixEafy99ThUvvzSHDGv7zyntfchVeBrxgNA6gOFmCU+fz\r\nLl7lEdp+fm9KUwlwe7wgyq55h8wmnsQWylofm81OaW30PGKFOKtDdI2XLFAAhEW0\r\nl1ZDf39e+q8nxA/EBPz1Bh/rQB9cI12TAstuuAHq1w0MbH3mb39Df83i0rGWbegS\r\nxvbBYcGGVR3WgQttRicVT4LbQg36AlTxOf5lK/R6ejN9kCl4Mj8pkhvFu+0ZA++a\r\n1dHiQZKwhsPoO+WZ+E0XtEe3sBpUebKi45Bt1z2pphS3O88rS6iKYua/9S9gbN2r\r\nR0Kg1+2X1yY+4o6vo3wZ4zneaGTp7FWyJofUxz32jdLPdPPT8mD+LCgulRW7BXIY\r\nn4uyNFV3+/R2k9EqlgbsjxjP3vv/+FtIoggT4sfm13YeCmKIlBrLE/A2kU8=",
+        "coin:original_metadata_url": "https://teams.surfconext.nl/Shibboleth.sso/Metadata",
+        "coin:service_team_id": "urn:collab:group:test.surfteams.nl:nl:surfnet:diensten:testbart2",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "geesink@bart.nl",
+        "contacts:0:givenName": "Bart",
+        "contacts:0:surName": "Geesink",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "bart.geesink@surfnet.nl",
+        "contacts:1:givenName": "Bart",
+        "contacts:1:surName": "Geesink",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "Bart@bart.nl",
+        "contacts:2:givenName": "Bart",
+        "contacts:2:surName": "Bart",
+        "description:en": "123",
+        "description:nl": "123",
+        "logo:0:height": "96",
+        "logo:0:url": "https://static.surfconext.nl/media/conext_logo.png",
+        "logo:0:width": "96",
+        "name:en": "test teams bart",
+        "name:nl": "test teams bart"
+      },
+      "metadataurl": "https://teams.surfconext.nl/Shibboleth.sso/Metadata",
+      "revisionnote": "123",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1516368797932,
+      "number": 0,
+      "updatedBy": "sp-dashboard"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "34d7326f-d222-4ca6-966d-8c71a2bbe9f0",
+    "data": {
+      "active": true,
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://engine.surfconext.nl/authentication/sp/metadata",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://engine.surfconext.nl/authentication/sp/consume-assertion",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+        "OrganizationDisplayName:en": "SURFnet",
+        "OrganizationDisplayName:nl": "SURFnet",
+        "OrganizationName:en": "SURFnet BV",
+        "OrganizationName:nl": "SURFnet BV",
+        "OrganizationURL:en": "http://www.surfnet.nl/en/Pages/default.aspx",
+        "OrganizationURL:nl": "http://www.surfnet.nl/nl/Pages/default.aspx",
+        "certData": "MIID3zCCAsegAwIBAgIJAMVC9xn1ZfsuMA0GCSqGSIb3DQEBCwUAMIGFMQswCQYD\r\nVQQGEwJOTDEQMA4GA1UECAwHVXRyZWNodDEQMA4GA1UEBwwHVXRyZWNodDEVMBMG\r\nA1UECgwMU1VSRm5ldCBCLlYuMRMwEQYDVQQLDApTVVJGY29uZXh0MSYwJAYDVQQD\r\nDB1lbmdpbmUuc3VyZmNvbmV4dC5ubCAyMDE0MDUwNTAeFw0xNDA1MDUxNDIyMzVa\r\nFw0xOTA1MDUxNDIyMzVaMIGFMQswCQYDVQQGEwJOTDEQMA4GA1UECAwHVXRyZWNo\r\ndDEQMA4GA1UEBwwHVXRyZWNodDEVMBMGA1UECgwMU1VSRm5ldCBCLlYuMRMwEQYD\r\nVQQLDApTVVJGY29uZXh0MSYwJAYDVQQDDB1lbmdpbmUuc3VyZmNvbmV4dC5ubCAy\r\nMDE0MDUwNTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKthMDbB0jKH\r\nefPzmRu9t2h7iLP4wAXr42bHpjzTEk6gttHFb4l/hFiz1YBI88TjiH6hVjnozo/Y\r\nHA2c51us+Y7g0XoS7653lbUN/EHzvDMuyis4Xi2Ijf1A/OUQfH1iFUWttIgtWK9+\r\nfatXoGUS6tirQvrzVh6ZstEp1xbpo1SF6UoVl+fh7tM81qz+Crr/Kroan0UjpZOF\r\nTwxPoK6fdLgMAieKSCRmBGpbJHbQ2xxbdykBBrBbdfzIX4CDepfjE9h/40ldw5jR\r\nn3e392jrS6htk23N9BWWrpBT5QCk0kH3h/6F1Dm6TkyG9CDtt73/anuRkvXbeygI\r\n4wml9bL3rE8CAwEAAaNQME4wHQYDVR0OBBYEFD+Ac7akFxaMhBQAjVfvgGfY8hNK\r\nMB8GA1UdIwQYMBaAFD+Ac7akFxaMhBQAjVfvgGfY8hNKMAwGA1UdEwQFMAMBAf8w\r\nDQYJKoZIhvcNAQELBQADggEBAC8L9D67CxIhGo5aGVu63WqRHBNOdo/FAGI7LURD\r\nFeRmG5nRw/VXzJLGJksh4FSkx7aPrxNWF1uFiDZ80EuYQuIv7bDLblK31ZEbdg1R\r\n9LgiZCdYSr464I7yXQY9o6FiNtSKZkQO8EsscJPPy/Zp4uHAnADWACkOUHiCbcKi\r\nUUFu66dX0Wr/v53Gekz487GgVRs8HEeT9MU1reBKRgdENR8PNg4rbQfLc3YQKLWK\r\n7yWnn/RenjDpuCiePj8N8/80tGgrNgK/6fzM3zI18sSywnXLswxqDb/J+jgVxnQ6\r\nMrsTf1urM8MnfcxG/82oHIwfMh/sXPCZpo+DTLkhQxctJ3M=",
+        "coin:attr_motivation:displayName": "test1",
+        "coin:attr_motivation:mail": "test2",
+        "coin:attr_motivation:schacHomeOrganization": "test3",
+        "coin:original_metadata_url": "https://engine.surfconext.nl/authentication/sp/metadata",
+        "coin:service_team_id": "urn:collab:group:test.surfteams.nl:nl:surfnet:diensten:spdashboard_serviceprovider",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "help@surfconext.nl",
+        "contacts:0:givenName": "SURFconext",
+        "contacts:0:surName": "Helpdesk",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "support@surfconext.nl",
+        "contacts:1:givenName": "SURFconext",
+        "contacts:1:surName": "Administrative Contact",
+        "contacts:2:contactType": "technical",
+        "contacts:2:emailAddress": "support@surfconext.nl",
+        "contacts:2:givenName": "SURFconext",
+        "contacts:2:surName": "Technical Support",
+        "description:en": "SURFconext is a collaboration infrastructure that creates new opportunities to collaborate online based on a combination of applications from different providers.",
+        "description:nl": "SURFconext is een samenwerkingsinfrastructuur die nieuwe vormen van samenwerken mogelijk maakt door diensten van verschillende aanbieders te combineren.",
+        "logo:0:height": "160",
+        "logo:0:url": "https://static.surfconext.nl/media/idp/surfnet.png",
+        "logo:0:width": "200",
+        "name:en": "SURFconext | SURFnet",
+        "name:nl": "SURFconext | SURFnet"
+      },
+      "metadataurl": "https://engine.surfconext.nl/authentication/sp/metadata",
+      "state": "testaccepted",
+      "type": "saml20-sp"
+    },
+    "revision": {
+      "created": 1517824621222,
+      "number": 0,
+      "updatedBy": "sp-dashboard"
+    },
+    "type": "saml20_sp",
+    "version": 0
+  },
+  {
+    "_id": "b51c353b-8c07-43a6-b1d2-88f367005ca4",
+    "data": {
+      "allowedEntities": [],
+      "allowedall": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonOrcid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "voot",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "entityid": "https://mailer.pt-75.utr.surfcloud.nl",
+      "metaDataFields": {
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "AssertionConsumerService:0:Location": "https://oidc.test2.surfconext.nl/saml/SSO",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "coin:attribute_aggregation_required": "1",
+        "description:en": "Bart test RP",
+        "description:nl": "Bart test RP",
+        "name:en": "Bart test RP",
+        "name:nl": "Bart test RP",
+        "coin:ss:idp_visible_only": "1"
+      },
+      "revisionnote": "description",
+      "state": "prodaccepted"
+    },
+    "revision": {
+      "created": 1518097889748,
+      "number": 4,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "type": "saml20_sp",
+    "version": 4
+  }
+]

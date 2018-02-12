@@ -20,7 +20,7 @@ import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.service.ActionsService;
 import selfservice.service.Csa;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class ServicesControllerTest {
   private ServicesController controller;
 
   @Mock
-  private ServiceRegistry serviceRegistryMock;
+  private Manage manageMock;
 
   @Mock
   private Csa csaMock;
@@ -69,7 +69,7 @@ public class ServicesControllerTest {
   public void setup() {
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
-    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(serviceRegistryMock);
+    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manageMock);
 
     mockMvc = standaloneSetup(controller)
       .setMessageConverters(new GsonHttpMessageConverter("http:://example.com","oauth/authorize.php", "stats-client-id", "stats-scope", "stats-redirect"))
@@ -83,8 +83,8 @@ public class ServicesControllerTest {
 
     SpringSecurityUtil.setAuthentication(coinUser);
 
-    when(serviceRegistryMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
-    when(serviceRegistryMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
+    when(manageMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
+    when(manageMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
     when(csaMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
   }
 

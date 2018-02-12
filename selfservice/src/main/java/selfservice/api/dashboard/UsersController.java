@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import selfservice.cache.ServicesCache;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.service.ActionsService;
@@ -34,7 +32,7 @@ import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
 import selfservice.domain.Settings;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.SpringSecurity;
 
 @RestController
@@ -42,7 +40,7 @@ import selfservice.util.SpringSecurity;
 public class UsersController extends BaseController {
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private ServicesCache servicesCache;
@@ -63,7 +61,7 @@ public class UsersController extends BaseController {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    List<IdentityProvider> idps = serviceRegistry.getAllIdentityProviders().stream()
+    List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
         .sorted((lh, rh) -> lh.getName().compareTo(rh.getName()))
         .collect(toList());
 
@@ -83,7 +81,7 @@ public class UsersController extends BaseController {
     List<Service> usersServices = isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
         : servicesCache.getAllServices(locale.getLanguage()).stream()
             .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
-            .filter(service -> serviceRegistry
+            .filter(service -> manage
                 .getLinkedIdentityProviders(service.getSpEntityId())
                 .stream()
                 .map(IdentityProvider::getId)
@@ -116,7 +114,7 @@ public class UsersController extends BaseController {
     if (isNullOrEmpty(switchToIdp)) {
       SpringSecurity.clearSwitchedIdp();
     } else {
-      IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(switchToIdp)
+      IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp)
           .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
 
       SpringSecurity.setSwitchedToIdp(identityProvider, role);

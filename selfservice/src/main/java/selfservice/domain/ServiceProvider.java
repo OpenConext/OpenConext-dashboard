@@ -19,31 +19,33 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("serial")
 public class ServiceProvider extends Provider implements Serializable, Cloneable {
 
-  private final String applicationUrl;
-  private final String institutionId;
-  private final String eulaURL;
-  private final String interfedSource;
-  private final String privacyStatementUrlEn;
-  private final String privacyStatementUrlNl;
-  private final String registrationInfo;
-  private final String registrationPolicyUrlEn;
-  private final String registrationPolicyUrlNl;
-  private final String entityCategories1;
-  private final String entityCategories2;
-  private final boolean idpVisibleOnly;
-  private final boolean policyEnforcementDecisionRequired;
+  private String applicationUrl;
+  private String institutionId;
+  private String eulaURL;
+  private String interfedSource;
+  private String privacyStatementUrlEn;
+  private String privacyStatementUrlNl;
+  private String registrationInfo;
+  private String registrationPolicyUrlEn;
+  private String registrationPolicyUrlNl;
+  private String entityCategories1;
+  private String entityCategories2;
+  private boolean idpVisibleOnly;
+  private boolean policyEnforcementDecisionRequired;
   private boolean exampleSingleTenant;
 
-  private final ARP arp;
+  private ARP arp;
 
-  private final Map<String, String> urls = new HashMap<>();
+  private Map<String, String> urls = new HashMap<>();
 
   @SuppressWarnings("unchecked")
   public ServiceProvider(Map<String, Object> metaData) {
@@ -62,7 +64,19 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
-    this.arp = metaData.containsKey("attributes") ? ARP.fromAttributes((List<String>) metaData.get("attributes")) : ARP.fromRestResponse(new HashMap<>());
+    Object attributes = metaData.get("attributes");
+    if (attributes != null) {
+      if (attributes instanceof List) {
+        Map<String, List<String>> collect = ((List<String>) attributes).stream().collect(Collectors.toMap(attr ->
+          attr, attr -> Collections.singletonList("*")));
+        this.arp = ARP.fromAttributes(collect);
+      } else {
+        this.arp = ARP.fromAttributes((Map<String, List<String>>) attributes);
+      }
+    } else {
+      this.arp = ARP.noArp();
+    }
+
 
     addUrl("en", (String) metaData.get("url:en"));
     addUrl("nl", (String) metaData.get("url:nl"));
@@ -79,7 +93,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   public String getEulaURL() {
     return eulaURL;
   }
-  
+
   public String getInterfedSource() {
     return interfedSource;
   }
@@ -161,7 +175,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
       '}';
   }
 
-  public ServiceProvider clone()  {
+  public ServiceProvider clone() {
     try {
       return (ServiceProvider) super.clone();
     } catch (CloneNotSupportedException e) {

@@ -7,7 +7,7 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.util.StringUtils;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -54,11 +54,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       .build();
   }
 
-  private final ServiceRegistry serviceRegistry;
+  private final Manage manage;
 
-  public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, ServiceRegistry serviceRegistry) {
+  public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, Manage manage) {
     setAuthenticationManager(authenticationManager);
-    this.serviceRegistry = serviceRegistry;
+    this.manage = manage;
   }
 
   @Override
@@ -103,9 +103,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
   }
 
   private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {
-    return serviceRegistry.getIdentityProvider(idpId).map(idp -> {
+    return manage.getIdentityProvider(idpId).map(idp -> {
       String institutionId = idp.getInstitutionId();
-      return hasText(institutionId) ? serviceRegistry.getInstituteIdentityProviders(institutionId) : singletonList(idp);
+      return hasText(institutionId) ? manage.getInstituteIdentityProviders(institutionId) : singletonList(idp);
     }).orElse(Collections.emptyList());
   }
 

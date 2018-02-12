@@ -26,7 +26,7 @@ import selfservice.domain.Service;
 import selfservice.domain.Taxonomy;
 import selfservice.domain.csa.Article;
 import selfservice.service.Csa;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 public class CsaImpl implements Csa {
 
@@ -37,7 +37,7 @@ public class CsaImpl implements Csa {
   private ServicesCache servicesCache;
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private CrmCache crmCache;
@@ -46,10 +46,10 @@ public class CsaImpl implements Csa {
 
   @Override
   public List<Service> getServicesForIdp(String idpEntityId) {
-    IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(idpEntityId)
+    IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId)
         .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in SR with name: '%s'", idpEntityId)));
 
-    List<String> connectedServiceProviderIdentifiers = serviceRegistry.getAllServiceProviders(idpEntityId).stream()
+    List<String> connectedServiceProviderIdentifiers = manage.getAllServiceProviders(idpEntityId).stream()
         .filter(sp -> sp.isLinked())
         .map(Provider::getId).collect(toList());
 

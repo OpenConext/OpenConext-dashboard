@@ -2,7 +2,7 @@ package selfservice.filter;
 
 import org.springframework.web.filter.GenericFilterBean;
 import selfservice.domain.IdentityProvider;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.FilterChain;
@@ -17,10 +17,10 @@ import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 
 public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
-  public EnsureAccessToIdpFilter(ServiceRegistry serviceRegistry) {
-    this.serviceRegistry = serviceRegistry;
+  public EnsureAccessToIdpFilter(Manage manage) {
+    this.manage = manage;
   }
 
   @Override
@@ -29,7 +29,7 @@ public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
     if (shouldAccessToIdpBeChecked(req)) {
       String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
-      IdentityProvider idp = serviceRegistry.getIdentityProvider(idpEntityId).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
+      IdentityProvider idp = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
       SpringSecurity.ensureAccess(idp);
     }
 

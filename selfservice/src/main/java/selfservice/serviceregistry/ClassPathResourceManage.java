@@ -29,7 +29,8 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
 
-public class ClassPathResourceServiceRegistry implements ServiceRegistry {
+@SuppressWarnings("unchecked")
+public class ClassPathResourceManage implements Manage {
 
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -41,7 +42,7 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
   private volatile Map<String, ServiceProvider> serviceProviderMap = new HashMap<>();
   private volatile List<ServiceProvider> exampleSingleTenants = new ArrayList<>();
 
-  public ClassPathResourceServiceRegistry(boolean initialize, Resource singleTenantsConfigPath) {
+  public ClassPathResourceManage(boolean initialize, Resource singleTenantsConfigPath) {
     this.singleTenantsConfigPath = singleTenantsConfigPath;
     this.parseSingleTenants();
     if (initialize) {
@@ -173,11 +174,11 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
   }
 
   protected Resource getIdpResource() {
-    return new ClassPathResource("service-registry/identity-providers.json");
+    return new ClassPathResource("manage/identity-providers.json");
   }
 
   protected Resource getSpResource() {
-    return new ClassPathResource("service-registry/service-providers.json");
+    return new ClassPathResource("manage/service-providers.json");
   }
 
   private void parseSingleTenants() {
@@ -210,12 +211,53 @@ public class ClassPathResourceServiceRegistry implements ServiceRegistry {
 
   private <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T> provider) throws IOException {
     List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Map<String, Object>>>() { });
-    return providers.stream().map(provider).collect(toMap(Provider::getId, identity()));
+    return providers.stream().map(this::transformManageMetadata).map(provider).collect(toMap(Provider::getId, identity()));
   }
 
   private boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {
     return (sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idp.getId())) &&
       (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
+  }
+
+  private Map<String, Object > transformManageMetadata(Map<String, Object> metadata) {
+    Map<String, Object> data = (Map<String, Object>) metadata.get("data");
+    Map<String, Object> result = new HashMap<>();
+    data.entrySet().forEach(entry -> {
+      String key = entry.getKey();
+      Object value = entry.getValue();
+      if (value instanceof Boolean) {
+        result.put(key, Boolean.class.cast(value) ? "yes" : "no");
+      } else if (value instanceof String) {
+        result.put(key, value);
+      }
+      switch (key) {
+        case "metaDataFields" : {
+          Map<String, Object> metaDataFields = (Map<String, Object>) value;
+          result.putAll(metaDataFields);
+          break;
+        }
+        case "arp" : {
+          Map<String, Object> arp = (Map<String, Object>) value;
+          Boolean enabled = (Boolean) arp.get("enabled");
+          if (enabled) {
+            //Map<String, List<String>>
+            Map<String, List<Map<String, String>>> attributes = (Map<String, List<Map<String, String>>>) arp.get("attributes");
+            Map<String, List<String>> attributesList = attributes.entrySet().stream()
+              .collect(toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue().get(0).get("value"))));
+            result.put("attributes", attributesList);
+          }
+          break;
+        }
+        case  "allowedEntities" : {
+          List<Map<String, String>> allowedEntities = (List<Map<String, String>>) value;
+          List<String> allowedEntitiesList = allowedEntities.stream().map(m -> m.get("name")).collect(toList());
+          result.put("allowedEntities", allowedEntitiesList);
+          break;
+        }
+      }
+
+    });
+    return result;
   }
 
 }

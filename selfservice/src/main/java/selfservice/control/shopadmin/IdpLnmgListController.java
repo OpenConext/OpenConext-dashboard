@@ -32,7 +32,7 @@ import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.IdentityProvider;
 import selfservice.service.CrmService;
 import selfservice.service.impl.LmngUtil;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class IdpLnmgListController extends BaseController {
   private static final Logger log = LoggerFactory.getLogger(IdpLnmgListController.class);
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private CrmService licensingService;
@@ -69,7 +69,7 @@ public class IdpLnmgListController extends BaseController {
     }
 
     List<LmngIdentityBinding> lmngIdpBindings = new ArrayList<>();
-    for (IdentityProvider identityProvider : serviceRegistry.getAllIdentityProviders()) {
+    for (IdentityProvider identityProvider : manage.getAllIdentityProviders()) {
       LmngIdentityBinding lmngIdentityBinding = new LmngIdentityBinding(identityProvider);
       String lmngId = lmngIdentifierDao.getLmngIdForIdentityProviderId(identityProvider.getInstitutionId());
       lmngIdentityBinding.setLmngIdentifier(lmngId);
@@ -120,7 +120,7 @@ public class IdpLnmgListController extends BaseController {
   @RequestMapping(value = "/clean-cache", method = RequestMethod.GET)
   public RedirectView cleanCrmCache() {
     log.info("Cleaning caches");
-    serviceRegistry.refreshMetaData();
+    manage.refreshMetaData();
     licensingService.evictCache();
     servicesCache.evict();
     crmCache.evict();

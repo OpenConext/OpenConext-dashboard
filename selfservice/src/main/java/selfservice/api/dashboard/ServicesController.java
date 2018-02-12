@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import selfservice.domain.*;
 import selfservice.service.ActionsService;
 import selfservice.service.Csa;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +40,7 @@ public class ServicesController extends BaseController {
   private Csa csa;
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private ActionsService actionsService;
@@ -59,7 +59,7 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/idps")
   public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
-    List<InstitutionIdentityProvider> idps = serviceRegistry.getLinkedIdentityProviders(spEntityId).stream()
+    List<InstitutionIdentityProvider> idps = manage.getLinkedIdentityProviders(spEntityId).stream()
         .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(), idp.getInstitutionId()))
         .collect(toList());
 

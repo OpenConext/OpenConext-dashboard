@@ -16,8 +16,7 @@ import selfservice.domain.Policy.Attribute;
 import selfservice.domain.ServiceProvider;
 import selfservice.pdp.PdpService;
 import selfservice.service.EmailService;
-import selfservice.serviceregistry.ServiceRegistry;
-import selfservice.util.SpringSecurity;
+import selfservice.serviceregistry.Manage;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -41,7 +40,7 @@ public class PoliciesController extends BaseController {
   private PdpService pdpService;
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private EmailService emailService;
@@ -66,7 +65,7 @@ public class PoliciesController extends BaseController {
     return whenDashboardAdmin(() -> {
       LOG.debug("Create a policy: {}", policy);
 
-      ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(policy.getServiceProviderId()).get();
+      ServiceProvider serviceProvider = manage.getServiceProvider(policy.getServiceProviderId()).get();
       LOG.debug("PolicyEnforcementDecisionRequired:" + serviceProvider.isPolicyEnforcementDecisionRequired());
       if (!serviceProvider.isPolicyEnforcementDecisionRequired()) {
         sendNewPolicyWithoutEnforcementDecisionEnabledEmail(policy, getCurrentUser());

@@ -21,7 +21,7 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class UsersControllerTest {
   private UsersController controller;
 
   @Mock
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Mock
   private ServicesCache servicesCacheMock;
@@ -63,7 +63,7 @@ public class UsersControllerTest {
   public void setup() {
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
-    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(serviceRegistry);
+    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manage);
 
     mockMvc = standaloneSetup(controller)
       .setMessageConverters(new GsonHttpMessageConverter("","", "", "", ""))
@@ -72,8 +72,8 @@ public class UsersControllerTest {
 
     SpringSecurityUtil.setAuthentication(coinUser);
 
-    when(serviceRegistry.getIdentityProvider(anyString())).thenAnswer(answer -> Optional.of(idp((String) answer.getArguments()[0])));
-    when(serviceRegistry.getAllIdentityProviders()).thenReturn(ImmutableList.of(idp(BAR_IDP_ENTITY_ID), idp(FOO_IDP_ENTITY_ID)));
+    when(manage.getIdentityProvider(anyString())).thenAnswer(answer -> Optional.of(idp((String) answer.getArguments()[0])));
+    when(manage.getAllIdentityProviders()).thenReturn(ImmutableList.of(idp(BAR_IDP_ENTITY_ID), idp(FOO_IDP_ENTITY_ID)));
   }
 
   @After

@@ -35,7 +35,7 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.service.ActionsService;
 import selfservice.service.EmailService;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 @Service
 public class ActionsServiceImpl implements ActionsService {
@@ -51,7 +51,7 @@ public class ActionsServiceImpl implements ActionsService {
   private EmailService emailService;
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Value("${administration.email.enabled}")
   private boolean sendAdministrationEmail;
@@ -103,8 +103,8 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   private Action addNames(Action action) {
-    Optional<ServiceProvider> serviceProvider = serviceRegistry.getServiceProvider(action.getSpId());
-    Optional<IdentityProvider> identityProvider = serviceRegistry.getIdentityProvider(action.getIdpId());
+    Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId());
+    Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId());
 
     return action.unbuild()
         .idpName(identityProvider.map(IdentityProvider::getName).orElse("Unknown idp"))
