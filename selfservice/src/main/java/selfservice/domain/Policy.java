@@ -45,6 +45,7 @@ public class Policy {
   private boolean isActivatedSr;
   private boolean active = true;
   private boolean actionsAllowed;
+  private String type = "reg";
 
   public Policy() {
   }
@@ -71,6 +72,7 @@ public class Policy {
     this.authenticatingAuthorityName = builder.policy.authenticatingAuthorityName;
     this.isActivatedSr = builder.policy.isActivatedSr;
     this.active = builder.policy.active;
+    this.type = builder.policy.type;
   }
 
   public Policy(String name, String description) {
@@ -157,6 +159,10 @@ public class Policy {
 
   public String getAuthenticatingAuthorityName() {
     return authenticatingAuthorityName;
+  }
+
+  public String getType() {
+    return type;
   }
 
   public String toString() {
