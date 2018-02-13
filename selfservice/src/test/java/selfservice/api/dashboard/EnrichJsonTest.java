@@ -23,6 +23,8 @@ import com.google.gson.JsonObject;
 
 import org.junit.Test;
 
+import org.springframework.core.env.Environment;
+import org.springframework.mock.env.MockEnvironment;
 import selfservice.domain.ARP;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinAuthority.Authority;
@@ -35,12 +37,14 @@ public class EnrichJsonTest {
 
   private Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeJsonIgnore()).create();
 
+  private Environment environment = new MockEnvironment();
+
   @Test
   public void testAddsStatsUrlToCoinUser() throws Exception {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(this.environment, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
 
     assertEquals(STATS_URL, getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("statsUrl").getAsString());
   }
@@ -50,7 +54,7 @@ public class EnrichJsonTest {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(this.environment, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
 
     assertFalse(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("superUser").getAsBoolean());
   }
@@ -60,7 +64,7 @@ public class EnrichJsonTest {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(this.environment, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
 
     assertFalse(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("dashboardAdmin").getAsBoolean());
   }
@@ -81,7 +85,7 @@ public class EnrichJsonTest {
 
     List<Service> payload = asList(service1, service2);
     JsonElement jsonElement = createJsonResponse(payload);
-    EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(payload);
+    EnrichJson.forUser(this.environment, coinUser, STATS_URL).json(jsonElement).forPayload(payload);
 
     assertEquals(0, getServiceFromRoot(jsonElement, 0).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
     assertEquals(1, getServiceFromRoot(jsonElement, 1).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
@@ -101,7 +105,7 @@ public class EnrichJsonTest {
     });
 
     JsonElement jsonElement = createJsonResponse(service1);
-    EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(service1);
+    EnrichJson.forUser(this.environment, coinUser, STATS_URL).json(jsonElement).forPayload(service1);
 
     assertEquals(1, getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
   }
@@ -114,7 +118,7 @@ public class EnrichJsonTest {
     coinUser.addAuthority(new CoinAuthority(Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN));
 
     JsonElement jsonElement = createJsonResponse(coinUser);
-    EnrichJson.forUser(coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(this.environment, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
 
     List<JsonElement> authorities = Lists.newArrayList(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray("grantedAuthorities"));
 

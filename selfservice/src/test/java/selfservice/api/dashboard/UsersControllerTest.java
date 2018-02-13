@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
+import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
@@ -66,7 +67,7 @@ public class UsersControllerTest {
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(serviceRegistry);
 
     mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter("","", "", "", ""))
+      .setMessageConverters(new GsonHttpMessageConverter(new MockEnvironment(), "","", "", "", ""))
       .addFilter(ensureAccessToIdp, "/*")
       .build();
 

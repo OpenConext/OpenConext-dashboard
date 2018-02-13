@@ -67,7 +67,7 @@ To build:
 
 To run locally:
 
-    npm run webpack-dev-server
+    yarn run webpack-dev-server
 
 When you browse to the [application homepage](http://localhost:8001/dashboard/api/home) you will be prompted for a login.
 

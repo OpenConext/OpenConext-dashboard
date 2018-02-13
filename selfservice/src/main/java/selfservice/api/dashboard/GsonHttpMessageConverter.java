@@ -7,6 +7,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -35,6 +36,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
     .enableComplexMapKeySerialization()
     .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter().nullSafe())
     .registerTypeAdapter(ShibbolethHeader.class, new ShibbolethHeaderTypeAdapter().nullSafe());
+  private Environment environment;
 
   private Gson gson;
 
@@ -44,7 +46,9 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   private String statsScope;
   private String statsRedirectUri;
 
-  public GsonHttpMessageConverter(String statsBaseUr, String statsAuthorizePath, String statsClientId, String statsScope, String statsRedirectUri) {
+  public GsonHttpMessageConverter(Environment environment, String statsBaseUr, String statsAuthorizePath, String
+    statsClientId, String statsScope, String statsRedirectUri) {
+    this.environment = environment;
     this.gson = GSON_BUILDER.create();
     this.statsBaseUrl = statsBaseUr;
     this.statsAuthorizePath = statsAuthorizePath;
@@ -60,7 +64,8 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
 
   @Override
   public boolean canWrite(Class<?> clazz, MediaType mediaType) {
-    return clazz.isAssignableFrom(RestResponse.class) && mediaType != null && mediaType.equals(MediaType.APPLICATION_JSON);
+    return clazz.isAssignableFrom(RestResponse.class) && mediaType != null && mediaType.equals(MediaType
+      .APPLICATION_JSON);
   }
 
   @Override
@@ -74,14 +79,17 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   }
 
   @Override
-  protected RestResponse<?> readInternal(Class<? extends RestResponse<?>> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+  protected RestResponse<?> readInternal(Class<? extends RestResponse<?>> clazz, HttpInputMessage inputMessage)
+    throws IOException, HttpMessageNotReadableException {
     throw new UnsupportedOperationException("nyi");
   }
 
   @Override
-  protected void writeInternal(RestResponse<?> objectRestResponse, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+  protected void writeInternal(RestResponse<?> objectRestResponse, HttpOutputMessage outputMessage) throws
+    IOException, HttpMessageNotWritableException {
     JsonElement json = gson.toJsonTree(objectRestResponse);
     EnrichJson.forUser(
+      this.environment,
       SpringSecurity.getCurrentUser(),
       format(
         "%s/%s?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",

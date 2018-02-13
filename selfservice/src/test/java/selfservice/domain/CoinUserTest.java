@@ -15,6 +15,7 @@ import com.google.gson.JsonElement;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.springframework.mock.env.MockEnvironment;
 import selfservice.api.dashboard.EnrichJson;
 import selfservice.api.dashboard.RestResponse;
 
@@ -44,9 +45,9 @@ public class CoinUserTest {
   }
 
   @Test
-  public void testSerializeToJson() throws IOException {
+  public void testSerializeToJson() {
     JsonElement json = gson.toJsonTree(RestResponse.of(Locale.ENGLISH, coinUser));
-    EnrichJson.forUser(coinUser, "/foo").json(json).forPayload(coinUser);
+    EnrichJson.forUser(new MockEnvironment(), coinUser, "/foo").json(json).forPayload(coinUser);
     assertNotNull(json);
   }
 

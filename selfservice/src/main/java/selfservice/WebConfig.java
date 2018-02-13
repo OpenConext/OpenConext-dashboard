@@ -5,8 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -37,6 +39,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Value("${statsRedirectUri}")
   private String statsRedirectUri;
 
+  @Autowired
+  private Environment environment;
+
   @Override
   public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
     configurer.mediaType("csv", new MediaType("text", "csv"));
@@ -62,6 +67,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-    converters.add(new GsonHttpMessageConverter(statsBaseUrl, statsAuthorizePath, statsClientId, statsScope, statsRedirectUri));
+    converters.add(new GsonHttpMessageConverter(environment, statsBaseUrl, statsAuthorizePath, statsClientId, statsScope, statsRedirectUri));
   }
 }

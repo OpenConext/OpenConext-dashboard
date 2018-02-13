@@ -4,7 +4,7 @@ import qs from "qs";
 import SortableHeader from "../components/sortable_header";
 import Link from "react-router/Link";
 
-import { apiUrl, getApps, getFacets } from "../api";
+import {apiUrl, getApps, getFacets} from "../api";
 import sort from "../utils/sort";
 
 import Facets from "../components/facets";
@@ -42,7 +42,7 @@ class AppOverview extends React.Component {
       const [facets, apps] = data;
 
       // We need to sanitize the categories data for each app to ensure the facet totals are correct
-      const unknown = { value: I18n.t("facets.unknown") };
+      const unknown = {value: I18n.t("facets.unknown")};
       facets.forEach(facet => {
         apps.forEach(app => {
           app.categories = app.categories || [];
@@ -50,7 +50,7 @@ class AppOverview extends React.Component {
             return category.name === facet.name;
           });
           if (appCategory.length === 0) {
-            app.categories.push({ name: facet.name, values: [unknown] });
+            app.categories.push({name: facet.name, values: [unknown]});
             const filtered = facet.values.filter(facetValue => {
               return facetValue.value === unknown.value;
             });
@@ -61,7 +61,7 @@ class AppOverview extends React.Component {
         });
       });
 
-      this.setState({ apps, facets });
+      this.setState({apps, facets});
     });
   }
 
@@ -73,8 +73,8 @@ class AppOverview extends React.Component {
   }
 
   render() {
-    const { currentUser } = this.context;
-    const { sortAttribute, sortAscending } = this.state;
+    const {currentUser} = this.context;
+    const {sortAttribute, sortAscending} = this.state;
     const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
     let connect = null;
 
@@ -106,32 +106,29 @@ class AppOverview extends React.Component {
         </div>
         <div className="l-right">
           <div className="mod-app-search">
-            <form>
-              <fieldset>
+              <div>
                 <i className="fa fa-search"/>
                 <input
                   type="search"
                   value={this.state.search}
-                  onChange={e => this.setState({ search: e.target.value })}
+                  onChange={e => this.setState({search: e.target.value})}
                   placeholder={I18n.t("apps.overview.search_hint")}/>
-
                 <button type="submit">{I18n.t("apps.overview.search")}</button>
-              </fieldset>
-            </form>
+              </div>
           </div>
           <div className="mod-app-list">
             <table>
               <thead>
-                <tr>
-                  {this.renderSortableHeader("percent_25", "name")}
-                  {this.renderSortableHeader("percent_15", "licenseStatus")}
-                  {this.renderSortableHeader("percent_15", "license")}
-                  {this.renderSortableHeader("percent_15", "connected")}
-                  {connect}
-                </tr>
+              <tr>
+                {this.renderSortableHeader("percent_25", "name")}
+                {this.renderSortableHeader("percent_15", "licenseStatus")}
+                {this.renderSortableHeader("percent_15", "license")}
+                {this.renderSortableHeader("percent_15", "connected")}
+                {connect}
+              </tr>
               </thead>
               <tbody>
-                {filteredApps.length > 0 ? sort(filteredApps, sortAttribute, sortAscending).map(app => this.renderApp(app)) : this.renderEmpty()}
+              {filteredApps.length > 0 ? sort(filteredApps, sortAttribute, sortAscending).map(app => this.renderApp(app)) : this.renderEmpty()}
               </tbody>
             </table>
           </div>
@@ -150,7 +147,7 @@ class AppOverview extends React.Component {
         localeKey="apps.overview"
         className={className}
         onSort={this.handleSort.bind(this)}
-        />
+      />
     );
   }
 
@@ -163,7 +160,7 @@ class AppOverview extends React.Component {
   }
 
   renderApp(app) {
-    const { currentUser } = this.context;
+    const {currentUser} = this.context;
     let connect = null;
     if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
       connect = (
@@ -175,10 +172,10 @@ class AppOverview extends React.Component {
 
     return (
       <tr key={app.id} onClick={e => this.handleShowAppDetail(e, app)}>
-        <td><Link to={`apps/${app.id}/overview`}>{ app.name }</Link></td>
+        <td><Link to={`apps/${app.id}/overview`}>{app.name}</Link></td>
         {this.renderLicenseNeeded(app)}
         {this.renderLicensePresent(app)}
-        <YesNo value={app.connected} />
+        <YesNo value={app.connected}/>
         {connect}
       </tr>
     );
@@ -186,13 +183,13 @@ class AppOverview extends React.Component {
 
   licenseStatusClassName(app) {
     switch (app.licenseStatus) {
-    case "HAS_LICENSE_SURFMARKET":
-    case "HAS_LICENSE_SP":
-      return "yes";
-    case "NO_LICENSE":
-      return "no";
-    default:
-      return "";
+      case "HAS_LICENSE_SURFMARKET":
+      case "HAS_LICENSE_SP":
+        return "yes";
+      case "NO_LICENSE":
+        return "no";
+      default:
+        return "";
     }
   }
 
@@ -207,22 +204,22 @@ class AppOverview extends React.Component {
     let licensePresent = "unknown";
 
     switch (app.licenseStatus) {
-    case "HAS_LICENSE_SURFMARKET":
-      if (!app.hasCrmLink) {
+      case "HAS_LICENSE_SURFMARKET":
+        if (!app.hasCrmLink) {
+          licensePresent = "unknown";
+        } else {
+          licensePresent = app.license ? "yes" : "no";
+        }
+        break;
+      case "HAS_LICENSE_SP":
         licensePresent = "unknown";
-      } else {
-        licensePresent = app.license ? "yes" : "no";
-      }
-      break;
-    case "HAS_LICENSE_SP":
-      licensePresent = "unknown";
-      break;
-    case "NOT_NEEDED":
-      licensePresent = "na";
-      break;
-    default:
-      licensePresent = "unknown";
-      break;
+        break;
+      case "NOT_NEEDED":
+        licensePresent = "na";
+        break;
+      default:
+        licensePresent = "unknown";
+        break;
     }
 
     return (
@@ -232,7 +229,8 @@ class AppOverview extends React.Component {
 
   renderConnectButton(app) {
     if (!app.connected) {
-      return <Link to={`/apps/${app.id}/how_to_connect`} className="c-button narrow" onClick={e => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
+      return <Link to={`/apps/${app.id}/how_to_connect`} className="c-button narrow"
+                   onClick={e => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
     }
     return null;
   }
@@ -256,7 +254,7 @@ class AppOverview extends React.Component {
       checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
     }
 
-    this.setState({ activeFacets: selectedFacets });
+    this.setState({activeFacets: selectedFacets});
 
     store.activeFacets = selectedFacets;
   }
@@ -268,7 +266,7 @@ class AppOverview extends React.Component {
     } else {
       hiddenFacets[facet.name] = true;
     }
-    this.setState({ hiddenFacets: hiddenFacets });
+    this.setState({hiddenFacets: hiddenFacets});
     store.hiddenFacets = hiddenFacets;
   }
 
@@ -284,10 +282,10 @@ class AppOverview extends React.Component {
   }
 
   handleDownloadOverview() {
-    const { currentUser } = this.context;
+    const {currentUser} = this.context;
     const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
     const ids = filteredApps.map(app => app.id);
-    const queryString = qs.stringify({ idpEntityId: currentUser.getCurrentIdpId(), id: ids }, { arrayFormat: "brackets" });
+    const queryString = qs.stringify({idpEntityId: currentUser.getCurrentIdpId(), id: ids}, {arrayFormat: "brackets"});
     window.open(apiUrl(`/services/download?${queryString}`));
   }
 
@@ -309,9 +307,9 @@ class AppOverview extends React.Component {
   }
 
   addNumbers(filteredApps, facets) {
-    const { currentUser } = this.context;
+    const {currentUser} = this.context;
     const me = this;
-    const filter = function(facet, filterFunction) {
+    const filter = function (facet, filterFunction) {
       const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, (value, key) => {
         return key !== facet.name;
       });
@@ -332,50 +330,50 @@ class AppOverview extends React.Component {
 
     facets.forEach(facet => {
       switch (facet.searchValue) {
-      case "connection":
-        filter(facet, (app, facetValue) => {
-          return facetValue.searchValue === "yes" ? app.connected : !app.connected;
-        });
-        break;
-      case "license":
-        filter(facet, (app, facetValue) => {
-          return app.licenseStatus === facetValue.searchValue;
-        });
-        break;
-      case "interfed_source":
-        filter(facet, (app, facetValue) => {
-          return app.interfedSource === facetValue.searchValue;
-        });
-        break;
-      case "entity_category":
-        filter(facet, (app, facetValue) => {
-          return app.entityCategories1 === facetValue.searchValue || app.entityCategories2 === facetValue.searchValue;
-        });
-        break;
-      case "used_by_idp":
-        filter(facet, (app, facetValue) => {
-          const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
-          return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
-        });
-        break;
-      case "published_edugain":
-        filter(facet, (app, facetValue) => {
-          const published = app.publishedInEdugain || false;
-          return facetValue.searchValue === "yes" ? published : !published;
-        });
-        break;
-      case "strong_authentication":
-        filter(facet, (app, facetValue) => {
-          const strongAuthentication = app.strongAuthentication || false;
-          return facetValue.searchValue === "yes" ? strongAuthentication : !strongAuthentication;
-        });
-        break;
-      default:
-        filter(facet, (app, facetValue) => {
-          const categories = me.normalizeCategories(app);
-          const appTags = categories[facet.name] || [];
-          return appTags.indexOf(facetValue.value) > -1;
-        });
+        case "connection":
+          filter(facet, (app, facetValue) => {
+            return facetValue.searchValue === "yes" ? app.connected : !app.connected;
+          });
+          break;
+        case "license":
+          filter(facet, (app, facetValue) => {
+            return app.licenseStatus === facetValue.searchValue;
+          });
+          break;
+        case "interfed_source":
+          filter(facet, (app, facetValue) => {
+            return app.interfedSource === facetValue.searchValue;
+          });
+          break;
+        case "entity_category":
+          filter(facet, (app, facetValue) => {
+            return app.entityCategories1 === facetValue.searchValue || app.entityCategories2 === facetValue.searchValue;
+          });
+          break;
+        case "used_by_idp":
+          filter(facet, (app, facetValue) => {
+            const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
+            return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
+          });
+          break;
+        case "published_edugain":
+          filter(facet, (app, facetValue) => {
+            const published = app.publishedInEdugain || false;
+            return facetValue.searchValue === "yes" ? published : !published;
+          });
+          break;
+        case "strong_authentication":
+          filter(facet, (app, facetValue) => {
+            const strongAuthentication = app.strongAuthentication || false;
+            return facetValue.searchValue === "yes" ? strongAuthentication : !strongAuthentication;
+          });
+          break;
+        default:
+          filter(facet, (app, facetValue) => {
+            const categories = me.normalizeCategories(app);
+            const appTags = categories[facet.name] || [];
+            return appTags.indexOf(facetValue.value) > -1;
+          });
       }
     });
   }
@@ -392,7 +390,7 @@ class AppOverview extends React.Component {
   }
 
   filterByFacets(facets) {
-    return function(app) {
+    return function (app) {
       const normalizedCategories = this.normalizeCategories(app);
       for (const facet in facets) {
         if (facets.hasOwnProperty(facet)) {
@@ -422,37 +420,37 @@ class AppOverview extends React.Component {
   }
 
   staticFacets() {
-    const { currentUser } = this.context;
+    const {currentUser} = this.context;
 
     return [{
       name: I18n.t("facets.static.connection.name"),
       searchValue: "connection",
       values: [
-        { value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes" },
-        { value: I18n.t("facets.static.connection.no_connection"), searchValue: "no" },
+        {value: I18n.t("facets.static.connection.has_connection"), searchValue: "yes"},
+        {value: I18n.t("facets.static.connection.no_connection"), searchValue: "no"},
       ],
-      filterApp: function(app) {
+      filterApp: function (app) {
         return this.filterYesNoFacet("connection", app.connected);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.used_by_idp.name"),
       searchValue: "used_by_idp",
       values: [
-        { value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes" },
-        { value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no" },
+        {value: I18n.t("facets.static.used_by_idp.yes"), searchValue: "yes"},
+        {value: I18n.t("facets.static.used_by_idp.no"), searchValue: "no"},
       ],
-      filterApp: function(app) {
+      filterApp: function (app) {
         return this.filterYesNoFacet("used_by_idp", currentUser.getCurrentIdp().institutionId === app.institutionId);
       }.bind(this),
     }, {
       name: I18n.t("facets.static.interfed_source.name"),
       searchValue: "interfed_source",
       values: [
-        { value: I18n.t("facets.static.interfed_source.surfconext"), searchValue: "SURFconext" },
-        { value: I18n.t("facets.static.interfed_source.edugain"), searchValue: "eduGAIN" },
-        { value: I18n.t("facets.static.interfed_source.entree"), searchValue: "Entree" },
+        {value: I18n.t("facets.static.interfed_source.surfconext"), searchValue: "SURFconext"},
+        {value: I18n.t("facets.static.interfed_source.edugain"), searchValue: "eduGAIN"},
+        {value: I18n.t("facets.static.interfed_source.entree"), searchValue: "Entree"},
       ],
-      filterApp: function(app) {
+      filterApp: function (app) {
         const sourceFacetValues = this.state.activeFacets["interfed_source"] || [];
         return sourceFacetValues.length === 0 || sourceFacetValues.indexOf(app.interfedSource) > -1;
       }.bind(this)
@@ -460,10 +458,16 @@ class AppOverview extends React.Component {
       name: I18n.t("facets.static.entity_category.name"),
       searchValue: "entity_category",
       values: [
-        { value: I18n.t("facets.static.entity_category.code_of_conduct"), searchValue: "http://www.geant.net/uri/dataprotection-code-of-conduct/v1" },
-        { value: I18n.t("facets.static.entity_category.research_and_scholarship"), searchValue: "http://refeds.org/category/research-and-scholarship" }
+        {
+          value: I18n.t("facets.static.entity_category.code_of_conduct"),
+          searchValue: "http://www.geant.net/uri/dataprotection-code-of-conduct/v1"
+        },
+        {
+          value: I18n.t("facets.static.entity_category.research_and_scholarship"),
+          searchValue: "http://refeds.org/category/research-and-scholarship"
+        }
       ],
-      filterApp: function(app) {
+      filterApp: function (app) {
         const sourceFacetValues = this.state.activeFacets["entity_category"] || [];
         return sourceFacetValues.length === 0 || sourceFacetValues.indexOf(app.entityCategories1) > -1 || sourceFacetValues.indexOf(app.entityCategories2) > -1;
       }.bind(this)
@@ -471,12 +475,12 @@ class AppOverview extends React.Component {
       name: I18n.t("facets.static.license.name"),
       searchValue: "license",
       values: [
-        { value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET" },
-        { value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP" },
-        { value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED" },
-        { value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN" },
+        {value: I18n.t("facets.static.license.has_license_surfmarket"), searchValue: "HAS_LICENSE_SURFMARKET"},
+        {value: I18n.t("facets.static.license.has_license_sp"), searchValue: "HAS_LICENSE_SP"},
+        {value: I18n.t("facets.static.license.not_needed"), searchValue: "NOT_NEEDED"},
+        {value: I18n.t("facets.static.license.unknown"), searchValue: "UNKNOWN"},
       ],
-      filterApp: function(app) {
+      filterApp: function (app) {
         const licenseFacetValues = this.state.activeFacets["license"] || [];
         return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1;
       }.bind(this)
@@ -484,10 +488,10 @@ class AppOverview extends React.Component {
       name: I18n.t("facets.static.strong_authentication.name"),
       searchValue: "strong_authentication",
       values: [
-        { value: I18n.t("facets.static.strong_authentication.yes"), searchValue: "yes" },
-        { value: I18n.t("facets.static.strong_authentication.no"), searchValue: "no" }
+        {value: I18n.t("facets.static.strong_authentication.yes"), searchValue: "yes"},
+        {value: I18n.t("facets.static.strong_authentication.no"), searchValue: "no"}
       ],
-      filterApp: function(app) {
+      filterApp: function (app) {
         return this.filterYesNoFacet("strong_authentication", app.strongAuthentication);
       }.bind(this)
     }];

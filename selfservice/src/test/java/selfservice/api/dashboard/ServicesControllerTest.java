@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
+import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -72,7 +73,7 @@ public class ServicesControllerTest {
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(serviceRegistryMock);
 
     mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter("http:://example.com","oauth/authorize.php", "stats-client-id", "stats-scope", "stats-redirect"))
+      .setMessageConverters(new GsonHttpMessageConverter(new MockEnvironment(), "http:://example.com","oauth/authorize.php", "stats-client-id", "stats-scope", "stats-redirect"))
       .addFilter(ensureAccessToIdp, "/*")
       .build();
 

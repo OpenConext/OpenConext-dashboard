@@ -3,8 +3,7 @@ package selfservice.api.dashboard;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import selfservice.api.dashboard.GsonHttpMessageConverter;
-import selfservice.api.dashboard.RestResponse;
+import org.springframework.mock.env.MockEnvironment;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import org.junit.Before;
@@ -25,7 +24,7 @@ public class GsonHttpMessageConverterTest {
   @Before
   public void setUp() throws Exception {
     outputMessage = new MockHttpOutputMessage();
-    converter = new GsonHttpMessageConverter("https://foo", "oauth/authorize.php","bar", "scope", "/foobar");
+    converter = new GsonHttpMessageConverter(new MockEnvironment(), "https://foo", "oauth/authorize.php","bar", "scope", "/foobar");
   }
 
   @Test

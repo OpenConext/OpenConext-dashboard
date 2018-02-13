@@ -109,7 +109,7 @@ if (browserSupported()) {
     const locationHash = window.location.hash.substr(1);
     currentUser.statsToken = locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
 
-    if (!currentUser.statsToken) {
+    if (!currentUser.statsToken && !currentUser.localProfile) {
       window.location = currentUser.statsUrl + "&state=" + window.location;
     } else {
       render(<App currentUser={currentUser} />, document.getElementById("app"));
