@@ -130,6 +130,12 @@ public class PdpServiceImpl implements PdpService {
   public Policy create(Policy policy) {
     RequestEntity<?> request = buildPostRequest("/protected/policies", policy);
     try {
+      try {
+        String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(policy);
+        LOG.info("creation of policy {}", json);
+      }catch (IOException e) {
+        LOG.error("oeps", e);
+      }
       ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {});
       return response.getBody();
     } catch (HttpStatusCodeException sce) {

@@ -176,6 +176,7 @@ public class Policy {
         .add("attributes", attributes)
         .add("created", created)
         .add("description", description)
+        .add("type", type)
         .add("serviceProviderName", serviceProviderName).toString();
   };
 
