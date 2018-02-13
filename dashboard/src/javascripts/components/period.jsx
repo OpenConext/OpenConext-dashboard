@@ -3,7 +3,8 @@ import React from "react";
 import DateTimePicker from "react-widgets/lib/DateTimePicker";
 import "react-widgets/lib/scss/react-widgets.scss";
 import moment from "moment";
-import momentLocalizer from "react-widgets/lib/localizers/moment";
+
+import momentLocalizer from "react-widgets-moment-localizer";
 momentLocalizer(moment);
 
 class Period extends React.Component {
