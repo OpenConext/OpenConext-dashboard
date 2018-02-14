@@ -6,6 +6,7 @@ import Contact from "./contact";
 
 class AppMeta extends React.Component {
   render() {
+    const app = this.props.app;
     return (
       <div className="l-right">
         <div className="mod-app-meta">
@@ -14,18 +15,19 @@ class AppMeta extends React.Component {
           <div className="contact">
             <h2>{I18n.t("app_meta.question")}</h2>
             <address>
-              <a href={"mailto:support@surfconext.nl?subject=Question about " + this.props.app.name}>support@surfconext.nl</a>
+              <a href={"mailto:support@surfconext.nl?subject=Question about " + app.name}>support@surfconext.nl</a>
             </address>
           </div>
 
-          <Contact email={this.props.app.supportMail} />
-          {this.renderUrl("support", this.props.app.supportUrl)}
-          {this.renderUrl("login", this.props.app.appUrl)}
-          {this.renderUrl("website", this.props.app.websiteUrl)}
-          {this.renderUrl("eula", this.props.app.eulaUrl)}
-          {this.renderUrl("registration_policy", this.props.app.registrationPolicyUrl)}
-          {this.renderUrl("privacy_statement", this.props.app.privacyStatementUrl)}
-          {this.renderRegistrationInfo(this.props.app.registrationInfoUrl)}
+          <Contact email={app.supportMail} />
+          {this.renderUrl("support", app.supportUrl)}
+          {this.renderUrl("login", app.appUrl)}
+          {this.renderUrl("website", app.websiteUrl)}
+          {this.renderUrl("eula", app.eulaUrl)}
+          {this.renderUrl("registration_policy", app.registrationPolicyUrl)}
+          {this.renderUrl("privacy_statement", app.privacyStatementUrl)}
+          {this.renderRegistrationInfo(app.registrationInfoUrl)}
+          {this.renderMetadataLink(app.spEntityId)}
         </div>
       </div>
     );
@@ -68,6 +70,17 @@ class AppMeta extends React.Component {
       );
     }
     return null;
+  }
+
+  renderMetadataLink(spEntityId) {
+    const env = window.location.href.indexOf(".acc.") > 0 ? ".acc." : ".";
+    return (
+      <div className="contact">
+        <a target="_blank" href={`https://engine${env}surfconext.nl/authentication/proxy/idps-metadata?sp-entity-id=${encodeURIComponent(spEntityId)}`}>
+          {I18n.t("app_meta.metadata_link")}
+        </a>
+      </div>
+    );
   }
 }
 

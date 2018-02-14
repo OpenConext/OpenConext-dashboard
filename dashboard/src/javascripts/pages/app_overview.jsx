@@ -120,10 +120,9 @@ class AppOverview extends React.Component {
             <table>
               <thead>
               <tr>
-                {this.renderSortableHeader("percent_25", "name")}
-                {this.renderSortableHeader("percent_15", "licenseStatus")}
-                {this.renderSortableHeader("percent_15", "license")}
-                {this.renderSortableHeader("percent_15", "connected")}
+                {this.renderSortableHeader("percent_50", "name")}
+                {this.renderSortableHeader("percent_25", "licenseStatus")}
+                {this.renderSortableHeader("percent_25", "connected")}
                 {connect}
               </tr>
               </thead>
@@ -174,7 +173,6 @@ class AppOverview extends React.Component {
       <tr key={app.id} onClick={e => this.handleShowAppDetail(e, app)}>
         <td><Link to={`apps/${app.id}/overview`}>{app.name}</Link></td>
         {this.renderLicenseNeeded(app)}
-        {this.renderLicensePresent(app)}
         <YesNo value={app.connected}/>
         {connect}
       </tr>
@@ -379,7 +377,9 @@ class AppOverview extends React.Component {
   }
 
   filterBySearchQuery(app) {
-    return Object.values(app.names).some(name => name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0);
+    const searchString = this.state.search.toLowerCase();
+    return Object.values(app.names).some(name => name.toLowerCase().indexOf(searchString) > -1) ||
+      app.spEntityId.toLowerCase().indexOf(searchString) > -1;
   }
 
   filterYesNoFacet(name, yes) {

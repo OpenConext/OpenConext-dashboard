@@ -140,7 +140,8 @@ I18n.translations.nl = {
     login: "Login pagina",
     registration_info_html: "Deze Service Provider is beschikbaar in SURFconext via <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. De Service Provider is door de volgende federatie geregistreerd: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
     registration_policy: "Registratie beleid",
-    privacy_statement: "Privacyverklaring"
+    privacy_statement: "Privacyverklaring",
+    metadata_link: "Metadata"
   },
 
   license_info_panel: {
