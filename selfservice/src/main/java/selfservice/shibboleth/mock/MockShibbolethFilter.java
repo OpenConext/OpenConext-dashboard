@@ -4,6 +4,7 @@ import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_SchacPersonalUniqueCode;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_Uid;
 import static selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter.shibHeaders;
 
@@ -75,6 +76,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
       wrapper.setHeader(Shib_Uid.getValue(), userId);
       wrapper.setHeader(Shib_Authenticating_Authority.getValue(), idp);
       wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
+      wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");
       wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
 
       wrapper.setHeader(shibHeaders.get("urn:mace:dir:attribute-def:eduPersonEntitlement").getValue(), "urn:mace:terena.org:tcs:personal-user;some-filtered-value");

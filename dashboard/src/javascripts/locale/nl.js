@@ -581,6 +581,10 @@ I18n.translations.nl = {
         name: "Type Organisatie",
         description: "aanduiding voor het type organisatie waartoe een persoon behoort, gebruikmakend van de waarden zoals geregisteerd door Terena op: http://www.terena.org/registry/terena.org/schac/homeOrganizationType"
       },
+      "Shib-schacPersonalUniqueCode": {
+        name: "Persoonlijke unieke code",
+        description: "deze waardes worden gebruikt voor specifieke identificaties"
+      },
       "Shib-nlEduPersonHomeOrganization": {
         name: "Weergavenaam van de Instelling",
         description: "weergavenaam van de instelling"

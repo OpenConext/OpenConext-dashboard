@@ -47,6 +47,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
       .put("urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer", Shib_NlStudielinkNummer)
       .put("urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier", Shib_NlDigitalAuthorIdentifier)
       .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit", Shib_NlEduPersonOrgUnit)
+      .put("urn:schac:attribute-def:schacPersonalUniqueCode", Shib_SchacPersonalUniqueCode)
       .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1", Shib_UserStatus)
       .put("urn:oid:1.3.6.1.4.1.5923.1.1.1.1", Shib_Accountstatus)
       .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2", Shib_VoName)

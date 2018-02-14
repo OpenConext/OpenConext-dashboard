@@ -581,6 +581,10 @@ I18n.translations.en = {
         name: "Type of Organization",
         description: "type of organization to which the user belongs"
       },
+      "Shib-schacPersonalUniqueCode": {
+        name: "Personal unique code",
+        description: "these values are used to express specific types of identification number"
+      },
       "Shib-nlEduPersonHomeOrganization": {
         name: "Display name of Organization",
         description: "display name of the organization"
