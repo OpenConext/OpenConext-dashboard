@@ -160,7 +160,7 @@ class MyIdp extends React.Component {
           </tbody>
         </table>
 
-        { this.renderContactPersons(currentIdp.contactPersons) }
+        { this.renderContactPersons(null) }
       </div>
     );
   }

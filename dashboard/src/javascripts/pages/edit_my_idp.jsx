@@ -126,8 +126,8 @@ class EditMyIdp extends React.Component {
   }
 
   renderIdpFields() {
-    const { currentUser } = this.context;
-    const currentIdp = currentUser.getCurrentIdp();
+    // const { currentUser } = this.context;
+    // const currentIdp = currentUser.getCurrentIdp();
 
     return (
       <div>
@@ -154,7 +154,7 @@ class EditMyIdp extends React.Component {
           </tbody>
         </table>
 
-        { this.renderContactPersons(currentIdp.contactPersons) }
+        { this.renderContactPersons(null) }
       </div>
     );
   }
