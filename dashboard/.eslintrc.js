@@ -25,7 +25,6 @@ module.exports = {
     "consistent-return": "error",
     "eqeqeq": ["error", "smart"],
     "guard-for-in": "error",
-    "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "no-console": "error",
     "no-octal-escape": "error",
@@ -39,9 +38,7 @@ module.exports = {
     "prefer-arrow-callback": "error",
     "arrow-parens": ["error", "as-needed"],
     "brace-style": ["error", "1tbs"],
-    "space-before-function-paren": ["error", "never"],
     "keyword-spacing": "error",
-    // "object-curly-spacing": ["error", "never"],
     "space-in-parens": "error",
     "array-bracket-spacing": "error"
   }

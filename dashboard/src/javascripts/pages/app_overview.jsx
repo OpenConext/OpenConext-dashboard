@@ -106,15 +106,15 @@ class AppOverview extends React.Component {
         </div>
         <div className="l-right">
           <div className="mod-app-search">
-              <div>
-                <i className="fa fa-search"/>
-                <input
-                  type="search"
-                  value={this.state.search}
-                  onChange={e => this.setState({search: e.target.value})}
-                  placeholder={I18n.t("apps.overview.search_hint")}/>
-                <button type="submit">{I18n.t("apps.overview.search")}</button>
-              </div>
+            <div>
+              <i className="fa fa-search"/>
+              <input
+                type="search"
+                value={this.state.search}
+                onChange={e => this.setState({search: e.target.value})}
+                placeholder={I18n.t("apps.overview.search_hint")}/>
+              <button type="submit">{I18n.t("apps.overview.search")}</button>
+            </div>
           </div>
           <div className="mod-app-list">
             <table>
@@ -309,7 +309,7 @@ class AppOverview extends React.Component {
   addNumbers(filteredApps, facets) {
     const {currentUser} = this.context;
     const me = this;
-    const filter = function (facet, filterFunction) {
+      const filter = function (facet, filterFunction) {
       const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, (value, key) => {
         return key !== facet.name;
       });
@@ -390,7 +390,7 @@ class AppOverview extends React.Component {
   }
 
   filterByFacets(facets) {
-    return function (app) {
+      return function (app) {
       const normalizedCategories = this.normalizeCategories(app);
       for (const facet in facets) {
         if (facets.hasOwnProperty(facet)) {
