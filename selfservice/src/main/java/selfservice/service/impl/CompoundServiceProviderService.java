@@ -23,18 +23,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.domain.IdentityProvider;
-import selfservice.domain.License;
 import selfservice.domain.ServiceProvider;
-import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.service.CrmService;
 import selfservice.serviceregistry.ServiceRegistry;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -57,9 +52,6 @@ public class CompoundServiceProviderService {
 
   @Autowired
   private ServiceRegistry serviceRegistry;
-
-  @Autowired
-  private CrmService licensingService;
 
   public List<CompoundServiceProvider> getAllCSPs() {
     return getCSPs(null, serviceRegistry.getAllServiceProviders());
@@ -96,25 +88,11 @@ public class CompoundServiceProviderService {
 
   private CompoundServiceProvider compound(IdentityProvider identityProvider, ServiceProvider sp, CompoundServiceProvider csp) {
     csp.setServiceProvider(sp);
-
-    getArticleForSp(sp).ifPresent(article -> {
-      csp.setArticle(article);
-      if (identityProvider != null) {
-        csp.setLicenses(getLicensesForIdpAndArticle(identityProvider, article));
-      }
-    });
-
     return csp;
   }
 
   private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
-    Optional<Article> articleO = getArticleForSp(sp);
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp, articleO);
-    articleO.ifPresent(article -> {
-      if (idp != null) {
-        csp.setLicenses(getLicensesForIdpAndArticle(idp, article));
-      }
-    });
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp);
 
     try {
       return compoundServiceProviderDao.save(csp);
@@ -143,11 +121,6 @@ public class CompoundServiceProviderService {
     }
     csp.setServiceProvider(sp);
 
-    getArticleForSp(sp).ifPresent(article -> {
-      csp.setArticle(article);
-      csp.setLicenses(getLicensesForIdpAndArticle(idp, article));
-    });
-
     return csp;
   }
 
@@ -164,30 +137,14 @@ public class CompoundServiceProviderService {
     CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByServiceProviderEntityId(serviceProvider.getId());
     if (compoundServiceProvider == null) {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProvider.getId());
-      compoundServiceProvider = CompoundServiceProvider.builder(serviceProvider, getArticleForSp(serviceProvider));
       compoundServiceProvider = compoundServiceProviderDao.save(compoundServiceProvider);
       LOG.debug("Persisted a CompoundServiceProvider with id {}");
     } else {
       compoundServiceProvider.setServiceProvider(serviceProvider);
-      getArticleForSp(serviceProvider).ifPresent(compoundServiceProvider::setArticle);
       compoundServiceProvider.updateTransientOriginFields();
     }
     return compoundServiceProvider;
   }
 
-  private Optional<Article> getArticleForSp(ServiceProvider sp) {
-    checkNotNull(sp);
-
-    List<Article> articles = licensingService.getArticlesForServiceProviders(Collections.singletonList(sp.getId()));
-
-    return articles.stream().filter(article -> article.getServiceProviderEntityId().equals(sp.getId())).findFirst();
-  }
-
-  private List<License> getLicensesForIdpAndArticle(IdentityProvider idp, Article article) {
-    checkNotNull(idp);
-    checkNotNull(article);
-
-    return licensingService.getLicensesForIdpAndSp(idp, article.getLmngIdentifier());
-  }
 
 }

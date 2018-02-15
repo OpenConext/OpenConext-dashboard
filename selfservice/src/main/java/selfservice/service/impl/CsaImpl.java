@@ -1,32 +1,27 @@
 package selfservice.service.impl;
 
-import static java.util.stream.Collectors.toList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import selfservice.cache.ServicesCache;
+import selfservice.dao.FacetDao;
+import selfservice.domain.Category;
+import selfservice.domain.CategoryValue;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.Provider;
+import selfservice.domain.Service;
+import selfservice.domain.Taxonomy;
+import selfservice.service.Csa;
+import selfservice.serviceregistry.ServiceRegistry;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
-
-import selfservice.cache.CrmCache;
-import selfservice.cache.ServicesCache;
-import selfservice.dao.FacetDao;
-import selfservice.domain.Category;
-import selfservice.domain.CategoryValue;
-import selfservice.domain.CrmArticle;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.Provider;
-import selfservice.domain.Service;
-import selfservice.domain.Taxonomy;
-import selfservice.domain.csa.Article;
-import selfservice.service.Csa;
-import selfservice.serviceregistry.ServiceRegistry;
+import static java.util.stream.Collectors.toList;
 
 public class CsaImpl implements Csa {
 
@@ -38,9 +33,6 @@ public class CsaImpl implements Csa {
 
   @Autowired
   private ServiceRegistry serviceRegistry;
-
-  @Autowired
-  private CrmCache crmCache;
 
   private final String defaultLocale = "en";
 
@@ -59,13 +51,6 @@ public class CsaImpl implements Csa {
       return showForInstitution || isConnected;
     }).map(service -> {
         service.setConnected(connectedServiceProviderIdentifiers.contains(service.getSpEntityId()));
-
-        crmCache.getLicense(service, identityProvider.getInstitutionId()).ifPresent(license -> service.setLicense(license));
-        crmCache.getArticle(service).map(this::getArticle).ifPresent(crmArticle -> {
-          service.setHasCrmLink(true);
-          service.setCrmArticle(crmArticle);
-        });
-
         return service;
     }).collect(toList());
   }
@@ -113,19 +98,6 @@ public class CsaImpl implements Csa {
       }
     }
     return locale != null ? locale.getLanguage() : defaultLocale;
-  }
-
-  private CrmArticle getArticle(Article article) {
-    CrmArticle crmArticle = new CrmArticle();
-    crmArticle.setGuid(article.getLmngIdentifier());
-    if (article.getAndroidPlayStoreMedium() != null) {
-      crmArticle.setAndroidPlayStoreUrl(article.getAndroidPlayStoreMedium().getUrl());
-    }
-    if (article.getAppleAppStoreMedium() != null) {
-      crmArticle.setAppleAppStoreUrl(article.getAppleAppStoreMedium().getUrl());
-    }
-
-    return crmArticle;
   }
 
 }

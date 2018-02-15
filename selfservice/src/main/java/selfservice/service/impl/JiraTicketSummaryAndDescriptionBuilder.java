@@ -107,12 +107,7 @@ class JiraTicketSummaryAndDescriptionBuilder {
       case HAS_LICENSE_SP:
         return "Unknown";
       case HAS_LICENSE_SURFMARKET:
-        if (!action.getService().isHasCrmLink()) {
-          return "Unknown";
-        } else if (action.getService().getLicense() != null) {
           return "Yes";
-        }
-        return "No";
       case NOT_NEEDED:
         return "n/a";
       default:

@@ -47,6 +47,10 @@ I18n.translations.nl = {
     my_idp: "Mijn instelling"
   },
 
+  loader: {
+    loading: "Alle services worden ingeladen"
+  },
+
   facets: {
     title: "Filters",
     reset: "Reset",

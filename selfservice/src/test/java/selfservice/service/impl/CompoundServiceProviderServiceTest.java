@@ -16,29 +16,27 @@
 
 package selfservice.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import selfservice.dao.CompoundServiceProviderDao;
-import selfservice.dao.LmngIdentifierDao;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
-import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.service.CrmService;
 import selfservice.serviceregistry.ServiceRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.google.common.collect.ImmutableMap;
-
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CompoundServiceProviderServiceTest {
 
@@ -49,13 +47,7 @@ public class CompoundServiceProviderServiceTest {
   private ServiceRegistry serviceRegistry;
 
   @Mock
-  private CrmService licensingService;
-
-  @Mock
   private CompoundServiceProviderDao compoundServiceProviderDao;
-
-  @Mock
-  private LmngIdentifierDao lmngIdentifierDao;
 
   @Before
   public void setUp() throws Exception {
@@ -83,7 +75,7 @@ public class CompoundServiceProviderServiceTest {
 
     // There is one existing CSP, belonging to sp1.
     List<CompoundServiceProvider> csps = new ArrayList<CompoundServiceProvider>();
-    CompoundServiceProvider csp1 = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
+    CompoundServiceProvider csp1 = CompoundServiceProvider.builder(sp1);
     csps.add(csp1);
 
     when(serviceRegistry.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
@@ -107,7 +99,7 @@ public class CompoundServiceProviderServiceTest {
     when(serviceRegistry.getAllServiceProviders("idpid")).thenReturn(sps);
     when(serviceRegistry.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
 
-    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp1, Optional.of(new Article()));
+    CompoundServiceProvider csp = CompoundServiceProvider.builder(sp1);
     when(compoundServiceProviderDao.findOne(1L)).thenReturn(csp);
     IdentityProvider idp = new IdentityProvider("idpid", "instid", "thename");
     CompoundServiceProvider gottenCSP = cspService.getCSPById(idp, 1L);

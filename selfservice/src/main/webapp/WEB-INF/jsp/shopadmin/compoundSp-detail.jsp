@@ -51,25 +51,12 @@
         <div id="${fieldId}-body" class="accordion-body collapse">
           <div class="accordion-inner">
             <ul class="nav nav-tabs">
-              <c:if test="${field.availableInSurfMarket}">
-                <li ${field.source=='LMNG' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
-              </c:if>
               <c:if test="${field.availableInSurfConext}">
                 <li ${field.source=='SURFCONEXT' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext"><spring:message code="jsp.compound_sp_surfconext"/></a></li>
               </c:if>              
               <li ${field.source=='DISTRIBUTIONCHANNEL' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
             </ul>
             <div class="tab-content">
-            <c:if test="${field.availableInSurfMarket}">
-              <form class="tab-pane ${field.source=='LMNG' ? 'active' : ''}" id="form${fieldId}-lmng">
-                <p>${compoundSp.lmngFieldValues[field.key]}</p>
-                <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
-                <input type="hidden" name="source" value="LMNG" />
-                <input type="hidden" name="fieldId" value="${field.id}" />
-                <button name="usethis" value="usethis" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
-                <p class="pull-right">${field.technicalOriginLmng}</p>
-              </form>
-            </c:if>
             <c:if test="${field.availableInSurfConext}">
               <form class="tab-pane ${field.source=='SURFCONEXT' ? 'active' : ''}" id="form${fieldId}-surfconext">
                 <p>${compoundSp.surfConextFieldValues[field.key]}</p>
@@ -110,27 +97,12 @@
     <div id="${fieldId}-body" class="accordion-body collapse">
       <div class="accordion-inner">
         <ul class="nav nav-tabs">
-          <c:if test="${field.availableInSurfMarket}">
-            <li ${field.source=='LMNG' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-lmng"><spring:message code="jsp.compound_sp_surfmarket"/></a></li>
-          </c:if>
           <c:if test="${field.availableInSurfConext}">
             <li ${field.source=='SURFCONEXT' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-surfconext"><spring:message code="jsp.compound_sp_surfconext"/></a></li>
           </c:if>
           <li ${field.source=='DISTRIBUTIONCHANNEL' ? 'class="active source-selected"' : ''}><a data-toggle="tab" class="sourceTab" href="#form${fieldId}-distributionchannel"><spring:message code="jsp.compound_sp_distributionchannel"/></a></li>
         </ul>
         <div class="tab-content">
-          <c:if test="${field.availableInSurfMarket}">
-            <form class="tab-pane ${field.source=='LMNG' ? 'active' : ''}" id="form${fieldId}-lmng">
-              <c:if test="${!empty compoundSp.lmngFieldValues[field.key]}">
-                <img src="<spring:url value="${compoundSp.lmngFieldValues[field.key]}" />"/>
-              </c:if>
-              <input type="hidden" name="tokencheck" value="<c:out value='${tokencheck}'/>"/>
-              <input type="hidden" name="source" value="LMNG" />
-              <input type="hidden" name="fieldId" value="${field.id}" />
-              <button name="usethis" value="usethis-image" class="btn btn-primary btn-small"><spring:message code="jsp.compound_sp_select_source"/></button>
-              <p class="pull-right">${field.technicalOriginLmng}</p>
-            </form>
-          </c:if>
           <c:if test="${field.availableInSurfConext}">
             <form class="tab-pane ${field.source=='SURFCONEXT' ? 'active' : ''}" id="form${fieldId}-surfconext">
               <c:if test="${!empty compoundSp.surfConextFieldValues[field.key]}">

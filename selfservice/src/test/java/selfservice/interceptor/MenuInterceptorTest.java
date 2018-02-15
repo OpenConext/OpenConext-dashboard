@@ -48,7 +48,7 @@ public class MenuInterceptorTest {
   @Test
   public void test_menu_for_role_distribution_admin() throws Exception {
     Menu menu = executeTestAndReturnMenu("/whatever.shtml", ROLE_DISTRIBUTION_CHANNEL_ADMIN);
-    assertEquals(5, menu.getMenuItems().size());
+    assertEquals(4, menu.getMenuItems().size());
   }
 
   private Menu executeTestAndReturnMenu(String requestUri, Authority... authorities) throws Exception {

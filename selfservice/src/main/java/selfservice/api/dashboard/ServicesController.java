@@ -83,7 +83,6 @@ public class ServicesController extends BaseController {
             service.getWikiUrl(),
             service.getSupportMail(),
             String.valueOf(service.isConnected()),
-            service.getLicense() != null ? service.getLicense().toString() : null,
             service.getLicenseStatus().name(),
             service.getCategories().stream().map(Category::getName).collect(joining()),
             service.getSpEntityId(),
@@ -96,7 +95,7 @@ public class ServicesController extends BaseController {
 
     Stream<String[]> headers = Stream.<String[]>of(new String[] {
         "id", "name", "description", "app-url", "wiki-url", "support-mail",
-        "connected", "license", "licenseStatus", "categories", "spEntityId",
+        "connected", "licenseStatus", "categories", "spEntityId",
         "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant", "strongAuthentication" });
 
     List<String[]> rows = Stream.concat(headers, values).collect(toList());

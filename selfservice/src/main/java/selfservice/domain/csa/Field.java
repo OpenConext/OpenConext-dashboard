@@ -45,22 +45,8 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
   private CompoundServiceProvider compoundServiceProvider;
   
   @Transient
-  private Boolean availableInSurfMarket;
-  
-  @Transient
   private Boolean availableInSurfConext;
 
-  @Transient
-  private Map<Key, String> technicalOriginsLMNG = new HashMap<Key, String>() {
-    {
-      // CRM specific values
-      put(Key.SERVICE_DESCRIPTION_NL,       "In SurfMarket CRM: artikel.lmng_description");
-      put(Key.DETAIL_LOGO,                  "In SurfMarket CRM: image.lmng_url");
-      put(Key.INSTITUTION_DESCRIPTION_NL,   "In SurfMarket CRM: lmng_descriptionlong");
-      put(Key.ENDUSER_DESCRIPTION_NL,       "In SurfMarket CRM: lmng_surfspotdescriptionlong");
-    }
-  };
-      
   @Transient
   private Map<Key, String> technicalOriginsSurfConext = new HashMap<Key, String>() {
     {
@@ -99,7 +85,7 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
   }
 
   public enum Source {
-    LMNG, SURFCONEXT, DISTRIBUTIONCHANNEL
+    SURFCONEXT, DISTRIBUTIONCHANNEL
   }
 
   /**
@@ -191,14 +177,6 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
     this.compoundServiceProvider = compoundServiceProvider;
   }
   
-  public String getTechnicalOriginLmng() {
-    String result = "";
-    if (null != technicalOriginsLMNG.get(this.key)) {
-      result = technicalOriginsLMNG.get(this.key);
-    }
-    return result;
-  }
-  
   public String getTechnicalOriginSurfConext() {
     String result = "";
     if (null != technicalOriginsSurfConext.get(this.key)) {
@@ -206,7 +184,7 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
     }
     return result;
   }
-  
+
   public abstract boolean isUnset();
 
   @Override
@@ -223,20 +201,6 @@ public abstract class Field extends DomainObject implements Comparable<Field> {
     return new CompareToBuilder()
       .append(this.key, that.key)
       .toComparison();
-  }
-
-  /**
-   * @return the availableInSurfMarket
-   */
-  public Boolean getAvailableInSurfMarket() {
-    return availableInSurfMarket;
-  }
-
-  /**
-   * @param availableInSurfMarket the availableInSurfMarket to set
-   */
-  public void setAvailableInSurfMarket(Boolean availableInSurfMarket) {
-    this.availableInSurfMarket = availableInSurfMarket;
   }
 
   /**

@@ -9,12 +9,12 @@ import selfservice.domain.Service;
 
 public class RestDataFixture {
 
-  public static interface ServiceUpdater {
-    public void apply(Service service);
+  public interface ServiceUpdater {
+    void apply(Service service);
   }
 
   public static Service serviceWithSpEntityId(String spEntityId, ServiceUpdater... serviceUpdaters) {
-    Service service = new Service(1l, "name", "http://logo", "http://website", false, null, spEntityId);
+    Service service = new Service(1l, "name", "http://logo", "http://website",spEntityId);
 
     if (serviceUpdaters != null) {
       for (ServiceUpdater serviceUpdater : serviceUpdaters) {

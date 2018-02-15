@@ -47,6 +47,10 @@ I18n.translations.en = {
     my_idp: "My institute"
   },
 
+  loader: {
+    loading: "All services are being loaded"
+  },
+
   facets: {
     title: "Filters",
     reset: "Reset",

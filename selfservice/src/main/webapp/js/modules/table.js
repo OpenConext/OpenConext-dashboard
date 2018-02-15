@@ -126,7 +126,6 @@ app.table = function() {
         {'sType' : 'boolean'},
         {'bSortable': false},
         {'bSortable': false},
-        {'bSortable': false},
         {'bSortable': false} ]
     });
 
@@ -156,11 +155,7 @@ app.table = function() {
       aoColumns : [
         {'sType' : 'spnames'},
         {'sType' : 'boolean'},
-        {'sType' : 'boolean'},
-        {'sType' : 'spnames'},
-        {'bSortable': false},
-        {'bSortable': false},
-        {'sType' : 'boolean'},
+        {'sType' : 'boolean'}
       ]
     });
 

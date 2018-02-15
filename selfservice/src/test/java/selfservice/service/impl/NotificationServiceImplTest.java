@@ -16,21 +16,19 @@
 
 package selfservice.service.impl;
 
-import selfservice.domain.CoinAuthority.Authority;
-import selfservice.domain.InstitutionIdentityProvider;
-import selfservice.domain.License;
-import selfservice.domain.NotificationMessage;
-import selfservice.domain.Service;
-import selfservice.service.Csa;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import selfservice.domain.CoinAuthority.Authority;
+import selfservice.domain.InstitutionIdentityProvider;
+import selfservice.domain.NotificationMessage;
+import selfservice.domain.Service;
+import selfservice.service.Csa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -78,18 +76,13 @@ public class NotificationServiceImplTest {
 
     NotificationMessage message = notificationServiceImpl.getNotifications(idp.getId());
 
-    assertEquals(2, message.getArguments().size());
-    assertEquals(services.get(0), message.getArguments().get(0));
-    assertEquals(services.get(1), message.getArguments().get(1));
+    assertEquals(4, message.getArguments().size());
 
     assertEquals(NotificationServiceImpl.FCP_NOTIFICATIONS, message.getMessageKeys().get(0));
   }
 
   private Service createService(String spName, boolean hasLicense, boolean isConnected) {
-    Service s = new Service(0L, spName, "", "", true, "", "");
-    if (hasLicense) {
-      s.setLicense(new License(new Date(), new Date(), "", ""));
-    }
+    Service s = new Service(0L, spName, "", "", "");
     s.setConnected(isConnected);
     return s;
   }

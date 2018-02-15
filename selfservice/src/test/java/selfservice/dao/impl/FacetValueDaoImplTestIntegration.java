@@ -18,38 +18,20 @@
  */
 package selfservice.dao.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.context.jdbc.SqlConfig.ErrorMode.FAIL_ON_ERROR;
-import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.common.collect.ImmutableMap;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
-
-import selfservice.Application;
 import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.dao.FacetDao;
 import selfservice.dao.FacetValueDao;
@@ -57,9 +39,15 @@ import selfservice.dao.LocalizedStringDao;
 import selfservice.domain.Facet;
 import selfservice.domain.FacetValue;
 import selfservice.domain.ServiceProvider;
-import selfservice.domain.csa.Article;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.domain.csa.InUseFacetValue;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -212,7 +200,7 @@ public class FacetValueDaoImplTestIntegration implements LocaleResolver {
   }
 
   private CompoundServiceProvider createCompoundServerProvider() {
-    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider(ImmutableMap.of("entityid", "sp-id")), Optional.of(new Article()));
+    CompoundServiceProvider provider = CompoundServiceProvider.builder(new ServiceProvider(ImmutableMap.of("entityid", "sp-id")));
     provider = compoundServiceProviderDao.save(provider);
 
     return provider;

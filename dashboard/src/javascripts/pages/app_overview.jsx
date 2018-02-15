@@ -9,6 +9,7 @@ import sort from "../utils/sort";
 
 import Facets from "../components/facets";
 import YesNo from "../components/yes_no";
+import Loading from "../components/loading";
 
 const store = {
   activeFacets: null,
@@ -26,7 +27,8 @@ class AppOverview extends React.Component {
       activeFacets: store.activeFacets || {},
       hiddenFacets: store.hiddenFacets || {},
       sortAttribute: "name",
-      sortAscending: undefined
+      sortAscending: undefined,
+      loading: true
     };
   }
 
@@ -61,7 +63,7 @@ class AppOverview extends React.Component {
         });
       });
 
-      this.setState({apps, facets});
+      this.setState({apps: apps, facets: facets, loading: false});
     });
   }
 
@@ -74,7 +76,10 @@ class AppOverview extends React.Component {
 
   render() {
     const {currentUser} = this.context;
-    const {sortAttribute, sortAscending} = this.state;
+    const {loading, sortAttribute, sortAscending} = this.state;
+    if (loading) {
+      return <Loading/>
+    }
     const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
     let connect = null;
 

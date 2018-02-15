@@ -41,7 +41,6 @@ public class Service implements Comparable<Service>, Serializable {
   private String websiteUrl;
   private String appUrl;
   private String serviceUrl;
-  private String crmUrl;
   private String detailLogoUrl;
   private String supportUrl;
   private String eulaUrl;
@@ -67,7 +66,6 @@ public class Service implements Comparable<Service>, Serializable {
   private Map<String, String> descriptions = new HashMap<>();
 
   private boolean connected;
-  private boolean hasCrmLink;
   private boolean idpVisibleOnly;
   private boolean publishedInEdugain;
   private boolean normenkaderPresent;
@@ -76,9 +74,6 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean strongAuthentication;
   private boolean noConsentRequired;
 
-  private CrmArticle crmArticle;
-
-  private License license;
   private LicenseStatus licenseStatus;
 
   private ARP arp;
@@ -86,13 +81,11 @@ public class Service implements Comparable<Service>, Serializable {
   public Service() {
   }
 
-  public Service(long id, String name, String logoUrl, String websiteUrl, boolean hasCrmLink, String crmUrl, String spEntityId) {
+  public Service(long id, String name, String logoUrl, String websiteUrl, String spEntityId) {
     this.id = id;
     this.name = name;
     this.logoUrl = logoUrl;
     this.websiteUrl = websiteUrl;
-    this.hasCrmLink = hasCrmLink;
-    this.crmUrl = crmUrl;
     this.spEntityId = spEntityId;
   }
 
@@ -120,22 +113,6 @@ public class Service implements Comparable<Service>, Serializable {
     this.websiteUrl = websiteUrl;
   }
 
-  public boolean isHasCrmLink() {
-    return hasCrmLink;
-  }
-
-  public void setHasCrmLink(boolean hasCrmLink) {
-    this.hasCrmLink = hasCrmLink;
-  }
-
-  public String getCrmUrl() {
-    return crmUrl;
-  }
-
-  public void setCrmUrl(String crmUrl) {
-    this.crmUrl = crmUrl;
-  }
-
   public boolean isConnected() {
     return connected;
   }
@@ -150,14 +127,6 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setId(long id) {
     this.id = id;
-  }
-
-  public License getLicense() {
-    return license;
-  }
-
-  public void setLicense(License license) {
-    this.license = license;
   }
 
   public List<Category> getCategories() {
@@ -206,14 +175,6 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setDetailLogoUrl(String detailLogoUrl) {
     this.detailLogoUrl = detailLogoUrl;
-  }
-
-  public CrmArticle getCrmArticle() {
-    return crmArticle;
-  }
-
-  public void setCrmArticle(CrmArticle crmArticle) {
-    this.crmArticle = crmArticle;
   }
 
   public String getSupportUrl() {

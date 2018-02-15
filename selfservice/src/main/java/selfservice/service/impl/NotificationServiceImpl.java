@@ -16,18 +16,17 @@
  */
 package selfservice.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.NotificationMessage;
 import selfservice.domain.Service;
 import selfservice.service.Csa;
 import selfservice.service.NotificationService;
 import selfservice.util.SpringSecurity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class NotificationServiceImpl implements NotificationService {
@@ -54,9 +53,9 @@ public class NotificationServiceImpl implements NotificationService {
     List<Service> noLicenseCSPs = new ArrayList<>();
 
     for (Service service : services) {
-      if (service.getLicense() != null && !service.isConnected()) {
+      if (!service.isConnected()) {
         notLinkedCSPs.add(service);
-      } else if (service.getLicense() == null && service.isHasCrmLink() && service.isConnected()) {
+      } else if (service.isConnected()) {
         noLicenseCSPs.add(service);
       }
     }

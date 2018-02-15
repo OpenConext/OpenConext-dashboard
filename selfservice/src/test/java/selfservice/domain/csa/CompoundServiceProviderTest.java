@@ -37,12 +37,9 @@ public class CompoundServiceProviderTest {
   @Test
   public void testBuilder() {
     ServiceProvider serviceProvider = new ServiceProvider(ImmutableMap.of("entityid", "id"));
-    Article article = new Article();
 
-    CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
+    CompoundServiceProvider provider = CompoundServiceProvider.builder(serviceProvider);
     Map<Key, String> values = provider.getDistributionFieldValues();
-    String des = values.get(Key.ENDUSER_DESCRIPTION_EN);
-    assertNull(des);
 
     String detailLogo = provider.getDetailLogo();
     // looks strange, but corect as we did not save the provider
@@ -52,13 +49,10 @@ public class CompoundServiceProviderTest {
     assertEquals("/fieldimages/null.img", appLogo);
 
     serviceProvider = new ServiceProvider(ImmutableMap.of("entityid", "id", "logo:0:url", "https://static.surfconext.nl/media/idp/windesheim.png"));
-    provider = CompoundServiceProvider.builder(serviceProvider, Optional.of(article));
+    provider = CompoundServiceProvider.builder(serviceProvider);
     appLogo = provider.getAppStoreLogo();
     assertEquals("https://static.surfconext.nl/media/idp/windesheim.png", appLogo);
 
-    des = values.get(Key.ENDUSER_DESCRIPTION_NL);
-
-    assertNull(des);
   }
 
   @Test
@@ -66,13 +60,11 @@ public class CompoundServiceProviderTest {
     assertTrue(isAllowedCombination(Key.APPSTORE_LOGO, Source.SURFCONEXT));
     assertTrue(isAllowedCombination(Key.APP_URL, Source.SURFCONEXT));
     assertFalse(isAllowedCombination(Key.INSTITUTION_DESCRIPTION_EN, Source.SURFCONEXT));
-    assertFalse(isAllowedCombination(Key.ENDUSER_DESCRIPTION_EN, Source.SURFCONEXT));
-    assertFalse(isAllowedCombination(Key.ENDUSER_DESCRIPTION_NL, Source.SURFCONEXT));
 
-    assertFalse(isAllowedCombination(Key.SERVICE_DESCRIPTION_EN, Source.LMNG));
-    assertFalse(isAllowedCombination(Key.APPSTORE_LOGO, Source.LMNG));
-    assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.LMNG));
-    assertTrue(isAllowedCombination(Key.INSTITUTION_DESCRIPTION_NL, Source.LMNG));
+    assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_EN, Source.SURFCONEXT));
+    assertTrue(isAllowedCombination(Key.APPSTORE_LOGO, Source.SURFCONEXT));
+    assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.SURFCONEXT));
+    assertFalse(isAllowedCombination(Key.INSTITUTION_DESCRIPTION_NL, Source.SURFCONEXT));
 
     assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));
     assertTrue(isAllowedCombination(Key.SERVICE_DESCRIPTION_NL, Source.DISTRIBUTIONCHANNEL));

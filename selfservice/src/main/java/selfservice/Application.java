@@ -18,7 +18,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.LocaleResolver;
-import selfservice.dao.LmngIdentifierDao;
 import selfservice.pdp.PdpService;
 import selfservice.pdp.PdpServiceImpl;
 import selfservice.pdp.PdpServiceMock;
@@ -26,10 +25,14 @@ import selfservice.sab.HttpClientTransport;
 import selfservice.sab.Sab;
 import selfservice.sab.SabClient;
 import selfservice.sab.SabClientMock;
-import selfservice.service.CrmService;
 import selfservice.service.Csa;
 import selfservice.service.VootClient;
-import selfservice.service.impl.*;
+import selfservice.service.impl.CsaImpl;
+import selfservice.service.impl.JiraClient;
+import selfservice.service.impl.JiraClientImpl;
+import selfservice.service.impl.JiraClientMock;
+import selfservice.service.impl.VootClientImpl;
+import selfservice.service.impl.VootClientMock;
 import selfservice.serviceregistry.ClassPathResourceServiceRegistry;
 import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.serviceregistry.UrlResourceServiceRegistry;
@@ -136,18 +139,6 @@ public class Application extends SpringBootServletInitializer {
   @Profile("dev")
   public JiraClient mockJiraClient() {
     return new JiraClientMock();
-  }
-
-  @Bean
-  @Profile("!dev")
-  public CrmService crmService(LmngIdentifierDao lmngIdentifierDao, @Value("${crmServiceClassEndpoint}") String endpoint) {
-    return new LmngServiceImpl(lmngIdentifierDao, endpoint);
-  }
-
-  @Bean
-  @Profile("dev")
-  public CrmService mockCrmService() {
-    return new LmngServiceMock();
   }
 
   @Bean

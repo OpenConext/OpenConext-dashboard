@@ -48,11 +48,7 @@
         <thead>
           <tr>
             <th class="html sorting_asc"><spring:message code="jsp.cspstatus.csp.name"/></th>
-            <th><spring:message code="jsp.cspstatus.csp.lmnglink"/></th>
-            <th><spring:message code="jsp.cspstatus.csp.haslicense"/></th>
             <th><spring:message code="jsp.cspstatus.csp.licenseStatus"/></th>
-            <th><spring:message code="jsp.cspstatus.csp.grouplicense"/></th>
-            <th><spring:message code="jsp.cspstatus.csp.license.expire"/></th>
             <th><spring:message code="jsp.cspstatus.csp.islinked"/></th>
           </tr>
         </thead>
@@ -66,44 +62,7 @@
                 ${serviceDescription}
               </td>
               <td>
-                <c:choose>
-                  <c:when test="${compoundSp.articleAvailable}">
-                    <i class="icon-ok"></i>
-                  </c:when>
-                  <c:otherwise>
-                    <i class="icon-remove icon-greyed-out"></i>
-                  </c:otherwise>
-                </c:choose>
-              </td>
-              <td>
-                <c:choose>
-                  <c:when test="${compoundSp.licenseAvailable}">
-                    <i class="icon-ok"></i>
-                  </c:when>
-                  <c:otherwise>
-                    <i class="icon-remove icon-greyed-out"></i>
-                  </c:otherwise>
-                </c:choose>
-              </td>
-              <td>
                 <spring:message code="jsp.lmng_binding_overview.license_status.${compoundSp.licenseStatus}"/>
-              </td>
-              <td>
-                <c:if test="${not empty compoundSp.license}">
-                  <c:choose>
-                    <c:when test="${compoundSp.license.groupLicense}">
-                      <i class="icon-ok"></i>
-                    </c:when>
-                    <c:otherwise>
-                      <i class="icon-remove icon-greyed-out"></i>
-                    </c:otherwise>
-                  </c:choose>
-                </c:if>
-              </td>
-              <td>
-                <c:if test="${not empty compoundSp.license}">
-                  <fmt:formatDate pattern="dd-MM-yyyy" value="${compoundSp.license.endDate}"/>
-                </c:if>
               </td>
               <td>
                 <c:choose>

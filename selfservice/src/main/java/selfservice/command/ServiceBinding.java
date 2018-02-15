@@ -21,20 +21,14 @@ import com.google.common.base.MoreObjects;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
 
-public class LmngServiceBinding {
+public class ServiceBinding {
 
-  private final String lmngIdentifier;
   private final ServiceProvider serviceProvider;
   private final CompoundServiceProvider compoundServiceProvider;
 
-  public LmngServiceBinding(String lmngIdentifier, ServiceProvider serviceProvider, CompoundServiceProvider compoundServiceProvider) {
-    this.lmngIdentifier = lmngIdentifier;
+  public ServiceBinding(ServiceProvider serviceProvider, CompoundServiceProvider compoundServiceProvider) {
     this.serviceProvider = serviceProvider;
     this.compoundServiceProvider = compoundServiceProvider;
-  }
-
-  public String getLmngIdentifier() {
-    return lmngIdentifier;
   }
 
   public ServiceProvider getServiceProvider() {
@@ -47,8 +41,7 @@ public class LmngServiceBinding {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(LmngServiceBinding.class)
-        .add("lmngIdentifier", lmngIdentifier)
+    return MoreObjects.toStringHelper(ServiceBinding.class)
         .add("serviceProvider", serviceProvider)
         .add("compoundServiceProvider", compoundServiceProvider)
         .toString();

@@ -1,7 +1,16 @@
 package selfservice.service.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.stream.Collectors.toList;
+import com.google.common.collect.ImmutableMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import selfservice.domain.Category;
+import selfservice.domain.CategoryValue;
+import selfservice.domain.Facet;
+import selfservice.domain.FacetValue;
+import selfservice.domain.Provider;
+import selfservice.domain.Service;
+import selfservice.domain.csa.CompoundServiceProvider;
+import selfservice.service.ServicesService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,41 +18,20 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.ImmutableMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import selfservice.domain.Category;
-import selfservice.domain.CategoryValue;
-import selfservice.domain.CrmArticle;
-import selfservice.domain.Facet;
-import selfservice.domain.FacetValue;
-import selfservice.domain.Provider;
-import selfservice.domain.Service;
-import selfservice.domain.csa.Article;
-import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.service.CrmService;
-import selfservice.service.ServicesService;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toList;
 
 public class ServicesServiceImpl implements ServicesService {
 
   private static final Logger LOG = LoggerFactory.getLogger(ServicesServiceImpl.class);
 
   private final CompoundServiceProviderService compoundSPService;
-  private final CrmService lmngService;
 
   private final String staticBaseUrl;
-  private final String lmngDeepLinkBaseUrl;
 
-  private final String[] guids;
-
-  public ServicesServiceImpl(CompoundServiceProviderService compoundSPService, CrmService lmngService, String staticBaseUrl, String lmngDeepLinkBaseUrl, String[] guids) {
+  public ServicesServiceImpl(CompoundServiceProviderService compoundSPService,  String staticBaseUrl) {
     this.compoundSPService = compoundSPService;
-    this.lmngService = lmngService;
     this.staticBaseUrl = staticBaseUrl;
-    this.lmngDeepLinkBaseUrl = lmngDeepLinkBaseUrl;
-    this.guids = guids;
   }
 
   @Override
@@ -52,9 +40,6 @@ public class ServicesServiceImpl implements ServicesService {
 
     List<Service> servicesEn = buildApiServices(allCSPs, "en");
     List<Service> servicesNl = buildApiServices(allCSPs, "nl");
-    List<Service> crmOnlyServices = getCrmOnlyServices();
-    servicesEn.addAll(crmOnlyServices);
-    servicesNl.addAll(crmOnlyServices);
 
     return ImmutableMap.of("en", servicesEn, "nl", servicesNl);
   }
@@ -81,27 +66,11 @@ public class ServicesServiceImpl implements ServicesService {
     plainProperties(csp, service);
     screenshots(csp, service);
     languageSpecificProperties(csp, isEn, service);
-    addArticle(csp.getArticle(), service);
-    service.setLicense(csp.getLicense());
     categories(csp, service, language);
 
     return service;
   }
 
-  private List<Service> getCrmOnlyServices() {
-    List<Service> result = new ArrayList<>();
-    for (String guid : guids) {
-      Article currentArticle = lmngService.getService(guid);
-      if (currentArticle == null) {
-        LOG.info("A GUID has been configured that cannot be found in CRM: {}", guid);
-      } else {
-        Service currentPS = new Service(0L, currentArticle.getServiceDescriptionNl(), currentArticle.getDetailLogo(), null, true, lmngDeepLinkBaseUrl + guid, null);
-        addArticle(currentArticle, currentPS);
-        result.add(currentPS);
-      }
-    }
-    return result;
-  }
 
   private void plainProperties(CompoundServiceProvider csp, Service service) {
     // Plain properties
@@ -109,7 +78,6 @@ public class ServicesServiceImpl implements ServicesService {
     service.setAppUrl(csp.getAppUrl());
     service.setId(csp.getId());
     service.setEulaUrl(csp.getEulaUrl());
-    service.setCrmUrl(csp.isArticleAvailable() ? (lmngDeepLinkBaseUrl + csp.getLmngId()) : null);
     service.setDetailLogoUrl(absoluteUrl(csp.getDetailLogo()));
     service.setLogoUrl(absoluteUrl(csp.getAppStoreLogo()));
     service.setSupportMail(normalizeEmail(csp.getSupportMail()));
@@ -196,21 +164,6 @@ public class ServicesServiceImpl implements ServicesService {
 
   private Optional<Category> findCategory(List<Category> categories, Facet facet) {
     return categories.stream().filter(category -> category.getName().equalsIgnoreCase(facet.getName())).findFirst();
-  }
-
-  private void addArticle(Article article, Service service) {
-    if (article != null) {
-      CrmArticle crmArticle = new CrmArticle();
-      crmArticle.setGuid(article.getLmngIdentifier());
-      if (article.getAndroidPlayStoreMedium() != null) {
-        crmArticle.setAndroidPlayStoreUrl(article.getAndroidPlayStoreMedium().getUrl());
-      }
-      if (article.getAppleAppStoreMedium() != null) {
-        crmArticle.setAppleAppStoreUrl(article.getAppleAppStoreMedium().getUrl());
-      }
-      service.setHasCrmLink(true);
-      service.setCrmArticle(crmArticle);
-    }
   }
 
   private String absoluteUrl(final String relativeUrl) {

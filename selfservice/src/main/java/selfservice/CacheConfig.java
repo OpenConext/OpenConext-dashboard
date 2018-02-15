@@ -1,24 +1,21 @@
 package selfservice;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.google.common.base.Throwables;
-
+import net.sf.ehcache.CacheManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-
-import net.sf.ehcache.CacheManager;
 import selfservice.cache.ServicesCache;
-import selfservice.service.CrmService;
 import selfservice.service.impl.CompoundServiceProviderService;
 import selfservice.service.impl.ServicesServiceImpl;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @EnableCaching
 @Configuration
@@ -40,13 +37,11 @@ public class CacheConfig {
   }
 
   @Bean
-  public ServicesCache servicesCache(CompoundServiceProviderService compoundSPService, CrmService crmService,
+  public ServicesCache servicesCache(CompoundServiceProviderService compoundSPService,
                                      @Value("${cache.default.initialDelay}") long initialDelay,
                                      @Value("${cache.default.delay}") long delay,
-                                     @Value("${static.baseurl}") String staticBaseUrl,
-                                     @Value("${lmngDeepLinkBaseUrl}") String lmngDeepLinkBaseUrl,
-                                     @Value("${public.api.lmng.guids}") String[] guids) {
-    return new ServicesCache(new ServicesServiceImpl(compoundSPService, crmService, staticBaseUrl, lmngDeepLinkBaseUrl, guids), initialDelay, delay);
+                                     @Value("${static.baseurl}") String staticBaseUrl) {
+    return new ServicesCache(new ServicesServiceImpl(compoundSPService, staticBaseUrl), initialDelay, delay);
   }
 
 }

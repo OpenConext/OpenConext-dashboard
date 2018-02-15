@@ -4,18 +4,18 @@ require("isomorphic-fetch");
 require("lodash");
 
 import React from "react";
-import { render } from "react-dom";
+import {render} from "react-dom";
 import Router from "react-router/BrowserRouter";
 import Match from "react-router/Match";
 import Miss from "react-router/Miss";
 import Redirect from "react-router/Redirect";
 import I18n from "i18n-js";
-import { browserSupported } from "./lib/browser_supported";
+import {browserSupported} from "./lib/browser_supported";
 import moment from "moment";
 
-import CurrentUser, { createCurrentUser } from "./models/current_user";
+import CurrentUser, {createCurrentUser} from "./models/current_user";
 
-import { getUserData } from "./api";
+import {getUserData} from "./api";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Navigation from "./components/navigation";
@@ -54,36 +54,37 @@ class App extends React.Component {
       <Router>
         <div>
           <div className="l-header">
-            <Header />
+            <Header/>
             {this.renderNavigation()}
           </div>
 
-          <MatchStartRoute />
-          <Match exactly pattern="/apps/:id/:activePanel" component={AppDetail} />
-          <Match exactly pattern="/apps/:id" render={({ params: { id } }) => {
-            return <Redirect to={`/apps/${id}/overview`} />;
-          }} />
-          <Match exactly pattern="/apps" component={AppOverview} />
-          <Match exactly pattern="/policies" component={PolicyOverview} />
-          <Match exactly pattern="/notifications" component={Notifications} />
-          <Match exactly pattern="/history" component={History} />
-          <Match exactly pattern="/profile" component={Profile} />
-          <Match exactly pattern="/statistics" component={Stats} />
-          <Match exactly pattern="/my-idp" component={MyIdp} />
-          <Match exactly pattern="/my-idp/edit" component={EditMyIdp} />
-          <Match exactly pattern="/users/search" component={SearchUser} />
-          <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/:id" component={PolicyDetail} />
-          <Match exactly pattern="/policies/:id/revisions" component={PolicyRevisions} />
-          <Miss component={NotFound} />
+          <MatchStartRoute/>
+          <Match exactly pattern="/apps/:id/:activePanel" component={AppDetail}/>
+          <Match exactly pattern="/apps/:id" render={({params: {id}}) => {
+            return <Redirect to={`/apps/${id}/overview`}/>;
+          }}/>
+          <Match exactly pattern="/apps" component={AppOverview}/>
+          <Match exactly pattern="/policies" component={PolicyOverview}/>
+          <Match exactly pattern="/notifications" component={Notifications}/>
+          <Match exactly pattern="/history" component={History}/>
+          <Match exactly pattern="/profile" component={Profile}/>
+          <Match exactly pattern="/statistics" component={Stats}/>
+          <Match exactly pattern="/my-idp" component={MyIdp}/>
+          <Match exactly pattern="/my-idp/edit" component={EditMyIdp}/>
+          <Match exactly pattern="/users/search" component={SearchUser}/>
+          <ProtectedRoute currentUser={this.props.currentUser} exactly pattern="/policies/:id"
+                          component={PolicyDetail}/>
+          <Match exactly pattern="/policies/:id/revisions" component={PolicyRevisions}/>
+          <Miss component={NotFound}/>
 
-          <Footer />
+          <Footer/>
         </div>
       </Router>
     );
   }
 
   renderNavigation() {
-    return this.props.currentUser.superUserNotSwitched() ? null : <Navigation />;
+    return this.props.currentUser.superUserNotSwitched() ? null : <Navigation/>;
   }
 }
 
@@ -98,23 +99,23 @@ App.propTypes = {
 
 if (browserSupported()) {
   getUserData()
-  .then(json => {
-    if (json.noAccess === true) {
-      render(<ServerError />, document.getElementById("app"));
-      return;
-    }
-    I18n.locale = json.language;
-    moment.locale(json.language);
-    const currentUser = createCurrentUser(json.payload);
-    const locationHash = window.location.hash.substr(1);
-    currentUser.statsToken = locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
+    .then(json => {
+      if (json.noAccess === true) {
+        render(<ServerError/>, document.getElementById("app"));
+        return;
+      }
+      I18n.locale = json.language;
+      moment.locale(json.language);
+      const currentUser = createCurrentUser(json.payload);
+      const locationHash = window.location.hash.substr(1);
+      currentUser.statsToken = locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
 
-    if (!currentUser.statsToken && !currentUser.localProfile) {
-      window.location = currentUser.statsUrl + "&state=" + window.location;
-    } else {
-      render(<App currentUser={currentUser} />, document.getElementById("app"));
-    }
-  });
+      if (!currentUser.statsToken && !currentUser.localProfile) {
+        window.location = currentUser.statsUrl + "&state=" + window.location;
+      } else {
+        render(<App currentUser={currentUser}/>, document.getElementById("app"));
+      }
+    });
 } else {
-  render(<BrowserNotSupported />, document.getElementById("app"));
+  render(<BrowserNotSupported/>, document.getElementById("app"));
 }

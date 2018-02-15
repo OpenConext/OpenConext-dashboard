@@ -108,7 +108,7 @@ public class ServicesControllerTest {
 
   @Test
   public void retrieveAService() throws Exception {
-    Service service = new Service(11L, "service-name", "http://logo", "http://website", false, null, IDP_ENTITY_ID);
+    Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
 
     when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
 
@@ -122,7 +122,7 @@ public class ServicesControllerTest {
 
   @Test
   public void retrieveAServiceShouldBeEnriched() throws Exception {
-    Service service = new Service(11L, "service-name", "http://logo", "http://website", false, null, IDP_ENTITY_ID);
+    Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
 
     when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
 
