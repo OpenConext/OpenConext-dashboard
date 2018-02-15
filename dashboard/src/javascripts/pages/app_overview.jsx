@@ -78,7 +78,7 @@ class AppOverview extends React.Component {
     const {currentUser} = this.context;
     const {loading, sortAttribute, sortAscending} = this.state;
     if (loading) {
-      return <Loading/>
+      return <Loading/>;
     }
     const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
     let connect = null;
