@@ -22,9 +22,9 @@ class MyIdp extends React.Component {
     getIdpRolesWithUsers().then(data => {
       this.setState({ roles: data.payload });
     });
-    getLicenseContactPerson().then(data => {
-      this.setState({ licenseContactPersons: data.payload });
-    });
+    // getLicenseContactPerson().then(data => {
+    //   this.setState({ licenseContactPersons: data.payload });
+    // });
 
     getInstitutionServiceProviders().then(data => this.setState({ institutionServiceProviders: data.payload }));
     getGuestEnabledServices().then(data => this.setState({ guestEnabledServices: data.payload }));

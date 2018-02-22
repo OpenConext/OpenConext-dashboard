@@ -18,6 +18,7 @@ package selfservice.service;
 import java.util.List;
 
 import selfservice.domain.Action;
+import selfservice.domain.Change;
 
 public interface ActionsService {
 
@@ -26,6 +27,6 @@ public interface ActionsService {
    */
   List<Action> getActions(String identityProvider);
 
-  Action create(Action action);
+  Action create(Action action, List<Change> changes);
 
 }

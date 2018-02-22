@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class LicenseContactPersonService implements ApplicationListener<ContextR
 
   private final Resource resource;
 
-  private Map<String, List<LicenseContactPerson>> persons;
+  private Map<String, List<LicenseContactPerson>> persons = new HashMap<>();
 
   public LicenseContactPersonService(Resource resource) {
     this.resource = resource;
@@ -45,6 +46,9 @@ public class LicenseContactPersonService implements ApplicationListener<ContextR
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     try {
+      if (true) {
+        return;
+      }
       BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
       this.persons = br.lines().skip(1) //csv header
         .map(line -> line.split(","))

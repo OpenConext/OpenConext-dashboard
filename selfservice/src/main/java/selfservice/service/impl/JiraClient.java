@@ -18,10 +18,11 @@ package selfservice.service.impl;
 import java.util.List;
 
 import selfservice.domain.Action;
+import selfservice.domain.Change;
 
 public interface JiraClient {
 
-  String create(Action action) throws IllegalStateException;
+  String create(Action action, List<Change> changes) throws IllegalStateException;
 
   List<Action> getTasks(String idp);
 

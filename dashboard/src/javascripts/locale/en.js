@@ -374,6 +374,7 @@ I18n.translations.en = {
     edit_message: "You are able to edit the following fields.",
     save: "Create change request",
     change_request_created: "Successfully created your change request.",
+    no_change_request_created: "No change request is created as you did not change anything.",
     change_request_failed: "Failed to create your change request.",
     comments: "Comments"
   },

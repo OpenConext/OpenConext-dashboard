@@ -11,6 +11,8 @@ import selfservice.domain.LicenseStatus;
 import selfservice.domain.Service;
 import selfservice.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 
+import java.util.Collections;
+
 public class JiraTicketSummaryAndDescriptionBuilderTest {
 
   @Test
@@ -20,7 +22,7 @@ public class JiraTicketSummaryAndDescriptionBuilderTest {
     
     Action action = Action.builder().type(Action.Type.QUESTION).body("my question").service(service).build();
 
-    SummaryAndDescription summaryAndDescription = build(action);
+    SummaryAndDescription summaryAndDescription = build(action, Collections.emptyList());
 
     assertThat(summaryAndDescription.description, containsString("Question: my question"));
   }
@@ -32,7 +34,7 @@ public class JiraTicketSummaryAndDescriptionBuilderTest {
     
     Action action = Action.builder().type(Action.Type.LINKREQUEST).body("my remarks").service(service).build();
 
-    SummaryAndDescription summaryAndDescription = build(action);
+    SummaryAndDescription summaryAndDescription = build(action, Collections.emptyList());
 
     assertThat(summaryAndDescription.description, containsString("Remark from user: my remarks"));
   }

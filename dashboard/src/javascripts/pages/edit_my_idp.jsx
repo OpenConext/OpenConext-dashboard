@@ -10,7 +10,6 @@ class EditMyIdp extends React.Component {
 
     const { currentUser } = context;
     const currentIdp = currentUser.getCurrentIdp();
-
     this.state = {
       serviceProviderSettings: [],
       keywordsEn: currentIdp.keywords.en || "",
@@ -34,7 +33,7 @@ class EditMyIdp extends React.Component {
       getGuestEnabledServices()
     ]).then(([institutionServiceProvidersData, guestEnabledServicesData]) => {
       institutionServiceProvidersData.payload.forEach(sp => {
-        sp.hasGuestEnabled = guestEnabledServicesData.payload.find(guestService => guestService.id === sp.id) !== null;
+        sp.hasGuestEnabled = guestEnabledServicesData.payload.find(guestService => guestService.id === sp.id) !== undefined;
         return sp;
       });
       this.setState({
@@ -288,9 +287,16 @@ class EditMyIdp extends React.Component {
     });
 
     sendChangeRequest(request)
-    .then(() => {
-      setFlash(I18n.t("my_idp.change_request_created"));
-      this.context.router.transitionTo("/my-idp");
+    .then(res => {
+      res.json().then(action => {
+        if (action.payload["no-changes"]) {
+          setFlash(I18n.t("my_idp.no_change_request_created"), "warning");
+        } else {
+          setFlash(I18n.t("my_idp.change_request_created"));
+        }
+        window.scrollTo(0, 0);
+        this.context.router.transitionTo("/my-idp");
+      });
     })
     .catch(() => setFlash(I18n.t("my_idp.change_request_failed", "error")));
   }

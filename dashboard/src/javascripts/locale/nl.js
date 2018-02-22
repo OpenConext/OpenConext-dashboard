@@ -408,6 +408,7 @@ I18n.translations.nl = {
     edit_message: "De volgende velden kunnen worden aangepast.",
     save: "Maak wijzigingsverzoek aan",
     change_request_created: "Het wijzigingsverzoek is succesvol aangemaakt.",
+    no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
     change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
     comments: "Opmerkingen"
   },

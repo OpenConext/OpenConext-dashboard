@@ -18,6 +18,7 @@ import selfservice.util.SpringSecurity;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -184,7 +185,7 @@ public class ServicesController extends BaseController {
               .service(service)
               .type(jiraType).build();
 
-      return Optional.of(actionsService.create(action));
+      return Optional.of(actionsService.create(action, Collections.emptyList()));
     }
 
     return Optional.empty();

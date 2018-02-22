@@ -32,6 +32,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import selfservice.domain.Action;
 import selfservice.domain.Action.Type;
+import selfservice.domain.Change;
 import selfservice.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 
 import java.time.ZonedDateTime;
@@ -81,7 +82,7 @@ public class JiraClientImpl implements JiraClient {
 
   @Override
   @SuppressWarnings("unchecked")
-  public String create(final Action action) {
+  public String create(final Action action, List<Change> changes) {
     Map<String, Object> fields = new HashMap<>();
     fields.put("priority", ImmutableMap.of("id", PRIORITY_MEDIUM_ID));
     fields.put("project", ImmutableMap.of("key", projectKey));
@@ -90,7 +91,7 @@ public class JiraClientImpl implements JiraClient {
     fields.put("customfield_" + IDP_CUSTOM_FIELD, action.getIdpId());
     fields.put("issuetype", ImmutableMap.of("id", TASKTYPE_TO_ISSUETYPE_CODE.get(action.getType())));
 
-    SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action);
+    SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action, changes);
     fields.put("summary", summaryAndDescription.summary);
     fields.put("description", summaryAndDescription.description);
 

@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import selfservice.domain.Action;
+import selfservice.domain.Change;
 
 public class JiraClientMock implements JiraClient {
 
@@ -36,7 +37,7 @@ public class JiraClientMock implements JiraClient {
   private AtomicInteger counter = new AtomicInteger(0);
 
   @Override
-  public String create(final Action action) {
+  public String create(final Action action, List<Change> changes) {
     String key = generateKey();
 
     repository.put(key, action.unbuild().jiraKey(key).body(action.getBody() == null ? "" : action.getBody()).build());

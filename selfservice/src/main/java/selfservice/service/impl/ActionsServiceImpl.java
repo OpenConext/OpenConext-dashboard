@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import selfservice.domain.Action;
+import selfservice.domain.Change;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.service.ActionsService;
@@ -92,8 +93,8 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   @Override
-  public Action create(Action action) {
-    String jiraKey = jiraClient.create(action);
+  public Action create(Action action, List<Change> changes) {
+    String jiraKey = jiraClient.create(action, changes);
 
     Action savedAction = addNames(action).unbuild().jiraKey(jiraKey).build();
 

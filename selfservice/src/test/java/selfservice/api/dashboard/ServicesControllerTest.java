@@ -24,6 +24,7 @@ import selfservice.service.Csa;
 import selfservice.serviceregistry.ServiceRegistry;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -158,7 +159,7 @@ public class ServicesControllerTest {
         .spId(SP_ENTITY_ID)
         .idpId(IDP_ENTITY_ID).build();
 
-    when(actionsServiceMock.create(expectedAction)).thenAnswer(invocation -> invocation.getArguments()[0]);
+    when(actionsServiceMock.create(expectedAction, Collections.emptyList())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/connect")
@@ -173,7 +174,7 @@ public class ServicesControllerTest {
   public void thatADisconnectRequestCanBeMade() throws Exception {
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-    when(actionsServiceMock.create(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
+    when(actionsServiceMock.create(any(), any())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
     this.mockMvc.perform(
       post("/dashboard/api/services/id/" + service.getId() + "/disconnect")
