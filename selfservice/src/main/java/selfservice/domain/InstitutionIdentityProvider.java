@@ -27,15 +27,16 @@ public class InstitutionIdentityProvider implements Serializable {
 
   private String id;
   private String name;
-  private String displayName;
+  private String nameNl;
   private String institutionId;
 
   public InstitutionIdentityProvider() {
   }
 
-  public InstitutionIdentityProvider(String id, String name, String institutionId) {
+  public InstitutionIdentityProvider(String id, String name, String nameNl, String institutionId) {
     this.id = id;
     this.name = name;
+    this.nameNl = nameNl;
     this.institutionId = institutionId;
   }
 
@@ -63,12 +64,12 @@ public class InstitutionIdentityProvider implements Serializable {
     this.institutionId = institutionId;
   }
 
-  public String getDisplayName() {
-    return displayName;
+  public String getNameNl() {
+    return nameNl;
   }
 
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
+  public void setNameNl(String nameNl) {
+    this.nameNl = nameNl;
   }
 
   @Override

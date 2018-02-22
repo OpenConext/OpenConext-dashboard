@@ -4,7 +4,7 @@ import Link from "react-router/Link";
 import Flash from "../components/flash";
 import moment from "moment";
 
-import { getLicenseContactPerson, getIdpRolesWithUsers, getInstitutionServiceProviders, getGuestEnabledServices } from "../api";
+import {getGuestEnabledServices, getIdpRolesWithUsers, getInstitutionServiceProviders} from "../api";
 
 class MyIdp extends React.Component {
   constructor() {

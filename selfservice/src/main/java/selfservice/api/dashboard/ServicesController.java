@@ -60,8 +60,10 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/idps")
   public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
-    List<InstitutionIdentityProvider> idps = serviceRegistry.getLinkedIdentityProviders(spEntityId).stream()
-        .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(), idp.getInstitutionId()))
+    List<IdentityProvider> linkedIdentityProviders = serviceRegistry.getLinkedIdentityProviders(spEntityId);
+    List<InstitutionIdentityProvider> idps = linkedIdentityProviders.stream()
+        .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
+          idp.getName(Provider.Language.NL), idp.getInstitutionId()))
         .collect(toList());
 
     return createRestResponse(idps);

@@ -64,7 +64,7 @@ public class NotificationServiceImplTest {
   public void testGetNotificationsWithMessagesFcp() {
     authorities = Arrays.asList(new Authority[]{Authority.ROLE_DASHBOARD_ADMIN});
 
-    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "institutionid", "name");
+    InstitutionIdentityProvider idp = new InstitutionIdentityProvider("idpId", "name", "nameNl", "institutionid");
 
     List<Service> services = new ArrayList<>();
     services.add(createService("testSp1", true, false));

@@ -31,7 +31,10 @@ class IdpUsagePanel extends React.Component {
   }
 
   renderInstitution(institution) {
-    const value = (institution.displayName && institution.displayName.trim().length > 0) ? institution.displayName : institution.name;
+    const locale = I18n.locale;
+    const nameEn = institution.name && institution.name.trim().length > 0 ? institution.name : institution.nameNl;
+    const nameNl = institution.nameNl && institution.nameNl.trim().length > 0 ? institution.nameNl : institution.name;
+    const value = locale === "en" ? nameEn : nameNl;
     return (
       <tr key={institution.id}>
         <td >{value}</td>
@@ -44,7 +47,8 @@ class IdpUsagePanel extends React.Component {
 IdpUsagePanel.propTypes = {
   app: AppShape.isRequired,
   institutions: React.PropTypes.arrayOf(React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string,
+    nameNl: React.PropTypes.string,
     displayName: React.PropTypes.string,
     id: React.PropTypes.string.isRequired
   })).isRequired

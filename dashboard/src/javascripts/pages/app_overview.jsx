@@ -9,7 +9,6 @@ import sort from "../utils/sort";
 
 import Facets from "../components/facets";
 import YesNo from "../components/yes_no";
-import Loading from "../components/loading";
 
 const store = {
   activeFacets: null,
@@ -27,8 +26,7 @@ class AppOverview extends React.Component {
       activeFacets: store.activeFacets || {},
       hiddenFacets: store.hiddenFacets || {},
       sortAttribute: "name",
-      sortAscending: undefined,
-      loading: true
+      sortAscending: undefined
     };
   }
 
@@ -63,7 +61,7 @@ class AppOverview extends React.Component {
         });
       });
 
-      this.setState({apps: apps, facets: facets, loading: false});
+      this.setState({apps: apps, facets: facets});
     });
   }
 
@@ -76,10 +74,7 @@ class AppOverview extends React.Component {
 
   render() {
     const {currentUser} = this.context;
-    const {loading, sortAttribute, sortAscending} = this.state;
-    if (loading) {
-      return <Loading/>;
-    }
+    const {sortAttribute, sortAscending} = this.state;
     const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
     let connect = null;
 
@@ -312,7 +307,7 @@ class AppOverview extends React.Component {
   addNumbers(filteredApps, facets) {
     const {currentUser} = this.context;
     const me = this;
-      const filter = function (facet, filterFunction) {
+    const filter = function (facet, filterFunction) {
       const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, (value, key) => {
         return key !== facet.name;
       });
@@ -395,7 +390,7 @@ class AppOverview extends React.Component {
   }
 
   filterByFacets(facets) {
-      return function (app) {
+    return function (app) {
       const normalizedCategories = this.normalizeCategories(app);
       for (const facet in facets) {
         if (facets.hasOwnProperty(facet)) {
