@@ -16,7 +16,7 @@ import selfservice.domain.Policy.Attribute;
 import selfservice.domain.ServiceProvider;
 import selfservice.pdp.PdpService;
 import selfservice.service.EmailService;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

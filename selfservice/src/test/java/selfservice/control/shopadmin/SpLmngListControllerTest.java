@@ -15,7 +15,7 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.impl.CompoundServiceProviderService;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 
 import javax.servlet.http.HttpServletRequest;

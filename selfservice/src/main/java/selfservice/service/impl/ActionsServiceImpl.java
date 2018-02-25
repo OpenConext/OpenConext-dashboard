@@ -36,7 +36,7 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.service.ActionsService;
 import selfservice.service.EmailService;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 @Service
 public class ActionsServiceImpl implements ActionsService {

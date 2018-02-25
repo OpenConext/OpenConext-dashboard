@@ -20,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import selfservice.domain.Action;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ActionsServiceImplTest {

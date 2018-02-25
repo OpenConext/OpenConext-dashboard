@@ -26,7 +26,7 @@ import selfservice.filter.SabEntitlementsFilter;
 import selfservice.filter.VootFilter;
 import selfservice.sab.Sab;
 import selfservice.service.VootClient;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import selfservice.shibboleth.ShibbolethUserDetailService;
 import selfservice.shibboleth.mock.MockShibbolethFilter;

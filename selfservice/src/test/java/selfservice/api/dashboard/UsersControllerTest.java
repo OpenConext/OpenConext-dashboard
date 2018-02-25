@@ -22,7 +22,7 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.util.Collections;

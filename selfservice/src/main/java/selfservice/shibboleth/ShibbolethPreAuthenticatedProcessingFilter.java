@@ -7,7 +7,7 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.util.StringUtils;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;

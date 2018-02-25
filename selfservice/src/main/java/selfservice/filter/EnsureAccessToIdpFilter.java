@@ -2,7 +2,7 @@ package selfservice.filter;
 
 import org.springframework.web.filter.GenericFilterBean;
 import selfservice.domain.IdentityProvider;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.FilterChain;

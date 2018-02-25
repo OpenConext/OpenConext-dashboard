@@ -13,7 +13,7 @@ import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.Taxonomy;
 import selfservice.service.Csa;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

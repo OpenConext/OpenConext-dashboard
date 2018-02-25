@@ -33,7 +33,7 @@ import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.domain.LicenseStatus;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.impl.CompoundServiceProviderService;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

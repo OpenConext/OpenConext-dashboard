@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;

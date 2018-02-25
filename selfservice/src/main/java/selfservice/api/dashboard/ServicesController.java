@@ -21,7 +21,7 @@ import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.service.ActionsService;
 import selfservice.service.Csa;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;

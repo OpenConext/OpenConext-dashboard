@@ -33,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import selfservice.domain.IdentityProvider;
 import selfservice.service.impl.CompoundServiceProviderService;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 /**
  * Controller that handles the CSP status page (used for the shopmanager to get

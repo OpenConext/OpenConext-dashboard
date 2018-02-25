@@ -33,9 +33,9 @@ import selfservice.service.impl.JiraClientImpl;
 import selfservice.service.impl.JiraClientMock;
 import selfservice.service.impl.VootClientImpl;
 import selfservice.service.impl.VootClientMock;
-import selfservice.serviceregistry.ClassPathResourceManage;
-import selfservice.serviceregistry.Manage;
-import selfservice.serviceregistry.UrlResourceManage;
+import selfservice.manage.ClassPathResourceManage;
+import selfservice.manage.Manage;
+import selfservice.manage.UrlResourceManage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import selfservice.util.LicenseContactPersonService;
 

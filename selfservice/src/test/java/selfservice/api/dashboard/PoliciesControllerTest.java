@@ -34,7 +34,7 @@ import selfservice.filter.SpringSecurityUtil;
 import selfservice.pdp.PdpService;
 import selfservice.pdp.PolicyNameNotUniqueException;
 import selfservice.service.EmailService;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 @RunWith(MockitoJUnitRunner.class)

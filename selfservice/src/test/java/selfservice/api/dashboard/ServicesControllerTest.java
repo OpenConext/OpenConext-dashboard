@@ -21,7 +21,7 @@ import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.service.ActionsService;
 import selfservice.service.Csa;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.util.Collections;

@@ -25,7 +25,7 @@ import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.serviceregistry.Manage;
+import selfservice.manage.Manage;
 
 import java.util.ArrayList;
 import java.util.List;
