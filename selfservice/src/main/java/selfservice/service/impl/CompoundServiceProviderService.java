@@ -25,7 +25,7 @@ import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,14 +51,14 @@ public class CompoundServiceProviderService {
   private CompoundServiceProviderDao compoundServiceProviderDao;
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   public List<CompoundServiceProvider> getAllCSPs() {
-    return getCSPs(null, serviceRegistry.getAllServiceProviders());
+    return getCSPs(null, manage.getAllServiceProviders());
   }
 
   public List<CompoundServiceProvider> getAllBareCSPs() {
-    List<ServiceProvider> allServiceProviders = serviceRegistry.getAllServiceProviders();
+    List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
     return getCSPs(null, allServiceProviders);
   }
 
@@ -67,7 +67,7 @@ public class CompoundServiceProviderService {
       return new ArrayList<>();
     }
 
-    List<ServiceProvider> allServiceProviders = serviceRegistry.getAllServiceProviders(identityProvider.getId());
+    List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders(identityProvider.getId());
 
     return getCSPs(identityProvider, allServiceProviders);
   }
@@ -114,7 +114,7 @@ public class CompoundServiceProviderService {
       LOG.debug("Cannot find CSP by id {}, will return null", compoundSpId);
       return null;
     }
-    ServiceProvider sp = serviceRegistry.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
+    ServiceProvider sp = manage.getServiceProvider(csp.getServiceProviderEntityId(), idp.getId());
     if (sp == null) {
       LOG.info("Cannot get serviceProvider by known entity id: {}, cannot enrich CSP with SP information.", csp.getServiceProviderEntityId());
       return csp;
@@ -125,7 +125,7 @@ public class CompoundServiceProviderService {
   }
 
   public CompoundServiceProvider getCSPByServiceProviderEntityId(String serviceProviderEntityId) {
-    ServiceProvider serviceProvider = serviceRegistry.getServiceProvider(serviceProviderEntityId).orElseThrow(RuntimeException::new);
+    ServiceProvider serviceProvider = manage.getServiceProvider(serviceProviderEntityId).orElseThrow(RuntimeException::new);
     checkNotNull(serviceProvider, "No such SP with entityId: " + serviceProviderEntityId);
 
     return getCSPByServiceProvider(serviceProvider);

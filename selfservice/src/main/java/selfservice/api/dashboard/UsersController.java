@@ -21,7 +21,7 @@ import selfservice.domain.Service;
 import selfservice.domain.Settings;
 import selfservice.domain.csa.ContactPerson;
 import selfservice.service.ActionsService;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +43,7 @@ import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 public class UsersController extends BaseController {
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private ServicesCache servicesCache;
@@ -64,9 +64,9 @@ public class UsersController extends BaseController {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    List<IdentityProvider> idps = serviceRegistry.getAllIdentityProviders().stream()
-      .sorted((lh, rh) -> lh.getName().compareTo(rh.getName()))
-      .collect(toList());
+    List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
+        .sorted((lh, rh) -> lh.getName().compareTo(rh.getName()))
+        .collect(toList());
 
     List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(), Authority.ROLE_DASHBOARD_ADMIN.name());
 
@@ -80,6 +80,7 @@ public class UsersController extends BaseController {
   @RequestMapping(value = "/me/guest-enabled-services", method = RequestMethod.GET)
   public RestResponse<List<Service>> guestEnabledServiceProviders(Locale locale) {
     List<Service> usersServices = fetchGuestEnabledServiceProviders(locale);
+    String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
 
     return createRestResponse(usersServices);
   }
@@ -106,7 +107,7 @@ public class UsersController extends BaseController {
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
       : servicesCache.getAllServices(locale.getLanguage()).stream()
       .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
-      .filter(service -> serviceRegistry
+      .filter(service -> manage
         .getLinkedIdentityProviders(service.getSpEntityId())
         .stream()
         .map(IdentityProvider::getId)
@@ -126,8 +127,8 @@ public class UsersController extends BaseController {
     if (isNullOrEmpty(switchToIdp)) {
       SpringSecurity.clearSwitchedIdp();
     } else {
-      IdentityProvider identityProvider = serviceRegistry.getIdentityProvider(switchToIdp)
-        .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
+      IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp)
+          .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
 
       SpringSecurity.setSwitchedToIdp(identityProvider, role);
     }

@@ -33,9 +33,9 @@ import selfservice.service.impl.JiraClientImpl;
 import selfservice.service.impl.JiraClientMock;
 import selfservice.service.impl.VootClientImpl;
 import selfservice.service.impl.VootClientMock;
-import selfservice.serviceregistry.ClassPathResourceServiceRegistry;
-import selfservice.serviceregistry.ServiceRegistry;
-import selfservice.serviceregistry.UrlResourceServiceRegistry;
+import selfservice.serviceregistry.ClassPathResourceManage;
+import selfservice.serviceregistry.Manage;
+import selfservice.serviceregistry.UrlResourceManage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import selfservice.util.LicenseContactPersonService;
 
@@ -107,23 +107,22 @@ public class Application extends SpringBootServletInitializer {
 
   @Bean
   @Profile("!dev")
-  public ServiceRegistry urlResourceServiceRegistry(
-    @Value("${metadata.username}") String username,
-    @Value("${metadata.password}") String password,
-    @Value("${metadata.idpRemotePath}") String idpRemotePath,
-    @Value("${metadata.spRemotePath}") String spRemotePath,
-    @Value("${period.metadata.refresh.minutes}") int period,
+  public Manage urlResourceServiceRegistry(
+    @Value("${manage.username}") String username,
+    @Value("${manage.password}") String password,
+    @Value("${manage.manageBaseUrl}") String manageBaseUrl,
+    @Value("${manage.period.refresh.minutes}") int period,
     @Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws IOException {
     Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
 
-    return new UrlResourceServiceRegistry(username, password, idpRemotePath, spRemotePath, period, resource);
+    return new UrlResourceManage(username, password, manageBaseUrl, period, resource);
   }
 
   @Bean
   @Profile("dev")
-  public ServiceRegistry classPathServiceRegistry(@Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws Exception {
+  public Manage classPathServiceRegistry(@Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws Exception {
     Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
-    return new ClassPathResourceServiceRegistry(true, resource);
+    return new ClassPathResourceManage(true, resource);
   }
 
   @Bean

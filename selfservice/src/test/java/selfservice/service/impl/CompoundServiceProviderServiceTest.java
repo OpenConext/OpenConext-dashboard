@@ -26,7 +26,7 @@ import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class CompoundServiceProviderServiceTest {
   private CompoundServiceProviderService cspService;
 
   @Mock
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Mock
   private CompoundServiceProviderDao compoundServiceProviderDao;
@@ -78,10 +78,10 @@ public class CompoundServiceProviderServiceTest {
     CompoundServiceProvider csp1 = CompoundServiceProvider.builder(sp1);
     csps.add(csp1);
 
-    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
-    when(serviceRegistry.getServiceProvider("spId2")).thenReturn(Optional.of(sp2));
+    when(manage.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
+    when(manage.getServiceProvider("spId2")).thenReturn(Optional.of(sp2));
     when(compoundServiceProviderDao.findAll()).thenReturn(csps);
-    when(serviceRegistry.getAllServiceProviders("idpId")).thenReturn(sps);
+    when(manage.getAllServiceProviders("idpId")).thenReturn(sps);
 
     cspService.getCompoundServiceProvidersByIdp(idp);
 
@@ -96,8 +96,8 @@ public class CompoundServiceProviderServiceTest {
     ServiceProvider sp2 = new ServiceProvider(ImmutableMap.of("entityid", "spId2"));
     sps.add(sp1);
     sps.add(sp2);
-    when(serviceRegistry.getAllServiceProviders("idpid")).thenReturn(sps);
-    when(serviceRegistry.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
+    when(manage.getAllServiceProviders("idpid")).thenReturn(sps);
+    when(manage.getServiceProvider("spId1")).thenReturn(Optional.of(sp1));
 
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp1);
     when(compoundServiceProviderDao.findOne(1L)).thenReturn(csp);

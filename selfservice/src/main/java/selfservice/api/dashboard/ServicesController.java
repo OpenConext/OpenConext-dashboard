@@ -1,18 +1,27 @@
 package selfservice.api.dashboard;
 
 import au.com.bytecode.opencsv.CSVWriter;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import selfservice.domain.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import selfservice.domain.Action;
+import selfservice.domain.Category;
+import selfservice.domain.CoinUser;
+import selfservice.domain.InstitutionIdentityProvider;
+import selfservice.domain.Provider;
+import selfservice.domain.Service;
 import selfservice.service.ActionsService;
 import selfservice.service.Csa;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +50,7 @@ public class ServicesController extends BaseController {
   private Csa csa;
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private ActionsService actionsService;
@@ -60,10 +69,9 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/idps")
   public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @RequestParam String spEntityId) {
-    List<IdentityProvider> linkedIdentityProviders = serviceRegistry.getLinkedIdentityProviders(spEntityId);
-    List<InstitutionIdentityProvider> idps = linkedIdentityProviders.stream()
-        .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
-          idp.getName(Provider.Language.NL), idp.getInstitutionId()))
+    List<InstitutionIdentityProvider> idps = manage.getLinkedIdentityProviders(spEntityId).stream()
+      .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
+        idp.getName(Provider.Language.NL), idp.getInstitutionId()))
         .collect(toList());
 
     return createRestResponse(idps);

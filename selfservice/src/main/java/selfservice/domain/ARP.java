@@ -38,7 +38,7 @@ public class ARP implements Serializable {
 
   private String name;
   private String description;
-  private Map<String, List<Object>> attributes = new LinkedHashMap<>();
+  private Map<String, List<String>> attributes = new LinkedHashMap<>();
   private boolean noArp;
   private boolean noAttrArp;
 
@@ -58,11 +58,11 @@ public class ARP implements Serializable {
     this.description = description;
   }
 
-  public Map<String, List<Object>> getAttributes() {
+  public Map<String, List<String>> getAttributes() {
     return attributes;
   }
 
-  public void setAttributes(Map<String, List<Object>> attributes) {
+  public void setAttributes(Map<String, List<String>> attributes) {
     this.attributes = attributes;
   }
 
@@ -94,41 +94,22 @@ public class ARP implements Serializable {
   }
 
   @SuppressWarnings("unchecked")
-  public static ARP fromRestResponse(Map<String, Object> response) {
+  public static ARP noArp() {
     ARP arp = new ARP();
 
-    arp.setNoArp(false);
+    arp.setNoArp(true);
     arp.setNoAttrArp(false);
-
-    if (response.isEmpty()) {
-      arp.setNoArp(true);
-      return arp;
-    }
-
-    arp.setName((String) response.get("name"));
-    arp.setDescription((String) response.get("description"));
-    final Object attr = response.get("attributes");
-    if (attr instanceof Map) {
-      arp.setAttributes((Map<String, List<Object>>) attr);
-    } else {
-      // If 'no attributes', Janus will return not a hash, but an empty array
-      arp.setNoAttrArp(true);
-    }
     return arp;
   }
 
-  public static ARP fromAttributes(List<String> attributes) {
+  public static ARP fromAttributes(Map<String, List<String>> attributes) {
     if (CollectionUtils.isEmpty(attributes)) {
-      return ARP.fromRestResponse(new HashMap<>());
+      return ARP.noArp();
     }
     ARP arp = new ARP();
     arp.setName("arp");
     arp.setDescription("arp");
-    List<Object> star = Arrays.asList("*");
-
-    Set<String> uniqueAttributes = attributes.stream().filter(attribute -> attribute.startsWith("urn")).collect(Collectors.toSet());
-    Map<String, List<Object>> mappedAttributes = uniqueAttributes.stream().collect(toMap(identity(), attr -> star));
-    arp.setAttributes(mappedAttributes);
+    arp.setAttributes(attributes);
     return arp;
   }
 

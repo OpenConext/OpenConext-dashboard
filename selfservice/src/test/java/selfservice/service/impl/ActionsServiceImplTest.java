@@ -20,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import selfservice.domain.Action;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ActionsServiceImplTest {
@@ -32,13 +32,13 @@ public class ActionsServiceImplTest {
   private JiraClient jiraClientMock;
 
   @Mock
-  private ServiceRegistry serviceRegistryMock;
+  private Manage manageMock;
 
   @Test
   public void forBackwardCompatibilityShouldFillUserFromBody() {
 
-    when(serviceRegistryMock.getIdentityProvider("idp")).thenReturn(Optional.of(new IdentityProvider("idp", "idp-institution", "idp-name")));
-    when(serviceRegistryMock.getServiceProvider("sp")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "sp"))));
+    when(manageMock.getIdentityProvider("idp")).thenReturn(Optional.of(new IdentityProvider("idp", "idp-institution", "idp-name")));
+    when(manageMock.getServiceProvider("sp")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "sp"))));
     when(jiraClientMock.getTasks("idp")).thenReturn(ImmutableList.of(Action.builder()
         .idpId("idp")
         .spId("sp")

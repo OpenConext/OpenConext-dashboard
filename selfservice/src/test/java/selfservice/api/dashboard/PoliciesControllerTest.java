@@ -34,7 +34,7 @@ import selfservice.filter.SpringSecurityUtil;
 import selfservice.pdp.PdpService;
 import selfservice.pdp.PolicyNameNotUniqueException;
 import selfservice.service.EmailService;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,7 +50,7 @@ public class PoliciesControllerTest {
   private EmailService emailServiceMock;
 
   @Mock
-  private ServiceRegistry serviceRegistryMock;
+  private Manage manageMock;
 
   private MockMvc mockMvc;
 
@@ -90,7 +90,7 @@ public class PoliciesControllerTest {
     SpringSecurityUtil.setAuthentication(user);
 
     when(pdpServiceMock.create(any(Policy.class))).thenThrow(new PolicyNameNotUniqueException("errormessage"));
-    when(serviceRegistryMock.getServiceProvider("mockServiceProviderId")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId"))));
+    when(manageMock.getServiceProvider("mockServiceProviderId")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId"))));
 
     mockMvc.perform(post("/dashboard/api/policies")
         .contentType(APPLICATION_JSON)
@@ -106,7 +106,7 @@ public class PoliciesControllerTest {
     SpringSecurityUtil.setAuthentication(user);
 
     when(pdpServiceMock.create(any(Policy.class))).thenReturn(new Policy());
-    when(serviceRegistryMock.getServiceProvider("mockServiceProviderId"))
+    when(manageMock.getServiceProvider("mockServiceProviderId"))
       .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "0"))));
 
     mockMvc.perform(post("/dashboard/api/policies")
@@ -125,7 +125,7 @@ public class PoliciesControllerTest {
     SpringSecurityUtil.setAuthentication(user);
 
     when(pdpServiceMock.create(any(Policy.class))).thenReturn(new Policy());
-    when(serviceRegistryMock.getServiceProvider("mockServiceProviderId"))
+    when(manageMock.getServiceProvider("mockServiceProviderId"))
       .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "1"))));
 
     mockMvc.perform(post("/dashboard/api/policies")

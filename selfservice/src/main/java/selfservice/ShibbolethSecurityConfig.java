@@ -26,7 +26,7 @@ import selfservice.filter.SabEntitlementsFilter;
 import selfservice.filter.VootFilter;
 import selfservice.sab.Sab;
 import selfservice.service.VootClient;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import selfservice.shibboleth.ShibbolethUserDetailService;
 import selfservice.shibboleth.mock.MockShibbolethFilter;
@@ -47,7 +47,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   private VootClient vootClient;
 
   @Autowired
-  private ServiceRegistry serviceRegistry;
+  private Manage manage;
 
   @Autowired
   private Sab sab;
@@ -101,14 +101,14 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         .addLogoutHandler(new DashboardLogoutHandler()).and()
       .csrf().disable()
       .addFilterBefore(
-        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), serviceRegistry),
+        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage),
         AbstractPreAuthenticatedProcessingFilter.class
       )
       .addFilterAfter(
           new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser, adminDistributionTeam),
           ShibbolethPreAuthenticatedProcessingFilter.class)
       .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), VootFilter.class)
-      .addFilterAfter(new EnsureAccessToIdpFilter(serviceRegistry), SabEntitlementsFilter.class)
+      .addFilterAfter(new EnsureAccessToIdpFilter(manage), SabEntitlementsFilter.class)
       .authorizeRequests()
       .antMatchers("/shopadmin/**").hasRole("DISTRIBUTION_CHANNEL_ADMIN")//permitAll()
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")

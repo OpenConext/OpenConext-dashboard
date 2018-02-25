@@ -79,7 +79,7 @@ public class EnrichJsonTest {
       ARP arp = new ARP();
       arp.setNoArp(false);
       arp.setNoAttrArp(false);
-      arp.setAttributes(ImmutableMap.of("service", asList((Object) "bar")));
+      arp.setAttributes(ImmutableMap.of("service", asList("bar")));
       service.setArp(arp);
     });
 
@@ -100,7 +100,7 @@ public class EnrichJsonTest {
       ARP arp = new ARP();
       arp.setNoArp(false);
       arp.setNoAttrArp(false);
-      arp.setAttributes(ImmutableMap.of("Shib-email", asList((Object) "bar")));
+      arp.setAttributes(ImmutableMap.of("Shib-email", asList("bar")));
       service.setArp(arp);
     });
 
@@ -120,10 +120,12 @@ public class EnrichJsonTest {
     JsonElement jsonElement = createJsonResponse(coinUser);
     EnrichJson.forUser(this.environment, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
 
-    List<JsonElement> authorities = Lists.newArrayList(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray("grantedAuthorities"));
+    List<JsonElement> authorities = Lists.newArrayList(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray
+      ("grantedAuthorities"));
 
     assertThat(authorities, hasSize(1));
-    assertThat(authorities.get(0).getAsJsonObject().get("authority").getAsString(), is(Authority.ROLE_DASHBOARD_ADMIN.name()));
+    assertThat(authorities.get(0).getAsJsonObject().get("authority").getAsString(), is(Authority.ROLE_DASHBOARD_ADMIN
+      .name()));
   }
 
   private JsonObject getServiceFromRoot(JsonElement jsonElement, int index) {

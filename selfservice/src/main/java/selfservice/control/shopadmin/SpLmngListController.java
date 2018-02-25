@@ -33,7 +33,7 @@ import selfservice.dao.CompoundServiceProviderDao;
 import selfservice.domain.LicenseStatus;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.service.impl.CompoundServiceProviderService;
-import selfservice.serviceregistry.ServiceRegistry;
+import selfservice.serviceregistry.Manage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +55,7 @@ public class SpLmngListController extends BaseController {
 
   private static final Logger log = LoggerFactory.getLogger(SpLmngListController.class);
 
-  @Autowired private ServiceRegistry serviceRegistry;
+  @Autowired private Manage manage;
   @Autowired private CompoundServiceProviderService compoundSPService;
   @Autowired private CompoundServiceProviderDao compoundServiceProviderDao;
 
@@ -86,7 +86,7 @@ public class SpLmngListController extends BaseController {
   }
 
   private List<ServiceBinding> getAllBindings() {
-    return serviceRegistry.getAllServiceProviders().stream()
+    return manage.getAllServiceProviders().stream()
       .map(serviceProvider -> new ServiceBinding(serviceProvider, compoundSPService.getCSPByServiceProvider(serviceProvider)))
       .collect(toList());
   }
