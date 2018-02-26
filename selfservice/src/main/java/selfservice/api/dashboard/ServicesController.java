@@ -79,35 +79,39 @@ public class ServicesController extends BaseController {
 
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("id[]") List<Long> ids, HttpServletResponse response) {
+  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId,
+                                       @RequestParam("id[]") List<Long> ids,
+                                       HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
 
     Stream<String[]> values = ids.stream()
         .map(id -> getServiceById(services, id))
         .flatMap(opt -> opt.map(Stream::of).orElse(Stream.empty()))
-        .map(service ->
-          new String[] {
-            String.valueOf(service.getId()),
-            stripBreakingWhitespace(service.getName()),
-            stripBreakingWhitespace(service.getDescription()),
-            service.getAppUrl(),
-            service.getWikiUrl(),
-            service.getSupportMail(),
-            String.valueOf(service.isConnected()),
-            service.getLicenseStatus().name(),
-            service.getCategories().stream().map(Category::getName).collect(joining()),
-            service.getSpEntityId(),
-            service.getSpName(),
-            String.valueOf(service.isPublishedInEdugain()),
-            String.valueOf(service.isNormenkaderPresent()),
-            service.getNormenkaderUrl(),
-            String.valueOf(service.isExampleSingleTenant()),
-            String.valueOf(service.isStrongAuthentication()) });
+        .map(service -> new String[]{
+          String.valueOf(service.getId()),
+          stripBreakingWhitespace(service.getName()),
+          stripBreakingWhitespace(service.getDescription()),
+          service.getAppUrl(),
+          service.getWikiUrl(),
+          service.getSupportMail(),
+          String.valueOf(service.isConnected()),
+          service.getLicenseStatus().name(),
+          service.getCategories().stream().map(Category::getName).collect(joining()),
+          service.getSpEntityId(),
+          service.getSpName(),
+          String.valueOf(service.isPublishedInEdugain()),
+          String.valueOf(service.isNormenkaderPresent()),
+          service.getNormenkaderUrl(),
+          String.valueOf(service.isExampleSingleTenant()),
+          String.valueOf(service.isStrongAuthentication()),
+          String.valueOf(!service.getArp().isNoArp()),
+          service.getArp().getAttributes().keySet().stream().collect(joining(" - "))});
 
     Stream<String[]> headers = Stream.<String[]>of(new String[] {
         "id", "name", "description", "app-url", "wiki-url", "support-mail",
         "connected", "licenseStatus", "categories", "spEntityId",
-        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant", "strongAuthentication" });
+        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant", "strongAuthentication",
+    "arpEnabled", "arpAttributes"});
 
     List<String[]> rows = Stream.concat(headers, values).collect(toList());
 

@@ -53,6 +53,10 @@ To run locally:
 If you want to debug you can use
 
     ./debug.sh
+    
+To run without statistics - e.g. without any need for an internet connection - run    
+
+    ./debug-local.sh
 
 #### The client
 
