@@ -101,6 +101,9 @@ I18n.translations.en = {
         name: "Supports SURFconext Strong Authentication",
         yes: "Yes",
         no: "No"
+      },
+      arp: {
+        name: "Required attributes"
       }
     }
   },

@@ -4,7 +4,7 @@ import { FacetShape } from "../shapes";
 
 class Facets extends React.Component {
   render() {
-    const facets = this.props.facets;
+    const {facets} = this.props;
 
     return (
       <div className="mod-filters">

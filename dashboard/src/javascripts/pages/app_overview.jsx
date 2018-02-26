@@ -22,6 +22,7 @@ class AppOverview extends React.Component {
     this.state = {
       apps: [],
       facets: [],
+      arpAttributes: [],
       search: "",
       activeFacets: store.activeFacets || {},
       hiddenFacets: store.hiddenFacets || {},
@@ -32,12 +33,8 @@ class AppOverview extends React.Component {
 
   componentWillMount() {
     Promise.all([
-      getFacets().then(data => {
-        return data.payload;
-      }),
-      getApps().then(data => {
-        return data.payload;
-      })
+      getFacets().then(data => data.payload),
+      getApps().then(data => data.payload)
     ]).then(data => {
       const [facets, apps] = data;
 
@@ -60,8 +57,11 @@ class AppOverview extends React.Component {
           }
         });
       });
-
-      this.setState({apps: apps, facets: facets});
+      const attributes = apps.reduce((acc, app) => {
+        Object.keys(app.arp.attributes).forEach(attr => acc.add(attr));
+        return acc;
+      }, new Set());
+      this.setState({apps: apps, facets: facets, arpAttributes: [...attributes]});
     });
   }
 
@@ -366,6 +366,12 @@ class AppOverview extends React.Component {
             return facetValue.searchValue === "yes" ? strongAuthentication : !strongAuthentication;
           });
           break;
+        case "attributes":
+          filter(facet, (app, facetValue) => {
+            const requiredAttributes = Object.keys(app.arp.attributes);
+            return requiredAttributes.length === 0 || requiredAttributes.indexOf(facetValue) > -1;
+          });
+          break;
         default:
           filter(facet, (app, facetValue) => {
             const categories = me.normalizeCategories(app);
@@ -421,6 +427,7 @@ class AppOverview extends React.Component {
 
   staticFacets() {
     const {currentUser} = this.context;
+    const {arpAttributes} = this.state;
 
     return [{
       name: I18n.t("facets.static.connection.name"),
@@ -494,7 +501,18 @@ class AppOverview extends React.Component {
       filterApp: function (app) {
         return this.filterYesNoFacet("strong_authentication", app.strongAuthentication);
       }.bind(this)
-    }];
+    },
+      {
+        name: I18n.t("facets.static.arp.name"),
+        searchValue: "attributes",
+        values: arpAttributes.map(attr => ({value: attr, searchValue: attr})),
+        filterApp: function (app) {
+          const attrFacetValues = this.state.activeFacets["attributes"] || [];
+          const attributes = Object.keys(app.arp.attributes);
+          return attributes.length === 0 || attrFacetValues.filter(attr => attributes.indexOf(attr) > -1).length === attrFacetValues.length;
+        }.bind(this)
+      }
+    ];
   }
 
 }
