@@ -11,6 +11,7 @@ import ApplicationUsagePanel from "../components/application_usage_panel";
 import AttributePolicyPanel from "../components/attribute_policy_panel";
 import IdpUsagePanel from "../components/idp_usage_panel";
 import HowToConnectPanel from "../components/how_to_connect_panel";
+import SirtfiPanel from "../components/sirtfi_panel";
 
 class AppDetail extends React.Component {
   constructor() {
@@ -52,6 +53,12 @@ class AppDetail extends React.Component {
   componentWillMount() {
     getApp(this.props.params.id).then(data => {
       const app = data.payload;
+      if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
+        this.panelMap = {...this.panelMap, "sirtfi_security": {
+            component: SirtfiPanel,
+            icon: "fa-users"
+          }}
+      }
 
       return getIdps(app.spEntityId).then(data => {
         const institutions = data.payload;

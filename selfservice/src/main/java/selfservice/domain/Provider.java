@@ -23,7 +23,14 @@ import selfservice.domain.csa.ContactPerson;
 import selfservice.domain.csa.ContactPersonType;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 /**
@@ -71,10 +78,12 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
       String contactType = (String) metaData.get("contacts:" + i + ":contactType");
       if (contactType != null) {
         addContactPerson(new ContactPerson(
-          safeString(metaData.get("contacts:" + i + ":givenName") + " " + safeString(metaData.get("contacts:" + i + ":surName"))).trim(),
+          safeString(metaData.get("contacts:" + i + ":givenName") + " " + safeString(metaData.get("contacts:" + i +
+            ":surName"))).trim(),
           (String) metaData.get("contacts:" + i + ":emailAddress"),
           (String) metaData.get("contacts:" + i + ":telephoneNumber"),
-          contactPersonType(contactType)
+          contactPersonType(contactType),
+          booleanValue(metaData.get("contacts:" + i + ":isSirtfiSecurityContact"))
         ));
       }
     });
@@ -83,10 +92,6 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     this.noConsentRequired = booleanValue(metaData.get("coin:no_consent_required"));
     this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
     this.publishInEdugainDate = (String) metaData.get("coin:publish_in_edugain_date");
-  }
-
-  public enum Language {
-    EN, NL;
   }
 
   public String getId() {
@@ -107,6 +112,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   public String getName() {
     return name;
+  }
+
+  protected void setName(String name) {
+    this.name = name;
   }
 
   public Map<String, String> getHomeUrls() {
@@ -156,10 +165,6 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
   }
 
-  protected void setName(String name) {
-    this.name = name;
-  }
-
   protected void addName(String language, String name) {
     if (name != null) {
       this.names.put(language, name);
@@ -182,12 +187,12 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     this.descriptions.put(language, description);
   }
 
-  public void setNoConsentRequired(boolean noConsentRequired) {
-    this.noConsentRequired = noConsentRequired;
-  }
-
   public boolean isNoConsentRequired() {
     return noConsentRequired;
+  }
+
+  public void setNoConsentRequired(boolean noConsentRequired) {
+    this.noConsentRequired = noConsentRequired;
   }
 
   public boolean isAllowedAll() {
@@ -264,5 +269,9 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
       .add("contactPersons", contactPersons)
       .add("descriptions", descriptions)
       .toString();
+  }
+
+  public enum Language {
+    EN, NL;
   }
 }

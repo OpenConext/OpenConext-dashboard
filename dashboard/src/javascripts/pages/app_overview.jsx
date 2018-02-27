@@ -369,7 +369,8 @@ class AppOverview extends React.Component {
         case "attributes":
           filter(facet, (app, facetValue) => {
             const requiredAttributes = Object.keys(app.arp.attributes);
-            return requiredAttributes.length === 0 || requiredAttributes.indexOf(facetValue) > -1;
+            let b = requiredAttributes.length === 0 || requiredAttributes.indexOf(facetValue.searchValue) > -1;
+            return b;
           });
           break;
         default:
@@ -509,7 +510,8 @@ class AppOverview extends React.Component {
         filterApp: function (app) {
           const attrFacetValues = this.state.activeFacets["attributes"] || [];
           const attributes = Object.keys(app.arp.attributes);
-          return attributes.length === 0 || attrFacetValues.filter(attr => attributes.indexOf(attr) > -1).length === attrFacetValues.length;
+          const res = attributes.length === 0 || attrFacetValues.filter(attr => attributes.indexOf(attr) > -1).length === attrFacetValues.length;
+          return res;
         }.bind(this)
       }
     ];

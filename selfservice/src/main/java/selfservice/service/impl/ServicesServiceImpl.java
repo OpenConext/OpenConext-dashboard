@@ -3,6 +3,7 @@ package selfservice.service.impl;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import selfservice.domain.Facet;
@@ -10,6 +11,7 @@ import selfservice.domain.FacetValue;
 import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.csa.CompoundServiceProvider;
+import selfservice.domain.csa.ContactPerson;
 import selfservice.service.ServicesService;
 
 import java.util.ArrayList;
@@ -67,10 +69,9 @@ public class ServicesServiceImpl implements ServicesService {
     screenshots(csp, service);
     languageSpecificProperties(csp, isEn, service);
     categories(csp, service, language);
-
+    contactPersons(csp, service);
     return service;
   }
-
 
   private void plainProperties(CompoundServiceProvider csp, Service service) {
     // Plain properties
@@ -160,6 +161,14 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     service.setCategories(categories);
+  }
+
+  private void contactPersons(CompoundServiceProvider csp, Service service) {
+    List<ContactPerson> contactPersons = csp.getServiceProvider().getContactPersons();
+    if (!CollectionUtils.isEmpty(contactPersons)) {
+      service.setContactPersons(contactPersons.stream()
+        .filter(contactPerson -> contactPerson.isSirtfiSecurityContact()).collect(toList()));
+    }
   }
 
   private Optional<Category> findCategory(List<Category> categories, Facet facet) {

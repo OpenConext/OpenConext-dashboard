@@ -45,11 +45,15 @@ public class ContactPerson implements Serializable {
   @XStreamAsAttribute
   private ContactPersonType contactPersonType;
 
-  public ContactPerson(String name, String emailAddress, String telephoneNumber, ContactPersonType contactPersonType) {
+  @XStreamAsAttribute
+  private boolean sirtfiSecurityContact;
+
+  public ContactPerson(String name, String emailAddress, String telephoneNumber, ContactPersonType contactPersonType, boolean isSirtfiSecurityContact) {
     this.name = name;
     this.emailAddress = emailAddress;
     this.telephoneNumber = telephoneNumber;
     this.contactPersonType = contactPersonType;
+    this.sirtfiSecurityContact = isSirtfiSecurityContact;
   }
   
   public ContactPerson() {
@@ -77,6 +81,14 @@ public class ContactPerson implements Serializable {
 
   public void setContactPersonType(ContactPersonType contactPersonType) {
     this.contactPersonType = contactPersonType;
+  }
+
+  public boolean isSirtfiSecurityContact() {
+    return sirtfiSecurityContact;
+  }
+
+  public void setSirtfiSecurityContact(boolean sirtfiSecurityContact) {
+    this.sirtfiSecurityContact = sirtfiSecurityContact;
   }
 
   public String getTelephoneNumber() {

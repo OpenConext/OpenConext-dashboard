@@ -113,6 +113,10 @@ if (browserSupported()) {
       if (!currentUser.statsToken && !currentUser.localProfile) {
         window.location = currentUser.statsUrl + "&state=" + window.location;
       } else {
+        const spinner = document.getElementById("service-loader-id");
+        spinner.parentNode.removeChild(spinner);
+        const info = document.getElementById("service-loader-info-id");
+        info.parentNode.removeChild(info);
         render(<App currentUser={currentUser}/>, document.getElementById("app"));
       }
     });

@@ -26,6 +26,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.MoreObjects;
+import selfservice.domain.csa.ContactPerson;
 
 @JsonInclude(NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -77,6 +78,8 @@ public class Service implements Comparable<Service>, Serializable {
   private LicenseStatus licenseStatus;
 
   private ARP arp;
+
+  private List<ContactPerson> contactPersons;
 
   public Service() {
   }
@@ -399,6 +402,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setNoConsentRequired(boolean noConsentRequired) {
     this.noConsentRequired = noConsentRequired;
+  }
+
+  public List<ContactPerson> getContactPersons() {
+    return contactPersons;
+  }
+
+  public void setContactPersons(List<ContactPerson> contactPersons) {
+    this.contactPersons = contactPersons;
   }
 
   @Override

@@ -33,7 +33,7 @@ public class ServicesServiceImplTest {
   @Test
   public void emailAddressesShouldBeNormalized() {
     ServiceProvider serviceProvider = new ServiceProvider(ImmutableMap.of("entityid", "sp-id"));
-    serviceProvider.addContactPerson(new ContactPerson("John Doe", "mailto:john@example.com", "1234", ContactPersonType.help));
+    serviceProvider.addContactPerson(new ContactPerson("John Doe", "mailto:john@example.com", "1234", ContactPersonType.help, false));
     CompoundServiceProvider csp = new CompoundServiceProvider();
     csp.setId(1L);
     csp.setServiceProvider(serviceProvider);

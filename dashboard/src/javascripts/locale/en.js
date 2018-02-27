@@ -118,6 +118,7 @@ I18n.translations.en = {
       idp_usage: "Used by",
       license_info: "License",
       overview: "Overview",
+      sirtfi_security: "Sirtfi Security"
     },
     overview: {
       connect: "",
@@ -223,7 +224,17 @@ I18n.translations.en = {
     subtitle_none: "There are no institutions connected to {{name}}.",
     institution: "Institution"
   },
-
+  sirtfi_panel: {
+    title: "The Sirtfi contact persons for {{name}}",
+    subtitle: "The Security Incident Response Trust Framework for Federated Identity (Sirtfi) aims to enable the coordination of incident response across federated organisations. This assurance framework comprises a list of assertions which an organisation can attest in order to be declared Sirtfi compliant.",
+    cp_name: "Name",
+    cp_email: "Email",
+    cp_telephoneNumber: "Telephone number",
+    cp_type: "Type",
+    cp_type_translate_technical: "Technical",
+    cp_type_translate_administrative: "Administrative",
+    cp_type_translate_help: "Support"
+  },
   how_to_connect_panel: {
     accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",
     accept_disconnect: "Yes, I agree that {{app}} will no longer be available to my organization",

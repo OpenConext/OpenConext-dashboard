@@ -90,15 +90,13 @@ public class ServicesController extends BaseController {
         .map(service -> new String[]{
           String.valueOf(service.getId()),
           stripBreakingWhitespace(service.getName()),
+          service.getSpEntityId(),
           stripBreakingWhitespace(service.getDescription()),
           service.getAppUrl(),
           service.getWikiUrl(),
           service.getSupportMail(),
           String.valueOf(service.isConnected()),
           service.getLicenseStatus().name(),
-          service.getCategories().stream().map(Category::getName).collect(joining()),
-          service.getSpEntityId(),
-          service.getSpName(),
           String.valueOf(service.isPublishedInEdugain()),
           String.valueOf(service.isNormenkaderPresent()),
           service.getNormenkaderUrl(),
@@ -108,9 +106,9 @@ public class ServicesController extends BaseController {
           service.getArp().getAttributes().keySet().stream().collect(joining(" - "))});
 
     Stream<String[]> headers = Stream.<String[]>of(new String[] {
-        "id", "name", "description", "app-url", "wiki-url", "support-mail",
-        "connected", "licenseStatus", "categories", "spEntityId",
-        "spName", "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant", "strongAuthentication",
+        "id", "name", "entityID", "description", "app-url", "wiki-url", "support-mail",
+        "connected", "licenseStatus",
+        "publishedInEdugain", "normenkaderPresent", "normenkaderUrl", "singleTenant", "strongAuthentication",
     "arpEnabled", "arpAttributes"});
 
     List<String[]> rows = Stream.concat(headers, values).collect(toList());
