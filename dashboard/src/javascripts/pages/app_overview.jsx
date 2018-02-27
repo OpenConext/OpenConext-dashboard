@@ -369,8 +369,7 @@ class AppOverview extends React.Component {
         case "attributes":
           filter(facet, (app, facetValue) => {
             const requiredAttributes = Object.keys(app.arp.attributes);
-            let b = requiredAttributes.length === 0 || requiredAttributes.indexOf(facetValue.searchValue) > -1;
-            return b;
+            return requiredAttributes.length === 0 || requiredAttributes.indexOf(facetValue.searchValue) > -1;
           });
           break;
         default:

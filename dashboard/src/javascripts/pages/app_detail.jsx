@@ -2,7 +2,7 @@ import React from "react";
 import I18n from "i18n-js";
 import Link from "react-router/Link";
 
-import { getApp, getIdps } from "../api";
+import {getApp, getIdps} from "../api";
 
 import AppMeta from "../components/app_meta";
 import OverviewPanel from "../components/overview_panel";
@@ -54,15 +54,17 @@ class AppDetail extends React.Component {
     getApp(this.props.params.id).then(data => {
       const app = data.payload;
       if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
-        this.panelMap = {...this.panelMap, "sirtfi_security": {
+        this.panelMap = {
+          ...this.panelMap, "sirtfi_security": {
             component: SirtfiPanel,
             icon: "fa-users"
-          }}
+          }
+        };
       }
 
       return getIdps(app.spEntityId).then(data => {
         const institutions = data.payload;
-        this.setState({ app, institutions });
+        this.setState({app, institutions});
       });
     });
 
@@ -78,7 +80,7 @@ class AppDetail extends React.Component {
                 {Object.keys(this.panelMap).map(panelKey => this.renderNavItem(panelKey))}
               </ul>
             </div>
-            <br />
+            <br/>
 
             <div className="mod-app-nav">
               <ul>
@@ -87,7 +89,7 @@ class AppDetail extends React.Component {
             </div>
           </div>
 
-          <AppMeta app={this.state.app} />
+          <AppMeta app={this.state.app}/>
 
           {this.renderActivePanel()}
 
@@ -99,7 +101,7 @@ class AppDetail extends React.Component {
   }
 
   renderNavItem(panelKey, force) {
-    const { currentUser } = this.context;
+    const {currentUser} = this.context;
     // do not include app usage in the top left menu
     if (panelKey === "application_usage" && force !== true) {
       return null;
@@ -125,7 +127,7 @@ class AppDetail extends React.Component {
     return (
       <li key={panelKey}>
         <Link to={`/apps/${this.props.params.id}/${panelKey}`}
-           className={panelKey === this.props.params.activePanel ? "current" : ""}>
+              className={panelKey === this.props.params.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}
         </Link>
@@ -134,8 +136,8 @@ class AppDetail extends React.Component {
   }
 
   renderActivePanel() {
-    const { activePanel } = this.props.params;
-    const { currentUser } = this.context;
+    const {activePanel} = this.props.params;
+    const {currentUser} = this.context;
     let panel = this.panelMap[activePanel];
     if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
       panel = this.panelMap["overview"];
@@ -143,7 +145,7 @@ class AppDetail extends React.Component {
 
     const Component = panel.component;
 
-    return <Component app={this.state.app} institutions={this.state.institutions} />;
+    return <Component app={this.state.app} institutions={this.state.institutions}/>;
   }
 }
 
