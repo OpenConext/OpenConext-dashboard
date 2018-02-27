@@ -115,6 +115,7 @@ I18n.translations.nl = {
       idp_usage: "Gebruikt door",
       license_info: "Licentie",
       overview: "Overzicht",
+      sirtfi_security: "Sirtfi contacten"
     },
     overview: {
       connect: "",
@@ -222,6 +223,17 @@ I18n.translations.nl = {
     institution: "Instelling"
   },
 
+  sirtfi_panel: {
+    title: "De Sirtfi contact personen voor {{name}}",
+    subtitle: "Het Security Incident Response Trust Framework voor Federated Identity (Sirtfi) heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwens raamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.",
+    cp_name: "Naae",
+    cp_email: "Email",
+    cp_telephoneNumber: "Telephone number",
+    cp_type: "Type",
+    cp_type_translate_technical: "Technical",
+    cp_type_translate_administrative: "Administrative",
+    cp_type_translate_help: "Support"
+  },
   how_to_connect_panel: {
     accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
     accept_disconnect: "Ja, ik ga akkoord dat {{app}} niet meer beschikbaar zal zijn voor mijn organisatie",
