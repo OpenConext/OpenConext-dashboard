@@ -1,6 +1,5 @@
 import React from "react";
 import I18n from "i18n-js";
-import qs from "qs";
 import SortableHeader from "../components/sortable_header";
 import Link from "react-router/Link";
 
@@ -283,8 +282,7 @@ class AppOverview extends React.Component {
     const {currentUser} = this.context;
     const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
     const ids = filteredApps.map(app => app.id);
-    const queryString = qs.stringify({idpEntityId: currentUser.getCurrentIdpId(), id: ids}, {arrayFormat: "brackets"});
-    window.open(apiUrl(`/services/download?${queryString}`));
+    window.open(apiUrl(`/services/download?idpEntityId=${encodeURIComponent(currentUser.getCurrentIdpId())}&ids=${ids.join(",")}`));
   }
 
   filterAppsForExclusiveFilters(apps) {

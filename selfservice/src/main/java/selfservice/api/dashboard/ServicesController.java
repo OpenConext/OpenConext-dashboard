@@ -27,6 +27,7 @@ import selfservice.util.SpringSecurity;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -79,11 +80,10 @@ public class ServicesController extends BaseController {
 
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId,
-                                       @RequestParam("id[]") List<Long> ids,
-                                       HttpServletResponse response) {
+  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("ids") String idCommaSeperated, HttpServletResponse response) {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
-
+    List<Long> ids = Arrays.asList(idCommaSeperated.split(",")).stream().map(s -> Long.valueOf(s.trim())).collect
+      (toList());
     Stream<String[]> values = ids.stream()
         .map(id -> getServiceById(services, id))
         .flatMap(opt -> opt.map(Stream::of).orElse(Stream.empty()))
