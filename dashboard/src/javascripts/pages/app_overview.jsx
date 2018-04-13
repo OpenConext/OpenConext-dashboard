@@ -503,12 +503,14 @@ class AppOverview extends React.Component {
       {
         name: I18n.t("facets.static.arp.name"),
         searchValue: "attributes",
-        values: arpAttributes.map(attr => ({value: attr, searchValue: attr})),
+        values: arpAttributes.map(attr => {
+          const val = attr.substring(attr.lastIndexOf(":")+1);
+          return {value: val.charAt(0).toUpperCase() + val.slice(1), searchValue: attr}
+        }),
         filterApp: function (app) {
           const attrFacetValues = this.state.activeFacets["attributes"] || [];
           const attributes = Object.keys(app.arp.attributes);
-          const res = attributes.length === 0 || attrFacetValues.filter(attr => attributes.indexOf(attr) > -1).length === attrFacetValues.length;
-          return res;
+          return attributes.length === 0 || attrFacetValues.filter(attr => attributes.indexOf(attr) > -1).length === attrFacetValues.length;
         }.bind(this)
       }
     ];

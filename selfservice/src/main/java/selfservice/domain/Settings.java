@@ -6,10 +6,12 @@ import java.util.Optional;
 import selfservice.domain.csa.ContactPerson;
 
 public class Settings {
+
   private String keywordsNl;
   private String keywordsEn;
   private boolean publishedInEdugain;
   private String comments;
+  private ConsentType consentType;
   
   private List<ContactPerson> contactPersons;
   private List<ServiceProviderSettings> serviceProviderSettings;
@@ -65,4 +67,11 @@ public class Settings {
     this.comments = comments;
   }
 
+  public ConsentType getConsentType() {
+    return consentType;
+  }
+
+  public void setConsentType(ConsentType consentType) {
+    this.consentType = consentType;
+  }
 }

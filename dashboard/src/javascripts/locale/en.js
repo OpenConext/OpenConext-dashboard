@@ -103,7 +103,8 @@ I18n.translations.en = {
         no: "No"
       },
       arp: {
-        name: "Required attributes"
+        name: "Required attributes",
+        info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation. The actual released attributes for the Service can be seen in the <a target='_blank' href='{{url}}'>Profile</a>application."
       }
     }
   },
@@ -384,7 +385,11 @@ I18n.translations.en = {
       nl: "Description (nl)"
     },
     guest_enabled: "Guest access enabled",
+    consent_settings: "Type of consent",
     no_consent_required: "Consent disabled",
+    minimal_consent_required: "Minimal consent",
+    default_consent_required: "Default consent",
+    consent_explained_html: "The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">this wiki page</a>.",
     edit_message: "You are able to edit the following fields.",
     save: "Create change request",
     change_request_created: "Successfully created your change request.",

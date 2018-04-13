@@ -101,7 +101,12 @@ I18n.translations.nl = {
         name: "Ondersteunt SURFconext Sterke Authenticatie",
         yes: "Ja",
         no: "Nee"
+      },
+      arp: {
+        name: "Verplichte attributen",
+        info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie. De daadwerkelijke attributen die worden doorgegeven aan de Dienst zijn te bekijken in de <a target=\"_blank\" href=\"{{url}}\">Profile</a> applicatie."
       }
+
     }
   },
 
@@ -416,7 +421,11 @@ I18n.translations.nl = {
       nl: "Beschrijving (nl)"
     },
     guest_enabled: "Gast-toegang ingeschakeld",
+    consent_settings: "Type consent",
     no_consent_required: "Consent uitgeschakeld",
+    minimal_consent_required: "Minimale consent",
+    default_consent_required: "Default consent",
+    consent_explained_html: "De verschillende settings worden <a href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\"> uitgelegd.",
     edit_message: "De volgende velden kunnen worden aangepast.",
     save: "Maak wijzigingsverzoek aan",
     change_request_created: "Het wijzigingsverzoek is succesvol aangemaakt.",

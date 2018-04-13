@@ -54,6 +54,7 @@ class Facets extends React.Component {
 
         <h2>{facet.name}</h2>
         {this.renderFacetOptions(facet)}
+        {this.renderFacetInfo(facet)}
       </fieldset>
     );
   }
@@ -64,6 +65,16 @@ class Facets extends React.Component {
         facet.values.map(value => {
           return this.renderFacetValue(facet, value);
         }));
+    }
+    return null;
+  }
+
+  renderFacetInfo(facet) {
+    if (facet.name === I18n.t("facets.static.arp.name")) {
+      const url = window.location.href;
+      return (
+        <em dangerouslySetInnerHTML={{ __html: I18n.t("facets.static.arp.info_html", {url: url.replace("dashboard", "profile").slice(0, url.lastIndexOf("/")-2)}) }} className="arp-info"></em>
+      );
     }
     return null;
   }

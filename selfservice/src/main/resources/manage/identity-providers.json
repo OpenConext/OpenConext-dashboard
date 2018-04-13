@@ -63,7 +63,18 @@
       "allowedEntities": [],
       "allowedall": true,
       "created": "2017-07-20T12:14:33+02:00",
-      "disableConsent": [],
+      "disableConsent": [
+        {
+          "explanation": "",
+          "name": "http://mock-sp",
+          "type": "no_consent"
+        },
+        {
+          "explanation": "Teams explanation !!!!!",
+          "name": "https://teams.test2.surfconext.nl/shibboleth",
+          "type": "minimal_consent"
+        }
+      ],
       "eid": 6,
       "entityid": "http://mock-idp",
       "id": 1164,

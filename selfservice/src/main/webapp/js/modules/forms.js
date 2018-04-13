@@ -2,7 +2,7 @@ var app = app || {};
 
 app.forms = function() {
   var init = function() {
-    initIdpLmngList();
+    //initIdpLmngList();
     
   };
 
@@ -37,10 +37,10 @@ app.forms = function() {
       }
     }
 
-    var forms = $("form[id^='form-lmng-id-edit']");
-    $('button[name="submitbutton"]', forms).on('click', editSubmit);
-    $('button[name="clearbutton"]', forms).on('click', confirmDeletion);
-    forms.on('submit', performSubmit);
+    // var forms = $("form[id^='form-lmng-id-edit']");
+    // $('button[name="submitbutton"]', forms).on('click', editSubmit);
+    // $('button[name="clearbutton"]', forms).on('click', confirmDeletion);
+    // forms.on('submit', performSubmit);
   };
 
 

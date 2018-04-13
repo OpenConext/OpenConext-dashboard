@@ -389,7 +389,7 @@
           "urn:mace:dir:attribute-def:isMemberOf": [
             {
               "source": "idp",
-              "value": "*"
+              "value": "some-team*"
             }
           ],
           "urn:mace:dir:attribute-def:mail": [
