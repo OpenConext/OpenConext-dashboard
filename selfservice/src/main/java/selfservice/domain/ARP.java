@@ -103,13 +103,13 @@ public class ARP implements Serializable {
   }
 
   public static ARP fromAttributes(Map<String, List<String>> attributes) {
-    if (CollectionUtils.isEmpty(attributes)) {
-      return ARP.noArp();
-    }
     ARP arp = new ARP();
     arp.setName("arp");
     arp.setDescription("arp");
     arp.setAttributes(attributes);
+    if (CollectionUtils.isEmpty(attributes)) {
+      arp.setNoAttrArp(true);
+    }
     return arp;
   }
 

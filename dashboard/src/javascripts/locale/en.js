@@ -103,8 +103,8 @@ I18n.translations.en = {
         no: "No"
       },
       arp: {
-        name: "Required attributes",
-        info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation. The actual released attributes for the Service can be seen in the <a target='_blank' href='{{url}}'>Profile</a>application."
+        name: "Released attributes",
+        info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation. The actual released attributes for the Service can be seen in the <a target='_blank' href='{{url}}'>Profile </a>application."
       }
     }
   },

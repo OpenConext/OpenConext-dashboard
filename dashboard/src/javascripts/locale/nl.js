@@ -103,8 +103,8 @@ I18n.translations.nl = {
         no: "Nee"
       },
       arp: {
-        name: "Verplichte attributen",
-        info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie. De daadwerkelijke attributen die worden doorgegeven aan de Dienst zijn te bekijken in de <a target=\"_blank\" href=\"{{url}}\">Profile</a> applicatie."
+        name: "Vrijgegeven attributen",
+        info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie. De daadwerkelijke attributen die worden doorgegeven aan de Dienst zijn te bekijken in de <a target=\"_blank\" href=\"{{url}}\">Profile </a> applicatie."
       }
 
     }
