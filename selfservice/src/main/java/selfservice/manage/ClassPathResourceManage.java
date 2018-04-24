@@ -211,7 +211,11 @@ public class ClassPathResourceManage implements Manage {
 
   private <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T> provider) throws IOException {
     List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Map<String, Object>>>() { });
-    return providers.stream().map(this::transformManageMetadata).map(provider).collect(toMap(Provider::getId, identity()));
+
+    Map<String, T> result = providers.stream()
+      .filter(stringObjectMap -> Map.class.cast(stringObjectMap.get("data")).get("state").equals("prodaccepted"))
+      .map(this::transformManageMetadata).map(provider).collect(toMap(Provider::getId, identity()));
+    return result;
   }
 
   private boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {

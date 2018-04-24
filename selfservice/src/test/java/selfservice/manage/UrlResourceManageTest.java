@@ -50,13 +50,13 @@ public class UrlResourceManageTest {
   @Test
   public void testServiceProviders() throws IOException {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-    assertEquals(49 + 3, serviceProviders.size());
+    assertEquals(30 + 3, serviceProviders.size());
   }
 
   @Test
   public void testIdentityProviders() throws IOException {
     List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
-    assertEquals(13, identityProviders.size());
+    assertEquals(11, identityProviders.size());
   }
 
   @Test
@@ -94,7 +94,7 @@ public class UrlResourceManageTest {
   public void testGetAllServiceProvidersLinked() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders(
       "https://idp.diy.surfconext.nl/saml2/idp/metadata.php");
-    assertEquals(52 - 1, serviceProviders.size());
+    assertEquals(33 -1, serviceProviders.size());
   }
 
   @Test
@@ -120,25 +120,17 @@ public class UrlResourceManageTest {
   }
 
   @Test
-  public void testGetLinkedIdentityProvidersAllowAll() {
-    List<IdentityProvider> identityProviders = subject.getLinkedIdentityProviders(
-      "http://ikbesta"
-    );
-    assertEquals(6, identityProviders.size());
-  }
-
-  @Test
   public void testGetLinkedIdentityProviders() {
     List<IdentityProvider> identityProviders = subject.getLinkedIdentityProviders(
       "https://manage.test2.surfconext.nl/shibboleth"
     );
-    assertEquals(9, identityProviders.size());
+    assertEquals(8, identityProviders.size());
   }
 
   @Test
   public void testGetLinkedServiceProviderIDs() {
     List<String> ids = subject.getLinkedServiceProviderIDs("http://login.aai.braindrops.org/adfs/services/trust");
-    assertEquals(45, ids.size());
+    assertEquals(0, ids.size());
   }
 
   @Test

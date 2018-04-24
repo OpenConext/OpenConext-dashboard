@@ -3649,7 +3649,7 @@
       },
       "metadataurl": "https://teams.surfconext.nl/Shibboleth.sso/Metadata",
       "revisionnote": "123",
-      "state": "testaccepted",
+      "state": "prodaccepted",
       "type": "saml20-sp"
     },
     "revision": {

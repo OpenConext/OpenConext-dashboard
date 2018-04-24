@@ -18,13 +18,13 @@ public class ClassPathResourceManageTest {
   @Test
   public void testIdentityProviders() {
     List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
-    assertEquals(13, identityProviders.size());
+    assertEquals(11, identityProviders.size());
   }
 
   @Test
   public void testServiceProviders() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-    assertEquals(52, serviceProviders.size());
+    assertEquals(33, serviceProviders.size());
 
     ServiceProvider surfcloud = serviceProviders.stream().filter(sp -> sp.getId()
       .equals("https://mailer.pt-75.utr.surfcloud.nl")).findFirst().get();
