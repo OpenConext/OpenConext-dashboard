@@ -17,5 +17,4 @@ ConvenientLocalTestJson.java
 style_dashboard_acc.css
 ResourceBundleUtils.java
 *.log
-sp.json
-ProductionDataClassPathResourceManageTest.java
+manage-json
