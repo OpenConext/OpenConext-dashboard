@@ -511,7 +511,7 @@ class AppOverview extends React.Component {
         searchValue: "attributes",
         values: arpAttributes.map(attr => {
           const val = attr.substring(attr.lastIndexOf(":") + 1);
-          return {value: val.charAt(0).toUpperCase() + val.slice(1), searchValue: attr}
+          return {value: val.charAt(0).toUpperCase() + val.slice(1), searchValue: attr};
         }),
         filterApp: function (app) {
           const attrFacetValues = this.state.activeFacets["attributes"] || [];

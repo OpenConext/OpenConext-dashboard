@@ -1,7 +1,7 @@
 import React from "react";
 
 import DateTimePicker from "react-widgets/lib/DateTimePicker";
-import "react-widgets/dist/css/react-widgets.css"
+import "react-widgets/dist/css/react-widgets.css";
 
 import moment from "moment";
 import momentLocalizer from "react-widgets/lib/localizers/moment";

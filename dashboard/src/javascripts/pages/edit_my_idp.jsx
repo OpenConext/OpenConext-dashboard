@@ -3,7 +3,6 @@ import I18n from "i18n-js";
 import {setFlash} from "../utils/flash";
 
 import {getGuestEnabledServices, getInstitutionServiceProviders, sendChangeRequest} from "../api";
-import SelectWrapper from "../components/select_wrapper";
 
 class EditMyIdp extends React.Component {
   constructor(props, context) {

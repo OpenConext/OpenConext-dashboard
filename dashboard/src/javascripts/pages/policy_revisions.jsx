@@ -85,7 +85,7 @@ class PolicyRevisions extends React.Component {
       created.locale(I18n.locale);
       return created.format("LLLL");
     }
-    return ""
+    return "";
   }
 
   handleCompare(revision) {
