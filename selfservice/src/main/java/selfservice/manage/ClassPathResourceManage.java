@@ -7,6 +7,7 @@ import static selfservice.util.StreamUtils.filterEmpty;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -173,11 +174,11 @@ public class ClassPathResourceManage implements Manage {
     }
   }
 
-  protected Resource getIdpResource() {
+  protected Resource getIdpResource() throws UnsupportedEncodingException {
     return new ClassPathResource("manage/identity-providers.json");
   }
 
-  protected Resource getSpResource() {
+  protected Resource getSpResource() throws UnsupportedEncodingException {
     return new ClassPathResource("manage/service-providers.json");
   }
 

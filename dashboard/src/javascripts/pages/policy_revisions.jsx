@@ -80,9 +80,12 @@ class PolicyRevisions extends React.Component {
   }
 
   createdDate(revision) {
-    const created = moment(revision.created);
-    created.locale(I18n.locale);
-    return created.format("LLLL");
+    if (revision.created) {
+      const created = moment.unix(revision.created / 1000);
+      created.locale(I18n.locale);
+      return created.format("LLLL");
+    }
+    return ""
   }
 
   handleCompare(revision) {

@@ -66,7 +66,7 @@ class MyIdp extends React.Component {
     const hasGuestEnabled = this.state.guestEnabledServices.find(s => s.id === service.id) != null;
     return (
       <div key={service.id}>
-        <h2>{ service.name }</h2>
+        <h2><a href={`/apps/${service.id}/overview`}>{ service.name }</a></h2>
         <table className="services">
           <tbody>
             <tr>

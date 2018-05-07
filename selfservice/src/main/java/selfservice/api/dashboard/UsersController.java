@@ -80,8 +80,6 @@ public class UsersController extends BaseController {
   @RequestMapping(value = "/me/guest-enabled-services", method = RequestMethod.GET)
   public RestResponse<List<Service>> guestEnabledServiceProviders(Locale locale) {
     List<Service> usersServices = fetchGuestEnabledServiceProviders(locale);
-    String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
-
     return createRestResponse(usersServices);
   }
 
@@ -93,7 +91,10 @@ public class UsersController extends BaseController {
   }
 
   private List<Service> getServiceProvidersForCurrentUser(Locale locale) {
-    String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
+    CoinUser currentUser = SpringSecurity.getCurrentUser();
+    Optional<IdentityProvider> switchedToIdp = currentUser.getSwitchedToIdp();
+    //We can not map as a null value is converted to an empty Optional
+    String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() : currentUser.getInstitutionId();
 
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
       : servicesCache.getAllServices(locale.getLanguage()).stream()

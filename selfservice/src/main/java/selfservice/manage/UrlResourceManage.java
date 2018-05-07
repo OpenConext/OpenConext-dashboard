@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -70,21 +71,21 @@ public class UrlResourceManage extends ClassPathResourceManage implements Health
 
 
     @Override
-    protected Resource getIdpResource() {
+    protected Resource getIdpResource() throws UnsupportedEncodingException {
         LOG.debug("Fetching IDP metadata entries from {}", manageBaseUrl);
         ResponseEntity<String> responseEntity = restTemplate.exchange
             (manageBaseUrl + "/manage/api/internal/search/saml20_idp", HttpMethod.POST,
                 new HttpEntity<>(this.body, this.httpHeaders), String.class);
-        return new ByteArrayResource(responseEntity.getBody().getBytes());
+        return new ByteArrayResource(responseEntity.getBody().getBytes("UTF-8"));
     }
 
     @Override
-    protected Resource getSpResource() {
+    protected Resource getSpResource() throws UnsupportedEncodingException {
         LOG.debug("Fetching SP metadata entries from {}", manageBaseUrl);
         ResponseEntity<String> responseEntity = restTemplate.exchange
             (manageBaseUrl + "/manage/api/internal/search/saml20_sp", HttpMethod.POST,
                 new HttpEntity<>(this.body, this.httpHeaders), String.class);
-        return new ByteArrayResource(responseEntity.getBody().getBytes());
+        return new ByteArrayResource(responseEntity.getBody().getBytes("UTF-8"));
     }
 
     private void doInitializeMetadata() {

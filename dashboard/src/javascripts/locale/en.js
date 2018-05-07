@@ -98,7 +98,7 @@ I18n.translations.en = {
         research_and_scholarship: "Research and Scholarship"
       },
       strong_authentication: {
-        name: "Supports SURFconext Strong Authentication",
+        name: "Supports SURFsecureID",
         yes: "Yes",
         no: "No"
       },
@@ -200,7 +200,7 @@ I18n.translations.en = {
     single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
     interfed_source: "Federation source:",
     publish_in_edugain_date: "Published in eduGAIN on:",
-    supports_ssa: "Supports SURFconext Strong Authentication",
+    supports_ssa: "Supports SURFsecureID",
     entity_categories: "Supported Entity Categories",
     entity_category: {
       "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",

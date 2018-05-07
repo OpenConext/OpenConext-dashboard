@@ -39,8 +39,7 @@ public class Policy {
   private int numberOfRevisions;
   private int revisionNbr;
 
-  @JsonIgnore
-  private Date created;
+  private String created;
 
   private boolean isActivatedSr;
   private boolean active = true;
@@ -116,8 +115,7 @@ public class Policy {
     return attributes;
   }
 
-  @JsonProperty(access = READ_ONLY)
-  public Date getCreated() {
+  public String getCreated() {
     return created;
   }
 
@@ -211,7 +209,7 @@ public class Policy {
   public static class PolicyBuilder {
     private final Policy policy;
     private Long id;
-    private Date created;
+    private String created;
     private String userDisplayName;
     private boolean actionsAllowed;
     private int revisionNbr = 0;
@@ -231,7 +229,7 @@ public class Policy {
       return this;
     }
 
-    public PolicyBuilder withCreated(Date created) {
+    public PolicyBuilder withCreated(String created) {
       this.created = created;
       return this;
     }

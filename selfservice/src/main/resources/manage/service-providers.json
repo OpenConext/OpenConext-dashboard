@@ -1161,7 +1161,7 @@
       "notes": null,
       "revisionid": 7,
       "revisionnote": "No revision note",
-      "state": "testaccepted",
+      "state": "prodaccepted",
       "type": "saml20-sp",
       "user": "urn:collab:person:example.com:admin"
     },
@@ -3644,8 +3644,8 @@
         "logo:0:height": "96",
         "logo:0:url": "https://static.surfconext.nl/media/conext_logo.png",
         "logo:0:width": "96",
-        "name:en": "test teams bart",
-        "name:nl": "test teams bart"
+        "name:en": "test teams bart EÉAÆeë",
+        "name:nl": "test teams bart EÉAÆeë"
       },
       "metadataurl": "https://teams.surfconext.nl/Shibboleth.sso/Metadata",
       "revisionnote": "123",
