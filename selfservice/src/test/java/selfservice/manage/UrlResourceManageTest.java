@@ -50,7 +50,7 @@ public class UrlResourceManageTest {
   @Test
   public void testServiceProviders() throws IOException {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-    assertEquals(30 + 3, serviceProviders.size());
+    assertEquals(31 + 3, serviceProviders.size());
   }
 
   @Test
@@ -94,7 +94,7 @@ public class UrlResourceManageTest {
   public void testGetAllServiceProvidersLinked() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders(
       "https://idp.diy.surfconext.nl/saml2/idp/metadata.php");
-    assertEquals(33 -1, serviceProviders.size());
+    assertEquals(33, serviceProviders.size());
   }
 
   @Test
