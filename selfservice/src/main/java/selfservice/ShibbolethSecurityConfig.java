@@ -87,7 +87,19 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(WebSecurity web) throws Exception {
     web
       .ignoring()
-      .antMatchers("/dashboard/api/home", "/dashboard/api/forbidden", "/fieldimages/**", "/screenshots/**", "/public/**", "/css/**", "/font/**", "/images/**", "/img/**", "/js/**", "/health", "/info");
+      .antMatchers(
+        "/dashboard/api/home",
+        "/dashboard/api/forbidden",
+        "/fieldimages/**",
+        "/screenshots/**",
+        "/public/**",
+        "/css/**",
+        "/font/**",
+        "/images/**",
+        "/img/**",
+        "/js/**",
+        "/health",
+        "/info");
   }
 
   @Override
