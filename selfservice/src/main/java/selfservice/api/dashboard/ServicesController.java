@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -123,7 +124,7 @@ public class ServicesController extends BaseController {
   }
 
   private String stripBreakingWhitespace(String input) {
-    return Optional.ofNullable(input).map(CharMatcher.BREAKING_WHITESPACE::removeFrom).orElse(null);
+    return StringUtils.hasText(input) ? input.trim().replace("\n", "") : "";
   }
 
   private Optional<Service> getServiceById(List<Service> services, Long id) {
