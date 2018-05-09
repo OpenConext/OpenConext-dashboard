@@ -25,7 +25,7 @@
   <artifactId>selfservice</artifactId>
   <packaging>war</packaging>
   <name>OpenConext : selfservice</name>
-
+  <version>5.2.5</version>
   <properties>
     <jetty.host>localhost</jetty.host>
     <app.timestamp>${maven.build.timestamp}</app.timestamp>

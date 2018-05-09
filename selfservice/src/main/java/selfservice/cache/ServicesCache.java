@@ -61,6 +61,6 @@ public class ServicesCache extends AbstractCache {
 
   @Override
   protected String getCacheName() {
-    return "Service Registry cache (SPs)";
+    return "Manage MetaData cache (SPs)";
   }
 }

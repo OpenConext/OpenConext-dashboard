@@ -54,12 +54,12 @@ public class CompoundServiceProviderService {
   private Manage manage;
 
   public List<CompoundServiceProvider> getAllCSPs() {
-    return getCSPs(null, manage.getAllServiceProviders());
+    return getCSPs(manage.getAllServiceProviders());
   }
 
   public List<CompoundServiceProvider> getAllBareCSPs() {
     List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
-    return getCSPs(null, allServiceProviders);
+    return getCSPs(allServiceProviders);
   }
 
   public List<CompoundServiceProvider> getCompoundServiceProvidersByIdp(IdentityProvider identityProvider) {
@@ -69,29 +69,29 @@ public class CompoundServiceProviderService {
 
     List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders(identityProvider.getId());
 
-    return getCSPs(identityProvider, allServiceProviders);
+    return getCSPs(allServiceProviders);
   }
 
-  private List<CompoundServiceProvider> getCSPs(IdentityProvider identityProvider, List<ServiceProvider> allServiceProviders) {
+  private List<CompoundServiceProvider> getCSPs(List<ServiceProvider> allServiceProviders) {
     Map<String, CompoundServiceProvider> mapByServiceProviderEntityId = stream(compoundServiceProviderDao.findAll().spliterator(), false)
         .collect(toMap(csp -> csp.getServiceProviderEntityId(), identity()));
 
     return allServiceProviders.stream()
       .map(sp -> ofNullable(mapByServiceProviderEntityId.get(sp.getId()))
-          .map(csp -> compound(identityProvider, sp, csp))
+          .map(csp -> compound(sp, csp))
           .orElseGet(() -> {
             LOG.debug("No CompoundServiceProvider yet for SP with id {}, will create a new one.", sp.getId());
-            return createCompoundServiceProvider(identityProvider, sp);
+            return createCompoundServiceProvider(sp);
           })
       ).collect(Collectors.toList());
   }
 
-  private CompoundServiceProvider compound(IdentityProvider identityProvider, ServiceProvider sp, CompoundServiceProvider csp) {
+  private CompoundServiceProvider compound(ServiceProvider sp, CompoundServiceProvider csp) {
     csp.setServiceProvider(sp);
     return csp;
   }
 
-  private CompoundServiceProvider createCompoundServiceProvider(IdentityProvider idp, ServiceProvider sp) {
+  private CompoundServiceProvider createCompoundServiceProvider(ServiceProvider sp) {
     CompoundServiceProvider csp = CompoundServiceProvider.builder(sp);
 
     try {
@@ -101,7 +101,7 @@ public class CompoundServiceProviderService {
         //let's give the database another try, otherwise rethrow
         CompoundServiceProvider cspFromDb = compoundServiceProviderDao.findByServiceProviderEntityId(sp.getId());
         if (cspFromDb != null) {
-          return compound(idp, sp, cspFromDb);
+          return compound(sp, cspFromDb);
         }
       }
       throw e;
@@ -137,8 +137,8 @@ public class CompoundServiceProviderService {
     CompoundServiceProvider compoundServiceProvider = compoundServiceProviderDao.findByServiceProviderEntityId(serviceProvider.getId());
     if (compoundServiceProvider == null) {
       LOG.debug("No compound Service Provider for SP '{}' yet. Will init one and persist.", serviceProvider.getId());
-      compoundServiceProvider = compoundServiceProviderDao.save(compoundServiceProvider);
-      LOG.debug("Persisted a CompoundServiceProvider with id {}");
+      compoundServiceProvider = createCompoundServiceProvider(serviceProvider);
+      LOG.debug("Persisted a CompoundServiceProvider with id {}", serviceProvider.getId());
     } else {
       compoundServiceProvider.setServiceProvider(serviceProvider);
       compoundServiceProvider.updateTransientOriginFields();
