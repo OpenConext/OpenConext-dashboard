@@ -10,8 +10,10 @@ import selfservice.domain.Facet;
 import selfservice.domain.FacetValue;
 import selfservice.domain.Provider;
 import selfservice.domain.Service;
+import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.domain.csa.ContactPerson;
+import selfservice.manage.Manage;
 import selfservice.service.ServicesService;
 
 import java.util.ArrayList;
@@ -25,59 +27,43 @@ import static java.util.stream.Collectors.toList;
 
 public class ServicesServiceImpl implements ServicesService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ServicesServiceImpl.class);
+  private final Manage manage;
 
-  private final CompoundServiceProviderService compoundSPService;
-
-  private final String staticBaseUrl;
-
-  public ServicesServiceImpl(CompoundServiceProviderService compoundSPService,  String staticBaseUrl) {
-    this.compoundSPService = compoundSPService;
-    this.staticBaseUrl = staticBaseUrl;
+  public ServicesServiceImpl(Manage manage) {
+    this.manage = manage;
   }
 
   @Override
   public Map<String, List<Service>> findAll() {
-    List<CompoundServiceProvider> allCSPs = compoundSPService.getAllCSPs();
+    List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
 
-    List<Service> servicesEn = buildApiServices(allCSPs, "en");
-    List<Service> servicesNl = buildApiServices(allCSPs, "nl");
+    List<Service> servicesEn = buildApiServices(allServiceProviders, "en");
+    List<Service> servicesNl = buildApiServices(allServiceProviders, "nl");
 
     return ImmutableMap.of("en", servicesEn, "nl", servicesNl);
   }
 
-  /**
-   * Convert the list of found services to a list of services that can be
-   * displayed in the API (either public or private)
-   *
-   * @param services list of services to convert (compound service providers)
-   * @param language language to use in the result
-   * @return a list of api services
-   */
-  private List<Service> buildApiServices(List<CompoundServiceProvider> services, String language) {
-    return services.stream().map(csp -> buildApiService(csp, language)).collect(Collectors.toList());
+  private List<Service> buildApiServices(List<ServiceProvider> services, String language) {
+    return services.stream().map(service -> buildApiService(service, language)).collect(Collectors.toList());
   }
 
-  protected Service buildApiService(CompoundServiceProvider csp, String language) {
-    checkNotNull(csp);
-    checkNotNull(csp.getSp());
-
+  protected Service buildApiService(ServiceProvider serviceProvider, String language) {
     boolean isEn = language.equalsIgnoreCase("en");
 
     Service service = new Service();
-    plainProperties(csp, service);
-    screenshots(csp, service);
-    languageSpecificProperties(csp, isEn, service);
-    categories(csp, service, language);
-    contactPersons(csp, service);
+    plainProperties(serviceProvider, service);
+    screenshots(serviceProvider, service);
+    languageSpecificProperties(serviceProvider, isEn, service);
+    categories(serviceProvider, service, language);
+    contactPersons(serviceProvider, service);
     return service;
   }
 
-  private void plainProperties(CompoundServiceProvider csp, Service service) {
+  private void plainProperties(ServiceProvider sp, Service service) {
     // Plain properties
-    service.setSpEntityId(csp.getSp().getId());
-    service.setAppUrl(csp.getAppUrl());
-    service.setId(csp.getId());
+    service.setSpEntityId(sp.getId());
+    service.setAppUrl(sp.getApplicationUrl());
+    service.setId(sp.getId());
     service.setEulaUrl(csp.getEulaUrl());
     service.setDetailLogoUrl(absoluteUrl(csp.getDetailLogo()));
     service.setLogoUrl(absoluteUrl(csp.getAppStoreLogo()));
@@ -171,14 +157,4 @@ public class ServicesServiceImpl implements ServicesService {
     }
   }
 
-  private Optional<Category> findCategory(List<Category> categories, Facet facet) {
-    return categories.stream().filter(category -> category.getName().equalsIgnoreCase(facet.getName())).findFirst();
-  }
-
-  private String absoluteUrl(final String relativeUrl) {
-    if (relativeUrl != null && relativeUrl.startsWith("/")) {
-      return this.staticBaseUrl + relativeUrl;
-    }
-    return relativeUrl;
-  }
 }

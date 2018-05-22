@@ -95,11 +95,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
       <groupId>net.sf.opencsv</groupId>
       <artifactId>opencsv</artifactId>
     </dependency>
@@ -115,10 +110,6 @@
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-jasper</artifactId>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -145,10 +136,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -274,82 +261,5 @@
       </extension>
     </extensions>
   </build>
-  <profiles>
-    <profile>
-      <id>css-javascript-minifier</id>
-      <activation>
-        <property>
-          <name>!skipCssJs</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.samaxes.maven</groupId>
-            <artifactId>minify-maven-plugin</artifactId>
-            <version>1.7.2</version>
-            <executions>
-              <execution>
-                <id>default-minify</id>
-                <phase>prepare-package</phase>
-                <configuration>
-                  <cssSourceIncludes>
-                    <cssSourceInclude>*.css</cssSourceInclude>
-                  </cssSourceIncludes>
-                  <cssFinalFile>style.css</cssFinalFile>
-
-                  <jsSourceDir>js</jsSourceDir>
-                  <jsSourceFiles>
-                    <!-- All javascript files are setup explicitly here, to conserve
-                      their order in the minified version. -->
-                    <jsSourceFile>jquery/jquery-1.8.3.min.js</jsSourceFile>
-                    <jsSourceFile>bootstrap/bootstrap-2.0.3.min.js</jsSourceFile>
-                    <jsSourceFile>bootstrap/bootstrap-tooltip.js</jsSourceFile>
-                    <jsSourceFile>bootstrap/bootstrap-popover.js</jsSourceFile>
-                    <jsSourceFile>bootstrap/bootstrap-transition.js</jsSourceFile>
-                    <jsSourceFile>bootstrap/bootbox.min.js</jsSourceFile>
-
-                    <jsSourceFile>jquery/jquery.datatables.1.9.4.min.js</jsSourceFile>
-                    <jsSourceFile>jquery/jquery.datatables.columnfilter.1.4.7.js</jsSourceFile>
-                    <jsSourceFile>jquery/jquery.ui.widget.js</jsSourceFile>
-                    <jsSourceFile>jquery/jquery.fileupload.js</jsSourceFile>
-                    <jsSourceFile>jquery/jquery.iframe-transport.js</jsSourceFile>
-                    <jsSourceFile>jquery/select2.js</jsSourceFile>
-                    <jsSourceFile>jquery/jquery.transit.js</jsSourceFile>
-                    <jsSourceFile>jquery/jquery.tickback.min.js</jsSourceFile>
-                    <jsSourceFile>jquery/jquery.fixedheadertable.js</jsSourceFile>
-
-                    <jsSourceFile>main.js</jsSourceFile>
-
-                    <jsSourceFile>modules/gallery.js</jsSourceFile>
-                    <jsSourceFile>modules/global.js</jsSourceFile>
-                    <jsSourceFile>modules/message.js</jsSourceFile>
-                    <jsSourceFile>modules/idp-status.js</jsSourceFile>
-                    <jsSourceFile>modules/respond.js</jsSourceFile>
-                    <jsSourceFile>modules/table.js</jsSourceFile>
-                    <jsSourceFile>modules/compound-sp-edit.js</jsSourceFile>
-                    <jsSourceFile>modules/app-detail.js</jsSourceFile>
-                    <jsSourceFile>modules/shop-admin.js</jsSourceFile>
-                    <jsSourceFile>modules/sp-services.js</jsSourceFile>
-                    <jsSourceFile>modules/taxonomy.js</jsSourceFile>
-                    <jsSourceFile>modules/csp-taxonomy.js</jsSourceFile>
-
-                    <jsSourceFile>tools/html5shiv.js</jsSourceFile>
-                    <jsSourceFile>tools/ios-orientationchange-fix.js</jsSourceFile>
-                    <jsSourceFile>tools/sizewatcher.js</jsSourceFile>
-
-                  </jsSourceFiles>
-                  <jsFinalFile>script.js</jsFinalFile>
-                </configuration>
-                <goals>
-                  <goal>minify</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>

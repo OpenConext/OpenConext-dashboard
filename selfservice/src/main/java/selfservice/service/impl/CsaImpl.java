@@ -5,15 +5,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import selfservice.cache.ServicesCache;
-import selfservice.dao.FacetDao;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.Taxonomy;
-import selfservice.service.Csa;
 import selfservice.manage.Manage;
+import selfservice.service.Csa;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -24,9 +23,6 @@ import java.util.stream.StreamSupport;
 import static java.util.stream.Collectors.toList;
 
 public class CsaImpl implements Csa {
-
-  @Autowired
-  private FacetDao facetDao;
 
   @Autowired
   private ServicesCache servicesCache;
@@ -62,23 +58,6 @@ public class CsaImpl implements Csa {
    */
   private boolean showServiceForInstitution(IdentityProvider identityProvider, Service service) {
     return !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId().equalsIgnoreCase(identityProvider.getInstitutionId()));
-  }
-
-  @Override
-  public Taxonomy getTaxonomy() {
-    List<Category> categories = StreamSupport.stream(facetDao.findAll().spliterator(), false).map(facet -> {
-      Category category = new Category(facet.getName());
-
-      List<CategoryValue> values = facet.getFacetValues().stream().map(fv ->
-        new CategoryValue(fv.getValue(), category)
-      ).collect(toList());
-
-      category.setValues(values);
-
-      return category;
-    }).collect(toList());
-
-    return new Taxonomy(categories);
   }
 
   @Override

@@ -1,10 +1,5 @@
 package selfservice;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +11,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
 import selfservice.api.dashboard.GsonHttpMessageConverter;
-import selfservice.interceptor.AuthorityScopeInterceptor;
 import selfservice.interceptor.MenuInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
@@ -53,7 +50,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     localeChangeInterceptor.setParamName("lang");
 
     registry.addInterceptor(localeChangeInterceptor);
-    registry.addInterceptor(new AuthorityScopeInterceptor());
     registry.addInterceptor(new MenuInterceptor());
     registry.addInterceptor(new HandlerInterceptorAdapter() {
       @Override

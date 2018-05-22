@@ -10,8 +10,6 @@ public interface Csa {
 
   List<Service> getServicesForIdp(String idpEntityId);
 
-  Taxonomy getTaxonomy();
-
   Optional<Service> getServiceForIdp(String idpEntityId, long serviceId);
 
 }
