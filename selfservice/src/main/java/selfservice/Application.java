@@ -16,8 +16,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.LocaleResolver;
+import selfservice.manage.ClassPathResourceManage;
+import selfservice.manage.Manage;
+import selfservice.manage.UrlResourceManage;
 import selfservice.pdp.PdpService;
 import selfservice.pdp.PdpServiceImpl;
 import selfservice.pdp.PdpServiceMock;
@@ -33,9 +35,6 @@ import selfservice.service.impl.JiraClientImpl;
 import selfservice.service.impl.JiraClientMock;
 import selfservice.service.impl.VootClientImpl;
 import selfservice.service.impl.VootClientMock;
-import selfservice.manage.ClassPathResourceManage;
-import selfservice.manage.Manage;
-import selfservice.manage.UrlResourceManage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 import selfservice.util.LicenseContactPersonService;
 
@@ -47,7 +46,6 @@ import java.util.Locale;
     TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class,
     MetricFilterAutoConfiguration.class
  })
-@EnableJpaRepositories("selfservice.dao")
 public class Application extends SpringBootServletInitializer {
 
   @Autowired

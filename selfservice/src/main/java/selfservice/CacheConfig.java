@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import selfservice.cache.ServicesCache;
-import selfservice.service.impl.CompoundServiceProviderService;
+import selfservice.manage.Manage;
 import selfservice.service.impl.ServicesServiceImpl;
 
 import java.io.IOException;
@@ -37,11 +37,11 @@ public class CacheConfig {
   }
 
   @Bean
-  public ServicesCache servicesCache(CompoundServiceProviderService compoundSPService,
+  public ServicesCache servicesCache(Manage manage,
                                      @Value("${cache.default.initialDelay}") long initialDelay,
                                      @Value("${cache.default.delay}") long delay,
                                      @Value("${static.baseurl}") String staticBaseUrl) {
-    return new ServicesCache(new ServicesServiceImpl(compoundSPService, staticBaseUrl), initialDelay, delay);
+    return new ServicesCache(new ServicesServiceImpl(manage), initialDelay, delay);
   }
 
 }

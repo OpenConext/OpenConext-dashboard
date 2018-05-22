@@ -52,7 +52,6 @@ public class Service implements Comparable<Service>, Serializable {
   private String institutionId;
   private String spEntityId;
   private String spName;
-  private String normenkaderUrl;
   private String interfedSource;
   private String privacyStatementUrl;
   private String registrationInfoUrl;
@@ -322,14 +321,6 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setNormenkaderPresent(boolean normenkaderPresent) {
     this.normenkaderPresent = normenkaderPresent;
-  }
-
-  public String getNormenkaderUrl() {
-    return normenkaderUrl;
-  }
-
-  public void setNormenkaderUrl(String normenkaderUrl) {
-    this.normenkaderUrl = normenkaderUrl;
   }
 
   public boolean isExampleSingleTenant() {

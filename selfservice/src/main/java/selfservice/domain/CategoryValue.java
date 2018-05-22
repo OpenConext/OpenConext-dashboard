@@ -31,15 +31,8 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
   private int count;
   private String value;
 
-  @JsonIgnore
-  private Category category;
-
-  public CategoryValue() {
-  }
-
-  public CategoryValue(String value, Category category) {
+  public CategoryValue(String value) {
     this.value = value;
-    this.category = category;
   }
 
   public void setCount(int count) {
@@ -52,28 +45,6 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
 
   public String getValue() {
     return value;
-  }
-
-  @JsonIgnore
-  public Category getCategory() {
-    return category;
-  }
-
-  /*
-   * The value of a FacetValue may contain spaces, but if we want to search in (any) clients, then we
-   * want to be able to have all the FacetValues of a Service separated by spaces therefore this method
-   * can be used to underscore-separate the different FacetValues.
-   *
-   * Because it is possible to have FacetValues that have the same value, but belong to different Facet's, we need
-   * to include the Facet value (represented by Category) as well in the String
-   */
-  @JsonIgnore
-  public String getSearchValue() {
-    Assert.notNull(category, "Category not null");
-    Assert.hasLength(category.getName(), "Category name not null");
-    Assert.hasLength(value, "Category value not null");
-
-    return category.getName().replaceAll(" ", "_").toLowerCase() + "_" + getValue().replaceAll(" ", "_").toLowerCase();
   }
 
   @Override

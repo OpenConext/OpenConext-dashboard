@@ -44,6 +44,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
    * Name of the Provider. SURFfederatie knows only 1 value, SURFconext supports a value per language.
    * This name field can be used for sorting
    */
+  private Long eid;
   private String name;
   private String logoUrl;
   private String publishInEdugainDate;
@@ -66,6 +67,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   public Provider(Map<String, Object> metaData) {
     this.id = (String) metaData.get("entityid");
+    this.eid = ((Number) metaData.get("eid")).longValue();
     addName("en", (String) metaData.get("name:en"));
     addName("nl", (String) metaData.get("name:nl"));
     this.name = names.isEmpty() ? (String) metaData.get("entityid") : names.getOrDefault("en", names.get("nl"));
@@ -181,6 +183,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   public Map<String, String> getDescriptions() {
     return descriptions;
+  }
+
+  public Long getEid() {
+    return eid;
   }
 
   private void addDescription(String language, String description) {

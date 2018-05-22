@@ -19,6 +19,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("serial")
 public class ServiceProvider extends Provider implements Serializable, Cloneable {
 
+  private final boolean gdprIsInWiki;
   private String applicationUrl;
   private String institutionId;
   private String eulaURL;
@@ -42,10 +45,16 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private boolean idpVisibleOnly;
   private boolean policyEnforcementDecisionRequired;
   private boolean exampleSingleTenant;
+  private LicenseStatus licenseStatus;
 
   private ARP arp;
 
   private Map<String, String> urls = new HashMap<>();
+  private String wikiUrlNl;
+  private String wikiUrlEn;
+  private boolean strongAuthenticationSupported;
+  private List<String> typeOfServicesNl = new ArrayList();
+  private List<String> typeOfServicesEn = new ArrayList();
 
   @SuppressWarnings("unchecked")
   public ServiceProvider(Map<String, Object> metaData) {
@@ -61,9 +70,13 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.registrationPolicyUrlNl = (String) metaData.get("mdrpi:RegistrationPolicy:nl");
     this.entityCategories1 = (String) metaData.get("coin:entity_categories:1");
     this.entityCategories2 = (String) metaData.get("coin:entity_categories:2");
-
+    this.licenseStatus = LicenseStatus.fromManage((String) metaData.get("coin:ss:license_status"));
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
+    this.gdprIsInWiki = booleanValue(metaData.get("coin:privacy:gdpr_is_in_wiki"));
+    this.strongAuthenticationSupported = booleanValue(metaData.get("coin:supports_strong_authentication"));
+    this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
+    this.wikiUrlNl = (String) metaData.get("coin:ss:wiki_url:nl");
     Object attributes = metaData.get("attributes");
     if (attributes != null) {
       if (attributes instanceof List) {
@@ -76,7 +89,14 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     } else {
       this.arp = ARP.noArp();
     }
-
+    String typeOfService = (String) metaData.get("coin:ss:type_of_service:en");
+    if (StringUtils.hasText(typeOfService)) {
+      this.typeOfServicesEn = Arrays.asList(typeOfService.split(","));
+    }
+    typeOfService = (String) metaData.get("coin:ss:type_of_service:nl");
+    if (StringUtils.hasText(typeOfService)) {
+      this.typeOfServicesNl = Arrays.asList(typeOfService.split(","));
+    }
 
     addUrl("en", (String) metaData.get("url:en"));
     addUrl("nl", (String) metaData.get("url:nl"));
@@ -122,14 +142,18 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     return urls;
   }
 
-  public String getUrl() {
-    return CollectionUtils.isEmpty(this.urls) ? null : urls.values().iterator().next();
+  public String getUrl(Language language) {
+    return CollectionUtils.isEmpty(this.urls) ? null : urls.get(language.name());
   }
 
   private void addUrl(String lang, String url) {
     if (StringUtils.hasText(url)) {
       this.urls.put(lang, url);
     }
+  }
+
+  public boolean isGdprIsInWiki() {
+    return gdprIsInWiki;
   }
 
   public ARP getArp() {
@@ -183,4 +207,27 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     }
   }
 
+  public LicenseStatus getLicenseStatus() {
+    return licenseStatus;
+  }
+
+  public boolean isStrongAuthenticationSupported() {
+    return strongAuthenticationSupported;
+  }
+
+  public String getWikiUrlNl() {
+    return wikiUrlNl;
+  }
+
+  public String getWikiUrlEn() {
+    return wikiUrlEn;
+  }
+
+  public List<String> getTypeOfServicesNl() {
+    return typeOfServicesNl;
+  }
+
+  public List<String> getTypeOfServicesEn() {
+    return typeOfServicesEn;
+  }
 }

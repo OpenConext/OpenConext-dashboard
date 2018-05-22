@@ -1,29 +1,24 @@
 package selfservice.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
-import selfservice.domain.Facet;
-import selfservice.domain.FacetValue;
-import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
-import selfservice.domain.csa.CompoundServiceProvider;
 import selfservice.domain.csa.ContactPerson;
+import selfservice.domain.csa.ContactPersonType;
 import selfservice.manage.Manage;
 import selfservice.service.ServicesService;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
+import static selfservice.domain.Provider.Language.EN;
+import static selfservice.domain.Provider.Language.NL;
 
 public class ServicesServiceImpl implements ServicesService {
 
@@ -52,7 +47,6 @@ public class ServicesServiceImpl implements ServicesService {
 
     Service service = new Service();
     plainProperties(serviceProvider, service);
-    screenshots(serviceProvider, service);
     languageSpecificProperties(serviceProvider, isEn, service);
     categories(serviceProvider, service, language);
     contactPersons(serviceProvider, service);
@@ -63,94 +57,74 @@ public class ServicesServiceImpl implements ServicesService {
     // Plain properties
     service.setSpEntityId(sp.getId());
     service.setAppUrl(sp.getApplicationUrl());
-    service.setId(sp.getId());
-    service.setEulaUrl(csp.getEulaUrl());
-    service.setDetailLogoUrl(absoluteUrl(csp.getDetailLogo()));
-    service.setLogoUrl(absoluteUrl(csp.getAppStoreLogo()));
-    service.setSupportMail(normalizeEmail(csp.getSupportMail()));
-    service.setWebsiteUrl(csp.getServiceUrl());
-    service.setArp(csp.getSp().getArp());
-    service.setIdpVisibleOnly(csp.getSp().isIdpVisibleOnly());
-    service.setPolicyEnforcementDecisionRequired(csp.getSp().isPolicyEnforcementDecisionRequired());
-    service.setInstitutionId(csp.getSp().getInstitutionId());
-    service.setPublishedInEdugain(csp.getSp().isPublishedInEdugain());
-    service.setLicenseStatus(csp.getLicenseStatus());
-    service.setNormenkaderUrl(csp.getNormenkaderUrl());
-    service.setNormenkaderPresent(csp.isNormenkaderPresent());
-    service.setExampleSingleTenant(csp.isExampleSingleTenant());
-    service.setInterfedSource(csp.getInterfedSource());
-    service.setRegistrationInfoUrl(csp.getRegistrationInfo());
-    service.setEntityCategories1(csp.getEntityCategories1());
-    service.setEntityCategories2(csp.getEntityCategories2());
-    service.setPublishInEdugainDate(csp.getPublishInEdugainDate());
-    service.setStrongAuthentication(csp.isStrongAuthentication());
-    service.setNames(csp.getSp().getNames());
-    service.setDescriptions(csp.getSp().getDescriptions());
-    service.setNoConsentRequired(csp.getSp().isNoConsentRequired());
+    service.setId(sp.getEid());
+    service.setEulaUrl(sp.getEulaURL());
+    service.setDetailLogoUrl(sp.getLogoUrl());
+    service.setLogoUrl(sp.getLogoUrl());
+    service.setSupportMail(mailOfContactPerson(sp.getContactPerson(ContactPersonType.help)));
+    Map<String, String> homeUrls = sp.getHomeUrls();
+    service.setWebsiteUrl(homeUrls == null ? null : homeUrls.values().iterator().next());
+    service.setArp(sp.getArp());
+    service.setIdpVisibleOnly(sp.isIdpVisibleOnly());
+    service.setPolicyEnforcementDecisionRequired(sp.isPolicyEnforcementDecisionRequired());
+    service.setInstitutionId(sp.getInstitutionId());
+    service.setPublishedInEdugain(sp.isPublishedInEdugain());
+    service.setLicenseStatus(sp.getLicenseStatus());
+    service.setNormenkaderPresent(sp.isGdprIsInWiki());
+    service.setExampleSingleTenant(sp.isExampleSingleTenant());
+    service.setInterfedSource(sp.getInterfedSource());
+    service.setRegistrationInfoUrl(sp.getRegistrationInfo());
+    service.setEntityCategories1(sp.getEntityCategories1());
+    service.setEntityCategories2(sp.getEntityCategories2());
+    service.setPublishInEdugainDate(sp.getPublishInEdugainDate());
+    service.setStrongAuthentication(sp.isStrongAuthenticationSupported());
+    service.setNames(sp.getNames());
+    service.setDescriptions(sp.getDescriptions());
+    service.setNoConsentRequired(sp.isNoConsentRequired());
   }
 
-  private String normalizeEmail(String email) {
-    if (email != null && email.startsWith("mailto:")) {
-      return email.substring(7);
-    }
-
-    return email;
+  private String mailOfContactPerson(ContactPerson contactPerson) {
+    return contactPerson == null ? null : contactPerson.getEmailAddress();
   }
 
-  private void screenshots(CompoundServiceProvider csp, Service service) {
-    if (csp.getScreenShotsImages() != null) {
-      List<String> screenshots = csp.getScreenShotsImages().stream().map(screenshot -> absoluteUrl(screenshot.getFileUrl())).collect(toList());
-      service.setScreenshotUrls(screenshots);
-    }
-  }
-
-  private void languageSpecificProperties(CompoundServiceProvider csp, boolean en, Service service) {
+  private void languageSpecificProperties(ServiceProvider sp, boolean en, Service service) {
     if (en) {
-      service.setDescription(csp.getServiceDescriptionEn());
-      service.setEnduserDescription(csp.getEnduserDescriptionEn());
-      service.setName(csp.getTitleEn());
-      service.setSupportUrl(csp.getSupportUrlEn());
-      service.setInstitutionDescription(csp.getInstitutionDescriptionEn());
-      service.setServiceUrl(csp.getSupportUrlEn());
-      service.setWikiUrl(csp.getWikiUrlEn());
-      service.setSpName(csp.getSp().getName(Provider.Language.EN));
-      service.setRegistrationPolicyUrl(csp.getRegistrationPolicyUrlEn());
-      service.setPrivacyStatementUrl(csp.getPrivacyStatementUrlEn());
+      service.setDescription(sp.getDescription(EN));
+      service.setEnduserDescription(sp.getDescription(EN));
+      service.setName(sp.getName(EN));
+
+      service.setSupportUrl(sp.getUrl(EN));
+      service.setInstitutionDescription(sp.getDescription(EN));
+      service.setServiceUrl(sp.getUrl(EN));
+      service.setWikiUrl(sp.getWikiUrlEn());
+      service.setSpName(sp.getName(EN));
+      service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlEn());
+      service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlEn());
     } else {
-      service.setDescription(csp.getServiceDescriptionNl());
-      service.setEnduserDescription(csp.getEnduserDescriptionNl());
-      service.setName(csp.getTitleNl());
-      service.setSupportUrl(csp.getSupportUrlNl());
-      service.setInstitutionDescription(csp.getInstitutionDescriptionNl());
-      service.setServiceUrl(csp.getSupportUrlNl());
-      service.setWikiUrl(csp.getWikiUrlNl());
-      service.setSpName(csp.getSp().getName(Provider.Language.NL));
-      service.setPrivacyStatementUrl(csp.getPrivacyStatementUrlNl());
-      service.setRegistrationPolicyUrl(csp.getRegistrationPolicyUrlNl());
+      service.setDescription(sp.getDescription(NL));
+      service.setEnduserDescription(sp.getDescription(NL));
+      service.setName(sp.getName(NL));
+
+      service.setSupportUrl(sp.getUrl(NL));
+      service.setInstitutionDescription(sp.getDescription(NL));
+      service.setServiceUrl(sp.getUrl(NL));
+      service.setWikiUrl(sp.getWikiUrlNl());
+      service.setSpName(sp.getName(NL));
+      service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlNl());
+      service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlNl());
     }
   }
 
-  private void categories(CompoundServiceProvider csp, Service service, String locale) {
+  private void categories(ServiceProvider sp, Service service, String locale) {
     // Categories - the category values need to be either in nl or en (as the facet and facet_values are based on the language setting)
-    List<Category> categories = new ArrayList<>();
-
-    for (FacetValue facetValue : csp.getFacetValues()) {
-      Facet facet = facetValue.getFacet();
-
-      Category category = findCategory(categories, facet).orElseGet(() -> {
-        Category cat = new Category(facet.getLocaleName(locale));
-        categories.add(cat);
-        return cat;
-      });
-
-      category.addCategoryValue(new CategoryValue(facetValue.getLocaleValue(locale), category));
-    }
-
-    service.setCategories(categories);
+    List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : sp.getTypeOfServicesNl();
+    Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", typeOfServices.stream().map
+      (CategoryValue::new).collect(toList()));
+    service.setCategories(Collections.singletonList(category));
   }
 
-  private void contactPersons(CompoundServiceProvider csp, Service service) {
-    List<ContactPerson> contactPersons = csp.getServiceProvider().getContactPersons();
+  private void contactPersons(ServiceProvider sp, Service service) {
+    List<ContactPerson> contactPersons = sp.getContactPersons();
     if (!CollectionUtils.isEmpty(contactPersons)) {
       service.setContactPersons(contactPersons.stream()
         .filter(contactPerson -> contactPerson.isSirtfiSecurityContact()).collect(toList()));
