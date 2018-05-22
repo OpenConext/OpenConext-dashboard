@@ -21,7 +21,7 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 - Java 8
 - Maven 3
 - MySQL 5.5
-- NodeJS 7.10.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
+- NodeJS v8.9.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
 - yarn 1.1.0
 
 ### Building and running
