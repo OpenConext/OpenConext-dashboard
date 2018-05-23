@@ -45,7 +45,7 @@ public class PdpServiceImplTest {
   public void setup() {
     CoinUser coinUser = new CoinUser();
     coinUser.setUid("user-id");
-    coinUser.setIdp(new IdentityProvider("idp-id", "institution-id", "idp-name"));
+    coinUser.setIdp(new IdentityProvider("idp-id", "institution-id", "idp-name", 1L));
     SpringSecurityUtil.setAuthentication(coinUser);
   }
 

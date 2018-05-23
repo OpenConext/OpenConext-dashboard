@@ -53,19 +53,13 @@ public class UrlResourceManageTest {
   @Test
   public void testServiceProviders() throws IOException {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-    assertEquals(31 + 3, serviceProviders.size());
+    assertEquals(66, serviceProviders.size());
   }
 
   @Test
   public void testIdentityProviders() throws IOException {
     List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
     assertEquals(11, identityProviders.size());
-  }
-
-  @Test
-  public void testGetSingleTenantService() {
-    ServiceProvider serviceProvider = subject.getServiceProvider("https://google.dummy.sp").get();
-    assertTrue(serviceProvider.isExampleSingleTenant());
   }
 
   @Test
@@ -97,7 +91,7 @@ public class UrlResourceManageTest {
   public void testGetAllServiceProvidersLinked() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders(
       "https://idp.diy.surfconext.nl/saml2/idp/metadata.php");
-    assertEquals(33, serviceProviders.size());
+    assertEquals(65, serviceProviders.size());
   }
 
   @Test
@@ -155,7 +149,7 @@ public class UrlResourceManageTest {
 
   @Test
   public void testSingleTenantNotLinked() {
-    ServiceProvider serviceProvider = subject.getServiceProvider("https://bod.dummy.sp", null);
+    ServiceProvider serviceProvider = subject.getServiceProvider("https://dummy.blackboard.nl/Single-tenant-service_op-aanvraag", null);
     assertTrue(serviceProvider.isExampleSingleTenant());
   }
 

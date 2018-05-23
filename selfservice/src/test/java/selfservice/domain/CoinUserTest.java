@@ -32,7 +32,7 @@ public class CoinUserTest {
     coinUser = new CoinUser();
     coinUser.addAttribute(Shib_DisplayName, Arrays.asList("bar"));
     coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
-    coinUser.addInstitutionIdp(new IdentityProvider("id", "institutionId", "name"));
+    coinUser.addInstitutionIdp(new IdentityProvider("id", "institutionId", "name", 1L));
     coinUser.setDisplayName("foobar");
   }
 

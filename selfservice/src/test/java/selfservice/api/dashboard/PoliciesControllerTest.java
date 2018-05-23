@@ -90,7 +90,7 @@ public class PoliciesControllerTest {
     SpringSecurityUtil.setAuthentication(user);
 
     when(pdpServiceMock.create(any(Policy.class))).thenThrow(new PolicyNameNotUniqueException("errormessage"));
-    when(manageMock.getServiceProvider("mockServiceProviderId")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId"))));
+    when(manageMock.getServiceProvider("mockServiceProviderId")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "eid", 1L))));
 
     mockMvc.perform(post("/dashboard/api/policies")
         .contentType(APPLICATION_JSON)
@@ -107,7 +107,7 @@ public class PoliciesControllerTest {
 
     when(pdpServiceMock.create(any(Policy.class))).thenReturn(new Policy());
     when(manageMock.getServiceProvider("mockServiceProviderId"))
-      .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "0"))));
+      .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "0", "eid", 1l))));
 
     mockMvc.perform(post("/dashboard/api/policies")
         .contentType(APPLICATION_JSON)
@@ -126,7 +126,7 @@ public class PoliciesControllerTest {
 
     when(pdpServiceMock.create(any(Policy.class))).thenReturn(new Policy());
     when(manageMock.getServiceProvider("mockServiceProviderId"))
-      .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "1"))));
+      .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "1", "eid", 1L))));
 
     mockMvc.perform(post("/dashboard/api/policies")
         .contentType(APPLICATION_JSON)

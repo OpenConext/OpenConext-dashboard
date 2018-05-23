@@ -65,7 +65,7 @@ public class FacetsControllerTest {
       service("Digital Content",  "Data Storage"),
       service("Education Services",  "Data Storage")).collect(toList());
     CoinUser coinUser = new CoinUser();
-    coinUser.setIdp(new IdentityProvider("http://mock-idp", "institutioin_id", "name"));
+    coinUser.setIdp(new IdentityProvider("http://mock-idp", "institutioin_id", "name", 1L));
     SpringSecurityUtil.setAuthentication(coinUser);
     when(csaMock.getServicesForIdp("http://mock-idp")).thenReturn(services);
 

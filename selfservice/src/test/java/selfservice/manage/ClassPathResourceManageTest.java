@@ -24,14 +24,14 @@ public class ClassPathResourceManageTest {
   @Test
   public void testServiceProviders() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-    assertEquals(34, serviceProviders.size());
+    assertEquals(66, serviceProviders.size());
 
     ServiceProvider surfcloud = serviceProviders.stream().filter(sp -> sp.getId()
       .equals("https://mailer.pt-75.utr.surfcloud.nl")).findFirst().get();
     assertEquals(17, surfcloud.getArp().getAttributes().size());
 
-    ServiceProvider google = serviceProviders.stream().filter(sp -> sp.getId()
-      .equals("https://google.dummy.sp")).findFirst().get();
-    assertEquals(10, google.getArp().getAttributes().size());
+    ServiceProvider blackboard = serviceProviders.stream().filter(sp -> sp.getId()
+      .equals("https://dummy.blackboard.nl/Single-tenant-service_op-aanvraag")).findFirst().get();
+    assertEquals(4, blackboard.getArp().getAttributes().size());
   }
 }

@@ -3,6 +3,7 @@ package selfservice.manage;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 import static selfservice.util.StreamUtils.filterEmpty;
 
 import java.io.File;
@@ -203,7 +204,7 @@ public class ClassPathResourceManage implements Manage {
 
     Map<String, T> result = providers.stream()
       .filter(stringObjectMap -> Map.class.cast(stringObjectMap.get("data")).get("state").equals("prodaccepted"))
-      .map(this::transformManageMetadata).map(provider).collect(toMap(Provider::getId, identity()));
+      .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId, identity()));
     return result;
   }
 

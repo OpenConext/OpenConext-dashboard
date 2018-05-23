@@ -30,8 +30,9 @@ public class IdentityProvider extends Provider implements Serializable {
   public IdentityProvider() {
   }
 
-  public IdentityProvider(String id, String institutionId, String name) {
+  public IdentityProvider(String id, String institutionId, String name, Long eid) {
     setId(id);
+    setEid(eid);
     this.institutionId = institutionId;
     if (StringUtils.isNotBlank(name)) {
       setName(name);

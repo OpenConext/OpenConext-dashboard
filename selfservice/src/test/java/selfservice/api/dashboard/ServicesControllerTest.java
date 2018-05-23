@@ -78,7 +78,7 @@ public class ServicesControllerTest {
       .addFilter(ensureAccessToIdp, "/*")
       .build();
 
-    IdentityProvider institutionIdentityProvider = new IdentityProvider(IDP_ENTITY_ID, "institution id", "name");
+    IdentityProvider institutionIdentityProvider = new IdentityProvider(IDP_ENTITY_ID, "institution id", "name", 1L);
 
     coinUser.addInstitutionIdp(institutionIdentityProvider);
     coinUser.setIdp(institutionIdentityProvider);

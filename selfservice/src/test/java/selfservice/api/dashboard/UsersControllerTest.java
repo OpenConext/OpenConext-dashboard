@@ -114,7 +114,7 @@ public class UsersControllerTest {
   @Test
   public void thatIdpCanBeSwitchedToEmpty() throws Exception {
     coinUser.setAuthorities(Sets.newHashSet(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER), new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
-    coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name"));
+    coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name", 1L));
 
     mockMvc.perform(get("/dashboard/api/users/me/switch-to-idp")
       .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
@@ -127,7 +127,7 @@ public class UsersControllerTest {
   @Test
   public void nonSuperUserCanSwitchIdpWithoutSpecifyingTheRole() throws Exception {
     coinUser.setAuthorities(Sets.newHashSet(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
-    coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name"));
+    coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name", 1L));
 
     mockMvc.perform(get("/dashboard/api/users/me/switch-to-idp?idpId=" + BAR_IDP_ENTITY_ID)
       .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))

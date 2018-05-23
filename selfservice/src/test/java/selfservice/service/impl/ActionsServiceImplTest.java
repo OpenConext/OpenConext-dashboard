@@ -36,9 +36,8 @@ public class ActionsServiceImplTest {
 
   @Test
   public void forBackwardCompatibilityShouldFillUserFromBody() {
-
-    when(manageMock.getIdentityProvider("idp")).thenReturn(Optional.of(new IdentityProvider("idp", "idp-institution", "idp-name")));
-    when(manageMock.getServiceProvider("sp")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "sp"))));
+    when(manageMock.getIdentityProvider("idp")).thenReturn(Optional.of(new IdentityProvider("idp", "idp-institution", "idp-name", 1L)));
+    when(manageMock.getServiceProvider("sp")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "sp", "eid", 1L))));
     when(jiraClientMock.getTasks("idp")).thenReturn(ImmutableList.of(Action.builder()
         .idpId("idp")
         .spId("sp")

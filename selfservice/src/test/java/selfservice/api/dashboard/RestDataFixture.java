@@ -29,13 +29,13 @@ public class RestDataFixture {
     coinUser.setUid(uid);
     coinUser.addAttribute(Name_Id, singletonList(uid));
     for (String idp : idpIds) {
-      coinUser.addInstitutionIdp(new IdentityProvider(idp, "institution id", "name"));
-      coinUser.addInstitutionIdp(new IdentityProvider(idp, "institution id", "name"));
+      coinUser.addInstitutionIdp(new IdentityProvider(idp, "institution id", "name", 1L));
+      coinUser.addInstitutionIdp(new IdentityProvider(idp, "institution id", "name", 2L));
     }
     return coinUser;
   }
 
   public static IdentityProvider idp(String idp) {
-    return new IdentityProvider(idp, "institution id", "name");
+    return new IdentityProvider(idp, "institution id", "name", 1L);
   }
 }
