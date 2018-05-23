@@ -104,7 +104,7 @@ I18n.translations.en = {
       },
       arp: {
         name: "Released attributes",
-        info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation. The actual released attributes for the Service can be seen in the <a target='_blank' href='{{url}}'>Profile </a>application."
+        info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation."
       }
     }
   },
@@ -119,7 +119,8 @@ I18n.translations.en = {
       idp_usage: "Used by",
       license_info: "License",
       overview: "Overview",
-      sirtfi_security: "Sirtfi Security"
+      sirtfi_security: "Sirtfi Security",
+      privacy: "Privacy"
     },
     overview: {
       connect: "",
@@ -218,6 +219,9 @@ I18n.translations.en = {
     subtitle: "The following attributes will be exchanged with {{name}}. Please note: All attributes should contain the right value(s). If attributes are missing, additional steps might be needed to ensure a working connection.",
     title: "Attributes",
     your_value: "Your value",
+    filter: "For this attribute the following filters have been applied:",
+    motivationInfo: "The motivation explains why this attribute has been released to this service.",
+    motivation: "Motivation"
   },
   idp_usage_panel: {
     title: "Used by",
@@ -227,7 +231,8 @@ I18n.translations.en = {
   },
   sirtfi_panel: {
     title: "The Sirtfi contact persons for {{name}}",
-    subtitle: "The Security Incident Response Trust Framework for Federated Identity (Sirtfi) aims to enable the coordination of incident response across federated organisations. This assurance framework comprises a list of assertions which an organisation can attest in order to be declared Sirtfi compliant.",
+    subtitle: "The Security Incident Response Trust Framework for Federated Identity <a href=\" https://refeds.org/sirtfi\" target=\"_blank\">(Sirtfi) </a> aims to enable the coordination of incident response across federated organisations. This assurance framework comprises a list of assertions which an organisation can attest in order to be declared Sirtfi compliant.",
+    contactPersons: "The Sirtfi contact persons for this service:",
     cp_name: "Name",
     cp_email: "Email",
     cp_telephoneNumber: "Telephone number",
@@ -235,6 +240,28 @@ I18n.translations.en = {
     cp_type_translate_technical: "Technical",
     cp_type_translate_administrative: "Administrative",
     cp_type_translate_help: "Support"
+  },
+  privacy_panel: {
+    title: "AVG Information",
+    subtitle: "Since 2017, SURFnet requests new connecting SP's to supply some AVG information. Over time, we expect to have that information from more and more services.",
+    subtitle2: "The provider of the service {{name}} has supplied the following information (if any):",
+    question: "Question / Privacy statement",
+    answer: "Answer / information",
+    accessData: "WHO CAN ACCESS THE DATA?",
+    certification: "CAN THE SUPPLIER SUPPLY A THIRD PARTY MEMORANDUM?",
+    certificationLocation: "WHERE CAN AN INSTITUTION FIND/REQUEST IT?",
+    country: "IN WHAT COUNTRY IS THE DATA STORED",
+    otherInfo: "OTHER DATA PRIVACY AND SECURITY INFORMATION",
+    privacyPolicy: "DOES THE SUPPLIER PUBLISH A PRIVACY POLICY?",
+    privacyPolicyUrl: "WHAT IS THE PRIVACY POLICY URL?",
+    securityMeasures: "WHAT SECURITY MEASURES HAS THE SUPPLIER TAKEN?",
+    snDpaWhyNot: "IF NO, WHAT ARTICLES POSE A PROBLEM & WHY?",
+    surfmarketDpaAgreement: "DID THE SUPPLIER AGREE A DPA WITH SURFMARKET?",
+    surfnetDpaAgreement: "IS THE SUPPLIER WILLING TO SIGN THE SURF MODEL DPA?",
+    whatData: "WHAT (KIND OF) DATA IS PROCESSED?",
+    certificationValidFrom: "CERTIFICATION VALID FROM",
+    certificationValidTo: "CERTIFICATION VALID TO",
+    noInformation: "No info supplied by provider"
   },
   how_to_connect_panel: {
     accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",

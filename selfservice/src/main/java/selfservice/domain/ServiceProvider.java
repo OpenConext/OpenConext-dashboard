@@ -27,10 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toMap;
+
 @SuppressWarnings("serial")
 public class ServiceProvider extends Provider implements Serializable, Cloneable {
 
-  private final boolean gdprIsInWiki;
+  private Map<String, String> arpMotivations ;
   private String applicationUrl;
   private String institutionId;
   private String eulaURL;
@@ -48,6 +50,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private LicenseStatus licenseStatus;
 
   private ARP arp;
+  private PrivacyInfo privacyInfo;
 
   private Map<String, String> urls = new HashMap<>();
   private String wikiUrlNl;
@@ -73,14 +76,13 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.licenseStatus = LicenseStatus.fromManage((String) metaData.get("coin:ss:license_status"));
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
-    this.gdprIsInWiki = booleanValue(metaData.get("coin:privacy:gdpr_is_in_wiki"));
     this.strongAuthenticationSupported = booleanValue(metaData.get("coin:supports_strong_authentication"));
     this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
     this.wikiUrlNl = (String) metaData.get("coin:ss:wiki_url:nl");
     Object attributes = metaData.get("attributes");
     if (attributes != null) {
       if (attributes instanceof List) {
-        Map<String, List<String>> collect = ((List<String>) attributes).stream().collect(Collectors.toMap(attr ->
+        Map<String, List<String>> collect = ((List<String>) attributes).stream().collect(toMap(attr ->
           attr, attr -> Collections.singletonList("*")));
         this.arp = ARP.fromAttributes(collect);
       } else {
@@ -100,6 +102,36 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     addUrl("en", (String) metaData.get("url:en"));
     addUrl("nl", (String) metaData.get("url:nl"));
+
+    this.privacyInfo = this.buildPrivacyInfo(metaData);
+    this.arpMotivations = this.buildArpMotivations(metaData);
+  }
+
+  private Map<String, String> buildArpMotivations(Map<String, Object> metaData) {
+    return metaData.keySet().stream().filter(key -> key.startsWith("coin:attr_motivation:"))
+      .collect(toMap(key -> key, key -> String.class.cast(metaData.get(key))));
+  }
+
+  private PrivacyInfo buildPrivacyInfo(Map<String, Object> metaData) {
+    return new PrivacyInfo(
+      (String) metaData.get("coin:privacy:access_data"),
+      booleanOptionalValue(metaData.get("coin:privacy:certification")),
+      (String) metaData.get("coin:privacy:certification_location"),
+      (String) metaData.get("coin:privacy:country"),
+      (String) metaData.get("coin:privacy:other_info"),
+      booleanOptionalValue(metaData.get("coin:privacy:privacy_policy")),
+      (String) metaData.get("coin:privacy:privacy_policy_url"),
+      (String) metaData.get("coin:privacy:security_measures"),
+      (String) metaData.get("coin:privacy:sn_dpa_why_not"),
+      booleanOptionalValue(metaData.get("coin:privacy:surfmarket_dpa_agreement")),
+      booleanOptionalValue(metaData.get("coin:privacy:surfnet_dpa_agreement")),
+      (String) metaData.get("coin:privacy:what_data"),
+      booleanOptionalValue(metaData.get("coin:ss:aansluitovereenkomst_refused")),
+      (String) metaData.get("coin:privacy:certification_valid_from"),
+      (String) metaData.get("coin:privacy:certification_valid_to"),
+      booleanOptionalValue(metaData.get("coin:privacy:gdpr_is_in_wiki"))
+    );
+
   }
 
   public boolean isIdpVisibleOnly() {
@@ -146,14 +178,18 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     return CollectionUtils.isEmpty(this.urls) ? null : urls.get(language.name());
   }
 
+  public PrivacyInfo getPrivacyInfo() {
+    return privacyInfo;
+  }
+
+  public Map<String, String> getArpMotivations() {
+    return arpMotivations;
+  }
+
   private void addUrl(String lang, String url) {
     if (StringUtils.hasText(url)) {
       this.urls.put(lang, url);
     }
-  }
-
-  public boolean isGdprIsInWiki() {
-    return gdprIsInWiki;
   }
 
   public ARP getArp() {

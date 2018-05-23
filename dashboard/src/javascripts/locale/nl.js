@@ -104,7 +104,7 @@ I18n.translations.nl = {
       },
       arp: {
         name: "Vrijgegeven attributen",
-        info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie. De daadwerkelijke attributen die worden doorgegeven aan de Dienst zijn te bekijken in de <a target=\"_blank\" href=\"{{url}}\">Profile </a> applicatie."
+        info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie."
       }
 
     }
@@ -120,7 +120,8 @@ I18n.translations.nl = {
       idp_usage: "Gebruikt door",
       license_info: "Licentie",
       overview: "Overzicht",
-      sirtfi_security: "Sirtfi contacten"
+      sirtfi_security: "Sirtfi contacten",
+      privacy: "Privacy"
     },
     overview: {
       connect: "",
@@ -219,6 +220,9 @@ I18n.translations.nl = {
     subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn. Als dit niet het geval is, zijn er extra stappen nodig om de connectie te activeren.",
     title: "Attributen",
     your_value: "Jouw waarde",
+    filter: "Voor dit attribuut zijn de volgende filters toegepast:",
+    motivationInfo: "De motivatie verklaart waarom dit attribuut is uitgewisseld met deze service.",
+    motivation: "Motivatie"
   },
 
   idp_usage_panel: {
@@ -230,14 +234,37 @@ I18n.translations.nl = {
 
   sirtfi_panel: {
     title: "De Sirtfi contact personen voor {{name}}",
-    subtitle: "Het Security Incident Response Trust Framework voor Federated Identity (Sirtfi) heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwens raamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.",
-    cp_name: "Naae",
+    subtitle: "Het Security Incident Response Trust Framework voor Federated Identity <a href=\" https://refeds.org/sirtfi\" target=\"_blank\">(Sirtfi)</a> heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwensraamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.",
+    contactPersons: "De Sirtfi contactgegevens voor deze dienst:",
+    cp_name: "Naam",
     cp_email: "Email",
     cp_telephoneNumber: "Telephone number",
     cp_type: "Type",
     cp_type_translate_technical: "Technical",
     cp_type_translate_administrative: "Administrative",
     cp_type_translate_help: "Support"
+  },
+  privacy_panel: {
+    title: "AVG Informatie",
+    subtitle: "Sinds 2017 verzoekt SURFnet nieuwe services om AVG informatie aan  te dragen. Sinds de invoering van de nieuwe AVG verwachten we van meer services deze informatiete ontvangen.",
+    subtitle2: "De leverancier van de service {{name}} heeft SURFnet voorzien van de volgende informatie:",
+    question: "Vraag / privacy verklaring",
+    answer: "Antwoord / informatie",
+    accessData: "WHO CAN ACCESS THE DATA?",
+    certification: "CAN THE SUPPLIER SUPPLY A THIRD PARTY MEMORANDUM?",
+    certificationLocation: "WHERE CAN AN INSTITUTION FIND/REQUEST IT?",
+    country: "IN WHAT COUNTRY IS THE DATA STORED",
+    otherInfo: "OTHER DATA PRIVACY AND SECURITY INFORMATION",
+    privacyPolicy: "DOES THE SUPPLIER PUBLISH A PRIVACY POLICY?",
+    privacyPolicyUrl: "WHAT IS THE PRIVACY POLICY URL?",
+    securityMeasures: "WHAT SECURITY MEASURES HAS THE SUPPLIER TAKEN?",
+    snDpaWhyNot: "IF NO, WHAT ARTICLES POSE A PROBLEM & WHY?",
+    surfmarketDpaAgreement: "DID THE SUPPLIER AGREE A DPA WITH SURFMARKET?",
+    surfnetDpaAgreement: "IS THE SUPPLIER WILLING TO SIGN THE SURF MODEL DPA?",
+    whatData: "WHAT (KIND OF) DATA IS PROCESSED?",
+    certificationValidFrom: "CERTIFICATION VALID FROM",
+    certificationValidTo: "CERTIFICATION VALID TO",
+    noInformation: "Geen informatie van de leverancier"
   },
   how_to_connect_panel: {
     accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",

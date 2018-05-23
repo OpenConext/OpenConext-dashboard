@@ -3749,138 +3749,191 @@
   },
   {
     "_id": "b51c353b-8c07-43a6-b1d2-88f367005ca4",
+    "version": 12,
+    "type": "saml20_sp",
+    "revision": {
+      "number": 12,
+      "created": 1527066461941,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
     "data": {
-      "allowedEntities": [],
+      "entityid": "https://mailer.pt-75.utr.surfcloud.nl",
+      "state": "prodaccepted",
       "allowedall": true,
       "arp": {
+        "enabled": true,
         "attributes": {
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "value": "*",
+              "source": "voot"
+            },
+            {
+              "value": "scoped*",
+              "source": "idp"
+            }
+          ],
           "urn:mace:dir:attribute-def:cn": [
             {
-              "source": "idp",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
             }
           ],
           "urn:mace:dir:attribute-def:displayName": [
             {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
-            {
-              "source": "idp",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
             }
           ],
           "urn:mace:dir:attribute-def:eduPersonOrcid": [
             {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:givenName": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:isMemberOf": [
-            {
-              "source": "voot",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
             }
           ],
           "urn:mace:dir:attribute-def:mail": [
             {
-              "source": "idp",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "value": "*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "value": "scoped*",
+              "source": "idp"
+            },
+            {
+              "value": "scoped2*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "value": "*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "value": "urn*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "value": "*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "value": "*",
+              "source": "idp"
             }
           ],
           "urn:mace:dir:attribute-def:preferredLanguage": [
             {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:sn": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:uid": [
-            {
-              "source": "idp",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
             }
           ],
           "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
             {
-              "source": "idp",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
             }
           ],
           "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": [
             {
-              "source": "idp",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
             }
           ],
           "urn:schac:attribute-def:schacPersonalUniqueCode": [
             {
-              "source": "idp",
-              "value": "*"
+              "value": "*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "value": "*",
+              "source": "idp"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "value": "*",
+              "source": "idp"
             }
           ]
-        },
-        "enabled": true
+        }
       },
-      "entityid": "https://mailer.pt-75.utr.surfcloud.nl",
-      "eid": 1000,
       "metaDataFields": {
+        "name:en": "Bart test RP",
         "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
         "AssertionConsumerService:0:Location": "https://oidc.test2.surfconext.nl/saml/SSO",
         "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
-        "coin:attribute_aggregation_required": "1",
-        "description:en": "Bart test RP",
-        "description:nl": "Bart test RP",
-        "name:en": "Bart test RP",
         "name:nl": "Bart test RP",
-        "coin:ss:idp_visible_only": "1"
+        "coin:attribute_aggregation_required": "1",
+        "description:en": "Bart test RP Des EN",
+        "description:nl": "Bart test RP Des NL",
+        "coin:privacy:gdpr_is_in_wiki": "1",
+        "coin:ss:wiki_url:en": "https://wiki.en",
+        "coin:ss:license_status": "license_available_through_surfmarket",
+        "coin:ss:type_of_service:en": "Special Service",
+        "coin:ss:type_of_service:nl": "Hele Speciale Service",
+        "coin:ss:wiki_url:nl": "https://wiki.nl",
+        "contacts:0:isSirtfiSecurityContact": "1",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "okke@example.org",
+        "contacts:0:givenName": "Okke",
+        "contacts:0:surName": "Test",
+        "contacts:0:telephoneNumber": "0612345678",
+        "coin:privacy:other_info": "Other privacy information",
+        "coin:privacy:privacy_policy": "1",
+        "coin:privacy:security_measures": "Lots of them",
+        "coin:privacy:access_data": "Everybody can see anyhting",
+        "coin:privacy:what_data": "emails",
+        "coin:privacy:certification": "1",
+        "coin:privacy:certification_location": "https://wiki.privacy.nl",
+        "coin:publish_in_edugain_date": "2016-05-23T08:32:54.616Z",
+        "coin:privacy:country": "NL",
+        "coin:privacy:privacy_policy_url": "https://policy_url",
+        "coin:privacy:surfnet_dpa_agreement": "1",
+        "coin:privacy:sn_dpa_why_not": "Because they did not want to",
+        "coin:privacy:surfmarket_dpa_agreement": "1",
+        "mdui:PrivacyStatementURL:en": "https://mdui_PrivacyStatementURL_en",
+        "mdui:PrivacyStatementURL:nl": "https://mdui_PrivacyStatementURL_nl",
+        "coin:privacy:certification_valid_from": "2016-05-23T08:40:27.415Z",
+        "coin:privacy:certification_valid_to": "2022-05-23T08:40:34.518Z",
+        "coin:attr_motivation:eduPersonEntitlement": "eduPersonEntitlement motivation",
+        "coin:attr_motivation:eduPersonOrcid": "eduPersonOrcid motivation",
+        "coin:attr_motivation:cn": "CN motivation",
+        "coin:attr_motivation:displayName": "displayName motivation",
+        "coin:attr_motivation:eduPersonAffiliation": "eduPersonAffiliation motivation",
+        "coin:attr_motivation:eduPersonPrincipalName": "eduPersonPrincipalName motivation",
+        "coin:attr_motivation:isMemberOf": "isMemberOf motivation",
+        "coin:attr_motivation:preferredLanguage": "preferredLanguage motivation",
+        "coin:attr_motivation:schacHomeOrganization": "schacHomeOrganization motivation",
+        "coin:attr_motivation:givenName": "givenName motivation",
+        "coin:attr_motivation:eduPersonTargetedID": "eduPersonTargetedID motivation",
+        "coin:attr_motivation:eduPersonScopedAffiliation": "eduPersonScopedAffiliation motivation",
+        "coin:attr_motivation:schacHomeOrganizationType": " schacHomeOrganizationTypemotivation",
+        "coin:attr_motivation:schacPersonalUniqueCode": "schacPersonalUniqueCode motivation",
+        "coin:attr_motivation:sn": "sn motivation",
+        "coin:attr_motivation:uid": "uid motivation"
       },
-      "revisionnote": "description",
-      "state": "prodaccepted"
-    },
-    "revision": {
-      "created": 1518097889748,
-      "number": 4,
-      "updatedBy": "urn:collab:person:example.com:admin"
-    },
-    "type": "saml20_sp",
-    "version": 4
+      "allowedEntities": [],
+      "revisionnote": "Added arp scopes",
+      "eid": 155,
+      "manipulationNotes": "Testing notes for attribute manipulation."
+    }
   }
 ]

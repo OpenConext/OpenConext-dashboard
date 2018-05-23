@@ -49,7 +49,6 @@ public class ServicesCache extends AbstractCache {
     List<Service> services = Optional.ofNullable(allServicesCache.get())
         .map(serviceMap -> serviceMap.get(lang))
         .orElse(Collections.emptyList());
-
     return SerializationUtils.clone(new ArrayList<>(services));
   }
 

@@ -79,7 +79,8 @@ public class MockShibbolethFilter extends GenericFilterBean {
       wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");
       wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
 
-      wrapper.setHeader(shibHeaders.get("urn:mace:dir:attribute-def:eduPersonEntitlement").getValue(), "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
+      wrapper.setHeader(shibHeaders.get("urn:mace:dir:attribute-def:eduPersonEntitlement").getValue(),
+        "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
 
       chain.doFilter(wrapper, response);
     }

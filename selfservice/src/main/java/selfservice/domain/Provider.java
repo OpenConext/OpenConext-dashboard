@@ -225,6 +225,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     return metadataValue != null && metadataValue.equals("1");
   }
 
+  protected Boolean booleanOptionalValue(Object metadataValue) {
+    return metadataValue == null ? null : metadataValue.equals("1");
+  }
+
   protected String safeString(Object o) {
     return o != null ? o.toString() : "";
   }

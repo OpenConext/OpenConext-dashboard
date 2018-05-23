@@ -9,8 +9,8 @@ class SirtfiPanel extends React.Component {
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("sirtfi_panel.title", {name: this.props.app.name})}</h1>
-
-          <em className="info">{I18n.t("sirtfi_panel.subtitle")}</em>
+          <em className="info" dangerouslySetInnerHTML={{ __html: I18n.t("sirtfi_panel.subtitle") }}></em>
+          <p className="spacer">{I18n.t("sirtfi_panel.contactPersons")}</p>
         </div>
         {this.renderSirtfiContactPersons(this.props.app)}
       </div>

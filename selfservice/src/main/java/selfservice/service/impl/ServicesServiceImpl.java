@@ -70,7 +70,6 @@ public class ServicesServiceImpl implements ServicesService {
     service.setInstitutionId(sp.getInstitutionId());
     service.setPublishedInEdugain(sp.isPublishedInEdugain());
     service.setLicenseStatus(sp.getLicenseStatus());
-    service.setNormenkaderPresent(sp.isGdprIsInWiki());
     service.setExampleSingleTenant(sp.isExampleSingleTenant());
     service.setInterfedSource(sp.getInterfedSource());
     service.setRegistrationInfoUrl(sp.getRegistrationInfo());
@@ -81,6 +80,9 @@ public class ServicesServiceImpl implements ServicesService {
     service.setNames(sp.getNames());
     service.setDescriptions(sp.getDescriptions());
     service.setNoConsentRequired(sp.isNoConsentRequired());
+    service.setPrivacyInfo(sp.getPrivacyInfo());
+    service.setMotivations(sp.getArpMotivations());
+    service.setNormenkaderPresent(sp.getPrivacyInfo().isGdprIsInWiki());
   }
 
   private String mailOfContactPerson(ContactPerson contactPerson) {

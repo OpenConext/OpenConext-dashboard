@@ -37,6 +37,8 @@ class AttributePolicyPanel extends React.Component {
             <th>{I18n.t("attributes_policy_panel.your_value")}
               <span className="star">*</span>
             </th>
+            <th>{I18n.t("attributes_policy_panel.motivation")}
+              <span className="star">**</span></th>
           </tr>
           </thead>
           <tbody>
@@ -45,19 +47,30 @@ class AttributePolicyPanel extends React.Component {
         </table>
         <p>
           <span className="star">*</span> {I18n.t("attributes_policy_panel.hint")}</p>
+        <p>
+          <span className="star">**</span> {I18n.t("attributes_policy_panel.motivationInfo")}</p>
       </div>
     );
   }
 
   renderAttribute(attribute) {
+    const renderFilters = attribute.filters.filter(filter => filter !== "*");
+    const name = attribute.name;
+    let lastPart = name.substring(name.lastIndexOf(":") + 1);
     return (
-      <tr key={attribute.name}>
-        <td>{attribute.name}</td>
+      <tr key={name}>
+        <td>{name}</td>
         <td>
           <ul>
             {attribute.userValues.map(this.renderAttributeValue)}
           </ul>
+          {renderFilters.length > 0 && <ul>
+
+            <li className="filter-info">{I18n.t("attributes_policy_panel.filter")}</li>
+            {renderFilters.map((filter, index) => <li key={index} className="filter">{filter}</li>)}
+          </ul>}
         </td>
+        <td>{this.props.app.motivations[`coin:attr_motivation:${lastPart}`]}</td>
       </tr>
     );
   }

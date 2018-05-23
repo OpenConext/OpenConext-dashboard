@@ -12,6 +12,7 @@ import AttributePolicyPanel from "../components/attribute_policy_panel";
 import IdpUsagePanel from "../components/idp_usage_panel";
 import HowToConnectPanel from "../components/how_to_connect_panel";
 import SirtfiPanel from "../components/sirtfi_panel";
+import PrivacyPanel from "../components/privacy_panel";
 
 class AppDetail extends React.Component {
   constructor() {
@@ -41,6 +42,10 @@ class AppDetail extends React.Component {
       "how_to_connect": {
         component: HowToConnectPanel,
         icon: "fa-chain"
+      },
+      "privacy": {
+        component: PrivacyPanel,
+        icon: "fa-lock"
       }
     };
 

@@ -62,7 +62,7 @@ public class EnrichJson {
       Service service = (Service) payload;
       JsonArray filteredUserAttributes = new JsonArray();
       if (service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
-        AttributeMapFilter.filterAttributes((Map<String, List<String>>) (Map<String, ?>) service.getArp()
+        AttributeMapFilter.filterAttributes(service.getArp()
           .getAttributes(), currentUser.getAttributeMap()).stream()
           .map(gson::toJsonTree)
           .forEach(filteredUserAttributes::add);

@@ -95,7 +95,9 @@ public class PdpServiceMock implements PdpService {
         .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
         .withCreated(String.valueOf(System.currentTimeMillis()))
         .withActionsAllowed(true)
-        .withServiceProviderName(servicesCache.getAllServices("en").stream().filter(service -> service.getSpEntityId().equals(policy.getServiceProviderId())).map(Service::getName).findFirst().orElse("????"))
+        .withServiceProviderName(servicesCache.getAllServices("en").stream()
+          .filter(service -> service.getSpEntityId().equals(policy.getServiceProviderId())).map(Service::getName)
+          .findFirst().orElse("????"))
         .build();
   }
 
@@ -107,7 +109,9 @@ public class PdpServiceMock implements PdpService {
         .withActionsAllowed(true)
         .withRevisionNbr(policy.getRevisionNbr() + 1)
         .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
-        .withServiceProviderName(servicesCache.getAllServices("en").stream().filter(service -> service.getSpEntityId().equals(policy.getServiceProviderId())).map(Service::getName).findFirst().orElse("????"))
+        .withServiceProviderName(servicesCache.getAllServices("en").stream()
+          .filter(service -> service.getSpEntityId().equals(policy.getServiceProviderId())).map(Service::getName)
+          .findFirst().orElse("????"))
         .build();
   }
 

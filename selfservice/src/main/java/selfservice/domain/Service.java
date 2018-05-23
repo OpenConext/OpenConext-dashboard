@@ -63,16 +63,19 @@ public class Service implements Comparable<Service>, Serializable {
   private List<String> screenshotUrls = new ArrayList<>();
   private List<Category> categories = new ArrayList<>();
   private Map<String, String> names = new HashMap<>();
+  private Map<String, String> motivations = new HashMap<>();
   private Map<String, String> descriptions = new HashMap<>();
 
   private boolean connected;
   private boolean idpVisibleOnly;
   private boolean publishedInEdugain;
-  private boolean normenkaderPresent;
+  private Boolean normenkaderPresent;
   private boolean exampleSingleTenant;
   private boolean policyEnforcementDecisionRequired;
   private boolean strongAuthentication;
   private boolean noConsentRequired;
+
+  private PrivacyInfo privacyInfo;
 
   private LicenseStatus licenseStatus;
 
@@ -319,7 +322,7 @@ public class Service implements Comparable<Service>, Serializable {
     return normenkaderPresent;
   }
 
-  public void setNormenkaderPresent(boolean normenkaderPresent) {
+  public void setNormenkaderPresent(Boolean normenkaderPresent) {
     this.normenkaderPresent = normenkaderPresent;
   }
 
@@ -401,6 +404,26 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setContactPersons(List<ContactPerson> contactPersons) {
     this.contactPersons = contactPersons;
+  }
+
+  public PrivacyInfo getPrivacyInfo() {
+    return privacyInfo;
+  }
+
+  public Boolean getNormenkaderPresent() {
+    return normenkaderPresent;
+  }
+
+  public Map<String, String> getMotivations() {
+    return motivations;
+  }
+
+  public void setMotivations(Map<String, String> motivations) {
+    this.motivations = motivations;
+  }
+
+  public void setPrivacyInfo(PrivacyInfo privacyInfo) {
+    this.privacyInfo = privacyInfo;
   }
 
   @Override
