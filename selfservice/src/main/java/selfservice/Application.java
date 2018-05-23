@@ -104,7 +104,7 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Profile("dev")
+  @Profile("!dev")
   public Manage urlResourceServiceRegistry(
     @Value("${manage.username}") String username,
     @Value("${manage.password}") String password,
@@ -114,7 +114,7 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  @Profile("!dev")
+  @Profile("dev")
   public Manage classPathServiceRegistry() throws Exception {
     return new ClassPathResourceManage(true);
   }
