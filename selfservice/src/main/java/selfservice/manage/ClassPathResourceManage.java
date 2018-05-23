@@ -1,43 +1,39 @@
 package selfservice.manage;
 
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
-import static selfservice.util.StreamUtils.filterEmpty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import selfservice.domain.IdentityProvider;
+import selfservice.domain.Provider;
+import selfservice.domain.ServiceProvider;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.Provider;
-import selfservice.domain.ServiceProvider;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
+import static selfservice.util.StreamUtils.filterEmpty;
 
 @SuppressWarnings("unchecked")
 public class ClassPathResourceManage implements Manage {
 
-  protected final Logger LOG = LoggerFactory.getLogger(getClass());
-
   private static final ObjectMapper objectMapper = new ObjectMapper();
-
+  protected final Logger LOG = LoggerFactory.getLogger(getClass());
   private volatile Map<String, IdentityProvider> identityProviderMap = new HashMap<>();
   private volatile Map<String, ServiceProvider> serviceProviderMap = new HashMap<>();
   private volatile Map<String, ServiceProvider> exampleSingleTenants = new HashMap<>();
@@ -55,7 +51,8 @@ public class ClassPathResourceManage implements Manage {
 
   @Override
   public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
-    return identityProviderMap.values().stream().filter(identityProvider -> instituteId.equals(identityProvider.getInstitutionId())).collect(toList());
+    return identityProviderMap.values().stream().filter(identityProvider -> instituteId.equals(identityProvider
+      .getInstitutionId())).collect(toList());
   }
 
   @Override
@@ -160,9 +157,15 @@ public class ClassPathResourceManage implements Manage {
     try {
       identityProviderMap = parseProviders(getIdpResource(), this::identityProvider);
       serviceProviderMap = parseProviders(getSpResource(), this::serviceProvider);
+      long maxEid = serviceProviderMap.values().stream().max(Comparator.comparing(ServiceProvider::getEid)).get().getEid()
+        + 1L;
       exampleSingleTenants = parseProviders(getSingleTenantResource(), this::serviceProvider);
-      exampleSingleTenants.values().forEach(singleTenant -> singleTenant.setExampleSingleTenant(true));
-      LOG.debug("Initialized SR Resources. Number of IDPs {}. Number of SPs {}", identityProviderMap.size(), serviceProviderMap.size());
+      exampleSingleTenants.values().forEach(singleTenant -> {
+        singleTenant.setExampleSingleTenant(true);
+        singleTenant.setEid(singleTenant.getEid() + maxEid);
+      });
+      LOG.debug("Initialized SR Resources. Number of IDPs {}. Number of SPs {}", identityProviderMap.size(),
+        serviceProviderMap.size());
     } catch (Throwable e) {
       /*
        * By design we catch the error and not rethrow it as this would cancel future scheduling
@@ -185,7 +188,8 @@ public class ClassPathResourceManage implements Manage {
 
   private ServiceProvider parse(File file) {
     try {
-      return serviceProvider(objectMapper.readValue(file, new TypeReference<Map<String, Object>>() {}));
+      return serviceProvider(objectMapper.readValue(file, new TypeReference<Map<String, Object>>() {
+      }));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -199,12 +203,16 @@ public class ClassPathResourceManage implements Manage {
     return new IdentityProvider(map);
   }
 
-  private <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T> provider) throws IOException {
-    List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Map<String, Object>>>() { });
+  private <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T>
+    provider) throws IOException {
+    List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new
+      TypeReference<List<Map<String, Object>>>() {
+    });
 
     Map<String, T> result = providers.stream()
       .filter(stringObjectMap -> Map.class.cast(stringObjectMap.get("data")).get("state").equals("prodaccepted"))
-      .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId, identity()));
+      .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
+        identity()));
     return result;
   }
 
@@ -213,7 +221,7 @@ public class ClassPathResourceManage implements Manage {
       (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
   }
 
-  private Map<String, Object > transformManageMetadata(Map<String, Object> metadata) {
+  private Map<String, Object> transformManageMetadata(Map<String, Object> metadata) {
     Map<String, Object> data = (Map<String, Object>) metadata.get("data");
     Map<String, Object> result = new HashMap<>();
     data.entrySet().forEach(entry -> {
@@ -227,24 +235,25 @@ public class ClassPathResourceManage implements Manage {
         result.put(key, value);
       }
       switch (key) {
-        case "metaDataFields" : {
+        case "metaDataFields": {
           Map<String, Object> metaDataFields = (Map<String, Object>) value;
           result.putAll(metaDataFields);
           break;
         }
-        case "arp" : {
+        case "arp": {
           Map<String, Object> arp = (Map<String, Object>) value;
           Boolean enabled = (Boolean) arp.get("enabled");
           if (enabled) {
             //Map<String, List<String>>
-            Map<String, List<Map<String, String>>> attributes = (Map<String, List<Map<String, String>>>) arp.get("attributes");
+            Map<String, List<Map<String, String>>> attributes = (Map<String, List<Map<String, String>>>) arp.get
+              ("attributes");
             Map<String, List<String>> attributesList = attributes.entrySet().stream()
               .collect(toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue().get(0).get("value"))));
             result.put("attributes", attributesList);
           }
           break;
         }
-        case  "allowedEntities" : {
+        case "allowedEntities": {
           List<Map<String, String>> allowedEntities = (List<Map<String, String>>) value;
           List<String> allowedEntitiesList = allowedEntities.stream().map(m -> m.get("name")).collect(toList());
           result.put("allowedEntities", allowedEntitiesList);

@@ -63,7 +63,7 @@ public class ServicesServiceImpl implements ServicesService {
     service.setLogoUrl(sp.getLogoUrl());
     service.setSupportMail(mailOfContactPerson(sp.getContactPerson(ContactPersonType.help)));
     Map<String, String> homeUrls = sp.getHomeUrls();
-    service.setWebsiteUrl(homeUrls == null ? null : homeUrls.values().iterator().next());
+    service.setWebsiteUrl(CollectionUtils.isEmpty(homeUrls) ? null : homeUrls.values().iterator().next());
     service.setArp(sp.getArp());
     service.setIdpVisibleOnly(sp.isIdpVisibleOnly());
     service.setPolicyEnforcementDecisionRequired(sp.isPolicyEnforcementDecisionRequired());

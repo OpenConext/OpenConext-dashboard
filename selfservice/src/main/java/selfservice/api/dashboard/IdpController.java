@@ -36,9 +36,6 @@ public class IdpController extends BaseController {
   @Autowired
   private Sab sabClient;
 
-  @Autowired
-  private LicenseContactPersonService licenseContactPersonService;
-
   @RequestMapping("/current/roles")
   public ResponseEntity<RestResponse<Map<String, Collection<SabPerson>>>> roles(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
     Map<String, Collection<SabPerson>> roleAssignments = SpringSecurity.getCurrentUser().getByEntityId(idpEntityId)
@@ -56,11 +53,6 @@ public class IdpController extends BaseController {
     return INTERESTING_ROLES.stream().collect(Collectors.toMap(
         identity(),
         role -> sabClient.getPersonsInRoleForOrganization(idp.getInstitutionId(), role)));
-  }
-
-  @RequestMapping("/licensecontactpersons")
-  public ResponseEntity<RestResponse<List<LicenseContactPerson>>> licenseContactPerson(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return new ResponseEntity<>(createRestResponse(licenseContactPersonService.licenseContactPersons(idpEntityId)), HttpStatus.OK);
   }
 
 }
