@@ -67,7 +67,11 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
   public Provider(Map<String, Object> metaData) {
     this.id = (String) metaData.get("entityid");
-    this.eid = ((Number) metaData.get("eid")).longValue();
+    Number eid = (Number) metaData.get("eid");
+    if (eid == null) {
+      System.out.println("dd");
+    }
+    this.eid = eid.longValue();
     addName("en", (String) metaData.get("name:en"));
     addName("nl", (String) metaData.get("name:nl"));
     this.name = names.isEmpty() ? (String) metaData.get("entityid") : names.getOrDefault("en", names.get("nl"));

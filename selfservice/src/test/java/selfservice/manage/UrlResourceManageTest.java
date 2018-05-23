@@ -42,8 +42,11 @@ public class UrlResourceManageTest {
       stubFor(post(urlEqualTo("/manage/api/internal/search/saml20_idp")).willReturn(aResponse().withStatus(200)
         .withHeader("Content-Type", "application/json").withBody(idpResponse)));
 
-      subject = new UrlResourceManage("user", "password", "http://localhost:8889", 10, new ClassPathResource
-        ("dummy-single-tenants-services"));
+      String singleTenantTemplateResponse = IOUtils.toString(new ClassPathResource("manage/single-tenants.json").getInputStream());
+      stubFor(post(urlEqualTo("/manage/api/internal/search/single_tenant_template")).willReturn(aResponse().withStatus(200)
+        .withHeader("Content-Type", "application/json").withBody(singleTenantTemplateResponse)));
+
+      subject = new UrlResourceManage("user", "password", "http://localhost:8889", 10);
     }
   }
 

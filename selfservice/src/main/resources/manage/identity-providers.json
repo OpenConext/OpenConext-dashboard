@@ -761,6 +761,7 @@
       "allowedEntities": [],
       "allowedall": true,
       "disableConsent": [],
+      "eid": 999,
       "entityid": "https://beta.surfnet.nl/SURFdropjesIdP",
       "metaDataFields": {
         "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",

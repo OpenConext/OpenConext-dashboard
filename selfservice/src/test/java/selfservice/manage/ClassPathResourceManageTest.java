@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class ClassPathResourceManageTest {
 
   private ClassPathResourceManage subject =
-    new ClassPathResourceManage(true, new ClassPathResource("dummy-single-tenants-services"));
+    new ClassPathResourceManage(true);
 
   @Test
   public void testIdentityProviders() {

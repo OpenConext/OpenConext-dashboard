@@ -109,18 +109,14 @@ public class Application extends SpringBootServletInitializer {
     @Value("${manage.username}") String username,
     @Value("${manage.password}") String password,
     @Value("${manage.manageBaseUrl}") String manageBaseUrl,
-    @Value("${manage.period.refresh.minutes}") int period,
-    @Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws IOException {
-    Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
-
-    return new UrlResourceManage(username, password, manageBaseUrl, period, resource);
+    @Value("${manage.period.refresh.minutes}") int period) throws IOException {
+    return new UrlResourceManage(username, password, manageBaseUrl, period);
   }
 
   @Bean
   @Profile("dev")
-  public Manage classPathServiceRegistry(@Value("${singleTenants.config.path}") String singleTenantsConfigPath) throws Exception {
-    Resource resource = resourceLoader.getResource(singleTenantsConfigPath);
-    return new ClassPathResourceManage(true, resource);
+  public Manage classPathServiceRegistry() throws Exception {
+    return new ClassPathResourceManage(true);
   }
 
   @Bean

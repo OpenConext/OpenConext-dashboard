@@ -42,9 +42,8 @@ public class UrlResourceManage extends ClassPathResourceManage implements Health
         String username,
         String password,
         String manageBaseUrl,
-        int refreshInMinutes,
-        Resource singleTenantsConfigPath) {
-        super(false, singleTenantsConfigPath);
+        int refreshInMinutes) {
+        super(false);
         String basicAuth = "Basic " + new String(Base64.getEncoder().encode((username + ":" + password).getBytes()));
         this.manageBaseUrl = manageBaseUrl;
         this.refreshInMinutes = refreshInMinutes;
@@ -88,7 +87,16 @@ public class UrlResourceManage extends ClassPathResourceManage implements Health
         return new ByteArrayResource(responseEntity.getBody().getBytes("UTF-8"));
     }
 
-    private void doInitializeMetadata() {
+  @Override
+  protected Resource getSingleTenantResource() throws UnsupportedEncodingException {
+    LOG.debug("Fetching Single Tenant Templates metadata entries from {}", manageBaseUrl);
+    ResponseEntity<String> responseEntity = restTemplate.exchange
+      (manageBaseUrl + "/manage/api/internal/search/single_tenant_template", HttpMethod.POST,
+        new HttpEntity<>(this.body, this.httpHeaders), String.class);
+    return new ByteArrayResource(responseEntity.getBody().getBytes("UTF-8"));
+  }
+
+  private void doInitializeMetadata() {
         try {
             this.lastRefreshCheck = ZonedDateTime.now(GMT);
             this.metadataLastUpdated = ZonedDateTime.now(GMT);

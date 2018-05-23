@@ -37,15 +37,11 @@ public class ClassPathResourceManage implements Manage {
 
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
-  private final Resource singleTenantsConfigPath;
-
   private volatile Map<String, IdentityProvider> identityProviderMap = new HashMap<>();
   private volatile Map<String, ServiceProvider> serviceProviderMap = new HashMap<>();
-  private volatile List<ServiceProvider> exampleSingleTenants = new ArrayList<>();
+  private volatile Map<String, ServiceProvider> exampleSingleTenants = new HashMap<>();
 
-  public ClassPathResourceManage(boolean initialize, Resource singleTenantsConfigPath) {
-    this.singleTenantsConfigPath = singleTenantsConfigPath;
-    this.parseSingleTenants();
+  public ClassPathResourceManage(boolean initialize) {
     if (initialize) {
       initializeMetadata();
     }
@@ -69,7 +65,7 @@ public class ClassPathResourceManage implements Manage {
   @Override
   public List<IdentityProvider> getLinkedIdentityProviders(String spId) {
     //We can't answer this question for single tenant sp as they are virtual
-    if (this.exampleSingleTenants.stream().anyMatch(sp -> sp.getId().equals(spId))) {
+    if (this.exampleSingleTenants.containsKey(spId)) {
       return new ArrayList<>();
     }
     ServiceProvider serviceProvider = getServiceProvider(spId).orElseThrow(RuntimeException::new);
@@ -114,7 +110,7 @@ public class ClassPathResourceManage implements Manage {
         filteredList.add(sp);
       }
     }
-    filteredList.addAll(exampleSingleTenants);
+    filteredList.addAll(exampleSingleTenants.values());
     return filteredList;
   }
 
@@ -139,7 +135,7 @@ public class ClassPathResourceManage implements Manage {
   }
 
   private Optional<ServiceProvider> getSingleTenant(String spEntityId) {
-    return exampleSingleTenants.stream().filter(sp -> sp.getId().equals(spEntityId)).findFirst();
+    return Optional.ofNullable(exampleSingleTenants.get(spEntityId));
   }
 
   @Override
@@ -150,14 +146,12 @@ public class ClassPathResourceManage implements Manage {
   @Override
   public List<ServiceProvider> getAllServiceProviders() {
     ArrayList<ServiceProvider> serviceProviders = new ArrayList<>(serviceProviderMap.values());
-    serviceProviders.addAll(exampleSingleTenants);
+    serviceProviders.addAll(exampleSingleTenants.values());
     return serviceProviders;
   }
 
   @Override
   public void refreshMetaData() {
-    this.exampleSingleTenants = new ArrayList<>();
-    parseSingleTenants();
     initializeMetadata();
   }
 
@@ -165,6 +159,8 @@ public class ClassPathResourceManage implements Manage {
     try {
       identityProviderMap = parseProviders(getIdpResource(), this::identityProvider);
       serviceProviderMap = parseProviders(getSpResource(), this::serviceProvider);
+      exampleSingleTenants = parseProviders(getSingleTenantResource(), this::serviceProvider);
+      exampleSingleTenants.values().forEach(singleTenant -> singleTenant.setExampleSingleTenant(true));
       LOG.debug("Initialized SR Resources. Number of IDPs {}. Number of SPs {}", identityProviderMap.size(), serviceProviderMap.size());
     } catch (Throwable e) {
       /*
@@ -182,16 +178,8 @@ public class ClassPathResourceManage implements Manage {
     return new ClassPathResource("manage/service-providers.json");
   }
 
-  private void parseSingleTenants() {
-    try {
-      File[] dummySps = singleTenantsConfigPath.getFile().listFiles((dir, name) -> name.endsWith("json"));
-      this.exampleSingleTenants = Arrays.stream(dummySps).map(this::parse).collect(toList());
-      this.exampleSingleTenants.forEach(sp -> sp.setExampleSingleTenant(true));
-      LOG.info("Read {} example single tenant services from {}", exampleSingleTenants.size(), singleTenantsConfigPath.getFilename());
-    } catch (Throwable e) {
-      // Do not rethrow as we can break the scheduling of subsequent tasks
-      LOG.error("Error in single tenants", e);
-    }
+  protected Resource getSingleTenantResource() throws UnsupportedEncodingException {
+    return new ClassPathResource("manage/single-tenants.json");
   }
 
   private ServiceProvider parse(File file) {
@@ -233,6 +221,8 @@ public class ClassPathResourceManage implements Manage {
       if (value instanceof Boolean) {
         result.put(key, Boolean.class.cast(value) ? "yes" : "no");
       } else if (value instanceof String) {
+        result.put(key, value);
+      } else if (value instanceof Number) {
         result.put(key, value);
       }
       switch (key) {

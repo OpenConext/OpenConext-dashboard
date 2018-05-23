@@ -1,0 +1,2098 @@
+[
+  {
+    "_id": "7bdf524e-61de-459d-a8ee-0a8504cce018",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006150,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 1,
+      "entityid": "https://dummy.crosscampus.canon.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "New Way To Print is a cloud-printmanagement solution for organisations in which users can print, scan, copy and buy credits from anywhere. The self-service portal provides functionality for users to control their account.",
+        "description:nl": "New Way To Print is a cloud-printmanagement solution for organisations in which users can print, scan, copy and buy credits from anywhere. The self-service portal provides functionality for users to control their account.",
+        "displayName:en": "New Way To Print",
+        "displayName:nl": "New Way To Print",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/crosscampus.png",
+        "name:en": "New Way To Print | Canon",
+        "name:nl": "New Way To Print | Canon",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "30428ef2-2a61-4fd6-96ef-b745c755944d",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006163,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 2,
+      "entityid": "https://dummy.testvision.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonEntitlement": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "TestVision Online suppports fully web-based developing and taking tests, including statistical analysis of questions and tests.",
+        "description:nl": "TestVision Online ondersteunt u volledig webbased bij de ontwikkeling, afname en statistische analyse van vragen en toetsen.",
+        "displayName:en": "TestVision Online",
+        "displayName:nl": "TestVision Online",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/testvision.png",
+        "name:en": "TestVision Online | Teelen",
+        "name:nl": "TestVision Online | Teelen",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@teelen.nl",
+        "contacts:0:givenName": "Service",
+        "contacts:0:surName": "Support",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@teelen.nl",
+        "contacts:1:givenName": "Service",
+        "contacts:1:surName": "Support",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "helpdesk@testvision.nl",
+        "contacts:2:givenName": "Service",
+        "contacts:2:surName": "Support"
+      }
+    }
+  },
+  {
+    "_id": "462d3ccf-b8e7-44fc-acbb-f16235311ed0",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006167,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 3,
+      "entityid": "https://dummy.hosted.exlibrisgroup.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Primo",
+        "description:nl": "Primo",
+        "displayName:en": "Primo",
+        "displayName:nl": "Primo",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Primo.png",
+        "name:en": "Primo | Ex Libris",
+        "name:nl": "Primo | Ex Libris",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "7828ca8a-2690-4100-8309-9bdee86961b4",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006171,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 4,
+      "entityid": "https://dummy.brand-spot.net/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "BrandSpot Publishing Platform [single-tenant] | Cordeo",
+        "description:nl": "BrandSpot Publishing Platform [single-tenant] | Cordeo",
+        "displayName:en": "BrandSpot Publishing Platform [single-tenant]",
+        "displayName:nl": "BrandSpot Publishing Platform [single-tenant]",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/cordeo.png",
+        "name:en": "BrandSpot Publishing Platform | Cordeo",
+        "name:nl": "BrandSpot Publishing Platform | Cordeo",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "hosting@cordeo.com",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "support@cordeo.com",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@cordeo.com"
+      }
+    }
+  },
+  {
+    "_id": "99c32115-b68f-47a6-b6df-d051b58c4c3d",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006174,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 5,
+      "entityid": "https://dummy.ricoh.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "BPS Printshop",
+        "description:nl": "BPS Printshop",
+        "displayName:en": "BPS Printshop",
+        "displayName:nl": "BPS Printshop",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Ricoh_logo.png",
+        "name:en": "BPS Printshop | Ricoh",
+        "name:nl": "BPS Printshop | Ricoh",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "194dfb1f-d916-46d6-a98e-0892ff21b707",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006178,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 6,
+      "entityid": "https://dummy.topdesk.net/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Topdesk",
+        "description:nl": "Topdesk",
+        "displayName:en": "Topdesk",
+        "displayName:nl": "Topdesk",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Topdesk.png.png",
+        "name:en": "Topdesk | Topdesk",
+        "name:nl": "Topdesk | Topdesk",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "43b8ecef-24d3-4a6a-b513-3a3ec4aca3b9",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006180,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 7,
+      "entityid": "https://dummy.osiris.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "osiris",
+        "description:nl": "osiris",
+        "displayName:en": "osiris",
+        "displayName:nl": "osiris",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/caci.png",
+        "name:en": "Osiris | CACI",
+        "name:nl": "Osiris | CACI",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "jonas.de.graaff@caci.nl",
+        "contacts:0:givenName": "Jonas",
+        "contacts:0:surName": "de Graaff",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "Coos.van.der.Wolf@caci.nl",
+        "contacts:1:givenName": "Coos",
+        "contacts:1:surName": "van der Wolf",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "jonas.de.graaff@caci.nl",
+        "contacts:2:givenName": "Jonas",
+        "contacts:2:surName": "de Graaff"
+      }
+    }
+  },
+  {
+    "_id": "2c158634-78dc-43df-a4e8-7eea77798d3a",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006183,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 8,
+      "entityid": "https://remindoconnect.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "RemindoConnect",
+        "description:nl": "RemindoConnect",
+        "displayName:en": "RemindoConnect",
+        "displayName:nl": "RemindoConnect",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/remindotoets.png",
+        "name:en": "RemindoConnect | Paragin BV",
+        "name:nl": "RemindoConnect | Paragin BV",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "167db026-dd70-4416-9de1-4e0fd7f5e501",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006187,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 9,
+      "entityid": "https://dummy.mendixcloud.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Hosted EZProxy",
+        "description:nl": "Hosted EZProxy",
+        "displayName:en": "Hosted EZProxy",
+        "displayName:nl": "Hosted EZProxy",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/oclc.png",
+        "name:en": "Hosted EZProxy | OCLC",
+        "name:nl": "Hosted EZProxy | OCLC",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "OperationsUKTechnicalServices@oclc.org",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "james.hutchinson@oclc.org",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support-uk@oclc.org"
+      }
+    }
+  },
+  {
+    "_id": "95c3fd46-d08d-4ea0-85b4-b9acede8c7dd",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006190,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 10,
+      "entityid": "https://dummy.kaltura.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "MediaSpace - Kaltura",
+        "description:nl": "MediaSpace - Kaltura",
+        "displayName:en": "MediaSpace - Kaltura",
+        "displayName:nl": "MediaSpace - Kaltura",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/kaltura.png",
+        "name:en": "MediaSpace | Kaltura",
+        "name:nl": "MediaSpace | Kaltura",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "roman.kreichman@kaltura.com",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "partnersupport@kaltura.com"
+      }
+    }
+  },
+  {
+    "_id": "4006256d-74b1-458c-9eb3-560482d0652e",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006194,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 11,
+      "entityid": "https://dummy.mediasite.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Mediasite",
+        "description:nl": "Mediasite",
+        "displayName:en": "Mediasite",
+        "displayName:nl": "Mediasite",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Mediasite_detail.png",
+        "name:en": "Mediasite | Mediamission",
+        "name:nl": "Mediasite | Mediamission",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "984a318b-c28d-403f-ac32-eb25b5665c12",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006198,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 12,
+      "entityid": "https://dummy.parsys.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Digital internship information system.",
+        "description:nl": "Online stage informatie systeem.",
+        "displayName:en": "Parsys",
+        "displayName:nl": "Parsys",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/parsys_detail.png",
+        "name:en": "Parsys | Parview",
+        "name:nl": "Parsys | Parview",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "9e1bbde0-75c8-4a55-a005-7c139ff4c25c",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006201,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 13,
+      "entityid": "https://dummy.natschool.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "N@Tschool ELO",
+        "description:nl": "N@Tschool ELO",
+        "displayName:en": "N@Tschool ELO",
+        "displayName:nl": "N@Tschool ELO",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Three-Ships.png",
+        "name:en": "N@Tschool ELO | Three-Ships",
+        "name:nl": "N@Tschool ELO | Three-Ships",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "2d93ad03-5388-40db-a09a-51ff0de9930b",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006206,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 14,
+      "entityid": "https://dummy.mentorix.dk/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Blended Learning platform",
+        "description:nl": "Blended Learning platform",
+        "displayName:en": "Blended Learning platform",
+        "displayName:nl": "Blended Learning platform",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/mentorix.png",
+        "name:en": "Blended Learning | Mentorix",
+        "name:nl": "Blended Learning | Mentorix",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "nee@mentorix.dk",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "nma@mentorix.dk",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "nee@mentorix.dk"
+      }
+    }
+  },
+  {
+    "_id": "728ea7dc-fe26-496a-81cb-b440c77b8340",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006209,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 15,
+      "entityid": "https://dummy.questionmark.eu/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Questionmark",
+        "description:nl": "Questionmark",
+        "displayName:en": "Questionmark",
+        "displayName:nl": "Questionmark",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/questionmark.png",
+        "name:en": "Questionmark OnDemand | UP learning",
+        "name:nl": "Questionmark OnDemand | UP learning",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "hosting@questionmark.com",
+        "contacts:0:givenName": "Service",
+        "contacts:0:surName": "Support",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:1:givenName": "Bart",
+        "contacts:1:surName": "Hendrickx",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "oliver.delmontesmik@questionmark.com",
+        "contacts:2:givenName": "Oliver",
+        "contacts:2:surName": "Del Monte - Smik"
+      }
+    }
+  },
+  {
+    "_id": "9b5f6d7a-dec2-4a94-9a92-a7fafbdc9088",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006213,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 16,
+      "entityid": "https://dummy.blackboard.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Blackboard ELO",
+        "description:nl": "Blackboard ELO",
+        "displayName:en": "Blackboard ELO",
+        "displayName:nl": "Blackboard ELO",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/blackboard.png",
+        "name:en": "Blackboard ELO | Blackboard",
+        "name:nl": "Blackboard ELO | Blackboard",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "a4bdc3ac-b4f4-40e6-9f61-b5679cd5df30",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006218,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 17,
+      "entityid": "https://digibib.consortiumbo.nl",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Digibib gives you access to all your study of Vocational Education Consortium. Both students and teachers.",
+        "description:nl": "Digibib geeft je toegang tot al je studiemateriaal van Consortium Beroepsonderwijs. Zowel voor leerlingen als docenten.",
+        "displayName:en": "Digibib | Kennisnet",
+        "displayName:nl": "Digibib | Kennisnet",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/digibib.png",
+        "name:en": "Digibib | Kennisnet",
+        "name:nl": "Digibib | Kennisnet",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "C.Tanahatoe@kennisnet.nl",
+        "contacts:0:givenName": "Chris",
+        "contacts:0:surName": "Tanahatoe",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "C.Tanahatoe@kennisnet.nl",
+        "contacts:2:givenName": "Chris",
+        "contacts:2:surName": "Tanahatoe",
+        "coin:application_url": "http://www.wikiwijsleermiddelenplein.nl/start/",
+        "coin:emula": "http://www.wikiwijsleermiddelenplein.nl/disclaimer/",
+        "url:en": "http://www.wikiwijsleermiddelenplein.nl/ondersteuning/",
+        "url:nl": "http://www.wikiwijsleermiddelenplein.nl/ondersteuning/"
+      }
+    }
+  },
+  {
+    "_id": "7b0ece48-4bc7-4655-88c2-d14fd123aa78",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006222,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 18,
+      "entityid": "https://dummy.planonsoftware.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Planon Self Service",
+        "description:nl": "Planon Self Service",
+        "displayName:en": "Planon Self Service",
+        "displayName:nl": "Planon Self Service",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Planon_Accelerator.png",
+        "name:en": "Planon Self Service | Planon",
+        "name:nl": "Planon Self Service | Planon",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "ce8d02e1-cdf4-4221-a941-1378df51ffd6",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006224,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 19,
+      "entityid": "https://dummy.omnicard.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "OmniCard",
+        "description:nl": "OmniCard",
+        "displayName:en": "OmniCard",
+        "displayName:nl": "OmniCard",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/omnicard_logo.png",
+        "name:en": "MyCard | OmniCard",
+        "name:nl": "MyCard | OmniCard",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "23516e84-3d10-432c-8b78-4a885f1fdbdc",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006227,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 20,
+      "entityid": "https://dummy.presto.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Presentieregistratie systeem Presto",
+        "description:nl": "Presentieregistratie systeem Presto",
+        "displayName:en": "Presto - Presentieregistratie",
+        "displayName:nl": "Presto - Presentieregistratie",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/simac-logo.png",
+        "name:en": "Presto - Presentieregistratie | Simac QuadCore bv",
+        "name:nl": "Presto - Presentieregistratie | Simac QuadCore bv",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "924d15aa-a697-41f7-b1b0-8ce6dc11600c",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006230,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 21,
+      "entityid": "https://dummy.esize.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "ESIZE Procurement [single-tenant] | ESIZE",
+        "description:nl": "ESIZE Procurement [single-tenant] | ESIZE",
+        "displayName:en": "ESIZE Procurement",
+        "displayName:nl": "ESIZE Procurement",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/esize.png",
+        "name:en": "ESIZE Procurement | ESIZE",
+        "name:nl": "ESIZE Procurement | ESIZE",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "peter.lous@esize.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "sander.olij@esize.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "services@esize.nl"
+      }
+    }
+  },
+  {
+    "_id": "15162ae7-e04a-4bea-acd4-a95e097d4b43",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006233,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 22,
+      "entityid": "https://dummy.educator.eu/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Student volg systeem",
+        "description:nl": "Student volg systeem",
+        "displayName:en": "Student volg systeem",
+        "displayName:nl": "Student volg systeem",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/EducatorLogo.png",
+        "name:en": "Student volg systeem | Educator",
+        "name:nl": "Student volg systeem | Educator",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "7db741d1-e7a2-46c5-815d-88eb1ed46b27",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006236,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 23,
+      "entityid": "https://dummy.dmssolutions.eu/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "DMS",
+        "description:nl": "DMS",
+        "displayName:en": "DMS",
+        "displayName:nl": "DMS",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/dmsdevelopment.png",
+        "name:en": "DMS | Delcom",
+        "name:nl": "DMS | Delcom",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "nick@dmssolutions.eu",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "marie-anne@dmssolutions.eu",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "jan@dmssolutions.eu"
+      }
+    }
+  },
+  {
+    "_id": "4a321e76-83e5-4e05-991a-25cf7818e0f2",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006239,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 24,
+      "entityid": "https://dummy.XXX/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Mobiliteit en Recruitment [single-tenant]",
+        "description:nl": "Mobiliteit en Recruitment [single-tenant]",
+        "displayName:en": "Mobiliteit en Recruitment",
+        "displayName:nl": "Mobiliteit en Recruitment",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/connexys.png",
+        "name:en": "Mobiliteit en Recruitment | Connexys",
+        "name:nl": "Mobiliteit en Recruitment | Connexys",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "ing@connexys.com",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "meijer@connexys.com",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "noort@connexys.com"
+      }
+    }
+  },
+  {
+    "_id": "1a15aeed-0202-4466-b6ae-d52399183b85",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006243,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 25,
+      "entityid": "https://dummy.loopbaanportaal.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:preferredLanguage": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Loopbaan en employability portaal",
+        "description:nl": "Loopbaan en employability portaal",
+        "displayName:en": "Loopbaanportaal",
+        "displayName:nl": "Loopbaanportaal",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/loopbaanportaal.png",
+        "name:en": "Loopbaanportaal | Sollicity",
+        "name:nl": "Loopbaanportaal | Sollicity",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "dc767f4c-030d-4c71-8a6b-80456dd841bb",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006246,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 26,
+      "entityid": "https://dummy.proquro.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Proquro 2 Pay",
+        "description:nl": "Proquro 2 Pay",
+        "displayName:en": "Proquro 2 Pay",
+        "displayName:nl": "Proquro 2 Pay",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Proquro.png",
+        "name:en": "Proquro 2 Pay | Proquro",
+        "name:nl": "Proquro 2 Pay | Proquro",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "ed90a2d9-8e4b-499d-9f4f-37b7790e5ba4",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006251,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 27,
+      "entityid": "google.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "coin:application_url": "https://drive.google.com/a/apps.dummy",
+        "description:en": "Google in the Cloud",
+        "description:nl": "Google in de lucht",
+        "displayName:en": "Google in the Cloud",
+        "displayName:nl": "Google in de lucht",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/google_apps.png",
+        "name:en": "Google Apps | Google",
+        "name:nl": "Google Apps | Google",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl",
+        "url:en": "https://www.google.com/a/dummy",
+        "url:nl": "https://www.google.com/a/dummy"
+      }
+    }
+  },
+  {
+    "_id": "ed374d58-8b84-480b-82b6-0cf573e37472",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006254,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 28,
+      "entityid": "https://dummy.brightspace.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Brightspace",
+        "description:nl": "Brightspace",
+        "displayName:en": "Brightspace",
+        "displayName:nl": "Brightspace",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/d2l-logo.png",
+        "name:en": "Brightspace",
+        "name:nl": "Brightspace",
+        "contacts:0:contactType": "support",
+        "contacts:0:emailAddress": "ian.peach@d2l.com",
+        "contacts:0:givenName": "Ian",
+        "contacts:0:surName": "Peach",
+        "contacts:1:contactType": "technical",
+        "contacts:1:emailAddress": "jim.clink@d2l.com",
+        "contacts:1:givenName": "Jim",
+        "contacts:1:surName": "Clink",
+        "contacts:2:contactType": "administrative",
+        "contacts:2:emailAddress": "chris.merkel@d2l.com",
+        "contacts:2:givenName": "Chris",
+        "contacts:2:surName": "Merkel"
+      }
+    }
+  },
+  {
+    "_id": "ad30f97d-704f-4b44-bc6a-b4f3f84bf12b",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006257,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 29,
+      "entityid": "https://dummy.labservant.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "The Lab Servant",
+        "description:nl": "The Lab Servant",
+        "displayName:en": "The Lab Servant",
+        "displayName:nl": "The Lab Servant",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Labservant.png",
+        "name:en": "The Lab Servant | Lab Servant",
+        "name:nl": "The Lab Servant | Lab Servant",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "j.p.bakker@labservant.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "k.van.leeuwe@labservant.nl"
+      }
+    }
+  },
+  {
+    "_id": "8eeb058a-5f1d-4efc-a3e2-67e15585b54c",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006259,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 30,
+      "entityid": "https://dummy.XpressionManager.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "XpressionManager",
+        "description:nl": "XpressionManager",
+        "displayName:en": "XpressionManager",
+        "displayName:nl": "XpressionManager",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/xpressionmanager.gif",
+        "name:en": "XpressionManager | Xpression",
+        "name:nl": "XpressionManager | Xpression",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "89238f09-be6e-4d31-9622-13bbc4779078",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006262,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 31,
+      "entityid": "https://dummy.eu.qualtrics.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Qualtrics Survey Software",
+        "description:nl": "Qualtrics Survey Software",
+        "displayName:en": "Qualtrics Survey Software",
+        "displayName:nl": "Qualtrics Survey Software",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/qualtrics.png",
+        "name:en": "Qualtrics Survey Software | Qualtrics",
+        "name:nl": "Qualtrics Survey Software | Qualtrics",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "82642ee8-8bbc-46df-b035-729c91e99a60",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006264,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 32,
+      "entityid": "https://dummy.mapiq.net/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Mapiq",
+        "description:nl": "Mapiq",
+        "displayName:en": "Mapiq",
+        "displayName:nl": "Mapiq",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Mapiq.png",
+        "name:en": "Mapiq",
+        "name:nl": "Mapiq",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "a.vandixhoorn@blinqsystems.com",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@blinqsystems.com",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@mapiq.net"
+      }
+    }
+  },
+  {
+    "_id": "affbf30a-93c9-4247-ab84-726dfe1b27cd",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006268,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 33,
+      "entityid": "https://wikiwijs.nl/entree",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Wikiwijs Textbooks Square is the educational platform where you seek educational tools, compare, create and share. Adjust for every teaching situation along the optimal leermiddelenmix.",
+        "description:nl": "Wikiwijsleermiddelenplein is hét onderwijsplatform waar je leermiddelen zoekt, vergelijkt, maakt en deelt. Stel zo voor iedere onderwijssituatie de optimale leermiddelenmix samen.",
+        "displayName:en": "WikiWijs | Kennisnet",
+        "displayName:nl": "WikiWijs | Kennisnet",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/wikiwijs.png",
+        "name:en": "WikiWijs | Kennisnet",
+        "name:nl": "WikiWijs | Kennisnet",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "C.Tanahatoe@kennisnet.nl",
+        "contacts:0:givenName": "Chris",
+        "contacts:0:surName": "Tanahatoe",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "C.Tanahatoe@kennisnet.nl",
+        "contacts:2:givenName": "Chris",
+        "contacts:2:surName": "Tanahatoe",
+        "coin:application_url": "https://digibib.consortiumbo.nl/aanmelden/",
+        "url:en": "https://digibib.consortiumbo.nl/",
+        "url:nl": "https://digibib.consortiumbo.nl/"
+      }
+    }
+  },
+  {
+    "_id": "3dc1650c-8d70-4235-b02a-6a3c484f1b9d",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006271,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 34,
+      "entityid": "https://dummy.mendixcloud.com/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Rapid Application Development platform",
+        "description:nl": "Rapid Application Development platform",
+        "displayName:en": "Rapid Application Development platform",
+        "displayName:nl": "Rapid Application Development platform",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/mendix.png",
+        "name:en": "Mendix - ORBIS | Bureau van Dijk",
+        "name:nl": "Mendix - ORBIS | Bureau van Dijk",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "d539a6e9-0017-447b-b4aa-9500d1f2f569",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006273,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 35,
+      "entityid": "https://dummy.presentations2go.eu/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Presentations2Go",
+        "description:nl": "Presentations2Go",
+        "displayName:en": "Presentations2Go",
+        "displayName:nl": "Presentations2Go",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/p2go.png",
+        "name:en": "Presentations2Go | Learningvalley",
+        "name:nl": "Presentations2Go | Learningvalley",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "HKlompmaker@learningvalley.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "HKlompmaker@learningvalley.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "HKlompmaker@learningvalley.nl"
+      }
+    }
+  },
+  {
+    "_id": "bbd59626-ef4f-4e4d-9284-844d27af8458",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1526979006277,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 36,
+      "entityid": "https://dummy.onderwijsonline.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Onderwijsonline [single-tenant] | Trajectplanner",
+        "description:nl": "Onderwijsonline [single-tenant] | Trajectplanner",
+        "displayName:en": "Onderwijsonline",
+        "displayName:nl": "Onderwijsonline",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/OnderwijsOnline.png",
+        "name:en": "Onderwijsonline | Trajectplanner",
+        "name:nl": "Onderwijsonline | Trajectplanner",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "fkonin@trajectplanner.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@trajectplanner.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@trajectplanner.nl"
+      }
+    }
+  }
+]
