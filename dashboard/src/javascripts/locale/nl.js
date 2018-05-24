@@ -224,7 +224,7 @@ I18n.translations.nl = {
     title: "Attributen",
     your_value: "Jouw waarde",
     filter: "Voor dit attribuut zijn de volgende filters toegepast:",
-    motivationInfo: "De motivatie verklaart waarom dit attribuut is uitgewisseld met deze service.",
+    motivationInfo: "De kolom ‘motivatie‘ bevat, voor zover beschikbaar, de uitleg van de leverancier over waarom ze dat attribuut willen ontvangen.",
     motivation: "Motivatie"
   },
 

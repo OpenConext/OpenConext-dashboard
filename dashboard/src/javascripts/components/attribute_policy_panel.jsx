@@ -33,11 +33,11 @@ class AttributePolicyPanel extends React.Component {
         <table>
           <thead>
           <tr>
-            <th>{I18n.t("attributes_policy_panel.attribute")}</th>
-            <th>{I18n.t("attributes_policy_panel.your_value")}
+            <th className="attribute">{I18n.t("attributes_policy_panel.attribute")}</th>
+            <th className="value">{I18n.t("attributes_policy_panel.your_value")}
               <span className="star">*</span>
             </th>
-            <th>{I18n.t("attributes_policy_panel.motivation")}
+            <th className="motivation">{I18n.t("attributes_policy_panel.motivation")}
               <span className="star">**</span></th>
           </tr>
           </thead>

@@ -223,7 +223,7 @@ I18n.translations.en = {
     title: "Attributes",
     your_value: "Your value",
     filter: "For this attribute the following filters have been applied:",
-    motivationInfo: "The motivation explains why this attribute has been released to this service.",
+    motivationInfo: "The colomn ‘motivation‘ contains, to the extent available, the explanation of the supplier why they need this attribute.",
     motivation: "Motivation"
   },
   idp_usage_panel: {
