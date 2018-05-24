@@ -56,7 +56,7 @@ class AttributePolicyPanel extends React.Component {
   renderAttribute(attribute) {
     const renderFilters = attribute.filters.filter(filter => filter !== "*");
     const name = attribute.name;
-    let lastPart = name.substring(name.lastIndexOf(":") + 1);
+    const lastPart = name.substring(name.lastIndexOf(":") + 1);
     return (
       <tr key={name}>
         <td>{name}</td>

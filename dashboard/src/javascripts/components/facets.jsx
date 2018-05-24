@@ -71,7 +71,6 @@ class Facets extends React.Component {
 
   renderFacetInfo(facet) {
     if (facet.name === I18n.t("facets.static.arp.name")) {
-      const url = window.location.href;
       return (
         <em dangerouslySetInnerHTML={{ __html: I18n.t("facets.static.arp.info_html") }} className="arp-info"></em>
       );
