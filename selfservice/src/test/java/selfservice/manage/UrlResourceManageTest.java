@@ -91,7 +91,7 @@ public class UrlResourceManageTest {
   public void testGetAllServiceProvidersLinked() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders(
       "https://idp.diy.surfconext.nl/saml2/idp/metadata.php");
-    assertEquals(65, serviceProviders.size());
+    assertEquals(66, serviceProviders.size());
   }
 
   @Test
