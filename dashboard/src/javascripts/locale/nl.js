@@ -129,6 +129,7 @@ I18n.translations.nl = {
       connected: "Dienst gekoppeld",
       license: "Licentie afgesloten",
       licenseStatus: "Licentie vereist",
+      aansluitovereenkomstRefused: "Aansluitovereenkomst",
       license_present: {
         na: "n.v.t.",
         no: "Nee",
@@ -207,7 +208,9 @@ I18n.translations.nl = {
     entity_category: {
       "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
       "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
-    }
+    },
+    aansluitovereenkomst: "Aansluitovereenkomst",
+    aansluitovereenkomstRefused: "Deze service heeft geweigerd om de 'aansluitovereenkomst' van SURF te ondertekenen. Lees hier meer over op de SURF <a href=\"https://www.surf.nl/nieuws/2017/03/veranderingen-in-aansluitovereenkomsten-surfconext.html\" target=\"_blank\">wiki</a>."
   },
 
   attributes_policy_panel: {
@@ -310,6 +313,10 @@ I18n.translations.nl = {
     single_tenant_service_warning: "Verzoeken voor activatie van single tenant diensten duren langer om te verwerken. SURFnet zal contact opnemen zodra het dit verzoek heeft ontvangen.",
     terms_title: "Met het activeren van de connectie ga je akkoord met de volgende voorwaarden:",
     wiki: "wiki voor deze service",
+    aansluitovereenkomst_accept: "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de SURF 'aansluitovereenkomst' te ondertekenen.",
+    not_published_in_edugain_idp: "eduGAIN dienst",
+    not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat uw instelling niet is gepubliceerd is in eduGAIN. Om uw instelling te publiceren in eduGAIN kunt u een aanvraag doen in 'Mijn Instellling'.",
+    edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'"
   },
 
   application_usage_panel: {

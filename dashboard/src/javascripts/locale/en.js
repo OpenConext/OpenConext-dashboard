@@ -128,6 +128,7 @@ I18n.translations.en = {
       connected: "Connected",
       license: "License secured",
       licenseStatus: "License required",
+      aansluitovereenkomstRefused: "Policy signed",
       license_present: {
         na: "n/a",
         no: "No",
@@ -206,7 +207,9 @@ I18n.translations.en = {
     entity_category: {
       "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
       "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
-    }
+    },
+    aansluitovereenkomst: "Connection Policy",
+    aansluitovereenkomstRefused: "This service has refused to sign the 'aansluitovereenkomst' with SURF. Read more about the SURF policy on the SURF <a href=\"https://www.surf.nl/nieuws/2017/03/veranderingen-in-aansluitovereenkomsten-surfconext.html\" target=\"_blank\">wiki</a>."
   },
 
   attributes_policy_panel: {
@@ -307,6 +310,11 @@ I18n.translations.en = {
     single_tenant_service_warning: "Requests for activating a single tenant services take longer to process. SURFnet will contact you to discuss the activation process after it has received your request.",
     terms_title: "By requesting an activation you accept these terms",
     wiki: "wiki for this service",
+    aansluitovereenkomst_accept: "I hereby certify that I agree with connecting to a service which has not signed the SURF 'aansluitovereenkomst'.",
+    not_published_in_edugain_idp: "eduGAIN service",
+    not_published_in_edugain_idp_info: "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN you can make a change request in 'My Institute'.",
+    edit_my_idp_link: "Create change request in 'My Institute'"
+
   },
 
   application_usage_panel: {

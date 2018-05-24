@@ -74,6 +74,7 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean policyEnforcementDecisionRequired;
   private boolean strongAuthentication;
   private boolean noConsentRequired;
+  private boolean aansluitovereenkomstRefused;
 
   private PrivacyInfo privacyInfo;
 
@@ -424,6 +425,14 @@ public class Service implements Comparable<Service>, Serializable {
 
   public void setPrivacyInfo(PrivacyInfo privacyInfo) {
     this.privacyInfo = privacyInfo;
+  }
+
+  public boolean isAansluitovereenkomstRefused() {
+    return aansluitovereenkomstRefused;
+  }
+
+  public void setAansluitovereenkomstRefused(boolean aansluitovereenkomstRefused) {
+    this.aansluitovereenkomstRefused = aansluitovereenkomstRefused;
   }
 
   @Override

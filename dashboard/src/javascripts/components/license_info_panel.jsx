@@ -67,8 +67,8 @@ class LicenseInfoPanel extends React.Component {
     return (
       <div className="mod-title">
         <h3>{I18n.t("license_info_panel.unknown_license")}</h3>
-        <br />
-        <div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.unknown_license_description_html") }} />
+        {/*<br />*/}
+        {/*<div className="mod-description" dangerouslySetInnerHTML={{ __html: I18n.t("license_info_panel.unknown_license_description_html") }} />*/}
       </div>
     );
   }

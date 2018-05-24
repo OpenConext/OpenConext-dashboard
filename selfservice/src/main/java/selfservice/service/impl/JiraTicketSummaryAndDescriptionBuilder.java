@@ -28,7 +28,6 @@ class JiraTicketSummaryAndDescriptionBuilder {
 
     final StringBuilder summary = new StringBuilder();
 
-
     if (action.getType().equals(CHANGE)) {
       Settings settings = action.getSettings();
       description.append("Please update the following settings: \n");
@@ -70,6 +69,9 @@ class JiraTicketSummaryAndDescriptionBuilder {
     if (action.getService() != null && action.getService().getLicenseStatus() != null) {
       description.append("License required: ").append(action.getService().getLicenseStatus().getName()).append("\n");
       description.append("License secured: ").append(licenseSecured(action)).append("\n");
+    }
+    if (action.getService() != null && action.getService().isAansluitovereenkomstRefused() && LINKREQUEST.equals(action.getType())) {
+      description.append("Customer accepts connecting despite aansluitovereenkomst refused").append("\n");
     }
     description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
 

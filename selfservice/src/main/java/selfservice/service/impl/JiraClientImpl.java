@@ -86,7 +86,6 @@ public class JiraClientImpl implements JiraClient {
     Map<String, Object> fields = new HashMap<>();
     fields.put("priority", ImmutableMap.of("id", PRIORITY_MEDIUM_ID));
     fields.put("project", ImmutableMap.of("key", projectKey));
-    //fields.put("security", ImmutableMap.of("id", DEFAULT_SECURITY_LEVEL_ID));
     fields.put("customfield_" + SP_CUSTOM_FIELD, action.getSpId());
     fields.put("customfield_" + IDP_CUSTOM_FIELD, action.getIdpId());
     fields.put("issuetype", ImmutableMap.of("id", TASKTYPE_TO_ISSUETYPE_CODE.get(action.getType())));

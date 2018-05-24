@@ -2,8 +2,8 @@ import React from "react";
 import I18n from "i18n-js";
 import Link from "react-router/Link";
 
-import { AppShape } from "../shapes";
-import { makeConnection, removeConnection } from "../api";
+import {AppShape} from "../shapes";
+import {makeConnection, removeConnection} from "../api";
 
 class HowToConnectPanel extends React.Component {
   constructor() {
@@ -13,12 +13,13 @@ class HowToConnectPanel extends React.Component {
       currentStep: "connect",
       accepted: false,
       comments: "",
-      failed: false
+      failed: false,
+      acceptedAansluitOvereenkomstRefused: false
     };
   }
 
   componentWillMount() {
-    this.setState({ currentStep: this.props.app.connected ? "disconnect" : "connect" });
+    this.setState({currentStep: this.props.app.connected ? "disconnect" : "connect"});
   }
 
   render() {
@@ -30,18 +31,31 @@ class HowToConnectPanel extends React.Component {
         </div>
       );
     }
+    if (this.state.currentStep === "connect" &&
+      !this.context.currentUser.currentIdp.publishedInEdugain &&
+      this.props.app.publishedInEdugain) {
+      return (
+        <div className="mod-edugain">
+          <h1>{I18n.t("how_to_connect_panel.not_published_in_edugain_idp")}</h1>
+          <p>{I18n.t("how_to_connect_panel.not_published_in_edugain_idp_info", {name: this.props.app.name})} </p>
+          <Link className="link-edit-id" to={"/my-idp/edit"}>
+            {I18n.t("how_to_connect_panel.edit_my_idp_link")}
+          </Link>
+        </div>
+      );
+    }
 
     switch (this.state.currentStep) {
-    case "disconnect":
-      return this.renderDisconnectStep();
-    case "connect":
-      return this.renderConnectStep();
-    case "done":
-      return this.renderDoneStep();
-    case "done-disconnect":
-      return this.renderDoneDisconnectStep();
-    default:
-      return null;
+      case "disconnect":
+        return this.renderDisconnectStep();
+      case "connect":
+        return this.renderConnectStep();
+      case "done":
+        return this.renderDoneStep();
+      case "done-disconnect":
+        return this.renderDoneDisconnectStep();
+      default:
+        return null;
     }
   }
 
@@ -50,10 +64,18 @@ class HowToConnectPanel extends React.Component {
   }
 
   renderConnectStep() {
+    let lastNumber = 3;
+    if (this.props.app.exampleSingleTenant) {
+      ++lastNumber;
+    }
+    if (this.props.app.aansluitovereenkomstRefused) {
+      ++lastNumber;
+    }
+    const classNameConnect = this.state.accepted && (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
     return (
       <div className="l-middle">
         <div className="mod-title">
-          <h1>{I18n.t("how_to_connect_panel.connect_title", { app: this.props.app.name })}</h1>
+          <h1>{I18n.t("how_to_connect_panel.connect_title", {app: this.props.app.name})}</h1>
           <p>{I18n.t("how_to_connect_panel.info_sub_title")}</p>
         </div>
 
@@ -76,12 +98,12 @@ class HowToConnectPanel extends React.Component {
                   </Link>
                 </li>
                 <li>
-                  <span dangerouslySetInnerHTML={{ __html: I18n.t("how_to_connect_panel.processing_agreements") }} />
+                  <span dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.processing_agreements")}}/>
                 </li>
                 {this.renderWikiUrl()}
               </ul>
             </div>
-            <hr />
+            <hr/>
             <div className="content">
               <div className="number">2</div>
               <h2>{I18n.t("how_to_connect_panel.terms_title")}</h2>
@@ -99,7 +121,7 @@ class HowToConnectPanel extends React.Component {
                   <Link to={this.getPanelRoute("attribute_policy")}>
                     {I18n.t("how_to_connect_panel.attributes")}
                   </Link>
-                  {I18n.t("how_to_connect_panel.forward_permission.after", { app: this.props.app.name })}
+                  {I18n.t("how_to_connect_panel.forward_permission.after", {app: this.props.app.name})}
                 </li>
 
                 <li>
@@ -107,29 +129,33 @@ class HowToConnectPanel extends React.Component {
                   <Link to={this.getPanelRoute("license_info")}>
                     {I18n.t("how_to_connect_panel.license")}
                   </Link>
-                  {I18n.t("how_to_connect_panel.obtain_license.after", { app: this.props.app.name })}
+                  {I18n.t("how_to_connect_panel.obtain_license.after", {app: this.props.app.name})}
                 </li>
               </ul>
-              <br />
+              <br/>
               <p>
                 <label>
-                  <input type="checkbox" checked={this.state.accepted} onChange={e => this.setState({ accepted: e.target.checked })} />
+                  <input type="checkbox" checked={this.state.accepted}
+                         onChange={e => this.setState({accepted: e.target.checked})}/>
                   &nbsp;
                   {I18n.t("how_to_connect_panel.accept")}
                 </label>
               </p>
             </div>
-            { this.renderSingleTenantServiceWarning() }
-            <hr />
+            {this.renderSingleTenantServiceWarning()}
+            {this.renderAansluitovereenkomstRefusedWarning(this.props.app.exampleSingleTenant ? 4 : 3)}
+            <hr/>
             <div className="content">
-              <div className="number">{this.props.app.exampleSingleTenant ? 4 : 3}</div>
+              <div className="number">{lastNumber}</div>
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea rows="5" value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea rows="5" value={this.state.comments} onChange={e => this.setState({comments: e.target.value})}
+                        placeholder={I18n.t("how_to_connect_panel.comments_placeholder")}/>
             </div>
           </div>
           <p className="cta">
-            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleMakeConnection.bind(this)}>{I18n.t("how_to_connect_panel.connect")}</a>
+            <a href="#" className={"c-button " + classNameConnect}
+               onClick={this.handleMakeConnection.bind(this)}>{I18n.t("how_to_connect_panel.connect")}</a>
           </p>
         </div>
       </div>
@@ -155,13 +181,37 @@ class HowToConnectPanel extends React.Component {
     if (this.props.app.exampleSingleTenant) {
       return (
         <div>
-          <hr />
+          <hr/>
           <div className="content">
             <div className="number">3</div>
             <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
             <p
-              dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.single_tenant_service_html", { name: this.props.app.name }) }}/>
+              dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name})}}/>
             <p>{I18n.t("how_to_connect_panel.single_tenant_service_warning")}</p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+
+  renderAansluitovereenkomstRefusedWarning(number) {
+    if (this.props.app.aansluitovereenkomstRefused) {
+      return (
+        <div>
+          <hr/>
+          <div className="content">
+            <div className="number">{number}</div>
+            <h2>{I18n.t("overview_panel.aansluitovereenkomst")}</h2>
+            <p
+              dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.aansluitovereenkomstRefused", {name: this.props.app.name})}}/>
+            <label>
+              <input type="checkbox" checked={this.state.acceptedAansluitOvereenkomstRefused}
+                     onChange={e => this.setState({acceptedAansluitOvereenkomstRefused: e.target.checked})}/>
+              &nbsp;
+              {I18n.t("how_to_connect_panel.aansluitovereenkomst_accept")}
+            </label>
           </div>
         </div>
       );
@@ -172,15 +222,15 @@ class HowToConnectPanel extends React.Component {
 
   renderDoneStep() {
     const subtitle = this.state.action.jiraKey ?
-      I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", { jiraKey: this.state.action.jiraKey }) :
+      I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
       I18n.t("how_to_connect_panel.done_subtitle_html");
 
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("how_to_connect_panel.done_title")}</h1>
-          <p dangerouslySetInnerHTML={{ __html: subtitle }} />
-          <br />
+          <p dangerouslySetInnerHTML={{__html: subtitle}}/>
+          <br/>
           <p className="cta">
             <a href="/apps" className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
           </p>
@@ -194,8 +244,8 @@ class HowToConnectPanel extends React.Component {
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("how_to_connect_panel.done_disconnect_title")}</h1>
-          <p dangerouslySetInnerHTML={{ __html: I18n.t("how_to_connect_panel.done_disconnect_subtitle_html") }} />
-          <br />
+          <p dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.done_disconnect_subtitle_html")}}/>
+          <br/>
           <p className="cta">
             <a href="/apps" className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
           </p>
@@ -208,7 +258,7 @@ class HowToConnectPanel extends React.Component {
     return (
       <div className="l-middle">
         <div className="mod-title">
-          <h1>{I18n.t("how_to_connect_panel.disconnect_title", { app: this.props.app.name })}</h1>
+          <h1>{I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name})}</h1>
         </div>
 
         <div className="mod-connect">
@@ -216,16 +266,19 @@ class HowToConnectPanel extends React.Component {
             <div className="content">
               <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
               <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-              <textarea value={this.state.comments} onChange={e => this.setState({ comments: e.target.value })} placeholder={I18n.t("how_to_connect_panel.comments_placeholder")} />
+              <textarea value={this.state.comments} onChange={e => this.setState({comments: e.target.value})}
+                        placeholder={I18n.t("how_to_connect_panel.comments_placeholder")}/>
               <label>
-                <input type="checkbox" checked={this.state.checked} onChange={e => this.setState({ accepted: e.target.checked })} />
+                <input type="checkbox" checked={this.state.checked}
+                       onChange={e => this.setState({accepted: e.target.checked})}/>
 
-                {I18n.t("how_to_connect_panel.accept_disconnect", { app: this.props.app.name })}
+                {I18n.t("how_to_connect_panel.accept_disconnect", {app: this.props.app.name})}
               </label>
             </div>
           </div>
           <p className="cta">
-            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")} onClick={this.handleDisconnect.bind(this)}>{I18n.t("how_to_connect_panel.disconnect")}</a>
+            <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")}
+               onClick={this.handleDisconnect.bind(this)}>{I18n.t("how_to_connect_panel.disconnect")}</a>
           </p>
         </div>
       </div>
@@ -233,19 +286,22 @@ class HowToConnectPanel extends React.Component {
   }
 
   handleGotoStep(step) {
-    return function(e) {
+    return function (e) {
       e.preventDefault();
       e.stopPropagation();
-      this.setState({ currentStep: step });
+      this.setState({currentStep: step});
     }.bind(this);
   }
 
   handleMakeConnection(e) {
+    const allowed = this.state.accepted &&
+      (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) &&
+      this.context.currentUser.dashboardAdmin;
     e.preventDefault();
-    if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
+    if (allowed) {
       makeConnection(this.props.app, this.state.comments)
-      .then(action => this.setState({ currentStep: "done", action: action }))
-      .catch(() => this.setState({ failed: true }));
+        .then(action => this.setState({currentStep: "done", action: action}))
+        .catch(() => this.setState({failed: true}));
     }
   }
 
@@ -253,8 +309,8 @@ class HowToConnectPanel extends React.Component {
     e.preventDefault();
     if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
       removeConnection(this.props.app, this.state.comments)
-      .then(action => this.setState({ currentStep: "done-disconnect", action: action }))
-      .catch(() => this.setState({ failed: true }));
+        .then(action => this.setState({currentStep: "done-disconnect", action: action}))
+        .catch(() => this.setState({failed: true}));
     }
   }
 }

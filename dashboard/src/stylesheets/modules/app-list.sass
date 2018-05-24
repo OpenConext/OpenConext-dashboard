@@ -1,11 +1,18 @@
 .mod-app-list
   @extend %box, %table
+  thead th
+    &.bool
+      text-align: center
+      padding: 20px 0
+
   tbody td
     cursor: pointer
 
     &.empty
       cursor: auto
       font-style: italic
-
+    &.yesno
+      text-align: center
+      padding: 20px 0
     a
       word-break: break-all

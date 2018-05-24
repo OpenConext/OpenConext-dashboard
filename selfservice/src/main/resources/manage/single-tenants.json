@@ -1011,7 +1011,9 @@
         "contacts:1:contactType": "administrative",
         "contacts:1:emailAddress": "info@surfnet.nl",
         "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "support@surfnet.nl"
+        "contacts:2:emailAddress": "support@surfnet.nl",
+        "coin:ss:aansluitovereenkomst_refused": "1",
+        "coin:publish_in_edugain": "1"
       }
     }
   },

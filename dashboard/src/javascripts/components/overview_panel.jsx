@@ -42,6 +42,8 @@ class OverviewPanel extends React.Component {
 
         { this.renderEntityCategories() }
 
+        { this.renderAansluitOvereenkomstRefused() }
+
         <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
       </div>
     );
@@ -140,6 +142,18 @@ class OverviewPanel extends React.Component {
         <h2>{I18n.t("overview_panel.normen_kader")}</h2>
         <h3
           dangerouslySetInnerHTML={{ __html: html }}/>
+      </div>);
+  }
+
+  renderAansluitOvereenkomstRefused() {
+      const shown = this.props.app.aansluitovereenkomstRefused;
+    if (!shown) {
+      return null;
+    }
+    return (
+      <div className="mod-description">
+        <h2>{I18n.t("overview_panel.aansluitovereenkomst")}</h2>
+        <p dangerouslySetInnerHTML={{ __html: I18n.t("overview_panel.aansluitovereenkomstRefused") }}/>
       </div>);
   }
 

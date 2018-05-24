@@ -119,9 +119,10 @@ class AppOverview extends React.Component {
             <table>
               <thead>
               <tr>
-                {this.renderSortableHeader("percent_50", "name")}
-                {this.renderSortableHeader("percent_25", "licenseStatus")}
-                {this.renderSortableHeader("percent_25", "connected")}
+                {this.renderSortableHeader("percent_30", "name")}
+                {this.renderSortableHeader("percent_20", "licenseStatus")}
+                {this.renderSortableHeader("percent_20 bool", "aansluitovereenkomstRefused")}
+                {this.renderSortableHeader("percent_20 bool", "connected")}
                 {connect}
               </tr>
               </thead>
@@ -159,21 +160,16 @@ class AppOverview extends React.Component {
 
   renderApp(app) {
     const {currentUser} = this.context;
-    let connect = null;
-    if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
-      connect = (
-        <td className="right">
-          {this.renderConnectButton(app)}
-        </td>
-      );
-    }
-
+    const connect = currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId;
     return (
       <tr key={app.id} onClick={e => this.handleShowAppDetail(e, app)}>
         <td><Link to={`apps/${app.id}/overview`}>{app.name}</Link></td>
         {this.renderLicenseNeeded(app)}
+        <YesNo value={!app.aansluitovereenkomstRefused}/>
         <YesNo value={app.connected}/>
-        {connect}
+        <td className="right">
+          {connect && this.renderConnectButton(app)}
+        </td>
       </tr>
     );
   }
@@ -193,7 +189,7 @@ class AppOverview extends React.Component {
   renderLicenseNeeded(app) {
     return (
       <td
-        className={this.licenseStatusClassName(app)}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
+        className={`${this.licenseStatusClassName(app)}`}>{I18n.t("facets.static.license." + app.licenseStatus.toLowerCase())}</td>
     );
   }
 

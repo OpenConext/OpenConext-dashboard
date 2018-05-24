@@ -3928,7 +3928,8 @@
         "coin:attr_motivation:schacHomeOrganizationType": " schacHomeOrganizationTypemotivation",
         "coin:attr_motivation:schacPersonalUniqueCode": "schacPersonalUniqueCode motivation",
         "coin:attr_motivation:sn": "sn motivation",
-        "coin:attr_motivation:uid": "uid motivation"
+        "coin:attr_motivation:uid": "uid motivation",
+        "coin:ss:aansluitovereenkomst_refused": "1"
       },
       "allowedEntities": [],
       "revisionnote": "Added arp scopes",

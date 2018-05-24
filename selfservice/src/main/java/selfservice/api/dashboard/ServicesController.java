@@ -186,7 +186,6 @@ public class ServicesController extends BaseController {
 
     if (optional.isPresent()) {
       Service service = optional.get();
-
       Action action = Action.builder()
               .userEmail(currentUser.getEmail())
               .userName(currentUser.getUsername())

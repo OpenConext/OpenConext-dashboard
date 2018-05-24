@@ -47,6 +47,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
   private boolean idpVisibleOnly;
   private boolean policyEnforcementDecisionRequired;
   private boolean exampleSingleTenant;
+  private boolean aansluitovereenkomstRefused;
   private LicenseStatus licenseStatus;
 
   private ARP arp;
@@ -77,6 +78,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
     this.strongAuthenticationSupported = booleanValue(metaData.get("coin:supports_strong_authentication"));
+    this.aansluitovereenkomstRefused = booleanValue(metaData.get("coin:ss:aansluitovereenkomst_refused"));
     this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
     this.wikiUrlNl = (String) metaData.get("coin:ss:wiki_url:nl");
     Object attributes = metaData.get("attributes");
@@ -265,5 +267,9 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
   public List<String> getTypeOfServicesEn() {
     return typeOfServicesEn;
+  }
+
+  public boolean isAansluitovereenkomstRefused() {
+    return aansluitovereenkomstRefused;
   }
 }
