@@ -210,7 +210,7 @@ I18n.translations.nl = {
       "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
     },
     aansluitovereenkomst: "Aansluitovereenkomst",
-    aansluitovereenkomstRefused: "Deze service heeft geweigerd om de 'aansluitovereenkomst' van SURF te ondertekenen. Lees hier meer over op de SURF <a href=\"https://www.surf.nl/nieuws/2017/03/veranderingen-in-aansluitovereenkomsten-surfconext.html\" target=\"_blank\">wiki</a>."
+    aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze SURF overeenkomst op de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>."
   },
 
   attributes_policy_panel: {
@@ -220,12 +220,14 @@ I18n.translations.nl = {
     },
     attribute: "Attribuut",
     hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
-    subtitle: "De volgende attributen worden uitgewisseld met {{name}}. Let wel: alle attributen moeten met de juiste waarden gevuld zijn. Als dit niet het geval is, zijn er extra stappen nodig om de connectie te activeren.",
+    subtitle: "{{name}} Bart test RP wil de volgende attributen ontvangen.",
     title: "Attributen",
     your_value: "Jouw waarde",
     filter: "Voor dit attribuut zijn de volgende filters toegepast:",
     motivationInfo: "De kolom ‘motivatie‘ bevat, voor zover beschikbaar, de uitleg van de leverancier over waarom ze dat attribuut willen ontvangen.",
-    motivation: "Motivatie"
+    motivation: "Motivatie",
+    no_attribute_value: "<geen waarde ontvangen>",
+    filterInfo: "Om te zorgen dat een leverancier alleen de voor de dienst noodzakelijke gegevens ontvangt, gebruikt SURFconext soms filters op de van de IdP ontvangen attributen. Bijvoorbeeld het filter 'urn*’ zal alle waardes uitfilteren (en dus niet doorgeven) die niet beginnen met ‘urn’ voor dat attribuut."
   },
 
   idp_usage_panel: {
@@ -249,10 +251,10 @@ I18n.translations.nl = {
   },
   privacy_panel: {
     title: "AVG Informatie",
-    subtitle: "Sinds 2017 verzoekt SURFnet nieuwe services om AVG informatie aan  te dragen. Sinds de invoering van de nieuwe AVG verwachten we van meer services deze informatiete ontvangen.",
+    subtitle: "Sinds 2017 verzoekt SURFnet nieuwe services om AVG informatie aan te dragen. In de loop van de tijd verwachten we van meer services deze informatie te kunnen tonen.",
     subtitle2: "De leverancier van de service {{name}} heeft SURFnet voorzien van de volgende informatie:",
-    question: "Vraag / privacy verklaring",
-    answer: "Antwoord / informatie",
+    question: "Vraag",
+    answer: "Antwoord",
     accessData: "WHO CAN ACCESS THE DATA?",
     certification: "CAN THE SUPPLIER SUPPLY A THIRD PARTY MEMORANDUM?",
     certificationLocation: "WHERE CAN AN INSTITUTION FIND/REQUEST IT?",
@@ -315,7 +317,7 @@ I18n.translations.nl = {
     wiki: "wiki voor deze service",
     aansluitovereenkomst_accept: "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de SURF 'aansluitovereenkomst' te ondertekenen.",
     not_published_in_edugain_idp: "eduGAIN dienst",
-    not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat uw instelling niet is gepubliceerd is in eduGAIN. Om uw instelling te publiceren in eduGAIN kunt u een aanvraag doen in 'Mijn Instellling'.",
+    not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat uw instelling niet is gepubliceerd is in eduGAIN. Om uw instelling te publiceren in eduGAIN kunt u een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
     edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'"
   },
 

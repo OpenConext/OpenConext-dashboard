@@ -21,9 +21,11 @@ public class Policy {
   private String description;
   private String serviceProviderId;
   private String serviceProviderName;
+  private String serviceProviderNameNl;
 
   private List<String> identityProviderIds = new ArrayList<>();
   private List<String> identityProviderNames = new ArrayList<>();
+  private List<String> identityProviderNamesNl = new ArrayList<>();
 
   private List<Attribute> attributes = new ArrayList<>();
 
@@ -95,6 +97,10 @@ public class Policy {
     return serviceProviderName;
   }
 
+  public String getServiceProviderNameNl() {
+    return serviceProviderNameNl;
+  }
+
   public int getNumberOfRevisions() {
     return numberOfRevisions;
   }
@@ -105,6 +111,10 @@ public class Policy {
 
   public List<String> getIdentityProviderNames() {
     return identityProviderNames;
+  }
+
+  public List<String> getIdentityProviderNamesNl() {
+    return identityProviderNamesNl;
   }
 
   public boolean isActionsAllowed() {

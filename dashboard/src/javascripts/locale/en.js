@@ -209,7 +209,7 @@ I18n.translations.en = {
       "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
     },
     aansluitovereenkomst: "Connection Policy",
-    aansluitovereenkomstRefused: "This service has refused to sign the 'aansluitovereenkomst' with SURF. Read more about the SURF policy on the SURF <a href=\"https://www.surf.nl/nieuws/2017/03/veranderingen-in-aansluitovereenkomsten-surfconext.html\" target=\"_blank\">wiki</a>."
+    aansluitovereenkomstRefused: "This service has refused to sign the 'SURFconext connection agreement' with SURF. Read more about the SURF policy on the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>."
   },
 
   attributes_policy_panel: {
@@ -219,12 +219,14 @@ I18n.translations.en = {
     },
     attribute: "Attribute",
     hint: "The attributes and their values for your personal account are displayed. This might not be representative for other accounts within your organization.",
-    subtitle: "The following attributes will be exchanged with {{name}}. Please note: All attributes should contain the right value(s). If attributes are missing, additional steps might be needed to ensure a working connection.",
+    subtitle: "{{name}} wants to receive the following attributes",
     title: "Attributes",
     your_value: "Your value",
     filter: "For this attribute the following filters have been applied:",
     motivationInfo: "The colomn ‘motivation‘ contains, to the extent available, the explanation of the supplier why they need this attribute.",
-    motivation: "Motivation"
+    motivation: "Motivation",
+    no_attribute_value: "<no value received>",
+    filterInfo: "To minimize the data passed on from institution to the service, SURFconext sometimes filters attributes. For instance the filter 'urn*' will filter out all values for that attribute that do not start with ‘urn’."
   },
   idp_usage_panel: {
     title: "Used by",
@@ -248,8 +250,8 @@ I18n.translations.en = {
     title: "AVG Information",
     subtitle: "Since 2017, SURFnet requests new connecting SP's to supply some AVG information. Over time, we expect to have that information from more and more services.",
     subtitle2: "The provider of the service {{name}} has supplied the following information (if any):",
-    question: "Question / Privacy statement",
-    answer: "Answer / information",
+    question: "Question",
+    answer: "Answer",
     accessData: "WHO CAN ACCESS THE DATA?",
     certification: "CAN THE SUPPLIER SUPPLY A THIRD PARTY MEMORANDUM?",
     certificationLocation: "WHERE CAN AN INSTITUTION FIND/REQUEST IT?",
@@ -312,7 +314,7 @@ I18n.translations.en = {
     wiki: "wiki for this service",
     aansluitovereenkomst_accept: "I hereby certify that I agree with connecting to a service which has not signed the SURF 'aansluitovereenkomst'.",
     not_published_in_edugain_idp: "eduGAIN service",
-    not_published_in_edugain_idp_info: "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN you can make a change request in 'My Institute'.",
+    not_published_in_edugain_idp_info: "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
     edit_my_idp_link: "Create change request in 'My Institute'"
 
   },

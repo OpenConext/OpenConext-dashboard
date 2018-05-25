@@ -49,6 +49,8 @@ class AttributePolicyPanel extends React.Component {
           <span className="star">*</span> {I18n.t("attributes_policy_panel.hint")}</p>
         <p>
           <span className="star">**</span> {I18n.t("attributes_policy_panel.motivationInfo")}</p>
+        <p>
+          <span className="star">***</span> {I18n.t("attributes_policy_panel.filterInfo")}</p>
       </div>
     );
   }
@@ -62,12 +64,12 @@ class AttributePolicyPanel extends React.Component {
         <td>{name}</td>
         <td>
           <ul>
-            {attribute.userValues.map(this.renderAttributeValue)}
+            {attribute.userValues.length > 0 ? attribute.userValues.map(this.renderAttributeValue) :
+              <em className="no-attribute-value">{I18n.t("attributes_policy_panel.no_attribute_value")}</em>}
           </ul>
           {renderFilters.length > 0 && <ul>
-
-            <li className="filter-info">{I18n.t("attributes_policy_panel.filter")}</li>
-            {renderFilters.map((filter, index) => <li key={index} className="filter">{filter}</li>)}
+            <li className="filter-info">{I18n.t("attributes_policy_panel.filter")}<span className="star">***</span></li>
+            {renderFilters.map((filter, index) => <li key={index} className="filter">- {filter}</li>)}
           </ul>}
         </td>
         <td>{this.props.app.motivations[`coin:attr_motivation:${lastPart}`]}</td>

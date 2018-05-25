@@ -19,16 +19,16 @@ class PrivacyPanel extends React.Component {
   }
 
   renderPrivacy(app) {
-    const properties = ["accessData", "certification", "certificationLocation", "country", "otherInfo", "privacyPolicy",
-      "privacyPolicyUrl", "securityMeasures", "snDpaWhyNot", "surfmarketDpaAgreement", "surfnetDpaAgreement", "whatData",
-      "certificationValidFrom", "certificationValidTo"];
+    const properties = ["whatData", "accessData", "country", "securityMeasures", "certification", "certificationLocation",
+      "certificationValidFrom", "certificationValidTo", "surfmarketDpaAgreement", "surfnetDpaAgreement",
+      "snDpaWhyNot", "privacyPolicy", "privacyPolicyUrl", "otherInfo"];
     return (
       <div className="mod-privacy-info">
         <table>
           <thead>
           <tr>
             <th className="question">{I18n.t("privacy_panel.question")}</th>
-            <th  answer="question">{I18n.t("privacy_panel.answer")}
+            <th answer="question">{I18n.t("privacy_panel.answer")}
             </th>
           </tr>
           </thead>
@@ -43,13 +43,23 @@ class PrivacyPanel extends React.Component {
   }
 
   renderPrivacyProp(name, prop) {
+    const isDate = name === "certificationValidTo" || name === "certificationValidFrom";
+    const noValue = prop === undefined || prop === null;
+    let value;
+    if (isDate && !noValue) {
+      value = prop.substring(0, 10);
+    } else if (prop === true) {
+      value = I18n.t("boolean.yes");
+    } else if (prop === false) {
+      value = I18n.t("boolean.no");
+    } else {
+      value = prop;
+    }
     return (
       <tr key={name}>
         <td>{I18n.t(`privacy_panel.${name}`)}</td>
         <td>
-          {(prop === undefined || prop === null) ? <em>{I18n.t("privacy_panel.noInformation")}</em> :
-            prop === true ? I18n.t("boolean.yes") :
-              prop === false ? I18n.t("boolean.no") : prop}
+          {noValue ? <em>{I18n.t("privacy_panel.noInformation")}</em> : value}
         </td>
       </tr>);
   }
