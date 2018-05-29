@@ -3876,6 +3876,7 @@
         }
       },
       "metaDataFields": {
+        "coin:ss:supports_strong_authentication": "1",
         "name:en": "Bart test RP",
         "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
         "AssertionConsumerService:0:Location": "https://oidc.test2.surfconext.nl/saml/SSO",
