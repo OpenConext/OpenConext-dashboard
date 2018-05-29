@@ -1,11 +1,11 @@
 [
   {
-    "_id": "7bdf524e-61de-459d-a8ee-0a8504cce018",
+    "_id": "2e6defbf-1583-494e-9c05-24526221a156",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006150,
+      "created": 1527254712082,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -59,12 +59,65 @@
     }
   },
   {
-    "_id": "30428ef2-2a61-4fd6-96ef-b745c755944d",
+    "_id": "cb405d15-eea5-4e3b-aa69-96a787a2b591",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006163,
+      "created": 1527254712136,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 7,
+      "entityid": "https://dummy.osiris.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "osiris",
+        "description:nl": "osiris",
+        "displayName:en": "osiris",
+        "displayName:nl": "osiris",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/caci.png",
+        "name:en": "Osiris | CACI",
+        "name:nl": "Osiris | CACI",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "jonas.de.graaff@caci.nl",
+        "contacts:0:givenName": "Jonas",
+        "contacts:0:surName": "de Graaff",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "Coos.van.der.Wolf@caci.nl",
+        "contacts:1:givenName": "Coos",
+        "contacts:1:surName": "van der Wolf",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "jonas.de.graaff@caci.nl",
+        "contacts:2:givenName": "Jonas",
+        "contacts:2:surName": "de Graaff"
+      }
+    }
+  },
+  {
+    "_id": "ad52d4e0-c72e-47c5-b8d5-41172c81e956",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1527254712118,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -142,12 +195,119 @@
     }
   },
   {
-    "_id": "462d3ccf-b8e7-44fc-acbb-f16235311ed0",
+    "_id": "a5c4f0b3-8485-455c-9881-54e99d784d97",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006167,
+      "created": 1527254712129,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 5,
+      "entityid": "https://dummy.ricoh.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:isMemberOf": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "BPS Printshop",
+        "description:nl": "BPS Printshop",
+        "displayName:en": "BPS Printshop",
+        "displayName:nl": "BPS Printshop",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Ricoh_logo.png",
+        "name:en": "BPS Printshop | Ricoh",
+        "name:nl": "BPS Printshop | Ricoh",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "badb976c-839a-400a-a88e-f708e28cc80d",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1527254712122,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -255,144 +415,37 @@
     }
   },
   {
-    "_id": "7828ca8a-2690-4100-8309-9bdee86961b4",
+    "_id": "bd41acec-fac1-422f-8552-47da28eaf45b",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006171,
+      "created": 1527254712149,
       "updatedBy": "auto-generated"
     },
     "data": {
-      "eid": 4,
-      "entityid": "https://dummy.brand-spot.net/Single-tenant-service_op-aanvraag",
+      "eid": 11,
+      "entityid": "https://dummy.mediasite.nl/Single-tenant-service_op-aanvraag",
       "state": "prodaccepted",
       "arp": {
         "attributes": {
-          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ]
-        },
-        "enabled": true
-      },
-      "metaDataFields": {
-        "description:en": "BrandSpot Publishing Platform [single-tenant] | Cordeo",
-        "description:nl": "BrandSpot Publishing Platform [single-tenant] | Cordeo",
-        "displayName:en": "BrandSpot Publishing Platform [single-tenant]",
-        "displayName:nl": "BrandSpot Publishing Platform [single-tenant]",
-        "logo:0:url": "https://static.surfconext.nl/media/sp/cordeo.png",
-        "name:en": "BrandSpot Publishing Platform | Cordeo",
-        "name:nl": "BrandSpot Publishing Platform | Cordeo",
-        "contacts:0:contactType": "technical",
-        "contacts:0:emailAddress": "hosting@cordeo.com",
-        "contacts:1:contactType": "administrative",
-        "contacts:1:emailAddress": "support@cordeo.com",
-        "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "support@cordeo.com"
-      }
-    }
-  },
-  {
-    "_id": "99c32115-b68f-47a6-b6df-d051b58c4c3d",
-    "version": 0,
-    "type": "single_tenant_template",
-    "revision": {
-      "number": 0,
-      "created": 1526979006174,
-      "updatedBy": "auto-generated"
-    },
-    "data": {
-      "eid": 5,
-      "entityid": "https://dummy.ricoh.nl/Single-tenant-service_op-aanvraag",
-      "state": "prodaccepted",
-      "arp": {
-        "attributes": {
-          "urn:mace:dir:attribute-def:displayName": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
           "urn:mace:dir:attribute-def:uid": [
             {
               "source": "idp",
               "value": "*"
             }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:cn": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:sn": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:givenName": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:mail": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:isMemberOf": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
           ]
         },
         "enabled": true
       },
       "metaDataFields": {
-        "description:en": "BPS Printshop",
-        "description:nl": "BPS Printshop",
-        "displayName:en": "BPS Printshop",
-        "displayName:nl": "BPS Printshop",
-        "logo:0:url": "https://static.surfconext.nl/media/sp/Ricoh_logo.png",
-        "name:en": "BPS Printshop | Ricoh",
-        "name:nl": "BPS Printshop | Ricoh",
+        "description:en": "Mediasite",
+        "description:nl": "Mediasite",
+        "displayName:en": "Mediasite",
+        "displayName:nl": "Mediasite",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Mediasite_detail.png",
+        "name:en": "Mediasite | Mediamission",
+        "name:nl": "Mediasite | Mediamission",
         "contacts:0:contactType": "technical",
         "contacts:0:emailAddress": "support@surfnet.nl",
         "contacts:1:contactType": "administrative",
@@ -403,12 +456,12 @@
     }
   },
   {
-    "_id": "194dfb1f-d916-46d6-a98e-0892ff21b707",
+    "_id": "4320ba90-00d2-41ba-87d3-060fd06f67c3",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006178,
+      "created": 1527254712133,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -444,27 +497,39 @@
     }
   },
   {
-    "_id": "43b8ecef-24d3-4a6a-b513-3a3ec4aca3b9",
+    "_id": "d9c1dc6e-baa5-48e2-93b0-26786d6d4adb",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006180,
+      "created": 1527254712152,
       "updatedBy": "auto-generated"
     },
     "data": {
-      "eid": 7,
-      "entityid": "https://dummy.osiris.nl/Single-tenant-service_op-aanvraag",
+      "eid": 12,
+      "entityid": "https://dummy.parsys.nl/Single-tenant-service_op-aanvraag",
       "state": "prodaccepted",
       "arp": {
         "attributes": {
-          "urn:schac:attribute-def:schacPersonalUniqueCode": [
+          "urn:mace:dir:attribute-def:uid": [
             {
               "source": "idp",
               "value": "*"
             }
           ],
-          "urn:mace:dir:attribute-def:uid": [
+          "urn:mace:dir:attribute-def:cn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
             {
               "source": "idp",
               "value": "*"
@@ -474,35 +539,29 @@
         "enabled": true
       },
       "metaDataFields": {
-        "description:en": "osiris",
-        "description:nl": "osiris",
-        "displayName:en": "osiris",
-        "displayName:nl": "osiris",
-        "logo:0:url": "https://static.surfconext.nl/media/sp/caci.png",
-        "name:en": "Osiris | CACI",
-        "name:nl": "Osiris | CACI",
+        "description:en": "Digital internship information system.",
+        "description:nl": "Online stage informatie systeem.",
+        "displayName:en": "Parsys",
+        "displayName:nl": "Parsys",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/parsys_detail.png",
+        "name:en": "Parsys | Parview",
+        "name:nl": "Parsys | Parview",
         "contacts:0:contactType": "technical",
-        "contacts:0:emailAddress": "jonas.de.graaff@caci.nl",
-        "contacts:0:givenName": "Jonas",
-        "contacts:0:surName": "de Graaff",
+        "contacts:0:emailAddress": "support@surfnet.nl",
         "contacts:1:contactType": "administrative",
-        "contacts:1:emailAddress": "Coos.van.der.Wolf@caci.nl",
-        "contacts:1:givenName": "Coos",
-        "contacts:1:surName": "van der Wolf",
+        "contacts:1:emailAddress": "info@surfnet.nl",
         "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "jonas.de.graaff@caci.nl",
-        "contacts:2:givenName": "Jonas",
-        "contacts:2:surName": "de Graaff"
+        "contacts:2:emailAddress": "support@surfnet.nl"
       }
     }
   },
   {
-    "_id": "2c158634-78dc-43df-a4e8-7eea77798d3a",
+    "_id": "7b26623a-4c86-4e05-b54c-cf0addecc5ff",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006183,
+      "created": 1527254712139,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -538,17 +597,17 @@
     }
   },
   {
-    "_id": "167db026-dd70-4416-9de1-4e0fd7f5e501",
+    "_id": "3788597f-9976-48a2-b984-117c1ffa36b5",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006187,
+      "created": 1527254712142,
       "updatedBy": "auto-generated"
     },
     "data": {
       "eid": 9,
-      "entityid": "https://dummy.mendixcloud.com/Single-tenant-service_op-aanvraag",
+      "entityid": "https://dummy.oclc.com/Single-tenant-service_op-aanvraag",
       "state": "prodaccepted",
       "arp": {
         "attributes": {
@@ -579,12 +638,112 @@
     }
   },
   {
-    "_id": "95c3fd46-d08d-4ea0-85b4-b9acede8c7dd",
+    "_id": "c22b393c-8a31-4584-8f5c-0bb1361774cc",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006190,
+      "created": 1527254712160,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 14,
+      "entityid": "https://dummy.mentorix.dk/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:sn": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:givenName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Blended Learning platform",
+        "description:nl": "Blended Learning platform",
+        "displayName:en": "Blended Learning platform",
+        "displayName:nl": "Blended Learning platform",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/mentorix.png",
+        "name:en": "Blended Learning | Mentorix",
+        "name:nl": "Blended Learning | Mentorix",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "nee@mentorix.dk",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "nma@mentorix.dk",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "nee@mentorix.dk"
+      }
+    }
+  },
+  {
+    "_id": "afb4c1a7-43b3-4700-8da2-af1624696933",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1527254712126,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 4,
+      "entityid": "https://dummy.brand-spot.net/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "BrandSpot Publishing Platform [single-tenant] | Cordeo",
+        "description:nl": "BrandSpot Publishing Platform [single-tenant] | Cordeo",
+        "displayName:en": "BrandSpot Publishing Platform [single-tenant]",
+        "displayName:nl": "BrandSpot Publishing Platform [single-tenant]",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/cordeo.png",
+        "name:en": "BrandSpot Publishing Platform | Cordeo",
+        "name:nl": "BrandSpot Publishing Platform | Cordeo",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "hosting@cordeo.com",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "support@cordeo.com",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@cordeo.com"
+      }
+    }
+  },
+  {
+    "_id": "2b5e716b-3d6b-42a6-98ea-29e9ee3a855e",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1527254712145,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -692,112 +851,12 @@
     }
   },
   {
-    "_id": "4006256d-74b1-458c-9eb3-560482d0652e",
+    "_id": "e619f1ea-02c8-4c8e-9442-d7bc0c0df155",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006194,
-      "updatedBy": "auto-generated"
-    },
-    "data": {
-      "eid": 11,
-      "entityid": "https://dummy.mediasite.nl/Single-tenant-service_op-aanvraag",
-      "state": "prodaccepted",
-      "arp": {
-        "attributes": {
-          "urn:mace:dir:attribute-def:uid": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ]
-        },
-        "enabled": true
-      },
-      "metaDataFields": {
-        "description:en": "Mediasite",
-        "description:nl": "Mediasite",
-        "displayName:en": "Mediasite",
-        "displayName:nl": "Mediasite",
-        "logo:0:url": "https://static.surfconext.nl/media/sp/Mediasite_detail.png",
-        "name:en": "Mediasite | Mediamission",
-        "name:nl": "Mediasite | Mediamission",
-        "contacts:0:contactType": "technical",
-        "contacts:0:emailAddress": "support@surfnet.nl",
-        "contacts:1:contactType": "administrative",
-        "contacts:1:emailAddress": "info@surfnet.nl",
-        "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "support@surfnet.nl"
-      }
-    }
-  },
-  {
-    "_id": "984a318b-c28d-403f-ac32-eb25b5665c12",
-    "version": 0,
-    "type": "single_tenant_template",
-    "revision": {
-      "number": 0,
-      "created": 1526979006198,
-      "updatedBy": "auto-generated"
-    },
-    "data": {
-      "eid": 12,
-      "entityid": "https://dummy.parsys.nl/Single-tenant-service_op-aanvraag",
-      "state": "prodaccepted",
-      "arp": {
-        "attributes": {
-          "urn:mace:dir:attribute-def:uid": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:cn": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:eduPersonPrincipalName": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:mail": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ]
-        },
-        "enabled": true
-      },
-      "metaDataFields": {
-        "description:en": "Digital internship information system.",
-        "description:nl": "Online stage informatie systeem.",
-        "displayName:en": "Parsys",
-        "displayName:nl": "Parsys",
-        "logo:0:url": "https://static.surfconext.nl/media/sp/parsys_detail.png",
-        "name:en": "Parsys | Parview",
-        "name:nl": "Parsys | Parview",
-        "contacts:0:contactType": "technical",
-        "contacts:0:emailAddress": "support@surfnet.nl",
-        "contacts:1:contactType": "administrative",
-        "contacts:1:emailAddress": "info@surfnet.nl",
-        "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "support@surfnet.nl"
-      }
-    }
-  },
-  {
-    "_id": "9e1bbde0-75c8-4a55-a005-7c139ff4c25c",
-    "version": 0,
-    "type": "single_tenant_template",
-    "revision": {
-      "number": 0,
-      "created": 1526979006201,
+      "created": 1527254712156,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -845,71 +904,12 @@
     }
   },
   {
-    "_id": "2d93ad03-5388-40db-a09a-51ff0de9930b",
+    "_id": "dcea090e-2bf8-4f08-a063-a5eeeffcffcc",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006206,
-      "updatedBy": "auto-generated"
-    },
-    "data": {
-      "eid": 14,
-      "entityid": "https://dummy.mentorix.dk/Single-tenant-service_op-aanvraag",
-      "state": "prodaccepted",
-      "arp": {
-        "attributes": {
-          "urn:mace:dir:attribute-def:eduPersonTargetedID": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:sn": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:givenName": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:dir:attribute-def:mail": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ]
-        },
-        "enabled": true
-      },
-      "metaDataFields": {
-        "description:en": "Blended Learning platform",
-        "description:nl": "Blended Learning platform",
-        "displayName:en": "Blended Learning platform",
-        "displayName:nl": "Blended Learning platform",
-        "logo:0:url": "https://static.surfconext.nl/media/sp/mentorix.png",
-        "name:en": "Blended Learning | Mentorix",
-        "name:nl": "Blended Learning | Mentorix",
-        "contacts:0:contactType": "technical",
-        "contacts:0:emailAddress": "nee@mentorix.dk",
-        "contacts:1:contactType": "administrative",
-        "contacts:1:emailAddress": "nma@mentorix.dk",
-        "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "nee@mentorix.dk"
-      }
-    }
-  },
-  {
-    "_id": "728ea7dc-fe26-496a-81cb-b440c77b8340",
-    "version": 0,
-    "type": "single_tenant_template",
-    "revision": {
-      "number": 0,
-      "created": 1526979006209,
+      "created": 1527254712166,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -957,12 +957,12 @@
     }
   },
   {
-    "_id": "9b5f6d7a-dec2-4a94-9a92-a7fafbdc9088",
+    "_id": "104d945a-e215-4ddd-b45e-17ba04a7ffed",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006213,
+      "created": 1527254712171,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1011,19 +1011,17 @@
         "contacts:1:contactType": "administrative",
         "contacts:1:emailAddress": "info@surfnet.nl",
         "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "support@surfnet.nl",
-        "coin:ss:aansluitovereenkomst_refused": "1",
-        "coin:publish_in_edugain": "1"
+        "contacts:2:emailAddress": "support@surfnet.nl"
       }
     }
   },
   {
-    "_id": "a4bdc3ac-b4f4-40e6-9f61-b5679cd5df30",
+    "_id": "bbce27e6-a3d6-4098-9dd0-273040d2d0f2",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006218,
+      "created": 1527254712180,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1101,12 +1099,12 @@
     }
   },
   {
-    "_id": "7b0ece48-4bc7-4655-88c2-d14fd123aa78",
+    "_id": "148b16bc-e754-4a5f-ac79-7e8a5cad008a",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006222,
+      "created": 1527254712184,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1142,12 +1140,12 @@
     }
   },
   {
-    "_id": "ce8d02e1-cdf4-4221-a941-1378df51ffd6",
+    "_id": "a542b68a-75d5-4f70-a28f-21757cd1ce89",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006224,
+      "created": 1527254712188,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1183,12 +1181,12 @@
     }
   },
   {
-    "_id": "23516e84-3d10-432c-8b78-4a885f1fdbdc",
+    "_id": "0e71a7d7-2799-4269-bdee-7dc16bb6a6f7",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006227,
+      "created": 1527254712191,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1236,12 +1234,12 @@
     }
   },
   {
-    "_id": "924d15aa-a697-41f7-b1b0-8ce6dc11600c",
+    "_id": "88d15655-0647-4d98-a717-6c3d84267075",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006230,
+      "created": 1527254712195,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1277,12 +1275,12 @@
     }
   },
   {
-    "_id": "15162ae7-e04a-4bea-acd4-a95e097d4b43",
+    "_id": "065101e6-ce0c-4f5b-8ace-6a2563753f84",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006233,
+      "created": 1527254712199,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1318,12 +1316,12 @@
     }
   },
   {
-    "_id": "7db741d1-e7a2-46c5-815d-88eb1ed46b27",
+    "_id": "f55f320d-fde5-406e-812f-d91afce5e0d8",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006236,
+      "created": 1527254712203,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1359,12 +1357,12 @@
     }
   },
   {
-    "_id": "4a321e76-83e5-4e05-991a-25cf7818e0f2",
+    "_id": "95431619-e3f7-4854-9a1e-21d2d4a14410",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006239,
+      "created": 1527254712205,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1400,12 +1398,12 @@
     }
   },
   {
-    "_id": "1a15aeed-0202-4466-b6ae-d52399183b85",
+    "_id": "6822ccd1-0d38-46be-9c4a-819d845dafdf",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006243,
+      "created": 1527254712208,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1471,59 +1469,12 @@
     }
   },
   {
-    "_id": "dc767f4c-030d-4c71-8a6b-80456dd841bb",
+    "_id": "4576ae07-4753-44cf-8184-0074eca13074",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006246,
-      "updatedBy": "auto-generated"
-    },
-    "data": {
-      "eid": 26,
-      "entityid": "https://dummy.proquro.nl/Single-tenant-service_op-aanvraag",
-      "state": "prodaccepted",
-      "arp": {
-        "attributes": {
-          "urn:mace:dir:attribute-def:uid": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ],
-          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
-            {
-              "source": "idp",
-              "value": "*"
-            }
-          ]
-        },
-        "enabled": true
-      },
-      "metaDataFields": {
-        "description:en": "Proquro 2 Pay",
-        "description:nl": "Proquro 2 Pay",
-        "displayName:en": "Proquro 2 Pay",
-        "displayName:nl": "Proquro 2 Pay",
-        "logo:0:url": "https://static.surfconext.nl/media/sp/Proquro.png",
-        "name:en": "Proquro 2 Pay | Proquro",
-        "name:nl": "Proquro 2 Pay | Proquro",
-        "contacts:0:contactType": "technical",
-        "contacts:0:emailAddress": "support@surfnet.nl",
-        "contacts:1:contactType": "administrative",
-        "contacts:1:emailAddress": "info@surfnet.nl",
-        "contacts:2:contactType": "support",
-        "contacts:2:emailAddress": "support@surfnet.nl"
-      }
-    }
-  },
-  {
-    "_id": "ed90a2d9-8e4b-499d-9f4f-37b7790e5ba4",
-    "version": 0,
-    "type": "single_tenant_template",
-    "revision": {
-      "number": 0,
-      "created": 1526979006251,
+      "created": 1527254712214,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1568,12 +1519,59 @@
     }
   },
   {
-    "_id": "ed374d58-8b84-480b-82b6-0cf573e37472",
+    "_id": "91689b2c-dc65-4596-91a1-68fb2e7c614f",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006254,
+      "created": 1527254712211,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 26,
+      "entityid": "https://dummy.proquro.nl/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:terena.org:attribute-def:schacHomeOrganization": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Proquro 2 Pay",
+        "description:nl": "Proquro 2 Pay",
+        "displayName:en": "Proquro 2 Pay",
+        "displayName:nl": "Proquro 2 Pay",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/Proquro.png",
+        "name:en": "Proquro 2 Pay | Proquro",
+        "name:nl": "Proquro 2 Pay | Proquro",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@surfnet.nl",
+        "contacts:1:contactType": "administrative",
+        "contacts:1:emailAddress": "info@surfnet.nl",
+        "contacts:2:contactType": "support",
+        "contacts:2:emailAddress": "support@surfnet.nl"
+      }
+    }
+  },
+  {
+    "_id": "9d48c84f-f2e5-430f-aa9c-d3ac240ae604",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1527254712216,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1615,12 +1613,12 @@
     }
   },
   {
-    "_id": "ad30f97d-704f-4b44-bc6a-b4f3f84bf12b",
+    "_id": "fc827a0e-a14d-4526-8765-9e7b0cc8c8bf",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006257,
+      "created": 1527254712220,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1674,12 +1672,12 @@
     }
   },
   {
-    "_id": "8eeb058a-5f1d-4efc-a3e2-67e15585b54c",
+    "_id": "4a1e67e7-2256-4fcb-b0c4-b3cdf54e8343",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006259,
+      "created": 1527254712223,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1733,12 +1731,12 @@
     }
   },
   {
-    "_id": "89238f09-be6e-4d31-9622-13bbc4779078",
+    "_id": "3d026925-5851-43c6-9936-026498eba474",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006262,
+      "created": 1527254712226,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1792,12 +1790,12 @@
     }
   },
   {
-    "_id": "82642ee8-8bbc-46df-b035-729c91e99a60",
+    "_id": "3ad8fa58-19c4-4c70-84f0-65d8fbd1880d",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006264,
+      "created": 1527254712232,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1857,12 +1855,12 @@
     }
   },
   {
-    "_id": "affbf30a-93c9-4247-ab84-726dfe1b27cd",
+    "_id": "3387fc12-ecb4-4138-bf75-dfb16a017d08",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006268,
+      "created": 1527254712238,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1939,12 +1937,12 @@
     }
   },
   {
-    "_id": "3dc1650c-8d70-4235-b02a-6a3c484f1b9d",
+    "_id": "68b98361-1c7d-451f-8823-af8319a0137a",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006271,
+      "created": 1527254712241,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -1980,12 +1978,12 @@
     }
   },
   {
-    "_id": "d539a6e9-0017-447b-b4aa-9500d1f2f569",
+    "_id": "25e70f85-4dc3-4e66-ac1b-b86142d77f32",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006273,
+      "created": 1527254712245,
       "updatedBy": "auto-generated"
     },
     "data": {
@@ -2057,12 +2055,12 @@
     }
   },
   {
-    "_id": "bbd59626-ef4f-4e4d-9284-844d27af8458",
+    "_id": "21a1f690-4038-49e0-84aa-550c3f0190c9",
     "version": 0,
     "type": "single_tenant_template",
     "revision": {
       "number": 0,
-      "created": 1526979006277,
+      "created": 1527254712248,
       "updatedBy": "auto-generated"
     },
     "data": {

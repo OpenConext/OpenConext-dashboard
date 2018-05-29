@@ -17,6 +17,7 @@ import selfservice.domain.Change;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
+import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.Settings;
 import selfservice.domain.csa.ContactPerson;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +67,7 @@ public class UsersController extends BaseController {
     }
 
     List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
-        .sorted((lh, rh) -> lh.getName().compareTo(rh.getName()))
+        .sorted(Comparator.comparing(Provider::getName))
         .collect(toList());
 
     List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(), Authority.ROLE_DASHBOARD_ADMIN.name());

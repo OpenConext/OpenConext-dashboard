@@ -1,12 +1,29 @@
 package selfservice.manage;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.core.io.Resource;
 import selfservice.domain.IdentityProvider;
+import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 public interface Manage {
+
+
+  ObjectMapper objectMapper = new ObjectMapper();
 
   /**
    * Get a list of all available Service Providers for the given idpId.
@@ -14,16 +31,7 @@ public interface Manage {
    * @param idpId the IDP entity ID to filter on
    * @return list of {@link ServiceProvider}
    */
-  List<ServiceProvider> getAllServiceProviders(String idpId);
-
-  /**
-   * Get a {@link ServiceProvider} by its entity ID.
-   *
-   * @param spEntityId the entity id of the ServiceProvider
-   * @param idpEntityId the entity id of the Identity Provider.
-   * @return the {@link ServiceProvider} object.
-   */
-  ServiceProvider getServiceProvider(String spEntityId, String idpEntityId);
+  List<ServiceProvider> getAllServiceProviders(String idpId) ;
 
   /**
    * Get a {@link ServiceProvider} by its entity ID, without a idpEntityId
@@ -31,16 +39,7 @@ public interface Manage {
    * @param spEntityId the entity id of the ServiceProvider
    * @return the {@link ServiceProvider} object.
    */
-  Optional<ServiceProvider> getServiceProvider(String spEntityId);
-
-  /**
-   * Get a list of all available Service Providers (IDP independent).
-   *
-   * @return list of {@link ServiceProvider}
-   */
-  List<ServiceProvider> getAllServiceProviders();
-
-  void refreshMetaData();
+  Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type) ;
 
   /**
    * Get an identity provider by its id.
@@ -74,4 +73,75 @@ public interface Manage {
    * @return List&lt;String&gt;
    */
   List<String> getLinkedServiceProviderIDs(String idpId);
+
+  default ServiceProvider serviceProvider(Map<String, Object> map) {
+    return new ServiceProvider(map);
+  }
+
+  default IdentityProvider identityProvider(Map<String, Object> map) {
+    return new IdentityProvider(map);
+  }
+
+  default <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T>
+    provider) throws IOException {
+    List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new
+        TypeReference<List<Map<String, Object>>>() {
+        });
+
+    Map<String, T> result = providers.stream()
+      .filter(stringObjectMap -> Map.class.cast(stringObjectMap.get("data")).get("state").equals("prodaccepted"))
+      .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
+        identity()));
+    return result;
+  }
+
+  default boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {
+    return (sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idp.getId())) &&
+      (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
+  }
+
+  default Map<String, Object> transformManageMetadata(Map<String, Object> metadata) {
+    Map<String, Object> data = (Map<String, Object>) metadata.get("data");
+    Map<String, Object> result = new HashMap<>();
+    data.entrySet().forEach(entry -> {
+      String key = entry.getKey();
+      Object value = entry.getValue();
+      if (value instanceof Boolean) {
+        result.put(key, Boolean.class.cast(value) ? "yes" : "no");
+      } else if (value instanceof String) {
+        result.put(key, value);
+      } else if (value instanceof Number) {
+        result.put(key, value);
+      }
+      switch (key) {
+        case "metaDataFields": {
+          Map<String, Object> metaDataFields = (Map<String, Object>) value;
+          result.putAll(metaDataFields);
+          break;
+        }
+        case "arp": {
+          Map<String, Object> arp = (Map<String, Object>) value;
+          Boolean enabled = (Boolean) arp.get("enabled");
+          if (enabled) {
+            Map<String, List<Map<String, String>>> attributes = (Map<String, List<Map<String, String>>>) arp.get
+              ("attributes");
+            Map<String, List<String>> attributesList = attributes.entrySet().stream()
+              .collect(toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue().get(0).get("value"))));
+            result.put("attributes", attributesList);
+          }
+          break;
+        }
+        case "allowedEntities": {
+          List<Map<String, String>> allowedEntities = (List<Map<String, String>>) value;
+          List<String> allowedEntitiesList = allowedEntities.stream().map(m -> m.get("name")).collect(toList());
+          result.put("allowedEntities", allowedEntitiesList);
+          break;
+        }
+      }
+
+    });
+    return result;
+  }
+
+
 }

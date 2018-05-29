@@ -81,7 +81,7 @@ public class ServicesController extends BaseController {
 
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("ids") String idCommaSeperated, HttpServletResponse response) {
+  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("ids") String idCommaSeperated, HttpServletResponse response) throws IOException {
     List<Service> services = csa.getServicesForIdp(idpEntityId);
     List<Long> ids = Arrays.asList(idCommaSeperated.split(",")).stream().map(s -> Long.valueOf(s.trim())).collect
       (toList());
