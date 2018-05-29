@@ -20,7 +20,7 @@ import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.service.ActionsService;
-import selfservice.service.Csa;
+import selfservice.service.Services;
 import selfservice.manage.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
@@ -56,7 +56,7 @@ public class ServicesControllerTest {
   private Manage manageMock;
 
   @Mock
-  private Csa csaMock;
+  private Services servicesMock;
 
   @Mock
   private ActionsService actionsServiceMock;
@@ -87,7 +87,7 @@ public class ServicesControllerTest {
 
     when(manageMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
     when(manageMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
-    when(csaMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
+    when(servicesMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
   }
 
   @After
@@ -97,7 +97,7 @@ public class ServicesControllerTest {
 
   @Test
   public void thatAllServicesAreReturned() throws Exception {
-    when(csaMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
+    when(servicesMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
 
     this.mockMvc.perform(get("/dashboard/api/services")
       .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ public class ServicesControllerTest {
   public void retrieveAService() throws Exception {
     Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
 
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
+    when(servicesMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -125,7 +125,7 @@ public class ServicesControllerTest {
   public void retrieveAServiceShouldBeEnriched() throws Exception {
     Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
 
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
+    when(servicesMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -136,7 +136,7 @@ public class ServicesControllerTest {
 
   @Test
   public void retrieveANonExistingService() throws Exception {
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.empty());
+    when(servicesMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.empty());
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)

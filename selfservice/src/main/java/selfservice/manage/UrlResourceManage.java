@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 
@@ -30,14 +31,14 @@ public class UrlResourceManage implements Manage {
     private final HttpHeaders httpHeaders;
 
     private String requestedAttributes = "\"state\":\"prodaccepted\",\"ALL_ATTRIBUTES\":true";
-    private String body = "{\"" + requestedAttributes + "}";
+    private String body = "{" + requestedAttributes + "}";
     private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", \"" + requestedAttributes + "}";
     private String bodyForEntityIdIn = "{\"entityid\":[@@entityids@@], \"" + requestedAttributes + "}";
-    private String bodyForInstitutionId = "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", \"" +
+    private String bodyForInstitutionId = "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", " +
         requestedAttributes + "}";
-    private String bodyForLinkedIdps = "{\"allowedall\":true,\"allowedEntities.name\":[\"@@entityid@\"], " +
-        "\"REQUESTED_ATTRIBUTES\": [\"metaDataFields.coin:institution_id\", \"allowedall\", \"allowedEntities\"], " +
-        "\"LOGICAL_OPERATOR_IS_AND\": false }";
+
+    private String linkedSpsQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
+        ".allowedall\": true}]}, {\"data.state\":\"prodaccepted\"}]}";
 
     public UrlResourceManage(
         String username,
@@ -57,8 +58,11 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public List<ServiceProvider> getAllServiceProviders(String idpId) {
-        InputStream inputStream = getSpInputStream(body);
+        String replaced = linkedSpsQuery.replace("@@entityid@", idpId);
+        InputStream inputStream = searchSp(replaced);
         List<Map<String, Object>> providers = getMaps(inputStream);
+        List<Map<String, Object>> singleTenants = getMaps(getSingleTenantInputStream(requestedAttributes));
+        providers.addAll(singleTenants);
         return providers.stream().map(this::transformManageMetadata).map(this::serviceProvider)
             .collect(Collectors.toList());
     }
@@ -128,6 +132,15 @@ public class UrlResourceManage implements Manage {
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange
             (manageBaseUrl + "/manage/api/internal/search/saml20_sp", HttpMethod.POST,
                 new HttpEntity<>(body, this.httpHeaders), byte[].class);
+        return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
+    }
+
+    private InputStream searchSp(String query) {
+        LOG.debug("Quering SP metadata entries from {} with query {}", manageBaseUrl, body);
+        String url = UriComponentsBuilder.fromHttpUrl(manageBaseUrl + "/manage/api/internal/search/saml20_sp")
+            .queryParam("query", query).toUriString();
+        ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+                new HttpEntity<>(this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 

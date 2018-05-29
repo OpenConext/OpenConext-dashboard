@@ -1,7 +1,6 @@
 package selfservice.api.dashboard;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import selfservice.domain.Action;
-import selfservice.domain.Category;
 import selfservice.domain.CoinUser;
 import selfservice.domain.InstitutionIdentityProvider;
 import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.service.ActionsService;
-import selfservice.service.Csa;
+import selfservice.service.Services;
 import selfservice.manage.Manage;
 import selfservice.util.SpringSecurity;
 
@@ -49,7 +47,7 @@ public class ServicesController extends BaseController {
   private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
 
   @Autowired
-  private Csa csa;
+  private Services services;
 
   @Autowired
   private Manage manage;
@@ -59,12 +57,12 @@ public class ServicesController extends BaseController {
 
   @RequestMapping
   public RestResponse<List<Service>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return createRestResponse(csa.getServicesForIdp(idpEntityId));
+    return createRestResponse(services.getServicesForIdp(idpEntityId));
   }
 
   @RequestMapping(value = "/connected")
   public RestResponse<List<Service>> connected(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return createRestResponse(csa.getServicesForIdp(idpEntityId).stream()
+    return createRestResponse(services.getServicesForIdp(idpEntityId).stream()
         .filter(Service::isConnected)
         .collect(toList()));
   }
@@ -82,7 +80,7 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/download")
   public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("ids") String idCommaSeperated, HttpServletResponse response) throws IOException {
-    List<Service> services = csa.getServicesForIdp(idpEntityId);
+    List<Service> services = this.services.getServicesForIdp(idpEntityId);
     List<Long> ids = Arrays.asList(idCommaSeperated.split(",")).stream().map(s -> Long.valueOf(s.trim())).collect
       (toList());
     Stream<String[]> values = ids.stream()
@@ -133,7 +131,7 @@ public class ServicesController extends BaseController {
 
   @RequestMapping(value = "/id/{id}")
   public ResponseEntity<RestResponse<Service>> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
-    return csa.getServiceForIdp(idpEntityId, id)
+    return services.getServiceForIdp(idpEntityId, id)
         .map(this::removeExplicitlyUnusedArpLabels)
         .map(service -> ResponseEntity.ok(createRestResponse(service)))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -181,7 +179,7 @@ public class ServicesController extends BaseController {
       return Optional.empty();
     }
 
-    List<Service> services = csa.getServicesForIdp(idpEntityId);
+    List<Service> services = this.services.getServicesForIdp(idpEntityId);
     Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
     if (optional.isPresent()) {

@@ -1,14 +1,10 @@
 package selfservice.api.dashboard;
 
+import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Stream;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,10 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import selfservice.domain.Service;
-import selfservice.service.Csa;
+import selfservice.service.Services;
 import selfservice.util.SpringSecurity;
 
-import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -31,11 +26,11 @@ import static java.util.stream.Collectors.toSet;
 public class FacetsController extends BaseController {
 
   @Autowired
-  private Csa csa;
+  private Services services;
 
   @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public RestResponse<List<Category>> index() {
-    List<Service> servicesForIdp = csa.getServicesForIdp(SpringSecurity.getCurrentUser().getIdp().getId());
+  public RestResponse<List<Category>> index() throws IOException {
+    List<Service> servicesForIdp = services.getServicesForIdp(SpringSecurity.getCurrentUser().getIdp().getId());
     Map<String, List<Category>> groupedCategories = servicesForIdp.stream().map(s -> s.getCategories()).flatMap
       (Collection::stream).collect(groupingBy(Category::getName));
 

@@ -14,7 +14,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.servlet.LocaleResolver;
 import selfservice.manage.ClassPathResourceManage;
@@ -27,16 +26,15 @@ import selfservice.sab.HttpClientTransport;
 import selfservice.sab.Sab;
 import selfservice.sab.SabClient;
 import selfservice.sab.SabClientMock;
-import selfservice.service.Csa;
+import selfservice.service.Services;
 import selfservice.service.VootClient;
-import selfservice.service.impl.CsaImpl;
+import selfservice.service.impl.ServicesImpl;
 import selfservice.service.impl.JiraClient;
 import selfservice.service.impl.JiraClientImpl;
 import selfservice.service.impl.JiraClientMock;
 import selfservice.service.impl.VootClientImpl;
 import selfservice.service.impl.VootClientMock;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
-import selfservice.util.LicenseContactPersonService;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -70,8 +68,8 @@ public class Application extends SpringBootServletInitializer {
   }
 
   @Bean
-  public Csa csaClient() {
-    return new CsaImpl();
+  public Services csaClient() {
+    return new ServicesImpl();
   }
 
   @Bean

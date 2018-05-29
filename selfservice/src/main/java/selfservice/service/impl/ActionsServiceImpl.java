@@ -34,6 +34,7 @@ import selfservice.domain.Action;
 import selfservice.domain.Change;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
+import selfservice.manage.EntityType;
 import selfservice.service.ActionsService;
 import selfservice.service.EmailService;
 import selfservice.manage.Manage;
@@ -104,7 +105,7 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   private Action addNames(Action action) {
-    Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId());
+    Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.saml20_sp);
     Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId());
 
     return action.unbuild()
@@ -118,7 +119,7 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     String subject = String.format(
-        "[Csa (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
+        "[Services (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
         getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey().orElse("???"));
 
     StringBuilder body = new StringBuilder();

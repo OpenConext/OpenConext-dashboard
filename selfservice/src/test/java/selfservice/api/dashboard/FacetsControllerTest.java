@@ -6,10 +6,7 @@ import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
-import com.google.common.collect.ImmutableList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,24 +18,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
-import selfservice.domain.Taxonomy;
 import selfservice.filter.SpringSecurityUtil;
-import selfservice.service.Csa;
+import selfservice.service.Services;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -48,7 +38,7 @@ public class FacetsControllerTest {
   private FacetsController controller;
 
   @Mock
-  private Csa csaMock;
+  private Services servicesMock;
 
   private MockMvc mockMvc;
 
@@ -67,7 +57,7 @@ public class FacetsControllerTest {
     CoinUser coinUser = new CoinUser();
     coinUser.setIdp(new IdentityProvider("http://mock-idp", "institutioin_id", "name", 1L));
     SpringSecurityUtil.setAuthentication(coinUser);
-    when(csaMock.getServicesForIdp("http://mock-idp")).thenReturn(services);
+    when(servicesMock.getServicesForIdp("http://mock-idp")).thenReturn(services);
 
     mockMvc.perform(
       get("/dashboard/api/facets").contentType(MediaType.APPLICATION_JSON))

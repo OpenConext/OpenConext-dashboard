@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.NotificationMessage;
 import selfservice.domain.Service;
-import selfservice.service.Csa;
+import selfservice.service.Services;
 import selfservice.service.NotificationService;
 import selfservice.util.SpringSecurity;
 
@@ -34,7 +34,7 @@ public class NotificationServiceImpl implements NotificationService {
   protected static final String FCP_NOTIFICATIONS = "notifications.messages.fcp";
 
   @Autowired
-  private Csa csa;
+  private Services services;
 
   @Override
   public NotificationMessage getNotifications(String idpId) {
@@ -48,7 +48,7 @@ public class NotificationServiceImpl implements NotificationService {
       notificationMessage.addMessageKey(FCP_NOTIFICATIONS);
     }
 
-    List<Service> services = csa.getServicesForIdp(idpId);
+    List<Service> services = this.services.getServicesForIdp(idpId);
     List<Service> notLinkedCSPs = new ArrayList<>();
     List<Service> noLicenseCSPs = new ArrayList<>();
 

@@ -21,8 +21,10 @@ import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.Settings;
 import selfservice.domain.csa.ContactPerson;
-import selfservice.service.ActionsService;
 import selfservice.manage.Manage;
+import selfservice.service.ActionsService;
+import selfservice.service.Services;
+import selfservice.service.impl.ServicesService;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +50,7 @@ public class UsersController extends BaseController {
   private Manage manage;
 
   @Autowired
-  private ServicesCache servicesCache;
+  private Services services;
 
   @Autowired
   private ActionsService actionsService;
@@ -97,9 +99,9 @@ public class UsersController extends BaseController {
     Optional<IdentityProvider> switchedToIdp = currentUser.getSwitchedToIdp();
     //We can not map as a null value is converted to an empty Optional
     String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() : currentUser.getInstitutionId();
-
+      String usersEntityId = switchedToIdp.isPresent() ? switchedToIdp.get().getId() : currentUser.getIdp().getId();
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : servicesCache.getAllServices(locale.getLanguage()).stream()
+      : servicesService.findAll(locale.getLanguage()).stream()
       .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
       .collect(toList());
   }

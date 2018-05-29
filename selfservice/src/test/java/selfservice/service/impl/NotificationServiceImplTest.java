@@ -25,7 +25,7 @@ import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.InstitutionIdentityProvider;
 import selfservice.domain.NotificationMessage;
 import selfservice.domain.Service;
-import selfservice.service.Csa;
+import selfservice.service.Services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class NotificationServiceImplTest {
   private NotificationServiceImpl notificationServiceImpl;
 
   @Mock
-  private Csa csa;
+  private Services services;
 
   private List<Authority> authorities;
 
@@ -72,7 +72,7 @@ public class NotificationServiceImplTest {
     services.add(createService("testSp3", true, true));
     services.add(createService("testSp4", false, false));
 
-    when(csa.getServicesForIdp(idp.getId())).thenReturn(services);
+    when(this.services.getServicesForIdp(idp.getId())).thenReturn(services);
 
     NotificationMessage message = notificationServiceImpl.getNotifications(idp.getId());
 

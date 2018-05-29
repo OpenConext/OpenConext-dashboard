@@ -7,7 +7,7 @@ import java.util.Optional;
 import selfservice.domain.Service;
 import selfservice.domain.Taxonomy;
 
-public interface Csa {
+public interface Services {
 
   List<Service> getServicesForIdp(String idpEntityId) throws IOException;
 
