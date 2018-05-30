@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import selfservice.cache.ServicesCache;
 import selfservice.domain.Action;
 import selfservice.domain.Change;
 import selfservice.domain.CoinAuthority.Authority;
@@ -24,10 +23,10 @@ import selfservice.domain.csa.ContactPerson;
 import selfservice.manage.Manage;
 import selfservice.service.ActionsService;
 import selfservice.service.Services;
-import selfservice.service.impl.ServicesService;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -88,32 +87,29 @@ public class UsersController extends BaseController {
   }
 
   @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
-  public RestResponse<List<Service>> serviceProviders(Locale locale) {
+  public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
     List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
 
     return createRestResponse(usersServices);
   }
 
-  private List<Service> getServiceProvidersForCurrentUser(Locale locale) {
+  private List<Service> getServiceProvidersForCurrentUser(Locale locale) throws IOException {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     Optional<IdentityProvider> switchedToIdp = currentUser.getSwitchedToIdp();
     //We can not map as a null value is converted to an empty Optional
     String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() : currentUser.getInstitutionId();
-      String usersEntityId = switchedToIdp.isPresent() ? switchedToIdp.get().getId() : currentUser.getIdp().getId();
+
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : servicesService.findAll(locale.getLanguage()).stream()
-      .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
-      .collect(toList());
+      : services.getInstitutionalServicesForIdp(usersInstitutionId);
   }
 
   private List<Service> fetchGuestEnabledServiceProviders(Locale locale) {
     String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
 
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : servicesCache.getAllServices(locale.getLanguage()).stream()
+      : services.getAllServices(locale.getLanguage()).stream()
       .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
-      .filter(service -> manage
-        .getLinkedIdentityProviders(service.getSpEntityId())
+      .filter(service -> manage.getLinkedIdentityProviders(service.getSpEntityId())
         .stream()
         .map(IdentityProvider::getId)
         .collect(toList())

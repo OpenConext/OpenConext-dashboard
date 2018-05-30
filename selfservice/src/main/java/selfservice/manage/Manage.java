@@ -67,7 +67,6 @@ public interface Manage {
    */
   List<IdentityProvider> getLinkedIdentityProviders(String spId);
 
-
   /**
    * Get a list of all SP identifiers linked to the Idp
    * @return List&lt;String&gt;

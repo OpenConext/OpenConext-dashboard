@@ -180,6 +180,11 @@ public class ServicesImpl implements Services {
             .findFirst();
     }
 
+    @Override
+    public List<Service> getInstitutionalServicesForIdp(String institutionId) throws IOException {
+        return null;
+    }
+
     private String getLocale() {
         Locale locale = null;
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
