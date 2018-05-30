@@ -77,7 +77,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     this.licenseStatus = LicenseStatus.fromManage((String) metaData.get("coin:ss:license_status"));
     this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
     this.policyEnforcementDecisionRequired = booleanValue(metaData.get("coin:policy_enforcement_decision_required"));
-    this.strongAuthenticationSupported = booleanValue(metaData.get("coin:supports_strong_authentication"));
+    this.strongAuthenticationSupported = booleanValue(metaData.get("coin:ss:supports_strong_authentication"));
     this.aansluitovereenkomstRefused = booleanValue(metaData.get("coin:ss:aansluitovereenkomst_refused"));
     this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
     this.wikiUrlNl = (String) metaData.get("coin:ss:wiki_url:nl");
