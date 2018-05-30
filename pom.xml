@@ -30,7 +30,7 @@
 
   <groupId>org.surfnet.coin</groupId>
   <artifactId>coin-selfservice-parent</artifactId>
-  <version>6.0.1</version>
+  <version>6.0.2</version>
   <name>OpenConect : selfservice parent pom</name>
   <inceptionYear>2012</inceptionYear>
 

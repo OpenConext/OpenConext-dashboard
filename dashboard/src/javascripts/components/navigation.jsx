@@ -42,7 +42,6 @@ class Navigation extends React.Component {
         <ul>
           {this.renderItem("/apps", "apps")}
           {this.renderItem("/policies", "policies")}
-          {this.renderItem("/notifications", "notifications")}
           {this.renderItem("/history", "history")}
           {this.renderItem("/statistics", "stats")}
           {this.renderItem("/my-idp", "my_idp")}
