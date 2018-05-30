@@ -81,7 +81,7 @@ public class UsersController extends BaseController {
   }
 
   @RequestMapping(value = "/me/guest-enabled-services", method = RequestMethod.GET)
-  public RestResponse<List<Service>> guestEnabledServiceProviders(Locale locale) {
+  public RestResponse<List<Service>> guestEnabledServiceProviders(Locale locale) throws IOException {
     List<Service> usersServices = fetchGuestEnabledServiceProviders(locale);
     return createRestResponse(usersServices);
   }
@@ -100,22 +100,11 @@ public class UsersController extends BaseController {
     String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() : currentUser.getInstitutionId();
 
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : services.getInstitutionalServicesForIdp(usersInstitutionId);
+      : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
   }
 
-  private List<Service> fetchGuestEnabledServiceProviders(Locale locale) {
-    String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
-
-    return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : services.getAllServices(locale.getLanguage()).stream()
-      .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
-      .filter(service -> manage.getLinkedIdentityProviders(service.getSpEntityId())
-        .stream()
-        .map(IdentityProvider::getId)
-        .collect(toList())
-        .contains("https://www.onegini.me")
-      )
-      .collect(toList());
+  private List<Service> fetchGuestEnabledServiceProviders(Locale locale) throws IOException {
+    return services.getGuestEnabledServiceProviders(locale);
   }
 
 
@@ -140,7 +129,7 @@ public class UsersController extends BaseController {
   @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
   public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                       Locale locale,
-                                                      @RequestBody Settings settings) {
+                                                      @RequestBody Settings settings) throws IOException {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);

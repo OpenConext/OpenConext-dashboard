@@ -1,17 +1,23 @@
 package selfservice.service;
 
 import selfservice.domain.Service;
+import selfservice.manage.EntityType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public interface Services {
 
-    List<Service> getServicesForIdp(String idpEntityId) throws IOException;
+    String guestIdp = "https://www.onegini.me";
 
-    Optional<Service> getServiceForIdp(String idpEntityId, long serviceId) throws IOException;
+    List<Service> getServicesForIdp(String idpEntityId, Locale locale) throws IOException;
 
-    List<Service> getInstitutionalServicesForIdp(String institutionId) throws IOException;
+    Optional<Service> getServiceByEntityId(String spEntityId, EntityType entityType, Locale locale) throws IOException;
+
+    List<Service> getInstitutionalServicesForIdp(String institutionId, Locale locale) throws IOException;
+
+    List<Service> getGuestEnabledServiceProviders(Locale locale) throws IOException;
 
 }

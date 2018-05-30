@@ -13,6 +13,7 @@ import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.ContactPerson;
 import selfservice.domain.csa.ContactPersonType;
+import selfservice.manage.EntityType;
 import selfservice.manage.Manage;
 import selfservice.service.Services;
 
@@ -32,38 +33,58 @@ import static selfservice.domain.Provider.Language.NL;
 
 public class ServicesImpl implements Services {
 
-    private final String defaultLocale = "en";
-
     @Autowired
     private Manage manage;
 
     @Override
-    public List<Service> getServicesForIdp(String idpEntityId) throws IOException {
-        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId)
-            .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in Manage with name:" +
-                " '%s'", idpEntityId)));
-        boolean allowedAll = identityProvider.isAllowedAll();
-        Set<String> allowedEntityIds = identityProvider.getAllowedEntityIds();
-
-        List<String> connectedServiceProviderIdentifiers = manage.getAllServiceProviders(idpEntityId).stream()
-            .filter(sp -> sp.isLinked())
-            .map(Provider::getId).collect(toList());
-
-        return servicesService.findAll(getLocale()).stream().filter(service -> {
-            boolean isConnected = connectedServiceProviderIdentifiers.contains(service.getSpEntityId());
-            boolean showForInstitution = showServiceForInstitution(identityProvider, service);
-            return showForInstitution || isConnected;
-        }).map(service -> {
-            service.setConnected(connectedServiceProviderIdentifiers.contains(service.getSpEntityId()));
-            return service;
-        }).collect(toList());
-    }
-
-    public List<Service> findAll(String idpEntityId, String lang) {
+    public List<Service> getServicesForIdp(String idpEntityId, Locale locale) throws IOException {
         List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders(idpEntityId);
-
-        return buildApiServices(allServiceProviders, lang);
+        return this.buildApiServices(allServiceProviders, locale.getLanguage());
     }
+
+    @Override
+    public Optional<Service> getServiceByEntityId(String spEntityId, EntityType entityType, Locale locale) throws IOException {
+        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(spEntityId, entityType);
+        return serviceProvider.map(sp -> this.buildApiService(sp, locale.getLanguage()));
+    }
+
+    @Override
+    public List<Service> getInstitutionalServicesForIdp(String institutionId, Locale locale) throws IOException {
+        manage.get
+        return null;
+    }
+
+    @Override
+    public List<Service> getGuestEnabledServiceProviders(Locale locale) throws IOException {
+        return null;
+    }
+
+//    public List<Service> getServicesForIdp(String idpEntityId) throws IOException {
+//        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId)
+//            .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in Manage with name:" +
+//                " '%s'", idpEntityId)));
+//        boolean allowedAll = identityProvider.isAllowedAll();
+//        Set<String> allowedEntityIds = identityProvider.getAllowedEntityIds();
+//
+//        List<String> connectedServiceProviderIdentifiers = manage.getAllServiceProviders(idpEntityId).stream()
+//            .filter(sp -> sp.isLinked())
+//            .map(Provider::getId).collect(toList());
+//
+//        return servicesService.findAll(getLocale()).stream().filter(service -> {
+//            boolean isConnected = connectedServiceProviderIdentifiers.contains(service.getSpEntityId());
+//            boolean showForInstitution = showServiceForInstitution(identityProvider, service);
+//            return showForInstitution || isConnected;
+//        }).map(service -> {
+//            service.setConnected(connectedServiceProviderIdentifiers.contains(service.getSpEntityId()));
+//            return service;
+//        }).collect(toList());
+//    }
+//
+//    public List<Service> findAll(String idpEntityId, String lang) {
+//        List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders(idpEntityId);
+//
+//        return buildApiServices(allServiceProviders, lang);
+//    }
 
     private List<Service> buildApiServices(List<ServiceProvider> services, String language) {
         return services.stream().map(service -> buildApiService(service, language)).collect(Collectors.toList());
@@ -161,7 +182,6 @@ public class ServicesImpl implements Services {
         }
     }
 
-
     /*
      * If a Service is idpOnly then we do want to show it as the institutionId matches that of the Idp, meaning that
      * an admin from Groningen can see the services offered by Groningen also when they are marked idpOnly - which is
@@ -171,30 +191,6 @@ public class ServicesImpl implements Services {
     private boolean showServiceForInstitution(IdentityProvider identityProvider, Service service) {
         return !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId()
             .equalsIgnoreCase(identityProvider.getInstitutionId()));
-    }
-
-    @Override
-    public Optional<Service> getServiceForIdp(String idpEntityId, long serviceId) throws IOException {
-        return getServicesForIdp(idpEntityId).stream()
-            .filter(service -> service.getId() == serviceId)
-            .findFirst();
-    }
-
-    @Override
-    public List<Service> getInstitutionalServicesForIdp(String institutionId) throws IOException {
-        return null;
-    }
-
-    private String getLocale() {
-        Locale locale = null;
-        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (sra != null) {
-            HttpServletRequest request = sra.getRequest();
-            if (request != null) {
-                locale = RequestContextUtils.getLocale(request);
-            }
-        }
-        return locale != null ? locale.getLanguage() : defaultLocale;
     }
 
 }

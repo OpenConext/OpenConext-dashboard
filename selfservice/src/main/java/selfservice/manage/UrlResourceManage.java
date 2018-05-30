@@ -33,7 +33,6 @@ public class UrlResourceManage implements Manage {
     private String requestedAttributes = "\"state\":\"prodaccepted\",\"ALL_ATTRIBUTES\":true";
     private String body = "{" + requestedAttributes + "}";
     private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", \"" + requestedAttributes + "}";
-    private String bodyForEntityIdIn = "{\"entityid\":[@@entityids@@], \"" + requestedAttributes + "}";
     private String bodyForInstitutionId = "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", " +
         requestedAttributes + "}";
 
@@ -87,7 +86,7 @@ public class UrlResourceManage implements Manage {
     @Override
     public List<IdentityProvider> getInstituteIdentityProviders(String instituteId) {
         String body = bodyForInstitutionId.replace("@@institution_id@@", instituteId);
-        InputStream inputStream = getSpInputStream(body);
+        InputStream inputStream = getIdpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
             .collect(Collectors.toList());
@@ -107,8 +106,17 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public List<String> getLinkedServiceProviderIDs(String idpId) {
+    public List<ServiceProvider> getLinkedServiceProviderIDs(String idpId) {
         return null;
+    }
+
+    @Override
+    public List<ServiceProvider> getInstitutionalServicesForIdp(String instituteId) {
+        String body = bodyForInstitutionId.replace("@@institution_id@@", instituteId);
+        InputStream inputStream = getSpInputStream(body);
+        List<Map<String, Object>> providers = getMaps(inputStream);
+        return providers.stream().map(this::transformManageMetadata).map(this::serviceProvider)
+            .collect(Collectors.toList());
     }
 
     private List<Map<String, Object>> getMaps(InputStream inputStream) {

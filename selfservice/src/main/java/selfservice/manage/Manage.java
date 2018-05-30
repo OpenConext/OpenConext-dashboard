@@ -23,124 +23,140 @@ import static java.util.stream.Collectors.toSet;
 public interface Manage {
 
 
-  ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
 
-  /**
-   * Get a list of all available Service Providers for the given idpId.
-   *
-   * @param idpId the IDP entity ID to filter on
-   * @return list of {@link ServiceProvider}
-   */
-  List<ServiceProvider> getAllServiceProviders(String idpId) ;
+    /**
+     * Get a list of all available Service Providers for the given idpId.
+     *
+     * @param idpId the IDP entity ID to filter on
+     * @return list of {@link ServiceProvider}
+     */
+    List<ServiceProvider> getAllServiceProviders(String idpId);
 
-  /**
-   * Get a {@link ServiceProvider} by its entity ID, without a idpEntityId
-   *
-   * @param spEntityId the entity id of the ServiceProvider
-   * @return the {@link ServiceProvider} object.
-   */
-  Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type) ;
+    /**
+     * Get a {@link ServiceProvider} by its entity ID, without a idpEntityId
+     *
+     * @param spEntityId the entity id of the ServiceProvider
+     * @return the {@link ServiceProvider} object.
+     */
+    Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type);
 
-  /**
-   * Get an identity provider by its id.
-   * @param idpEntityId the id.
-   * @return IdentityProvider
-   */
-  Optional<IdentityProvider> getIdentityProvider(String idpEntityId);
+    /**
+     * Get an identity provider by its id.
+     *
+     * @param idpEntityId the id.
+     * @return IdentityProvider
+     */
+    Optional<IdentityProvider> getIdentityProvider(String idpEntityId);
 
-  /**
-   * Get a list of all idps that have the same instituteId as the given one.
-   * @param instituteId the instituteId
-   * @return List&lt;IdentityProvider&gt;
-   */
-  List<IdentityProvider> getInstituteIdentityProviders(String instituteId);
+    /**
+     * Get a list of all idps that have the same instituteId as the given one.
+     *
+     * @param instituteId the instituteId
+     * @return List&lt;IdentityProvider&gt;
+     */
+    List<IdentityProvider> getInstituteIdentityProviders(String instituteId);
 
-  /**
-   * Get a list of all idps
-   * @return List&lt;IdentityProvider&gt;
-   */
-  List<IdentityProvider> getAllIdentityProviders();
 
-  /**
-   * Get a list of all idps connected to a SP
-   * @return List&lt;IdentityProvider&gt;
-   */
-  List<IdentityProvider> getLinkedIdentityProviders(String spId);
+    /**
+     * Get a list of all ServiceProviders that have the same instituteId as the given one.
+     *
+     * @param instituteId the instituteId
+     * @return List&lt;ServiceProvider&gt;
+     */
+    List<ServiceProvider> getInstitutionalServicesForIdp(String instituteId);
 
-  /**
-   * Get a list of all SP identifiers linked to the Idp
-   * @return List&lt;String&gt;
-   */
-  List<String> getLinkedServiceProviderIDs(String idpId);
+    /**
+     * Get a list of all idps
+     *
+     * @return List&lt;IdentityProvider&gt;
+     */
+    List<IdentityProvider> getAllIdentityProviders();
 
-  default ServiceProvider serviceProvider(Map<String, Object> map) {
-    return new ServiceProvider(map);
-  }
+    /**
+     * Get a list of all idps connected to a SP
+     *
+     * @return List&lt;IdentityProvider&gt;
+     */
+    List<IdentityProvider> getLinkedIdentityProviders(String spId);
 
-  default IdentityProvider identityProvider(Map<String, Object> map) {
-    return new IdentityProvider(map);
-  }
+    /**
+     * Get a list of all ServiceProviders that are connected to this IdP
+     *
+     * @return List&lt;ServiceProviders&gt;
+     */
+    List<ServiceProvider> getLinkedServiceProviderIDs(String idpId);
 
-  default <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T>
-    provider) throws IOException {
-    List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new
-        TypeReference<List<Map<String, Object>>>() {
+    default ServiceProvider serviceProvider(Map<String, Object> map) {
+        return new ServiceProvider(map);
+    }
+
+    default IdentityProvider identityProvider(Map<String, Object> map) {
+        return new IdentityProvider(map);
+    }
+
+    default <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T>
+        provider) throws IOException {
+        List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new
+            TypeReference<List<Map<String, Object>>>() {
+            });
+
+        Map<String, T> result = providers.stream()
+            .filter(stringObjectMap -> Map.class.cast(stringObjectMap.get("data")).get("state").equals("prodaccepted"))
+            .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
+                identity()));
+        return result;
+    }
+
+    default boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {
+        return (sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idp.getId())) &&
+            (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
+    }
+
+    default Map<String, Object> transformManageMetadata(Map<String, Object> metadata) {
+        Map<String, Object> data = (Map<String, Object>) metadata.get("data");
+        Map<String, Object> result = new HashMap<>();
+        data.entrySet().forEach(entry -> {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof Boolean) {
+                result.put(key, Boolean.class.cast(value) ? "yes" : "no");
+            } else if (value instanceof String) {
+                result.put(key, value);
+            } else if (value instanceof Number) {
+                result.put(key, value);
+            }
+            switch (key) {
+                case "metaDataFields": {
+                    Map<String, Object> metaDataFields = (Map<String, Object>) value;
+                    result.putAll(metaDataFields);
+                    break;
+                }
+                case "arp": {
+                    Map<String, Object> arp = (Map<String, Object>) value;
+                    Boolean enabled = (Boolean) arp.get("enabled");
+                    if (enabled) {
+                        Map<String, List<Map<String, String>>> attributes = (Map<String, List<Map<String, String>>>)
+                            arp.get
+                            ("attributes");
+                        Map<String, List<String>> attributesList = attributes.entrySet().stream()
+                            .collect(toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue().get(0).get
+                                ("value"))));
+                        result.put("attributes", attributesList);
+                    }
+                    break;
+                }
+                case "allowedEntities": {
+                    List<Map<String, String>> allowedEntities = (List<Map<String, String>>) value;
+                    List<String> allowedEntitiesList = allowedEntities.stream().map(m -> m.get("name")).collect(toList());
+                    result.put("allowedEntities", allowedEntitiesList);
+                    break;
+                }
+            }
+
         });
-
-    Map<String, T> result = providers.stream()
-      .filter(stringObjectMap -> Map.class.cast(stringObjectMap.get("data")).get("state").equals("prodaccepted"))
-      .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
-        identity()));
-    return result;
-  }
-
-  default boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {
-    return (sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idp.getId())) &&
-      (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
-  }
-
-  default Map<String, Object> transformManageMetadata(Map<String, Object> metadata) {
-    Map<String, Object> data = (Map<String, Object>) metadata.get("data");
-    Map<String, Object> result = new HashMap<>();
-    data.entrySet().forEach(entry -> {
-      String key = entry.getKey();
-      Object value = entry.getValue();
-      if (value instanceof Boolean) {
-        result.put(key, Boolean.class.cast(value) ? "yes" : "no");
-      } else if (value instanceof String) {
-        result.put(key, value);
-      } else if (value instanceof Number) {
-        result.put(key, value);
-      }
-      switch (key) {
-        case "metaDataFields": {
-          Map<String, Object> metaDataFields = (Map<String, Object>) value;
-          result.putAll(metaDataFields);
-          break;
-        }
-        case "arp": {
-          Map<String, Object> arp = (Map<String, Object>) value;
-          Boolean enabled = (Boolean) arp.get("enabled");
-          if (enabled) {
-            Map<String, List<Map<String, String>>> attributes = (Map<String, List<Map<String, String>>>) arp.get
-              ("attributes");
-            Map<String, List<String>> attributesList = attributes.entrySet().stream()
-              .collect(toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue().get(0).get("value"))));
-            result.put("attributes", attributesList);
-          }
-          break;
-        }
-        case "allowedEntities": {
-          List<Map<String, String>> allowedEntities = (List<Map<String, String>>) value;
-          List<String> allowedEntitiesList = allowedEntities.stream().map(m -> m.get("name")).collect(toList());
-          result.put("allowedEntities", allowedEntitiesList);
-          break;
-        }
-      }
-
-    });
-    return result;
-  }
+        return result;
+    }
 
 
 }

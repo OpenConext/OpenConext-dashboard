@@ -4,11 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StringUtils;
 import selfservice.domain.IdentityProvider;
-import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,7 +55,8 @@ public class ClassPathResourceManage implements Manage {
         if (this.exampleSingleTenants.containsKey(spId)) {
             return new ArrayList<>();
         }
-        ServiceProvider serviceProvider = getServiceProvider(spId, EntityType.saml20_sp).orElseThrow(RuntimeException::new);
+        ServiceProvider serviceProvider = getServiceProvider(spId, EntityType.saml20_sp).orElseThrow
+            (RuntimeException::new);
         if (serviceProvider.isAllowedAll()) {
             return identityProviderMap.values().stream().filter(identityProvider ->
                 identityProvider.isAllowedAll() || identityProvider.getAllowedEntityIds().contains(spId)).collect
@@ -67,7 +67,7 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public List<String> getLinkedServiceProviderIDs(String idpId) {
+    public List<ServiceProvider> getLinkedServiceProviderIDs(String idpId) {
         Optional<IdentityProvider> optional = getIdentityProvider(idpId);
         if (!optional.isPresent()) {
             return Collections.emptyList();
@@ -75,9 +75,10 @@ public class ClassPathResourceManage implements Manage {
         IdentityProvider identityProvider = optional.get();
         if (identityProvider.isAllowedAll()) {
             return serviceProviderMap.values().stream().filter(sp ->
-                sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpId)).map(Provider::getId).collect(toList());
+                sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpId)).collect(toList());
         } else {
-            return new ArrayList<>(identityProvider.getAllowedEntityIds());
+            return serviceProviderMap.values().stream().filter(sp ->
+                identityProvider.getAllowedEntityIds().contains(sp.getId())).collect(toList());
         }
     }
 
@@ -85,7 +86,8 @@ public class ClassPathResourceManage implements Manage {
     public List<ServiceProvider> getAllServiceProviders(String idpId) {
         Collection<ServiceProvider> allSPs = serviceProviderMap.values();
 
-        List<String> myLinkedSPs = getLinkedServiceProviderIDs(idpId);
+        List<String> myLinkedSPs = getLinkedServiceProviderIDs(idpId).stream().map(ServiceProvider::getId).collect
+            (toList());
 
         List<ServiceProvider> filteredList = new ArrayList<>();
         for (ServiceProvider sp : allSPs) {
@@ -107,6 +109,12 @@ public class ClassPathResourceManage implements Manage {
     public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type) {
         return type.equals(EntityType.saml20_sp) ? Optional.ofNullable(serviceProviderMap.get(spEntityId)) :
             Optional.ofNullable(exampleSingleTenants.get(spEntityId));
+    }
+
+    @Override
+    public List<ServiceProvider> getInstitutionalServicesForIdp(String instituteId) {
+        return StringUtils.hasText(instituteId) ? this.serviceProviderMap.values().stream().filter(sp -> instituteId
+            .equals(sp.getInstitutionId())).collect(toList()) : Collections.emptyList();
     }
 
     private void initializeMetadata() {

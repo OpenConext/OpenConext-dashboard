@@ -1,118 +1,117 @@
 package selfservice.pdp;
 
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
-import selfservice.cache.ServicesCache;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.domain.Policy.PolicyBuilder;
 import selfservice.domain.Service;
+import selfservice.service.Services;
 import selfservice.util.SpringSecurity;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 public class PdpServiceMock implements PdpService {
 
-  private static final List<Attribute> ALLOWED_ATTRIBUTES = ImmutableList.of(
+    private static final List<Attribute> ALLOWED_ATTRIBUTES = ImmutableList.of(
         new Attribute("urn:mace:terena.org:attribute-def:schacHomeOrganization", "Schac home organization"),
         new Attribute("urn:mace:terena.org:attribute-def:schacHomeOrganizationType", "Schac home organization type"),
         new Attribute("urn:mace:dir:attribute-def:eduPersonAffiliation", "Edu person affiliation"),
         new Attribute("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", "Edu person scoped affiliation"));
 
-  private final ListMultimap<Long, Policy> policies = Multimaps.synchronizedListMultimap(ArrayListMultimap.<Long, Policy>create());
+    private final ListMultimap<Long, Policy> policies = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
 
-  @Autowired
-  private ServicesCache servicesCache;
+    @Autowired
+    private Services services;
 
-  @Override
-  public List<Policy> policies() {
-    return policies.keySet().stream().map(key -> Iterables.getLast(policies.get(key))).collect(toList());
-  }
+    @Override
+    public List<Policy> policies() {
+        return policies.keySet().stream().map(key -> Iterables.getLast(policies.get(key))).collect(toList());
+    }
 
-  @Override
-  public Policy policy(Long id) {
-    return ofNullable(policies.get(id)).map(Iterables::getLast).orElseThrow(RuntimeException::new);
-  }
+    @Override
+    public Policy policy(Long id) {
+        return ofNullable(policies.get(id)).map(Iterables::getLast).orElseThrow(RuntimeException::new);
+    }
 
-  @Override
-  public Policy create(Policy policy) {
-    policies.values().stream().filter(p -> p.getName().equals(policy.getName())).findAny().ifPresent(duplicate -> {
-      throw new PolicyNameNotUniqueException(String.format("Policy name '%s' already exists", policy.getName()));
-    });
+    @Override
+    public Policy create(Policy policy) throws IOException {
+        policies.values().stream().filter(p -> p.getName().equals(policy.getName())).findAny().ifPresent(duplicate -> {
+            throw new PolicyNameNotUniqueException(String.format("Policy name '%s' already exists", policy.getName()));
+        });
 
-    Policy policyWithId = savePolicy(policy);
+        Policy policyWithId = savePolicy(policy);
 
-    policies.put(policyWithId.getId(), policyWithId);
+        policies.put(policyWithId.getId(), policyWithId);
 
-    return policyWithId;
-  }
+        return policyWithId;
+    }
 
-  @Override
-  public Policy update(Policy policy) {
-    Policy updatedPolicy = updatePolicy(policy);
-    policies.put(policy.getId(), updatedPolicy);
-    return policy;
-  }
+    @Override
+    public Policy update(Policy policy) throws IOException {
+        Policy updatedPolicy = updatePolicy(policy);
+        policies.put(policy.getId(), updatedPolicy);
+        return policy;
+    }
 
-  @Override
-  public List<Attribute> allowedAttributes() {
-    return ALLOWED_ATTRIBUTES;
-  }
+    @Override
+    public List<Attribute> allowedAttributes() {
+        return ALLOWED_ATTRIBUTES;
+    }
 
-  @Override
-  public ResponseEntity<String> delete(Long id) {
-    policies.removeAll(id);
-    return null;
-  }
+    @Override
+    public ResponseEntity<String> delete(Long id) {
+        policies.removeAll(id);
+        return null;
+    }
 
-  @Override
-  public List<Policy> revisions(Long id) {
-    return Optional.ofNullable(policies.get(id)).orElseThrow(RuntimeException::new);
-  }
+    @Override
+    public List<Policy> revisions(Long id) {
+        return Optional.ofNullable(policies.get(id)).orElseThrow(RuntimeException::new);
+    }
 
-  @Override
-  public boolean isAvailable() {
-    return true;
-  }
+    @Override
+    public boolean isAvailable() {
+        return true;
+    }
 
-  private Policy savePolicy(Policy policy) {
-    Long id = policies.keySet().stream().max(Long::compare).map(l -> l + 1).orElse(1L);
+    private Policy savePolicy(Policy policy) throws IOException {
+        Long id = policies.keySet().stream().max(Long::compare).map(l -> l + 1).orElse(1L);
 
-    return PolicyBuilder.of(policy)
-        .withId(id)
-        .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-        .withCreated(String.valueOf(System.currentTimeMillis()))
-        .withActionsAllowed(true)
-        .withServiceProviderName(servicesCache.getAllServices("en").stream()
-          .filter(service -> service.getSpEntityId().equals(policy.getServiceProviderId())).map(Service::getName)
-          .findFirst().orElse("????"))
-        .build();
-  }
+        return PolicyBuilder.of(policy)
+            .withId(id)
+            .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
+            .withCreated(String.valueOf(System.currentTimeMillis()))
+            .withActionsAllowed(true)
+            .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(), Locale.ENGLISH)
+                .map(Service::getName)
+                .orElse("????"))
+            .build();
+    }
 
-  private Policy updatePolicy(Policy policy) {
-    return PolicyBuilder.of(policy)
-        .withId(policy.getId())
-        .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-        .withCreated(String.valueOf(System.currentTimeMillis()))
-        .withActionsAllowed(true)
-        .withRevisionNbr(policy.getRevisionNbr() + 1)
-        .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
-        .withServiceProviderName(servicesCache.getAllServices("en").stream()
-          .filter(service -> service.getSpEntityId().equals(policy.getServiceProviderId())).map(Service::getName)
-          .findFirst().orElse("????"))
-        .build();
-  }
+    private Policy updatePolicy(Policy policy) throws IOException {
+        return PolicyBuilder.of(policy)
+            .withId(policy.getId())
+            .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
+            .withCreated(String.valueOf(System.currentTimeMillis()))
+            .withActionsAllowed(true)
+            .withRevisionNbr(policy.getRevisionNbr() + 1)
+            .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
+            .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(), Locale.ENGLISH)
+                .map(Service::getName)
+                .orElse("????"))
+            .build();
+    }
 
 }
