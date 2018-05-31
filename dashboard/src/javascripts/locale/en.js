@@ -41,7 +41,6 @@ I18n.translations.en = {
   navigation: {
     apps: "Services",
     policies: "Authorization policies",
-    notifications: "Notifications",
     history: "History",
     stats: "Statistics",
     my_idp: "My institute"
@@ -360,19 +359,6 @@ I18n.translations.en = {
     surfnet_html: "<a href=\"https://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",
     contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
-  },
-
-  notifications: {
-    connect: "Connect",
-    disconnect: "Disconnect",
-    title: "Notifications",
-    icon: "Icon",
-    name: "Name",
-    license: "License",
-    connection: "Connection",
-    messages: {
-      fcp: "The following Services might not be accessible yet because there is not a license available or no active SURFconext connection."
-    }
   },
 
   my_idp: {

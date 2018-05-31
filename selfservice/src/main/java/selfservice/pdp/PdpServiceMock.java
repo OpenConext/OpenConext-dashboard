@@ -11,6 +11,7 @@ import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.domain.Policy.PolicyBuilder;
 import selfservice.domain.Service;
+import selfservice.manage.EntityType;
 import selfservice.service.Services;
 import selfservice.util.SpringSecurity;
 
@@ -46,7 +47,7 @@ public class PdpServiceMock implements PdpService {
     }
 
     @Override
-    public Policy create(Policy policy) throws IOException {
+    public Policy create(Policy policy)  {
         policies.values().stream().filter(p -> p.getName().equals(policy.getName())).findAny().ifPresent(duplicate -> {
             throw new PolicyNameNotUniqueException(String.format("Policy name '%s' already exists", policy.getName()));
         });
@@ -59,7 +60,7 @@ public class PdpServiceMock implements PdpService {
     }
 
     @Override
-    public Policy update(Policy policy) throws IOException {
+    public Policy update(Policy policy)  {
         Policy updatedPolicy = updatePolicy(policy);
         policies.put(policy.getId(), updatedPolicy);
         return policy;
@@ -86,32 +87,40 @@ public class PdpServiceMock implements PdpService {
         return true;
     }
 
-    private Policy savePolicy(Policy policy) throws IOException {
+    private Policy savePolicy(Policy policy)  {
         Long id = policies.keySet().stream().max(Long::compare).map(l -> l + 1).orElse(1L);
 
-        return PolicyBuilder.of(policy)
-            .withId(id)
-            .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-            .withCreated(String.valueOf(System.currentTimeMillis()))
-            .withActionsAllowed(true)
-            .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(), Locale.ENGLISH)
-                .map(Service::getName)
-                .orElse("????"))
-            .build();
+        try {
+            return PolicyBuilder.of(policy)
+                .withId(id)
+                .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
+                .withCreated(String.valueOf(System.currentTimeMillis()))
+                .withActionsAllowed(true)
+                .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(),EntityType.saml20_sp, Locale.ENGLISH)
+                    .map(Service::getName)
+                    .orElse("????"))
+                .build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private Policy updatePolicy(Policy policy) throws IOException {
-        return PolicyBuilder.of(policy)
-            .withId(policy.getId())
-            .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-            .withCreated(String.valueOf(System.currentTimeMillis()))
-            .withActionsAllowed(true)
-            .withRevisionNbr(policy.getRevisionNbr() + 1)
-            .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
-            .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(), Locale.ENGLISH)
-                .map(Service::getName)
-                .orElse("????"))
-            .build();
+    private Policy updatePolicy(Policy policy)  {
+        try {
+            return PolicyBuilder.of(policy)
+                .withId(policy.getId())
+                .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
+                .withCreated(String.valueOf(System.currentTimeMillis()))
+                .withActionsAllowed(true)
+                .withRevisionNbr(policy.getRevisionNbr() + 1)
+                .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
+                .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(),EntityType.saml20_sp, Locale.ENGLISH)
+                    .map(Service::getName)
+                    .orElse("????"))
+                .build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

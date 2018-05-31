@@ -161,10 +161,6 @@ export function switchToIdp(idpId, role) {
   return validFetch("/users/me/switch-to-idp?" + qs.stringify({idpId, role}));
 }
 
-export function getNotifications() {
-  return fetchJson("/notifications");
-}
-
 export function getActions() {
   return fetchJson("/actions");
 }

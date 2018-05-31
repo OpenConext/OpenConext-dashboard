@@ -3,6 +3,7 @@ package selfservice.api.dashboard;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -29,8 +30,8 @@ public class FacetsController extends BaseController {
   private Services services;
 
   @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public RestResponse<List<Category>> index() throws IOException {
-    List<Service> servicesForIdp = services.getServicesForIdp(SpringSecurity.getCurrentUser().getIdp().getId());
+  public RestResponse<List<Category>> index(Locale locale) throws IOException {
+    List<Service> servicesForIdp = services.getServicesForIdp(SpringSecurity.getCurrentUser().getIdp().getId(), locale);
     Map<String, List<Category>> groupedCategories = servicesForIdp.stream().map(s -> s.getCategories()).flatMap
       (Collection::stream).collect(groupingBy(Category::getName));
 

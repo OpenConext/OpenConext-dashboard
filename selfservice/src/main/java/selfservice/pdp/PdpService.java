@@ -13,9 +13,9 @@ public interface PdpService {
 
   Policy policy(Long id);
 
-  Policy create(Policy policy) throws IOException;
+  Policy create(Policy policy) ;
 
-  Policy update(Policy policy) throws IOException;
+  Policy update(Policy policy);
 
   List<Attribute> allowedAttributes();
 

@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class ClassPathResourceManageTest {
 
   private ClassPathResourceManage subject =
-    new ClassPathResourceManage(true);
+    new ClassPathResourceManage();
 
   @Test
   public void testIdentityProviders() {
@@ -23,7 +23,7 @@ public class ClassPathResourceManageTest {
 
   @Test
   public void testServiceProviders() {
-    List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
+    List<ServiceProvider> serviceProviders = subject.getAllServiceProviders("TODO");
     assertEquals(66, serviceProviders.size());
 
     ServiceProvider surfcloud = serviceProviders.stream().filter(sp -> sp.getId()

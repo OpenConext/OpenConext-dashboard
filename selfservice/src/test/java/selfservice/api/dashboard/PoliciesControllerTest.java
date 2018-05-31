@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
@@ -31,6 +32,7 @@ import selfservice.domain.CoinUser;
 import selfservice.domain.Policy;
 import selfservice.domain.ServiceProvider;
 import selfservice.filter.SpringSecurityUtil;
+import selfservice.manage.EntityType;
 import selfservice.pdp.PdpService;
 import selfservice.pdp.PolicyNameNotUniqueException;
 import selfservice.service.EmailService;
@@ -90,7 +92,7 @@ public class PoliciesControllerTest {
     SpringSecurityUtil.setAuthentication(user);
 
     when(pdpServiceMock.create(any(Policy.class))).thenThrow(new PolicyNameNotUniqueException("errormessage"));
-    when(manageMock.getServiceProvider("mockServiceProviderId")).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "eid", 1L))));
+    when(manageMock.getServiceProvider("mockServiceProviderId", EntityType.saml20_sp)).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "eid", 1L))));
 
     mockMvc.perform(post("/dashboard/api/policies")
         .contentType(APPLICATION_JSON)
@@ -106,7 +108,7 @@ public class PoliciesControllerTest {
     SpringSecurityUtil.setAuthentication(user);
 
     when(pdpServiceMock.create(any(Policy.class))).thenReturn(new Policy());
-    when(manageMock.getServiceProvider("mockServiceProviderId"))
+    when(manageMock.getServiceProvider("mockServiceProviderId",EntityType.saml20_sp))
       .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "0", "eid", 1l))));
 
     mockMvc.perform(post("/dashboard/api/policies")
@@ -125,7 +127,7 @@ public class PoliciesControllerTest {
     SpringSecurityUtil.setAuthentication(user);
 
     when(pdpServiceMock.create(any(Policy.class))).thenReturn(new Policy());
-    when(manageMock.getServiceProvider("mockServiceProviderId"))
+    when(manageMock.getServiceProvider("mockServiceProviderId", EntityType.saml20_sp))
       .thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "coin:policy_enforcement_decision_required", "1", "eid", 1L))));
 
     mockMvc.perform(post("/dashboard/api/policies")

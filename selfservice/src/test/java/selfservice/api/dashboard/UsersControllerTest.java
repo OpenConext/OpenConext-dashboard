@@ -14,7 +14,6 @@ import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
-import selfservice.cache.ServicesCache;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
@@ -29,8 +28,12 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -52,9 +55,6 @@ public class UsersControllerTest {
 
   @Mock
   private Manage manage;
-
-  @Mock
-  private ServicesCache servicesCacheMock;
 
   private MockMvc mockMvc;
 
@@ -182,7 +182,6 @@ public class UsersControllerTest {
 
     SpringSecurityUtil.setAuthentication(user);
 
-    when(servicesCacheMock.getAllServices("en")).thenReturn(ImmutableList.of(serviceWithInsitutionId, serviceWithoutAnInstitutionId, serviceWithWrongInstitiontid));
 
     mockMvc.perform(get("/dashboard/api/users/me/serviceproviders"))
       .andExpect(status().isOk())

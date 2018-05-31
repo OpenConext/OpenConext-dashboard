@@ -41,7 +41,6 @@ I18n.translations.nl = {
   navigation: {
     apps: "Services",
     policies: "Autorisatieregels",
-    notifications: "Notificaties",
     history: "Logboek",
     stats: "Statistieken",
     my_idp: "Mijn instelling"
@@ -395,19 +394,6 @@ I18n.translations.nl = {
     surfnet_html: "<a href=\"https://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
     terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28NL%29\" target=\"_blank\">Gebruikersvoorwaarden</a>",
     contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
-  },
-
-  notifications: {
-    connect: "Activeren",
-    disconnect: "Deactiveren",
-    title: "Notificaties",
-    icon: "Icoon",
-    name: "Naam",
-    license: "Licentie",
-    connection: "Connectie",
-    messages: {
-      fcp: "Onderstaande diensten zijn mogelijkerwijs nog niet beschikbaar, omdat de licentie of de technische connectie nog niet aanwezig is."
-    }
   },
 
   my_idp: {

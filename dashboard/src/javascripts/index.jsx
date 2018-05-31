@@ -29,7 +29,6 @@ import AppOverview from "./pages/app_overview";
 import PolicyOverview from "./pages/policy_overview";
 import PolicyDetail from "./pages/policy_detail";
 import PolicyRevisions from "./pages/policy_revisions";
-import Notifications from "./pages/notifications";
 import History from "./pages/history";
 import Profile from "./pages/profile";
 import Stats from "./pages/stats";
@@ -65,7 +64,6 @@ class App extends React.Component {
           }}/>
           <Match exactly pattern="/apps" component={AppOverview}/>
           <Match exactly pattern="/policies" component={PolicyOverview}/>
-          <Match exactly pattern="/notifications" component={Notifications}/>
           <Match exactly pattern="/history" component={History}/>
           <Match exactly pattern="/profile" component={Profile}/>
           <Match exactly pattern="/statistics" component={Stats}/>

@@ -50,8 +50,8 @@ public class ServicesImpl implements Services {
 
     @Override
     public List<Service> getInstitutionalServicesForIdp(String institutionId, Locale locale) throws IOException {
-        manage.get
-        return null;
+        List<ServiceProvider> institutionalServicesForIdp = manage.getInstitutionalServicesForIdp(institutionId);
+        return this.buildApiServices(institutionalServicesForIdp, locale.getLanguage());
     }
 
     @Override

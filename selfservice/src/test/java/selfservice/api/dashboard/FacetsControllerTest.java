@@ -29,6 +29,7 @@ import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,7 +58,7 @@ public class FacetsControllerTest {
     CoinUser coinUser = new CoinUser();
     coinUser.setIdp(new IdentityProvider("http://mock-idp", "institutioin_id", "name", 1L));
     SpringSecurityUtil.setAuthentication(coinUser);
-    when(servicesMock.getServicesForIdp("http://mock-idp")).thenReturn(services);
+    when(servicesMock.getServicesForIdp("http://mock-idp", Locale.ENGLISH)).thenReturn(services);
 
     mockMvc.perform(
       get("/dashboard/api/facets").contentType(MediaType.APPLICATION_JSON))

@@ -39,6 +39,7 @@ public interface Manage {
      * @param spEntityId the entity id of the ServiceProvider
      * @return the {@link ServiceProvider} object.
      */
+    //TODO: add the idp entityId to set the linked property
     Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type);
 
     /**

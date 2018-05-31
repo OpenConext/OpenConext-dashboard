@@ -18,6 +18,7 @@ import selfservice.domain.CoinUser;
 import selfservice.domain.InstitutionIdentityProvider;
 import selfservice.domain.Provider;
 import selfservice.domain.Service;
+import selfservice.manage.EntityType;
 import selfservice.service.ActionsService;
 import selfservice.service.Services;
 import selfservice.manage.Manage;
@@ -29,6 +30,7 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -56,13 +58,13 @@ public class ServicesController extends BaseController {
   private ActionsService actionsService;
 
   @RequestMapping
-  public RestResponse<List<Service>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return createRestResponse(services.getServicesForIdp(idpEntityId));
+  public RestResponse<List<Service>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale) throws IOException {
+    return createRestResponse(services.getServicesForIdp(idpEntityId, locale));
   }
 
   @RequestMapping(value = "/connected")
-  public RestResponse<List<Service>> connected(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
-    return createRestResponse(services.getServicesForIdp(idpEntityId).stream()
+  public RestResponse<List<Service>> connected(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale) throws IOException {
+    return createRestResponse(services.getServicesForIdp(idpEntityId, locale).stream()
         .filter(Service::isConnected)
         .collect(toList()));
   }
@@ -79,8 +81,9 @@ public class ServicesController extends BaseController {
 
 
   @RequestMapping(value = "/download")
-  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("ids") String idCommaSeperated, HttpServletResponse response) throws IOException {
-    List<Service> services = this.services.getServicesForIdp(idpEntityId);
+  public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("ids") String idCommaSeperated,
+                                       Locale locale, HttpServletResponse response) throws IOException {
+    List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
     List<Long> ids = Arrays.asList(idCommaSeperated.split(",")).stream().map(s -> Long.valueOf(s.trim())).collect
       (toList());
     Stream<String[]> values = ids.stream()
@@ -129,9 +132,12 @@ public class ServicesController extends BaseController {
     return services.stream().filter(service -> service.getId() == id).findFirst();
   }
 
-  @RequestMapping(value = "/id/{id}")
-  public ResponseEntity<RestResponse<Service>> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, @PathVariable long id) {
-    return services.getServiceForIdp(idpEntityId, id)
+  @RequestMapping(value = "/id/{id}/{entityType}")
+  public ResponseEntity<RestResponse<Service>> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                   @PathVariable String spEntityId,
+                                                   @PathVariable String entityType,
+                                                   Locale locale) throws IOException {
+    return services.getServiceByEntityId(spEntityId, EntityType.valueOf(entityType), locale)
         .map(this::removeExplicitlyUnusedArpLabels)
         .map(service -> ResponseEntity.ok(createRestResponse(service)))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -150,10 +156,11 @@ public class ServicesController extends BaseController {
   @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
   public ResponseEntity<RestResponse<Action>> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                               @RequestParam(value = "comments", required = false) String comments,
-                                              @RequestParam(value = "spEntityId", required = true) String spEntityId,
-                                              @PathVariable String id) {
+                                              @RequestParam(value = "spEntityId") String spEntityId,
+                                              @PathVariable String id,
+                                                      Locale locale) throws IOException {
 
-    return createAction(idpEntityId, comments, spEntityId, Action.Type.LINKREQUEST)
+    return createAction(idpEntityId, comments, spEntityId, Action.Type.LINKREQUEST, locale)
         .map(action -> ResponseEntity.ok(createRestResponse(action)))
         .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
   }
@@ -161,15 +168,16 @@ public class ServicesController extends BaseController {
   @RequestMapping(value = "/id/{id}/disconnect", method = RequestMethod.POST)
   public ResponseEntity<RestResponse<Action>> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                  @RequestParam(value = "comments", required = false) String comments,
-                                                 @RequestParam(value = "spEntityId", required = true) String spEntityId,
-                                                 @PathVariable String id) {
+                                                 @RequestParam(value = "spEntityId") String spEntityId,
+                                                 @PathVariable String id,
+                                                         Locale locale) throws IOException {
 
-    return createAction(idpEntityId, comments, spEntityId, Action.Type.UNLINKREQUEST)
+    return createAction(idpEntityId, comments, spEntityId, Action.Type.UNLINKREQUEST, locale)
         .map(action -> ResponseEntity.ok(createRestResponse(action)))
         .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
   }
 
-  private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, Action.Type jiraType) {
+  private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, Action.Type jiraType, Locale locale) throws IOException {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
       return Optional.empty();
@@ -179,7 +187,7 @@ public class ServicesController extends BaseController {
       return Optional.empty();
     }
 
-    List<Service> services = this.services.getServicesForIdp(idpEntityId);
+    List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
     Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
     if (optional.isPresent()) {

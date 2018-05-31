@@ -14,6 +14,7 @@ import selfservice.domain.CoinUser;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.domain.ServiceProvider;
+import selfservice.manage.EntityType;
 import selfservice.pdp.PdpService;
 import selfservice.service.EmailService;
 import selfservice.manage.Manage;
@@ -65,7 +66,7 @@ public class PoliciesController extends BaseController {
     return whenDashboardAdmin(() -> {
       LOG.debug("Create a policy: {}", policy);
 
-      ServiceProvider serviceProvider = manage.getServiceProvider(policy.getServiceProviderId()).get();
+      ServiceProvider serviceProvider = manage.getServiceProvider(policy.getServiceProviderId(), EntityType.saml20_sp).get();
       LOG.debug("PolicyEnforcementDecisionRequired:" + serviceProvider.isPolicyEnforcementDecisionRequired());
       if (!serviceProvider.isPolicyEnforcementDecisionRequired()) {
         sendNewPolicyWithoutEnforcementDecisionEnabledEmail(policy, getCurrentUser());

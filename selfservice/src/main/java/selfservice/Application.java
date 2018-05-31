@@ -106,15 +106,14 @@ public class Application extends SpringBootServletInitializer {
   public Manage urlResourceServiceRegistry(
     @Value("${manage.username}") String username,
     @Value("${manage.password}") String password,
-    @Value("${manage.manageBaseUrl}") String manageBaseUrl,
-    @Value("${manage.period.refresh.minutes}") int period) throws IOException {
-    return new UrlResourceManage(username, password, manageBaseUrl, period);
+    @Value("${manage.manageBaseUrl}") String manageBaseUrl) {
+    return new UrlResourceManage(username, password, manageBaseUrl);
   }
 
   @Bean
   @Profile("dev")
   public Manage classPathServiceRegistry() throws Exception {
-    return new ClassPathResourceManage(true);
+    return new ClassPathResourceManage();
   }
 
   @Bean

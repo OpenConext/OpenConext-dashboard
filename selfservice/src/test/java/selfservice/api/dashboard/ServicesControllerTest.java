@@ -19,13 +19,16 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
+import selfservice.manage.EntityType;
 import selfservice.service.ActionsService;
 import selfservice.service.Services;
 import selfservice.manage.Manage;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
@@ -68,7 +71,7 @@ public class ServicesControllerTest {
   private final List<Service> services = asList(service);
 
   @Before
-  public void setup() {
+  public void setup() throws IOException {
     controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
     EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manageMock);
@@ -87,7 +90,7 @@ public class ServicesControllerTest {
 
     when(manageMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
     when(manageMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
-    when(servicesMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
+    when(servicesMock.getServicesForIdp(IDP_ENTITY_ID, Locale.ENGLISH)).thenReturn(services);
   }
 
   @After
@@ -97,7 +100,7 @@ public class ServicesControllerTest {
 
   @Test
   public void thatAllServicesAreReturned() throws Exception {
-    when(servicesMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
+    when(servicesMock.getServicesForIdp(IDP_ENTITY_ID, Locale.ENGLISH)).thenReturn(services);
 
     this.mockMvc.perform(get("/dashboard/api/services")
       .contentType(MediaType.APPLICATION_JSON)
@@ -109,9 +112,9 @@ public class ServicesControllerTest {
 
   @Test
   public void retrieveAService() throws Exception {
-    Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
+    Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-    when(servicesMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
+    when(servicesMock.getServiceByEntityId(SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -123,9 +126,9 @@ public class ServicesControllerTest {
 
   @Test
   public void retrieveAServiceShouldBeEnriched() throws Exception {
-    Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
+    Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-    when(servicesMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
+    when(servicesMock.getServiceByEntityId(SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -136,7 +139,7 @@ public class ServicesControllerTest {
 
   @Test
   public void retrieveANonExistingService() throws Exception {
-    when(servicesMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.empty());
+    when(servicesMock.getServiceByEntityId("nope", EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.empty());
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
