@@ -2,7 +2,7 @@ import React from "react";
 import I18n from "i18n-js";
 import SortableHeader from "../components/sortable_header";
 import Link from "react-router/Link";
-import {apiUrl, getApps, getFacets} from "../api";
+import {apiUrl, getApps} from "../api";
 import sort from "../utils/sort";
 
 import Facets from "../components/facets";
@@ -230,8 +230,10 @@ class AppOverview extends React.Component {
 
     renderConnectButton(app) {
         if (!app.connected) {
-            return <Link to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`} className="c-button narrow"
-                         onClick={e => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
+            return <Link
+                to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}
+                className="c-button narrow"
+                onClick={e => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
         }
         return null;
     }

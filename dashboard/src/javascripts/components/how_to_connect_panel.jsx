@@ -60,6 +60,7 @@ class HowToConnectPanel extends React.Component {
     }
 
     getPanelRoute(panel) {
+        const {app} = this.props;
         return `/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/${panel}`;
     }
 
@@ -312,7 +313,10 @@ class HowToConnectPanel extends React.Component {
         e.preventDefault();
         if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
             removeConnection(this.props.app, this.state.comments)
-                .then(action => this.setState({currentStep: "done-disconnect", action: action}, () => window.scrollTo(0, 0)))
+                .then(action => this.setState({
+                    currentStep: "done-disconnect",
+                    action: action
+                }, () => window.scrollTo(0, 0)))
                 .catch(() => this.setState({failed: true}));
         }
     }
