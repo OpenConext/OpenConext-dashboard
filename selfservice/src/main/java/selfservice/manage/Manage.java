@@ -82,8 +82,10 @@ public interface Manage {
 
     List<ServiceProvider> getGuestEnabledServiceProviders();
 
-    default ServiceProvider serviceProvider(Map<String, Object> map) {
-        return new ServiceProvider(map);
+    default ServiceProvider serviceProvider(Map<String, Object> map, EntityType entityType) {
+        ServiceProvider serviceProvider = new ServiceProvider(map);
+        serviceProvider.setExampleSingleTenant(entityType.equals(EntityType.single_tenant_template));
+        return serviceProvider;
     }
 
     default IdentityProvider identityProvider(Map<String, Object> map) {

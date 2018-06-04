@@ -170,7 +170,9 @@ public class ServicesController extends BaseController {
                                                      @RequestParam String spEntityId,
                                                      @RequestParam String entityType,
                                                      Locale locale) throws IOException {
-        return services.getServiceByEntityId(idpEntityId, spEntityId, EntityType.valueOf(entityType), locale)
+        Optional<Service> serviceByEntityId = services.getServiceByEntityId(idpEntityId, spEntityId, EntityType
+            .valueOf(entityType), locale);
+        return serviceByEntityId
             .map(this::removeExplicitlyUnusedArpLabels)
             .map(service -> ResponseEntity.ok(createRestResponse(service)))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

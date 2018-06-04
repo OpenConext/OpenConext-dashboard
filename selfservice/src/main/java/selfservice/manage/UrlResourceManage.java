@@ -63,10 +63,10 @@ public class UrlResourceManage implements Manage {
         List<Map<String, Object>> singleTenants = getMaps(getSingleTenantInputStream(body));
 
         List<ServiceProvider> serviceProviders = providers.stream().map(this::transformManageMetadata).map
-            (this::serviceProvider)
+            (sp -> this.serviceProvider(sp, EntityType.saml20_sp))
             .collect(Collectors.toList());
         List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata).map
-            (this::serviceProvider)
+            (sp -> this.serviceProvider(sp, EntityType.single_tenant_template))
             .collect(Collectors.toList());
         singleTenantsProviders.forEach(tenant -> tenant.setExampleSingleTenant(true));
         serviceProviders.addAll(singleTenantsProviders);
@@ -79,7 +79,7 @@ public class UrlResourceManage implements Manage {
         InputStream inputStream = type.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
             getSingleTenantInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
-        return providers.stream().map(this::transformManageMetadata).map(this::serviceProvider).findFirst();
+        return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, type)).findFirst();
     }
 
     @Override
@@ -121,7 +121,8 @@ public class UrlResourceManage implements Manage {
         String replaced = linkedQuery.replace("@@entityid@@", guestIdp);
         InputStream inputStream = searchSp(replaced);
         List<Map<String, Object>> providers = getMaps(inputStream);
-        return providers.stream().map(this::transformManageMetadata).map(this::serviceProvider)
+        return providers.stream().map(this::transformManageMetadata)
+            .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
             .collect(Collectors.toList());
 
     }
@@ -131,7 +132,8 @@ public class UrlResourceManage implements Manage {
         String body = bodyForInstitutionId.replace("@@institution_id@@", instituteId);
         InputStream inputStream = getSpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
-        return providers.stream().map(this::transformManageMetadata).map(this::serviceProvider)
+        return providers.stream().map(this::transformManageMetadata)
+            .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
             .collect(Collectors.toList());
     }
 

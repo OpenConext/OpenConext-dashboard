@@ -2,7 +2,6 @@ import React from "react";
 import I18n from "i18n-js";
 import SortableHeader from "../components/sortable_header";
 import Link from "react-router/Link";
-import spinner from "../lib/spin";
 import {apiUrl, getApps, getFacets} from "../api";
 import sort from "../utils/sort";
 

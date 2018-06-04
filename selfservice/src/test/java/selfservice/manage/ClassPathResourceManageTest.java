@@ -12,26 +12,22 @@ import static org.junit.Assert.*;
 //All functional tests reside in UrlResourceManageTest
 public class ClassPathResourceManageTest {
 
-  private ClassPathResourceManage subject =
-    new ClassPathResourceManage();
+  private ClassPathResourceManage subject = new ClassPathResourceManage();
 
   @Test
   public void testIdentityProviders() {
     List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
-    assertEquals(11, identityProviders.size());
+    assertEquals(194, identityProviders.size());
   }
 
   @Test
   public void testServiceProviders() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-    assertEquals(66, serviceProviders.size());
+    assertEquals(1280, serviceProviders.size());
 
     ServiceProvider surfcloud = serviceProviders.stream().filter(sp -> sp.getId()
-      .equals("https://mailer.pt-75.utr.surfcloud.nl")).findFirst().get();
-    assertEquals(17, surfcloud.getArp().getAttributes().size());
+      .equals("https://teams.surfconext.nl/shibboleth")).findFirst().get();
+    assertEquals(5, surfcloud.getArp().getAttributes().size());
 
-    ServiceProvider blackboard = serviceProviders.stream().filter(sp -> sp.getId()
-      .equals("https://dummy.blackboard.nl/Single-tenant-service_op-aanvraag")).findFirst().get();
-    assertEquals(4, blackboard.getArp().getAttributes().size());
   }
 }

@@ -78,7 +78,7 @@ public class ClassPathResourceManage implements Manage {
 
     @Override
     public List<ServiceProvider> getAllServiceProviders() {
-        Collection<ServiceProvider> allSPs = serviceProviderMap.values();
+        Collection<ServiceProvider> allSPs = new ArrayList<>(serviceProviderMap.values());
         allSPs.addAll(exampleSingleTenants.values());
         return new ArrayList<>(allSPs);
     }
@@ -98,11 +98,12 @@ public class ClassPathResourceManage implements Manage {
     private void initializeMetadata() {
         try {
             identityProviderMap = parseProviders(getIdpResource(), this::identityProvider);
-            serviceProviderMap = parseProviders(getSpResource(), this::serviceProvider);
+            serviceProviderMap = parseProviders(getSpResource(), sp -> this.serviceProvider(sp, EntityType.saml20_sp));
             long maxEid = serviceProviderMap.values().stream().max(Comparator.comparing(ServiceProvider::getEid)).get()
                 .getEid()
                 + 1L;
-            exampleSingleTenants = parseProviders(getSingleTenantResource(), this::serviceProvider);
+            exampleSingleTenants = parseProviders(getSingleTenantResource(),
+                sp -> this.serviceProvider(sp, EntityType.single_tenant_template));
             exampleSingleTenants.values().forEach(singleTenant -> {
                 singleTenant.setExampleSingleTenant(true);
                 singleTenant.setEid(singleTenant.getEid() + maxEid);
