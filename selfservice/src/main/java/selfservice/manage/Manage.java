@@ -28,10 +28,9 @@ public interface Manage {
     /**
      * Get a list of all available Service Providers for the given idpId.
      *
-     * @param idpId the IDP entity ID to filter on
      * @return list of {@link ServiceProvider}
      */
-    List<ServiceProvider> getAllServiceProviders(String idpId);
+    List<ServiceProvider> getAllServiceProviders();
 
     /**
      * Get a {@link ServiceProvider} by its entity ID, without a idpEntityId
@@ -39,7 +38,6 @@ public interface Manage {
      * @param spEntityId the entity id of the ServiceProvider
      * @return the {@link ServiceProvider} object.
      */
-    //TODO: add the idp entityId to set the linked property
     Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type);
 
     /**

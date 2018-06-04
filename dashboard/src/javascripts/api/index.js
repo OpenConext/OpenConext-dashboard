@@ -105,10 +105,6 @@ export function getUserData(redirect = "manual") {
     });
 }
 
-export function getFacets() {
-  return fetchJson("/facets");
-}
-
 export function getApps() {
   return fetchJson("/services");
 }

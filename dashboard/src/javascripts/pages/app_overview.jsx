@@ -31,11 +31,8 @@ class AppOverview extends React.Component {
   }
 
   componentWillMount() {
-    Promise.all([
-      getFacets().then(data => data.payload),
-      getApps().then(data => data.payload)
-    ]).then(data => {
-      const [facets, apps] = data;
+      getApps().then(data => {
+      const {facets, apps} = data.payload;
 
       // We need to sanitize the categories data for each app to ensure the facet totals are correct
       const unknown = {value: I18n.t("facets.unknown")};

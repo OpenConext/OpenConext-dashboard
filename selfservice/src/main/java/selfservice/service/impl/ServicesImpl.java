@@ -38,12 +38,25 @@ public class ServicesImpl implements Services {
 
     @Override
     public List<Service> getServicesForIdp(String idpEntityId, Locale locale) throws IOException {
-        List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders(idpEntityId);
-        return this.buildApiServices(allServiceProviders, locale.getLanguage());
+        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new
+            IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
+
+        List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
+        List<Service> services = allServiceProviders.stream().map(sp -> {
+            Service service = this.buildApiService(sp, locale.getLanguage());
+            boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider.getAllowedEntityIds().contains(sp.getId());
+            boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
+            service.setConnected(connectedToIdentityProvider && allowedBySp);
+            return service;
+        }).filter(service ->
+            !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId().equals
+                (identityProvider.getInstitutionId())))
+            .collect(toList());
+        return services;
     }
 
     @Override
-    public Optional<Service> getServiceByEntityId(String spEntityId, EntityType entityType, Locale locale) throws IOException {
+    public Optional<Service> getServiceByEntityId(String idpEntityId, String spEntityId, EntityType entityType, Locale locale) throws IOException {
         Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(spEntityId, entityType);
         return serviceProvider.map(sp -> this.buildApiService(sp, locale.getLanguage()));
     }
@@ -58,33 +71,6 @@ public class ServicesImpl implements Services {
     public List<Service> getGuestEnabledServiceProviders(Locale locale) throws IOException {
         return null;
     }
-
-//    public List<Service> getServicesForIdp(String idpEntityId) throws IOException {
-//        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId)
-//            .orElseThrow(() -> new IllegalArgumentException(String.format("No IdentityProvider known in Manage with name:" +
-//                " '%s'", idpEntityId)));
-//        boolean allowedAll = identityProvider.isAllowedAll();
-//        Set<String> allowedEntityIds = identityProvider.getAllowedEntityIds();
-//
-//        List<String> connectedServiceProviderIdentifiers = manage.getAllServiceProviders(idpEntityId).stream()
-//            .filter(sp -> sp.isLinked())
-//            .map(Provider::getId).collect(toList());
-//
-//        return servicesService.findAll(getLocale()).stream().filter(service -> {
-//            boolean isConnected = connectedServiceProviderIdentifiers.contains(service.getSpEntityId());
-//            boolean showForInstitution = showServiceForInstitution(identityProvider, service);
-//            return showForInstitution || isConnected;
-//        }).map(service -> {
-//            service.setConnected(connectedServiceProviderIdentifiers.contains(service.getSpEntityId()));
-//            return service;
-//        }).collect(toList());
-//    }
-//
-//    public List<Service> findAll(String idpEntityId, String lang) {
-//        List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders(idpEntityId);
-//
-//        return buildApiServices(allServiceProviders, lang);
-//    }
 
     private List<Service> buildApiServices(List<ServiceProvider> services, String language) {
         return services.stream().map(service -> buildApiService(service, language)).collect(Collectors.toList());
