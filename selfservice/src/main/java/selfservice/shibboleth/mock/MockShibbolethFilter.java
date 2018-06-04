@@ -68,7 +68,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
       String login = IOUtils.toString(new ClassPathResource("mockLogin.html").getInputStream());
       response.getWriter().write(login);
     } else {
-      String idp =  "http://mock-idp";
+      String idp =  "https://idp.surfnet.nl";
 
       req.getSession(true).setAttribute("mockShibbolethUser", userId);
       SetHeader wrapper = new SetHeader(req);

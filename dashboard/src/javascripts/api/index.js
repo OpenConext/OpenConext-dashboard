@@ -109,8 +109,8 @@ export function getApps() {
   return fetchJson("/services");
 }
 
-export function getApp(appId) {
-  return fetchJson(`/services/id/${appId}`);
+export function getApp(appId, type) {
+  return fetchJson(`/services/detail?spEntityId=${appId}&entityType=${type}`);
 }
 
 export function getIdps(spEntityId) {
@@ -162,23 +162,19 @@ export function getActions() {
 }
 
 export function makeConnection(app, comments) {
-  return fetchPost(`/services/id/${app.id}/connect`, {comments: comments, spEntityId: app.spEntityId})
+  return fetchPost(`/services/connect`, {comments: comments, spEntityId: app.spEntityId})
     .then(parseJson)
     .then(json => json.payload);
 }
 
 export function removeConnection(app, comments) {
-  return fetchPost(`/services/id/${app.id}/disconnect`, {comments: comments, spEntityId: app.spEntityId})
+  return fetchPost(`/services/disconnect`, {comments: comments, spEntityId: app.spEntityId})
     .then(parseJson)
     .then(json => json.payload);
 }
 
 export function getIdpRolesWithUsers() {
   return fetchJson("/idp/current/roles");
-}
-
-export function getLicenseContactPerson() {
-  return fetchJson("/idp/licensecontactpersons");
 }
 
 export function getIdpsForSuper() {

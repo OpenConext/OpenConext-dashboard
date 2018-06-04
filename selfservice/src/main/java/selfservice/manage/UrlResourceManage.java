@@ -16,6 +16,8 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +34,11 @@ public class UrlResourceManage implements Manage {
 
     private String requestedAttributes = "\"state\":\"prodaccepted\",\"ALL_ATTRIBUTES\":true";
     private String body = "{" + requestedAttributes + "}";
-    private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", \"" + requestedAttributes + "}";
+    private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
     private String bodyForInstitutionId = "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", " +
         requestedAttributes + "}";
 
-    private String linkedIdpsQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
+    private String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
         ".allowedall\": true}]}, {\"data.state\":\"prodaccepted\"}]}";
 
     public UrlResourceManage(
@@ -57,13 +59,14 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public List<ServiceProvider> getAllServiceProviders() {
-        InputStream inputStream = searchSp(body);
-        List<Map<String, Object>> providers = getMaps(inputStream);
-        List<Map<String, Object>> singleTenants = getMaps(getSingleTenantInputStream(requestedAttributes));
+        List<Map<String, Object>> providers = getMaps(getSpInputStream(body));
+        List<Map<String, Object>> singleTenants = getMaps(getSingleTenantInputStream(body));
 
-        List<ServiceProvider> serviceProviders = providers.stream().map(this::transformManageMetadata).map(this::serviceProvider)
+        List<ServiceProvider> serviceProviders = providers.stream().map(this::transformManageMetadata).map
+            (this::serviceProvider)
             .collect(Collectors.toList());
-        List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata).map(this::serviceProvider)
+        List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata).map
+            (this::serviceProvider)
             .collect(Collectors.toList());
         singleTenantsProviders.forEach(tenant -> tenant.setExampleSingleTenant(true));
         serviceProviders.addAll(singleTenantsProviders);
@@ -98,7 +101,7 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public List<IdentityProvider> getAllIdentityProviders() {
-        InputStream inputStream = getSpInputStream(body);
+        InputStream inputStream = getIdpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
             .collect(Collectors.toList());
@@ -106,17 +109,21 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public List<IdentityProvider> getLinkedIdentityProviders(String spId) {
-        String replaced = linkedIdpsQuery.replace("@@entityid@", spId);
+        String replaced = linkedQuery.replace("@@entityid@@", spId);
         InputStream inputStream = searchIdp(replaced);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
             .collect(Collectors.toList());
-
     }
 
     @Override
-    public List<ServiceProvider> getLinkedServiceProviderIDs(String idpId) {
-        return null;
+    public List<ServiceProvider> getGuestEnabledServiceProviders() {
+        String replaced = linkedQuery.replace("@@entityid@@", guestIdp);
+        InputStream inputStream = searchSp(replaced);
+        List<Map<String, Object>> providers = getMaps(inputStream);
+        return providers.stream().map(this::transformManageMetadata).map(this::serviceProvider)
+            .collect(Collectors.toList());
+
     }
 
     @Override
@@ -154,17 +161,22 @@ public class UrlResourceManage implements Manage {
 
     private InputStream searchSp(String query) {
         LOG.debug("Quering SP metadata entries from {} with query {}", manageBaseUrl, body);
-        String url = UriComponentsBuilder.fromHttpUrl(manageBaseUrl + "/manage/api/internal/search/saml20_sp")
+        String url = UriComponentsBuilder.fromHttpUrl(manageBaseUrl + "/manage/api/internal/rawSearch/saml20_sp")
             .queryParam("query", query).toUriString();
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
-                new HttpEntity<>(this.httpHeaders), byte[].class);
+            new HttpEntity<>(this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 
     private InputStream searchIdp(String query) {
         LOG.debug("Quering IdP metadata entries from {} with query {}", manageBaseUrl, body);
-        String url = UriComponentsBuilder.fromHttpUrl(manageBaseUrl + "/manage/api/internal/search/saml20_idp")
-            .queryParam("query", query).toUriString();
+        String url;
+        try {
+            url = manageBaseUrl + "/manage/api/internal/rawSearch/saml20_idp?query=" + URLEncoder.encode(query,
+                "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException(e);
+        }
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
             new HttpEntity<>(this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));

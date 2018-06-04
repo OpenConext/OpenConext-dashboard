@@ -137,6 +137,7 @@ I18n.translations.en = {
       license_unknown: "Unknown",
       name: "Service",
       no_results: "No services available",
+      processing_results: "Processing all services...",
       search: "Search",
       search_hint: "Filter by name",
     },
@@ -157,7 +158,8 @@ I18n.translations.en = {
   license_info_panel: {
     title: "License information",
     has_license_surfmarket_html: "There is a valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
-    has_license_sp_html: "A license for  <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}} can be acquired from the supplier of this service</a>.",
+    has_license_sp_html: "A license for <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> can be acquired from the supplier of this service.",
+    has_license_sp_html_no_service_url: "A license for {{serviceName}} can be acquired from the supplier of this service.",
     no_license_html: "Your institution has no valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
     not_needed_html: "This Service does not require a license.",
     unknown_license: "It is unknown whether a license is required or not.",

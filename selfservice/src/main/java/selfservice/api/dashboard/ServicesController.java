@@ -99,9 +99,9 @@ public class ServicesController extends BaseController {
     }
 
     @RequestMapping(value = "/idps")
-    public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(@RequestHeader(HTTP_X_IDP_ENTITY_ID)
-                                                                                    String idpEntityId, @RequestParam
-        String spEntityId) {
+    public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(
+        @RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+        @RequestParam String spEntityId) {
         List<InstitutionIdentityProvider> idps = manage.getLinkedIdentityProviders(spEntityId).stream()
             .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
                 idp.getName(Provider.Language.NL), idp.getInstitutionId()))
@@ -112,9 +112,10 @@ public class ServicesController extends BaseController {
 
 
     @RequestMapping(value = "/download")
-    public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId, @RequestParam("ids") String
-        idCommaSeperated,
-                                         Locale locale, HttpServletResponse response) throws IOException {
+    public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId,
+                                         @RequestParam("ids") String idCommaSeperated,
+                                         Locale locale,
+                                         HttpServletResponse response) throws IOException {
         List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
         List<Long> ids = Arrays.asList(idCommaSeperated.split(",")).stream().map(s -> Long.valueOf(s.trim())).collect
             (toList());
@@ -164,10 +165,10 @@ public class ServicesController extends BaseController {
         return services.stream().filter(service -> service.getId() == id).findFirst();
     }
 
-    @RequestMapping(value = "/id/{id}/{entityType}")
+    @RequestMapping(value = "/detail")
     public ResponseEntity<RestResponse<Service>> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                     @PathVariable String spEntityId,
-                                                     @PathVariable String entityType,
+                                                     @RequestParam String spEntityId,
+                                                     @RequestParam String entityType,
                                                      Locale locale) throws IOException {
         return services.getServiceByEntityId(idpEntityId, spEntityId, EntityType.valueOf(entityType), locale)
             .map(this::removeExplicitlyUnusedArpLabels)
@@ -185,12 +186,11 @@ public class ServicesController extends BaseController {
         return service;
     }
 
-    @RequestMapping(value = "/id/{id}/connect", method = RequestMethod.POST)
+    @RequestMapping(value = "/connect", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Action>> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                         @RequestParam(value = "comments", required = false) String
                                                             comments,
                                                         @RequestParam(value = "spEntityId") String spEntityId,
-                                                        @PathVariable String id,
                                                         Locale locale) throws IOException {
 
         return createAction(idpEntityId, comments, spEntityId, Action.Type.LINKREQUEST, locale)
@@ -198,12 +198,11 @@ public class ServicesController extends BaseController {
             .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
-    @RequestMapping(value = "/id/{id}/disconnect", method = RequestMethod.POST)
+    @RequestMapping(value = "/disconnect", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Action>> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                            @RequestParam(value = "comments", required = false) String
                                                                comments,
                                                            @RequestParam(value = "spEntityId") String spEntityId,
-                                                           @PathVariable String id,
                                                            Locale locale) throws IOException {
 
         return createAction(idpEntityId, comments, spEntityId, Action.Type.UNLINKREQUEST, locale)

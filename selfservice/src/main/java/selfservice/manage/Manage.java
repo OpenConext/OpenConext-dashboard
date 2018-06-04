@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toSet;
 
 public interface Manage {
 
+    String guestIdp = "https://www.onegini.me";
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -79,12 +80,7 @@ public interface Manage {
      */
     List<IdentityProvider> getLinkedIdentityProviders(String spId);
 
-    /**
-     * Get a list of all ServiceProviders that are connected to this IdP
-     *
-     * @return List&lt;ServiceProviders&gt;
-     */
-    List<ServiceProvider> getLinkedServiceProviderIDs(String idpId);
+    List<ServiceProvider> getGuestEnabledServiceProviders();
 
     default ServiceProvider serviceProvider(Map<String, Object> map) {
         return new ServiceProvider(map);

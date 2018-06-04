@@ -67,42 +67,20 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public List<ServiceProvider> getLinkedServiceProviderIDs(String idpId) {
-        Optional<IdentityProvider> optional = getIdentityProvider(idpId);
+    public List<ServiceProvider> getGuestEnabledServiceProviders() {
+        Optional<IdentityProvider> optional = getIdentityProvider(guestIdp);
         if (!optional.isPresent()) {
             return Collections.emptyList();
         }
-        IdentityProvider identityProvider = optional.get();
-        if (identityProvider.isAllowedAll()) {
             return serviceProviderMap.values().stream().filter(sp ->
-                sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpId)).collect(toList());
-        } else {
-            return serviceProviderMap.values().stream().filter(sp ->
-                identityProvider.getAllowedEntityIds().contains(sp.getId())).collect(toList());
-        }
+                sp.isAllowedAll() || sp.getAllowedEntityIds().contains(guestIdp)).collect(toList());
     }
 
     @Override
-    public List<ServiceProvider> getAllServiceProviders(String idpId) {
+    public List<ServiceProvider> getAllServiceProviders() {
         Collection<ServiceProvider> allSPs = serviceProviderMap.values();
-
-        List<String> myLinkedSPs = getLinkedServiceProviderIDs(idpId).stream().map(ServiceProvider::getId).collect
-            (toList());
-
-        List<ServiceProvider> filteredList = new ArrayList<>();
-        for (ServiceProvider sp : allSPs) {
-            if (myLinkedSPs.contains(sp.getId())) {
-                // an already linked SP is visible
-                ServiceProvider clone = sp.clone();
-                clone.setLinked(true);
-                filteredList.add(clone);
-            } else if (!sp.isIdpVisibleOnly()) {
-                // Not-linked sps are only visible if 'idp visible only' is not true.
-                filteredList.add(sp);
-            }
-        }
-        filteredList.addAll(exampleSingleTenants.values());
-        return filteredList;
+        allSPs.addAll(exampleSingleTenants.values());
+        return new ArrayList<>(allSPs);
     }
 
     @Override

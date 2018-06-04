@@ -2,13 +2,9 @@ package selfservice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
 import selfservice.domain.IdentityProvider;
-import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
 import selfservice.domain.csa.ContactPerson;
@@ -17,14 +13,12 @@ import selfservice.manage.EntityType;
 import selfservice.manage.Manage;
 import selfservice.service.Services;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -37,39 +31,50 @@ public class ServicesImpl implements Services {
     private Manage manage;
 
     @Override
-    public List<Service> getServicesForIdp(String idpEntityId, Locale locale) throws IOException {
+    public List<Service> getServicesForIdp(String idpEntityId, Locale locale) {
         IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new
             IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
 
         List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
         List<Service> services = allServiceProviders.stream().map(sp -> {
             Service service = this.buildApiService(sp, locale.getLanguage());
-            boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider.getAllowedEntityIds().contains(sp.getId());
+            boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
+                .getAllowedEntityIds().contains(sp.getId());
             boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
             service.setConnected(connectedToIdentityProvider && allowedBySp);
             return service;
-        }).filter(service ->
-            !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId().equals
-                (identityProvider.getInstitutionId())))
+        }).filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
+            (service.getInstitutionId() != null &&service.getInstitutionId().equals(identityProvider.getInstitutionId())))
             .collect(toList());
         return services;
     }
 
     @Override
-    public Optional<Service> getServiceByEntityId(String idpEntityId, String spEntityId, EntityType entityType, Locale locale) throws IOException {
+    public Optional<Service> getServiceByEntityId(String idpEntityId, String spEntityId, EntityType entityType,
+                                                  Locale locale) {
         Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(spEntityId, entityType);
-        return serviceProvider.map(sp -> this.buildApiService(sp, locale.getLanguage()));
+        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new
+            IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
+        return serviceProvider.map(sp -> {
+            boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
+                .getAllowedEntityIds().contains(sp.getId());
+            boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
+            Service service = this.buildApiService(sp, locale.getLanguage());
+            service.setConnected(connectedToIdentityProvider && allowedBySp);
+            return service;
+        });
     }
 
     @Override
-    public List<Service> getInstitutionalServicesForIdp(String institutionId, Locale locale) throws IOException {
+    public List<Service> getInstitutionalServicesForIdp(String institutionId, Locale locale) {
         List<ServiceProvider> institutionalServicesForIdp = manage.getInstitutionalServicesForIdp(institutionId);
         return this.buildApiServices(institutionalServicesForIdp, locale.getLanguage());
     }
 
     @Override
-    public List<Service> getGuestEnabledServiceProviders(Locale locale) throws IOException {
-        return null;
+    public List<Service> getGuestEnabledServiceProviders(Locale locale) {
+        List<ServiceProvider> guestEnabledServiceProviders = manage.getGuestEnabledServiceProviders();
+        return this.buildApiServices(guestEnabledServiceProviders, locale.getLanguage());
     }
 
     private List<Service> buildApiServices(List<ServiceProvider> services, String language) {
@@ -153,9 +158,11 @@ public class ServicesImpl implements Services {
     }
 
     private void categories(ServiceProvider sp, Service service, String locale) {
-        // Categories - the category values need to be either in nl or en (as the facet and facet_values are based on the language setting)
+        // Categories - the category values need to be either in nl or en (as the facet and facet_values are based on
+        // the language setting)
         List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : sp.getTypeOfServicesNl();
-        Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", typeOfServices.stream().map
+        Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", typeOfServices
+            .stream().map
             (CategoryValue::new).collect(toList()));
         service.setCategories(Collections.singletonList(category));
     }
@@ -171,7 +178,7 @@ public class ServicesImpl implements Services {
     /*
      * If a Service is idpOnly then we do want to show it as the institutionId matches that of the Idp, meaning that
      * an admin from Groningen can see the services offered by Groningen also when they are marked idpOnly - which is
-      * often the
+     * often the
      * case for services offered by universities
      */
     private boolean showServiceForInstitution(IdentityProvider identityProvider, Service service) {

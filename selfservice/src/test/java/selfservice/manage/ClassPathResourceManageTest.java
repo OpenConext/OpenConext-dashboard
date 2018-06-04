@@ -23,7 +23,7 @@ public class ClassPathResourceManageTest {
 
   @Test
   public void testServiceProviders() {
-    List<ServiceProvider> serviceProviders = subject.getAllServiceProviders("TODO");
+    List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
     assertEquals(66, serviceProviders.size());
 
     ServiceProvider surfcloud = serviceProviders.stream().filter(sp -> sp.getId()

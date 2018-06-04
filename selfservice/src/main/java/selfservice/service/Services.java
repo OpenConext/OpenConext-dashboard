@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface Services {
 
-    String guestIdp = "https://www.onegini.me";
-
     List<Service> getServicesForIdp(String idpEntityId, Locale locale) throws IOException;
 
     Optional<Service> getServiceByEntityId(String idpEntityId, String spEntityId, EntityType entityType,

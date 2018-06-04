@@ -46,7 +46,7 @@ class LicenseInfo extends React.Component {
     if (this.props.showLinks) {
       link = (
         <p>
-          <Link to={`/apps/${this.props.app.id}/license_info`}>{I18n.t("license_info.license_info")}</Link>
+          <Link to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/license_info`}>{I18n.t("license_info.license_info")}</Link>
         </p>
       );
     }
@@ -73,7 +73,7 @@ class LicenseInfo extends React.Component {
     if (this.props.showLinks) {
       link = (
         <p>
-          <Link to={`/apps/${this.props.app.id}/license_info`}>{I18n.t("license_info.license_unknown_info")}</Link>
+          <Link to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/license_info`}>{I18n.t("license_info.license_unknown_info")}</Link>
         </p>
       );
     }

@@ -56,7 +56,7 @@ class AppDetail extends React.Component {
   }
 
   componentWillMount() {
-    getApp(this.props.params.id).then(data => {
+    getApp(this.props.params.id, this.props.params.type).then(data => {
       const app = data.payload;
       if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
         this.panelMap = {
@@ -131,7 +131,7 @@ class AppDetail extends React.Component {
     const panel = this.panelMap[panelKey];
     return (
       <li key={panelKey}>
-        <Link to={`/apps/${this.props.params.id}/${panelKey}`}
+        <Link to={`/apps/${this.props.params.id}/${this.props.params.type}/${panelKey}`}
               className={panelKey === this.props.params.activePanel ? "current" : ""}>
           <i className={"fa " + panel.icon}></i>
           {I18n.t("apps.detail." + key)}

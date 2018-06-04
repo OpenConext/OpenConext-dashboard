@@ -114,7 +114,7 @@ public class ServicesControllerTest {
   public void retrieveAService() throws Exception {
     Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-    when(servicesMock.getServiceByEntityId(SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.of(service));
+    when(servicesMock.getServiceByEntityId(IDP_ENTITY_ID, SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -128,7 +128,7 @@ public class ServicesControllerTest {
   public void retrieveAServiceShouldBeEnriched() throws Exception {
     Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-    when(servicesMock.getServiceByEntityId(SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.of(service));
+    when(servicesMock.getServiceByEntityId(IDP_ENTITY_ID, SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.of(service));
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -139,7 +139,7 @@ public class ServicesControllerTest {
 
   @Test
   public void retrieveANonExistingService() throws Exception {
-    when(servicesMock.getServiceByEntityId("nope", EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.empty());
+    when(servicesMock.getServiceByEntityId(IDP_ENTITY_ID,"nope", EntityType.saml20_sp, Locale.ENGLISH)).thenReturn(Optional.empty());
 
     this.mockMvc.perform(get("/dashboard/api/services/id/11")
       .contentType(MediaType.APPLICATION_JSON)

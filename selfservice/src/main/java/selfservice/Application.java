@@ -79,7 +79,7 @@ public class Application {
     }
 
     @Bean
-    @Profile("!dev")
+//    @Profile("!dev")
     public Manage urlResourceServiceRegistry(
         @Value("${manage.username}") String username,
         @Value("${manage.password}") String password,
@@ -87,11 +87,11 @@ public class Application {
         return new UrlResourceManage(username, password, manageBaseUrl);
     }
 
-    @Bean
-    @Profile("dev")
-    public Manage classPathServiceRegistry() throws Exception {
-        return new ClassPathResourceManage();
-    }
+//    @Bean
+//    @Profile("dev")
+//    public Manage classPathServiceRegistry() throws Exception {
+//        return new ClassPathResourceManage();
+//    }
 
     @Bean
     @Profile("!dev")

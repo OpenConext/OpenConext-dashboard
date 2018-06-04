@@ -58,9 +58,9 @@ class App extends React.Component {
           </div>
 
           <MatchStartRoute/>
-          <Match exactly pattern="/apps/:id/:activePanel" component={AppDetail}/>
-          <Match exactly pattern="/apps/:id" render={({params: {id}}) => {
-            return <Redirect to={`/apps/${id}/overview`}/>;
+          <Match exactly pattern="/apps/:id/:type/:activePanel" component={AppDetail}/>
+          <Match exactly pattern="/apps/:id/:type" render={({params: {id,type}}) => {
+              return <Redirect to={`/apps/${id}/${type}/overview`}/>;
           }}/>
           <Match exactly pattern="/apps" component={AppOverview}/>
           <Match exactly pattern="/policies" component={PolicyOverview}/>

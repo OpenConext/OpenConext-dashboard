@@ -44,7 +44,6 @@
   </scm>
 
   <properties>
-    <ehcache.version>2.6.11</ehcache.version>
     <guava.version>19.0</guava.version>
     <java.version>1.8</java.version>
     <spring-security-oauth2.version>2.0.9.RELEASE</spring-security-oauth2.version>

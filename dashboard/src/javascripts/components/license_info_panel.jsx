@@ -25,7 +25,9 @@ class LicenseInfoPanel extends React.Component {
     case "HAS_LICENSE_SURFMARKET":
       return this.renderHasLicense(I18n.t("license_info_panel.has_license_surfmarket_html")) ;
     case "HAS_LICENSE_SP":
-      return this.renderHasLicense(I18n.t("license_info_panel.has_license_sp_html", { serviceName: this.props.app.name , serviceUrl: this.props.app.serviceUrl })) ;
+      const html = this.props.app.serviceUrl ?  I18n.t("license_info_panel.has_license_sp_html", { serviceName: this.props.app.name , serviceUrl: this.props.app.serviceUrl }):
+          I18n.t("license_info_panel.has_license_sp_html_no_service_url", { serviceName: this.props.app.name });
+      return this.renderHasLicense() ;
     case "NO_LICENSE":
       return this.renderNoLicense();
     case "NOT_NEEDED":

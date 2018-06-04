@@ -47,7 +47,7 @@ public class PdpServiceMock implements PdpService {
     }
 
     @Override
-    public Policy create(Policy policy)  {
+    public Policy create(Policy policy) {
         policies.values().stream().filter(p -> p.getName().equals(policy.getName())).findAny().ifPresent(duplicate -> {
             throw new PolicyNameNotUniqueException(String.format("Policy name '%s' already exists", policy.getName()));
         });
@@ -60,7 +60,7 @@ public class PdpServiceMock implements PdpService {
     }
 
     @Override
-    public Policy update(Policy policy)  {
+    public Policy update(Policy policy) {
         Policy updatedPolicy = updatePolicy(policy);
         policies.put(policy.getId(), updatedPolicy);
         return policy;
@@ -87,7 +87,7 @@ public class PdpServiceMock implements PdpService {
         return true;
     }
 
-    private Policy savePolicy(Policy policy)  {
+    private Policy savePolicy(Policy policy) {
         Long id = policies.keySet().stream().max(Long::compare).map(l -> l + 1).orElse(1L);
 
         try {
@@ -96,7 +96,8 @@ public class PdpServiceMock implements PdpService {
                 .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
                 .withCreated(String.valueOf(System.currentTimeMillis()))
                 .withActionsAllowed(true)
-                .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(),EntityType.saml20_sp, Locale.ENGLISH)
+                .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
+                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
                     .map(Service::getName)
                     .orElse("????"))
                 .build();
@@ -105,7 +106,7 @@ public class PdpServiceMock implements PdpService {
         }
     }
 
-    private Policy updatePolicy(Policy policy)  {
+    private Policy updatePolicy(Policy policy) {
         try {
             return PolicyBuilder.of(policy)
                 .withId(policy.getId())
@@ -114,7 +115,8 @@ public class PdpServiceMock implements PdpService {
                 .withActionsAllowed(true)
                 .withRevisionNbr(policy.getRevisionNbr() + 1)
                 .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
-                .withServiceProviderName(services.getServiceByEntityId(policy.getServiceProviderId(),EntityType.saml20_sp, Locale.ENGLISH)
+                .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
+                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
                     .map(Service::getName)
                     .orElse("????"))
                 .build();
