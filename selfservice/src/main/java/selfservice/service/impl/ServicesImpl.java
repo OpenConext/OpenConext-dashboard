@@ -71,12 +71,6 @@ public class ServicesImpl implements Services {
         return this.buildApiServices(institutionalServicesForIdp, locale.getLanguage());
     }
 
-    @Override
-    public List<Service> getGuestEnabledServiceProviders(Locale locale) {
-        List<ServiceProvider> guestEnabledServiceProviders = manage.getGuestEnabledServiceProviders();
-        return this.buildApiServices(guestEnabledServiceProviders, locale.getLanguage());
-    }
-
     private List<Service> buildApiServices(List<ServiceProvider> services, String language) {
         return services.stream().map(service -> buildApiService(service, language)).collect(Collectors.toList());
     }
@@ -123,6 +117,8 @@ public class ServicesImpl implements Services {
         service.setMotivations(sp.getArpMotivations());
         service.setNormenkaderPresent(sp.getPrivacyInfo().isGdprIsInWiki());
         service.setAansluitovereenkomstRefused(sp.isAansluitovereenkomstRefused());
+        service.setGuestEnabled(sp.isAllowedAll() ||
+            (sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp)));
     }
 
     private String mailOfContactPerson(ContactPerson contactPerson) {

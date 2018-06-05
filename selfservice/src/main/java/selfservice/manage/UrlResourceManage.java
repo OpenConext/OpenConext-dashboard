@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import selfservice.domain.IdentityProvider;
@@ -75,6 +76,9 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type) {
+        if (StringUtils.isEmpty(spEntityId)) {
+            return Optional.empty();
+        }
         String body = bodyForEntity.replace("@@entityid@@", spEntityId);
         InputStream inputStream = type.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
             getSingleTenantInputStream(body);
@@ -84,6 +88,9 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public Optional<IdentityProvider> getIdentityProvider(String idpEntityId) {
+        if (StringUtils.isEmpty(idpEntityId)) {
+            return Optional.empty();
+        }
         String body = bodyForEntity.replace("@@entityid@@", idpEntityId);
         InputStream inputStream = getIdpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
@@ -114,17 +121,6 @@ public class UrlResourceManage implements Manage {
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
             .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ServiceProvider> getGuestEnabledServiceProviders() {
-        String replaced = linkedQuery.replace("@@entityid@@", guestIdp);
-        InputStream inputStream = searchSp(replaced);
-        List<Map<String, Object>> providers = getMaps(inputStream);
-        return providers.stream().map(this::transformManageMetadata)
-            .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
-            .collect(Collectors.toList());
-
     }
 
     @Override

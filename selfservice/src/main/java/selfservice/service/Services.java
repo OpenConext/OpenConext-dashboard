@@ -17,6 +17,4 @@ public interface Services {
 
     List<Service> getInstitutionalServicesForIdp(String institutionId, Locale locale) throws IOException;
 
-    List<Service> getGuestEnabledServiceProviders(Locale locale) throws IOException;
-
 }

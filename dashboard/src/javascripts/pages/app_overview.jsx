@@ -124,7 +124,7 @@ class AppOverview extends React.Component {
                             </thead>
                             <tbody>
                             {filteredApps.length > 0 ? sort(filteredApps, sortAttribute, sortAscending)
-                                .map(app => this.renderApp(app)) : search === "" ? this.renderProcessing() : this.renderEmpty()}
+                                .map((app, index) => this.renderApp(app, index)) : search === "" ? this.renderProcessing() : this.renderEmpty()}
                             </tbody>
                         </table>
                     </div>
@@ -163,11 +163,11 @@ class AppOverview extends React.Component {
         );
     }
 
-    renderApp(app) {
+    renderApp(app, index) {
         const {currentUser} = this.context;
         const connect = currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId;
         return (
-            <tr key={app.id} onClick={e => this.handleShowAppDetail(e, app)}>
+            <tr key={index} onClick={e => this.handleShowAppDetail(e, app)}>
                 <td><Link
                     to={`apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`}
                     onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>

@@ -80,12 +80,6 @@ public class UsersController extends BaseController {
     return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/me/guest-enabled-services", method = RequestMethod.GET)
-  public RestResponse<List<Service>> guestEnabledServiceProviders(Locale locale) throws IOException {
-    List<Service> usersServices = fetchGuestEnabledServiceProviders(locale);
-    return createRestResponse(usersServices);
-  }
-
   @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
   public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
     List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
@@ -102,11 +96,6 @@ public class UsersController extends BaseController {
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
       : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
   }
-
-  private List<Service> fetchGuestEnabledServiceProviders(Locale locale) throws IOException {
-    return services.getGuestEnabledServiceProviders(locale);
-  }
-
 
   @RequestMapping("/me/switch-to-idp")
   public ResponseEntity<Void> currentIdp(
@@ -175,16 +164,15 @@ public class UsersController extends BaseController {
       }
     }
     List<Service> serviceProviders = this.getServiceProvidersForCurrentUser(locale);
-    List<Service> services = this.fetchGuestEnabledServiceProviders(locale);
 
     settings.getServiceProviderSettings().forEach(sp -> {
       Optional<Service> first = serviceProviders.stream().filter(service -> service.getSpEntityId().equals(sp
         .getSpEntityId())).findFirst();
       first.ifPresent(service -> {
-        boolean guestEnabled = services.stream().anyMatch(s -> s.getSpEntityId().equals(service.getSpEntityId()));
-        if (sp.isHasGuestEnabled() != guestEnabled) {
-          changes.add(new Change(sp.getSpEntityId(), "Guest Login Enabled", Boolean.toString(guestEnabled), Boolean
-            .toString(sp.isHasGuestEnabled())));
+        if (sp.isHasGuestEnabled() != service.isGuestEnabled()) {
+          changes.add(new Change(sp.getSpEntityId(), "Guest Login Enabled",
+              Boolean.toString(service.isGuestEnabled()),
+              Boolean.toString(sp.isHasGuestEnabled())));
         }
         if (sp.isNoConsentRequired() != service.isNoConsentRequired()) {
           changes.add(new Change(sp.getSpEntityId(), "coin:no_consent_required",

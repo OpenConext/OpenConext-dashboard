@@ -4,7 +4,7 @@ import Link from "react-router/Link";
 import Flash from "../components/flash";
 import moment from "moment";
 
-import {getGuestEnabledServices, getIdpRolesWithUsers, getInstitutionServiceProviders} from "../api";
+import {getIdpRolesWithUsers, getInstitutionServiceProviders} from "../api";
 
 class MyIdp extends React.Component {
   constructor() {
@@ -12,22 +12,13 @@ class MyIdp extends React.Component {
 
     this.state = {
       roles: {},
-      licenseContactPersons: [],
-      institutionServiceProviders: [],
-      guestEnabledServices: []
+      institutionServiceProviders: []
     };
   }
 
   componentWillMount() {
-    getIdpRolesWithUsers().then(data => {
-      this.setState({ roles: data.payload });
-    });
-    // getLicenseContactPerson().then(data => {
-    //   this.setState({ licenseContactPersons: data.payload });
-    // });
-
+    getIdpRolesWithUsers().then(data => this.setState({ roles: data.payload }));
     getInstitutionServiceProviders().then(data => this.setState({ institutionServiceProviders: data.payload }));
-    getGuestEnabledServices().then(data => this.setState({ guestEnabledServices: data.payload }));
   }
 
   render() {
@@ -40,7 +31,6 @@ class MyIdp extends React.Component {
 
           <p dangerouslySetInnerHTML={{ __html: I18n.t("my_idp.sub_title_html") }}></p>
           {this.renderRoles(roles)}
-          {this.renderLicenseContactPersons(this.state.licenseContactPersons)}
 
           <h1>{ I18n.t("my_idp.settings") }</h1>
           { this.renderIdpFields() }
@@ -63,7 +53,6 @@ class MyIdp extends React.Component {
   }
 
   renderService(service) {
-    const hasGuestEnabled = this.state.guestEnabledServices.find(s => s.id === service.id) != null;
     return (
       <div key={service.id}>
         <h2><a href={`/apps/${service.id}/overview`}>{ service.name }</a></h2>
@@ -101,7 +90,7 @@ class MyIdp extends React.Component {
             }
             <tr>
               <td>{ I18n.t("my_idp.guest_enabled") }</td>
-              <td>{ hasGuestEnabled ? I18n.t("boolean.yes") : I18n.t("boolean.no") }</td>
+              <td>{ service.guestEnabled ? I18n.t("boolean.yes") : I18n.t("boolean.no") }</td>
             </tr>
             <tr>
               <td>{ I18n.t("my_idp.no_consent_required") }</td>
@@ -160,7 +149,6 @@ class MyIdp extends React.Component {
           </tbody>
         </table>
 
-        { this.renderContactPersons(null) }
       </div>
     );
   }
@@ -200,75 +188,6 @@ class MyIdp extends React.Component {
     );
   }
 
-  renderLicenseContactPerson(licenseContactPerson) {
-    return (
-      <tr key={licenseContactPerson.email}>
-        <td>{licenseContactPerson.name}</td>
-        <td>{licenseContactPerson.email}</td>
-        <td>{licenseContactPerson.phone}</td>
-      </tr>
-    );
-  }
-
-  renderLicenseContactPersons(licenseContactPersons) {
-    if (licenseContactPersons && licenseContactPersons.length > 0) {
-      return (
-        <div>
-          <p className="next" dangerouslySetInnerHTML={{ __html: I18n.t("my_idp.license_contact_html") }}></p>
-          <table>
-            <thead>
-            <tr>
-              <th className="percent_35">{I18n.t("my_idp.license_contact_name")}</th>
-              <th className="percent_35">{I18n.t("my_idp.license_contact_email")}</th>
-              <th className="percent_35">{I18n.t("my_idp.license_contact_phone")}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {licenseContactPersons.map(this.renderLicenseContactPerson.bind(this))}
-            </tbody>
-          </table>
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  renderContactPersons(contactPersons) {
-    if (contactPersons && contactPersons.length > 0) {
-      return (
-        <div>
-          <h2>{ I18n.t("my_idp.contact") }</h2>
-          <table>
-            <thead>
-            <tr>
-              <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
-              <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
-              <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
-              <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {contactPersons.map(this.renderContactPerson.bind(this))}
-            </tbody>
-          </table>
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  renderContactPerson(contactPerson, i) {
-    return (
-      <tr key={i}>
-        <td>{contactPerson.name}</td>
-        <td>{contactPerson.emailAddress}</td>
-        <td>{contactPerson.telephoneNumber}</td>
-        <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType) }</td>
-      </tr>
-    );
-  }
 }
 
 MyIdp.contextTypes = {

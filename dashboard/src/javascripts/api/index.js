@@ -125,10 +125,6 @@ export function getInstitutionServiceProviders() {
     return fetchJson("/users/me/serviceproviders");
 }
 
-export function getGuestEnabledServices() {
-    return fetchJson("/users/me/guest-enabled-services");
-}
-
 export function getConnectedServiceProviders(idpId) {
     return fetchJson("/services/connected", {
         "headers": {

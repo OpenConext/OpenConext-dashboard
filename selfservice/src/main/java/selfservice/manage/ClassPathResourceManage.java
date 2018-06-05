@@ -67,16 +67,6 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public List<ServiceProvider> getGuestEnabledServiceProviders() {
-        Optional<IdentityProvider> optional = getIdentityProvider(guestIdp);
-        if (!optional.isPresent()) {
-            return Collections.emptyList();
-        }
-            return serviceProviderMap.values().stream().filter(sp ->
-                sp.isAllowedAll() || sp.getAllowedEntityIds().contains(guestIdp)).collect(toList());
-    }
-
-    @Override
     public List<ServiceProvider> getAllServiceProviders() {
         Collection<ServiceProvider> allSPs = new ArrayList<>(serviceProviderMap.values());
         allSPs.addAll(exampleSingleTenants.values());
