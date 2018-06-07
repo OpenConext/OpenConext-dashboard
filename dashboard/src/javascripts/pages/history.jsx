@@ -40,12 +40,12 @@ class History extends React.Component {
                 range.push(i);
             }
         }
-        for (let i of range) {
+        for (const i of range) {
             if (l) {
                 if (i - l === 2) {
                     rangeWithDots.push(l + 1);
                 } else if (i - l !== 1) {
-                    rangeWithDots.push('...');
+                    rangeWithDots.push("...");
                 }
             }
             rangeWithDots.push(i);
