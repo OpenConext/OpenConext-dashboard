@@ -15,45 +15,77 @@
  */
 package selfservice.service.impl;
 
-import static java.util.stream.Collectors.toList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import selfservice.domain.Action;
+import selfservice.domain.Change;
+import selfservice.shibboleth.mock.MockShibbolethFilter;
 
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import selfservice.domain.Action;
-import selfservice.domain.Change;
+import static java.util.stream.Collectors.toList;
 
 public class JiraClientMock implements JiraClient {
 
-  private static final Logger LOG = LoggerFactory.getLogger(JiraClientMock.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JiraClientMock.class);
 
-  private Map<String, Action> repository = new HashMap<>();
+    private Map<String, Action> repository = new LinkedHashMap<>();
 
-  private AtomicInteger counter = new AtomicInteger(0);
+    private AtomicInteger counter = new AtomicInteger(0);
 
-  @Override
-  public String create(final Action action, List<Change> changes) {
-    String key = generateKey();
+    public JiraClientMock() {
+        for (int i = 0; i < 55; i++) {
+            Action action = Action.builder()
+                .type(Action.Type.LINKREQUEST)
+                .body("Body")
+                .userName("Mock user")
+                .idpId(MockShibbolethFilter.idp)
+                .spId("http://mock-sp")
+                .jiraKey(generateKey())
+                .userEmail("john@example.org")
+                .requestDate(ZonedDateTime.now().minus(i, ChronoUnit.DAYS))
+                .status("Open")
+                .build();
+            repository.put(action.getJiraKey().get(), action);
+        }
+    }
 
-    repository.put(key, action.unbuild().jiraKey(key).body(action.getBody() == null ? "" : action.getBody()).build());
+    @Override
+    public String create(final Action action, List<Change> changes) {
+        String key = generateKey();
 
-    LOG.debug("Added task (key '{}') to repository: {}", key, action);
+        repository.put(key, action.unbuild().jiraKey(key).body(action.getBody() == null ? "" : action.getBody())
+            .build());
 
-    return key;
-  }
+        LOG.debug("Added task (key '{}') to repository: {}", key, action);
 
-  private String generateKey() {
-    return "TASK-" + counter.incrementAndGet();
-  }
+        return key;
+    }
 
-  @Override
-  public List<Action> getTasks(String idp) {
-    return repository.values().stream().filter(action -> action.getIdpId().equals(idp)).collect(toList());
-  }
+    private String generateKey() {
+        return "TASK-" + counter.incrementAndGet();
+    }
+
+    @Override
+    public Map<String, Object> getTasks(String idp, int startAt, int maxResults) {
+        List<Action> actions = repository.values().stream().filter(action -> action.getIdpId().equals(idp))
+            .collect(toList());
+        int total = actions.size();
+        actions = actions.subList(startAt, actions.size());
+        actions = actions.subList(0, maxResults);
+        Map<String, Object> result = new HashMap<>();
+        result.put("issues", actions);
+        result.put("total", total);
+        result.put("startAt", startAt);
+        result.put("maxResults", maxResults);
+        return result;
+
+    }
 
 }

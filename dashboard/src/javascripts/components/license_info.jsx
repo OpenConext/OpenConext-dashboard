@@ -48,7 +48,7 @@ class LicenseInfo extends React.Component {
             link = (
                 <p>
                     <Link
-                        to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/license_info`}>{I18n.t("license_info.license_info")}</Link>
+                        to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/license_info`}>{I18n.t("license_info.license_info")}</Link>
                 </p>
             );
         }
@@ -77,7 +77,7 @@ class LicenseInfo extends React.Component {
             link = (
                 <p>
                     <Link
-                        to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/license_info`}>{I18n.t("license_info.license_unknown_info")}</Link>
+                        to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/license_info`}>{I18n.t("license_info.license_unknown_info")}</Link>
                 </p>
             );
         }

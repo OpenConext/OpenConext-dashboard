@@ -21,7 +21,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,10 +61,13 @@ public class ActionsServiceImpl implements ActionsService {
   private boolean sendAdministrationEmail;
 
   @Override
-  public List<Action> getActions(String identityProvider) {
-    List<Action> tasks = jiraClient.getTasks(identityProvider);
-
-    return tasks.stream().map(this::addNames).map(this::addUser).collect(toList());
+  public Map<String, Object> getActions(String identityProvider, int startAt, int maxResults) {
+      Map<String, Object> result = jiraClient.getTasks(identityProvider, startAt, maxResults);
+      List<Action> issues = (List<Action>) result.get("issues");
+      List<Action> enrichedActions = issues.stream().map(this::addNames).map(this::addUser).collect(toList());
+      Map<String, Object> copyResult = new HashMap<>(result);
+      copyResult.put("issues", enrichedActions);
+      return copyResult;
   }
 
   private Action addUser(Action action) {

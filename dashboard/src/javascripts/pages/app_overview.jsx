@@ -169,7 +169,7 @@ class AppOverview extends React.Component {
         return (
             <tr key={index} onClick={e => this.handleShowAppDetail(e, app)}>
                 <td><Link
-                    to={`apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`}
+                    to={`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`}
                     onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>
                 </td>
                 {this.renderLicenseNeeded(app)}
@@ -231,9 +231,9 @@ class AppOverview extends React.Component {
     renderConnectButton(app) {
         if (!app.connected) {
             return <Link
-                to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}
+                to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}
                 className="c-button narrow"
-                onClick={e => e.stopPropagation()}>{I18n.t("apps.overview.connect_button")}</Link>;
+                onClick={e => this.handleConnectApp(e, app)}>{I18n.t("apps.overview.connect_button")}</Link>;
         }
         return null;
     }
@@ -241,7 +241,13 @@ class AppOverview extends React.Component {
     handleShowAppDetail(e, app) {
         e.preventDefault();
         e.stopPropagation();
-        this.context.router.transitionTo(`apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+        this.context.router.transitionTo(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+    }
+
+    handleConnectApp(e, app) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.context.router.transitionTo(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
     }
 
     /*

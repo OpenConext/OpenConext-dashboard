@@ -53,6 +53,18 @@ public class ServicesImpl implements Services {
     public Optional<Service> getServiceByEntityId(String idpEntityId, String spEntityId, EntityType entityType,
                                                   Locale locale) {
         Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(spEntityId, entityType);
+        return enrichService(idpEntityId, locale, serviceProvider);
+    }
+
+    @Override
+    public Optional<Service> getServiceById(String idpEntityId, Long spId, EntityType entityType, Locale locale)
+        throws IOException {
+        Optional<ServiceProvider> serviceProvider = manage.getServiceProviderById(spId, entityType);
+        return enrichService(idpEntityId, locale, serviceProvider);
+    }
+
+    private Optional<Service> enrichService(String idpEntityId, Locale locale, Optional<ServiceProvider>
+        serviceProvider) {
         IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new
             IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
         return serviceProvider.map(sp -> {

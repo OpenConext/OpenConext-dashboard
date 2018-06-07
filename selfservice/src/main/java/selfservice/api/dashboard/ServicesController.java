@@ -167,10 +167,10 @@ public class ServicesController extends BaseController {
 
     @RequestMapping(value = "/detail")
     public ResponseEntity<RestResponse<Service>> get(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                     @RequestParam String spEntityId,
+                                                     @RequestParam Long spId,
                                                      @RequestParam String entityType,
                                                      Locale locale) throws IOException {
-        Optional<Service> serviceByEntityId = services.getServiceByEntityId(idpEntityId, spEntityId, EntityType
+        Optional<Service> serviceByEntityId = services.getServiceById(idpEntityId, spId, EntityType
             .valueOf(entityType), locale);
         return serviceByEntityId
             .map(this::removeExplicitlyUnusedArpLabels)

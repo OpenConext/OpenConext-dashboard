@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UrlResourceManage implements Manage {
-    private final static Logger LOG = LoggerFactory.getLogger(ClassPathResourceManage.class);
+    private final static Logger LOG = LoggerFactory.getLogger(UrlResourceManage.class);
 
     private final String manageBaseUrl;
 
@@ -36,6 +36,7 @@ public class UrlResourceManage implements Manage {
     private String requestedAttributes = "\"state\":\"prodaccepted\",\"ALL_ATTRIBUTES\":true";
     private String body = "{" + requestedAttributes + "}";
     private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
+    private String bodyForEid = "{\"eid\":@@eid@@, " + requestedAttributes + "}";
     private String bodyForInstitutionId = "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", " +
         requestedAttributes + "}";
 
@@ -84,6 +85,18 @@ public class UrlResourceManage implements Manage {
             getSingleTenantInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, type)).findFirst();
+    }
+
+    @Override
+    public Optional<ServiceProvider> getServiceProviderById(Long spId, EntityType entityType) {
+        if (spId == null) {
+            return Optional.empty();
+        }
+        String body = bodyForEid.replace("@@eid@@", spId.toString());
+        InputStream inputStream = entityType.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
+            getSingleTenantInputStream(body);
+        List<Map<String, Object>> providers = getMaps(inputStream);
+        return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, entityType)).findFirst();
     }
 
     @Override

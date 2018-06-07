@@ -41,6 +41,8 @@ public interface Manage {
      */
     Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type);
 
+    Optional<ServiceProvider> getServiceProviderById(Long spId, EntityType entityType);
+
     /**
      * Get an identity provider by its id.
      *
@@ -152,6 +154,5 @@ public interface Manage {
         });
         return result;
     }
-
 
 }

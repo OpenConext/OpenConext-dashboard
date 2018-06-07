@@ -227,7 +227,7 @@ I18n.translations.en = {
     motivationInfo: "The colomn ‘motivation‘ contains, to the extent available, the explanation of the supplier why they need this attribute.",
     motivation: "Motivation",
     no_attribute_value: "<no value received>",
-    filterInfo: "To minimize the data passed on from institution to the service, SURFconext sometimes filters attributes. For instance the filter 'urn*' will filter out all values for that attribute that do not start with ‘urn’."
+    filterInfo: "To minimize the data passed on from institution to the service, SURFconext sometimes filters the values of attributes. For instance the filter 'urn*' will filter out all values for that attribute that do not start with ‘urn’."
   },
   idp_usage_panel: {
     title: "Used by",

@@ -15,18 +15,19 @@
  */
 package selfservice.service;
 
-import java.util.List;
-
 import selfservice.domain.Action;
 import selfservice.domain.Change;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ActionsService {
 
-  /**
-   * Get a list of all actions of a certain identity provider
-   */
-  List<Action> getActions(String identityProvider);
+    /**
+     * Get a list of all actions of a certain identity provider
+     */
+    Map<String, Object> getActions(String identityProvider, int startAt, int maxResults);
 
-  Action create(Action action, List<Change> changes);
+    Action create(Action action, List<Change> changes);
 
 }

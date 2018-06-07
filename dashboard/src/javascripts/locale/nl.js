@@ -228,7 +228,7 @@ I18n.translations.nl = {
         motivationInfo: "De kolom ‘motivatie‘ bevat, voor zover beschikbaar, de uitleg van de leverancier over waarom ze dat attribuut willen ontvangen.",
         motivation: "Motivatie",
         no_attribute_value: "<geen waarde ontvangen>",
-        filterInfo: "Om te zorgen dat een leverancier alleen de voor de dienst noodzakelijke gegevens ontvangt, gebruikt SURFconext soms filters op de van de IdP ontvangen attributen. Bijvoorbeeld het filter 'urn*’ zal alle waardes uitfilteren (en dus niet doorgeven) die niet beginnen met ‘urn’ voor dat attribuut."
+        filterInfo: "Om te zorgen dat een leverancier alleen de voor de dienst noodzakelijke gegevens ontvangt, gebruikt SURFconext soms filters op de waardes van de IdP ontvangen attributen. Bijvoorbeeld het filter 'urn*’ zal alle waardes uitfilteren (en dus niet doorgeven) die niet beginnen met ‘urn’ voor dat attribuut."
     },
 
     idp_usage_panel: {
@@ -256,20 +256,20 @@ I18n.translations.nl = {
         subtitle2: "De leverancier van de service {{name}} heeft SURFnet voorzien van de volgende informatie:",
         question: "Vraag",
         answer: "Antwoord",
-        accessData: "WHO CAN ACCESS THE DATA?",
-        certification: "CAN THE SUPPLIER SUPPLY A THIRD PARTY MEMORANDUM?",
-        certificationLocation: "WHERE CAN AN INSTITUTION FIND/REQUEST IT?",
-        country: "IN WHAT COUNTRY IS THE DATA STORED",
-        otherInfo: "OTHER DATA PRIVACY AND SECURITY INFORMATION",
-        privacyPolicy: "DOES THE SUPPLIER PUBLISH A PRIVACY POLICY?",
-        privacyPolicyUrl: "WHAT IS THE PRIVACY POLICY URL?",
-        securityMeasures: "WHAT SECURITY MEASURES HAS THE SUPPLIER TAKEN?",
-        snDpaWhyNot: "IF NO, WHAT ARTICLES POSE A PROBLEM & WHY?",
-        surfmarketDpaAgreement: "DID THE SUPPLIER AGREE A DPA WITH SURFMARKET?",
-        surfnetDpaAgreement: "IS THE SUPPLIER WILLING TO SIGN THE SURF MODEL DPA?",
-        whatData: "WHAT (KIND OF) DATA IS PROCESSED?",
-        certificationValidFrom: "CERTIFICATION VALID FROM",
-        certificationValidTo: "CERTIFICATION VALID TO",
+        accessData: "WIE HEEFT TOEGANG TOT DE DATA?",
+        certification: "KAN DE LEVERANCIER EEN MEMORANDUM VAN DERDEN OVERLEGGEN?",
+        certificationLocation: "WAAR KAN EEN INSTELLING DEZE VINDEN / AANVRAGEN??",
+        country: "IN WELK LAND WORDEN DE GEGEVENS OPGESLAGEN?",
+        otherInfo: "OVERIGE PRIVACY GEGEVENS EN VEILIGHEIDSINFORMATIE",
+        privacyPolicy: "HEEFT DE LEVERANCIER EEN PRIVACYBELEID GEPUBLICEERD?",
+        privacyPolicyUrl: "WAT IS DE PRIVACYBELEID URL?",
+        securityMeasures: "WELKE BEVEILIGINGSMAATREGELEN HEEFT DE LEVERANCIER GENOMEN?",
+        snDpaWhyNot: "ZO NEE, WELKE SECTIES HEBBEN EEN PROBLEEM EN WAAROM?",
+        surfmarketDpaAgreement: "IS DE LEVERANCIER AKKOORD GEGAAN MET DE DPA VAN SURFMARKET?",
+        surfnetDpaAgreement: "IS DE LEVERANCIER BEREID OM HET SURF-MODEL DPA TE ONDERTEKENEN?",
+        whatData: "WELKE (SOORT) GEGEVENS WORDEN VERWERKT?",
+        certificationValidFrom: "CERTIFICATIE GELDIG TOT",
+        certificationValidTo: "CERTIFICATIE GELDIG VAN",
         noInformation: "Geen informatie van de leverancier"
     },
     how_to_connect_panel: {

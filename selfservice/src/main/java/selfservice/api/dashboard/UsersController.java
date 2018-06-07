@@ -140,10 +140,9 @@ public class UsersController extends BaseController {
     }
     List<ContactPerson> contactPersons = idp.getContactPersons();
     List<ContactPerson> newContactPersons = settings.getContactPersons();
-
     for (int i = 0; i < contactPersons.size(); i++) {
       ContactPerson contactPerson = contactPersons.get(i);
-      if (newContactPersons.size() >= (i + 1)) {
+      if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
         ContactPerson newContactPerson = newContactPersons.get(i);
         if (changed(contactPerson.getName(), newContactPerson.getName())) {
           changes.add(new Change(idp.getId(), "contacts:" + i + ":name",

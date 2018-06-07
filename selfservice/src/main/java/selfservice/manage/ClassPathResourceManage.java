@@ -80,6 +80,13 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
+    public Optional<ServiceProvider> getServiceProviderById(Long spId, EntityType type) {
+        return type.equals(EntityType.saml20_sp) ? serviceProviderMap.values()
+            .stream().filter(sp -> sp.getEid().equals(spId)).findFirst() :
+            exampleSingleTenants.values().stream().filter(sp -> sp.getEid().equals(spId)).findFirst();
+    }
+
+    @Override
     public List<ServiceProvider> getInstitutionalServicesForIdp(String instituteId) {
         return StringUtils.hasText(instituteId) ? this.serviceProviderMap.values().stream().filter(sp -> instituteId
             .equals(sp.getInstitutionId())).collect(toList()) : Collections.emptyList();

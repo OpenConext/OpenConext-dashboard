@@ -197,7 +197,7 @@ class OverviewPanel extends React.Component {
         if (currentUser.dashboardAdmin) {
             disconnect = <p>
                 <Link
-                    to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.disconnect")}</Link>
+                    to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.disconnect")}</Link>
             </p>;
         }
 
@@ -218,7 +218,7 @@ class OverviewPanel extends React.Component {
         if (currentUser.dashboardAdmin) {
             connect = <p>
                 <Link
-                    to={`/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.how_to_connect")}</Link>
+                    to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.how_to_connect")}</Link>
             </p>;
         }
 

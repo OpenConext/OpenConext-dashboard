@@ -61,7 +61,7 @@ class HowToConnectPanel extends React.Component {
 
     getPanelRoute(panel) {
         const {app} = this.props;
-        return `/apps/${encodeURIComponent(app.spEntityId)}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/${panel}`;
+        return `/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/${panel}`;
     }
 
     renderConnectStep() {

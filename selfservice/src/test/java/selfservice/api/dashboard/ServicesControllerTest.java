@@ -109,10 +109,10 @@ public class ServicesControllerTest {
     public void retrieveAService() throws Exception {
         Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-        when(servicesMock.getServiceByEntityId(IDP_ENTITY_ID, SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH))
+        when(servicesMock.getServiceById(IDP_ENTITY_ID, 11L, EntityType.saml20_sp, Locale.ENGLISH))
             .thenReturn(Optional.of(service));
 
-        this.mockMvc.perform(get("/dashboard/api/services/detail?spEntityId=" + SP_ENTITY_ID + "&entityType=" +
+        this.mockMvc.perform(get("/dashboard/api/services/detail?spId=" + 11L + "&entityType=" +
             EntityType.saml20_sp)
             .contentType(MediaType.APPLICATION_JSON)
             .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
@@ -125,10 +125,10 @@ public class ServicesControllerTest {
     public void retrieveAServiceShouldBeEnriched() throws Exception {
         Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-        when(servicesMock.getServiceByEntityId(IDP_ENTITY_ID, SP_ENTITY_ID, EntityType.saml20_sp, Locale.ENGLISH))
+        when(servicesMock.getServiceById(IDP_ENTITY_ID, 11L, EntityType.saml20_sp, Locale.ENGLISH))
             .thenReturn(Optional.of(service));
 
-        this.mockMvc.perform(get("/dashboard/api/services/detail?spEntityId=" + SP_ENTITY_ID + "&entityType=" +
+        this.mockMvc.perform(get("/dashboard/api/services/detail?spId=" + 11L + "&entityType=" +
             EntityType.saml20_sp)
             .contentType(MediaType.APPLICATION_JSON)
             .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
@@ -138,10 +138,10 @@ public class ServicesControllerTest {
 
     @Test
     public void retrieveANonExistingService() throws Exception {
-        when(servicesMock.getServiceByEntityId(IDP_ENTITY_ID, "nope", EntityType.saml20_sp, Locale.ENGLISH))
+        when(servicesMock.getServiceById(IDP_ENTITY_ID, 999L, EntityType.saml20_sp, Locale.ENGLISH))
             .thenReturn(Optional.empty());
 
-        this.mockMvc.perform(get("/dashboard/api/services/detail?spEntityId=nope&entityType=" + EntityType.saml20_sp)
+        this.mockMvc.perform(get("/dashboard/api/services/detail?spId=999&entityType=" + EntityType.saml20_sp)
             .contentType(MediaType.APPLICATION_JSON)
             .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
             .andExpect(status().isNotFound());

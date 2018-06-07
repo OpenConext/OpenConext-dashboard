@@ -110,7 +110,7 @@ export function getApps() {
 }
 
 export function getApp(appId, type) {
-    return fetchJson(`/services/detail?spEntityId=${appId}&entityType=${type}`);
+    return fetchJson(`/services/detail?spId=${appId}&entityType=${type}`);
 }
 
 export function getIdps(spEntityId) {
@@ -153,18 +153,18 @@ export function switchToIdp(idpId, role) {
     return validFetch("/users/me/switch-to-idp?" + qs.stringify({idpId, role}));
 }
 
-export function getActions() {
-    return fetchJson("/actions");
+export function getActions(startAt, maxResults) {
+    return fetchJson(`/actions?startAt=${startAt}&maxResults=${maxResults}`);
 }
 
-export function makeConnection(app, comments) {
-    return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId})
+export function makeConnection(app, comments, type) {
+    return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId, type: type})
         .then(parseJson)
         .then(json => json.payload);
 }
 
-export function removeConnection(app, comments) {
-    return fetchPost("/services/disconnect", {comments: comments, spEntityId: app.spEntityId})
+export function removeConnection(app, comments, type) {
+    return fetchPost("/services/disconnect", {comments: comments, spEntityId: app.spEntityId, type: type})
         .then(parseJson)
         .then(json => json.payload);
 }

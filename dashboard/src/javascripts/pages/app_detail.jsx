@@ -66,11 +66,8 @@ class AppDetail extends React.Component {
                     }
                 };
             }
-
-            return getIdps(app.spEntityId).then(data => {
-                const institutions = data.payload;
-                this.setState({app, institutions});
-            });
+            this.setState({app: app});
+            return getIdps(app.spEntityId).then(data => this.setState({institutions: data.payload}));
         });
 
     }
@@ -161,7 +158,7 @@ AppDetail.contextTypes = {
 
 AppDetail.propTypes = {
     params: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired,
+        id: React.PropTypes.number.isRequired,
         type: React.PropTypes.string.isRequired,
         activePanel: React.PropTypes.string.isRequired
     }).isRequired
