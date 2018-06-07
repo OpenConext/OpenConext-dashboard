@@ -69,7 +69,7 @@ class AppOverview extends React.Component {
 
     render() {
         const {currentUser} = this.context;
-        const {sortAttribute, sortAscending, search} = this.state;
+        const {sortAttribute, sortAscending} = this.state;
         const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
         let connect = null;
 
@@ -124,7 +124,7 @@ class AppOverview extends React.Component {
                             </thead>
                             <tbody>
                             {filteredApps.length > 0 ? sort(filteredApps, sortAttribute, sortAscending)
-                                .map((app, index) => this.renderApp(app, index)) : search === "" ? this.renderProcessing() : this.renderEmpty()}
+                                .map((app, index) => this.renderApp(app, index)) : filteredApps.length === this.state.apps ? this.renderProcessing() : this.renderEmpty()}
                             </tbody>
                         </table>
                     </div>

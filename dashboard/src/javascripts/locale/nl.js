@@ -57,7 +57,7 @@ I18n.translations.nl = {
         unknown: "Unknown",
         totals: {
             all: "Alle {{total}} services worden weergegeven",
-            filtered: "{{count}} uit {{total}} services worden weergegeven"
+            filtered: "{{count}} van de {{total}} services worden weergegeven"
         },
         static: {
             connection: {
