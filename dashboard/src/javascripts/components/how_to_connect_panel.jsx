@@ -223,6 +223,25 @@ class HowToConnectPanel extends React.Component {
         return null;
     }
 
+    renderDoneDisconnectStep() {
+        const subtitle = this.state.action.jiraKey ?
+            I18n.t("how_to_connect_panel.done_disconnect_subtitle_html_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
+            I18n.t("how_to_connect_panel.done_disconnect_subtitle_html");
+        return (
+            <div className="l-middle">
+                <div className="mod-title">
+                    <h1>{I18n.t("how_to_connect_panel.done_disconnect_title")}</h1>
+                    <p dangerouslySetInnerHTML={{__html: subtitle}}/>
+                    <br/>
+                    <p className="cta">
+                        <a href="/apps" onClick={this.backToServices.bind(this)}
+                           className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     renderDoneStep() {
         const subtitle = this.state.action.jiraKey ?
             I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
@@ -247,22 +266,6 @@ class HowToConnectPanel extends React.Component {
         e.preventDefault();
         e.stopPropagation();
         this.context.router.transitionTo("/apps");
-    }
-
-    renderDoneDisconnectStep() {
-        return (
-            <div className="l-middle">
-                <div className="mod-title">
-                    <h1>{I18n.t("how_to_connect_panel.done_disconnect_title")}</h1>
-                    <p dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.done_disconnect_subtitle_html")}}/>
-                    <br/>
-                    <p className="cta">
-                        <a href="/apps" onClick={this.backToServices.bind(this)}
-                           className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
-                    </p>
-                </div>
-            </div>
-        );
     }
 
     renderDisconnectStep() {
@@ -304,8 +307,9 @@ class HowToConnectPanel extends React.Component {
         e.preventDefault();
         if (allowed) {
             makeConnection(this.props.app, this.state.comments)
-                .then(action => this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0)))
-                .catch(() => this.setState({failed: true}));
+                .then(action => {
+                    this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0))
+                }).catch(() => this.setState({failed: true}));
         }
     }
 
@@ -313,10 +317,12 @@ class HowToConnectPanel extends React.Component {
         e.preventDefault();
         if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
             removeConnection(this.props.app, this.state.comments)
-                .then(action => this.setState({
-                    currentStep: "done-disconnect",
-                    action: action
-                }, () => window.scrollTo(0, 0)))
+                .then(action => {
+                    this.setState({
+                        currentStep: "done-disconnect",
+                        action: action
+                    }, () => window.scrollTo(0, 0))
+                })
                 .catch(() => this.setState({failed: true}));
         }
     }
