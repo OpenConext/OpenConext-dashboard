@@ -75,6 +75,7 @@ public class Service implements Comparable<Service>, Serializable {
   private boolean strongAuthentication;
   private boolean noConsentRequired;
   private boolean aansluitovereenkomstRefused;
+  private boolean guestEnabled;
 
   private PrivacyInfo privacyInfo;
 
@@ -435,7 +436,15 @@ public class Service implements Comparable<Service>, Serializable {
     this.aansluitovereenkomstRefused = aansluitovereenkomstRefused;
   }
 
-  @Override
+    public boolean isGuestEnabled() {
+        return guestEnabled;
+    }
+
+    public void setGuestEnabled(boolean guestEnabled) {
+        this.guestEnabled = guestEnabled;
+    }
+
+    @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;

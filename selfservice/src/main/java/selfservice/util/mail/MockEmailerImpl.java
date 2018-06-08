@@ -5,8 +5,8 @@ import org.springframework.mail.SimpleMailMessage;
 
 public class MockEmailerImpl implements Emailer {
 
-  @Override
-  public void sendAsync(SimpleMailMessage msg) throws MailException {
-    System.out.println(msg.toString());
-  }
+    @Override
+    public void sendAsync(SimpleMailMessage msg) throws MailException {
+        System.out.println(msg.toString());
+    }
 }

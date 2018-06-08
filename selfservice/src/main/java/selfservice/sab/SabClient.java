@@ -76,7 +76,7 @@ public class SabClient implements Sab {
   @Override
   @SuppressWarnings("unchecked")
   public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
-    try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
+      try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
       List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(inputStream, HashMap.class).get("profiles");
 
       return profiles.stream()

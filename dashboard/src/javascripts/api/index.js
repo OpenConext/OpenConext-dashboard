@@ -5,227 +5,211 @@ import {getCurrentUser} from "../models/current_user";
 const apiPath = "/dashboard/api";
 
 export function apiUrl(path) {
-  return apiPath + path;
+    return apiPath + path;
 }
 
 function validateResponse(res) {
-  spinner.stop();
+    spinner.stop();
 
-  if (!res.ok) {
-    const error = new Error(res.statusText);
-    error.response = res;
-    throw error;
-  }
+    if (!res.ok) {
+        const error = new Error(res.statusText);
+        error.response = res;
+        throw error;
+    }
 
-  return res;
+    return res;
 }
 
 export function parseJson(res) {
-  return res.json();
+    return res.json();
 }
 
 function validFetch(path, options) {
-  const headers = {
-    "Accept": "application/json"
-  };
+    const headers = {
+        "Accept": "application/json"
+    };
 
-  const currentUser = getCurrentUser();
+    const currentUser = getCurrentUser();
 
-  if (currentUser) {
-    headers["X-IDP-ENTITY-ID"] = currentUser.getCurrentIdpId();
-  }
+    if (currentUser) {
+        headers["X-IDP-ENTITY-ID"] = currentUser.getCurrentIdpId();
+    }
 
-  const fetchOptions = _.merge({}, {headers}, options, {
-    credentials: "same-origin"
-  });
+    const fetchOptions = _.merge({}, {headers}, options, {
+        credentials: "same-origin"
+    });
 
-  spinner.start();
-  return fetch(apiUrl(path), fetchOptions)
-    .catch(err => {
-      spinner.stop();
-      throw err;
-    })
-    .then(validateResponse);
+    spinner.start();
+    return fetch(apiUrl(path), fetchOptions)
+        .catch(err => {
+            spinner.stop();
+            throw err;
+        })
+        .then(validateResponse);
 }
 
 export function fetchJson(path, options = {}) {
-  return validFetch(path, options)
-    .then(parseJson);
+    return validFetch(path, options)
+        .then(parseJson);
 }
 
 function fetchPost(path, body, options = {}) {
-  const data = new FormData();
+    const data = new FormData();
 
-  for (const key in body) {
-    if (body.hasOwnProperty(key)) {
-      data.append(key, body[key]);
+    for (const key in body) {
+        if (body.hasOwnProperty(key)) {
+            data.append(key, body[key]);
+        }
     }
-  }
 
-  return validFetch(path, Object.assign({}, {method: "post", body: data}, options));
+    return validFetch(path, Object.assign({}, {method: "post", body: data}, options));
 }
 
 function postJson(path, body, options = {}) {
-  return validFetch(path, Object.assign({}, {method: "post", body: JSON.stringify(body)}, options));
+    return validFetch(path, Object.assign({}, {method: "post", body: JSON.stringify(body)}, options));
 }
 
 function putJson(path, body, options = {}) {
-  return validFetch(path, Object.assign({}, {method: "put", body: JSON.stringify(body)}, options));
+    return validFetch(path, Object.assign({}, {method: "put", body: JSON.stringify(body)}, options));
 }
 
 function fetchDelete(path) {
-  return validFetch(path, {method: "delete"});
+    return validFetch(path, {method: "delete"});
 }
 
 function S4() {
-  return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 }
 
 export function getUserData(redirect = "manual") {
-  const fetchOptions = {
-    headers: {
-      Accept: "application/json"
-    },
-    credentials: "same-origin",
-    redirect: redirect
-  };
-  spinner.start();
-  return fetch(apiUrl("/users/me" + window.location.search), fetchOptions)
-    .then(response => {
-      spinner.stop();
-      if (response.ok) {
-        return parseJson(response);
-      }
-      const guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
-      if (document.location.href.indexOf("guid") > -1) {
-        return {noAccess: true};
-      }
-      document.location = document.location + "?guid=" + guid;
-      return {};
-    });
-}
-
-export function getFacets() {
-  return fetchJson("/facets");
+    const fetchOptions = {
+        headers: {
+            Accept: "application/json"
+        },
+        credentials: "same-origin",
+        redirect: redirect
+    };
+    spinner.start();
+    return fetch(apiUrl("/users/me" + window.location.search), fetchOptions)
+        .then(response => {
+            spinner.stop();
+            if (response.ok) {
+                return parseJson(response);
+            }
+            const guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+            if (document.location.href.indexOf("guid") > -1) {
+                return {noAccess: true};
+            }
+            document.location = document.location + "?guid=" + guid;
+            return {};
+        });
 }
 
 export function getApps() {
-  return fetchJson("/services");
+    return fetchJson("/services");
 }
 
-export function getApp(appId) {
-  return fetchJson(`/services/id/${appId}`);
+export function getApp(appId, type) {
+    return fetchJson(`/services/detail?spId=${appId}&entityType=${type}`);
 }
 
 export function getIdps(spEntityId) {
-  return fetchJson(`/services/idps?${qs.stringify({spEntityId})}`);
+    return fetchJson(`/services/idps?${qs.stringify({spEntityId})}`);
 }
 
 export function getPolicies() {
-  return fetchJson("/policies");
+    return fetchJson("/policies");
 }
 
 export function getInstitutionServiceProviders() {
-  return fetchJson("/users/me/serviceproviders");
-}
-
-export function getGuestEnabledServices() {
-  return fetchJson("/users/me/guest-enabled-services");
+    return fetchJson("/users/me/serviceproviders");
 }
 
 export function getConnectedServiceProviders(idpId) {
-  return fetchJson("/services/connected", {
-    "headers": {
-      "X-IDP-ENTITY-ID": idpId
-    }
-  });
+    return fetchJson("/services/connected", {
+        "headers": {
+            "X-IDP-ENTITY-ID": idpId
+        }
+    });
 }
 
 export function getAllowedAttributes() {
-  return fetchJson("/policies/attributes");
+    return fetchJson("/policies/attributes");
 }
 
 export function getNewPolicy() {
-  return fetchJson("/policies/new");
+    return fetchJson("/policies/new");
 }
 
 export function logout() {
-  return validFetch("/logout");
+    return validFetch("/logout");
 }
 
 export function exit() {
-  return validFetch("/users/me/switch-to-idp");
+    return validFetch("/users/me/switch-to-idp");
 }
 
 export function switchToIdp(idpId, role) {
-  return validFetch("/users/me/switch-to-idp?" + qs.stringify({idpId, role}));
+    return validFetch("/users/me/switch-to-idp?" + qs.stringify({idpId, role}));
 }
 
-export function getNotifications() {
-  return fetchJson("/notifications");
+export function getActions(startAt, maxResults) {
+    return fetchJson(`/actions?startAt=${startAt}&maxResults=${maxResults}`);
 }
 
-export function getActions() {
-  return fetchJson("/actions");
+export function makeConnection(app, comments, type) {
+    return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId, type: type})
+        .then(parseJson)
+        .then(json => json.payload);
 }
 
-export function makeConnection(app, comments) {
-  return fetchPost(`/services/id/${app.id}/connect`, {comments: comments, spEntityId: app.spEntityId})
-    .then(parseJson)
-    .then(json => json.payload);
-}
-
-export function removeConnection(app, comments) {
-  return fetchPost(`/services/id/${app.id}/disconnect`, {comments: comments, spEntityId: app.spEntityId})
-    .then(parseJson)
-    .then(json => json.payload);
+export function removeConnection(app, comments, type) {
+    return fetchPost("/services/disconnect", {comments: comments, spEntityId: app.spEntityId, type: type})
+        .then(parseJson)
+        .then(json => json.payload);
 }
 
 export function getIdpRolesWithUsers() {
-  return fetchJson("/idp/current/roles");
-}
-
-export function getLicenseContactPerson() {
-  return fetchJson("/idp/licensecontactpersons");
+    return fetchJson("/idp/current/roles");
 }
 
 export function getIdpsForSuper() {
-  return fetchJson("/users/super/idps")
-    .then(json => json.payload);
+    return fetchJson("/users/super/idps")
+        .then(json => json.payload);
 }
 
 export function createPolicy(policy) {
-  return postJson("/policies", policy, {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
+    return postJson("/policies", policy, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
 }
 
 export function updatePolicy(policy) {
-  return putJson("/policies", policy, {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
+    return putJson("/policies", policy, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
 }
 
 export function deletePolicy(policyId) {
-  return fetchDelete(`/policies/${policyId}`);
+    return fetchDelete(`/policies/${policyId}`);
 }
 
 export function getPolicy(policyId) {
-  return fetchJson(`/policies/${policyId}`);
+    return fetchJson(`/policies/${policyId}`);
 }
 
 export function getPolicyRevisions(policyId) {
-  return fetchJson(`/policies/${policyId}/revisions`);
+    return fetchJson(`/policies/${policyId}/revisions`);
 }
 
 export function sendChangeRequest(data) {
-  return postJson("/users/me/settings", data, {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
+    return postJson("/users/me/settings", data, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
 }

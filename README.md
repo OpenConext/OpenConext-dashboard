@@ -28,16 +28,6 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 
 #### Setup
 
-Connect to your local mysql database: `mysql -uroot`
-
-    CREATE DATABASE csa DEFAULT CHARACTER SET utf8;
-    create user 'csa'@'localhost' identified by 'csa';
-    grant all on csa.* to 'csa'@'localhost';
-
-There is a `docker-compose` file available for mysql:
-
-    docker-compose up -d
-
 #### The Server
 
     cd selfservice
@@ -71,7 +61,7 @@ To build:
 
 To run locally:
 
-    yarn run webpack-dev-server
+    yarn start
 
 When you browse to the [application homepage](http://localhost:8001/dashboard/api/home) you will be prompted for a login.
 

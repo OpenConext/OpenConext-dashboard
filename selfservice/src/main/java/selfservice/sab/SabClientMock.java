@@ -56,7 +56,7 @@ public class SabClientMock implements Sab {
 
   @Override
   public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
-    return sabPersons.stream()
+      return sabPersons.stream()
         .filter(person -> person.getRoles().stream().anyMatch(r -> r.roleName.equals(role)))
         .collect(Collectors.toList());
   }

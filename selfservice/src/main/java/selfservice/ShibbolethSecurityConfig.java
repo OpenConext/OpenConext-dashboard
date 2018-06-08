@@ -90,8 +90,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers(
         "/dashboard/api/home",
         "/dashboard/api/forbidden",
-        "/fieldimages/**",
-        "/screenshots/**",
         "/public/**",
         "/css/**",
         "/font/**",

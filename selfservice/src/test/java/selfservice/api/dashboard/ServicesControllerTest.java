@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-
 import selfservice.domain.Action;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
@@ -19,13 +18,16 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
-import selfservice.service.ActionsService;
-import selfservice.service.Csa;
+import selfservice.manage.EntityType;
 import selfservice.manage.Manage;
+import selfservice.service.ActionsService;
+import selfservice.service.Services;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
@@ -46,167 +48,170 @@ import static selfservice.api.dashboard.RestDataFixture.serviceWithSpEntityId;
 @RunWith(MockitoJUnitRunner.class)
 public class ServicesControllerTest {
 
-  public static final String IDP_ENTITY_ID = "foo";
-  public static final String SP_ENTITY_ID = "bar";
+    public static final String IDP_ENTITY_ID = "foo";
+    public static final String SP_ENTITY_ID = "bar";
+    private final CoinUser coinUser = coinUser("user");
+    private final Service service = serviceWithSpEntityId(SP_ENTITY_ID);
+    private final List<Service> services = asList(service);
+    @InjectMocks
+    private ServicesController controller;
+    @Mock
+    private Manage manageMock;
+    @Mock
+    private Services servicesMock;
+    @Mock
+    private ActionsService actionsServiceMock;
+    private MockMvc mockMvc;
 
-  @InjectMocks
-  private ServicesController controller;
+    @Before
+    public void setup() throws IOException {
+        controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
-  @Mock
-  private Manage manageMock;
+        EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manageMock);
 
-  @Mock
-  private Csa csaMock;
+        mockMvc = standaloneSetup(controller)
+            .setMessageConverters(new GsonHttpMessageConverter(new MockEnvironment(), "http:://example.com",
+                "oauth/authorize.php", "stats-client-id", "stats-scope", "stats-redirect"))
+            .addFilter(ensureAccessToIdp, "/*")
+            .build();
 
-  @Mock
-  private ActionsService actionsServiceMock;
+        IdentityProvider institutionIdentityProvider = new IdentityProvider(IDP_ENTITY_ID, "institution id", "name",
+            1L);
 
-  private MockMvc mockMvc;
+        coinUser.addInstitutionIdp(institutionIdentityProvider);
+        coinUser.setIdp(institutionIdentityProvider);
 
-  private final CoinUser coinUser = coinUser("user");
-  private final Service service = serviceWithSpEntityId(SP_ENTITY_ID);
-  private final List<Service> services = asList(service);
+        SpringSecurityUtil.setAuthentication(coinUser);
 
-  @Before
-  public void setup() {
-    controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
+        when(manageMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
+        when(manageMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
+        when(servicesMock.getServicesForIdp(IDP_ENTITY_ID, Locale.ENGLISH)).thenReturn(services);
+    }
 
-    EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manageMock);
+    @After
+    public void after() {
+        SecurityContextHolder.clearContext();
+    }
 
-    mockMvc = standaloneSetup(controller)
-      .setMessageConverters(new GsonHttpMessageConverter(new MockEnvironment(), "http:://example.com","oauth/authorize.php", "stats-client-id", "stats-scope", "stats-redirect"))
-      .addFilter(ensureAccessToIdp, "/*")
-      .build();
+    @Test
+    public void thatAllServicesAreReturned() throws Exception {
+        when(servicesMock.getServicesForIdp(IDP_ENTITY_ID, Locale.ENGLISH)).thenReturn(services);
 
-    IdentityProvider institutionIdentityProvider = new IdentityProvider(IDP_ENTITY_ID, "institution id", "name", 1L);
+        this.mockMvc.perform(get("/dashboard/api/services")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.payload.apps").isArray())
+            .andExpect(jsonPath("$.payload.apps[0].name").value(service.getName()));
+    }
 
-    coinUser.addInstitutionIdp(institutionIdentityProvider);
-    coinUser.setIdp(institutionIdentityProvider);
+    @Test
+    public void retrieveAService() throws Exception {
+        Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-    SpringSecurityUtil.setAuthentication(coinUser);
+        when(servicesMock.getServiceById(IDP_ENTITY_ID, 11L, EntityType.saml20_sp, Locale.ENGLISH))
+            .thenReturn(Optional.of(service));
 
-    when(manageMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
-    when(manageMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
-    when(csaMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
-  }
+        this.mockMvc.perform(get("/dashboard/api/services/detail?spId=" + 11L + "&entityType=" +
+            EntityType.saml20_sp)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.payload.name", is("service-name")))
+            .andExpect(jsonPath("$.payload.id", is(11)));
+    }
 
-  @After
-  public void after() {
-    SecurityContextHolder.clearContext();
-  }
+    @Test
+    public void retrieveAServiceShouldBeEnriched() throws Exception {
+        Service service = new Service(11L, "service-name", "http://logo", "http://website", SP_ENTITY_ID);
 
-  @Test
-  public void thatAllServicesAreReturned() throws Exception {
-    when(csaMock.getServicesForIdp(IDP_ENTITY_ID)).thenReturn(services);
+        when(servicesMock.getServiceById(IDP_ENTITY_ID, 11L, EntityType.saml20_sp, Locale.ENGLISH))
+            .thenReturn(Optional.of(service));
 
-    this.mockMvc.perform(get("/dashboard/api/services")
-      .contentType(MediaType.APPLICATION_JSON)
-      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.payload").isArray())
-      .andExpect(jsonPath("$.payload[0].name").value(service.getName()));
-  }
+        this.mockMvc.perform(get("/dashboard/api/services/detail?spId=" + 11L + "&entityType=" +
+            EntityType.saml20_sp)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.payload." + FILTERED_USER_ATTRIBUTES).isArray());
+    }
 
-  @Test
-  public void retrieveAService() throws Exception {
-    Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
+    @Test
+    public void retrieveANonExistingService() throws Exception {
+        when(servicesMock.getServiceById(IDP_ENTITY_ID, 999L, EntityType.saml20_sp, Locale.ENGLISH))
+            .thenReturn(Optional.empty());
 
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
+        this.mockMvc.perform(get("/dashboard/api/services/detail?spId=999&entityType=" + EntityType.saml20_sp)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+            .andExpect(status().isNotFound());
+    }
 
-    this.mockMvc.perform(get("/dashboard/api/services/id/11")
-      .contentType(MediaType.APPLICATION_JSON)
-      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.payload.name", is("service-name")))
-      .andExpect(jsonPath("$.payload.id", is(11)));
-  }
+    @Test(expected = SecurityException.class)
+    public void failsWhenUserHasNoAccessToIdp() throws Exception {
+        this.mockMvc.perform(get("/dashboard/api/services").contentType(MediaType.APPLICATION_JSON).header
+            (HTTP_X_IDP_ENTITY_ID, "no access"));
+    }
 
-  @Test
-  public void retrieveAServiceShouldBeEnriched() throws Exception {
-    Service service = new Service(11L, "service-name", "http://logo", "http://website", IDP_ENTITY_ID);
+    @Test
+    public void thatALinkRequestCanBeMade() throws Exception {
+        coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.of(service));
+        Action expectedAction = Action.builder()
+            .type(Action.Type.LINKREQUEST)
+            .userName(coinUser.getUsername())
+            .spId(SP_ENTITY_ID)
+            .idpId(IDP_ENTITY_ID).build();
 
-    this.mockMvc.perform(get("/dashboard/api/services/id/11")
-      .contentType(MediaType.APPLICATION_JSON)
-      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.payload." + FILTERED_USER_ATTRIBUTES).isArray());
-  }
+        when(actionsServiceMock.create(expectedAction, Collections.emptyList())).thenAnswer(invocation -> invocation
+            .getArguments()[0]);
 
-  @Test
-  public void retrieveANonExistingService() throws Exception {
-    when(csaMock.getServiceForIdp(IDP_ENTITY_ID, 11)).thenReturn(Optional.empty());
+        this.mockMvc.perform(
+            post("/dashboard/api/services/connect")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+                .param("spEntityId", SP_ENTITY_ID))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
+    }
 
-    this.mockMvc.perform(get("/dashboard/api/services/id/11")
-      .contentType(MediaType.APPLICATION_JSON)
-      .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
-      .andExpect(status().isNotFound());
-  }
+    @Test
+    public void thatADisconnectRequestCanBeMade() throws Exception {
+        coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-  @Test(expected = SecurityException.class)
-  public void failsWhenUserHasNoAccessToIdp() throws Exception {
-    this.mockMvc.perform(get("/dashboard/api/services").contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, "no access"));
-  }
+        when(actionsServiceMock.create(any(), any())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
-  @Test
-  public void thatALinkRequestCanBeMade() throws Exception {
-    coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
+        this.mockMvc.perform(
+            post("/dashboard/api/services/disconnect")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("spEntityId", SP_ENTITY_ID)
+                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
+    }
 
-    Action expectedAction = Action.builder()
-        .type(Action.Type.LINKREQUEST)
-        .userName(coinUser.getUsername())
-        .spId(SP_ENTITY_ID)
-        .idpId(IDP_ENTITY_ID).build();
+    @Test
+    public void thatALinkRequestCantBeMadeByASuperUser() throws Exception {
+        coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER));
 
-    when(actionsServiceMock.create(expectedAction, Collections.emptyList())).thenAnswer(invocation -> invocation.getArguments()[0]);
+        this.mockMvc.perform(
+            post("/dashboard/api/services/connect")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("spEntityId", SP_ENTITY_ID)
+                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+            .andExpect(status().isForbidden());
+    }
 
-    this.mockMvc.perform(
-      post("/dashboard/api/services/id/" + service.getId() + "/connect")
-        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-        .param("spEntityId", SP_ENTITY_ID))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
-  }
+    @Test
+    public void thatALinkRequestCantBeMadeByADashboardViewer() throws Exception {
+        coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER));
 
-  @Test
-  public void thatADisconnectRequestCanBeMade() throws Exception {
-    coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
-
-    when(actionsServiceMock.create(any(), any())).thenAnswer(invocation -> invocation.getArguments()[0]);
-
-    this.mockMvc.perform(
-      post("/dashboard/api/services/id/" + service.getId() + "/disconnect")
-        .contentType(MediaType.APPLICATION_JSON)
-        .param("spEntityId", SP_ENTITY_ID)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
-  }
-
-  @Test
-  public void thatALinkRequestCantBeMadeByASuperUser() throws Exception {
-    coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER));
-
-    this.mockMvc.perform(
-      post("/dashboard/api/services/id/" + service.getId() + "/connect")
-        .contentType(MediaType.APPLICATION_JSON)
-        .param("spEntityId", SP_ENTITY_ID)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
-      .andExpect(status().isForbidden());
-  }
-
-  @Test
-  public void thatALinkRequestCantBeMadeByADashboardViewer() throws Exception {
-    coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER));
-
-    this.mockMvc.perform(
-      post("/dashboard/api/services/id/" + service.getId() + "/connect")
-        .contentType(MediaType.APPLICATION_JSON)
-        .param("spEntityId", SP_ENTITY_ID)
-        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-    )
-      .andExpect(status().isForbidden());
-  }
+        this.mockMvc.perform(
+            post("/dashboard/api/services/connect")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("spEntityId", SP_ENTITY_ID)
+                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+        )
+            .andExpect(status().isForbidden());
+    }
 }

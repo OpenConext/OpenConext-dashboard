@@ -11,23 +11,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import selfservice.cache.ServicesCache;
 import selfservice.domain.Action;
 import selfservice.domain.Change;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
+import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.Settings;
 import selfservice.domain.csa.ContactPerson;
-import selfservice.service.ActionsService;
 import selfservice.manage.Manage;
+import selfservice.service.ActionsService;
+import selfservice.service.Services;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +49,7 @@ public class UsersController extends BaseController {
   private Manage manage;
 
   @Autowired
-  private ServicesCache servicesCache;
+  private Services services;
 
   @Autowired
   private ActionsService actionsService;
@@ -65,7 +68,7 @@ public class UsersController extends BaseController {
     }
 
     List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
-        .sorted((lh, rh) -> lh.getName().compareTo(rh.getName()))
+        .sorted(Comparator.comparing(Provider::getName))
         .collect(toList());
 
     List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(), Authority.ROLE_DASHBOARD_ADMIN.name());
@@ -77,47 +80,22 @@ public class UsersController extends BaseController {
     return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/me/guest-enabled-services", method = RequestMethod.GET)
-  public RestResponse<List<Service>> guestEnabledServiceProviders(Locale locale) {
-    List<Service> usersServices = fetchGuestEnabledServiceProviders(locale);
-    return createRestResponse(usersServices);
-  }
-
   @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
-  public RestResponse<List<Service>> serviceProviders(Locale locale) {
+  public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
     List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
 
     return createRestResponse(usersServices);
   }
 
-  private List<Service> getServiceProvidersForCurrentUser(Locale locale) {
+  private List<Service> getServiceProvidersForCurrentUser(Locale locale) throws IOException {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     Optional<IdentityProvider> switchedToIdp = currentUser.getSwitchedToIdp();
     //We can not map as a null value is converted to an empty Optional
     String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() : currentUser.getInstitutionId();
 
     return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : servicesCache.getAllServices(locale.getLanguage()).stream()
-      .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
-      .collect(toList());
+      : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
   }
-
-  private List<Service> fetchGuestEnabledServiceProviders(Locale locale) {
-    String usersInstitutionId = SpringSecurity.getCurrentUser().getInstitutionId();
-
-    return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : servicesCache.getAllServices(locale.getLanguage()).stream()
-      .filter(service -> usersInstitutionId.equals(service.getInstitutionId()))
-      .filter(service -> manage
-        .getLinkedIdentityProviders(service.getSpEntityId())
-        .stream()
-        .map(IdentityProvider::getId)
-        .collect(toList())
-        .contains("https://www.onegini.me")
-      )
-      .collect(toList());
-  }
-
 
   @RequestMapping("/me/switch-to-idp")
   public ResponseEntity<Void> currentIdp(
@@ -140,7 +118,7 @@ public class UsersController extends BaseController {
   @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
   public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                       Locale locale,
-                                                      @RequestBody Settings settings) {
+                                                      @RequestBody Settings settings) throws IOException {
     CoinUser currentUser = SpringSecurity.getCurrentUser();
     if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -162,10 +140,9 @@ public class UsersController extends BaseController {
     }
     List<ContactPerson> contactPersons = idp.getContactPersons();
     List<ContactPerson> newContactPersons = settings.getContactPersons();
-
     for (int i = 0; i < contactPersons.size(); i++) {
       ContactPerson contactPerson = contactPersons.get(i);
-      if (newContactPersons.size() >= (i + 1)) {
+      if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
         ContactPerson newContactPerson = newContactPersons.get(i);
         if (changed(contactPerson.getName(), newContactPerson.getName())) {
           changes.add(new Change(idp.getId(), "contacts:" + i + ":name",
@@ -186,16 +163,15 @@ public class UsersController extends BaseController {
       }
     }
     List<Service> serviceProviders = this.getServiceProvidersForCurrentUser(locale);
-    List<Service> services = this.fetchGuestEnabledServiceProviders(locale);
 
     settings.getServiceProviderSettings().forEach(sp -> {
       Optional<Service> first = serviceProviders.stream().filter(service -> service.getSpEntityId().equals(sp
         .getSpEntityId())).findFirst();
       first.ifPresent(service -> {
-        boolean guestEnabled = services.stream().anyMatch(s -> s.getSpEntityId().equals(service.getSpEntityId()));
-        if (sp.isHasGuestEnabled() != guestEnabled) {
-          changes.add(new Change(sp.getSpEntityId(), "Guest Login Enabled", Boolean.toString(guestEnabled), Boolean
-            .toString(sp.isHasGuestEnabled())));
+        if (sp.isHasGuestEnabled() != service.isGuestEnabled()) {
+          changes.add(new Change(sp.getSpEntityId(), "Guest Login Enabled",
+              Boolean.toString(service.isGuestEnabled()),
+              Boolean.toString(sp.isHasGuestEnabled())));
         }
         if (sp.isNoConsentRequired() != service.isNoConsentRequired()) {
           changes.add(new Change(sp.getSpEntityId(), "coin:no_consent_required",

@@ -18,12 +18,12 @@
   <parent>
     <groupId>org.surfnet.coin</groupId>
     <artifactId>coin-selfservice-parent</artifactId>
-    <version>6.0.2</version>
+    <version>6.0.4-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>selfservice</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>OpenConext : selfservice</name>
   <properties>
     <jetty.host>localhost</jetty.host>
@@ -168,10 +168,6 @@
       <artifactId>spring-security-taglibs</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xml-apis</artifactId>
       <scope>runtime</scope>
@@ -254,9 +250,9 @@
     </plugins>
     <extensions>
       <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
+          <groupId>org.apache.maven.wagon</groupId>
+          <artifactId>wagon-webdav-jackrabbit</artifactId>
+          <version>2.10</version>
       </extension>
     </extensions>
   </build>
