@@ -37,14 +37,14 @@ public class EnrichJson {
   private Map<Class<?>, JsonApplier> mapping = new HashMap<>();
 
   private CoinUser currentUser;
-  private boolean localProfile;
+  private boolean statsEnabled;
   private JsonElement json;
 
   @SuppressWarnings("unchecked")
-  private EnrichJson(Environment environment, CoinUser coinUser, String statsUrl) {
+  private EnrichJson(boolean statsEnabled, CoinUser coinUser, String statsUrl) {
     logger.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
     this.currentUser = coinUser;
-    this.localProfile = environment.acceptsProfiles("local");
+    this.statsEnabled = statsEnabled;
     Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
 
     mapping.put(CoinUser.class, (coinUserJsonElement, payload) -> {
@@ -55,7 +55,7 @@ public class EnrichJson {
       user.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
       user.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
       user.addProperty(STATS_URL, statsUrl);
-      user.addProperty("localProfile", localProfile);
+      user.addProperty("statsEnabled", statsEnabled);
     });
 
     mapping.put(Service.class, (serviceJsonElement, payload) -> {
@@ -71,8 +71,8 @@ public class EnrichJson {
     });
   }
 
-  public static EnrichJson forUser(Environment environment, CoinUser currentUser, String statsUrl) {
-    return new EnrichJson(environment, currentUser, statsUrl);
+  public static EnrichJson forUser(boolean statsEnabled, CoinUser currentUser, String statsUrl) {
+    return new EnrichJson(statsEnabled, currentUser, statsUrl);
   }
 
   private void filterDashboardAuthorities(JsonObject user) {

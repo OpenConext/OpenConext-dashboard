@@ -108,7 +108,7 @@ if (browserSupported()) {
       const locationHash = window.location.hash.substr(1);
       currentUser.statsToken = locationHash.substr(locationHash.indexOf("access_token=")).split("&")[0].split("=")[1];
 
-      if (!currentUser.statsToken && !currentUser.localProfile) {
+      if (!currentUser.statsToken && currentUser.statsEnabled) {
         window.location = currentUser.statsUrl + "&state=" + window.location;
       } else {
         const spinner = document.getElementById("service-loader-id");

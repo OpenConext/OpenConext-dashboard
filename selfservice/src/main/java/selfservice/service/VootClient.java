@@ -8,5 +8,4 @@ public interface VootClient {
 
   List<Group> groups(String userId);
 
-  boolean hasAccess(String userId, String groupId);
 }

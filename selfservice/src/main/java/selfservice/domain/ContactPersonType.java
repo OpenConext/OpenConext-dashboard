@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package selfservice.domain.csa;
+package selfservice.domain;
 
 public enum ContactPersonType {
   technical, administrative, help

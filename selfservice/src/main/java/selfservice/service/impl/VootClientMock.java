@@ -10,13 +10,6 @@ import static java.util.Arrays.asList;
 
 public class VootClientMock implements VootClient {
 
-  public static final String CSA_ADMIN = "admin";
-
-  @Override
-  public boolean hasAccess(String personId, String groupId) {
-    return personId.endsWith(CSA_ADMIN);
-  }
-
   @Override
   public List<Group> groups(final String userId) {
     switch (userId) {
@@ -26,8 +19,6 @@ public class VootClientMock implements VootClient {
         return asList(new Group("dashboard.admin"));
       case "viewer":
         return asList(new Group("dashboard.viewer"));
-      case "csa":
-        return asList(new Group("csa.admins"));
       default:
         return Collections.emptyList();
     }

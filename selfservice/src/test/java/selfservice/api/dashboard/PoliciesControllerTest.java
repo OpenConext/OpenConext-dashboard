@@ -68,7 +68,6 @@ public class PoliciesControllerTest {
   @Test
   public void whenPdpIsAvailablePoliciesAllowsGet() throws Exception {
     when(pdpServiceMock.isAvailable()).thenReturn(true);
-    controller.policiesEnabled = true;
 
     mockMvc.perform(options("/dashboard/api/policies"))
       .andExpect(header().string("Allow", containsString("GET")))
@@ -78,7 +77,6 @@ public class PoliciesControllerTest {
   @Test
   public void whenPdpIsNotAvailablePoliciesDoesNotAllowAnything() throws Exception {
     when(pdpServiceMock.isAvailable()).thenReturn(false);
-    controller.policiesEnabled = true;
 
     mockMvc.perform(options("/dashboard/api/policies"))
       .andExpect(header().string("Allow", ""))

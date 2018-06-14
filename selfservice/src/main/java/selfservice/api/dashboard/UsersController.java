@@ -19,7 +19,7 @@ import selfservice.domain.IdentityProvider;
 import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.Settings;
-import selfservice.domain.csa.ContactPerson;
+import selfservice.domain.ContactPerson;
 import selfservice.manage.Manage;
 import selfservice.service.ActionsService;
 import selfservice.service.Services;

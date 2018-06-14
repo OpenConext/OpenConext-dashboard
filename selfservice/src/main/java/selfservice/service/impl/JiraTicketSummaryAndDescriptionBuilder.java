@@ -15,9 +15,7 @@ import com.google.common.base.MoreObjects;
 import selfservice.domain.Action;
 import selfservice.domain.Change;
 import selfservice.domain.LicenseStatus;
-import selfservice.domain.ServiceProviderSettings;
 import selfservice.domain.Settings;
-import selfservice.domain.csa.ContactPerson;
 
 class JiraTicketSummaryAndDescriptionBuilder {
 

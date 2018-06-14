@@ -61,9 +61,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   @Value("${dashboard.super.user}")
   private String dashboardSuperUser;
 
-  @Value("${admin.distribution.channel.teamname}")
-  private String adminDistributionTeam;
-
   @Value("${admin.surfconext.idp.sabRole}")
   private String adminSufConextIdpRole;
 
@@ -115,7 +112,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         AbstractPreAuthenticatedProcessingFilter.class
       )
       .addFilterAfter(
-          new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser, adminDistributionTeam),
+          new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser),
           ShibbolethPreAuthenticatedProcessingFilter.class)
       .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), VootFilter.class)
       .addFilterAfter(new EnsureAccessToIdpFilter(manage), SabEntitlementsFilter.class)

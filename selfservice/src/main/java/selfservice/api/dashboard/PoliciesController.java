@@ -44,8 +44,7 @@ public class PoliciesController extends BaseController {
     private static final String ALLOWED_HEADER_VALUE = ImmutableList.of(GET, POST, PUT, DELETE).stream()
         .map(RequestMethod::name)
         .collect(Collectors.joining(","));
-    @Value("${dashboard.feature.policies}")
-    protected boolean policiesEnabled;
+
     @Value("${dashboard.environment}")
     protected String environment;
     @Autowired
@@ -57,7 +56,7 @@ public class PoliciesController extends BaseController {
 
     @RequestMapping(method = OPTIONS)
     public ResponseEntity<Void> options(HttpServletResponse response) {
-        String allowHeaderValue = policiesEnabled && pdpService.isAvailable() ? ALLOWED_HEADER_VALUE : "";
+        String allowHeaderValue = pdpService.isAvailable() ? ALLOWED_HEADER_VALUE : "";
         response.setHeader(HttpHeaders.ALLOW, allowHeaderValue);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

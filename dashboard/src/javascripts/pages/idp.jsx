@@ -19,9 +19,7 @@ class MyIdp extends React.Component {
     componentWillMount() {
         getIdpRolesWithUsers().then(data => {
             this.setState({roles: data.payload});
-            getInstitutionServiceProviders().then(data => {
-                this.setState({institutionServiceProviders: data.payload})
-            });
+            getInstitutionServiceProviders().then(data => this.setState({institutionServiceProviders: data.payload}));
         });
     }
 

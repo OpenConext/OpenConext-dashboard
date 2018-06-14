@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package selfservice.domain.csa;
+package selfservice.domain;
 
 import java.io.Serializable;
 

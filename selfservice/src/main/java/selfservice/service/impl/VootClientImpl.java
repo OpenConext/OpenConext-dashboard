@@ -36,16 +36,6 @@ public class VootClientImpl implements VootClient {
   }
 
   @Override
-  public boolean hasAccess(String userId, String groupId) {
-    try {
-      vootService.getForObject(serviceUrl + "/internal/groups/{userId}/{groupId}", Map.class, userId, groupId);
-      return true;
-    } catch (HttpClientErrorException e) {
-      return false;
-    }
-  }
-
-  @Override
   public List<Group> groups(String userId) {
     @SuppressWarnings("unchecked")
     List<Map<String, Object>> maps = vootService.getForObject(serviceUrl + "/internal/groups/{userId}", List.class, userId);

@@ -36,7 +36,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
     .enableComplexMapKeySerialization()
     .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter().nullSafe())
     .registerTypeAdapter(ShibbolethHeader.class, new ShibbolethHeaderTypeAdapter().nullSafe());
-  private Environment environment;
+  private boolean statsEnabled;
 
   private Gson gson;
 
@@ -46,15 +46,15 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   private String statsScope;
   private String statsRedirectUri;
 
-  public GsonHttpMessageConverter(Environment environment, String statsBaseUr, String statsAuthorizePath, String
-    statsClientId, String statsScope, String statsRedirectUri) {
-    this.environment = environment;
+  public GsonHttpMessageConverter(String statsBaseUr, String statsAuthorizePath, String
+      statsClientId, String statsScope, String statsRedirectUri, boolean statsEnabled) {
     this.gson = GSON_BUILDER.create();
     this.statsBaseUrl = statsBaseUr;
     this.statsAuthorizePath = statsAuthorizePath;
     this.statsClientId = statsClientId;
     this.statsScope = statsScope;
     this.statsRedirectUri = statsRedirectUri;
+    this.statsEnabled = statsEnabled;
   }
 
   @Override
@@ -89,7 +89,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
     IOException, HttpMessageNotWritableException {
     JsonElement json = gson.toJsonTree(objectRestResponse);
     EnrichJson.forUser(
-      this.environment,
+      statsEnabled,
       SpringSecurity.getCurrentUser(),
       format(
         "%s/%s?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",

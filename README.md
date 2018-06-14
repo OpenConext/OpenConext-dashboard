@@ -67,14 +67,6 @@ When you browse to the [application homepage](http://localhost:8001/dashboard/ap
 
 A list of available log-ins can be found in the mocked implementation of the [VootClient](selfservice/src/main/java/selfservice/service/impl/VootClientMock.java).
 
-When you want to test the back-office CSA application then: 
-```
-cd selfservice
-./debug.sh 
-``` 
-And the application is available on [localhost:8280](http://localhost:8280). Note that because of credentials exclusivity you can't run both apps in the same
-browser.
-
 #Manage queries
 ```
 curl -H 'Content-Type: application/json' -u pdp:secret  -X POST -d '{"REQUESTED_ATTRIBUTES":["metaDataFields.coin:type_of_service:nl","metaDataFields.coin:type_of_service:en"],"metaDataFields.coin:type_of_service:en":".*"}' 'https://manage.test2.surfconext.nl//manage/api/internal/search/saml20_sp' | python -m json.tool 

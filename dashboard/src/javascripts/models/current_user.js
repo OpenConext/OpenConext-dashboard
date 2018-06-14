@@ -12,7 +12,7 @@ class CurrentUser {
     this.superUser = rawUser.superUser;
     this.switchedToIdp = rawUser.switchedToIdp;
     this.uid = rawUser.uid;
-    this.localProfile = rawUser.localProfile;
+    this.statsEnabled = rawUser.statsEnabled;
   }
 
   getCurrentIdp() {

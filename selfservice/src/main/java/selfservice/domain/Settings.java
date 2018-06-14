@@ -1,9 +1,6 @@
 package selfservice.domain;
 
 import java.util.List;
-import java.util.Optional;
-
-import selfservice.domain.csa.ContactPerson;
 
 public class Settings {
 

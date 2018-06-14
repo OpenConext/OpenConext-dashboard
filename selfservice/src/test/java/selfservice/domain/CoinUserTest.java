@@ -47,7 +47,7 @@ public class CoinUserTest {
   @Test
   public void testSerializeToJson() {
     JsonElement json = gson.toJsonTree(RestResponse.of(Locale.ENGLISH, coinUser));
-    EnrichJson.forUser(new MockEnvironment(), coinUser, "/foo").json(json).forPayload(coinUser);
+    EnrichJson.forUser(true, coinUser, "/foo").json(json).forPayload(coinUser);
     assertNotNull(json);
   }
 

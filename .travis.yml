@@ -13,10 +13,6 @@ cache:
 install:
   - cd dashboard && nvm install $(cat .node-version) && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-before_script:
-  - mysql -e "create database csa default character set utf8;
-    create user 'csa'@'localhost' identified by 'csa';
-    grant all on csa.* to 'csa'@'localhost';" -uroot
 script:
   - mvn verify -B
   - cd dashboard && nvm install $(cat .node-version) && npm run lint

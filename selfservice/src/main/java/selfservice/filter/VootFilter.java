@@ -15,14 +15,17 @@
  */
 package selfservice.filter;
 
-import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
-import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-import static selfservice.domain.CoinAuthority.Authority.ROLE_DISTRIBUTION_CHANNEL_ADMIN;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
+import selfservice.domain.CoinAuthentication;
+import selfservice.domain.CoinAuthority;
+import selfservice.domain.CoinUser;
+import selfservice.domain.Group;
+import selfservice.service.VootClient;
+import selfservice.util.SpringSecurity;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -30,19 +33,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
-
-import selfservice.domain.CoinAuthentication;
-import selfservice.domain.CoinAuthority;
-import selfservice.domain.CoinUser;
-import selfservice.domain.Group;
-import selfservice.service.VootClient;
-import selfservice.util.SpringSecurity;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 
 /**
  * Servlet filter that performs Oauth 2.0 (authorization code) against
@@ -63,14 +60,12 @@ public class VootFilter extends GenericFilterBean {
   private final String dashboardAdmin;
   private final String dashboardViewer;
   private final String dashboardSuperUser;
-  private final String adminDistributionTeam;
 
-  public VootFilter(VootClient vootClient, String dashboardAdmin, String dashboardViewer, String dashboardSuperUser, String adminDistibutionTeam) {
+  public VootFilter(VootClient vootClient, String dashboardAdmin, String dashboardViewer, String dashboardSuperUser) {
     this.vootClient = vootClient;
     this.dashboardAdmin = dashboardAdmin;
     this.dashboardViewer = dashboardViewer;
     this.dashboardSuperUser = dashboardSuperUser;
-    this.adminDistributionTeam = adminDistibutionTeam;
   }
 
   @Override
@@ -93,7 +88,6 @@ public class VootFilter extends GenericFilterBean {
     List<Group> groups = vootClient.groups(user.getUid());
 
     addDashboardRole(user, groups);
-    addCsaRole(user, groups);
 
     if (logger.isDebugEnabled()) {
       logger.debug("Roles based on VOOT {}", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
@@ -102,12 +96,6 @@ public class VootFilter extends GenericFilterBean {
     SecurityContextHolder.getContext().setAuthentication(new CoinAuthentication(user));
 
     session.setAttribute(PROCESSED, "true");
-  }
-
-  private void addCsaRole(CoinUser user, List<Group> groups) {
-    if (groupsContains(adminDistributionTeam, groups)) {
-      user.addAuthority(new CoinAuthority(ROLE_DISTRIBUTION_CHANNEL_ADMIN));
-    }
   }
 
   private void addDashboardRole(CoinUser user, List<Group> groups) {

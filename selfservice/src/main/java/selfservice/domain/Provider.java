@@ -19,8 +19,6 @@ import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.util.CollectionUtils;
-import selfservice.domain.csa.ContactPerson;
-import selfservice.domain.csa.ContactPersonType;
 
 import java.io.Serializable;
 import java.util.ArrayList;

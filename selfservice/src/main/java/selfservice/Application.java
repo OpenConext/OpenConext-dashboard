@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.LocaleResolver;
 import selfservice.manage.ClassPathResourceManage;
 import selfservice.manage.Manage;
@@ -50,77 +48,46 @@ public class Application {
     }
 
     @Bean
-    @Profile("!dev")
-    public Sab sab(HttpClientTransport httpClientTransport) {
-        return new SabClient(httpClientTransport);
+    public Sab sab(HttpClientTransport httpClientTransport,
+                   @Value("${dashboard.feature.sab}") boolean sabEnabled) {
+        return sabEnabled ? new SabClient(httpClientTransport) : new SabClientMock();
     }
 
     @Bean
-    @Profile("dev")
-    public Sab sabMock() {
-        return new SabClientMock();
-    }
-
-    @Bean
-    @Profile("!dev")
-    public VootClient vootClient(Environment environment,
+    public VootClient vootClient(@Value("${dashboard.feature.voot}") boolean vootEnabled,
                                  @Value("${voot.accessTokenUri}") String accessTokenUri,
                                  @Value("${voot.clientId}") String clientId,
                                  @Value("${voot.clientSecret}") String clientSecret,
                                  @Value("${voot.scopes}") String spaceDelimitedScopes,
                                  @Value("${voot.serviceUrl}") String serviceUrl) {
-        return new VootClientImpl(accessTokenUri, clientId, clientSecret, spaceDelimitedScopes, serviceUrl);
+        return vootEnabled ? new VootClientImpl(accessTokenUri, clientId, clientSecret, spaceDelimitedScopes,
+            serviceUrl) : new VootClientMock();
     }
 
     @Bean
-    @Profile("dev")
-    public VootClient mockVootClient(Environment environment) {
-        return new VootClientMock();
+    public Manage urlResourceServiceRegistry(@Value("${dashboard.feature.manage}") boolean manageEnabled,
+                                             @Value("${manage.username}") String username,
+                                             @Value("${manage.password}") String password,
+                                             @Value("${manage.manageBaseUrl}") String manageBaseUrl) {
+        return manageEnabled ? new UrlResourceManage(username, password, manageBaseUrl) : new ClassPathResourceManage();
     }
 
     @Bean
-//    @Profile("!dev")
-    public Manage urlResourceServiceRegistry(
-        @Value("${manage.username}") String username,
-        @Value("${manage.password}") String password,
-        @Value("${manage.manageBaseUrl}") String manageBaseUrl) {
-        return new UrlResourceManage(username, password, manageBaseUrl);
-    }
-
-//    @Bean
-//    @Profile("dev")
-//    public Manage classPathServiceRegistry() throws Exception {
-//        return new ClassPathResourceManage();
-//    }
-
-    @Bean
-    @Profile("!dev")
-    public JiraClient jiraClient(@Value("${jiraBaseUrl}") String baseUrl,
+    public JiraClient jiraClient(@Value("${dashboard.feature.jira}") boolean jiraEnabled,
+                                 @Value("${jiraBaseUrl}") String baseUrl,
                                  @Value("${jiraUsername}") String username,
                                  @Value("${jiraPassword}") String password,
                                  @Value("${jiraProjectKey}") String projectKey) {
-        return new JiraClientImpl(baseUrl, username, password, projectKey);
+        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey) :new JiraClientMock();
     }
 
     @Bean
-    @Profile("dev")
-    public JiraClient mockJiraClient() {
-        return new JiraClientMock();
-    }
-
-    @Bean
-    @Profile("!dev")
-    public PdpService pdpService(@Value("${pdp.server}") String server, @Value("${pdp.username}") String username,
+    public PdpService pdpService(@Value("${dashboard.feature.manage}") boolean pdpEnabled,
+                                 @Value("${pdp.server}") String server,
+                                 @Value("${pdp.username}") String username,
                                  @Value("${pdp.password}") String password) {
-        return new PdpServiceImpl(server, username, password);
+        return pdpEnabled ? new PdpServiceImpl(server, username, password) : new PdpServiceMock();
     }
-
-    @Bean
-    @Profile("dev")
-    public PdpService mockPdpService() {
-        return new PdpServiceMock();
-    }
-
 
     @Bean
     public LocaleResolver localeResolver() {
