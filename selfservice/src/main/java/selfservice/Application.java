@@ -21,13 +21,10 @@ import selfservice.sab.Sab;
 import selfservice.sab.SabClient;
 import selfservice.sab.SabClientMock;
 import selfservice.service.Services;
-import selfservice.service.VootClient;
 import selfservice.service.impl.JiraClient;
 import selfservice.service.impl.JiraClientImpl;
 import selfservice.service.impl.JiraClientMock;
 import selfservice.service.impl.ServicesImpl;
-import selfservice.service.impl.VootClientImpl;
-import selfservice.service.impl.VootClientMock;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.util.Locale;
@@ -51,17 +48,6 @@ public class Application {
     public Sab sab(HttpClientTransport httpClientTransport,
                    @Value("${dashboard.feature.sab}") boolean sabEnabled) {
         return sabEnabled ? new SabClient(httpClientTransport) : new SabClientMock();
-    }
-
-    @Bean
-    public VootClient vootClient(@Value("${dashboard.feature.voot}") boolean vootEnabled,
-                                 @Value("${voot.accessTokenUri}") String accessTokenUri,
-                                 @Value("${voot.clientId}") String clientId,
-                                 @Value("${voot.clientSecret}") String clientSecret,
-                                 @Value("${voot.scopes}") String spaceDelimitedScopes,
-                                 @Value("${voot.serviceUrl}") String serviceUrl) {
-        return vootEnabled ? new VootClientImpl(accessTokenUri, clientId, clientSecret, spaceDelimitedScopes,
-            serviceUrl) : new VootClientMock();
     }
 
     @Bean

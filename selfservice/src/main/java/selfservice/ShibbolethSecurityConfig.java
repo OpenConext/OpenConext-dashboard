@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,10 +23,8 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.web.filter.GenericFilterBean;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SabEntitlementsFilter;
-import selfservice.filter.VootFilter;
-import selfservice.sab.Sab;
-import selfservice.service.VootClient;
 import selfservice.manage.Manage;
+import selfservice.sab.Sab;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import selfservice.shibboleth.ShibbolethUserDetailService;
 import selfservice.shibboleth.mock.MockShibbolethFilter;
@@ -46,9 +43,6 @@ import java.io.IOException;
 public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private static final Logger LOG = LoggerFactory.getLogger(ShibbolethSecurityConfig.class);
-
-  @Autowired
-  private VootClient vootClient;
 
   @Autowired
   private Manage manage;
@@ -124,16 +118,13 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         .addLogoutHandler(new DashboardLogoutHandler()).and()
       .csrf().disable()
       .addFilterBefore(
-        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage),
+        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage,
+            dashboardAdmin, dashboardViewer, dashboardSuperUser),
         AbstractPreAuthenticatedProcessingFilter.class
       )
-      .addFilterAfter(
-          new VootFilter(vootClient, dashboardAdmin, dashboardViewer, dashboardSuperUser),
-          ShibbolethPreAuthenticatedProcessingFilter.class)
-      .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), VootFilter.class)
+      .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), ShibbolethPreAuthenticatedProcessingFilter.class)
       .addFilterAfter(new EnsureAccessToIdpFilter(manage), SabEntitlementsFilter.class)
       .authorizeRequests()
-      .antMatchers("/shopadmin/**").hasRole("DISTRIBUTION_CHANNEL_ADMIN")//permitAll()
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
       .antMatchers("/dashboard/api/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
       .anyRequest().authenticated();
