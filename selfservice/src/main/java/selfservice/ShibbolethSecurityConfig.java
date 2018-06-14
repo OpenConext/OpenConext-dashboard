@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+import org.springframework.web.filter.GenericFilterBean;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SabEntitlementsFilter;
 import selfservice.filter.VootFilter;
@@ -31,7 +32,10 @@ import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import selfservice.shibboleth.ShibbolethUserDetailService;
 import selfservice.shibboleth.mock.MockShibbolethFilter;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,11 +71,23 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
   @Value("${viewer.surfconext.idp.sabRole}")
   private String viewerSurfConextIdpRole;
 
+  @Value("${dashboard.feature.shibboleth}")
+  private boolean shibbolethEnabled;
+
   @Bean
-  @Profile("dev")
   public FilterRegistrationBean mockShibbolethFilter() {
     FilterRegistrationBean shibFilter = new FilterRegistrationBean();
-    shibFilter.setFilter(new MockShibbolethFilter());
+    if (!shibbolethEnabled) {
+        shibFilter.setFilter(new MockShibbolethFilter());
+    } else {
+        shibFilter.setFilter(new GenericFilterBean(){
+            @Override
+            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
+                IOException, ServletException {
+                chain.doFilter(request, response);
+            }
+        });
+    }
     shibFilter.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
     return shibFilter;
   }
