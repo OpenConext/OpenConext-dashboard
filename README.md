@@ -46,8 +46,9 @@ If you want to debug you can either debug the Application in your IDE or use:
 #### [Feature toggles](#feature_toggles)
 
 In the [application.properties](selfservice/src/main/resources/application.properties) file you can disable / enable
-all remote interfaces like JIRA, Mail, SAB, VOOT, Statistics, PDP, OIDC, Manage. Default they are all disabled and
-mock implementations are used. Using ansible for deployment they can enabled.
+all remote interfaces like JIRA, Mail, SAB, VOOT, Statistics, PDP, OIDC, Manage by setting the `dashboard.feature.X`
+to `false` or `true`. Default they are all disabled and mock implementations are used. Using ansible for
+deployment they can enabled.
 
 #### [The client](#client)
 
