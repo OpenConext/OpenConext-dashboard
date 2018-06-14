@@ -20,7 +20,6 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 
 - Java 8
 - Maven 3
-- MySQL 5.5
 - NodeJS v8.9.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
 - yarn 1.1.0
 
@@ -36,17 +35,18 @@ To build:
 
     mvn clean install
 
-To run locally:
+To run locally either start the Application from your IDE or use the spring-boot maven plugin:
 
-    mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=dev"
+    mvn spring-boot:run
 
-If you want to debug you can use
+If you want to debug you can either debug the Application in your IDE or use:
 
     ./debug.sh
     
-To run without statistics - e.g. without any need for an internet connection - run    
-
-    ./debug-local.sh
+#### Feature toggles
+In the [application.properties](selfservice/src/main/resources/application.properties) file you can disable / enable
+all remote interfaces like JIRA, Mail, SAB, VOOT, Statistics, PDP, OIDC, Manage. Default they are all disabled and
+mock implementations are used. Using ansible for deployment they can enabled.
 
 #### The client
 
@@ -55,6 +55,7 @@ To run without statistics - e.g. without any need for an internet connection - r
 Initial setup if you do:
 
     nvm install
+
 To build:
 
     yarn run webpack
