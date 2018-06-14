@@ -64,16 +64,6 @@ public class SabClientTest {
   }
 
   @Test
-  public void invalidUser() throws IOException {
-    String userId = "foo";
-
-    sabClient = new SabClient(new LocalFileTransport("/response-invaliduser.xml", "/sab-json/profile.json"));
-    Optional<SabRoleHolder> roles = sabClient.getRoles(userId);
-
-    assertFalse(roles.isPresent());
-  }
-
-  @Test
   public void testGetPersonsInRoleForOrganization() throws Exception {
     Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextverantwoordelijke");
     assertEquals(6, actual.size());

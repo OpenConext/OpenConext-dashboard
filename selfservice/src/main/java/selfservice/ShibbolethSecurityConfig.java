@@ -22,7 +22,6 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.web.filter.GenericFilterBean;
 import selfservice.filter.EnsureAccessToIdpFilter;
-import selfservice.filter.SabEntitlementsFilter;
 import selfservice.manage.Manage;
 import selfservice.sab.Sab;
 import selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
@@ -119,11 +118,10 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
       .csrf().disable()
       .addFilterBefore(
         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage,
-            dashboardAdmin, dashboardViewer, dashboardSuperUser),
+            dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole, viewerSurfConextIdpRole),
         AbstractPreAuthenticatedProcessingFilter.class
       )
-      .addFilterAfter(new SabEntitlementsFilter(sab, adminSufConextIdpRole, viewerSurfConextIdpRole), ShibbolethPreAuthenticatedProcessingFilter.class)
-      .addFilterAfter(new EnsureAccessToIdpFilter(manage), SabEntitlementsFilter.class)
+      .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
       .authorizeRequests()
       .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
       .antMatchers("/dashboard/api/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")

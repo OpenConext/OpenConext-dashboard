@@ -25,14 +25,6 @@ import java.util.Optional;
 public interface Sab {
 
   /**
-   * Get the Role/organisation info for the given userId
-   *
-   * @param userId the userId to query for
-   * @return SabRoleHolder
-   */
-  Optional<SabRoleHolder> getRoles(String userId);
-
-  /**
    * Get all persons within the given organisation that have the given role.
    */
   Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role);

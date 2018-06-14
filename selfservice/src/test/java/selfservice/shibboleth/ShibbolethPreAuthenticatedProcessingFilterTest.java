@@ -1,11 +1,14 @@
 package selfservice.shibboleth;
 
 import com.google.common.collect.ImmutableList;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.mock.web.MockHttpServletRequest;
+import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.manage.Manage;
@@ -13,73 +16,133 @@ import selfservice.manage.Manage;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+import static selfservice.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_MemberOf;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
-  @InjectMocks
-  private ShibbolethPreAuthenticatedProcessingFilter subject;
+    @InjectMocks
+    private ShibbolethPreAuthenticatedProcessingFilter subject;
 
-  @Mock
-  private Manage manageMock;
+    @Mock
+    private Manage manageMock;
 
-  @Test
-  public void shouldCreateACoinUserBasedOnShibbolethHeaders() {
-    HttpServletRequest requestMock = mock(HttpServletRequest.class);
-    when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-    when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(new IdentityProvider()));
+    @Before
+    public void before() {
+        subject.setAdminSurfConextIdpRole("SURFconextverantwoordelijke");
+        subject.setViewerSurfConextIdpRole("SURFconextbeheerder");
 
-    CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
+        subject.setDashboardAdmin("dashboard.admin");
+        subject.setDashboardSuperUser("dashboard.super.user");
+        subject.setDashboardViewer("dashboard.viewer");
+    }
 
-    assertThat(coinUser.getUid(), is("name-id_value"));
-    assertThat(coinUser.getEmail(), is("Shib-email_value"));
-    assertThat(coinUser.getDisplayName(), is("Shib-displayName_value"));
-  }
+    @Test
+    public void shouldCreateACoinUserBasedOnShibbolethHeaders() {
+        HttpServletRequest requestMock = mock(HttpServletRequest.class);
+        when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(new
+            IdentityProvider()));
 
-  @Test
-  public void shouldSetTheInstitionIdOfTheUser() {
-    IdentityProvider idp = new IdentityProvider();
-    idp.setInstitutionId("my-institution-id");
+        CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
-    HttpServletRequest requestMock = mock(HttpServletRequest.class);
-    when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-    when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(idp));
-    when(manageMock.getInstituteIdentityProviders("my-institution-id")).thenReturn(ImmutableList.of(idp));
+        assertThat(coinUser.getUid(), is("name-id_value"));
+        assertThat(coinUser.getEmail(), is("Shib-email_value"));
+        assertThat(coinUser.getDisplayName(), is("Shib-displayName_value"));
+    }
 
-    CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
+    @Test
+    public void shouldSetTheInstitionIdOfTheUser() {
+        IdentityProvider idp = new IdentityProvider();
+        idp.setInstitutionId("my-institution-id");
 
-    assertThat(coinUser.getInstitutionId(), is("my-institution-id"));
-  }
+        HttpServletRequest requestMock = mock(HttpServletRequest.class);
+        when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(idp));
+        when(manageMock.getInstituteIdentityProviders("my-institution-id")).thenReturn(ImmutableList.of(idp));
 
-  @Test
-  public void shouldSplitMultiValueAttribute() {
-    HttpServletRequest requestMock = mock(HttpServletRequest.class);
-    when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value1;" + invocation.getArguments()[0] + "_value2");
-    when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value1")).thenReturn(Optional.of(new IdentityProvider()));
+        CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
-    CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
+        assertThat(coinUser.getInstitutionId(), is("my-institution-id"));
+    }
 
-    assertThat(coinUser.getUid(), is("name-id_value1"));
-    assertThat(coinUser.getEmail(), is("Shib-email_value1"));
+    @Test
+    public void shouldSplitMultiValueAttribute() {
+        HttpServletRequest requestMock = mock(HttpServletRequest.class);
+        when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value1;" +
+            invocation.getArguments()[0] + "_value2");
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value1")).thenReturn(Optional.of(new
+            IdentityProvider()));
 
-    assertThat(coinUser.getAttributeMap().get(Shib_EduPersonEntitlement), contains("Shib-eduPersonEntitlement_value1", "Shib-eduPersonEntitlement_value2"));
-  }
+        CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
-  @Test(expected = IllegalArgumentException.class)
-  public void shouldFailWhenTheNameIdHeaderIsNotSet() {
-    HttpServletRequest requestMock = mock(HttpServletRequest.class);
-    when(requestMock.getHeader(anyString())).thenReturn("headerValue");
-    when(requestMock.getHeader(Name_Id.getValue())).thenReturn(null);
+        assertThat(coinUser.getUid(), is("name-id_value1"));
+        assertThat(coinUser.getEmail(), is("Shib-email_value1"));
 
-    subject.getPreAuthenticatedPrincipal(requestMock);
-  }
+        assertThat(coinUser.getAttributeMap().get(Shib_EduPersonEntitlement), contains
+            ("Shib-eduPersonEntitlement_value1", "Shib-eduPersonEntitlement_value2"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailWhenTheNameIdHeaderIsNotSet() {
+        HttpServletRequest requestMock = mock(HttpServletRequest.class);
+        when(requestMock.getHeader(anyString())).thenReturn("headerValue");
+        when(requestMock.getHeader(Name_Id.getValue())).thenReturn(null);
+
+        subject.getPreAuthenticatedPrincipal(requestMock);
+    }
+
+    @Test
+    public void shouldAddSabEntitlements() {
+        doAssertSabEntitlement("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextverantwoordelijke",
+            ROLE_DASHBOARD_ADMIN, Shib_EduPersonEntitlement);
+        doAssertSabEntitlement("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextbeheerder",
+            ROLE_DASHBOARD_VIEWER, Shib_EduPersonEntitlement);
+    }
+
+    @Test
+    public void shouldAddTeamsEntitlements() {
+        doAssertSabEntitlement("dashboard.admin",
+            ROLE_DASHBOARD_ADMIN, Shib_MemberOf);
+        doAssertSabEntitlement("dashboard.viewer",
+            ROLE_DASHBOARD_VIEWER, Shib_MemberOf);
+        doAssertSabEntitlement("dashboard.super.user",
+            ROLE_DASHBOARD_SUPER_USER, Shib_MemberOf);
+    }
+
+    @Test
+    public void noRoles() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader(Name_Id.getValue(), "uid");
+        when(manageMock.getIdentityProvider("mock-idp")).thenReturn(Optional.of(new IdentityProvider()));
+        request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
+        CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
+        assertEquals(0, user.getAuthorityEnums().size());
+    }
+
+    private void doAssertSabEntitlement(String entitlement, CoinAuthority.Authority role, ShibbolethHeader headerName) {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader(headerName.getValue(), entitlement);
+        request.addHeader(Name_Id.getValue(), "uid");
+        when(manageMock.getIdentityProvider("mock-idp")).thenReturn(Optional.of(new IdentityProvider()));
+        request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
+        CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
+        assertEquals(1, user.getAuthorityEnums().size());
+        assertTrue(user.getAuthorityEnums().contains(role));
+    }
 
 }

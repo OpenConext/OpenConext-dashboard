@@ -40,20 +40,6 @@ public class SabClientMock implements Sab {
     new SabPerson("Frans", "Franssen", "ffransen", asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE))
   );
 
-  /**
-   * Mapping of userIds to roles
-   */
-  private final Map<String, SabRoleHolder> rolesMapping = ImmutableMap.of(
-      "user1", new SabRoleHolder("SURFNET", asList("Foo", "Bar")),
-      "user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")),
-      "noroles", new SabRoleHolder("SURFNET", Collections.emptyList())
-  );
-
-  @Override
-  public Optional<SabRoleHolder> getRoles(String userId) {
-    return Optional.ofNullable(rolesMapping.get(userId));
-  }
-
   @Override
   public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
       return sabPersons.stream()

@@ -7,7 +7,6 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.util.StringUtils;
 import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
-import selfservice.domain.Group;
 import selfservice.domain.IdentityProvider;
 import selfservice.manage.Manage;
 
@@ -60,19 +59,27 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             .build();
     }
 
-    private final Manage manage;
-    private final String dashboardAdmin;
-    private final String dashboardViewer;
-    private final String dashboardSuperUser;
+    private Manage manage;
+    private String dashboardAdmin;
+    private String dashboardViewer;
+    private String dashboardSuperUser;
+    private String adminSurfConextIdpRole;
+    private String viewerSurfConextIdpRole;
 
-
-    public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager, Manage manage,
-                                                      String dashboardAdmin, String dashboardViewer, String dashboardSuperUser) {
+    public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager,
+                                                      Manage manage,
+                                                      String dashboardAdmin,
+                                                      String dashboardViewer,
+                                                      String dashboardSuperUser,
+                                                      String adminSufConextIdpRole,
+                                                      String viewerSurfConextIdpRole) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
-        this.dashboardAdmin=dashboardAdmin;
-        this.dashboardSuperUser=dashboardSuperUser;
-        this.dashboardViewer=dashboardViewer;
+        this.dashboardAdmin = dashboardAdmin;
+        this.dashboardSuperUser = dashboardSuperUser;
+        this.dashboardViewer = dashboardViewer;
+        this.adminSurfConextIdpRole = adminSufConextIdpRole;
+        this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
     }
 
     @Override
@@ -96,7 +103,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setAttributeMap(attributes);
 
         List<String> groups = getShibHeaderValues(Shib_MemberOf, request);
-        this.addDashboardRole(coinUser, groups);
+        this.addDashboardRoleForMemberships(coinUser, groups);
+
+        List<String> entitlements = getShibHeaderValues(Shib_EduPersonEntitlement, request);
+        this.addDashboardRoleForEntitlements(coinUser, entitlements);
 
         List<IdentityProvider> institutionIdentityProviders = getInstitutionIdentityProviders(idpId);
 
@@ -120,12 +130,20 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         return coinUser;
     }
 
-    private void addDashboardRole(CoinUser user, List<String> groups) {
+    private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {
         if (groups.contains(dashboardSuperUser)) {
             user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
         } else if (groups.contains(dashboardAdmin)) {
             user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
         } else if (groups.contains(dashboardViewer)) {
+            user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+        }
+    }
+
+    private void addDashboardRoleForEntitlements(CoinUser user, List<String> entitlements) {
+        if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(adminSurfConextIdpRole) > -1)) {
+            user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+        } else if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(viewerSurfConextIdpRole) > -1)) {
             user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
         }
     }
@@ -156,7 +174,27 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         return institutionIdentityProviders.stream()
             .filter(provider -> provider.getId().equals(idpId))
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(String.format("The Idp('%s') is not present in the list of Idp's returned by the CsaClient", idpId)));
+            .orElseThrow(() -> new IllegalArgumentException(String.format("The Idp('%s') is not present in the list " +
+                "of Idp's returned by the CsaClient", idpId)));
     }
 
+    public void setDashboardAdmin(String dashboardAdmin) {
+        this.dashboardAdmin = dashboardAdmin;
+    }
+
+    public void setDashboardViewer(String dashboardViewer) {
+        this.dashboardViewer = dashboardViewer;
+    }
+
+    public void setDashboardSuperUser(String dashboardSuperUser) {
+        this.dashboardSuperUser = dashboardSuperUser;
+    }
+
+    public void setAdminSurfConextIdpRole(String adminSurfConextIdpRole) {
+        this.adminSurfConextIdpRole = adminSurfConextIdpRole;
+    }
+
+    public void setViewerSurfConextIdpRole(String viewerSurfConextIdpRole) {
+        this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
+    }
 }

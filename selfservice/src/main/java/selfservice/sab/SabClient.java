@@ -54,23 +54,9 @@ public class SabClient implements Sab {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final SabTransport sabTransport;
-  private final SabResponseParser sabResponseParser = new SabResponseParser();
 
   public SabClient(SabTransport sabTransport) {
     this.sabTransport = sabTransport;
-  }
-
-  @Override
-  public Optional<SabRoleHolder> getRoles(String userId) {
-    String messageId = UUID.randomUUID().toString();
-    String requestBody = createRequest(userId, messageId);
-
-    try (InputStream is = sabTransport.getResponse(requestBody)) {
-      return Optional.of(sabResponseParser.parse(is));
-    } catch (IOException e) {
-      LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
-      return Optional.empty();
-    }
   }
 
   @Override

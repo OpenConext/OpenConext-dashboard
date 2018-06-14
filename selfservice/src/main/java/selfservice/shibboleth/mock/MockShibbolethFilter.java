@@ -21,6 +21,8 @@ import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 import static selfservice.shibboleth.ShibbolethHeader.Name_Id;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
+import static selfservice.shibboleth.ShibbolethHeader.Shib_MemberOf;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_SchacPersonalUniqueCode;
 import static selfservice.shibboleth.ShibbolethHeader.Shib_Uid;
 import static selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter.shibHeaders;
@@ -41,8 +43,6 @@ public class MockShibbolethFilter extends GenericFilterBean {
             String login = IOUtils.toString(new ClassPathResource("mockLogin.html").getInputStream());
             response.getWriter().write(login);
         } else {
-
-
             req.getSession(true).setAttribute("mockShibbolethUser", userId);
             SetHeader wrapper = new SetHeader(req);
             wrapper.setHeader(Name_Id.getValue(), userId);
@@ -51,9 +51,22 @@ public class MockShibbolethFilter extends GenericFilterBean {
             wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
             wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");
             wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
-
-            wrapper.setHeader(shibHeaders.get("urn:mace:dir:attribute-def:eduPersonEntitlement").getValue(),
+            //TODO sab entitlements
+            wrapper.setHeader(Shib_EduPersonEntitlement.getValue(),
                 "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
+            switch (userId) {
+                case "super":
+                    wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.super.user");
+                    break;
+                case "admin":
+                    wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.admin");
+                    break;
+                case "viewer":
+                    wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.viewer");
+                    break;
+                default:
+                    //nothing
+            }
 
             chain.doFilter(wrapper, response);
         }
