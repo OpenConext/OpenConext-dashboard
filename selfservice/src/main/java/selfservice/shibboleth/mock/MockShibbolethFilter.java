@@ -51,7 +51,6 @@ public class MockShibbolethFilter extends GenericFilterBean {
             wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
             wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");
             wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
-            //TODO sab entitlements
             wrapper.setHeader(Shib_EduPersonEntitlement.getValue(),
                 "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
             switch (userId) {
@@ -67,7 +66,6 @@ public class MockShibbolethFilter extends GenericFilterBean {
                 default:
                     //nothing
             }
-
             chain.doFilter(wrapper, response);
         }
     }
@@ -98,6 +96,14 @@ public class MockShibbolethFilter extends GenericFilterBean {
                 return headers.get(name);
             }
             return super.getHeader(name);
+        }
+
+        @Override
+        public Enumeration getHeaders(String name) {
+            if (headers.containsKey(name)) {
+                return Collections.enumeration(Collections.singletonList(headers.get(name)));
+            }
+            return super.getHeaders(name);
         }
     }
 

@@ -2,6 +2,8 @@ package selfservice.shibboleth;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.util.StringUtils;
@@ -11,10 +13,13 @@ import selfservice.domain.IdentityProvider;
 import selfservice.manage.Manage;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.singletonList;
@@ -30,6 +35,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     public static final Map<String, ShibbolethHeader> shibHeaders;
     private static final Splitter shibHeaderValueSplitter = Splitter.on(';').omitEmptyStrings();
+    private final static Logger LOG = LoggerFactory.getLogger(ShibbolethPreAuthenticatedProcessingFilter.class);
+
 
     static {
         shibHeaders = ImmutableMap.<String, ShibbolethHeader>builder()
@@ -90,6 +97,19 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
         String idpId = getFirstShibHeaderValue(Shib_Authenticating_Authority, request)
             .orElseThrow(() -> new IllegalArgumentException("Missing Shib-Authenticating-Authority Shibboleth header"));
+
+        if (LOG.isDebugEnabled()) {
+            Enumeration<String> headerNames = request.getHeaderNames();
+            if (headerNames != null) {
+                ArrayList<String> list = Collections.list(headerNames);
+                LOG.debug("Received headers for {}: {} ", uid, list.stream().collect(toMap(
+                    name -> name,
+                    name -> {
+                        Enumeration<String> headers = request.getHeaders(name);
+                        return headers != null ? Collections.list(headers) : Collections.emptyList();
+                    })));
+            }
+        }
 
         CoinUser coinUser = new CoinUser();
         coinUser.setUid(uid);
