@@ -72,7 +72,7 @@ class AttributePolicyPanel extends React.Component {
             {renderFilters.map((filter, index) => <li key={index} className="filter">- {filter}</li>)}
           </ul>}
         </td>
-        <td>{this.props.app.motivations[`coin:attr_motivation:${lastPart}`]}</td>
+        <td>{this.props.app.motivations[name]}</td>
       </tr>
     );
   }

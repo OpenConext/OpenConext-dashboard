@@ -8,6 +8,7 @@ import selfservice.domain.Provider;
 import selfservice.domain.ServiceProvider;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -133,13 +134,18 @@ public interface Manage {
                     Map<String, Object> arp = (Map<String, Object>) value;
                     Boolean enabled = (Boolean) arp.get("enabled");
                     if (enabled) {
-                        Map<String, List<Map<String, String>>> attributes = (Map<String, List<Map<String, String>>>)
-                            arp.get
-                            ("attributes");
-                        Map<String, List<String>> attributesList = attributes.entrySet().stream()
-                            .collect(toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue().get(0).get
-                                ("value"))));
-                        result.put("attributes", attributesList);
+                        Map<String, List<Map<String, String>>> attributes =
+                            (Map<String, List<Map<String, String>>>) arp.get("attributes");
+                        Map<String, List<String>> attributesMap = attributes.entrySet().stream()
+                            .collect(toMap(
+                                e -> e.getKey(),
+                                e -> e.getValue().stream().map(m -> m.get("value")).collect(toList()))) ;
+                        Map<String, String> motivationsMap = attributes.entrySet().stream()
+                            .collect(toMap(
+                                e -> e.getKey(),
+                                e -> e.getValue().get(0).getOrDefault("motivation", ""))) ;
+                        result.put("attributes", attributesMap);
+                        result.put("motivations", motivationsMap);
                     }
                     break;
                 }

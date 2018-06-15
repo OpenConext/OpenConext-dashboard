@@ -6,13 +6,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.Service;
 import selfservice.util.AttributeMapFilter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +31,7 @@ public class EnrichJson {
   public static final String SUPER_USER = "superUser";
   public static final String DASHBOARD_ADMIN = "dashboardAdmin";
   public static final String STATS_URL = "statsUrl";
-  private final static Logger logger = LoggerFactory.getLogger(EnrichJson.class);
+  private final static Logger LOG = LoggerFactory.getLogger(EnrichJson.class);
   private Map<Class<?>, JsonApplier> mapping = new HashMap<>();
 
   private CoinUser currentUser;
@@ -42,7 +40,7 @@ public class EnrichJson {
 
   @SuppressWarnings("unchecked")
   private EnrichJson(boolean statsEnabled, CoinUser coinUser, String statsUrl) {
-    logger.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
+    LOG.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
     this.currentUser = coinUser;
     this.statsEnabled = statsEnabled;
     Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
