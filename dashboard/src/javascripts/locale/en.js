@@ -612,6 +612,10 @@ I18n.translations.en = {
                 name: "Relation",
                 description: "relation between your and your organization"
             },
+            "Shib-eduPersonScopedAffiliation": {
+                name: "Scoped relation",
+                description: "scoped relation between your and your organization"
+            },
             "Shib-eduPersonEntitlement": {
                 name: "Entitlement",
                 description: "entitlement which decides upon your authorization within the application"

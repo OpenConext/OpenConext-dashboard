@@ -106,7 +106,9 @@ public class AttributeMapFilter {
     Function<ServiceAttribute, List<String>> userValues = (serviceAttribute) -> {
       ShibbolethHeader shibHeader = ShibbolethPreAuthenticatedProcessingFilter.shibHeaders.get(serviceAttribute.getName());
       return Optional.ofNullable(userAttributes.get(shibHeader))
-          .map(v -> valuesToShow(serviceAttribute.getFilters(), v))
+          .map(v -> {
+              return valuesToShow(serviceAttribute.getFilters(), v);
+          })
           .orElse(Collections.emptyList());
     };
 

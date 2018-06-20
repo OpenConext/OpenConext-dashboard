@@ -47,6 +47,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             .put("urn:mace:dir:attribute-def:displayName", Shib_DisplayName)
             .put("urn:mace:dir:attribute-def:mail", Shib_Email)
             .put("urn:mace:dir:attribute-def:eduPersonAffiliation", Shib_EduPersonAffiliation)
+            .put("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", Shib_EduPersonScopedAffiliation)
             .put("urn:mace:dir:attribute-def:eduPersonEntitlement", Shib_EduPersonEntitlement)
             .put("urn:mace:dir:attribute-def:isMemberOf", Shib_MemberOf)
             .put("urn:mace:dir:attribute-def:eduPersonPrincipalName", Shib_EduPersonPN)

@@ -11,6 +11,7 @@ import selfservice.domain.CoinUser;
 import selfservice.domain.Service;
 import selfservice.util.AttributeMapFilter;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,91 +28,92 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class EnrichJson {
 
-  public static final String FILTERED_USER_ATTRIBUTES = "filteredUserAttributes";
-  public static final String SUPER_USER = "superUser";
-  public static final String DASHBOARD_ADMIN = "dashboardAdmin";
-  public static final String STATS_URL = "statsUrl";
-  private final static Logger LOG = LoggerFactory.getLogger(EnrichJson.class);
-  private Map<Class<?>, JsonApplier> mapping = new HashMap<>();
+    public static final String FILTERED_USER_ATTRIBUTES = "filteredUserAttributes";
+    public static final String SUPER_USER = "superUser";
+    public static final String DASHBOARD_ADMIN = "dashboardAdmin";
+    public static final String STATS_URL = "statsUrl";
+    private final static Logger LOG = LoggerFactory.getLogger(EnrichJson.class);
+    private Map<Class<?>, JsonApplier> mapping = new HashMap<>();
 
-  private CoinUser currentUser;
-  private boolean statsEnabled;
-  private JsonElement json;
+    private CoinUser currentUser;
+    private JsonElement json;
 
-  @SuppressWarnings("unchecked")
-  private EnrichJson(boolean statsEnabled, CoinUser coinUser, String statsUrl) {
-    LOG.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
-    this.currentUser = coinUser;
-    this.statsEnabled = statsEnabled;
-    Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
+    @SuppressWarnings("unchecked")
+    private EnrichJson(boolean statsEnabled, CoinUser coinUser, String statsUrl) {
+        LOG.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
+        this.currentUser = coinUser;
+        boolean statsEnabled1 = statsEnabled;
+        Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
 
-    mapping.put(CoinUser.class, (coinUserJsonElement, payload) -> {
-      JsonObject user = coinUserJsonElement.getAsJsonObject();
+        mapping.put(CoinUser.class, (coinUserJsonElement, payload) -> {
+            JsonObject user = coinUserJsonElement.getAsJsonObject();
 
-      filterDashboardAuthorities(user);
+            filterDashboardAuthorities(user);
 
-      user.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
-      user.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
-      user.addProperty(STATS_URL, statsUrl);
-      user.addProperty("statsEnabled", statsEnabled);
-    });
+            user.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
+            user.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
+            user.addProperty(STATS_URL, statsUrl);
+            user.addProperty("statsEnabled", statsEnabled);
+        });
 
-    mapping.put(Service.class, (serviceJsonElement, payload) -> {
-      Service service = (Service) payload;
-      JsonArray filteredUserAttributes = new JsonArray();
-      if (service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
-        AttributeMapFilter.filterAttributes(service.getArp()
-          .getAttributes(), currentUser.getAttributeMap()).stream()
-          .map(gson::toJsonTree)
-          .forEach(filteredUserAttributes::add);
-      }
-      serviceJsonElement.getAsJsonObject().add(FILTERED_USER_ATTRIBUTES, filteredUserAttributes);
-    });
-  }
-
-  public static EnrichJson forUser(boolean statsEnabled, CoinUser currentUser, String statsUrl) {
-    return new EnrichJson(statsEnabled, currentUser, statsUrl);
-  }
-
-  private void filterDashboardAuthorities(JsonObject user) {
-    Iterator<JsonElement> authorities = user.getAsJsonArray("grantedAuthorities").iterator();
-
-    while (authorities.hasNext()) {
-      JsonElement authority = authorities.next();
-      if (authority.isJsonObject() && !Authority.valueOf(authority.getAsJsonObject().get("authority").getAsString())
-        .isDashboardAuthority()) {
-        authorities.remove();
-      }
+        mapping.put(Service.class, (serviceJsonElement, payload) -> {
+            Service service = (Service) payload;
+            JsonArray filteredUserAttributes = new JsonArray();
+            if (service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
+                Collection<AttributeMapFilter.ServiceAttribute> serviceAttributes = AttributeMapFilter
+                    .filterAttributes(service.getArp().getAttributes(), currentUser.getAttributeMap());
+                serviceAttributes.stream()
+                    .map(gson::toJsonTree)
+                    .forEach(filteredUserAttributes::add);
+            }
+            serviceJsonElement.getAsJsonObject().add(FILTERED_USER_ATTRIBUTES, filteredUserAttributes);
+        });
     }
-  }
 
-  public EnrichJson json(JsonElement json) {
-    this.json = json;
-    return this;
-  }
+    public static EnrichJson forUser(boolean statsEnabled, CoinUser currentUser, String statsUrl) {
+        return new EnrichJson(statsEnabled, currentUser, statsUrl);
+    }
 
-  public void forPayload(Object payload) {
-    checkNotNull(json);
-    checkNotNull(payload);
+    private void filterDashboardAuthorities(JsonObject user) {
+        Iterator<JsonElement> authorities = user.getAsJsonArray("grantedAuthorities").iterator();
 
-    JsonElement payloadAsJsonElement = json.getAsJsonObject().get("payload");
-    if (payloadAsJsonElement.isJsonObject()) {
-      if (mapping.containsKey(payload.getClass())) {
-        mapping.get(payload.getClass()).apply(payloadAsJsonElement, payload);
-      }
-    } else if (payloadAsJsonElement.isJsonArray()) {
-      JsonArray jsonArray = payloadAsJsonElement.getAsJsonArray();
-      for (int i = 0; i < jsonArray.size(); i++) {
-        Class<?> classOfPayloadElement = ((List<?>) payload).get(i).getClass();
-
-        if (mapping.containsKey(classOfPayloadElement)) {
-          mapping.get(classOfPayloadElement).apply(jsonArray.get(i), ((List<?>) payload).get(i));
+        while (authorities.hasNext()) {
+            JsonElement authority = authorities.next();
+            if (authority.isJsonObject() && !Authority.valueOf(authority.getAsJsonObject().get("authority")
+                .getAsString())
+                .isDashboardAuthority()) {
+                authorities.remove();
+            }
         }
-      }
     }
-  }
 
-  private interface JsonApplier {
-    void apply(JsonElement element, Object payload);
-  }
+    public EnrichJson json(JsonElement json) {
+        this.json = json;
+        return this;
+    }
+
+    public void forPayload(Object payload) {
+        checkNotNull(json);
+        checkNotNull(payload);
+
+        JsonElement payloadAsJsonElement = json.getAsJsonObject().get("payload");
+        if (payloadAsJsonElement.isJsonObject()) {
+            if (mapping.containsKey(payload.getClass())) {
+                mapping.get(payload.getClass()).apply(payloadAsJsonElement, payload);
+            }
+        } else if (payloadAsJsonElement.isJsonArray()) {
+            JsonArray jsonArray = payloadAsJsonElement.getAsJsonArray();
+            for (int i = 0; i < jsonArray.size(); i++) {
+                Class<?> classOfPayloadElement = ((List<?>) payload).get(i).getClass();
+
+                if (mapping.containsKey(classOfPayloadElement)) {
+                    mapping.get(classOfPayloadElement).apply(jsonArray.get(i), ((List<?>) payload).get(i));
+                }
+            }
+        }
+    }
+
+    private interface JsonApplier {
+        void apply(JsonElement element, Object payload);
+    }
 }
