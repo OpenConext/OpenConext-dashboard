@@ -221,7 +221,7 @@ I18n.translations.nl = {
         },
         attribute: "Attribuut",
         hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
-        subtitle: "{{name}} Bart test RP wil de volgende attributen ontvangen.",
+        subtitle: "{{name}} wil de volgende attributen ontvangen.",
         title: "Attributen",
         your_value: "Jouw waarde",
         filter: "Voor dit attribuut zijn de volgende filters toegepast:",
