@@ -31,11 +31,11 @@ class JiraTicketSummaryAndDescriptionBuilder {
       description.append("Please update the following settings: \n");
       changes.forEach(change -> description.append(change.toString()).append("\n"));
       description.append("\n");
-      
+
       description.append("Additional comments: ").append(settings.getComments()).append("\n");
-      
+
       description.append("\n");
-      
+
       summary.append("Change settings for ").append(action.getIdpId());
     } else if (action.getType().equals(QUESTION)) {
       description.append("Question: ").append(action.getBody()).append("\n");
@@ -66,7 +66,6 @@ class JiraTicketSummaryAndDescriptionBuilder {
     description.append("Service Provider: ").append(action.getSpId()).append("\n");
     if (action.getService() != null && action.getService().getLicenseStatus() != null) {
       description.append("License required: ").append(action.getService().getLicenseStatus().getName()).append("\n");
-      description.append("License secured: ").append(licenseSecured(action)).append("\n");
     }
     if (action.getService() != null && action.getService().isAansluitovereenkomstRefused() && LINKREQUEST.equals(action.getType())) {
       description.append("Customer accepts connecting despite aansluitovereenkomst refused").append("\n");
