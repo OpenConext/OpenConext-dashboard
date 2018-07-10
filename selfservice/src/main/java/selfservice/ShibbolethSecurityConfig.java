@@ -41,128 +41,130 @@ import java.io.IOException;
 @EnableWebSecurity
 public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ShibbolethSecurityConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShibbolethSecurityConfig.class);
 
-  @Autowired
-  private Manage manage;
+    @Autowired
+    private Manage manage;
 
-  @Autowired
-  private Sab sab;
+    @Autowired
+    private Sab sab;
 
-  @Value("${dashboard.admin}")
-  private String dashboardAdmin;
+    @Value("${dashboard.admin}")
+    private String dashboardAdmin;
 
-  @Value("${dashboard.viewer}")
-  private String dashboardViewer;
+    @Value("${dashboard.viewer}")
+    private String dashboardViewer;
 
-  @Value("${dashboard.super.user}")
-  private String dashboardSuperUser;
+    @Value("${dashboard.super.user}")
+    private String dashboardSuperUser;
 
-  @Value("${admin.surfconext.idp.sabRole}")
-  private String adminSufConextIdpRole;
+    @Value("${admin.surfconext.idp.sabRole}")
+    private String adminSufConextIdpRole;
 
-  @Value("${viewer.surfconext.idp.sabRole}")
-  private String viewerSurfConextIdpRole;
+    @Value("${viewer.surfconext.idp.sabRole}")
+    private String viewerSurfConextIdpRole;
 
-  @Value("${dashboard.feature.shibboleth}")
-  private boolean shibbolethEnabled;
+    @Value("${dashboard.feature.shibboleth}")
+    private boolean shibbolethEnabled;
 
-  @Bean
-  public FilterRegistrationBean mockShibbolethFilter() {
-    FilterRegistrationBean shibFilter = new FilterRegistrationBean();
-    if (!shibbolethEnabled) {
-        shibFilter.setFilter(new MockShibbolethFilter());
-    } else {
-        shibFilter.setFilter(new GenericFilterBean(){
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
-                IOException, ServletException {
-                chain.doFilter(request, response);
-            }
-        });
+    @Bean
+    public FilterRegistrationBean mockShibbolethFilter() {
+        FilterRegistrationBean shibFilter = new FilterRegistrationBean();
+        if (!shibbolethEnabled) {
+            shibFilter.setFilter(new MockShibbolethFilter());
+        } else {
+            shibFilter.setFilter(new GenericFilterBean() {
+                @Override
+                public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
+                    IOException, ServletException {
+                    chain.doFilter(request, response);
+                }
+            });
+        }
+        shibFilter.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
+        return shibFilter;
     }
-    shibFilter.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
-    return shibFilter;
-  }
 
-  /*
-   * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
-   * for a quick overview of the differences between the three configure overrides
-   */
-  @Override
-  public void configure(WebSecurity web) throws Exception {
-    web
-      .ignoring()
-      .antMatchers(
-        "/dashboard/api/home",
-        "/dashboard/api/forbidden",
-        "/public/**",
-        "/css/**",
-        "/font/**",
-        "/images/**",
-        "/img/**",
-        "/js/**",
-        "/health",
-        "/info");
-  }
-
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
-      .logout()
-        .logoutUrl("/dashboard/api/logout")
-        .invalidateHttpSession(true)
-        .deleteCookies("statsToken") // remove stats cookie
-        .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
-        .addLogoutHandler(new DashboardLogoutHandler()).and()
-      .csrf().disable()
-      .addFilterBefore(
-        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage,
-            dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole, viewerSurfConextIdpRole),
-        AbstractPreAuthenticatedProcessingFilter.class
-      )
-      .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
-      .authorizeRequests()
-      .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
-      .antMatchers("/dashboard/api/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
-      .anyRequest().authenticated();
-  }
-
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    LOG.info("Configuring AuthenticationManager with a PreAuthenticatedAuthenticationProvider");
-    PreAuthenticatedAuthenticationProvider authenticationProvider = new PreAuthenticatedAuthenticationProvider();
-    authenticationProvider.setPreAuthenticatedUserDetailsService(new ShibbolethUserDetailService());
-    auth.authenticationProvider(authenticationProvider);
-  }
-
-  @Bean
-  @Override
-  protected AuthenticationManager authenticationManager() throws Exception {
-    return super.authenticationManager();
-  }
-
-  private static class DashboardLogoutHandler implements LogoutHandler {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DashboardLogoutHandler.class);
+    /*
+     * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
+     * for a quick overview of the differences between the three configure overrides
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+            .ignoring()
+            .antMatchers(
+                "/dashboard/api/home",
+                "/dashboard/api/forbidden",
+                "/public/**",
+                "/css/**",
+                "/font/**",
+                "/images/**",
+                "/img/**",
+                "/js/**",
+                "/health",
+                "/info");
+    }
 
     @Override
-    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
-      LOG.debug("Logging out user {}", authentication);
-
-      Cookie statsToken = new Cookie("statsToken", "");
-      statsToken.setMaxAge(0); //deletes the cookie
-      httpServletResponse.addCookie(statsToken);
-      SecurityContextHolder.getContext().setAuthentication(null);
-      httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .logout()
+            .logoutUrl("/dashboard/api/logout")
+            .invalidateHttpSession(true)
+            .deleteCookies("statsToken") // remove stats cookie
+            .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
+            .addLogoutHandler(new DashboardLogoutHandler()).and()
+            .csrf().disable()
+            .addFilterBefore(
+                new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab,
+                    dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
+                    viewerSurfConextIdpRole),
+                AbstractPreAuthenticatedProcessingFilter.class
+            )
+            .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
+            .authorizeRequests()
+            .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
+            .antMatchers("/dashboard/api/**").hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER")
+            .anyRequest().authenticated();
     }
-  }
-
-  private static class DashboardLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-      response.setStatus(HttpStatus.NO_CONTENT.value());
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        LOG.info("Configuring AuthenticationManager with a PreAuthenticatedAuthenticationProvider");
+        PreAuthenticatedAuthenticationProvider authenticationProvider = new PreAuthenticatedAuthenticationProvider();
+        authenticationProvider.setPreAuthenticatedUserDetailsService(new ShibbolethUserDetailService());
+        auth.authenticationProvider(authenticationProvider);
     }
-  }
+
+    @Bean
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
+
+    private static class DashboardLogoutHandler implements LogoutHandler {
+
+        private static final Logger LOG = LoggerFactory.getLogger(DashboardLogoutHandler.class);
+
+        @Override
+        public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                           Authentication authentication) {
+            LOG.debug("Logging out user {}", authentication);
+
+            Cookie statsToken = new Cookie("statsToken", "");
+            statsToken.setMaxAge(0); //deletes the cookie
+            httpServletResponse.addCookie(statsToken);
+            SecurityContextHolder.getContext().setAuthentication(null);
+            httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
+        }
+    }
+
+    private static class DashboardLogoutSuccessHandler implements LogoutSuccessHandler {
+
+        @Override
+        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+            response.setStatus(HttpStatus.NO_CONTENT.value());
+        }
+    }
 }

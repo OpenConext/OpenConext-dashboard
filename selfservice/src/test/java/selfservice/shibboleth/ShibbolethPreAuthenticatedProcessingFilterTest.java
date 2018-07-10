@@ -12,8 +12,11 @@ import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.manage.Manage;
+import selfservice.sab.Sab;
+import selfservice.sab.SabRoleHolder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertEquals;
@@ -41,6 +44,9 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     @Mock
     private Manage manageMock;
 
+    @Mock
+    private Sab sab;
+
     @Before
     public void before() {
         subject.setAdminSurfConextIdpRole("SURFconextverantwoordelijke");
@@ -49,6 +55,8 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         subject.setDashboardAdmin("dashboard.admin");
         subject.setDashboardSuperUser("dashboard.super.user");
         subject.setDashboardViewer("dashboard.viewer");
+
+        when(sab.getRoles(anyString())).thenReturn(Optional.empty());
     }
 
     @Test
@@ -109,9 +117,9 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     @Test
     public void shouldAddSabEntitlements() {
         doAssertSabEntitlement("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextverantwoordelijke",
-            ROLE_DASHBOARD_ADMIN, Shib_EduPersonEntitlement);
+            ROLE_DASHBOARD_ADMIN, null);
         doAssertSabEntitlement("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextbeheerder",
-            ROLE_DASHBOARD_VIEWER, Shib_EduPersonEntitlement);
+            ROLE_DASHBOARD_VIEWER, null);
     }
 
     @Test
@@ -136,7 +144,12 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
     private void doAssertSabEntitlement(String entitlement, CoinAuthority.Authority role, ShibbolethHeader headerName) {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(headerName.getValue(), entitlement);
+        if (headerName != null) {
+            request.addHeader(headerName.getValue(), entitlement);
+        } else {
+            when(sab.getRoles(anyString())).thenReturn(Optional.of(new SabRoleHolder("Org", Arrays.asList
+                (entitlement))));
+        }
         request.addHeader(Name_Id.getValue(), "uid");
         when(manageMock.getIdentityProvider("mock-idp")).thenReturn(Optional.of(new IdentityProvider()));
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");

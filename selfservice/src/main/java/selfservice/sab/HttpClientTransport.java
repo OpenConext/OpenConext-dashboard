@@ -15,14 +15,6 @@
  */
 package selfservice.sab;
 
-import static java.lang.String.format;
-import static org.apache.http.HttpHeaders.AUTHORIZATION;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URLEncoder;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -38,6 +30,14 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URLEncoder;
+
+import static java.lang.String.format;
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 public class HttpClientTransport implements SabTransport {

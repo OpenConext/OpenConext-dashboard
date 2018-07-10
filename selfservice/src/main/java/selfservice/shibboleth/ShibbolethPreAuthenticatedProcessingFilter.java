@@ -11,6 +11,8 @@ import selfservice.domain.CoinAuthority;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.manage.Manage;
+import selfservice.sab.Sab;
+import selfservice.sab.SabRoleHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -36,7 +38,6 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     public static final Map<String, ShibbolethHeader> shibHeaders;
     private static final Splitter shibHeaderValueSplitter = Splitter.on(';').omitEmptyStrings();
     private final static Logger LOG = LoggerFactory.getLogger(ShibbolethPreAuthenticatedProcessingFilter.class);
-
 
     static {
         shibHeaders = ImmutableMap.<String, ShibbolethHeader>builder()
@@ -68,6 +69,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     }
 
     private Manage manage;
+    private Sab sab;
     private String dashboardAdmin;
     private String dashboardViewer;
     private String dashboardSuperUser;
@@ -76,6 +78,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager,
                                                       Manage manage,
+                                                      Sab sab,
                                                       String dashboardAdmin,
                                                       String dashboardViewer,
                                                       String dashboardSuperUser,
@@ -83,6 +86,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String viewerSurfConextIdpRole) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
+        this.sab = sab;
         this.dashboardAdmin = dashboardAdmin;
         this.dashboardSuperUser = dashboardSuperUser;
         this.dashboardViewer = dashboardViewer;
@@ -126,8 +130,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         List<String> groups = getShibHeaderValues(Shib_MemberOf, request);
         this.addDashboardRoleForMemberships(coinUser, groups);
 
-        List<String> entitlements = getShibHeaderValues(Shib_EduPersonEntitlement, request);
-        this.addDashboardRoleForEntitlements(coinUser, entitlements);
+        Optional<SabRoleHolder> roles = sab.getRoles(uid);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Received roles from SAB: {}", roles.isPresent() ? roles.get().getRoles() : "None");
+        }
+        this.addDashboardRoleForEntitlements(coinUser, roles);
 
         List<IdentityProvider> institutionIdentityProviders = getInstitutionIdentityProviders(idpId);
 
@@ -161,12 +168,15 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         }
     }
 
-    private void addDashboardRoleForEntitlements(CoinUser user, List<String> entitlements) {
-        if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(adminSurfConextIdpRole) > -1)) {
-            user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
-        } else if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(viewerSurfConextIdpRole) > -1)) {
-            user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
-        }
+    private void addDashboardRoleForEntitlements(CoinUser user, Optional<SabRoleHolder> roles) {
+        roles.ifPresent(sabRoleHolder -> {
+            List<String> entitlements = sabRoleHolder.getRoles();
+            if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(adminSurfConextIdpRole) > -1)) {
+                user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+            } else if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(viewerSurfConextIdpRole) > -1)) {
+                user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+            }
+        });
     }
 
     private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {

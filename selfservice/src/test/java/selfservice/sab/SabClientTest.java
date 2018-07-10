@@ -15,6 +15,14 @@
  */
 package selfservice.sab;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -22,14 +30,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class SabClientTest {
 
@@ -61,6 +61,16 @@ public class SabClientTest {
     Collection<SabPerson> personsInRoleForOrganization = sabClient.getPersonsInRoleForOrganization(organisation, role);
 
     assertNotNull(personsInRoleForOrganization);
+  }
+
+  @Test
+  public void invalidUser() throws IOException {
+    String userId = "foo";
+
+    sabClient = new SabClient(new LocalFileTransport("/response-invaliduser.xml", "/sab-json/profile.json"));
+    Optional<SabRoleHolder> roles = sabClient.getRoles(userId);
+
+    assertFalse(roles.isPresent());
   }
 
   @Test

@@ -16,7 +16,14 @@
 
 package selfservice.sab;
 
-import static java.util.stream.Collectors.toList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Throwables;
+import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,15 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
-
-import org.apache.commons.io.IOUtils;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Client implementation for SAB.
@@ -54,15 +53,29 @@ public class SabClient implements Sab {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final SabTransport sabTransport;
+  private final SabResponseParser sabResponseParser = new SabResponseParser();
 
   public SabClient(SabTransport sabTransport) {
     this.sabTransport = sabTransport;
   }
 
   @Override
+  public Optional<SabRoleHolder> getRoles(String userId) {
+    String messageId = UUID.randomUUID().toString();
+    String requestBody = createRequest(userId, messageId);
+
+    try (InputStream is = sabTransport.getResponse(requestBody)) {
+      return Optional.of(sabResponseParser.parse(is));
+    } catch (IOException e) {
+      LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
+      return Optional.empty();
+    }
+  }
+
+  @Override
   @SuppressWarnings("unchecked")
   public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
-      try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
+    try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
       List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(inputStream, HashMap.class).get("profiles");
 
       return profiles.stream()

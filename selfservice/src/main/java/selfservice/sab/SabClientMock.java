@@ -15,7 +15,8 @@
  */
 package selfservice.sab;
 
-import static java.util.Arrays.asList;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -24,8 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import static java.util.Arrays.asList;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -40,9 +40,23 @@ public class SabClientMock implements Sab {
     new SabPerson("Frans", "Franssen", "ffransen", asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE))
   );
 
+  /**
+   * Mapping of userIds to roles
+   */
+  private final Map<String, SabRoleHolder> rolesMapping = ImmutableMap.of(
+      "admin", new SabRoleHolder("SURFNET", asList("Foo", "Bar")),
+      "user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")),
+      "noroles", new SabRoleHolder("SURFNET", Collections.emptyList())
+  );
+
+  @Override
+  public Optional<SabRoleHolder> getRoles(String userId) {
+    return Optional.ofNullable(rolesMapping.get(userId));
+  }
+
   @Override
   public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
-      return sabPersons.stream()
+    return sabPersons.stream()
         .filter(person -> person.getRoles().stream().anyMatch(r -> r.roleName.equals(role)))
         .collect(Collectors.toList());
   }
