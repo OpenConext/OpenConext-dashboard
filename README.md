@@ -68,7 +68,7 @@ To run locally:
 
 When you browse to the [application homepage](http://localhost:8001/dashboard/api/home) you will be prompted for a login.
 
-A list of available log-ins can be found in the mocked implementation of the [VootClient](selfservice/src/main/java/selfservice/service/impl/VootClientMock.java).
+A list of available log-ins can be found in the mocked implementation of the [VootClient](selfservice/src/main/java/selfservice/shibboleth/mock/MockShibbolethFilter.java).
 
 ### [Manage queries](#manage_queries)
 ```
