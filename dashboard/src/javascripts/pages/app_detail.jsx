@@ -158,7 +158,7 @@ AppDetail.contextTypes = {
 
 AppDetail.propTypes = {
     params: React.PropTypes.shape({
-        id: React.PropTypes.number.isRequired,
+        id: React.PropTypes.string.isRequired,
         type: React.PropTypes.string.isRequired,
         activePanel: React.PropTypes.string.isRequired
     }).isRequired

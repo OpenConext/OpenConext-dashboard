@@ -36,8 +36,6 @@ class OverviewPanel extends React.Component {
                     {this.renderDescription()}
                 </div>
 
-                {this.renderNormenKader()}
-
                 {this.renderSingleTenantService()}
 
                 {this.renderEntityCategories()}
@@ -133,17 +131,6 @@ class OverviewPanel extends React.Component {
         }
 
         return null;
-    }
-
-    renderNormenKader() {
-        const html = (this.props.app.normenkaderPresent) ?
-            I18n.t("overview_panel.normen_kader_html") : I18n.t("overview_panel.no_normen_kader_html");
-        return (
-            <div className="mod-description">
-                <h2>{I18n.t("overview_panel.normen_kader")}</h2>
-                <h3
-                    dangerouslySetInnerHTML={{__html: html}}/>
-            </div>);
     }
 
     renderAansluitOvereenkomstRefused() {

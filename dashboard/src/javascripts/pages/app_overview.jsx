@@ -376,6 +376,12 @@ class AppOverview extends React.Component {
                         return facetValue.searchValue === "yes" ? strongAuthentication : !strongAuthentication;
                     });
                     break;
+                case "manipulation_notes":
+                    filter(facet, (app, facetValue) => {
+                        const hasManipulationNotes = _.isEmpty(app.manipulationNotes)
+                        return facetValue.searchValue === "yes" ? !hasManipulationNotes : hasManipulationNotes;
+                    });
+                    break;
                 case "attributes":
                     filter(facet, (app, facetValue) => {
                         if (app.arp.noArp) {
@@ -516,6 +522,16 @@ class AppOverview extends React.Component {
             ],
             filterApp: function (app) {
                 return this.filterYesNoFacet("strong_authentication", app.strongAuthentication);
+            }.bind(this)
+        }, {
+            name: I18n.t("facets.static.attribute_manipulation.name"),
+            searchValue: "manipulation_notes",
+            values: [
+                {value: I18n.t("facets.static.attribute_manipulation.yes"), searchValue: "yes"},
+                {value: I18n.t("facets.static.attribute_manipulation.no"), searchValue: "no"}
+            ],
+            filterApp: function (app) {
+                return this.filterYesNoFacet("manipulation_notes", app.manipulationNotes);
             }.bind(this)
         },
             {

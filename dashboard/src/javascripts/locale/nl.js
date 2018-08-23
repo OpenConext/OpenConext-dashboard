@@ -101,6 +101,11 @@ I18n.translations.nl = {
                 yes: "Ja",
                 no: "Nee"
             },
+            attribute_manipulation: {
+                name: "Attribuut manipulatie script",
+                yes: "Ja",
+                no: "Nee"
+            },
             arp: {
                 name: "Vrijgegeven attributen",
                 info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie."
@@ -158,7 +163,7 @@ I18n.translations.nl = {
 
     license_info_panel: {
         title: "Licentie informatie",
-        has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie afgesloten voor deze service.",
+        has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie beschikbaar voor deze service.",
         has_license_sp_html: "Een licentie voor <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
         has_license_sp_html_no_service_url: "Een licentie voor {{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
         no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
@@ -181,7 +186,7 @@ I18n.translations.nl = {
     license_info: {
         unknown_license: "Geen licentieinformatie beschikbaar",
         has_license_surfmarket: "Licentie beschikbaar via SURFmarket",
-        has_license_sp: "Licentie beschikbaar via service supplier",
+        has_license_sp: "Licentie nodig (via service supplier)",
         no_license: "Licentie is niet aanwezig",
         no_license_needed: "Geen licentie nodig",
         license_info: "Lees hoe je een licentie kunt verkrijgen",
@@ -216,8 +221,9 @@ I18n.translations.nl = {
 
     attributes_policy_panel: {
         arp: {
-            noarp: "Er is geen 'Attribute Release Policy' bekend. Mogelijk worden alle bekende attributen uitgewisseld, of is er een 'attribute manipulation script' voor deze Service Provider actief.",
+            noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen worden uitgewisseld.",
             noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}.",
+            manipulation:"Voor deze Service Provider is een 'attribuut manipulatie script' actief:"
         },
         attribute: "Attribuut",
         hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
@@ -228,13 +234,16 @@ I18n.translations.nl = {
         motivationInfo: "De kolom ‘motivatie‘ bevat, voor zover beschikbaar, de uitleg van de leverancier over waarom ze dat attribuut willen ontvangen.",
         motivation: "Motivatie",
         no_attribute_value: "<geen waarde ontvangen>",
-        filterInfo: "Om te zorgen dat een leverancier alleen de voor de dienst noodzakelijke gegevens ontvangt, gebruikt SURFconext soms filters op de waardes van de IdP ontvangen attributen. Bijvoorbeeld het filter 'urn*’ zal alle waardes uitfilteren (en dus niet doorgeven) die niet beginnen met ‘urn’ voor dat attribuut."
+        filterInfo: "Om te zorgen dat een leverancier alleen de voor de dienst noodzakelijke gegevens ontvangt, gebruikt SURFconext soms filters op de waardes van de IdP ontvangen attributen.",
+        warning: "Let op:"
+
     },
 
     idp_usage_panel: {
         title: "Gebruikt door",
         subtitle: "De volgende instellingen zijn gekoppeld aan {{name}}.",
         subtitle_none: "Er zijn geen instellingen gekoppeld aan {{name}}.",
+        subtitle_single_tenant: "Als u wil weten door welke andere instellingen {{name}} via SURFconext wordt gebruikt, kunt u dat opvragen via support@surfconext.nl.",
         institution: "Instelling"
     },
 
@@ -281,7 +290,7 @@ I18n.translations.nl = {
         cancel: "Annuleren",
         check: "Controleer",
         checklist: "Loop deze checklist na voordat je een connectie activeert:",
-        processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://www.surf.nl/nieuws/2016/08/ondersteuning-surfmarket-bij-sluiten-bewerkersovereenkomsten.html\" target=\"_blank\">bewerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
+        processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\">verwerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
         comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
         comments_placeholder: "Voer hier je opmerkingen in...",
         comments_title: "Eventuele opmerkingen?",

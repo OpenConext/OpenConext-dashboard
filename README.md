@@ -56,7 +56,7 @@ deployment they can enabled.
 
 Initial setup if you do:
 
-    nvm install
+    yarn install
 
 To build:
 

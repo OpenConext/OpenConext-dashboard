@@ -131,6 +131,7 @@ public class ServicesImpl implements Services {
         service.setAansluitovereenkomstRefused(sp.isAansluitovereenkomstRefused());
         service.setGuestEnabled(sp.isAllowedAll() ||
             (sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp)));
+        service.setManipulationNotes(sp.getManipulationNotes());
     }
 
     private String mailOfContactPerson(ContactPerson contactPerson) {

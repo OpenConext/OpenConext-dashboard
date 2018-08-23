@@ -5,12 +5,13 @@ import { AppShape } from "../shapes";
 
 class IdpUsagePanel extends React.Component {
   render() {
-    const subtitle = this.props.institutions.length === 0 ? I18n.t("idp_usage_panel.subtitle_none", { name: this.props.app.name }) : I18n.t("idp_usage_panel.subtitle", { name: this.props.app.name });
+    const subtitle = this.props.app.exampleSingleTenant ? I18n.t("idp_usage_panel.subtitle_single_tenant", { name: this.props.app.name }) :
+        this.props.institutions.length === 0 ? I18n.t("idp_usage_panel.subtitle_none", { name: this.props.app.name }) :
+            I18n.t("idp_usage_panel.subtitle", { name: this.props.app.name });
     return (
       <div className="l-middle">
         <div className="mod-title">
           <h1>{I18n.t("idp_usage_panel.title")}</h1>
-
           <p>{subtitle}</p>
         </div>
         <div className="mod-used-by">

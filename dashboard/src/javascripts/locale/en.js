@@ -101,6 +101,11 @@ I18n.translations.en = {
                 yes: "Yes",
                 no: "No"
             },
+            attribute_manipulation: {
+                name: "Custom attribute manipulation script",
+                yes: "Yes",
+                no: "No"
+            },
             arp: {
                 name: "Released attributes",
                 info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation."
@@ -180,7 +185,7 @@ I18n.translations.en = {
     license_info: {
         unknown_license: "No license information available",
         has_license_surfmarket: "License available via SURFmarket",
-        has_license_sp: "License available via service supplier",
+        has_license_sp: "License necessary (via service supplier)",
         no_license: "No license available",
         no_license_needed: "No license needed",
         license_info: "Read how to obtain a license",
@@ -215,8 +220,9 @@ I18n.translations.en = {
 
     attributes_policy_panel: {
         arp: {
-            noarp: "There is no 'Attribute Release Policy' specified. All known attributes may be exchanged, or a custom 'attribute manipulation script' might be in effect for this Service Provider.",
+            noarp: "There is no 'Attribute Release Policy' specified. All known attributes are exchanged.",
             noattr: "No attributes will be exchanged with {{name}}.",
+            manipulation: "For this Service Provider there is a custom 'attribute manipulation script' in effect:",
         },
         attribute: "Attribute",
         hint: "The attributes and their values for your personal account are displayed. This might not be representative for other accounts within your organization.",
@@ -227,12 +233,14 @@ I18n.translations.en = {
         motivationInfo: "The colomn ‘motivation‘ contains, to the extent available, the explanation of the supplier why they need this attribute.",
         motivation: "Motivation",
         no_attribute_value: "<no value received>",
-        filterInfo: "To minimize the data passed on from institution to the service, SURFconext sometimes filters the values of attributes. For instance the filter 'urn*' will filter out all values for that attribute that do not start with ‘urn’."
+        filterInfo: "To minimize the data passed on from institution to the service, SURFconext sometimes filters the values of attributes.",
+        warning: "Remarks:"
     },
     idp_usage_panel: {
         title: "Used by",
         subtitle: "The following institutions are connected to {{name}}.",
         subtitle_none: "There are no institutions connected to {{name}}.",
+        subtitle_single_tenant: "When you want to know which institutes use {{name{}} through SURFconext, please send an email with your question to support@surfconext.nl.",
         institution: "Institution"
     },
     sirtfi_panel: {
@@ -278,7 +286,7 @@ I18n.translations.en = {
         cancel: "Cancel",
         check: "Check the",
         checklist: "Finish this checklist before activating the connection:",
-        processing_agreements: "Check whether your institution needs a <a href=\"https://www.surf.nl/nieuws/2016/08/ondersteuning-surfmarket-bij-sluiten-bewerkersovereenkomsten.html\" target=\"_blank\">processing agreement</a> for this service, and if so, has signed one.",
+        processing_agreements: "Check whether your institution needs a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\">processing agreement</a> for this service, and if so, has signed one.",
         comments_description: "Comments will be sent to SURFconext.",
         comments_placeholder: "Enter comments here...",
         comments_title: "Any additional comments?",

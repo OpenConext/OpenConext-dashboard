@@ -56,8 +56,11 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private String wikiUrlNl;
     private String wikiUrlEn;
     private boolean strongAuthenticationSupported;
-    private List<String> typeOfServicesNl = new ArrayList();
-    private List<String> typeOfServicesEn = new ArrayList();
+
+    private List<String> typeOfServicesNl = new ArrayList<>();
+    private List<String> typeOfServicesEn = new ArrayList<>();
+
+    private String manipulationNotes;
 
     @SuppressWarnings("unchecked")
     public ServiceProvider(Map<String, Object> metaData) {
@@ -107,6 +110,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
         this.privacyInfo = this.buildPrivacyInfo(metaData);
         this.arpMotivations = (Map<String, String>) metaData.get("motivations");
+        this.manipulationNotes = (String) metaData.get("manipulationNotes");
     }
 
     private PrivacyInfo buildPrivacyInfo(Map<String, Object> metaData) {
@@ -266,5 +270,9 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public boolean isAansluitovereenkomstRefused() {
         return aansluitovereenkomstRefused;
+    }
+
+    public String getManipulationNotes() {
+        return manipulationNotes;
     }
 }

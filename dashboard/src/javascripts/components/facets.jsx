@@ -57,7 +57,6 @@ class Facets extends React.Component {
 
                 <h2>{facet.name}</h2>
                 {this.renderFacetOptions(facet)}
-                {this.renderFacetInfo(facet)}
             </fieldset>
         );
     }

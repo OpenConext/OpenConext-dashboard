@@ -27,7 +27,6 @@ class AppMeta extends React.Component {
           {this.renderUrl("registration_policy", app.registrationPolicyUrl)}
           {this.renderUrl("privacy_statement", app.privacyStatementUrl)}
           {this.renderRegistrationInfo(app.registrationInfoUrl)}
-          {this.renderMetadataLink(app.spEntityId)}
         </div>
       </div>
     );
@@ -72,16 +71,6 @@ class AppMeta extends React.Component {
     return null;
   }
 
-  renderMetadataLink(spEntityId) {
-    const env = window.location.href.indexOf(".acc.") > 0 ? ".acc." : ".";
-    return (
-      <div className="contact">
-        <a target="_blank" href={`https://engine${env}surfconext.nl/authentication/proxy/idps-metadata?sp-entity-id=${encodeURIComponent(spEntityId)}`}>
-          {I18n.t("app_meta.metadata_link")}
-        </a>
-      </div>
-    );
-  }
 }
 
 AppMeta.propTypes = {
