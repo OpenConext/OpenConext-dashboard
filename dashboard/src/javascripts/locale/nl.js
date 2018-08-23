@@ -252,7 +252,7 @@ I18n.translations.nl = {
     },
     privacy_panel: {
         title: "AVG Informatie",
-        subtitle: "Sinds 2017 verzoekt SURFnet nieuwe services om AVG informatie aan te dragen. In de loop van de tijd verwachten we van meer services deze informatie te kunnen tonen.",
+        subtitle: "SURFnet verzoekt nieuwe services om AVG informatie aan te dragen. Indien beschikbaar, vindt je deze informatie hieronder. Voor ontbrekende informatie kan je contact opnemen met de leverancier.",
         subtitle2: "De leverancier van de service {{name}} heeft SURFnet voorzien van de volgende informatie:",
         question: "Vraag",
         answer: "Antwoord",

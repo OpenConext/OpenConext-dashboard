@@ -249,7 +249,7 @@ I18n.translations.en = {
     },
     privacy_panel: {
         title: "AVG Information",
-        subtitle: "Since 2017, SURFnet requests new connecting SP's to supply some AVG information. Over time, we expect to have that information from more and more services.",
+        subtitle: "SURFnet requests new connecting SP's to supply some AVG information. If available, you'll find it below. For any missing info, you can contact the supplier.",
         subtitle2: "The provider of the service {{name}} has supplied the following information (if any):",
         question: "Question",
         answer: "Answer",
