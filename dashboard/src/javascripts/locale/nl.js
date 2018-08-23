@@ -405,7 +405,7 @@ I18n.translations.nl = {
         role: "Rol",
         users: "Gebruiker(s)",
         settings: "Gegevens van mijn eigen instelling en diensten",
-        settings_text: "Hieronder staan enkele gegevens van jouw instelling en van Service Providers die door jouw instelling in SURFconext worden aangeboden. Deze gegevens worden in SURFconext gebruikt, bijvoorbeeld in de Where Are You From-pagina. Je kunt deze gegevens wijzigen door te klikken op 'Wijzigingsverzoek aanmaken'.",
+        settings_text: "Hieronder staan enkele gegevens van jouw instelling en van Service Providers die door jouw instelling in SURFconext worden aangeboden. Deze gegevens worden in SURFconext gebruikt, bijvoorbeeld in de Where Are You From-pagina. Je kunt deze gegevens laten wijzigen door te klikken op 'Wijzigingsverzoek aanmaken'.",
         SURFconextverantwoordelijke: "SURFconextverantwoordelijke",
         SURFconextbeheerder: "SURFconextbeheerder",
         "Dashboard supergebruiker": "Dashboard supergebruiker",
