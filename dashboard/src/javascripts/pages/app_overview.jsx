@@ -378,16 +378,16 @@ class AppOverview extends React.Component {
                     break;
                 case "manipulation_notes":
                     filter(facet, (app, facetValue) => {
-                        const hasManipulationNotes = _.isEmpty(app.manipulationNotes)
+                        const hasManipulationNotes = _.isEmpty(app.manipulationNotes);
                         return facetValue.searchValue === "yes" ? !hasManipulationNotes : hasManipulationNotes;
                     });
                     break;
                 case "attributes":
                     filter(facet, (app, facetValue) => {
-                        if (app.arp.noArp) {
+                        if (app.arp.noArp && _.isEmpty(app.manipulationNotes)) {
                             return true;
                         }
-                        if (app.arp.noAttrArp) {
+                        if (app.arp.noArp || app.arp.noAttrArp) {
                             return false;
                         }
                         const requiredAttributes = Object.keys(app.arp.attributes);

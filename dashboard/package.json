@@ -39,6 +39,7 @@
     "react-dom": "15.3.2",
     "react-router": "4.0.0-alpha.4",
     "react-select": "1.2.1",
+    "react-tooltip": "^3.6.1",
     "react-widgets": "3.4.4",
     "sass-loader": "4.0.2",
     "spin.js": "2.3.2",

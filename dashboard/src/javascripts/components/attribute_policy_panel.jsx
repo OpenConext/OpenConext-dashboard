@@ -25,7 +25,7 @@ class AttributePolicyPanel extends React.Component {
         } else if (app.arp.noAttrArp) {
             return <p>{I18n.t("attributes_policy_panel.arp.noattr", {name: app.name})}</p>;
         }
-        const hasFilters = app.filteredUserAttributes.some(attribute => attribute.filters.filter(filter => filter !== "*"))
+        const hasFilters = app.filteredUserAttributes.some(attribute => attribute.filters.filter(filter => filter !== "*"));
         return (
             <div className="mod-attributes">
                 <table>
@@ -58,7 +58,7 @@ class AttributePolicyPanel extends React.Component {
         return <div className="manipulation-notes">
             <p className="title">{I18n.t("attributes_policy_panel.arp.manipulation")}</p>
             <section className="notes" dangerouslySetInnerHTML={{__html: notes}}/>
-        </div>
+        </div>;
     }
 
     renderAttribute(attribute) {
