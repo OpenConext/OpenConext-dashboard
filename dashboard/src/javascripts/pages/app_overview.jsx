@@ -473,6 +473,7 @@ class AppOverview extends React.Component {
             }.bind(this),
         }, {
             name: I18n.t("facets.static.interfed_source.name"),
+            tooltip: I18n.t("facets.static.interfed_source.tooltip"),
             searchValue: "interfed_source",
             values: [
                 {value: I18n.t("facets.static.interfed_source.surfconext"), searchValue: "SURFconext"},
@@ -485,6 +486,7 @@ class AppOverview extends React.Component {
             }.bind(this)
         }, {
             name: I18n.t("facets.static.entity_category.name"),
+            tooltip: I18n.t("facets.static.entity_category.tooltip"),
             searchValue: "entity_category",
             values: [
                 {

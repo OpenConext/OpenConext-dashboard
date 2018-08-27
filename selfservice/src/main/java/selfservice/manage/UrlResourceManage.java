@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 
@@ -76,7 +75,7 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type) {
+    public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type, boolean searchRevisions) {
         if (StringUtils.isEmpty(spEntityId)) {
             return Optional.empty();
         }
@@ -84,6 +83,9 @@ public class UrlResourceManage implements Manage {
         InputStream inputStream = type.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
             getSingleTenantInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
+        if (providers.isEmpty()) {
+            providers = getMaps(getSpRevisionInputStream(body));
+        }
         return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, type)).findFirst();
     }
 
@@ -100,13 +102,16 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public Optional<IdentityProvider> getIdentityProvider(String idpEntityId) {
+    public Optional<IdentityProvider> getIdentityProvider(String idpEntityId, boolean searchRevisions) {
         if (StringUtils.isEmpty(idpEntityId)) {
             return Optional.empty();
         }
         String body = bodyForEntity.replace("@@entityid@@", idpEntityId);
         InputStream inputStream = getIdpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
+        if (providers.isEmpty()) {
+            providers = getMaps(getIdpRevisionInputStream(body));
+        }
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider).findFirst();
     }
 
@@ -155,27 +160,34 @@ public class UrlResourceManage implements Manage {
     }
 
     private InputStream getIdpInputStream(String body) {
+        return getIdpInputStreamFromCollection(body,"saml20_idp");
+    }
+
+    private InputStream getIdpRevisionInputStream(String body) {
+        return getIdpInputStreamFromCollection(body,"saml20_idp_revision");
+    }
+
+    private InputStream getIdpInputStreamFromCollection(String body, String collection) {
         LOG.debug("Fetching IDP metadata entries from {} with body {}", manageBaseUrl);
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange
-            (manageBaseUrl + "/manage/api/internal/search/saml20_idp", HttpMethod.POST,
+            (manageBaseUrl + "/manage/api/internal/search/"+collection, HttpMethod.POST,
                 new HttpEntity<>(body, this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 
     private InputStream getSpInputStream(String body) {
-        LOG.debug("Fetching SP metadata entries from {} with body {}", manageBaseUrl, body);
-        ResponseEntity<byte[]> responseEntity = restTemplate.exchange
-            (manageBaseUrl + "/manage/api/internal/search/saml20_sp", HttpMethod.POST,
-                new HttpEntity<>(body, this.httpHeaders), byte[].class);
-        return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
+        return getSpInputStreamFromCollection(body, "saml20_sp");
     }
 
-    private InputStream searchSp(String query) {
-        LOG.debug("Quering SP metadata entries from {} with query {}", manageBaseUrl, body);
-        String url = UriComponentsBuilder.fromHttpUrl(manageBaseUrl + "/manage/api/internal/rawSearch/saml20_sp")
-            .queryParam("query", query).toUriString();
-        ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
-            new HttpEntity<>(this.httpHeaders), byte[].class);
+    private InputStream getSpRevisionInputStream(String body) {
+        return getSpInputStreamFromCollection(body, "saml20_sp_revision");
+    }
+
+    private InputStream getSpInputStreamFromCollection(String body, String collection) {
+        LOG.debug("Fetching SP metadata entries from {} with body {}", manageBaseUrl, body);
+        ResponseEntity<byte[]> responseEntity = restTemplate.exchange
+            (manageBaseUrl + "/manage/api/internal/search/"+collection, HttpMethod.POST,
+                new HttpEntity<>(body, this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 

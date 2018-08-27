@@ -85,6 +85,14 @@ class MyIdp extends React.Component {
                         <td>{service.descriptions.nl}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.displayName.nl")}</td>
+                        <td>{service.displayNames.nl}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.en")}</td>
+                        <td>{service.displayNames.en}</td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.published_in_edugain")}</td>
                         <td>{service.publishedInEdugain ? I18n.t("boolean.yes") : I18n.t("boolean.no")}</td>
                     </tr>
@@ -104,6 +112,7 @@ class MyIdp extends React.Component {
                     </tr>
                     </tbody>
                 </table>
+                {this.renderContactPersons(service.contactPersons, service.names[I18n.locale])}
             </div>
         );
     }
@@ -127,6 +136,14 @@ class MyIdp extends React.Component {
                     <tr>
                         <td>{I18n.t("my_idp.name.nl")}</td>
                         <td>{currentIdp.names.nl}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.en")}</td>
+                        <td>{currentIdp.displayNames.en}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.nl")}</td>
+                        <td>{currentIdp.displayNames.nl}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.keywords.en")}</td>
@@ -154,7 +171,7 @@ class MyIdp extends React.Component {
                     </tr>
                     </tbody>
                 </table>
-
+                { this.renderContactPersons(currentIdp.contactPersons, currentIdp.names[I18n.locale]) }
             </div>
         );
     }
@@ -190,6 +207,41 @@ class MyIdp extends React.Component {
             <tr key={role}>
                 <td>{roleName}</td>
                 <td>{names}</td>
+            </tr>
+        );
+    }
+    renderContactPersons(contactPersons, name) {
+        if (contactPersons && contactPersons.length > 0) {
+            return (
+                <div>
+                    <h2>{ I18n.t("my_idp.contact", {name: name}) }</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {contactPersons.map(this.renderContactPerson.bind(this))}
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+
+        return null;
+    }
+
+    renderContactPerson(contactPerson, i) {
+        return (
+            <tr key={i}>
+                <td>{contactPerson.name}</td>
+                <td>{contactPerson.emailAddress}</td>
+                <td>{contactPerson.telephoneNumber}</td>
+                <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType) }</td>
             </tr>
         );
     }

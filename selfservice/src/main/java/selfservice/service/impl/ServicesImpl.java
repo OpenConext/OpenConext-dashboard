@@ -4,16 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import selfservice.domain.Category;
 import selfservice.domain.CategoryValue;
+import selfservice.domain.ContactPerson;
+import selfservice.domain.ContactPersonType;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
-import selfservice.domain.ContactPerson;
-import selfservice.domain.ContactPersonType;
 import selfservice.manage.EntityType;
 import selfservice.manage.Manage;
 import selfservice.service.Services;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -32,7 +31,7 @@ public class ServicesImpl implements Services {
 
     @Override
     public List<Service> getServicesForIdp(String idpEntityId, Locale locale) {
-        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new
+        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new
             IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
 
         List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
@@ -44,7 +43,7 @@ public class ServicesImpl implements Services {
             service.setConnected(connectedToIdentityProvider && allowedBySp);
             return service;
         }).filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
-            (service.getInstitutionId() != null &&service.getInstitutionId().equals(identityProvider.getInstitutionId())))
+            (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())))
             .collect(toList());
         return services;
     }
@@ -52,20 +51,19 @@ public class ServicesImpl implements Services {
     @Override
     public Optional<Service> getServiceByEntityId(String idpEntityId, String spEntityId, EntityType entityType,
                                                   Locale locale) {
-        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(spEntityId, entityType);
+        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(spEntityId, entityType, false);
         return enrichService(idpEntityId, locale, serviceProvider);
     }
 
     @Override
-    public Optional<Service> getServiceById(String idpEntityId, Long spId, EntityType entityType, Locale locale)
-        throws IOException {
+    public Optional<Service> getServiceById(String idpEntityId, Long spId, EntityType entityType, Locale locale) {
         Optional<ServiceProvider> serviceProvider = manage.getServiceProviderById(spId, entityType);
         return enrichService(idpEntityId, locale, serviceProvider);
     }
 
     private Optional<Service> enrichService(String idpEntityId, Locale locale, Optional<ServiceProvider>
         serviceProvider) {
-        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new
+        IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new
             IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
         return serviceProvider.map(sp -> {
             boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
@@ -124,6 +122,7 @@ public class ServicesImpl implements Services {
         service.setStrongAuthentication(sp.isStrongAuthenticationSupported());
         service.setNames(sp.getNames());
         service.setDescriptions(sp.getDescriptions());
+        service.setDisplayNames(sp.getDisplayNames());
         service.setNoConsentRequired(sp.isNoConsentRequired());
         service.setPrivacyInfo(sp.getPrivacyInfo());
         service.setMotivations(sp.getArpMotivations());
@@ -172,16 +171,12 @@ public class ServicesImpl implements Services {
         List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : sp.getTypeOfServicesNl();
         Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", typeOfServices
             .stream().map
-            (CategoryValue::new).collect(toList()));
+                (CategoryValue::new).collect(toList()));
         service.setCategories(Collections.singletonList(category));
     }
 
     private void contactPersons(ServiceProvider sp, Service service) {
-        List<ContactPerson> contactPersons = sp.getContactPersons();
-        if (!CollectionUtils.isEmpty(contactPersons)) {
-            service.setContactPersons(contactPersons.stream()
-                .filter(contactPerson -> contactPerson.isSirtfiSecurityContact()).collect(toList()));
-        }
+        service.setContactPersons(sp.getContactPersons());
     }
 
     /*

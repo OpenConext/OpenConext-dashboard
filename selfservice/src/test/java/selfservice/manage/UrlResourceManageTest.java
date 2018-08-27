@@ -9,9 +9,7 @@ import org.springframework.core.io.ClassPathResource;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.ServiceProvider;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
@@ -56,11 +54,11 @@ public class UrlResourceManageTest {
         assertEquals(194, identityProviders.size());
 
         ServiceProvider serviceProvider = subject.getServiceProvider(
-            "https://dummy.crosscampus.canon.nl/Single-tenant-service_op-aanvraag", EntityType.single_tenant_template).get();
+            "https://dummy.crosscampus.canon.nl/Single-tenant-service_op-aanvraag", EntityType.single_tenant_template, false).get();
         assertTrue(serviceProvider.isExampleSingleTenant());
 
         serviceProvider = subject.getServiceProvider("https://teams.surfconext.nl/shibboleth",
-            EntityType.saml20_sp).get();
+            EntityType.saml20_sp, false).get();
         assertFalse(serviceProvider.isExampleSingleTenant());
 
     }

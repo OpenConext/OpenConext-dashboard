@@ -72,5 +72,5 @@ A list of available log-ins can be found in the mocked implementation of the [Vo
 
 ### [Manage queries](#manage_queries)
 ```
-curl -H 'Content-Type: application/json' -u pdp:secret  -X POST -d '{"REQUESTED_ATTRIBUTES":["metaDataFields.coin:type_of_service:nl","metaDataFields.coin:type_of_service:en"],"metaDataFields.coin:type_of_service:en":".*"}' 'https://manage.test2.surfconext.nl//manage/api/internal/search/saml20_sp' | python -m json.tool 
+curl -H 'Content-Type: application/json' -u pdp:secret  -X POST -d '{"REQUESTED_ATTRIBUTES":["metaDataFields.coin:ss:idp_visible_only"],"metaDataFields.coin:ss:idp_visible_only":"1"}' 'https://manage.test2.surfconext.nl//manage/api/internal/search/saml20_sp' | python -m json.tool
 ```

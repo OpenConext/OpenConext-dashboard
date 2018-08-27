@@ -72,7 +72,7 @@ public class PoliciesController extends BaseController {
             LOG.debug("Create a policy: {}", policy);
 
             ServiceProvider serviceProvider = manage.getServiceProvider(policy.getServiceProviderId(), EntityType
-                .saml20_sp).get();
+                .saml20_sp, false).get();
             LOG.debug("PolicyEnforcementDecisionRequired:" + serviceProvider.isPolicyEnforcementDecisionRequired());
             if (!serviceProvider.isPolicyEnforcementDecisionRequired()) {
                 sendNewPolicyWithoutEnforcementDecisionEnabledEmail(policy, getCurrentUser());

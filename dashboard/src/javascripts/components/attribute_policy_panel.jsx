@@ -1,7 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 import marked from "marked";
-
+import ReactTooltip from "react-tooltip";
 import {AppShape} from "../shapes";
 
 class AttributePolicyPanel extends React.Component {
@@ -64,9 +64,16 @@ class AttributePolicyPanel extends React.Component {
     renderAttribute(attribute) {
         const renderFilters = attribute.filters.filter(filter => filter !== "*");
         const name = attribute.name;
+        const isCollabPersonId = name === "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
         return (
             <tr key={name}>
-                <td>{name}
+                <td>{isCollabPersonId ? "collabPersonId" : name}
+                    {isCollabPersonId && <span>
+                            <i className="fa fa-info-circle" data-for="collabPersonId" data-tip></i>
+                                <ReactTooltip id="collabPersonId" type="info" class="tool-tip" effect="solid">
+                                    <span>Collab unique user identifier</span>
+                                </ReactTooltip>
+                        </span>}
                     {renderFilters.length > 0 &&
                     <span className="filter-info">{I18n.t("attributes_policy_panel.filter")}</span>}
                 </td>

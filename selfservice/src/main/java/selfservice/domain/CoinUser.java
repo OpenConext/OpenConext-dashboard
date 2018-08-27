@@ -36,6 +36,7 @@ import com.google.common.base.MoreObjects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import org.springframework.util.StringUtils;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.shibboleth.ShibbolethHeader;
 
@@ -169,6 +170,10 @@ public class CoinUser implements UserDetails {
 
   public boolean hasAuthority(CoinAuthority grantedAuthority) {
     return this.grantedAuthorities.contains(grantedAuthority);
+  }
+
+  public String getFriendlyName() {
+      return StringUtils.hasText(this.displayName) ? this.displayName : this.uid;
   }
 
   /**

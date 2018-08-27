@@ -106,7 +106,7 @@ public class UsersController extends BaseController {
     if (isNullOrEmpty(switchToIdp)) {
       SpringSecurity.clearSwitchedIdp();
     } else {
-      IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp)
+      IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp, false)
           .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
 
       SpringSecurity.setSwitchedToIdp(identityProvider, role);
@@ -197,7 +197,7 @@ public class UsersController extends BaseController {
 
     Action action = Action.builder()
       .userEmail(currentUser.getEmail())
-      .userName(currentUser.getUsername())
+      .userName(currentUser.getFriendlyName())
       .idpId(idpEntityId)
       .settings(settings)
       .type(Action.Type.CHANGE).build();

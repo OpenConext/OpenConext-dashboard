@@ -1,6 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 import {FacetShape} from "../shapes";
+import ReactTooltip from "react-tooltip";
 
 class Facets extends React.Component {
     render() {
@@ -55,7 +56,13 @@ class Facets extends React.Component {
                     {this.renderDropDownIndicator(facet)}
                 </a>
 
-                <h2>{facet.name}</h2>
+                <h2>{facet.name}{facet.tooltip && <span>
+                            <i className="fa fa-info-circle" data-for={facet.name} data-tip></i>
+                                <ReactTooltip id={facet.name} type="info" class="tool-tip" effect="solid"
+                                              delayHide={2500} multiline={true}>
+                                    <span dangerouslySetInnerHTML={{__html: facet.tooltip}}/>
+                                </ReactTooltip>
+                        </span>}</h2>
                 {this.renderFacetOptions(facet)}
             </fieldset>
         );

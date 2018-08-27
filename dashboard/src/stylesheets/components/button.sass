@@ -5,7 +5,6 @@
   display: inline-block
   color: $color
   background-color: $bg-color
-  border: 1px solid $color
   white-space: nowrap
 
   &.disabled
@@ -33,5 +32,5 @@
   @include button($medium-grey, white)
 
 .t-button
-  @include button($blue, $light-grey)
+  @include button(white, $blue)
 

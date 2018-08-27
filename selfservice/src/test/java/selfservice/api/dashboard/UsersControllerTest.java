@@ -37,6 +37,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -75,7 +76,7 @@ public class UsersControllerTest {
 
         SpringSecurityUtil.setAuthentication(coinUser);
 
-        when(manage.getIdentityProvider(anyString())).thenAnswer(answer -> Optional.of(idp((String) answer
+        when(manage.getIdentityProvider(anyString(), anyBoolean())).thenAnswer(answer -> Optional.of(idp((String) answer
             .getArguments()[0])));
         when(manage.getAllIdentityProviders()).thenReturn(ImmutableList.of(idp(BAR_IDP_ENTITY_ID), idp
             (FOO_IDP_ENTITY_ID)));

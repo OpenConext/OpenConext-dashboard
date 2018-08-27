@@ -14,8 +14,17 @@ class EditMyIdp extends React.Component {
             serviceProviderSettings: [],
             keywordsEn: currentIdp.keywords.en || "",
             keywordsNl: currentIdp.keywords.nl || "",
+            logoUrl: currentIdp.logoUrl,
+            displayNamesEn: currentIdp.displayNames.en || "",
+            displayNamesNl: currentIdp.displayNames.nl || "",
             publishedInEdugain: !!currentIdp.publishedInEdugain,
             comments: "",
+            contactPersons: currentIdp.contactPersons.map(contactPerson => ({
+                    name: contactPerson.name || "",
+                    emailAddress: contactPerson.emailAddress || "",
+                    contactPersonType: contactPerson.contactPersonType,
+                    telephoneNumber: contactPerson.telephoneNumber || ""
+            }))
         };
     }
 
@@ -30,7 +39,7 @@ class EditMyIdp extends React.Component {
         return (
             <input
                 type="text"
-                value={this.state[fieldName]}
+                value={this.state[fieldName] || ""}
                 id={fieldName}
                 onChange={this.changeField.bind(this)}
             />
@@ -117,6 +126,8 @@ class EditMyIdp extends React.Component {
     }
 
     renderIdpFields() {
+        const { currentUser } = this.context;
+        const currentIdp = currentUser.getCurrentIdp();
         return (
             <div>
                 <h2>{I18n.t("my_idp.institution")}</h2>
@@ -136,13 +147,92 @@ class EditMyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td className="percent_40">{I18n.t("my_idp.displayName.en")}</td>
+                        <td>
+                            {this.renderInput("displayNamesEn")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.nl")}</td>
+                        <td>
+                            {this.renderInput("displayNamesNl")}
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.published_in_edugain")}</td>
                         <td>{this.renderCheckbox("publishedInEdugain")}</td>
                     </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.new_logo_url")}</td>
+                        <td>
+                            {this.renderInput("logoUrl")}
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
-
+                { this.renderContactPersons(currentIdp.names[I18n.locale] ,currentIdp.contactPersons) }
             </div>
+        );
+    }
+
+    renderContactPersons(name, contactPersons) {
+        if (contactPersons && contactPersons.length > 0) {
+            return (
+                <div>
+                    <h2>{ I18n.t("my_idp.contact", {name: name}) }</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        { contactPersons.map(this.renderContactPerson.bind(this)) }
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+        return null;
+    }
+
+    renderContactPersonInput(field, i) {
+        return (
+            <input
+                type="text"
+                value={this.state.contactPersons[i][field]}
+                onChange={e => this.changeContactPersonField(e, field, i)}
+            />
+        );
+    }
+
+    changeContactPersonField(e, field, i) {
+        const { value } = e.target;
+        this.setState(newState => {
+            newState.contactPersons[i][field] = value;
+            return newState;
+        });
+    }
+
+    renderContactPerson(contactPerson, i) {
+        return (
+            <tr key={i}>
+                <td>{ this.renderContactPersonInput("name", i) }</td>
+                <td>{ this.renderContactPersonInput("emailAddress", i) }</td>
+                <td>{ this.renderContactPersonInput("telephoneNumber", i) }</td>
+                <td>
+                    <select value={contactPerson.contactPersonType} onChange={e => this.changeContactPersonField(e, "contactPersonType", i)}>
+                        {
+                            ["support", "administrative", "technical"].map(type => {
+                                return <option key={type} value={type}>{ I18n.t("my_idp.contact_types." + type) }</option>;
+                            })
+                        }
+                    </select>
+                </td>
+            </tr>
         );
     }
 
@@ -178,6 +268,14 @@ class EditMyIdp extends React.Component {
                 <tr>
                     <td>{I18n.t("my_idp.description.nl")}</td>
                     <td>{this.renderServiceInput(service.id, "descriptions.nl")}</td>
+                </tr>
+                <tr>
+                    <td>{I18n.t("my_idp.displayName.en")}</td>
+                    <td>{this.renderServiceInput(service.id, "displayNames.en")}</td>
+                </tr>
+                <tr>
+                    <td>{I18n.t("my_idp.displayName.nl")}</td>
+                    <td>{this.renderServiceInput(service.id, "displayNames.nl")}</td>
                 </tr>
                 <tr>
                     <td>{I18n.t("my_idp.published_in_edugain")}</td>

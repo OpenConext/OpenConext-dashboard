@@ -110,8 +110,8 @@ public class ActionsServiceImpl implements ActionsService {
   }
 
   private Action addNames(Action action) {
-    Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.saml20_sp);
-    Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId());
+    Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.saml20_sp, true);
+    Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId(), true);
 
     return action.unbuild()
         .idpName(identityProvider.map(IdentityProvider::getName).orElse("Unknown idp"))

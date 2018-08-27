@@ -29,7 +29,7 @@ public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
     if (shouldAccessToIdpBeChecked(req)) {
       String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
-      IdentityProvider idp = manage.getIdentityProvider(idpEntityId).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
+      IdentityProvider idp = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
       SpringSecurity.ensureAccess(idp);
     }
 

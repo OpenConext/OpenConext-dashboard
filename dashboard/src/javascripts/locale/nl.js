@@ -35,7 +35,8 @@ I18n.translations.nl = {
         },
         you: "Jij",
         profile: "Profiel",
-        switch_idp: "Kies IDP"
+        switch_idp: "Kies IDP",
+        super_user_switch: "Switch identiteit"
     },
 
     navigation: {
@@ -86,6 +87,7 @@ I18n.translations.nl = {
                 yes: "Ja",
             },
             interfed_source: {
+                tooltip: "Sommige via SURFconext beschikbare diensten zijn primair aangesloten op een met SURFconext gekoppelde federatie. Hier kunt u evt selecteren per federatie.",
                 name: "Federatie bron",
                 surfconext: "SURFconext",
                 edugain: "eduGAIN",
@@ -93,6 +95,7 @@ I18n.translations.nl = {
             },
             entity_category: {
                 name: "eduGAIN Entity Categorie",
+                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a> voor meer informatie. Hier kunt u evt diensten filteren die voldoen aan een bepaalde entity category.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
@@ -432,6 +435,10 @@ I18n.translations.nl = {
             en: "Naam (en)",
             nl: "Naam (nl)"
         },
+        displayName: {
+            en: "Weergave naam (en)",
+            nl: "Weergave naam (nl)"
+        },
         keywords: {
             en: "Trefwoorden (en)",
             nl: "Trefwoorden (nl)"
@@ -439,7 +446,8 @@ I18n.translations.nl = {
         published_in_edugain: "Gepubliceerd in eduGAIN",
         date_published_in_edugain: "Datum gepubliceerd in eduGAIN",
         logo_url: "Logo",
-        contact: "Contactpersonen",
+        new_logo_url: "Nieuwe logo URL",
+        contact: "Contactpersonen voor {{name}}",
         contact_name: "Contact naam",
         contact_email: "Contact email",
         contact_telephone: "Contact telephone",

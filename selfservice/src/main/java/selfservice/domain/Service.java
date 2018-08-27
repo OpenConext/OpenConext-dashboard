@@ -65,6 +65,7 @@ public class Service implements Comparable<Service>, Serializable {
     private Map<String, String> names = new HashMap<>();
     private Map<String, String> motivations = new HashMap<>();
     private Map<String, String> descriptions = new HashMap<>();
+    private Map<String, String> displayNames = new HashMap<>();
 
     private boolean connected;
     private boolean idpVisibleOnly;
@@ -254,6 +255,14 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setDescriptions(Map<String, String> descriptions) {
         this.descriptions = descriptions;
+    }
+
+    public Map<String, String> getDisplayNames() {
+        return displayNames;
+    }
+
+    public void setDisplayNames(Map<String, String> displayNames) {
+        this.displayNames = displayNames;
     }
 
     public boolean isIdpVisibleOnly() {

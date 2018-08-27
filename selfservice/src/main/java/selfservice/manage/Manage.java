@@ -38,9 +38,10 @@ public interface Manage {
      * Get a {@link ServiceProvider} by its entity ID, without a idpEntityId
      *
      * @param spEntityId the entity id of the ServiceProvider
+     * @param searchRevisions
      * @return the {@link ServiceProvider} object.
      */
-    Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type);
+    Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type, boolean searchRevisions);
 
     Optional<ServiceProvider> getServiceProviderById(Long spId, EntityType entityType);
 
@@ -48,9 +49,10 @@ public interface Manage {
      * Get an identity provider by its id.
      *
      * @param idpEntityId the id.
+     * @param searchRevisions
      * @return IdentityProvider
      */
-    Optional<IdentityProvider> getIdentityProvider(String idpEntityId);
+    Optional<IdentityProvider> getIdentityProvider(String idpEntityId, boolean searchRevisions);
 
     /**
      * Get a list of all idps that have the same instituteId as the given one.

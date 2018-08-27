@@ -13,7 +13,6 @@ import selfservice.domain.ServiceProvider;
 import selfservice.manage.EntityType;
 import selfservice.manage.Manage;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class ActionsServiceImplTest {
 
     @Test
     public void forBackwardCompatibilityShouldFillUserFromBody() {
-        when(manageMock.getIdentityProvider("idp")).thenReturn(Optional.of(new IdentityProvider("idp",
+        when(manageMock.getIdentityProvider("idp", true)).thenReturn(Optional.of(new IdentityProvider("idp",
             "idp-institution", "idp-name", 1L)));
         Map<String, Object> result = new HashMap<>();
         result.put("issues", ImmutableList.of
@@ -57,7 +56,7 @@ public class ActionsServiceImplTest {
                     "Remark from user: Teun.Fransen@surfnet.nl\n" +
                     "\n" +
                     "test").build()));
-        when(manageMock.getServiceProvider("sp", EntityType.saml20_sp)).thenReturn(Optional.of(new ServiceProvider
+        when(manageMock.getServiceProvider("sp", EntityType.saml20_sp, true)).thenReturn(Optional.of(new ServiceProvider
             (ImmutableMap.of("entityid", "sp", "eid", 1L))));
         when(jiraClientMock.getTasks("idp", 0, 20)).thenReturn(result);
 

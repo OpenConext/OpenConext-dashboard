@@ -32,6 +32,7 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -83,8 +84,8 @@ public class ServicesControllerTest {
 
         SpringSecurityUtil.setAuthentication(coinUser);
 
-        when(manageMock.getIdentityProvider(anyString())).thenReturn(Optional.empty());
-        when(manageMock.getIdentityProvider(IDP_ENTITY_ID)).thenReturn(Optional.of(institutionIdentityProvider));
+        when(manageMock.getIdentityProvider(anyString(), anyBoolean())).thenReturn(Optional.empty());
+        when(manageMock.getIdentityProvider(IDP_ENTITY_ID, false)).thenReturn(Optional.of(institutionIdentityProvider));
         when(servicesMock.getServicesForIdp(IDP_ENTITY_ID, Locale.ENGLISH)).thenReturn(services);
     }
 

@@ -34,7 +34,7 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public Optional<IdentityProvider> getIdentityProvider(String idpEntityId) {
+    public Optional<IdentityProvider> getIdentityProvider(String idpEntityId, boolean searchRevisions) {
         return Optional.ofNullable(identityProviderMap.get(idpEntityId));
     }
 
@@ -55,14 +55,15 @@ public class ClassPathResourceManage implements Manage {
         if (this.exampleSingleTenants.containsKey(spId)) {
             return new ArrayList<>();
         }
-        ServiceProvider serviceProvider = getServiceProvider(spId, EntityType.saml20_sp).orElseThrow
+        ServiceProvider serviceProvider = getServiceProvider(spId, EntityType.saml20_sp, false).orElseThrow
             (RuntimeException::new);
         if (serviceProvider.isAllowedAll()) {
             return identityProviderMap.values().stream().filter(identityProvider ->
                 identityProvider.isAllowedAll() || identityProvider.getAllowedEntityIds().contains(spId)).collect
                 (toList());
         } else {
-            return serviceProvider.getAllowedEntityIds().stream().map(this::getIdentityProvider).collect(filterEmpty());
+            return serviceProvider.getAllowedEntityIds().stream().map(idpEntityId -> getIdentityProvider(idpEntityId,
+                false)).collect(filterEmpty());
         }
     }
 
@@ -74,7 +75,7 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type) {
+    public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type, boolean searchRevisions) {
         return type.equals(EntityType.saml20_sp) ? Optional.ofNullable(serviceProviderMap.get(spEntityId)) :
             Optional.ofNullable(exampleSingleTenants.get(spEntityId));
     }

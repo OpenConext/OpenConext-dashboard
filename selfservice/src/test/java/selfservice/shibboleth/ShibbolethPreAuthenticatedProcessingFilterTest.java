@@ -63,7 +63,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     public void shouldCreateACoinUserBasedOnShibbolethHeaders() {
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(new
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value", false)).thenReturn(Optional.of(new
             IdentityProvider()));
 
         CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
@@ -80,7 +80,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value")).thenReturn(Optional.of(idp));
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value", false)).thenReturn(Optional.of(idp));
         when(manageMock.getInstituteIdentityProviders("my-institution-id")).thenReturn(ImmutableList.of(idp));
 
         CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
@@ -93,7 +93,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value1;" +
             invocation.getArguments()[0] + "_value2");
-        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value1")).thenReturn(Optional.of(new
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value1", false)).thenReturn(Optional.of(new
             IdentityProvider()));
 
         CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
@@ -136,7 +136,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     public void noRoles() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(Name_Id.getValue(), "uid");
-        when(manageMock.getIdentityProvider("mock-idp")).thenReturn(Optional.of(new IdentityProvider()));
+        when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(new IdentityProvider()));
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
         CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
         assertEquals(0, user.getAuthorityEnums().size());
@@ -151,7 +151,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
                 (entitlement))));
         }
         request.addHeader(Name_Id.getValue(), "uid");
-        when(manageMock.getIdentityProvider("mock-idp")).thenReturn(Optional.of(new IdentityProvider()));
+        when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(new IdentityProvider()));
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
         CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
         assertEquals(1, user.getAuthorityEnums().size());

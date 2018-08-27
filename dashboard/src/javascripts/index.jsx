@@ -56,7 +56,6 @@ class App extends React.Component {
             <Header/>
             {this.renderNavigation()}
           </div>
-
           <MatchStartRoute/>
           <Match exactly pattern="/apps/:id/:type/:activePanel" component={AppDetail}/>
           <Match exactly pattern="/apps/:id/:type" render={({params: {id,type}}) => {

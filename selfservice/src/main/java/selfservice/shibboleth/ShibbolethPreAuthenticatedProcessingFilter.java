@@ -21,7 +21,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.singletonList;
@@ -180,7 +179,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     }
 
     private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {
-        return manage.getIdentityProvider(idpId).map(idp -> {
+        return manage.getIdentityProvider(idpId, false).map(idp -> {
             String institutionId = idp.getInstitutionId();
             return hasText(institutionId) ? manage.getInstituteIdentityProviders(institutionId) : singletonList(idp);
         }).orElse(Collections.emptyList());
