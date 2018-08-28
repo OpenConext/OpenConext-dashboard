@@ -395,6 +395,9 @@ I18n.translations.en = {
         services: "Services",
         edit: "Create change request",
         entity_id: "Entity ID",
+        state: "Status",
+        prodaccepted: "Production",
+        testaccepted: "Staging",
         name: {
             en: "Name (en)",
             nl: "Name (nl)"

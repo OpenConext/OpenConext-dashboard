@@ -69,6 +69,9 @@ class MyIdp extends React.Component {
                         <td>{service.spEntityId}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.state")}</td>
+                        <td>{I18n.t("my_idp."+service.state)}</td>
+                    </tr><tr>
                         <td>{I18n.t("my_idp.name.en")}</td>
                         <td>{service.names.en}</td>
                     </tr>
@@ -130,12 +133,28 @@ class MyIdp extends React.Component {
                 <table className="institution">
                     <tbody>
                     <tr>
+                        <td className="percent_40">{I18n.t("my_idp.entity_id")}</td>
+                        <td>{currentIdp.id}</td>
+                    </tr>
+                    <tr>
                         <td className="percent_40">{I18n.t("my_idp.name.en")}</td>
                         <td>{currentIdp.names.en}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.name.nl")}</td>
                         <td>{currentIdp.names.nl}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.state")}</td>
+                        <td>{I18n.t("my_idp."+currentIdp.state)}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.description.en")}</td>
+                        <td>{currentIdp.descriptions.en}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.description.nl")}</td>
+                        <td>{currentIdp.descriptions.nl}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.displayName.en")}</td>

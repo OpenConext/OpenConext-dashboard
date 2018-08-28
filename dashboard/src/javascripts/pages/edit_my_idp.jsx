@@ -4,10 +4,12 @@ import {setFlash} from "../utils/flash";
 
 import {getInstitutionServiceProviders, sendChangeRequest} from "../api";
 
+const contactPersonTypes = ["administrative", "support", "technical"];
+
 class EditMyIdp extends React.Component {
+
     constructor(props, context) {
         super();
-
         const {currentUser} = context;
         const currentIdp = currentUser.getCurrentIdp();
         this.state = {
@@ -17,13 +19,15 @@ class EditMyIdp extends React.Component {
             logoUrl: currentIdp.logoUrl,
             displayNamesEn: currentIdp.displayNames.en || "",
             displayNamesNl: currentIdp.displayNames.nl || "",
+            descriptionsEn: currentIdp.descriptions.en || "",
+            descriptionsNl: currentIdp.descriptions.nl || "",
             publishedInEdugain: !!currentIdp.publishedInEdugain,
             comments: "",
             contactPersons: currentIdp.contactPersons.map(contactPerson => ({
-                    name: contactPerson.name || "",
-                    emailAddress: contactPerson.emailAddress || "",
-                    contactPersonType: contactPerson.contactPersonType,
-                    telephoneNumber: contactPerson.telephoneNumber || ""
+                name: contactPerson.name || "",
+                emailAddress: contactPerson.emailAddress || "",
+                contactPersonType: contactPerson.contactPersonType,
+                telephoneNumber: contactPerson.telephoneNumber || ""
             }))
         };
     }
@@ -50,7 +54,7 @@ class EditMyIdp extends React.Component {
         return (
             <input
                 type="checkbox"
-                checked={this.state[fieldName]}
+                checked={this.state[fieldName] || false}
                 id={fieldName}
                 onChange={this.changeCheckbox.bind(this)}
             />
@@ -63,11 +67,10 @@ class EditMyIdp extends React.Component {
 
     renderServiceInput(serviceId, fieldName) {
         const service = this.getService(serviceId);
-
         return (
             <input
                 type="text"
-                value={_.get(service, fieldName)}
+                value={_.get(service, fieldName) || ""}
                 id={`${serviceId} ${fieldName}`}
                 onChange={e => this.changeServiceField(serviceId, fieldName, e)}
             />
@@ -76,11 +79,10 @@ class EditMyIdp extends React.Component {
 
     renderServiceCheckbox(serviceId, fieldName) {
         const service = this.getService(serviceId);
-
         return (
             <input
                 type="checkbox"
-                checked={service[fieldName]}
+                checked={service[fieldName] || false}
                 id={`${serviceId} ${fieldName}`}
                 onChange={e => this.changeServiceCheckbox(serviceId, fieldName, e)}
             />
@@ -98,36 +100,24 @@ class EditMyIdp extends React.Component {
     }
 
     changeServiceCheckbox(serviceId, fieldName, e) {
-        const {target: {checked}} = e;
-
-        this.setState(currentState => {
-            const service = currentState.serviceProviderSettings.find(s => s.id === serviceId);
-            service[fieldName] = checked;
-            return currentState;
-        });
+        const newServiceProviderSettings = [...this.state.serviceProviderSettings];
+        const service = newServiceProviderSettings.find(s => s.id === serviceId);
+        service[fieldName] = e.target.checked;
+        this.setState({serviceProviderSettings: newServiceProviderSettings});
     }
 
     changeServiceField(serviceId, fieldName, e) {
-        const {target: {value}} = e;
-
-        this.setState(currentState => {
-            const service = currentState.serviceProviderSettings.find(s => s.id === serviceId);
-            _.set(service, fieldName, value);
-            return currentState;
-        });
-    }
-
-    changeSelectField(serviceId, fieldName, option) {
-        this.setState(currentState => {
-            const service = currentState.serviceProviderSettings.find(s => s.id === serviceId);
-            _.set(service, fieldName, option.value);
-            return currentState;
-        });
+        const newServiceProviderSettings = [...this.state.serviceProviderSettings];
+        const service = newServiceProviderSettings.find(s => s.id === serviceId);
+        _.set(service, fieldName, e.target.value);
+        this.setState({serviceProviderSettings: newServiceProviderSettings});
     }
 
     renderIdpFields() {
-        const { currentUser } = this.context;
+        const {contactPersons} = this.state;
+        const {currentUser} = this.context;
         const currentIdp = currentUser.getCurrentIdp();
+
         return (
             <div>
                 <h2>{I18n.t("my_idp.institution")}</h2>
@@ -144,6 +134,18 @@ class EditMyIdp extends React.Component {
                         <td>{I18n.t("my_idp.keywords.nl")}</td>
                         <td>
                             {this.renderInput("keywordsNl")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="percent_40">{I18n.t("my_idp.description.en")}</td>
+                        <td>
+                            {this.renderInput("descriptionsEn")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.description.nl")}</td>
+                        <td>
+                            {this.renderInput("descriptionsNl")}
                         </td>
                     </tr>
                     <tr>
@@ -170,16 +172,16 @@ class EditMyIdp extends React.Component {
                     </tr>
                     </tbody>
                 </table>
-                { this.renderContactPersons(currentIdp.names[I18n.locale] ,currentIdp.contactPersons) }
+                {this.renderContactPersons(true, currentIdp.names[I18n.locale], contactPersons)}
             </div>
         );
     }
 
-    renderContactPersons(name, contactPersons) {
+    renderContactPersons(contactPersonsOfIdp, name, contactPersons, service = null) {
         if (contactPersons && contactPersons.length > 0) {
             return (
                 <div>
-                    <h2>{ I18n.t("my_idp.contact", {name: name}) }</h2>
+                    <h2>{I18n.t("my_idp.contact", {name: name})}</h2>
                     <table>
                         <thead>
                         <tr>
@@ -190,7 +192,7 @@ class EditMyIdp extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        { contactPersons.map(this.renderContactPerson.bind(this)) }
+                        {contactPersons.map(this.renderContactPerson.bind(this, contactPersonsOfIdp, service))}
                         </tbody>
                     </table>
                 </div>
@@ -203,32 +205,52 @@ class EditMyIdp extends React.Component {
         return (
             <input
                 type="text"
-                value={this.state.contactPersons[i][field]}
-                onChange={e => this.changeContactPersonField(e, field, i)}
+                value={this.state.contactPersons[i][field] || ""}
+                onChange={this.changeContactPersonField.bind(this, field, i, null)}
             />
         );
     }
 
-    changeContactPersonField(e, field, i) {
-        const { value } = e.target;
-        this.setState(newState => {
-            newState.contactPersons[i][field] = value;
-            return newState;
-        });
+    changeContactPersonField(field, i, service, e) {
+        const newContactPersons = [...this.state.contactPersons];
+        newContactPersons[i][field] = e.target.value;
+        this.setState({contactPersons: newContactPersons});
     }
 
-    renderContactPerson(contactPerson, i) {
+    renderServiceContactPersonInput(field, i, service) {
+        return (
+            <input
+                type="text"
+                value={service.contactPersons[i][field] || ""}
+                onChange={this.changeServiceContactPersonField.bind(this, field, i, service)}
+            />
+        );
+    }
+
+    changeServiceContactPersonField(field, i, service, e) {
+        const serviceProviderSettings = [...this.state.serviceProviderSettings];
+        const serviceToUpdate = serviceProviderSettings.find(s => s.id === service.id);
+        serviceToUpdate.contactPersons[i][field] = e.target.value;
+        this.setState({serviceProviderSettings: serviceProviderSettings});
+    }
+
+    renderContactPerson(contactPersonsOfIdp, service, contactPerson, i) {
+        const renderFunction = contactPersonsOfIdp ? this.renderContactPersonInput.bind(this) : this.renderServiceContactPersonInput.bind(this);
+        const changeFunction = contactPersonsOfIdp ? this.changeContactPersonField : this.changeServiceContactPersonField;
+
         return (
             <tr key={i}>
-                <td>{ this.renderContactPersonInput("name", i) }</td>
-                <td>{ this.renderContactPersonInput("emailAddress", i) }</td>
-                <td>{ this.renderContactPersonInput("telephoneNumber", i) }</td>
+                <td>{renderFunction("name", i, service)}</td>
+                <td>{renderFunction("emailAddress", i, service)}</td>
+                <td>{renderFunction("telephoneNumber", i, service)}</td>
                 <td>
-                    <select value={contactPerson.contactPersonType} onChange={e => this.changeContactPersonField(e, "contactPersonType", i)}>
+                    <select className="contact-person-type" value={contactPerson.contactPersonType}
+                            onChange={changeFunction.bind(this, "contactPersonType", i, service)}>
                         {
-                            ["support", "administrative", "technical"].map(type => {
-                                return <option key={type} value={type}>{ I18n.t("my_idp.contact_types." + type) }</option>;
-                            })
+                            contactPersonTypes.map(
+                                type => <option key={type}
+                                                value={type}>{I18n.t("my_idp.contact_types." + type)}</option>
+                            )
                         }
                     </select>
                 </td>
@@ -247,50 +269,53 @@ class EditMyIdp extends React.Component {
 
     renderService(service) {
         return (
-            <table key={service.id} className="services">
-                <tbody>
-                <tr>
-                    <td className="percent_40">{I18n.t("my_idp.entity_id")}</td>
-                    <td>{service.spEntityId}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.name.en")}</td>
-                    <td>{service.names.en}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.name.nl")}</td>
-                    <td>{service.names.nl}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.description.en")}</td>
-                    <td>{this.renderServiceInput(service.id, "descriptions.en")}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.description.nl")}</td>
-                    <td>{this.renderServiceInput(service.id, "descriptions.nl")}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.displayName.en")}</td>
-                    <td>{this.renderServiceInput(service.id, "displayNames.en")}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.displayName.nl")}</td>
-                    <td>{this.renderServiceInput(service.id, "displayNames.nl")}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.published_in_edugain")}</td>
-                    <td>{this.renderServiceCheckbox(service.id, "publishedInEdugain")}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.guest_enabled")}</td>
-                    <td>{this.renderServiceCheckbox(service.id, "guestEnabled")}</td>
-                </tr>
-                <tr>
-                    <td>{I18n.t("my_idp.no_consent_required")}</td>
-                    <td>{this.renderServiceCheckbox(service.id, "noConsentRequired")}</td>
-                </tr>
-                </tbody>
-            </table>
+            <div key={service.id}>
+                <table className="services">
+                    <tbody>
+                    <tr>
+                        <td className="percent_40">{I18n.t("my_idp.entity_id")}</td>
+                        <td>{service.spEntityId}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.name.en")}</td>
+                        <td>{service.names.en}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.name.nl")}</td>
+                        <td>{service.names.nl}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.description.en")}</td>
+                        <td>{this.renderServiceInput(service.id, "descriptions.en")}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.description.nl")}</td>
+                        <td>{this.renderServiceInput(service.id, "descriptions.nl")}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.en")}</td>
+                        <td>{this.renderServiceInput(service.id, "displayNames.en")}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.nl")}</td>
+                        <td>{this.renderServiceInput(service.id, "displayNames.nl")}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.published_in_edugain")}</td>
+                        <td>{this.renderServiceCheckbox(service.id, "publishedInEdugain")}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.guest_enabled")}</td>
+                        <td>{this.renderServiceCheckbox(service.id, "guestEnabled")}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.no_consent_required")}</td>
+                        <td>{this.renderServiceCheckbox(service.id, "noConsentRequired")}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {this.renderContactPersons(false, service.names[I18n.locale], service.contactPersons, service)}
+            </div>
         );
     }
 
@@ -298,16 +323,18 @@ class EditMyIdp extends React.Component {
         e.preventDefault();
 
         const request = _.cloneDeep(this.state);
-        request.serviceProviderSettings = request.serviceProviderSettings.map(s => {
-            return {
+        request.serviceProviderSettings = request.serviceProviderSettings.map(s => (
+            {
                 spEntityId: s.spEntityId,
                 descriptionEn: s.descriptions.en,
                 descriptionNl: s.descriptions.nl,
+                displayNameEn: s.displayNames.en,
+                displayNameNl: s.displayNames.nl,
                 publishedInEdugain: s.publishedInEdugain,
                 hasGuestEnabled: s.guestEnabled,
-                noConsentRequired: s.noConsentRequired
-            };
-        });
+                noConsentRequired: s.noConsentRequired,
+                contactPersons: s.contactPersons
+            }));
 
         sendChangeRequest(request)
             .then(res => {

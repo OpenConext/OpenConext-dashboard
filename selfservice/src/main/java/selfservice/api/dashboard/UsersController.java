@@ -15,11 +15,11 @@ import selfservice.domain.Action;
 import selfservice.domain.Change;
 import selfservice.domain.CoinAuthority.Authority;
 import selfservice.domain.CoinUser;
+import selfservice.domain.ContactPerson;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.Settings;
-import selfservice.domain.ContactPerson;
 import selfservice.manage.Manage;
 import selfservice.service.ActionsService;
 import selfservice.service.Services;
@@ -45,181 +45,178 @@ import static selfservice.api.dashboard.Constants.HTTP_X_IDP_ENTITY_ID;
 @RequestMapping(value = "/dashboard/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsersController extends BaseController {
 
-  @Autowired
-  private Manage manage;
+    @Autowired
+    private Manage manage;
 
-  @Autowired
-  private Services services;
+    @Autowired
+    private Services services;
 
-  @Autowired
-  private ActionsService actionsService;
+    @Autowired
+    private ActionsService actionsService;
 
-  @RequestMapping("/me")
-  public RestResponse<CoinUser> me() {
-    return createRestResponse(SpringSecurity.getCurrentUser());
-  }
-
-  @RequestMapping("/super/idps")
-  public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
-    CoinUser currentUser = SpringSecurity.getCurrentUser();
-
-    if (!currentUser.isSuperUser()) {
-      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    @RequestMapping("/me")
+    public RestResponse<CoinUser> me() {
+        return createRestResponse(SpringSecurity.getCurrentUser());
     }
 
-    List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
-        .sorted(Comparator.comparing(Provider::getName))
-        .collect(toList());
+    @RequestMapping("/super/idps")
+    public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
 
-    List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(), Authority.ROLE_DASHBOARD_ADMIN.name());
-
-    HashMap<String, List<?>> payload = new HashMap<>();
-    payload.put("idps", idps);
-    payload.put("roles", roles);
-
-    return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
-  }
-
-  @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
-  public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
-    List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
-
-    return createRestResponse(usersServices);
-  }
-
-  private List<Service> getServiceProvidersForCurrentUser(Locale locale) throws IOException {
-    CoinUser currentUser = SpringSecurity.getCurrentUser();
-    Optional<IdentityProvider> switchedToIdp = currentUser.getSwitchedToIdp();
-    //We can not map as a null value is converted to an empty Optional
-    String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() : currentUser.getInstitutionId();
-
-    return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-      : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
-  }
-
-  @RequestMapping("/me/switch-to-idp")
-  public ResponseEntity<Void> currentIdp(
-    @RequestParam(value = "idpId", required = false) String switchToIdp,
-    @RequestParam(value = "role", required = false) String role,
-    HttpServletResponse response) {
-
-    if (isNullOrEmpty(switchToIdp)) {
-      SpringSecurity.clearSwitchedIdp();
-    } else {
-      IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp, false)
-          .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
-
-      SpringSecurity.setSwitchedToIdp(identityProvider, role);
-    }
-
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
-
-  @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
-  public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                      Locale locale,
-                                                      @RequestBody Settings settings) throws IOException {
-    CoinUser currentUser = SpringSecurity.getCurrentUser();
-    if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
-      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
-
-    IdentityProvider idp = currentUser.getIdp();
-
-    List<Change> changes = new ArrayList<>();
-
-    if (changed(settings.getKeywordsEn(), idp.getKeywords().get("en"))) {
-      changes.add(new Change(idp.getId(), "keywords:en", idp.getKeywords().get("en"), settings.getKeywordsEn()));
-    }
-    if (changed(settings.getKeywordsNl(), idp.getKeywords().get("nl"))) {
-      changes.add(new Change(idp.getId(), "keywords:nl", idp.getKeywords().get("nl"), settings.getKeywordsNl()));
-    }
-    if (settings.isPublishedInEdugain() != idp.isPublishedInEdugain()) {
-      changes.add(new Change(idp.getId(), "coin:publish_in_edugain",
-        Boolean.toString(idp.isPublishedInEdugain()), Boolean.toString(settings.isPublishedInEdugain())));
-    }
-    List<ContactPerson> contactPersons = idp.getContactPersons();
-    List<ContactPerson> newContactPersons = settings.getContactPersons();
-    for (int i = 0; i < contactPersons.size(); i++) {
-      ContactPerson contactPerson = contactPersons.get(i);
-      if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
-        ContactPerson newContactPerson = newContactPersons.get(i);
-        if (changed(contactPerson.getName(), newContactPerson.getName())) {
-          changes.add(new Change(idp.getId(), "contacts:" + i + ":name",
-            contactPerson.getName(), newContactPerson.getName()));
+        if (!currentUser.isSuperUser()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (changed(contactPerson.getEmailAddress(), newContactPerson.getEmailAddress())) {
-          changes.add(new Change(idp.getId(), "contacts:" + i + ":emailAddress",
-            contactPerson.getEmailAddress(), newContactPerson.getEmailAddress()));
-        }
-        if (changed(contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber())) {
-          changes.add(new Change(idp.getId(), "contacts:" + i + ":telephoneNumber",
-            contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber()));
-        }
-        if (contactPerson.getContactPersonType() != newContactPerson.getContactPersonType()) {
-          changes.add(new Change(idp.getId(), "contacts:" + i + ":contactType",
-            contactPerson.getContactPersonType().toString(), newContactPerson.getContactPersonType().toString()));
-        }
-      }
-    }
-    List<Service> serviceProviders = this.getServiceProvidersForCurrentUser(locale);
 
-    settings.getServiceProviderSettings().forEach(sp -> {
-      Optional<Service> first = serviceProviders.stream().filter(service -> service.getSpEntityId().equals(sp
-        .getSpEntityId())).findFirst();
-      first.ifPresent(service -> {
-        if (sp.isHasGuestEnabled() != service.isGuestEnabled()) {
-          changes.add(new Change(sp.getSpEntityId(), "Guest Login Enabled",
-              Boolean.toString(service.isGuestEnabled()),
-              Boolean.toString(sp.isHasGuestEnabled())));
-        }
-        if (sp.isNoConsentRequired() != service.isNoConsentRequired()) {
-          changes.add(new Change(sp.getSpEntityId(), "coin:no_consent_required",
-            Boolean.toString(service.isNoConsentRequired()), Boolean.toString(sp.isNoConsentRequired())));
-        }
-        if (sp.isPublishedInEdugain() != service.isPublishedInEdugain()) {
-          changes.add(new Change(sp.getSpEntityId(), "coin:publish_in_edugain",
-            Boolean.toString(service.isPublishedInEdugain()), Boolean.toString(sp.isPublishedInEdugain())));
-        }
-        if (changed(sp.getDescriptionEn(), service.getDescriptions().get("en"))) {
-          changes.add(new Change(sp.getSpEntityId(), "description:en", service.getDescriptions().get("en"),
-            sp.getDescriptionEn()));
-        }
-        if (changed(sp.getDescriptionNl(), service.getDescriptions().get("nl"))) {
-          changes.add(new Change(sp.getSpEntityId(), "description:nl", service.getDescriptions().get("nl"),
-            sp.getDescriptionNl()));
-        }
-      });
-    });
-    if (changes.isEmpty()) {
-      return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
+        List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
+            .sorted(Comparator.comparing(Provider::getName))
+            .collect(toList());
+
+        List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(),
+            Authority.ROLE_DASHBOARD_ADMIN.name());
+
+        HashMap<String, List<?>> payload = new HashMap<>();
+        payload.put("idps", idps);
+        payload.put("roles", roles);
+
+        return new ResponseEntity<>(createRestResponse(payload), HttpStatus.OK);
     }
 
-    Action action = Action.builder()
-      .userEmail(currentUser.getEmail())
-      .userName(currentUser.getFriendlyName())
-      .idpId(idpEntityId)
-      .settings(settings)
-      .type(Action.Type.CHANGE).build();
+    @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
+    public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
+        List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
 
-    actionsService.create(action, changes);
+        return createRestResponse(usersServices);
+    }
 
-    return ResponseEntity.ok(createRestResponse(action));
-  }
+    private List<Service> getServiceProvidersForCurrentUser(Locale locale) throws IOException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        Optional<IdentityProvider> switchedToIdp = currentUser.getSwitchedToIdp();
+        //We can not map as a null value is converted to an empty Optional
+        String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() :
+            currentUser.getInstitutionId();
 
-  private boolean changed(String oldValue, String newValue) {
-    boolean oldValueHasText = StringUtils.hasText(oldValue);
-    boolean newValueHasText = StringUtils.hasText(newValue);
-    if (!oldValueHasText && !newValueHasText) {
-      return false;
+        return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
+            : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
     }
-    if (oldValueHasText && !newValueHasText) {
-      return true;
+
+    @RequestMapping("/me/switch-to-idp")
+    public ResponseEntity<Void> currentIdp(
+        @RequestParam(value = "idpId", required = false) String switchToIdp,
+        @RequestParam(value = "role", required = false) String role,
+        HttpServletResponse response) {
+
+        if (isNullOrEmpty(switchToIdp)) {
+            SpringSecurity.clearSwitchedIdp();
+        } else {
+            IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp, false)
+                .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
+
+            SpringSecurity.setSwitchedToIdp(identityProvider, role);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    if (!oldValueHasText && newValueHasText) {
-      return true;
+
+    @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
+    public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                               Locale locale,
+                                                               @RequestBody Settings settings) throws IOException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        IdentityProvider idp = currentUser.getIdp();
+
+        List<Change> changes = new ArrayList<>();
+
+        String idpId = idp.getId();
+
+        this.diff(changes, idpId, idp.getKeywords().get("en"),settings.getKeywordsEn(), "keywords:en");
+        this.diff(changes, idpId, idp.getKeywords().get("nl"),settings.getKeywordsNl(), "keywords:nl");
+
+        this.diff(changes, idpId, idp.getDescriptions().get("en"),settings.getDescriptionsEn(), "description:en");
+        this.diff(changes, idpId, idp.getDescriptions().get("nl"),settings.getDescriptionsNl(), "description:nl");
+
+        this.diff(changes, idpId, idp.getDisplayNames().get("en"),settings.getDisplayNamesEn(), "displayName:en");
+        this.diff(changes, idpId, idp.getDisplayNames().get("nl"),settings.getDisplayNamesNl(), "displayName:nl");
+
+        this.diff(changes, idpId, idp.isPublishedInEdugain(),settings.isPublishedInEdugain(), "coin:publish_in_edugain");
+        this.diff(changes, idpId, idp.getLogoUrl(),settings.getLogoUrl(), "logo:0:url");
+
+        diffContactPersons(changes, idpId, idp.getContactPersons(), settings.getContactPersons());
+
+        List<Service> serviceProviders = this.getServiceProvidersForCurrentUser(locale);
+
+        settings.getServiceProviderSettings().forEach(sp -> {
+            Optional<Service> first = serviceProviders.stream()
+                .filter(service -> service.getSpEntityId().equals(sp.getSpEntityId()))
+                .findFirst();
+            first.ifPresent(service -> {
+                String id = service.getSpEntityId();
+
+                diff(changes, id, sp.getDescriptionEn(), service.getDescriptions().get("en"), "description:en");
+                diff(changes, id, sp.getDescriptionNl(), service.getDescriptions().get("nl"), "description:nl");
+
+                diff(changes, id, sp.getDisplayNameEn(), service.getDisplayNames().get("en"), "displayName:en");
+                diff(changes, id, sp.getDisplayNameNl(), service.getDisplayNames().get("nl"), "displayName:nl");
+
+                diff(changes, id, sp.isPublishedInEdugain(), service.isPublishedInEdugain(), "coin:publish_in_edugain");
+                diff(changes, id, sp.isHasGuestEnabled(), service.isGuestEnabled(), "Guest Login Enabled");
+                diff(changes, id, sp.isNoConsentRequired(), service.isNoConsentRequired(), "coin:no_consent_required");
+
+                diffContactPersons(changes, id, sp.getContactPersons(), service.getContactPersons());
+            });
+        });
+        if (changes.isEmpty()) {
+            return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
+        }
+
+        Action action = Action.builder()
+            .userEmail(currentUser.getEmail())
+            .userName(currentUser.getFriendlyName())
+            .idpId(idpEntityId)
+            .settings(settings)
+            .type(Action.Type.CHANGE).build();
+
+        actionsService.create(action, changes);
+
+        return ResponseEntity.ok(createRestResponse(action));
     }
-    return !oldValue.equals(newValue);
-  }
+
+    private void diffContactPersons(List<Change> changes, String id, List<ContactPerson> contactPersons,
+                                    List<ContactPerson> newContactPersons) {
+        for (int i = 0; i < contactPersons.size(); i++) {
+            ContactPerson contactPerson = contactPersons.get(i);
+            if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
+                ContactPerson newContactPerson = newContactPersons.get(i);
+                diff(changes, id, contactPerson.getName(), newContactPerson.getName(), "contacts:" + i + ":name");
+                diff(changes, id, contactPerson.getEmailAddress(), newContactPerson.getEmailAddress(), "contacts:" + i + ":emailAddress");
+                diff(changes, id, contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber(), "contacts:" + i + ":telephoneNumber");
+                diff(changes, id, contactPerson.getContactPersonType(), newContactPerson.getContactPersonType(), "contacts:" + i + ":contactType");
+            }
+        }
+    }
+
+    private void diff(List<Change> changes, String id, Object oldValue, Object newValue, String attributeName) {
+        if (changed(oldValue, newValue)) {
+            changes.add(new Change(id, attributeName, String.format("%s", oldValue), String.format("%s", oldValue)));
+        }
+    }
+
+    private boolean changed(Object oldValue, Object newValue) {
+        boolean oldNotNull = oldValue instanceof String ? StringUtils.hasText((String) oldValue) : oldValue != null;
+        boolean newNotNull = newValue instanceof String ? StringUtils.hasText((String) newValue) : newValue != null;
+        if (!oldNotNull && !newNotNull) {
+            return false;
+        }
+        if (oldNotNull && !newNotNull) {
+            return true;
+        }
+        if (!oldNotNull && newNotNull) {
+            return true;
+        }
+        return !oldValue.equals(newValue);
+    }
 
 }

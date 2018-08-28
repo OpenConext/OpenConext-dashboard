@@ -17,5 +17,5 @@
 package selfservice.domain;
 
 public enum ContactPersonType {
-  technical, administrative, help
+  technical, administrative, support
 }

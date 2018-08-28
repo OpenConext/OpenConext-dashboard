@@ -38,11 +38,12 @@ import java.util.stream.IntStream;
 public abstract class Provider implements Comparable<Provider>, Serializable {
 
     private String id;
+    private Long eid;
+    private String state;
     /**
      * Name of the Provider. SURFfederatie knows only 1 value, SURFconext supports a value per language.
      * This name field can be used for sorting
      */
-    private Long eid;
     private String name;
     private String logoUrl;
     private String publishInEdugainDate;
@@ -67,6 +68,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     public Provider(Map<String, Object> metaData) {
         this.id = (String) metaData.get("entityid");
         this.eid = ((Number) metaData.get("eid")).longValue();
+        this.state = (String) metaData.get("state");
         addName("en", (String) metaData.get("name:en"));
         addName("nl", (String) metaData.get("name:nl"));
         this.name = names.isEmpty() ? (String) metaData.get("entityid") : names.getOrDefault("en", names.get("nl"));
@@ -239,6 +241,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
         return publishedInEdugain;
     }
 
+    public String getState() {
+        return state;
+    }
+
     protected boolean booleanValue(Object metadataValue) {
         return metadataValue != null && metadataValue.equals("1");
     }
@@ -256,7 +262,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
             case "technical":
                 return ContactPersonType.technical;
             case "support":
-                return ContactPersonType.help;
+                return ContactPersonType.support;
             default:
                 return ContactPersonType.administrative;
         }

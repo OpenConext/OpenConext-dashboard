@@ -102,7 +102,6 @@ public interface Manage {
             });
 
         Map<String, T> result = providers.stream()
-            .filter(stringObjectMap -> Map.class.cast(stringObjectMap.get("data")).get("state").equals("prodaccepted"))
             .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
                 identity()));
         return result;

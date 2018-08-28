@@ -7,6 +7,7 @@ import selfservice.domain.CategoryValue;
 import selfservice.domain.ContactPerson;
 import selfservice.domain.ContactPersonType;
 import selfservice.domain.IdentityProvider;
+import selfservice.domain.Provider;
 import selfservice.domain.Service;
 import selfservice.domain.ServiceProvider;
 import selfservice.manage.EntityType;
@@ -99,12 +100,13 @@ public class ServicesImpl implements Services {
     private void plainProperties(ServiceProvider sp, Service service) {
         // Plain properties
         service.setSpEntityId(sp.getId());
+        service.setState(sp.getState());
         service.setAppUrl(sp.getApplicationUrl());
         service.setId(sp.getEid());
         service.setEulaUrl(sp.getEulaURL());
         service.setDetailLogoUrl(sp.getLogoUrl());
         service.setLogoUrl(sp.getLogoUrl());
-        service.setSupportMail(mailOfContactPerson(sp.getContactPerson(ContactPersonType.help)));
+        service.setSupportMail(mailOfContactPerson(sp.getContactPerson(ContactPersonType.support)));
         Map<String, String> homeUrls = sp.getHomeUrls();
         service.setWebsiteUrl(CollectionUtils.isEmpty(homeUrls) ? null : homeUrls.values().iterator().next());
         service.setArp(sp.getArp());
@@ -138,28 +140,21 @@ public class ServicesImpl implements Services {
     }
 
     private void languageSpecificProperties(ServiceProvider sp, boolean en, Service service) {
-        if (en) {
-            service.setDescription(sp.getDescription(EN));
-            service.setEnduserDescription(sp.getDescription(EN));
-            service.setName(sp.getName(EN));
+        Provider.Language lang = en ? EN : NL;
+        service.setDescription(sp.getDescription(lang));
+        service.setEnduserDescription(sp.getDescription(lang));
+        service.setName(sp.getName(lang));
 
-            service.setSupportUrl(sp.getUrl(EN));
-            service.setInstitutionDescription(sp.getDescription(EN));
-            service.setServiceUrl(sp.getUrl(EN));
-            service.setWikiUrl(sp.getWikiUrlEn());
-            service.setSpName(sp.getName(EN));
+        service.setSupportUrl(sp.getUrl(lang));
+        service.setInstitutionDescription(sp.getDescription(lang));
+        service.setServiceUrl(sp.getUrl(lang));
+        service.setWikiUrl(sp.getWikiUrlEn());
+        service.setSpName(sp.getName(lang));
+
+        if (en) {
             service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlEn());
             service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlEn());
         } else {
-            service.setDescription(sp.getDescription(NL));
-            service.setEnduserDescription(sp.getDescription(NL));
-            service.setName(sp.getName(NL));
-
-            service.setSupportUrl(sp.getUrl(NL));
-            service.setInstitutionDescription(sp.getDescription(NL));
-            service.setServiceUrl(sp.getUrl(NL));
-            service.setWikiUrl(sp.getWikiUrlNl());
-            service.setSpName(sp.getName(NL));
             service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlNl());
             service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlNl());
         }
@@ -177,17 +172,6 @@ public class ServicesImpl implements Services {
 
     private void contactPersons(ServiceProvider sp, Service service) {
         service.setContactPersons(sp.getContactPersons());
-    }
-
-    /*
-     * If a Service is idpOnly then we do want to show it as the institutionId matches that of the Idp, meaning that
-     * an admin from Groningen can see the services offered by Groningen also when they are marked idpOnly - which is
-     * often the
-     * case for services offered by universities
-     */
-    private boolean showServiceForInstitution(IdentityProvider identityProvider, Service service) {
-        return !service.isIdpVisibleOnly() || (service.getInstitutionId() != null && service.getInstitutionId()
-            .equalsIgnoreCase(identityProvider.getInstitutionId()));
     }
 
 }

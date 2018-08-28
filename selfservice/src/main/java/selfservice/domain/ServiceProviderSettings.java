@@ -1,63 +1,92 @@
 package selfservice.domain;
 
+import java.util.List;
+
 public class ServiceProviderSettings {
-  private String spEntityId;
-  private boolean hasGuestEnabled;
-  private boolean noConsentRequired;
-  private boolean publishedInEdugain;
-  private String descriptionEn;
-  private String descriptionNl;
-  
-  public ServiceProviderSettings() {
-  }
-  
-  public String getSpEntityId() {
-    return spEntityId;
-  }
 
-  public void setSpEntityId(String spEntityId) {
-    this.spEntityId = spEntityId;
-  }
+    private String spEntityId;
+    private boolean hasGuestEnabled;
+    private boolean noConsentRequired;
+    private boolean publishedInEdugain;
+    private String displayNameEn;
+    private String displayNameNl;
+    private String descriptionEn;
+    private String descriptionNl;
+    private List<ContactPerson> contactPersons;
 
-  public boolean isHasGuestEnabled() {
-    return hasGuestEnabled;
-  }
 
-  public void setHasGuestEnabled(boolean hasGuestEnabled) {
-    this.hasGuestEnabled = hasGuestEnabled;
-  }
+    public ServiceProviderSettings() {
+    }
 
-  public boolean isNoConsentRequired() {
-    return noConsentRequired;
-  }
+    public String getSpEntityId() {
+        return spEntityId;
+    }
 
-  public void setNoConsentRequired(boolean noConsentRequired) {
-    this.noConsentRequired = noConsentRequired;
-  }
+    public void setSpEntityId(String spEntityId) {
+        this.spEntityId = spEntityId;
+    }
 
-  public boolean isPublishedInEdugain() {
-    return publishedInEdugain;
-  }
+    public boolean isHasGuestEnabled() {
+        return hasGuestEnabled;
+    }
 
-  public void setPublishedInEdugain(boolean publishedInEdugain) {
-    this.publishedInEdugain = publishedInEdugain;
-  }
+    public void setHasGuestEnabled(boolean hasGuestEnabled) {
+        this.hasGuestEnabled = hasGuestEnabled;
+    }
 
-  public String getDescriptionEn() {
-    return descriptionEn;
-  }
+    public boolean isNoConsentRequired() {
+        return noConsentRequired;
+    }
 
-  public void setDescriptionEn(String descriptionEn) {
-    this.descriptionEn = descriptionEn;
-  }
+    public void setNoConsentRequired(boolean noConsentRequired) {
+        this.noConsentRequired = noConsentRequired;
+    }
 
-  public String getDescriptionNl() {
-    return descriptionNl;
-  }
+    public boolean isPublishedInEdugain() {
+        return publishedInEdugain;
+    }
 
-  public void setDescriptionNl(String descriptionNl) {
-    this.descriptionNl = descriptionNl;
-  }
-  
-  
+    public void setPublishedInEdugain(boolean publishedInEdugain) {
+        this.publishedInEdugain = publishedInEdugain;
+    }
+
+    public String getDisplayNameEn() {
+        return displayNameEn;
+    }
+
+    public void setDisplayNameEn(String displayNameEn) {
+        this.displayNameEn = displayNameEn;
+    }
+
+    public String getDisplayNameNl() {
+        return displayNameNl;
+    }
+
+    public void setDisplayNameNl(String displayNameNl) {
+        this.displayNameNl = displayNameNl;
+    }
+
+    public String getDescriptionEn() {
+        return descriptionEn;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
+    }
+
+    public String getDescriptionNl() {
+        return descriptionNl;
+    }
+
+    public void setDescriptionNl(String descriptionNl) {
+        this.descriptionNl = descriptionNl;
+    }
+
+    public List<ContactPerson> getContactPersons() {
+        return contactPersons;
+    }
+
+    public void setContactPersons(List<ContactPerson> contactPersons) {
+        this.contactPersons = contactPersons;
+    }
 }

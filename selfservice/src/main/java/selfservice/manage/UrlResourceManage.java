@@ -36,8 +36,8 @@ public class UrlResourceManage implements Manage {
     private String body = "{" + requestedAttributes + "}";
     private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
     private String bodyForEid = "{\"eid\":@@eid@@, " + requestedAttributes + "}";
-    private String bodyForInstitutionId = "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", " +
-        requestedAttributes + "}";
+    private String bodyForInstitutionId =
+        "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", \"ALL_ATTRIBUTES\":true}";
 
     private String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
         ".allowedall\": true}]}, {\"data.state\":\"prodaccepted\"}]}";
@@ -146,7 +146,8 @@ public class UrlResourceManage implements Manage {
         String body = bodyForInstitutionId.replace("@@institution_id@@", instituteId);
         InputStream inputStream = getSpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
-        return providers.stream().map(this::transformManageMetadata)
+        return providers.stream()
+            .map(this::transformManageMetadata)
             .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
             .collect(Collectors.toList());
     }

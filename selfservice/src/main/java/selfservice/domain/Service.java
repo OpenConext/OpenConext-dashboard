@@ -35,6 +35,7 @@ public class Service implements Comparable<Service>, Serializable {
 
     private long id;
 
+    private String state;
     private String name;
     private String description;
     private String logoUrl;
@@ -103,6 +104,14 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getLogoUrl() {

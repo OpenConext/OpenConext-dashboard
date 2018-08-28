@@ -431,6 +431,9 @@ I18n.translations.nl = {
         services: "Services",
         edit: "Wijzigingsverzoek aanmaken",
         entity_id: "Entity ID",
+        state: "Status",
+        prodaccepted: "Productie",
+        testaccepted: "Staging",
         name: {
             en: "Naam (en)",
             nl: "Naam (nl)"
