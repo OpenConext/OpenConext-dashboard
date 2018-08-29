@@ -5,51 +5,65 @@ import Flash from "../components/flash";
 import moment from "moment";
 
 import {getIdpRolesWithUsers, getInstitutionServiceProviders} from "../api";
+import ServiceFilter from "../components/service_filter";
 
 class MyIdp extends React.Component {
+
     constructor() {
         super();
-
         this.state = {
             roles: {},
-            institutionServiceProviders: []
+            institutionServiceProviders: [],
+            serviceFilters: {
+                state: {
+                    name: I18n.t("my_idp.state"),
+                    tooltip: I18n.t("service_filter.state.tooltip"),
+                    values: [
+                        {name: I18n.t("my_idp.prodaccepted"), count: 0, checked: false, search: "prodaccepted"},
+                        {name: I18n.t("my_idp.testaccepted"), count: 0, checked: false, search: "testaccepted"},
+                    ]
+                }
+            },
+            showRoles: true,
+            showInstitution: true,
+            search: ""
         };
     }
 
     componentWillMount() {
         getIdpRolesWithUsers().then(data => {
             this.setState({roles: data.payload});
-            getInstitutionServiceProviders().then(data => this.setState({institutionServiceProviders: data.payload}));
+            getInstitutionServiceProviders().then(data => {
+                const serviceFilters = {...this.state.serviceFilters};
+                serviceFilters.state.values.forEach(val => val.count = data.payload.filter(sp => sp.state === val.search).length);
+                this.setState({institutionServiceProviders: data.payload, serviceFilters: serviceFilters});
+            });
         });
     }
 
-    render() {
-        const roles = Object.keys(this.state.roles);
-        return (
-            <div className="l-mini">
-                <Flash/>
-                <div className="mod-idp">
-                    <h1>{I18n.t("my_idp.title")}</h1>
-
-                    <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html")}}></p>
-                    {this.renderRoles(roles)}
-
-                    <h1>{I18n.t("my_idp.settings")}</h1>
-                    {this.renderIdpFields()}
-                    {this.renderServicesFields()}
-                </div>
-            </div>
-        );
+    onServiceFilterChange(key, index) {
+        return e => {
+            const serviceFilters = {...this.state.serviceFilters};
+            serviceFilters[key].values[index].checked = e.target.checked;
+            this.setState({serviceFilters: serviceFilters});
+        };
     }
 
-    renderServicesFields() {
+    renderServicesFields(institutionServiceProviders, serviceFilters, search) {
+        const searchValues = serviceFilters.state.values.reduce((acc, val) => val.checked ? acc.concat(val.search) : acc, []);
+        let providers = searchValues.length > 0 ? institutionServiceProviders.filter(sp => searchValues.includes(sp.state)) : institutionServiceProviders;
+        if (search.trim().length > 0) {
+            const searchString = search.toLowerCase();
+            providers = providers.filter(sp => Object.values(sp.names).some(name => name.toLowerCase().indexOf(searchString) > -1) ||
+                sp.spEntityId.toLowerCase().indexOf(searchString) > -1);
+        }
+
         return (
             <div>
                 <div className="l-grid settings-header">
-                    <h1 className="l-col-8">{I18n.t("my_idp.services")}</h1>
-                    <Link className="t-button l-col-4 policy-button" to={"/my-idp/edit"}>{I18n.t("my_idp.edit")}</Link>
+                    <h2 className="l-col-8">{I18n.t("my_idp.services_title")}</h2>
                 </div>
-                {this.state.institutionServiceProviders.map(s => this.renderService(s))}
+                {providers.map(s => this.renderService(s))}
             </div>
         );
     }
@@ -70,8 +84,9 @@ class MyIdp extends React.Component {
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.state")}</td>
-                        <td>{I18n.t("my_idp."+service.state)}</td>
-                    </tr><tr>
+                        <td>{I18n.t("my_idp." + service.state)}</td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.name.en")}</td>
                         <td>{service.names.en}</td>
                     </tr>
@@ -125,11 +140,6 @@ class MyIdp extends React.Component {
         const currentIdp = currentUser.getCurrentIdp();
         return (
             <div>
-                <p>{I18n.t("my_idp.settings_text")}</p>
-                <div className="l-grid settings-header">
-                    <h2 className="l-col-8">{I18n.t("my_idp.institution")}</h2>
-                    <Link className="t-button l-col-4 policy-button" to={"/my-idp/edit"}>{I18n.t("my_idp.edit")}</Link>
-                </div>
                 <table className="institution">
                     <tbody>
                     <tr>
@@ -146,7 +156,7 @@ class MyIdp extends React.Component {
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.state")}</td>
-                        <td>{I18n.t("my_idp."+currentIdp.state)}</td>
+                        <td>{I18n.t("my_idp." + currentIdp.state)}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.description.en")}</td>
@@ -190,7 +200,7 @@ class MyIdp extends React.Component {
                     </tr>
                     </tbody>
                 </table>
-                { this.renderContactPersons(currentIdp.contactPersons, currentIdp.names[I18n.locale]) }
+                {this.renderContactPersons(currentIdp.contactPersons, currentIdp.names[I18n.locale])}
             </div>
         );
     }
@@ -229,11 +239,12 @@ class MyIdp extends React.Component {
             </tr>
         );
     }
+
     renderContactPersons(contactPersons, name) {
         if (contactPersons && contactPersons.length > 0) {
             return (
-                <div>
-                    <h2>{ I18n.t("my_idp.contact", {name: name}) }</h2>
+                <div className="contact-persons">
+                    <h3>{I18n.t("my_idp.contact", {name: name})}</h3>
                     <table>
                         <thead>
                         <tr>
@@ -260,10 +271,55 @@ class MyIdp extends React.Component {
                 <td>{contactPerson.name}</td>
                 <td>{contactPerson.emailAddress}</td>
                 <td>{contactPerson.telephoneNumber}</td>
-                <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType) }</td>
+                <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType)}</td>
             </tr>
         );
     }
+
+    render() {
+        const {roles, showInstitution, showRoles, serviceFilters, institutionServiceProviders, search} = this.state;
+        return (
+            <div className="l-main">
+                <div className="l-left">
+                    <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
+                                   filters={serviceFilters}
+                                   search={search}
+                                   searchChange={e => this.setState({search: e.target.value})}/>
+                </div>
+                <div className="l-right">
+                    <Flash/>
+                    <div className="mod-idp">
+                        <h1 className="top">{I18n.t("my_idp.title")}</h1>
+                        <p>{I18n.t("my_idp.settings_text")}</p>
+                        <div className="edit-my-idp">
+                            <Link className="t-button" to={"/my-idp/edit"}>{I18n.t("my_idp.edit")}</Link>
+                        </div>
+
+
+                        <h2 className="top">{I18n.t("my_idp.roles")}
+                            <i className={`fa fa-caret-${showRoles ? "up" : "down"}`}
+                               onClick={() => this.setState({showRoles: !this.state.showRoles})}/>
+                        </h2>
+
+                        {showRoles && <div>
+                            <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html")}}></p>
+                            {this.renderRoles(Object.keys(roles))}
+                        </div>}
+
+
+                        <h2>{I18n.t("my_idp.settings")}
+                            <i className={`fa fa-caret-${showInstitution ? "up" : "down"}`}
+                               onClick={() => this.setState({showInstitution: !this.state.showInstitution})}/>
+                        </h2>
+                        {showInstitution && this.renderIdpFields()}
+                        {this.renderServicesFields(institutionServiceProviders, serviceFilters, search)}
+                    </div>
+                </div>
+
+            </div>
+        );
+    }
+
 
 }
 

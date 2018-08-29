@@ -413,15 +413,17 @@ I18n.translations.nl = {
 
     my_idp: {
         title: "Mijn instelling",
+        roles: "Rollen",
         sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
         role: "Rol",
         users: "Gebruiker(s)",
-        settings: "Gegevens van mijn eigen instelling en diensten",
+        settings: "Gegevens van mijn eigen instelling",
+        settings_edit: "Gegevens van mijn eigen instelling en diensten",
         settings_text: "Hieronder staan enkele gegevens van jouw instelling en van Service Providers die door jouw instelling in SURFconext worden aangeboden. Deze gegevens worden in SURFconext gebruikt, bijvoorbeeld in de Where Are You From-pagina. Je kunt deze gegevens laten wijzigen door te klikken op 'Wijzigingsverzoek aanmaken'.",
         SURFconextverantwoordelijke: "SURFconextverantwoordelijke",
         SURFconextbeheerder: "SURFconextbeheerder",
         "Dashboard supergebruiker": "Dashboard supergebruiker",
-        services_title: "Deze services worden aangeboden door jouw instelling:",
+        services_title: "Diensten aangeboden door jouw instelling",
         service_name: "Naam service",
         license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
         license_contact_name: "Naam",
@@ -476,7 +478,7 @@ I18n.translations.nl = {
         change_request_created: "Het wijzigingsverzoek is succesvol aangemaakt.",
         no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
         change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
-        comments: "Opmerkingen"
+        comments: "Opmerkingen",
     },
 
     policies: {
@@ -578,6 +580,14 @@ I18n.translations.nl = {
             QUESTION: "Vraag",
             CHANGE: "Wijziging"
         },
+    },
+    service_filter: {
+        title: "Filter diensten",
+        state: {
+            tooltip: "De status van een dienst bepaalt of deze dienst zichtbaar is op het productie platform."
+        },
+        search: "Zoek diensten..."
+
     },
 
     profile: {

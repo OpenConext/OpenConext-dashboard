@@ -3,6 +3,7 @@ import I18n from "i18n-js";
 import {setFlash} from "../utils/flash";
 
 import {getInstitutionServiceProviders, sendChangeRequest} from "../api";
+import ServiceFilter from "../components/service_filter";
 
 const contactPersonTypes = ["administrative", "support", "technical"];
 
@@ -17,6 +18,7 @@ class EditMyIdp extends React.Component {
             keywordsEn: currentIdp.keywords.en || "",
             keywordsNl: currentIdp.keywords.nl || "",
             logoUrl: currentIdp.logoUrl,
+            state: currentIdp.state,
             displayNamesEn: currentIdp.displayNames.en || "",
             displayNamesNl: currentIdp.displayNames.nl || "",
             descriptionsEn: currentIdp.descriptions.en || "",
@@ -28,15 +30,28 @@ class EditMyIdp extends React.Component {
                 emailAddress: contactPerson.emailAddress || "",
                 contactPersonType: contactPerson.contactPersonType,
                 telephoneNumber: contactPerson.telephoneNumber || ""
-            }))
+            })),
+            serviceFilters: {
+                state: {
+                    name: I18n.t("my_idp.state"),
+                    tooltip: I18n.t("service_filter.state.tooltip"),
+                    values: [
+                        {name: I18n.t("my_idp.prodaccepted"), count: 0, checked: false, search: "prodaccepted"},
+                        {name: I18n.t("my_idp.testaccepted"), count: 0, checked: false, search: "testaccepted"},
+                    ]
+                }
+            },
+            showInstitution: true,
+            search: ""
         };
     }
 
     componentWillMount() {
-        getInstitutionServiceProviders().then(institutionServiceProvidersData =>
-            this.setState({
-                serviceProviderSettings: institutionServiceProvidersData.payload
-            }));
+        getInstitutionServiceProviders().then(data => {
+            const serviceFilters = {...this.state.serviceFilters};
+            serviceFilters.state.values.forEach(val => val.count = data.payload.filter(sp => sp.state === val.search).length);
+            this.setState({serviceProviderSettings: data.payload, serviceFilters: serviceFilters});
+        });
     }
 
     renderInput(fieldName) {
@@ -120,7 +135,6 @@ class EditMyIdp extends React.Component {
 
         return (
             <div>
-                <h2>{I18n.t("my_idp.institution")}</h2>
                 <p>{I18n.t("my_idp.edit_message")}</p>
                 <table className="institution">
                     <tbody>
@@ -170,6 +184,16 @@ class EditMyIdp extends React.Component {
                             {this.renderInput("logoUrl")}
                         </td>
                     </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.state")}</td>
+                        <td>
+                            <select value={this.state.state}
+                                    onChange={e => this.setState({state: e.target.value})}>
+                                <option value="prodaccepted">{I18n.t("my_idp.prodaccepted")}</option>
+                                <option value="testaccepted">{I18n.t("my_idp.testaccepted")}</option>
+                            </select>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 {this.renderContactPersons(true, currentIdp.names[I18n.locale], contactPersons)}
@@ -180,8 +204,8 @@ class EditMyIdp extends React.Component {
     renderContactPersons(contactPersonsOfIdp, name, contactPersons, service = null) {
         if (contactPersons && contactPersons.length > 0) {
             return (
-                <div>
-                    <h2>{I18n.t("my_idp.contact", {name: name})}</h2>
+                <div className="contact-persons">
+                    <h3>{I18n.t("my_idp.contact", {name: name})}</h3>
                     <table>
                         <thead>
                         <tr>
@@ -258,11 +282,18 @@ class EditMyIdp extends React.Component {
         );
     }
 
-    renderServicesFields() {
+    renderServicesFields(serviceFilters, serviceProviderSettings, search) {
+        const searchValues = serviceFilters.state.values.reduce((acc, val) => val.checked ? acc.concat(val.search) : acc, []);
+        let providers = searchValues.length > 0 ? serviceProviderSettings.filter(sp => searchValues.includes(sp.state)) : serviceProviderSettings;
+        if (search.trim().length > 0) {
+            const searchString = search.toLowerCase();
+            providers = providers.filter(sp => Object.values(sp.names).some(name => name.toLowerCase().indexOf(searchString) > -1) ||
+                sp.spEntityId.toLowerCase().indexOf(searchString) > -1);
+        }
         return (
             <div>
                 <h2>{I18n.t("my_idp.services")}</h2>
-                {this.state.serviceProviderSettings.map((s, index) => this.renderService(s, index))}
+                {providers.map((s, index) => this.renderService(s, index))}
             </div>
         );
     }
@@ -312,11 +343,30 @@ class EditMyIdp extends React.Component {
                         <td>{I18n.t("my_idp.no_consent_required")}</td>
                         <td>{this.renderServiceCheckbox(service.id, "noConsentRequired")}</td>
                     </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.state")}</td>
+                        <td>
+                            <select value={service.state}
+                                    onChange={e => this.changeServiceField(service.id, "state", e)}>
+                                <option value="prodaccepted">{I18n.t("my_idp.prodaccepted")}</option>
+                                <option value="testaccepted">{I18n.t("my_idp.testaccepted")}</option>
+                            </select>
+                        </td>
+                    </tr>
+
                     </tbody>
                 </table>
                 {this.renderContactPersons(false, service.names[I18n.locale], service.contactPersons, service)}
             </div>
         );
+    }
+
+    onServiceFilterChange(key, index) {
+        return e => {
+            const serviceFilters = {...this.state.serviceFilters};
+            serviceFilters[key].values[index].checked = e.target.checked;
+            this.setState({serviceFilters: serviceFilters});
+        };
     }
 
     saveRequest(e) {
@@ -352,16 +402,30 @@ class EditMyIdp extends React.Component {
     }
 
     render() {
+        const {showInstitution, serviceFilters, serviceProviderSettings, search} = this.state;
         return (
-            <div className="l-mini">
-                <div className="mod-idp">
-                    <h1>{I18n.t("my_idp.settings")}</h1>
-                    {this.renderIdpFields()}
-                    {this.renderServicesFields()}
-                    <h2>{I18n.t("my_idp.comments")}</h2>
-                    <textarea value={this.state.comments} onChange={e => this.setState({comments: e.target.value})}/>
-                    <a href="#" className="t-button save policy-button"
-                       onClick={e => this.saveRequest(e)}>{I18n.t("my_idp.save")}</a>
+            <div className="l-main">
+                <div className="l-left">
+                    <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
+                                   filters={serviceFilters}
+                                   search={search}
+                                   searchChange={e => this.setState({search: e.target.value})}/>
+                </div>
+                <div className="l-right">
+                    <div className="mod-idp">
+                        <h1>{I18n.t("my_idp.settings_edit")}</h1>
+                        <h2>{I18n.t("my_idp.institution")}
+                            <i className={`fa fa-caret-${showInstitution ? "up" : "down"}`}
+                               onClick={() => this.setState({showInstitution: !this.state.showInstitution})}/>
+                        </h2>
+                        {showInstitution && this.renderIdpFields()}
+                        {this.renderServicesFields(serviceFilters, serviceProviderSettings, search)}
+                        <h2>{I18n.t("my_idp.comments")}</h2>
+                        <textarea value={this.state.comments}
+                                  onChange={e => this.setState({comments: e.target.value})}/>
+                        <a href="#" className="t-button save policy-button"
+                           onClick={e => this.saveRequest(e)}>{I18n.t("my_idp.save")}</a>
+                    </div>
                 </div>
             </div>
         );

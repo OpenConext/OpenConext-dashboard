@@ -377,10 +377,12 @@ I18n.translations.en = {
 
     my_idp: {
         title: "My institute",
+        roles: "Roles",
         sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
         role: "Role",
         users: "User(s)",
-        settings: "Settings for my own institute and services",
+        settings: "Settings for my own institute",
+        settings_edit: "Settings for my own institute and services",
         settings_text: "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
         SURFconextverantwoordelijke: "SURFconext owner",
         SURFconextbeheerder: "SURFconext maintainer",
@@ -577,7 +579,13 @@ I18n.translations.en = {
             },
         }
     },
-
+    service_filter: {
+        title: "Filter services",
+        state: {
+            tooltip: "The status of the Service determines if the Service is visible on the production platform."
+        },
+        search: "Search services..."
+    },
     profile: {
         title: "Profile",
         sub_title: "The following profile data has been provided by your home institution. This data as well as your group membership data (e.g.SURFteams) will be stored in SURFconext and shared with services accessed via SURFconext.",

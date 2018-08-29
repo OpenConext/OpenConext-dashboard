@@ -132,17 +132,20 @@ public class UsersController extends BaseController {
 
         String idpId = idp.getId();
 
-        this.diff(changes, idpId, idp.getKeywords().get("en"),settings.getKeywordsEn(), "keywords:en");
-        this.diff(changes, idpId, idp.getKeywords().get("nl"),settings.getKeywordsNl(), "keywords:nl");
+        this.diff(changes, idpId, idp.getKeywords().get("en"), settings.getKeywordsEn(), "keywords:en");
+        this.diff(changes, idpId, idp.getKeywords().get("nl"), settings.getKeywordsNl(), "keywords:nl");
 
-        this.diff(changes, idpId, idp.getDescriptions().get("en"),settings.getDescriptionsEn(), "description:en");
-        this.diff(changes, idpId, idp.getDescriptions().get("nl"),settings.getDescriptionsNl(), "description:nl");
+        this.diff(changes, idpId, idp.getDescriptions().get("en"), settings.getDescriptionsEn(), "description:en");
+        this.diff(changes, idpId, idp.getDescriptions().get("nl"), settings.getDescriptionsNl(), "description:nl");
 
-        this.diff(changes, idpId, idp.getDisplayNames().get("en"),settings.getDisplayNamesEn(), "displayName:en");
-        this.diff(changes, idpId, idp.getDisplayNames().get("nl"),settings.getDisplayNamesNl(), "displayName:nl");
+        this.diff(changes, idpId, idp.getDisplayNames().get("en"), settings.getDisplayNamesEn(), "displayName:en");
+        this.diff(changes, idpId, idp.getDisplayNames().get("nl"), settings.getDisplayNamesNl(), "displayName:nl");
 
-        this.diff(changes, idpId, idp.isPublishedInEdugain(),settings.isPublishedInEdugain(), "coin:publish_in_edugain");
-        this.diff(changes, idpId, idp.getLogoUrl(),settings.getLogoUrl(), "logo:0:url");
+        this.diff(changes, idpId, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
+            "coi:publish_in_edugain");
+        this.diff(changes, idpId, idp.getLogoUrl(), settings.getLogoUrl(), "logo:0:url");
+
+        this.diff(changes, idpId, idp.getState(), settings.getStateType().name(), "state");
 
         diffContactPersons(changes, idpId, idp.getContactPersons(), settings.getContactPersons());
 
@@ -164,6 +167,8 @@ public class UsersController extends BaseController {
                 diff(changes, id, sp.isPublishedInEdugain(), service.isPublishedInEdugain(), "coin:publish_in_edugain");
                 diff(changes, id, sp.isHasGuestEnabled(), service.isGuestEnabled(), "Guest Login Enabled");
                 diff(changes, id, sp.isNoConsentRequired(), service.isNoConsentRequired(), "coin:no_consent_required");
+
+                diff(changes, idpId, sp.getStateType().name(), service.getState(), "state");
 
                 diffContactPersons(changes, id, sp.getContactPersons(), service.getContactPersons());
             });
@@ -191,9 +196,12 @@ public class UsersController extends BaseController {
             if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
                 ContactPerson newContactPerson = newContactPersons.get(i);
                 diff(changes, id, contactPerson.getName(), newContactPerson.getName(), "contacts:" + i + ":name");
-                diff(changes, id, contactPerson.getEmailAddress(), newContactPerson.getEmailAddress(), "contacts:" + i + ":emailAddress");
-                diff(changes, id, contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber(), "contacts:" + i + ":telephoneNumber");
-                diff(changes, id, contactPerson.getContactPersonType(), newContactPerson.getContactPersonType(), "contacts:" + i + ":contactType");
+                diff(changes, id, contactPerson.getEmailAddress(), newContactPerson.getEmailAddress(),
+                    "contacts:" + i + ":emailAddress");
+                diff(changes, id, contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber(),
+                    "contacts:" + i + ":telephoneNumber");
+                diff(changes, id, contactPerson.getContactPersonType(), newContactPerson.getContactPersonType(),
+                    "contacts:" + i + ":contactType");
             }
         }
     }

@@ -14,6 +14,7 @@ public class Settings {
     private String descriptionsNl;
     private boolean publishedInEdugain;
     private String comments;
+    private StateType stateType;
     private ConsentType consentType;
 
     private List<ContactPerson> contactPersons;
@@ -107,6 +108,14 @@ public class Settings {
 
     public void setConsentType(ConsentType consentType) {
         this.consentType = consentType;
+    }
+
+    public StateType getStateType() {
+        return stateType;
+    }
+
+    public void setStateType(StateType stateType) {
+        this.stateType = stateType;
     }
 
     public List<ContactPerson> getContactPersons() {

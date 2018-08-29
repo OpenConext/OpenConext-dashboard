@@ -13,7 +13,7 @@ public class ServiceProviderSettings {
     private String descriptionEn;
     private String descriptionNl;
     private List<ContactPerson> contactPersons;
-
+    private StateType stateType;
 
     public ServiceProviderSettings() {
     }
@@ -88,5 +88,13 @@ public class ServiceProviderSettings {
 
     public void setContactPersons(List<ContactPerson> contactPersons) {
         this.contactPersons = contactPersons;
+    }
+
+    public StateType getStateType() {
+        return stateType;
+    }
+
+    public void setStateType(StateType stateType) {
+        this.stateType = stateType;
     }
 }
