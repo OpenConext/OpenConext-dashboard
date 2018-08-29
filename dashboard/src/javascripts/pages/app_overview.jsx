@@ -4,7 +4,7 @@ import SortableHeader from "../components/sortable_header";
 import Link from "react-router/Link";
 import {apiUrl, getApps} from "../api";
 import sort from "../utils/sort";
-
+import pagination from "../utils/pagination";
 import Facets from "../components/facets";
 import YesNo from "../components/yes_no";
 
@@ -12,6 +12,9 @@ const store = {
     activeFacets: null,
     hiddenFacets: null
 };
+
+
+const pageCount = 30;
 
 class AppOverview extends React.Component {
     constructor() {
@@ -25,7 +28,8 @@ class AppOverview extends React.Component {
             activeFacets: store.activeFacets || {},
             hiddenFacets: store.hiddenFacets || {},
             sortAttribute: "name",
-            sortAscending: undefined
+            sortAscending: undefined,
+            page: 1
         };
     }
 
@@ -66,73 +70,6 @@ class AppOverview extends React.Component {
             sortAscending: sortObject.sortAscending
         });
     }
-
-    render() {
-        const {currentUser} = this.context;
-        const {sortAttribute, sortAscending} = this.state;
-        const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
-        let connect = null;
-
-        if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
-            connect = (
-                <th className="percent_10 right">
-                    {I18n.t("apps.overview.connect")}
-                </th>
-            );
-        }
-
-        const facets = this.staticFacets().concat(this.state.facets);
-        this.addNumbers(filteredExclusiveApps, facets);
-        const filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
-
-        return (
-            <div className="l-main">
-                <div className="l-left">
-                    <Facets
-                        facets={facets}
-                        selectedFacets={this.state.activeFacets}
-                        hiddenFacets={this.state.hiddenFacets}
-                        filteredCount={filteredApps.length}
-                        totalCount={this.state.apps.length}
-                        onChange={this.handleFacetChange.bind(this)}
-                        onHide={this.handleFacetHide.bind(this)}
-                        onReset={this.handleResetFilters.bind(this)}
-                        onDownload={this.handleDownloadOverview.bind(this)}/>
-                </div>
-                <div className="l-right">
-                    <div className="mod-app-search">
-                        <div>
-                            <i className="fa fa-search"/>
-                            <input
-                                type="search"
-                                value={this.state.search}
-                                onChange={e => this.setState({search: e.target.value})}
-                                placeholder={I18n.t("apps.overview.search_hint")}/>
-                            <button type="submit">{I18n.t("apps.overview.search")}</button>
-                        </div>
-                    </div>
-                    <div className="mod-app-list">
-                        <table>
-                            <thead>
-                            <tr>
-                                {this.renderSortableHeader("percent_30", "name")}
-                                {this.renderSortableHeader("percent_20", "licenseStatus")}
-                                {this.renderSortableHeader("percent_20 bool", "aansluitovereenkomstRefused")}
-                                {this.renderSortableHeader("percent_20 bool", "connected")}
-                                {connect}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {filteredApps.length > 0 ? sort(filteredApps, sortAttribute, sortAscending)
-                                .map((app, index) => this.renderApp(app, index)) : filteredApps.length === this.state.apps ? this.renderProcessing() : this.renderEmpty()}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
 
     renderSortableHeader(className, attribute) {
         return (
@@ -283,7 +220,8 @@ class AppOverview extends React.Component {
         this.setState({
             search: "",
             activeFacets: {},
-            hiddenFacets: {}
+            hiddenFacets: {},
+            page: 1
         });
 
         store.activeFacets = null;
@@ -557,6 +495,112 @@ class AppOverview extends React.Component {
             }
         ];
     }
+
+    changePage(nbr) {
+        this.setState({page: nbr}, () => window.scrollTo({
+            "behavior": "smooth",
+            "left": 0,
+            "top": 0
+        }));
+    }
+
+    renderPagination(resultLength, page) {
+        if (resultLength <= pageCount) {
+            return null;
+        }
+        const nbrPages = Math.ceil(resultLength / pageCount);
+        const rangeWithDots = pagination(page, nbrPages);
+        return (
+            <section className="pagination">
+                <section className="container">
+                    {(nbrPages > 1 && page !== 1) &&
+                    <i className="fa fa-arrow-left" onClick={this.changePage.bind(this, page - 1)}></i>}
+                    {rangeWithDots.map((nbr, index) =>
+                        typeof(nbr) == "string" || nbr instanceof String ?
+                            <span key={index} className="dots">{nbr}</span> :
+                            nbr === page ?
+                                <span className="current" key={index}>{nbr}</span> :
+                                <span key={index} onClick={this.changePage.bind(this, nbr)}>{nbr}</span>
+                    )}
+                    {(nbrPages > 1 && page !== nbrPages) &&
+                    <i className="fa fa-arrow-right" onClick={this.changePage.bind(this, page + 1)}></i>}
+                </section>
+
+            </section>);
+    }
+
+    render() {
+        const {currentUser} = this.context;
+        const {sortAttribute, sortAscending, page} = this.state;
+        const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
+        let connect = null;
+
+        if (currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId) {
+            connect = (
+                <th className="percent_10 right">
+                    {I18n.t("apps.overview.connect")}
+                </th>
+            );
+        }
+
+        const facets = this.staticFacets().concat(this.state.facets);
+        this.addNumbers(filteredExclusiveApps, facets);
+        const filteredApps = this.filterAppsForInclusiveFilters(filteredExclusiveApps);
+        let sortedApps = sort(filteredApps, sortAttribute, sortAscending);
+
+        if (sortedApps.length > pageCount) {
+            sortedApps = sortedApps.slice((page - 1) * pageCount, page * pageCount);
+        }
+
+        return (
+            <div className="l-main">
+                <div className="l-left">
+                    <Facets
+                        facets={facets}
+                        selectedFacets={this.state.activeFacets}
+                        hiddenFacets={this.state.hiddenFacets}
+                        filteredCount={filteredApps.length}
+                        totalCount={this.state.apps.length}
+                        onChange={this.handleFacetChange.bind(this)}
+                        onHide={this.handleFacetHide.bind(this)}
+                        onReset={this.handleResetFilters.bind(this)}
+                        onDownload={this.handleDownloadOverview.bind(this)}/>
+                </div>
+                <div className="l-right">
+                    <div className="mod-app-search">
+                        <div>
+                            <i className="fa fa-search"/>
+                            <input
+                                type="search"
+                                value={this.state.search}
+                                onChange={e => this.setState({page: 1, search: e.target.value})}
+                                placeholder={I18n.t("apps.overview.search_hint")}/>
+                            <button type="submit">{I18n.t("apps.overview.search")}</button>
+                        </div>
+                    </div>
+                    <div className="mod-app-list">
+                        <table>
+                            <thead>
+                            <tr>
+                                {this.renderSortableHeader("percent_30", "name")}
+                                {this.renderSortableHeader("percent_20", "licenseStatus")}
+                                {this.renderSortableHeader("percent_20 bool", "aansluitovereenkomstRefused")}
+                                {this.renderSortableHeader("percent_20 bool", "connected")}
+                                {connect}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {sortedApps.length > 0 ? sortedApps.map((app, index) => this.renderApp(app, index)) :
+                                sortedApps.length === this.state.apps ? this.renderProcessing() : this.renderEmpty()}
+                            </tbody>
+                        </table>
+                        {this.renderPagination(filteredApps.length, page)}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
 
 }
 

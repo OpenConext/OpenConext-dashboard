@@ -40,10 +40,10 @@ class Navigation extends React.Component {
     return (
       <div className="mod-navigation">
         <ul>
+          {this.renderItem("/statistics", "stats")}
           {this.renderItem("/apps", "apps")}
           {this.renderItem("/policies", "policies")}
           {this.renderItem("/history", "history")}
-          {this.renderItem("/statistics", "stats")}
           {this.renderItem("/my-idp", "my_idp")}
         </ul>
 
