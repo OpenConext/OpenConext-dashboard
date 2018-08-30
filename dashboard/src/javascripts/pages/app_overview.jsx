@@ -484,7 +484,7 @@ class AppOverview extends React.Component {
                 filterApp: function (app) {
                     const attrFacetValues = this.state.activeFacets["attributes"] || [];
                     const attributes = Object.keys(app.arp.attributes);
-                    if (app.arp.noArp || attrFacetValues.length === 0) {
+                    if ((app.arp.noArp && _.isEmpty(app.manipulationNotes)) || attrFacetValues.length === 0) {
                         return true;
                     }
                     if (app.arp.noAttrArp) {
