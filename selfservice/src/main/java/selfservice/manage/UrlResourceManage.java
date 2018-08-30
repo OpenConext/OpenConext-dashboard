@@ -63,8 +63,10 @@ public class UrlResourceManage implements Manage {
         List<Map<String, Object>> providers = getMaps(getSpInputStream(body));
         List<Map<String, Object>> singleTenants = getMaps(getSingleTenantInputStream(body));
 
-        List<ServiceProvider> serviceProviders = providers.stream().map(this::transformManageMetadata).map
-            (sp -> this.serviceProvider(sp, EntityType.saml20_sp))
+        List<ServiceProvider> serviceProviders = providers.stream()
+            .map(this::transformManageMetadata)
+            .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
+            .filter(sp -> !sp.isHidden())
             .collect(Collectors.toList());
         List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata).map
             (sp -> this.serviceProvider(sp, EntityType.single_tenant_template))

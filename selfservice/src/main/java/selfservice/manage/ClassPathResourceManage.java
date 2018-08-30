@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static selfservice.util.StreamUtils.filterEmpty;
@@ -69,7 +70,9 @@ public class ClassPathResourceManage implements Manage {
 
     @Override
     public List<ServiceProvider> getAllServiceProviders() {
-        Collection<ServiceProvider> allSPs = new ArrayList<>(serviceProviderMap.values());
+        Collection<ServiceProvider> allSPs = new ArrayList<>(serviceProviderMap.values()).stream()
+            .filter(sp -> !sp.isHidden()).collect(Collectors.toList());
+
         allSPs.addAll(exampleSingleTenants.values());
         return new ArrayList<>(allSPs);
     }

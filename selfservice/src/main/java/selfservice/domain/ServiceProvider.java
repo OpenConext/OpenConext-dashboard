@@ -47,6 +47,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private boolean policyEnforcementDecisionRequired;
     private boolean exampleSingleTenant;
     private boolean aansluitovereenkomstRefused;
+    private boolean hidden;
     private LicenseStatus licenseStatus;
 
     private ARP arp;
@@ -82,6 +83,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
             ("coin:policy_enforcement_decision_required"));
         this.strongAuthenticationSupported = booleanValue(metaData.get("coin:ss:supports_strong_authentication"));
         this.aansluitovereenkomstRefused = booleanValue(metaData.get("coin:ss:aansluitovereenkomst_refused"));
+        this.hidden = booleanValue(metaData.get("coin:ss:hidden"));
         this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
         this.wikiUrlNl = (String) metaData.get("coin:ss:wiki_url:nl");
         Object attributes = metaData.get("attributes");
@@ -141,6 +143,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public boolean isPolicyEnforcementDecisionRequired() {
         return policyEnforcementDecisionRequired;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 
     public String getEulaURL() {
