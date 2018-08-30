@@ -14,9 +14,9 @@ class IdpUsagePanel extends React.Component {
           <h1>{I18n.t("idp_usage_panel.title")}</h1>
           <p>{subtitle}</p>
         </div>
-        <div className="mod-used-by">
+          {!this.props.app.exampleSingleTenant && <div className="mod-used-by">
           {this.renderUsedByInstitutions(this.props.institutions)}
-        </div>
+        </div>}
       </div>
     );
   }

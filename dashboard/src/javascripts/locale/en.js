@@ -243,7 +243,7 @@ I18n.translations.en = {
         title: "Used by",
         subtitle: "The following institutions are connected to {{name}}.",
         subtitle_none: "There are no institutions connected to {{name}}.",
-        subtitle_single_tenant: "When you want to know which institutes use {{name{}} through SURFconext, please send an email with your question to support@surfconext.nl.",
+        subtitle_single_tenant: "When you want to know which institutes use {{name}} through SURFconext, please send an email with your question to support@surfconext.nl.",
         institution: "Institution"
     },
     sirtfi_panel: {

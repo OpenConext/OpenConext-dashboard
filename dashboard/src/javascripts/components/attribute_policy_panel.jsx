@@ -25,7 +25,7 @@ class AttributePolicyPanel extends React.Component {
         } else if (app.arp.noAttrArp) {
             return <p>{I18n.t("attributes_policy_panel.arp.noattr", {name: app.name})}</p>;
         }
-        const hasFilters = app.filteredUserAttributes.some(attribute => attribute.filters.filter(filter => filter !== "*"));
+        const hasFilters = app.filteredUserAttributes.some(attribute => attribute.filters.filter(filter => filter !== "*").length > 0);
         return (
             <div className="mod-attributes">
                 <table>
