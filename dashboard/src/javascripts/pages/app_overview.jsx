@@ -389,7 +389,7 @@ class AppOverview extends React.Component {
         const {currentUser} = this.context;
         const {arpAttributes} = this.state;
 
-        return [{
+        const results = [{
             name: I18n.t("facets.static.connection.name"),
             searchValue: "connection",
             values: [
@@ -463,16 +463,6 @@ class AppOverview extends React.Component {
             filterApp: function (app) {
                 return this.filterYesNoFacet("strong_authentication", app.strongAuthentication);
             }.bind(this)
-        }, {
-            name: I18n.t("facets.static.attribute_manipulation.name"),
-            searchValue: "manipulation_notes",
-            values: [
-                {value: I18n.t("facets.static.attribute_manipulation.yes"), searchValue: "yes"},
-                {value: I18n.t("facets.static.attribute_manipulation.no"), searchValue: "no"}
-            ],
-            filterApp: function (app) {
-                return this.filterYesNoFacet("manipulation_notes", app.manipulationNotes);
-            }.bind(this)
         },
             {
                 name: I18n.t("facets.static.arp.name"),
@@ -494,6 +484,20 @@ class AppOverview extends React.Component {
                 }.bind(this)
             }
         ];
+        if (currentUser.superUser) {
+            results.push({
+                name: I18n.t("facets.static.attribute_manipulation.name"),
+                searchValue: "manipulation_notes",
+                values: [
+                    {value: I18n.t("facets.static.attribute_manipulation.yes"), searchValue: "yes"},
+                    {value: I18n.t("facets.static.attribute_manipulation.no"), searchValue: "no"}
+                ],
+                filterApp: function (app) {
+                    return this.filterYesNoFacet("manipulation_notes", app.manipulationNotes);
+                }.bind(this)
+            });
+        }
+        return results;
     }
 
     changePage(nbr) {

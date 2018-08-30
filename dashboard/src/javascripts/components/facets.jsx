@@ -105,14 +105,14 @@ class Facets extends React.Component {
     renderFacetValue(facet, facetValue) {
         const facetName = facet.searchValue || facet.name;
         const value = facetValue.searchValue || facetValue.value;
-
+        const facetValueLabel = facetValue.value === "1.3.6.1.4.1.1076.20.40.40.1" ? "CollabPersonId" : facetValue.value;
         return (
             <label key={facetValue.value} className={facetValue.count === 0 ? "greyed-out" : ""}>
                 <input
                     checked={Array.isArray(this.props.selectedFacets[facetName]) && this.props.selectedFacets[facetName].indexOf(value) > -1}
                     type="checkbox"
                     onChange={this.handleSelectFacet(facetName, value)}/>
-                {facetValue.value} ({facetValue.count})
+                {facetValueLabel} ({facetValue.count})
             </label>
         );
     }
