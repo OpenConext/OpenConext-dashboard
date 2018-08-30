@@ -114,8 +114,8 @@ public class ActionsServiceImpl implements ActionsService {
     Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId(), true);
 
     return action.unbuild()
-        .idpName(identityProvider.map(IdentityProvider::getName).orElse("Unknown idp"))
-        .spName(serviceProvider.map(ServiceProvider::getName).orElse("Unknown sp")).build();
+        .idpName(identityProvider.map(IdentityProvider::getName).orElse("Information unavailable"))
+        .spName(serviceProvider.map(ServiceProvider::getName).orElse("Information unavailable")).build();
   }
 
   private void sendAdministrationEmail(Action action) {
