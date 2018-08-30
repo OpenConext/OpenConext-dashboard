@@ -200,7 +200,7 @@ class AppOverview extends React.Component {
             checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
         }
 
-        this.setState({activeFacets: selectedFacets});
+        this.setState({activeFacets: selectedFacets, page: 1});
 
         store.activeFacets = selectedFacets;
     }
