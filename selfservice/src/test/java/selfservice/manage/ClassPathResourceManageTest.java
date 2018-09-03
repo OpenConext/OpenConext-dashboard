@@ -23,7 +23,7 @@ public class ClassPathResourceManageTest {
   @Test
   public void testServiceProviders() {
     List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-    assertEquals(1280, serviceProviders.size());
+    assertEquals(1279, serviceProviders.size());
 
     ServiceProvider surfcloud = serviceProviders.stream().filter(sp -> sp.getId()
       .equals("https://teams.surfconext.nl/shibboleth")).findFirst().get();

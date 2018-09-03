@@ -48,7 +48,7 @@ public class UrlResourceManageTest {
     @Test
     public void testApi() {
         List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-        assertEquals(1280, serviceProviders.size());
+        assertEquals(1279, serviceProviders.size());
 
         List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
         assertEquals(194, identityProviders.size());
