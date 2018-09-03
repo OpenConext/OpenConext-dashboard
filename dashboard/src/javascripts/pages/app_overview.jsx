@@ -322,7 +322,7 @@ class AppOverview extends React.Component {
                     break;
                 case "attributes":
                     filter(facet, (app, facetValue) => {
-                        if (app.arp.noArp && _.isEmpty(app.manipulationNotes)) {
+                        if (app.arp.noArp && !app.manipulation) {
                             return true;
                         }
                         if (app.arp.noArp || app.arp.noAttrArp) {
@@ -474,7 +474,7 @@ class AppOverview extends React.Component {
                 filterApp: function (app) {
                     const attrFacetValues = this.state.activeFacets["attributes"] || [];
                     const attributes = Object.keys(app.arp.attributes);
-                    if ((app.arp.noArp && _.isEmpty(app.manipulationNotes)) || attrFacetValues.length === 0) {
+                    if ((app.arp.noArp && !app.manipulation) || attrFacetValues.length === 0) {
                         return true;
                     }
                     if (app.arp.noAttrArp) {

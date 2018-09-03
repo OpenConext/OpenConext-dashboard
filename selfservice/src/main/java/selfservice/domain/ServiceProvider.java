@@ -62,6 +62,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private List<String> typeOfServicesEn = new ArrayList<>();
 
     private String manipulationNotes;
+    private boolean manipulation;
 
     @SuppressWarnings("unchecked")
     public ServiceProvider(Map<String, Object> metaData) {
@@ -113,6 +114,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.privacyInfo = this.buildPrivacyInfo(metaData);
         this.arpMotivations = (Map<String, String>) metaData.get("motivations");
         this.manipulationNotes = (String) metaData.get("manipulationNotes");
+        this.manipulation = StringUtils.hasText( (String) metaData.get("manipulation"));
     }
 
     private PrivacyInfo buildPrivacyInfo(Map<String, Object> metaData) {
@@ -280,5 +282,9 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public String getManipulationNotes() {
         return manipulationNotes;
+    }
+
+    public boolean isManipulation() {
+        return manipulation;
     }
 }

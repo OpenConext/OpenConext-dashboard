@@ -69,12 +69,13 @@ class MyIdp extends React.Component {
     }
 
     renderService(service) {
+        const url = `apps/${service.id}/${service.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`;
         return (
             <div key={service.id}>
-                <h2><a href={`/apps/${service.name}`} onClick={e => {
+                <h2><a href={`/${url}`}  onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
-                    this.context.router.transitionTo(`apps/${service.id}/${service.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+                    this.context.router.transitionTo(url);
                 }}>{service.name}</a></h2>
                 <table className="services">
                     <tbody>

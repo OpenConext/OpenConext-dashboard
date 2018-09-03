@@ -133,6 +133,7 @@ public class ServicesImpl implements Services {
         service.setGuestEnabled(sp.isAllowedAll() ||
             (sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp)));
         service.setManipulationNotes(sp.getManipulationNotes());
+        service.setManipulation(sp.isManipulation());
     }
 
     private String mailOfContactPerson(ContactPerson contactPerson) {

@@ -60,6 +60,7 @@ public class Service implements Comparable<Service>, Serializable {
     private String entityCategories2;
     private String publishInEdugainDate;
     private String manipulationNotes;
+    private boolean manipulation;
 
     private List<String> screenshotUrls = new ArrayList<>();
     private List<Category> categories = new ArrayList<>();
@@ -468,6 +469,14 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setManipulationNotes(String manipulationNotes) {
         this.manipulationNotes = manipulationNotes;
+    }
+
+    public boolean isManipulation() {
+        return manipulation;
+    }
+
+    public void setManipulation(boolean manipulation) {
+        this.manipulation = manipulation;
     }
 
     @Override
