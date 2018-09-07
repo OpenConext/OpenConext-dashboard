@@ -33,7 +33,6 @@ module.exports = {
     "prefer-const": ["error", {"destructuring": "all"}],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
-    "react/forbid-prop-types": "error",
     "no-else-return": "error",
     "prefer-arrow-callback": "error",
     "arrow-parens": ["error", "as-needed"],
