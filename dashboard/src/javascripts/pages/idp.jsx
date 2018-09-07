@@ -57,12 +57,13 @@ class MyIdp extends React.Component {
             providers = providers.filter(sp => Object.values(sp.names).some(name => name.toLowerCase().indexOf(searchString) > -1) ||
                 sp.spEntityId.toLowerCase().indexOf(searchString) > -1);
         }
-
+        const noProviders = providers.length === 0;
         return (
             <div>
                 <div className="l-grid settings-header">
                     <h2 className="l-col-8">{I18n.t("my_idp.services_title")}</h2>
                 </div>
+                {noProviders && <span>{I18n.t("my_idp.services_title_none")}</span>    }
                 {providers.map(s => this.renderService(s))}
             </div>
         );
@@ -279,13 +280,14 @@ class MyIdp extends React.Component {
 
     render() {
         const {roles, showInstitution, showRoles, serviceFilters, institutionServiceProviders, search} = this.state;
+        const hasServices = institutionServiceProviders.length > 0;
         return (
             <div className="l-main">
                 <div className="l-left">
-                    <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
+                    {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
                                    filters={serviceFilters}
                                    search={search}
-                                   searchChange={e => this.setState({search: e.target.value})}/>
+                                   searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>
                 <div className="l-right">
                     <Flash/>

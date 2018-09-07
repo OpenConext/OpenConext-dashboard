@@ -28399,7 +28399,6 @@
       "active": true,
       "notes": null,
       "metaDataFields": {
-        "coin:publish_in_edugain_date": "2011-06-08T00:00:00Z",
         "displayName:nl": "SURFnet bv displayName NL",
         "coin:institution_id": "SURFNET",
         "OrganizationName:nl": "SURFnet bv",
@@ -28424,7 +28423,6 @@
         "contacts:0:contactType": "technical",
         "redirect.sign": "0",
         "coin:guest_qualifier": "None",
-        "coin:publish_in_edugain": "1",
         "contacts:2:contactType": "support",
         "logo:0:height": "160",
         "coin:institution_guid": "ad93daef-0911-e511-80d0-005056956c1a",

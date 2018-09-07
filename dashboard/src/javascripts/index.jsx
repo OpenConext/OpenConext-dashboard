@@ -81,7 +81,7 @@ class App extends React.Component {
   }
 
   renderNavigation() {
-    return this.props.currentUser.superUserNotSwitched() ? null : <Navigation/>;
+    return <Navigation/>;
   }
 }
 

@@ -59,7 +59,7 @@ class ServiceFilter extends React.Component {
 
 ServiceFilter.propTypes = {
     onChange: React.PropTypes.func.isRequired,
-    filters: React.PropTypes.shape,
+    filters: React.PropTypes.object,
     search: React.PropTypes.string,
     searchChange: React.PropTypes.func
 };

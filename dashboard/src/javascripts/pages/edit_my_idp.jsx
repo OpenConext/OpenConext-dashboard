@@ -409,13 +409,14 @@ class EditMyIdp extends React.Component {
 
     render() {
         const {showInstitution, serviceFilters, serviceProviderSettings, search} = this.state;
+        const hasServices = serviceProviderSettings.length > 0;
         return (
             <div className="l-main">
                 <div className="l-left">
-                    <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
+                    {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
                                    filters={serviceFilters}
                                    search={search}
-                                   searchChange={e => this.setState({search: e.target.value})}/>
+                                   searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>
                 <div className="l-right">
                     <div className="mod-idp">
@@ -425,7 +426,7 @@ class EditMyIdp extends React.Component {
                                onClick={() => this.setState({showInstitution: !this.state.showInstitution})}/>
                         </h2>
                         {showInstitution && this.renderIdpFields()}
-                        {this.renderServicesFields(serviceFilters, serviceProviderSettings, search)}
+                        {hasServices && this.renderServicesFields(serviceFilters, serviceProviderSettings, search)}
                         <h2>{I18n.t("my_idp.comments")}</h2>
                         <textarea value={this.state.comments}
                                   onChange={e => this.setState({comments: e.target.value})}/>

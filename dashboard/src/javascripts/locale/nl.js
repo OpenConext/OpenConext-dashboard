@@ -424,6 +424,7 @@ I18n.translations.nl = {
         SURFconextbeheerder: "SURFconextbeheerder",
         "Dashboard supergebruiker": "Dashboard supergebruiker",
         services_title: "Diensten aangeboden door jouw instelling",
+        services_title_none: "Geen",
         service_name: "Naam service",
         license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
         license_contact_name: "Naam",
