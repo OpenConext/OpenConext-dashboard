@@ -225,7 +225,7 @@ I18n.translations.en = {
         arp: {
             noarp: "There is no 'Attribute Release Policy' specified. All known attributes are exchanged.",
             noattr: "No attributes will be exchanged with {{name}}.",
-            manipulation: "For this Service Provider there is a custom 'attribute manipulation script' in effect:",
+            manipulation: "For this Service Provider there is a custom 'attribute manipulation script' in effect. SURFconext will execute the script for every authentication of a user, before releasing attributes to that service. In order for you to understand what information will be released, please find below a description of what the script does:",
         },
         attribute: "Attribute",
         hint: "The attributes and their values for your personal account are displayed. This might not be representative for other accounts within your organization.",
@@ -417,6 +417,8 @@ I18n.translations.en = {
         date_published_in_edugain: "Date published in eduGAIN",
         logo_url: "Logo",
         new_logo_url: "New logo URL",
+        research_and_scholarship_info: "Connect to CoCo R&S SP’s automatically",
+        research_and_scholarship_tooltip: "This means your IdP will be automatically connected to all SPs in<br\>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br\>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br\>See the <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\">wiki</a> for more information.",
         contact: "Contact persons for {{name}}",
         contact_name: "Contact name",
         contact_email: "Contact email",
@@ -440,7 +442,7 @@ I18n.translations.en = {
         consent_explained_html: "The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">this wiki page</a>.",
         edit_message: "You are able to edit the following fields.",
         save: "Create change request",
-        change_request_created: "Successfully created your change request.",
+        change_request_created: "Change request sent to the SURFnet SURFconext-team.",
         no_change_request_created: "No change request is created as you did not change anything.",
         change_request_failed: "Failed to create your change request.",
         comments: "Comments"

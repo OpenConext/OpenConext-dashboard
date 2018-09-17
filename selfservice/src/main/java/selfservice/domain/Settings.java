@@ -13,6 +13,7 @@ public class Settings {
     private String descriptionsEn;
     private String descriptionsNl;
     private boolean publishedInEdugain;
+    private boolean connectToRSServicesAutomatically;
     private String comments;
     private StateType stateType;
     private ConsentType consentType;
@@ -92,6 +93,14 @@ public class Settings {
 
     public void setPublishedInEdugain(boolean publishedInEdugain) {
         this.publishedInEdugain = publishedInEdugain;
+    }
+
+    public boolean isConnectToRSServicesAutomatically() {
+        return connectToRSServicesAutomatically;
+    }
+
+    public void setConnectToRSServicesAutomatically(boolean connectToRSServicesAutomatically) {
+        this.connectToRSServicesAutomatically = connectToRSServicesAutomatically;
     }
 
     public String getComments() {

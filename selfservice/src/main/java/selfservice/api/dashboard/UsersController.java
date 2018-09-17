@@ -26,6 +26,7 @@ import selfservice.service.Services;
 import selfservice.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,6 +144,10 @@ public class UsersController extends BaseController {
 
         this.diff(changes, idpId, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
             "coi:publish_in_edugain");
+
+        this.diff(changes, idpId, idp.isConnectToRSServicesAutomatically(), settings.isConnectToRSServicesAutomatically(),
+                "coin:entity_categories:1 - http://refeds.org/category/research-and-scholarship");
+
         this.diff(changes, idpId, idp.getLogoUrl(), settings.getLogoUrl(), "logo:0:url");
 
         this.diff(changes, idpId, idp.getState(), settings.getStateType().name(), "state");

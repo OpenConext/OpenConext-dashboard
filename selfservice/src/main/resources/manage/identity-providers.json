@@ -28437,7 +28437,8 @@
         "displayName:en": "SURFnet bv displayName EN",
         "OrganizationDisplayName:nl": "SURFnet bv",
         "contacts:3:contactType": "support",
-        "SingleSignOnService:0:Location": "https://idp.surfnet.nl/saml2/idp/SSOService.php"
+        "SingleSignOnService:0:Location": "https://idp.surfnet.nl/saml2/idp/SSOService.php",
+        "coin:entity_categories:1": "http://refeds.org/category/research-and-scholarship"
       },
       "allowedEntities": [
         {

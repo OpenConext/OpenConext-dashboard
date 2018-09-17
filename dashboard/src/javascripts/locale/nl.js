@@ -226,7 +226,7 @@ I18n.translations.nl = {
         arp: {
             noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen worden uitgewisseld.",
             noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}.",
-            manipulation:"Voor deze Service Provider is een 'attribuut manipulatie script' actief:"
+            manipulation: "Voor deze Service Provider is er een aangepast 'attribuut manipulatie script' actief. SURFconext voert het script uit bij elke authenticatie van een gebruiker, voordat attributen aan die service worden vrijgegeven. Om u te helpen begrijpen welke informatie zal worden vrijgegeven, vindt u hieronder een beschrijving van wat het script doet:",
         },
         attribute: "Attribuut",
         hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
@@ -453,6 +453,8 @@ I18n.translations.nl = {
         date_published_in_edugain: "Datum gepubliceerd in eduGAIN",
         logo_url: "Logo",
         new_logo_url: "Nieuwe logo URL",
+        research_and_scholarship_info: "Koppel met SP's die aan CoCo en R&S voldoen",
+        research_and_scholarship_tooltip: "Dit betekent dat uw IdP automatisch aan alle huidige en toekomstige SP's<br\>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\">wiki</a> vooor meer informatie.",
         contact: "Contactpersonen voor {{name}}",
         contact_name: "Contact naam",
         contact_email: "Contact email",
@@ -476,7 +478,7 @@ I18n.translations.nl = {
         consent_explained_html: "De verschillende settings worden <a href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\"> uitgelegd.",
         edit_message: "De volgende velden kunnen worden aangepast.",
         save: "Maak wijzigingsverzoek aan",
-        change_request_created: "Het wijzigingsverzoek is succesvol aangemaakt.",
+        change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
         no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
         change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
         comments: "Opmerkingen",

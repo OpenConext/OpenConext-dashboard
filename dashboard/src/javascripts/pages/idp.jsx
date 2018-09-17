@@ -6,6 +6,7 @@ import moment from "moment";
 
 import {getIdpRolesWithUsers, getInstitutionServiceProviders} from "../api";
 import ServiceFilter from "../components/service_filter";
+import ReactTooltip from "react-tooltip";
 
 class MyIdp extends React.Component {
 
@@ -194,6 +195,18 @@ class MyIdp extends React.Component {
                         <td>{this.renderDate(currentIdp.publishInEdugainDate)}</td>
                     </tr>
                     }
+                    <tr>
+                        <td>{I18n.t("my_idp.research_and_scholarship_info")}</td>
+                        <td>{currentIdp.connectToRSServicesAutomatically ? I18n.t("boolean.yes") : I18n.t("boolean.no")}
+                            <span>
+                            <i className="fa fa-info-circle" data-for="connectToRSServicesAutomatically" data-tip></i>
+                                <ReactTooltip id="connectToRSServicesAutomatically" type="info" class="tool-tip" effect="solid"
+                                              multiline={true} delayHide={1000}>
+                                    <span dangerouslySetInnerHTML={{__html: I18n.t("my_idp.research_and_scholarship_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
                     <tr>
                         <td>{I18n.t("my_idp.logo_url")}</td>
                         <td>

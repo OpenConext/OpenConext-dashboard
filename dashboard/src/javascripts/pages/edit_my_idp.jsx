@@ -4,6 +4,7 @@ import {setFlash} from "../utils/flash";
 
 import {getInstitutionServiceProviders, sendChangeRequest} from "../api";
 import ServiceFilter from "../components/service_filter";
+import ReactTooltip from "react-tooltip";
 
 const contactPersonTypes = ["administrative", "support", "technical"];
 
@@ -18,12 +19,13 @@ class EditMyIdp extends React.Component {
             keywordsEn: currentIdp.keywords.en || "",
             keywordsNl: currentIdp.keywords.nl || "",
             logoUrl: currentIdp.logoUrl,
-            state: currentIdp.state,
+            stateType: currentIdp.state,
             displayNamesEn: currentIdp.displayNames.en || "",
             displayNamesNl: currentIdp.displayNames.nl || "",
             descriptionsEn: currentIdp.descriptions.en || "",
             descriptionsNl: currentIdp.descriptions.nl || "",
             publishedInEdugain: !!currentIdp.publishedInEdugain,
+            connectToRSServicesAutomatically: !!currentIdp.connectToRSServicesAutomatically,
             comments: "",
             contactPersons: currentIdp.contactPersons.map(contactPerson => ({
                 name: contactPerson.name || "",
@@ -179,6 +181,20 @@ class EditMyIdp extends React.Component {
                         <td>{this.renderCheckbox("publishedInEdugain")}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.research_and_scholarship_info")}</td>
+                        <td>{this.renderCheckbox("connectToRSServicesAutomatically")}
+                            <span>
+                            <i className="fa fa-info-circle" data-for="connectToRSServicesAutomatically" data-tip></i>
+                                <ReactTooltip id="connectToRSServicesAutomatically" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true} delayHide={1000}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.research_and_scholarship_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.new_logo_url")}</td>
                         <td>
                             {this.renderInput("logoUrl")}
@@ -187,8 +203,8 @@ class EditMyIdp extends React.Component {
                     <tr>
                         <td>{I18n.t("my_idp.state")}</td>
                         <td>
-                            <select value={this.state.state}
-                                    onChange={e => this.setState({state: e.target.value})}>
+                            <select value={this.state.stateType}
+                                    onChange={e => this.setState({stateType: e.target.value})}>
                                 <option value="prodaccepted">{I18n.t("my_idp.prodaccepted")}</option>
                                 <option value="testaccepted">{I18n.t("my_idp.testaccepted")}</option>
                             </select>
@@ -389,7 +405,8 @@ class EditMyIdp extends React.Component {
                 publishedInEdugain: s.publishedInEdugain,
                 hasGuestEnabled: s.guestEnabled,
                 noConsentRequired: s.noConsentRequired,
-                contactPersons: s.contactPersons
+                contactPersons: s.contactPersons,
+                stateType: s.state
             }));
 
         sendChangeRequest(request)
@@ -403,8 +420,11 @@ class EditMyIdp extends React.Component {
                     window.scrollTo(0, 0);
                     this.context.router.transitionTo("/my-idp");
                 });
-            })
-            .catch(() => setFlash(I18n.t("my_idp.change_request_failed", "error")));
+            }).catch(() => {
+                setFlash(I18n.t("my_idp.change_request_failed"), "error");
+                window.scrollTo(0, 0);
+                this.context.router.transitionTo("/my-idp");
+            });
     }
 
     render() {
@@ -414,9 +434,9 @@ class EditMyIdp extends React.Component {
             <div className="l-main">
                 <div className="l-left">
                     {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
-                                   filters={serviceFilters}
-                                   search={search}
-                                   searchChange={e => this.setState({search: e.target.value})}/>}
+                                                   filters={serviceFilters}
+                                                   search={search}
+                                                   searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>
                 <div className="l-right">
                     <div className="mod-idp">
@@ -426,6 +446,13 @@ class EditMyIdp extends React.Component {
                                onClick={() => this.setState({showInstitution: !this.state.showInstitution})}/>
                         </h2>
                         {showInstitution && this.renderIdpFields()}
+                        {hasServices && <div>
+                            <h2>{I18n.t("my_idp.comments")}</h2>
+                            <textarea value={this.state.comments}
+                                      onChange={e => this.setState({comments: e.target.value})}/>
+                            <a href="#" className="t-button save policy-button"
+                               onClick={e => this.saveRequest(e)}>{I18n.t("my_idp.save")}</a>
+                        </div>}
                         {hasServices && this.renderServicesFields(serviceFilters, serviceProviderSettings, search)}
                         <h2>{I18n.t("my_idp.comments")}</h2>
                         <textarea value={this.state.comments}

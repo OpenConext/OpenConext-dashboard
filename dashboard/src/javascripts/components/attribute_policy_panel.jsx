@@ -54,7 +54,7 @@ class AttributePolicyPanel extends React.Component {
         if (!app.manipulationNotes) {
             return null;
         }
-        const notes = marked(app.manipulationNotes).replace(/<a href/g,"<a target=\"_blank\" href");
+        const notes = marked(app.manipulationNotes).replace(/<a href/g, "<a target=\"_blank\" href");
         return <div className="manipulation-notes">
             <p className="title">{I18n.t("attributes_policy_panel.arp.manipulation")}</p>
             <section className="notes" dangerouslySetInnerHTML={{__html: notes}}/>
@@ -82,7 +82,7 @@ class AttributePolicyPanel extends React.Component {
                         {attribute.userValues.length > 0 ? attribute.userValues.map(this.renderAttributeValue) :
                             <em className="no-attribute-value">{I18n.t("attributes_policy_panel.no_attribute_value")}</em>}
                     </ul>
-                    {renderFilters.length > 0 && <ul  className="filters">
+                    {renderFilters.length > 0 && <ul className="filters">
                         {renderFilters.map((filter, index) => <li key={index} className="filter">- {filter}</li>)}
                     </ul>}
                 </td>
