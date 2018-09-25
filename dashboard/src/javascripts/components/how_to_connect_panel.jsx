@@ -1,9 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 
 import {AppShape} from "../shapes";
 import {makeConnection, removeConnection} from "../api";
+import stopEvent from "../utils/stop";
 
 class HowToConnectPanel extends React.Component {
     constructor() {
@@ -157,7 +159,7 @@ class HowToConnectPanel extends React.Component {
                         </div>
                     </div>
                     <p className="cta">
-                        <a href="#" className={"c-button " + classNameConnect}
+                        <a href="/connection" className={"c-button " + classNameConnect}
                            onClick={this.handleMakeConnection.bind(this)}>{I18n.t("how_to_connect_panel.connect")}</a>
                     </p>
                 </div>
@@ -263,9 +265,8 @@ class HowToConnectPanel extends React.Component {
     }
 
     backToServices(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.context.router.transitionTo("/apps");
+        stopEvent(e);
+        this.context.router.history.replace("/apps");
     }
 
     renderDisconnectStep() {
@@ -292,7 +293,7 @@ class HowToConnectPanel extends React.Component {
                         </div>
                     </div>
                     <p className="cta">
-                        <a href="#" className={"c-button " + (this.state.accepted ? "" : "disabled")}
+                        <a href="//disconnet" className={"c-button " + (this.state.accepted ? "" : "disabled")}
                            onClick={this.handleDisconnect.bind(this)}>{I18n.t("how_to_connect_panel.disconnect")}</a>
                     </p>
                 </div>
@@ -304,7 +305,7 @@ class HowToConnectPanel extends React.Component {
         const allowed = this.state.accepted &&
             (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) &&
             this.context.currentUser.dashboardAdmin;
-        e.preventDefault();
+        stopEvent(e);
         if (allowed) {
             makeConnection(this.props.app, this.state.comments)
                 .then(action => this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0)))
@@ -313,7 +314,7 @@ class HowToConnectPanel extends React.Component {
     }
 
     handleDisconnect(e) {
-        e.preventDefault();
+        stopEvent(e);
         if (this.state.accepted && this.context.currentUser.dashboardAdmin) {
             removeConnection(this.props.app, this.state.comments)
                 .then(action =>
@@ -327,8 +328,8 @@ class HowToConnectPanel extends React.Component {
 }
 
 HowToConnectPanel.contextTypes = {
-    currentUser: React.PropTypes.object,
-    router: React.PropTypes.object
+    currentUser: PropTypes.object,
+    router: PropTypes.object
 };
 
 HowToConnectPanel.propTypes = {

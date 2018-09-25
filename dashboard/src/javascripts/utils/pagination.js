@@ -10,6 +10,7 @@ export default function pagination(page, totalResults) {
     let l;
 
     for (let i = 1; i <= last; i++) {
+        // eslint-disable-next-line
         if (i === 1 || i === last || i >= left && i < right) {
             range.push(i);
         }

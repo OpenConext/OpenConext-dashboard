@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 import {AppShape} from "../shapes";
 
 class LicenseInfo extends React.Component {
@@ -99,8 +100,8 @@ LicenseInfo.defaultProps = {
 
 LicenseInfo.propTypes = {
     app: AppShape.isRequired,
-    showLinks: React.PropTypes.bool,
-    split: React.PropTypes.bool
+    showLinks: PropTypes.bool,
+    split: PropTypes.bool
 };
 
 export default LicenseInfo;

@@ -1,12 +1,19 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import SortableHeader from "../components/sortable_header";
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 import {apiUrl, getApps} from "../api";
 import sort from "../utils/sort";
 import pagination from "../utils/pagination";
 import Facets from "../components/facets";
 import YesNo from "../components/yes_no";
+import merge from "lodash.merge";
+import isUndefined from "lodash.isundefined";
+import pick from "lodash.pick";
+import isEmpty from "lodash.isempty";
+import includes from "lodash.includes";
+import stopEvent from "../utils/stop";
 
 const store = {
     activeFacets: null,
@@ -176,25 +183,23 @@ class AppOverview extends React.Component {
     }
 
     handleShowAppDetail(e, app) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.context.router.transitionTo(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+        stopEvent(e);
+        this.context.router.history.replace(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
     }
 
     handleConnectApp(e, app) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.context.router.transitionTo(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
+        stopEvent(e);
+        this.context.router.history.replace(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
     }
 
     /*
      * this.state.activeFacets is a object with facet names and the values are arrays with all select values
      */
     handleFacetChange(facet, facetValue, checked) {
-        const selectedFacets = _.merge({}, this.state.activeFacets);
+        const selectedFacets = merge({}, this.state.activeFacets);
         let facetValues = selectedFacets[facet];
 
-        if (_.isUndefined(facetValues)) {
+        if (isUndefined(facetValues)) {
             facetValues = selectedFacets[facet] = [facetValue];
         } else {
             checked ? facetValues.push(facetValue) : facetValues.splice(facetValues.indexOf(facetValue), 1);
@@ -206,7 +211,7 @@ class AppOverview extends React.Component {
     }
 
     handleFacetHide(facet) {
-        const hiddenFacets = _.merge({}, this.state.hiddenFacets);
+        const hiddenFacets = merge({}, this.state.hiddenFacets);
         if (hiddenFacets[facet.name]) {
             delete hiddenFacets[facet.name];
         } else {
@@ -242,7 +247,7 @@ class AppOverview extends React.Component {
     filterAppsForInclusiveFilters(apps) {
         let filteredApps = apps;
 
-        if (!_.isEmpty(this.state.activeFacets)) {
+        if (!isEmpty(this.state.activeFacets)) {
             filteredApps = filteredApps.filter(this.filterByFacets(this.state.activeFacets));
             this.staticFacets().forEach(facetObject => {
                 filteredApps = filteredApps.filter(facetObject.filterApp);
@@ -256,7 +261,7 @@ class AppOverview extends React.Component {
         const {currentUser} = this.context;
         const me = this;
         const filter = function (facet, filterFunction) {
-            const activeFacetsWithoutCurrent = _.pick(this.state.activeFacets, (value, key) => {
+            const activeFacetsWithoutCurrent = pick(this.state.activeFacets, (value, key) => {
                 return key !== facet.name;
             });
             let filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
@@ -316,7 +321,7 @@ class AppOverview extends React.Component {
                     break;
                 case "manipulation_notes":
                     filter(facet, (app, facetValue) => {
-                        const hasManipulationNotes = _.isEmpty(app.manipulationNotes);
+                        const hasManipulationNotes = isEmpty(app.manipulationNotes);
                         return facetValue.searchValue === "yes" ? !hasManipulationNotes : hasManipulationNotes;
                     });
                     break;
@@ -351,8 +356,8 @@ class AppOverview extends React.Component {
     filterYesNoFacet(name, yes) {
         const values = this.state.activeFacets[name] || [];
         return values.length === 0
-            || (yes && _.includes(values, "yes"))
-            || (!yes && _.includes(values, "no"));
+            || (yes && includes(values, "yes"))
+            || (!yes && includes(values, "no"));
     }
 
     filterByFacets(facets) {
@@ -520,7 +525,7 @@ class AppOverview extends React.Component {
                     {(nbrPages > 1 && page !== 1) &&
                     <i className="fa fa-arrow-left" onClick={this.changePage.bind(this, page - 1)}></i>}
                     {rangeWithDots.map((nbr, index) =>
-                        typeof(nbr) == "string" || nbr instanceof String ?
+                        typeof(nbr) === "string" || nbr instanceof String ?
                             <span key={index} className="dots">{nbr}</span> :
                             nbr === page ?
                                 <span className="current" key={index}>{nbr}</span> :
@@ -609,8 +614,8 @@ class AppOverview extends React.Component {
 }
 
 AppOverview.contextTypes = {
-    currentUser: React.PropTypes.object,
-    router: React.PropTypes.object
+    currentUser: PropTypes.object,
+    router: PropTypes.object
 };
 
 export default AppOverview;

@@ -1,49 +1,49 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Select from "react-select";
 
 class SelectWrapper extends React.Component {
-  onChange(val) {
-    if (_.isArray(val)) {
-      return this.props.handleChange(val.map(v => v.value));
+    onChange(val) {
+        if (Array.isArray(val)) {
+            return this.props.handleChange(val.map(v => v.value));
+        }
+
+        return this.props.handleChange(val.value, val.label);
     }
 
-    return this.props.handleChange(val.value, val.label);
-  }
-
-  render() {
-    const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : "");
-    const data = (this.props.options || []).map(option => ({ label: option.display, value: option.value }));
-    const minimumResultsForSearch = this.props.minimumResultsForSearch || 7;
-
-    return (
-      <Select
-        value={defaultValue}
-        options={data}
-        multi={this.props.multiple}
-        onChange={val => this.onChange(val)}
-        style={{ width: "100%" }}
-        placeholder={this.props.placeholder}
-        searchable={data.length >= minimumResultsForSearch}
-        clearable={false}
-      />
-    );
-  }
+    render() {
+        const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : "");
+        const data = (this.props.options || []).map(option => ({label: option.display, value: option.value}));
+        const minimumResultsForSearch = this.props.minimumResultsForSearch || 7;
+        const valueFromId = (opts, id) => Array.isArray(id) ? opts.filter(o => id.includes(o.value)) : opts.find(o => o.value === id);
+        return (
+            <Select
+                value={valueFromId(data, defaultValue)}
+                options={data}
+                isMulti={this.props.multiple}
+                onChange={val => this.onChange(val)}
+                placeholder={this.props.placeholder}
+                isSearchable={data.length >= minimumResultsForSearch}
+                isClearable={false}
+            />
+        );
+    }
 }
 
 SelectWrapper.propTypes = {
-  handleChange: React.PropTypes.func.isRequired,
-  defaultValue: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.arrayOf(React.PropTypes.string)
-  ]),
-  multiple: React.PropTypes.bool,
-  options: React.PropTypes.arrayOf(React.PropTypes.shape({
-    display: React.PropTypes.string,
-    value: React.PropTypes.string
-  })),
-  placeholder: React.PropTypes.string,
-  minimumResultsForSearch: React.PropTypes.number
+    handleChange: PropTypes.func.isRequired,
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
+    multiple: PropTypes.bool,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        display: PropTypes.string,
+        value: PropTypes.string
+    })),
+    placeholder: PropTypes.string,
+    minimumResultsForSearch: PropTypes.number
 };
 
 export default SelectWrapper;

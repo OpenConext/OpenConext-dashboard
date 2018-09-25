@@ -1,14 +1,14 @@
-import React from "react";
+import PropTypes from "prop-types";
 
-export const AppShape = React.PropTypes.shape({
-  name: React.PropTypes.string.isRequired,
-  supportMail: React.PropTypes.string,
-  supportUrl: React.PropTypes.string,
-  appUrl: React.PropTypes.string,
-  websiteUrl: React.PropTypes.string,
-  eulaUrl: React.PropTypes.string,
-  detailLogoUrl: React.PropTypes.string,
-  spEntityId: React.PropTypes.string,
-  exampleSingleTenant: React.PropTypes.bool,
-  connected: React.PropTypes.bool
+export const AppShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  supportMail: PropTypes.string,
+  supportUrl: PropTypes.string,
+  appUrl: PropTypes.string,
+  websiteUrl: PropTypes.string,
+  eulaUrl: PropTypes.string,
+  detailLogoUrl: PropTypes.string,
+  spEntityId: PropTypes.string,
+  exampleSingleTenant: PropTypes.bool,
+  connected: PropTypes.bool
 });

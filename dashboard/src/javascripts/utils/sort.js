@@ -3,7 +3,7 @@ const converters = {
     license: (value, app) => app.licenseStatus,
     jiraKey: value => {
         if (value !== undefined && value != null && value.indexOf("-") > -1) {
-            return parseInt(value.substring(value.indexOf("-") + 1));
+            return parseInt(value.substring(value.indexOf("-") + 1), 10);
         }
         return value;
     },

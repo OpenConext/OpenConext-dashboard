@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 
 class YesNo extends React.Component {
@@ -9,7 +10,7 @@ class YesNo extends React.Component {
 }
 
 YesNo.propTypes = {
-  value: React.PropTypes.bool
+  value: PropTypes.bool
 };
 
 export default YesNo;

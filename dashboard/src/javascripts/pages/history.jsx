@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import I18n from "i18n-js";
 
@@ -36,6 +37,7 @@ class History extends React.Component {
             rangeWithDots = [];
         let l;
         for (let i = 1; i <= last; i++) {
+            // eslint-disable-next-line
             if (i === 1 || i === last || i >= left && i < right) {
                 range.push(i);
             }
@@ -139,7 +141,7 @@ class History extends React.Component {
 }
 
 History.contextTypes = {
-    currentUser: React.PropTypes.object
+    currentUser: PropTypes.object
 };
 
 export default History;

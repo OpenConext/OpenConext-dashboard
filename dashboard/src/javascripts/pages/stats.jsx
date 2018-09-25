@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import I18n from "i18n-js";
 
@@ -8,7 +9,6 @@ import {getPeriod} from "../utils/period";
 import DownloadButton from "../components/download_button";
 import SelectWrapper from "../components/select_wrapper";
 import Period from "../components/period";
-import Chart from "../components/chart";
 
 class Stats extends React.Component {
 
@@ -196,7 +196,7 @@ class Stats extends React.Component {
                 </div>
                 <div className="l-right">
                     <div className="mod-chart">
-                        <Chart chart={this.state.chart}/>
+                        {/*<Chart chart={this.state.chart}/>*/}
                     </div>
                 </div>
             </div>
@@ -205,7 +205,7 @@ class Stats extends React.Component {
 }
 
 Stats.contextTypes = {
-    currentUser: React.PropTypes.object
+    currentUser: PropTypes.object
 };
 
 export default Stats;

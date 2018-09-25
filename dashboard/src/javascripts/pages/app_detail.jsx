@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 
 import {getApp, getIdps} from "../api";
 
@@ -56,7 +57,7 @@ class AppDetail extends React.Component {
     }
 
     componentWillMount() {
-        getApp(this.props.params.id, this.props.params.type).then(data => {
+        getApp(this.props.match.params.id, this.props.match.params.type).then(data => {
             const app = data.payload;
             if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
                 this.panelMap = {
@@ -128,8 +129,8 @@ class AppDetail extends React.Component {
         const panel = this.panelMap[panelKey];
         return (
             <li key={panelKey}>
-                <Link to={`/apps/${this.props.params.id}/${this.props.params.type}/${panelKey}`}
-                      className={panelKey === this.props.params.activePanel ? "current" : ""}>
+                <Link to={`/apps/${this.props.match.params.id}/${this.props.match.params.type}/${panelKey}`}
+                      className={panelKey === this.props.match.params.activePanel ? "current" : ""}>
                     <i className={"fa " + panel.icon}></i>
                     {I18n.t("apps.detail." + key)}
                 </Link>
@@ -138,7 +139,7 @@ class AppDetail extends React.Component {
     }
 
     renderActivePanel() {
-        const {activePanel} = this.props.params;
+        const {activePanel} = this.props.match.params;
         const {currentUser} = this.context;
         let panel = this.panelMap[activePanel];
         if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
@@ -152,16 +153,8 @@ class AppDetail extends React.Component {
 }
 
 AppDetail.contextTypes = {
-    currentUser: React.PropTypes.object,
-    router: React.PropTypes.object
-};
-
-AppDetail.propTypes = {
-    params: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired,
-        type: React.PropTypes.string.isRequired,
-        activePanel: React.PropTypes.string.isRequired
-    }).isRequired
+    currentUser: PropTypes.object,
+    router: PropTypes.object
 };
 
 export default AppDetail;

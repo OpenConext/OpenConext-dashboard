@@ -22,7 +22,7 @@ class PolicyDetailHelpEn extends React.Component {
           </p>
 
           <p>More information about the implications of a Deny access can be found <a
-              target="_blank"
+              target="_blank" rel="noopener noreferrer"
               href="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html#_Toc325047268">here</a>.
           </p>
 

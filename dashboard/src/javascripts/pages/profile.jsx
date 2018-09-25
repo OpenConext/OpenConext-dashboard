@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import I18n from "i18n-js";
 
@@ -76,7 +77,7 @@ class Profile extends React.Component {
 }
 
 Profile.contextTypes = {
-  currentUser: React.PropTypes.object
+  currentUser: PropTypes.object
 };
 
 export default Profile;

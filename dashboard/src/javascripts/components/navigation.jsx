@@ -1,10 +1,10 @@
 import React from "react";
 import I18n from "i18n-js";
 
-import Spinner from "spin.js";
+import {Spinner} from "spin.js";
 import spinner from "../lib/spin";
 
-import Link from "react-router/Link";
+import {NavLink} from "react-router-dom";
 
 class Navigation extends React.Component {
   constructor() {
@@ -53,7 +53,7 @@ class Navigation extends React.Component {
   }
 
   renderItem(href, value) {
-    return <li><Link to={href} activeClassName="active">{I18n.t("navigation." + value)}</Link></li>;
+    return <li><NavLink to={href} activeClassName="active">{I18n.t("navigation." + value)}</NavLink></li>;
   }
 
   renderSpinner() {

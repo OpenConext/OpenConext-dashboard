@@ -1,19 +1,23 @@
+@import "../utilities/placeholders.sass"
+@import "../utilities/vars.sass"
+@import "../utilities/mixins.sass"
+
 .mod-header
-  +pie-clearfix
   padding: 25px 30px 10px
   background: #fff
   border-bottom: 2px solid $blue
+  display: flex
 
   // Main app title
   .title
     background: url("../images/logo@2x.png") no-repeat left center
     background-size: 161px 50px
     height: 50px
-    float: left
-    @extend %h2
+    font-size: 20px
+    line-height: 30px
 
     a
-      color: $dark-grey
+      color: $blue
       padding-left: 170px
 
       &:hover
@@ -21,7 +25,8 @@
 
   // Meta = right aligned stuff
   .meta
-    float: right
+    margin-left: auto
+    display: flex
     a.super-user
       display: inline-block
       margin-left: 25px
@@ -34,7 +39,6 @@
 
   .language,
   .links
-    float: left
     margin-left: 40px
     line-height: 30px
 
@@ -68,7 +72,6 @@
         text-decoration: none
 
   .name
-    float: left
     line-height: 30px
 
     .fa-caret-down,
@@ -76,13 +79,16 @@
       padding-left: 5px
 
     > ul
-      @extend %box, %z2
+      @extend %box
       position: absolute
       z-index: 100
       padding: 20px 20px 0
       max-width: 400px
       min-width: 200px
       top: 60px
+      box-shadow: 1px 1px 5px*2 rgba(black,.4)
+      li
+        list-style: none
 
       &.show
         display: block

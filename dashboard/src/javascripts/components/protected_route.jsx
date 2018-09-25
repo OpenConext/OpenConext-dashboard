@@ -1,22 +1,22 @@
 import React from "react";
-import Match from "react-router/Match";
-
+import PropTypes from "prop-types";
+import {Route} from "react-router-dom";
 import CurrentUser from "../models/current_user";
 
 export default function ProtectedRoute({ component, currentUser, ...rest }) {
   if (currentUser.dashboardAdmin) {
-    return <Match component={component} {...rest} />;
+    return <Route component={component} {...rest} />;
   }
 
   return null;
 }
 
 ProtectedRoute.propTypes = {
-  component: React.PropTypes.oneOfType([
-    React.PropTypes.element,
-    React.PropTypes.func
+  component: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func
   ]).isRequired,
-  currentUser: React.PropTypes.instanceOf(CurrentUser)
+  currentUser: PropTypes.instanceOf(CurrentUser)
 };
 
 ProtectedRoute.displayName = "ProtectedRoute";

@@ -37,46 +37,41 @@ public class MockShibbolethFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-        ServletException {
+            ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 
         String userId = Optional.ofNullable(request.getParameter("mockUser"))
-            .orElse((String) req.getSession().getAttribute("mockShibbolethUser"));
+            .orElse(Optional.ofNullable((String) req.getSession().getAttribute("mockUser")).orElse("admin"));
 
-        if (userId == null) {
-            String login = IOUtils.toString(new ClassPathResource("mockLogin.html").getInputStream());
-            response.getWriter().write(login);
-        } else {
-            req.getSession(true).setAttribute("mockShibbolethUser", userId);
-            SetHeader wrapper = new SetHeader(req);
-            wrapper.setHeader(Name_Id.getValue(), userId);
-            wrapper.setHeader(Shib_Uid.getValue(), userId);
-            wrapper.setHeader(Shib_Authenticating_Authority.getValue(), idp);
-            wrapper.setHeader(Shib_GivenName.getValue(), "Some given name");
-            wrapper.setHeader(Shib_Email.getValue(), "Some value");
-            wrapper.setHeader(Shib_EduPersonPN.getValue(), "Some eduPersonPrincipalName");
-            wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
-            wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");
-            wrapper.setHeader(Shib_EduPersonEntitlement.getValue(),
+        req.getSession(true).setAttribute("mockUser", userId);
+        SetHeader wrapper = new SetHeader(req);
+        wrapper.setHeader(Name_Id.getValue(), userId);
+        wrapper.setHeader(Shib_Uid.getValue(), userId);
+        wrapper.setHeader(Shib_Authenticating_Authority.getValue(), idp);
+        wrapper.setHeader(Shib_GivenName.getValue(), "Some given name");
+        wrapper.setHeader(Shib_Email.getValue(), "Some value");
+        wrapper.setHeader(Shib_EduPersonPN.getValue(), "Some eduPersonPrincipalName");
+        wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
+        wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");
+        wrapper.setHeader(Shib_EduPersonEntitlement.getValue(),
                 "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
-            wrapper.setHeader(Shib_EduPersonScopedAffiliation.getValue(),
+        wrapper.setHeader(Shib_EduPersonScopedAffiliation.getValue(),
                 "urn:mace:terena.org:tcs:eduPersonScopedAffiliation");
-            wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
-            switch (userId) {
-                case "super":
-                    wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.super.user");
-                    break;
-                case "admin":
-                    wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.admin");
-                    break;
-                case "viewer":
-                    wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.viewer");
-                    break;
-                default:
-                    //nothing
-            }
-            chain.doFilter(wrapper, response);
+        wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
+        switch (userId) {
+            case "super":
+                wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.super.user");
+                break;
+            case "admin":
+                wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.admin");
+                break;
+            case "viewer":
+                wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.viewer");
+                break;
+            default:
+                //nothing
         }
+        chain.doFilter(wrapper, response);
     }
 
     private static class SetHeader extends HttpServletRequestWrapper {

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 
 class Screenshots extends React.Component {
@@ -25,8 +26,8 @@ class Screenshots extends React.Component {
 
   renderScreenshotThumbnail(screenshot, index) {
     return (
-      <a key={index} className="screenshot-thumb" href="#" onClick={this.showScreenshot(index)}>
-        <img src={screenshot} />
+      <a key={index} className="screenshot-thumb" href="/show" onClick={this.showScreenshot(index)}>
+        <img alt="" src={screenshot} />
       </a>
     );
   }
@@ -43,9 +44,9 @@ class Screenshots extends React.Component {
     if (this.state.open) {
       return (
         <div className="lightbox-overlay">
-          <a href="#" className="close-btn" onClick={this.closeScreenshot.bind(this)}>{I18n.t("apps.detail.close_screenshot")}</a>
-          <a href="#" onClick={this.closeScreenshot.bind(this)}>
-            <img src={this.props.screenshotUrls[this.state.index]}/>
+          <a href="/close" className="close-btn" onClick={this.closeScreenshot.bind(this)}>{I18n.t("apps.detail.close_screenshot")}</a>
+          <a href="/close" onClick={this.closeScreenshot.bind(this)}>
+            <img alt="" src={this.props.screenshotUrls[this.state.index]}/>
           </a>
         </div>
       );
@@ -62,7 +63,7 @@ class Screenshots extends React.Component {
 }
 
 Screenshots.propTypes = {
-  screenshotUrls: React.PropTypes.arrayOf(React.PropTypes.string)
+  screenshotUrls: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default Screenshots;

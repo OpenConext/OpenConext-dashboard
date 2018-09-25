@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import ReactTooltip from "react-tooltip";
 
@@ -58,10 +59,10 @@ class ServiceFilter extends React.Component {
 }
 
 ServiceFilter.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    filters: React.PropTypes.object,
-    search: React.PropTypes.string,
-    searchChange: React.PropTypes.func
+    onChange: PropTypes.func.isRequired,
+    filters: PropTypes.object,
+    search: PropTypes.string,
+    searchChange: PropTypes.func
 };
 
 export default ServiceFilter;

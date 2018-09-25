@@ -1,5 +1,5 @@
-import React from "react";
+import PropTypes from "prop-types";
 
-export const FacetShape = React.PropTypes.shape({
+export const FacetShape = PropTypes.shape({
   /// ?
 });

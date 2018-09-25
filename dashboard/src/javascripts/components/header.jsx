@@ -1,11 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import LanguageSelector from "./language_selector";
 import Logout from "../pages/logout";
 import {render} from "react-dom";
 import {exit, logout} from "../api";
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 import IDPSelector from "../components/idp_selector";
+import isUndefined from "lodash.isundefined";
+import stopEvent from "../utils/stop";
 
 class Header extends React.Component {
     constructor() {
@@ -37,7 +40,7 @@ class Header extends React.Component {
 
     renderProfileLink() {
         const {currentUser} = this.context;
-        if (_.isUndefined(currentUser)) {
+        if (isUndefined(currentUser)) {
             return null;
         }
         return currentUser.superUser ?
@@ -49,7 +52,7 @@ class Header extends React.Component {
 
             <span>
           {I18n.t("header.welcome")}&nbsp;
-                <a href="#" onClick={this.handleToggle.bind(this)}>
+                <a href="/welcome" onClick={this.handleToggle.bind(this)}>
             {currentUser.displayName}
                     {this.renderDropDownIndicator()}
           </a>
@@ -84,26 +87,26 @@ class Header extends React.Component {
 
     renderExitLogout() {
         const {currentUser} = this.context;
-        if (_.isUndefined(currentUser)) {
+        if (isUndefined(currentUser)) {
             return null;
         } else if (currentUser.superUser && currentUser.switchedToIdp) {
             return (
-                <li><a href="#" onClick={this.handleExitClick.bind(this)}>{I18n.t("header.links.exit")}</a></li>
+                <li><a href="/exit" onClick={this.handleExitClick.bind(this)}>{I18n.t("header.links.exit")}</a></li>
             );
         }
 
         return (
-            <li><a href="#" onClick={this.handleLogoutClick.bind(this)}>{I18n.t("header.links.logout")}</a></li>
+            <li><a href="/logout" onClick={this.handleLogoutClick.bind(this)}>{I18n.t("header.links.logout")}</a></li>
         );
     }
 
     handleLogoutClick(e) {
-        e.preventDefault();
+        stopEvent(e);
         logout().then(() => render(<Logout/>, document.getElementById("app")));
     }
 
     handleExitClick(e) {
-        e.preventDefault();
+        stopEvent(e);
         exit().then(() => window.location = "/");
     }
 
@@ -112,14 +115,13 @@ class Header extends React.Component {
     }
 
     handleToggle(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        stopEvent(e);
         this.setState({dropDownActive: !this.state.dropDownActive});
     }
 }
 
 Header.contextTypes = {
-    currentUser: React.PropTypes.object
+    currentUser: PropTypes.object
 };
 
 export default Header;

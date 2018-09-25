@@ -1,6 +1,6 @@
 import React from "react";
 
-import { emitter, getFlash } from "../utils/flash";
+import {emitter, getFlash} from "../utils/flash";
 
 class Flash extends React.Component {
   constructor() {
@@ -33,7 +33,7 @@ class Flash extends React.Component {
       return (
         <div className="flash">
           <p className={flash.type} dangerouslySetInnerHTML={{ __html: flash.message }}></p>
-          <a className="close" href="#" onClick={() => this.closeFlash()}>
+          <a className="close" href="/close" onClick={() => this.closeFlash()}>
             <i className="fa fa-remove"></i>
           </a>
         </div>

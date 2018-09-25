@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 
 class Contact extends React.Component {
@@ -19,7 +20,7 @@ class Contact extends React.Component {
 }
 
 Contact.propTypes = {
-  email: React.PropTypes.string
+  email: PropTypes.string
 };
 
 export default Contact;

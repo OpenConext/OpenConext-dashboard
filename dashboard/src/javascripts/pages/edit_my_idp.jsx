@@ -1,10 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import {setFlash} from "../utils/flash";
 
 import {getInstitutionServiceProviders, sendChangeRequest} from "../api";
 import ServiceFilter from "../components/service_filter";
 import ReactTooltip from "react-tooltip";
+import get from "lodash.get";
+import set from "lodash.set";
+import cloneDeep from "lodash.clonedeep";
+import stopEvent from "../utils/stop";
 
 const contactPersonTypes = ["administrative", "support", "technical"];
 
@@ -87,7 +92,7 @@ class EditMyIdp extends React.Component {
         return (
             <input
                 type="text"
-                value={_.get(service, fieldName) || ""}
+                value={get(service, fieldName) || ""}
                 id={`${serviceId} ${fieldName}`}
                 onChange={e => this.changeServiceField(serviceId, fieldName, e)}
             />
@@ -126,7 +131,7 @@ class EditMyIdp extends React.Component {
     changeServiceField(serviceId, fieldName, e) {
         const newServiceProviderSettings = [...this.state.serviceProviderSettings];
         const service = newServiceProviderSettings.find(s => s.id === serviceId);
-        _.set(service, fieldName, e.target.value);
+        set(service, fieldName, e.target.value);
         this.setState({serviceProviderSettings: newServiceProviderSettings});
     }
 
@@ -319,9 +324,8 @@ class EditMyIdp extends React.Component {
         return (
             <div key={service.id}>
                 <h2><a href={`/${url}`} onClick={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.context.router.transitionTo(url);
+                    stopEvent(e);
+                    this.context.router.history.replace(url);
                 }}>{service.name}</a></h2>
                 <table className="services">
                     <tbody>
@@ -392,9 +396,8 @@ class EditMyIdp extends React.Component {
     }
 
     saveRequest(e) {
-        e.preventDefault();
-
-        const request = _.cloneDeep(this.state);
+        stopEvent(e);
+        const request = cloneDeep(this.state);
         request.serviceProviderSettings = request.serviceProviderSettings.map(s => (
             {
                 spEntityId: s.spEntityId,
@@ -418,12 +421,12 @@ class EditMyIdp extends React.Component {
                         setFlash(I18n.t("my_idp.change_request_created"));
                     }
                     window.scrollTo(0, 0);
-                    this.context.router.transitionTo("/my-idp");
+                    this.context.router.history.replace("/my-idp");
                 });
             }).catch(() => {
                 setFlash(I18n.t("my_idp.change_request_failed"), "error");
                 window.scrollTo(0, 0);
-                this.context.router.transitionTo("/my-idp");
+                this.context.router.history.replace("/my-idp");
             });
     }
 
@@ -450,14 +453,14 @@ class EditMyIdp extends React.Component {
                             <h2>{I18n.t("my_idp.comments")}</h2>
                             <textarea value={this.state.comments}
                                       onChange={e => this.setState({comments: e.target.value})}/>
-                            <a href="#" className="t-button save policy-button"
+                            <a href="/save" className="t-button save policy-button"
                                onClick={e => this.saveRequest(e)}>{I18n.t("my_idp.save")}</a>
                         </div>}
                         {hasServices && this.renderServicesFields(serviceFilters, serviceProviderSettings, search)}
                         <h2>{I18n.t("my_idp.comments")}</h2>
                         <textarea value={this.state.comments}
                                   onChange={e => this.setState({comments: e.target.value})}/>
-                        <a href="#" className="t-button save policy-button"
+                        <a href="/save" className="t-button save policy-button"
                            onClick={e => this.saveRequest(e)}>{I18n.t("my_idp.save")}</a>
                     </div>
                 </div>
@@ -467,8 +470,8 @@ class EditMyIdp extends React.Component {
 }
 
 EditMyIdp.contextTypes = {
-    currentUser: React.PropTypes.object,
-    router: React.PropTypes.object
+    currentUser: PropTypes.object,
+    router: PropTypes.object
 };
 
 export default EditMyIdp;

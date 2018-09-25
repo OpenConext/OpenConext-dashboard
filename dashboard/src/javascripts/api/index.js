@@ -1,6 +1,7 @@
 import qs from "qs";
 import spinner from "../lib/spin";
 import {getCurrentUser} from "../models/current_user";
+import merge from "lodash.merge";
 
 const apiPath = "/dashboard/api";
 
@@ -35,7 +36,7 @@ function validFetch(path, options) {
         headers["X-IDP-ENTITY-ID"] = currentUser.getCurrentIdpId();
     }
 
-    const fetchOptions = _.merge({}, {headers}, options, {
+    const fetchOptions = merge({}, {headers}, options, {
         credentials: "same-origin"
     });
 

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class MatchStartRoute extends React.Component {
     componentDidMount() {
@@ -24,8 +25,8 @@ class MatchStartRoute extends React.Component {
 }
 
 MatchStartRoute.contextTypes = {
-    router: React.PropTypes.object,
-    currentUser: React.PropTypes.object
+    router: PropTypes.object,
+    currentUser: PropTypes.object
 };
 
 export default MatchStartRoute;

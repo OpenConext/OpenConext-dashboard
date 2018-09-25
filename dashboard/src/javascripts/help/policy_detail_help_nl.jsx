@@ -19,7 +19,7 @@ class PolicyDetailHelpNl extends React.Component {
           </p>
 
           <p>Meer informatie over de implicaties van een 'Deny' regel kan <a
-              target="_blank" href="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html#_Toc325047268">hier</a> worden gevonden.
+              target="_blank" rel="noopener noreferrer" href="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html#_Toc325047268">hier</a> worden gevonden.
           </p>
 
           <h2>Instelling</h2>

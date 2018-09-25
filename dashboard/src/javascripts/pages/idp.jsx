@@ -1,12 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 import Flash from "../components/flash";
 import moment from "moment";
 
 import {getIdpRolesWithUsers, getInstitutionServiceProviders} from "../api";
 import ServiceFilter from "../components/service_filter";
 import ReactTooltip from "react-tooltip";
+import stopEvent from "../utils/stop";
 
 class MyIdp extends React.Component {
 
@@ -75,9 +77,8 @@ class MyIdp extends React.Component {
         return (
             <div key={service.id}>
                 <h2><a href={`/${url}`}  onClick={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.context.router.transitionTo(url);
+                    stopEvent(e);
+                    this.context.router.history.replace(url);
                 }}>{service.name}</a></h2>
                 <table className="services">
                     <tbody>
@@ -340,8 +341,8 @@ class MyIdp extends React.Component {
 }
 
 MyIdp.contextTypes = {
-    currentUser: React.PropTypes.object,
-    router: React.PropTypes.object
+    currentUser: PropTypes.object,
+    router: PropTypes.object
 };
 
 export default MyIdp;

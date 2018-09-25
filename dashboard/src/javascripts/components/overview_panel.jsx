@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 import moment from "moment";
 
 import LicenseInfo from "./license_info";
@@ -221,7 +222,7 @@ class OverviewPanel extends React.Component {
 }
 
 OverviewPanel.contextTypes = {
-    currentUser: React.PropTypes.object
+    currentUser: PropTypes.object
 };
 
 OverviewPanel.propTypes = {

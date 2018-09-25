@@ -1,14 +1,16 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 
-import Link from "react-router/Link";
+import {Link} from "react-router-dom";
 
-import { deletePolicy, getPolicies } from "../api";
-import { setFlash } from "../utils/flash";
+import {deletePolicy, getPolicies} from "../api";
+import {setFlash} from "../utils/flash";
 import sort from "../utils/sort";
 
 import Flash from "../components/flash";
 import SortableHeader from "../components/sortable_header";
+import stopEvent from "../utils/stop";
 
 class PolicyOverview extends React.Component {
   constructor() {
@@ -113,7 +115,8 @@ class PolicyOverview extends React.Component {
             <Link to={"/policies/new"} className="t-button policy-button">
               <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}
             </Link>
-            <a href="https://wiki.surfnet.nl/display/surfconextdev/Autorisatieregels" target="_blank" className="t-button policy-button how-to">
+            <a href="https://wiki.surfnet.nl/display/surfconextdev/Autorisatieregels" target="_blank"
+               className="t-button policy-button how-to" rel="noopener noreferrer">
               { I18n.t("policies.how_to") }
             </a>
           </div>
@@ -162,7 +165,7 @@ class PolicyOverview extends React.Component {
             <Link to={`/policies/${policy.id}`} data-tooltip={I18n.t("policies.edit")}>
               <i className="fa fa-edit"></i>
             </Link>
-            <a href="#" data-tooltip={I18n.t("policies.delete")} onClick={this.handleDeletePolicyDetail(policy).bind(this)}>
+            <a href="/delete" data-tooltip={I18n.t("policies.delete")} onClick={this.handleDeletePolicyDetail(policy).bind(this)}>
               <i className="fa fa-remove"></i>
             </a>
           </div>
@@ -174,9 +177,8 @@ class PolicyOverview extends React.Component {
 
   handleDeletePolicyDetail(policy) {
     return function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (confirm(I18n.t("policies.confirmation", { policyName: policy.name }))) {
+        stopEvent(e);
+        if (window.confirm(I18n.t("policies.confirmation", { policyName: policy.name }))) {
         deletePolicy(policy.id).then(() => {
           getPolicies().then(data => {
             this.setState({ policies: data.payload });
@@ -195,7 +197,7 @@ class PolicyOverview extends React.Component {
 }
 
 PolicyOverview.contextTypes = {
-  currentUser: React.PropTypes.object
+  currentUser: PropTypes.object
 };
 
 export default PolicyOverview;

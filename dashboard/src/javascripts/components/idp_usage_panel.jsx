@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 
-import { AppShape } from "../shapes";
+import {AppShape} from "../shapes";
 
 class IdpUsagePanel extends React.Component {
   render() {
@@ -47,11 +48,11 @@ class IdpUsagePanel extends React.Component {
 
 IdpUsagePanel.propTypes = {
   app: AppShape.isRequired,
-  institutions: React.PropTypes.arrayOf(React.PropTypes.shape({
-    name: React.PropTypes.string,
-    nameNl: React.PropTypes.string,
-    displayName: React.PropTypes.string,
-    id: React.PropTypes.string.isRequired
+  institutions: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    nameNl: PropTypes.string,
+    displayName: PropTypes.string,
+    id: PropTypes.string.isRequired
   })).isRequired
 };
 

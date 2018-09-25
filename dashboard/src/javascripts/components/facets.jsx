@@ -1,7 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import {FacetShape} from "../shapes";
 import ReactTooltip from "react-tooltip";
+import stopEvent from "../utils/stop";
 
 class Facets extends React.Component {
     render() {
@@ -33,7 +35,7 @@ class Facets extends React.Component {
         return (
             <a
                 className={"c-button" + (this.props.filteredCount >= this.props.totalCount ? " disabled" : "")}
-                href="#"
+                href="/reset"
                 onClick={this.handleResetFilters.bind(this)}>{I18n.t("facets.reset")}</a>
         );
     }
@@ -52,17 +54,17 @@ class Facets extends React.Component {
     renderFacet(facet) {
         return (
             <fieldset key={facet.name}>
-                <a href="#" onClick={this.handleFacetToggle(facet)}>
+                <a href="/dropdown" onClick={this.handleFacetToggle(facet)}>
                     {this.renderDropDownIndicator(facet)}
                 </a>
 
-                <h2>{facet.name}{facet.tooltip && <span>
+                <span>{facet.name}{facet.tooltip && <span>
                             <i className="fa fa-info-circle" data-for={facet.name} data-tip></i>
                                 <ReactTooltip id={facet.name} type="info" class="tool-tip" effect="solid"
                                               delayHide={2500} multiline={true}>
                                     <span dangerouslySetInnerHTML={{__html: facet.tooltip}}/>
                                 </ReactTooltip>
-                        </span>}</h2>
+                        </span>}</span>
                 {this.renderFacetOptions(facet)}
             </fieldset>
         );
@@ -89,7 +91,7 @@ class Facets extends React.Component {
 
     handleFacetToggle(facet) {
         return function (e) {
-            e.stopPropagation();
+            stopEvent(e);
             this.props.onHide(facet);
         }.bind(this);
     }
@@ -119,42 +121,40 @@ class Facets extends React.Component {
 
     renderDownloadButton() {
         return (
-            <a href="#" className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
+            <a href="/download" className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
                onClick={this.handleDownload.bind(this)}>{I18n.t("facets.download")}</a>
         );
     }
 
     handleDownload(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        stopEvent(e);
         this.props.onDownload();
     }
 
     handleSelectFacet(facet, facetValue) {
         return function (e) {
-            e.stopPropagation();
+            stopEvent(e);
             this.props.onChange(facet, facetValue, e.target.checked);
         }.bind(this);
     }
 
     handleResetFilters(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        stopEvent(e);
         this.props.onReset();
     }
 
 }
 
 Facets.propTypes = {
-    onReset: React.PropTypes.func.isRequired,
-    onDownload: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onHide: React.PropTypes.func.isRequired,
-    facets: React.PropTypes.arrayOf(FacetShape),
-    filteredCount: React.PropTypes.number.isRequired,
-    totalCount: React.PropTypes.number.isRequired,
-    hiddenFacets: React.PropTypes.objectOf(React.PropTypes.bool),
-    selectedFacets: React.PropTypes.objectOf(React.PropTypes.arrayOf(React.PropTypes.string))
+    onReset: PropTypes.func.isRequired,
+    onDownload: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
+    facets: PropTypes.arrayOf(FacetShape),
+    filteredCount: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    hiddenFacets: PropTypes.objectOf(PropTypes.bool),
+    selectedFacets: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string))
 };
 
 export default Facets;

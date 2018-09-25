@@ -66,7 +66,7 @@ To run locally:
 
     yarn start
 
-When you browse to the [application homepage](http://localhost:8001/dashboard/api/home) you will be prompted for a login.
+The browse to the [application homepage](http://localhost:3000/services?mockUser=admin).
 
 A list of available log-ins can be found in the mocked implementation of the [VootClient](selfservice/src/main/java/selfservice/shibboleth/mock/MockShibbolethFilter.java).
 

@@ -1,7 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 
-import { AppShape } from "../shapes";
+import {AppShape} from "../shapes";
 import Contact from "./contact";
 
 class AppMeta extends React.Component {
