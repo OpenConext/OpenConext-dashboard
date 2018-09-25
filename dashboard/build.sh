@@ -1,4 +1,4 @@
 #!/bin/bash
-rm -Rf dist/*
-yarn install
-yarn run webpack
+rm -Rf build/*
+rm -Rf target/*
+arn install && yarn build
