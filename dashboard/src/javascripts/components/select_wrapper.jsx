@@ -9,7 +9,7 @@ class SelectWrapper extends React.Component {
             return this.props.handleChange(val.map(v => v.value));
         }
 
-        return this.props.handleChange(val.value, val.label);
+        return this.props.handleChange(val ? val.value : null, val ? val.label : null);
     }
 
     render() {
@@ -25,7 +25,7 @@ class SelectWrapper extends React.Component {
                 onChange={val => this.onChange(val)}
                 placeholder={this.props.placeholder}
                 isSearchable={data.length >= minimumResultsForSearch}
-                isClearable={false}
+                isClearable={this.props.isClearable || false}
             />
         );
     }
@@ -38,6 +38,7 @@ SelectWrapper.propTypes = {
         PropTypes.arrayOf(PropTypes.string)
     ]),
     multiple: PropTypes.bool,
+    isClearable: PropTypes.bool,
     options: PropTypes.arrayOf(PropTypes.shape({
         display: PropTypes.string,
         value: PropTypes.string

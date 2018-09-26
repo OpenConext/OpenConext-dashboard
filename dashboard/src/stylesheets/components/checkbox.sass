@@ -1,0 +1,64 @@
+div.checkbox 
+
+    display: flex
+    align-items: center
+
+    input[type="checkbox"] 
+        display: none
+    
+
+    label 
+        display: inline-block
+        &.info 
+            margin-left: 10px
+        
+        &.disabled 
+            color: #A2A2A2
+        
+    
+
+    input[type="checkbox"] + label span 
+        font-size: 11px
+        background-color: white
+        border: 1px solid #4DB3CF
+        border-radius: 3px
+        padding: 1px 2px
+        margin: 2px 0
+        cursor: pointer
+        i 
+            color: transparent
+            padding: 0 1px
+        
+    
+
+    input[type="checkbox"]:disabled + label span 
+        border: 1px solid darken(#a2a2a2, 5%)
+        background-color: #EFEFEE
+        cursor: not-allowed
+    
+
+    input[type="checkbox"]:checked + label span 
+        border: 2px solid #4DB3CF
+        border-radius: 2px
+        box-shadow: none
+        padding: 0
+        i 
+            background-color: #4DB3CF
+            color: white
+            padding: 3px 2px
+        
+    
+
+    input[type="checkbox"]:checked:disabled + label span 
+        border: 3px solid #a2a2a2
+        cursor: default
+        i 
+            background-color: #a2a2a2
+        
+    
+
+    i.fa-info-circle 
+        color: #4DB3CF
+        margin-left: 8px
+        font-size: 16px
+    

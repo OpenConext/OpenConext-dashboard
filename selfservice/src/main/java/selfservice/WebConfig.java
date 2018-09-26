@@ -18,21 +18,6 @@ import java.util.List;
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-    @Value("${statsBaseUrl}")
-    private String statsBaseUrl;
-
-    @Value("${statsAuthorizePath}")
-    private String statsAuthorizePath;
-
-    @Value("${statsClientId}")
-    private String statsClientId;
-
-    @Value("${statsScope}")
-    private String statsScope;
-
-    @Value("${statsRedirectUri}")
-    private String statsRedirectUri;
-
     @Value("${dashboard.feature.statistics}")
     private boolean statsEnabled;
 
@@ -61,7 +46,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(new GsonHttpMessageConverter(statsBaseUrl, statsAuthorizePath, statsClientId, statsScope,
-            statsRedirectUri, statsEnabled));
+        converters.add(new GsonHttpMessageConverter(statsEnabled));
     }
 }

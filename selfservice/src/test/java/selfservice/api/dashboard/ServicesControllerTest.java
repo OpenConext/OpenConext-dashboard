@@ -70,9 +70,7 @@ public class ServicesControllerTest {
         EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manageMock);
 
         mockMvc = standaloneSetup(controller)
-            .setMessageConverters(new GsonHttpMessageConverter("http:://example.com",
-                "oauth/authorize.php", "stats-client-id", "stats-scope",
-                "stats-redirect", true))
+            .setMessageConverters(new GsonHttpMessageConverter(true))
             .addFilter(ensureAccessToIdp, "/*")
             .build();
 

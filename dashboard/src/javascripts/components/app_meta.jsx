@@ -4,7 +4,7 @@ import I18n from "i18n-js";
 import {AppShape} from "../shapes";
 import Contact from "./contact";
 
-class AppMeta extends React.Component {
+export default class AppMeta extends React.Component {
   render() {
     const app = this.props.app;
     return (
@@ -76,5 +76,3 @@ class AppMeta extends React.Component {
 AppMeta.propTypes = {
   app: AppShape.isRequired
 };
-
-export default AppMeta;

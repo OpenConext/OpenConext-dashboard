@@ -11,8 +11,6 @@ import ExportData from 'highcharts/modules/export-data';
 import {mergeList, providerName} from "../utils/Utils";
 import {getDateTimeFormat} from "../utils/Time";
 import "moment/locale/nl";
-import ReactTable from "react-table";
-import ClipBoardCopy from "./ClipBoardCopy";
 
 Exporter(HighChart);
 Exporter(HighStock);

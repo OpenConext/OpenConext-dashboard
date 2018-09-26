@@ -85,6 +85,8 @@ public interface Manage {
      */
     List<IdentityProvider> getLinkedIdentityProviders(String spId);
 
+    List<ServiceProvider> getLinkedServiceProviders(String idpId);
+
     default ServiceProvider serviceProvider(Map<String, Object> map, EntityType entityType) {
         ServiceProvider serviceProvider = new ServiceProvider(map);
         serviceProvider.setExampleSingleTenant(entityType.equals(EntityType.single_tenant_template));

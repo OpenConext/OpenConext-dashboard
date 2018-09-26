@@ -69,8 +69,7 @@ public class UsersControllerTest {
         EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manage);
 
         mockMvc = standaloneSetup(controller)
-            .setMessageConverters(new GsonHttpMessageConverter("", "", "",
-                "", "", true))
+            .setMessageConverters(new GsonHttpMessageConverter(true))
             .addFilter(ensureAccessToIdp, "/*")
             .build();
 

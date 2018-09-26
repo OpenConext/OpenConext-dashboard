@@ -144,6 +144,15 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
+    public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
+        String replaced = linkedQuery.replace("@@entityid@@", idpId);
+        InputStream inputStream = searchSp(replaced);
+        List<Map<String, Object>> providers = getMaps(inputStream);
+        return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ServiceProvider> getInstitutionalServicesForIdp(String instituteId) {
         String body = bodyForInstitutionId.replace("@@institution_id@@", instituteId);
         InputStream inputStream = getSpInputStream(body);
@@ -195,16 +204,24 @@ public class UrlResourceManage implements Manage {
     }
 
     private InputStream searchIdp(String query) {
-        LOG.debug("Quering IdP metadata entries from {} with query {}", manageBaseUrl, body);
+        return getSearchInputStream(query, "idp");
+    }
+
+    private InputStream searchSp(String query) {
+        return getSearchInputStream(query, "sp");
+    }
+
+    private InputStream getSearchInputStream(String query, String type) {
+        LOG.debug("Quering " + type + " metadata entries from {} with query {}", manageBaseUrl, body);
         String url;
         try {
-            url = manageBaseUrl + "/manage/api/internal/rawSearch/saml20_idp?query=" + URLEncoder.encode(query,
-                "UTF-8");
+            url = manageBaseUrl + "/manage/api/internal/rawSearch/saml20_" + type + "?query=" + URLEncoder.encode(query,
+                    "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e);
         }
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
-            new HttpEntity<>(this.httpHeaders), byte[].class);
+                new HttpEntity<>(this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 

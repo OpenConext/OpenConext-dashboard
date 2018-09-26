@@ -33,7 +33,7 @@ import static selfservice.shibboleth.ShibbolethPreAuthenticatedProcessingFilter.
 
 public class MockShibbolethFilter extends GenericFilterBean {
 
-    public static final String idp = "http://mock-idp";
+    public static final String idp = "https://idp.surfnet.nl";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,

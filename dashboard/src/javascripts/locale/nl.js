@@ -344,7 +344,11 @@ I18n.translations.nl = {
     contact: {
         email: "Service support e-mail"
     },
-
+    export: {
+        downloadCSV: "Download als CSV",
+        downloadPNG: "Download als PNG",
+        downloadPDF: "Download als PDF"
+    },
     search_user: {
         switch_identity: "Switch identiteit",
         search: "Zoek",
@@ -359,35 +363,13 @@ I18n.translations.nl = {
 
     stats: {
         filters: {
-            name: "Filters"
+            name: "Filters",
+            allServiceProviders: "Alle diensten"
         },
-        chart: {
-            type: {
-                name: "Grafiek type",
-                idpspbar: "Logins voor alle SPs",
-                idpsp: "Logins per SP"
-            },
-            periodFrom: {
-                name: "Datum vanaf"
-            },
-            periodTo: {
-                name: "Datum tot"
-            },
-            periodDate: {
-                name: "Datum"
-            },
-            period: {
-                name: "Periode",
-                day: "Dag",
-                week: "Week",
-                month: "Maand",
-                quarter: "Kwartaal",
-                year: "Jaar"
-            },
-            sp: {
-                name: "Service Provider"
-            },
-        }
+        from: "From",
+        to: "To",
+        today: "Today",
+        sp: "Service"
     },
 
     server_error: {

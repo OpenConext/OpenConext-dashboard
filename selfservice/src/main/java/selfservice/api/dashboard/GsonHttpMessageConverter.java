@@ -40,20 +40,8 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
 
   private Gson gson;
 
-  private String statsBaseUrl;
-  private String statsAuthorizePath;
-  private String statsClientId;
-  private String statsScope;
-  private String statsRedirectUri;
-
-  public GsonHttpMessageConverter(String statsBaseUr, String statsAuthorizePath, String
-      statsClientId, String statsScope, String statsRedirectUri, boolean statsEnabled) {
+  public GsonHttpMessageConverter(boolean statsEnabled) {
     this.gson = GSON_BUILDER.create();
-    this.statsBaseUrl = statsBaseUr;
-    this.statsAuthorizePath = statsAuthorizePath;
-    this.statsClientId = statsClientId;
-    this.statsScope = statsScope;
-    this.statsRedirectUri = statsRedirectUri;
     this.statsEnabled = statsEnabled;
   }
 
@@ -88,18 +76,7 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
   protected void writeInternal(RestResponse<?> objectRestResponse, HttpOutputMessage outputMessage) throws
     IOException, HttpMessageNotWritableException {
     JsonElement json = gson.toJsonTree(objectRestResponse);
-    EnrichJson.forUser(
-      statsEnabled,
-      SpringSecurity.getCurrentUser(),
-      format(
-        "%s/%s?response_type=token&client_id=%s&scope=%s&redirect_uri=%s",
-        statsBaseUrl,
-        statsAuthorizePath,
-        statsClientId,
-        statsScope,
-        statsRedirectUri
-      )
-    )
+    EnrichJson.forUser(statsEnabled, SpringSecurity.getCurrentUser())
       .json(json)
       .forPayload(objectRestResponse.getPayload());
 
@@ -117,22 +94,6 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<RestR
       return StandardCharsets.UTF_8;
     }
     return headers.getContentType().getCharset();
-  }
-
-  public void setStatsBaseUrl(String statsBaseUrl) {
-    this.statsBaseUrl = statsBaseUrl;
-  }
-
-  public void setStatsClientId(String statsClientId) {
-    this.statsClientId = statsClientId;
-  }
-
-  public void setStatsScope(String statsScope) {
-    this.statsScope = statsScope;
-  }
-
-  public void setStatsRedirectUri(String statsRedirectUri) {
-    this.statsRedirectUri = statsRedirectUri;
   }
 
   private static final class ZonedDateTimeTypeAdapter extends TypeAdapter<ZonedDateTime> {

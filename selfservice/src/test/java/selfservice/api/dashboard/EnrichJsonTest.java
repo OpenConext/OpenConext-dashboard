@@ -31,28 +31,16 @@ import selfservice.domain.Service;
 
 public class EnrichJsonTest {
 
-  private final static String STATS_URL = "https://foo";
-
   private Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeJsonIgnore()).create();
 
   private boolean statsEnabled = true;
-
-  @Test
-  public void testAddsStatsUrlToCoinUser() throws Exception {
-    CoinUser coinUser = RestDataFixture.coinUser("ben");
-    JsonElement jsonElement = createJsonResponse(coinUser);
-
-    EnrichJson.forUser(this.statsEnabled, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
-
-    assertEquals(STATS_URL, getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("statsUrl").getAsString());
-  }
 
   @Test
   public void testSuperUserToCoinUser() throws Exception {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    EnrichJson.forUser(this.statsEnabled, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(this.statsEnabled, coinUser).json(jsonElement).forPayload(coinUser);
 
     assertFalse(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("superUser").getAsBoolean());
   }
@@ -62,7 +50,7 @@ public class EnrichJsonTest {
     CoinUser coinUser = RestDataFixture.coinUser("ben");
     JsonElement jsonElement = createJsonResponse(coinUser);
 
-    EnrichJson.forUser(this.statsEnabled, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(this.statsEnabled, coinUser).json(jsonElement).forPayload(coinUser);
 
     assertFalse(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonPrimitive("dashboardAdmin").getAsBoolean());
   }
@@ -83,7 +71,7 @@ public class EnrichJsonTest {
 
     List<Service> payload = asList(service1, service2);
     JsonElement jsonElement = createJsonResponse(payload);
-    EnrichJson.forUser(this.statsEnabled, coinUser, STATS_URL).json(jsonElement).forPayload(payload);
+    EnrichJson.forUser(this.statsEnabled, coinUser).json(jsonElement).forPayload(payload);
 
     assertEquals(0, getServiceFromRoot(jsonElement, 0).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
     assertEquals(1, getServiceFromRoot(jsonElement, 1).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
@@ -103,7 +91,7 @@ public class EnrichJsonTest {
     });
 
     JsonElement jsonElement = createJsonResponse(service1);
-    EnrichJson.forUser(this.statsEnabled, coinUser, STATS_URL).json(jsonElement).forPayload(service1);
+    EnrichJson.forUser(this.statsEnabled, coinUser).json(jsonElement).forPayload(service1);
 
     assertEquals(1, getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray(FILTERED_USER_ATTRIBUTES).size());
   }
@@ -115,7 +103,7 @@ public class EnrichJsonTest {
     coinUser.addAuthority(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN));
 
     JsonElement jsonElement = createJsonResponse(coinUser);
-    EnrichJson.forUser(this.statsEnabled, coinUser, STATS_URL).json(jsonElement).forPayload(coinUser);
+    EnrichJson.forUser(this.statsEnabled, coinUser).json(jsonElement).forPayload(coinUser);
 
     List<JsonElement> authorities = Lists.newArrayList(getPayloadAsJsonObjectFromRoot(jsonElement).getAsJsonArray
       ("grantedAuthorities"));

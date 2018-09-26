@@ -172,17 +172,17 @@ I18n.translations.en = {
         not_needed_html: "This Service does not require a license.",
         unknown_license: "It is unknown whether a license is required or not.",
         no_license_description_html: "" +
-        "<ul>" +
-        "   <li>Your institution can obtain a license from <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
-        "</ul>" +
-        "<br />In some cases this license needs to be obtained directly from the service supplier.",
+            "<ul>" +
+            "   <li>Your institution can obtain a license from <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
+            "</ul>" +
+            "<br />In some cases this license needs to be obtained directly from the service supplier.",
         unknown_license_description_html: "There could be multiple reasons:" +
-        "<ul>" +
-        "   <li>SURF or another institution is offering this service for free.</li>" +
-        "   <li>The license needs to be obtained directly from the service supplier.</li>" +
-        "   <li>The license hasn't been added to <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>'s administration yet.</li>" +
-        "</ul>" +
-        "<p>If necessary, SURFnet will contact the service supplier or <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> before activating the connection.</p>"
+            "<ul>" +
+            "   <li>SURF or another institution is offering this service for free.</li>" +
+            "   <li>The license needs to be obtained directly from the service supplier.</li>" +
+            "   <li>The license hasn't been added to <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>'s administration yet.</li>" +
+            "</ul>" +
+            "<p>If necessary, SURFnet will contact the service supplier or <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> before activating the connection.</p>"
     },
 
     license_info: {
@@ -341,7 +341,11 @@ I18n.translations.en = {
     contact: {
         email: "Service support email"
     },
-
+    export: {
+        downloadCSV: "Download as CSV",
+        downloadPNG: "Download as PNG",
+        downloadPDF: "Download as PDF"
+    },
     search_user: {
         switch_identity: "Switch identity",
         search: "Search",
@@ -552,34 +556,27 @@ I18n.translations.en = {
 
     stats: {
         filters: {
-            name: "Filters"
+            name: "Filters",
+            allServiceProviders: "All Services"
         },
-        chart: {
-            type: {
-                name: "Chart type",
-                idpspbar: "Logins for all SPs",
-                idpsp: "Logins per SP"
-            },
-            periodFrom: {
-                name: "Date from"
-            },
-            periodTo: {
-                name: "Date to"
-            },
-            periodDate: {
-                name: "Date"
-            },
-            period: {
-                name: "Period",
-                day: "Day",
-                week: "Week",
-                month: "Month",
-                quarter: "Quarter",
-                year: "Year"
-            },
-            sp: {
-                name: "Service Provider"
-            },
+        timeScale: "Period",
+        from: "From",
+        to: "To",
+        today: "Today",
+        sp: "Service",
+        period: {
+            year: "Year"
+        },
+        displayDetailPerSP: "Display details per Service",
+        scale: {
+            year: "Year",
+            quarter: "Quarter",
+            month: "Month",
+            week: "Week",
+            day: "Day",
+            hour: "Hour",
+            minute: "Minute",
+            all: "From until to"
         }
     },
     service_filter: {

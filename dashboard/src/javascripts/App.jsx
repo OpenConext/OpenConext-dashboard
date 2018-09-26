@@ -39,7 +39,7 @@ class App extends React.Component {
                 <div>
                     <div className="l-header">
                         <Header/>
-                        {this.renderNavigation()}
+                        <Navigation/>
                     </div>
                     <Switch>
                         <Route exact path="/" render={() => <Redirect to="/statistics"/>}/>
@@ -65,9 +65,6 @@ class App extends React.Component {
         );
     }
 
-    renderNavigation() {
-        return <Navigation/>;
-    }
 }
 
 App.childContextTypes = {

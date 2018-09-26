@@ -31,7 +31,6 @@ public class EnrichJson {
     public static final String FILTERED_USER_ATTRIBUTES = "filteredUserAttributes";
     public static final String SUPER_USER = "superUser";
     public static final String DASHBOARD_ADMIN = "dashboardAdmin";
-    public static final String STATS_URL = "statsUrl";
     private final static Logger LOG = LoggerFactory.getLogger(EnrichJson.class);
     private Map<Class<?>, JsonApplier> mapping = new HashMap<>();
 
@@ -39,8 +38,8 @@ public class EnrichJson {
     private JsonElement json;
 
     @SuppressWarnings("unchecked")
-    private EnrichJson(boolean statsEnabled, CoinUser coinUser, String statsUrl) {
-        LOG.debug("Using {} for user {}", statsUrl, coinUser.getDisplayName());
+    private EnrichJson(boolean statsEnabled, CoinUser coinUser) {
+        LOG.debug("Using {} for user {}", statsEnabled, coinUser.getDisplayName());
         this.currentUser = coinUser;
         boolean statsEnabled1 = statsEnabled;
         Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
@@ -52,7 +51,6 @@ public class EnrichJson {
 
             user.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
             user.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
-            user.addProperty(STATS_URL, statsUrl);
             user.addProperty("statsEnabled", statsEnabled);
         });
 
@@ -70,8 +68,8 @@ public class EnrichJson {
         });
     }
 
-    public static EnrichJson forUser(boolean statsEnabled, CoinUser currentUser, String statsUrl) {
-        return new EnrichJson(statsEnabled, currentUser, statsUrl);
+    public static EnrichJson forUser(boolean statsEnabled, CoinUser currentUser) {
+        return new EnrichJson(statsEnabled, currentUser);
     }
 
     private void filterDashboardAuthorities(JsonObject user) {

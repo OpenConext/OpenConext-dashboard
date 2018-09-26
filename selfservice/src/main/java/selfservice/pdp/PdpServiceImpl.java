@@ -40,13 +40,14 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import selfservice.api.dashboard.Constants;
 import selfservice.domain.CoinUser;
 import selfservice.domain.IdentityProvider;
 import selfservice.domain.Policy;
 import selfservice.domain.Policy.Attribute;
 import selfservice.util.SpringSecurity;
 
-public class PdpServiceImpl implements PdpService {
+public class PdpServiceImpl implements PdpService, Constants {
 
   private static final Logger LOG = LoggerFactory.getLogger(PdpServiceImpl.class);
 
@@ -63,7 +64,7 @@ public class PdpServiceImpl implements PdpService {
     checkArgument(!isNullOrEmpty(username));
     checkArgument(!isNullOrEmpty(password));
 
-    this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory());
+    this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory(2000));
 
     this.pdpRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
       CoinUser user = SpringSecurity.getCurrentUser();
@@ -83,16 +84,6 @@ public class PdpServiceImpl implements PdpService {
 
     this.server = server;
     this.objectMapper = new ObjectMapper();
-  }
-
-  private ClientHttpRequestFactory clientHttpRequestFactory() {
-    HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-    requestFactory.setReadTimeout(2000);
-    requestFactory.setConnectTimeout(2000);
-    requestFactory.setHttpClient(HttpClients.custom()
-        .disableCookieManagement().build());
-
-    return requestFactory;
   }
 
   @Override
@@ -200,10 +191,6 @@ public class PdpServiceImpl implements PdpService {
       ResponseEntity<List<AllowedAttribute>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<AllowedAttribute>>() {});
       return response.getBody().stream().map(aa -> new Attribute(aa.attributeId, aa.value)).collect(Collectors.toList());
     });
-  }
-
-  private String authorizationHeaderValue(String username, String password) {
-    return "Basic " + new String(Base64.encode(String.format("%s:%s", username, password).getBytes()));
   }
 
   private <T> T executeWithExceptionLogging(Supplier<T> makeRequest) {
