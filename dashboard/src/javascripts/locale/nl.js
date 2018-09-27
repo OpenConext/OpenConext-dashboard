@@ -366,10 +366,25 @@ I18n.translations.nl = {
             name: "Filters",
             allServiceProviders: "Alle diensten"
         },
+        state: "Status",
         from: "From",
         to: "To",
         today: "Today",
-        sp: "Service"
+        sp: "Service",
+        period: {
+            year: "Jaar"
+        },
+        displayDetailPerSP: "Toon details per dienst",
+        scale: {
+            year: "Jaar",
+            quarter: "Kwartaal",
+            month: "Maand",
+            week: "Week",
+            day: "Dag",
+            hour: "Uur",
+            minute: "Minuut",
+            all: "Totale periode - van tot"
+        }
     },
 
     server_error: {
@@ -419,6 +434,7 @@ I18n.translations.nl = {
         state: "Status",
         prodaccepted: "Productie",
         testaccepted: "Staging",
+        all: "Alle",
         name: {
             en: "Naam (en)",
             nl: "Naam (nl)"

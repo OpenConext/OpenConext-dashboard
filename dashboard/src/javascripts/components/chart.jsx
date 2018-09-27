@@ -8,8 +8,8 @@ import "./Chart.css";
 import moment from "moment";
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
-import {mergeList, providerName} from "../utils/Utils";
-import {getDateTimeFormat} from "../utils/Time";
+import {mergeList, providerName} from "../utils/utils";
+import {getDateTimeFormat} from "../utils/time";
 import "moment/locale/nl";
 
 Exporter(HighChart);
@@ -380,6 +380,5 @@ Chart.propTypes = {
     goLeft: PropTypes.func,
     goRight: PropTypes.func,
     rightDisabled: PropTypes.bool,
-    onLabelClick: PropTypes.func,
     noTimeFrame: PropTypes.bool
 };

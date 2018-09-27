@@ -8,6 +8,10 @@ import SelectWrapper from "../components/select_wrapper";
 import {loginAggregated, statsServiceProviders} from "../api";
 import "react-datepicker/dist/react-datepicker.css";
 import CheckBox from "../components/checkbox";
+import Chart from "../components/chart";
+import {stop} from "../utils/utils";
+
+const states = ["all", "prodaccepted", "testaccepted"];
 
 class Stats extends React.Component {
 
@@ -23,7 +27,7 @@ class Stats extends React.Component {
             sp: this.allServiceProviderOption.value,
             allSp: [],
             displayDetailPerSP: false,
-            state: "all",
+            state: states[1],
 
         };
     }
@@ -31,72 +35,102 @@ class Stats extends React.Component {
     componentWillMount() {
         const {scale, state} = this.state;
         loginAggregated(getPeriod(moment(), scale), state).then(res => {
-            this.setState({data: res});
+            this.setState({data: res, loaded: true});
             statsServiceProviders().then(res => this.setState({
                 allSp: [this.allServiceProviderOption].concat(res)
             }))
         });
     }
 
-    renderFrom = () =>
+    goLeft = e => {
+        stop(e);
+        const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
+        const from = moment(this.state.from).add(-1, scale);
+        const to = moment(this.state.to).add(-1, scale);
+        this.setState({from: from, to: to, maximumTo: false}, this.componentDidMount)
+    };
+
+    goRight = e => {
+        stop(e);
+        if (this.state.maximumTo) {
+            return;
+        }
+        const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
+        const from = moment(this.state.from).add(1, scale);
+        const to = moment(this.state.to).add(1, scale);
+        const tomorrowMidnight = moment().add(1, "day").startOf("day");
+        const maximumTo = tomorrowMidnight.isBefore(to);
+        this.setState({
+            from: from,
+            to: maximumTo ? tomorrowMidnight : to,
+            maximumTo: maximumTo
+        }, this.componentDidMount);
+    };
+
+    renderPeriod = (scale, from, to, toEnabled, spSelected) =>
         <fieldset>
             <h2 className="title">{I18n.t("stats.timeScale")}</h2>
             <SelectWrapper
-                defaultValue={this.state.scale}
-                options={defaultScales.map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
+                defaultValue={scale}
+                options={(spSelected ? defaultScales : defaultScales.filter(s => s !== "all"))
+                    .map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
                 multiple={false}
                 handleChange={val => this.setState({scale: val })}/>
-            <h2 className="title secondary">{I18n.t("stats.from")}</h2>
-            {/*<label className="date-picker-container">*/}
+            <h2 className="title secondary">{toEnabled ? I18n.t("stats.from"):I18n.t("stats.date")}</h2>
                 <DatePicker
-                    selected={this.state.from}
+                    selected={from}
                     preventOpenOnFocus
                     onChange={m => this.setState({"from": m})}
                     showYearDropdown
                     showMonthDropdown
                     todayButton={I18n.t("stats.today")}
-                    maxDate={this.state.to.subtract(1, "day")}
+                    maxDate={moment(to).subtract(1, "day")}
                     disabled={false}
-                   dateFormat={getDateTimeFormat(this.state.scale)}
+                   dateFormat={getDateTimeFormat(scale, !toEnabled)}
                 />
-                {/*<i className="fa fa-calendar"></i>*/}
-            {/*</label>*/}
-            <h2 className="title secondary">{I18n.t("stats.to")}</h2>
-            {/*<label className="date-picker-container">*/}
+            {toEnabled && <div><h2 className="title secondary">{I18n.t("stats.to")}</h2>
                 <DatePicker
-                    selected={this.state.to}
+                    selected={to}
                     preventOpenOnFocus
                     onChange={m => this.setState({"to": m})}
                     showYearDropdown
                     showMonthDropdown
                     todayButton={I18n.t("stats.today")}
                     maxDate={moment()}
-                    disabled={this.state.scale !== "all"}
-                    dateFormat={getDateTimeFormat(this.state.scale)}
-                />
-                {/*<i className="fa fa-calendar"></i>*/}
-            {/*</label>*/}
+                    dateFormat={getDateTimeFormat(scale, !toEnabled)}
+                /></div>}
         </fieldset>;
 
-    renderSpSelect = () =>
+    renderSpSelect = (sp, allSp, clearable, displayDetailPerSP, state) =>
         <fieldset>
             <h2 className="title">{I18n.t("stats.sp")}</h2>
             <SelectWrapper
-                defaultValue={this.state.sp}
-                options={this.state.allSp}
+                defaultValue={sp}
+                options={allSp}
                 multiple={false}
-                isClearable={this.state.sp !== this.allServiceProviderOption.value}
-                handleChange={val => {
-                    this.setState({sp: val ? val : this.allServiceProviderOption.value});
-                }}/>
-            <CheckBox name="display" value={this.state.displayDetailPerSP}
+                isClearable={clearable}
+                handleChange={val => this.setState({sp: val ? val : this.allServiceProviderOption.value})}/>
+            <CheckBox name="display" value={displayDetailPerSP}
                       onChange={e => this.setState({displayDetailPerSP: !this.state.displayDetailPerSP})}
                         info={I18n.t("stats.displayDetailPerSP")}
             />
+            <h2 className="title secondary">{I18n.t("stats.state")}</h2>
+            <SelectWrapper
+                defaultValue={state}
+                options={states.map(s => ({value: s, display: I18n.t(`my_idp.${s}`)}))}
+                multiple={false}
+                isClearable={false}
+                handleChange={val => this.setState({state: val})}/>
         </fieldset>;
 
+    title = (from, to, displayDetailPerSP,sp, scale) => {
+        return null;
+    };
 
     render() {
+        const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state} = this.state;
+        const spSelected = sp !== this.allServiceProviderOption.value;
+        const toEnabled = !displayDetailPerSP;
         return (
             <div className="l-main stats">
                 <div className="l-left-large">
@@ -104,13 +138,23 @@ class Stats extends React.Component {
                         <div className="header">
                             <h1>{I18n.t("stats.filters.name")}</h1>
                         </div>
-                        {this.renderSpSelect()}
-                        {this.renderFrom()}
+                        {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP, state)}
+                        {this.renderPeriod(scale, from, to, toEnabled, spSelected)}
                     </div>
                 </div>
                 <div className="l-right-small">
                     <div className="mod-chart">
-                        {/*<Chart chart={this.state.chart}/>*/}
+                        <Chart data={data}
+                               scale={scale}
+                               includeUniques={scale !== "minutes" && scale != "hour"}
+                               title={this.title(from, to, displayDetailPerSP,sp, scale)}
+                               groupedBySp={displayDetailPerSP}
+                               aggregate={displayDetailPerSP}
+                               serviceProvidersDict={allSp}
+                               goRight={this.goRight}
+                               goLeft={this.goLeft}
+                               rightDisabled={maximumTo}
+                               noTimeFrame={scale === "all"}/>
                     </div>
                 </div>
             </div>

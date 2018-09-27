@@ -405,6 +405,7 @@ I18n.translations.en = {
         state: "Status",
         prodaccepted: "Production",
         testaccepted: "Staging",
+        all: "All",
         name: {
             en: "Name (en)",
             nl: "Name (nl)"
@@ -559,7 +560,9 @@ I18n.translations.en = {
             name: "Filters",
             allServiceProviders: "All Services"
         },
+        state: "Status",
         timeScale: "Period",
+        date: "Date",
         from: "From",
         to: "To",
         today: "Today",
@@ -576,7 +579,7 @@ I18n.translations.en = {
             day: "Day",
             hour: "Hour",
             minute: "Minute",
-            all: "From until to"
+            all: "Entire Period - from to"
         }
     },
     service_filter: {
