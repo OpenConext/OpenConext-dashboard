@@ -44,28 +44,34 @@ class Stats extends React.Component {
 
     onChangeFrom = val => {
         const {scale, to} = this.state;
-        let additionalState = {};
-        const diff = moment.duration(to.diff(val)).asDays();
-        if (scale === "minute" && diff > 1) {
-            additionalState = {to: moment(val).add(1, "day"), includeUniques: false};
-        } else if (scale === "hour" && diff > 7) {
-            additionalState = {to: moment(val).add(7, "day"), includeUniques: false};
-        }
+        const additionalState = this.invariantFromToScale(val, to, scale);
         this.setState({data: [], from: val, ...additionalState}, this.componentDidMount)
     };
 
     onChangeTo = val => {
         const {scale, from} = this.state;
-        let additionalState = {};
-        const diff = moment.duration(val.diff(from)).asDays();
-        if (scale === "minute" && diff > 1) {
-            additionalState = {from: moment(val).add(-1, "day"), includeUniques: false};
-        } else if (scale === "hour" && diff > 7) {
-            additionalState = {from: moment(val).add(-7, "day"), includeUniques: false};
-        }
+        const additionalState = this.invariantFromToScale(from, val, scale, -1);
         const tomorrowMidnight = moment().add(1, "day").startOf("day");
         const maximumTo = tomorrowMidnight.isBefore(val);
         this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.componentDidMount)
+    };
+
+    onChangeScale = scale => {
+        const {from, to} = this.state;
+        const additionalState = this.invariantFromToScale(from, to, scale);
+        const state = {data: [], scale: scale, ...additionalState};
+        this.setState(state, this.componentDidMount);
+    };
+
+    invariantFromToScale = (from, to, scale, multiplier = 1) => {
+        let additionalState = {};
+        const diff = moment.duration(to.diff(from)).asDays();
+        if (scale === "minute" && diff > 1) {
+            additionalState[multiplier === 1 ? "from" : "to"] = moment(from).add(multiplier * 1, "day");
+        } else if (scale === "hour" && diff > 7) {
+            additionalState[multiplier === 1 ? "from" : "to"] = moment(from).add(multiplier * 7, "day");
+        }
+        return additionalState;
     };
 
     goLeft = e => {
@@ -93,39 +99,17 @@ class Stats extends React.Component {
         }, this.componentDidMount);
     };
 
-    renderPeriod = (scale, from, to, toEnabled, spSelected) =>
-        <fieldset>
-            <h2 className="title">{I18n.t("stats.timeScale")}</h2>
-            <SelectWrapper
-                defaultValue={scale}
-                options={(spSelected ? defaultScales : defaultScales.filter(s => s !== "all"))
-                    .map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
-                multiple={false}
-                handleChange={val => this.setState({scale: val })}/>
-            <h2 className="title secondary">{toEnabled ? I18n.t("stats.from"):I18n.t("stats.date")}</h2>
-                <DatePicker
-                    selected={from}
-                    preventOpenOnFocus
-                    onChange={m => this.setState({"from": m})}
-                    showYearDropdown
-                    showMonthDropdown
-                    todayButton={I18n.t("stats.today")}
-                    maxDate={moment(to).subtract(1, "day")}
-                    disabled={false}
-                   dateFormat={getDateTimeFormat(scale, !toEnabled)}
-                />
-            {toEnabled && <div><h2 className="title secondary">{I18n.t("stats.to")}</h2>
-                <DatePicker
-                    selected={to}
-                    preventOpenOnFocus
-                    onChange={m => this.setState({"to": m})}
-                    showYearDropdown
-                    showMonthDropdown
-                    todayButton={I18n.t("stats.today")}
-                    maxDate={moment()}
-                    dateFormat={getDateTimeFormat(scale, !toEnabled)}
-                /></div>}
-        </fieldset>;
+
+    onChangeServiceProvider = val => {
+        let additionalState = {};
+        const {scale} = this.state;
+        if (!val && scale === "all") {
+            const {from, to} = this.state;
+            additionalState = this.invariantFromToScale(from, to, "minute")
+            additionalState.scale = "minute";
+        }
+        this.setState({sp: val ? val : this.allServiceProviderOption.value, ...additionalState});
+    };
 
     renderSpSelect = (sp, allSp, clearable, displayDetailPerSP, state) =>
         <fieldset>
@@ -135,10 +119,10 @@ class Stats extends React.Component {
                 options={allSp}
                 multiple={false}
                 isClearable={clearable}
-                handleChange={val => this.setState({sp: val ? val : this.allServiceProviderOption.value})}/>
+                handleChange={this.onChangeServiceProvider}/>
             <CheckBox name="display" value={displayDetailPerSP}
                       onChange={e => this.setState({displayDetailPerSP: !this.state.displayDetailPerSP})}
-                        info={I18n.t("stats.displayDetailPerSP")}
+                      info={I18n.t("stats.displayDetailPerSP")}
             />
             <h2 className="title secondary">{I18n.t("stats.state")}</h2>
             <SelectWrapper
@@ -149,7 +133,43 @@ class Stats extends React.Component {
                 handleChange={val => this.setState({state: val})}/>
         </fieldset>;
 
-    title = (from, to, displayDetailPerSP,sp, scale) => {
+    renderPeriod = (scale, from, to, toEnabled, spSelected) =>
+        <fieldset>
+            <h2 className="title">{I18n.t("stats.timeScale")}</h2>
+            <SelectWrapper
+                defaultValue={scale}
+                options={(spSelected ? defaultScales : defaultScales.filter(s => s !== "all"))
+                    .map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
+                multiple={false}
+                handleChange={this.onChangeScale}/>
+            <h2 className="title secondary">{toEnabled ? I18n.t("stats.from") : I18n.t("stats.date")}</h2>
+            <DatePicker
+                selected={from}
+                preventOpenOnFocus
+                onChange={this.onChangeFrom}
+                showYearDropdown
+                showMonthDropdown
+                showWeekNumbers
+                todayButton={I18n.t("stats.today")}
+                maxDate={moment(to).subtract(1, "day")}
+                disabled={false}
+                dateFormat={getDateTimeFormat(scale, !toEnabled)}
+            />
+            {toEnabled && <div><h2 className="title secondary">{I18n.t("stats.to")}</h2>
+                <DatePicker
+                    selected={to}
+                    preventOpenOnFocus
+                    onChange={this.onChangeTo}
+                    showYearDropdown
+                    showMonthDropdown
+                    showWeekNumbers
+                    todayButton={I18n.t("stats.today")}
+                    maxDate={moment()}
+                    dateFormat={getDateTimeFormat(scale, !toEnabled)}
+                /></div>}
+        </fieldset>;
+
+    title = (from, to, displayDetailPerSP, sp, scale) => {
         return null;
     };
 
@@ -170,17 +190,17 @@ class Stats extends React.Component {
                 </div>
                 <div className="l-right-small">
                     <div className="mod-chart">
-                        {(loaded && data.length > 0 ) && <Chart data={data}
-                               scale={scale}
-                               includeUniques={scale !== "minutes" && scale != "hour"}
-                               title={this.title(from, to, displayDetailPerSP,sp, scale)}
-                               groupedBySp={displayDetailPerSP}
-                               aggregate={displayDetailPerSP}
-                               serviceProvidersDict={allSp}
-                               goRight={this.goRight}
-                               goLeft={this.goLeft}
-                               rightDisabled={maximumTo}
-                               noTimeFrame={scale === "all"}/>}
+                        {(loaded && data.length > 0) && <Chart data={data}
+                                                               scale={scale}
+                                                               includeUniques={scale !== "minutes" && scale !== "hour"}
+                                                               title={this.title(from, to, displayDetailPerSP, sp, scale)}
+                                                               groupedBySp={displayDetailPerSP}
+                                                               aggregate={displayDetailPerSP}
+                                                               serviceProvidersDict={allSp}
+                                                               goRight={this.goRight}
+                                                               goLeft={this.goLeft}
+                                                               rightDisabled={maximumTo}
+                                                               noTimeFrame={scale === "all"}/>}
                         {!loaded && <div>
                             <section className="loading">
                                 <em>{I18n.t("chart.loading")}</em>

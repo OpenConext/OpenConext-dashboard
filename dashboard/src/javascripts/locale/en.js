@@ -580,7 +580,7 @@ I18n.translations.en = {
             day: "Day",
             hour: "Hour",
             minute: "Minute",
-            all: "Entire Period - from to"
+            all: "Entire Period: from ⇨ to"
         }
     },
     service_filter: {

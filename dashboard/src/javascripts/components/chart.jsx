@@ -8,7 +8,6 @@ import moment from "moment";
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import {providerName} from "../utils/utils";
-import {stop} from "../utils/stop";
 import {getDateTimeFormat} from "../utils/time";
 import "moment/locale/nl";
 
@@ -52,21 +51,6 @@ export default class Chart extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {displayChart: true};
-    }
-
-    labelListener = e => {
-        const {onLabelClick} = this.props;
-        if (e.target.dataset && e.target.dataset.id === "true") {
-            onLabelClick(e.target.id)
-        }
-    };
-
-    componentDidMount() {
-        document.addEventListener("click", this.labelListener);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener("click", this.labelListener);
     }
 
     nonAggregatedOptions = (data, includeUniques, guest, scale) => {
@@ -226,16 +210,6 @@ export default class Chart extends React.PureComponent {
         const id = groupedBySp ? point.sp_entity_id : point.idp_entity_id;
         return groupedByBoth ? name : `<span class="clickable-label" id="${id}" data-id="true">${name}</span>`;
     };
-
-    providerAccessor = (groupedBySp, serviceProvidersDict, identityProvidersDict) =>
-        p => groupedBySp ? providerName(serviceProvidersDict[p.sp_entity_id], p.sp_entity_id) :
-            providerName(identityProvidersDict[p.idp_entity_id], p.idp_entity_id);
-
-    dateAccessor = p => moment(p.time).utc().format("YYYY-MM-DD");
-
-    loginsAccessor = p => p.count_user_id ? (p.count_user_id).toLocaleString() : "";
-
-    usersAccessor = includeUniques => p => p.distinct_count_user_id && includeUniques ? (p.distinct_count_user_id).toLocaleString() : "";
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                    serviceProvidersDict, guest, displayChart, scale) => {

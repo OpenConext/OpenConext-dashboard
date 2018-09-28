@@ -220,13 +220,13 @@ export function statsServiceProviders() {
 }
 
 export function loginTimeFrame(from, to, scale, spEntityId, state) {
-    return fetchJson(`/stats/loginTimeFrame?from=${from}&to=${to}&scale=${scale}&spEntityId=${spEntityId}&state=${state}`);
+    return Promise.resolve([]);// fetchJson(`/stats/loginTimeFrame?from=${from}&to=${to}&scale=${scale}&spEntityId=${spEntityId}&state=${state}`);
 }
 
 export function loginAggregated(period, state) {
-    return fetchJson(`/stats/loginAggregated?period=${period}&state=${state}`);
+    return Promise.resolve([]); //return fetchJson(`/stats/loginAggregated?period=${period}&state=${state}`);
 }
 
 export function uniqueLoginCount(from, to, spEntityId, state) {
-    return fetchJson(`/stats/uniqueLoginCount?from=${from}&to=${to}&spEntityId=${spEntityId}&state=${state}`);
+    return Promise.resolve([]); //fetchJson(`/stats/uniqueLoginCount?from=${from}&to=${to}&spEntityId=${spEntityId}&state=${state}`);
 }

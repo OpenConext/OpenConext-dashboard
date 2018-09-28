@@ -30,7 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @RequestMapping("/dashboard/api/stats")
 public class StatsController implements Constants {
 
-    private RestTemplate pdpRestTemplate;
+    private RestTemplate restTemplate;
     private String baseUrl;
     private Manage manage;
 
@@ -39,11 +39,11 @@ public class StatsController implements Constants {
                            @Value("${statsPassword}") String password,
                            @Value("${statsBaseUrl}") String baseUrl,
                            Manage manage) {
-        this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory(7500));
+        this.restTemplate = new RestTemplate(clientHttpRequestFactory(7500));
         this.baseUrl = baseUrl;
         this.manage = manage;
 
-        this.pdpRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
+        this.restTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
             HttpHeaders headers = request.getHeaders();
             headers.setContentType(APPLICATION_JSON);
             headers.setAccept(ImmutableList.of(APPLICATION_JSON));
@@ -64,7 +64,7 @@ public class StatsController implements Constants {
         String url = String.format(
                 "%s/public/login_time_frame?from=%s&to=%s&include_unique=true&scale=%s&epoch=ms&state=%s&idp_id=%s&sp_id=%s",
                 baseUrl, from, to, scale, state, currentUserIdp(), spEntityId);
-        return pdpRestTemplate.getForEntity(url, String.class).getBody();
+        return restTemplate.getForEntity(url, String.class).getBody();
     }
 
     //Used for retrieval of all logins for all SP's
@@ -74,7 +74,7 @@ public class StatsController implements Constants {
         String url = String.format(
                 "%s/public/login_aggregated?period=%s&include_unique=true&state=%s&idp_id=%s&group_by=sp_id",
                 baseUrl, period, state, currentUserIdp());
-        return pdpRestTemplate.getForEntity(url, String.class).getBody();
+        return restTemplate.getForEntity(url, String.class).getBody();
     }
 
     //Used for retrieval of all logins for one SP without a period
@@ -86,7 +86,7 @@ public class StatsController implements Constants {
         String url = String.format(
                 "%s/public/unique_login_count?from=%s&to=%s&include_unique=true&epoch=ms&state=%s&idp_id=%s&sp_id=%s",
                 baseUrl, from, to, state, currentUserIdp(), spEntityId);
-        return pdpRestTemplate.getForEntity(url, String.class).getBody();
+        return restTemplate.getForEntity(url, String.class).getBody();
     }
 
     @GetMapping("serviceProviders")

@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 
 import Select from "react-select";
 
+const colourStyles = {
+    control: (base, state) => ({...base, backgroundColor: state.isDisabled ? 'light-grey': 'white'})
+};
+
 class SelectWrapper extends React.Component {
     onChange(val) {
         if (Array.isArray(val)) {
@@ -18,14 +22,15 @@ class SelectWrapper extends React.Component {
         const minimumResultsForSearch = this.props.minimumResultsForSearch || 7;
         const valueFromId = (opts, id) => Array.isArray(id) ? opts.filter(o => id.includes(o.value)) : opts.find(o => o.value === id);
         return (
-            <Select
-                value={valueFromId(data, defaultValue)}
-                options={data}
-                isMulti={this.props.multiple}
-                onChange={val => this.onChange(val)}
-                placeholder={this.props.placeholder}
-                isSearchable={data.length >= minimumResultsForSearch}
-                isClearable={this.props.isClearable || false}
+            <Select className="react-select"
+                    value={valueFromId(data, defaultValue)}
+                    options={data}
+                    isMulti={this.props.multiple}
+                    onChange={val => this.onChange(val)}
+                    styles={colourStyles}
+                    placeholder={this.props.placeholder}
+                    isSearchable={data.length >= minimumResultsForSearch}
+                    isClearable={this.props.isClearable || false}
             />
         );
     }
