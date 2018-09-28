@@ -8,7 +8,7 @@ export default function ProtectedRoute({ component, currentUser, ...rest }) {
   if (currentUser.dashboardAdmin) {
     return <Match component={component} {...rest} />;
   }
-  return <Redirect to={"/apps"}/>
+  return <Redirect to={"/apps"}/>;
 }
 
 ProtectedRoute.propTypes = {
