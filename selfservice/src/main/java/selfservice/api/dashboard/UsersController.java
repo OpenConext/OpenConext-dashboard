@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -75,11 +76,11 @@ public class UsersController extends BaseController {
         }
 
         List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
-            .sorted(Comparator.comparing(Provider::getName))
-            .collect(toList());
+                .sorted(Comparator.comparing(Provider::getName))
+                .collect(toList());
 
         List<String> roles = Arrays.asList(Authority.ROLE_DASHBOARD_VIEWER.name(),
-            Authority.ROLE_DASHBOARD_ADMIN.name());
+                Authority.ROLE_DASHBOARD_ADMIN.name());
 
         HashMap<String, List<?>> payload = new HashMap<>();
         payload.put("idps", idps);
@@ -100,23 +101,23 @@ public class UsersController extends BaseController {
         Optional<IdentityProvider> switchedToIdp = currentUser.getSwitchedToIdp();
         //We can not map as a null value is converted to an empty Optional
         String usersInstitutionId = switchedToIdp.isPresent() ? switchedToIdp.get().getInstitutionId() :
-            currentUser.getInstitutionId();
+                currentUser.getInstitutionId();
 
         return isNullOrEmpty(usersInstitutionId) ? Collections.emptyList()
-            : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
+                : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
     }
 
     @RequestMapping("/me/switch-to-idp")
     public ResponseEntity<Void> currentIdp(
-        @RequestParam(value = "idpId", required = false) String switchToIdp,
-        @RequestParam(value = "role", required = false) String role,
-        HttpServletResponse response) {
+            @RequestParam(value = "idpId", required = false) String switchToIdp,
+            @RequestParam(value = "role", required = false) String role,
+            HttpServletResponse response) {
 
         if (isNullOrEmpty(switchToIdp)) {
             SpringSecurity.clearSwitchedIdp();
         } else {
             IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp, false)
-                .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
+                    .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
 
             SpringSecurity.setSwitchedToIdp(identityProvider, role);
         }
@@ -136,6 +137,24 @@ public class UsersController extends BaseController {
 
         IdentityProvider idp = currentUser.getIdp();
 
+        List<Change> changes = getChanges(locale, settings, idp);
+        if (changes.isEmpty()) {
+            return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
+        }
+
+        Action action = Action.builder()
+                .userEmail(currentUser.getEmail())
+                .userName(currentUser.getFriendlyName())
+                .idpId(idpEntityId)
+                .settings(settings)
+                .type(Action.Type.CHANGE).build();
+
+        actionsService.create(action, changes);
+
+        return ResponseEntity.ok(createRestResponse(action));
+    }
+
+    protected List<Change> getChanges(Locale locale, Settings settings, IdentityProvider idp) throws IOException {
         List<Change> changes = new ArrayList<>();
 
         String idpId = idp.getId();
@@ -150,14 +169,14 @@ public class UsersController extends BaseController {
         this.diff(changes, idpId, idp.getDisplayNames().get("nl"), settings.getDisplayNamesNl(), "displayName:nl");
 
         this.diff(changes, idpId, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
-            "coi:publish_in_edugain");
+                "coi:publish_in_edugain");
 
         this.diff(changes, idpId, idp.isConnectToRSServicesAutomatically(), settings.isConnectToRSServicesAutomatically(),
                 "coin:entity_categories:1 - http://refeds.org/category/research-and-scholarship");
 
         this.diff(changes, idpId, idp.getLogoUrl(), settings.getLogoUrl(), "logo:0:url");
 
-        this.diff(changes, idpId, idp.getState(), settings.getStateType().name(), "state");
+        this.diff(changes, idpId, idp.getState(), settings.getStateType() != null ? settings.getStateType().name() : null, "state");
 
         diffContactPersons(changes, idpId, idp.getContactPersons(), settings.getContactPersons());
 
@@ -165,62 +184,52 @@ public class UsersController extends BaseController {
 
         settings.getServiceProviderSettings().forEach(sp -> {
             Optional<Service> first = serviceProviders.stream()
-                .filter(service -> service.getSpEntityId().equals(sp.getSpEntityId()))
-                .findFirst();
+                    .filter(service -> service.getSpEntityId().equals(sp.getSpEntityId()))
+                    .findFirst();
             first.ifPresent(service -> {
                 String id = service.getSpEntityId();
 
-                diff(changes, id, sp.getDescriptionEn(), service.getDescriptions().get("en"), "description:en");
-                diff(changes, id, sp.getDescriptionNl(), service.getDescriptions().get("nl"), "description:nl");
+                diff(changes, id, service.getDescriptions().get("en"),sp.getDescriptionEn(),  "description:en");
+                diff(changes, id, service.getDescriptions().get("nl"), sp.getDescriptionNl(), "description:nl");
 
-                diff(changes, id, sp.getDisplayNameEn(), service.getDisplayNames().get("en"), "displayName:en");
-                diff(changes, id, sp.getDisplayNameNl(), service.getDisplayNames().get("nl"), "displayName:nl");
+                diff(changes, id, service.getDisplayNames().get("en"), sp.getDisplayNameEn(), "displayName:en");
+                diff(changes, id, service.getDisplayNames().get("nl"), sp.getDisplayNameNl(), "displayName:nl");
 
-                diff(changes, id, sp.isPublishedInEdugain(), service.isPublishedInEdugain(), "coin:publish_in_edugain");
-                diff(changes, id, sp.isHasGuestEnabled(), service.isGuestEnabled(), "Guest Login Enabled");
-                diff(changes, id, sp.isNoConsentRequired(), service.isNoConsentRequired(), "coin:no_consent_required");
+                diff(changes, id,  service.isPublishedInEdugain(), sp.isPublishedInEdugain(),"coin:publish_in_edugain");
+                diff(changes, id, service.isGuestEnabled(),sp.isHasGuestEnabled(),  "Guest Login Enabled");
+                diff(changes, id, service.isNoConsentRequired(), sp.isNoConsentRequired(), "coin:no_consent_required");
 
-                diff(changes, idpId, sp.getStateType().name(), service.getState(), "state");
+                diff(changes, idpId,  service.getState(),sp.getStateType() != null ? sp.getStateType().name() : null, "state");
 
-                diffContactPersons(changes, id, sp.getContactPersons(), service.getContactPersons());
+                diffContactPersons(changes, id, service.getContactPersons(),sp.getContactPersons());
             });
         });
-        if (changes.isEmpty()) {
-            return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
-        }
-
-        Action action = Action.builder()
-            .userEmail(currentUser.getEmail())
-            .userName(currentUser.getFriendlyName())
-            .idpId(idpEntityId)
-            .settings(settings)
-            .type(Action.Type.CHANGE).build();
-
-        actionsService.create(action, changes);
-
-        return ResponseEntity.ok(createRestResponse(action));
+        return changes;
     }
 
     private void diffContactPersons(List<Change> changes, String id, List<ContactPerson> contactPersons,
                                     List<ContactPerson> newContactPersons) {
+        if (CollectionUtils.isEmpty(contactPersons) && CollectionUtils.isEmpty(newContactPersons)) {
+            return;
+        }
         for (int i = 0; i < contactPersons.size(); i++) {
             ContactPerson contactPerson = contactPersons.get(i);
             if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
                 ContactPerson newContactPerson = newContactPersons.get(i);
                 diff(changes, id, contactPerson.getName(), newContactPerson.getName(), "contacts:" + i + ":name");
                 diff(changes, id, contactPerson.getEmailAddress(), newContactPerson.getEmailAddress(),
-                    "contacts:" + i + ":emailAddress");
+                        "contacts:" + i + ":emailAddress");
                 diff(changes, id, contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber(),
-                    "contacts:" + i + ":telephoneNumber");
+                        "contacts:" + i + ":telephoneNumber");
                 diff(changes, id, contactPerson.getContactPersonType(), newContactPerson.getContactPersonType(),
-                    "contacts:" + i + ":contactType");
+                        "contacts:" + i + ":contactType");
             }
         }
     }
 
     private void diff(List<Change> changes, String id, Object oldValue, Object newValue, String attributeName) {
         if (changed(oldValue, newValue)) {
-            changes.add(new Change(id, attributeName, String.format("%s", oldValue), String.format("%s", oldValue)));
+            changes.add(new Change(id, attributeName, String.format("%s", oldValue), String.format("%s", newValue)));
         }
     }
 

@@ -293,6 +293,8 @@ class MyIdp extends React.Component {
 
     render() {
         const {roles, showInstitution, showRoles, serviceFilters, institutionServiceProviders, search} = this.state;
+        const isDashboardAdmin = this.context.currentUser.dashboardAdmin;
+        const text = isDashboardAdmin ? I18n.t("my_idp.settings_text") : I18n.t("my_idp.settings_text_viewer");
         const hasServices = institutionServiceProviders.length > 0;
         return (
             <div className="l-main">
@@ -306,10 +308,10 @@ class MyIdp extends React.Component {
                     <Flash/>
                     <div className="mod-idp">
                         <h1 className="top">{I18n.t("my_idp.title")}</h1>
-                        <p>{I18n.t("my_idp.settings_text")}</p>
-                        <div className="edit-my-idp">
+                        <p>{text}</p>
+                        {isDashboardAdmin && <div className="edit-my-idp">
                             <Link className="t-button" to={"/my-idp/edit"}>{I18n.t("my_idp.edit")}</Link>
-                        </div>
+                        </div>}
 
 
                         <h2 className="top">{I18n.t("my_idp.roles")}

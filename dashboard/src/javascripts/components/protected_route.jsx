@@ -2,13 +2,13 @@ import React from "react";
 import Match from "react-router/Match";
 
 import CurrentUser from "../models/current_user";
+import Redirect from "react-router/Redirect";
 
 export default function ProtectedRoute({ component, currentUser, ...rest }) {
   if (currentUser.dashboardAdmin) {
     return <Match component={component} {...rest} />;
   }
-
-  return null;
+  return <Redirect to={"/apps"}/>
 }
 
 ProtectedRoute.propTypes = {

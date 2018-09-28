@@ -384,6 +384,7 @@ I18n.translations.en = {
         settings: "Settings for my own institute",
         settings_edit: "Settings for my own institute and services",
         settings_text: "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
+        settings_text_viewer: "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page.",
         SURFconextverantwoordelijke: "SURFconext owner",
         SURFconextbeheerder: "SURFconext maintainer",
         "Dashboard supergebruiker": "Dashboard Super User",
