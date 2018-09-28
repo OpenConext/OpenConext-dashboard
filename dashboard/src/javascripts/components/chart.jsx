@@ -4,11 +4,11 @@ import * as HighChart from "highcharts";
 import * as HighStock from "highcharts/highstock";
 import HighChartContainer from "./high_chart_container";
 import I18n from "i18n-js";
-import "./Chart.css";
 import moment from "moment";
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
-import {mergeList, providerName} from "../utils/utils";
+import {providerName} from "../utils/utils";
+import {stop} from "../utils/stop";
 import {getDateTimeFormat} from "../utils/time";
 import "moment/locale/nl";
 
@@ -237,83 +237,6 @@ export default class Chart extends React.PureComponent {
 
     usersAccessor = includeUniques => p => p.distinct_count_user_id && includeUniques ? (p.distinct_count_user_id).toLocaleString() : "";
 
-    renderTableAggregate = (data, title, includeUniques, groupedBySp, identityProvidersDict,
-                            serviceProvidersDict) => {
-        const columns = [
-            {
-                id: "provider",
-                Header: I18n.t(`chart.${groupedBySp ? "sp" : "idp"}`),
-                minWidth: 600,
-                accessor: this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict)
-            }, {
-                id: "date",
-                Header: I18n.t("chart.date"),
-                accessor: this.dateAccessor
-            }, {
-                id: "logins",
-                Header: I18n.t("chart.userCount"),
-                accessor: this.loginsAccessor,
-                className: "right"
-            }, {
-                id: "users",
-                Header: I18n.t("chart.uniqueUserCount"),
-                accessor: this.usersAccessor(includeUniques),
-                className: "right"
-            }];
-        const text = data
-            .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict)(row)}\t${this.dateAccessor(row)}\t${this.loginsAccessor(row)}\t${this.usersAccessor(includeUniques)(row)}`)
-            .join("\n");
-        return <section className="table">
-            {title && <span className="title">{title} <ClipBoardCopy identifier="table-export" text={text}/></span>}
-            <ReactTable className="-striped"
-                        data={data}
-                        showPagination={false}
-                        minRows={0}
-                        defaultPageSize={data.length}
-                        filterable
-                        columns={columns}/>
-        </section>
-    };
-
-
-    renderTableNonAggregate = (data, title, includeUniques) => {
-        const tableData = includeUniques ? mergeList(data, "time") : data;
-        const columns = [{
-            id: "date",
-            Header: I18n.t("chart.date"),
-            accessor: this.dateAccessor
-        }, {
-            id: "logins",
-            Header: I18n.t("chart.userCount"),
-            accessor: this.loginsAccessor,
-            className: "right"
-        }, {
-            id: "users",
-            Header: I18n.t("chart.uniqueUserCount"),
-            accessor: this.usersAccessor(includeUniques),
-            className: "right"
-        }];
-        const text = data
-            .map(row => `${this.dateAccessor(row)}\t${this.loginsAccessor(row)}\t${this.usersAccessor(includeUniques)(row)}`)
-            .join("\n");
-
-        return <section className="table">
-            {title && <span className="title">{title} <ClipBoardCopy identifier="table-export" text={text}/></span>}
-            <ReactTable className="-striped"
-                        data={tableData}
-                        showPagination={false}
-                        minRows={0}
-                        defaultPageSize={data.length}
-                        filterable
-                        columns={columns}/>
-        </section>
-    };
-
-    renderTable = (data, title, includeUniques, aggregate, groupedBySp, identityProvidersDict,
-                   serviceProvidersDict) =>
-        aggregate ? this.renderTableAggregate(data, title, includeUniques, groupedBySp, identityProvidersDict,
-            serviceProvidersDict) : this.renderTableNonAggregate(data, title, includeUniques);
-
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                    serviceProvidersDict, guest, displayChart, scale) => {
         const userCount = data.filter(p => p.count_user_id);
@@ -358,8 +281,6 @@ export default class Chart extends React.PureComponent {
         return <div className="chart-container">
             {this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                 serviceProvidersDict, guest, displayChart, scale)}
-            {(!guest && scale !== "minute" && scale !== "hour") && this.renderTable(data, title, includeUniques, aggregate, groupedBySp, identityProvidersDict,
-                serviceProvidersDict)}
         </div>
 
     };

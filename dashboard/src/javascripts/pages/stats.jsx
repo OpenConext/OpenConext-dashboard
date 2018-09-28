@@ -9,7 +9,7 @@ import {loginAggregated, statsServiceProviders} from "../api";
 import "react-datepicker/dist/react-datepicker.css";
 import CheckBox from "../components/checkbox";
 import Chart from "../components/chart";
-import {stop} from "../utils/utils";
+import stopEvent from "../utils/stop";
 
 const states = ["all", "prodaccepted", "testaccepted"];
 
@@ -28,7 +28,7 @@ class Stats extends React.Component {
             allSp: [],
             displayDetailPerSP: false,
             state: states[1],
-
+            maximumTo: false,
         };
     }
 
@@ -42,8 +42,34 @@ class Stats extends React.Component {
         });
     }
 
+    onChangeFrom = val => {
+        const {scale, to} = this.state;
+        let additionalState = {};
+        const diff = moment.duration(to.diff(val)).asDays();
+        if (scale === "minute" && diff > 1) {
+            additionalState = {to: moment(val).add(1, "day"), includeUniques: false};
+        } else if (scale === "hour" && diff > 7) {
+            additionalState = {to: moment(val).add(7, "day"), includeUniques: false};
+        }
+        this.setState({data: [], from: val, ...additionalState}, this.componentDidMount)
+    };
+
+    onChangeTo = val => {
+        const {scale, from} = this.state;
+        let additionalState = {};
+        const diff = moment.duration(val.diff(from)).asDays();
+        if (scale === "minute" && diff > 1) {
+            additionalState = {from: moment(val).add(-1, "day"), includeUniques: false};
+        } else if (scale === "hour" && diff > 7) {
+            additionalState = {from: moment(val).add(-7, "day"), includeUniques: false};
+        }
+        const tomorrowMidnight = moment().add(1, "day").startOf("day");
+        const maximumTo = tomorrowMidnight.isBefore(val);
+        this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.componentDidMount)
+    };
+
     goLeft = e => {
-        stop(e);
+        stopEvent(e);
         const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
         const from = moment(this.state.from).add(-1, scale);
         const to = moment(this.state.to).add(-1, scale);
@@ -51,7 +77,7 @@ class Stats extends React.Component {
     };
 
     goRight = e => {
-        stop(e);
+        stopEvent(e);
         if (this.state.maximumTo) {
             return;
         }
@@ -128,7 +154,7 @@ class Stats extends React.Component {
     };
 
     render() {
-        const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state} = this.state;
+        const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state, maximumTo} = this.state;
         const spSelected = sp !== this.allServiceProviderOption.value;
         const toEnabled = !displayDetailPerSP;
         return (
@@ -144,7 +170,7 @@ class Stats extends React.Component {
                 </div>
                 <div className="l-right-small">
                     <div className="mod-chart">
-                        <Chart data={data}
+                        {(loaded && data.length > 0 ) && <Chart data={data}
                                scale={scale}
                                includeUniques={scale !== "minutes" && scale != "hour"}
                                title={this.title(from, to, displayDetailPerSP,sp, scale)}
@@ -154,7 +180,13 @@ class Stats extends React.Component {
                                goRight={this.goRight}
                                goLeft={this.goLeft}
                                rightDisabled={maximumTo}
-                               noTimeFrame={scale === "all"}/>
+                               noTimeFrame={scale === "all"}/>}
+                        {!loaded && <div>
+                            <section className="loading">
+                                <em>{I18n.t("chart.loading")}</em>
+                                <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+                            </section>
+                        </div>}
                     </div>
                 </div>
             </div>
