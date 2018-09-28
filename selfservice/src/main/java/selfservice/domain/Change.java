@@ -16,7 +16,7 @@ public class Change {
 
   @Override
   public String toString() {
-    return "Change the attribute '" + attribute + "' for '" + entityId + "'from old value '" + oldValue
+    return "Change the attribute '" + attribute + "' for '" + entityId + "' from old value '" + oldValue
       + "' to new value '" + newValue + "'";
   }
 }

@@ -6,39 +6,40 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.NestedServletException;
-import selfservice.domain.CoinAuthority;
+import selfservice.domain.*;
 import selfservice.domain.CoinAuthority.Authority;
-import selfservice.domain.CoinUser;
-import selfservice.domain.IdentityProvider;
-import selfservice.domain.Service;
 import selfservice.filter.EnsureAccessToIdpFilter;
 import selfservice.filter.SpringSecurityUtil;
 import selfservice.manage.Manage;
+import selfservice.service.ActionsService;
 import selfservice.service.Services;
 import selfservice.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -60,6 +61,9 @@ public class UsersControllerTest {
     private Manage manage;
     @Mock
     private Services services;
+    @Mock
+    private ActionsService actionsService;
+
     private MockMvc mockMvc;
 
     @Before
@@ -80,6 +84,9 @@ public class UsersControllerTest {
         when(manage.getAllIdentityProviders()).thenReturn(ImmutableList.of(idp(BAR_IDP_ENTITY_ID), idp
             (FOO_IDP_ENTITY_ID)));
        when(services.getInstitutionalServicesForIdp("my-institution-id", Locale.ENGLISH)).thenReturn(singletonList(service()));
+
+        RequestAttributes requestAttributes = new ServletRequestAttributes(new MockHttpServletRequest());
+        RequestContextHolder.setRequestAttributes(requestAttributes);
     }
 
     private Service service() {
@@ -202,5 +209,38 @@ public class UsersControllerTest {
             .andExpect(jsonPath("$.payload").isArray())
             .andExpect(jsonPath("$.payload", hasSize(1)))
             .andExpect(jsonPath("$.payload[0].institutionId", is("my-institution-id")));
+    }
+
+    @Test
+    public void updateSettings() throws IOException {
+        CoinUser user = new CoinUser();
+        IdentityProvider idp = new IdentityProvider("id", "institutionId", "name", 1L);
+        user.setIdp(idp);
+        user.setInstitutionId(idp.getInstitutionId());
+        SpringSecurityUtil.setAuthentication(user);
+
+        Settings settings = new Settings();
+        settings.setStateType(StateType.prodaccepted);
+
+        List<ServiceProviderSettings> serviceProviderSettings = new ArrayList<>();
+        ServiceProviderSettings serviceProviderSetting = new ServiceProviderSettings();
+        serviceProviderSetting.setPublishedInEdugain(true);
+        serviceProviderSetting.setSpEntityId("spEntityId");
+        serviceProviderSettings.add(serviceProviderSetting);
+
+        settings.setServiceProviderSettings(serviceProviderSettings);
+
+        List<Service> servicesOfIdp = new ArrayList<>();
+
+        Service service = new Service();
+        service.setSpEntityId("spEntityId");
+        servicesOfIdp.add(service);
+
+        when(services.getInstitutionalServicesForIdp(idp.getInstitutionId(),Locale.ENGLISH)).thenReturn(servicesOfIdp);
+
+        List<Change> changes = controller.getChanges(Locale.ENGLISH, settings, idp);
+        assertEquals(2, changes.size());
+        assertEquals("Change the attribute 'state' for 'id' from old value 'null' to new value 'prodaccepted'", changes.get(0).toString());
+        assertEquals("Change the attribute 'coin:publish_in_edugain' for 'spEntityId' from old value 'false' to new value 'true'", changes.get(1).toString());
     }
 }

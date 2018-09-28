@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dashboard</artifactId>
     <packaging>pom</packaging>
-    <version>7.0.2-SNAPSHOT</version>
+    <version>7.0.5</version>
     <name>OpenConext : dashboard</name>
     <build>
         <plugins>
