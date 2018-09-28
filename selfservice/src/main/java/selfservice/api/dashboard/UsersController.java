@@ -1,5 +1,7 @@
 package selfservice.api.dashboard;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -55,6 +57,9 @@ public class UsersController extends BaseController {
     @Autowired
     private ActionsService actionsService;
 
+    private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
+
+
     @RequestMapping("/me")
     public RestResponse<CoinUser> me() {
         return createRestResponse(SpringSecurity.getCurrentUser());
@@ -65,6 +70,7 @@ public class UsersController extends BaseController {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
 
         if (!currentUser.isSuperUser()) {
+            LOG.warn("IdP's endpoint is only allowed for superUser, not for {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
@@ -124,6 +130,7 @@ public class UsersController extends BaseController {
                                                                @RequestBody Settings settings) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
+            LOG.warn("Settings endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
