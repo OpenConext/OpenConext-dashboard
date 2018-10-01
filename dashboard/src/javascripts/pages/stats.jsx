@@ -5,7 +5,7 @@ import I18n from "i18n-js";
 import DatePicker from "react-datepicker";
 import {defaultScales, getDateTimeFormat, getPeriod} from "../utils/time";
 import SelectWrapper from "../components/select_wrapper";
-import {loginAggregated, statsServiceProviders} from "../api";
+import {loginAggregated, loginTimeFrame, statsServiceProviders, uniqueLoginCount} from "../api";
 import "react-datepicker/dist/react-datepicker.css";
 import CheckBox from "../components/checkbox";
 import Chart from "../components/chart";
@@ -19,33 +19,49 @@ class Stats extends React.Component {
         super();
         this.allServiceProviderOption = {display: I18n.t("stats.filters.allServiceProviders"), value: "all"};
         this.state = {
-            from: moment().subtract(1, "year"),
+            from: moment().subtract(1, "day"),
             to: moment(),
-            scale: "year",
+            scale: "minute",
             loaded: false,
             data: [],
             sp: this.allServiceProviderOption.value,
             allSp: [],
+            serviceProvidersDict: {},
             displayDetailPerSP: false,
             state: states[1],
-            maximumTo: false,
+            maximumTo: false
         };
     }
 
     componentWillMount() {
-        const {scale, state} = this.state;
-        loginAggregated(getPeriod(moment(), scale), state).then(res => {
+        const {from, to, scale, state} = this.state;
+        loginTimeFrame(from.unix(), to.unix(), scale, undefined, state).then(res => {
             this.setState({data: res, loaded: true});
             statsServiceProviders().then(res => this.setState({
-                allSp: [this.allServiceProviderOption].concat(res)
+                allSp: [this.allServiceProviderOption].concat(res),
+                serviceProvidersDict: res.reduce((acc, p) => {
+                    acc[p.value] = p.display;
+                    return acc;
+                }, {})
             }))
         });
     }
 
+    refresh = () => {
+        const {from, to, scale, sp, displayDetailPerSP, state} = this.state;
+        if (displayDetailPerSP) {
+            loginAggregated(getPeriod(from.unix(), scale), state, sp === this.allServiceProviderOption.value ? undefined : sp).then(res => this.setState({data: res}));
+        } else if (scale === "all") {
+            uniqueLoginCount(from.unix(), to.unix(), sp, state).then(res => this.setState({data: res}));
+        } else {
+            loginTimeFrame(from.unix(), to.unix(), sp, state).then(res => this.setState({data: res}));
+        }
+    };
+
     onChangeFrom = val => {
         const {scale, to} = this.state;
         const additionalState = this.invariantFromToScale(val, to, scale);
-        this.setState({data: [], from: val, ...additionalState}, this.componentDidMount)
+        this.setState({data: [], from: val, ...additionalState}, this.refresh)
     };
 
     onChangeTo = val => {
@@ -53,21 +69,21 @@ class Stats extends React.Component {
         const additionalState = this.invariantFromToScale(from, val, scale, -1);
         const tomorrowMidnight = moment().add(1, "day").startOf("day");
         const maximumTo = tomorrowMidnight.isBefore(val);
-        this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.componentDidMount)
+        this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.refresh)
     };
 
     onChangeScale = scale => {
         const {from, to} = this.state;
         const additionalState = this.invariantFromToScale(from, to, scale);
         const state = {data: [], scale: scale, ...additionalState};
-        this.setState(state, this.componentDidMount);
+        this.setState(state, this.refresh);
     };
 
     invariantFromToScale = (from, to, scale, multiplier = 1) => {
         let additionalState = {};
         const diff = moment.duration(to.diff(from)).asDays();
         if (scale === "minute" && diff > 1) {
-            additionalState[multiplier === 1 ? "from" : "to"] = moment(from).add(multiplier * 1, "day");
+            additionalState[multiplier === 1 ? "from" : "to"] = moment(from).add(multiplier, "day");
         } else if (scale === "hour" && diff > 7) {
             additionalState[multiplier === 1 ? "from" : "to"] = moment(from).add(multiplier * 7, "day");
         }
@@ -79,7 +95,7 @@ class Stats extends React.Component {
         const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
         const from = moment(this.state.from).add(-1, scale);
         const to = moment(this.state.to).add(-1, scale);
-        this.setState({from: from, to: to, maximumTo: false}, this.componentDidMount)
+        this.setState({from: from, to: to, maximumTo: false}, this.refresh)
     };
 
     goRight = e => {
@@ -96,7 +112,7 @@ class Stats extends React.Component {
             from: from,
             to: maximumTo ? tomorrowMidnight : to,
             maximumTo: maximumTo
-        }, this.componentDidMount);
+        }, this.refresh);
     };
 
 
@@ -170,13 +186,38 @@ class Stats extends React.Component {
         </fieldset>;
 
     title = (from, to, displayDetailPerSP, sp, scale) => {
-        return null;
+        const format = scale === "minute" || scale === "hour" ? "L" : "L";//'MMMM Do YYYY, h:mm:ss a'
+        if (scale === "all") {
+            return I18n.t("live.noTimeFrameChart", {
+                from: from ? from.format(format) : "",
+                to: to ? to.format(format) : "",
+                scale: I18n.t(`stats.scale.${scale}`).toLowerCase()
+            });
+        }
+        if (!displayDetailPerSP) {
+            return I18n.t("live.chartTitle", {
+                from: from ? from.format(format) : "",
+                to: to ? to.format(format) : "",
+                scale: I18n.t(`stats.scale.${scale}`).toLowerCase()
+            });
+        }
+        if (displayDetailPerSP) {
+            return I18n.t("live.aggregatedChartTitlePeriod", {
+                period: getPeriod(from, scale),
+                group: I18n.t("providers.idp")
+            });
+        }
     };
 
     render() {
-        const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state, maximumTo} = this.state;
+        const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state, maximumTo, serviceProvidersDict} = this.state;
         const spSelected = sp !== this.allServiceProviderOption.value;
         const toEnabled = !displayDetailPerSP;
+        const noResult = data.length === 1 && data[0] === "no_results";
+        const results = loaded && data.length > 0 && !noResult;
+        const idp = this.context.currentUser.currentIdp;
+        const identityProvidersDict = {};
+        identityProvidersDict[idp.id] = I18n.locale === "en" ? idp.displayNames["en"] : idp.displayNames["nl"];
         return (
             <div className="l-main stats">
                 <div className="l-left-large">
@@ -190,21 +231,27 @@ class Stats extends React.Component {
                 </div>
                 <div className="l-right-small">
                     <div className="mod-chart">
-                        {(loaded && data.length > 0) && <Chart data={data}
-                                                               scale={scale}
-                                                               includeUniques={scale !== "minutes" && scale !== "hour"}
-                                                               title={this.title(from, to, displayDetailPerSP, sp, scale)}
-                                                               groupedBySp={displayDetailPerSP}
-                                                               aggregate={displayDetailPerSP}
-                                                               serviceProvidersDict={allSp}
-                                                               goRight={this.goRight}
-                                                               goLeft={this.goLeft}
-                                                               rightDisabled={maximumTo}
-                                                               noTimeFrame={scale === "all"}/>}
+                        {results && <Chart data={data}
+                                           scale={scale}
+                                           includeUniques={scale !== "minutes" && scale !== "hour"}
+                                           title={this.title(from, to, displayDetailPerSP, sp, scale)}
+                                           groupedBySp={displayDetailPerSP}
+                                           aggregate={displayDetailPerSP}
+                                           serviceProvidersDict={serviceProvidersDict}
+                                           identityProvidersDict={identityProvidersDict}
+                                           goRight={this.goRight}
+                                           goLeft={this.goLeft}
+                                           rightDisabled={maximumTo}
+                                           noTimeFrame={scale === "all"}/>}
                         {!loaded && <div>
                             <section className="loading">
                                 <em>{I18n.t("chart.loading")}</em>
                                 <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+                            </section>
+                        </div>}
+                        {noResult && <div>
+                            <section className="loading">
+                                <em>{I18n.t("chart.noResults")}</em>
                             </section>
                         </div>}
                     </div>

@@ -205,10 +205,8 @@ export default class Chart extends React.PureComponent {
             idp = identityProvidersDict[point.idp_entity_id];
         }
         const groupedByBoth = groupedBySp & groupedByIdp;
-        let name = groupedByBoth ? (providerName(sp, point.sp_entity_id) + " - " + providerName(sp, point.idp_entity_id)) :
+        return groupedByBoth ? (providerName(sp, point.sp_entity_id) + " - " + providerName(sp, point.idp_entity_id)) :
             groupedBySp ? providerName(sp, point.sp_entity_id) : providerName(idp, point.idp_entity_id);
-        const id = groupedBySp ? point.sp_entity_id : point.idp_entity_id;
-        return groupedByBoth ? name : `<span class="clickable-label" id="${id}" data-id="true">${name}</span>`;
     };
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
@@ -241,17 +239,6 @@ export default class Chart extends React.PureComponent {
             data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
             serviceProvidersDict, guest, scale
         } = this.props;
-        if (data.length === 0) {
-            return <section className="loading">
-                <em>{I18n.t("chart.loading")}</em>
-                <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
-            </section>;
-        }
-        if (data.length === 1 && data[0] === "no_results") {
-            return <section className="loading">
-                <em>{I18n.t("chart.noResults")}</em>
-            </section>;
-        }
         return <div className="chart-container">
             {this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                 serviceProvidersDict, guest, displayChart, scale)}

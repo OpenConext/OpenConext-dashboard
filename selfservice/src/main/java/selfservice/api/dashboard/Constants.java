@@ -4,6 +4,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.codec.Base64;
+import selfservice.domain.CoinUser;
+import selfservice.domain.IdentityProvider;
+import selfservice.util.SpringSecurity;
 
 public interface Constants {
 
@@ -22,5 +25,12 @@ public interface Constants {
     default String authorizationHeaderValue(String username, String password) {
         return "Basic " + new String(Base64.encode(String.format("%s:%s", username, password).getBytes()));
     }
+
+    default String currentUserIdp() {
+        CoinUser user = SpringSecurity.getCurrentUser();
+        IdentityProvider idp = user.getSwitchedToIdp().orElse(user.getIdp());
+        return idp.getId();
+    }
+
 
 }

@@ -2,6 +2,7 @@ import qs from "qs";
 import spinner from "../lib/spin";
 import {getCurrentUser} from "../models/current_user";
 import merge from "lodash.merge";
+import {isEmpty} from "../utils/utils";
 
 const apiPath = "/dashboard/api";
 
@@ -220,13 +221,15 @@ export function statsServiceProviders() {
 }
 
 export function loginTimeFrame(from, to, scale, spEntityId, state) {
-    return Promise.resolve([]);// fetchJson(`/stats/loginTimeFrame?from=${from}&to=${to}&scale=${scale}&spEntityId=${spEntityId}&state=${state}`);
+    const sp = !isEmpty(spEntityId) ? `&spEntityId=${spEntityId}` : "";
+    return fetchJson(`/stats/loginTimeFrame?from=${from}&to=${to}&scale=${scale}&state=${state}${sp}`);
 }
 
-export function loginAggregated(period, state) {
-    return Promise.resolve([]); //return fetchJson(`/stats/loginAggregated?period=${period}&state=${state}`);
+export function loginAggregated(period, state, spEntityId) {
+    const sp = !isEmpty(spEntityId) ? `&spEntityId=${spEntityId}` : "";
+    return fetchJson(`/stats/loginAggregated?period=${period}&state=${state}${sp}`);
 }
 
 export function uniqueLoginCount(from, to, spEntityId, state) {
-    return Promise.resolve([]); //fetchJson(`/stats/uniqueLoginCount?from=${from}&to=${to}&spEntityId=${spEntityId}&state=${state}`);
+    return fetchJson(`/stats/uniqueLoginCount?from=${from}&to=${to}&spEntityId=${spEntityId}&state=${state}`);
 }

@@ -1,11 +1,5 @@
-import I18n from "i18n-js";
-
 export function providerName(provider, fallback) {
-    if (!provider) {
-        return fallback;
-    }
-    const alt = I18n.locale === "en" ? "nl" : "en";
-    return provider[`name_${I18n.locale}`] || provider[`name_${alt}`] || fallback;
+    return provider || fallback;
 }
 
 export function mergeList(arr, keyProperty) {
@@ -21,3 +15,18 @@ export function mergeList(arr, keyProperty) {
 
 }
 
+export function isEmpty(obj) {
+    if (obj === undefined || obj === null) {
+        return true;
+    }
+    if (Array.isArray(obj)) {
+        return obj.length === 0;
+    }
+    if (typeof obj === "string") {
+        return obj.trim().length === 0;
+    }
+    if (typeof obj === "object") {
+        return Object.keys(obj).length === 0;
+    }
+    return false;
+}

@@ -583,6 +583,29 @@ I18n.translations.en = {
             all: "Entire Period: from ⇨ to"
         }
     },
+    chart: {
+        title: "Logins and users per day",
+        chart: "Number of logins per {{scale}}",
+        userCount: "Total logins",
+        uniqueUserCount: "Unique users",
+        loading: "Fetching logins....",
+        noResults: "No logins are recorded for the given period.",
+        date: "Date",
+        logins: "Logins per {{scale}}",
+        allLogins: "# Logins",
+        uniqueLogins: "Unique logins",
+        sp: "Service",
+        idp: "Institution"
+    },
+    clipboard: {
+        copied: "Copied!",
+        copy: "Copy to clipboard"
+    },
+    live: {
+        chartTitle: "Logins from {{from}} until {{to}} grouped by {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in the period {{period}} grouped by {{group}}",
+        noTimeFrameChart: "Logins from {{from}} until {{to}}"
+    },
     service_filter: {
         title: "Filter services",
         state: {

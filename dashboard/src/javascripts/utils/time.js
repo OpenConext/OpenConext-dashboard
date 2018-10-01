@@ -17,7 +17,7 @@ export function getPeriod(m, scale) {
     }
 }
 
-export function getDateTimeFormat(scale, periodEnabled=true) {
+export function getDateTimeFormat(scale, periodEnabled = true) {
     if (!periodEnabled) {
         return "L";
     }
@@ -54,7 +54,7 @@ export function getGroupByPeriod(scale) {
     }
 }
 
-export const defaultScales = ["all","year", "quarter", "month", "week", "day", "hour", "minute"];
+export const defaultScales = ["all", "year", "quarter", "month", "week", "day", "hour", "minute"];
 
 
 export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
