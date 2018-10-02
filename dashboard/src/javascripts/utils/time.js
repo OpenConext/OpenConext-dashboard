@@ -37,25 +37,4 @@ export function getDateTimeFormat(scale, periodEnabled = true) {
     }
 }
 
-export function getGroupByPeriod(scale) {
-    switch (scale) {
-        case "day":
-            return [];
-        case "week":
-            return ["day"];
-        case "month":
-            return ["day", "week"];
-        case "quarter":
-            return ["day", "week", "month"];
-        case "year":
-            return ["day", "week", "month", "quarter"];
-        default:
-            return [];
-    }
-}
-
 export const defaultScales = ["all", "year", "quarter", "month", "week", "day", "hour", "minute"];
-
-
-export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
-

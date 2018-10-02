@@ -13,6 +13,8 @@ import stopEvent from "../utils/stop";
 import {isEmpty} from "../utils/utils";
 
 const states = ["all", "prodaccepted", "testaccepted"];
+const minDiffByScale = {day: 1, week: 7, month: 31, quarter: 90, year: 365}
+
 
 class Stats extends React.Component {
 
@@ -102,8 +104,12 @@ class Stats extends React.Component {
     onChangeScale = scale => {
         const {from, to} = this.state;
         const additionalState = this.invariantFromToScale(from, to, scale);
-        const state = {data: [], scale: scale, ...additionalState};
-        this.setState(state, this.refresh);
+        const diff = moment.duration(to.diff(from)).asDays();
+        const minDiff = minDiffByScale[scale];
+        if (minDiff > diff) {
+            additionalState.from = moment(to).subtract(minDiff, "day");
+        }
+        this.setState({data: [], scale: scale, ...additionalState}, this.refresh);
     };
 
     invariantFromToScale = (from, to, scale, dateToChange = "from") => {
