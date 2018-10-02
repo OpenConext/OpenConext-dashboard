@@ -1,7 +1,8 @@
 @import "../utilities/placeholders.sass"
 @import "../utilities/vars.sass"
 
-div.chart-container 
+div.chart-container
+  @extend %box
   height: 100%
   width: 100%
   section.loading 
@@ -25,7 +26,6 @@ div.chart-container
     width: 100%
     position: relative
     span.title 
-      background-color: $light-grey
       padding: 10px
       border-top-left-radius: $br
       border-top-right-radius: $br

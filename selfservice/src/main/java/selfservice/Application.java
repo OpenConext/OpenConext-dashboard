@@ -1,5 +1,6 @@
 package selfservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
@@ -62,11 +63,13 @@ public class Application {
     }
 
     @Bean
+    @Autowired
     public Stats stats(@Value("${dashboard.feature.statistics}") boolean statsEnabled,
                        @Value("${statsUser}") String user,
                        @Value("${statsPassword}") String password,
-                       @Value("${statsBaseUrl}") String baseUrl) {
-        return statsEnabled ? new StatsImpl(user, password, baseUrl) : new StatsMock();
+                       @Value("${statsBaseUrl}") String baseUrl,
+                       Manage manage) {
+        return statsEnabled ? new StatsImpl(user, password, baseUrl) : new StatsMock(manage);
     }
 
     @Bean

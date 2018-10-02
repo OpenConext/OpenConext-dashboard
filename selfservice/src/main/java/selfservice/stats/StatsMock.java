@@ -1,15 +1,24 @@
 package selfservice.stats;
 
 import selfservice.api.dashboard.Constants;
+import selfservice.domain.ServiceProvider;
+import selfservice.manage.Manage;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StatsMock implements Stats, Constants {
 
+    private Manage manage;
+
+    public StatsMock(Manage manage) {
+        this.manage = manage;
+    }
+
     @Override
-    public List<Map<String, Object>> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityId, String state) {
+    public List<Object> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityId, String state) {
         long step = step(scale);
-        List<Map<String, Object>> result = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
         for (long i = from; i <= to; i += step) {
             Map<String, Object> point = new HashMap<>();
             point.put("count_user_id", countValue(scale));
@@ -25,7 +34,7 @@ public class StatsMock implements Stats, Constants {
     }
 
     @Override
-    public List<Map<String, Object>> loginAggregated(String period, Optional<String> spEntityId, String state) {
+    public List<Object> loginAggregated(String period, Optional<String> spEntityId, String state) {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.YEAR, Integer.valueOf(period.substring(0, 4)));
         today.set(Calendar.HOUR_OF_DAY, 0);
@@ -49,15 +58,22 @@ public class StatsMock implements Stats, Constants {
         } else {
             today.set(Calendar.MONTH, 0);
         }
-        long from = today.getTimeInMillis() / 1000;
-        today.add(calendarConstant(period), period.length() > 4 && period.substring(4, 5).toLowerCase().equals("q") ? 3 : 1);
-        long to = today.getTimeInMillis() / 1000;
-        return loginTimeFrame(from, to, periodToScale(period), spEntityId, state);
+        long date = today.getTimeInMillis() / 1000;
+        List<ServiceProvider> linkedServiceProviders = manage.getLinkedServiceProviders(currentUserIdp());
+        return linkedServiceProviders.stream().filter(sp -> !spEntityId.isPresent() || spEntityId.get().equals(sp.getId())).map(sp -> {
+            Map<String, Object> point = new HashMap<>();
+            point.put("count_user_id", countValue(periodToScale(period)));
+            point.put("distinct_count_user_id", countValue(periodToScale(period)) / 2);
+            point.put("sp_entity_id", sp.getId());
+            point.put("idp_entity_id", currentUserIdp());
+            point.put("time", date);
+            return point;
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public List<Map<String, Object>> uniqueLoginCount(long from, long to, String spEntityId, String state) {
-        List<Map<String, Object>> result = new ArrayList<>();
+    public List<Object> uniqueLoginCount(long from, long to, String spEntityId, String state) {
+        List<Object> result = new ArrayList<>();
         Map<String, Object> point = new HashMap<>();
         point.put("count_user_id", countValue("year"));
         point.put("sp_entity_id", spEntityId);

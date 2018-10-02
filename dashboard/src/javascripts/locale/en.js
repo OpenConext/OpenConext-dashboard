@@ -21,10 +21,6 @@ I18n.translations.en = {
         description_html: "Your version of Internet Explorer is not supported. Please update your browser to a more modern version."
     },
 
-    date: {
-        month_names: [null, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    },
-
     header: {
         title: "Dashboard",
         welcome: "Welcome,",

@@ -19,3 +19,4 @@ ResourceBundleUtils.java
 *.log
 manage-json
 notes.txt
+local.application.properties

@@ -21,10 +21,6 @@ I18n.translations.nl = {
         description_html: "Uw versie van Internet Explorer wordt niet ondersteunt. Update uw browser naar een modernere versie."
     },
 
-    date: {
-        month_names: [null, "januari", "fabruari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "ocktober", "november", "december"]
-    },
-
     header: {
         title: "Dashboard",
         welcome: "Welkom,",
@@ -367,6 +363,8 @@ I18n.translations.nl = {
             allServiceProviders: "Alle diensten"
         },
         state: "Status",
+        timeScale: "Periode",
+        date: "Datum",
         from: "From",
         to: "To",
         today: "Today",
@@ -385,6 +383,29 @@ I18n.translations.nl = {
             minute: "Minuut",
             all: "Totale periode - van tot"
         }
+    },
+    chart: {
+        title: "Logins en gebruikers per dag",
+        chart: "Aantal logins per {{scale}}",
+        userCount: "Totale logins",
+        uniqueUserCount: "Unieke gebruikers",
+        loading: "Ophalen logins....",
+        noResults: "Geen logins data voor de opgegeven periode.",
+        date: "Datum",
+        logins: "Logins per {{scale}}",
+        allLogins: "# Logins",
+        uniqueLogins: "Unieke gebruikers",
+        sp: "Dienst",
+        idp: "Instelling"
+    },
+    clipboard: {
+        copied: "Gekopieerd!",
+        copy: "Kopie naar clipboard"
+    },
+    live: {
+        chartTitle: "Logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in de periode {{period}} gegroepeerd op {{group}}",
+        noTimeFrameChart: "Logins van {{from}} tot {{to}}"
     },
 
     server_error: {
@@ -519,6 +540,7 @@ I18n.translations.nl = {
 
     policy_detail: {
         access: "Toegang",
+        attribute: "Attribute",
         autoFormat: "AutoFormat regel omschrijving",
         cancel: "Annuleer",
         confirmation: "Weet je zeker dat je deze pagina wilt sluiten?",
@@ -644,6 +666,10 @@ I18n.translations.nl = {
             "Shib-eduPersonAffiliation": {
                 name: "Relatie",
                 description: "geeft de relatie aan tussen jou en jouw instelling"
+            },
+            "Shib-eduPersonScopedAffiliation": {
+                name: "Scoped relation",
+                description: "scoped relatie tussen jou en jouw instelling"
             },
             "Shib-eduPersonEntitlement": {
                 name: "Rechtaanduiding",

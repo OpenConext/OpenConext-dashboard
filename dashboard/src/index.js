@@ -44,8 +44,6 @@ if (browserSupported()) {
                     downloadPDF: I18n.t("export.downloadPDF"),
                 }
             });
-
-
             const currentUser = createCurrentUser(json.payload);
             const spinner = document.getElementById("service-loader-id");
             spinner.parentNode.removeChild(spinner);

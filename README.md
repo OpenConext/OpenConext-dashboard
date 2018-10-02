@@ -74,3 +74,16 @@ A list of available log-ins can be found in the mocked implementation of the [Vo
 ```
 curl -H 'Content-Type: application/json' -u pdp:secret  -X POST -d '{"REQUESTED_ATTRIBUTES":["metaDataFields.coin:ss:idp_visible_only"],"metaDataFields.coin:ss:idp_visible_only":"1"}' 'https://manage.test2.surfconext.nl//manage/api/internal/search/saml20_sp' | python -m json.tool
 ```
+
+### [Testing](#testing)
+
+To run all JavaScript tests:
+```
+cd client
+yarn test
+```
+Or to run all the tests and do not watch:
+```
+cd client
+CI=true yarn test
+```

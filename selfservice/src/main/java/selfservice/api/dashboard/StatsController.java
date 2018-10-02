@@ -33,7 +33,7 @@ public class StatsController implements Constants {
 
     //Used for retrieval of all logins for one SP
     @GetMapping("loginTimeFrame")
-    public List<Map<String, Object>> loginTimeFrame(@RequestParam("from") long from,
+    public List<Object> loginTimeFrame(@RequestParam("from") long from,
                                                     @RequestParam("to") long to,
                                                     @RequestParam("scale") String scale,
                                                     @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId,
@@ -43,7 +43,7 @@ public class StatsController implements Constants {
 
     //Used for retrieval of all logins for all SP's
     @GetMapping("loginAggregated")
-    public List<Map<String, Object>> loginAggregated(@RequestParam("period") String period,
+    public List<Object> loginAggregated(@RequestParam("period") String period,
                                                      @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId,
                                                      @RequestParam(value = "state", required = false, defaultValue = "all") String state) {
         return stats.loginAggregated(period,spEntityId, state);
@@ -51,7 +51,7 @@ public class StatsController implements Constants {
 
     //Used for retrieval of all logins for one SP without a period
     @GetMapping("uniqueLoginCount")
-    public List<Map<String, Object>> uniqueLoginCount(@RequestParam("from") long from,
+    public List<Object> uniqueLoginCount(@RequestParam("from") long from,
                                                       @RequestParam("to") long to,
                                                       @RequestParam(value = "spEntityId") String spEntityId,
                                                       @RequestParam(value = "state", required = false, defaultValue = "all") String state) {

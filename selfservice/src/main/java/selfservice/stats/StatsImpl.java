@@ -39,7 +39,7 @@ public class StatsImpl implements Stats, Constants {
         }));
     }
 
-    public List<Map<String, Object>> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityIdOptional, String state) {
+    public List<Object> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityIdOptional, String state) {
         StringBuilder url = new StringBuilder(String.format(
                 "%s/public/login_time_frame?from=%s&to=%s&include_unique=true&scale=%s&epoch=ms&state=%s&idp_id=%s",
                 baseUrl, from, to, scale, state, currentUserIdp()));
@@ -47,7 +47,7 @@ public class StatsImpl implements Stats, Constants {
         return restTemplate.getForEntity(url.toString(), List.class).getBody();
     }
 
-    public List<Map<String, Object>> loginAggregated(String period, Optional<String> spEntityIdOptional, String state) {
+    public List<Object> loginAggregated(String period, Optional<String> spEntityIdOptional, String state) {
         StringBuilder url = new StringBuilder(String.format(
                 "%s/public/login_aggregated?period=%s&include_unique=true&state=%s&idp_id=%s&group_by=sp_id",
                 baseUrl, period, state, currentUserIdp()));
@@ -55,7 +55,7 @@ public class StatsImpl implements Stats, Constants {
         return restTemplate.getForEntity(url.toString(), List.class).getBody();
     }
 
-    public List<Map<String, Object>> uniqueLoginCount(long from, long to, String spEntityId, String state) {
+    public List<Object> uniqueLoginCount(long from, long to, String spEntityId, String state) {
         String url = String.format(
                 "%s/public/unique_login_count?from=%s&to=%s&include_unique=true&epoch=ms&state=%s&idp_id=%s&sp_id=%s",
                 baseUrl, from, to, state, currentUserIdp(), spEntityId);

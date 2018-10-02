@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import CheckBox from "../components/checkbox";
 import Chart from "../components/chart";
 import stopEvent from "../utils/stop";
+import {isEmpty} from "../utils/utils";
 
 const states = ["all", "prodaccepted", "testaccepted"];
 
@@ -49,24 +50,50 @@ class Stats extends React.Component {
 
     refresh = () => {
         const {from, to, scale, sp, displayDetailPerSP, state} = this.state;
+        const spEntityId = sp === this.allServiceProviderOption.value ? undefined : sp;
         if (displayDetailPerSP) {
-            loginAggregated(getPeriod(from.unix(), scale), state, sp === this.allServiceProviderOption.value ? undefined : sp).then(res => this.setState({data: res}));
+            loginAggregated(getPeriod(from, scale), state, spEntityId).then(res => {
+                if (isEmpty(res)) {
+                    this.setState({data: res});
+                } else if (res.length === 1 && res[0] === "no_results") {
+                    this.setState({data: res});
+                } else {
+                    const sorted = res.filter(p => p.count_user_id).sort((a, b) => b.count_user_id - a.count_user_id);
+                    const uniqueOnes = res.filter(p => p.distinct_count_user_id).reduce((acc, p) => {
+                        const key = p.sp_entity_id;
+                        acc[key] = p.distinct_count_user_id;
+                        return acc;
+                    }, {});
+                    const data = sorted.map(p => {
+                        const key = p.sp_entity_id;
+                        p.distinct_count_user_id = uniqueOnes[key] || 0;
+                        return p;
+                    });
+                    this.setState({data: data});
+                }
+            });
         } else if (scale === "all") {
-            uniqueLoginCount(from.unix(), to.unix(), sp, state).then(res => this.setState({data: res}));
+            uniqueLoginCount(from.unix(), to.unix(), spEntityId, state).then(res => this.setState({data: res}));
         } else {
-            loginTimeFrame(from.unix(), to.unix(), sp, state).then(res => this.setState({data: res}));
+            loginTimeFrame(from.unix(), to.unix(), scale, spEntityId, state).then(res => {
+                if (scale === "minute" || scale === "hour") {
+                    res = res.filter(p => p.count_user_id > 0);
+                    res = res.slice(1, res.length - 1);
+                }
+                this.setState({data: res})
+            });
         }
     };
 
     onChangeFrom = val => {
         const {scale, to} = this.state;
-        const additionalState = this.invariantFromToScale(val, to, scale);
+        const additionalState = this.invariantFromToScale(val, to, scale, "to");
         this.setState({data: [], from: val, ...additionalState}, this.refresh)
     };
 
     onChangeTo = val => {
         const {scale, from} = this.state;
-        const additionalState = this.invariantFromToScale(from, val, scale, -1);
+        const additionalState = this.invariantFromToScale(from, val, scale, "from");
         const tomorrowMidnight = moment().add(1, "day").startOf("day");
         const maximumTo = tomorrowMidnight.isBefore(val);
         this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.refresh)
@@ -79,13 +106,16 @@ class Stats extends React.Component {
         this.setState(state, this.refresh);
     };
 
-    invariantFromToScale = (from, to, scale, multiplier = 1) => {
+    invariantFromToScale = (from, to, scale, dateToChange = "from") => {
         let additionalState = {};
         const diff = moment.duration(to.diff(from)).asDays();
-        if (scale === "minute" && diff > 1) {
-            additionalState[multiplier === 1 ? "from" : "to"] = moment(from).add(multiplier, "day");
-        } else if (scale === "hour" && diff > 7) {
-            additionalState[multiplier === 1 ? "from" : "to"] = moment(from).add(multiplier * 7, "day");
+        if ((scale === "minute" && diff > 1) || (scale === "hour" && diff > 7)) {
+            const duration = scale === "minute" ? 1 : 7;
+            if (dateToChange === "to") {
+                additionalState["to"] = moment(from).add(duration, "day");
+            } else {
+                additionalState["from"] = moment(to).subtract(duration, "day");
+            }
         }
         return additionalState;
     };
@@ -95,7 +125,7 @@ class Stats extends React.Component {
         const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
         const from = moment(this.state.from).add(-1, scale);
         const to = moment(this.state.to).add(-1, scale);
-        this.setState({from: from, to: to, maximumTo: false}, this.refresh)
+        this.setState({data: [], from: from, to: to, maximumTo: false}, this.refresh)
     };
 
     goRight = e => {
@@ -109,6 +139,7 @@ class Stats extends React.Component {
         const tomorrowMidnight = moment().add(1, "day").startOf("day");
         const maximumTo = tomorrowMidnight.isBefore(to);
         this.setState({
+            data: [],
             from: from,
             to: maximumTo ? tomorrowMidnight : to,
             maximumTo: maximumTo
@@ -121,10 +152,23 @@ class Stats extends React.Component {
         const {scale} = this.state;
         if (!val && scale === "all") {
             const {from, to} = this.state;
-            additionalState = this.invariantFromToScale(from, to, "minute")
+            additionalState = this.invariantFromToScale(from, to, "minute");
             additionalState.scale = "minute";
         }
-        this.setState({sp: val ? val : this.allServiceProviderOption.value, ...additionalState});
+        this.setState({
+            data: [],
+            sp: val ? val : this.allServiceProviderOption.value, ...additionalState
+        }, this.refresh);
+    };
+
+    onChangeDisplayDetailPerSP = e => {
+        const displayDetailPerSP = e.target.checked;
+        const {scale} = this.state;
+        let additionalState = {};
+        if (["minute", "hour", "all"].includes(scale)) {
+            additionalState.scale = "year";
+        }
+        this.setState({data: [], displayDetailPerSP: displayDetailPerSP, ...additionalState}, this.refresh);
     };
 
     renderSpSelect = (sp, allSp, clearable, displayDetailPerSP, state) =>
@@ -137,7 +181,7 @@ class Stats extends React.Component {
                 isClearable={clearable}
                 handleChange={this.onChangeServiceProvider}/>
             <CheckBox name="display" value={displayDetailPerSP}
-                      onChange={e => this.setState({displayDetailPerSP: !this.state.displayDetailPerSP})}
+                      onChange={this.onChangeDisplayDetailPerSP}
                       info={I18n.t("stats.displayDetailPerSP")}
             />
             <h2 className="title secondary">{I18n.t("stats.state")}</h2>
@@ -146,7 +190,7 @@ class Stats extends React.Component {
                 options={states.map(s => ({value: s, display: I18n.t(`my_idp.${s}`)}))}
                 multiple={false}
                 isClearable={false}
-                handleChange={val => this.setState({state: val})}/>
+                handleChange={val => this.setState({data: [], state: val}, this.refresh)}/>
         </fieldset>;
 
     renderPeriod = (scale, from, to, toEnabled, spSelected) =>
@@ -198,13 +242,13 @@ class Stats extends React.Component {
             return I18n.t("live.chartTitle", {
                 from: from ? from.format(format) : "",
                 to: to ? to.format(format) : "",
-                scale: I18n.t(`stats.scale.${scale}`).toLowerCase()
+                scale: I18n.t(`stats.scale.${scale}`, {scale: scale}).toLowerCase()
             });
         }
         if (displayDetailPerSP) {
             return I18n.t("live.aggregatedChartTitlePeriod", {
                 period: getPeriod(from, scale),
-                group: I18n.t("providers.idp")
+                group: I18n.t("chart.sp")
             });
         }
     };
@@ -235,8 +279,9 @@ class Stats extends React.Component {
                                            scale={scale}
                                            includeUniques={scale !== "minutes" && scale !== "hour"}
                                            title={this.title(from, to, displayDetailPerSP, sp, scale)}
-                                           groupedBySp={displayDetailPerSP}
                                            aggregate={displayDetailPerSP}
+                                           groupedBySp={displayDetailPerSP}
+                                           groupedByIdp={false}
                                            serviceProvidersDict={serviceProvidersDict}
                                            identityProvidersDict={identityProvidersDict}
                                            goRight={this.goRight}

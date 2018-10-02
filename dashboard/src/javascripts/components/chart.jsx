@@ -17,13 +17,13 @@ ExportData(HighChart);
 ExportData(HighStock);
 
 moment.locale(I18n.locale);
-const navigation = {
+const navigation = () => ({
     buttonOptions: {
         symbolSize: 18,
         symbolStrokeWidth: 4
     }
-};
-const exporting = {
+});
+const exporting = () => ({
     enabled: true,
     allowHTML: true,
     buttons: {
@@ -44,7 +44,7 @@ const exporting = {
             ]
         },
     },
-};
+});
 
 export default class Chart extends React.PureComponent {
 
@@ -74,7 +74,7 @@ export default class Chart extends React.PureComponent {
             },
             title: {text: null},
             yAxis: {
-                title: {text: I18n.t("chart.chart", {scale}) },
+                title: {text: I18n.t("chart.chart", {scale: scale}) },
                 labels: {},
                 min: 0,
                 offset: 35,
@@ -127,8 +127,8 @@ export default class Chart extends React.PureComponent {
                 buttons: [],
                 enabled: false
             },
-            navigation: navigation,
-            exporting: exporting,
+            navigation: navigation(),
+            exporting: exporting(),
             credits: {enabled: false},
             plotOptions: {
                 series: {
@@ -160,13 +160,13 @@ export default class Chart extends React.PureComponent {
 
     aggregatedOptions = (data, yValues, includeUniques, guest) => {
         const series = [
-            {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.count_user_id)}
+            {name: I18n.t("chart.userCount"), color: "#D4AF37", data: data.map(p => p.count_user_id)}
         ];
 
         if (includeUniques) {
             series.push({
                 name: I18n.t("chart.uniqueUserCount"),
-                color: "#D4AF37",
+                color: "#15A300",
                 data: data.map(p => p.distinct_count_user_id)
             })
         }
@@ -186,8 +186,8 @@ export default class Chart extends React.PureComponent {
             tooltip: {valueSuffix: " logins"},
             plotOptions: {bar: {dataLabels: {enabled: true}}},
             legend: {verticalAlign: "top"},
-            navigation: navigation,
-            exporting: exporting,
+            navigation: navigation(),
+            exporting: exporting(),
             credits: {enabled: false},
             series: series,
         };
@@ -236,17 +236,14 @@ export default class Chart extends React.PureComponent {
     render() {
         const {displayChart} = this.state;
         const {
-            data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
-            serviceProvidersDict, guest, scale
+            data, scale, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
+            serviceProvidersDict, guest
         } = this.props;
         return <div className="chart-container">
             {this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                 serviceProvidersDict, guest, displayChart, scale)}
         </div>
-
     };
-
-
 }
 Chart.propTypes = {
     data: PropTypes.array.isRequired,
