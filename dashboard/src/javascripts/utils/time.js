@@ -37,4 +37,6 @@ export function getDateTimeFormat(scale, periodEnabled = true) {
     }
 }
 
-export const defaultScales = ["all", "year", "quarter", "month", "week", "day", "hour", "minute"];
+export const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
+export const defaultScalesForPeriod = ["year", "quarter", "month", "week", "day"];
+export const defaultScalesSpSelected = ["all", "year", "quarter", "month", "week", "day", "hour", "minute"];

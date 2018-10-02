@@ -7,7 +7,6 @@ import I18n from "i18n-js";
 import moment from "moment";
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
-import {providerName} from "../utils/utils";
 import {getDateTimeFormat} from "../utils/time";
 import "moment/locale/nl";
 
@@ -34,7 +33,7 @@ const exporting = () => ({
                     text: I18n.t("export.downloadCSV"),
                     onclick: function () {
                         const csv = this.getCSV();
-                        const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g,"");
+                        const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g, "");
                         this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
                     }
                 },
@@ -74,7 +73,7 @@ export default class Chart extends React.PureComponent {
             },
             title: {text: null},
             yAxis: {
-                title: {text: I18n.t("chart.chart", {scale: scale}) },
+                title: {text: I18n.t("chart.chart", {scale: scale})},
                 labels: {},
                 min: 0,
                 offset: 35,
@@ -193,27 +192,15 @@ export default class Chart extends React.PureComponent {
         };
     };
 
-    renderYvalue = (point, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict) => {
-        if (!groupedBySp && !groupedByIdp) {
-            return I18n.t("chart.allLogins");
-        }
-        let sp, idp;
-        if (groupedBySp) {
-            sp = serviceProvidersDict[point.sp_entity_id];
-        }
-        if (groupedByIdp) {
-            idp = identityProvidersDict[point.idp_entity_id];
-        }
-        const groupedByBoth = groupedBySp & groupedByIdp;
-        return groupedByBoth ? (providerName(sp, point.sp_entity_id) + " - " + providerName(sp, point.idp_entity_id)) :
-            groupedBySp ? providerName(sp, point.sp_entity_id) : providerName(idp, point.idp_entity_id);
+    renderYvalue = (point, identityProvidersDict, serviceProvidersDict) => {
+        const sp = serviceProvidersDict[point.sp_entity_id];
+        return sp || point.sp_entity_id;
     };
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                    serviceProvidersDict, guest, displayChart, scale) => {
-        const userCount = data.filter(p => p.count_user_id);
-        const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp,
-            identityProvidersDict, serviceProvidersDict)) : [];
+        const userCount = data.filter(p => p.sp_entity_id);
+        const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, identityProvidersDict, serviceProvidersDict)) : [];
 
         const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest) :
             this.nonAggregatedOptions(data, includeUniques, guest, scale);

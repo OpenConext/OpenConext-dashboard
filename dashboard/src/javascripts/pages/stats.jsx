@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import I18n from "i18n-js";
 import DatePicker from "react-datepicker";
-import {defaultScales, getDateTimeFormat, getPeriod} from "../utils/time";
+import {
+    defaultScales,
+    defaultScalesForPeriod,
+    defaultScalesSpSelected,
+    getDateTimeFormat,
+    getPeriod
+} from "../utils/time";
 import SelectWrapper from "../components/select_wrapper";
 import {loginAggregated, loginTimeFrame, statsServiceProviders, uniqueLoginCount} from "../api";
 import "react-datepicker/dist/react-datepicker.css";
@@ -38,16 +44,20 @@ class Stats extends React.Component {
 
     componentWillMount() {
         const {from, to, scale, state} = this.state;
-        loginTimeFrame(from.unix(), to.unix(), scale, undefined, state).then(res => {
-            this.setState({data: res, loaded: true});
-            statsServiceProviders().then(res => this.setState({
-                allSp: [this.allServiceProviderOption].concat(res),
-                serviceProvidersDict: res.reduce((acc, p) => {
-                    acc[p.value] = p.display;
-                    return acc;
-                }, {})
-            }))
-        });
+        Promise.all([loginTimeFrame(from.unix(), to.unix(), scale, undefined, state), statsServiceProviders()])
+            .then(res => {
+                let data = res[0].filter(p => p.count_user_id > 0);
+                data = data.slice(1, data.length - 1);
+                this.setState({
+                    data: data,
+                    loaded: true,
+                    allSp: [this.allServiceProviderOption].concat(res[1]),
+                    serviceProvidersDict: res[1].reduce((acc, p) => {
+                        acc[p.value] = p.display;
+                        return acc;
+                    }, {})
+                })
+            });
     }
 
     refresh = () => {
@@ -71,7 +81,17 @@ class Stats extends React.Component {
                         p.distinct_count_user_id = uniqueOnes[key] || 0;
                         return p;
                     });
-                    this.setState({data: data});
+                    const linkedSpEntityIds = Object.keys(this.state.serviceProvidersDict);
+                    const emptyOnes = linkedSpEntityIds
+                        .filter(entityId => isEmpty(uniqueOnes[entityId]))
+                        .map(entityId => ({
+                            count_user_id: 0,
+                            distinct_count_user_id: 0,
+                            sp_entity_id: entityId,
+                            time: from.format()
+                        }));
+                    const chartData = data.concat(emptyOnes);
+                    this.setState({data: chartData});
                 }
             });
         } else if (scale === "all") {
@@ -204,7 +224,7 @@ class Stats extends React.Component {
             <h2 className="title">{I18n.t("stats.timeScale")}</h2>
             <SelectWrapper
                 defaultValue={scale}
-                options={(spSelected ? defaultScales : defaultScales.filter(s => s !== "all"))
+                options={(toEnabled ? defaultScalesForPeriod : spSelected ? defaultScalesSpSelected : defaultScales)
                     .map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
                 multiple={false}
                 handleChange={this.onChangeScale}/>
@@ -262,7 +282,6 @@ class Stats extends React.Component {
     render() {
         const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state, maximumTo, serviceProvidersDict} = this.state;
         const spSelected = sp !== this.allServiceProviderOption.value;
-        const toEnabled = !displayDetailPerSP;
         const noResult = data.length === 1 && data[0] === "no_results";
         const results = loaded && data.length > 0 && !noResult;
         const idp = this.context.currentUser.currentIdp;
@@ -276,7 +295,7 @@ class Stats extends React.Component {
                             <h1>{I18n.t("stats.filters.name")}</h1>
                         </div>
                         {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP, state)}
-                        {this.renderPeriod(scale, from, to, toEnabled, spSelected)}
+                        {this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected)}
                     </div>
                 </div>
                 <div className="l-right-small">
