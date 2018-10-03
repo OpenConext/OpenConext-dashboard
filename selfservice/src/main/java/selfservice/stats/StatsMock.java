@@ -128,6 +128,8 @@ public class StatsMock implements Stats, Constants {
                 return (long) base * 60 * 60;
             case "day":
                 return (long) base * 24 * 60 * 60;
+            case "week":
+                return (long) base * 7 * 24 * 60 * 60;
             case "month":
                 return (long) base * 30 * 24 * 60 * 60;
             case "quarter":
@@ -147,6 +149,8 @@ public class StatsMock implements Stats, Constants {
                 return 60 * 60;
             case "day":
                 return 24 * 60 * 60;
+            case "week":
+                return 7 * 24 * 60 * 60;
             case "month":
                 return 30 * 24 * 60 * 60;
             case "quarter":

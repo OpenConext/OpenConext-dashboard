@@ -224,7 +224,7 @@ class Stats extends React.Component {
             <h2 className="title">{I18n.t("stats.timeScale")}</h2>
             <SelectWrapper
                 defaultValue={scale}
-                options={(toEnabled ? defaultScalesForPeriod : spSelected ? defaultScalesSpSelected : defaultScales)
+                options={(!toEnabled ? defaultScalesForPeriod : spSelected ? defaultScalesSpSelected : defaultScales)
                     .map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
                 multiple={false}
                 handleChange={this.onChangeScale}/>
