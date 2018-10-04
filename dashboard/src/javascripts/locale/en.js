@@ -634,7 +634,7 @@ I18n.translations.en = {
             }
         },
         attribute_map: {
-            "Shib-uid": {
+            "uid": {
                 name: "UID",
                 description: "your unique username within your organization"
             },
@@ -650,11 +650,11 @@ I18n.translations.en = {
                 name: "Full Name",
                 description: "your full name"
             },
-            "Shib-displayName": {
+            "displayName": {
                 name: "Display Name",
                 description: "display name as shown in applications"
             },
-            "Shib-email": {
+            "Shib-InetOrgPerson-mail": {
                 name: "E-mailaddress",
                 description: "your e-mailaddress as known within your organization"
             },
@@ -666,7 +666,7 @@ I18n.translations.en = {
                 name: "Scoped relation",
                 description: "scoped relation between your and your organization"
             },
-            "Shib-eduPersonEntitlement": {
+            "eduPersonEntitlement": {
                 name: "Entitlement",
                 description: "entitlement which decides upon your authorization within the application"
             },
@@ -678,7 +678,7 @@ I18n.translations.en = {
                 name: "Preferred Language",
                 description: "a two letter abbreviation according to ISO 639; no subcodes"
             },
-            "Shib-homeOrg": {
+            "schacHomeOrganization": {
                 name: "Organization",
                 description: "name for the organization, making use of the domain name of the organization conform RFC 1035"
             },
@@ -730,7 +730,7 @@ I18n.translations.en = {
                 name: "Identifier",
                 description: "Status of this account in SURFconext"
             },
-            "Shib-memberOf": {
+            "is-member-of": {
                 name: "Membership",
                 description: "Membership of Virtual Organizations and SURFconext."
             }

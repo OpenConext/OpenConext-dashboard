@@ -639,7 +639,7 @@ I18n.translations.nl = {
             }
         },
         attribute_map: {
-            "Shib-uid": {
+            "uid": {
                 name: "UID",
                 description: "jouw unieke gebruikersnaam binnen jouw instelling"
             },
@@ -655,11 +655,11 @@ I18n.translations.nl = {
                 name: "Volledige persoonsnaam",
                 description: "volledige persoonsnaam"
             },
-            "Shib-displayName": {
+            "displayName": {
                 name: "Weergavenaam",
                 description: "weergave naam zoals getoond in applicaties"
             },
-            "Shib-email": {
+            "Shib-InetOrgPerson-mail": {
                 name: "E-mailadres",
                 description: "jouw e-mailadres zoals bekend binnen jouw instelling"
             },
@@ -671,7 +671,7 @@ I18n.translations.nl = {
                 name: "Scoped relation",
                 description: "scoped relatie tussen jou en jouw instelling"
             },
-            "Shib-eduPersonEntitlement": {
+            "eduPersonEntitlement": {
                 name: "Rechtaanduiding",
                 description: "rechtaanduiding; URI (URL of URN) dat een recht op iets aangeeft; wordt bepaald door een contract tussen dienstaanbieder en instelling"
             },
@@ -683,7 +683,7 @@ I18n.translations.nl = {
                 name: "Voorkeurstaal",
                 description: "een tweeletterige afkorting van de voorkeurstaal volgens de ISO 639 taalafkortings codetabel; geen subcodes"
             },
-            "Shib-homeOrg": {
+            "schacHomeOrganization": {
                 name: "Organisatie",
                 description: "aanduiding voor de organisatie van een persoon gebruikmakend van de domeinnaam van de organisatie; syntax conform RFC 1035"
             },
@@ -735,7 +735,7 @@ I18n.translations.nl = {
                 name: "Identifier",
                 description: "Status van deze account in SURFconext"
             },
-            "Shib-memberOf": {
+            "is-member-of": {
                 name: "Lidmaatschap",
                 description: "Lidmaatschap van virtuele organisaties en SURFconext"
             },

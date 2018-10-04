@@ -86,7 +86,7 @@ public class EnrichJsonTest {
       ARP arp = new ARP();
       arp.setNoArp(false);
       arp.setNoAttrArp(false);
-      arp.setAttributes(ImmutableMap.of("Shib-email", asList("bar")));
+      arp.setAttributes(ImmutableMap.of("Shib-InetOrgPerson-mail", asList("bar")));
       service.setArp(arp);
     });
 

@@ -6,16 +6,16 @@ public enum ShibbolethHeader {
 
     Name_Id("name-id"),
     Shib_Authenticating_Authority("Shib-Authenticating-Authority"),
-    Shib_DisplayName("Shib-displayName"),
-    Shib_Email("Shib-email"),
-    Shib_HomeOrg("Shib-homeOrg"),
-    Shib_Uid("Shib-uid"),
+    Shib_DisplayName("displayName"),
+    Shib_Email("Shib-InetOrgPerson-mail"),
+    Shib_HomeOrg("schacHomeOrganization"),
+    Shib_Uid("uid"),
     Shib_SurName("Shib-surName"),
     Shib_GivenName("Shib-givenName"),
     Shib_CommonName("Shib-commonName"),
     Shib_EduPersonAffiliation("Shib-eduPersonAffiliation"),
     Shib_EduPersonScopedAffiliation("Shib-eduPersonScopedAffiliation"),
-    Shib_EduPersonEntitlement("Shib-eduPersonEntitlement"),
+    Shib_EduPersonEntitlement("eduPersonEntitlement"),
     Shib_EduPersonPN("Shib-eduPersonPN"),
     Shib_PreferredLanguage("Shib-preferredLanguage"),
     Shib_SchacHomeOrganizationType("Shib-schacHomeOrganizationType"),
@@ -27,7 +27,7 @@ public enum ShibbolethHeader {
     Shib_UserStatus("Shib-userStatus"),
     Shib_Accountstatus("Shib-accountstatus"),
     Shib_VoName("Shib-voName"),
-    Shib_MemberOf("Shib-memberOf"),
+    Shib_MemberOf("is-member-of"),
     Shib_SchacPersonalUniqueCode("Shib-schacPersonalUniqueCode");
 
     private final String value;
