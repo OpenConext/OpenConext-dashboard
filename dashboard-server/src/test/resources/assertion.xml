@@ -58,7 +58,7 @@
   </saml:Subject>
   <saml:Conditions NotBefore="2012-05-31T11:25:42Z" NotOnOrAfter="2012-05-31T11:30:42Z">
     <saml:AudienceRestriction>
-      <saml:Audience>http://local-selfservice</saml:Audience>
+      <saml:Audience>http://local-dashboard</saml:Audience>
     </saml:AudienceRestriction>
   </saml:Conditions>
   <saml:AuthnStatement AuthnInstant="2012-05-31T11:25:42Z" SessionIndex="a7ffe0e12b8d5fcfe7c72daa2f806bc1">

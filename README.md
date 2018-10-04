@@ -29,7 +29,7 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 
 #### [The Server](#server)
 
-    cd selfservice
+    cd dashboard
 
 To build:
 
@@ -45,7 +45,7 @@ If you want to debug you can either debug the Application in your IDE or use:
     
 #### [Feature toggles](#feature_toggles)
 
-In the [application.properties](selfservice/src/main/resources/application.properties) file you can disable / enable
+In the [application.properties](dashboard-server/src/main/resources/application.properties) file you can disable / enable
 all remote interfaces like JIRA, Mail, SAB, VOOT, Statistics, PDP, OIDC, Manage by setting the `dashboard.feature.X`
 to `false` or `true`. Default they are all disabled and mock implementations are used. Using ansible for
 deployment they can enabled.
@@ -68,7 +68,7 @@ To run locally:
 
 The browse to the [application homepage](http://localhost:3000/services?mockUser=admin).
 
-A list of available log-ins can be found in the mocked implementation of the [VootClient](selfservice/src/main/java/selfservice/shibboleth/mock/MockShibbolethFilter.java).
+A list of available log-ins can be found in the mocked implementation of the [VootClient](dashboard-server/src/main/java/dashboard/shibboleth/mock/MockShibbolethFilter.java).
 
 ### [Manage queries](#manage_queries)
 ```
