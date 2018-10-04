@@ -17,16 +17,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>org.surfnet.coin</groupId>
-        <artifactId>coin-selfservice-parent</artifactId>
-        <version>7.0.0</version>
+        <groupId>org.openconext</groupId>
+        <artifactId>dashboard</artifactId>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>selfservice</artifactId>
+    <artifactId>dashboard-server</artifactId>
     <packaging>jar</packaging>
     <version>7.0.6-SNAPSHOT</version>
-    <name>OpenConext : selfservice</name>
+    <name>OpenConext-DashBoard-server</name>
     <properties>
         <jetty.host>localhost</jetty.host>
         <app.timestamp>${maven.build.timestamp}</app.timestamp>
