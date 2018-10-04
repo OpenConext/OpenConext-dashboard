@@ -40,31 +40,31 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     static {
         shibHeaders = ImmutableMap.<String, ShibbolethHeader>builder()
-            .put("urn:mace:dir:attribute-def:uid", Shib_Uid)
-            .put("urn:mace:dir:attribute-def:sn", Shib_SurName)
-            .put("urn:mace:dir:attribute-def:givenName", Shib_GivenName)
-            .put("urn:mace:dir:attribute-def:cn", Shib_CommonName)
-            .put("urn:mace:dir:attribute-def:displayName", Shib_DisplayName)
-            .put("urn:mace:dir:attribute-def:mail", Shib_Email)
-            .put("urn:mace:dir:attribute-def:eduPersonAffiliation", Shib_EduPersonAffiliation)
-            .put("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", Shib_EduPersonScopedAffiliation)
-            .put("urn:mace:dir:attribute-def:eduPersonEntitlement", Shib_EduPersonEntitlement)
-            .put("urn:mace:dir:attribute-def:isMemberOf", Shib_MemberOf)
-            .put("urn:mace:dir:attribute-def:eduPersonPrincipalName", Shib_EduPersonPN)
-            .put("urn:mace:dir:attribute-def:preferredLanguage", Shib_PreferredLanguage)
-            .put("urn:mace:terena.org:attribute-def:schacHomeOrganization", Shib_HomeOrg)
-            .put("urn:mace:terena.org:attribute-def:schacHomeOrganizationType", Shib_SchacHomeOrganizationType)
-            .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization",
-                Shib_NlEduPersonHomeOrganization)
-            .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch", Shib_NlEduPersonStudyBranch)
-            .put("urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer", Shib_NlStudielinkNummer)
-            .put("urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier", Shib_NlDigitalAuthorIdentifier)
-            .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit", Shib_NlEduPersonOrgUnit)
-            .put("urn:schac:attribute-def:schacPersonalUniqueCode", Shib_SchacPersonalUniqueCode)
-            .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1", Shib_UserStatus)
-            .put("urn:oid:1.3.6.1.4.1.5923.1.1.1.1", Shib_Accountstatus)
-            .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2", Shib_VoName)
-            .build();
+                .put("urn:mace:dir:attribute-def:uid", Shib_Uid)
+                .put("urn:mace:dir:attribute-def:sn", Shib_SurName)
+                .put("urn:mace:dir:attribute-def:givenName", Shib_GivenName)
+                .put("urn:mace:dir:attribute-def:cn", Shib_CommonName)
+                .put("urn:mace:dir:attribute-def:displayName", Shib_DisplayName)
+                .put("urn:mace:dir:attribute-def:mail", Shib_Email)
+                .put("urn:mace:dir:attribute-def:eduPersonAffiliation", Shib_EduPersonAffiliation)
+                .put("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", Shib_EduPersonScopedAffiliation)
+                .put("urn:mace:dir:attribute-def:eduPersonEntitlement", Shib_EduPersonEntitlement)
+                .put("urn:mace:dir:attribute-def:isMemberOf", Shib_MemberOf)
+                .put("urn:mace:dir:attribute-def:eduPersonPrincipalName", Shib_EduPersonPN)
+                .put("urn:mace:dir:attribute-def:preferredLanguage", Shib_PreferredLanguage)
+                .put("urn:mace:terena.org:attribute-def:schacHomeOrganization", Shib_HomeOrg)
+                .put("urn:mace:terena.org:attribute-def:schacHomeOrganizationType", Shib_SchacHomeOrganizationType)
+                .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonHomeOrganization",
+                        Shib_NlEduPersonHomeOrganization)
+                .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch", Shib_NlEduPersonStudyBranch)
+                .put("urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer", Shib_NlStudielinkNummer)
+                .put("urn:mace:surffederatie.nl:attribute-def:nlDigitalAuthorIdentifier", Shib_NlDigitalAuthorIdentifier)
+                .put("urn:mace:surffederatie_nl:attribute-def:nlEduPersonOrgUnit", Shib_NlEduPersonOrgUnit)
+                .put("urn:schac:attribute-def:schacPersonalUniqueCode", Shib_SchacPersonalUniqueCode)
+                .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.1", Shib_UserStatus)
+                .put("urn:oid:1.3.6.1.4.1.5923.1.1.1.1", Shib_Accountstatus)
+                .put("urn:oid:1.3.6.1.4.1.1076.20.100.10.10.2", Shib_VoName)
+                .build();
     }
 
     private Manage manage;
@@ -95,25 +95,25 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
-        String uid = getFirstShibHeaderValue(Name_Id, request)
-            .orElseThrow(() -> new IllegalArgumentException(String.format("Missing name-id Shibboleth header (%s)",
-                request.getRequestURL())));
-
-        String idpId = getFirstShibHeaderValue(Shib_Authenticating_Authority, request)
-            .orElseThrow(() -> new IllegalArgumentException("Missing Shib-Authenticating-Authority Shibboleth header"));
-
-        if (LOG.isDebugEnabled()) {
-            Enumeration<String> headerNames = request.getHeaderNames();
-            if (headerNames != null) {
-                ArrayList<String> list = Collections.list(headerNames);
-                LOG.debug("Received headers for {}: {} ", uid, list.stream().collect(toMap(
+        Enumeration<String> headerNames = request.getHeaderNames();
+        if (headerNames != null) {
+            ArrayList<String> list = Collections.list(headerNames);
+            LOG.info("Received headers {}", list.stream().collect(toMap(
                     name -> name,
                     name -> {
                         Enumeration<String> headers = request.getHeaders(name);
                         return headers != null ? Collections.list(headers) : Collections.emptyList();
                     })));
-            }
         }
+
+        String uid = getFirstShibHeaderValue(Name_Id, request)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
+                        Name_Id.getValue(), request.getRequestURL())));
+
+        String idpId = getFirstShibHeaderValue(Shib_Authenticating_Authority, request)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
+                        Shib_Authenticating_Authority.getValue(), request.getRequestURL())));
+
 
         CoinUser coinUser = new CoinUser();
         coinUser.setUid(uid);
@@ -122,8 +122,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
 
         Map<ShibbolethHeader, List<String>> attributes = shibHeaders.values().stream()
-            .filter(h -> StringUtils.hasText(request.getHeader(h.getValue())))
-            .collect(toMap(h -> h, h -> getShibHeaderValues(h, request)));
+                .filter(h -> StringUtils.hasText(request.getHeader(h.getValue())))
+                .collect(toMap(h -> h, h -> getShibHeaderValues(h, request)));
         coinUser.setAttributeMap(attributes);
 
         List<String> groups = getShibHeaderValues(Shib_MemberOf, request);
@@ -150,9 +150,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         }
 
         institutionIdentityProviders.stream()
-            .filter(idp -> hasText(idp.getInstitutionId()))
-            .findFirst()
-            .ifPresent(idp -> coinUser.setInstitutionId(idp.getInstitutionId()));
+                .filter(idp -> hasText(idp.getInstitutionId()))
+                .findFirst()
+                .ifPresent(idp -> coinUser.setInstitutionId(idp.getInstitutionId()));
 
         return coinUser;
     }
@@ -202,10 +202,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     private IdentityProvider getCurrentIdp(String idpId, List<IdentityProvider> institutionIdentityProviders) {
         return institutionIdentityProviders.stream()
-            .filter(provider -> provider.getId().equals(idpId))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(String.format("The Idp('%s') is not present in the list " +
-                "of Idp's returned by the CsaClient", idpId)));
+                .filter(provider -> provider.getId().equals(idpId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("The Idp('%s') is not present in the list " +
+                        "of Idp's returned by the CsaClient", idpId)));
     }
 
     public void setDashboardAdmin(String dashboardAdmin) {
