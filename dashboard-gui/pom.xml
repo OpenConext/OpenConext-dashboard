@@ -7,7 +7,7 @@
        <relativePath>../pom.xml</relativePath>
    </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>dashboard-client</artifactId>
+    <artifactId>dashboard-gui</artifactId>
     <packaging>pom</packaging>
     <version>7.0.6-SNAPSHOT</version>
     <name>OpenConext : dashboard</name>

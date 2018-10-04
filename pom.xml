@@ -25,7 +25,7 @@
 
   <modules>
     <module>dashboard-server</module>
-    <module>dashboard-client</module>
+    <module>dashboard-gui</module>
   </modules>
 
   <groupId>org.openconext</groupId>
