@@ -96,9 +96,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
-        if (headerNames != null) {
+        if (headerNames != null && LOG.isDebugEnabled()) {
             ArrayList<String> list = Collections.list(headerNames);
-            LOG.info("Received headers {}", list.stream().collect(toMap(
+            LOG.debug("Received headers {}", list.stream().collect(toMap(
                     name -> name,
                     name -> {
                         Enumeration<String> headers = request.getHeaders(name);

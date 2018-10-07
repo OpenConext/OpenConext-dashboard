@@ -189,11 +189,8 @@ class Stats extends React.Component {
 
     onChangeDisplayDetailPerSP = e => {
         const displayDetailPerSP = e.target.checked;
-        const {scale} = this.state;
-        let additionalState = {};
-        if (["minute", "hour", "all"].includes(scale)) {
-            additionalState.scale = "year";
-        }
+        const additionalState = {from : moment().subtract(1, "day"), to: moment()};
+        additionalState.scale = displayDetailPerSP ? "year" : "minute";
         this.setState({data: [], displayDetailPerSP: displayDetailPerSP, ...additionalState}, this.refresh);
     };
 
