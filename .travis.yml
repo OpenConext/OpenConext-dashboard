@@ -11,10 +11,10 @@ cache:
     - $HOME/.m2
     - node_modules
 install:
-  - cd dashboard-client && nvm install $(cat .node-version) && npm install && cd ..
+  - cd dashboard-gui && nvm install $(cat .node-version) && npm install && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
   - mvn verify -B
-  - cd dashboard-client && nvm install $(cat .node-version) && npm build
+  - cd dashboard-gui && nvm install $(cat .node-version) && npm build
 after_success:
   - bash <(curl -s https://codecov.io/bash)
