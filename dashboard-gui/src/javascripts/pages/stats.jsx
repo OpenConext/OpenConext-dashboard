@@ -38,7 +38,7 @@ class Stats extends React.Component {
             serviceProvidersDict: {},
             displayDetailPerSP: false,
             state: states[1],
-            maximumTo: false
+            maximumTo: true
         };
     }
 
