@@ -279,7 +279,7 @@ class Stats extends React.Component {
     render() {
         const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state, maximumTo, serviceProvidersDict} = this.state;
         const spSelected = sp !== this.allServiceProviderOption.value;
-        const noResult = data.length === 1 && data[0] === "no_results";
+        const noResult = (data.length === 1 && data[0] === "no_results") || (loaded && data.length === 0);
         const results = loaded && data.length > 0 && !noResult;
         const idp = this.context.currentUser.currentIdp;
         const identityProvidersDict = {};
