@@ -101,64 +101,33 @@ public class StatsMock implements Stats, Constants {
         }
     }
 
-    private int calendarConstant(String period) {
-        if (period.length() == 4) {
-            return Calendar.YEAR;
-        }
-        switch (period.substring(4, 5).toLowerCase()) {
-            case "d":
-                return Calendar.DAY_OF_YEAR;
-            case "w":
-                return Calendar.WEEK_OF_YEAR;
-            case "m":
-                return Calendar.MONTH;
-            case "q":
-                return Calendar.MONTH;
-            default:
-                throw new IllegalArgumentException("Unknown period:" + period);
-        }
-    }
-
     private long countValue(String scale) {
         double base = Math.floor(10 * (Math.random() + 1));
+        return doSwitch(scale, (long) base);
+    }
+
+    private long doSwitch(String scale, long base) {
         switch (scale) {
             case "minute":
-                return (long) base * 60;
+                return base * 60;
             case "hour":
-                return (long) base * 60 * 60;
+                return base * 60 * 60;
             case "day":
-                return (long) base * 24 * 60 * 60;
+                return base * 24 * 60 * 60;
             case "week":
-                return (long) base * 7 * 24 * 60 * 60;
+                return base * 7 * 24 * 60 * 60;
             case "month":
-                return (long) base * 30 * 24 * 60 * 60;
+                return base * 30 * 24 * 60 * 60;
             case "quarter":
-                return (long) base * 90 * 24 * 60 * 60;
+                return base * 90 * 24 * 60 * 60;
             case "year":
-                return (long) base * 365 * 24 * 60 * 60;
+                return base * 365 * 24 * 60 * 60;
             default:
                 throw new IllegalArgumentException("Unknown scale:" + scale);
         }
     }
 
     private long step(String scale) {
-        switch (scale) {
-            case "minute":
-                return 60;
-            case "hour":
-                return 60 * 60;
-            case "day":
-                return 24 * 60 * 60;
-            case "week":
-                return 7 * 24 * 60 * 60;
-            case "month":
-                return 30 * 24 * 60 * 60;
-            case "quarter":
-                return 90 * 24 * 60 * 60;
-            case "year":
-                return 365 * 24 * 60 * 60;
-            default:
-                throw new IllegalArgumentException("Unknown scale:" + scale);
-        }
+        return doSwitch(scale, 1L);
     }
 }
