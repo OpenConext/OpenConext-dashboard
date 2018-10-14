@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import I18n from "i18n-js";
 import moment from "moment";
 
 import {AppShape} from "../shapes";
+import Stats from "../pages/stats";
 
 class ApplicationUsagePanel extends React.Component {
     constructor() {
@@ -25,17 +24,8 @@ class ApplicationUsagePanel extends React.Component {
     render() {
         return (
             <div className="l-middle">
-                <div className="mod-title">
-                    <h1>{I18n.t("application_usage_panel.title")}</h1>
-                </div>
                 <div className="mod-usage">
-                    <div className="header">
-                        <div className="options">
-                        </div>
-                        <div style={{clear: "both"}}></div>
-                    </div>
-
-                    {/*<Chart chart={this.state.chart} />*/}
+                    <Stats view="minimal" sp={this.props.app.spEntityId}/>
                 </div>
             </div>
         );

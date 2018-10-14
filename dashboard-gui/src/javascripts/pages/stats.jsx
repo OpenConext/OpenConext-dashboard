@@ -19,13 +19,13 @@ import stopEvent from "../utils/stop";
 import {isEmpty} from "../utils/utils";
 
 const states = ["all", "prodaccepted", "testaccepted"];
-const minDiffByScale = {day: 1, week: 7, month: 31, quarter: 90, year: 365}
+const minDiffByScale = {day: 1, week: 7, month: 31, quarter: 90, year: 365};
 
 
 class Stats extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props, context) {
+        super(props, context);
         this.allServiceProviderOption = {display: I18n.t("stats.filters.allServiceProviders"), value: "all"};
         this.state = {
             from: moment().subtract(1, "day"),
@@ -33,7 +33,7 @@ class Stats extends React.Component {
             scale: "minute",
             loaded: false,
             data: [],
-            sp: this.allServiceProviderOption.value,
+            sp: this.props.sp || this.allServiceProviderOption.value,
             allSp: [],
             serviceProvidersDict: {},
             displayDetailPerSP: false,
@@ -43,8 +43,9 @@ class Stats extends React.Component {
     }
 
     componentWillMount() {
-        const {from, to, scale, state} = this.state;
-        Promise.all([loginTimeFrame(from.unix(), to.unix(), scale, undefined, state), statsServiceProviders()])
+        const {from, to, scale, state, sp} = this.state;
+        Promise.all([loginTimeFrame(from.unix(), to.unix(), scale,
+            sp === this.allServiceProviderOption.value ? undefined : sp, state), statsServiceProviders()])
             .then(res => {
                 let data = res[0].filter(p => p.count_user_id > 0);
                 data = data.slice(1, data.length - 1);
@@ -216,8 +217,8 @@ class Stats extends React.Component {
                 handleChange={val => this.setState({data: [], state: val}, this.refresh)}/>
         </fieldset>;
 
-    renderPeriod = (scale, from, to, toEnabled, spSelected) =>
-        <fieldset>
+    renderPeriod = (scale, from, to, toEnabled, spSelected, className = "") =>
+        <fieldset className={className}>
             <h2 className="title">{I18n.t("stats.timeScale")}</h2>
             <SelectWrapper
                 defaultValue={scale}
@@ -278,15 +279,17 @@ class Stats extends React.Component {
 
     render() {
         const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state, maximumTo, serviceProvidersDict} = this.state;
+        const fullView = this.props.view === "full";
         const spSelected = sp !== this.allServiceProviderOption.value;
         const noResult = (data.length === 1 && data[0] === "no_results") || (loaded && data.length === 0);
         const results = loaded && data.length > 0 && !noResult;
         const idp = this.context.currentUser.currentIdp;
         const identityProvidersDict = {};
         identityProvidersDict[idp.id] = I18n.locale === "en" ? idp.displayNames["en"] : idp.displayNames["nl"];
+        const classNameView = fullView ? "l-right-small" : "minimal";
         return (
             <div className="l-main stats">
-                <div className="l-left-large">
+                {fullView && <div className="l-left-large">
                     <div className="mod-filters">
                         <div className="header">
                             <h1>{I18n.t("stats.filters.name")}</h1>
@@ -294,9 +297,10 @@ class Stats extends React.Component {
                         {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP, state)}
                         {this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected)}
                     </div>
-                </div>
-                <div className="l-right-small">
+                </div>}
+                <div className={classNameView}>
                     <div className="mod-chart">
+                        {!fullView && this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected, "horizontal")}
                         {results && <Chart data={data}
                                            scale={scale}
                                            includeUniques={scale !== "minutes" && scale !== "hour"}
@@ -330,6 +334,10 @@ class Stats extends React.Component {
 
 Stats.contextTypes = {
     currentUser: PropTypes.object
+};
+PropTypes.Stats = {
+    view: PropTypes.string,
+    sp: PropTypes.string,
 };
 
 export default Stats;

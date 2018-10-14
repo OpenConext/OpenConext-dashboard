@@ -50,7 +50,7 @@ class App extends React.Component {
                         <Route exact path="/policies" component={PolicyOverview}/>
                         <Route exact path="/history" component={History}/>
                         <Route exact path="/profile" component={Profile}/>
-                        <Route exact path="/statistics" component={Stats}/>
+                        <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>
                         <Route exact path="/my-idp" component={MyIdp}/>
                         <Route exact path="/my-idp/edit" component={EditMyIdp}/>
                         <Route exact path="/users/search" component={SearchUser}/>
