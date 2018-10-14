@@ -20,7 +20,6 @@ const store = {
     hiddenFacets: null
 };
 
-
 const pageCount = 30;
 
 class AppOverview extends React.Component {

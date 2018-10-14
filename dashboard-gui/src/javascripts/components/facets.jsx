@@ -108,12 +108,13 @@ class Facets extends React.Component {
         const facetName = facet.searchValue || facet.name;
         const value = facetValue.searchValue || facetValue.value;
         const facetValueLabel = facetValue.value === "1.3.6.1.4.1.1076.20.40.40.1" ? "CollabPersonId" : facetValue.value;
+        const checked = Array.isArray(this.props.selectedFacets[facetName]) && this.props.selectedFacets[facetName].indexOf(value) > -1;
         return (
             <label key={facetValue.value} className={facetValue.count === 0 ? "greyed-out" : ""}>
-                <input
-                    checked={Array.isArray(this.props.selectedFacets[facetName]) && this.props.selectedFacets[facetName].indexOf(value) > -1}
-                    type="checkbox"
-                    onChange={this.handleSelectFacet(facetName, value)}/>
+                <input className={checked ? "checked" : "unchecked"}
+                       checked={checked}
+                       type="checkbox"
+                       onChange={this.handleSelectFacet(facetName, value)}/>
                 {facetValueLabel} ({facetValue.count})
             </label>
         );
@@ -121,7 +122,8 @@ class Facets extends React.Component {
 
     renderDownloadButton() {
         return (
-            <a href="/download" className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
+            <a href="/download"
+               className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
                onClick={this.handleDownload.bind(this)}>{I18n.t("facets.download")}</a>
         );
     }
@@ -133,7 +135,7 @@ class Facets extends React.Component {
 
     handleSelectFacet(facet, facetValue) {
         return function (e) {
-            stopEvent(e);
+           // stopEvent(e);
             this.props.onChange(facet, facetValue, e.target.checked);
         }.bind(this);
     }

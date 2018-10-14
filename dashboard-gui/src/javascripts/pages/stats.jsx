@@ -27,10 +27,11 @@ class Stats extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.allServiceProviderOption = {display: I18n.t("stats.filters.allServiceProviders"), value: "all"};
+        const fullView = this.props.view === "full";
         this.state = {
-            from: moment().subtract(1, "day"),
+            from: fullView? moment().subtract(1, "day") : moment().startOf("year"),
             to: moment(),
-            scale: "minute",
+            scale: fullView ? "minute" : "day",
             loaded: false,
             data: [],
             sp: this.props.sp || this.allServiceProviderOption.value,
