@@ -19,7 +19,7 @@ import stopEvent from "../utils/stop";
 import {isEmpty} from "../utils/utils";
 
 const states = ["all", "prodaccepted", "testaccepted"];
-const minDiffByScale = {day: 1, week: 7, month: 31, quarter: 90, year: 365};
+const minDiffByScale = {day: 30, week: 365, month: 365, quarter: 365, year: 365 * 5};
 
 
 class Stats extends React.Component {
