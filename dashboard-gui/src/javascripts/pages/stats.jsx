@@ -11,7 +11,13 @@ import {
     getPeriod
 } from "../utils/time";
 import SelectWrapper from "../components/select_wrapper";
-import {loginAggregated, loginTimeFrame, statsServiceProviders, uniqueLoginCount} from "../api";
+import {
+    getConnectedServiceProviders,
+    loginAggregated,
+    loginTimeFrame,
+    statsServiceProviders,
+    uniqueLoginCount
+} from "../api";
 import "react-datepicker/dist/react-datepicker.css";
 import CheckBox from "../components/checkbox";
 import Chart from "../components/chart";
@@ -29,7 +35,7 @@ class Stats extends React.Component {
         this.allServiceProviderOption = {display: I18n.t("stats.filters.allServiceProviders"), value: "all"};
         const fullView = this.props.view === "full";
         this.state = {
-            from: fullView? moment().subtract(1, "day") : moment().startOf("year"),
+            from: fullView ? moment().subtract(1, "day") : moment().startOf("year"),
             to: moment(),
             scale: fullView ? "minute" : "day",
             loaded: false,
@@ -66,7 +72,11 @@ class Stats extends React.Component {
         const {from, to, scale, sp, displayDetailPerSP, state} = this.state;
         const spEntityId = sp === this.allServiceProviderOption.value ? undefined : sp;
         if (displayDetailPerSP) {
-            loginAggregated(getPeriod(from, scale), state, spEntityId).then(res => {
+            Promise.all(
+                [loginAggregated(getPeriod(from, scale), state, spEntityId),
+                    getConnectedServiceProviders()
+                ]).then(results => {
+                const res = results[0];
                 if (isEmpty(res)) {
                     this.setState({data: res});
                 } else if (res.length === 1 && res[0] === "no_results") {
@@ -83,18 +93,17 @@ class Stats extends React.Component {
                         p.distinct_count_user_id = uniqueOnes[key] || 0;
                         return p;
                     });
-                    // const linkedSpEntityIds = Object.keys(this.state.serviceProvidersDict);
-                    // const emptyOnes = linkedSpEntityIds
-                    //     .filter(entityId => isEmpty(uniqueOnes[entityId]))
-                    //     .map(entityId => ({
-                    //         count_user_id: 0,
-                    //         distinct_count_user_id: 0,
-                    //         sp_entity_id: entityId,
-                    //         time: from.format()
-                    //     }));
-                    // const chartData = data.concat(emptyOnes);
-                    // this.setState({data: chartData});
-                    this.setState({data: data});
+                    const fromFormatted = from.format();
+                    const emptyOnes = results[1].payload
+                        .filter(sp => isEmpty(uniqueOnes[sp.spEntityId]))
+                        .map(sp => ({
+                            count_user_id: 0,
+                            distinct_count_user_id: 0,
+                            sp_entity_id: sp.spEntityId,
+                            time: fromFormatted
+                        }));
+                    const chartData = data.concat(emptyOnes);
+                    this.setState({data: chartData});
                 }
             });
         } else if (scale === "all") {
@@ -192,7 +201,7 @@ class Stats extends React.Component {
 
     onChangeDisplayDetailPerSP = e => {
         const displayDetailPerSP = e.target.checked;
-        const additionalState = {from : moment().subtract(1, "day"), to: moment()};
+        const additionalState = {from: moment().subtract(1, "day"), to: moment()};
         additionalState.scale = displayDetailPerSP ? "year" : "minute";
         this.setState({data: [], displayDetailPerSP: displayDetailPerSP, ...additionalState}, this.refresh);
     };
