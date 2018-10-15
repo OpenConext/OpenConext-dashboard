@@ -25,6 +25,7 @@ const navigation = () => ({
 const exporting = () => ({
     enabled: true,
     allowHTML: true,
+    filename: "SURFconext logins",
     buttons: {
         contextButton: {
             symbolStroke: '#4DB2CF',
@@ -46,11 +47,6 @@ const exporting = () => ({
 });
 
 export default class Chart extends React.PureComponent {
-
-    constructor(props) {
-        super(props);
-        this.state = {displayChart: true};
-    }
 
     nonAggregatedOptions = (data, includeUniques, guest, scale) => {
         const series = [{
@@ -198,7 +194,7 @@ export default class Chart extends React.PureComponent {
     };
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-                   serviceProvidersDict, guest, displayChart, scale) => {
+                   serviceProvidersDict, guest, scale) => {
         const userCount = data.filter(p => p.sp_entity_id);
         const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, identityProvidersDict, serviceProvidersDict)) : [];
 
@@ -207,11 +203,10 @@ export default class Chart extends React.PureComponent {
         const rightClassName = this.props.rightDisabled ? "disabled" : "";
         return (
             <section className="chart">
-                {title && <span className={`title ${displayChart ? "" : "hide"}`}
-                                onClick={() => this.setState({displayChart: !this.state.displayChart})}>{title}</span>}
-                {displayChart && <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
-                                                     constructorType={aggregate ? "chart" : "stockChart"}
-                                                     options={options}/>}
+                {title && <span className="title">{title}</span>}
+                <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
+                                    constructorType={aggregate ? "chart" : "stockChart"}
+                                    options={options}/>
                 {(!aggregate && !this.props.noTimeFrame) && <section className="navigate">
                     <span onClick={this.props.goLeft}><i className="fa fa-arrow-left"></i></span>
                     <span onClick={this.props.goRight}><i className={`fa fa-arrow-right ${rightClassName}`}></i></span>
@@ -221,14 +216,13 @@ export default class Chart extends React.PureComponent {
     };
 
     render() {
-        const {displayChart} = this.state;
         const {
             data, scale, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
             serviceProvidersDict, guest
         } = this.props;
         return <div className="chart-container">
             {this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-                serviceProvidersDict, guest, displayChart, scale)}
+                serviceProvidersDict, guest, scale)}
         </div>
     };
 }

@@ -252,7 +252,8 @@ I18n.translations.en = {
         cp_type: "Type",
         cp_type_translate_technical: "Technical",
         cp_type_translate_administrative: "Administrative",
-        cp_type_translate_help: "Support"
+        cp_type_translate_help: "Support",
+        cp_type_translate_support: "Support"
     },
     privacy_panel: {
         title: "AVG Information",

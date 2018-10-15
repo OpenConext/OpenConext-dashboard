@@ -70,14 +70,15 @@ class Stats extends React.Component {
     }
 
     refresh = () => {
+        this.setState({loaded: false});
         const {from, to, scale, sp, displayDetailPerSP, state} = this.state;
         const spEntityId = sp === this.allServiceProviderOption.value ? undefined : sp;
         if (displayDetailPerSP) {
             loginAggregated(getPeriod(from, scale), state, spEntityId).then(res => {
                 if (isEmpty(res)) {
-                    this.setState({data: res});
+                    this.setState({data: res, loaded: true});
                 } else if (res.length === 1 && res[0] === "no_results") {
-                    this.setState({data: res});
+                    this.setState({data: res, loaded: true});
                 } else {
                     const sorted = res.filter(p => p.count_user_id).sort((a, b) => b.count_user_id - a.count_user_id);
                     const uniqueOnes = res.filter(p => p.distinct_count_user_id).reduce((acc, p) => {
@@ -101,14 +102,14 @@ class Stats extends React.Component {
                                 time: fromFormatted
                             }));
                         const chartData = data.concat(emptyOnes);
-                        this.setState({data: chartData});
+                        this.setState({data: chartData, loaded: true});
                     } else {
-                        this.setState({data: data});
+                        this.setState({data: data, loaded: true});
                     }
                 }
             });
         } else if (scale === "all") {
-            uniqueLoginCount(from.unix(), to.unix(), spEntityId, state).then(res => this.setState({data: res}));
+            uniqueLoginCount(from.unix(), to.unix(), spEntityId, state).then(res => this.setState({data: res, loaded: true}));
         } else {
             loginTimeFrame(from.unix(), to.unix(), scale, spEntityId, state).then(res => {
                 if (scale === "minute" || scale === "hour") {
@@ -116,7 +117,7 @@ class Stats extends React.Component {
                     res = res.filter(p => p.time <= now);
                     res = res.slice(1, res.length - 1);
                 }
-                this.setState({data: res})
+                this.setState({data: res, loaded: true})
             });
         }
     };

@@ -256,7 +256,8 @@ I18n.translations.nl = {
         cp_type: "Type",
         cp_type_translate_technical: "Technical",
         cp_type_translate_administrative: "Administrative",
-        cp_type_translate_help: "Support"
+        cp_type_translate_help: "Support",
+        cp_type_translate_support: "Support"
     },
     privacy_panel: {
         title: "AVG Informatie",
@@ -390,7 +391,7 @@ I18n.translations.nl = {
         userCount: "Totale logins",
         uniqueUserCount: "Unieke gebruikers",
         loading: "Ophalen logins....",
-        noResults: "Geen logins data voor de opgegeven periode.",
+        noResults: "Geen login data voor de opgegeven periode.",
         date: "Datum",
         logins: "Logins per {{scale}}",
         allLogins: "# Logins",
