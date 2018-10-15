@@ -49,7 +49,8 @@ class Stats extends React.Component {
         Promise.all([loginTimeFrame(from.unix(), to.unix(), scale,
             sp === this.allServiceProviderOption.value ? undefined : sp, state), getConnectedServiceProviders()])
             .then(res => {
-                let data = res[0].filter(p => p.count_user_id > 0);
+                const now = moment().unix() * 1000;
+                let data = res[0].filter(p => p.time <= now);
                 data = data.slice(1, data.length - 1);
                 const options = res[1].payload.map(sp => ({
                     value: sp.spEntityId,
@@ -72,7 +73,7 @@ class Stats extends React.Component {
         const {from, to, scale, sp, displayDetailPerSP, state} = this.state;
         const spEntityId = sp === this.allServiceProviderOption.value ? undefined : sp;
         if (displayDetailPerSP) {
-                loginAggregated(getPeriod(from, scale), state, spEntityId).then(res => {
+            loginAggregated(getPeriod(from, scale), state, spEntityId).then(res => {
                 if (isEmpty(res)) {
                     this.setState({data: res});
                 } else if (res.length === 1 && res[0] === "no_results") {
@@ -89,7 +90,7 @@ class Stats extends React.Component {
                         p.distinct_count_user_id = uniqueOnes[key] || 0;
                         return p;
                     });
-                    if (!sp) {
+                    if (!spEntityId) {
                         const fromFormatted = from.format();
                         const emptyOnes = this.state.connectedServiceProviders
                             .filter(sp => isEmpty(uniqueOnes[sp.value]))
@@ -111,7 +112,8 @@ class Stats extends React.Component {
         } else {
             loginTimeFrame(from.unix(), to.unix(), scale, spEntityId, state).then(res => {
                 if (scale === "minute" || scale === "hour") {
-                    res = res.filter(p => p.count_user_id > 0);
+                    const now = moment().unix() * 1000;
+                    res = res.filter(p => p.time <= now);
                     res = res.slice(1, res.length - 1);
                 }
                 this.setState({data: res})

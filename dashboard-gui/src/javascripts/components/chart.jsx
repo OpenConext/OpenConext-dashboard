@@ -56,13 +56,13 @@ export default class Chart extends React.PureComponent {
         const series = [{
             color: "#D4AF37",
             name: I18n.t("chart.userCount"),
-            data: data.filter(p => p.count_user_id).map(p => [p.time, p.count_user_id])
+            data: data.filter(p => p.count_user_id !== undefined).map(p => [p.time, p.count_user_id])
         }];
         if (includeUniques) {
             series.push({
                 color: "#15A300",
                 name: I18n.t("chart.uniqueUserCount"),
-                data: data.filter(p => p.distinct_count_user_id).map(p => [p.time, p.distinct_count_user_id])
+                data: data.filter(p => p.distinct_count_user_id !== undefined).map(p => [p.time, p.distinct_count_user_id])
             });
         }
         return {
