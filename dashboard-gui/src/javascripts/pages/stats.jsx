@@ -11,13 +11,7 @@ import {
     getPeriod
 } from "../utils/time";
 import SelectWrapper from "../components/select_wrapper";
-import {
-    getConnectedServiceProviders,
-    loginAggregated,
-    loginTimeFrame,
-    statsServiceProviders,
-    uniqueLoginCount
-} from "../api";
+import {getConnectedServiceProviders, loginAggregated, loginTimeFrame, uniqueLoginCount} from "../api";
 import "react-datepicker/dist/react-datepicker.css";
 import CheckBox from "../components/checkbox";
 import Chart from "../components/chart";
@@ -45,25 +39,31 @@ class Stats extends React.Component {
             serviceProvidersDict: {},
             displayDetailPerSP: false,
             state: states[1],
-            maximumTo: true
+            maximumTo: true,
+            connectedServiceProviders: []
         };
     }
 
     componentWillMount() {
         const {from, to, scale, state, sp} = this.state;
         Promise.all([loginTimeFrame(from.unix(), to.unix(), scale,
-            sp === this.allServiceProviderOption.value ? undefined : sp, state), statsServiceProviders()])
+            sp === this.allServiceProviderOption.value ? undefined : sp, state), getConnectedServiceProviders()])
             .then(res => {
                 let data = res[0].filter(p => p.count_user_id > 0);
                 data = data.slice(1, data.length - 1);
+                const options = res[1].payload.map(sp => ({
+                    value: sp.spEntityId,
+                    display: sp.names["en"]
+                }));
                 this.setState({
                     data: data,
                     loaded: true,
-                    allSp: [this.allServiceProviderOption].concat(res[1]),
-                    serviceProvidersDict: res[1].reduce((acc, p) => {
+                    allSp: [this.allServiceProviderOption].concat(options),
+                    serviceProvidersDict: options.reduce((acc, p) => {
                         acc[p.value] = p.display;
                         return acc;
-                    }, {})
+                    }, {}),
+                    connectedServiceProviders: options
                 })
             });
     }
@@ -72,11 +72,7 @@ class Stats extends React.Component {
         const {from, to, scale, sp, displayDetailPerSP, state} = this.state;
         const spEntityId = sp === this.allServiceProviderOption.value ? undefined : sp;
         if (displayDetailPerSP) {
-            Promise.all(
-                [loginAggregated(getPeriod(from, scale), state, spEntityId),
-                    getConnectedServiceProviders()
-                ]).then(results => {
-                const res = results[0];
+                loginAggregated(getPeriod(from, scale), state, spEntityId).then(res => {
                 if (isEmpty(res)) {
                     this.setState({data: res});
                 } else if (res.length === 1 && res[0] === "no_results") {
@@ -93,17 +89,21 @@ class Stats extends React.Component {
                         p.distinct_count_user_id = uniqueOnes[key] || 0;
                         return p;
                     });
-                    const fromFormatted = from.format();
-                    const emptyOnes = results[1].payload
-                        .filter(sp => isEmpty(uniqueOnes[sp.spEntityId]))
-                        .map(sp => ({
-                            count_user_id: 0,
-                            distinct_count_user_id: 0,
-                            sp_entity_id: sp.spEntityId,
-                            time: fromFormatted
-                        }));
-                    const chartData = data.concat(emptyOnes);
-                    this.setState({data: chartData});
+                    if (!sp) {
+                        const fromFormatted = from.format();
+                        const emptyOnes = this.state.connectedServiceProviders
+                            .filter(sp => isEmpty(uniqueOnes[sp.value]))
+                            .map(sp => ({
+                                count_user_id: 0,
+                                distinct_count_user_id: 0,
+                                sp_entity_id: sp.value,
+                                time: fromFormatted
+                            }));
+                        const chartData = data.concat(emptyOnes);
+                        this.setState({data: chartData});
+                    } else {
+                        this.setState({data: data});
+                    }
                 }
             });
         } else if (scale === "all") {

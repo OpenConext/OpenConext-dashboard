@@ -18,9 +18,6 @@ expect.extend({
 
 test("All translations exists in EN and NL", () => {
     const contains = (translation, translationToVerify) => {
-        if (translation === undefined || translation === null || translationToVerify === undefined || translationToVerify === null) {
-            console.log("debugger")
-        }
         Object.keys(translation).forEach(key => {
             expect(translationToVerify).toContainKey(key);
             const value = translation[key];
