@@ -83,17 +83,18 @@ class Stats extends React.Component {
                         p.distinct_count_user_id = uniqueOnes[key] || 0;
                         return p;
                     });
-                    const linkedSpEntityIds = Object.keys(this.state.serviceProvidersDict);
-                    const emptyOnes = linkedSpEntityIds
-                        .filter(entityId => isEmpty(uniqueOnes[entityId]))
-                        .map(entityId => ({
-                            count_user_id: 0,
-                            distinct_count_user_id: 0,
-                            sp_entity_id: entityId,
-                            time: from.format()
-                        }));
-                    const chartData = data.concat(emptyOnes);
-                    this.setState({data: chartData});
+                    // const linkedSpEntityIds = Object.keys(this.state.serviceProvidersDict);
+                    // const emptyOnes = linkedSpEntityIds
+                    //     .filter(entityId => isEmpty(uniqueOnes[entityId]))
+                    //     .map(entityId => ({
+                    //         count_user_id: 0,
+                    //         distinct_count_user_id: 0,
+                    //         sp_entity_id: entityId,
+                    //         time: from.format()
+                    //     }));
+                    // const chartData = data.concat(emptyOnes);
+                    // this.setState({data: chartData});
+                    this.setState({data: data});
                 }
             });
         } else if (scale === "all") {

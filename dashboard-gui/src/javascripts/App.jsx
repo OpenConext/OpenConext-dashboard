@@ -54,9 +54,9 @@ class App extends React.Component {
                         <Route exact path="/my-idp" component={MyIdp}/>
                         <Route exact path="/my-idp/edit" component={EditMyIdp}/>
                         <Route exact path="/users/search" component={SearchUser}/>
+                        <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>
                         <ProtectedRoute currentUser={this.props.currentUser} path="/policies/:id"
                                         component={PolicyDetail}/>
-                        <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>
                         <Route component={NotFound}/>
                     </Switch>
                     <Footer/>
