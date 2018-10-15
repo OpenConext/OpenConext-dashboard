@@ -27,8 +27,12 @@ class Stats extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.allServiceProviderOption = {display: I18n.t("stats.filters.allServiceProviders"), value: "all"};
+        this.state = this.getInitialStateValues();
+    }
+
+    getInitialStateValues() {
         const fullView = this.props.view === "full";
-        this.state = {
+        return {
             from: fullView ? moment().subtract(1, "day") : moment().startOf("year"),
             to: moment(),
             scale: fullView ? "minute" : "day",
@@ -43,6 +47,11 @@ class Stats extends React.Component {
             connectedServiceProviders: []
         };
     }
+
+    reset = e => {
+        stopEvent(e);
+        this.setState(this.getInitialStateValues(), this.refresh);
+    };
 
     componentWillMount() {
         const {from, to, scale, state, sp} = this.state;
@@ -307,6 +316,7 @@ class Stats extends React.Component {
                     <div className="mod-filters">
                         <div className="header">
                             <h1>{I18n.t("stats.filters.name")}</h1>
+                            <a href="reset" className="c-button" onClick={this.reset}>{I18n.t("facets.reset")}</a>
                         </div>
                         {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP, state)}
                         {this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected)}
