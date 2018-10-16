@@ -69,7 +69,7 @@ export default class Chart extends React.PureComponent {
             },
             title: {text: null},
             yAxis: {
-                title: {text: I18n.t("chart.chart", {scale: scale})},
+                title: {text: scale === "all" ? I18n.t("chart.chartAll") : I18n.t("chart.chart", {scale: scale})},
                 labels: {},
                 min: 0,
                 offset: 35,
@@ -92,10 +92,12 @@ export default class Chart extends React.PureComponent {
                         return acc
                     }, "");
                     let m = moment.unix(this.x / 1000);
+                    let dtf = "LLL";
                     if (scale !== "minute" && scale !== "hour") {
                         m = m.utc();
+                        dtf = getDateTimeFormat(scale);
                     }
-                    res += `<span style="font-size: 10px">${m.format("LLL")}</span>`;
+                    res += `<span style="font-size: 10px">${m.format(dtf)}</span>`;
                     return res;
                 },
                 useHTML: true,

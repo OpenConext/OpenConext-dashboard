@@ -33,19 +33,19 @@ public class ServicesImpl implements Services {
     @Override
     public List<Service> getServicesForIdp(String idpEntityId, Locale locale) {
         IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new
-            IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
+                IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
 
         List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
         List<Service> services = allServiceProviders.stream().map(sp -> {
             Service service = this.buildApiService(sp, locale.getLanguage());
             boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
-                .getAllowedEntityIds().contains(sp.getId());
+                    .getAllowedEntityIds().contains(sp.getId());
             boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
             service.setConnected(connectedToIdentityProvider && allowedBySp);
             return service;
         }).filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
-            (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())))
-            .collect(toList());
+                (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())))
+                .collect(toList());
         return services;
     }
 
@@ -63,12 +63,12 @@ public class ServicesImpl implements Services {
     }
 
     private Optional<Service> enrichService(String idpEntityId, Locale locale, Optional<ServiceProvider>
-        serviceProvider) {
+            serviceProvider) {
         IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new
-            IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
+                IllegalArgumentException(String.format("IDP %s does not exists", idpEntityId)));
         return serviceProvider.map(sp -> {
             boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
-                .getAllowedEntityIds().contains(sp.getId());
+                    .getAllowedEntityIds().contains(sp.getId());
             boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
             Service service = this.buildApiService(sp, locale.getLanguage());
             service.setConnected(connectedToIdentityProvider && allowedBySp);
@@ -131,7 +131,7 @@ public class ServicesImpl implements Services {
         service.setNormenkaderPresent(sp.getPrivacyInfo().isGdprIsInWiki());
         service.setAansluitovereenkomstRefused(sp.isAansluitovereenkomstRefused());
         service.setGuestEnabled(sp.isAllowedAll() ||
-            (sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp)));
+                (sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp)));
         service.setManipulationNotes(sp.getManipulationNotes());
         service.setManipulation(sp.isManipulation());
     }
@@ -165,9 +165,8 @@ public class ServicesImpl implements Services {
         // Categories - the category values need to be either in nl or en (as the facet and facet_values are based on
         // the language setting)
         List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : sp.getTypeOfServicesNl();
-        Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", typeOfServices
-            .stream().map
-                (CategoryValue::new).collect(toList()));
+        Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", "type_of_service",
+                typeOfServices.stream().map(CategoryValue::new).collect(toList()));
         service.setCategories(Collections.singletonList(category));
     }
 

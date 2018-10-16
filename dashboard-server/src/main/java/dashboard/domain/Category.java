@@ -27,53 +27,55 @@ import com.google.common.base.MoreObjects;
 
 public class Category implements Serializable {
 
-  private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
 
-  private String name;
-  private List<CategoryValue> values = new ArrayList<>();
+    private String name;
+    private String searchValue;
+    private List<CategoryValue> values = new ArrayList<>();
 
-  public Category() {
-  }
+    public Category() {
+    }
 
-  public Category(String name) {
-    this.name = name;
-  }
+    public Category(String name, String searchValue, List<CategoryValue> values) {
+        this.name = name;
+        this.searchValue = searchValue;
+        this.values = values;
+    }
 
-  public Category(String name, List<CategoryValue> values) {
-    this.name = name;
-    this.values = values;
-  }
+    public List<CategoryValue> getValues() {
+        return values;
+    }
 
-  public List<CategoryValue> getValues() {
-    return values;
-  }
+    public void setValues(List<CategoryValue> values) {
+        this.values = values;
+    }
 
-  public void setValues(List<CategoryValue> values) {
-    this.values = values;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getName() {
-    return name;
-  }
+    @JsonIgnore
+    public void addCategoryValue(CategoryValue value) {
+        values.add(value);
+    }
 
-  @JsonIgnore
-  public void addCategoryValue(CategoryValue value) {
-    values.add(value);
-  }
+    @JsonIgnore
+    public boolean containsValue(String value) {
+        return values.stream().anyMatch(cv -> cv.getValue().equals(value));
+    }
 
-  @JsonIgnore
-  public boolean containsValue(String value) {
-    return values.stream().anyMatch(cv -> cv.getValue().equals(value));
-  }
+    @JsonIgnore
+    public boolean isUsedFacetValues() {
+        return values.stream().anyMatch(cv -> cv.getCount() > 0);
+    }
 
-  @JsonIgnore
-  public boolean isUsedFacetValues() {
-    return values.stream().anyMatch(cv -> cv.getCount() > 0);
-  }
+    public String getSearchValue() {
+        return searchValue;
+    }
 
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(Category.class)
-        .add("name", name).add("values", values).toString();
-  }
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(Category.class)
+                .add("name", name).add("values", values).toString();
+    }
 }

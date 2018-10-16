@@ -10,7 +10,7 @@ import Facets from "../components/facets";
 import YesNo from "../components/yes_no";
 import merge from "lodash.merge";
 import isUndefined from "lodash.isundefined";
-import pick from "lodash.pick";
+import pickBy from "lodash.pickby";
 import isEmpty from "lodash.isempty";
 import includes from "lodash.includes";
 import stopEvent from "../utils/stop";
@@ -240,7 +240,8 @@ class AppOverview extends React.Component {
     }
 
     filterAppsForExclusiveFilters(apps) {
-        return apps.filter(this.filterBySearchQuery.bind(this));
+        const searchString = this.state.search.toLowerCase();
+        return searchString.length > 0 ? apps.filter(this.filterBySearchQuery.bind(this)) : apps;
     }
 
     filterAppsForInclusiveFilters(apps) {
@@ -260,8 +261,9 @@ class AppOverview extends React.Component {
         const {currentUser} = this.context;
         const me = this;
         const filter = function (facet, filterFunction) {
-            const activeFacetsWithoutCurrent = pick(this.state.activeFacets, (value, key) => {
-                return key !== facet.name;
+            const activeFacets = this.state.activeFacets;
+            const activeFacetsWithoutCurrent = pickBy(activeFacets, (value, key) => {
+                return key !== facet.searchValue;
             });
             let filteredWithoutCurrentFacetApps = filteredApps.filter(this.filterByFacets(activeFacetsWithoutCurrent));
 
@@ -339,7 +341,7 @@ class AppOverview extends React.Component {
                 default:
                     filter(facet, (app, facetValue) => {
                         const categories = me.normalizeCategories(app);
-                        const appTags = categories[facet.name] || [];
+                        const appTags = categories[facet.searchValue] || [];
                         return appTags.indexOf(facetValue.value) > -1;
                     });
             }
@@ -382,7 +384,7 @@ class AppOverview extends React.Component {
     normalizeCategories(app) {
         const normalizedCategories = {};
         app.categories.forEach(category => {
-            normalizedCategories[category.name] = category.values.map(categoryValue => {
+            normalizedCategories[category.searchValue] = category.values.map(categoryValue => {
                 return categoryValue.value;
             });
         });

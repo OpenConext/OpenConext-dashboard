@@ -50,7 +50,9 @@ class Stats extends React.Component {
 
     reset = e => {
         stopEvent(e);
-        this.setState(this.getInitialStateValues(), this.refresh);
+        const state = this.getInitialStateValues();
+        ["allSp", "serviceProvidersDict", "connectedServiceProviders"].forEach(d => delete state[d]);
+        this.setState(state, this.refresh);
     };
 
     componentWillMount() {
@@ -118,7 +120,10 @@ class Stats extends React.Component {
                 }
             });
         } else if (scale === "all") {
-            uniqueLoginCount(from.unix(), to.unix(), spEntityId, state).then(res => this.setState({data: res, loaded: true}));
+            uniqueLoginCount(from.unix(), to.unix(), spEntityId, state).then(res => this.setState({
+                data: res,
+                loaded: true
+            }));
         } else {
             loginTimeFrame(from.unix(), to.unix(), scale, spEntityId, state).then(res => {
                 if (scale === "minute" || scale === "hour") {
@@ -146,18 +151,25 @@ class Stats extends React.Component {
     };
 
     onChangeScale = scale => {
-        const {from, to} = this.state;
-        const additionalState = this.invariantFromToScale(from, to, scale);
-        const diff = moment.duration(to.diff(from)).asDays();
-        const minDiff = minDiffByScale[scale];
-        if (minDiff > diff) {
-            additionalState.from = moment(to).subtract(minDiff, "day");
+        const {from, to, displayDetailPerSP} = this.state;
+        if (displayDetailPerSP) {
+            this.setState({data: [], scale: scale, from: moment().subtract(1, "day").startOf("day")}, this.refresh);
+        } else {
+            const additionalState = this.invariantFromToScale(from, to, scale);
+            const diff = moment.duration(to.diff(from)).asDays();
+            const minDiff = minDiffByScale[scale];
+            if (minDiff > diff) {
+                additionalState.from = moment(to).subtract(minDiff, "day");
+            }
+            this.setState({data: [], scale: scale, ...additionalState}, this.refresh);
         }
-        this.setState({data: [], scale: scale, ...additionalState}, this.refresh);
     };
 
     invariantFromToScale = (from, to, scale, dateToChange = "from") => {
         let additionalState = {};
+        if (this.state.displayDetailPerSP) {
+            return additionalState;
+        }
         const diff = moment.duration(to.diff(from)).asDays();
         if ((scale === "minute" && diff > 1) || (scale === "hour" && diff > 7)) {
             const duration = scale === "minute" ? 1 : 7;
@@ -240,8 +252,67 @@ class Stats extends React.Component {
                 handleChange={val => this.setState({data: [], state: val}, this.refresh)}/>
         </fieldset>;
 
-    renderPeriod = (scale, from, to, toEnabled, spSelected, className = "") =>
-        <fieldset className={className}>
+    renderYearPicker = (date, maxYear, onChange) => {
+        const currentYear = date.format("YYYY");
+        return <SelectWrapper
+            defaultValue={currentYear}
+            options={Array.from(new Array((1 + maxYear) - 2011), (x, i) => (i + 2011).toString(10))
+                .map(m => ({display: m, value: m}))}
+            multiple={false}
+            handleChange={opt => onChange(moment(date).year(parseInt(opt, 10)))}/>
+    };
+
+    renderDatePicker = (scale, date, onChange, maxDate, dateFormat, name, showToday = true) => {
+        const dayPicker = ["all", "minute", "hour", "day", "week"].includes(scale);
+        const monthPicker = scale === "month";
+        const quarterPicker = scale === "quarter";
+        if (dayPicker) {
+            return <DatePicker
+                ref={name}
+                selected={date}
+                preventOpenOnFocus
+                onChange={onChange}
+                showYearDropdown
+                showMonthDropdown
+                showWeekNumbers
+                onWeekSelect={m => {
+                    onChange(moment(date).week(m.week()));
+                    const datepicker = this.refs[name];
+                    datepicker.setOpen(false);
+                }}
+                weekLabel="Week"
+                todayButton={showToday ? I18n.t("stats.today") : undefined}
+                maxDate={maxDate}
+                disabled={false}
+                dateFormat={dateFormat}
+            />
+        }
+        if (monthPicker) {
+            return <div className="group-dates">
+                <SelectWrapper
+                    defaultValue={date.format("MMMM")}
+                    options={moment.months().map(m => ({display: m, value: m}))}
+                    multiple={false}
+                    handleChange={opt => onChange(moment(date).month(opt))}/>
+                {this.renderYearPicker(date, maxDate.year(), onChange)}
+            </div>
+        }
+        if (quarterPicker) {
+            return <div className="group-dates">
+                <SelectWrapper
+                    defaultValue={date.format("[Q]Q")}
+                    options={Array.from(new Array(4), (x, i) => "Q" + (i + 1).toString(10))
+                        .map(m => ({display: m, value: m}))}
+                    multiple={false}
+                    handleChange={opt => onChange(moment(date).quarter(parseInt(opt.substring(1), 10)))}/>
+                {this.renderYearPicker(date, maxDate.year(), onChange)}
+            </div>
+        }
+        return this.renderYearPicker(date, maxDate.year(), onChange);
+    };
+
+    renderPeriod = (scale, from, to, toEnabled, spSelected, className = "") => {
+        return <fieldset className={className}>
             <h2 className="title">{I18n.t("stats.timeScale")}</h2>
             <SelectWrapper
                 defaultValue={scale}
@@ -250,31 +321,12 @@ class Stats extends React.Component {
                 multiple={false}
                 handleChange={this.onChangeScale}/>
             <h2 className="title secondary">{toEnabled ? I18n.t("stats.from") : I18n.t("stats.date")}</h2>
-            <DatePicker
-                selected={from}
-                preventOpenOnFocus
-                onChange={this.onChangeFrom}
-                showYearDropdown
-                showMonthDropdown
-                showWeekNumbers
-                todayButton={I18n.t("stats.today")}
-                maxDate={moment(to).subtract(1, "day")}
-                disabled={false}
-                dateFormat={getDateTimeFormat(scale, !toEnabled)}
-            />
+            {this.renderDatePicker(scale, from, this.onChangeFrom, moment(to).subtract(1, "day"), getDateTimeFormat(scale, !toEnabled), "from-date", false)}
             {toEnabled && <div><h2 className="title secondary">{I18n.t("stats.to")}</h2>
-                <DatePicker
-                    selected={to}
-                    preventOpenOnFocus
-                    onChange={this.onChangeTo}
-                    showYearDropdown
-                    showMonthDropdown
-                    showWeekNumbers
-                    todayButton={I18n.t("stats.today")}
-                    maxDate={moment()}
-                    dateFormat={getDateTimeFormat(scale, !toEnabled)}
-                /></div>}
-        </fieldset>;
+                {this.renderDatePicker(scale, to, this.onChangeTo, moment(), getDateTimeFormat(scale, !toEnabled), "to-date")}
+            </div>}
+        </fieldset>
+    };
 
     title = (from, to, displayDetailPerSP, sp, scale) => {
         const format = scale === "minute" || scale === "hour" ? "L" : "L";//'MMMM Do YYYY, h:mm:ss a'
@@ -316,7 +368,9 @@ class Stats extends React.Component {
                     <div className="mod-filters">
                         <div className="header">
                             <h1>{I18n.t("stats.filters.name")}</h1>
-                            <a href="reset" className="c-button" onClick={this.reset}>{I18n.t("facets.reset")}</a>
+                            <a href={I18n.t("stats.helpLink")} target="_blank" className="help"><i
+                                className="fa fa-info-circle"></i></a>
+                            <a href="reset" className="reset c-button" onClick={this.reset}>{I18n.t("facets.reset")}</a>
                         </div>
                         {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP, state)}
                         {this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected)}

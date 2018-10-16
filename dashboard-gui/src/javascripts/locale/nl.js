@@ -366,10 +366,10 @@ I18n.translations.nl = {
         state: "Status",
         timeScale: "Periode",
         date: "Datum",
-        from: "From",
-        to: "To",
-        today: "Today",
-        sp: "Service",
+        from: "Van",
+        to: "Tot en met",
+        today: "Vandaag",
+        sp: "Dienst",
         period: {
             year: "Jaar"
         },
@@ -382,12 +382,14 @@ I18n.translations.nl = {
             day: "Dag",
             hour: "Uur",
             minute: "Minuut",
-            all: "Totale periode - van tot"
-        }
+            all: "Totale periode: van ⇨ tot"
+        },
+        helpLink: "https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken"
     },
     chart: {
         title: "Logins en gebruikers per dag",
         chart: "Aantal logins per {{scale}}",
+        chartAll: "Aantal logins",
         userCount: "Totale logins",
         uniqueUserCount: "Unieke gebruikers",
         loading: "Ophalen logins....",
@@ -404,8 +406,8 @@ I18n.translations.nl = {
         copy: "Kopie naar clipboard"
     },
     live: {
-        chartTitle: "Logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in de periode {{period}} gegroepeerd op {{group}}",
+        chartTitle: "Logins per {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in de periode {{period}} per {{group}}",
         noTimeFrameChart: "Logins van {{from}} tot {{to}}"
     },
 

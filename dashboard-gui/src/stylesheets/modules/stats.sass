@@ -1,7 +1,9 @@
 div.stats
   div.header
     display: flex
-    a.c-button
+    i.fa
+      font-size: large
+    a.reset
       margin-left: auto
   h2.title
     margin-bottom: 5px
@@ -15,8 +17,18 @@ div.stats
     input[type=text]
       padding-left: 10px
       height: 100%
+  div.react-datepicker__week-number--clickable
+    color: black
   fieldset.horizontal
     margin-bottom: 20px
     display: flex
     flex-direction: row
+  div.group-dates
+    display: flex
+    div.react-select
+      flex-grow: 2
+      &:first-child
+        margin-right: 2px
+      &:last-child
+        margin-left: 2px
 

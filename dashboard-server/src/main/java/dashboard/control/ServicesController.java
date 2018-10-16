@@ -75,7 +75,7 @@ public class ServicesController extends BaseController {
         return createRestResponse(result);
     }
 
-    private List<Category> getCategories(List<Service> servicesForIdp) {
+    private List<Category>  getCategories(List<Service> servicesForIdp) {
         Map<String, List<Category>> groupedCategories = servicesForIdp.stream().map(s -> s.getCategories()).flatMap
             (Collection::stream).collect(groupingBy(Category::getName));
 
@@ -85,7 +85,9 @@ public class ServicesController extends BaseController {
                 (CategoryValue::getValue)).flatMap(Function.identity()).collect(toSet()).stream().map
                 (CategoryValue::new)
                 .collect(toList());
-            return new Category(entry.getKey(), categoryValues);
+            return new Category(entry.getKey(), "type_of_service", categoryValues);
+        }).map(res -> {
+            return res;
         }).collect(toList());
     }
 

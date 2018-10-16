@@ -17,10 +17,7 @@ export function getPeriod(m, scale) {
     }
 }
 
-export function getDateTimeFormat(scale, periodEnabled = true) {
-    if (!periodEnabled) {
-        return "L";
-    }
+export function getDateTimeFormat(scale) {
     switch (scale) {
         case "day":
             return "L";
@@ -29,7 +26,7 @@ export function getDateTimeFormat(scale, periodEnabled = true) {
         case "month":
             return "YYYY MMMM";
         case "quarter":
-            return `YYYY [Q]Q`;
+            return "YYYY [Q]Q";
         case "year":
             return `[${I18n.t("stats.period.year")}] YYYY`;
         default:

@@ -562,7 +562,7 @@ I18n.translations.en = {
         timeScale: "Period",
         date: "Date",
         from: "From",
-        to: "To",
+        to: "Up to and including",
         today: "Today",
         sp: "Service",
         period: {
@@ -578,11 +578,13 @@ I18n.translations.en = {
             hour: "Hour",
             minute: "Minute",
             all: "Entire Period: from ⇨ to"
-        }
+        },
+        helpLink: "https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken"
     },
     chart: {
         title: "Logins and users per day",
         chart: "Number of logins per {{scale}}",
+        chartAll: "Number of logins",
         userCount: "Total logins",
         uniqueUserCount: "Unique users",
         loading: "Fetching logins....",
@@ -599,8 +601,8 @@ I18n.translations.en = {
         copy: "Copy to clipboard"
     },
     live: {
-        chartTitle: "Logins from {{from}} until {{to}} grouped by {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in the period {{period}} grouped by {{group}}",
+        chartTitle: "Logins per {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in the period {{period}} per {{group}}",
         noTimeFrameChart: "Logins from {{from}} until {{to}}"
     },
     service_filter: {
