@@ -102,8 +102,8 @@ public class StatsMock implements Stats, Constants {
     }
 
     private long countValue(String scale) {
-        double base = Math.floor(10 * (Math.random() + 1));
-        return doSwitch(scale, (long) base);
+        double base = Math.floor(10000 * (Math.random() + 1));
+        return (long) base;
     }
 
     private long doSwitch(String scale, long base) {
