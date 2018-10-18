@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import SortableHeader from "../components/sortable_header";
 import {Link} from "react-router-dom";
-import {apiUrl, getApps} from "../api";
+import {exportApps, getApps} from "../api";
 import sort from "../utils/sort";
 import pagination from "../utils/pagination";
 import Facets from "../components/facets";
@@ -14,6 +14,7 @@ import pickBy from "lodash.pickby";
 import isEmpty from "lodash.isempty";
 import includes from "lodash.includes";
 import stopEvent from "../utils/stop";
+
 
 const store = {
     activeFacets: null,
@@ -35,7 +36,10 @@ class AppOverview extends React.Component {
             hiddenFacets: store.hiddenFacets || {},
             sortAttribute: "name",
             sortAscending: undefined,
-            page: 1
+            page: 1,
+            download: false,
+            downloading: false,
+            exportResult: []
         };
     }
 
@@ -232,12 +236,22 @@ class AppOverview extends React.Component {
         store.hiddenFacets = null;
     }
 
-    handleDownloadOverview() {
+    handleDownloadOverview = e => {
+        stopEvent(e);
+        if (this.state.downloading) {
+            return;
+        }
+        this.setState({downloading: true});
         const {currentUser} = this.context;
         const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
         const ids = filteredApps.map(app => app.id);
-        window.open(apiUrl(`/services/download?idpEntityId=${encodeURIComponent(currentUser.getCurrentIdpId())}&ids=${ids.join(",")}`));
-    }
+        exportApps(currentUser.getCurrentIdpId(),ids ).then(res => {
+            this.setState({exportResult: res, download: true}, () => this.setState({
+                download: false,
+                downloading: false
+            }));
+        });
+    };
 
     filterAppsForExclusiveFilters(apps) {
         const searchString = this.state.search.toLowerCase();
@@ -541,7 +555,7 @@ class AppOverview extends React.Component {
 
     render() {
         const {currentUser} = this.context;
-        const {sortAttribute, sortAscending, page} = this.state;
+        const {sortAttribute, sortAscending, page, download, downloading, exportResult} = this.state;
         const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
         let connect = null;
 
@@ -574,7 +588,11 @@ class AppOverview extends React.Component {
                         onChange={this.handleFacetChange.bind(this)}
                         onHide={this.handleFacetHide.bind(this)}
                         onReset={this.handleResetFilters.bind(this)}
-                        onDownload={this.handleDownloadOverview.bind(this)}/>
+                        onDownload={this.handleDownloadOverview.bind(this)}
+                        download={download}
+                        downloading={downloading}
+                        exportResult={exportResult}
+                        />
                 </div>
                 <div className="l-right">
                     <div className="mod-app-search">

@@ -4,6 +4,7 @@ import I18n from "i18n-js";
 import {FacetShape} from "../shapes";
 import ReactTooltip from "react-tooltip";
 import stopEvent from "../utils/stop";
+import {CSVDownload} from "react-csv";
 
 class Facets extends React.Component {
     render() {
@@ -121,10 +122,16 @@ class Facets extends React.Component {
     }
 
     renderDownloadButton() {
+        const {download, downloading, exportResult} = this.props;
+        const className = (this.props.filteredCount <= 0  || downloading ? " disabled" : "");
         return (
+            <span>
             <a href="/download"
-               className={"download-button c-button" + (this.props.filteredCount <= 0 ? " disabled" : "")}
+               className={"download-button c-button" + className}
                onClick={this.handleDownload.bind(this)}>{I18n.t("facets.download")}</a>
+                {download &&
+                <CSVDownload target="_parent" data={exportResult}></CSVDownload>}
+            </span>
         );
     }
 
@@ -156,7 +163,10 @@ Facets.propTypes = {
     filteredCount: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
     hiddenFacets: PropTypes.objectOf(PropTypes.bool),
-    selectedFacets: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string))
+    selectedFacets: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    download:PropTypes.bool.isRequired,
+    downloading:PropTypes.bool.isRequired,
+    exportResult:PropTypes.array,
 };
 
 export default Facets;

@@ -7354,6 +7354,11 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-csv@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.0.16.tgz#3b8aacb350bda8c21723e9e85999f37d40454def"
+  integrity sha512-/Ho5fL8BWgCURQPtw3UP+1A7Z4C7EaBHXF1lkjcoshJqGHWwrY9HUOSNWJ111p/ju7LeSe8okHTFK/KjJKopyQ==
+
 react-datepicker@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-1.6.0.tgz#6b7a87e949f3bbd94872554be6a0119bd908a987"

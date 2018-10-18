@@ -216,10 +216,6 @@ export function sendChangeRequest(data) {
     });
 }
 
-export function statsServiceProviders() {
-    return fetchJson("/stats/serviceProviders");
-}
-
 export function loginTimeFrame(from, to, scale, spEntityId, state) {
     const sp = !isEmpty(spEntityId) ? `&spEntityId=${spEntityId}` : "";
     return fetchJson(`/stats/loginTimeFrame?from=${from}&to=${to}&scale=${scale}&state=${state}${sp}`);
@@ -232,4 +228,12 @@ export function loginAggregated(period, state, spEntityId) {
 
 export function uniqueLoginCount(from, to, spEntityId, state) {
     return fetchJson(`/stats/uniqueLoginCount?from=${from}&to=${to}&spEntityId=${spEntityId}&state=${state}`);
+}
+
+export function exportApps(idp, ids) {
+    return postJson("/services/download", {idp: idp, ids: ids}, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(parseJson);
 }

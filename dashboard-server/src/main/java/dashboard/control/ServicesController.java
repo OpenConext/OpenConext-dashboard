@@ -1,17 +1,11 @@
 package dashboard.control;
 
-import au.com.bytecode.opencsv.CSVWriter;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import dashboard.domain.Action;
 import dashboard.domain.Category;
 import dashboard.domain.CategoryValue;
@@ -27,7 +21,6 @@ import dashboard.util.SpringSecurity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -112,16 +105,15 @@ public class ServicesController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/download")
-    public ResponseEntity<Void> download(@RequestParam("idpEntityId") String idpEntityId,
-                                         @RequestParam("ids") String idCommaSeperated,
-                                         Locale locale,
-                                         HttpServletResponse response) throws IOException {
+    @PostMapping(value = "/download")
+    public List<String[]> download(@RequestBody Map<String, Object> body,
+                                   Locale locale,
+                                   HttpServletResponse response) throws IOException {
+        String idpEntityId = (String) body.get("idp");
+        List<Integer> ids = (List<Integer>) body.get("ids");
         List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
-        List<Long> ids = Arrays.asList(idCommaSeperated.split(",")).stream().map(s -> Long.valueOf(s.trim())).collect
-            (toList());
         Stream<String[]> values = ids.stream()
-            .map(id -> getServiceById(services, id))
+            .map(id -> getServiceById(services, id.longValue()))
             .flatMap(opt -> opt.map(Stream::of).orElse(Stream.empty()))
             .map(service -> new String[]{
                 String.valueOf(service.getId()),
@@ -146,16 +138,7 @@ public class ServicesController extends BaseController {
             "arpEnabled", "arpAttributes"});
 
         List<String[]> rows = Stream.concat(headers, values).collect(toList());
-
-        response.setHeader("Content-Disposition", format("attachment; filename=service-overview.csv"));
-
-        try (CSVWriter writer = new CSVWriter(new OutputStreamWriter(response.getOutputStream()))) {
-            writer.writeAll(rows);
-        } catch (IOException e) {
-            throw Throwables.propagate(e);
-        }
-
-        return ResponseEntity.ok().build();
+        return rows;
     }
 
     private String stripBreakingWhitespace(String input) {
