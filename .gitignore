@@ -19,4 +19,5 @@ ResourceBundleUtils.java
 *.log
 manage-json
 notes.txt
+*.css
 local.application.properties
