@@ -7,8 +7,7 @@ import stopEvent from "../utils/stop";
 import ReactTooltip from "react-tooltip";
 import {consentChangeRequest} from "../api";
 import {setFlash} from "../utils/flash";
-
-const consentTypes = ["DEFAULT_CONSENT", "MINIMAL_CONSENT", "NO_CONSENT"];
+import {consentTypes} from "../utils/utils";
 
 class ConsentPanel extends React.Component {
 
@@ -34,7 +33,8 @@ class ConsentPanel extends React.Component {
                 <div className="mod-title">
                     <h1>{I18n.t("consent_panel.title")}</h1>
                     <p>{I18n.t("consent_panel.subtitle", {name: this.props.app.name})}</p>
-                    <p className="info">{I18n.t(`consent_panel.${subTitle2}`, {name: this.props.app.name})}</p>
+                    <p className="info"
+                       dangerouslySetInnerHTML={{__html: I18n.t(`consent_panel.${subTitle2}`, {name: this.props.app.name})}}></p>
                 </div>
                 {this.renderConsent(this.state.consent, isDashboardAdmin)}
             </div>

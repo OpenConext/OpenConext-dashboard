@@ -366,10 +366,6 @@ class EditMyIdp extends React.Component {
                         <td>{this.renderServiceCheckbox(service.id, "guestEnabled")}</td>
                     </tr>
                     <tr>
-                        <td>{I18n.t("my_idp.no_consent_required")}</td>
-                        <td>{this.renderServiceCheckbox(service.id, "noConsentRequired")}</td>
-                    </tr>
-                    <tr>
                         <td>{I18n.t("my_idp.state")}</td>
                         <td>
                             <select value={service.state}

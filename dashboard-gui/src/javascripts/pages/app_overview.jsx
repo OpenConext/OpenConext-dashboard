@@ -14,7 +14,7 @@ import pickBy from "lodash.pickby";
 import isEmpty from "lodash.isempty";
 import includes from "lodash.includes";
 import stopEvent from "../utils/stop";
-
+import {consentTypes} from "../utils/utils";
 
 const store = {
     activeFacets: null,
@@ -245,7 +245,7 @@ class AppOverview extends React.Component {
         const {currentUser} = this.context;
         const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
         const ids = filteredApps.map(app => app.id);
-        exportApps(currentUser.getCurrentIdpId(),ids ).then(res => {
+        exportApps(currentUser.getCurrentIdpId(), ids).then(res => {
             this.setState({exportResult: res, download: true}, () => this.setState({
                 download: false,
                 downloading: false
@@ -350,6 +350,13 @@ class AppOverview extends React.Component {
                         }
                         const requiredAttributes = Object.keys(app.arp.attributes);
                         return requiredAttributes.indexOf(facetValue.searchValue) > -1;
+                    });
+                    break;
+                case "type_consent":
+                    filter(facet, (app, facetValue) => {
+                        const disableConsent = currentUser.currentIdp.disableConsent || [];
+                        const consent = disableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
+                        return facetValue.searchValue === consent.type;
                     });
                     break;
                 default:
@@ -483,26 +490,36 @@ class AppOverview extends React.Component {
             filterApp: function (app) {
                 return this.filterYesNoFacet("strong_authentication", app.strongAuthentication);
             }.bind(this)
-        },
-            {
-                name: I18n.t("facets.static.arp.name"),
-                searchValue: "attributes",
-                values: arpAttributes.map(attr => {
-                    const val = attr.substring(attr.lastIndexOf(":") + 1);
-                    return {value: val.charAt(0).toUpperCase() + val.slice(1), searchValue: attr};
-                }),
-                filterApp: function (app) {
-                    const attrFacetValues = this.state.activeFacets["attributes"] || [];
-                    const attributes = Object.keys(app.arp.attributes);
-                    if ((app.arp.noArp && !app.manipulation) || attrFacetValues.length === 0) {
-                        return true;
-                    }
-                    if (app.arp.noAttrArp) {
-                        return false;
-                    }
-                    return attrFacetValues.filter(attr => attributes.indexOf(attr) > -1).length === attrFacetValues.length;
-                }.bind(this)
-            }
+        }, {
+            name: I18n.t("facets.static.arp.name"),
+            searchValue: "attributes",
+            values: arpAttributes.map(attr => {
+                const val = attr.substring(attr.lastIndexOf(":") + 1);
+                return {value: val.charAt(0).toUpperCase() + val.slice(1), searchValue: attr};
+            }),
+            filterApp: function (app) {
+                const attrFacetValues = this.state.activeFacets["attributes"] || [];
+                const attributes = Object.keys(app.arp.attributes);
+                if ((app.arp.noArp && !app.manipulation) || attrFacetValues.length === 0) {
+                    return true;
+                }
+                if (app.arp.noAttrArp) {
+                    return false;
+                }
+                return attrFacetValues.filter(attr => attributes.indexOf(attr) > -1).length === attrFacetValues.length;
+            }.bind(this)
+        }, {
+            name: I18n.t("facets.static.type_consent.name"),
+            tooltip: I18n.t("facets.static.type_consent.tooltip"),
+            searchValue: "type_consent",
+            values: consentTypes.map(t => ({searchValue: t, value: I18n.t(`facets.static.type_consent.${t.toLowerCase()}`)})),
+            filterApp: function (app) {
+                const consentFacetValues = this.state.activeFacets["type_consent"] || [];
+                const disableConsent = currentUser.currentIdp.disableConsent || [];
+                const consent = disableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
+                return consentFacetValues.length === 0 || consentFacetValues.includes(consent.type);
+            }.bind(this)
+        }
         ];
         if (currentUser.superUser) {
             results.push({
@@ -592,7 +609,7 @@ class AppOverview extends React.Component {
                         download={download}
                         downloading={downloading}
                         exportResult={exportResult}
-                        />
+                    />
                 </div>
                 <div className="l-right">
                     <div className="mod-app-search">

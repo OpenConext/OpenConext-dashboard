@@ -128,10 +128,6 @@ class MyIdp extends React.Component {
                         <td>{I18n.t("my_idp.guest_enabled")}</td>
                         <td>{service.guestEnabled ? I18n.t("boolean.yes") : I18n.t("boolean.no")}</td>
                     </tr>
-                    <tr>
-                        <td>{I18n.t("my_idp.no_consent_required")}</td>
-                        <td>{service.noConsentRequired ? I18n.t("boolean.yes") : I18n.t("boolean.no")}</td>
-                    </tr>
                     </tbody>
                 </table>
                 {this.renderContactPersons(service.contactPersons, service.names[I18n.locale])}

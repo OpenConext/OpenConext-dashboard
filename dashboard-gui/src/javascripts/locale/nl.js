@@ -108,8 +108,14 @@ I18n.translations.nl = {
             arp: {
                 name: "Vrijgegeven attributen",
                 info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie."
+            },
+            type_consent: {
+                tooltip: "Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> voor meer informatie.",
+                name: "Type toestemming",
+                no_consent: "Geen toestemming",
+                minimal_consent: "Minimale toestemming",
+                default_consent: "Default toestemming",
             }
-
         }
     },
 
@@ -285,8 +291,8 @@ I18n.translations.nl = {
     consent_panel: {
         title: "Toestemming",
         subtitle: "Nieuwe gebruikers zullen om toestemming worden gevraagd voor het doorgeven van hun persoonlijke gegevens.",
-        subtitle2: "Op deze pagina kan je instellen op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. Je kan instellen om toestemming over te slaan, minimale toestemming te vragen en je kan een aangepast bericht toevoegen voor de gebruikers van de deze dienst.",
-        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}.",
+        subtitle2: "Op deze pagina kan je instellen op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. Je kan instellen om toestemming over te slaan, minimale toestemming te vragen en je kan een aangepast bericht toevoegen voor de gebruikers van de deze dienst. De verschillende settings worden <a href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\"> uitgelegd.",
+        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. De verschillende settings worden <a href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\"> uitgelegd.",
         no_consent: "Toestemming is niet nodig",
         minimal_consent: "Minimale toestemming is vereist",
         default_consent: "Standaard toestemming met een optioneel aangepast bericht",
@@ -514,11 +520,6 @@ I18n.translations.nl = {
             nl: "Beschrijving (nl)"
         },
         guest_enabled: "Gast-toegang ingeschakeld",
-        consent_settings: "Type consent",
-        no_consent_required: "Consent uitgeschakeld",
-        minimal_consent_required: "Minimale consent",
-        default_consent_required: "Default consent met een optionele bericht",
-        consent_explained_html: "De verschillende settings worden <a href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\"> uitgelegd.",
         edit_message: "De volgende velden kunnen worden aangepast.",
         save: "Maak wijzigingsverzoek aan",
         change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",

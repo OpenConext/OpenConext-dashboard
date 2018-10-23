@@ -13,3 +13,4 @@ export function isEmpty(obj) {
     }
     return false;
 }
+export const consentTypes = ["DEFAULT_CONSENT", "MINIMAL_CONSENT", "NO_CONSENT"];
