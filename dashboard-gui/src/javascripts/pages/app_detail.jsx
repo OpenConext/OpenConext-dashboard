@@ -14,6 +14,8 @@ import IdpUsagePanel from "../components/idp_usage_panel";
 import HowToConnectPanel from "../components/how_to_connect_panel";
 import SirtfiPanel from "../components/sirtfi_panel";
 import PrivacyPanel from "../components/privacy_panel";
+import ConsentPanel from "../components/consent_panel";
+import Flash from "../components/flash";
 
 class AppDetail extends React.Component {
     constructor() {
@@ -67,6 +69,14 @@ class AppDetail extends React.Component {
                     }
                 };
             }
+            if (app.connected) {
+                this.panelMap = {
+                    ...this.panelMap, "consent": {
+                        component: ConsentPanel,
+                        icon: "fa-university"
+                    }
+                }
+            }
             this.setState({app: app});
             return getIdps(app.spEntityId).then(data => this.setState({institutions: data.payload}));
         });
@@ -77,6 +87,7 @@ class AppDetail extends React.Component {
         if (this.state.app) {
             return (
                 <div className="l-center">
+                    <Flash/>
                     <div className="l-left">
                         <div className="mod-app-nav">
                             <ul>

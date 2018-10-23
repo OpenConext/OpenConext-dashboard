@@ -54,7 +54,6 @@ public class JiraClientImpl implements JiraClient {
 
     private static final String SP_CUSTOM_FIELD = "13018";
     private static final String IDP_CUSTOM_FIELD = "13012";
-    private static final String DEFAULT_SECURITY_LEVEL_ID = "10100";
     private static final String PRIORITY_MEDIUM_ID = "3";
 
     private static final Map<Action.Type, String> TASKTYPE_TO_ISSUETYPE_CODE = ImmutableMap.of(

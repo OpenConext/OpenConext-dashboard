@@ -1,5 +1,6 @@
 package dashboard.control;
 
+import dashboard.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import dashboard.domain.Action;
-import dashboard.domain.Change;
 import dashboard.domain.CoinAuthority.Authority;
-import dashboard.domain.CoinUser;
-import dashboard.domain.ContactPerson;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.Provider;
-import dashboard.domain.Service;
-import dashboard.domain.Settings;
 import dashboard.manage.Manage;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
@@ -124,6 +117,37 @@ public class UsersController extends BaseController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @RequestMapping(value = "/me/consent", method = RequestMethod.POST)
+    public ResponseEntity<RestResponse<Object>> updateConsentSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                                      @RequestBody Consent consent) throws IOException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
+            LOG.warn("Consent endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        IdentityProvider idp = currentUser.getIdp();
+        Optional<Consent> previousConsent = idp.getDisableConsent().stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
+        String idIdp = idp.getId();
+
+        List<Change> changes = getChanges(idIdp, previousConsent, consent);
+        if (changes.isEmpty()) {
+            return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
+        }
+        Action action = Action.builder()
+                .userEmail(currentUser.getEmail())
+                .userName(currentUser.getFriendlyName())
+                .idpId(idpEntityId)
+                .spId(consent.getSpEntityId())
+                .consent(consent)
+                .type(Action.Type.CHANGE).build();
+
+        actionsService.create(action, changes);
+
+        return ResponseEntity.ok(createRestResponse(action));
+
+    }
+
     @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                                Locale locale,
@@ -153,6 +177,25 @@ public class UsersController extends BaseController {
         return ResponseEntity.ok(createRestResponse(action));
     }
 
+    protected List<Change> getChanges(String idpId, Optional<Consent> previousConsentOptional, Consent consent) throws IOException {
+        List<Change> changes = new ArrayList<>();
+
+        if (!previousConsentOptional.isPresent()
+                && consent.getType().equals(ConsentType.DEFAULT_CONSENT)
+                && StringUtils.isEmpty(consent.getExplanationEn())
+                && StringUtils.isEmpty(consent.getExplanationEn())) {
+            return changes;
+        }
+        Consent previousConsent = previousConsentOptional.orElse(new Consent());
+
+        this.diff(changes, idpId, previousConsent.getSpEntityId(), consent.getSpEntityId(), "consent:sp:name");
+        this.diff(changes, idpId, previousConsent.getExplanationEn(), consent.getExplanationEn(), "consent:explanation:en");
+        this.diff(changes, idpId, previousConsent.getExplanationNl(), consent.getExplanationNl(), "consent:explanation:nl");
+        this.diff(changes, idpId, previousConsent.getType(), consent.getType(), "consent:type");
+
+        return changes;
+    }
+
     protected List<Change> getChanges(Locale locale, Settings settings, IdentityProvider idp) throws IOException {
         List<Change> changes = new ArrayList<>();
 
@@ -168,7 +211,7 @@ public class UsersController extends BaseController {
         this.diff(changes, idpId, idp.getDisplayNames().get("nl"), settings.getDisplayNamesNl(), "displayName:nl");
 
         this.diff(changes, idpId, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
-                "coi:publish_in_edugain");
+                "coin:publish_in_edugain");
 
         this.diff(changes, idpId, idp.isConnectToRSServicesAutomatically(), settings.isConnectToRSServicesAutomatically(),
                 "coin:entity_categories:1 - http://refeds.org/category/research-and-scholarship");
@@ -188,19 +231,19 @@ public class UsersController extends BaseController {
             first.ifPresent(service -> {
                 String id = service.getSpEntityId();
 
-                diff(changes, id, service.getDescriptions().get("en"),sp.getDescriptionEn(),  "description:en");
+                diff(changes, id, service.getDescriptions().get("en"), sp.getDescriptionEn(), "description:en");
                 diff(changes, id, service.getDescriptions().get("nl"), sp.getDescriptionNl(), "description:nl");
 
                 diff(changes, id, service.getDisplayNames().get("en"), sp.getDisplayNameEn(), "displayName:en");
                 diff(changes, id, service.getDisplayNames().get("nl"), sp.getDisplayNameNl(), "displayName:nl");
 
-                diff(changes, id,  service.isPublishedInEdugain(), sp.isPublishedInEdugain(),"coin:publish_in_edugain");
-                diff(changes, id, service.isGuestEnabled(),sp.isHasGuestEnabled(),  "Guest Login Enabled");
+                diff(changes, id, service.isPublishedInEdugain(), sp.isPublishedInEdugain(), "coin:publish_in_edugain");
+                diff(changes, id, service.isGuestEnabled(), sp.isHasGuestEnabled(), "Guest Login Enabled");
                 diff(changes, id, service.isNoConsentRequired(), sp.isNoConsentRequired(), "coin:no_consent_required");
 
-                diff(changes, idpId,  service.getState(),sp.getStateType() != null ? sp.getStateType().name() : null, "state");
+                diff(changes, idpId, service.getState(), sp.getStateType() != null ? sp.getStateType().name() : null, "state");
 
-                diffContactPersons(changes, id, service.getContactPersons(),sp.getContactPersons());
+                diffContactPersons(changes, id, service.getContactPersons(), sp.getContactPersons());
             });
         });
         return changes;

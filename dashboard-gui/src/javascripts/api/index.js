@@ -237,3 +237,11 @@ export function exportApps(idp, ids) {
         }
     }).then(parseJson);
 }
+
+export function consentChangeRequest(data) {
+    return postJson("/users/me/consent", data, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+}

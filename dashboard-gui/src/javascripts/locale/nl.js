@@ -124,7 +124,8 @@ I18n.translations.nl = {
             license_info: "Licentie",
             overview: "Overzicht",
             sirtfi_security: "Sirtfi contacten",
-            privacy: "Privacy"
+            privacy: "Privacy",
+            consent: "Consent"
         },
         overview: {
             connect: "",
@@ -169,17 +170,17 @@ I18n.translations.nl = {
         not_needed_html: "Voor deze dienst is geen licentie nodig",
         unknown_license: "Het is onbekend welke licentie voor deze service geldt.",
         no_license_description_html: "" +
-        "<ul>" +
-        "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
-        "</ul>" +
-        "<br />In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten.",
+            "<ul>" +
+            "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
+            "</ul>" +
+            "<br />In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten.",
         unknown_license_description_html: "Er zijn verschillende opties:" +
-        "<ul>" +
-        "   <li>SURF of een andere instelling biedt deze service gratis aan.</li>" +
-        "   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>" +
-        "   <li>De licentie is nog niet bijgewerkt in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
-        "</ul>" +
-        "<p>SURFnet zal, indien nodig, contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
+            "<ul>" +
+            "   <li>SURF of een andere instelling biedt deze service gratis aan.</li>" +
+            "   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>" +
+            "   <li>De licentie is nog niet bijgewerkt in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
+            "</ul>" +
+            "<p>SURFnet zal, indien nodig, contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
     },
 
     license_info: {
@@ -280,6 +281,25 @@ I18n.translations.nl = {
         certificationValidFrom: "CERTIFICATIE GELDIG TOT",
         certificationValidTo: "CERTIFICATIE GELDIG VAN",
         noInformation: "Geen informatie van de leverancier"
+    },
+    consent_panel: {
+        title: "Toestemming",
+        subtitle: "Nieuwe gebruikers zullen om toestemming worden gevraagd voor het doorgeven van hun persoonlijke gegevens.",
+        subtitle2: "Op deze pagina kan je instellen op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. Je kan instellen om toestemming over te slaan, minimale toestemming te vragen en je kan een aangepast bericht toevoegen voor de gebruikers van de deze dienst.",
+        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}.",
+        no_consent: "Toestemming is niet nodig",
+        minimal_consent: "Minimale toestemming is vereist",
+        default_consent: "Standaard toestemming met een optioneel aangepast bericht",
+        consent_value: "Type toestemming",
+        consent_value_tooltip: "Het type toestemming bepaald hoe en of de gebruiker voor toestemming wordt gevraagd.",
+        explanationNl: "Nederlands bericht",
+        explanationNl_tooltip: "Dit bericht wordt toegevoegd onderaan in het nederlandse toestemmings-scherm voor nieuwe gebruikers",
+        explanationEn: "Engels bericht",
+        explanationEn_tooltip: "Dit bericht wordt toegevoegd onderaan in het engelse toestemmings-scherm voor nieuwe gebruikers",
+        save: "Verstuur verzoek",
+        change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
+        no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
+        change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
     },
     how_to_connect_panel: {
         accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
@@ -497,7 +517,7 @@ I18n.translations.nl = {
         consent_settings: "Type consent",
         no_consent_required: "Consent uitgeschakeld",
         minimal_consent_required: "Minimale consent",
-        default_consent_required: "Default consent",
+        default_consent_required: "Default consent met een optionele bericht",
         consent_explained_html: "De verschillende settings worden <a href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\"> uitgelegd.",
         edit_message: "De volgende velden kunnen worden aangepast.",
         save: "Maak wijzigingsverzoek aan",

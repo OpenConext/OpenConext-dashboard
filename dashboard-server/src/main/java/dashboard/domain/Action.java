@@ -25,325 +25,334 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 
 public class Action {
 
-  public enum Type { LINKREQUEST, UNLINKREQUEST, QUESTION, CHANGE }
+    public enum Type {LINKREQUEST, UNLINKREQUEST, QUESTION, CHANGE}
 
-  private String jiraKey;
-  private String userName;
-  private String userEmail;
-  private String body;
+    private String jiraKey;
+    private String userName;
+    private String userEmail;
+    private String body;
 
-  private String idpId;
-  private String spId;
-  private String idpName;
-  private String spName;
+    private String idpId;
+    private String spId;
+    private String idpName;
+    private String spName;
 
-  private ZonedDateTime requestDate;
-  private Type type;
-  private String status;
+    private ZonedDateTime requestDate;
+    private Type type;
+    private String status;
 
-  private String subject;
-  private Service service;
-  private Settings settings;
+    private String subject;
+    private Service service;
+    private Settings settings;
+    private Consent consent;
 
-  private Action(Builder builder) {
-    this.jiraKey = builder.jiraKey;
-    this.userName = builder.userName;
-    this.userEmail = builder.userEmail;
-    this.body = builder.body;
-    this.idpId = builder.idpId;
-    this.spId = builder.spId;
-    this.spName = builder.spName;
-    this.idpName = builder.idpName;
-    this.requestDate = builder.requestDate;
-    this.type = builder.type;
-    this.status = builder.status;
-    this.service = builder.service;
-    this.settings = builder.settings;
-  }
+    private Action(Builder builder) {
+        this.jiraKey = builder.jiraKey;
+        this.userName = builder.userName;
+        this.userEmail = builder.userEmail;
+        this.body = builder.body;
+        this.idpId = builder.idpId;
+        this.spId = builder.spId;
+        this.spName = builder.spName;
+        this.idpName = builder.idpName;
+        this.requestDate = builder.requestDate;
+        this.type = builder.type;
+        this.status = builder.status;
+        this.service = builder.service;
+        this.settings = builder.settings;
+        this.consent = builder.consent;
+    }
 
-  public Optional<String> getJiraKey() {
-    return Optional.ofNullable(jiraKey);
-  }
+    public Optional<String> getJiraKey() {
+        return Optional.ofNullable(jiraKey);
+    }
 
-  public String getUserName() {
-    return userName;
-  }
+    public String getUserName() {
+        return userName;
+    }
 
-  public String getBody() {
-    return body;
-  }
+    public String getBody() {
+        return body;
+    }
 
-  public String getIdpId() {
-    return idpId;
-  }
+    public String getIdpId() {
+        return idpId;
+    }
 
-  public String getSpId() {
-    return spId;
-  }
+    public String getSpId() {
+        return spId;
+    }
 
-  public String getIdpName() {
-    return idpName;
-  }
+    public String getIdpName() {
+        return idpName;
+    }
 
-  public ZonedDateTime getRequestDate() {
-    return requestDate;
-  }
+    public ZonedDateTime getRequestDate() {
+        return requestDate;
+    }
 
-  public Type getType() {
-    return type;
-  }
+    public Type getType() {
+        return type;
+    }
 
-  public String getStatus() {
-    return status;
-  }
+    public String getStatus() {
+        return status;
+    }
 
-  public String getUserEmail() {
-    return userEmail;
-  }
+    public String getUserEmail() {
+        return userEmail;
+    }
 
-  public String getSubject() {
-    return subject;
-  }
+    public String getSubject() {
+        return subject;
+    }
 
-  public Service getService() {
-    return service;
-  }
+    public Service getService() {
+        return service;
+    }
 
 //  public String getIdpName() {
 //    return idpName;
 //  }
 
-  public String getSpName() {
-    return spName;
-  }
-  
-  public Settings getSettings() {
-    return settings;
-  }
-
-  /**
-   * get a Comparator that sorts by date ascending: newest first
-   */
-  public static Comparator<? super Action> sortByDateAsc() {
-    return (a1, a2) -> new CompareToBuilder()
-      .append(a1.getRequestDate(), a2.getRequestDate())
-      .toComparison();
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(Action.class)
-        .add("type", type)
-        .add("status", status)
-        .add("jiraKey", jiraKey)
-        .add("userName", userName)
-        .add("userEmail", userEmail)
-        .add("requestDate", requestDate)
-        .add("idpId", idpId)
-        .add("spId", spId)
-        .add("spName", spName)
-        .add("body", body).toString();
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((body == null) ? 0 : body.hashCode());
-    result = prime * result + ((idpId == null) ? 0 : idpId.hashCode());
-    result = prime * result + ((idpName == null) ? 0 : idpName.hashCode());
-    result = prime * result + ((jiraKey == null) ? 0 : jiraKey.hashCode());
-    result = prime * result + ((requestDate == null) ? 0 : requestDate.hashCode());
-    result = prime * result + ((spId == null) ? 0 : spId.hashCode());
-    result = prime * result + ((spName == null) ? 0 : spName.hashCode());
-    result = prime * result + ((status == null) ? 0 : status.hashCode());
-    result = prime * result + ((subject == null) ? 0 : subject.hashCode());
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
-    result = prime * result + ((userEmail == null) ? 0 : userEmail.hashCode());
-    result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Action other = (Action) obj;
-    if (body == null) {
-      if (other.body != null)
-        return false;
-    } else if (!body.equals(other.body))
-      return false;
-    if (idpId == null) {
-      if (other.idpId != null)
-        return false;
-    } else if (!idpId.equals(other.idpId))
-      return false;
-    if (idpName == null) {
-      if (other.idpName != null)
-        return false;
-    } else if (!idpName.equals(other.idpName))
-      return false;
-    if (jiraKey == null) {
-      if (other.jiraKey != null)
-        return false;
-    } else if (!jiraKey.equals(other.jiraKey))
-      return false;
-    if (requestDate == null) {
-      if (other.requestDate != null)
-        return false;
-    } else if (!requestDate.equals(other.requestDate))
-      return false;
-    if (spId == null) {
-      if (other.spId != null)
-        return false;
-    } else if (!spId.equals(other.spId))
-      return false;
-    if (spName == null) {
-      if (other.spName != null)
-        return false;
-    } else if (!spName.equals(other.spName))
-      return false;
-    if (status == null) {
-      if (other.status != null)
-        return false;
-    } else if (!status.equals(other.status))
-      return false;
-    if (subject == null) {
-      if (other.subject != null)
-        return false;
-    } else if (!subject.equals(other.subject))
-      return false;
-    if (type != other.type)
-      return false;
-    if (userEmail == null) {
-      if (other.userEmail != null)
-        return false;
-    } else if (!userEmail.equals(other.userEmail))
-      return false;
-    if (userName == null) {
-      if (other.userName != null)
-        return false;
-    } else if (!userName.equals(other.userName))
-      return false;
-    return true;
-  }
-
-  public Builder unbuild() {
-    return new Builder(this);
-  }
-
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  public static class Builder {
-
-    private String jiraKey;
-    private String userName;
-    private String userEmail;
-    private Type type;
-    private String status;
-    private String body;
-    private String idpId;
-    private String spId;
-    private String spName;
-    private String idpName;
-    private ZonedDateTime requestDate;
-    private Service service;
-    private Settings settings;
-
-    private Builder() {
+    public String getSpName() {
+        return spName;
     }
 
-    private Builder(Action action) {
-      this.jiraKey = action.jiraKey;
-      this.userName = action.userName;
-      this.userEmail = action.userEmail;
-      this.type = action.type;
-      this.status = action.status;
-      this.body = action.body;
-      this.idpId = action.idpId;
-      this.spId = action.spId;
-      this.spName = action.spName;
-      this.idpName = action.idpName;
-      this.requestDate = action.requestDate;
-      this.service = action.service;
-      this.settings = action.settings;
+    public Settings getSettings() {
+        return settings;
     }
 
-    public Builder requestDate(ZonedDateTime requestDate) {
-      this.requestDate = requestDate;
-      return this;
+    /**
+     * get a Comparator that sorts by date ascending: newest first
+     */
+    public static Comparator<? super Action> sortByDateAsc() {
+        return (a1, a2) -> new CompareToBuilder()
+                .append(a1.getRequestDate(), a2.getRequestDate())
+                .toComparison();
     }
 
-    public Builder userEmail(String userEmail) {
-      this.userEmail = userEmail;
-      return this;
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(Action.class)
+                .add("type", type)
+                .add("status", status)
+                .add("jiraKey", jiraKey)
+                .add("userName", userName)
+                .add("userEmail", userEmail)
+                .add("requestDate", requestDate)
+                .add("idpId", idpId)
+                .add("spId", spId)
+                .add("spName", spName)
+                .add("body", body).toString();
     }
 
-    public Builder userName(String userName) {
-      this.userName = userName;
-      return this;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((body == null) ? 0 : body.hashCode());
+        result = prime * result + ((idpId == null) ? 0 : idpId.hashCode());
+        result = prime * result + ((idpName == null) ? 0 : idpName.hashCode());
+        result = prime * result + ((jiraKey == null) ? 0 : jiraKey.hashCode());
+        result = prime * result + ((requestDate == null) ? 0 : requestDate.hashCode());
+        result = prime * result + ((spId == null) ? 0 : spId.hashCode());
+        result = prime * result + ((spName == null) ? 0 : spName.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((userEmail == null) ? 0 : userEmail.hashCode());
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        return result;
     }
 
-    public Builder jiraKey(String jiraKey) {
-      this.jiraKey = jiraKey;
-      return this;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Action other = (Action) obj;
+        if (body == null) {
+            if (other.body != null)
+                return false;
+        } else if (!body.equals(other.body))
+            return false;
+        if (idpId == null) {
+            if (other.idpId != null)
+                return false;
+        } else if (!idpId.equals(other.idpId))
+            return false;
+        if (idpName == null) {
+            if (other.idpName != null)
+                return false;
+        } else if (!idpName.equals(other.idpName))
+            return false;
+        if (jiraKey == null) {
+            if (other.jiraKey != null)
+                return false;
+        } else if (!jiraKey.equals(other.jiraKey))
+            return false;
+        if (requestDate == null) {
+            if (other.requestDate != null)
+                return false;
+        } else if (!requestDate.equals(other.requestDate))
+            return false;
+        if (spId == null) {
+            if (other.spId != null)
+                return false;
+        } else if (!spId.equals(other.spId))
+            return false;
+        if (spName == null) {
+            if (other.spName != null)
+                return false;
+        } else if (!spName.equals(other.spName))
+            return false;
+        if (status == null) {
+            if (other.status != null)
+                return false;
+        } else if (!status.equals(other.status))
+            return false;
+        if (subject == null) {
+            if (other.subject != null)
+                return false;
+        } else if (!subject.equals(other.subject))
+            return false;
+        if (type != other.type)
+            return false;
+        if (userEmail == null) {
+            if (other.userEmail != null)
+                return false;
+        } else if (!userEmail.equals(other.userEmail))
+            return false;
+        if (userName == null) {
+            if (other.userName != null)
+                return false;
+        } else if (!userName.equals(other.userName))
+            return false;
+        return true;
     }
 
-    public Builder type(Type type) {
-      this.type = type;
-      return this;
+    public Builder unbuild() {
+        return new Builder(this);
     }
 
-    public Builder body(String body) {
-      this.body = body;
-      return this;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public Builder idpId(String idpId) {
-      this.idpId = idpId;
-      return this;
-    }
+    public static class Builder {
 
-    public Builder spId(String spId) {
-      this.spId = spId;
-      return this;
-    }
+        private String jiraKey;
+        private String userName;
+        private String userEmail;
+        private Type type;
+        private String status;
+        private String body;
+        private String idpId;
+        private String spId;
+        private String spName;
+        private String idpName;
+        private ZonedDateTime requestDate;
+        private Service service;
+        private Settings settings;
+        private Consent consent;
 
-    public Builder spName(String spName) {
-      this.spName = spName;
-      return this;
-    }
+        private Builder() {
+        }
 
-    public Builder idpName(String idpName) {
-      this.idpName = idpName;
-      return this;
-    }
+        private Builder(Action action) {
+            this.jiraKey = action.jiraKey;
+            this.userName = action.userName;
+            this.userEmail = action.userEmail;
+            this.type = action.type;
+            this.status = action.status;
+            this.body = action.body;
+            this.idpId = action.idpId;
+            this.spId = action.spId;
+            this.spName = action.spName;
+            this.idpName = action.idpName;
+            this.requestDate = action.requestDate;
+            this.service = action.service;
+            this.settings = action.settings;
+            this.consent = action.consent;
+        }
 
-    public Builder status(String status) {
-      this.status = status;
-      return this;
-    }
+        public Builder requestDate(ZonedDateTime requestDate) {
+            this.requestDate = requestDate;
+            return this;
+        }
 
-    public Builder service(Service service) {
-      this.service = service;
-      return this;
-    }
-    
-    public Builder settings(Settings settings) {
-      this.settings = settings;
-      return this;
-    }
+        public Builder userEmail(String userEmail) {
+            this.userEmail = userEmail;
+            return this;
+        }
 
-    public Action build() {
-      return new Action(this);
+        public Builder userName(String userName) {
+            this.userName = userName;
+            return this;
+        }
+
+        public Builder jiraKey(String jiraKey) {
+            this.jiraKey = jiraKey;
+            return this;
+        }
+
+        public Builder type(Type type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder body(String body) {
+            this.body = body;
+            return this;
+        }
+
+        public Builder idpId(String idpId) {
+            this.idpId = idpId;
+            return this;
+        }
+
+        public Builder spId(String spId) {
+            this.spId = spId;
+            return this;
+        }
+
+        public Builder spName(String spName) {
+            this.spName = spName;
+            return this;
+        }
+
+        public Builder idpName(String idpName) {
+            this.idpName = idpName;
+            return this;
+        }
+
+        public Builder status(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder service(Service service) {
+            this.service = service;
+            return this;
+        }
+
+        public Builder settings(Settings settings) {
+            this.settings = settings;
+            return this;
+        }
+
+        public Builder consent(Consent consent) {
+            this.consent = consent;
+            return this;
+        }
+
+        public Action build() {
+            return new Action(this);
+        }
     }
-  }
 
 }

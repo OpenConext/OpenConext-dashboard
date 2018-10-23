@@ -299,6 +299,7 @@ class MyIdp extends React.Component {
         const hasServices = institutionServiceProviders.length > 0;
         return (
             <div className="l-main">
+                <Flash/>
                 <div className="l-left">
                     {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
                                    filters={serviceFilters}
@@ -306,7 +307,6 @@ class MyIdp extends React.Component {
                                    searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>
                 <div className="l-right">
-                    <Flash/>
                     <div className="mod-idp">
                         <h1 className="top">{I18n.t("my_idp.title")}</h1>
                         <p>{text}</p>

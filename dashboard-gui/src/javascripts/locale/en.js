@@ -123,7 +123,8 @@ I18n.translations.en = {
             license_info: "License",
             overview: "Overview",
             sirtfi_security: "Sirtfi Security",
-            privacy: "Privacy"
+            privacy: "Privacy",
+            consent: "Consent"
         },
         overview: {
             connect: "",
@@ -276,6 +277,25 @@ I18n.translations.en = {
         certificationValidFrom: "CERTIFICATION VALID FROM",
         certificationValidTo: "CERTIFICATION VALID TO",
         noInformation: "No info supplied by provider"
+    },
+    consent_panel: {
+        title: "Consent new users",
+        subtitle: "New users will be asked permission for sending personal data to this service.",
+        subtitle2: " On this page you can configure in which way users will be asked for consent before they are sent to this service. You can configure to skip consent, ask for minimal consent and add a custom consent message for users of this service.",
+        subtitle2Viewer: " On this page you can view in which way users will be asked for consent before they are sent to this service.",
+        no_consent: "No consent is required",
+        minimal_consent: "Minimal consent is required",
+        default_consent: "Default consent with an optional custom message",
+        consent_value: "Type of consent required",
+        consent_value_tooltip: "The type of consent determines how and if the user will be asked for consent.",
+        explanationNl: "Dutch message",
+        explanationNl_tooltip: "This custom message will be appended to the English consent screen for new users.",
+        explanationEn: "English message",
+        explanationEn_tooltip: "This custom message will be appended to the Dutch consent screen for new users.",
+        save: "Submit changes",
+        change_request_created: "Change request sent to the SURFnet SURFconext-team.",
+        no_change_request_created: "No change request is created as you did not change anything.",
+        change_request_failed: "Failed to create your change request.",
     },
     how_to_connect_panel: {
         accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",

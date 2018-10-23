@@ -2,10 +2,8 @@ package dashboard.manage;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dashboard.domain.*;
 import org.springframework.core.io.Resource;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.Provider;
-import dashboard.domain.ServiceProvider;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
@@ -35,7 +34,7 @@ public interface Manage {
     /**
      * Get a {@link ServiceProvider} by its entity ID, without a idpEntityId
      *
-     * @param spEntityId the entity id of the ServiceProvider
+     * @param spEntityId      the entity id of the ServiceProvider
      * @param searchRevisions
      * @return the {@link ServiceProvider} object.
      */
@@ -46,7 +45,7 @@ public interface Manage {
     /**
      * Get an identity provider by its id.
      *
-     * @param idpEntityId the id.
+     * @param idpEntityId     the id.
      * @param searchRevisions
      * @return IdentityProvider
      */
@@ -96,20 +95,20 @@ public interface Manage {
     }
 
     default <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T>
-        provider) throws IOException {
+            provider) throws IOException {
         List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new
-            TypeReference<List<Map<String, Object>>>() {
-            });
+                TypeReference<List<Map<String, Object>>>() {
+                });
 
         Map<String, T> result = providers.stream()
-            .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
-                identity()));
+                .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
+                        identity()));
         return result;
     }
 
     default boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {
         return (sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idp.getId())) &&
-            (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
+                (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
     }
 
     default Map<String, Object> transformManageMetadata(Map<String, Object> metadata) {
@@ -136,15 +135,15 @@ public interface Manage {
                     Boolean enabled = (Boolean) arp.get("enabled");
                     if (enabled) {
                         Map<String, List<Map<String, String>>> attributes =
-                            (Map<String, List<Map<String, String>>>) arp.get("attributes");
+                                (Map<String, List<Map<String, String>>>) arp.get("attributes");
                         Map<String, List<String>> attributesMap = attributes.entrySet().stream()
-                            .collect(toMap(
-                                e -> e.getKey(),
-                                e -> e.getValue().stream().map(m -> m.get("value")).collect(toList()))) ;
+                                .collect(toMap(
+                                        e -> e.getKey(),
+                                        e -> e.getValue().stream().map(m -> m.get("value")).collect(toList())));
                         Map<String, String> motivationsMap = attributes.entrySet().stream()
-                            .collect(toMap(
-                                e -> e.getKey(),
-                                e -> e.getValue().get(0).getOrDefault("motivation", ""))) ;
+                                .collect(toMap(
+                                        e -> e.getKey(),
+                                        e -> e.getValue().get(0).getOrDefault("motivation", "")));
                         result.put("attributes", attributesMap);
                         result.put("motivations", motivationsMap);
                     }
@@ -155,6 +154,16 @@ public interface Manage {
                     List<String> allowedEntitiesList = allowedEntities.stream().map(m -> m.get("name")).collect(toList());
                     result.put("allowedEntities", allowedEntitiesList);
                     break;
+                }
+                case "disableConsent": {
+                    List<Map<String, String>> disableConsent = (List<Map<String, String>>) value;
+                    result.put("disableConsent", disableConsent.stream().map(m ->
+                            new Consent(m.get("name"),
+                                    m.containsKey("type") ? ConsentType.valueOf(m.get("type").toUpperCase()) : ConsentType.DEFAULT_CONSENT,
+                                    m.get("explanation:nl"),
+                                    m.get("explanation:en"))).collect(Collectors.toList()));
+                    break;
+
                 }
             }
 

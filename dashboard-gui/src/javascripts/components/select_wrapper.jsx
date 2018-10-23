@@ -25,6 +25,7 @@ class SelectWrapper extends React.Component {
             <Select className="react-select"
                     value={valueFromId(data, defaultValue)}
                     options={data}
+                    isDisabled={this.props.isDisabled}
                     isMulti={this.props.multiple}
                     onChange={val => this.onChange(val)}
                     styles={colourStyles}
@@ -44,6 +45,7 @@ SelectWrapper.propTypes = {
     ]),
     multiple: PropTypes.bool,
     isClearable: PropTypes.bool,
+    isDisabled: PropTypes.bool,
     options: PropTypes.arrayOf(PropTypes.shape({
         display: PropTypes.string,
         value: PropTypes.string

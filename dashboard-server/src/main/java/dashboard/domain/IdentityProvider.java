@@ -18,7 +18,9 @@ package dashboard.domain;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("serial")
@@ -26,6 +28,7 @@ public class IdentityProvider extends Provider implements Serializable {
 
     private String institutionId;
     private Map<String, String> keywords = new HashMap<>();
+    private List<Consent> disableConsent;
     private boolean connectToRSServicesAutomatically;
 
     public IdentityProvider() {
@@ -45,6 +48,7 @@ public class IdentityProvider extends Provider implements Serializable {
     public IdentityProvider(Map<String, Object> metaData) {
         super(metaData);
         this.institutionId = (String) metaData.get("coin:institution_id");
+        this.disableConsent = (List<Consent> ) metaData.getOrDefault("disableConsent",  new ArrayList<>());
         addKeywords("en", (String) metaData.get("keywords:en"));
         addKeywords("nl", (String) metaData.get("keywords:nl"));
         connectToRSServicesAutomatically = "http://refeds.org/category/research-and-scholarship".equals(metaData.get(
@@ -67,6 +71,10 @@ public class IdentityProvider extends Provider implements Serializable {
         if (keywords != null) {
             this.keywords.put(language, keywords);
         }
+    }
+
+    public List<Consent> getDisableConsent() {
+        return disableConsent;
     }
 
     public boolean isConnectToRSServicesAutomatically() {
