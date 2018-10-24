@@ -88,7 +88,7 @@ class AppDetail extends React.Component {
     render() {
         if (this.state.app) {
             return (
-                <div className="l-center">
+                <div className="l-center-app-detail">
                     <Flash/>
                     <div className="l-app-detail">
                         <div className="mod-app-nav">
