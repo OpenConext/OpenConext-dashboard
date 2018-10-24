@@ -90,16 +90,10 @@ class AppDetail extends React.Component {
             return (
                 <div className="l-center">
                     <Flash/>
-                    <div className="l-left">
+                    <div className="l-app-detail">
                         <div className="mod-app-nav">
                             <ul>
                                 {Object.keys(this.panelMap).map(panelKey => this.renderNavItem(panelKey))}
-                            </ul>
-                        </div>
-                        <br/>
-
-                        <div className="mod-app-nav">
-                            <ul>
                                 {this.renderNavItem("application_usage", true)}
                             </ul>
                         </div>

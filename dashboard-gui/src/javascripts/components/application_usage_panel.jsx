@@ -23,7 +23,7 @@ class ApplicationUsagePanel extends React.Component {
 
     render() {
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-usage">
                     <Stats view="minimal" sp={this.props.app.spEntityId}/>
                 </div>

@@ -28,7 +28,7 @@ class ConsentPanel extends React.Component {
         const isDashboardAdmin = this.context.currentUser.dashboardAdmin;
         const subTitle2 = isDashboardAdmin ? "subtitle2" : "subtitle2Viewer";
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("consent_panel.title")}</h1>
                     <p>{I18n.t("consent_panel.subtitle", {name: this.props.app.name})}</p>

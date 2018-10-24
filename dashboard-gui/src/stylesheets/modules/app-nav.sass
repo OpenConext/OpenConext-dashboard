@@ -1,21 +1,32 @@
 @import "../utilities/placeholders.sass"
 @import "../utilities/vars.sass"
 
-.mod-app-nav
-  @extend %box
-  text-align: center
-  a
-    display: block
-    border-bottom: 1px solid $border
-    height: 120px
-    padding: 30px 10px
-    text-decoration: none
-    color: $medium-grey
-    &:hover,
-    &.current
-      color: $blue
+.l-app-detail
+  padding: 0 30px 15px 30px
+  .mod-app-nav
+    @extend %box
+    text-align: center
+    ul
+      display: flex
+      li
+        flex-grow: 2
+    a
+      display: block
+      border-bottom: 1px solid $border
+      height: 120px
+      padding: 30px 10px
+      text-decoration: none
+      color: $medium-grey
+      &:hover,
+      &.current
+        color: $blue
 
-  .fa
-    font-size: 2.5em
-    display: block
-    margin-bottom: 10px
+    .fa
+      font-size: 2.5em
+      display: block
+      margin-bottom: 10px
+
+.l-middle-app-detail
+  padding: 0 360px 30px 30px
+  margin-left: auto
+  margin-right: auto

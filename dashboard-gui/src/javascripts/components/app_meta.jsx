@@ -8,7 +8,7 @@ export default class AppMeta extends React.Component {
   render() {
     const app = this.props.app;
     return (
-      <div className="l-right">
+      <div className="l-right-app-meta">
         <div className="mod-app-meta">
           {this.renderLogo()}
 

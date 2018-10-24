@@ -1,23 +1,28 @@
 @import "../utilities/vars.sass"
 @import "../utilities/placeholders.sass"
 
-.mod-app-meta
-  @extend %box
-  text-align: center
+.l-right-app-meta
+  float: right
+  width: 300px
+  margin: 0 30px
+  right: 0
 
-  img
-    width: 100%
+  div.mod-app-meta
+    @extend %box
+    text-align: center
+    img
+      width: 100%
 
-  .logo
-    padding: 30px
+    .logo
+      padding: 30px
 
-  .contact
-    border-top: 1px solid $border
-    padding: 30px
-    text-align: left
+    .contact
+      border-top: 1px solid $border
+      padding: 30px
+      text-align: left
 
-  h2
-    font-size: 16px
-    font-weight: bold
-    line-height: 25px
-    margin-bottom: 5px
+    h2
+      font-size: 16px
+      font-weight: bold
+      line-height: 25px
+      margin-bottom: 5px

@@ -6,7 +6,7 @@ import {AppShape} from "../shapes";
 class SirtfiPanel extends React.Component {
     render() {
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("sirtfi_panel.title", {name: this.props.app.name})}</h1>
                     <em className="info" dangerouslySetInnerHTML={{__html: I18n.t("sirtfi_panel.subtitle")}}></em>

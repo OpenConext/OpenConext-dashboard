@@ -17,7 +17,7 @@ class OverviewPanel extends React.Component {
         }
 
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{this.props.app.name}</h1>
                 </div>

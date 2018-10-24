@@ -76,7 +76,7 @@ class HowToConnectPanel extends React.Component {
         }
         const classNameConnect = this.state.accepted && (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("how_to_connect_panel.connect_title", {app: this.props.app.name})}</h1>
                     <p>{I18n.t("how_to_connect_panel.info_sub_title")}</p>
@@ -230,7 +230,7 @@ class HowToConnectPanel extends React.Component {
             I18n.t("how_to_connect_panel.done_disconnect_subtitle_html_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
             I18n.t("how_to_connect_panel.done_disconnect_subtitle_html");
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("how_to_connect_panel.done_disconnect_title")}</h1>
                     <p dangerouslySetInnerHTML={{__html: subtitle}}/>
@@ -250,7 +250,7 @@ class HowToConnectPanel extends React.Component {
             I18n.t("how_to_connect_panel.done_subtitle_html");
 
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("how_to_connect_panel.done_title")}</h1>
                     <p dangerouslySetInnerHTML={{__html: subtitle}}/>
@@ -271,7 +271,7 @@ class HowToConnectPanel extends React.Component {
 
     renderDisconnectStep() {
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name})}</h1>
                 </div>

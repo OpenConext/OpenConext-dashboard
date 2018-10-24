@@ -7,7 +7,7 @@ class PrivacyPanel extends React.Component {
 
     render() {
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("privacy_panel.title")}</h1>
                     <p>{I18n.t("privacy_panel.subtitle", {name: this.props.app.name})}</p>

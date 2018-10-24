@@ -7,7 +7,7 @@ import {AppShape} from "../shapes";
 class LicenseInfoPanel extends React.Component {
     render() {
         return (
-            <div className="l-middle">
+            <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{I18n.t("license_info_panel.title")}</h1>
                 </div>
