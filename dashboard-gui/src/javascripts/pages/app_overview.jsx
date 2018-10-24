@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import SortableHeader from "../components/sortable_header";
 import {Link} from "react-router-dom";
-import {exportApps, getApps} from "../api";
+import {disableConsent, exportApps, getApps} from "../api";
 import sort from "../utils/sort";
 import pagination from "../utils/pagination";
 import Facets from "../components/facets";
@@ -39,39 +39,41 @@ class AppOverview extends React.Component {
             page: 1,
             download: false,
             downloading: false,
-            exportResult: []
+            exportResult: [],
+            idpDisableConsent: []
         };
     }
 
     componentWillMount() {
-        getApps().then(data => {
-            const {facets, apps} = data.payload;
+        Promise.all([getApps(), disableConsent()])
+            .then(data => {
+                const {facets, apps} = data[0].payload;
 
-            // We need to sanitize the categories data for each app to ensure the facet totals are correct
-            const unknown = {value: I18n.t("facets.unknown")};
-            facets.forEach(facet => {
-                apps.forEach(app => {
-                    app.categories = app.categories || [];
-                    const appCategory = app.categories.filter(category => {
-                        return category.name === facet.name;
-                    });
-                    if (appCategory.length === 0) {
-                        app.categories.push({name: facet.name, values: [unknown]});
-                        const filtered = facet.values.filter(facetValue => {
-                            return facetValue.value === unknown.value;
+                // We need to sanitize the categories data for each app to ensure the facet totals are correct
+                const unknown = {value: I18n.t("facets.unknown")};
+                facets.forEach(facet => {
+                    apps.forEach(app => {
+                        app.categories = app.categories || [];
+                        const appCategory = app.categories.filter(category => {
+                            return category.name === facet.name;
                         });
-                        if (!filtered[0]) {
-                            facet.values.push(Object.assign({}, unknown));
+                        if (appCategory.length === 0) {
+                            app.categories.push({name: facet.name, values: [unknown]});
+                            const filtered = facet.values.filter(facetValue => {
+                                return facetValue.value === unknown.value;
+                            });
+                            if (!filtered[0]) {
+                                facet.values.push(Object.assign({}, unknown));
+                            }
                         }
-                    }
+                    });
                 });
+                const attributes = apps.reduce((acc, app) => {
+                    Object.keys(app.arp.attributes).forEach(attr => acc.add(attr));
+                    return acc;
+                }, new Set());
+                this.setState({apps: apps, idpDisableConsent: data[1], facets: facets, arpAttributes: [...attributes]});
             });
-            const attributes = apps.reduce((acc, app) => {
-                Object.keys(app.arp.attributes).forEach(attr => acc.add(attr));
-                return acc;
-            }, new Set());
-            this.setState({apps: apps, facets: facets, arpAttributes: [...attributes]});
-        });
     }
 
     handleSort(sortObject) {
@@ -354,8 +356,8 @@ class AppOverview extends React.Component {
                     break;
                 case "type_consent":
                     filter(facet, (app, facetValue) => {
-                        const disableConsent = currentUser.currentIdp.disableConsent || [];
-                        const consent = disableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
+                        const idpDisableConsent = this.state.idpDisableConsent || [];
+                        const consent = idpDisableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
                         return facetValue.searchValue === consent.type;
                     });
                     break;
@@ -512,11 +514,14 @@ class AppOverview extends React.Component {
             name: I18n.t("facets.static.type_consent.name"),
             tooltip: I18n.t("facets.static.type_consent.tooltip"),
             searchValue: "type_consent",
-            values: consentTypes.map(t => ({searchValue: t, value: I18n.t(`facets.static.type_consent.${t.toLowerCase()}`)})),
+            values: consentTypes.map(t => ({
+                searchValue: t,
+                value: I18n.t(`facets.static.type_consent.${t.toLowerCase()}`)
+            })),
             filterApp: function (app) {
                 const consentFacetValues = this.state.activeFacets["type_consent"] || [];
-                const disableConsent = currentUser.currentIdp.disableConsent || [];
-                const consent = disableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
+                const idpDisableConsent = this.state.idpDisableConsent || [];
+                const consent = idpDisableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
                 return consentFacetValues.length === 0 || consentFacetValues.includes(consent.type);
             }.bind(this)
         }

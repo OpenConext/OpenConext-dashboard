@@ -14,8 +14,7 @@ class ConsentPanel extends React.Component {
     constructor(props, context) {
         super(props, context);
         const {app} = this.props;
-        const {currentUser} = this.context;
-        const disableConsent = currentUser.currentIdp.disableConsent || [];
+        const disableConsent = this.props.idpDisableConsent;
         const consent = disableConsent.find(dc => dc.spEntityId === app.spEntityId) || {
             spEntityId: app.spEntityId,
             type: "DEFAULT_CONSENT",
@@ -122,7 +121,8 @@ ConsentPanel.contextTypes = {
 };
 
 ConsentPanel.propTypes = {
-    app: AppShape.isRequired
+    app: AppShape.isRequired,
+    idpDisableConsent: PropTypes.array
 };
 
 export default ConsentPanel;

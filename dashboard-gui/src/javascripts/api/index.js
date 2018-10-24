@@ -245,3 +245,8 @@ export function consentChangeRequest(data) {
         }
     });
 }
+
+export function disableConsent() {
+    return fetchJson("/users/disableConsent");
+}
+

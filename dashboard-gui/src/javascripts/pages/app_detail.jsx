@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import {Link} from "react-router-dom";
 
-import {getApp, getIdps} from "../api";
+import {disableConsent, getApp, getIdps} from "../api";
 
 import AppMeta from "../components/app_meta";
 import OverviewPanel from "../components/overview_panel";
@@ -40,7 +40,7 @@ class AppDetail extends React.Component {
             },
             "idp_usage": {
                 component: IdpUsagePanel,
-                icon: "fa-clipboard"
+                icon: "fa-university"
             },
             "how_to_connect": {
                 component: HowToConnectPanel,
@@ -54,13 +54,15 @@ class AppDetail extends React.Component {
 
         this.state = {
             app: null,
-            institutions: []
+            institutions: [],
+            idpDisableConsent: []
         };
     }
 
     componentWillMount() {
-        getApp(this.props.match.params.id, this.props.match.params.type).then(data => {
-            const app = data.payload;
+        Promise.all([getApp(this.props.match.params.id, this.props.match.params.type), disableConsent()])
+        .then(data => {
+            const app = data[0].payload;
             if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
                 this.panelMap = {
                     ...this.panelMap, "sirtfi_security": {
@@ -73,12 +75,12 @@ class AppDetail extends React.Component {
                 this.panelMap = {
                     ...this.panelMap, "consent": {
                         component: ConsentPanel,
-                        icon: "fa-university"
+                        icon: "fa-clipboard"
                     }
                 }
             }
-            this.setState({app: app});
-            return getIdps(app.spEntityId).then(data => this.setState({institutions: data.payload}));
+            this.setState({app: app, idpDisableConsent: data[1]});
+            getIdps(app.spEntityId).then(data => this.setState({institutions: data.payload}));
         });
 
     }
@@ -159,7 +161,9 @@ class AppDetail extends React.Component {
 
         const Component = panel.component;
 
-        return <Component app={this.state.app} institutions={this.state.institutions}/>;
+        return <Component app={this.state.app}
+                          institutions={this.state.institutions}
+                          idpDisableConsent={this.state.idpDisableConsent}/>;
     }
 }
 

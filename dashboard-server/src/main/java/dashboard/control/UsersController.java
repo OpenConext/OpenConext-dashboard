@@ -58,6 +58,15 @@ public class UsersController extends BaseController {
         return createRestResponse(SpringSecurity.getCurrentUser());
     }
 
+    @RequestMapping("/disableConsent")
+    public List<Consent> disableConsent() {
+        String id = SpringSecurity.getCurrentUser().getIdp().getId();
+        return manage.getIdentityProvider(id, false)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("IdP %s not found", id)))
+                .getDisableConsent();
+    }
+
+
     @RequestMapping("/super/idps")
     public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
