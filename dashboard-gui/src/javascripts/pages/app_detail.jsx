@@ -93,6 +93,12 @@ class AppDetail extends React.Component {
                     <div className="l-app-detail">
                         <div className="mod-app-nav">
                             <ul>
+                                <li key="back">
+                                    <Link to="/apps">
+                                        <i className="fa fa-arrow-left"></i>
+                                        {I18n.t("apps.detail.back")}
+                                    </Link>
+                                </li>
                                 {Object.keys(this.panelMap).map(panelKey => this.renderNavItem(panelKey))}
                                 {this.renderNavItem("application_usage", true)}
                             </ul>

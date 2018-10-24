@@ -131,7 +131,8 @@ I18n.translations.en = {
             overview: "Overview",
             sirtfi_security: "Sirtfi Security",
             privacy: "Privacy",
-            consent: "Consent"
+            consent: "Consent",
+            back: "Back"
         },
         overview: {
             connect: "",

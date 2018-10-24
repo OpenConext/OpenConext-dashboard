@@ -131,7 +131,8 @@ I18n.translations.nl = {
             overview: "Overzicht",
             sirtfi_security: "Sirtfi contacten",
             privacy: "Privacy",
-            consent: "Consent"
+            consent: "Consent",
+            back: "Terug"
         },
         overview: {
             connect: "",
