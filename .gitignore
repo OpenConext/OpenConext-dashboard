@@ -20,4 +20,4 @@ ResourceBundleUtils.java
 manage-json
 notes.txt
 *.css
-local.application.properties
+application-local.properties
