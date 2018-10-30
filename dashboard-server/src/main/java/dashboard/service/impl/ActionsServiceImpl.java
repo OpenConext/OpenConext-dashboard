@@ -20,11 +20,7 @@ import static java.util.stream.Collectors.toList;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,7 +60,7 @@ public class ActionsServiceImpl implements ActionsService {
   public Map<String, Object> getActions(String identityProvider, int startAt, int maxResults) {
       Map<String, Object> result = jiraClient.getTasks(identityProvider, startAt, maxResults);
       List<Action> issues = (List<Action>) result.get("issues");
-      List<Action> enrichedActions = issues.stream().map(this::addNames).map(this::addUser).collect(toList());
+      List<Action> enrichedActions = issues != null ? issues.stream().map(this::addNames).map(this::addUser).collect(toList()) : new ArrayList<>();
       Map<String, Object> copyResult = new HashMap<>(result);
       copyResult.put("issues", enrichedActions);
       return copyResult;

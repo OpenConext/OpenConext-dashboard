@@ -99,10 +99,10 @@ class Facets extends React.Component {
 
     renderDropDownIndicator(facet) {
         if (this.props.hiddenFacets[facet.name]) {
-            return <i className="fa fa-caret-down float-right"/>;
+            return <i className="fa fa-caret-down"/>;
         }
 
-        return <i className="fa fa-caret-up float-right"/>;
+        return <i className="fa fa-caret-up"/>;
     }
 
     renderFacetValue(facet, facetValue) {

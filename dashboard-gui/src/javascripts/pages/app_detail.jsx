@@ -16,7 +16,7 @@ import SirtfiPanel from "../components/sirtfi_panel";
 import PrivacyPanel from "../components/privacy_panel";
 import ConsentPanel from "../components/consent_panel";
 import Flash from "../components/flash";
-
+import {privacyProperties} from "../utils/privacy";
 class AppDetail extends React.Component {
     constructor() {
         super();
@@ -45,11 +45,8 @@ class AppDetail extends React.Component {
             "how_to_connect": {
                 component: HowToConnectPanel,
                 icon: "fa-chain"
-            },
-            "privacy": {
-                component: PrivacyPanel,
-                icon: "fa-lock"
             }
+
         };
 
         this.state = {
@@ -63,6 +60,15 @@ class AppDetail extends React.Component {
         Promise.all([getApp(this.props.match.params.id, this.props.match.params.type), disableConsent()])
         .then(data => {
             const app = data[0].payload;
+            const hasPrivacyInfo = privacyProperties.some(prop => app.privacyInfo[prop]);
+            if (hasPrivacyInfo) {
+                this.panelMap = {
+                    ...this.panelMap,  "privacy": {
+                        component: PrivacyPanel,
+                        icon: "fa-lock"
+                    }
+                };
+            }
             if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
                 this.panelMap = {
                     ...this.panelMap, "sirtfi_security": {

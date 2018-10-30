@@ -191,7 +191,7 @@ I18n.translations.nl = {
     },
 
     license_info: {
-        unknown_license: "Geen licentieinformatie beschikbaar",
+        unknown_license: "Geen licentie-informatie beschikbaar",
         has_license_surfmarket: "Licentie beschikbaar via SURFmarket",
         has_license_sp: "Licentie nodig (via service supplier)",
         no_license: "Licentie is niet aanwezig",
@@ -223,7 +223,7 @@ I18n.translations.nl = {
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
         aansluitovereenkomst: "Aansluitovereenkomst",
-        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze SURF overeenkomst op de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>."
+        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>."
     },
 
     attributes_policy_panel: {
@@ -268,8 +268,8 @@ I18n.translations.nl = {
         cp_type_translate_support: "Support"
     },
     privacy_panel: {
-        title: "AVG Informatie",
-        subtitle: "SURFnet verzoekt nieuwe services om AVG informatie aan te dragen. Indien beschikbaar, vindt je deze informatie hieronder. Voor ontbrekende informatie kan je contact opnemen met de leverancier.",
+        title: "Privacy informatie",
+        subtitle: "SURF geeft leveranciers de kans informatie te delen die van belang is in het kader van de AVG. Indien beschikbaar, vind je deze informatie hieronder. Voor ontbrekende informatie kan je contact opnemen met de leverancier.",
         subtitle2: "De leverancier van de service {{name}} heeft SURFnet voorzien van de volgende informatie:",
         question: "Vraag",
         answer: "Antwoord",
@@ -340,7 +340,7 @@ I18n.translations.nl = {
         jira_unreachable: "Er is iets mis gegaan bij de aanvraag",
         jira_unreachable_description: "Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.",
         license: "licentie",
-        license_info: "de licentieinformatie",
+        license_info: "de licentie-informatie",
         obtain_license: {
             after: " aan te schaffen voor het gebruik van {{app}}.",
             before: "Het is de verantwoordelijkheid van mijn instelling om eventueel een ",
@@ -353,7 +353,7 @@ I18n.translations.nl = {
         single_tenant_service_warning: "Verzoeken voor activatie van single tenant diensten duren langer om te verwerken. SURFnet zal contact opnemen zodra het dit verzoek heeft ontvangen.",
         terms_title: "Met het activeren van de connectie ga je akkoord met de volgende voorwaarden:",
         wiki: "wiki voor deze service",
-        aansluitovereenkomst_accept: "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de SURF 'aansluitovereenkomst' te ondertekenen.",
+        aansluitovereenkomst_accept: "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de 'SURFconext aansluitovereenkomst' te ondertekenen.",
         not_published_in_edugain_idp: "eduGAIN dienst",
         not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat uw instelling niet is gepubliceerd is in eduGAIN. Om uw instelling te publiceren in eduGAIN kunt u een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
         edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'"

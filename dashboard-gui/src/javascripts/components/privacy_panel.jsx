@@ -2,6 +2,7 @@ import React from "react";
 import I18n from "i18n-js";
 
 import {AppShape} from "../shapes";
+import {privacyProperties} from "../utils/privacy";
 
 class PrivacyPanel extends React.Component {
 
@@ -19,9 +20,6 @@ class PrivacyPanel extends React.Component {
     }
 
     renderPrivacy(app) {
-        const properties = ["whatData", "accessData", "country", "securityMeasures", "certification", "certificationLocation",
-            "certificationValidFrom", "certificationValidTo", "surfmarketDpaAgreement", "surfnetDpaAgreement",
-            "snDpaWhyNot", "privacyPolicy", "privacyPolicyUrl", "otherInfo"];
         return (
             <div className="mod-privacy-info">
                 <table>
@@ -33,7 +31,7 @@ class PrivacyPanel extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {properties.map(prop => this.renderPrivacyProp(prop, app.privacyInfo[prop]))}
+                    {privacyProperties.map(prop => this.renderPrivacyProp(prop, app.privacyInfo[prop]))}
                     </tbody>
                 </table>
             </div>

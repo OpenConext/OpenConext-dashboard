@@ -72,7 +72,10 @@ class AppOverview extends React.Component {
                     Object.keys(app.arp.attributes).forEach(attr => acc.add(attr));
                     return acc;
                 }, new Set());
-                this.setState({apps: apps, idpDisableConsent: data[1], facets: facets, arpAttributes: [...attributes]});
+                const initialHiddenFacets = {};
+                initialHiddenFacets[I18n.t("facets.static.arp.name")] = true;
+                this.setState({apps: apps, idpDisableConsent: data[1], facets: facets, arpAttributes: [...attributes],
+                    hiddenFacets: initialHiddenFacets});
             });
     }
 
