@@ -127,7 +127,7 @@ I18n.translations.nl = {
             how_to_connect: "Dienst koppelen",
             how_to_disconnect: "Dienst ontkoppelen",
             idp_usage: "Gebruikt door",
-            license_info: "Licentie",
+            license_data: "Licentie",
             overview: "Overzicht",
             sirtfi_security: "Sirtfi contacten",
             privacy: "Privacy",
@@ -169,7 +169,7 @@ I18n.translations.nl = {
     },
 
     license_info_panel: {
-        title: "Licentie informatie",
+        title: "Licentie-informatie",
         has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie beschikbaar voor deze service.",
         has_license_sp_html: "Een licentie voor <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
         has_license_sp_html_no_service_url: "Een licentie voor {{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
@@ -223,7 +223,9 @@ I18n.translations.nl = {
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
         aansluitovereenkomst: "Aansluitovereenkomst",
-        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>."
+        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>.",
+        privacyInformation: "Privacy-informatie",
+        privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd."
     },
 
     attributes_policy_panel: {
@@ -313,6 +315,7 @@ I18n.translations.nl = {
         accept_disconnect: "Ja, ik ga akkoord dat {{app}} niet meer beschikbaar zal zijn voor mijn organisatie",
         attributes: "attributen",
         attributes_policy: "het attribuutbeleid",
+        privacy_policy: "privacy-informatie",
         back_to_apps: "Terug naar alle services",
         cancel: "Annuleren",
         check: "Controleer",

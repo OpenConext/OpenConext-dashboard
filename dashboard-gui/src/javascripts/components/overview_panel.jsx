@@ -8,6 +8,7 @@ import LicenseInfo from "./license_info";
 import Screenshots from "./screenshots";
 
 import {AppShape} from "../shapes";
+import {privacyProperties} from "../utils/privacy";
 
 class OverviewPanel extends React.Component {
     render() {
@@ -42,6 +43,8 @@ class OverviewPanel extends React.Component {
                 {this.renderEntityCategories()}
 
                 {this.renderAansluitOvereenkomstRefused()}
+
+                {this.renderPrivacyInformation()}
 
                 <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
             </div>
@@ -144,6 +147,17 @@ class OverviewPanel extends React.Component {
                 <h2>{I18n.t("overview_panel.aansluitovereenkomst")}</h2>
                 <p dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.aansluitovereenkomstRefused")}}/>
             </div>);
+    }
+
+    renderPrivacyInformation() {
+        const hasPrivacyInfo = privacyProperties.some(prop => this.props.app.privacyInfo[prop]);
+        if (hasPrivacyInfo) {
+            return null;
+        }
+        return <div className="mod-description">
+            <h2>{I18n.t("overview_panel.privacyInformation")}</h2>
+            <p dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.privacyInformationInfo")}}/>
+        </div>;
     }
 
     renderSingleTenantService() {

@@ -18,10 +18,11 @@ import {consentTypes} from "../utils/utils";
 
 const store = {
     activeFacets: null,
-    hiddenFacets: null
+    hiddenFacets: null,
+    page: null
 };
 
-const pageCount = 30;
+const pageCount = 20;
 
 class AppOverview extends React.Component {
     constructor() {
@@ -36,7 +37,7 @@ class AppOverview extends React.Component {
             hiddenFacets: store.hiddenFacets || {},
             sortAttribute: "name",
             sortAscending: undefined,
-            page: 1,
+            page: store.page || 1,
             download: false,
             downloading: false,
             exportResult: [],
@@ -216,6 +217,7 @@ class AppOverview extends React.Component {
         this.setState({activeFacets: selectedFacets, page: 1});
 
         store.activeFacets = selectedFacets;
+        store.page = 1;
     }
 
     handleFacetHide(facet) {
@@ -239,6 +241,7 @@ class AppOverview extends React.Component {
 
         store.activeFacets = null;
         store.hiddenFacets = null;
+        store.page = 1;
     }
 
     handleDownloadOverview = e => {
@@ -551,6 +554,7 @@ class AppOverview extends React.Component {
             "left": 0,
             "top": 0
         }));
+        store.page = nbr;
     }
 
     renderPagination(resultLength, page) {

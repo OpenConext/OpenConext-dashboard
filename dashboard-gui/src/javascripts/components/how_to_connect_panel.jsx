@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {AppShape} from "../shapes";
 import {makeConnection, removeConnection} from "../api";
 import stopEvent from "../utils/stop";
+import {privacyProperties} from "../utils/privacy";
 
 class HowToConnectPanel extends React.Component {
     constructor() {
@@ -75,6 +76,7 @@ class HowToConnectPanel extends React.Component {
             ++lastNumber;
         }
         const classNameConnect = this.state.accepted && (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
+        const hasPrivacyInfo = privacyProperties.some(prop => this.props.app.privacyInfo[prop]);
         return (
             <div className="l-middle-app-detail">
                 <div className="mod-title">
@@ -90,7 +92,7 @@ class HowToConnectPanel extends React.Component {
                             <ul>
                                 <li>
                                     {I18n.t("how_to_connect_panel.check")}&nbsp;
-                                    <Link to={this.getPanelRoute("license_info")}>
+                                    <Link to={this.getPanelRoute("license_data")}>
                                         {I18n.t("how_to_connect_panel.license_info")}
                                     </Link>
                                 </li>
@@ -100,6 +102,12 @@ class HowToConnectPanel extends React.Component {
                                         {I18n.t("how_to_connect_panel.attributes_policy")}
                                     </Link>
                                 </li>
+                                {hasPrivacyInfo && <li>
+                                    {I18n.t("how_to_connect_panel.check")}&nbsp;
+                                    <Link to={this.getPanelRoute("privacy")}>
+                                        {I18n.t("how_to_connect_panel.privacy_policy")}
+                                    </Link>
+                                </li>}
                                 <li>
                                     <span
                                         dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.processing_agreements")}}/>
@@ -130,7 +138,7 @@ class HowToConnectPanel extends React.Component {
 
                                 <li>
                                     {I18n.t("how_to_connect_panel.obtain_license.before")}
-                                    <Link to={this.getPanelRoute("license_info")}>
+                                    <Link to={this.getPanelRoute("license_data")}>
                                         {I18n.t("how_to_connect_panel.license")}
                                     </Link>
                                     {I18n.t("how_to_connect_panel.obtain_license.after", {app: this.props.app.name})}

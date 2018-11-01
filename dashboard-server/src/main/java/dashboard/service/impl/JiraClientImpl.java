@@ -52,23 +52,23 @@ public class JiraClientImpl implements JiraClient {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-    private static final String SP_CUSTOM_FIELD = "13018";
-    private static final String IDP_CUSTOM_FIELD = "13012";
+    private static final String SP_CUSTOM_FIELD = "13018";//customfield_12914
+    private static final String IDP_CUSTOM_FIELD = "13012";//customfield_12912
     private static final String PRIORITY_MEDIUM_ID = "3";
 
     private static final Map<Action.Type, String> TASKTYPE_TO_ISSUETYPE_CODE = ImmutableMap.of(
-        Type.QUESTION, "11103",
-        Type.LINKREQUEST, "11104",
-        Type.UNLINKREQUEST, "11105",
-        Type.CHANGE, "11106");
+            Type.QUESTION, "11103",
+            Type.LINKREQUEST, "11104",
+            Type.UNLINKREQUEST, "11105",
+            Type.CHANGE, "11106");
 
-    private final String baseUrl;
-    private final RestTemplate restTemplate;
-    private final String projectKey;
-    private final HttpHeaders defaultHeaders;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private String baseUrl;
+    private RestTemplate restTemplate;
+    private String projectKey;
+    private HttpHeaders defaultHeaders;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    public JiraClientImpl(final String baseUrl, final String username, final String password, final String projectKey) {
+    public JiraClientImpl(String baseUrl, String username, String password, String projectKey) {
         this.projectKey = projectKey;
         this.baseUrl = baseUrl;
 
@@ -110,7 +110,7 @@ public class JiraClientImpl implements JiraClient {
             return result.get("key");
         } catch (HttpClientErrorException e) {
             LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}", e.getStatusCode(), e.getStatusText(), e
-                .getResponseBodyAsString());
+                    .getResponseBodyAsString());
             throw Throwables.propagate(e);
         }
     }
@@ -122,8 +122,8 @@ public class JiraClientImpl implements JiraClient {
 
         try {
             HttpEntity<Map<String, String>> entity = new HttpEntity<>(ImmutableMap.of("jql", query, "maxResults",
-                String.valueOf(maxResults)),
-                defaultHeaders);
+                    String.valueOf(maxResults)),
+                    defaultHeaders);
 
             Map<String, Object> result = restTemplate.postForObject(baseUrl + "/search?expand=all", entity, Map.class);
 
@@ -133,13 +133,13 @@ public class JiraClientImpl implements JiraClient {
                 String issueType = (String) ((Map<String, Object>) fields.get("issuetype")).get("id");
 
                 return Action.builder()
-                    .jiraKey((String) issue.get("key"))
-                    .idpId(Optional.ofNullable((String) fields.get("customfield_" + IDP_CUSTOM_FIELD)).orElse(""))
-                    .spId(Optional.ofNullable((String) fields.get("customfield_" + SP_CUSTOM_FIELD)).orElse(""))
-                    .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
-                    .type(findType(issueType))
-                    .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
-                    .body((String) fields.get("description")).build();
+                        .jiraKey((String) issue.get("key"))
+                        .idpId(Optional.ofNullable((String) fields.get("customfield_" + IDP_CUSTOM_FIELD)).orElse(""))
+                        .spId(Optional.ofNullable((String) fields.get("customfield_" + SP_CUSTOM_FIELD)).orElse(""))
+                        .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
+                        .type(findType(issueType))
+                        .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
+                        .body((String) fields.get("description")).build();
             }).collect(toList());
             Map<String, Object> answer = new HashMap<>();
             answer.put("issues", issues);
@@ -153,7 +153,7 @@ public class JiraClientImpl implements JiraClient {
                 LOG.error("The Jira query \"{}\" was invalid:\n{}", query, e.getResponseBodyAsString());
             } else {
                 LOG.error("Jira returned a {} ({}) for query {}:\n{}", e.getStatusCode(), e.getStatusText(), query, e
-                    .getResponseBodyAsString());
+                        .getResponseBodyAsString());
             }
         } catch (RestClientException e) {
             LOG.error("Error communicating with Jira", e);
@@ -162,17 +162,19 @@ public class JiraClientImpl implements JiraClient {
         return Collections.emptyMap();
     }
 
+    //private Map<String, String>
+
     private Action.Type findType(String issueType) {
         Action.Type type = TASKTYPE_TO_ISSUETYPE_CODE.entrySet().stream()
-            .filter(entry -> entry.getValue().equals(issueType))
-            .map(Map.Entry::getKey)
-            .findFirst().orElseThrow(() -> new RuntimeException("no issue type for " + issueType));
+                .filter(entry -> entry.getValue().equals(issueType))
+                .map(Map.Entry::getKey)
+                .findFirst().orElseThrow(() -> new RuntimeException("no issue type for " + issueType));
         return type;
     }
 
     private String buildQueryForIdp(String idp, Collection<String> issueTypeIds) {
         return String.format("project = %s AND issueType IN (%s) AND cf[%s]~\"%s\" ORDER BY created DESC", projectKey,
-            issueTypeIds.stream().collect(joining(", ")), IDP_CUSTOM_FIELD, idp);
+                issueTypeIds.stream().collect(joining(", ")), IDP_CUSTOM_FIELD, idp);
     }
 
 }

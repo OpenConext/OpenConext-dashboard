@@ -17,6 +17,10 @@ import PrivacyPanel from "../components/privacy_panel";
 import ConsentPanel from "../components/consent_panel";
 import Flash from "../components/flash";
 import {privacyProperties} from "../utils/privacy";
+
+const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_policy", "license_data", "privacy",
+     "idp_usage", "sirtfi_security", "application_usage"];
+
 class AppDetail extends React.Component {
     constructor() {
         super();
@@ -26,7 +30,7 @@ class AppDetail extends React.Component {
                 component: OverviewPanel,
                 icon: "fa-list"
             },
-            "license_info": {
+            "license_data": {
                 component: LicenseInfoPanel,
                 icon: "fa-file-text-o"
             },
@@ -93,6 +97,7 @@ class AppDetail extends React.Component {
 
     render() {
         if (this.state.app) {
+            const panelKeys = componentsOrdering.filter(k => this.panelMap[k]);
             return (
                 <div className="l-center-app-detail">
                     <Flash/>
@@ -105,8 +110,7 @@ class AppDetail extends React.Component {
                                         {I18n.t("apps.detail.back")}
                                     </Link>
                                 </li>
-                                {Object.keys(this.panelMap).map(panelKey => this.renderNavItem(panelKey))}
-                                {this.renderNavItem("application_usage", true)}
+                                {panelKeys.map(panelKey => this.renderNavItem(panelKey))}
                             </ul>
                         </div>
                     </div>
@@ -122,13 +126,8 @@ class AppDetail extends React.Component {
         return null;
     }
 
-    renderNavItem(panelKey, force) {
+    renderNavItem(panelKey) {
         const {currentUser} = this.context;
-        // do not include app usage in the top left menu
-        if (panelKey === "application_usage" && force !== true) {
-            return null;
-        }
-
         let key = null;
 
         if (panelKey === "how_to_connect") {

@@ -127,7 +127,7 @@ I18n.translations.en = {
             how_to_connect: "Activate service",
             how_to_disconnect: "Deactivate service",
             idp_usage: "Used by",
-            license_info: "License",
+            license_data: "License",
             overview: "Overview",
             sirtfi_security: "Sirtfi Security",
             privacy: "Privacy",
@@ -223,7 +223,9 @@ I18n.translations.en = {
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
         aansluitovereenkomst: "Connection Policy",
-        aansluitovereenkomstRefused: "This service has refused to sign the 'SURFconext connection agreement' with SURF. Read more about this policy on the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>."
+        aansluitovereenkomstRefused: "This service has refused to sign the 'SURFconext connection agreement' with SURF. Read more about this policy on the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>.",
+        privacyInformation: "Privacy information",
+        privacyInformationInfo: "The service provider has not delivered any privacy information."
     },
 
     attributes_policy_panel: {
@@ -310,6 +312,7 @@ I18n.translations.en = {
         accept_disconnect: "Yes, I agree that {{app}} will no longer be available to my organization",
         attributes: "attributes",
         attributes_policy: "attribute policy",
+        privacy_policy: "privacy policy",
         back_to_apps: "Back to all services",
         cancel: "Cancel",
         check: "Check the",
