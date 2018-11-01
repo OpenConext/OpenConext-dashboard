@@ -1,0 +1,28 @@
+@import "../base/type.sass"
+@import "../utilities/table.sass"
+@import "../utilities/placeholders.sass"
+@import "../utilities/search-box.sass"
+
+.mod-super-user
+  @extend %table
+
+  h1
+    @extend %h1
+    margin-bottom: 20px
+
+  table
+    @extend %box
+
+    .center
+      text-align: center
+
+    .c-button
+      margin-left: 10px
+
+.mod-super-user-search
+  @extend %box, %search-box
+
+  .fa-search
+    color: #000000
+    padding: 0
+

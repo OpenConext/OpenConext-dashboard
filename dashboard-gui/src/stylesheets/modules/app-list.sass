@@ -1,0 +1,27 @@
+@import "../utilities/table.sass"
+@import "../utilities/placeholders.sass"
+
+.mod-app-list
+  @extend %box, %table
+  thead th
+    text-align: left
+    &.bool
+      text-align: center
+      padding: 20px 0
+
+  tbody td
+    cursor: pointer
+
+    &.empty
+      cursor: auto
+      font-style: italic
+    &.processing_results
+      cursor: auto
+      font-style: italic
+      color: $blue
+      font-size: larger
+    &.yesno
+      text-align: center
+      padding: 20px 0
+    a
+      word-break: break-all

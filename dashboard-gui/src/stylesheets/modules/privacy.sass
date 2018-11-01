@@ -1,0 +1,23 @@
+@import "../utilities/vars.sass"
+@import "../utilities/table.sass"
+@import "../utilities/placeholders.sass"
+
+.mod-privacy-info
+  @extend %table
+  margin-bottom: 20px
+
+  table
+    @extend %box
+    margin-bottom: 20px
+    th.question
+      width: 40%
+    th.answer
+      width: 60%
+
+  td
+    font-size: .9em
+    em
+      font-style: italic
+
+  .star
+    color: $blue

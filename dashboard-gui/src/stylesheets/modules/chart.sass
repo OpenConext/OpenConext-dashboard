@@ -1,0 +1,87 @@
+@import "../utilities/placeholders.sass"
+@import "../utilities/vars.sass"
+
+div.chart-container
+  @extend %box
+  height: 100%
+  width: 100%
+  section.loading 
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    margin: 40px
+    height: 100%
+    width: 100%
+    em 
+      display: inline-block
+      margin-bottom: 15px
+  
+
+  section.chart, section.table 
+    border-radius: $br
+    background-color: white
+    border: 1px solid $light-grey
+    height: 100%
+    width: 100%
+    position: relative
+    span.title 
+      padding: 10px
+      border-top-left-radius: $br
+      border-top-right-radius: $br
+      display: block
+      font-weight: bold
+      font-size: 18px
+      color: $blue
+
+      span.clipboard 
+        display: inline-block
+        margin-left: 15px
+    
+  
+    span.clickable-label 
+      color: $blue
+      cursor: pointer
+  
+    div.highcharts-menu 
+      border: 1px solid $blue !important
+      box-shadow: none !important
+      border-radius: 3px !important
+      hr 
+        border-top: 1px solid $blue
+    
+  
+    div.highcharts-menu-item 
+      font-size: 14px !important
+      color: $blue !important
+      &:hover 
+        color: $hover !important
+        background: $blue !important
+    
+  
+    g.highcharts-navigator, g.highcharts-scrollbar, g.highcharts-navigator-xaxis, g.highcharts-navigator-series 
+      visibility: hidden !important
+      display: none
+  
+    section.navigate 
+      width: 100%
+      position: absolute
+      display: flex
+      align-items: center
+      align-content: center
+      bottom: 20px
+      font-size: 30px
+      flex-direction: row
+      justify-content: center
+      i 
+        cursor: pointer
+        margin-right: 25px
+        color: lighten($blue, 5%)
+        &.disabled 
+          cursor: default
+          color: $medium-grey
+      
+    
+  
+
+

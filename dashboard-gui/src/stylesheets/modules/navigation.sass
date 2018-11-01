@@ -1,0 +1,28 @@
+@import "../utilities/vars.sass"
+
+.mod-navigation
+  background: $blue
+  padding: 0 10px
+  overflow: hidden
+  position: relative
+
+  li
+    float: left
+    list-style: none
+
+  a
+    color: #fff
+    padding: 18px 20px 20px
+    display: block
+    text-decoration: none
+    font-size: 20px
+    line-height: 30px
+
+    &.active
+      font-weight: bold
+
+  .spinner
+    left: 50%
+    position: fixed
+    z-index: 99
+    top: 50%

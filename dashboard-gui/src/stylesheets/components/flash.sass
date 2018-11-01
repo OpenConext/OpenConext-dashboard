@@ -1,0 +1,36 @@
+@import "../utilities/vars.sass"
+
+div.flash
+  margin: 0 auto
+  padding-bottom: 20px
+  text-align: center
+  color: white
+  font-size: large
+  position: relative
+
+  &.full
+    max-width: 100%
+    margin-bottom: 20px
+    padding-top: 0px
+
+  p
+    padding: 10px
+    border-radius: 5px
+
+    &.info
+      background-color: $green
+    &.warning
+      background-color: $orange
+    &.error
+      background-color: $red
+
+  a.link
+    color: white
+
+  a.close
+    text-decoration: none
+    position: absolute
+    right: 4px
+    top: 0
+    color: white
+    font-size: small

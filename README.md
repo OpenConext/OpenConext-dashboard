@@ -29,7 +29,7 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 
 #### [The Server](#server)
 
-    cd selfservice
+    cd dashboard
 
 To build:
 
@@ -45,7 +45,7 @@ If you want to debug you can either debug the Application in your IDE or use:
     
 #### [Feature toggles](#feature_toggles)
 
-In the [application.properties](selfservice/src/main/resources/application.properties) file you can disable / enable
+In the [application.properties](dashboard-server/src/main/resources/application.properties) file you can disable / enable
 all remote interfaces like JIRA, Mail, SAB, VOOT, Statistics, PDP, OIDC, Manage by setting the `dashboard.feature.X`
 to `false` or `true`. Default they are all disabled and mock implementations are used. Using ansible for
 deployment they can enabled.
@@ -66,11 +66,24 @@ To run locally:
 
     yarn start
 
-When you browse to the [application homepage](http://localhost:8001/dashboard/api/home) you will be prompted for a login.
+The browse to the [application homepage](http://localhost:3000/services?mockUser=admin).
 
-A list of available log-ins can be found in the mocked implementation of the [VootClient](selfservice/src/main/java/selfservice/shibboleth/mock/MockShibbolethFilter.java).
+A list of available log-ins can be found in the mocked implementation of the [VootClient](dashboard-server/src/main/java/dashboard/shibboleth/mock/MockShibbolethFilter.java).
 
 ### [Manage queries](#manage_queries)
 ```
 curl -H 'Content-Type: application/json' -u pdp:secret  -X POST -d '{"REQUESTED_ATTRIBUTES":["metaDataFields.coin:ss:idp_visible_only"],"metaDataFields.coin:ss:idp_visible_only":"1"}' 'https://manage.test2.surfconext.nl//manage/api/internal/search/saml20_sp' | python -m json.tool
+```
+
+### [Testing](#testing)
+
+To run all JavaScript tests:
+```
+cd client
+yarn test
+```
+Or to run all the tests and do not watch:
+```
+cd client
+CI=true yarn test
 ```

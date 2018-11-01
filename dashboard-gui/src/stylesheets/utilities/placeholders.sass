@@ -1,0 +1,29 @@
+%box,
+.box
+  background: #fff
+  border-radius: 5px
+  box-shadow: 1px 1px 5px rgba(black,.2)
+
+// Z2 = z index 2, giving it a larger shadow
+%z2,
+.z2
+  box-shadow: 1px 1px 5px*2 rgba(black,.4)
+
+%padding,
+.padding
+  padding: 2rem
+
+%v-center,
+.v-center
+  display: table
+  width: 100%
+  height: 100%
+
+  .inner
+    display: table-cell
+    vertical-align: middle
+
+%h-center,
+.h-center
+  margin-left: auto
+  margin-right: auto
