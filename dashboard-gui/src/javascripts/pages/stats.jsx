@@ -231,7 +231,7 @@ class Stats extends React.Component {
     };
 
     renderSpSelect = (sp, allSp, clearable, displayDetailPerSP, state) =>
-        <fieldset>
+        <div>
             <h2 className="title">{I18n.t("stats.sp")}</h2>
             <SelectWrapper
                 defaultValue={sp}
@@ -250,7 +250,7 @@ class Stats extends React.Component {
                 multiple={false}
                 isClearable={false}
                 handleChange={val => this.setState({data: [], state: val}, this.refresh)}/>
-        </fieldset>;
+        </div>;
 
     renderYearPicker = (date, maxYear, onChange) => {
         const currentYear = date.format("YYYY");
@@ -312,7 +312,7 @@ class Stats extends React.Component {
     };
 
     renderPeriod = (scale, from, to, toEnabled, spSelected, className = "") => {
-        return <fieldset className={className}>
+        return <div className={className}>
             <h2 className="title">{I18n.t("stats.timeScale")}</h2>
             <SelectWrapper
                 defaultValue={scale}
@@ -325,7 +325,7 @@ class Stats extends React.Component {
             {toEnabled && <div><h2 className="title secondary">{I18n.t("stats.to")}</h2>
                 {this.renderDatePicker(scale, to, this.onChangeTo, moment(), getDateTimeFormat(scale, !toEnabled), "to-date")}
             </div>}
-        </fieldset>
+        </div>
     };
 
     title = (from, to, displayDetailPerSP, sp, scale) => {
