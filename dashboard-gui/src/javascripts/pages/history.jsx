@@ -8,6 +8,11 @@ import sort from "../utils/sort";
 import moment from "moment";
 
 import SortableHeader from "../components/sortable_header";
+import pagination from "../utils/pagination";
+
+const statuses = ["to_to", "in_progress", "awaiting_input", "resolved", "closed"];
+
+const pageCount = 6;
 
 class History extends React.Component {
 
@@ -19,7 +24,12 @@ class History extends React.Component {
             sortAscending: true,
             startAt: 0,
             maxResults: 100,
-            total: 0
+            total: 0,
+            from: moment().subtract(1, "month"),
+            to: moment(),
+            page: 1,
+            statuses: statuses.slice(0, 3),
+            spEntityId: undefined
         };
     }
 
@@ -63,12 +73,10 @@ class History extends React.Component {
         });
     }
 
-    handleSort(sortObject) {
-        this.setState({
-            sortAttribute: sortObject.sortAttribute,
-            sortAscending: sortObject.sortAscending
-        });
-    }
+    handleSort = sortObject => this.setState({
+        sortAttribute: sortObject.sortAttribute,
+        sortAscending: sortObject.sortAscending
+    });
 
     renderSortableHeader(className, attribute) {
         return (
@@ -78,65 +86,102 @@ class History extends React.Component {
                 sortAscending={this.state.sortAscending}
                 localeKey="history"
                 className={className}
-                onSort={this.handleSort.bind(this)}
+                onSort={sortObject => this.handleSort(sortObject)}
             />
         );
     }
 
-    renderPageLink() {
-        return null;
+    changePage = nbr => () => {
+        this.setState({page: nbr}, () => window.scrollTo({
+            "behavior": "smooth",
+            "left": 0,
+            "top": 0
+        }));
+    };
+
+    renderPagination(resultLength, page) {
+        if (resultLength <= pageCount) {
+            return null;
+        }
+        const nbrPages = Math.ceil(resultLength / pageCount);
+        const rangeWithDots = pagination(page, nbrPages);
+        return (
+            <section className="pagination">
+                <section className="container">
+                    {(nbrPages > 1 && page !== 1) &&
+                    <i className="fa fa-arrow-left" onClick={this.changePage(page - 1)}></i>}
+                    {rangeWithDots.map((nbr, index) =>
+                        typeof(nbr) === "string" || nbr instanceof String ?
+                            <span key={index} className="dots">{nbr}</span> :
+                            nbr === page ?
+                                <span className="current" key={index}>{nbr}</span> :
+                                <span key={index} onClick={this.changePage(nbr)}>{nbr}</span>
+                    )}
+                    {(nbrPages > 1 && page !== nbrPages) &&
+                    <i className="fa fa-arrow-right" onClick={this.changePage(page + 1)}></i>}
+                </section>
+
+            </section>);
     }
 
-    renderPagination(currentPage, total, pageSize) {
-        const links = this.pagination(currentPage, Math.ceil(total / pageSize));
-        return <div>
-            {links.map(this.renderPageLink.bind(this))}
-        </div>;
-    }
+    onChangeFrom = e => this.setState({from: e})
+
+    renderFilter = (from, to, statuses, spEntityId) => {
+        return <section className="filters">
+            <label>{I18n.t("history.from")}</label>
+            <DatePicker
+                selected={from}
+                preventOpenOnFocus
+                onChange={this.onChangeFrom}
+                showYearDropdown
+                showMonthDropdown
+                showWeekNumbers
+                weekLabel="Week"
+                maxDate={to}
+                disabled={false}
+                dateFormat={"L"}
+            />
+        </section>
+    };
+
+
+    renderAction = action =>
+        <tr key={action.jiraKey}>
+            <td className="percent_15">{moment(action.requestDate).format("DD-MM-YYYY")}</td>
+            <td className="percent_15">{action.userName}</td>
+            <td className="percent_25">{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
+            <td className="percent_20">{action.jiraKey}</td>
+            <td className="percent_25">{action.status}</td>
+        </tr>
+
 
     render() {
-        const {actions, sortAttribute, sortAscending, total, maxResults, startAt} = this.state;
+        const {actions, sortAttribute, sortAscending, total, from, to, statuses, spEntityId, page} = this.state;
+        let sortedActions = sort(actions, sortAttribute, sortAscending);
+        if (sortedActions.length > pageCount) {
+            sortedActions = sortedActions.slice((page - 1) * pageCount, page * pageCount);
+        }
         return (
-            <div className="l-mini">
-
-                <div className="mod-history">
-                    <h1>{I18n.t("history.title")}</h1>
-
-                    <table>
-                        <thead>
-                        <tr>
-                            {this.renderSortableHeader("percent_15", "requestDate")}
-                            {this.renderSortableHeader("percent_15", "userName")}
-                            {this.renderSortableHeader("percent_25", "type")}
-                            {this.renderSortableHeader("percent_20", "jiraKey")}
-                            {this.renderSortableHeader("percent_25", "status")}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {sort(actions, sortAttribute, sortAscending)
-                            .map(this.renderAction.bind(this))}
-                        </tbody>
-                    </table>
-                    {this.renderPagination((startAt+1), total, maxResults)}
-                </div>
+            <div className="mod-history">
+                <h1>{I18n.t("history.title")}</h1>
+                {this.renderFilter(from, to, statuses, spEntityId)}
+                <table>
+                    <thead>
+                    <tr>
+                        {this.renderSortableHeader("percent_10", "requestDate")}
+                        {this.renderSortableHeader("percent_25", "userName")}
+                        {this.renderSortableHeader("percent_30", "type")}
+                        {this.renderSortableHeader("percent_10", "jiraKey")}
+                        {this.renderSortableHeader("percent_25", "status")}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {sortedActions.map(action => this.renderAction(action))}
+                    </tbody>
+                </table>
+                {this.renderPagination(total, page)}
             </div>
         );
-    }
-
-    renderAction(action) {
-        return (
-            <tr key={action.jiraKey}>
-                <td className="percent_15">{moment(action.requestDate).format("DD-MM-YYYY")}</td>
-                <td className="percent_15">{action.userName}</td>
-                <td className="percent_25">{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
-                <td className="percent_20">{action.jiraKey}</td>
-                <td className="percent_25">{action.status}</td>
-            </tr>
-        );
-    }
-
-    convertRequestDateForSort(value) {
-        return Date.parse(value);
     }
 }
 

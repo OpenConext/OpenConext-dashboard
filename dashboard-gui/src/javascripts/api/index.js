@@ -159,6 +159,15 @@ export function getActions(startAt, maxResults) {
     return fetchJson(`/actions?startAt=${startAt}&maxResults=${maxResults}`);
 }
 
+export function searchJira(filter) {
+    return postJson("/actions/search", filter, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+}
+
+
 export function makeConnection(app, comments, type) {
     return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId, type: type})
         .then(parseJson)

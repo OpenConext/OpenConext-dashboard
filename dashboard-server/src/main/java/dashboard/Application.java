@@ -1,5 +1,6 @@
 package dashboard;
 
+import dashboard.shibboleth.mock.MockShibbolethFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -31,6 +32,7 @@ import dashboard.stats.StatsImpl;
 import dashboard.stats.StatsMock;
 import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
 
+import java.io.IOException;
 import java.util.Locale;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class,
@@ -77,8 +79,9 @@ public class Application {
                                  @Value("${jiraBaseUrl}") String baseUrl,
                                  @Value("${jiraUsername}") String username,
                                  @Value("${jiraPassword}") String password,
-                                 @Value("${jiraProjectKey}") String projectKey) {
-        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey) :new JiraClientMock();
+                                 @Value("${jiraProjectKey}") String projectKey) throws IOException {
+        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey) :
+                new JiraClientMock(MockShibbolethFilter.idp);
     }
 
     @Bean

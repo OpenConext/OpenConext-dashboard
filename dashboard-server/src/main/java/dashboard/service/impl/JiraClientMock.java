@@ -20,11 +20,10 @@ import org.slf4j.LoggerFactory;
 import dashboard.domain.Action;
 import dashboard.domain.Change;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.ZonedDateTime;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -36,12 +35,31 @@ public class JiraClientMock implements JiraClient {
 
     private AtomicInteger counter = new AtomicInteger(0);
 
+    private List<String> statuses = Arrays.asList("To Do", "In Progress", "Awaiting Input", "Resolved", "Closed");
+
+    public JiraClientMock(String idp) {
+        IntStream.rangeClosed(0, 25).forEach(i -> {
+            List<Action.Type> types = Arrays.asList(Action.Type.values());
+            Action action = Action.builder()
+                    .spId("http://sp-" + i)
+                    .idpId(idp)
+                    .idpName("IDP")
+                    .jiraKey(generateKey())
+                    .requestDate(ZonedDateTime.now())
+                    .status(statuses.get(new Random().nextInt(statuses.size())))
+                    .type(types.get(new Random().nextInt(types.size())))
+                    .build();
+            repository.put(action.getJiraKey().get(), action);
+        });
+
+    }
+
     @Override
     public String create(final Action action, List<Change> changes) {
         String key = generateKey();
 
         repository.put(key, action.unbuild().jiraKey(key).body(action.getBody() == null ? "" : action.getBody())
-            .build());
+                .build());
 
         LOG.debug("Added task (key '{}') to repository: {}", key, action);
 
@@ -55,9 +73,9 @@ public class JiraClientMock implements JiraClient {
     @Override
     public Map<String, Object> getTasks(String idp, int startAt, int maxResults) {
         List<Action> actions = repository.values().stream().filter(action -> action.getIdpId().equals(idp))
-            .collect(toList());
+                .collect(toList());
         Map<String, Object> result = new HashMap<>();
-        result.put("issues", actions);
+        result.put("issues", actions.subList(startAt, Math.min(actions.size(), startAt + maxResults)));
         result.put("total", actions.size());
         result.put("startAt", startAt);
         result.put("maxResults", maxResults);

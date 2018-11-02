@@ -1,0 +1,78 @@
+{
+  "expand": "names,schema",
+  "startAt": 0,
+  "maxResults": 10,
+  "total": 25,
+  "issues": [
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "66159",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/66159",
+      "key": "CXT-22795",
+      "fields": {
+        "summary": "Test Okke",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11107",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2018-11-01T09:48:21.000+0100",
+        "description": "Okke Test Issue",
+        "assignee": null,
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/3",
+          "description": "Progess has started at this issue.",
+          "iconUrl": "https://jira-test.surfnet.nl/images/icons/statuses/inprogress.png",
+          "name": "In Progress",
+          "id": "3",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "66159",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/66159",
+      "key": "CXT-22796",
+      "fields": {
+        "summary": "Test Okke",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11107",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2018-11-01T09:48:21.000+0100",
+        "description": "Okke Test2 Issue",
+        "assignee": null,
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/3",
+          "description": "Progess has started at this issue.",
+          "iconUrl": "https://jira-test.surfnet.nl/images/icons/statuses/inprogress.png",
+          "name": "Open",
+          "id": "3",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "Open"
+          }
+        }
+      }
+    }
+  ]
+}

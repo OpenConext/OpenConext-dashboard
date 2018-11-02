@@ -21,6 +21,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,7 @@ import dashboard.domain.Action.Type;
 import dashboard.domain.Change;
 import dashboard.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -47,28 +49,21 @@ import java.util.Optional;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
+@SuppressWarnings("unchecked")
 public class JiraClientImpl implements JiraClient {
     private static final Logger LOG = LoggerFactory.getLogger(JiraClientImpl.class);
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-    private static final String SP_CUSTOM_FIELD = "13018";//customfield_12914
-    private static final String IDP_CUSTOM_FIELD = "13012";//customfield_12912
-    private static final String PRIORITY_MEDIUM_ID = "3";
-
-    private static final Map<Action.Type, String> TASKTYPE_TO_ISSUETYPE_CODE = ImmutableMap.of(
-            Type.QUESTION, "11103",
-            Type.LINKREQUEST, "11104",
-            Type.UNLINKREQUEST, "11105",
-            Type.CHANGE, "11106");
-
     private String baseUrl;
     private RestTemplate restTemplate;
     private String projectKey;
     private HttpHeaders defaultHeaders;
+    private Map<String, Map<String, Map<String, String>>> mappings;
     private ObjectMapper objectMapper = new ObjectMapper();
+    private String environment;
 
-    public JiraClientImpl(String baseUrl, String username, String password, String projectKey) {
+    public JiraClientImpl(String baseUrl, String username, String password, String projectKey) throws IOException {
         this.projectKey = projectKey;
         this.baseUrl = baseUrl;
 
@@ -77,17 +72,19 @@ public class JiraClientImpl implements JiraClient {
         byte[] encoded = Base64.encode((username + ":" + password).getBytes());
         this.defaultHeaders.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded));
         this.restTemplate = new RestTemplate();
+        this.environment = baseUrl.contains("test") ? "test" : "prod";
+        this.mappings = objectMapper.readValue(new ClassPathResource("jira/mappings.json").getInputStream(), Map.class);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public String create(final Action action, List<Change> changes) {
         Map<String, Object> fields = new HashMap<>();
-        fields.put("priority", ImmutableMap.of("id", PRIORITY_MEDIUM_ID));
+        fields.put("priority", ImmutableMap.of("id", "3"));
         fields.put("project", ImmutableMap.of("key", projectKey));
-        fields.put("customfield_" + SP_CUSTOM_FIELD, action.getSpId());
-        fields.put("customfield_" + IDP_CUSTOM_FIELD, action.getIdpId());
-        fields.put("issuetype", ImmutableMap.of("id", TASKTYPE_TO_ISSUETYPE_CODE.get(action.getType())));
+        fields.put("customfield_" + spCustomField(), action.getSpId());
+        fields.put("customfield_" + idpCustomField(), action.getIdpId());
+        fields.put("issuetype", ImmutableMap.of("id", actionToIssueIdentifier(action.getType())));
 
         SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action, changes);
         fields.put("summary", summaryAndDescription.summary);
@@ -116,16 +113,16 @@ public class JiraClientImpl implements JiraClient {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Map<String, Object> getTasks(String idp, int startAt, int maxResults) {
-        String query = buildQueryForIdp(idp, TASKTYPE_TO_ISSUETYPE_CODE.values());
+        String query = buildQueryForIdp(idp);
 
         try {
             HttpEntity<Map<String, String>> entity = new HttpEntity<>(ImmutableMap.of("jql", query, "maxResults",
                     String.valueOf(maxResults)),
                     defaultHeaders);
 
-            Map<String, Object> result = restTemplate.postForObject(baseUrl + "/search?expand=all", entity, Map.class);
+            String url = baseUrl + "/search";
+            Map<String, Object> result = restTemplate.postForObject(url, entity, Map.class);
 
             List<Action> issues = ((List<Map<String, Object>>) result.get("issues")).stream().map(issue -> {
                 Map<String, Object> fields = (Map<String, Object>) issue.get("fields");
@@ -134,8 +131,8 @@ public class JiraClientImpl implements JiraClient {
 
                 return Action.builder()
                         .jiraKey((String) issue.get("key"))
-                        .idpId(Optional.ofNullable((String) fields.get("customfield_" + IDP_CUSTOM_FIELD)).orElse(""))
-                        .spId(Optional.ofNullable((String) fields.get("customfield_" + SP_CUSTOM_FIELD)).orElse(""))
+                        .idpId(Optional.ofNullable((String) fields.get("customfield_" + idpCustomField())).orElse(""))
+                        .spId(Optional.ofNullable((String) fields.get("customfield_" + spCustomField())).orElse(""))
                         .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
                         .type(findType(issueType))
                         .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
@@ -162,19 +159,40 @@ public class JiraClientImpl implements JiraClient {
         return Collections.emptyMap();
     }
 
-    //private Map<String, String>
-
-    private Action.Type findType(String issueType) {
-        Action.Type type = TASKTYPE_TO_ISSUETYPE_CODE.entrySet().stream()
+    protected Action.Type findType(String issueType) {
+        return this.mappings.get(this.environment).get("issueTypes").entrySet().stream()
                 .filter(entry -> entry.getValue().equals(issueType))
-                .map(Map.Entry::getKey)
-                .findFirst().orElseThrow(() -> new RuntimeException("no issue type for " + issueType));
-        return type;
+                .map(entry -> Action.Type.valueOf(entry.getKey().toUpperCase()))
+                .findFirst().orElseThrow(() -> new RuntimeException("No issue type for " + issueType));
     }
 
-    private String buildQueryForIdp(String idp, Collection<String> issueTypeIds) {
+    protected String actionToIssueIdentifier(Action.Type actionType) {
+        return this.mappings.get(this.environment).get("issueTypes").entrySet().stream()
+                .filter(entry -> entry.getKey().equals(actionType.name().toLowerCase()))
+                .map(entry -> entry.getValue())
+                .findFirst().orElseThrow(() -> new RuntimeException("No action type for " + actionType));
+    }
+
+
+    protected String buildQueryForIdp(String idp) {
+        String issueTypes = this.mappings.get(this.environment).get("issueTypes").values().stream().collect(joining(", "));
         return String.format("project = %s AND issueType IN (%s) AND cf[%s]~\"%s\" ORDER BY created DESC", projectKey,
-                issueTypeIds.stream().collect(joining(", ")), IDP_CUSTOM_FIELD, idp);
+                issueTypes, idpCustomField(), idp);
+    }
+
+    protected String buildQueryForIdp(String idp, String sp, Optional<List<String>> statuses) {
+        String issueTypes = this.mappings.get(this.environment).get("issueTypes").values().stream().collect(joining(", "));
+        String statusPart = statuses.map(s -> "AND status in (" + String.join("\",\"") + ")").orElse("");
+        return String.format("project = %s AND issueType IN (%s) AND cf[%s]~\"%s\" AND cf[%s]~\"%s\" %s ORDER BY created DESC", projectKey,
+                issueTypes, idpCustomField(), idp, spCustomField(), sp, statusPart);
+    }
+
+    protected String idpCustomField() {
+        return this.mappings.get(this.environment).get("customFields").get("idpEntityId");
+    }
+
+    protected String spCustomField() {
+        return this.mappings.get(this.environment).get("customFields").get("spEntityId");
     }
 
 }

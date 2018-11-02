@@ -563,7 +563,7 @@ I18n.translations.en = {
         serviceProviderName: "Service",
         title: "Revisions",
     },
-
+    
     history: {
         title: "History",
         requestDate: "Date",
@@ -577,6 +577,9 @@ I18n.translations.en = {
             QUESTION: "Question",
             CHANGE: "Change"
         },
+        from: "From",
+        to: "To",
+        spEntityId: "Service"
     },
 
     stats: {

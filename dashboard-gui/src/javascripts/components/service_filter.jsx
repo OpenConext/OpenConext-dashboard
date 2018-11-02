@@ -27,7 +27,7 @@ class ServiceFilter extends React.Component {
         );
     }
 
-    renderFilter(key, filter, onChange) {
+    renderFilter = (key, filter, onChange) => {
         return (
             <fieldset key={filter.name}>
                 <h2>{filter.name}{filter.tooltip && <span>
@@ -42,7 +42,7 @@ class ServiceFilter extends React.Component {
                 })}
             </fieldset>
         );
-    }
+    };
 
     renderFilterValue(key, filterValue, index, onChange) {
         return (
