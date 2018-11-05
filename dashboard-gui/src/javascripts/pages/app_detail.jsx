@@ -81,7 +81,8 @@ class AppDetail extends React.Component {
                     }
                 };
             }
-            if (app.connected) {
+            const currentUser = this.context.currentUser;
+            if (app.connected && currentUser.manageConsentEnabled) {
                 this.panelMap = {
                     ...this.panelMap, "consent": {
                         component: ConsentPanel,

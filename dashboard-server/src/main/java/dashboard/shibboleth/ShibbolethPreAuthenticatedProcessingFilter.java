@@ -74,6 +74,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String dashboardSuperUser;
     private String adminSurfConextIdpRole;
     private String viewerSurfConextIdpRole;
+    private boolean isManageConsentEnabled;
 
     public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager,
                                                       Manage manage,
@@ -82,7 +83,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String dashboardViewer,
                                                       String dashboardSuperUser,
                                                       String adminSufConextIdpRole,
-                                                      String viewerSurfConextIdpRole) {
+                                                      String viewerSurfConextIdpRole,
+                                                      boolean isManageConsentEnabled) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
         this.sab = sab;
@@ -91,6 +93,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.dashboardViewer = dashboardViewer;
         this.adminSurfConextIdpRole = adminSufConextIdpRole;
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
+        this.isManageConsentEnabled = isManageConsentEnabled;
+    }
+
+    ShibbolethPreAuthenticatedProcessingFilter() {
     }
 
     @Override
@@ -120,6 +126,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setDisplayName(getFirstShibHeaderValue(Shib_DisplayName, request).orElse(null));
         coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
+        coinUser.setManageConsentEnabled(this.isManageConsentEnabled);
 
         Map<ShibbolethHeader, List<String>> attributes = shibHeaders.values().stream()
                 .filter(h -> StringUtils.hasText(request.getHeader(h.getValue())))
@@ -226,5 +233,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     public void setViewerSurfConextIdpRole(String viewerSurfConextIdpRole) {
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
+    }
+
+    public void setManageConsentEnabled(boolean manageConsentEnabled) {
+        isManageConsentEnabled = manageConsentEnabled;
     }
 }

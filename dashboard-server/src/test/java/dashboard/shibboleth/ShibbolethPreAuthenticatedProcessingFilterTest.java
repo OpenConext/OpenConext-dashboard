@@ -39,7 +39,7 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_MemberOf;
 public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
     @InjectMocks
-    private ShibbolethPreAuthenticatedProcessingFilter subject;
+    private ShibbolethPreAuthenticatedProcessingFilter subject = new ShibbolethPreAuthenticatedProcessingFilter();
 
     @Mock
     private Manage manageMock;
@@ -55,6 +55,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         subject.setDashboardAdmin("dashboard.admin");
         subject.setDashboardSuperUser("dashboard.super.user");
         subject.setDashboardViewer("dashboard.viewer");
+        subject.setManageConsentEnabled(true);
 
         when(sab.getRoles(anyString())).thenReturn(Optional.empty());
     }
