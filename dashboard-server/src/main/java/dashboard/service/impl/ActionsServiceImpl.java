@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +45,6 @@ public class ActionsServiceImpl implements ActionsService {
     private static final Pattern namePattern = Pattern.compile("^Applicant name: (.*)$", Pattern.MULTILINE);
     private static final Pattern emailPattern = Pattern.compile("^Applicant email: (.*)$", Pattern.MULTILINE);
 
-
     @Autowired
     private JiraClient jiraClient;
 
@@ -58,13 +58,47 @@ public class ActionsServiceImpl implements ActionsService {
     private boolean sendAdministrationEmail;
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, Object> getActions(String identityProvider, int startAt, int maxResults) {
         Map<String, Object> result = jiraClient.getTasks(identityProvider, startAt, maxResults);
         List<Action> issues = (List<Action>) result.get("issues");
-        List<Action> enrichedActions = issues != null ? issues.stream().map(this::addNames).map(this::addUser).collect(toList()) : new ArrayList<>();
+        Map<String, String> serviceProviders = issues.stream()
+                .map(action -> action.getSpId())
+                .filter(spId -> StringUtils.hasText(spId))
+                .collect(Collectors.toSet())
+                .stream()
+                .map(spId -> manage.getServiceProvider(spId, EntityType.saml20_sp, true))
+                .filter(opt -> opt.isPresent())
+                .map(opt -> opt.get())
+                .collect(Collectors.toMap(sp -> sp.getId(), sp -> sp.getName()));
+
+        Map<String, String> identityProviders = issues.stream()
+                .map(action -> action.getIdpId())
+                .filter(idpId -> StringUtils.hasText(idpId))
+                .collect(Collectors.toSet())
+                .stream()
+                .map(idpId -> manage.getIdentityProvider(idpId,  true))
+                .filter(opt -> opt.isPresent())
+                .map(opt -> opt.get())
+                .collect(Collectors.toMap(idp -> idp.getId(), idp -> idp.getName()));
+
+        List<Action> enrichedActions = issues != null ? issues.stream().map(this::addUser).map(action -> action.unbuild()
+                .spName(serviceProviders.getOrDefault(action.getSpId(), "Information unavailable"))
+                .idpName(identityProviders.getOrDefault(action.getIdpId(), "Information unavailable"))
+                .build()).collect(toList()) : new ArrayList<>();
+
         Map<String, Object> copyResult = new HashMap<>(result);
         copyResult.put("issues", enrichedActions);
         return copyResult;
+    }
+
+    private Action addNames(Action action) {
+        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.saml20_sp, true);
+        Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId(), true);
+
+        return action.unbuild()
+                .idpName(identityProvider.map(IdentityProvider::getName).orElse("Information unavailable"))
+                .spName(serviceProvider.map(ServiceProvider::getName).orElse("Information unavailable")).build();
     }
 
     private Action addUser(Action action) {
@@ -109,15 +143,6 @@ public class ActionsServiceImpl implements ActionsService {
         return savedAction;
     }
 
-    private Action addNames(Action action) {
-        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.saml20_sp, true);
-        Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId(), true);
-
-        return action.unbuild()
-                .idpName(identityProvider.map(IdentityProvider::getName).orElse("Information unavailable"))
-                .spName(serviceProvider.map(ServiceProvider::getName).orElse("Information unavailable")).build();
-    }
-
     private void sendAdministrationEmail(Action action) {
         if (!sendAdministrationEmail) {
             return;
@@ -143,7 +168,7 @@ public class ActionsServiceImpl implements ActionsService {
         body.append("Time: " + sdf.format(new Date()) + "\n");
         body.append("Remark from User:\n");
         body.append(action.getBody());
-        emailService.sendMail(action.getUserEmail(), subject.toString(), body.toString());
+        emailService.sendMail(action.getUserEmail(), subject, body.toString());
     }
 
     private String getHost() {

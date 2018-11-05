@@ -3,15 +3,57 @@
 
 .mod-history
   @extend %table
-  padding: 15px 20px
-  h1
-    font-size: 30px
-    line-height: 40px
-    margin-bottom: 20px
+  padding: 30px
+  display: flex
+  section.filters
+    @extend %box
+    flex-grow: 1
+    max-width: 375px
+    margin-right: 15px
+    div.header
+      display: flex
+      padding: 20px
+      h1
+        font-size: 20px
+        font-weight: bold
+        line-height: 30px
+      a.reset
+        margin-left: auto
+  h2.title
+    margin-bottom: 5px
+    &.secondary
+      margin-top: 10px
+  fieldset
+    border: 0
+    padding: 20px
+    border-top: 1px solid $border
+    i.fa-info-circle
+      color: $blue
+      margin-left: 15px
+    div.__react_component_tooltip
+      z-index: 999
+      pointer-events: auto !important
+    label
+      display: inline-block
+      line-height: 25px
+      margin-top: 10px
 
+  div.table_wrapper
+    flex-grow: 2
   table
     @extend %box
-    margin-top: 10px
     td
       word-break: break-all
 
+  div.react-datepicker-wrapper, div.react-datepicker__input-container
+    width: 100%
+    height: 36px
+    input[type=text]
+      padding-left: 10px
+      height: 100%
+  div.react-datepicker__week-number--clickable
+    color: black
+  fieldset.horizontal
+    margin-bottom: 20px
+    display: flex
+    flex-direction: column

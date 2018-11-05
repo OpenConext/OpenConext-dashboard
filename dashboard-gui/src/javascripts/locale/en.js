@@ -38,7 +38,7 @@ I18n.translations.en = {
     navigation: {
         apps: "Services",
         policies: "Authorization policies",
-        history: "History",
+        history: "Tickets",
         stats: "Statistics",
         my_idp: "My institute"
     },
@@ -565,12 +565,12 @@ I18n.translations.en = {
     },
     
     history: {
-        title: "History",
         requestDate: "Date",
-        type: "Type",
+        type: "Description",
         jiraKey: "Ticket ID",
         status: "Status",
         userName: "By",
+        spName: "Service",
         action_types: {
             LINKREQUEST: "Connect to {{serviceName}}",
             UNLINKREQUEST: "Disconnect from {{serviceName}}",
@@ -579,7 +579,15 @@ I18n.translations.en = {
         },
         from: "From",
         to: "To",
-        spEntityId: "Service"
+        spEntityId: "Service",
+        statuses: {
+            "to_do":"Open",
+            "in_progress": "In progress",
+            "awaiting_input": "Pending input",
+            "resolved": "Resolved",
+            "closed": "Closed"
+        },
+        servicePlaceHolder: "Search for a Service..."
     },
 
     stats: {

@@ -38,7 +38,7 @@ I18n.translations.nl = {
     navigation: {
         apps: "Services",
         policies: "Autorisatieregels",
-        history: "Logboek",
+        history: "Tickets",
         stats: "Statistieken",
         my_idp: "Mijn instelling"
     },
@@ -620,18 +620,29 @@ I18n.translations.nl = {
     },
 
     history: {
-        title: "Logboek",
         requestDate: "Datum",
-        type: "Type",
+        type: "Omschrijving",
         jiraKey: "Ticket ID",
         status: "Status",
         userName: "Door",
+        spName: "Dienst",
         action_types: {
             LINKREQUEST: "Verbinden met {{serviceName}}",
             UNLINKREQUEST: "Ontbinden met {{serviceName}}",
             QUESTION: "Vraag",
             CHANGE: "Wijziging"
         },
+        from: "Van",
+        to: "Tot",
+        spEntityId: "Dienst",
+        statuses: {
+            "to_do":"Open",
+            "in_progress": "Bezig",
+            "awaiting_input": "Wachtende op goedkeuring",
+            "resolved": "Opgeleverd",
+            "closed": "Gesloten"
+        },
+        servicePlaceHolder: "Zoek naar een dient..."
     },
     service_filter: {
         title: "Filter diensten",

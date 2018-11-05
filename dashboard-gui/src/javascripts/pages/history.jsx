@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import DatePicker from "react-datepicker";
 import I18n from "i18n-js";
 
 import {getActions} from "../api";
@@ -9,33 +9,43 @@ import moment from "moment";
 
 import SortableHeader from "../components/sortable_header";
 import pagination from "../utils/pagination";
+import SelectWrapper from "../components/select_wrapper";
+import stopEvent from "../utils/stop";
 
-const statuses = ["to_to", "in_progress", "awaiting_input", "resolved", "closed"];
+const allStatuses = ["to_do", "in_progress", "awaiting_input", "resolved", "closed"];
 
-const pageCount = 6;
+const pageCount = 10;
 
 class History extends React.Component {
 
     constructor() {
         super();
-        this.state = {
-            actions: [],
-            sortAttribute: "requestDate",
-            sortAscending: true,
-            startAt: 0,
-            maxResults: 100,
-            total: 0,
-            from: moment().subtract(1, "month"),
-            to: moment(),
-            page: 1,
-            statuses: statuses.slice(0, 3),
-            spEntityId: undefined
-        };
+        this.state = this.getInitialState();
     }
 
-    componentWillMount() {
-        this.fetchActions();
+    componentDidMount() {
+        this.fetchIssues();
     }
+
+    reset = e => {
+        stopEvent(e);
+        this.setState(this.getInitialState(), this.componentDidMount)
+    };
+
+    getInitialState = () => ({
+        actions: [],
+        sortAttribute: "requestDate",
+        sortAscending: true,
+        startAt: 0,
+        maxResults: 1000,
+        total: 0,
+        from: moment().subtract(3, "month"),
+        to: moment(),
+        page: 1,
+        statuses: allStatuses.slice(0, 3),
+        spEntityId: "",
+        serviceProviders: []
+    });
 
     pagination(currentPage, length) {
         const current = currentPage,
@@ -66,10 +76,17 @@ class History extends React.Component {
         return rangeWithDots;
     }
 
-    fetchActions(startAt = this.state.startAt, maxResults = this.state.maxResults) {
+    fetchIssues(startAt = this.state.startAt, maxResults = this.state.maxResults) {
         getActions(startAt, maxResults).then(data => {
             const {issues, total, startAt, maxResults} = data.payload;
-            this.setState({actions: issues, startAt: startAt, maxResults: maxResults, total: total});
+            const serviceProviders = new Set(issues.map(issue => {
+                issue.spName = issue.spName === "Information unavailable" ? issue.spId : issue.spName;
+                return issue.spName;
+            }));
+            this.setState({
+                actions: issues, startAt: startAt, maxResults: maxResults, total: total,
+                serviceProviders: [""].concat([...serviceProviders])
+            });
         });
     }
 
@@ -124,62 +141,105 @@ class History extends React.Component {
             </section>);
     }
 
-    onChangeFrom = e => this.setState({from: e})
+    onChangeFrom = e => this.setState({from: e});
 
-    renderFilter = (from, to, statuses, spEntityId) => {
+    onChangeTo = e => this.setState({to: e});
+
+    onChangeStatus = e => this.setState({statuses: e});
+
+    onChangeSp = e => this.setState({spEntityId: e});
+
+    renderFilter = (from, to, statuses, spEntityId, serviceProviders) => {
         return <section className="filters">
-            <label>{I18n.t("history.from")}</label>
-            <DatePicker
-                selected={from}
-                preventOpenOnFocus
-                onChange={this.onChangeFrom}
-                showYearDropdown
-                showMonthDropdown
-                showWeekNumbers
-                weekLabel="Week"
-                maxDate={to}
-                disabled={false}
-                dateFormat={"L"}
-            />
+            <div className="header">
+                <h1>{I18n.t("stats.filters.name")}</h1>
+                <a href="reset" className="reset c-button" onClick={this.reset}>{I18n.t("facets.reset")}</a>
+            </div>
+            <fieldset>
+                <label>{I18n.t("history.from")}</label>
+                <DatePicker
+                    selected={from}
+                    preventOpenOnFocus
+                    onChange={this.onChangeFrom}
+                    showYearDropdown
+                    showMonthDropdown
+                    showWeekNumbers
+                    weekLabel="Week"
+                    maxDate={to}
+                    disabled={false}
+                    dateFormat={"L"}
+                />
+                <label>{I18n.t("history.to")}</label>
+                <DatePicker
+                    selected={to}
+                    preventOpenOnFocus
+                    onChange={this.onChangeTo}
+                    showYearDropdown
+                    showMonthDropdown
+                    showWeekNumbers
+                    weekLabel="Week"
+                    maxDate={moment()}
+                    disabled={false}
+                    dateFormat={"L"}
+                />
+                <label>{I18n.t("history.status")}</label>
+                <SelectWrapper
+                    defaultValue={statuses}
+                    options={allStatuses.map(t => ({value: t, display: I18n.t(`history.statuses.${t.toLowerCase()}`)}))}
+                    multiple={true}
+                    isClearable={false}
+                    handleChange={this.onChangeStatus}/>
+                <label>{I18n.t("history.spEntityId")}</label>
+                <SelectWrapper
+                    defaultValue={spEntityId}
+                    options={serviceProviders.map(t => ({value: t, display: t === "" ? I18n.t("history.servicePlaceHolder") : t}))}
+                    multiple={false}
+                    isClearable={true}
+                    handleChange={this.onChangeSp}/>
+            </fieldset>
         </section>
     };
 
 
     renderAction = action =>
         <tr key={action.jiraKey}>
-            <td className="percent_15">{moment(action.requestDate).format("DD-MM-YYYY")}</td>
-            <td className="percent_15">{action.userName}</td>
-            <td className="percent_25">{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
-            <td className="percent_20">{action.jiraKey}</td>
-            <td className="percent_25">{action.status}</td>
+            <td >{moment(action.requestDate).format("DD-MM-YYYY")}</td>
+            <td >{action.spName === "Information unavailable" ? action.spId : action.spName}</td>
+            <td >{action.userName}</td>
+            <td >{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
+            <td >{action.jiraKey}</td>
+            <td >{action.status}</td>
         </tr>
 
 
     render() {
-        const {actions, sortAttribute, sortAscending, total, from, to, statuses, spEntityId, page} = this.state;
+        const {actions, sortAttribute, sortAscending, total, from, to, statuses, spEntityId, page,
+            serviceProviders} = this.state;
         let sortedActions = sort(actions, sortAttribute, sortAscending);
         if (sortedActions.length > pageCount) {
             sortedActions = sortedActions.slice((page - 1) * pageCount, page * pageCount);
         }
         return (
             <div className="mod-history">
-                <h1>{I18n.t("history.title")}</h1>
-                {this.renderFilter(from, to, statuses, spEntityId)}
-                <table>
-                    <thead>
-                    <tr>
-                        {this.renderSortableHeader("percent_10", "requestDate")}
-                        {this.renderSortableHeader("percent_25", "userName")}
-                        {this.renderSortableHeader("percent_30", "type")}
-                        {this.renderSortableHeader("percent_10", "jiraKey")}
-                        {this.renderSortableHeader("percent_25", "status")}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {sortedActions.map(action => this.renderAction(action))}
-                    </tbody>
-                </table>
-                {this.renderPagination(total, page)}
+                {this.renderFilter(from, to, statuses, spEntityId, serviceProviders)}
+                <div className="table_wrapper">
+                    <table>
+                        <thead>
+                        <tr>
+                            {this.renderSortableHeader("percent_10", "requestDate")}
+                            {this.renderSortableHeader("percent_15", "spName")}
+                            {this.renderSortableHeader("percent_15", "userName")}
+                            {this.renderSortableHeader("percent_25", "type")}
+                            {this.renderSortableHeader("percent_15", "jiraKey")}
+                            {this.renderSortableHeader("percent_20", "status")}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {sortedActions.map(action => this.renderAction(action))}
+                        </tbody>
+                    </table>
+                    {this.renderPagination(total, page)}
+                </div>
             </div>
         );
     }

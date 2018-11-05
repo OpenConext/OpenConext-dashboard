@@ -304,7 +304,6 @@ class MyIdp extends React.Component {
                 </div>
                 <div className="l-right">
                     <div className="mod-idp">
-                        <h1 className="top">{I18n.t("my_idp.title")}</h1>
                         <p>{text}</p>
                         {isDashboardAdmin && <div className="edit-my-idp">
                             <Link className="t-button" to={"/my-idp/edit"}>{I18n.t("my_idp.edit")}</Link>
