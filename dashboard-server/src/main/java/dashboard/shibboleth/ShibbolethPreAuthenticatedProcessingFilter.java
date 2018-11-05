@@ -96,6 +96,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.isManageConsentEnabled = isManageConsentEnabled;
     }
 
+    ShibbolethPreAuthenticatedProcessingFilter() {
+    }
+
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
@@ -230,5 +233,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     public void setViewerSurfConextIdpRole(String viewerSurfConextIdpRole) {
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
+    }
+
+    public void setManageConsentEnabled(boolean manageConsentEnabled) {
+        isManageConsentEnabled = manageConsentEnabled;
     }
 }
