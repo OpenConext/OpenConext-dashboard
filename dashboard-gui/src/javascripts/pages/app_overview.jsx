@@ -89,7 +89,7 @@ class AppOverview extends React.Component {
                     const back = this.props.match.params.back;
                     if (back && this.appRef && this.appRef.current) {
                         const appNode = ReactDOM.findDOMNode(this.appRef.current);
-                        window.scrollTo({"behavior": "smooth", "left": 0, "top": appNode.offsetTop});
+                        this.scrollToPos(0, appNode.offsetTop);
                     }
                 }, 350));
             });
@@ -571,13 +571,20 @@ class AppOverview extends React.Component {
     }
 
     changePage(nbr) {
-        this.setState({page: nbr}, () => window.scrollTo({
-            "behavior": "smooth",
-            "left": 0,
-            "top": 0
-        }));
+        this.setState({page: nbr}, () => this.scrollToPos(0, 0));
         store.page = nbr;
     }
+
+    scrollToPos = (left, top) => {
+        const options = {
+            "left": left,
+            "top": top
+        };
+        if (navigator.userAgent.indexOf("Firefox") === -1) {
+            options.behavior = "smooth";
+        }
+        window.scrollTo(options);
+    };
 
     renderPagination(resultLength, page) {
         if (resultLength <= pageCount) {
