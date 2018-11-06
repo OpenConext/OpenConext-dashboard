@@ -412,7 +412,7 @@ I18n.translations.nl = {
             day: "Dag",
             hour: "Uur",
             minute: "Minuut",
-            all: "Totale periode: van ⇨ tot"
+            all: "Totale periode: van ⇨ tot en met"
         },
         helpLink: "https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken"
     },

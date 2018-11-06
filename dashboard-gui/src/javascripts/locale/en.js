@@ -603,7 +603,7 @@ I18n.translations.en = {
             day: "Day",
             hour: "Hour",
             minute: "Minute",
-            all: "Entire Period: from ⇨ to"
+            all: "Entire period: from ⇨ until"
         },
         helpLink: "https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken"
     },
