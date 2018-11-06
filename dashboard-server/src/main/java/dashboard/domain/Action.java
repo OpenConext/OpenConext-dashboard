@@ -25,7 +25,9 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 
 public class Action {
 
-    public enum Type {LINKREQUEST, UNLINKREQUEST, QUESTION, CHANGE}
+    public enum Type {
+        LINKREQUEST, UNLINKREQUEST, CHANGE;
+    }
 
     private String jiraKey;
     private String userName;

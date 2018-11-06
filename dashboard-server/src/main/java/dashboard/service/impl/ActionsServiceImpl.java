@@ -25,14 +25,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import dashboard.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import dashboard.domain.Action;
-import dashboard.domain.Change;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.ServiceProvider;
 import dashboard.manage.EntityType;
 import dashboard.service.ActionsService;
 import dashboard.service.EmailService;
@@ -59,37 +56,39 @@ public class ActionsServiceImpl implements ActionsService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map<String, Object> getActions(String identityProvider, int startAt, int maxResults) {
-        Map<String, Object> result = jiraClient.getTasks(identityProvider, startAt, maxResults);
-        List<Action> issues = (List<Action>) result.get("issues");
+    public JiraResponse searchTasks(String idp, JiraFilter jiraFilter) {
+        JiraResponse jiraResponse = jiraClient.searchTasks(idp, jiraFilter);
+        List<Action> issues = jiraResponse.getIssues();
+
         Map<String, String> serviceProviders = issues.stream()
-                .map(action -> action.getSpId())
-                .filter(spId -> StringUtils.hasText(spId))
+                .map(Action::getSpId)
+                .filter(StringUtils::hasText)
                 .collect(Collectors.toSet())
                 .stream()
                 .map(spId -> manage.getServiceProvider(spId, EntityType.saml20_sp, true))
-                .filter(opt -> opt.isPresent())
-                .map(opt -> opt.get())
-                .collect(Collectors.toMap(sp -> sp.getId(), sp -> sp.getName()));
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toMap(Provider::getId, Provider::getName));
 
         Map<String, String> identityProviders = issues.stream()
-                .map(action -> action.getIdpId())
-                .filter(idpId -> StringUtils.hasText(idpId))
+                .map(Action::getIdpId)
+                .filter(StringUtils::hasText)
                 .collect(Collectors.toSet())
                 .stream()
-                .map(idpId -> manage.getIdentityProvider(idpId,  true))
-                .filter(opt -> opt.isPresent())
-                .map(opt -> opt.get())
-                .collect(Collectors.toMap(idp -> idp.getId(), idp -> idp.getName()));
+                .map(idpId -> manage.getIdentityProvider(idpId, true))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toMap(Provider::getId, Provider::getName));
 
-        List<Action> enrichedActions = issues != null ? issues.stream().map(this::addUser).map(action -> action.unbuild()
-                .spName(serviceProviders.getOrDefault(action.getSpId(), "Information unavailable"))
-                .idpName(identityProviders.getOrDefault(action.getIdpId(), "Information unavailable"))
-                .build()).collect(toList()) : new ArrayList<>();
-
-        Map<String, Object> copyResult = new HashMap<>(result);
-        copyResult.put("issues", enrichedActions);
-        return copyResult;
+        List<Action> enrichedActions = issues.stream()
+                .map(this::addUser)
+                .map(action -> action.unbuild()
+                        .spName(serviceProviders.getOrDefault(action.getSpId(), "Information unavailable"))
+                        .idpName(identityProviders.getOrDefault(action.getIdpId(), "Information unavailable"))
+                        .build())
+                .collect(toList());
+        jiraResponse.setIssues(enrichedActions);
+        return jiraResponse;
     }
 
     private Action addNames(Action action) {

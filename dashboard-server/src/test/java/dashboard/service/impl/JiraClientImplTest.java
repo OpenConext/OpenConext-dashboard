@@ -2,6 +2,8 @@ package dashboard.service.impl;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import dashboard.domain.Action;
+import dashboard.domain.JiraFilter;
+import dashboard.domain.JiraResponse;
 import org.apache.commons.io.IOUtils;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,16 +37,17 @@ public class JiraClientImplTest {
         stubFor(post(urlPathEqualTo("/search")).willReturn(aResponse().withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(jiraResponse)));
 
-        Map<String, Object> tasks = jiraClient.getTasks("https://mock-idp", 0, 99);
-        assertEquals(2, tasks.size());
+        JiraFilter jiraFilter = new JiraFilter();
+        JiraResponse response = jiraClient.searchTasks("https://mock-idp", jiraFilter);
+        assertEquals(2, response.getIssues().size());
     }
 
     @Test
     public void actionToIssueIdentifier() {
         List<String> identifiers = Arrays.asList(Action.Type.values()).stream().map(type -> jiraClient.actionToIssueIdentifier(type)).collect(toList());
 
-        assertEquals("11104,11105,11103,11106", String.join(",", identifiers));
-        assertEquals(4l, identifiers.stream().map(identifier -> jiraClient.findType(identifier)).count());
+        assertEquals("11104,11105,11106", String.join(",", identifiers));
+        assertEquals(3l, identifiers.stream().map(identifier -> jiraClient.findType(identifier)).count());
     }
 
 }

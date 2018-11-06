@@ -46,7 +46,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
         wrapper.setHeader(Shib_Uid.getValue(), userId);
         wrapper.setHeader(Shib_Authenticating_Authority.getValue(), idp);
         wrapper.setHeader(Shib_GivenName.getValue(), "Some given name");
-        wrapper.setHeader(Shib_Email.getValue(), "Some value");
+        wrapper.setHeader(Shib_Email.getValue(), "jane.roe@example.org");
         wrapper.setHeader(Shib_EduPersonPN.getValue(), "Some eduPersonPrincipalName");
         wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
         wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");

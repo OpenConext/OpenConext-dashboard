@@ -17,16 +17,15 @@ package dashboard.service;
 
 import dashboard.domain.Action;
 import dashboard.domain.Change;
+import dashboard.domain.JiraFilter;
+import dashboard.domain.JiraResponse;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ActionsService {
 
-    /**
-     * Get a list of all actions of a certain identity provider
-     */
-    Map<String, Object> getActions(String identityProvider, int startAt, int maxResults);
+    JiraResponse searchTasks(String idp, JiraFilter jiraFilter);
 
     Action create(Action action, List<Change> changes);
 

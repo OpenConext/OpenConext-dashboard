@@ -1,4 +1,7 @@
+import I18n from "i18n-js";
+
 const converters = {
+    spName: value => value !== undefined && value !== null ? value.toLowerCase() : "",
     name: value => value !== undefined && value !== null ? value.toLowerCase() : "",
     license: (value, app) => app.licenseStatus,
     jiraKey: value => {
@@ -7,7 +10,9 @@ const converters = {
         }
         return value;
     },
-    requestDate: value => new Date(value)
+    requestDate: value => new Date(value),
+    type: value => I18n.t(`history.action_types_name.${value}`),
+    status: value => I18n.t(`history.statuses.${value.toLowerCase()}`)
 };
 
 const converterForAttribute = attr => {

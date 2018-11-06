@@ -566,7 +566,7 @@ I18n.translations.en = {
     
     history: {
         requestDate: "Date",
-        type: "Description",
+        type: "Type",
         jiraKey: "Ticket ID",
         status: "Status",
         userName: "By",
@@ -574,20 +574,27 @@ I18n.translations.en = {
         action_types: {
             LINKREQUEST: "Connect to {{serviceName}}",
             UNLINKREQUEST: "Disconnect from {{serviceName}}",
-            QUESTION: "Question",
             CHANGE: "Change"
+        },
+        action_types_name: {
+            LINKREQUEST: "New Connection",
+            UNLINKREQUEST: "Disconnect",
+            QUESTION: "Question",
+            CHANGE: "Change request"
         },
         from: "From",
         to: "To",
+        typeIssue: "Type",
         spEntityId: "Service",
         statuses: {
-            "to_do":"Open",
-            "in_progress": "In progress",
-            "awaiting_input": "Pending input",
-            "resolved": "Resolved",
-            "closed": "Closed"
+            "To Do":"Open",
+            "In Progress": "In progress",
+            "Awaiting Input": "Pending input",
+            "Resolved": "Resolved",
+            "Closed": "Closed"
         },
-        servicePlaceHolder: "Search for a Service..."
+        servicePlaceHolder: "Search for a Service...",
+        noTicketsFound: "No tickets were found for the given filters."
     },
 
     stats: {

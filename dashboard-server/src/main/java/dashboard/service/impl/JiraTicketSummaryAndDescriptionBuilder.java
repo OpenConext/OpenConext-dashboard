@@ -2,7 +2,6 @@ package dashboard.service.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static dashboard.domain.Action.Type.LINKREQUEST;
-import static dashboard.domain.Action.Type.QUESTION;
 import static dashboard.domain.Action.Type.UNLINKREQUEST;
 import static dashboard.domain.Action.Type.CHANGE;
 
@@ -38,11 +37,6 @@ class JiraTicketSummaryAndDescriptionBuilder {
             description.append("\n");
 
             summary.append("Change settings for ").append(action.getIdpId());
-        } else if (action.getType().equals(QUESTION)) {
-            description.append("Question: ").append(action.getBody()).append("\n");
-            summary.
-                    append("Question about ").
-                    append(action.getSpId());
         } else if (LINKREQUEST.equals(action.getType())) {
             description.append("Request: Create a new connection").append("\n");
             summary.
@@ -73,9 +67,7 @@ class JiraTicketSummaryAndDescriptionBuilder {
         }
         description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
 
-        if (!action.getType().equals(QUESTION)) {
-            description.append("Remark from user: ").append(action.getBody()).append("\n");
-        }
+        description.append("Remark from user: ").append(action.getBody()).append("\n");
 
         return new SummaryAndDescription(summary.toString(), description.toString());
     }

@@ -1,75 +1,935 @@
 {
-  "expand": "names,schema",
-  "startAt": 0,
-  "maxResults": 10,
-  "total": 25,
+  "expand": "schema,names",
+  "startAt": 25,
+  "maxResults": 20,
+  "total": 115,
   "issues": [
     {
       "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
-      "id": "66159",
-      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/66159",
-      "key": "CXT-22795",
+      "id": "103261",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/103261",
+      "key": "CXT-27874",
       "fields": {
-        "summary": "Test Okke",
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://welcome.pilot.lifescienceid.org/metadata/backend.xml",
         "issuetype": {
-          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11107",
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
           "id": "11104",
           "description": "",
-          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
           "name": "SSI Link Request",
           "subtask": false,
           "avatarId": 10300
         },
-        "created": "2018-11-01T09:48:21.000+0100",
-        "description": "Okke Test Issue",
+        "created": "2018-03-22T15:50:19.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:rik\nApplicant email: rik.vansommeren@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://welcome.pilot.lifescienceid.org/metadata/backend.xml\nLicense required: Not needed\nLicense secured: n/a\nTime: 15:50 22-03-18\nRemark from user: \n",
         "assignee": null,
+        "customfield_13018": "https://welcome.pilot.lifescienceid.org/metadata/backend.xml",
         "status": {
-          "self": "https://jira-test.surfnet.nl/rest/api/2/status/3",
-          "description": "Progess has started at this issue.",
-          "iconUrl": "https://jira-test.surfnet.nl/images/icons/statuses/inprogress.png",
-          "name": "In Progress",
-          "id": "3",
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
           "statusCategory": {
-            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/4",
-            "id": 4,
-            "key": "indeterminate",
-            "colorName": "yellow",
-            "name": "In Progress"
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
           }
         }
       }
     },
     {
       "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
-      "id": "66159",
-      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/66159",
-      "key": "CXT-22796",
+      "id": "103105",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/103105",
+      "key": "CXT-27821",
       "fields": {
-        "summary": "Test Okke",
+        "summary": "Change settings for https://idp.surfnet.nl",
         "issuetype": {
-          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11107",
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11106",
+          "id": "11106",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Change",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2018-03-20T18:12:49.000+0100",
+        "description": "Please update settings to the following: \nKeywords NL: SURFnet bv SURF konijn powered by\nKeywords EN: SURFnet bv SURF konijn surf surfnet powered by\nPublished in eduGAIN: false\n\nContact Name 0: LIS Unix\nContact Email 0: lis-unix@uvt.nl\nContact Telephone 0: \nContact Type 0: technical\n\nContact Name 1: Wim Reijm\nContact Email 1: wim.reijm@surfnet.nl\nContact Telephone 1: \nContact Type 1: administrative\n\nContact Name 2: IA Helpdesk\nContact Email 2: ia-helpdesk@surfnet.nl\nContact Telephone 2: \nContact Type 2: help\n\nService Provider ID: https://esciencecenter.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN [esciencecenter.eduvpn.nl]\nService Provider Description NL: eduVPN [esciencecenter.eduvpn.nl]\n\nService Provider ID: https://csa.surfconext.nl\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFconext Cloud Services API\nService Provider Description NL: SURFconext Cloud Services API\n\nService Provider ID: https://sab-enroll.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFnet Autorisatie Beheer - Enrolment\nService Provider Description NL: SURFnet Autorisatie Beheer - Enrolment\n\nService Provider ID: https://filesender.surfshare.nl/simplesamlphp/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Filesender\nService Provider Description NL: Met FileSender verstuur je heel grote bestanden makkelijk, snel en vertrouwd.\n\nService Provider ID: surfstat\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFinternet traffic monitor\nService Provider Description NL: SURFinternet traffic monitor\n\nService Provider ID: https://www.mobipres.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Mobipres is a tool to facilitate interaction by using the own mobile device.\nService Provider Description NL: Mobipres is een tool om interactie te faciliteren met gebruik van het eigen mobiele device.\n\nService Provider ID: https://crowd.surfnet.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: This SSO proxy handles authentication for various services at SURFnet, including sofie.surfnet.nl, wiki.surfnet.nl and issues.surfnet.nl\nService Provider Description NL: Deze SSO proxy regelt authenticatie voor diverse diensten van SURFnet, waaronder sofie.surfnet.nl, wiki.surfnet.nl en issues.surfnet.nl\n\nService Provider ID: https://surf.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN [surf.eduvpn.nl]\nService Provider Description NL: eduVPN [surf.eduvpn.nl]\n\nService Provider ID: https://www.eduroam.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduroam beheer\nService Provider Description NL: eduroam beheer\n\nService Provider ID: https://surfdrive-acc.surf.nl/simplesaml/module.php/saml/sp/metadata.php/SURFconext\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFdrive test beheer portal (Acceptatie)\nService Provider Description NL: SURFdrive test beheer portal (Acceptatie)\n\nService Provider ID: https://netwerkdashboard-acc.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Netwerkdashboard (Acceptatie)\nService Provider Description NL: Netwerkdashboard (Acceptatie)\n\nService Provider ID: https://smartsecureyourself.nl\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Do you know everything about information security? Discover it now with the SmartSecureYourself game.\nService Provider Description NL: In de game SmartSecureYourself ontdek je spelenderwijs jouw blinde vlekken op het gebied van informatieveiligheid.\n\nService Provider ID: https://geant.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN [geant.eduvpn.nl]\nService Provider Description NL: eduVPN [geant.eduvpn.nl]\n\nService Provider ID: https://netherlight.acc.dlp.surfnet.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Bandwidth On Demand - Netherlight (Acceptatie) | SURFnet\nService Provider Description NL: Bandwidth On Demand - Netherlight (Acceptatie) | SURFnet\n\nService Provider ID: https://beheer-acc.surfdrive.nl/simplesaml/module.php/saml/sp/metadata.php/SURFconext\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFdrive ACC - Beheer portal tbv inzicht in gebruik per instelling.\nService Provider Description NL: SURFdrive ACC - Beheer portal tbv inzicht in gebruik per instelling.\n\nService Provider ID: https://sab.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFnet Autorisatie Beheer\nService Provider Description NL: SURFnet Autorisatie Beheer\n\nService Provider ID: https://auth.automation.surf.net/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: NWA Auth Server\nService Provider Description NL: NWA Auth Server\n\nService Provider ID: https://auth.staging.automation.surf.net/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: NWA Auth Server (staging)\nService Provider Description NL: NWA Auth Server (staging)\n\nService Provider ID: https://support.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/vo-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFconext Support Management\nService Provider Description NL: Support beheersapplicaties van SURFconext\n\nService Provider ID: https://filesender.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Experimental service for sharing (large) files.\nService Provider Description NL: Experimentele dienst voor bestandenuitwisseling.\n\nService Provider ID: https://demo.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN [demo.eduvpn.nl]\nService Provider Description NL: eduVPN [demo.eduvpn.nl]\n\nService Provider ID: https://crowd-test.surfnet.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: This Crowd SSO proxy handles authentication for various Atalassian based software products at SURFnet, including intranet.surfnet.nl, wiki.surfnetlabs.nl and issues.surfnet.nl\nService Provider Description NL: Deze Crowd SSO proxy regelt authenticatie voor diverse Atalassian producten van SURFnet, waaronder intranet.surfnet.nl, wiki.surfnetlabs.nl en issues.surfnet.nl\n\nService Provider ID: https://dashboard.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFdashboard\nService Provider Description NL: SURFdashboard\n\nService Provider ID: https://netwerkdashboard-dev.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Netwerkdashboard (Development)\nService Provider Description NL: Netwerkdashboard (Development)\n\nService Provider ID: https://www.surfspace.nl/auth/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Online community.\nService Provider Description NL: Online community.\n\nService Provider ID: https://gitlab.surfnet.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Internal Gitlab-repository for SURFnet projects\nService Provider Description NL: Interne Gitlab-repository voor SURFnetprojecten\n\nService Provider ID: https://kluitje.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN [kluitje.eduvpn.nl]\nService Provider Description NL: eduVPN [kluitje.eduvpn.nl]\n\nService Provider ID: https://bod.acc.dlp.surfnet.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Bandwidth On Demand (Acceptatie)\nService Provider Description NL: Bandwidth On Demand (Acceptatie)\n\nService Provider ID: https://ut.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN [ut.eduvpn.nl]\nService Provider Description NL: eduVPN [ut.eduvpn.nl]\n\nService Provider ID: https://ru.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN [ru.eduvpn.nl]\nService Provider Description NL: eduVPN [ru.eduvpn.nl]\n\nService Provider ID: https://blog.surfnet.nl/simplesaml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFnet Innovation Blog\nService Provider Description NL: SURFnet Innovatieblog\n\nService Provider ID: surfpanel\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFdomeinen\nService Provider Description NL: SURFdomeinen\n\nService Provider ID: http://login.ad.surfnet.nl/adfs/services/trust\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURF, SURFnet and SaNS CRM & Sharepoint environment\nService Provider Description NL: CRM & Sharepoint-omgeving van SURF, SURFnet en SaNS\n\nService Provider ID: https://bod.netherlight.net/bod-authorization-server\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: BoD Authorization Server Netherlight\nService Provider Description NL: BoD Authorization Server Netherlight\n\nService Provider ID: http://windesheim-ra.aai.surfnet.nl/saml/metadata\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SuaaS Registration tokens - Deltion (pilot) |  SURFnet\nService Provider Description NL: SuaaS Registration tokens - Deltion (pilot) |  SURFnet\n\nService Provider ID: https://utrecht.surfcloud.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: OpenStack PaDe\nService Provider Description NL: OpenStack PaDe\n\nService Provider ID: https://nl.eduvpn.org/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduVPN Secure Internet [nl.eduvpn.org]\nService Provider Description NL: eduVPN Secure Internet [nl.eduvpn.org]\n\nService Provider ID: https://dashboard.surfconext.nl\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFconext Dashboard\nService Provider Description NL: SURFconext Dashboard\n\nService Provider ID: https://netwerkdashboard.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Netwerkdashboard\nService Provider Description NL: Netwerkdashboard\n\nService Provider ID: https://espee.surfnet.nl/saml2/sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFnet SP\nService Provider Description NL: SURFnet SP\n\nService Provider ID: https://bod.acc.dlp.surfnet.nl/bod-authorization-server\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: OAuth2 Authorization Server for BoD (Acceptatie)\nService Provider Description NL: OAuth2 Authorization Server for BoD (Acceptatie)\n\nService Provider ID: https://stats.surfconext.nl/simplesaml-test/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFconext Statistics API [test/dev environment]\nService Provider Description NL: SURFconext Statistieken API [test/dev omgeving]\n\nService Provider ID: https://eva.eduroam.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: eduroam Visitor Access | SURFnet\nService Provider Description NL: eduroam Visitor Access| SURFnet\n\nService Provider ID: https://bod.surfnet.nl/bod-authorization-server\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Manage dynamic lightpaths through this interface.\nService Provider Description NL: Interface voor beheer van dynamische lichtpaden.\n\nService Provider ID: https://surfstat.surfnet.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFstat\nService Provider Description NL: SURFstat\n\nService Provider ID: https://stats.surfconext.nl/dashboard\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFconext statistics overview\nService Provider Description NL: SURFconext statistiekenoverzicht\n\nService Provider ID: https://labrat.eduvpn.nl/saml\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: true\nService Provider Description EN: eduVPN [labrat.eduvpn.nl]\nService Provider Description NL: eduVPN [labrat.eduvpn.nl]\n\nService Provider ID: https://tools.surfconext.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Tools for SURFconext\nService Provider Description NL: Tools voor SURFconext\n\nService Provider ID: https://profile.surfconext.nl/authentication/metadata\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: Manage your SURFconext profile.\nService Provider Description NL: Beheer van je SURFconextprofiel.\n\nService Provider ID: https://crowd-surf.surf.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: This SSO proxy handles authentication for intranet.surf.nl\nService Provider Description NL: Deze SSO proxy regelt authenticatie intranet.surf.nl\n\nService Provider ID: https://la-experiment.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFnet learning analytics experiment - SURFnet\nService Provider Description NL: SURFnet learning analytics experiment - SURFnet\n\nService Provider ID: https://authz.surfconext.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFConext OAuth authorization service\nService Provider Description NL: SURFConext OAuth autorisatiedienst\n\nService Provider ID: https://cc1-utr.surfnet.cybera.ca/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: OpenStack (test)\nService Provider Description NL: OpenStack (test)\n\nService Provider ID: https://surfcumulus.nl/saml2/metadata/\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFcumulus is een hybride Infrastructuur-as-a-Service dienstverlening en levert een geïntegreerd aanbod van IaaS-diensten (Infrastructuur-as-a-Service) aan aangesloten instellingen\nService Provider Description NL: SURFcumulus is een hybride Infrastructuur-as-a-Service dienstverlening en levert een geïntegreerd aanbod van IaaS-diensten (Infrastructuur-as-a-Service) aan aangesloten instellingen\n\nService Provider ID: https://bod.netherlight.net/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Manage dynamic lightpaths @Netherlight through this interface.\nService Provider Description NL: Interface voor beheer van dynamische lichtpaden @netherlight.\n\nService Provider ID: https://opzichter.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFopzichter\nService Provider Description NL: SURFopzichter\n\nService Provider ID: https://portal.surfwireless.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFwireless portal\nService Provider Description NL: SURFwireless portaal\n\nService Provider ID: https://bod.surfnet.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: Manage dynamic lightpaths through this interface.\nService Provider Description NL: Interface voor beheer van dynamische lichtpaden.\n\nService Provider ID: https://teams.surfconext.nl/shibboleth\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: Teams for SURFconext.\nService Provider Description NL: Teams voor SURFconext.\n\nService Provider ID: https://engine.surfconext.nl/authentication/sp/metadata\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SURFconext is a collaboration infrastructure that creates new opportunities to collaborate online based on a combination of applications from different providers.\nService Provider Description NL: SURFconext is een samenwerkingsinfrastructuur die nieuwe vormen van samenwerken mogelijk maakt door diensten van verschillende aanbieders te combineren.\n\nService Provider ID: https://dashboard.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/dashboard-hi\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFdashboard Step-Up\nService Provider Description NL: SURFdashboard Step-Up\n\nService Provider ID: https://rapportage.surfnet.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: SURFrapportage\nService Provider Description NL: SURFrapportage\n\nService Provider ID: https://monitoring-sp\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: true\nService Provider Published In Edugain: false\nService Provider Description EN: OpenConext monitoring SP\nService Provider Description NL: OpenConext monitoring SP\n\nService Provider ID: https://windesheim-gw.aai.surfnet.nl/metadata.php\nService Provider Guest Login Enabled: true\nService Provider No Consent Required: false\nService Provider Published In Edugain: false\nService Provider Description EN: SuaaS Gateway - Deltion (pilot) | SURFnet\nService Provider Description NL: SuaaS Gateway - Deltion (pilot) | SURFnet\n\nAdditional comments: \n\nApplicant name: urn:collab:person:surfnet.nl:henny\nApplicant email: henny.bekker@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: null\nTime: 18:12 20-03-18\nRemark from user: null\n",
+        "assignee": null,
+        "customfield_13018": null,
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "102633",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/102633",
+      "key": "CXT-27680",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://dummy.topdesk.net/Single-tenant-service_op-aanvraag",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
           "id": "11104",
           "description": "",
-          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
           "name": "SSI Link Request",
           "subtask": false,
           "avatarId": 10300
         },
-        "created": "2018-11-01T09:48:21.000+0100",
-        "description": "Okke Test2 Issue",
-        "assignee": null,
+        "created": "2018-03-13T12:56:57.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:henny\nApplicant email: henny.bekker@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://dummy.topdesk.net/Single-tenant-service_op-aanvraag\nLicense required: Yes, with service provider\nLicense secured: Unknown\nTime: 12:56 13-03-18\nRemark from user: DIT IS EEN TEST!!!!   verzoek kan gesloten worden !!!!\n",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://dummy.topdesk.net/Single-tenant-service_op-aanvraag",
         "status": {
-          "self": "https://jira-test.surfnet.nl/rest/api/2/status/3",
-          "description": "Progess has started at this issue.",
-          "iconUrl": "https://jira-test.surfnet.nl/images/icons/statuses/inprogress.png",
-          "name": "Open",
-          "id": "3",
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
           "statusCategory": {
-            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/4",
-            "id": 4,
-            "key": "indeterminate",
-            "colorName": "yellow",
-            "name": "Open"
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "102059",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/102059",
+      "key": "CXT-27464",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://welcome.lifescienceid.org/metadata/backend.xml",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2018-03-01T14:39:42.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://welcome.lifescienceid.org/metadata/backend.xml\nLicense required: Not needed\nLicense secured: n/a\nTime: 14:39 01-03-18\nRemark from user: \n",
+        "assignee": null,
+        "customfield_13018": "https://welcome.lifescienceid.org/metadata/backend.xml",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "98531",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/98531",
+      "key": "CXT-26280",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://meta.cesnet.cz/sp/shibboleth",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-12-13T15:47:17.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://meta.cesnet.cz/sp/shibboleth\nLicense required: Not needed\nLicense secured: n/a\nTime: 15:47 13-12-17\nRemark from user: \n",
+        "assignee": null,
+        "customfield_13018": "https://meta.cesnet.cz/sp/shibboleth",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "98527",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/98527",
+      "key": "CXT-26279",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://cloud.mcp-services.net/federation/platform/r2.0/eu",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-12-13T15:21:08.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://cloud.mcp-services.net/federation/platform/r2.0/eu\nLicense required: Not needed\nLicense secured: n/a\nTime: 15:21 13-12-17\nRemark from user: \n",
+        "assignee": null,
+        "customfield_13018": "https://cloud.mcp-services.net/federation/platform/r2.0/eu",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "97302",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/97302",
+      "key": "CXT-25853",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://privacybydesign.foundation/simplesamlphp/module.php/saml/sp/metadata.php/surfnet",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-11-17T09:16:39.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://privacybydesign.foundation/simplesamlphp/module.php/saml/sp/metadata.php/surfnet\nLicense required: Not needed\nLicense secured: n/a\nTime: 09:16 17-11-17\nRemark from user: \n",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=%40+surfconext+supportteam",
+          "name": "@ surfconext supportteam",
+          "key": "@ surfconext supportteam",
+          "emailAddress": "supportteam-issues@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=32"
+          },
+          "displayName": "@ Studenten supportteam",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://privacybydesign.foundation/simplesamlphp/module.php/saml/sp/metadata.php/surfnet",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "96231",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/96231",
+      "key": "CXT-25587",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://registry.eduteams.org/shibboleth",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-11-02T18:02:10.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://registry.eduteams.org/shibboleth\nLicense required: Not needed\nLicense secured: n/a\nTime: 18:02 02-11-17\nRemark from user: \n",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=%40+surfconext+supportteam",
+          "name": "@ surfconext supportteam",
+          "key": "@ surfconext supportteam",
+          "emailAddress": "supportteam-issues@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=32"
+          },
+          "displayName": "@ Studenten supportteam",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://registry.eduteams.org/shibboleth",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "94683",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/94683",
+      "key": "CXT-25171",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://data.4tu.nl/saml/metadata",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-10-09T18:36:09.000+0200",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:henny\nApplicant email: henny.bekker@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://data.4tu.nl/saml/metadata\nLicense required: Not needed\nLicense secured: n/a\nTime: 18:36 09-10-17\nRemark from user: Dit is een test van Henny & Okke & Ruud AFBLIJVEN DUS !!!!!\n",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://data.4tu.nl/saml/metadata",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "94634",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/94634",
+      "key": "CXT-25068",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://issues.shibboleth.net/shibboleth",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-10-03T16:53:23.000+0200",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://issues.shibboleth.net/shibboleth\nLicense required: Not needed\nLicense secured: n/a\nTime: 16:53 03-10-17\nRemark from user:",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://issues.shibboleth.net/shibboleth",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "93133",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/93133",
+      "key": "CXT-23517",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://saproxy.moonshot.utr.surfcloud.nl/simplesamlphp/module.php/saml/sp/metadata.php/default-sp",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-06-28T02:19:00.000+0200",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:henny\nApplicant email: henny.bekker@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://saproxy.moonshot.utr.surfcloud.nl/simplesamlphp/module.php/saml/sp/metadata.php/default-sp\nLicense required: Not needed\nLicense secured: n/a\nTime: 02:19 28-06-17\nRemark from user: DIT IS EEN TEST !!!!   Niet uitvoeren dus !!!!!",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://saproxy.moonshot.utr.surfcloud.nl/simplesamlphp/module.php/saml/sp/metadata.php/default-sp",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "93077",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/93077",
+      "key": "CXT-23457",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://nl.eduvpn.org/saml",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-06-23T09:10:46.000+0200",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://nl.eduvpn.org/saml\nLicense required: Not needed\nLicense secured: n/a\nTime: 09:10 23-06-17\nRemark from user:",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=%40+surfconext+supportteam",
+          "name": "@ surfconext supportteam",
+          "key": "@ surfconext supportteam",
+          "emailAddress": "supportteam-issues@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=32"
+          },
+          "displayName": "@ Studenten supportteam",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://nl.eduvpn.org/saml",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "92557",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/92557",
+      "key": "CXT-22898",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://auth.summit.nl/surfconext/metadata",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-05-17T18:55:55.000+0200",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://auth.summit.nl/surfconext/metadata\nLicense required: Not needed\nLicense secured: n/a\nTime: 18:55 17-05-17\nRemark from user:",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=urn%3Acollab%3Aperson%3Asurfnet.nl%3Ahenny",
+          "name": "urn:collab:person:surfnet.nl:henny",
+          "key": "urn:collab:person:surfnet.nl:henny",
+          "emailAddress": "henny.bekker@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://jira.surfnet.nl/secure/useravatar?avatarId=11318",
+            "24x24": "https://jira.surfnet.nl/secure/useravatar?size=small&avatarId=11318",
+            "16x16": "https://jira.surfnet.nl/secure/useravatar?size=xsmall&avatarId=11318",
+            "32x32": "https://jira.surfnet.nl/secure/useravatar?size=medium&avatarId=11318"
+          },
+          "displayName": "Henny Bekker",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://auth.summit.nl/surfconext/metadata",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "92516",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/92516",
+      "key": "CXT-22835",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://surf.eduvpn.nl/saml",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-05-12T16:24:23.000+0200",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://surf.eduvpn.nl/saml\nLicense required: Not needed\nLicense secured: n/a\nTime: 16:24 12-05-17\nRemark from user:",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=%40+surfconext+supportteam",
+          "name": "@ surfconext supportteam",
+          "key": "@ surfconext supportteam",
+          "emailAddress": "supportteam-issues@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=32"
+          },
+          "displayName": "@ Studenten supportteam",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://surf.eduvpn.nl/saml",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "66458",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/66458",
+      "key": "CXT-22533",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://inacademia.org/metadata/inacademia-simple-validation.xml",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-04-21T16:30:49.000+0200",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://inacademia.org/metadata/inacademia-simple-validation.xml\nLicense required: Not needed\nLicense secured: n/a\nTime: 16:30 21-04-17\nRemark from user:",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=urn%3Acollab%3Aperson%3Asurfnet.nl%3Aniels",
+          "name": "urn:collab:person:surfnet.nl:niels",
+          "key": "urn:collab:person:surfnet.nl:niels",
+          "emailAddress": "niels.vandijk@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/54871628684403f20a3a978bc9b52cc1?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/54871628684403f20a3a978bc9b52cc1?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/54871628684403f20a3a978bc9b52cc1?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/54871628684403f20a3a978bc9b52cc1?d=mm&s=32"
+          },
+          "displayName": "Niels van Dijk",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://inacademia.org/metadata/inacademia-simple-validation.xml",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "87400",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/87400",
+      "key": "CXT-21863",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://saml.www.vandale.nl",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-03-10T15:21:56.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://saml.www.vandale.nl\nLicense required: Yes, with SURFmarket\nLicense secured: No\nTime: 15:21 10-03-17\nRemark from user:",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=%40+surfconext+supportteam",
+          "name": "@ surfconext supportteam",
+          "key": "@ surfconext supportteam",
+          "emailAddress": "supportteam-issues@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=32"
+          },
+          "displayName": "@ Studenten supportteam",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://saml.www.vandale.nl",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "87036",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/87036",
+      "key": "CXT-21446",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://www.academia.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-02-07T20:54:52.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:henny\nApplicant email: henny.bekker@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://www.academia.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp\nLicense required: Yes, with SURFmarket\nLicense secured: No\nTime: 20:54 07-02-17\nRemark from user: Dit is een test..  \r\n\r\nNIET AANSLUITEN DUS !!!!!!",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=%40+surfconext+supportteam",
+          "name": "@ surfconext supportteam",
+          "key": "@ surfconext supportteam",
+          "emailAddress": "supportteam-issues@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=32"
+          },
+          "displayName": "@ Studenten supportteam",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://www.academia.nl/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "86800",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/86800",
+      "key": "CXT-21185",
+      "fields": {
+        "summary": "Disconnect IdP https://idp.surfnet.nl and SP http://sts.edugroepen.nl/adfs/services/trust",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11105",
+          "id": "11105",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Unlink Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-01-22T11:33:04.000+0100",
+        "description": "Request: terminate a connection\nApplicant name: urn:collab:person:surfnet.nl:henny\nApplicant email: henny.bekker@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: http://sts.edugroepen.nl/adfs/services/trust\nLicense required: Yes, with SURFmarket\nLicense secured: No\nTime: 11:33 22-01-17\nRemark from user: DIT IS EEN TEST !!!!!   Please ignore !!!!!",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "http://sts.edugroepen.nl/adfs/services/trust",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "86752",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/86752",
+      "key": "CXT-21133",
+      "fields": {
+        "summary": "Disconnect IdP https://idp.surfnet.nl and SP http://sts.edugroepen.nl/adfs/services/trust",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11105",
+          "id": "11105",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Unlink Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2017-01-17T22:15:15.000+0100",
+        "description": "Request: terminate a connection\nApplicant name: urn:collab:person:surfnet.nl:henny\nApplicant email: henny.bekker@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: http://sts.edugroepen.nl/adfs/services/trust\nLicense required: Yes, with SURFmarket\nLicense secured: No\nTime: 22:15 17-01-17\nRemark from user: Dit is weer een test!!!   NIET UITVOEREN DUS !!!!!!",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=urn%3Acollab%3Aperson%3Asurfnet.nl%3Ahenny",
+          "name": "urn:collab:person:surfnet.nl:henny",
+          "key": "urn:collab:person:surfnet.nl:henny",
+          "emailAddress": "henny.bekker@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://jira.surfnet.nl/secure/useravatar?avatarId=11318",
+            "24x24": "https://jira.surfnet.nl/secure/useravatar?size=small&avatarId=11318",
+            "16x16": "https://jira.surfnet.nl/secure/useravatar?size=xsmall&avatarId=11318",
+            "32x32": "https://jira.surfnet.nl/secure/useravatar?size=medium&avatarId=11318"
+          },
+          "displayName": "Henny Bekker",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "http://sts.edugroepen.nl/adfs/services/trust",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "86506",
+      "self": "https://jira.surfnet.nl/rest/api/2/issue/86506",
+      "key": "CXT-20873",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP https://estudybooks.surf.nl/wp-content/plugins/saml-20-single-sign-on/saml/www/module.php/saml/sp/metadata.php/1",
+        "issuetype": {
+          "self": "https://jira.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "created": "2016-12-22T16:40:02.000+0100",
+        "description": "Request: Create a new connection\nApplicant name: urn:collab:person:surfnet.nl:reijm\nApplicant email: wim.reijm@surfnet.nl\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://estudybooks.surf.nl/wp-content/plugins/saml-20-single-sign-on/saml/www/module.php/saml/sp/metadata.php/1\nLicense required: Not needed\nLicense secured: n/a\nTime: 16:40 22-12-16\nRemark from user:",
+        "assignee": {
+          "self": "https://jira.surfnet.nl/rest/api/2/user?username=%40+surfconext+supportteam",
+          "name": "@ surfconext supportteam",
+          "key": "@ surfconext supportteam",
+          "emailAddress": "supportteam-issues@surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9a1e7dd1ee9e4545b61855d4d73e4e6f?d=mm&s=32"
+          },
+          "displayName": "@ Studenten supportteam",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "customfield_13018": "https://estudybooks.surf.nl/wp-content/plugins/saml-20-single-sign-on/saml/www/module.php/saml/sp/metadata.php/1",
+        "status": {
+          "self": "https://jira.surfnet.nl/rest/api/2/status/6",
+          "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+          "iconUrl": "https://jira.surfnet.nl/images/icons/statuses/closed.png",
+          "name": "Closed",
+          "id": "6",
+          "statusCategory": {
+            "self": "https://jira.surfnet.nl/rest/api/2/statuscategory/3",
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
           }
         }
       }

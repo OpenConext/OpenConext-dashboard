@@ -621,7 +621,7 @@ I18n.translations.nl = {
 
     history: {
         requestDate: "Datum",
-        type: "Omschrijving",
+        type: "Type",
         jiraKey: "Ticket ID",
         status: "Status",
         userName: "Door",
@@ -629,20 +629,27 @@ I18n.translations.nl = {
         action_types: {
             LINKREQUEST: "Verbinden met {{serviceName}}",
             UNLINKREQUEST: "Ontbinden met {{serviceName}}",
+            CHANGE: "Wijziging"
+        },
+        action_types_name: {
+            LINKREQUEST: "Nieuwe connectie",
+            UNLINKREQUEST: "Deactivatie",
             QUESTION: "Vraag",
             CHANGE: "Wijziging"
         },
         from: "Van",
         to: "Tot",
+        typeIssue: "Type",
         spEntityId: "Dienst",
         statuses: {
-            "to_do":"Open",
-            "in_progress": "Bezig",
-            "awaiting_input": "Wachtende op goedkeuring",
-            "resolved": "Opgeleverd",
-            "closed": "Gesloten"
+            "To Do":"Open",
+            "In Progress": "Bezig",
+            "Awaiting Input": "Wachtende op goedkeuring",
+            "Resolved": "Opgeleverd",
+            "Closed": "Gesloten"
         },
-        servicePlaceHolder: "Zoek naar een dient..."
+        servicePlaceHolder: "Zoek naar een dient...",
+        noTicketsFound: "Er zijn geen tickets gevonden met de gegeven filters."
     },
     service_filter: {
         title: "Filter diensten",

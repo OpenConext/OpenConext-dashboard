@@ -15,6 +15,9 @@
  */
 package dashboard.service.impl;
 
+import com.google.common.collect.ImmutableMap;
+import dashboard.domain.JiraFilter;
+import dashboard.domain.JiraResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import dashboard.domain.Action;
@@ -71,16 +74,26 @@ public class JiraClientMock implements JiraClient {
     }
 
     @Override
-    public Map<String, Object> getTasks(String idp, int startAt, int maxResults) {
+    public JiraResponse searchTasks(String idp, JiraFilter jiraFilter) {
         List<Action> actions = repository.values().stream().filter(action -> action.getIdpId().equals(idp))
                 .collect(toList());
-        Map<String, Object> result = new HashMap<>();
-        result.put("issues", actions.subList(startAt, Math.min(actions.size(), startAt + maxResults)));
-        result.put("total", actions.size());
-        result.put("startAt", startAt);
-        result.put("maxResults", maxResults);
-        return result;
-
+        return new JiraResponse(actions, actions.size(), jiraFilter.getStartAt(), jiraFilter.getMaxResults());
     }
 
+    @Override
+    public Map<String, String> validTransitions(String key) {
+        return ImmutableMap.of("To Do", "1", "In Progress", "2", "Awaiting Input", "3", "Resolved", "4", "Closed", "5");
+    }
+
+    @Override
+    public void transition(String key, String transitionId, String comment) {
+        Action action = repository.get(key);
+        if (action != null) {
+            Map<String, String> transitions = validTransitions(key);
+            Optional<String> newStatusTxt = transitions.entrySet().stream().filter(entry -> entry.getValue().equals(transitionId)).map(entry -> entry.getKey()).findAny();
+            newStatusTxt.ifPresent(status -> {
+                repository.put(key, action.unbuild().status(status).build());
+            });
+        }
+    }
 }

@@ -17,6 +17,8 @@ package dashboard.service.impl;
 
 import dashboard.domain.Action;
 import dashboard.domain.Change;
+import dashboard.domain.JiraFilter;
+import dashboard.domain.JiraResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,10 @@ public interface JiraClient {
 
     String create(Action action, List<Change> changes) throws IllegalStateException;
 
-    Map<String, Object> getTasks(String idp, int startAt, int maxResults);
+    JiraResponse searchTasks(String idp, JiraFilter jiraFilter);
+
+    Map<String, String> validTransitions(String key);
+
+    void transition(String key, String transitionId, String comment);
 
 }

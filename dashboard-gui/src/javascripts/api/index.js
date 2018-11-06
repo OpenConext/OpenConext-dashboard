@@ -155,18 +155,13 @@ export function switchToIdp(idpId, role) {
     return validFetch("/users/me/switch-to-idp?" + qs.stringify({idpId, role}));
 }
 
-export function getActions(startAt, maxResults) {
-    return fetchJson(`/actions?startAt=${startAt}&maxResults=${maxResults}`);
-}
-
 export function searchJira(filter) {
-    return postJson("/actions/search", filter, {
+    return postJson("/actions", filter, {
         headers: {
             "Content-Type": "application/json"
         }
-    });
+    }).then(parseJson);
 }
-
 
 export function makeConnection(app, comments, type) {
     return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId, type: type})

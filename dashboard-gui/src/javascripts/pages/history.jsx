@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import I18n from "i18n-js";
 
-import {getActions} from "../api";
+import {searchJira} from "../api";
 import sort from "../utils/sort";
 import moment from "moment";
 
@@ -12,9 +12,10 @@ import pagination from "../utils/pagination";
 import SelectWrapper from "../components/select_wrapper";
 import stopEvent from "../utils/stop";
 
-const allStatuses = ["to_do", "in_progress", "awaiting_input", "resolved", "closed"];
-
 const pageCount = 10;
+
+const allStatuses = ["To Do", "In Progress", "Awaiting Input", "Resolved", "Closed"];
+const allTypes = ["LINKREQUEST", "UNLINKREQUEST", "CHANGE"];
 
 class History extends React.Component {
 
@@ -22,15 +23,6 @@ class History extends React.Component {
         super();
         this.state = this.getInitialState();
     }
-
-    componentDidMount() {
-        this.fetchIssues();
-    }
-
-    reset = e => {
-        stopEvent(e);
-        this.setState(this.getInitialState(), this.componentDidMount)
-    };
 
     getInitialState = () => ({
         actions: [],
@@ -43,9 +35,47 @@ class History extends React.Component {
         to: moment(),
         page: 1,
         statuses: allStatuses.slice(0, 3),
+        types: allTypes,
         spEntityId: "",
-        serviceProviders: []
+        serviceProviders: [],
+        loaded: false
     });
+
+    componentDidMount() {
+        const {startAt, sortAttribute, sortAscending, maxResults, from, to, statuses, types, spEntityId} = this.state;
+        const filter = {
+            maxResults: maxResults,
+            startAt: startAt,
+            from: from.unix(),
+            to: moment(to).add(1, "day").unix(),
+            spEntityId: spEntityId,
+            statuses: statuses,
+            types: types,
+            sortBy: sortAttribute,
+            sortAsc: sortAscending
+        };
+        searchJira(filter).then(data => {
+            const {issues, total, startAt, maxResults} = data.payload;
+            const serviceProviders = new Set(issues.map(issue => {
+                issue.spName = issue.spName === "Information unavailable" ? issue.spId : issue.spName;
+                return issue.spName;
+            }));
+            this.setState({
+                actions: issues, startAt: startAt, maxResults: maxResults, total: total, loaded: true,
+                serviceProviders: [""].concat([...serviceProviders])
+            }, () => window.scrollTo({
+                "behavior": "smooth",
+                "left": 0,
+                "top": 0
+            }));
+        });
+
+    }
+
+    reset = e => {
+        stopEvent(e);
+        this.setState(this.getInitialState(), this.componentDidMount)
+    };
 
     pagination(currentPage, length) {
         const current = currentPage,
@@ -76,23 +106,11 @@ class History extends React.Component {
         return rangeWithDots;
     }
 
-    fetchIssues(startAt = this.state.startAt, maxResults = this.state.maxResults) {
-        getActions(startAt, maxResults).then(data => {
-            const {issues, total, startAt, maxResults} = data.payload;
-            const serviceProviders = new Set(issues.map(issue => {
-                issue.spName = issue.spName === "Information unavailable" ? issue.spId : issue.spName;
-                return issue.spName;
-            }));
-            this.setState({
-                actions: issues, startAt: startAt, maxResults: maxResults, total: total,
-                serviceProviders: [""].concat([...serviceProviders])
-            });
-        });
-    }
-
     handleSort = sortObject => this.setState({
         sortAttribute: sortObject.sortAttribute,
-        sortAscending: sortObject.sortAscending
+        sortAscending: sortObject.sortAscending,
+        startAt: 0,
+        page: 1
     });
 
     renderSortableHeader(className, attribute) {
@@ -109,11 +127,7 @@ class History extends React.Component {
     }
 
     changePage = nbr => () => {
-        this.setState({page: nbr}, () => window.scrollTo({
-            "behavior": "smooth",
-            "left": 0,
-            "top": 0
-        }));
+        this.setState({page: nbr});
     };
 
     renderPagination(resultLength, page) {
@@ -141,15 +155,13 @@ class History extends React.Component {
             </section>);
     }
 
-    onChangeFrom = e => this.setState({from: e});
+    onChangeFilter = name => e => {
+        const newState = {startAt: 0, page: 1};
+        newState[name] = e;
+        this.setState(newState, this.componentDidMount);
+    };
 
-    onChangeTo = e => this.setState({to: e});
-
-    onChangeStatus = e => this.setState({statuses: e});
-
-    onChangeSp = e => this.setState({spEntityId: e});
-
-    renderFilter = (from, to, statuses, spEntityId, serviceProviders) => {
+    renderFilter = (from, to, statuses, spEntityId, serviceProviders, types) => {
         return <section className="filters">
             <div className="header">
                 <h1>{I18n.t("stats.filters.name")}</h1>
@@ -160,7 +172,7 @@ class History extends React.Component {
                 <DatePicker
                     selected={from}
                     preventOpenOnFocus
-                    onChange={this.onChangeFrom}
+                    onChange={this.onChangeFilter("from")}
                     showYearDropdown
                     showMonthDropdown
                     showWeekNumbers
@@ -173,7 +185,7 @@ class History extends React.Component {
                 <DatePicker
                     selected={to}
                     preventOpenOnFocus
-                    onChange={this.onChangeTo}
+                    onChange={this.onChangeFilter("to")}
                     showYearDropdown
                     showMonthDropdown
                     showWeekNumbers
@@ -185,59 +197,76 @@ class History extends React.Component {
                 <label>{I18n.t("history.status")}</label>
                 <SelectWrapper
                     defaultValue={statuses}
-                    options={allStatuses.map(t => ({value: t, display: I18n.t(`history.statuses.${t.toLowerCase()}`)}))}
+                    options={allStatuses.map(t => ({value: t, display: I18n.t(`history.statuses.${t}`)}))}
                     multiple={true}
                     isClearable={false}
-                    handleChange={this.onChangeStatus}/>
+                    handleChange={this.onChangeFilter("statuses")}/>
+                <label>{I18n.t("history.typeIssue")}</label>
+                <SelectWrapper
+                    defaultValue={types}
+                    options={allTypes.map(t => ({
+                        value: t,
+                        display: I18n.t(`history.action_types_name.${t}`)
+                    }))}
+                    multiple={true}
+                    isClearable={false}
+                    handleChange={this.onChangeFilter("types")}/>
                 <label>{I18n.t("history.spEntityId")}</label>
                 <SelectWrapper
                     defaultValue={spEntityId}
-                    options={serviceProviders.map(t => ({value: t, display: t === "" ? I18n.t("history.servicePlaceHolder") : t}))}
+                    options={serviceProviders.map(t => ({
+                        value: t,
+                        display: t === "" ? I18n.t("history.servicePlaceHolder") : t
+                    }))}
                     multiple={false}
                     isClearable={true}
-                    handleChange={this.onChangeSp}/>
+                    handleChange={this.onChangeFilter("spEntityId")}/>
             </fieldset>
         </section>
     };
 
-
     renderAction = action =>
         <tr key={action.jiraKey}>
-            <td >{moment(action.requestDate).format("DD-MM-YYYY")}</td>
-            <td >{action.spName === "Information unavailable" ? action.spId : action.spName}</td>
-            <td >{action.userName}</td>
-            <td >{I18n.t("history.action_types." + action.type, {serviceName: action.spName})}</td>
-            <td >{action.jiraKey}</td>
-            <td >{action.status}</td>
+            <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
+            <td>{action.spName === "Information unavailable" ? action.spId : action.spName}</td>
+            <td>{action.userName}</td>
+            <td>{I18n.t("history.action_types_name." + action.type)}</td>
+            <td>{action.jiraKey}</td>
+            <td>{I18n.t("history.statuses." + action.status)}</td>
         </tr>
 
-
     render() {
-        const {actions, sortAttribute, sortAscending, total, from, to, statuses, spEntityId, page,
-            serviceProviders} = this.state;
+        const {
+            actions, sortAttribute, sortAscending, total, from, to, statuses, spEntityId, page,
+            serviceProviders, types, loaded
+        } = this.state;
         let sortedActions = sort(actions, sortAttribute, sortAscending);
         if (sortedActions.length > pageCount) {
             sortedActions = sortedActions.slice((page - 1) * pageCount, page * pageCount);
         }
         return (
             <div className="mod-history">
-                {this.renderFilter(from, to, statuses, spEntityId, serviceProviders)}
+                {this.renderFilter(from, to, statuses, spEntityId, serviceProviders, types)}
                 <div className="table_wrapper">
+                    {(loaded && sortedActions.length > 0) &&
                     <table>
                         <thead>
                         <tr>
                             {this.renderSortableHeader("percent_10", "requestDate")}
-                            {this.renderSortableHeader("percent_15", "spName")}
-                            {this.renderSortableHeader("percent_15", "userName")}
+                            {this.renderSortableHeader("percent_20", "spName")}
+                            <th className={"percent_15"}>{I18n.t("history.userName")}</th>
                             {this.renderSortableHeader("percent_25", "type")}
                             {this.renderSortableHeader("percent_15", "jiraKey")}
-                            {this.renderSortableHeader("percent_20", "status")}
+                            {this.renderSortableHeader("percent_15", "status")}
                         </tr>
                         </thead>
                         <tbody>
                         {sortedActions.map(action => this.renderAction(action))}
                         </tbody>
-                    </table>
+                    </table>}
+                    {(loaded && sortedActions.length === 0) && <div>
+                        <p>{I18n.t("history.noTicketsFound")}</p>
+                    </div>}
                     {this.renderPagination(total, page)}
                 </div>
             </div>
