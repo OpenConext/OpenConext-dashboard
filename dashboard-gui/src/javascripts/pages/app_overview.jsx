@@ -80,14 +80,16 @@ class AppOverview extends React.Component {
                 }, new Set());
                 const initialHiddenFacets = {};
                 initialHiddenFacets[I18n.t("facets.static.arp.name")] = true;
+                const back = this.props.match.params.back;
+                const page = back && store.page ? store.page : 1;
                 this.setState({
                     apps: apps, idpDisableConsent: data[1], facets: facets, arpAttributes: [...attributes],
-                    hiddenFacets: initialHiddenFacets
+                    hiddenFacets: initialHiddenFacets, page: page
                 }, () => setTimeout(() => {
                     const back = this.props.match.params.back;
                     if (back && this.appRef && this.appRef.current) {
                         const appNode = ReactDOM.findDOMNode(this.appRef.current);
-                        window.scrollTo({"behavior": "smooth", "left": 0, "top": appNode.offsetTop});
+                        this.scrollToPos(0, appNode.offsetTop);
                     }
                 }, 350));
             });
@@ -132,12 +134,14 @@ class AppOverview extends React.Component {
     renderApp(app, index) {
         const {currentUser} = this.context;
         const connect = currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId;
+        const focus = app.id === store.appId && this.props.match.params.back;
         return (
             <tr key={index} ref={re => {
                 if (re && app.id === store.appId) {
                     this.appRef.current = re;
                 }
-            }} onClick={e => this.handleShowAppDetail(e, app)}>
+            }} onClick={e => this.handleShowAppDetail(e, app)}
+                className={focus ? "focus" : ""}>
                 <td><Link
                     to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`}
                     onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>
@@ -567,13 +571,20 @@ class AppOverview extends React.Component {
     }
 
     changePage(nbr) {
-        this.setState({page: nbr}, () => window.scrollTo({
-            "behavior": "smooth",
-            "left": 0,
-            "top": 0
-        }));
+        this.setState({page: nbr}, () => this.scrollToPos(0, 0));
         store.page = nbr;
     }
+
+    scrollToPos = (left, top) => {
+        const options = {
+            "left": left,
+            "top": top
+        };
+        if (navigator.userAgent.indexOf("Firefox") === -1) {
+            options.behavior = "smooth";
+        }
+        window.scrollTo(options);
+    };
 
     renderPagination(resultLength, page) {
         if (resultLength <= pageCount) {
