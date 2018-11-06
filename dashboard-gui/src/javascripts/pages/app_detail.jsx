@@ -105,8 +105,8 @@ class AppDetail extends React.Component {
                     <div className="l-app-detail">
                         <div className="mod-app-nav">
                             <ul>
-                                <li key="back">
-                                    <Link to="/apps">
+                                <li key="back" className="back">
+                                    <Link to="/apps/back">
                                         <i className="fa fa-arrow-left"></i>
                                         {I18n.t("apps.detail.back")}
                                     </Link>

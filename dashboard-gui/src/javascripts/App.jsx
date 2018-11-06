@@ -46,7 +46,7 @@ class App extends React.Component {
                         <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail}/>
                         <Route exact path="/apps/:id/:type"
                                render={({params: {id, type}}) => <Redirect to={`/apps/${id}/${type}/overview`}/>}/>
-                        <Route exact path="/apps" component={AppOverview}/>
+                        <Route exact path="/apps/:back?" component={AppOverview}/>
                         <Route exact path="/policies" component={PolicyOverview}/>
                         <Route exact path="/history" component={History}/>
                         <Route exact path="/profile" component={Profile}/>

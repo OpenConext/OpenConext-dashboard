@@ -25,7 +25,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dashboard-server</artifactId>
     <packaging>jar</packaging>
-    <version>8.0.0</version>
+    <version>8.0.1</version>
     <name>OpenConext-DashBoard-server</name>
     <properties>
         <jetty.host>localhost</jetty.host>

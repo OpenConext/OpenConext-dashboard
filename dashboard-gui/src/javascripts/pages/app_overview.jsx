@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import SortableHeader from "../components/sortable_header";
@@ -19,7 +20,8 @@ import {consentTypes} from "../utils/utils";
 const store = {
     activeFacets: null,
     hiddenFacets: null,
-    page: null
+    page: null,
+    appId: null
 };
 
 const pageCount = 20;
@@ -43,9 +45,12 @@ class AppOverview extends React.Component {
             exportResult: [],
             idpDisableConsent: []
         };
+        if (store.appId) {
+            this.appRef = React.createRef();
+        }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         Promise.all([getApps(), disableConsent()])
             .then(data => {
                 const {facets, apps} = data[0].payload;
@@ -75,8 +80,18 @@ class AppOverview extends React.Component {
                 }, new Set());
                 const initialHiddenFacets = {};
                 initialHiddenFacets[I18n.t("facets.static.arp.name")] = true;
-                this.setState({apps: apps, idpDisableConsent: data[1], facets: facets, arpAttributes: [...attributes],
-                    hiddenFacets: initialHiddenFacets});
+                const back = this.props.match.params.back;
+                const page = back && store.page ? store.page : 1;
+                this.setState({
+                    apps: apps, idpDisableConsent: data[1], facets: facets, arpAttributes: [...attributes],
+                    hiddenFacets: initialHiddenFacets, page: page
+                }, () => setTimeout(() => {
+                    const back = this.props.match.params.back;
+                    if (back && this.appRef && this.appRef.current) {
+                        const appNode = ReactDOM.findDOMNode(this.appRef.current);
+                        window.scrollTo({"behavior": "smooth", "left": 0, "top": appNode.offsetTop});
+                    }
+                }, 350));
             });
     }
 
@@ -119,10 +134,16 @@ class AppOverview extends React.Component {
     renderApp(app, index) {
         const {currentUser} = this.context;
         const connect = currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId;
+        const focus = app.id === store.appId && this.props.match.params.back;
         return (
-            <tr key={index} onClick={e => this.handleShowAppDetail(e, app)}>
+            <tr key={index} ref={re => {
+                if (re && app.id === store.appId) {
+                    this.appRef.current = re;
+                }
+            }} onClick={e => this.handleShowAppDetail(e, app)}
+                className={focus ? "focus" : ""}>
                 <td><Link
-                    to={`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`}
+                    to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`}
                     onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>
                 </td>
                 {this.renderLicenseNeeded(app)}
@@ -193,12 +214,13 @@ class AppOverview extends React.Component {
 
     handleShowAppDetail(e, app) {
         stopEvent(e);
-        this.context.router.history.replace(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+        store.appId = app.id;
+        this.context.router.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
     }
 
     handleConnectApp(e, app) {
         stopEvent(e);
-        this.context.router.history.replace(`apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
+        this.context.router.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
     }
 
     /*
