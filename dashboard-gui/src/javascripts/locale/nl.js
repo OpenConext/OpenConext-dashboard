@@ -438,7 +438,7 @@ I18n.translations.nl = {
     live: {
         chartTitle: "Logins per {{scale}}",
         aggregatedChartTitlePeriod: "Logins in de periode {{period}} per {{group}}",
-        noTimeFrameChart: "Logins van {{from}} tot {{to}}"
+        noTimeFrameChart: "Logins van {{from}} tot en met {{to}}"
     },
 
     server_error: {
