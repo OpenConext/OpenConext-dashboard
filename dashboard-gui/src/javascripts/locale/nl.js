@@ -620,20 +620,17 @@ I18n.translations.nl = {
     },
 
     history: {
-        requestDate: "Datum",
+        info: "Hieronder alle tickets met betrekking tot (ont)koppelen van diensten of wijzigingsverzoeken.",
+        requestDate: "Aangemaakt",
+        updateDate: "Gewijzigd",
         type: "Type",
-        jiraKey: "Ticket ID",
+        jiraKey: "Id",
         status: "Status",
         userName: "Door",
         spName: "Dienst",
-        action_types: {
-            LINKREQUEST: "Verbinden met {{serviceName}}",
-            UNLINKREQUEST: "Ontbinden met {{serviceName}}",
-            CHANGE: "Wijziging"
-        },
         action_types_name: {
-            LINKREQUEST: "Nieuwe connectie",
-            UNLINKREQUEST: "Deactivatie",
+            LINKREQUEST: "Nieuwe koppeling",
+            UNLINKREQUEST: "Ontkoppeling",
             QUESTION: "Vraag",
             CHANGE: "Wijziging"
         },
@@ -648,7 +645,7 @@ I18n.translations.nl = {
             "Resolved": "Opgeleverd",
             "Closed": "Gesloten"
         },
-        servicePlaceHolder: "Zoek naar een dient...",
+        servicePlaceHolder: "Zoek en selecteer een dienst...",
         noTicketsFound: "Er zijn geen tickets gevonden met de gegeven filters."
     },
     service_filter: {

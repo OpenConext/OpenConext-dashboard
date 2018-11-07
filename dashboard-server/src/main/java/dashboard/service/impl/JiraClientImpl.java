@@ -61,6 +61,7 @@ public class JiraClientImpl implements JiraClient {
     private Map<String, Map<String, Map<String, String>>> mappings;
     private ObjectMapper objectMapper = new ObjectMapper();
     private String environment;
+    private ArrayList standardFields;
 
     public JiraClientImpl(String baseUrl, String username, String password, String projectKey) throws IOException {
         this.projectKey = projectKey;
@@ -73,6 +74,10 @@ public class JiraClientImpl implements JiraClient {
         this.restTemplate = new RestTemplate();
         this.environment = baseUrl.contains("test") ? "test" : "prod";
         this.mappings = objectMapper.readValue(new ClassPathResource("jira/mappings.json").getInputStream(), Map.class);
+
+        this.standardFields = new ArrayList(Arrays.asList("summary", "status", "assignee", "issuetype", "created", "description", "updated"));
+        standardFields.addAll(this.mappings.get(this.environment).get("customFields").values().stream().map(s -> "customfield_" + s).collect(toList()));
+
     }
 
     @Override
@@ -114,14 +119,12 @@ public class JiraClientImpl implements JiraClient {
     @Override
     public JiraResponse searchTasks(String idp, JiraFilter jiraFilter) {
         String query = buildQueryForIdp(idp, jiraFilter);
-        List<String> standardFields = new ArrayList(Arrays.asList("summary", "status", "assignee", "issuetype", "created", "description"));
-        standardFields.addAll(this.mappings.get(this.environment).get("customFields").values().stream().map(s -> "customfield_" + s).collect(toList()));
         try {
             ImmutableMap<String, Object> body = ImmutableMap.of(
                     "jql", query,
                     "maxResults", jiraFilter.getMaxResults(),
                     "startAt", jiraFilter.getStartAt(),
-                    "fields", standardFields);
+                    "fields", this.standardFields);
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, defaultHeaders);
 
             String url = baseUrl + "/search";
@@ -137,6 +140,7 @@ public class JiraClientImpl implements JiraClient {
                         .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
                         .type(findType(issueType))
                         .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
+                        .updateDate(ZonedDateTime.parse((String) fields.get("updated"), DATE_FORMATTER))
                         .body((String) fields.get("description")).build();
             }).collect(toList());
             return new JiraResponse(issues, (Integer) result.get("total"), (Integer) result.get("startAt"), (Integer) result.get("maxResults"));
@@ -199,7 +203,7 @@ public class JiraClientImpl implements JiraClient {
             sb.append(String.format(" AND issueType in (%s)", issueTypes));
         }
         if (StringUtils.hasText(jiraFilter.getSpEntityId())) {
-            sb.append(String.format(" AND cf[%]~\"%s\"", spCustomField(), jiraFilter.getSpEntityId()));
+            sb.append(String.format(" AND cf[%s]~\"%s\"", spCustomField(), jiraFilter.getSpEntityId()));
         }
         if (jiraFilter.getFrom() != null) {
             String from = DateTimeFormatter.ofPattern("YYYY-MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochSecond(jiraFilter.getFrom()));
@@ -214,6 +218,9 @@ public class JiraClientImpl implements JiraClient {
             switch (jiraFilter.getSortBy()) {
                 case "requestDate":
                     sb.append("created ");
+                    break;
+                case "updateDate":
+                    sb.append("updated ");
                     break;
                 case "spName":
                     sb.append("cf[" + spCustomField() + "]");

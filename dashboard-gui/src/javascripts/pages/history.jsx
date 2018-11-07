@@ -11,6 +11,7 @@ import SortableHeader from "../components/sortable_header";
 import pagination from "../utils/pagination";
 import SelectWrapper from "../components/select_wrapper";
 import stopEvent from "../utils/stop";
+import {isEmpty} from "../utils/utils";
 
 const pageCount = 10;
 
@@ -56,13 +57,23 @@ class History extends React.Component {
         };
         searchJira(filter).then(data => {
             const {issues, total, startAt, maxResults} = data.payload;
-            const serviceProviders = new Set(issues.map(issue => {
-                issue.spName = issue.spName === "Information unavailable" ? issue.spId : issue.spName;
-                return issue.spName;
+            const serviceProvidersUnique = issues
+                .filter(issue => !isEmpty(issue.spId))
+                .reduce((acc, issue) => {
+                    acc[issue.spId] = issue.spName === "Information unavailable" ? issue.spId : issue.spName;
+                    return acc;
+                }, {});
+            const serviceProviders = Object.keys(serviceProvidersUnique).map(spId => ({
+                spId: spId,
+                spName: serviceProvidersUnique[spId]
             }));
             this.setState({
-                actions: issues, startAt: startAt, maxResults: maxResults, total: total, loaded: true,
-                serviceProviders: [""].concat([...serviceProviders])
+                actions: issues,
+                startAt: startAt,
+                maxResults: maxResults,
+                total: total,
+                loaded: true,
+                serviceProviders: serviceProviders
             }, () => window.scrollTo({
                 "behavior": "smooth",
                 "left": 0,
@@ -215,11 +226,12 @@ class History extends React.Component {
                 <SelectWrapper
                     defaultValue={spEntityId}
                     options={serviceProviders.map(t => ({
-                        value: t,
-                        display: t === "" ? I18n.t("history.servicePlaceHolder") : t
+                        value: t.spId,
+                        display: t.spName
                     }))}
                     multiple={false}
                     isClearable={true}
+                    placeholder={I18n.t("history.servicePlaceHolder")}
                     handleChange={this.onChangeFilter("spEntityId")}/>
             </fieldset>
         </section>
@@ -228,6 +240,7 @@ class History extends React.Component {
     renderAction = action =>
         <tr key={action.jiraKey}>
             <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
+            <td>{moment(action.updateDate).format("DD-MM-YYYY")}</td>
             <td>{action.spName === "Information unavailable" ? action.spId : action.spName}</td>
             <td>{action.userName}</td>
             <td>{I18n.t("history.action_types_name." + action.type)}</td>
@@ -248,15 +261,17 @@ class History extends React.Component {
             <div className="mod-history">
                 {this.renderFilter(from, to, statuses, spEntityId, serviceProviders, types)}
                 <div className="table_wrapper">
+                    <p className="info">{I18n.t("history.info")}</p>
                     {(loaded && sortedActions.length > 0) &&
                     <table>
                         <thead>
                         <tr>
-                            {this.renderSortableHeader("percent_10", "requestDate")}
-                            {this.renderSortableHeader("percent_20", "spName")}
+                            {this.renderSortableHeader("percent_15", "requestDate")}
+                            {this.renderSortableHeader("percent_15", "updateDate")}
+                            {this.renderSortableHeader("percent_15", "spName")}
                             <th className={"percent_15"}>{I18n.t("history.userName")}</th>
-                            {this.renderSortableHeader("percent_25", "type")}
-                            {this.renderSortableHeader("percent_15", "jiraKey")}
+                            {this.renderSortableHeader("percent_15", "type")}
+                            {this.renderSortableHeader("percent_10", "jiraKey")}
                             {this.renderSortableHeader("percent_15", "status")}
                         </tr>
                         </thead>

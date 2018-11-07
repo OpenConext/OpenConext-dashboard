@@ -563,19 +563,16 @@ I18n.translations.en = {
         serviceProviderName: "Service",
         title: "Revisions",
     },
-    
+
     history: {
-        requestDate: "Date",
+        info: "On this page you find all tickets related to (dis)connecting services and change requests.",
+        requestDate: "Created",
+        updateDate: "Updated",
         type: "Type",
-        jiraKey: "Ticket ID",
+        jiraKey: "Id",
         status: "Status",
         userName: "By",
         spName: "Service",
-        action_types: {
-            LINKREQUEST: "Connect to {{serviceName}}",
-            UNLINKREQUEST: "Disconnect from {{serviceName}}",
-            CHANGE: "Change"
-        },
         action_types_name: {
             LINKREQUEST: "New Connection",
             UNLINKREQUEST: "Disconnect",
@@ -587,13 +584,13 @@ I18n.translations.en = {
         typeIssue: "Type",
         spEntityId: "Service",
         statuses: {
-            "To Do":"Open",
+            "To Do": "Open",
             "In Progress": "In progress",
             "Awaiting Input": "Pending input",
             "Resolved": "Resolved",
             "Closed": "Closed"
         },
-        servicePlaceHolder: "Search for a Service...",
+        servicePlaceHolder: "Search and select a Service...",
         noTicketsFound: "No tickets were found for the given filters."
     },
 

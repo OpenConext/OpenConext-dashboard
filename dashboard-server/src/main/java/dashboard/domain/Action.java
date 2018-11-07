@@ -40,6 +40,7 @@ public class Action {
     private String spName;
 
     private ZonedDateTime requestDate;
+    private ZonedDateTime updateDate;
     private Type type;
     private String status;
 
@@ -58,6 +59,7 @@ public class Action {
         this.spName = builder.spName;
         this.idpName = builder.idpName;
         this.requestDate = builder.requestDate;
+        this.updateDate = builder.updateDate;
         this.type = builder.type;
         this.status = builder.status;
         this.service = builder.service;
@@ -93,6 +95,10 @@ public class Action {
         return requestDate;
     }
 
+    public ZonedDateTime getUpdateDate() {
+        return updateDate;
+    }
+
     public Type getType() {
         return type;
     }
@@ -112,10 +118,6 @@ public class Action {
     public Service getService() {
         return service;
     }
-
-//  public String getIdpName() {
-//    return idpName;
-//  }
 
     public String getSpName() {
         return spName;
@@ -258,6 +260,7 @@ public class Action {
         private String spName;
         private String idpName;
         private ZonedDateTime requestDate;
+        private ZonedDateTime updateDate;
         private Service service;
         private Settings settings;
         private Consent consent;
@@ -277,6 +280,7 @@ public class Action {
             this.spName = action.spName;
             this.idpName = action.idpName;
             this.requestDate = action.requestDate;
+            this.updateDate = action.updateDate;
             this.service = action.service;
             this.settings = action.settings;
             this.consent = action.consent;
@@ -284,6 +288,11 @@ public class Action {
 
         public Builder requestDate(ZonedDateTime requestDate) {
             this.requestDate = requestDate;
+            return this;
+        }
+
+        public Builder updateDate(ZonedDateTime updateDate) {
+            this.updateDate = updateDate;
             return this;
         }
 
