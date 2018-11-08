@@ -21,6 +21,7 @@
           "avatarId": 10300
         },
         "created": "2018-11-01T09:48:21.000+0100",
+        "updated": "2018-11-01T09:48:21.000+0100",
         "description": "Okke Test Issue",
         "assignee": null,
         "status": {
@@ -56,6 +57,7 @@
           "avatarId": 10300
         },
         "created": "2018-11-01T09:48:21.000+0100",
+        "updated": "2018-11-01T09:48:21.000+0100",
         "description": "Okke Test2 Issue",
         "assignee": null,
         "status": {

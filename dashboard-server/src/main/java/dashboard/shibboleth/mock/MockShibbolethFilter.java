@@ -38,7 +38,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
         HttpServletRequest req = (HttpServletRequest) request;
 
         String userId = Optional.ofNullable(request.getParameter("mockUser"))
-            .orElse(Optional.ofNullable((String) req.getSession().getAttribute("mockUser")).orElse("admin"));
+            .orElse(Optional.ofNullable((String) req.getSession().getAttribute("mockUser")).orElse("super"));
 
         req.getSession(true).setAttribute("mockUser", userId);
         SetHeader wrapper = new SetHeader(req);
