@@ -31,14 +31,16 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl";
+    public static final String role = "admin";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 
+
         String userId = Optional.ofNullable(request.getParameter("mockUser"))
-            .orElse(Optional.ofNullable((String) req.getSession().getAttribute("mockUser")).orElse("super"));
+                .orElse(Optional.ofNullable((String) req.getSession().getAttribute("mockUser")).orElse(role));
 
         req.getSession(true).setAttribute("mockUser", userId);
         SetHeader wrapper = new SetHeader(req);

@@ -1,0 +1,40 @@
+@import "../utilities/placeholders.sass"
+@import "../utilities/table.sass"
+@import "../utilities/vars.sass"
+
+.mod-invite-request
+  p.info
+    font-size: larger
+    margin: 10px 0
+  .mod-invite-request-inner
+    @extend %box
+
+    padding: 25px
+    label
+      margin: 15px 0 5px 0
+      display: inline-block
+
+    .contact-persons
+      @extend %table
+      margin-top: 50px
+      table th
+        font-size: 14px
+      p.select
+        margin-bottom: 10px
+      td.add-email
+        font-size: 28px
+        color: $blue
+        text-align: center
+      td.delete-email
+        font-size: 26px
+        text-align: left
+        a
+          i.fa
+            color: $red !important
+    .buttons
+      display: flex
+      a.save
+        margin-top: 25px
+        min-width: 120px
+        text-align: center
+        margin-left: auto

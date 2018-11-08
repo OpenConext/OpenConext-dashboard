@@ -25,7 +25,7 @@ public interface Manage {
     ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * Get a list of all available Service Providers for the given idpId.
+     * Get a list of all available Service Providers
      *
      * @return list of {@link ServiceProvider}
      */
@@ -104,11 +104,6 @@ public interface Manage {
                 .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
                         identity()));
         return result;
-    }
-
-    default boolean isConnectionAllowed(ServiceProvider sp, IdentityProvider idp) {
-        return (sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idp.getId())) &&
-                (idp.isAllowedAll() || idp.getAllowedEntityIds().contains(sp.getId()));
     }
 
     default Map<String, Object> transformManageMetadata(Map<String, Object> metadata) {

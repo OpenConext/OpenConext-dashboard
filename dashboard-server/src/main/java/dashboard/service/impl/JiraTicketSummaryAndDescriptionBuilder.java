@@ -1,7 +1,7 @@
 package dashboard.service.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static dashboard.domain.Action.Type.LINKREQUEST;
+import static dashboard.domain.Action.Type.*;
 import static dashboard.domain.Action.Type.UNLINKREQUEST;
 import static dashboard.domain.Action.Type.CHANGE;
 
@@ -44,7 +44,14 @@ class JiraTicketSummaryAndDescriptionBuilder {
                     append(action.getIdpId()).
                     append(" to SP ").
                     append(action.getSpId());
-        } else if (UNLINKREQUEST.equals(action.getType())) {
+        } else if (LINKINVITE.equals(action.getType())) {
+            description.append("Invite: If the SCV accepts this invitation then create a new connection").append("\n");
+            summary.
+                    append("New connection for IdP ").
+                    append(action.getIdpId()).
+                    append(" to SP ").
+                    append(action.getSpId());
+        }else if (UNLINKREQUEST.equals(action.getType())) {
             description.append("Request: terminate a connection").append("\n");
             summary.
                     append("Disconnect IdP ").
@@ -70,21 +77,6 @@ class JiraTicketSummaryAndDescriptionBuilder {
         description.append("Remark from user: ").append(action.getBody()).append("\n");
 
         return new SummaryAndDescription(summary.toString(), description.toString());
-    }
-
-    static String licenseSecured(Action action) {
-        LicenseStatus status = action.getService().getLicenseStatus();
-
-        switch (status) {
-            case HAS_LICENSE_SP:
-                return "Unknown";
-            case HAS_LICENSE_SURFMARKET:
-                return "Yes";
-            case NOT_NEEDED:
-                return "n/a";
-            default:
-                return "Unknown";
-        }
     }
 
     static class SummaryAndDescription {

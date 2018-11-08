@@ -28,9 +28,6 @@ class CurrentUser {
         return this.getCurrentIdp().id;
     }
 
-    superUserNotSwitched() {
-        return this.superUser && !this.switchedToIdp;
-    }
 }
 
 export const createCurrentUser = payload => {

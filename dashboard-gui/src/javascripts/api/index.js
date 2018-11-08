@@ -26,15 +26,13 @@ export function parseJson(res) {
     return res.json();
 }
 
-function validFetch(path, options) {
+function validFetch(path, options, currentUser = getCurrentUser(), idp = undefined) {
     const headers = {
         "Accept": "application/json"
     };
 
-    const currentUser = getCurrentUser();
-
-    if (currentUser) {
-        headers["X-IDP-ENTITY-ID"] = currentUser.getCurrentIdpId();
+    if (currentUser || idp) {
+        headers["X-IDP-ENTITY-ID"] = idp || currentUser.getCurrentIdpId();
     }
 
     const fetchOptions = merge({}, {headers}, options, {
@@ -109,6 +107,11 @@ export function getUserData(redirect = "manual") {
 
 export function getApps() {
     return fetchJson("/services");
+}
+
+export function getAppsForIdentiyProvider(idpEntityId) {
+    return validFetch("/services", {}, null, idpEntityId)
+        .then(parseJson);
 }
 
 export function getApp(appId, type) {

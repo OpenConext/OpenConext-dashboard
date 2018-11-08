@@ -1,0 +1,50 @@
+{{> header.html}}
+<p>
+    {{invitationMessage.person.name}} heeft u uitgenodigd om lid te worden van team
+    <strong>{{invitation.team.name}}</strong>.
+    Lees hieronder wat u moet doen om de uitnodiging te accepteren.
+</p>
+
+{{#invitationMessage.containsMessage}}
+<hr/>
+<p>
+    <strong>Persoonlijk bericht van {{invitationMessage.person.name}}:</strong><br>"{{{invitationMessage.htmlMessage}}}"
+</p>
+<hr/>
+{{/invitationMessage.containsMessage}}
+
+<p>
+    <strong>Uitnodiging accepteren:</strong><br>
+    Klik hieronder op 'Inloggen om de uitnodiging te accepteren' en log vervolgens in met het account van uw instelling
+    om lid te worden van het team.
+</p>
+
+<p>
+    Wilt u de uitnodiging niet accepteren? Klik dan op 'De uitnodiging afwijzen' of verwijder deze e-mail. De
+    uitnodiging verloopt automatisch na 14 dagen.
+</p>
+
+<table id="invitation-mail-table" cellpadding="10" width="90%" align="center">
+    <tr>
+        <td class="invitation-accept" align="center" width="50%">
+            <span><a href="{{baseUrl}}/invitation/accept/{{invitation.invitationHash}}" style="color:#0088CC;">Inloggen om de uitnodiging te accepteren</a></span>
+        </td>
+        <td class="invitation-deny" align="center" width="50%">
+            <span><a href="{{baseUrl}}/invitation/deny/{{invitation.invitationHash}}" style="color:#0088CC;">De uitnodiging afwijzen</a></span>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <strong>Hulp nodig?</strong><br>{{invitationMessage.person.name}} heeft u uitgenodigd voor dit team.
+    Neem contact op met <a href="mailto:{{invitationMessage.person.email}}">{{invitationMessage.person.name}}</a>
+    als u vragen hebt over deze uitnodiging.
+</p>
+
+{{> invitation_nl_footer.html}}
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>

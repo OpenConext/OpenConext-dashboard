@@ -2,6 +2,7 @@ package dashboard.control;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.net.HttpHeaders;
+import dashboard.mail.MailBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import dashboard.domain.ServiceProvider;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.pdp.PdpService;
-import dashboard.service.EmailService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -52,7 +52,7 @@ public class PoliciesController extends BaseController {
     @Autowired
     private Manage manage;
     @Autowired
-    private EmailService emailService;
+    private MailBox mailBox;
 
     @RequestMapping(method = OPTIONS)
     public ResponseEntity<Void> options(HttpServletResponse response) {
@@ -115,7 +115,7 @@ public class PoliciesController extends BaseController {
         return createRestResponse(pdpService.allowedAttributes());
     }
 
-    private void sendNewPolicyWithoutEnforcementDecisionEnabledEmail(Policy policy, CoinUser user) {
+    private void sendNewPolicyWithoutEnforcementDecisionEnabledEmail(Policy policy, CoinUser user)  {
         String subject = String.format("Nieuwe autorisatieregel '%s' voor de omgeving '%s'", policy.getServiceProviderName(), environment);
 
         StringBuilder body = new StringBuilder();
@@ -130,7 +130,11 @@ public class PoliciesController extends BaseController {
             "Meta-tabblad de Entry 'coin:policy_enforcement_decision_required' toe aan de dienst, ");
         body.append("push de metadata en informeer de aanmaker van de regel.");
 
-        emailService.sendMail("no-reply@surfconext.nl", subject.toString(), body.toString());
+        try {
+            mailBox.sendAdministrativeMail(subject, body.toString());
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     private <T> ResponseEntity<T> whenDashboardAdmin(Supplier<T> supplier) {

@@ -15,26 +15,28 @@
  */
 package dashboard.service.impl;
 
-import static java.util.stream.Collectors.toList;
+import dashboard.domain.*;
+import dashboard.mail.MailBox;
+import dashboard.manage.EntityType;
+import dashboard.manage.Manage;
+import dashboard.service.ActionsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import dashboard.domain.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import dashboard.manage.EntityType;
-import dashboard.service.ActionsService;
-import dashboard.service.EmailService;
-import dashboard.manage.Manage;
-import org.springframework.util.StringUtils;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class ActionsServiceImpl implements ActionsService {
@@ -46,10 +48,10 @@ public class ActionsServiceImpl implements ActionsService {
     private JiraClient jiraClient;
 
     @Autowired
-    private EmailService emailService;
+    private Manage manage;
 
     @Autowired
-    private Manage manage;
+    private MailBox mailBox;
 
     @Value("${administration.email.enabled}")
     private boolean sendAdministrationEmail;
@@ -134,7 +136,6 @@ public class ActionsServiceImpl implements ActionsService {
     @Override
     public Action create(Action action, List<Change> changes) {
         String jiraKey = jiraClient.create(action, changes);
-
         Action savedAction = addNames(action).unbuild().jiraKey(jiraKey).build();
 
         sendAdministrationEmail(savedAction);
@@ -146,28 +147,14 @@ public class ActionsServiceImpl implements ActionsService {
         if (!sendAdministrationEmail) {
             return;
         }
-
         String subject = String.format(
                 "[Services (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
                 getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey().orElse("???"));
-
-        StringBuilder body = new StringBuilder();
-        body.append("SP EntityID: " + action.getSpId() + "\n");
-        body.append("SP Name: " + action.getSpName() + "\n");
-
-        body.append("IdP EntityID: " + action.getIdpId() + "\n");
-        body.append("IdP Name: " + action.getIdpName() + "\n");
-
-        body.append("Request: " + action.getType().name() + "\n");
-        body.append("Applicant name: " + action.getUserName() + "\n");
-        body.append("Applicant email: " + action.getUserEmail() + " \n");
-        body.append("Mail applicant: mailto:" + action.getUserEmail() + "?CC=surfconext-beheer@surfnet.nl&SUBJECT=[" + action.getJiraKey().orElse("???") + "]%20" + action.getType().name() + "%20to%20" + action.getSpName() + "&BODY=Beste%20" + action.getUserName() + " \n");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:MM");
-        body.append("Time: " + sdf.format(new Date()) + "\n");
-        body.append("Remark from User:\n");
-        body.append(action.getBody());
-        emailService.sendMail(action.getUserEmail(), subject, body.toString());
+        try {
+            mailBox.sendAdministrativeMail(action.toString(), subject);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     private String getHost() {

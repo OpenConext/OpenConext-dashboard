@@ -40,7 +40,8 @@ I18n.translations.en = {
         policies: "Authorization policies",
         history: "Tickets",
         stats: "Statistics",
-        my_idp: "My institute"
+        my_idp: "My institute",
+        invite_request: "Invite"
     },
 
     loader: {
@@ -652,6 +653,17 @@ I18n.translations.en = {
             tooltip: "The status of the Service determines if the Service is visible on the production platform."
         },
         search: "Search services..."
+    },
+    invite_request: {
+        info: "An invite request results in a mail send to all administrative contactpersons of an Institution with an invite to connect to a specific Service. A Jira ticket is created with the status 'Awaiting Input'",
+        selectIdp: "Search and select an Institution...",
+        selectSpDisabled: "First select an Institution",
+        selectSp: "Now search and select the Service...",
+        idp: "Institution",
+        sp: "Service",
+        contactPersons: "Select to which contact persons of {{name}} the invite will be sent.",
+        selectContact: "Select",
+        sendRequest: "Submit"
     },
     profile: {
         title: "Profile",

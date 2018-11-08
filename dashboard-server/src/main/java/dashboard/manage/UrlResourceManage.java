@@ -37,15 +37,15 @@ public class UrlResourceManage implements Manage {
     private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
     private String bodyForEid = "{\"eid\":@@eid@@, " + requestedAttributes + "}";
     private String bodyForInstitutionId =
-        "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", \"ALL_ATTRIBUTES\":true}";
+            "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", \"ALL_ATTRIBUTES\":true}";
 
     private String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
-        ".allowedall\": true}]}, {\"data.state\":\"prodaccepted\"}]}";
+            ".allowedall\": true}]}, {\"data.state\":\"prodaccepted\"}]}";
 
     public UrlResourceManage(
-        String username,
-        String password,
-        String manageBaseUrl) {
+            String username,
+            String password,
+            String manageBaseUrl) {
         String basicAuth = "Basic " + new String(Base64.getEncoder().encode((username + ":" + password).getBytes()));
         this.manageBaseUrl = manageBaseUrl;
 
@@ -54,7 +54,7 @@ public class UrlResourceManage implements Manage {
         this.httpHeaders.add(HttpHeaders.AUTHORIZATION, basicAuth);
 
         SimpleClientHttpRequestFactory requestFactory = (SimpleClientHttpRequestFactory) restTemplate
-            .getRequestFactory();
+                .getRequestFactory();
         requestFactory.setConnectTimeout(10 * 1000);
     }
 
@@ -64,13 +64,13 @@ public class UrlResourceManage implements Manage {
         List<Map<String, Object>> singleTenants = getMaps(getSingleTenantInputStream(body));
 
         List<ServiceProvider> serviceProviders = providers.stream()
-            .map(this::transformManageMetadata)
-            .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
-            .filter(sp -> !sp.isHidden())
-            .collect(Collectors.toList());
+                .map(this::transformManageMetadata)
+                .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
+                .filter(sp -> !sp.isHidden())
+                .collect(Collectors.toList());
         List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata).map
-            (sp -> this.serviceProvider(sp, EntityType.single_tenant_template))
-            .collect(Collectors.toList());
+                (sp -> this.serviceProvider(sp, EntityType.single_tenant_template))
+                .collect(Collectors.toList());
         singleTenantsProviders.forEach(tenant -> tenant.setExampleSingleTenant(true));
         serviceProviders.addAll(singleTenantsProviders);
         return serviceProviders;
@@ -83,7 +83,7 @@ public class UrlResourceManage implements Manage {
         }
         String body = bodyForEntity.replace("@@entityid@@", spEntityId);
         InputStream inputStream = type.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
-            getSingleTenantInputStream(body);
+                getSingleTenantInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         if (providers.isEmpty()) {
             providers = getMaps(getSpRevisionInputStream(body));
@@ -98,7 +98,7 @@ public class UrlResourceManage implements Manage {
         }
         String body = bodyForEid.replace("@@eid@@", spId.toString());
         InputStream inputStream = entityType.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
-            getSingleTenantInputStream(body);
+                getSingleTenantInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, entityType)).findFirst();
     }
@@ -123,7 +123,7 @@ public class UrlResourceManage implements Manage {
         InputStream inputStream = getIdpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -131,7 +131,7 @@ public class UrlResourceManage implements Manage {
         InputStream inputStream = getIdpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -140,7 +140,7 @@ public class UrlResourceManage implements Manage {
         InputStream inputStream = searchIdp(replaced);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -158,9 +158,9 @@ public class UrlResourceManage implements Manage {
         InputStream inputStream = getSpInputStream(body);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream()
-            .map(this::transformManageMetadata)
-            .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
-            .collect(Collectors.toList());
+                .map(this::transformManageMetadata)
+                .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
+                .collect(Collectors.toList());
     }
 
     private List<Map<String, Object>> getMaps(InputStream inputStream) {
@@ -172,18 +172,18 @@ public class UrlResourceManage implements Manage {
     }
 
     private InputStream getIdpInputStream(String body) {
-        return getIdpInputStreamFromCollection(body,"saml20_idp");
+        return getIdpInputStreamFromCollection(body, "saml20_idp");
     }
 
     private InputStream getIdpRevisionInputStream(String body) {
-        return getIdpInputStreamFromCollection(body,"saml20_idp_revision");
+        return getIdpInputStreamFromCollection(body, "saml20_idp_revision");
     }
 
     private InputStream getIdpInputStreamFromCollection(String body, String collection) {
         LOG.debug("Fetching IDP metadata entries from {} with body {}", manageBaseUrl);
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange
-            (manageBaseUrl + "/manage/api/internal/search/"+collection, HttpMethod.POST,
-                new HttpEntity<>(body, this.httpHeaders), byte[].class);
+                (manageBaseUrl + "/manage/api/internal/search/" + collection, HttpMethod.POST,
+                        new HttpEntity<>(body, this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 
@@ -198,8 +198,8 @@ public class UrlResourceManage implements Manage {
     private InputStream getSpInputStreamFromCollection(String body, String collection) {
         LOG.debug("Fetching SP metadata entries from {} with body {}", manageBaseUrl, body);
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange
-            (manageBaseUrl + "/manage/api/internal/search/"+collection, HttpMethod.POST,
-                new HttpEntity<>(body, this.httpHeaders), byte[].class);
+                (manageBaseUrl + "/manage/api/internal/search/" + collection, HttpMethod.POST,
+                        new HttpEntity<>(body, this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 
@@ -228,8 +228,8 @@ public class UrlResourceManage implements Manage {
     private InputStream getSingleTenantInputStream(String body) {
         LOG.debug("Fetching Single Tenant Templates metadata entries from {} with body {}", manageBaseUrl, body);
         ResponseEntity<byte[]> responseEntity = restTemplate.exchange
-            (manageBaseUrl + "/manage/api/internal/search/single_tenant_template", HttpMethod.POST,
-                new HttpEntity<>(body, this.httpHeaders), byte[].class);
+                (manageBaseUrl + "/manage/api/internal/search/single_tenant_template", HttpMethod.POST,
+                        new HttpEntity<>(body, this.httpHeaders), byte[].class);
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 

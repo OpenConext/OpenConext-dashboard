@@ -48,4 +48,14 @@ public class Consent {
     public void setExplanationEn(String explanationEn) {
         this.explanationEn = explanationEn;
     }
+
+    @Override
+    public String toString() {
+        return "Consent{" +
+                "spEntityId='" + spEntityId + '\'' +
+                ", type=" + type +
+                ", explanationNl='" + explanationNl + '\'' +
+                ", explanationEn='" + explanationEn + '\'' +
+                '}';
+    }
 }

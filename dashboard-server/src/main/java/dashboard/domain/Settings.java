@@ -134,4 +134,24 @@ public class Settings {
     public void setContactPersons(List<ContactPerson> contactPersons) {
         this.contactPersons = contactPersons;
     }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "serviceProviderSettings=" + serviceProviderSettings +
+                ", keywordsNl='" + keywordsNl + '\'' +
+                ", keywordsEn='" + keywordsEn + '\'' +
+                ", logoUrl='" + logoUrl + '\'' +
+                ", displayNamesEn='" + displayNamesEn + '\'' +
+                ", displayNamesNl='" + displayNamesNl + '\'' +
+                ", descriptionsEn='" + descriptionsEn + '\'' +
+                ", descriptionsNl='" + descriptionsNl + '\'' +
+                ", publishedInEdugain=" + publishedInEdugain +
+                ", connectToRSServicesAutomatically=" + connectToRSServicesAutomatically +
+                ", comments='" + comments + '\'' +
+                ", stateType=" + stateType +
+                ", consentType=" + consentType +
+                ", contactPersons=" + contactPersons +
+                '}';
+    }
 }

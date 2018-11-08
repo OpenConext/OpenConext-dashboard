@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 public class Action {
 
     public enum Type {
-        LINKREQUEST, UNLINKREQUEST, CHANGE;
+        LINKREQUEST, UNLINKREQUEST, CHANGE, LINKINVITE;
     }
 
     private String jiraKey;
@@ -138,17 +138,24 @@ public class Action {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(Action.class)
-                .add("type", type)
-                .add("status", status)
-                .add("jiraKey", jiraKey)
-                .add("userName", userName)
-                .add("userEmail", userEmail)
-                .add("requestDate", requestDate)
-                .add("idpId", idpId)
-                .add("spId", spId)
-                .add("spName", spName)
-                .add("body", body).toString();
+        return "Action{" +
+                "jiraKey='" + jiraKey + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", body='" + body + '\'' +
+                ", idpId='" + idpId + '\'' +
+                ", spId='" + spId + '\'' +
+                ", idpName='" + idpName + '\'' +
+                ", spName='" + spName + '\'' +
+                ", requestDate=" + requestDate +
+                ", updateDate=" + updateDate +
+                ", type=" + type +
+                ", status='" + status + '\'' +
+                ", subject='" + subject + '\'' +
+                ", service=" + service +
+                ", settings=" + settings +
+                ", consent=" + consent +
+                '}';
     }
 
     @Override

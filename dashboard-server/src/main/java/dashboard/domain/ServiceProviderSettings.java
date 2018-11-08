@@ -97,4 +97,20 @@ public class ServiceProviderSettings {
     public void setStateType(StateType stateType) {
         this.stateType = stateType;
     }
+
+    @Override
+    public String toString() {
+        return "ServiceProviderSettings{" +
+                "spEntityId='" + spEntityId + '\'' +
+                ", hasGuestEnabled=" + hasGuestEnabled +
+                ", noConsentRequired=" + noConsentRequired +
+                ", publishedInEdugain=" + publishedInEdugain +
+                ", displayNameEn='" + displayNameEn + '\'' +
+                ", displayNameNl='" + displayNameNl + '\'' +
+                ", descriptionEn='" + descriptionEn + '\'' +
+                ", descriptionNl='" + descriptionNl + '\'' +
+                ", contactPersons=" + contactPersons +
+                ", stateType=" + stateType +
+                '}';
+    }
 }

@@ -1,0 +1,50 @@
+{{> header.html}}
+<p>
+    {{invitationMessage.person.name}} invited you to join team
+    <strong>{{invitation.team.name}}</strong>.
+    Please read below what steps you must take to accept this invitation.
+</p>
+
+{{#invitationMessage.containsMessage}}
+<hr/>
+<p>
+    <strong>Personal Message from {{invitationMessage.person.name}}:</strong><br>"{{{invitationMessage.htmlMessage}}}"
+</p>
+<hr/>
+{{/invitationMessage.containsMessage}}
+
+<p>
+    <strong>Accept invitation:</strong><br>
+    To accept this invitation, please click 'Login to accept this invitation'. After logging in with your institutional
+    account you are a member of the team.
+</p>
+
+<p>
+    If you do not want to accept this invitation, please click 'Decline this invitation' or simply ignore this email.
+    The invitation automatically expires after 14 days.
+</p>
+
+<table id="invitation-mail-table" cellpadding="10" width="90%" align="center">
+    <tr>
+        <td class="invitation-accept" align="center" width="50%">
+            <span><a href="{{baseUrl}}/invitation/accept/{{invitation.invitationHash}}" style="color:#0088CC;">Login to accept this invitation</a></span>
+        </td>
+        <td class="invitation-deny" align="center" width="50%">
+            <span><a href="{{baseUrl}}/invitation/deny/{{invitation.invitationHash}}" style="color:#0088CC;">Decline this invitation</a></span>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <strong>Need help?</strong><br>{{invitationMessage.person.name}} invited you to join this team.
+    Please contact <a href="mailto:{{invitationMessage.person.email}}">{{invitationMessage.person.name}}</a>
+    if you have any questions about this invitation.
+</p>
+
+{{> invitation_en_footer.html}}
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>

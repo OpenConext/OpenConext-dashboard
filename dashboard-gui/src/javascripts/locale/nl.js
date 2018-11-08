@@ -40,7 +40,8 @@ I18n.translations.nl = {
         policies: "Autorisatieregels",
         history: "Tickets",
         stats: "Statistieken",
-        my_idp: "Mijn instelling"
+        my_idp: "Mijn instelling",
+        invite_request: "Uitnodiging"
     },
 
     loader: {
@@ -654,9 +655,18 @@ I18n.translations.nl = {
             tooltip: "De status van een dienst bepaalt of deze dienst zichtbaar is op het productie platform."
         },
         search: "Zoek diensten..."
-
     },
-
+    invite_request: {
+        info: "Een koppelings uitnoding zal een email versturen aan alle geselecteerde contact personen met daarin een uitnoding om hun instelling te koppelen aan een specifieke dienst. Daarnaast zal en een Jira ticket worden aangemaakt met de status 'Awaiting Input'",
+        selectIdp: "Zoek en selecteer een instelling...",
+        selectSpDisabled: "Selecteer eerst een instelling",
+        selectSp: "Zoek en selecteer nu een dienst...",
+        idp: "Instelling",
+        sp: "Dienst",
+        contactPersons: "Selecteer naar welke contact personen van {{name}} de uitnoding zal worden versuurd.",
+        selectContact: "Selecteer",
+        sendRequest: "Verstuur"
+    },
     profile: {
         title: "Profiel",
         sub_title: "Van uw instelling hebben wij de volgende gegevens ontvangen. Deze gegevens, alsmede uw groepsrelaties, worden opgeslagen in (en gebruikt door) SURFconext. Tevens is het mogelijk dat deze gegevens worden verstrekt aan diensten die u via SURFconext benadert.",
