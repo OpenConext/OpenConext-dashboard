@@ -21,7 +21,7 @@
       a.reset
         margin-left: auto
   h2.title
-    margin-bottom: 5px
+    margin-bottom: 15px
     &.secondary
       margin-top: 10px
   fieldset
@@ -43,9 +43,15 @@
     flex-grow: 2
     p.info
       font-size: larger
-      margin-bottom: 10px
+      margin-bottom: 20px
   table
     @extend %box
+    th.sortable-header
+      position: relative
+      i
+        position: absolute
+        top: 16px
+        right: -5px
     td
       word-break: break-word
 

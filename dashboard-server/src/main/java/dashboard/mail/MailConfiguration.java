@@ -19,19 +19,22 @@ public class MailConfiguration {
     @Value("${coin-administrative-email}")
     private String administrativeEmail;
 
+    @Value("${mailBaseUrl}")
+    private String mailBaseUrl;
+
     @Autowired
     private JavaMailSender mailSender;
 
-    @ConditionalOnProperty(prefix = "dashboard.feature", name = "mail",  havingValue = "true")
+    @ConditionalOnProperty(prefix = "dashboard.feature", name = "mail", havingValue = "true")
     @Bean
     public MailBox mailBox() {
-        return new MailBox(mailSender, emailFrom, administrativeEmail);
+        return new MailBox(mailSender, emailFrom, administrativeEmail, mailBaseUrl);
     }
 
     @ConditionalOnProperty(prefix = "dashboard.feature", name = "mail", havingValue = "false")
     @Bean
     public MailBox mockMailBox() {
-        return new MockMailBox(mailSender, emailFrom, administrativeEmail);
+        return new MockMailBox(mailSender, emailFrom, administrativeEmail, mailBaseUrl);
     }
 
 }

@@ -22,6 +22,9 @@ class HowToConnectPanel extends React.Component {
     }
 
     componentWillMount() {
+        // TODO show  differnt part for jiraKey, inviteAction
+        // const {app, jiraKey,inviteAction} = this.props;
+        // debugger;
         this.setState({currentStep: this.props.app.connected ? "disconnect" : "connect"});
     }
 
@@ -341,7 +344,9 @@ HowToConnectPanel.contextTypes = {
 };
 
 HowToConnectPanel.propTypes = {
-    app: AppShape.isRequired
+    app: AppShape.isRequired,
+    jiraKey: PropTypes.string,
+    inviteAction: PropTypes.string
 };
 
 export default HowToConnectPanel;

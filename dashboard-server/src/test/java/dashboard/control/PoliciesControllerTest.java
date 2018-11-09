@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
+import dashboard.mail.MailBox;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,6 +47,9 @@ public class PoliciesControllerTest {
 
     @Mock
     private Manage manageMock;
+
+    @Mock
+    private MailBox mailBox;
 
     private MockMvc mockMvc;
 

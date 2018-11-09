@@ -16,7 +16,7 @@ import {isEmpty} from "../utils/utils";
 const pageCount = 10;
 
 const allStatuses = ["To Do", "In Progress", "Awaiting Input", "Resolved", "Closed"];
-const allTypes = ["LINKREQUEST", "UNLINKREQUEST", "CHANGE"];
+const allTypes = ["LINKREQUEST", "UNLINKREQUEST", "CHANGE", "LINKINVITE"];
 
 class History extends React.Component {
 
@@ -131,7 +131,7 @@ class History extends React.Component {
                 attribute={attribute}
                 sortAscending={this.state.sortAscending}
                 localeKey="history"
-                className={className}
+                className={`${className} sortable-header`}
                 onSort={sortObject => this.handleSort(sortObject)}
             />
         );
@@ -237,8 +237,9 @@ class History extends React.Component {
         </section>
     };
 
-    renderAction = action =>
-        <tr key={action.jiraKey}>
+    renderAction = action => {
+        const renderAction = action.type === "LINKINVITE" && action.status === "Awaiting Input";
+        return <tr key={action.jiraKey}>
             <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
             <td>{moment(action.updateDate).format("DD-MM-YYYY")}</td>
             <td>{action.spName === "Information unavailable" ? action.spId : action.spName}</td>
@@ -246,7 +247,10 @@ class History extends React.Component {
             <td>{I18n.t("history.action_types_name." + action.type)}</td>
             <td>{action.jiraKey}</td>
             <td>{I18n.t("history.statuses." + action.status)}</td>
+            <td>{renderAction ?  <a href="/send" className={`t-button save`}
+                                    onClick={e => stopEvent(e)}>{I18n.t("history.viewInvitation")}</a> : ""}</td>
         </tr>
+    };
 
     render() {
         const {
@@ -266,13 +270,14 @@ class History extends React.Component {
                     <table>
                         <thead>
                         <tr>
-                            {this.renderSortableHeader("percent_15", "requestDate")}
-                            {this.renderSortableHeader("percent_15", "updateDate")}
+                            {this.renderSortableHeader("percent_10", "requestDate")}
+                            {this.renderSortableHeader("percent_10", "updateDate")}
                             {this.renderSortableHeader("percent_15", "spName")}
-                            <th className={"percent_15"}>{I18n.t("history.userName")}</th>
+                            <th className={"percent_10"}>{I18n.t("history.userName")}</th>
                             {this.renderSortableHeader("percent_15", "type")}
                             {this.renderSortableHeader("percent_10", "jiraKey")}
                             {this.renderSortableHeader("percent_15", "status")}
+                            <th className={"percent_15"}></th>
                         </tr>
                         </thead>
                         <tbody>

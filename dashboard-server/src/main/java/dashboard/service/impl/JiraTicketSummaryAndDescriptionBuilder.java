@@ -45,9 +45,9 @@ class JiraTicketSummaryAndDescriptionBuilder {
                     append(" to SP ").
                     append(action.getSpId());
         } else if (LINKINVITE.equals(action.getType())) {
-            description.append("Invite: If the SCV accepts this invitation then create a new connection").append("\n");
+            description.append("Invite request: If the SCV accepts this invitation then create a new connection").append("\n");
             summary.
-                    append("New connection for IdP ").
+                    append("New invite connection for IdP ").
                     append(action.getIdpId()).
                     append(" to SP ").
                     append(action.getSpId());

@@ -32,32 +32,33 @@ import static java.util.Arrays.asList;
  */
 public class SabClientMock implements Sab {
 
-  private static final SabRole ROLE_BEHEERDER = new SabRole("CONBEH", "SURFconextbeheerder");
-  private static final SabRole ROLE_VERANTWOORDELIJKE = new SabRole("CONVER", "SURFconextverantwoordelijke");
+    private static final SabRole ROLE_BEHEERDER = new SabRole("CONBEH", "SURFconextbeheerder");
+    private static final SabRole ROLE_VERANTWOORDELIJKE = new SabRole("CONVER", "SURFconextverantwoordelijke");
 
-  private final List<SabPerson> sabPersons = ImmutableList.of(
-    new SabPerson("Hans", "Janssen", "hjanssen", asList(ROLE_BEHEERDER)),
-    new SabPerson("Frans", "Franssen", "ffransen", asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE))
-  );
+    private final List<SabPerson> sabPersons = ImmutableList.of(
+            new SabPerson("Hans", "Janssen", "hjanssen", "hjanssen@surfnet.nl", asList(ROLE_BEHEERDER)),
+            new SabPerson("Frans", "Franssen", "ffransen", "fjanssen@surfnet.nl", asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE)),
+            new SabPerson("Okke", "Harsta", "oharsta", "oharsta@surfnet.nl", asList(ROLE_VERANTWOORDELIJKE))
+    );
 
-  /**
-   * Mapping of userIds to roles
-   */
-  private final Map<String, SabRoleHolder> rolesMapping = ImmutableMap.of(
-      "admin", new SabRoleHolder("SURFNET", asList("Foo", "Bar")),
-      "user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")),
-      "noroles", new SabRoleHolder("SURFNET", Collections.emptyList())
-  );
+    /**
+     * Mapping of userIds to roles
+     */
+    private final Map<String, SabRoleHolder> rolesMapping = ImmutableMap.of(
+            "admin", new SabRoleHolder("SURFNET", asList("Foo", "Bar")),
+            "user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")),
+            "noroles", new SabRoleHolder("SURFNET", Collections.emptyList())
+    );
 
-  @Override
-  public Optional<SabRoleHolder> getRoles(String userId) {
-    return Optional.ofNullable(rolesMapping.get(userId));
-  }
+    @Override
+    public Optional<SabRoleHolder> getRoles(String userId) {
+        return Optional.ofNullable(rolesMapping.get(userId));
+    }
 
-  @Override
-  public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
-    return sabPersons.stream()
-        .filter(person -> person.getRoles().stream().anyMatch(r -> r.roleName.equals(role)))
-        .collect(Collectors.toList());
-  }
+    @Override
+    public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
+        return sabPersons.stream()
+                .filter(person -> person.getRoles().stream().anyMatch(r -> r.roleName.equals(role)))
+                .collect(Collectors.toList());
+    }
 }

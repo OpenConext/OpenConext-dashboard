@@ -2,6 +2,7 @@ package dashboard.mail;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
+import dashboard.domain.Action;
 import dashboard.domain.InviteRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -32,12 +33,15 @@ public class MailBox {
         this.mailBaseUrl = mailBaseUrl;
     }
 
-    public void sendInviteMail(InviteRequest inviteRequest) throws MessagingException, IOException {
+    public void sendInviteMail(InviteRequest inviteRequest, Action action) throws MessagingException, IOException {
         Map<String, Object> variables = new HashMap<>();
-        variables.put("invitation", inviteRequest);
+        variables.put("title", "Uitnodiging voor een nieuwe SURFconext koppeling");
+        variables.put("inviteRequest", inviteRequest);
+        variables.put("action", action);
+        variables.put("mailBaseUrl", mailBaseUrl);
         List<String> emails = inviteRequest.getContactPersons().stream().map(cp -> cp.getEmailAddress()).collect(Collectors.toList());
-        String html = this.mailTemplate("invitation.html", variables);
-        sendMail(html, "Connectie verzoek", emails, true);
+        String html = this.mailTemplate("invite_request_nl.html", variables);
+        sendMail(html, "Uitnodiging voor een nieuwe SURFconext koppeling", emails, true);
     }
 
     public void sendAdministrativeMail(String body, String subject) throws MessagingException, IOException {
@@ -54,8 +58,8 @@ public class MailBox {
         doSendMail(message);
     }
 
-    protected void setText(String html, MimeMessageHelper helper, boolean html1) throws MessagingException, IOException {
-        helper.setText(html, html1);
+    protected void setText(String html, MimeMessageHelper helper, boolean isHtml) throws MessagingException, IOException {
+        helper.setText(html, isHtml);
     }
 
     protected void doSendMail(MimeMessage message) {
@@ -63,7 +67,7 @@ public class MailBox {
     }
 
     private String mailTemplate(String templateName, Map<String, Object> context) throws IOException {
-        return mustacheFactory.compile(templateName).execute(new StringWriter(), context).toString();
+        return mustacheFactory.compile("mail_templates/" + templateName).execute(new StringWriter(), context).toString();
     }
 
 }

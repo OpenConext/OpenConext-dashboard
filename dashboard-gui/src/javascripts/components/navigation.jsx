@@ -46,7 +46,7 @@ class Navigation extends React.Component {
                     {this.renderItem("/statistics", "stats")}
                     {this.renderItem("/apps", "apps")}
                     {this.renderItem("/policies", "policies")}
-                    {this.renderItem("/history", "history")}
+                    {this.renderItem("/tickets", "history")}
                     {this.renderItem("/my-idp", "my_idp")}
                     {showInviteRequest && this.renderItem("/users/invite", "invite_request")}
                 </ul>

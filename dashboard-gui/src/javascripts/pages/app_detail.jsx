@@ -19,7 +19,7 @@ import Flash from "../components/flash";
 import {privacyProperties} from "../utils/privacy";
 
 const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_policy", "license_data", "privacy",
-     "idp_usage", "sirtfi_security", "application_usage"];
+    "idp_usage", "sirtfi_security", "application_usage"];
 
 class AppDetail extends React.Component {
     constructor() {
@@ -50,49 +50,55 @@ class AppDetail extends React.Component {
                 component: HowToConnectPanel,
                 icon: "fa-chain"
             }
-
         };
-
         this.state = {
             app: null,
             institutions: [],
-            idpDisableConsent: []
+            idpDisableConsent: [],
+            jiraKey: undefined,
+            inviteAction: undefined
         };
     }
 
     componentWillMount() {
-        Promise.all([getApp(this.props.match.params.id, this.props.match.params.type), disableConsent()])
-        .then(data => {
-            const app = data[0].payload;
-            const hasPrivacyInfo = privacyProperties.some(prop => app.privacyInfo[prop]);
-            if (hasPrivacyInfo) {
-                this.panelMap = {
-                    ...this.panelMap,  "privacy": {
-                        component: PrivacyPanel,
-                        icon: "fa-lock"
-                    }
-                };
-            }
-            if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
-                this.panelMap = {
-                    ...this.panelMap, "sirtfi_security": {
-                        component: SirtfiPanel,
-                        icon: "fa-users"
-                    }
-                };
-            }
-            const currentUser = this.context.currentUser;
-            if (app.connected && currentUser.manageConsentEnabled) {
-                this.panelMap = {
-                    ...this.panelMap, "consent": {
-                        component: ConsentPanel,
-                        icon: "fa-clipboard"
+        const params = this.props.match.params;
+        Promise.all([getApp(params.id, params.type), disableConsent()])
+            .then(data => {
+                const app = data[0].payload;
+                const hasPrivacyInfo = privacyProperties.some(prop => app.privacyInfo[prop]);
+                if (hasPrivacyInfo) {
+                    this.panelMap = {
+                        ...this.panelMap, "privacy": {
+                            component: PrivacyPanel,
+                            icon: "fa-lock"
+                        }
+                    };
+                }
+                if (app.contactPersons && app.contactPersons.filter(cp => cp.sirtfiSecurityContact).length > 0) {
+                    this.panelMap = {
+                        ...this.panelMap, "sirtfi_security": {
+                            component: SirtfiPanel,
+                            icon: "fa-users"
+                        }
+                    };
+                }
+                const currentUser = this.context.currentUser;
+                if (app.connected && currentUser.manageConsentEnabled) {
+                    this.panelMap = {
+                        ...this.panelMap, "consent": {
+                            component: ConsentPanel,
+                            icon: "fa-clipboard"
+                        }
                     }
                 }
-            }
-            this.setState({app: app, idpDisableConsent: data[1]});
-            getIdps(app.spEntityId).then(data => this.setState({institutions: data.payload}));
-        });
+                this.setState({
+                    app: app,
+                    idpDisableConsent: data[1],
+                    jiraKey: params.jiraKey,
+                    inviteAction: params.action
+                });
+                getIdps(app.spEntityId).then(data => this.setState({institutions: data.payload}));
+            });
 
     }
 
@@ -160,6 +166,7 @@ class AppDetail extends React.Component {
     renderActivePanel() {
         const {activePanel} = this.props.match.params;
         const {currentUser} = this.context;
+        const {app, institutions, idpDisableConsent, jiraKey, inviteAction} = this.state;
         let panel = this.panelMap[activePanel];
         if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
             panel = this.panelMap["overview"];
@@ -167,9 +174,11 @@ class AppDetail extends React.Component {
 
         const Component = panel.component;
 
-        return <Component app={this.state.app}
-                          institutions={this.state.institutions}
-                          idpDisableConsent={this.state.idpDisableConsent}/>;
+        return <Component app={app}
+                          institutions={institutions}
+                          idpDisableConsent={idpDisableConsent}
+                          jiraKey={jiraKey}
+                          inviteAction={inviteAction}/>;
     }
 }
 

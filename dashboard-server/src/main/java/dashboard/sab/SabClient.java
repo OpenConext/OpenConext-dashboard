@@ -45,69 +45,74 @@ import static java.util.stream.Collectors.toList;
  */
 public class SabClient implements Sab {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SabClient.class);
 
-  private static final String REQUEST_TEMPLATE_LOCATION = "/sab-request.xml";
+    private static final String REQUEST_TEMPLATE_LOCATION = "/sab-request.xml";
 
-  protected static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.UTC);
+    protected static final DateTimeFormatter XML_DATE_TIME_FORMAT = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.UTC);
 
-  private final ObjectMapper objectMapper = new ObjectMapper();
-  private final SabTransport sabTransport;
-  private final SabResponseParser sabResponseParser = new SabResponseParser();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final SabTransport sabTransport;
+    private final SabResponseParser sabResponseParser = new SabResponseParser();
 
-  public SabClient(SabTransport sabTransport) {
-    this.sabTransport = sabTransport;
-  }
-
-  @Override
-  public Optional<SabRoleHolder> getRoles(String userId) {
-    String messageId = UUID.randomUUID().toString();
-    String requestBody = createRequest(userId, messageId);
-
-    try (InputStream is = sabTransport.getResponse(requestBody)) {
-      return Optional.of(sabResponseParser.parse(is));
-    } catch (IOException e) {
-      LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
-      return Optional.empty();
+    public SabClient(SabTransport sabTransport) {
+        this.sabTransport = sabTransport;
     }
-  }
 
-  @Override
-  @SuppressWarnings("unchecked")
-  public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
-    try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
-      List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(inputStream, HashMap.class).get("profiles");
+    @Override
+    public Optional<SabRoleHolder> getRoles(String userId) {
+        String messageId = UUID.randomUUID().toString();
+        String requestBody = createRequest(userId, messageId);
 
-      return profiles.stream()
-          .map(profile -> {
-            List<SabRole> sabRoles = ((List<Map<String, String>>) profile.get("authorisations")).stream()
-                .map(authorisation -> new SabRole(authorisation.get("short"), authorisation.get("role")))
-                .collect(toList());
-            return new SabPerson((String) profile.get("firstname"), (String) profile.get("surname"), (String) profile.get("uid"), sabRoles);
-          })
-          .filter(p -> p.hasRole(role))
-          .collect(toList());
-    } catch (IOException e) {
-      LOG.warn("Could not retrieve SAB info", e);
-      return Collections.emptyList();
+        try (InputStream is = sabTransport.getResponse(requestBody)) {
+            return Optional.of(sabResponseParser.parse(is));
+        } catch (IOException e) {
+            LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
+            return Optional.empty();
+        }
     }
-  }
 
-  /**
-   * Create request string from template
-   *
-   * @param userId    the userId to use
-   * @param messageId the messageId to use
-   * @return Serialized XML
-   */
-  public String createRequest(String userId, String messageId) {
-    try (InputStream is = this.getClass().getResourceAsStream(REQUEST_TEMPLATE_LOCATION)) {
-      String template = IOUtils.toString(is, "UTF-8");
-      String issueInstant = XML_DATE_TIME_FORMAT.print(new Date().getTime());
-      return MessageFormat.format(template, messageId, issueInstant, userId);
-    } catch (IOException e) {
-      throw Throwables.propagate(e);
+    @Override
+    @SuppressWarnings("unchecked")
+    public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
+        try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
+            List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(inputStream, HashMap.class).get("profiles");
+
+            return profiles.stream()
+                    .map(profile -> {
+                        List<SabRole> sabRoles = ((List<Map<String, String>>) profile.get("authorisations")).stream()
+                                .map(authorisation -> new SabRole(authorisation.get("short"), authorisation.get("role")))
+                                .collect(toList());
+                        return new SabPerson(
+                                (String) profile.get("firstname"),
+                                (String) profile.get("surname"),
+                                (String) profile.get("uid"),
+                                (String) profile.get("email"),
+                                sabRoles);
+                    })
+                    .filter(p -> p.hasRole(role))
+                    .collect(toList());
+        } catch (IOException e) {
+            LOG.warn("Could not retrieve SAB info", e);
+            return Collections.emptyList();
+        }
     }
-  }
+
+    /**
+     * Create request string from template
+     *
+     * @param userId    the userId to use
+     * @param messageId the messageId to use
+     * @return Serialized XML
+     */
+    public String createRequest(String userId, String messageId) {
+        try (InputStream is = this.getClass().getResourceAsStream(REQUEST_TEMPLATE_LOCATION)) {
+            String template = IOUtils.toString(is, "UTF-8");
+            String issueInstant = XML_DATE_TIME_FORMAT.print(new Date().getTime());
+            return MessageFormat.format(template, messageId, issueInstant, userId);
+        } catch (IOException e) {
+            throw Throwables.propagate(e);
+        }
+    }
 
 }

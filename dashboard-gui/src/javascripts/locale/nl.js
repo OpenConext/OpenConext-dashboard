@@ -633,7 +633,8 @@ I18n.translations.nl = {
             LINKREQUEST: "Nieuwe koppeling",
             UNLINKREQUEST: "Ontkoppeling",
             QUESTION: "Vraag",
-            CHANGE: "Wijziging"
+            CHANGE: "Wijziging",
+            LINKINVITE: "Koppeling uitnodiging"
         },
         from: "Van",
         to: "Tot",
@@ -647,7 +648,8 @@ I18n.translations.nl = {
             "Closed": "Gesloten"
         },
         servicePlaceHolder: "Zoek en selecteer een dienst...",
-        noTicketsFound: "Er zijn geen tickets gevonden met de gegeven filters."
+        noTicketsFound: "Er zijn geen tickets gevonden met de gegeven filters.",
+        viewInvitation: "Goedkeuren / Afwijzen"
     },
     service_filter: {
         title: "Filter diensten",
@@ -664,8 +666,11 @@ I18n.translations.nl = {
         idp: "Instelling",
         sp: "Dienst",
         contactPersons: "Selecteer naar welke contact personen van {{name}} de uitnoding zal worden versuurd.",
+        sourcePersons: "Contact persons uit {{source}}",
         selectContact: "Selecteer",
-        sendRequest: "Verstuur"
+        sendRequest: "Verstuur",
+        message: "Een - optioneel - bericht voor de uitgenodigden.",
+        jiraFlash: "Een Jira ticket is aangemaakt met key {{jiraKey}}. Zodra één van de uitgenodigheden de uitnodiging hebben geaccepteerd dan zal dit worden gelogged in het commentaar van {{jiraKey}}."
     },
     profile: {
         title: "Profiel",

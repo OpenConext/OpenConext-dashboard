@@ -15,8 +15,8 @@ import java.io.IOException;
 public class MockMailBox extends MailBox {
     private static final Logger LOG = LoggerFactory.getLogger(MockMailBox.class);
 
-    public MockMailBox(JavaMailSender mailSender, String emailFrom, String administrativeEmails) {
-        super(mailSender, emailFrom, administrativeEmails);
+    public MockMailBox(JavaMailSender mailSender, String emailFrom, String administrativeEmails, String mailBaseUrl) {
+        super(mailSender, emailFrom, administrativeEmails, mailBaseUrl);
     }
 
     @Override

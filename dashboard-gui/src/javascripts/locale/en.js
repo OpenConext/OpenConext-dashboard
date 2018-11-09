@@ -578,7 +578,8 @@ I18n.translations.en = {
             LINKREQUEST: "New Connection",
             UNLINKREQUEST: "Disconnect",
             QUESTION: "Question",
-            CHANGE: "Change request"
+            CHANGE: "Change request",
+            LINKINVITE: "Connection Invite"
         },
         from: "From",
         to: "To",
@@ -592,7 +593,8 @@ I18n.translations.en = {
             "Closed": "Closed"
         },
         servicePlaceHolder: "Search and select a Service...",
-        noTicketsFound: "No tickets were found for the given filters."
+        noTicketsFound: "No tickets were found for the given filters.",
+        viewInvitation: "Approve / Deny"
     },
 
     stats: {
@@ -662,8 +664,11 @@ I18n.translations.en = {
         idp: "Institution",
         sp: "Service",
         contactPersons: "Select to which contact persons of {{name}} the invite will be sent.",
+        sourcePersons: "Contact persons from {{source}}",
         selectContact: "Select",
-        sendRequest: "Submit"
+        sendRequest: "Submit",
+        message: "An - optional - message for the invite recipients.",
+        jiraFlash: "A Jira ticket has been created with key {{jiraKey}}. When one of the recipients accepts the invite then it will be logged in the comments of {{jiraKey}}."
     },
     profile: {
         title: "Profile",

@@ -118,6 +118,15 @@ export function getApp(appId, type) {
     return fetchJson(`/services/detail?spId=${appId}&entityType=${type}`);
 }
 
+export function inviteRequest(data) {
+    return postJson("/users/inviteRequest", data, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(parseJson);
+}
+
+
 export function getIdps(spEntityId) {
     return fetchJson(`/services/idps?${qs.stringify({spEntityId})}`);
 }
@@ -136,6 +145,10 @@ export function getConnectedServiceProviders(idpId) {
             "X-IDP-ENTITY-ID": idpId
         }
     });
+}
+
+export function sabRoles(institutionId) {
+    return fetchJson(`/idp/sab/roles?institutionId=${institutionId}`)
 }
 
 export function getAllowedAttributes() {

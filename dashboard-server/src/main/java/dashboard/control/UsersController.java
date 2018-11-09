@@ -1,6 +1,8 @@
 package dashboard.control;
 
 import dashboard.domain.*;
+import dashboard.mail.MailBox;
+import dashboard.manage.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.stream.Collectors.toList;
@@ -45,8 +49,10 @@ public class UsersController extends BaseController {
     @Autowired
     private ActionsService actionsService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
+    @Autowired
+    private MailBox mailbox;
 
+    private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
 
     @RequestMapping("/me")
     public RestResponse<CoinUser> me() {
@@ -54,8 +60,26 @@ public class UsersController extends BaseController {
     }
 
     @PostMapping("/inviteRequest")
-    public ResponseEntity<RestResponse<Object>> inviteRequest(@RequestBody InviteRequest inviteRequest) {
-        return null;
+    public ResponseEntity<RestResponse<Object>> inviteRequest(@RequestBody InviteRequest inviteRequest) throws IOException, MessagingException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        String spEntityId = inviteRequest.getSpEntityId();
+
+        String emails = inviteRequest.getContactPersons().stream()
+                .map(cp -> cp.getName() + "<" + cp.getEmailAddress() + ">")
+                .collect(Collectors.joining(", "));
+
+        Action action = Action.builder()
+                .userEmail(currentUser.getEmail())
+                .userName(currentUser.getFriendlyName())
+                .body("Invite request initiated by dashboard super user. Mails sent to: " + emails)
+                .idpId(inviteRequest.getIdpEntityId())
+                .spId(spEntityId)
+                .type(Action.Type.LINKINVITE).build();
+
+        action = actionsService.create(action, Collections.emptyList());
+        mailbox.sendInviteMail(inviteRequest, action);
+
+        return ResponseEntity.ok(createRestResponse(action));
     }
 
     @RequestMapping("/disableConsent")

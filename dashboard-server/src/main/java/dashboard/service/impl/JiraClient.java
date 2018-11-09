@@ -25,6 +25,10 @@ import java.util.Map;
 
 public interface JiraClient {
 
+    String START_PROGRESS = "Start Progress";
+    String INPUT_NEEDED = "Input Needed";
+    String ANSWER_AUTOMATICALLY = "Answer (Automatically)";
+
     String create(Action action, List<Change> changes) throws IllegalStateException;
 
     JiraResponse searchTasks(String idp, JiraFilter jiraFilter);
