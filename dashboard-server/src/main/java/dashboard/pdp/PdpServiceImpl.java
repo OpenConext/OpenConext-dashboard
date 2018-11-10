@@ -60,7 +60,7 @@ public class PdpServiceImpl implements PdpService, Constants {
     checkArgument(!isNullOrEmpty(username));
     checkArgument(!isNullOrEmpty(password));
 
-    this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory(2000));
+    this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory(10 * 1000));
 
     this.pdpRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
       CoinUser user = SpringSecurity.getCurrentUser();

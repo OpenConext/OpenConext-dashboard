@@ -24,7 +24,7 @@ public class StatsImpl implements Stats, Constants {
     public StatsImpl(@Value("${statsUser}") String user,
                      @Value("${statsPassword}") String password,
                      @Value("${statsBaseUrl}") String baseUrl) {
-        this.restTemplate = new RestTemplate(clientHttpRequestFactory(7500));
+        this.restTemplate = new RestTemplate(clientHttpRequestFactory(10 * 1000));
         this.baseUrl = baseUrl;
         this.manage = manage;
 
