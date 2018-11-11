@@ -32,6 +32,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -62,7 +63,7 @@ public class ActionsServiceImpl implements ActionsService {
         JiraResponse jiraResponse = jiraClient.searchTasks(idp, jiraFilter);
         List<Action> issues = jiraResponse.getIssues();
 
-        Map<String, String> serviceProviders = issues.stream()
+        Map<String, ServiceProvider> serviceProviders = issues.stream()
                 .map(Action::getSpId)
                 .filter(StringUtils::hasText)
                 .collect(Collectors.toSet())
@@ -70,9 +71,9 @@ public class ActionsServiceImpl implements ActionsService {
                 .map(spId -> manage.getServiceProvider(spId, EntityType.saml20_sp, true))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .collect(Collectors.toMap(Provider::getId, Provider::getName));
+                .collect(Collectors.toMap(Provider::getId, Function.identity()));
 
-        Map<String, String> identityProviders = issues.stream()
+        Map<String, IdentityProvider> identityProviders = issues.stream()
                 .map(Action::getIdpId)
                 .filter(StringUtils::hasText)
                 .collect(Collectors.toSet())
@@ -80,17 +81,26 @@ public class ActionsServiceImpl implements ActionsService {
                 .map(idpId -> manage.getIdentityProvider(idpId, true))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .collect(Collectors.toMap(Provider::getId, Provider::getName));
+                .collect(Collectors.toMap(Provider::getId, Function.identity()));
 
         List<Action> enrichedActions = issues.stream()
                 .map(this::addUser)
                 .map(action -> action.unbuild()
-                        .spName(serviceProviders.getOrDefault(action.getSpId(), "Information unavailable"))
-                        .idpName(identityProviders.getOrDefault(action.getIdpId(), "Information unavailable"))
+                        .spName(providerName(serviceProviders.get(action.getSpId())))
+                        .spEid(providerEid(serviceProviders.get(action.getSpId())))
+                        .idpName(providerName(identityProviders.get(action.getIdpId())))
                         .build())
                 .collect(toList());
         jiraResponse.setIssues(enrichedActions);
         return jiraResponse;
+    }
+
+    private String providerName(Provider provider) {
+        return provider == null ? "Information unavailable" : provider.getName();
+    }
+
+    private Long providerEid(Provider provider) {
+        return provider == null ? null : provider.getEid();
     }
 
     private Action addNames(Action action) {

@@ -237,8 +237,14 @@ class History extends React.Component {
         </section>
     };
 
+    viewInvitation = action => e => {
+        stopEvent(e);
+        const type = "saml20_sp";
+        this.context.router.history.replace(`/apps/${action.spEid}/${type}/how_to_connect/${action.jiraKey}/view`);
+    };
+
     renderAction = action => {
-        const renderAction = action.type === "LINKINVITE" && action.status === "Awaiting Input";
+        const renderAction = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spEid;
         return <tr key={action.jiraKey}>
             <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
             <td>{moment(action.updateDate).format("DD-MM-YYYY")}</td>
@@ -248,7 +254,7 @@ class History extends React.Component {
             <td>{action.jiraKey}</td>
             <td>{I18n.t("history.statuses." + action.status)}</td>
             <td>{renderAction ?  <a href="/send" className={`t-button save`}
-                                    onClick={e => stopEvent(e)}>{I18n.t("history.viewInvitation")}</a> : ""}</td>
+                                    onClick={this.viewInvitation(action)}>{I18n.t("history.viewInvitation")}</a> : ""}</td>
         </tr>
     };
 
@@ -295,7 +301,8 @@ class History extends React.Component {
 }
 
 History.contextTypes = {
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    router: PropTypes.object
 };
 
 export default History;

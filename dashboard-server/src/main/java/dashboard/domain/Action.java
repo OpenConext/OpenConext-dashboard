@@ -36,6 +36,7 @@ public class Action {
 
     private String idpId;
     private String spId;
+    private Long spEid;
     private String idpName;
     private String spName;
 
@@ -56,6 +57,7 @@ public class Action {
         this.body = builder.body;
         this.idpId = builder.idpId;
         this.spId = builder.spId;
+        this.spEid = builder.spEid;
         this.spName = builder.spName;
         this.idpName = builder.idpName;
         this.requestDate = builder.requestDate;
@@ -89,6 +91,10 @@ public class Action {
 
     public String getIdpName() {
         return idpName;
+    }
+
+    public Long getSpEid() {
+        return spEid;
     }
 
     public ZonedDateTime getRequestDate() {
@@ -264,6 +270,7 @@ public class Action {
         private String body;
         private String idpId;
         private String spId;
+        private Long spEid;
         private String spName;
         private String idpName;
         private ZonedDateTime requestDate;
@@ -284,6 +291,7 @@ public class Action {
             this.body = action.body;
             this.idpId = action.idpId;
             this.spId = action.spId;
+            this.spEid = action.spEid;
             this.spName = action.spName;
             this.idpName = action.idpName;
             this.requestDate = action.requestDate;
@@ -335,6 +343,11 @@ public class Action {
 
         public Builder spId(String spId) {
             this.spId = spId;
+            return this;
+        }
+
+        public Builder spEid(Long spEid) {
+            this.spEid = spEid;
             return this;
         }
 

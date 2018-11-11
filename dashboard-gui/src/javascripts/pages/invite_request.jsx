@@ -51,7 +51,7 @@ class InviteRequest extends React.Component {
                 idpId: value,
                 idp: idp,
                 emails: idp.contactPersons.reduce((acc, contactPerson) => {
-                    acc[contactPerson.emailAddress] = contactPerson.contactPersonType === "administrative";
+                    acc[contactPerson.emailAddress] = false;
                     return acc;
                 }, {})
             },
@@ -191,15 +191,18 @@ class InviteRequest extends React.Component {
                 </thead>
                 <tbody>
                 <tr>
-                    <td colSpan={4} className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "Manage"})}</td>
-                </tr>
-                {contactPersons.map((cp, index) => this.renderContactPerson(cp, index, "emailAddress"))}
-                <tr>
                     <td colSpan={4} className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "SAB"})}</td>
                 </tr>
                 {sabContactPersons.map((cp, index) => this.renderContactPerson(cp, index + contactPersons.length, "uid"))}
+                <tr>
+                    <td colSpan={4} className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "Manage"})}</td>
+                </tr>
+                {contactPersons.map((cp, index) => this.renderContactPerson(cp, index, "emailAddress"))}
                 {this.state.additionalContactPersons.map((person, index) =>
                     this.renderAdditionalContactPerson(person, index, this.state.additionalContactPersons.length === (index + 1)))}
+                <tr>
+                    <td colSpan={4} className="contact-source">{I18n.t("invite_request.additionalPersons")}</td>
+                </tr>
                 <tr>
                     <td colSpan={3}></td>
                     <td className="add-email"><a href="add-email" onClick={this.addEmail}><i
@@ -224,7 +227,7 @@ class InviteRequest extends React.Component {
             <div>
                 <Flash/>
                 <div className="l-mini mod-invite-request">
-                    <p className="info">{I18n.t("invite_request.info")}</p>
+                    <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t("invite_request.info") }} />
                     <section className="mod-invite-request-inner">
                         <label>{I18n.t("invite_request.idp")}</label>
                         <SelectWrapper handleChange={this.onIdpChange}

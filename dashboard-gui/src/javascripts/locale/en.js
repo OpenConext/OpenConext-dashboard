@@ -657,7 +657,7 @@ I18n.translations.en = {
         search: "Search services..."
     },
     invite_request: {
-        info: "An invite request results in a mail send to all administrative contactpersons of an Institution with an invite to connect to a specific Service. A Jira ticket is created with the status 'Awaiting Input'",
+        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected Service. A <span class="emphasize">Connection Invite</span> Jira ticket is created with the status <span class="emphasize">Awaiting Input</span>.',
         selectIdp: "Search and select an Institution...",
         selectSpDisabled: "First select an Institution",
         selectSp: "Now search and select the Service...",
@@ -665,6 +665,7 @@ I18n.translations.en = {
         sp: "Service",
         contactPersons: "Select to which contact persons of {{name}} the invite will be sent.",
         sourcePersons: "Contact persons from {{source}}",
+        additionalPersons: "Additional contact persons",
         selectContact: "Select",
         sendRequest: "Submit",
         message: "An - optional - message for the invite recipients.",
