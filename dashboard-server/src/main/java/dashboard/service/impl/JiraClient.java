@@ -22,12 +22,15 @@ import dashboard.domain.JiraResponse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface JiraClient {
 
     String START_PROGRESS = "Start Progress";
     String INPUT_NEEDED = "Input Needed";
     String ANSWER_AUTOMATICALLY = "Answer (Automatically)";
+    String TO_RESOLVED ="To Resolved";
+    String TO_CLOSED ="To Closed";
 
     String create(Action action, List<Change> changes) throws IllegalStateException;
 
@@ -35,6 +38,7 @@ public interface JiraClient {
 
     Map<String, String> validTransitions(String key);
 
-    void transition(String key, String transitionId, String comment);
+    void transition(String key, String transitionId, Optional<String> resolution, Optional<String> comment);
+
 
 }

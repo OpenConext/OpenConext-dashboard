@@ -133,7 +133,12 @@ I18n.translations.en = {
             sirtfi_security: "Sirtfi Security",
             privacy: "Privacy",
             consent: "Consent",
-            back: "Back"
+            back: "Back",
+            outstandingIssue: "There is already an outstanding ticket {{jiraKey}} of type {{type}} and status {{status}} for this Service.",
+            inviteAlreadyProcessed: "The invite for ticket {{jiraKey}} has already been {{action}}.",
+            outstandingIssueLink: " Go to the <a class=\"link\" href=\"{{link}}\">{{linkName}}</a> section to approve / deny the invitation.",
+            approved: "approved",
+            denied: "denied"
         },
         overview: {
             connect: "",
@@ -324,6 +329,7 @@ I18n.translations.en = {
         comments_title: "Any additional comments?",
         connect: "Activate service",
         connect_title: "Connect {{app}}",
+        connect_invite_title: "Accept invite to connect {{app}}",
         disconnect: "Deactivate service",
         disconnect_title: "Deactivate connection with {{app}}",
         done_disconnect_subtitle_html: "You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
@@ -337,6 +343,7 @@ I18n.translations.en = {
             before: "SURFnet has permission to forward the ",
         },
         info_sub_title: "You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.",
+        info_sub_invite_title: "You can accept the invite to connect. We advise you to follow the checklist and check the specific information for this app before you activate.",
         info_title: "Activate connection",
         jira_unreachable: "Something went wrong with your request",
         jira_unreachable_description: "It is currently not possible to do a request. Please try again later.",
@@ -357,8 +364,14 @@ I18n.translations.en = {
         aansluitovereenkomst_accept: "I hereby certify that I agree with connecting to a service which has not signed the 'SURFconext aansluitovereenkomst'.",
         not_published_in_edugain_idp: "eduGAIN service",
         not_published_in_edugain_idp_info: "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
-        edit_my_idp_link: "Create change request in 'My Institute'"
-
+        edit_my_idp_link: "Create change request in 'My Institute'",
+        disconnect_jira_info: "If you want more information about the progress on this issue please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> and include the ticket number in the subject: CXT-22835",
+        invite_denied: "Ticket {{jiraKey}} was successfully closed.",
+        invite_accepted: "Ticket {{jiraKey}} was successfully updated with your approval.",
+        deny: "Deny",
+        approve: "Approve",
+        deny_invitation: "Are you  sure you want to deny the invitation to connect to {{app}}",
+        deny_invitation_info: "After you deny the invitation you can always activate the connection from this dashboard."
     },
 
     application_usage_panel: {
@@ -566,7 +579,7 @@ I18n.translations.en = {
     },
 
     history: {
-        info: "On this page you find all tickets related to (dis)connecting services and change requests.",
+        info: "On this page you find all tickets related to (dis)connecting services and change requests. On the left you can edit the filter applied to this list.",
         requestDate: "Created",
         updateDate: "Updated",
         type: "Type",
@@ -591,6 +604,22 @@ I18n.translations.en = {
             "Awaiting Input": "Pending input",
             "Resolved": "Resolved",
             "Closed": "Closed"
+        },
+        resolution: {
+            cancelled: "Cancelled",
+            cancelledTooltip: "The ticket was cancelled. If the ticket was an invite for a connection the Institution has denied the invite.",
+            wont_fix: "Won't be fixed",
+            wont_fixTooltip: "The ticket will not be fixed.",
+            resolved: "Resolved",
+            resolvedTooltip: "The ticket was successfully resolved.",
+            duplicate: "Duplicate",
+            duplicateTooltip: "The ticket was a duplicate of another ticket.",
+            not_completed: "Not completed",
+            not_completedTooltip: "The ticket was not completed.",
+            cannot_reproduce: "Can not be reproduced",
+            cannot_reproduceTooltip: "The issue described in the ticket could not reproduced",
+            suspended: "Suspended",
+            suspendedTooltip: "The ticket was suspended."
         },
         servicePlaceHolder: "Search and select a Service...",
         noTicketsFound: "No tickets were found for the given filters.",
@@ -668,6 +697,7 @@ I18n.translations.en = {
         additionalPersons: "Additional contact persons",
         selectContact: "Select",
         sendRequest: "Submit",
+        reset: "Reset",
         message: "An - optional - message for the invite recipients.",
         jiraFlash: "A Jira ticket has been created with key {{jiraKey}}. When one of the recipients accepts the invite then it will be logged in the comments of {{jiraKey}}."
     },

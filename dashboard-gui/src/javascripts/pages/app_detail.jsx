@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import {Link} from "react-router-dom";
-
-import {disableConsent, getApp, getIdps} from "../api";
+import {clearFlash, setFlash} from "../utils/flash";
+import {disableConsent, getApp, getIdps, searchJira} from "../api";
 
 import AppMeta from "../components/app_meta";
 import OverviewPanel from "../components/overview_panel";
@@ -24,7 +24,14 @@ const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_
 class AppDetail extends React.Component {
     constructor() {
         super();
-
+        this.state = {
+            app: null,
+            institutions: [],
+            idpDisableConsent: [],
+            jiraKey: undefined,
+            inviteAction: undefined,
+            conflictingJiraIssue: undefined
+        };
         this.panelMap = {
             "overview": {
                 component: OverviewPanel,
@@ -50,13 +57,6 @@ class AppDetail extends React.Component {
                 component: HowToConnectPanel,
                 icon: "fa-chain"
             }
-        };
-        this.state = {
-            app: null,
-            institutions: [],
-            idpDisableConsent: [],
-            jiraKey: undefined,
-            inviteAction: undefined
         };
     }
 
@@ -91,46 +91,57 @@ class AppDetail extends React.Component {
                         }
                     }
                 }
-                this.setState({
-                    app: app,
-                    idpDisableConsent: data[1],
-                    jiraKey: params.jiraKey,
-                    inviteAction: params.action
+                const jiraFilter = {
+                    maxResults: 1,
+                    startAt: 0,
+                    spEntityId: app.spEntityId,
+                    statuses: params.jiraKey ? [] : ["To Do", "In Progress", "Awaiting Input"],
+                    types: ["LINKREQUEST", "UNLINKREQUEST", "LINKINVITE"]
+                };
+                searchJira(jiraFilter).then(res => {
+                    const newState = {
+                        app: app,
+                        idpDisableConsent: data[1],
+                        jiraKey: params.jiraKey,
+                        inviteAction: params.action
+                    };
+                    if (res.payload.total > 0) {
+                        const action = res.payload.issues[0];
+                        if (params.jiraKey && action.status !== "Awaiting Input") {
+                            const i18nParam = action.status === "Closed" ? "denied" : "approved";
+                            setFlash(I18n.t("apps.detail.inviteAlreadyProcessed", {
+                                jiraKey: action.jiraKey,
+                                action: I18n.t(`apps.detail.${i18nParam}`),
+                            }), "warning");
+                            newState.conflictingJiraIssue = action;
+                        } else if (!params.jiraKey) {
+                            let message = I18n.t("apps.detail.outstandingIssue", {
+                                jiraKey: action.jiraKey,
+                                type: I18n.t("history.action_types_name." + action.type),
+                                status: I18n.t("history.statuses." + action.status)
+                            });
+                            if (action.type === "LINKINVITE" && action.status === "Awaiting Input") {
+                                message += I18n.t("apps.detail.outstandingIssueLink", {
+                                    link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
+                                    linkName: I18n.t("apps.detail.how_to_connect")
+                                });
+                                newState.jiraKey = action.jiraKey;
+                                newState.inviteAction = "accept";
+                            } else {
+                                newState.conflictingJiraIssue = action;
+                            }
+                            setFlash(message, "warning");
+                        }
+                    }
+                    this.setState(newState);
                 });
-                getIdps(app.spEntityId).then(data => this.setState({institutions: data.payload}));
+                getIdps(app.spEntityId).then(res => this.setState({institutions: res.payload}));
             });
 
     }
 
-    render() {
-        if (this.state.app) {
-            const panelKeys = componentsOrdering.filter(k => this.panelMap[k]);
-            return (
-                <div className="l-center-app-detail">
-                    <Flash/>
-                    <div className="l-app-detail">
-                        <div className="mod-app-nav">
-                            <ul>
-                                <li key="back" className="back">
-                                    <Link to="/apps/back">
-                                        <i className="fa fa-arrow-left"></i>
-                                        {I18n.t("apps.detail.back")}
-                                    </Link>
-                                </li>
-                                {panelKeys.map(panelKey => this.renderNavItem(panelKey))}
-                            </ul>
-                        </div>
-                    </div>
-
-                    <AppMeta app={this.state.app}/>
-
-                    {this.renderActivePanel()}
-
-                </div>
-            );
-        }
-
-        return null;
+    componentWillUnmount() {
+        clearFlash(null);
     }
 
     renderNavItem(panelKey) {
@@ -166,7 +177,7 @@ class AppDetail extends React.Component {
     renderActivePanel() {
         const {activePanel} = this.props.match.params;
         const {currentUser} = this.context;
-        const {app, institutions, idpDisableConsent, jiraKey, inviteAction} = this.state;
+        const {app, institutions, idpDisableConsent, jiraKey, inviteAction, conflictingJiraIssue} = this.state;
         let panel = this.panelMap[activePanel];
         if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
             panel = this.panelMap["overview"];
@@ -178,8 +189,37 @@ class AppDetail extends React.Component {
                           institutions={institutions}
                           idpDisableConsent={idpDisableConsent}
                           jiraKey={jiraKey}
-                          inviteAction={inviteAction}/>;
+                          inviteAction={inviteAction}
+                          conflictingJiraIssue={conflictingJiraIssue}/>;
     }
+
+    render() {
+        if (this.state.app) {
+            const panelKeys = componentsOrdering.filter(k => this.panelMap[k]);
+            return (
+                <div className="l-center-app-detail">
+                    <Flash className="flash no-margin-bottom"/>
+                    <div className="l-app-detail">
+                        <div className="mod-app-nav">
+                            <ul>
+                                <li key="back" className="back">
+                                    <Link to="/apps/back">
+                                        <i className="fa fa-arrow-left"></i>
+                                        {I18n.t("apps.detail.back")}
+                                    </Link>
+                                </li>
+                                {panelKeys.map(panelKey => this.renderNavItem(panelKey))}
+                            </ul>
+                        </div>
+                    </div>
+                    <AppMeta app={this.state.app}/>
+                    {this.renderActivePanel()}
+                </div>
+            );
+        }
+        return null;
+    }
+
 }
 
 AppDetail.contextTypes = {

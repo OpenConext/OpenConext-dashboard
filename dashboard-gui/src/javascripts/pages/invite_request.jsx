@@ -96,11 +96,11 @@ class InviteRequest extends React.Component {
                 spId: sp.id,
                 message: message,
                 contactPersons: contactPersons
-            }).then(json => this.setState(this.initialState(), () => {
-                this.componentWillMount();
+            }).then(json => {
+                setTimeout(() => this.setState(this.initialState()), 150);
                 window.scrollTo(0, 0);
                 setFlash(I18n.t("invite_request.jiraFlash", {jiraKey: json.payload.jiraKey}));
-            }));
+            });
         }
     };
 
@@ -191,18 +191,20 @@ class InviteRequest extends React.Component {
                 </thead>
                 <tbody>
                 <tr>
-                    <td colSpan={4} className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "SAB"})}</td>
+                    <td colSpan={4}
+                        className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "SAB"})}</td>
                 </tr>
                 {sabContactPersons.map((cp, index) => this.renderContactPerson(cp, index + contactPersons.length, "uid"))}
                 <tr>
-                    <td colSpan={4} className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "Manage"})}</td>
+                    <td colSpan={4}
+                        className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "Manage"})}</td>
                 </tr>
                 {contactPersons.map((cp, index) => this.renderContactPerson(cp, index, "emailAddress"))}
-                {this.state.additionalContactPersons.map((person, index) =>
-                    this.renderAdditionalContactPerson(person, index, this.state.additionalContactPersons.length === (index + 1)))}
                 <tr>
                     <td colSpan={4} className="contact-source">{I18n.t("invite_request.additionalPersons")}</td>
                 </tr>
+                {this.state.additionalContactPersons.map((person, index) =>
+                    this.renderAdditionalContactPerson(person, index, this.state.additionalContactPersons.length === (index + 1)))}
                 <tr>
                     <td colSpan={3}></td>
                     <td className="add-email"><a href="add-email" onClick={this.addEmail}><i
@@ -227,7 +229,7 @@ class InviteRequest extends React.Component {
             <div>
                 <Flash/>
                 <div className="l-mini mod-invite-request">
-                    <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t("invite_request.info") }} />
+                    <p className="info" dangerouslySetInnerHTML={{__html: I18n.t("invite_request.info")}}/>
                     <section className="mod-invite-request-inner">
                         <label>{I18n.t("invite_request.idp")}</label>
                         <SelectWrapper handleChange={this.onIdpChange}

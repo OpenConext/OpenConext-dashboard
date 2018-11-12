@@ -150,7 +150,30 @@ public class ActionsServiceImpl implements ActionsService {
 
         sendAdministrationEmail(savedAction);
 
+        if (action.getType().equals(Action.Type.LINKINVITE)) {
+            String transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.START_PROGRESS);
+            jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
+
+            transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.INPUT_NEEDED);
+            jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.of("Waiting for approval of SCV."));
+
+        }
         return savedAction;
+    }
+
+    @Override
+    public void rejectInviteRequest(String jiraKey, String comment) {
+        String transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.TO_RESOLVED);
+        jiraClient.transition(jiraKey, transitionId, Optional.of("Cancelled"), Optional.ofNullable(comment));
+
+        transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.TO_CLOSED);
+        jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
+    }
+
+    @Override
+    public void approveInviteRequest(String jiraKey, String comment) {
+        String transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.ANSWER_AUTOMATICALLY);
+        jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.ofNullable(comment));
     }
 
     private void sendAdministrationEmail(Action action) {

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import I18n from "i18n-js";
-
+import ReactTooltip from "react-tooltip";
 import {searchJira} from "../api";
 import sort from "../utils/sort";
 import moment from "moment";
@@ -240,7 +240,20 @@ class History extends React.Component {
     viewInvitation = action => e => {
         stopEvent(e);
         const type = "saml20_sp";
-        this.context.router.history.replace(`/apps/${action.spEid}/${type}/how_to_connect/${action.jiraKey}/view`);
+        this.context.router.history.replace(`/apps/${action.spEid}/${type}/how_to_connect/${action.jiraKey}/accept`);
+    };
+
+    renderResolution = action => {
+      if (action.resolution) {
+          const transKey = action.resolution.replace(/'/g,"").replace(/ /g,"_").toLowerCase();
+          return <span className="actionResolution">{I18n.t(`history.resolution.${transKey}`)}
+              <i className="fa fa-info-circle" data-for="actionResolution" data-tip></i>
+                                <ReactTooltip id="actionResolution" type="info" class="tool-tip" effect="solid">
+                                    <span>{I18n.t(`history.resolution.${transKey}Tooltip`)}</span>
+                                </ReactTooltip>
+          </span>
+      }
+      return null;
     };
 
     renderAction = action => {
@@ -254,7 +267,7 @@ class History extends React.Component {
             <td>{action.jiraKey}</td>
             <td>{I18n.t("history.statuses." + action.status)}</td>
             <td>{renderAction ?  <a href="/send" className={`t-button save`}
-                                    onClick={this.viewInvitation(action)}>{I18n.t("history.viewInvitation")}</a> : ""}</td>
+                                    onClick={this.viewInvitation(action)}>{I18n.t("history.viewInvitation")}</a> : this.renderResolution(action)}</td>
         </tr>
     };
 

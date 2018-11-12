@@ -22,6 +22,7 @@ import dashboard.domain.JiraResponse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface ActionsService {
 
@@ -29,4 +30,7 @@ public interface ActionsService {
 
     Action create(Action action, List<Change> changes);
 
+    void rejectInviteRequest(String jiraKey, String comment);
+
+    void approveInviteRequest(String jiraKey, String comment);
 }

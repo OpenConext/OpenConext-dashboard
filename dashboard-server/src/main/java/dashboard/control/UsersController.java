@@ -82,6 +82,23 @@ public class UsersController extends BaseController {
         return ResponseEntity.ok(createRestResponse(action));
     }
 
+    @PutMapping("/inviteRequest")
+    public ResponseEntity<RestResponse<Object>> updateInviteRequest(@RequestBody UpdateInviteRequest updateInviteRequest) throws IOException, MessagingException {
+        String commentWithUser = SpringSecurity.getCurrentUser().getUsername()
+                .concat(" has " + updateInviteRequest.getStatus().name().toLowerCase() + " the InviteRequest. ");
+
+        String comment = updateInviteRequest.getComment();
+        if (StringUtils.hasText(comment)) {
+            commentWithUser.concat(comment);
+        }
+        if (UpdateInviteRequest.Status.ACCEPTED.equals(updateInviteRequest.getStatus())) {
+            actionsService.approveInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);
+        } else {
+            actionsService.rejectInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);
+        }
+        return ResponseEntity.ok(createRestResponse(updateInviteRequest));
+    }
+
     @RequestMapping("/disableConsent")
     public List<Consent> disableConsent() {
         String id = SpringSecurity.getCurrentUser().getIdp().getId();

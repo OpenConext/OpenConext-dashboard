@@ -21,7 +21,8 @@ const store = {
     activeFacets: null,
     hiddenFacets: null,
     page: null,
-    appId: null
+    appId: null,
+    query: null
 };
 
 const pageCount = 20;
@@ -34,7 +35,7 @@ class AppOverview extends React.Component {
             apps: [],
             facets: [],
             arpAttributes: [],
-            search: "",
+            search: store.query || "",
             activeFacets: store.activeFacets || {},
             hiddenFacets: store.hiddenFacets || {},
             sortAttribute: "name",
@@ -51,6 +52,10 @@ class AppOverview extends React.Component {
     }
 
     componentDidMount() {
+        const back = this.props.match.params.back;
+        if (isEmpty(back)) {
+            Object.keys(store).forEach(k => store[k] = null);
+        }
         Promise.all([getApps(), disableConsent()])
             .then(data => {
                 const {facets, apps} = data[0].payload;
@@ -60,9 +65,7 @@ class AppOverview extends React.Component {
                 facets.forEach(facet => {
                     apps.forEach(app => {
                         app.categories = app.categories || [];
-                        const appCategory = app.categories.filter(category => {
-                            return category.name === facet.name;
-                        });
+                        const appCategory = app.categories.filter(category => category.name === facet.name);
                         if (appCategory.length === 0) {
                             app.categories.push({name: facet.name, values: [unknown]});
                             const filtered = facet.values.filter(facetValue => {
@@ -82,14 +85,22 @@ class AppOverview extends React.Component {
                 initialHiddenFacets[I18n.t("facets.static.arp.name")] = true;
                 const back = this.props.match.params.back;
                 const page = back && store.page ? store.page : 1;
+                const search = back && store.query ? store.query : "";
                 this.setState({
-                    apps: apps, idpDisableConsent: data[1], facets: facets, arpAttributes: [...attributes],
-                    hiddenFacets: initialHiddenFacets, page: page
+                    apps: apps,
+                    idpDisableConsent: data[1],
+                    facets: facets,
+                    arpAttributes: [...attributes],
+                    hiddenFacets: initialHiddenFacets,
+                    page: page,
+                    search: search
                 }, () => setTimeout(() => {
                     const back = this.props.match.params.back;
                     if (back && this.appRef && this.appRef.current) {
                         const appNode = ReactDOM.findDOMNode(this.appRef.current);
-                        this.scrollToPos(0, appNode.offsetTop);
+                        if (appNode) {
+                            this.scrollToPos(0, appNode.offsetTop);
+                        }
                     }
                 }, 350));
             });
@@ -215,6 +226,8 @@ class AppOverview extends React.Component {
     handleShowAppDetail(e, app) {
         stopEvent(e);
         store.appId = app.id;
+        store.page = this.state.page;
+        store.query = this.state.search;
         this.context.router.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
     }
 
@@ -572,7 +585,6 @@ class AppOverview extends React.Component {
 
     changePage(nbr) {
         this.setState({page: nbr}, () => this.scrollToPos(0, 0));
-        store.page = nbr;
     }
 
     scrollToPos = (left, top) => {

@@ -4,9 +4,12 @@ import I18n from "i18n-js";
 import {Link} from "react-router-dom";
 
 import {AppShape} from "../shapes";
-import {makeConnection, removeConnection} from "../api";
+import {makeConnection, removeConnection, updateInviteRequest} from "../api";
 import stopEvent from "../utils/stop";
 import {privacyProperties} from "../utils/privacy";
+import CheckBox from "./checkbox";
+import {isEmpty} from "../utils/utils";
+import {setFlash} from "../utils/flash";
 
 class HowToConnectPanel extends React.Component {
     constructor() {
@@ -17,52 +20,13 @@ class HowToConnectPanel extends React.Component {
             accepted: false,
             comments: "",
             failed: false,
+            action: undefined,
             acceptedAansluitOvereenkomstRefused: false
         };
     }
 
     componentWillMount() {
-        // TODO show  differnt part for jiraKey, inviteAction
-        // const {app, jiraKey,inviteAction} = this.props;
-        // debugger;
         this.setState({currentStep: this.props.app.connected ? "disconnect" : "connect"});
-    }
-
-    render() {
-        if (this.state.failed) {
-            return (
-                <div className="mod-not-found">
-                    <h1>{I18n.t("how_to_connect_panel.jira_unreachable")}</h1>
-                    <p>{I18n.t("how_to_connect_panel.jira_unreachable_description")} </p>
-                </div>
-            );
-        }
-        if (this.state.currentStep === "connect" &&
-            !this.context.currentUser.currentIdp.publishedInEdugain &&
-            this.props.app.publishedInEdugain) {
-            return (
-                <div className="mod-edugain">
-                    <h1>{I18n.t("how_to_connect_panel.not_published_in_edugain_idp")}</h1>
-                    <p>{I18n.t("how_to_connect_panel.not_published_in_edugain_idp_info", {name: this.props.app.name})} </p>
-                    <Link className="link-edit-id" to={"/my-idp/edit"}>
-                        {I18n.t("how_to_connect_panel.edit_my_idp_link")}
-                    </Link>
-                </div>
-            );
-        }
-
-        switch (this.state.currentStep) {
-            case "disconnect":
-                return this.renderDisconnectStep();
-            case "connect":
-                return this.renderConnectStep();
-            case "done":
-                return this.renderDoneStep();
-            case "done-disconnect":
-                return this.renderDoneDisconnectStep();
-            default:
-                return null;
-        }
     }
 
     getPanelRoute(panel) {
@@ -70,7 +34,7 @@ class HowToConnectPanel extends React.Component {
         return `/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/${panel}`;
     }
 
-    renderConnectStep() {
+    renderConnectStep(isInvite) {
         let lastNumber = 3;
         if (this.props.app.exampleSingleTenant) {
             ++lastNumber;
@@ -80,11 +44,14 @@ class HowToConnectPanel extends React.Component {
         }
         const classNameConnect = this.state.accepted && (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
         const hasPrivacyInfo = privacyProperties.some(prop => this.props.app.privacyInfo[prop]);
+        const title = isInvite ? "connect_invite_title" : "connect_title";
+        const subTitle = isInvite ? "info_sub_invite_title" : "info_sub_title";
+        const actionName = isInvite ? "approve" : "connect";
         return (
             <div className="l-middle-app-detail">
                 <div className="mod-title">
-                    <h1>{I18n.t("how_to_connect_panel.connect_title", {app: this.props.app.name})}</h1>
-                    <p>{I18n.t("how_to_connect_panel.info_sub_title")}</p>
+                    <h1>{I18n.t(`how_to_connect_panel.${title}`, {app: this.props.app.name})}</h1>
+                    <p>{I18n.t(`how_to_connect_panel.${subTitle}`)}</p>
                 </div>
 
                 <div className="mod-connect">
@@ -171,7 +138,10 @@ class HowToConnectPanel extends React.Component {
                     </div>
                     <p className="cta">
                         <a href="/connection" className={"c-button " + classNameConnect}
-                           onClick={this.handleMakeConnection.bind(this)}>{I18n.t("how_to_connect_panel.connect")}</a>
+                           onClick={this.handleMakeConnection(isInvite)}>{I18n.t(`how_to_connect_panel.${actionName}`)}</a>
+                        {isInvite &&
+                        <a href="/deny" className="c-button white"
+                           onClick={this.denyInvite(this.props.jiraKey)}>{I18n.t(`how_to_connect_panel.deny`)}</a>}
                     </p>
                 </div>
             </div>
@@ -255,8 +225,40 @@ class HowToConnectPanel extends React.Component {
         );
     }
 
+    denyInvite = jiraKey => e => {
+        stopEvent(e);
+        updateInviteRequest({status: "REJECTED", jiraKey: jiraKey}).then(() => {
+            const app = this.props.app;
+            const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
+            setFlash(I18n.t("how_to_connect_panel.invite_denied", {jiraKey: jiraKey}));
+            this.context.router.history.replace(`/apps/${app.id}/${type}/overview`);
+            window.scrollTo(0, 0);
+        })
+    };
+
+    renderDenyInvitation = jiraKey => {
+        const app = this.props.app;
+        const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
+        return <div className="l-middle-app-detail">
+            <div className="mod-title">
+                <h1>{I18n.t("how_to_connect_panel.deny_invitation")}</h1>
+                <p>{I18n.t("how_to_connect_panel.deny_invitation_info")}</p>
+                <br/>
+                <p className="cta">
+                    <a href="/deny" onClick={this.denyInvite(jiraKey)}
+                       className="c-button">{I18n.t("how_to_connect_panel.deny")}</a>
+                    <Link className="c-button white"
+                          to={`/apps/${this.props.app.id}/${type}/how_to_connect/${jiraKey}/accept`}>
+                        {I18n.t("how_to_connect_panel.approve")}
+                    </Link>
+                </p>
+            </div>
+        </div>
+    };
+
     renderDoneStep() {
-        const subtitle = this.state.action.jiraKey ?
+        const jiraKey = this.state.jiraKey || this.state.action.jiraKey;
+        const subtitle = jiraKey ?
             I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
             I18n.t("how_to_connect_panel.done_subtitle_html");
 
@@ -280,47 +282,69 @@ class HowToConnectPanel extends React.Component {
         this.context.router.history.replace("/apps");
     }
 
-    renderDisconnectStep() {
-        return (
-            <div className="l-middle-app-detail">
-                <div className="mod-title">
-                    <h1>{I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name})}</h1>
-                </div>
+    renderDisconnectStep = () =>
+        <div className="l-middle-app-detail">
+            <div className="mod-title">
+                <h1>{I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name})}</h1>
+            </div>
 
-                <div className="mod-connect">
-                    <div className="box">
-                        <div className="content">
-                            <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
-                            <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-                            <textarea value={this.state.comments}
-                                      onChange={e => this.setState({comments: e.target.value})}
-                                      placeholder={I18n.t("how_to_connect_panel.comments_placeholder")}/>
-                            <label>
-                                <input type="checkbox" checked={this.state.checked}
-                                       onChange={e => this.setState({accepted: e.target.checked})}/>
-
-                                {I18n.t("how_to_connect_panel.accept_disconnect", {app: this.props.app.name})}
-                            </label>
-                        </div>
+            <div className="mod-connect">
+                <div className="box">
+                    <div className="content">
+                        <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
+                        <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
+                        <textarea value={this.state.comments}
+                                  onChange={e => this.setState({comments: e.target.value})}
+                                  placeholder={I18n.t("how_to_connect_panel.comments_placeholder")}/>
+                        <CheckBox name="disclaimer"
+                                  value={this.state.checked}
+                                  info={I18n.t("how_to_connect_panel.accept_disconnect", {app: this.props.app.name})}
+                                  onChange={e => this.setState({accepted: e.target.checked})}/>
                     </div>
-                    <p className="cta">
-                        <a href="//disconnet" className={"c-button " + (this.state.accepted ? "" : "disabled")}
-                           onClick={this.handleDisconnect.bind(this)}>{I18n.t("how_to_connect_panel.disconnect")}</a>
-                    </p>
+                </div>
+                <p className="cta">
+                    <a href="/disconnect" className={"c-button " + (this.state.accepted ? "" : "disabled")}
+                       onClick={this.handleDisconnect.bind(this)}>{I18n.t("how_to_connect_panel.disconnect")}</a>
+                </p>
+            </div>
+        </div>;
+
+    renderJiraConflict = (action, isConnection) => {
+        const message = I18n.t("apps.detail.outstandingIssue",
+            {
+                jiraKey: action.jiraKey,
+                type: I18n.t("history.action_types_name." + action.type),
+                status: I18n.t("history.statuses." + action.status)
+            });
+        const title = isConnection ? I18n.t("how_to_connect_panel.connect_title", {app: this.props.app.name}) :
+            I18n.t("how_to_connect_panel.disconnect_title", {app: this.props.app.name});
+        return <div className="l-middle-app-detail">
+            <div className="mod-title">
+                <h1>{title}</h1>
+            </div>
+            <div className="mod-connect">
+                <div className="box">
+                    <div className="content">
+                        <h2>{message}</h2>
+                        <p dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.disconnect_jira_info", {jiraKey: action.jiraKey})}}/>
+                    </div>
                 </div>
             </div>
-        );
-    }
+        </div>;
+    };
 
-    handleMakeConnection(e) {
+    handleMakeConnection = isInvite => e => {
         const allowed = this.state.accepted &&
             (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) &&
             this.context.currentUser.dashboardAdmin;
         stopEvent(e);
         if (allowed) {
-            makeConnection(this.props.app, this.state.comments)
+            const promise = isInvite ? updateInviteRequest({status: "ACCEPTED", jiraKey: this.props.jiraKey}) :
+                makeConnection(this.props.app, this.state.comments);
+            promise
                 .then(action => this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0)))
                 .catch(() => this.setState({failed: true}));
+
         }
     }
 
@@ -336,6 +360,47 @@ class HowToConnectPanel extends React.Component {
                 .catch(() => this.setState({failed: true}));
         }
     }
+
+    render() {
+        const {failed, currentStep} = this.state;
+        const {jiraKey, inviteAction, conflictingJiraIssue} = this.props;
+        if (failed) {
+            return (
+                <div className="mod-not-found">
+                    <h1>{I18n.t("how_to_connect_panel.jira_unreachable")}</h1>
+                    <p>{I18n.t("how_to_connect_panel.jira_unreachable_description")} </p>
+                </div>
+            );
+        }
+        if (currentStep === "connect" &&
+            !this.context.currentUser.currentIdp.publishedInEdugain &&
+            this.props.app.publishedInEdugain && isEmpty(conflictingJiraIssue)) {
+            return (
+                <div className="mod-edugain">
+                    <h1>{I18n.t("how_to_connect_panel.not_published_in_edugain_idp")}</h1>
+                    <p>{I18n.t("how_to_connect_panel.not_published_in_edugain_idp_info", {name: this.props.app.name})} </p>
+                    <Link className="link-edit-id" to={"/my-idp/edit"}>
+                        {I18n.t("how_to_connect_panel.edit_my_idp_link")}
+                    </Link>
+                </div>
+            );
+        }
+
+        switch (currentStep) {
+            case "disconnect":
+                return conflictingJiraIssue ? this.renderJiraConflict(conflictingJiraIssue, false) : this.renderDisconnectStep();
+            case "connect":
+                return conflictingJiraIssue ? this.renderJiraConflict(conflictingJiraIssue, true) :
+                    inviteAction === "deny" ? this.renderDenyInvitation(jiraKey) : this.renderConnectStep(jiraKey && inviteAction);
+            case "done":
+                return this.renderDoneStep();
+            case "done-disconnect":
+                return this.renderDoneDisconnectStep();
+            default:
+                return null;
+        }
+    }
+
 }
 
 HowToConnectPanel.contextTypes = {
@@ -346,7 +411,8 @@ HowToConnectPanel.contextTypes = {
 HowToConnectPanel.propTypes = {
     app: AppShape.isRequired,
     jiraKey: PropTypes.string,
-    inviteAction: PropTypes.string
+    inviteAction: PropTypes.string,
+    conflictingJiraIssue: PropTypes.object
 };
 
 export default HowToConnectPanel;

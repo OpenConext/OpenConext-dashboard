@@ -2,6 +2,8 @@ import React from "react";
 
 import {emitter, getFlash} from "../utils/flash";
 import stopEvent from "../utils/stop";
+import PropTypes from "prop-types";
+import {isEmpty} from "../utils/utils";
 
 class Flash extends React.Component {
     constructor() {
@@ -30,10 +32,10 @@ class Flash extends React.Component {
 
     render() {
         const {flash} = this.state;
-
-        if (flash) {
+        const {className = "flash"} = this.props;
+        if (!isEmpty(flash) && !isEmpty(flash.message)) {
             return (
-                <div className="flash">
+                <div className={className}>
                     <p className={flash.type} dangerouslySetInnerHTML={{__html: flash.message}}></p>
                     <a className="close" href="/close" onClick={e => this.closeFlash(e)}>
                         <i className="fa fa-remove"></i>
@@ -41,9 +43,11 @@ class Flash extends React.Component {
                 </div>
             );
         }
-
         return null;
     }
 }
+Flash.propTypes = {
+    className: PropTypes.string
+};
 
 export default Flash;

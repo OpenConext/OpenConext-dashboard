@@ -126,6 +126,13 @@ export function inviteRequest(data) {
     }).then(parseJson);
 }
 
+export function updateInviteRequest(data) {
+    return putJson("/users/inviteRequest", data, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(parseJson);
+}
 
 export function getIdps(spEntityId) {
     return fetchJson(`/services/idps?${qs.stringify({spEntityId})}`);

@@ -11,45 +11,6 @@ import {AppShape} from "../shapes";
 import {privacyProperties} from "../utils/privacy";
 
 class OverviewPanel extends React.Component {
-    render() {
-        let connectionClass = "mod-connection";
-        if (this.props.app.strongAuthentication) {
-            connectionClass += " ssa";
-        }
-
-        return (
-            <div className="l-middle-app-detail">
-                <div className="mod-title">
-                    <h1>{this.props.app.name}</h1>
-                </div>
-
-                <div className={connectionClass}>
-                    {this.renderConnection()}
-                    <LicenseInfo app={this.props.app} showLinks/>
-                    {this.renderStrongAuthentication()}
-                </div>
-
-                {this.renderInterfedSource()}
-
-                {this.renderWikiUrl()}
-
-                <div className="mod-description">
-                    <h2>{I18n.t("overview_panel.description")}</h2>
-                    {this.renderDescription()}
-                </div>
-
-                {this.renderSingleTenantService()}
-
-                {this.renderEntityCategories()}
-
-                {this.renderAansluitOvereenkomstRefused()}
-
-                {this.renderPrivacyInformation()}
-
-                <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
-            </div>
-        );
-    }
 
     renderStrongAuthentication() {
         return (
@@ -75,7 +36,6 @@ class OverviewPanel extends React.Component {
                 </div>
             );
         }
-
         return null;
     }
 
@@ -88,7 +48,6 @@ class OverviewPanel extends React.Component {
                 </div>
             );
         }
-
         return null;
     }
 
@@ -194,9 +153,9 @@ class OverviewPanel extends React.Component {
 
     renderHasConnection() {
         const {currentUser} = this.context;
-        const {app} = this.props;
+        const {app, conflictingJiraIssue} = this.props;
         let disconnect = null;
-        if (currentUser.dashboardAdmin) {
+        if (currentUser.dashboardAdmin && !conflictingJiraIssue) {
             disconnect = <p>
                 <Link
                     to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.disconnect")}</Link>
@@ -215,9 +174,9 @@ class OverviewPanel extends React.Component {
 
     renderNoConnection() {
         const {currentUser} = this.context;
-        const {app} = this.props;
+        const {app, conflictingJiraIssue} = this.props;
         let connect = null;
-        if (currentUser.dashboardAdmin) {
+        if (currentUser.dashboardAdmin && !conflictingJiraIssue) {
             connect = <p>
                 <Link
                     to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.how_to_connect")}</Link>
@@ -233,6 +192,47 @@ class OverviewPanel extends React.Component {
             </div>
         );
     }
+
+    render() {
+        let connectionClass = "mod-connection";
+        if (this.props.app.strongAuthentication) {
+            connectionClass += " ssa";
+        }
+
+        return (
+            <div className="l-middle-app-detail">
+                <div className="mod-title">
+                    <h1>{this.props.app.name}</h1>
+                </div>
+
+                <div className={connectionClass}>
+                    {this.renderConnection()}
+                    <LicenseInfo app={this.props.app} showLinks/>
+                    {this.renderStrongAuthentication()}
+                </div>
+
+                {this.renderInterfedSource()}
+
+                {this.renderWikiUrl()}
+
+                <div className="mod-description">
+                    <h2>{I18n.t("overview_panel.description")}</h2>
+                    {this.renderDescription()}
+                </div>
+
+                {this.renderSingleTenantService()}
+
+                {this.renderEntityCategories()}
+
+                {this.renderAansluitOvereenkomstRefused()}
+
+                {this.renderPrivacyInformation()}
+
+                <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
+            </div>
+        );
+    }
+
 }
 
 OverviewPanel.contextTypes = {
@@ -240,7 +240,8 @@ OverviewPanel.contextTypes = {
 };
 
 OverviewPanel.propTypes = {
-    app: AppShape.isRequired
+    app: AppShape.isRequired,
+    conflictingJiraIssue: PropTypes.object,
 };
 
 export default OverviewPanel;

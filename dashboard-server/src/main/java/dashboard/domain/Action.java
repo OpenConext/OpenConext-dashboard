@@ -28,7 +28,6 @@ public class Action {
     public enum Type {
         LINKREQUEST, UNLINKREQUEST, CHANGE, LINKINVITE;
     }
-
     private String jiraKey;
     private String userName;
     private String userEmail;
@@ -44,6 +43,7 @@ public class Action {
     private ZonedDateTime updateDate;
     private Type type;
     private String status;
+    private String resolution;
 
     private String subject;
     private Service service;
@@ -64,6 +64,7 @@ public class Action {
         this.updateDate = builder.updateDate;
         this.type = builder.type;
         this.status = builder.status;
+        this.resolution = builder.resolution;
         this.service = builder.service;
         this.settings = builder.settings;
         this.consent = builder.consent;
@@ -111,6 +112,10 @@ public class Action {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getResolution() {
+        return resolution;
     }
 
     public String getUserEmail() {
@@ -267,6 +272,7 @@ public class Action {
         private String userEmail;
         private Type type;
         private String status;
+        private String resolution;
         private String body;
         private String idpId;
         private String spId;
@@ -288,6 +294,7 @@ public class Action {
             this.userEmail = action.userEmail;
             this.type = action.type;
             this.status = action.status;
+            this.resolution = action.resolution;
             this.body = action.body;
             this.idpId = action.idpId;
             this.spId = action.spId;
@@ -363,6 +370,11 @@ public class Action {
 
         public Builder status(String status) {
             this.status = status;
+            return this;
+        }
+
+        public Builder resolution(String resolution) {
+            this.resolution = resolution;
             return this;
         }
 

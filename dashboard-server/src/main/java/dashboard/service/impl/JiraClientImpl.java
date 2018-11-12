@@ -75,7 +75,7 @@ public class JiraClientImpl implements JiraClient {
         this.environment = baseUrl.contains("test") ? "test" : "prod";
         this.mappings = objectMapper.readValue(new ClassPathResource("jira/mappings.json").getInputStream(), Map.class);
 
-        this.standardFields = new ArrayList(Arrays.asList("summary", "status", "assignee", "issuetype", "created", "description", "updated"));
+        this.standardFields = new ArrayList(Arrays.asList("summary", "resolution", "status", "assignee", "issuetype", "created", "description", "updated"));
         standardFields.addAll(this.mappings.get(this.environment).get("customFields").values().stream().map(s -> "customfield_" + s).collect(toList()));
 
     }
@@ -133,11 +133,13 @@ public class JiraClientImpl implements JiraClient {
             List<Action> issues = ((List<Map<String, Object>>) result.get("issues")).stream().map(issue -> {
                 Map<String, Object> fields = (Map<String, Object>) issue.get("fields");
                 String issueType = (String) ((Map<String, Object>) fields.get("issuetype")).get("id");
+                Map<String, String> resolution = (Map<String, String>) fields.get("resolution");
                 return Action.builder()
                         .jiraKey((String) issue.get("key"))
                         .idpId(Optional.ofNullable((String) fields.get("customfield_" + idpCustomField())).orElse(""))
                         .spId(Optional.ofNullable((String) fields.get("customfield_" + spCustomField())).orElse(""))
                         .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
+                        .resolution(resolution != null ? resolution.get("name") : null)
                         .type(findType(issueType))
                         .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
                         .updateDate(ZonedDateTime.parse((String) fields.get("updated"), DATE_FORMATTER))
@@ -177,18 +179,24 @@ public class JiraClientImpl implements JiraClient {
         String url = baseUrl + "/issue/" + key + "/transitions";
         Map body = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(defaultHeaders), Map.class).getBody();
         List<Map<String, Object>> transitions = (List) body.getOrDefault("transitions", new ArrayList<>());
-        return transitions.stream().collect(Collectors.toMap(map -> String.class.cast(map.get("id")), map -> String.class.cast(map.get("name"))));
+        return transitions.stream().collect(Collectors.toMap(map -> String.class.cast(map.get("name")), map -> String.class.cast(map.get("id"))));
     }
 
     @Override
-    public void transition(String key, String transitionId, String comment) {
+    public void transition(String key, String transitionId, Optional<String> resolutionOptional, Optional<String> commentOptional) {
         String url = baseUrl + "/issue/" + key + "/transitions";
-        HttpEntity<Object> requestEntity = new HttpEntity<>(ImmutableMap.of("transition", Collections.singletonMap("id", transitionId)), defaultHeaders);
-        restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class).getStatusCode();
-
-        url = baseUrl + "/issue/" + key + "/comment";
-        requestEntity = new HttpEntity<>(ImmutableMap.of("body", comment), defaultHeaders);
-        restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class).getStatusCode();
+        final Map<String, Map<String, Object>> body = new HashMap<>();
+        body.put("transition", Collections.singletonMap("id", transitionId));
+        resolutionOptional.ifPresent(resolution -> {
+            body.put("fields", Collections.singletonMap("resolution", Collections.singletonMap("name", resolution)));
+        });
+        HttpEntity<Object> requestEntity = new HttpEntity<>(body, defaultHeaders);
+        restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+        commentOptional.ifPresent(comment -> {
+            String commentUrl = baseUrl + "/issue/" + key + "/comment";
+            HttpEntity<Object> commentRequestEntity = new HttpEntity<>(ImmutableMap.of("body", comment), defaultHeaders);
+            restTemplate.exchange(commentUrl, HttpMethod.POST, commentRequestEntity, Map.class);
+        });
     }
 
     String buildQueryForIdp(String idp, JiraFilter jiraFilter) {

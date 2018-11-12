@@ -133,7 +133,13 @@ I18n.translations.nl = {
             sirtfi_security: "Sirtfi contacten",
             privacy: "Privacy",
             consent: "Consent",
-            back: "Terug"
+            back: "Terug",
+            outstandingIssue: "Er is al een openstaand ticket {{jiraKey}} van het type {{type}} en status {{status}} voor deze dienst.",
+            inviteAlreadyProcessed: "De uitnodiging voor ticket {{jiraKey}} is reeds {{action}}.",
+            outstandingIssueLink: " Ga naar de <a class=\"link\" href=\"{{link}}\">{{linkName}}</a> sectie om de uitnodiging te accepteren / weigeren.",
+            approved: "goedgekeurd",
+            denied: "afgewezen"
+
         },
         overview: {
             connect: "",
@@ -327,6 +333,7 @@ I18n.translations.nl = {
         comments_title: "Eventuele opmerkingen?",
         connect: "Activeer connectie",
         connect_title: "Activeer {{app}}",
+        connect_invite_title: "Accepteer de uitnodiging om {{app}} te activeren",
         disconnect: "Verbinding deactiveren",
         disconnect_title: "Deactiveer connectie met {{app}}",
         done_disconnect_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
@@ -340,6 +347,7 @@ I18n.translations.nl = {
             before: "SURFnet heeft toestemming om de ",
         },
         info_sub_title: "Je kunt een verbinding activeren vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
+        info_sub_invite_title: "Je kunt de uitnodiging accepteren. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
         info_title: "Verbinding activeren",
         jira_unreachable: "Er is iets mis gegaan bij de aanvraag",
         jira_unreachable_description: "Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.",
@@ -360,7 +368,8 @@ I18n.translations.nl = {
         aansluitovereenkomst_accept: "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de 'SURFconext aansluitovereenkomst' te ondertekenen.",
         not_published_in_edugain_idp: "eduGAIN dienst",
         not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat uw instelling niet is gepubliceerd is in eduGAIN. Om uw instelling te publiceren in eduGAIN kunt u een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
-        edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'"
+        edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'",
+        disconnect_jira_info: "Voor meer informatie over dit ticket kunt u contact opnemen met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}})"
     },
 
     application_usage_panel: {
@@ -621,7 +630,7 @@ I18n.translations.nl = {
     },
 
     history: {
-        info: "Hieronder alle tickets met betrekking tot (ont)koppelen van diensten of wijzigingsverzoeken.",
+        info: "Hieronder alle tickets met betrekking tot (ont)koppelen van diensten of wijzigingsverzoeken. In het menu links kan je de lijst van tickets filteren.",
         requestDate: "Aangemaakt",
         updateDate: "Gewijzigd",
         type: "Type",
@@ -647,6 +656,22 @@ I18n.translations.nl = {
             "Resolved": "Opgeleverd",
             "Closed": "Gesloten"
         },
+        resolution: {
+            cancelled: "Geannuleerd",
+            cancelledTooltip: "Het ticket was geannuleerd. Als het een uitnodiging voor een koppeling betrof dan heeft de instelling de uitnodiging afgewezen.",
+            wont_fix: "Won't be fixed",
+            wont_fixTooltip: "The ticket will not be fixed.",
+            resolved: "Resolved",
+            resolvedTooltip: "The ticket was successfully resolved.",
+            duplicate: "Duplicate",
+            duplicateTooltip: "The ticket was a duplicate of another ticket.",
+            not_completed: "Not completed",
+            not_completedTooltip: "The ticket was not completed.",
+            cannot_reproduce: "Can not be reproduced",
+            cannot_reproduceTooltip: "The issue described in the ticket could not reproduced",
+            suspended: "Suspended",
+            suspendedTooltip: "The ticket was suspended."
+        },
         servicePlaceHolder: "Zoek en selecteer een dienst...",
         noTicketsFound: "Er zijn geen tickets gevonden met de gegeven filters.",
         viewInvitation: "Goedkeuren / Afwijzen"
@@ -670,6 +695,7 @@ I18n.translations.nl = {
         additionalPersons: "Extra contact personen",
         selectContact: "Selecteer",
         sendRequest: "Verstuur",
+        reset: "Reset",
         message: "Een - optioneel - bericht voor de uitgenodigden.",
         jiraFlash: "Een Jira ticket is aangemaakt met key {{jiraKey}}. Zodra één van de uitgenodigheden de uitnodiging hebben geaccepteerd dan zal dit worden gelogged in het commentaar van {{jiraKey}}."
     },

@@ -1,6 +1,7 @@
 package dashboard.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
@@ -74,7 +75,7 @@ public class InviteRequest {
 
     @JsonIgnore
     public boolean isContainsMessage() {
-        return this.message != null;
+        return StringUtils.hasText(this.message);
     }
 
     @JsonIgnore
