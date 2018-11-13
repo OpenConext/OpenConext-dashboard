@@ -247,8 +247,8 @@ class History extends React.Component {
       if (action.resolution) {
           const transKey = action.resolution.replace(/'/g,"").replace(/ /g,"_").toLowerCase();
           return <span className="actionResolution">{I18n.t(`history.resolution.${transKey}`)}
-              <i className="fa fa-info-circle" data-for="actionResolution" data-tip></i>
-                                <ReactTooltip id="actionResolution" type="info" class="tool-tip" effect="solid">
+              <i className="fa fa-info-circle" data-for={action.jiraKey} data-tip></i>
+                                <ReactTooltip id={action.jiraKey} type="info" class="tool-tip" effect="solid">
                                     <span>{I18n.t(`history.resolution.${transKey}Tooltip`)}</span>
                                 </ReactTooltip>
           </span>

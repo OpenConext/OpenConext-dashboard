@@ -13,6 +13,7 @@ import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
 import PolicyOverview from "./pages/policy_overview";
 import PolicyDetail from "./pages/policy_detail";
+import Dummy from "./pages/dummy";
 import PolicyRevisions from "./pages/policy_revisions";
 import History from "./pages/history";
 import Profile from "./pages/profile";
@@ -62,6 +63,7 @@ class App extends React.Component {
                         <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>
                         <ProtectedRoute currentUser={this.props.currentUser} path="/policies/:id"
                                         component={PolicyDetail}/>
+                        <Route exact path="/dummy" component={Dummy}/>
                         <Route component={NotFound}/>
                     </Switch>
                     <Footer/>

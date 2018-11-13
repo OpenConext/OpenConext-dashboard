@@ -34,6 +34,15 @@ I18n.translations.nl = {
         switch_idp: "Kies IDP",
         super_user_switch: "Switch identiteit"
     },
+    confirmation_dialog: {
+        title: "Bevestig",
+        confirm: "Bevestig",
+        cancel: "Annuleer",
+        leavePage: "Weet u zeker dat u deze pagina wilt verlaten?",
+        leavePageSub: "Veranderingen die u heeft gemaakt zullen niet worden opgeslagen.",
+        stay: "Blijf",
+        leave: "Annulleer"
+    },
 
     navigation: {
         apps: "Services",
@@ -369,7 +378,13 @@ I18n.translations.nl = {
         not_published_in_edugain_idp: "eduGAIN dienst",
         not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat uw instelling niet is gepubliceerd is in eduGAIN. Om uw instelling te publiceren in eduGAIN kunt u een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
         edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'",
-        disconnect_jira_info: "Voor meer informatie over dit ticket kunt u contact opnemen met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}})"
+        disconnect_jira_info: "Voor meer informatie over dit ticket kunt u contact opnemen met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}})",
+        invite_denied: "Ticket {{jiraKey}} is succesvol gesloten.",
+        invite_accepted: "Ticket {{jiraKey}} is succesvol bijgewerkt met uw goedkeuring.",
+        deny: "Afwijzen",
+        approve: "Goedkeuren",
+        deny_invitation: "Weet u zeker dat u de uitnodiging om the koppelen met {{app}} wilt afwijzen?",
+        deny_invitation_info: "Nadat u de uitnodiging heeft afgewezen kunt u altijd nog de koppeling activeren in dit dashboard.",
     },
 
     application_usage_panel: {
@@ -697,7 +712,7 @@ I18n.translations.nl = {
         sendRequest: "Verstuur",
         reset: "Reset",
         message: "Een - optioneel - bericht voor de uitgenodigden.",
-        jiraFlash: "Een Jira ticket is aangemaakt met key {{jiraKey}}. Zodra één van de uitgenodigheden de uitnodiging hebben geaccepteerd dan zal dit worden gelogged in het commentaar van {{jiraKey}}."
+        jiraFlash: "Een Jira ticket is aangemaakt met key {{jiraKey}}. Zodra één van de genodigden de uitnodiging heeft geaccepteerd dan zal dit worden gelogged in het commentaar van {{jiraKey}}."
     },
     profile: {
         title: "Profiel",

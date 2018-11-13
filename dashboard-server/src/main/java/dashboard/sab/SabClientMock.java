@@ -37,8 +37,8 @@ public class SabClientMock implements Sab {
 
     private final List<SabPerson> sabPersons = ImmutableList.of(
             new SabPerson("Hans", "Janssen", "hjanssen", "hjanssen@surfnet.nl", asList(ROLE_BEHEERDER)),
-            new SabPerson("Frans", "Franssen", "ffransen", "fjanssen@surfnet.nl", asList(ROLE_BEHEERDER, ROLE_VERANTWOORDELIJKE)),
-            new SabPerson("Okke", "Harsta", "oharsta", "oharsta@surfnet.nl", asList(ROLE_VERANTWOORDELIJKE))
+            new SabPerson("Raoul", "Teeuwen", "rteeuwen", "raoul.teeuwen@surfnet.nl", asList(ROLE_VERANTWOORDELIJKE)),
+            new SabPerson("Okke", "Harsta", "oharsta", "oharsta@zilverline.nl", asList(ROLE_VERANTWOORDELIJKE))
     );
 
     /**

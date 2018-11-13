@@ -200,7 +200,8 @@ public class JiraClientImpl implements JiraClient {
     }
 
     String buildQueryForIdp(String idp, JiraFilter jiraFilter) {
-        StringBuilder sb = new StringBuilder(String.format("project = %s AND cf[%s]~\"%s\"", projectKey, idpCustomField(), idp));
+        String escapedIdpField = idp.indexOf("?") > -1 ? idp.substring(0, idp.indexOf("?")) : idp;
+        StringBuilder sb = new StringBuilder(String.format("project = %s AND cf[%s]~\"%s\"", projectKey, idpCustomField(), escapedIdpField));
         List<String> statuses = jiraFilter.getStatuses();
         if (!CollectionUtils.isEmpty(statuses)) {
             sb.append(String.format(" AND status in (%s)", statuses.stream().map(status -> "\"" + status + "\"").collect(joining(", "))));
@@ -210,8 +211,10 @@ public class JiraClientImpl implements JiraClient {
             String issueTypes = types.stream().map(type -> this.mappings.get(this.environment).get("issueTypes").get(type.name().toLowerCase())).collect(joining(", "));
             sb.append(String.format(" AND issueType in (%s)", issueTypes));
         }
-        if (StringUtils.hasText(jiraFilter.getSpEntityId())) {
-            sb.append(String.format(" AND cf[%s]~\"%s\"", spCustomField(), jiraFilter.getSpEntityId()));
+        String spEntityId = jiraFilter.getSpEntityId();
+        if (StringUtils.hasText(spEntityId)) {
+            String escapedSpEntityId = spEntityId.indexOf("?") > -1 ? spEntityId.substring(0, spEntityId.indexOf("?")) : spEntityId;
+            sb.append(String.format(" AND cf[%s]~\"%s\"", spCustomField(), escapedSpEntityId));
         }
         if (jiraFilter.getFrom() != null) {
             String from = DateTimeFormatter.ofPattern("YYYY-MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochSecond(jiraFilter.getFrom()));

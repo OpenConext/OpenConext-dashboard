@@ -10,6 +10,7 @@ import {privacyProperties} from "../utils/privacy";
 import CheckBox from "./checkbox";
 import {isEmpty} from "../utils/utils";
 import {setFlash} from "../utils/flash";
+import ConfirmationDialog from "../components/confirmation_dialog";
 
 class HowToConnectPanel extends React.Component {
     constructor() {
@@ -21,7 +22,11 @@ class HowToConnectPanel extends React.Component {
             comments: "",
             failed: false,
             action: undefined,
-            acceptedAansluitOvereenkomstRefused: false
+            acceptedAansluitOvereenkomstRefused: false,
+            confirmationDialogOpen: false,
+            confirmationQuestion: I18n.t("how_to_connect_panel.denyConfirmation"),
+            confirmationDialogAction: () => this,
+            cancelDialogAction: () => this.setState({confirmationDialogOpen: false})
         };
     }
 
@@ -35,6 +40,7 @@ class HowToConnectPanel extends React.Component {
     }
 
     renderConnectStep(isInvite) {
+        const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction} = this.state;
         let lastNumber = 3;
         if (this.props.app.exampleSingleTenant) {
             ++lastNumber;
@@ -49,6 +55,10 @@ class HowToConnectPanel extends React.Component {
         const actionName = isInvite ? "approve" : "connect";
         return (
             <div className="l-middle-app-detail">
+                <ConfirmationDialog isOpen={confirmationDialogOpen}
+                                    cancel={cancelDialogAction}
+                                    confirm={confirmationDialogAction}
+                                    question={confirmationQuestion}/>
                 <div className="mod-title">
                     <h1>{I18n.t(`how_to_connect_panel.${title}`, {app: this.props.app.name})}</h1>
                     <p>{I18n.t(`how_to_connect_panel.${subTitle}`)}</p>
@@ -225,8 +235,9 @@ class HowToConnectPanel extends React.Component {
         );
     }
 
-    denyInvite = jiraKey => e => {
+    doDenyInvite = jiraKey => e => {
         stopEvent(e);
+        this.setState({confirmationDialogOpen: false});
         updateInviteRequest({status: "REJECTED", jiraKey: jiraKey}).then(() => {
             const app = this.props.app;
             const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
@@ -236,30 +247,46 @@ class HowToConnectPanel extends React.Component {
         })
     };
 
+
+    denyInvite = jiraKey => e => {
+        stopEvent(e);
+        this.setState({
+            confirmationDialogOpen: true,
+            confirmationQuestion: I18n.t("how_to_connect_panel.deny_invitation", {app: this.props.app.name}),
+            confirmationDialogAction: this.doDenyInvite(jiraKey)
+        });
+    };
+
     renderDenyInvitation = jiraKey => {
+        const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction} = this.state;
         const app = this.props.app;
         const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
         return <div className="l-middle-app-detail">
+            <ConfirmationDialog isOpen={confirmationDialogOpen}
+                                cancel={cancelDialogAction}
+                                confirm={confirmationDialogAction}
+                                question={confirmationQuestion}/>
             <div className="mod-title">
-                <h1>{I18n.t("how_to_connect_panel.deny_invitation")}</h1>
+                <h1>{I18n.t("how_to_connect_panel.deny_invitation", {app: app.name})}</h1>
                 <p>{I18n.t("how_to_connect_panel.deny_invitation_info")}</p>
                 <br/>
                 <p className="cta">
-                    <a href="/deny" onClick={this.denyInvite(jiraKey)}
+                    <a href="/deny" onClick={this.doDenyInvite(jiraKey)}
                        className="c-button">{I18n.t("how_to_connect_panel.deny")}</a>
-                    <Link className="c-button white"
-                          to={`/apps/${this.props.app.id}/${type}/how_to_connect/${jiraKey}/accept`}>
-                        {I18n.t("how_to_connect_panel.approve")}
-                    </Link>
+                    <a href="/accept" className="c-button white approve" onClick={e => {
+                        stopEvent(e);
+                        this.context.router.history.replace(`/dummy`);
+                        setTimeout(() => this.context.router.history.replace(`/apps/${this.props.app.id}/${type}/how_to_connect/${jiraKey}/accept`), 10);
+                    }}>{I18n.t("how_to_connect_panel.approve")}</a>
                 </p>
             </div>
         </div>
     };
 
     renderDoneStep() {
-        const jiraKey = this.state.jiraKey || this.state.action.jiraKey;
+        const jiraKey = this.props.jiraKey || this.state.action.jiraKey;
         const subtitle = jiraKey ?
-            I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: this.state.action.jiraKey}) :
+            I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: jiraKey}) :
             I18n.t("how_to_connect_panel.done_subtitle_html");
 
         return (
@@ -342,11 +369,13 @@ class HowToConnectPanel extends React.Component {
             const promise = isInvite ? updateInviteRequest({status: "ACCEPTED", jiraKey: this.props.jiraKey}) :
                 makeConnection(this.props.app, this.state.comments);
             promise
-                .then(action => this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0)))
+                .then(action => {
+                    this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0));
+                })
                 .catch(() => this.setState({failed: true}));
 
         }
-    }
+    };
 
     handleDisconnect(e) {
         stopEvent(e);

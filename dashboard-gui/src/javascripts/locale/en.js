@@ -34,6 +34,15 @@ I18n.translations.en = {
         switch_idp: "Switch IDP",
         super_user_switch: "Switch identity"
     },
+    confirmation_dialog: {
+        title: "Please confirm",
+        confirm: "Confirm",
+        cancel: "Cancel",
+        leavePage: "Do you really want to leave this page?",
+        leavePageSub: "Changes that you made will not be saved.",
+        stay: "Stay",
+        leave: "Leave"
+    },
 
     navigation: {
         apps: "Services",
@@ -371,7 +380,7 @@ I18n.translations.en = {
         deny: "Deny",
         approve: "Approve",
         deny_invitation: "Are you  sure you want to deny the invitation to connect to {{app}}",
-        deny_invitation_info: "After you deny the invitation you can always activate the connection from this dashboard."
+        deny_invitation_info: "After you deny the invitation you can always activate the connection from this dashboard.",
     },
 
     application_usage_panel: {

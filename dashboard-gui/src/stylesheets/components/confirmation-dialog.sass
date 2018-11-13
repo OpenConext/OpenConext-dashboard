@@ -1,0 +1,62 @@
+@import "../utilities/vars.sass"
+
+.confirmation-dialog-overlay
+  position: fixed
+  display: flex
+  align-items: center
+  justify-content: center
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: rgba(95, 95, 95, 0.7)
+  z-index: 4
+
+  .confirmation-dialog-content
+    background-color: rgb(245, 245, 245)
+    overflow: auto
+    border-radius: 3px
+    outline: none
+    z-index: 5
+    display: flex
+    flex-direction: column
+    box-shadow: 1px 1px 6px 0 rgb(95, 95, 95)
+
+    .dialog-header
+      background-color: $blue
+      padding: 15px
+      color: white
+      text-transform: uppercase
+      font-size: large
+      font-weight: bold
+      &.error
+        background-color: $red
+
+  .dialog-content
+    margin-top: auto
+    text-align: center
+
+    h2
+      padding: 25px
+      line-height: 22px
+      font-size: 16px
+      font-weight: normal
+  .dialog-buttons
+    margin: 25px 0
+    display: flex
+    justify-content: flex-end
+    a
+      margin-right: 20px
+      cursor: pointer
+
+.ReactModalPortal .ReactModal__Overlay
+  transition: opacity 250ms ease-in-out
+  &--before-close
+    opacity: 0
+
+.ReactModalPortal .ReactModal__Content
+  transition: top 250ms ease-in-out, bottom 250ms ease-in-out
+  max-width: 400px
+  &--before-close
+    top: -50%
+    bottom: 100%
