@@ -12,6 +12,8 @@ public class Settings {
     private String displayNamesNl;
     private String descriptionsEn;
     private String descriptionsNl;
+    private String organisationUrlEn;
+    private String organisationUrlNl;
     private boolean publishedInEdugain;
     private boolean connectToRSServicesAutomatically;
     private String comments;
@@ -135,6 +137,22 @@ public class Settings {
         this.contactPersons = contactPersons;
     }
 
+    public String getOrganisationUrlEn() {
+        return organisationUrlEn;
+    }
+
+    public void setOrganisationUrlEn(String organisationUrlEn) {
+        this.organisationUrlEn = organisationUrlEn;
+    }
+
+    public String getOrganisationUrlNl() {
+        return organisationUrlNl;
+    }
+
+    public void setOrganisationUrlNl(String organisationUrlNl) {
+        this.organisationUrlNl = organisationUrlNl;
+    }
+
     @Override
     public String toString() {
         return "Settings{" +
@@ -146,6 +164,8 @@ public class Settings {
                 ", displayNamesNl='" + displayNamesNl + '\'' +
                 ", descriptionsEn='" + descriptionsEn + '\'' +
                 ", descriptionsNl='" + descriptionsNl + '\'' +
+                ", organisationUrlEn='" + organisationUrlEn + '\'' +
+                ", organisationUrlNl='" + organisationUrlNl + '\'' +
                 ", publishedInEdugain=" + publishedInEdugain +
                 ", connectToRSServicesAutomatically=" + connectToRSServicesAutomatically +
                 ", comments='" + comments + '\'' +

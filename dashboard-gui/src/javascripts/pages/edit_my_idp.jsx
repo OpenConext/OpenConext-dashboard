@@ -29,6 +29,8 @@ class EditMyIdp extends React.Component {
             displayNamesNl: currentIdp.displayNames.nl || "",
             descriptionsEn: currentIdp.descriptions.en || "",
             descriptionsNl: currentIdp.descriptions.nl || "",
+            organisationUrlEn: currentIdp.homeUrls.en || "",
+            organisationUrlNl: currentIdp.homeUrls.nl || "",
             publishedInEdugain: !!currentIdp.publishedInEdugain,
             connectToRSServicesAutomatically: !!currentIdp.connectToRSServicesAutomatically,
             comments: "",
@@ -182,13 +184,39 @@ class EditMyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.organizationURL.en")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationURLen" data-tip></i>
+                                <ReactTooltip id="organizationURLen" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationURL_en_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationUrlEn")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationURL.nl")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationURLnl" data-tip></i>
+                                <ReactTooltip id="organizationURLnl" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationURL_nl_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationUrlNl")}
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.published_in_edugain")}</td>
                         <td>{this.renderCheckbox("publishedInEdugain")}</td>
                     </tr>
                     <tr>
-                        <td>{I18n.t("my_idp.research_and_scholarship_info")}</td>
-                        <td>{this.renderCheckbox("connectToRSServicesAutomatically")}
-                            <span>
+                        <td>{I18n.t("my_idp.research_and_scholarship_info")}<span>
                             <i className="fa fa-info-circle" data-for="connectToRSServicesAutomatically" data-tip></i>
                                 <ReactTooltip id="connectToRSServicesAutomatically" type="info" class="tool-tip"
                                               effect="solid"
@@ -196,7 +224,8 @@ class EditMyIdp extends React.Component {
                                     <span
                                         dangerouslySetInnerHTML={{__html: I18n.t("my_idp.research_and_scholarship_tooltip")}}/>
                                 </ReactTooltip>
-                        </span>
+                        </span></td>
+                        <td>{this.renderCheckbox("connectToRSServicesAutomatically")}
                         </td>
                     </tr>
                     <tr>
@@ -420,10 +449,10 @@ class EditMyIdp extends React.Component {
                     this.context.router.history.replace("/my-idp");
                 });
             }).catch(() => {
-                setFlash(I18n.t("my_idp.change_request_failed"), "error");
-                window.scrollTo(0, 0);
-                this.context.router.history.replace("/my-idp");
-            });
+            setFlash(I18n.t("my_idp.change_request_failed"), "error");
+            window.scrollTo(0, 0);
+            this.context.router.history.replace("/my-idp");
+        });
     }
 
     render() {

@@ -523,6 +523,12 @@ I18n.translations.nl = {
             en: "Weergave naam (en)",
             nl: "Weergave naam (nl)"
         },
+        organizationURL: {
+            en: "Organisatie URL (en)",
+            nl: "Organisatie URL (nl)"
+        },
+        organizationURL_nl_tooltip: "Een URL waar een eindgebruiker Nederlands informatie kan lezen over de organisatie.",
+        organizationURL_en_tooltip: "Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.",
         keywords: {
             en: "Trefwoorden (en)",
             nl: "Trefwoorden (nl)"

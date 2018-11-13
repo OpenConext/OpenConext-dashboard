@@ -466,6 +466,12 @@ I18n.translations.en = {
             en: "Display name (en)",
             nl: "Display name (nl)"
         },
+        organizationURL: {
+            en: "Organization URL (en)",
+            nl: "Organization URL (nl)"
+        },
+        organizationURL_nl_tooltip: "A URL the end user can access for more information in Dutch about the organization.",
+        organizationURL_en_tooltip: "A URL the end user can access for more information in English about the organization.",
         keywords: {
             en: "Keywords (en)",
             nl: "Keywords (nl)"

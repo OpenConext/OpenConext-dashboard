@@ -66,7 +66,7 @@ class MyIdp extends React.Component {
                 <div className="l-grid settings-header">
                     <h2 className="l-col-8">{I18n.t("my_idp.services_title")}</h2>
                 </div>
-                {noProviders && <span>{I18n.t("my_idp.services_title_none")}</span>    }
+                {noProviders && <span>{I18n.t("my_idp.services_title_none")}</span>}
                 {providers.map(s => this.renderService(s))}
             </div>
         );
@@ -76,7 +76,7 @@ class MyIdp extends React.Component {
         const url = `apps/${service.id}/${service.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`;
         return (
             <div key={service.id}>
-                <h2><a href={`/${url}`}  onClick={e => {
+                <h2><a href={`/${url}`} onClick={e => {
                     stopEvent(e);
                     this.context.router.history.replace(url);
                 }}>{service.name}</a></h2>
@@ -175,6 +175,33 @@ class MyIdp extends React.Component {
                         <td>{currentIdp.displayNames.nl}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.organizationURL.en")}</td>
+                        <td>{currentIdp.homeUrls.en}
+                            <span>
+                            <i className="fa fa-info-circle" data-for="organizationURLen" data-tip></i>
+                                <ReactTooltip id="organizationURLen" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationURL_en_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationURL.nl")}</td>
+                        <td>{currentIdp.homeUrls.nl} <span>
+                            <i className="fa fa-info-circle" data-for="organizationURLnl" data-tip></i>
+                                <ReactTooltip id="organizationURLnl" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationURL_nl_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.keywords.en")}</td>
                         <td>{currentIdp.keywords.en}</td>
                     </tr>
@@ -197,9 +224,11 @@ class MyIdp extends React.Component {
                         <td>{currentIdp.connectToRSServicesAutomatically ? I18n.t("boolean.yes") : I18n.t("boolean.no")}
                             <span>
                             <i className="fa fa-info-circle" data-for="connectToRSServicesAutomatically" data-tip></i>
-                                <ReactTooltip id="connectToRSServicesAutomatically" type="info" class="tool-tip" effect="solid"
+                                <ReactTooltip id="connectToRSServicesAutomatically" type="info" class="tool-tip"
+                                              effect="solid"
                                               multiline={true} delayHide={1000}>
-                                    <span dangerouslySetInnerHTML={{__html: I18n.t("my_idp.research_and_scholarship_tooltip")}}/>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.research_and_scholarship_tooltip")}}/>
                                 </ReactTooltip>
                         </span>
                         </td>
@@ -298,9 +327,9 @@ class MyIdp extends React.Component {
                 <Flash/>
                 <div className="l-left">
                     {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
-                                   filters={serviceFilters}
-                                   search={search}
-                                   searchChange={e => this.setState({search: e.target.value})}/>}
+                                                   filters={serviceFilters}
+                                                   search={search}
+                                                   searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>
                 <div className="l-right">
                     <div className="mod-idp">

@@ -254,6 +254,9 @@ public class UsersController extends BaseController {
         this.diff(changes, idpId, idp.getKeywords().get("en"), settings.getKeywordsEn(), "keywords:en");
         this.diff(changes, idpId, idp.getKeywords().get("nl"), settings.getKeywordsNl(), "keywords:nl");
 
+        this.diff(changes, idpId, idp.getHomeUrls().get("en"), settings.getOrganisationUrlEn(), "organisationURL:en");
+        this.diff(changes, idpId, idp.getHomeUrls().get("nl"), settings.getOrganisationUrlNl(), "organisationURL:nl");
+
         this.diff(changes, idpId, idp.getDescriptions().get("en"), settings.getDescriptionsEn(), "description:en");
         this.diff(changes, idpId, idp.getDescriptions().get("nl"), settings.getDescriptionsNl(), "description:nl");
 
