@@ -40,7 +40,7 @@
     "react-scripts": "1.1.5",
     "react-select": "2.0.0",
     "react-tooltip": "3.8.4",
-    "spin.js": "4.0.0"
+    "spin.js": "^2.3.2"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --importer node_modules/node-sass-glob-importer/dist/cli.js src/stylesheets/application.sass -o src/stylesheets/",

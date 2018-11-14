@@ -1,7 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 
-import {Spinner} from "spin.js";
+import Spinner from "spin.js";
 import spinner from "../lib/spin";
 import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
@@ -25,11 +25,13 @@ class Navigation extends React.Component {
         if (this.state.loading) {
             if (!this.spinner) {
                 this.spinner = new Spinner({
-                    lines: 25, // The number of lines to draw
-                    length: 25, // The length of each line
-                    width: 4, // The line thickness
-                    radius: 20, // The radius of the inner circle
+                    lines: 20, // The number of lines to draw
+                    length: 15, // The length of each line
+                    width: 3, // The line thickness
+                    radius: 8, // The radius of the inner circle
                     color: "#4DB3CF", // #rgb or #rrggbb or array of colors
+                    top: "40px",
+                    position: "fixed"
                 }).spin(this.spinnerNode);
             }
         } else {
