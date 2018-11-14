@@ -21,3 +21,4 @@ manage-json
 notes.txt
 *.css
 application-local.properties
+jira_change_requests.json
