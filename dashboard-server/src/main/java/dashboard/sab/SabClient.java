@@ -24,6 +24,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,7 +67,8 @@ public class SabClient implements Sab {
         String requestBody = createRequest(userId, messageId);
 
         try (InputStream is = sabTransport.getResponse(requestBody)) {
-            return Optional.of(sabResponseParser.parse(is));
+            SabRoleHolder sabRoleHolder = sabResponseParser.parse(is);
+            return CollectionUtils.isEmpty(sabRoleHolder.getRoles()) && StringUtils.isEmpty(sabRoleHolder.getOrganisation()) ? Optional.empty() : Optional.of(sabRoleHolder);
         } catch (IOException e) {
             LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
             return Optional.empty();
