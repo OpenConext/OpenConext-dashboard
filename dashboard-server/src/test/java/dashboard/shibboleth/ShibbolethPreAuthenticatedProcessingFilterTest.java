@@ -107,6 +107,22 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
                 ("eduPersonEntitlement_value1", "eduPersonEntitlement_value2"));
     }
 
+    @Test
+    public void testWithOrganisationSabMismatch() {
+        Arrays.asList(null, "", "no_match").forEach(institutionId -> {
+            MockHttpServletRequest request = new MockHttpServletRequest();
+            when(sab.getRoles("uid")).thenReturn(Optional.of(
+                    new SabRoleHolder(institutionId, Arrays.asList("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextverantwoordelijke"))));
+            request.addHeader(Name_Id.getValue(), "uid");
+            IdentityProvider idp = new IdentityProvider("mock-idp", "SURFNET", "name", 1L);
+            when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(idp));
+            when(manageMock.getInstituteIdentityProviders("SURFNET")).thenReturn(Collections.singletonList(idp));
+            request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
+            CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
+            assertEquals(0, user.getAuthorityEnums().size());
+        });
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailWhenTheNameIdHeaderIsNotSet() {
         HttpServletRequest requestMock = mock(HttpServletRequest.class);

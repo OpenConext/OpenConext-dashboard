@@ -187,7 +187,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private void addDashboardRoleForEntitlements(CoinUser user, Optional<SabRoleHolder> roles, List<String> institutionIds) {
         roles.ifPresent(sabRoleHolder -> {
             List<String> entitlements = sabRoleHolder.getRoles();
-            String organisation = sabRoleHolder.getOrganisation().toUpperCase();
+            String organisation = StringUtils.hasText(sabRoleHolder.getOrganisation()) ? sabRoleHolder.getOrganisation().toUpperCase() : null;
             boolean institutionIdMatch = StringUtils.hasText(sabRoleHolder.getOrganisation()) &&
                     institutionIds.contains(organisation);
             if (institutionIdMatch) {
