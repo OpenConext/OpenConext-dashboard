@@ -152,15 +152,19 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         }
 
         Optional<SabRoleHolder> roles = sab.getRoles(uid);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Received roles from SAB: {}", roles.isPresent() ? roles.get().getRoles() : "None");
-        }
+        LOG.debug("SAB: received roles {} and organization {}",
+                roles.isPresent() ? roles.get().getRoles() : "None",
+                roles.isPresent() ? roles.get().getOrganisation() : "None");
+
+
+        List<String> institutionIds = institutionIdentityProviders.stream()
+                .filter(provider -> StringUtils.hasText(provider.getInstitutionId()))
+                .map(provider -> provider.getInstitutionId().toUpperCase()).collect(Collectors.toList());
+
+        LOG.debug("Manage: received institution ID's {} ", institutionIds);
 
         this.addDashboardRoleForEntitlements(coinUser, roles,
-                institutionIdentityProviders.stream()
-                        .filter(provider -> StringUtils.hasText(provider.getInstitutionId()))
-                        .map(provider -> provider.getInstitutionId().toUpperCase()).collect(Collectors.toList()));
-
+                institutionIds);
 
         institutionIdentityProviders.stream()
                 .filter(idp -> hasText(idp.getInstitutionId()))
