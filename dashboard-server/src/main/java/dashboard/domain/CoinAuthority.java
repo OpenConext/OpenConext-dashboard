@@ -68,10 +68,7 @@ public class CoinAuthority implements GrantedAuthority {
     if (o == null || getClass() != o.getClass()) return false;
 
     CoinAuthority that = (CoinAuthority) o;
-
-    if (authority != that.authority) return false;
-
-    return true;
+    return authority == that.authority;
   }
 
   @Override

@@ -187,14 +187,18 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private void addDashboardRoleForEntitlements(CoinUser user, Optional<SabRoleHolder> roles, List<String> institutionIds) {
         roles.ifPresent(sabRoleHolder -> {
             List<String> entitlements = sabRoleHolder.getRoles();
+            String organisation = sabRoleHolder.getOrganisation().toUpperCase();
             boolean institutionIdMatch = StringUtils.hasText(sabRoleHolder.getOrganisation()) &&
-                    institutionIds.contains(sabRoleHolder.getOrganisation().toUpperCase());
+                    institutionIds.contains(organisation);
             if (institutionIdMatch) {
                 if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(adminSurfConextIdpRole) > -1)) {
                     user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
                 } else if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(viewerSurfConextIdpRole) > -1)) {
                     user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
                 }
+            } else {
+                LOG.info("SAB: received entitlements, but the institutionIds from Manage {} do not match the organization name from SAB {}",
+                        institutionIds, organisation);
             }
         });
     }
