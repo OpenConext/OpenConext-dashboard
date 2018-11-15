@@ -67,6 +67,9 @@ class Navigation extends React.Component {
                 <a href={href} className={activeTab === href ? "active" : ""}
                    onClick={e => {
                        stopEvent(e);
+                       if (href === "/tickets") {
+                           this.getAwaitingInputJiraTickets();
+                       }
                        this.context.router.history.replace(href);
                    }}>{I18n.t("navigation." + value)}</a>
                 {marker > 0 && <span className="marker">{marker}</span>}
