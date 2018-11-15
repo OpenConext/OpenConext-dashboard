@@ -4,21 +4,43 @@ import I18n from "i18n-js";
 import Spinner from "spin.js";
 import spinner from "../lib/spin";
 import PropTypes from "prop-types";
-import {NavLink} from "react-router-dom";
 import {isEmpty} from "../utils/utils";
+import {searchJira} from "../api";
+import stopEvent from "../utils/stop";
+import {emitter} from "../utils/flash";
 
 class Navigation extends React.Component {
     constructor() {
         super();
-
         this.state = {
-            loading: false
+            loading: false,
+            awaitingInputTickets: 0,
         };
+        this.callback = () => this.getAwaitingInputJiraTickets();
     }
 
     componentWillMount() {
         spinner.onStart = () => this.setState({loading: true});
         spinner.onStop = () => this.setState({loading: false});
+        this.getAwaitingInputJiraTickets();
+        emitter.addListener("invite_request_updates", this.callback);
+    }
+
+    getAwaitingInputJiraTickets = () => {
+        const jiraFilter = {
+            maxResults: 0,
+            startAt: 0,
+            statuses: ["Awaiting Input"],
+            types: ["LINKINVITE"]
+        };
+        searchJira(jiraFilter).then(data => {
+            const {total} = data.payload;
+            this.setState({awaitingInputTickets: total})
+        });
+    };
+
+    componentWillUnmount() {
+        emitter.removeListener("invite_request_updates", this.callback);
     }
 
     componentDidUpdate() {
@@ -39,27 +61,16 @@ class Navigation extends React.Component {
         }
     }
 
-    render() {
-        const {currentUser} = this.context;
-        const showInviteRequest = !isEmpty(currentUser) && currentUser.superUser;
+    renderItem(href, value, activeTab, marker = 0) {
         return (
-            <div className="mod-navigation">
-                <ul>
-                    {this.renderItem("/statistics", "stats")}
-                    {this.renderItem("/apps", "apps")}
-                    {this.renderItem("/policies", "policies")}
-                    {this.renderItem("/tickets", "history")}
-                    {this.renderItem("/my-idp", "my_idp")}
-                    {showInviteRequest && this.renderItem("/users/invite", "invite_request")}
-                </ul>
-
-                {this.renderSpinner()}
-            </div>
-        );
-    }
-
-    renderItem(href, value) {
-        return <li><NavLink to={href} activeClassName="active">{I18n.t("navigation." + value)}</NavLink></li>;
+            <li>
+                <a href={href} className={activeTab === href ? "active" : ""}
+                   onClick={e => {
+                       stopEvent(e);
+                       this.context.router.history.replace(href);
+                   }}>{I18n.t("navigation." + value)}</a>
+                {marker > 0 && <span className="marker">{marker}</span>}
+            </li>);
     }
 
     renderSpinner() {
@@ -68,10 +79,32 @@ class Navigation extends React.Component {
         }
         return null;
     }
+
+    render() {
+        const {currentUser, router} = this.context;
+        const {awaitingInputTickets} = this.state;
+        const showInviteRequest = !isEmpty(currentUser) && currentUser.superUser;
+        const activeTab = router.history.location.pathname;
+        return (
+            <div className="mod-navigation">
+                <ul>
+                    {this.renderItem("/statistics", "stats", activeTab)}
+                    {this.renderItem("/apps", "apps", activeTab)}
+                    {this.renderItem("/policies", "policies", activeTab)}
+                    {this.renderItem("/tickets", "history", activeTab, awaitingInputTickets)}
+                    {this.renderItem("/my-idp", "my_idp", activeTab)}
+                    {showInviteRequest && this.renderItem("/users/invite", "invite_request", activeTab)}
+                </ul>
+
+                {this.renderSpinner()}
+            </div>
+        );
+    }
 }
 
 Navigation.contextTypes = {
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    router: PropTypes.object
 };
 
 export default Navigation;

@@ -20,11 +20,11 @@ class InviteRequest extends React.Component {
 
     initialState = () => ({
         idps: [],
-        idpId: undefined,
-        idp: undefined,
+        idpId: null,
+        idp: null,
         sps: [],
-        spId: undefined,
-        sp: undefined,
+        spId: null,
+        sp: null,
         emails: {},
         additionalContactPersons: [],
         sabContactPersons: [],
@@ -97,9 +97,16 @@ class InviteRequest extends React.Component {
                 message: message,
                 contactPersons: contactPersons
             }).then(json => {
-                setTimeout(() => this.setState(this.initialState()), 150);
                 window.scrollTo(0, 0);
                 setFlash(I18n.t("invite_request.jiraFlash", {jiraKey: json.payload.jiraKey}));
+                this.setState({
+                    emails: {},
+                    additionalContactPersons: [],
+                    sabContactPersons: [],
+                    newContactAdded: false,
+                    message: "",
+                    spId: null
+                });
             });
         }
     };

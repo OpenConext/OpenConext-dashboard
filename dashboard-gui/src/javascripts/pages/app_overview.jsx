@@ -16,7 +16,7 @@ import isEmpty from "lodash.isempty";
 import includes from "lodash.includes";
 import stopEvent from "../utils/stop";
 import {consentTypes} from "../utils/utils";
-
+import spinner from "../lib/spin";
 const store = {
     activeFacets: null,
     hiddenFacets: null,
@@ -52,6 +52,8 @@ class AppOverview extends React.Component {
     }
 
     componentDidMount() {
+        spinner.start();
+        spinner.ignore = true;
         const back = this.props.match.params.back;
         if (isEmpty(back)) {
             Object.keys(store).forEach(k => store[k] = null);
@@ -103,6 +105,8 @@ class AppOverview extends React.Component {
                         }
                     }
                 }, 350));
+                spinner.ignore = false;
+                spinner.stop();
             });
     }
 

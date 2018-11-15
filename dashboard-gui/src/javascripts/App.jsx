@@ -29,6 +29,7 @@ import InviteRequest from "./pages/invite_request";
 
 
 class App extends React.Component {
+
     getChildContext() {
         return {
             currentUser: this.props.currentUser

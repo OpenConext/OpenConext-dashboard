@@ -18,11 +18,7 @@ package dashboard.sab;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
@@ -45,8 +41,8 @@ public class SabClientMock implements Sab {
      * Mapping of userIds to roles
      */
     private final Map<String, SabRoleHolder> rolesMapping = ImmutableMap.of(
-            "admin", new SabRoleHolder("SURFNET", asList("Foo", "Bar")),
-            "user2", new SabRoleHolder("SURFNET", asList("Foo", "Baz")),
+            "admin", new SabRoleHolder("SURFNET", Arrays.asList(ROLE_VERANTWOORDELIJKE.roleName)),
+            "viewer", new SabRoleHolder("SURFNET", Arrays.asList(ROLE_BEHEERDER.roleName)),
             "noroles", new SabRoleHolder("SURFNET", Collections.emptyList())
     );
 

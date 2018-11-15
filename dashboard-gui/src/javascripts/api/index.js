@@ -3,6 +3,7 @@ import spinner from "../lib/spin";
 import {getCurrentUser} from "../models/current_user";
 import merge from "lodash.merge";
 import {isEmpty} from "../utils/utils";
+import {emitter} from "../utils/flash";
 
 const apiPath = "/dashboard/api";
 
@@ -123,6 +124,9 @@ export function inviteRequest(data) {
         headers: {
             "Content-Type": "application/json"
         }
+    }).then(res => {
+        emitter.emit("invite_request_updates", true);
+        return res;
     }).then(parseJson);
 }
 
@@ -131,6 +135,9 @@ export function updateInviteRequest(data) {
         headers: {
             "Content-Type": "application/json"
         }
+    }).then(res => {
+        emitter.emit("invite_request_updates", true);
+        return res;
     }).then(parseJson);
 }
 

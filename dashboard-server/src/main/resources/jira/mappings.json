@@ -20,7 +20,7 @@
     "issueTypes": {
       "question": "11103",
       "linkrequest": "11104",
-      "linkinvite": "11104",
+      "linkinvite": "11401",
       "unlinkrequest": "11105",
       "change": "11106"
     }

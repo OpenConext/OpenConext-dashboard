@@ -21,6 +21,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.singletonList;
@@ -136,12 +137,6 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         List<String> groups = getShibHeaderValues(Shib_MemberOf, request);
         this.addDashboardRoleForMemberships(coinUser, groups);
 
-        Optional<SabRoleHolder> roles = sab.getRoles(uid);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Received roles from SAB: {}", roles.isPresent() ? roles.get().getRoles() : "None");
-        }
-        this.addDashboardRoleForEntitlements(coinUser, roles);
-
         List<IdentityProvider> institutionIdentityProviders = getInstitutionIdentityProviders(idpId);
 
         checkState(!isEmpty(institutionIdentityProviders), "no InstitutionIdentityProviders found for '" + idpId + "'");
@@ -155,6 +150,17 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
             Collections.sort(coinUser.getInstitutionIdps(), (lh, rh) -> lh.getName().compareTo(rh.getName()));
         }
+
+        Optional<SabRoleHolder> roles = sab.getRoles(uid);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Received roles from SAB: {}", roles.isPresent() ? roles.get().getRoles() : "None");
+        }
+
+        this.addDashboardRoleForEntitlements(coinUser, roles,
+                institutionIdentityProviders.stream()
+                        .filter(provider -> StringUtils.hasText(provider.getInstitutionId()))
+                        .map(provider -> provider.getInstitutionId().toUpperCase()).collect(Collectors.toList()));
+
 
         institutionIdentityProviders.stream()
                 .filter(idp -> hasText(idp.getInstitutionId()))
@@ -174,19 +180,24 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         }
     }
 
-    private void addDashboardRoleForEntitlements(CoinUser user, Optional<SabRoleHolder> roles) {
+    private void addDashboardRoleForEntitlements(CoinUser user, Optional<SabRoleHolder> roles, List<String> institutionIds) {
         roles.ifPresent(sabRoleHolder -> {
             List<String> entitlements = sabRoleHolder.getRoles();
-            if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(adminSurfConextIdpRole) > -1)) {
-                user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
-            } else if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(viewerSurfConextIdpRole) > -1)) {
-                user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+            boolean institutionIdMatch = StringUtils.hasText(sabRoleHolder.getOrganisation()) &&
+                    institutionIds.contains(sabRoleHolder.getOrganisation().toUpperCase());
+            if (institutionIdMatch) {
+                if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(adminSurfConextIdpRole) > -1)) {
+                    user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+                } else if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(viewerSurfConextIdpRole) > -1)) {
+                    user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+                }
             }
         });
     }
 
     private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {
-        return manage.getIdentityProvider(idpId, false).map(idp -> {
+        Optional<IdentityProvider> optionalIdentityProvider = manage.getIdentityProvider(idpId, false);
+        return optionalIdentityProvider.map(idp -> {
             String institutionId = idp.getInstitutionId();
             return hasText(institutionId) ? manage.getInstituteIdentityProviders(institutionId) : singletonList(idp);
         }).orElse(Collections.emptyList());
