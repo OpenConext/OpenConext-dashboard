@@ -11,10 +11,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MailBox {
@@ -41,7 +38,14 @@ public class MailBox {
         variables.put("mailBaseUrl", mailBaseUrl);
         List<String> emails = inviteRequest.getContactPersons().stream().map(cp -> cp.getEmailAddress()).collect(Collectors.toList());
         String html = this.mailTemplate("invite_request_nl.html", variables);
-        sendMail(html, "Uitnodiging voor een nieuwe SURFconext koppeling", emails, true);
+        emails.forEach(email -> {
+            try {
+                sendMail(html, "Uitnodiging voor een nieuwe SURFconext koppeling", Collections.singletonList(email), true);
+            } catch (Exception e) {
+                //anti-pattern but we don't want to crash because of mailproblems
+            }
+        });
+
     }
 
     public void sendAdministrativeMail(String body, String subject) throws MessagingException, IOException {

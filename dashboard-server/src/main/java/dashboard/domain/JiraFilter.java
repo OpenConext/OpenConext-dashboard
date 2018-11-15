@@ -12,6 +12,7 @@ public class JiraFilter {
     private Long from;
     private Long to;
     private String spEntityId;
+    private String key;
     private List<String> statuses = new ArrayList<>();
     private List<Action.Type> types = new ArrayList<>();
 
@@ -40,6 +41,14 @@ public class JiraFilter {
 
     public void setSpEntityId(String spEntityId) {
         this.spEntityId = spEntityId;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public List<String> getStatuses() {

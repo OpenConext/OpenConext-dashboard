@@ -96,7 +96,8 @@ class AppDetail extends React.Component {
                     startAt: 0,
                     spEntityId: app.spEntityId,
                     statuses: params.jiraKey ? [] : ["To Do", "In Progress", "Awaiting Input"],
-                    types: ["LINKREQUEST", "UNLINKREQUEST", "LINKINVITE"]
+                    types: ["LINKREQUEST", "UNLINKREQUEST", "LINKINVITE"],
+                    key: params.jiraKey || null
                 };
                 searchJira(jiraFilter).then(res => {
                     const newState = {

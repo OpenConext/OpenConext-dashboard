@@ -216,6 +216,9 @@ public class JiraClientImpl implements JiraClient {
             String escapedSpEntityId = spEntityId.indexOf("?") > -1 ? spEntityId.substring(0, spEntityId.indexOf("?")) : spEntityId;
             sb.append(String.format(" AND cf[%s]~\"%s\"", spCustomField(), escapedSpEntityId));
         }
+        if (StringUtils.hasText(jiraFilter.getKey())) {
+            sb.append(" AND key = \"" + jiraFilter.getKey() + "\"");
+        }
         if (jiraFilter.getFrom() != null) {
             String from = DateTimeFormatter.ofPattern("YYYY-MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochSecond(jiraFilter.getFrom()));
             sb.append(" AND created >= \"" + from + "\"");
