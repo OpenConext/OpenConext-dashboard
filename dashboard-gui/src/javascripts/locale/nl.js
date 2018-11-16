@@ -595,6 +595,7 @@ I18n.translations.nl = {
         new_value: "Voeg een nieuwe waarde toe...",
         sab_info: "De waarde(s) moet geldige rollen in SAB zijn e.g. 'Instellingsbevoegde'",
         values: "Waarde(s)",
+        help_link: "https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext"
     },
 
     policy_detail: {

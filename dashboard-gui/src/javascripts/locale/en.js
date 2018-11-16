@@ -538,6 +538,7 @@ I18n.translations.en = {
         new_value: "Add a new value...",
         sab_info: " The value(s) must be valid roles in SAB e.g. 'Instellingsbevoegde'",
         values: "Values(s)",
+        help_link: "https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext"
     },
 
     policy_detail: {

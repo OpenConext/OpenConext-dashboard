@@ -120,7 +120,8 @@ class PolicyAttributes extends React.Component {
                        placeholder={I18n.t("policy_attributes.attribute_value_placeholder")}
                        onChange={this.handleAttributeValueChanged(attrName, attribute.index)}/>
                 {this.renderAttributeInfo(attrName, index)}
-                <a href="/remove" className="remove" onClick={this.handleRemoveAttributeValue(attrName, attribute.index)}>
+                <a href="/remove" className="remove"
+                   onClick={this.handleRemoveAttributeValue(attrName, attribute.index)}>
                     <i className="fa fa-remove"></i>
                 </a>
 
@@ -156,7 +157,8 @@ class PolicyAttributes extends React.Component {
                                         <input type="text" name="attribute" className="form-input disabled"
                                                value={attrName}
                                                disabled="disabled"/>
-                                        <a href="/removeAttribute" onClick={self.handleRemoveAttribute(attrName)} className="remove">
+                                        <a href="/removeAttribute" onClick={self.handleRemoveAttribute(attrName)}
+                                           className="remove">
                                             <i className="fa fa-remove"></i>
                                         </a>
                                     </div>
@@ -167,7 +169,8 @@ class PolicyAttributes extends React.Component {
                                                 return self.renderAttributeValue(attrName, attribute, index);
                                             })
                                         }
-                                        <a href="/new" onClick={self.handleNewAttributeValue(attrName)} className="plus">
+                                        <a href="/new" onClick={self.handleNewAttributeValue(attrName)}
+                                           className="plus">
                                             <i className="fa fa-plus"></i>
                                             {I18n.t("policy_attributes.new_value")}
                                         </a>
@@ -176,7 +179,10 @@ class PolicyAttributes extends React.Component {
                             );
                         })
                     }
-                    <p className="label">{I18n.t("policy_attributes.attribute")}</p>
+                    <p className="label">{I18n.t("policy_attributes.attribute")}
+                        <a className="help-link" target="_blank" href={I18n.t("policy_attributes.help_link")}><i
+                            className="fa fa-question-circle"></i></a>
+                    </p>
                     <select value="" onChange={self.handleNewAttribute.bind(this)}>
                         <option value="" disabled="disabled">{I18n.t("policy_attributes.new_attribute")}</option>
                         {
