@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "i18n-js";
 
 class PolicyDetailHelpEn extends React.Component {
   render() {
@@ -52,7 +53,8 @@ class PolicyDetailHelpEn extends React.Component {
 
           <h2>Attributes</h2>
 
-          <p>The attributes and their values actually define if a user is granted access to the service or not.</p>
+          <p>The attributes and their values actually define if a user is granted access to the service or not. For more
+              information about attributes see the <a target="_blank" href={I18n.t("policy_attributes.help_link")}>SURFnet wiki</a>.</p>
 
           <h2>Group name authorization</h2>
 
