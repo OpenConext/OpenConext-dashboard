@@ -147,11 +147,11 @@ class HowToConnectPanel extends React.Component {
                         </div>
                     </div>
                     <p className="cta">
-                        <a href="/connection" className={"c-button " + classNameConnect}
-                           onClick={this.handleMakeConnection(isInvite)}>{I18n.t(`how_to_connect_panel.${actionName}`)}</a>
                         {isInvite &&
                         <a href="/deny" className="c-button white"
                            onClick={this.denyInvite(this.props.jiraKey)}>{I18n.t(`how_to_connect_panel.deny`)}</a>}
+                        <a href="/connection" className={"c-button " + classNameConnect}
+                           onClick={this.handleMakeConnection(isInvite)}>{I18n.t(`how_to_connect_panel.${actionName}`)}</a>
                     </p>
                 </div>
             </div>
