@@ -89,7 +89,7 @@ public class UsersController extends BaseController {
 
         String comment = updateInviteRequest.getComment();
         if (StringUtils.hasText(comment)) {
-            commentWithUser.concat(comment);
+            commentWithUser = commentWithUser.concat("User comment: ").concat(comment);
         }
         if (UpdateInviteRequest.Status.ACCEPTED.equals(updateInviteRequest.getStatus())) {
             actionsService.approveInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);

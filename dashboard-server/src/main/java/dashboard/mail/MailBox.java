@@ -31,6 +31,7 @@ public class MailBox {
     }
 
     public void sendInviteMail(InviteRequest inviteRequest, Action action) throws MessagingException, IOException {
+        String jiraKey = action.getJiraKey().orElseThrow(() -> new IllegalArgumentException("No jirKey in the ticket"));
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Uitnodiging voor een nieuwe SURFconext koppeling");
         variables.put("inviteRequest", inviteRequest);
@@ -38,9 +39,10 @@ public class MailBox {
         variables.put("mailBaseUrl", mailBaseUrl);
         List<String> emails = inviteRequest.getContactPersons().stream().map(cp -> cp.getEmailAddress()).collect(Collectors.toList());
         String html = this.mailTemplate("invite_request_nl.html", variables);
+        String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
         emails.forEach(email -> {
             try {
-                sendMail(html, "Uitnodiging voor een nieuwe SURFconext koppeling", Collections.singletonList(email), true);
+                sendMail(html, subject, Collections.singletonList(email), true);
             } catch (Exception e) {
                 //anti-pattern but we don't want to crash because of mailproblems
             }

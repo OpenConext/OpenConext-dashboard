@@ -169,7 +169,6 @@ class HowToConnectPanel extends React.Component {
                 </li>
             );
         }
-
         return null;
     }
 
@@ -238,7 +237,7 @@ class HowToConnectPanel extends React.Component {
     doDenyInvite = jiraKey => e => {
         stopEvent(e);
         this.setState({confirmationDialogOpen: false});
-        updateInviteRequest({status: "REJECTED", jiraKey: jiraKey}).then(() => {
+        updateInviteRequest({status: "REJECTED", jiraKey: jiraKey, comment: this.state.comments}).then(() => {
             const app = this.props.app;
             const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
             setFlash(I18n.t("how_to_connect_panel.invite_denied", {jiraKey: jiraKey}));
@@ -261,7 +260,7 @@ class HowToConnectPanel extends React.Component {
         const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction} = this.state;
         const app = this.props.app;
         const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
-        return <div className="l-middle-app-detail">
+        return <div className="l-middle-app-detail mod-connect">
             <ConfirmationDialog isOpen={confirmationDialogOpen}
                                 cancel={cancelDialogAction}
                                 confirm={confirmationDialogAction}
@@ -270,6 +269,11 @@ class HowToConnectPanel extends React.Component {
                 <h1>{I18n.t("how_to_connect_panel.deny_invitation", {app: app.name})}</h1>
                 <p>{I18n.t("how_to_connect_panel.deny_invitation_info")}</p>
                 <br/>
+                <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
+                <textarea rows="5"
+                          value={this.state.comments}
+                          onChange={e => this.setState({comments: e.target.value})}
+                          placeholder={I18n.t("how_to_connect_panel.comments_placeholder")}/>
                 <p className="cta">
                     <a href="/deny" onClick={this.doDenyInvite(jiraKey)}
                        className="c-button">{I18n.t("how_to_connect_panel.deny")}</a>
@@ -320,7 +324,8 @@ class HowToConnectPanel extends React.Component {
                     <div className="content">
                         <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
                         <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
-                        <textarea value={this.state.comments}
+                        <textarea rows="5"
+                                  value={this.state.comments}
                                   onChange={e => this.setState({comments: e.target.value})}
                                   placeholder={I18n.t("how_to_connect_panel.comments_placeholder")}/>
                         <CheckBox name="disclaimer"
