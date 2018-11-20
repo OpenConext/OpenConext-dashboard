@@ -1,5 +1,6 @@
 package dashboard.filter;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 import dashboard.domain.IdentityProvider;
 import dashboard.manage.Manage;
@@ -17,27 +18,28 @@ import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
 
 public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
-  private Manage manage;
+    private Manage manage;
 
-  public EnsureAccessToIdpFilter(Manage manage) {
-    this.manage = manage;
-  }
-
-  @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    HttpServletRequest req = (HttpServletRequest) request;
-
-    if (shouldAccessToIdpBeChecked(req)) {
-      String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
-      IdentityProvider idp = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
-      SpringSecurity.ensureAccess(idp);
+    public EnsureAccessToIdpFilter(Manage manage) {
+        this.manage = manage;
     }
 
-    chain.doFilter(request, response);
-  }
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
 
-  private boolean shouldAccessToIdpBeChecked(HttpServletRequest req) {
-    String requestURI = req.getRequestURI();
-    return requestURI.startsWith("/dashboard/api") && !requestURI.contains("/users/me") && !requestURI.contains("/jsError");
-  }
+        if (shouldAccessToIdpBeChecked(req)) {
+            String idpEntityId = Optional.ofNullable(req.getHeader(HTTP_X_IDP_ENTITY_ID)).orElse(request.getParameter("idpEntityId"));
+            if (StringUtils.hasText(idpEntityId)) {
+                IdentityProvider idp = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new SecurityException(idpEntityId + " does not exist"));
+                SpringSecurity.ensureAccess(idp);
+            }
+        }
+        chain.doFilter(request, response);
+    }
+
+    private boolean shouldAccessToIdpBeChecked(HttpServletRequest req) {
+        String requestURI = req.getRequestURI();
+        return requestURI.startsWith("/dashboard/api") && !requestURI.contains("/users/me") && !requestURI.contains("/jsError");
+    }
 }
