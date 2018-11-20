@@ -165,7 +165,7 @@ I18n.translations.en = {
             license_unknown: "Unknown",
             name: "Service",
             no_results: "No services available",
-            processing_results: "Processing all services...",
+            processing_results: "Retrieving all services...",
             search: "Search",
             search_hint: "Filter by name",
         },

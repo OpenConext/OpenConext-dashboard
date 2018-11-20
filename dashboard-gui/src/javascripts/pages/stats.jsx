@@ -159,7 +159,7 @@ class Stats extends React.Component {
             const diff = moment.duration(to.diff(from)).asDays();
             const minDiff = minDiffByScale[scale];
             if (minDiff > diff) {
-                additionalState.from = moment(to).subtract(minDiff, "day");
+                additionalState.from = moment(to).subtract(minDiff, "day").startOf(scale);
             }
             this.setState({data: [], scale: scale, ...additionalState}, this.refresh);
         }

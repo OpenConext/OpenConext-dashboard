@@ -44,7 +44,8 @@ class AppOverview extends React.Component {
             download: false,
             downloading: false,
             exportResult: [],
-            idpDisableConsent: []
+            idpDisableConsent: [],
+            loading: true
         };
         if (store.appId) {
             this.appRef = React.createRef();
@@ -54,6 +55,7 @@ class AppOverview extends React.Component {
     componentDidMount() {
         spinner.start();
         spinner.ignore = true;
+        this.setState({loading: true});
         const back = this.props.match.params.back;
         if (isEmpty(back)) {
             Object.keys(store).forEach(k => store[k] = null);
@@ -95,7 +97,8 @@ class AppOverview extends React.Component {
                     arpAttributes: [...attributes],
                     hiddenFacets: initialHiddenFacets,
                     page: page,
-                    search: search
+                    search: search,
+                    loading: false
                 }, () => setTimeout(() => {
                     const back = this.props.match.params.back;
                     if (back && this.appRef && this.appRef.current) {
@@ -629,7 +632,7 @@ class AppOverview extends React.Component {
 
     render() {
         const {currentUser} = this.context;
-        const {sortAttribute, sortAscending, page, download, downloading, exportResult} = this.state;
+        const {sortAttribute, sortAscending, page, download, downloading, exportResult, loading} = this.state;
         const filteredExclusiveApps = this.filterAppsForExclusiveFilters(this.state.apps);
         let connect = null;
 
@@ -693,7 +696,7 @@ class AppOverview extends React.Component {
                             </thead>
                             <tbody>
                             {sortedApps.length > 0 ? sortedApps.map((app, index) => this.renderApp(app, index)) :
-                                sortedApps.length === this.state.apps ? this.renderProcessing() : this.renderEmpty()}
+                                (sortedApps.length === this.state.apps) || loading ? this.renderProcessing() : this.renderEmpty()}
                             </tbody>
                         </table>
                         {this.renderPagination(filteredApps.length, page)}

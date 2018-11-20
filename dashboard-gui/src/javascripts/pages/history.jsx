@@ -43,6 +43,7 @@ class History extends React.Component {
     });
 
     componentDidMount() {
+        this.setState({actions: [], loaded: false});
         const {startAt, sortAttribute, sortAscending, maxResults, from, to, statuses, types, spEntityId} = this.state;
         const filter = {
             maxResults: maxResults,
@@ -306,7 +307,7 @@ class History extends React.Component {
                     {(loaded && sortedActions.length === 0) && <div>
                         <p>{I18n.t("history.noTicketsFound")}</p>
                     </div>}
-                    {this.renderPagination(total, page)}
+                    {(loaded) && this.renderPagination(total, page)}
                 </div>
             </div>
         );

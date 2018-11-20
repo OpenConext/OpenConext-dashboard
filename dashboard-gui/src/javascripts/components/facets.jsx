@@ -62,7 +62,7 @@ class Facets extends React.Component {
                 <span>{facet.name}{facet.tooltip && <span>
                             <i className="fa fa-info-circle" data-for={facet.name} data-tip></i>
                                 <ReactTooltip id={facet.name} type="info" class="tool-tip" effect="solid"
-                                              multiline={true}>
+                                              multiline={true} delayHide={250}>
                                     <span dangerouslySetInnerHTML={{__html: facet.tooltip}}/>
                                 </ReactTooltip>
                         </span>}</span>
