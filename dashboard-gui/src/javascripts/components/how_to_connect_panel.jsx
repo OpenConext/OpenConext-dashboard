@@ -371,7 +371,11 @@ class HowToConnectPanel extends React.Component {
             this.context.currentUser.dashboardAdmin;
         stopEvent(e);
         if (allowed) {
-            const promise = isInvite ? updateInviteRequest({status: "ACCEPTED", jiraKey: this.props.jiraKey}) :
+            const promise = isInvite ? updateInviteRequest({
+                    status: "ACCEPTED",
+                    comment: this.state.comments,
+                    jiraKey: this.props.jiraKey
+                }) :
                 makeConnection(this.props.app, this.state.comments);
             promise
                 .then(action => {

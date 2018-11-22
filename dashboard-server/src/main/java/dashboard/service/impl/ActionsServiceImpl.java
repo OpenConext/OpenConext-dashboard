@@ -173,7 +173,9 @@ public class ActionsServiceImpl implements ActionsService {
     @Override
     public void approveInviteRequest(String jiraKey, String comment) {
         String transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.ANSWER_AUTOMATICALLY);
-        jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.ofNullable(comment));
+        jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
+        // There is no comment option in the Answer Automatically screen, so we need to do this after the transition
+        jiraClient.comment(jiraKey, comment);
     }
 
     private void sendAdministrationEmail(Action action) {

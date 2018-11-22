@@ -40,5 +40,7 @@ public interface JiraClient {
 
     void transition(String key, String transitionId, Optional<String> resolution, Optional<String> comment);
 
+    void comment(String key, String comment);
+
 
 }

@@ -185,6 +185,13 @@ public class JiraClientImpl implements JiraClient {
     }
 
     @Override
+    public void comment(String key, String comment) {
+        String commentUrl = baseUrl + "/issue/" + key + "/comment";
+        HttpEntity<Object> commentRequestEntity = new HttpEntity<>(ImmutableMap.of("body", comment), defaultHeaders);
+        restTemplate.exchange(commentUrl, HttpMethod.POST, commentRequestEntity, Map.class);
+    }
+
+    @Override
     public void transition(String key, String transitionId, Optional<String> resolutionOptional, Optional<String> commentOptional) {
         String url = baseUrl + "/issue/" + key + "/transitions";
         final Map<String, Map<String, Object>> body = new HashMap<>();

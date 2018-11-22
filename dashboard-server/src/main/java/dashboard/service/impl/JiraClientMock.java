@@ -86,6 +86,11 @@ public class JiraClientMock implements JiraClient {
     }
 
     @Override
+    public void comment(String key, String comment) {
+        //nope
+    }
+
+    @Override
     public void transition(String key, String transitionId, Optional<String> resolution, Optional<String> comment) {
         Action action = repository.get(key);
         if (action != null) {
