@@ -45,6 +45,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -186,17 +188,16 @@ public class JiraClientImpl implements JiraClient {
     public void transition(String key, String transitionId, Optional<String> resolutionOptional, Optional<String> commentOptional) {
         String url = baseUrl + "/issue/" + key + "/transitions";
         final Map<String, Map<String, Object>> body = new HashMap<>();
-        body.put("transition", Collections.singletonMap("id", transitionId));
+        body.put("transition", singletonMap("id", transitionId));
+        commentOptional.ifPresent(comment -> {
+            //{ "update": {"comment": [ { "add": {"body": "Testing."} }]},"fields": {}, "transition": { "id": "21" }}
+            body.put("update", singletonMap("comment", singletonList(singletonMap("add", singletonMap("body", comment)))));
+        });
         resolutionOptional.ifPresent(resolution -> {
-            body.put("fields", Collections.singletonMap("resolution", Collections.singletonMap("name", resolution)));
+            body.put("fields", singletonMap("resolution", singletonMap("name", resolution)));
         });
         HttpEntity<Object> requestEntity = new HttpEntity<>(body, defaultHeaders);
         restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
-        commentOptional.ifPresent(comment -> {
-            String commentUrl = baseUrl + "/issue/" + key + "/comment";
-            HttpEntity<Object> commentRequestEntity = new HttpEntity<>(ImmutableMap.of("body", comment), defaultHeaders);
-            restTemplate.exchange(commentUrl, HttpMethod.POST, commentRequestEntity, Map.class);
-        });
     }
 
     String buildQueryForIdp(String idp, JiraFilter jiraFilter) {

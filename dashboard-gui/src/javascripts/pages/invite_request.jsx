@@ -50,10 +50,10 @@ class InviteRequest extends React.Component {
         this.setState({
                 idpId: value,
                 idp: idp,
-                emails: idp.contactPersons.reduce((acc, contactPerson) => {
+                emails: idp ? idp.contactPersons.reduce((acc, contactPerson) => {
                     acc[contactPerson.emailAddress] = false;
                     return acc;
-                }, {})
+                }, {}) : []
             },
             () => Promise.all([getAppsForIdentiyProvider(value), sabRoles(idp.institutionId)])
                 .then(res => {
