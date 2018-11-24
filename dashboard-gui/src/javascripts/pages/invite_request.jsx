@@ -1,6 +1,7 @@
 import React from "react";
 import I18n from "i18n-js";
 
+import PropTypes from "prop-types";
 import {getAppsForIdentiyProvider, getIdpsForSuper, inviteRequest, sabRoles} from "../api";
 import SelectWrapper from "../components/select_wrapper";
 import {isEmpty} from "../utils/utils";
@@ -55,7 +56,7 @@ class InviteRequest extends React.Component {
                     return acc;
                 }, {}) : []
             },
-            () => Promise.all([getAppsForIdentiyProvider(value), sabRoles(idp.institutionId)])
+            () => idp && Promise.all([getAppsForIdentiyProvider(value), sabRoles(idp.institutionId)])
                 .then(res => {
                     const sabPayload = res[1].payload;
                     const roles = Object.keys(sabPayload);
@@ -97,16 +98,12 @@ class InviteRequest extends React.Component {
                 message: message,
                 contactPersons: contactPersons
             }).then(json => {
-                window.scrollTo(0, 0);
-                setFlash(I18n.t("invite_request.jiraFlash", {jiraKey: json.payload.jiraKey}));
-                this.setState({
-                    emails: {},
-                    additionalContactPersons: [],
-                    sabContactPersons: [],
-                    newContactAdded: false,
-                    message: "",
-                    spId: null
-                });
+                this.context.router.history.replace(`/dummy`);
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                    this.context.router.history.replace(`/users/invite`);
+                    setFlash(I18n.t("invite_request.jiraFlash", {jiraKey: json.payload.jiraKey}));
+                }, 5);
             });
         }
     };
@@ -271,5 +268,9 @@ class InviteRequest extends React.Component {
     }
 
 }
+
+InviteRequest.contextTypes = {
+    router: PropTypes.object
+};
 
 export default InviteRequest;
