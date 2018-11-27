@@ -15,6 +15,7 @@ import dashboard.sab.Sab;
 import dashboard.sab.SabRoleHolder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -216,9 +217,14 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     }
 
     private List<String> getShibHeaderValues(ShibbolethHeader headerName, HttpServletRequest request) {
-        String headerValue = request.getHeader(headerName.getValue());
-
-        return headerValue == null ? Collections.emptyList() : shibHeaderValueSplitter.splitToList(headerValue);
+        String header = request.getHeader(headerName.getValue());
+        try {
+            String headerValue = StringUtils.hasText(header) ?
+                    new String(header.getBytes("ISO8859-1"), "UTF-8") : null;
+            return headerValue == null ? Collections.emptyList() : shibHeaderValueSplitter.splitToList(headerValue);
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
