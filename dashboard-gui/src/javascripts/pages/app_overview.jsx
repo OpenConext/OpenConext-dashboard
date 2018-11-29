@@ -82,9 +82,13 @@ class AppOverview extends React.Component {
                     });
                 });
                 const attributes = apps.reduce((acc, app) => {
-                    Object.keys(app.arp.attributes).forEach(attr => acc.add(attr));
+                    Object.keys(app.arp.attributes).forEach(attr => {
+                        if (acc.indexOf(attr) < 0) {
+                            acc.push(attr)
+                        }
+                    });
                     return acc;
-                }, new Set());
+                }, []);
                 const initialHiddenFacets = {};
                 initialHiddenFacets[I18n.t("facets.static.arp.name")] = true;
                 const back = this.props.match.params.back;
@@ -286,6 +290,12 @@ class AppOverview extends React.Component {
         store.page = 1;
     }
 
+    fake_click = obj => {
+        const ev = document.createEvent("MouseEvents");
+        ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        obj.dispatchEvent(ev);
+    };
+
     handleDownloadOverview = e => {
         stopEvent(e);
         if (this.state.downloading) {
@@ -296,10 +306,24 @@ class AppOverview extends React.Component {
         const filteredApps = this.filterAppsForInclusiveFilters(this.filterAppsForExclusiveFilters(this.state.apps));
         const ids = filteredApps.map(app => app.id);
         exportApps(currentUser.getCurrentIdpId(), ids).then(res => {
-            this.setState({exportResult: res, download: true}, () => this.setState({
-                download: false,
-                downloading: false
-            }));
+            const urlObject = window.URL || window.webkitURL || window;
+            const lines = res.reduce((acc, arr)=> {
+                acc.push(arr.join(","));
+                return acc;
+            }, []);
+            const csvContent = lines.join("\n");
+            const export_blob = new Blob([csvContent]);
+            if ("msSaveBlob" in window.navigator) {
+                window.navigator.msSaveBlob(export_blob, "services.csv");
+            } else if ("download" in HTMLAnchorElement.prototype) {
+                const save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+                save_link.href = urlObject.createObjectURL(export_blob);
+                save_link.download = "services.csv";
+                this.fake_click(save_link);
+            } else {
+                throw new Error("Neither a[download] nor msSaveBlob is available");
+            }
+            this.setState({download: true}, () => this.setState({download: false,downloading: false}));
         });
     };
 

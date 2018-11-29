@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./javascripts/App";
 import I18n from "i18n-js";
+import "babel-polyfill";
 import {browserSupported} from "./javascripts/lib/browser_supported";
+import {polyfills} from "./javascripts/lib/polyfills";
 import moment from "moment";
 import * as HighChart from "highcharts";
 import * as HighStock from "highcharts/highstock"
@@ -13,6 +15,7 @@ import {getUserData} from "./javascripts/api";
 import BrowserNotSupported from "./javascripts/pages/browser_not_supported";
 import ServerError from "./javascripts/pages/server_error";
 
+polyfills();
 
 if (browserSupported()) {
     getUserData()
