@@ -320,8 +320,6 @@ class AppOverview extends React.Component {
                 save_link.href = urlObject.createObjectURL(export_blob);
                 save_link.download = "services.csv";
                 this.fake_click(save_link);
-            } else {
-                throw new Error("Neither a[download] nor msSaveBlob is available");
             }
             this.setState({download: true}, () => this.setState({download: false,downloading: false}));
         });

@@ -121,13 +121,13 @@ class Facets extends React.Component {
     }
 
     renderDownloadButton() {
-        const {downloading} = this.props;
-        const className = (this.props.filteredCount <= 0 || downloading ? " disabled" : "");
-        return (
-            <span>
-                <span onClick={this.handleDownload.bind(this)} className={"download-button c-button" + className}>{I18n.t("facets.download")}</span>
-            </span>
-        );
+        if ("msSaveBlob" in window.navigator || "download" in HTMLAnchorElement.prototype) {
+            const {downloading} = this.props;
+            const className = (this.props.filteredCount <= 0 || downloading ? " disabled" : "");
+            return <span onClick={this.handleDownload.bind(this)}
+                      className={"download-button c-button" + className}>{I18n.t("facets.download")}</span>;
+        }
+        return null;
     }
 
     handleDownload(e) {
