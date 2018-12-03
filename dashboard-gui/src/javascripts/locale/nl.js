@@ -706,7 +706,7 @@ I18n.translations.nl = {
         search: "Zoek diensten..."
     },
     invite_request: {
-        info: 'Een koppelings uitnodiging zal een email versturen aan alle geselecteerde contact personen met daarin een uitnoding om hun instelling te koppelen aan de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> Jira ticket worden aangemaakt met de status <span class="emphasize">Awaiting Input</span>.',
+        info: 'Een koppelings uitnodiging zal een email versturen aan alle geselecteerde contact personen met daarin een uitnodiging om hun instelling te koppelen aan de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> Jira ticket worden aangemaakt met de status <span class="emphasize">Awaiting Input</span>.',
         selectIdp: "Zoek en selecteer een instelling...",
         selectSpDisabled: "Selecteer eerst een instelling",
         selectSp: "Zoek en selecteer nu een dienst...",

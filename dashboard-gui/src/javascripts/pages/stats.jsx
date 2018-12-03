@@ -31,11 +31,10 @@ class Stats extends React.Component {
     }
 
     getInitialStateValues() {
-        const fullView = this.props.view === "full";
         return {
-            from: fullView ? moment().subtract(1, "day") : moment().startOf("year"),
-            to: moment(),
-            scale: fullView ? "minute" : "day",
+            from: moment().startOf("year"),
+            to: moment().endOf("day"),
+            scale: "day",
             loaded: false,
             data: [],
             sp: this.props.sp || this.allServiceProviderOption.value,

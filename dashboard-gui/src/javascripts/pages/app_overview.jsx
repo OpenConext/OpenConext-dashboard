@@ -609,6 +609,9 @@ class AppOverview extends React.Component {
                 }.bind(this)
             });
         }
+        if (!currentUser.manageConsentEnabled) {
+            return results.filter(facet => facet.name !== I18n.t("facets.static.type_consent.name"));
+        }
         return results;
     }
 
