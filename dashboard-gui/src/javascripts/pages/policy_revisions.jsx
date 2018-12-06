@@ -30,24 +30,6 @@ class PolicyRevisions extends React.Component {
         });
     }
 
-    render() {
-        return (
-            <div className="l-grid main">
-                <div className="l-col-6">
-                    <div className="mod-policy-revisions">
-                        <h1>{I18n.t("revisions.title")}</h1>
-                        <form>
-                            {this.renderRevisions()}
-                        </form>
-                    </div>
-                </div>
-                <div className="l-col-6">
-                    {this.renderComparePanel()}
-                </div>
-            </div>
-        );
-    }
-
     renderRevisions() {
         this.state.revisions.sort((rev1, rev2) => {
             return rev2.revisionNbr - rev1.revisionNbr;
@@ -309,6 +291,26 @@ class PolicyRevisions extends React.Component {
             </div>
         );
     }
+
+    render() {
+        return (
+            <div className="l-grid main">
+                <div className="l-col-6">
+                    <div className="mod-policy-revisions">
+                        <h1>{I18n.t("revisions.title")}</h1>
+                        <form>
+                            {this.renderRevisions()}
+                        </form>
+                    </div>
+                </div>
+                <div className="l-col-6">
+                    {this.renderComparePanel()}
+                </div>
+            </div>
+        );
+    }
+
+
 }
 
 PolicyRevisions.propTypes = {

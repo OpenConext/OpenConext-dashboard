@@ -60,6 +60,7 @@ I18n.translations.nl = {
     facets: {
         title: "Filters",
         reset: "Reset",
+        refresh: "Verversen",
         download: "Export overzicht",
         unknown: "Unknown",
         totals: {
@@ -529,6 +530,18 @@ I18n.translations.nl = {
         },
         organizationURL_nl_tooltip: "Een URL waar een eindgebruiker Nederlands informatie kan lezen over de organisatie.",
         organizationURL_en_tooltip: "Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.",
+        organizationName: {
+            en: "Organisatie naam (en)",
+            nl: "Organisatie naam (nl)"
+        },
+        organizationName_nl_tooltip: "De officiële Nederlandse naam van de organisatie.",
+        organizationName_en_tooltip: "De officiële Engelse naam van de organisatie.",
+        organizationDisplayName: {
+            en: "Organisatie weergave naam (en)",
+            nl: "Organisatie weergave naam name (nl)"
+        },
+        organizationDisplayName_nl_tooltip: "De Nederlandse weergave naam van de organisatie.",
+        organizationDisplayName_en_tooltip: "De Engelse weergave naam van de organisatie.",
         keywords: {
             en: "Trefwoorden (en)",
             nl: "Trefwoorden (nl)"
@@ -692,7 +705,7 @@ I18n.translations.nl = {
             wont_fix: "Zal niet worden opgelost",
             wont_fixTooltip: "Het ticket zal niet worden opgelost.",
             resolved: "Opgelost",
-            resolvedTooltip: "Het ticket is opgelost..",
+            resolvedTooltip: "Het ticket is opgelost.",
             duplicate: "Duplicaat",
             duplicateTooltip: "Het ticket is een duplicaat van een ander ticket.",
             not_completed: "Niet compleet completed",

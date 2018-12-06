@@ -443,8 +443,8 @@ class AppOverview extends React.Component {
 
     filterBySearchQuery(app) {
         const searchString = this.state.search.toLowerCase();
-        return Object.values(app.names).some(name => name.toLowerCase().indexOf(searchString) > -1) ||
-            app.spEntityId.toLowerCase().indexOf(searchString) > -1;
+        return Object.values(app.descriptions).concat(Object.values(app.names))
+                .some(name => name.toLowerCase().indexOf(searchString) > -1) || app.spEntityId.toLowerCase().indexOf(searchString) > -1;
     }
 
     filterYesNoFacet(name, yes) {

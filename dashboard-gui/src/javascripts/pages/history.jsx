@@ -89,6 +89,11 @@ class History extends React.Component {
         this.setState(this.getInitialState(), this.componentDidMount)
     };
 
+    refresh = e => {
+        stopEvent(e);
+        this.componentDidMount();
+    };
+
     pagination(currentPage, length) {
         const current = currentPage,
             last = length,
@@ -177,6 +182,7 @@ class History extends React.Component {
         return <section className="filters">
             <div className="header">
                 <h1>{I18n.t("stats.filters.name")}</h1>
+                <a href="refresh" className="refresh c-button" onClick={this.refresh}>{I18n.t("facets.refresh")}</a>
                 <a href="reset" className="reset c-button" onClick={this.reset}>{I18n.t("facets.reset")}</a>
             </div>
             <fieldset>

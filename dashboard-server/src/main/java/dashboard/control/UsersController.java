@@ -68,10 +68,14 @@ public class UsersController extends BaseController {
                 .map(cp -> cp.getName() + "<" + cp.getEmailAddress() + ">")
                 .collect(Collectors.joining(", "));
 
+        String body = "Invite request initiated by dashboard super user. Mails sent to: " + emails + ".";
+        if (inviteRequest.isContainsMessage()) {
+            body = body + " The invitation message from the SURFconext super user:\n" + inviteRequest.getMessage();
+        }
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
-                .body("Invite request initiated by dashboard super user. Mails sent to: " + emails)
+                .body(body)
                 .idpId(inviteRequest.getIdpEntityId())
                 .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
@@ -222,9 +226,9 @@ public class UsersController extends BaseController {
                 .settings(settings)
                 .type(Action.Type.CHANGE).build();
 
-        actionsService.create(action, changes);
+        Action newAction = actionsService.create(action, changes);
 
-        return ResponseEntity.ok(createRestResponse(action));
+        return ResponseEntity.ok(createRestResponse(newAction));
     }
 
     protected List<Change> getChanges(String idpId, Optional<Consent> previousConsentOptional, Consent consent) throws IOException {
@@ -256,6 +260,12 @@ public class UsersController extends BaseController {
 
         this.diff(changes, idpId, idp.getHomeUrls().get("en"), settings.getOrganisationUrlEn(), "organisationURL:en");
         this.diff(changes, idpId, idp.getHomeUrls().get("nl"), settings.getOrganisationUrlNl(), "organisationURL:nl");
+
+        this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("en"), settings.getOrganisationDisplayNameEn(), "organisationDisplayName:en");
+        this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("nl"), settings.getOrganisationDisplayNameNl(), "organisationDisplayName:nl");
+
+        this.diff(changes, idpId, idp.getOrganisationNames().get("en"), settings.getOrganisationNameEn(), "organisationName:en");
+        this.diff(changes, idpId, idp.getOrganisationNames().get("nl"), settings.getOrganisationNameNl(), "organisationName:nl");
 
         this.diff(changes, idpId, idp.getDescriptions().get("en"), settings.getDescriptionsEn(), "description:en");
         this.diff(changes, idpId, idp.getDescriptions().get("nl"), settings.getDescriptionsNl(), "description:nl");

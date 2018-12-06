@@ -14,6 +14,10 @@ public class Settings {
     private String descriptionsNl;
     private String organisationUrlEn;
     private String organisationUrlNl;
+    private String organisationNameEn;
+    private String organisationNameNl;
+    private String organisationDisplayNameEn;
+    private String organisationDisplayNameNl;
     private boolean publishedInEdugain;
     private boolean connectToRSServicesAutomatically;
     private String comments;
@@ -151,6 +155,38 @@ public class Settings {
 
     public void setOrganisationUrlNl(String organisationUrlNl) {
         this.organisationUrlNl = organisationUrlNl;
+    }
+
+    public String getOrganisationNameEn() {
+        return organisationNameEn;
+    }
+
+    public void setOrganisationNameEn(String organisationNameEn) {
+        this.organisationNameEn = organisationNameEn;
+    }
+
+    public String getOrganisationNameNl() {
+        return organisationNameNl;
+    }
+
+    public void setOrganisationNameNl(String organisationNameNl) {
+        this.organisationNameNl = organisationNameNl;
+    }
+
+    public String getOrganisationDisplayNameEn() {
+        return organisationDisplayNameEn;
+    }
+
+    public void setOrganisationDisplayNameEn(String organisationDisplayNameEn) {
+        this.organisationDisplayNameEn = organisationDisplayNameEn;
+    }
+
+    public String getOrganisationDisplayNameNl() {
+        return organisationDisplayNameNl;
+    }
+
+    public void setOrganisationDisplayNameNl(String organisationDisplayNameNl) {
+        this.organisationDisplayNameNl = organisationDisplayNameNl;
     }
 
     @Override

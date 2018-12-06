@@ -31,6 +31,10 @@ class EditMyIdp extends React.Component {
             descriptionsNl: currentIdp.descriptions.nl || "",
             organisationUrlEn: currentIdp.homeUrls.en || "",
             organisationUrlNl: currentIdp.homeUrls.nl || "",
+            organisationNameEn: currentIdp.organisationNames.en || "",
+            organisationNameNl: currentIdp.organisationNames.nl || "",
+            organisationDisplayNameEn: currentIdp.organisationDisplayNames.en || "",
+            organisationDisplayNameNl: currentIdp.organisationDisplayNames.nl || "",
             publishedInEdugain: !!currentIdp.publishedInEdugain,
             connectToRSServicesAutomatically: !!currentIdp.connectToRSServicesAutomatically,
             comments: "",
@@ -209,6 +213,62 @@ class EditMyIdp extends React.Component {
                         </span></td>
                         <td>
                             {this.renderInput("organisationUrlNl")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationName.en")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationNameEn" data-tip></i>
+                                <ReactTooltip id="organizationNameEn" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationName_en_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationNameEn")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationName.nl")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationNameNl" data-tip></i>
+                                <ReactTooltip id="organizationNameNl" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationName_nl_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationNameNl")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationDisplayName.en")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationDisplayNameEn" data-tip></i>
+                                <ReactTooltip id="organizationDisplayNameEn" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationDisplayName_en_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationDisplayNameEn")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationDisplayName.nl")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationDisplayNameNl" data-tip></i>
+                                <ReactTooltip id="organizationDisplayNameNl" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationDisplayName_nl_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationDisplayNameNl")}
                         </td>
                     </tr>
                     <tr>
@@ -443,7 +503,7 @@ class EditMyIdp extends React.Component {
                     if (action.payload["no-changes"]) {
                         setFlash(I18n.t("my_idp.no_change_request_created"), "warning");
                     } else {
-                        setFlash(I18n.t("my_idp.change_request_created"));
+                        setFlash(I18n.t("my_idp.change_request_created", {jiraKey: action.payload.jiraKey}));
                     }
                     window.scrollTo(0, 0);
                     this.context.router.history.replace("/my-idp");

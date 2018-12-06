@@ -202,6 +202,58 @@ class MyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.organizationName.en")}</td>
+                        <td>{currentIdp.organisationNames.en} <span>
+                            <i className="fa fa-info-circle" data-for="organizationNameEn" data-tip></i>
+                                <ReactTooltip id="organizationNameEn" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationName_en_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationName.nl")}</td>
+                        <td>{currentIdp.organisationNames.nl} <span>
+                            <i className="fa fa-info-circle" data-for="organizationNameNl" data-tip></i>
+                                <ReactTooltip id="organizationNameNl" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationName_nl_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationDisplayName.en")}</td>
+                        <td>{currentIdp.organisationDisplayNames.en} <span>
+                            <i className="fa fa-info-circle" data-for="organizationDisplayNameEn" data-tip></i>
+                                <ReactTooltip id="organizationDisplayNameEn" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationDisplayName_en_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationDisplayName.nl")}</td>
+                        <td>{currentIdp.organisationDisplayNames.nl} <span>
+                            <i className="fa fa-info-circle" data-for="organizationDisplayNameNl" data-tip></i>
+                                <ReactTooltip id="organizationDisplayNameNl" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationDisplayName_nl_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.keywords.en")}</td>
                         <td>{currentIdp.keywords.en}</td>
                     </tr>

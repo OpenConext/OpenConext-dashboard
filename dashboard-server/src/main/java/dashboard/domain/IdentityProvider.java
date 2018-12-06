@@ -30,6 +30,8 @@ public class IdentityProvider extends Provider implements Serializable {
     private Map<String, String> keywords = new HashMap<>();
     private List<Consent> disableConsent;
     private boolean connectToRSServicesAutomatically;
+    private Map<String, String> organisationNames = new HashMap<>();
+    private Map<String, String> organisationDisplayNames = new HashMap<>();
 
     public IdentityProvider() {
     }
@@ -53,6 +55,11 @@ public class IdentityProvider extends Provider implements Serializable {
         addKeywords("nl", (String) metaData.get("keywords:nl"));
         connectToRSServicesAutomatically = "http://refeds.org/category/research-and-scholarship".equals(metaData.get(
             "coin:entity_categories:1"));
+        organisationNames.put("en", (String) metaData.get("OrganizationName:en"));
+        organisationNames.put("nl", (String) metaData.get("OrganizationName:nl"));
+        organisationDisplayNames.put("en", (String) metaData.get("OrganizationDisplayName:en"));
+        organisationDisplayNames.put("nl", (String) metaData.get("OrganizationDisplayName:nl"));
+
     }
 
     public String getInstitutionId() {
@@ -79,6 +86,14 @@ public class IdentityProvider extends Provider implements Serializable {
 
     public boolean isConnectToRSServicesAutomatically() {
         return connectToRSServicesAutomatically;
+    }
+
+    public Map<String, String> getOrganisationNames() {
+        return organisationNames;
+    }
+
+    public Map<String, String> getOrganisationDisplayNames() {
+        return organisationDisplayNames;
     }
 
     @Override

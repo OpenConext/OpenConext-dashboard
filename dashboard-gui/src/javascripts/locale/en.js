@@ -59,6 +59,7 @@ I18n.translations.en = {
 
     facets: {
         title: "Filters",
+        refresh: "Refresh",
         reset: "Reset",
         download: "Export overview",
         unknown: "Unknown",
@@ -472,6 +473,18 @@ I18n.translations.en = {
         },
         organizationURL_nl_tooltip: "A URL the end user can access for more information in Dutch about the organization.",
         organizationURL_en_tooltip: "A URL the end user can access for more information in English about the organization.",
+        organizationName: {
+            en: "Organization name (en)",
+            nl: "Organization name (nl)"
+        },
+        organizationName_nl_tooltip: "The official Dutch name of the organization.",
+        organizationName_en_tooltip: "The official English name of the organization.",
+        organizationDisplayName: {
+            en: "Organization display name (en)",
+            nl: "Organization display name (nl)"
+        },
+        organizationDisplayName_nl_tooltip: "The Dutch display name of the organization.",
+        organizationDisplayName_en_tooltip: "The English display name of the organization.",
         keywords: {
             en: "Keywords (en)",
             nl: "Keywords (nl)"
@@ -500,7 +513,7 @@ I18n.translations.en = {
         guest_enabled: "Guest access enabled",
         edit_message: "You are able to edit the following fields.",
         save: "Create change request",
-        change_request_created: "Change request sent to the SURFnet SURFconext-team.",
+        change_request_created: "Change request sent to the SURFnet SURFconext-team. The ticket number of the change request is {{jiraKey}}",
         no_change_request_created: "No change request is created as you did not change anything.",
         change_request_failed: "Failed to create your change request.",
         comments: "Comments"
@@ -534,7 +547,7 @@ I18n.translations.en = {
         attribute: "Attribute",
         attribute_value_placeholder: "Attribute value...",
         group_info: " The value(s) must be fully qualified group IDs e.g. 'urn:collab:group:surfteams.nl:nl:surfnet:diensten:admins'",
-        new_attribute: "Add new attribute....",
+        new_attribute: "Add new attribute...",
         new_value: "Add a new value...",
         sab_info: " The value(s) must be valid roles in SAB e.g. 'Instellingsbevoegde'",
         values: "Values(s)",
@@ -684,7 +697,7 @@ I18n.translations.en = {
         chartAll: "Number of logins",
         userCount: "Total logins",
         uniqueUserCount: "Unique users",
-        loading: "Fetching logins....",
+        loading: "Fetching logins...",
         noResults: "No logins are recorded for the given period.",
         date: "Date",
         logins: "Logins per {{scale}}",
