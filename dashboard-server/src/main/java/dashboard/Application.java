@@ -85,7 +85,7 @@ public class Application {
     }
 
     @Bean
-    public PdpService pdpService(@Value("${dashboard.feature.manage}") boolean pdpEnabled,
+    public PdpService pdpService(@Value("${dashboard.feature.pdp}") boolean pdpEnabled,
                                  @Value("${pdp.server}") String server,
                                  @Value("${pdp.username}") String username,
                                  @Value("${pdp.password}") String password) {
