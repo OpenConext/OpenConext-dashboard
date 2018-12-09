@@ -131,7 +131,7 @@ public class PoliciesController extends BaseController {
         body.append("push de metadata en informeer de aanmaker van de regel.");
 
         try {
-            mailBox.sendAdministrativeMail(subject, body.toString());
+            mailBox.sendAdministrativeMail(body.toString(), subject);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
