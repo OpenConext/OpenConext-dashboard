@@ -11,24 +11,27 @@ import isUndefined from "lodash.isundefined";
 import stopEvent from "../utils/stop";
 
 class Header extends React.Component {
+
     constructor() {
         super();
-
-        this.state = {
-            dropDownActive: false
-        };
+        this.state = {dropDownActive: false};
     }
 
     render() {
+        const {currentUser} = this.context;
+        const supportedLanguageCodes = currentUser ? currentUser.supportedLanguages : [];
+        const organization = currentUser ? currentUser.organization : "openconext";
         return (
             <div className="mod-header">
-                <h1 className="title"><Link to="/apps">{I18n.t("header.title")}</Link></h1>
+                <h1 className={`title ${organization.toLowerCase()}`}>
+                    <Link to="/apps">{I18n.t("header.title")}</Link>
+                </h1>
                 <div className="meta">
                     <div className="name">
                         {this.renderProfileLink()}
                         {this.renderDropDown()}
                     </div>
-                    <LanguageSelector/>
+                    <LanguageSelector supportedLanguageCodes={supportedLanguageCodes}/>
                     <ul className="links">
                         <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html")}}></li>
                         {this.renderExitLogout()}

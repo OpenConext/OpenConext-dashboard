@@ -54,6 +54,9 @@ public class CoinUser implements UserDetails {
     private boolean manageConsentEnabled;
     private Set<CoinAuthority> grantedAuthorities = new HashSet<>();
     private Map<ShibbolethHeader, List<String>> attributeMap = new HashMap<>();
+    private String hideTabs;
+    private String supportedLanguages;
+    private String organization;
 
     @Override
     @JsonIgnore
@@ -258,6 +261,30 @@ public class CoinUser implements UserDetails {
 
     public void setManageConsentEnabled(boolean manageConsentEnabled) {
         this.manageConsentEnabled = manageConsentEnabled;
+    }
+
+    public void setHideTabs(String hideTabs) {
+        this.hideTabs = hideTabs;
+    }
+
+    public String getSupportedLanguages() {
+        return supportedLanguages;
+    }
+
+    public void setSupportedLanguages(String supportedLanguages) {
+        this.supportedLanguages = supportedLanguages;
+    }
+
+    public String getHideTabs() {
+        return hideTabs;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getOrganization() {
+        return organization;
     }
 
     @Override

@@ -70,6 +70,15 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${dashboard.feature.consent}")
     private boolean isManageConsentEnabled;
 
+    @Value("${dashboard.hide_tabs}")
+    private String hideTabs;
+
+    @Value("${supported_language_codes}")
+    private String supportedLanguages;
+
+    @Value("${organization}")
+    private String organization;
+
     @Bean
     public FilterRegistrationBean mockShibbolethFilter() {
         FilterRegistrationBean shibFilter = new FilterRegistrationBean();
@@ -122,7 +131,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilterBefore(
                 new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab,
                     dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
-                    viewerSurfConextIdpRole, isManageConsentEnabled),
+                    viewerSurfConextIdpRole, isManageConsentEnabled, hideTabs, supportedLanguages, organization),
                 AbstractPreAuthenticatedProcessingFilter.class
             )
             .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)

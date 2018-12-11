@@ -25,6 +25,7 @@ import EditMyIdp from "./pages/edit_my_idp";
 
 import "./locale/en";
 import "./locale/nl";
+import "./locale/pt";
 import InviteRequest from "./pages/invite_request";
 
 

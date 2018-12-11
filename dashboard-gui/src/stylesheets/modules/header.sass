@@ -10,8 +10,15 @@
 
   // Main app title
   .title
-    background: url("../images/logo@2x.png") no-repeat left center
-    background-size: 161px 50px
+    &.openconext
+      background: url("../images/open-conext-logo.png") no-repeat left center
+      background-size: 161px 50px
+    &.surfconext
+      background: url("../images/logo@2x.png") no-repeat left center
+      background-size: 161px 50px
+    &.rctsaai
+      background: url("../images/rctsaai_blue.svg") no-repeat left center
+      background-size: 161px 50px
     height: 50px
     font-size: 20px
     line-height: 30px
@@ -37,7 +44,6 @@
     &:hover
       text-decoration: underline
 
-  .language,
   .links
     margin-left: 40px
     line-height: 30px
@@ -54,22 +60,37 @@
     li:last-child a
       border: 0
 
-  // EN / NL language switch
-  .language
-    overflow: hidden
+  ul.language-selector
+    margin-left: 25px
+    list-style: none
+    border: 1px solid $blue
     border-radius: $br
+    font-size: medium
+    max-height: 32px
+    li
+      display: inline-block
+      padding: 5px 15px
+      margin: 0
+      &:first-child
+        border-bottom-left-radius: 1px
+        border-top-left-radius: 1px
 
-    a
-      background: $light-grey
-      border-color: #fff
+      &:last-child
+        border-bottom-right-radius: 1px
+        border-top-right-radius: 1px
 
-      &:hover,
+      &:not(:first-child):not(:last-child)
+        border-left: 1px $blue solid
+        border-right: 1px $blue solid
+
+      a
+        font-weight: normal
+        padding: 0
+
       &.selected
-        background: $blue
-        color: #fff
-
-      &.selected:hover
-        text-decoration: none
+        background-color: $blue
+        a
+          color: white
 
   .name
     line-height: 30px
@@ -86,7 +107,7 @@
       max-width: 400px
       min-width: 200px
       top: 60px
-      box-shadow: 1px 1px 5px*2 rgba(black,.4)
+      box-shadow: 1px 1px 5px*2 rgba(black, .4)
       li
         list-style: none
 

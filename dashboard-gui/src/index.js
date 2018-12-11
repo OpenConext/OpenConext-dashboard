@@ -17,10 +17,19 @@ import ServerError from "./javascripts/pages/server_error";
 
 polyfills();
 
+const deleteSpinner = () => {
+    const spinner = document.getElementById("service-loader-id");
+    spinner.parentNode.removeChild(spinner);
+    const info = document.getElementById("service-loader-info-id");
+    info.parentNode.removeChild(info);
+};
+
 if (browserSupported()) {
+
     getUserData()
         .then(json => {
             if (json.noAccess === true) {
+                deleteSpinner();
                 ReactDOM.render(<ServerError/>, document.getElementById("app"));
                 return;
             }
@@ -48,10 +57,8 @@ if (browserSupported()) {
                 }
             });
             const currentUser = createCurrentUser(json.payload);
-            const spinner = document.getElementById("service-loader-id");
-            spinner.parentNode.removeChild(spinner);
-            const info = document.getElementById("service-loader-info-id");
-            info.parentNode.removeChild(info);
+
+            deleteSpinner();
             ReactDOM.render(<App currentUser={currentUser}/>, document.getElementById("app"));
         });
 } else {

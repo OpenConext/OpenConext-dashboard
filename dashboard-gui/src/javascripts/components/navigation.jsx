@@ -88,15 +88,16 @@ class Navigation extends React.Component {
         const {awaitingInputTickets} = this.state;
         const showInviteRequest = !isEmpty(currentUser) && currentUser.superUser;
         const activeTab = router.history.location.pathname;
+        const hideTabs = currentUser.hideTabs.split(",").map(s => s.trim());
         return (
             <div className="mod-navigation">
                 <ul>
-                    {this.renderItem("/statistics", "stats", activeTab)}
-                    {this.renderItem("/apps", "apps", activeTab)}
-                    {this.renderItem("/policies", "policies", activeTab)}
-                    {this.renderItem("/tickets", "history", activeTab, awaitingInputTickets)}
-                    {this.renderItem("/my-idp", "my_idp", activeTab)}
-                    {showInviteRequest && this.renderItem("/users/invite", "invite_request", activeTab)}
+                    {hideTabs.indexOf("statistics") === -1 && this.renderItem("/statistics", "stats", activeTab)}
+                    {hideTabs.indexOf("apps") === -1 && this.renderItem("/apps", "apps", activeTab)}
+                    {hideTabs.indexOf("policies") === -1 && this.renderItem("/policies", "policies", activeTab)}
+                    {hideTabs.indexOf("tickets") === -1 && this.renderItem("/tickets", "history", activeTab, awaitingInputTickets)}
+                    {hideTabs.indexOf("my_idp") === -1 && this.renderItem("/my-idp", "my_idp", activeTab)}
+                    {(hideTabs.indexOf("user_invite") === -1 && showInviteRequest) && this.renderItem("/users/invite", "invite_request", activeTab)}
                 </ul>
 
                 {this.renderSpinner()}

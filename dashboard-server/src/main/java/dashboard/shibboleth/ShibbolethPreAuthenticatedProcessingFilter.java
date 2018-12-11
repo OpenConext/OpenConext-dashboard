@@ -69,6 +69,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .build();
     }
 
+    private String organization;
+
     private Manage manage;
     private Sab sab;
     private String dashboardAdmin;
@@ -77,6 +79,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String adminSurfConextIdpRole;
     private String viewerSurfConextIdpRole;
     private boolean isManageConsentEnabled;
+    private String hideTabs;
+    private String supportedLanguages;
+
+    ShibbolethPreAuthenticatedProcessingFilter() {
+    }
 
     public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager,
                                                       Manage manage,
@@ -86,7 +93,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String dashboardSuperUser,
                                                       String adminSufConextIdpRole,
                                                       String viewerSurfConextIdpRole,
-                                                      boolean isManageConsentEnabled) {
+                                                      boolean isManageConsentEnabled,
+                                                      String hideTabs,
+                                                      String supportedLanguages,
+                                                      String organization) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
         this.sab = sab;
@@ -96,9 +106,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.adminSurfConextIdpRole = adminSufConextIdpRole;
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
         this.isManageConsentEnabled = isManageConsentEnabled;
-    }
-
-    ShibbolethPreAuthenticatedProcessingFilter() {
+        this.hideTabs = hideTabs;
+        this.supportedLanguages = supportedLanguages;
+        this.organization = organization;
     }
 
     @Override
@@ -129,6 +139,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
         coinUser.setManageConsentEnabled(this.isManageConsentEnabled);
+        coinUser.setHideTabs(this.hideTabs);
+        coinUser.setSupportedLanguages(this.supportedLanguages);
+        coinUser.setOrganization(this.organization);
 
         Map<ShibbolethHeader, List<String>> attributes = shibHeaders.values().stream()
                 .filter(h -> StringUtils.hasText(request.getHeader(h.getValue())))
