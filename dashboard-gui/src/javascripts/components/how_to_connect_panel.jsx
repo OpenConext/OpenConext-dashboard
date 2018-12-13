@@ -31,7 +31,12 @@ class HowToConnectPanel extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({currentStep: this.props.app.connected ? "disconnect" : "connect"});
+        const {app, inviteAction, jiraKey} = this.props;
+        let step = app.connected ? "disconnect" : "connect";
+        if (app.connected && !isEmpty(jiraKey) && !isEmpty(inviteAction)) {
+            step = "inviteActionCollision";
+        }
+        this.setState({currentStep: step});
     }
 
     getPanelRoute(panel) {
@@ -341,6 +346,24 @@ class HowToConnectPanel extends React.Component {
             </div>
         </div>;
 
+    renderInviteActionCollision = (jiraKey, app) => {
+        return <div className="l-middle-app-detail">
+            <div className="mod-title">
+                <h1>{I18n.t("how_to_connect_panel.invite_action_collision_title", {app: app.name})}</h1>
+            </div>
+            <div className="mod-connect">
+                <div className="box">
+                    <div className="content">
+                        <h2>{I18n.t("how_to_connect_panel.invite_action_collision_subtitle")}</h2>
+                        <p dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.invite_action_collision", {app: app.name, jiraKey: jiraKey})}}/>
+                    </div>
+                </div>
+            </div>
+        </div>;
+
+    };
+
+
     renderJiraConflict = (action, isConnection) => {
         const message = I18n.t("apps.detail.outstandingIssue",
             {
@@ -401,7 +424,7 @@ class HowToConnectPanel extends React.Component {
 
     render() {
         const {failed, currentStep} = this.state;
-        const {jiraKey, inviteAction, conflictingJiraIssue} = this.props;
+        const {jiraKey, inviteAction, conflictingJiraIssue, app} = this.props;
         if (failed) {
             return (
                 <div className="mod-not-found">
@@ -425,6 +448,8 @@ class HowToConnectPanel extends React.Component {
         }
 
         switch (currentStep) {
+            case "inviteActionCollision":
+                return this.renderInviteActionCollision(jiraKey, app);
             case "disconnect":
                 return conflictingJiraIssue ? this.renderJiraConflict(conflictingJiraIssue, false) : this.renderDisconnectStep();
             case "connect":

@@ -382,6 +382,9 @@ I18n.translations.en = {
         approve: "Approve invitation",
         deny_invitation: "Are you  sure you want to deny the invitation to connect to {{app}}",
         deny_invitation_info: "After you deny the invitation you can always activate the connection from this dashboard.",
+        invite_action_collision_title: "Service {{app}} is already connected.",
+        invite_action_collision_subtitle: "Mid-air collision detected.",
+        invite_action_collision: "The invitation to connect to {{app}} was already accepted. Perhaps a colleague has already accepted the invite? If you have any question please contact <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}}\">support@surfconext.nl</a> and include the ticket number in the subject: {{jiraKey}}."
     },
 
     application_usage_panel: {

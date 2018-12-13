@@ -121,7 +121,7 @@ class AppDetail extends React.Component {
                                 type: I18n.t("history.action_types_name." + action.type),
                                 status: I18n.t("history.statuses." + action.status)
                             });
-                            if (action.type === "LINKINVITE" && action.status === "Awaiting Input") {
+                            if (action.type === "LINKINVITE" && action.status === "Awaiting Input" && !app.connected) {
                                 message += I18n.t("apps.detail.outstandingIssueLink", {
                                     link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
                                     linkName: I18n.t("apps.detail.how_to_connect")
@@ -164,9 +164,11 @@ class AppDetail extends React.Component {
         }
 
         const panel = this.panelMap[panelKey];
+        const clearJiraState = () => this.setState({jiraKey: undefined, inviteAction: undefined});
         return (
             <li key={panelKey}>
                 <Link to={`/apps/${this.props.match.params.id}/${this.props.match.params.type}/${panelKey}`}
+                      onClick={clearJiraState}
                       className={panelKey === this.props.match.params.activePanel ? "current" : ""}>
                     <i className={"fa " + panel.icon}></i>
                     {I18n.t("apps.detail." + key)}

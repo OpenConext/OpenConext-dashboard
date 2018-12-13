@@ -386,6 +386,9 @@ I18n.translations.nl = {
         approve: "Uitnodiging Goedkeuren",
         deny_invitation: "Weet u zeker dat u de uitnodiging om the koppelen met {{app}} wilt afwijzen?",
         deny_invitation_info: "Nadat u de uitnodiging heeft afgewezen kunt u altijd nog de koppeling activeren in dit dashboard.",
+        invite_action_collision_title: "Dienst {{app}} is al gekoppeld.",
+        invite_action_collision_subtitle: "Mid-air botsing gedetecteerd.",
+        invite_action_collision: "De uitnodiging om een koppeling te maken met {{app}} is al geaccepteerd. Misschien heeft een collega de uitnodiging al geaccepteerd? Neem bij vragen contact op met <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> en voeg het ticketnummer toe aan het onderwerp: {{jiraKey}}."
     },
 
     application_usage_panel: {
