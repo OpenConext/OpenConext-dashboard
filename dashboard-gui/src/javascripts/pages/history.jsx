@@ -264,7 +264,8 @@ class History extends React.Component {
     };
 
     renderAction = action => {
-        const renderAction = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spEid;
+        const currentUser = this.context.currentUser;
+        const renderAction = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spEid && currentUser.dashboardAdmin;
         return <tr key={action.jiraKey}>
             <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
             <td>{moment(action.updateDate).format("DD-MM-YYYY")}</td>

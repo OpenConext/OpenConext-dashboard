@@ -101,4 +101,9 @@ public class JiraClientMock implements JiraClient {
             });
         }
     }
+
+    @Override
+    public void attachments(String key, String... attachments) {
+        //nope
+    }
 }

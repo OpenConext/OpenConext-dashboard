@@ -27,10 +27,13 @@ import dashboard.domain.JiraResponse;
 import dashboard.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -44,6 +47,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
@@ -189,6 +193,20 @@ public class JiraClientImpl implements JiraClient {
         String commentUrl = baseUrl + "/issue/" + key + "/comment";
         HttpEntity<Object> commentRequestEntity = new HttpEntity<>(ImmutableMap.of("body", comment), defaultHeaders);
         restTemplate.exchange(commentUrl, HttpMethod.POST, commentRequestEntity, Map.class);
+    }
+
+    @Override
+    public void attachments(String key, String... attachments) {
+        String url = baseUrl + "/issue/" + key + "/attachments";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set(HttpHeaders.AUTHORIZATION, defaultHeaders.get(HttpHeaders.AUTHORIZATION).get(0));
+
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        Stream.of(attachments).forEach(attachment -> map.add("file", new ByteArrayResource(attachment.getBytes())));
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+        restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
     }
 
     @Override

@@ -88,12 +88,12 @@ public class UsersController extends BaseController {
 
     @PutMapping("/inviteRequest")
     public ResponseEntity<RestResponse<Object>> updateInviteRequest(@RequestBody UpdateInviteRequest updateInviteRequest) throws IOException, MessagingException {
-        String commentWithUser = SpringSecurity.getCurrentUser().getUsername()
-                .concat(" has " + updateInviteRequest.getStatus().name().toLowerCase() + " the InviteRequest. ");
-
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        String commentWithUser = String.format("%s / %s has %s this Invite request.", currentUser.getUid(), currentUser.getFriendlyName(),
+                updateInviteRequest.getStatus().name().toLowerCase());
         String comment = updateInviteRequest.getComment();
         if (StringUtils.hasText(comment)) {
-            commentWithUser = commentWithUser.concat("User comment: ").concat(comment);
+            commentWithUser = commentWithUser.concat(" User comment: ").concat(comment);
         }
         if (UpdateInviteRequest.Status.ACCEPTED.equals(updateInviteRequest.getStatus())) {
             actionsService.approveInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);

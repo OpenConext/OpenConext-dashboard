@@ -42,5 +42,6 @@ public interface JiraClient {
 
     void comment(String key, String comment);
 
+    void attachments(String key, String... attachments);
 
 }
