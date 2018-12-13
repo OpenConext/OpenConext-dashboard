@@ -44,7 +44,7 @@ public class MailBox {
             try {
                 sendMail(html, subject, Collections.singletonList(email), true);
             } catch (Exception e) {
-                //anti-pattern but we don't want to crash because of mailproblems
+                //anti-pattern but we don't want to crash because of mail problems
             }
         });
 
