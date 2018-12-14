@@ -12,11 +12,15 @@ import pagination from "../utils/pagination";
 import SelectWrapper from "../components/select_wrapper";
 import stopEvent from "../utils/stop";
 import {isEmpty} from "../utils/utils";
+import ConfirmationDialog from "../components/confirmation_dialog";
+import {setFlash} from "../utils/flash";
+import Flash from "../components/flash";
 
 const pageCount = 10;
 
 const allStatuses = ["To Do", "In Progress", "Awaiting Input", "Resolved", "Closed"];
 const allTypes = ["LINKREQUEST", "UNLINKREQUEST", "CHANGE", "LINKINVITE"];
+
 
 class History extends React.Component {
 
@@ -39,7 +43,12 @@ class History extends React.Component {
         types: allTypes,
         spEntityId: "",
         serviceProviders: [],
-        loaded: false
+        loaded: false,
+        confirmationDialogOpen: false,
+        confirmationQuestion: I18n.t("history.resendInvitationConfirmation"),
+        confirmationDialogAction: () => this,
+        cancelDialogAction: () => this.setState({confirmationDialogOpen: false})
+
     });
 
     componentDidMount() {
@@ -250,22 +259,41 @@ class History extends React.Component {
         this.context.router.history.replace(`/apps/${action.spEid}/${type}/how_to_connect/${action.jiraKey}/accept`);
     };
 
+    resendInvitation = action => e => {
+        stopEvent(e);
+        this.setState({
+            confirmationDialogOpen: true,
+            confirmationDialogAction: this.doResendInvitation(action)
+        });
+    };
+
+    doResendInvitation = action => e => {
+        stopEvent(e);
+        this.setState({confirmationDialogOpen: false});
+        //TODO where do we geet the original emails? Parse on server?
+        Promise.resolve("").then(() => {
+            setFlash(I18n.t("history.resendInvitationFlash", {jiraKey: action.jiraKey}));
+            window.scrollTo(0, 0);
+        })
+    };
     renderResolution = action => {
-      if (action.resolution) {
-          const transKey = action.resolution.replace(/'/g,"").replace(/ /g,"_").toLowerCase();
-          return <span className="actionResolution">{I18n.t(`history.resolution.${transKey}`)}
-              <i className="fa fa-info-circle" data-for={action.jiraKey} data-tip></i>
+        if (action.resolution) {
+            const transKey = action.resolution.replace(/'/g, "").replace(/ /g, "_").toLowerCase();
+            return <span className="actionResolution">{I18n.t(`history.resolution.${transKey}`)}
+                <i className="fa fa-info-circle" data-for={action.jiraKey} data-tip></i>
                                 <ReactTooltip id={action.jiraKey} type="info" class="tool-tip" effect="solid">
                                     <span>{I18n.t(`history.resolution.${transKey}Tooltip`)}</span>
                                 </ReactTooltip>
           </span>
-      }
-      return null;
+        }
+        return null;
     };
 
     renderAction = action => {
         const currentUser = this.context.currentUser;
-        const renderAction = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spEid && currentUser.dashboardAdmin;
+        const linkInviteAwaitingInput = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spEid;
+        const renderAction = linkInviteAwaitingInput && currentUser.dashboardAdmin;
+        const renderResend = linkInviteAwaitingInput && currentUser.superUser;
         return <tr key={action.jiraKey}>
             <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
             <td>{moment(action.updateDate).format("DD-MM-YYYY")}</td>
@@ -274,47 +302,58 @@ class History extends React.Component {
             <td>{I18n.t("history.action_types_name." + action.type)}</td>
             <td>{action.jiraKey}</td>
             <td>{I18n.t("history.statuses." + action.status)}</td>
-            <td>{renderAction ?  <a href="/send" className={`t-button save`}
-                                    onClick={this.viewInvitation(action)}>{I18n.t("history.viewInvitation")}</a> : this.renderResolution(action)}</td>
+            <td>{renderAction ? <a href="/send" className={`t-button save`}
+                                   onClick={this.viewInvitation(action)}>{I18n.t("history.viewInvitation")}</a>
+                : renderResend ? <a href="/resend" className={`t-button save`}
+                                    onClick={this.resendInvitation(action)}>{I18n.t("history.resendInvitation")}</a> : this.renderResolution(action)}</td>
         </tr>
     };
 
     render() {
         const {
             actions, sortAttribute, sortAscending, total, from, to, statuses, spEntityId, page,
-            serviceProviders, types, loaded
+            serviceProviders, types, loaded, confirmationDialogOpen, confirmationQuestion, confirmationDialogAction,
+            cancelDialogAction
         } = this.state;
         let sortedActions = sort(actions, sortAttribute, sortAscending);
         if (sortedActions.length > pageCount) {
             sortedActions = sortedActions.slice((page - 1) * pageCount, page * pageCount);
         }
         return (
-            <div className="mod-history">
-                {this.renderFilter(from, to, statuses, spEntityId, serviceProviders, types)}
-                <div className="table_wrapper">
-                    <p className="info">{I18n.t("history.info")}</p>
-                    {(loaded && sortedActions.length > 0) &&
-                    <table>
-                        <thead>
-                        <tr>
-                            {this.renderSortableHeader("percent_10", "requestDate")}
-                            {this.renderSortableHeader("percent_10", "updateDate")}
-                            {this.renderSortableHeader("percent_15", "spName")}
-                            <th className={"percent_10"}>{I18n.t("history.userName")}</th>
-                            {this.renderSortableHeader("percent_15", "type")}
-                            {this.renderSortableHeader("percent_10", "jiraKey")}
-                            {this.renderSortableHeader("percent_15", "status")}
-                            <th className={"percent_15"}></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {sortedActions.map(action => this.renderAction(action))}
-                        </tbody>
-                    </table>}
-                    {(loaded && sortedActions.length === 0) && <div>
-                        <p>{I18n.t("history.noTicketsFound")}</p>
-                    </div>}
-                    {(loaded) && this.renderPagination(total, page)}
+
+            <div>
+                <Flash/>
+                <ConfirmationDialog isOpen={confirmationDialogOpen}
+                                              cancel={cancelDialogAction}
+                                              confirm={confirmationDialogAction}
+                                              question={confirmationQuestion}/>
+                <div className="mod-history">
+                    {this.renderFilter(from, to, statuses, spEntityId, serviceProviders, types)}
+                    <div className="table_wrapper">
+                        <p className="info">{I18n.t("history.info")}</p>
+                        {(loaded && sortedActions.length > 0) &&
+                        <table>
+                            <thead>
+                            <tr>
+                                {this.renderSortableHeader("percent_10", "requestDate")}
+                                {this.renderSortableHeader("percent_10", "updateDate")}
+                                {this.renderSortableHeader("percent_15", "spName")}
+                                <th className={"percent_10"}>{I18n.t("history.userName")}</th>
+                                {this.renderSortableHeader("percent_15", "type")}
+                                {this.renderSortableHeader("percent_10", "jiraKey")}
+                                {this.renderSortableHeader("percent_15", "status")}
+                                <th className={"percent_15"}></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {sortedActions.map(action => this.renderAction(action))}
+                            </tbody>
+                        </table>}
+                        {(loaded && sortedActions.length === 0) && <div>
+                            <p>{I18n.t("history.noTicketsFound")}</p>
+                        </div>}
+                        {(loaded) && this.renderPagination(total, page)}
+                    </div>
                 </div>
             </div>
         );

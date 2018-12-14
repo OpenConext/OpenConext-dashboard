@@ -663,7 +663,10 @@ I18n.translations.en = {
         },
         servicePlaceHolder: "Search and select a Service...",
         noTicketsFound: "No tickets were found for the given filters.",
-        viewInvitation: "Approve / Deny"
+        viewInvitation: "Approve / Deny",
+        resendInvitation: "Resend invitation mail",
+        resendInvitationConfirmation: "Are you sure you want to resend the invitation mail?",
+        resendInvitationFlash: "Invitation mail for {{jiraKey}} was resent",
     },
 
     stats: {

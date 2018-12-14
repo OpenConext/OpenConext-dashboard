@@ -720,7 +720,10 @@ I18n.translations.nl = {
         },
         servicePlaceHolder: "Zoek en selecteer een dienst...",
         noTicketsFound: "Er zijn geen tickets gevonden met de gegeven filters.",
-        viewInvitation: "Goedkeuren / Afwijzen"
+        viewInvitation: "Goedkeuren / Afwijzen",
+        resendInvitation: "Herstuur uitnodiging",
+        resendInvitationConfirmation: "Weet je zeker dat je de uitnodigings mail nogmaals wilt versturen?",
+        resendInvitationFlash: "Uitnodigings mail voor {{jiraKey}} is opnieuw verstuurd",
     },
     service_filter: {
         title: "Filter diensten",
