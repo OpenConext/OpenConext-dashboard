@@ -83,7 +83,6 @@ public class JiraClientImpl implements JiraClient {
 
         this.standardFields = new ArrayList(Arrays.asList("summary", "resolution", "status", "assignee", "issuetype", "created", "description", "updated"));
         standardFields.addAll(this.mappings.get(this.environment).get("customFields").values().stream().map(s -> "customfield_" + s).collect(toList()));
-
     }
 
     @Override
@@ -94,6 +93,9 @@ public class JiraClientImpl implements JiraClient {
         fields.put("project", ImmutableMap.of("key", projectKey));
         fields.put("customfield_" + spCustomField(), action.getSpId());
         fields.put("customfield_" + idpCustomField(), action.getIdpId());
+        if (action.getType().equals(Type.LINKINVITE)) {
+            fields.put("customfield_" + emailToCustomField(), action.getEmailTo());
+        }
         fields.put("issuetype", ImmutableMap.of("id", actionToIssueIdentifier(action.getType())));
 
         SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action, changes);
@@ -144,6 +146,7 @@ public class JiraClientImpl implements JiraClient {
                         .jiraKey((String) issue.get("key"))
                         .idpId(Optional.ofNullable((String) fields.get("customfield_" + idpCustomField())).orElse(""))
                         .spId(Optional.ofNullable((String) fields.get("customfield_" + spCustomField())).orElse(""))
+                        .emailTo(Optional.ofNullable((String) fields.get("customfield_" + emailToCustomField())).orElse(""))
                         .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
                         .resolution(resolution != null ? resolution.get("name") : null)
                         .type(findType(issueType))
@@ -286,6 +289,10 @@ public class JiraClientImpl implements JiraClient {
 
     private String spCustomField() {
         return this.mappings.get(this.environment).get("customFields").get("spEntityId");
+    }
+
+    private String emailToCustomField() {
+        return this.mappings.get(this.environment).get("customFields").get("emailTo");
     }
 
 }

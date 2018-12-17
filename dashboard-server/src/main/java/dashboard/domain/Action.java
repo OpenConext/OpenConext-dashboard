@@ -31,6 +31,7 @@ public class Action {
     private String jiraKey;
     private String userName;
     private String userEmail;
+    private String emailTo;
     private String body;
 
     private String idpId;
@@ -54,6 +55,7 @@ public class Action {
         this.jiraKey = builder.jiraKey;
         this.userName = builder.userName;
         this.userEmail = builder.userEmail;
+        this.emailTo = builder.emailTo;
         this.body = builder.body;
         this.idpId = builder.idpId;
         this.spId = builder.spId;
@@ -120,6 +122,10 @@ public class Action {
 
     public String getUserEmail() {
         return userEmail;
+    }
+
+    public String getEmailTo() {
+        return emailTo;
     }
 
     public String getSubject() {
@@ -270,6 +276,7 @@ public class Action {
         private String jiraKey;
         private String userName;
         private String userEmail;
+        private String emailTo;
         private Type type;
         private String status;
         private String resolution;
@@ -292,6 +299,7 @@ public class Action {
             this.jiraKey = action.jiraKey;
             this.userName = action.userName;
             this.userEmail = action.userEmail;
+            this.emailTo = action.emailTo;
             this.type = action.type;
             this.status = action.status;
             this.resolution = action.resolution;
@@ -320,6 +328,11 @@ public class Action {
 
         public Builder userEmail(String userEmail) {
             this.userEmail = userEmail;
+            return this;
+        }
+
+        public Builder emailTo(String emailTo) {
+            this.emailTo = emailTo;
             return this;
         }
 

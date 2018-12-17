@@ -130,6 +130,14 @@ export function inviteRequest(data) {
     }).then(parseJson);
 }
 
+export function resendInviteRequest(data) {
+    return postJson("/users/resendInviteRequest", data, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(parseJson);
+}
+
 export function updateInviteRequest(data) {
     return putJson("/users/inviteRequest", data, {
         headers: {

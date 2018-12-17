@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import I18n from "i18n-js";
 import ReactTooltip from "react-tooltip";
-import {searchJira} from "../api";
+import {resendInviteRequest, searchJira} from "../api";
 import sort from "../utils/sort";
 import moment from "moment";
 
@@ -270,8 +270,7 @@ class History extends React.Component {
     doResendInvitation = action => e => {
         stopEvent(e);
         this.setState({confirmationDialogOpen: false});
-        //TODO where do we geet the original emails? Parse on server?
-        Promise.resolve("").then(() => {
+        resendInviteRequest({idpId: action.idpId, jiraKey: action.jiraKey}).then(() => {
             setFlash(I18n.t("history.resendInvitationFlash", {jiraKey: action.jiraKey}));
             window.scrollTo(0, 0);
         })
@@ -293,7 +292,7 @@ class History extends React.Component {
         const currentUser = this.context.currentUser;
         const linkInviteAwaitingInput = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spEid;
         const renderAction = linkInviteAwaitingInput && currentUser.dashboardAdmin;
-        const renderResend = linkInviteAwaitingInput && currentUser.superUser;
+        const renderResend = linkInviteAwaitingInput && currentUser.superUser && !isEmpty(action.emailTo);
         return <tr key={action.jiraKey}>
             <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
             <td>{moment(action.updateDate).format("DD-MM-YYYY")}</td>
@@ -324,9 +323,9 @@ class History extends React.Component {
             <div>
                 <Flash/>
                 <ConfirmationDialog isOpen={confirmationDialogOpen}
-                                              cancel={cancelDialogAction}
-                                              confirm={confirmationDialogAction}
-                                              question={confirmationQuestion}/>
+                                    cancel={cancelDialogAction}
+                                    confirm={confirmationDialogAction}
+                                    question={confirmationQuestion}/>
                 <div className="mod-history">
                     {this.renderFilter(from, to, statuses, spEntityId, serviceProviders, types)}
                     <div className="table_wrapper">

@@ -2,7 +2,8 @@
   "test": {
     "customFields": {
       "spEntityId": "12914",
-      "idpEntityId": "12912"
+      "idpEntityId": "12912",
+      "emailTo": "12909"
     },
     "issueTypes": {
       "question": "11106",
@@ -15,7 +16,8 @@
   "prod": {
     "customFields": {
       "spEntityId": "13018",
-      "idpEntityId": "13012"
+      "idpEntityId": "13012",
+      "emailTo": "12909"
     },
     "issueTypes": {
       "question": "11103",

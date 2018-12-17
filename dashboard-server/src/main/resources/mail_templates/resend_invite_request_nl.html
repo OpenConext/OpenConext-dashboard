@@ -1,0 +1,39 @@
+{{> header.html}}
+<p>
+    U bent een tijdje geleden uitgenodigd om een koppeling te maken tussen de dienst <strong>{{action.spName}}</strong> en uw eigen
+    instelling <strong>{{action.idpName}}</strong>.
+    Lees hieronder wat u moet doen om de uitnodiging alsnog te accepteren en de koppeling te activeren.
+</p>
+
+<p>
+    <strong>Uitnodiging accepteren:</strong><br>
+    Klik hieronder op 'Inloggen om de koppeling te activeren' en log vervolgens in met het account van uw instelling
+    om de koppeling te activeren.
+</p>
+
+<p>
+    Wilt u deze koppeling niet activeren? Klik dan op 'De uitnodiging afwijzen'.
+</p>
+
+<table id="invitation-mail-table" cellpadding="10" width="90%" align="center">
+    <tr>
+        <td class="invitation-accept" align="center" width="50%">
+            <span><a href="{{mailBaseUrl}}/apps/{{action.spEid}}/saml20_sp/how_to_connect/{{action.jiraKey}}/accept" style="color:#0088CC;">Inloggen om de koppeling te activeren</a></span>
+        </td>
+        <td class="invitation-deny" align="center" width="50%">
+            <span><a href="{{mailBaseUrl}}/apps/{{action.spEid}}/saml20_sp/how_to_connect/{{action.jiraKey}}/deny" style="color:#0088CC;">De uitnodiging om te koppelen afwijzen</a></span>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <strong>Hulp nodig?</strong><br>
+    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Vraag met betrekking tot koppelingen (ticket {{action.jiraKey}})">support@surfconext.nl</a> als u vragen hebt over deze uitnodiging.
+</p>
+
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>

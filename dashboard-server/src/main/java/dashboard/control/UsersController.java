@@ -67,6 +67,9 @@ public class UsersController extends BaseController {
         String emails = inviteRequest.getContactPersons().stream()
                 .map(cp -> cp.getName() + "<" + cp.getEmailAddress() + ">")
                 .collect(Collectors.joining(", "));
+        String emailTo = inviteRequest.getContactPersons().stream()
+                .map(cp -> cp.getEmailAddress())
+                .collect(Collectors.joining(", "));
 
         String body = "Invite request initiated by dashboard super user. Mails sent to: " + emails + ".";
         if (inviteRequest.isContainsMessage()) {
@@ -76,6 +79,7 @@ public class UsersController extends BaseController {
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
                 .body(body)
+                .emailTo(emailTo)
                 .idpId(inviteRequest.getIdpEntityId())
                 .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
@@ -103,7 +107,20 @@ public class UsersController extends BaseController {
         return ResponseEntity.ok(createRestResponse(updateInviteRequest));
     }
 
-    @RequestMapping("/disableConsent")
+    @PostMapping("/resendInviteRequest")
+    public ResponseEntity<RestResponse<Object>> resendInviteRequest(@RequestBody ResendInviteRequest resendInviteRequest) throws IOException, MessagingException {
+        JiraFilter jiraFilter = new JiraFilter();
+        jiraFilter.setKey(resendInviteRequest.getJiraKey());
+        Action action = actionsService.searchTasks(resendInviteRequest.getIdpId(), jiraFilter).getIssues().stream().findAny().orElseThrow(() -> new IllegalArgumentException(String.format("Jira issue with key %s for IdP %s not found.", resendInviteRequest.getJiraKey(), resendInviteRequest.getIdpId())));
+        String emailTo = action.getEmailTo();
+        if (StringUtils.isEmpty(emailTo)) {
+            throw new IllegalArgumentException(String .format("There are no emails set on issue %s", resendInviteRequest.getJiraKey()));
+        }
+        mailbox.sendInviteMailReminder(action);
+        return ResponseEntity.ok(createRestResponse(resendInviteRequest));
+    }
+
+        @RequestMapping("/disableConsent")
     public List<Consent> disableConsent() {
         String id = SpringSecurity.getCurrentUser().getIdp().getId();
         return manage.getIdentityProvider(id, false)
