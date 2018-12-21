@@ -102,7 +102,7 @@ I18n.translations.pt = {
             },
             entity_category: {
                 name: "eduGAIN Categorias de Entidade",
-                tooltip: "SOs serviços podem obedecer a 'categorias de entidade'.<br>Consulte a<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a>para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.",
+                tooltip: "SOs serviços podem obedecer a 'categorias de entidade'.<br>Consulte a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a>para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
@@ -381,6 +381,9 @@ I18n.translations.pt = {
         approve: "Aprovar o convite",
         deny_invitation: "Tem certeza que não pretende aceitar o convite para se ligar {{app}}",
         deny_invitation_info: "Depois de recusar o convite de ligação, pode sempre voltar a realizar um pedido para ativar o serviço aqui no dashboard.",
+        invite_action_collision_title: "O serviço {{app}} já está ligado.",
+        invite_action_collision_subtitle: "Mid-air colisão detectada.",
+        invite_action_collision: "O convite {{app}} já foi aceite. Talvez alguem já tenha aceite o convite? Se tem alguma questão por favor contacte <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> e adicione o número do pedido no assunto do email: {{jiraKey}}."
     },
 
     application_usage_panel: {
