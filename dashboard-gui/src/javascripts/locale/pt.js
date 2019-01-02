@@ -9,7 +9,7 @@ import I18n from "i18n-js";
 I18n.translations.pt = {
     code: "PT",
     name: "Português",
-    select_locale: "Seleccionar Português",
+    select_locale: "Selecionar Português",
 
     boolean: {
         yes: "Sim",
@@ -17,396 +17,395 @@ I18n.translations.pt = {
     },
 
     browser_not_supported: {
-        title: "Your browser is not supported.",
-        description_html: "Your version of Internet Explorer is not supported. Please update your browser to a more modern version."
+        title: "O browser que está a utilizar não é suportado.",
+        description_html: "A versão do Internet Explorer que está a utilizar não é suportada. Por favor actualize o seu browser para uma versão mais recente."
     },
 
     header: {
-        title: "Painel de controle",
-        welcome: "Bem vinda,",
+        title: "Dashboard",
+        welcome: "Bem vindo,",
         links: {
-            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
+            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Ajuda SURFconext Dashboard</a>",
             logout: "Sair",
-            exit: "Saída"
+            exit: "Sair"
         },
-        you: "Você",
-        profile: "Perfil",
-        switch_idp: "Switch IDP",
-        super_user_switch: "Switch identity"
+        you: "Voçê",
+        profile: "Profile",
+        switch_idp: "Escolher outro IDP",
+        super_user_switch: "Trocar Identidade"
     },
     confirmation_dialog: {
-        title: "Please confirm",
-        confirm: "Confirm",
-        cancel: "Cancel",
-        leavePage: "Do you really want to leave this page?",
-        leavePageSub: "Changes that you made will not be saved.",
-        stay: "Stay",
-        leave: "Leave"
+        title: "Por favor confirme",
+        confirm: "Confirmar",
+        cancel: "Cancelar",
+        leavePage: "Tem a certeza que pretende sair esta página?",
+        leavePageSub: "As alterações que realizou não serão gravadas.",
+        stay: "Permanecer",
+        leave: "Sair"
     },
 
     navigation: {
         apps: "Serviços",
-        policies: "Políticas de autorização",
-        history: "Bilhetes",
+        policies: "Políticas de Autorização",
+        history: "Pedidos de Serviço",
         stats: "Estatisticas",
-        my_idp: "Meu instituto",
+        my_idp: "A minha instituição",
         invite_request: "Convite"
     },
 
     loader: {
-        loading: "Todos os serviços estão sendo carregados"
+        loading: "A carregar todos os serviços"
     },
 
     facets: {
-        title: "Filters",
-        refresh: "Refresh",
-        reset: "Reset",
-        download: "Export overview",
-        unknown: "Unknown",
+        title: "Filtros",
+		refresh: "Atualizar",
+        reset: "Limpar",
+        download: "Exportar",
+        unknown: "Desconhecido",
         totals: {
-            all: "Showing all {{total}} services",
-            filtered: "Showing {{count}} of {{total}} services"
+            all: "A visualizar {{total}} serviços",
+            filtered: "A visualizar {{count}} de {{total}} serviços"
         },
         static: {
             connection: {
-                all: "All",
-                has_connection: "Yes",
-                name: "Service connected",
-                no_connection: "No",
+                all: "Todos",
+                has_connection: "Sim",
+                name: "Serviço ligado",
+                no_connection: "Não",
             },
             license: {
-                has_license_sp: "Yes, with service provider",
-                has_license_surfmarket: "Yes, with SURFmarket",
-                name: "License",
-                not_needed: "Not needed",
-                unknown: "Unknown",
+                has_license_sp: "Sim, com o fornecedor de serviço",
+                has_license_surfmarket: "Sim, com SURFmarket",
+                name: "Licença",
+                not_needed: "Não é necessário",
+                unknown: "Desconhecido",
             },
             used_by_idp: {
-                all: "All",
-                name: "Offered by my institution",
-                no: "No",
-                yes: "Yes",
+                all: "Todos",
+                name: "Fornecidos pela minha instituição",
+                no: "Não",
+                yes: "Sim",
             },
             published_edugain: {
-                all: "All",
-                name: "Published in eduGAIN federation",
-                no: "No",
-                yes: "Yes",
+                all: "Todos",
+                name: "Publicados na federação eduGAIN",
+                no: "Não",
+                yes: "Sim",
             },
             interfed_source: {
-                tooltip: "Some services available through SURFconext have a home federation different from SURFconext. Here you can select on 'home federation'.",
-                name: "Federation source",
+				tooltip: "Alguns serviços disponiveis através da SURFconext são fornecidos através de outras federações que não a SURFconext. Aqui pode filtrar por federação.",
+                name: "Federação de origem",
                 surfconext: "SURFconext",
                 edugain: "eduGAIN",
-                entree: "Entree"
+                entree: "Entrada"
             },
             entity_category: {
-                name: "eduGAIN Entity Category",
-                tooltip: "Services can comply to an 'entity categories'.<br>See the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a> for more information. Here you can filter on services adhering to a certain category.",
+                name: "eduGAIN Categorias de Entidade",
+                tooltip: "SOs serviços podem obedecer a 'categorias de entidade'.<br>Consulte a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a>para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
-            strong_authentication: {
-                name: "Supports SURFsecureID",
-                yes: "Yes",
-                no: "No"
+			strong_authentication: {
+                name: "Suporta SURFsecureID",
+                yes: "Sim",
+                no: "Não"
             },
             attribute_manipulation: {
-                name: "Custom attribute manipulation script",
-                yes: "Yes",
-                no: "No"
+                name: "Script de manipulação de atributos personalizado",
+                yes: "Sim",
+                no: "Não"
             },
             arp: {
-                name: "Released attributes",
-                info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation."
+                name: "Libertar atributos",
+                info_html: "É possivel que sejam libertados mais atributos para o Serviço através da manipulação de atributos."
             },
             type_consent: {
-                tooltip: "Which way new users are asked to give consent before using the service.<br>See the <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> for more information.",
-                name: "Type of consent",
-                no_consent: "No consent",
-                minimal_consent: "Minimal consent",
-                default_consent: "Default consent",
+                tooltip: "Como é solicitada o consentimento aos novos utilizadores antes de aceder ao serviço.<br>Consulte a <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> para mais informações.",
+                name: "Tipo de consentimento",
+                no_consent: "Sem consentimento",
+                minimal_consent: "Consentimento minimo",
+                default_consent: "Cosentimento por omissão",
             }
         }
     },
 
-    apps: {
+   apps: {
         detail: {
-            application_usage: "Service usage",
-            attribute_policy: "Attributes",
-            close_screenshot: "Close",
-            how_to_connect: "Activate service",
-            how_to_disconnect: "Deactivate service",
-            idp_usage: "Used by",
-            license_data: "License",
-            overview: "Overview",
+            application_usage: "Utilização do serviço",
+            attribute_policy: "Atributos",
+            close_screenshot: "Fechar",
+            how_to_connect: "Activar serviço",
+            how_to_disconnect: "Desativar serviço",
+            idp_usage: "Utilizado por",
+            license_data: "Licença",
+            overview: "Visão geral",
             sirtfi_security: "Sirtfi Security",
-            privacy: "Privacy",
-            consent: "Consent",
-            back: "Back",
-            outstandingIssue: "There is already an outstanding ticket {{jiraKey}} of type {{type}} and status {{status}} for this Service.",
-            inviteAlreadyProcessed: "The invite for ticket {{jiraKey}} has already been {{action}}.",
-            outstandingIssueLink: " Go to the <a class=\"link\" href=\"{{link}}\">{{linkName}}</a> section to approve / deny the invitation.",
-            approved: "approved",
-            denied: "denied"
+            privacy: "Privacidade",
+            consent: "Consentimento",
+            back: "Voltar",
+            outstandingIssue: "Já existe um pedido de serviço excepcional {{jiraKey}} do tipo {{type}} e estado {{status}} para este Serviço.",
+            inviteAlreadyProcessed: "O convite para o pedido de serviço {{jiraKey}} já foi {{action}}.",
+            outstandingIssueLink: " Aceda à seção <a class=\"link\" href=\"{{link}}\">{{linkName}}</a>  para aprovar / recusar o convite.",
+            approved: "aprovado",
+            denied: "recusado"
         },
         overview: {
             connect: "",
-            connect_button: "Connect",
-            connected: "Connected",
-            license: "License secured",
-            licenseStatus: "License required",
-            aansluitovereenkomstRefused: "Policy signed",
+            connect_button: "Ativar",
+            connected: "Ativado",
+            license: "Licença protegida",
+            licenseStatus: "Licença exigida",
+            aansluitovereenkomstRefused: "Política assinada",
             license_present: {
                 na: "n/a",
-                no: "No",
-                unknown: "Unknown",
-                yes: "Yes",
+                no: "Não",
+                unknown: "Desconhecida",
+                yes: "Sim",
             },
-            license_unknown: "Unknown",
-            name: "Service",
-            no_results: "No services available",
-            processing_results: "Retrieving all services...",
-            search: "Search",
-            search_hint: "Filter by name",
+            license_unknown: "Desconhecida",
+            name: "Serviço",
+            no_results: "Não existem serviços disponiveis",
+            processing_results: "A disponibilizar todos os serviços...",
+            search: "Pesquisar",
+            search_hint: "Filtrar por nome",
         },
     },
 
     app_meta: {
-        question: "Got a question?",
-        eula: "Terms & Conditions",
+        question: "Tem alguma questão?",
+        eula: "Termos & Condições",
         website: "Website",
-        support: "Support pages",
-        login: "Login page",
-        registration_info_html: "This Service Provider is available in SURFconext through <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. The Service Provider is registered by the following federation: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
-        registration_policy: "Registration policy",
-        privacy_statement: "Privacy statement",
+        support: "Página de suporte",
+        login: "Página de entrada",
+        registration_info_html: "Este fornecedor de serviço está disponivel na  SURFconext através do <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. O Fornecedor de Serviço é registado através da seguinte federação: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
+        registration_policy: "Política de registo",
+        privacy_statement: "Política de Privacidade",
         metadata_link: "Metadata"
     },
-
     license_info_panel: {
-        title: "License information",
-        has_license_surfmarket_html: "There is a valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
-        has_license_sp_html: "A license for <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> can be acquired from the supplier of this service.",
-        has_license_sp_html_no_service_url: "A license for {{serviceName}} can be acquired from the supplier of this service.",
-        no_license_html: "Your institution has no valid license available via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
-        not_needed_html: "This Service does not require a license.",
-        unknown_license: "It is unknown whether a license is required or not.",
+        title: "Informação da Licença",
+        has_license_surfmarket_html: "Existe uma licença válida através da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+        has_license_sp_html: "A licença para <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> pode ser adquirida ao fornecedor deste serviço.",
+        has_license_sp_html_no_service_url: "A licença para {{serviceName}} pode ser adquirida ao fornecedor deste serviço.",
+        no_license_html: "A sua instituição não tem uma licença válida disponivel através da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+        not_needed_html: "Este Serviço não requer licença.",
+        unknown_license: "É desconhecido se é necessário licença.",
         no_license_description_html: "" +
             "<ul>" +
-            "   <li>Your institution can obtain a license from <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
+            "   <li>A sua instituição pode obter uma linceça a partir da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
             "</ul>" +
-            "<br />In some cases this license needs to be obtained directly from the service supplier.",
-        unknown_license_description_html: "There could be multiple reasons:" +
+            "<br />Em alguns casos a licença necessita de ser obtida directamente do fornecedor de serviço.",
+        unknown_license_description_html: "Podem existir várias razões:" +
             "<ul>" +
-            "   <li>SURF or another institution is offering this service for free.</li>" +
-            "   <li>The license needs to be obtained directly from the service supplier.</li>" +
-            "   <li>The license hasn't been added to <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>'s administration yet.</li>" +
+            "   <li>A SURFnet ou outra instituição está a diponibilizar o serviço de forma gratuita.</li>" +
+            "   <li>A licença necessita de ser obtida directamente do fornecedor de serviço.</li>" +
+            "   <li>A licença não foi adicionada à administração da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
             "</ul>" +
-            "<p>If necessary, SURFnet will contact the service supplier or <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> before activating the connection.</p>"
+            "<p>Se necessário, a SURFnet pode contactar o fornecedor de serviço ou a <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> antes de ativar a ligação.</p>"
     },
 
-    license_info: {
-        unknown_license: "No license information available",
-        has_license_surfmarket: "License available via SURFmarket",
-        has_license_sp: "License necessary (via service supplier)",
-        no_license: "No license available",
-        no_license_needed: "No license needed",
-        license_info: "Read how to obtain a license",
-        license_unknown_info: "Read more",
-        valid: "License is valid untill {{date}}"
+  license_info: {
+        unknown_license: "Nenhuma informação de licença disponível",
+        has_license_surfmarket: "Licença disponível através da SURFmarket",
+        has_license_sp: "Licença necessaria (através do fornecedor de serviço)",
+        no_license: "Nenhuma licença disponível",
+        no_license_needed: "Não é necessário licença",
+        license_info: "Saiba como obter a licença",
+        license_unknown_info: "Ler mais",
+        valid: "Licença válida até {{date}}"
     },
 
-    overview_panel: {
-        wiki_info_html: "Extra information is available for this services in the SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
-        no_description: "The description of this service is not available.",
-        description: "Description",
-        has_connection: "Active connection",
-        no_connection: "Inactive connection",
-        how_to_connect: "Read how to activate",
-        disconnect: "Read how to deactivate the connection",
-        normen_kader: "Information regarding AVG/GDPR",
-        normen_kader_html: "For this service the supplier has published information stating which data they process and where they process this data. You can find this information on the <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=60689334\" target=\"_blank\">wiki</a>. During 2018 we will incorporate this information in a new version of this Dashboard.",
-        no_normen_kader_html: "For this service the supplier has not yet provided AVG/GDPR information; information stating which data they process and where they process this data can be requested at the supplier.",
-        single_tenant_service: "Single tenant service",
-        single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
-        interfed_source: "Federation source:",
-        publish_in_edugain_date: "Published in eduGAIN on:",
-        supports_ssa: "Supports SURFsecureID",
-        entity_categories: "Supported Entity Categories",
+  overview_panel: {
+        wiki_info_html: "Informações extras estão disponíveis para este serviço na SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+        no_description: "A descrição deste serviço não está disponível.",
+        description: "Descrição",
+        has_connection: "Ligações ativas",
+        no_connection: "Ligações inativas",
+        how_to_connect: "Saiba como ativar",
+        disconnect: "Saiba como desativar a ligação",
+        normen_kader: "Informação sobre o AVG/GDPR",
+        normen_kader_html: "Para este serviço, foi publicada informação sobre quais os dados processados e onde processam esses dados. Pode encontrar esta informação na <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=60689334\" target=\"_blank\">wiki</a>. Durante 2018 esta informação será incorporada na nova versão do Dashboard.",
+        no_normen_kader_html: "Para este serviço, ainda não foi disponibilizada informação sobre o AVG/GDPR; informação sobre quais os dados que processam e onde podem ser solicitados ao fornecedor do serviço.",
+        single_tenant_service: "Serviço single tenant",
+        single_tenant_service_html: "{{name}} é um serviço single tenant,como tal, requer uma instância separada para cada instituição que deseja ligar-se a este serviço. Para obter mais informações sobre serviços single tenant, consulte <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
+        interfed_source: "Origem da federação:",
+        publish_in_edugain_date: "Publicado no eduGAIN em:",
+        supports_ssa: "Suporta SURFsecureID",
+        entity_categories: "Suporta Entity Categories",
         entity_category: {
             "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
-        aansluitovereenkomst: "Connection Policy",
-        aansluitovereenkomstRefused: "This service has refused to sign the 'SURFconext connection agreement' with SURF. Read more about this policy on the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>.",
-        privacyInformation: "Privacy information",
-        privacyInformationInfo: "The service provider has not delivered any privacy information."
+        aansluitovereenkomst: "Protocolo de Adesão",
+        aansluitovereenkomstRefused: "Este serviço recusou-se a assinar 'Protocolo de adesão à SURFconext' com a SURF. Read more about this policy on the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>.",
+        privacyInformation: "Informação de privacidade",
+        privacyInformationInfo: "O serviço não disponibilizou informação de privacidade."
     },
 
-    attributes_policy_panel: {
+	attributes_policy_panel: {
         arp: {
-            noarp: "There is no 'Attribute Release Policy' specified. All known attributes are exchanged.",
-            noattr: "No attributes will be exchanged with {{name}}.",
-            manipulation: "For this Service Provider there is a custom 'attribute manipulation script' in effect. SURFconext will execute the script for every authentication of a user, before releasing attributes to that service. In order for you to understand what information will be released, please find below a description of what the script does:",
+            noarp: "Não existe uma 'Attribute Release Policy' específica. Todos os atributos são enviados.",
+            noattr: "Não são enviados atributos para {{name}}.",
+            manipulation: "Para este serviço existe efetivamente um 'script de manipulação de atributos'. A SURFconext executa o script para cada utilizador autenticado, antes de enviar os atributos para o serviço. Para que possa compreender qual a informação a ser enviada, por favor consulte abaixo uma descrição sobre o tratamento realizado pelo script:",
         },
-        attribute: "Attribute",
-        hint: "The attributes and their values for your personal account are displayed. This might not be representative for other accounts within your organization.",
-        subtitle: "{{name}} wants to receive the following attributes",
-        title: "Attributes",
-        your_value: "Your value",
-        filter: "For this attribute the following filters have been applied:",
-        motivationInfo: "The colomn ‘motivation‘ contains, to the extent available, the explanation of the supplier why they need this attribute.",
-        motivation: "Motivation",
-        no_attribute_value: "<no value received>",
-        filterInfo: "To minimize the data passed on from institution to the service, SURFconext sometimes filters the values of attributes.",
-        warning: "Remarks:"
+        attribute: "Atributo",
+        hint: "Os atributos e os respetivos valores para a sua conta pessoal são apresentados.Isto pode não ser representativo para outras contas na sua organização.",
+        subtitle: "{{name}} quer receber os seguintes atributos",
+        title: "Atributos",
+        your_value: "O seu valor",
+        filter: "Para este atributo os seguintes filtros foram aplicados:",
+        motivationInfo: "A coluna ‘motivação‘ contém, na medida do possível, a explicação do fornecedor a razão pela qual precisa deste atributo.",
+        motivation: "Motivação",
+        no_attribute_value: "<não foi recebido nenhum valor>",
+        filterInfo: "Para minimizar os dados a transmitir da insituição para o serviço, a SURFconext por vezes filtra os valores dos atributos.",
+        warning: "Observações:"
     },
-    idp_usage_panel: {
-        title: "Used by",
-        subtitle: "The following institutions are connected to {{name}}.",
-        subtitle_none: "There are no institutions connected to {{name}}.",
-        subtitle_single_tenant: "When you want to know which institutes use {{name}} through SURFconext, please send an email with your question to support@surfconext.nl.",
-        institution: "Institution"
+	idp_usage_panel: {
+        title: "Usado por",
+        subtitle: "As seguintes instituições estão ligadas a {{name}}.",
+        subtitle_none: "Não existem instituições ligadas a {{name}}.",
+        subtitle_single_tenant: "Quando pretende saber quais as instituições a usar {{name}} através da SURFconext, por favor envie um email para support@surfconext.nl.",
+		institution: "Instituição"
     },
     sirtfi_panel: {
-        title: "The Sirtfi contact persons for {{name}}",
-        subtitle: "The Security Incident Response Trust Framework for Federated Identity <a href=\" https://refeds.org/sirtfi\" target=\"_blank\">(Sirtfi) </a> aims to enable the coordination of incident response across federated organisations. This assurance framework comprises a list of assertions which an organisation can attest in order to be declared Sirtfi compliant.",
-        contactPersons: "The Sirtfi contact persons for this service:",
-        cp_name: "Name",
+        title: "O contacto Sirtfi para {{name}}",
+        subtitle: "A Framework de Resposta a Incidentes de Segurança para Identidades Federadas <a href=\" https://refeds.org/sirtfi\" target=\"_blank\">(Sirtfi) </a> tem como objectivo permitir a coordenação da resposta a incidentes entre organizações federadas. Esta framework de confiança inclui uma lista de asserções que uma organização pode atestar para que possa declarar estar em conformidade com Sirtfi.",
+        contactPersons: "O contacto Sirtfi para este serviço:",
+        cp_name: "Nome",
         cp_email: "Email",
-        cp_telephoneNumber: "Telephone number",
-        cp_type: "Type",
-        cp_type_translate_technical: "Technical",
-        cp_type_translate_administrative: "Administrative",
-        cp_type_translate_help: "Support",
-        cp_type_translate_support: "Support"
+        cp_telephoneNumber: "Número de telefone",
+        cp_type: "Tipo",
+        cp_type_translate_technical: "Técnico",
+        cp_type_translate_administrative: "Administrativo",
+        cp_type_translate_help: "Suporte",
+        cp_type_translate_support: "Suporte"
     },
-    privacy_panel: {
-        title: "Privacy Information",
-        subtitle: "SURF provides new connecting Services the opportunity to share information concerning AVG policies. If available, you'll find it below. For any missing info, you can contact the supplier.",
-        subtitle2: "The provider of the service {{name}} has supplied the following information (if any):",
-        question: "Question",
-        answer: "Answer",
-        accessData: "WHO CAN ACCESS THE DATA?",
-        certification: "CAN THE SUPPLIER SUPPLY A THIRD PARTY MEMORANDUM?",
-        certificationLocation: "WHERE CAN AN INSTITUTION FIND/REQUEST IT?",
-        country: "IN WHAT COUNTRY IS THE DATA STORED",
-        otherInfo: "OTHER DATA PRIVACY AND SECURITY INFORMATION",
-        privacyPolicy: "DOES THE SUPPLIER PUBLISH A PRIVACY POLICY?",
-        privacyPolicyUrl: "WHAT IS THE PRIVACY POLICY URL?",
-        securityMeasures: "WHAT SECURITY MEASURES HAS THE SUPPLIER TAKEN?",
-        snDpaWhyNot: "IF NO, WHAT ARTICLES POSE A PROBLEM & WHY?",
-        surfmarketDpaAgreement: "DID THE SUPPLIER AGREE A DPA WITH SURFMARKET?",
-        surfnetDpaAgreement: "IS THE SUPPLIER WILLING TO SIGN THE SURF MODEL DPA?",
-        whatData: "WHAT (KIND OF) DATA IS PROCESSED?",
-        certificationValidFrom: "CERTIFICATION VALID FROM",
-        certificationValidTo: "CERTIFICATION VALID TO",
-        noInformation: "No info supplied by provider"
+  privacy_panel: {
+        title: "Informação de Privacidade",
+        subtitle: "A SURF fornece aos novos Serviços a oportunidade de partilhar informação sobre as suas politícas de RGPD. Se disponível, encontra-se abaixo. Para qualquer informação em falta, por favor contacte o fornecedor.",
+        subtitle2: "O fornecedor do serviço {{name}} forneceu a seguinte informação (caso existam):",
+        question: "Questão",
+        answer: "Resposta",
+        accessData: "QUEM PODE TER ACESSO AOS DADOS?",
+        certification: "PODE O FORNECEDOR DISPONIBILIZAR UM MEMORANDO A TERCEIROS?",
+        certificationLocation: "ONDE PODE UMA INSTITUIÇÃO ENCONTRAR/SOLICITAR O MESMO?",
+        country: "EM QUE PAÍS ESTÃO OS DADOS ARMAZENADOS?",
+        otherInfo: "OUTRAS INFORMAÇÕES DE PRIVACIDADE E SEGURANÇA DE DADOS",
+        privacyPolicy: "O FORNECEDOR PUBLICA UMA POLÍTICA DE PRIVACIDADE?",
+        privacyPolicyUrl: "QUAL O URL DA POLÍTICA DE PRIVACIDADE?",
+        securityMeasures: "QUAIS MEDIDAS DE SEGURANÇA ADOTADAS PELO FORNECEDOR?",
+        snDpaWhyNot: "SE NÃO, QUAIS OS ARTIGOS QUE TEM PROBLEMAS & PORQUÊ?",
+        surfmarketDpaAgreement: "O FORNECEDOR CONCORDA COM A DPA DA SURFMARKET?",
+        surfnetDpaAgreement: "O FORNECEDOR PRETENDE ASSINAR O SURF MODEL DPA?",
+        whatData: "QUE(TIPO)DADOS SÃO PROCESSADOS?",
+        certificationValidFrom: "CERTIFICAÇÃO VÁLIDA DE",
+        certificationValidTo: "CERTIFICAÇÃO VÁLIDA PARA",
+        noInformation: "Não foi fornecida informação pelo fornecedor"
     },
     consent_panel: {
-        title: "Consent new users",
-        subtitle: "New users will be asked permission for sending personal data to this service.",
-        subtitle2: " On this page you can configure in which way users will be asked for consent before they are sent to {{name}}. You can configure to skip consent, ask for minimal consent and add a custom consent message for users of this service. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">this wiki page</a>.",
-        subtitle2Viewer: " On this page you can view in which way users will be asked for consent before they are sent to {{name}}. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">this wiki page</a>.",
-        no_consent: "No consent is required",
-        minimal_consent: "Minimal consent is required",
-        default_consent: "Default consent with an optional custom message",
-        consent_value: "Type of consent required",
-        consent_value_tooltip: "The type of consent determines how and if the user will be asked for consent.",
-        explanationNl: "Dutch message",
-        explanationNl_tooltip: "This custom message will be appended to the English consent screen for new users.",
-        explanationEn: "English message",
-        explanationEn_tooltip: "This custom message will be appended to the Dutch consent screen for new users.",
-        save: "Submit changes",
-        change_request_created: "Change request sent to the SURFnet SURFconext-team.",
-        no_change_request_created: "No change request is created as you did not change anything.",
-        change_request_failed: "Failed to create your change request.",
+        title: "Consentimento de novos utilizadores",
+        subtitle: "Aos novos utilizadores será pedido permissão para enviar informação de dados pessoais para este serviço.",
+        subtitle2: "Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
+        subtitle2Viewer: "Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
+        no_consent: "Não é necessário consentimento",
+        minimal_consent: "É necessário consentimento mínimo",
+        default_consent: "Consentimento por omissão com uma mensagem personalizada opcional",
+        consent_value: "Tipo de consentimento necessário",
+        consent_value_tooltip: "O tipo de consentimento determina como e se é pedido consentimento ao utilizador.",
+        explanationNl: "Mensagem em Dutch",
+        explanationNl_tooltip: "Esta mensagem será adicionada ao interface de consentimento em Dutch para novos utilizadores.",
+        explanationEn: "Mensagem em Inglês",
+        explanationEn_tooltip: "Esta mensagem será adicionada ao interface de consentimento em Inglês para novos utilizadores.",
+        save: "Guardar alterações",
+        change_request_created: "Pedido de Alteração enviado para SURFnet SURFconext-team.",
+        no_change_request_created: "Não foi criado o pedido de alteração, já que não foi alterada qualquer informação.",
+        change_request_failed: "Falha ao criar o pedido de alteração.",
     },
     how_to_connect_panel: {
-        accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",
-        accept_disconnect: "Yes, I agree that {{app}} will no longer be available to my organization",
-        attributes: "attributes",
-        attributes_policy: "attribute policy",
-        privacy_policy: "privacy policy",
-        back_to_apps: "Back to all services",
-        cancel: "Cancel",
-        check: "Check the",
-        checklist: "Finish this checklist before activating the connection:",
-        processing_agreements: "Check whether your institution needs a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\">processing agreement</a> for this service, and if so, has signed one.",
-        comments_description: "Comments will be sent to SURFconext.",
-        comments_placeholder: "Enter comments here...",
-        comments_title: "Any additional comments?",
-        connect: "Activate service",
-        connect_title: "Connect {{app}}",
-        connect_invite_title: "Accept invite to connect {{app}}",
-        disconnect: "Deactivate service",
-        disconnect_title: "Deactivate connection with {{app}}",
-        done_disconnect_subtitle_html: "You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
-        done_disconnect_subtitle_html_with_jira_html: "You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.",
-        done_disconnect_title: "Deactivation requested!",
-        done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
-        done_subtitle_with_jira_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}\">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.",
-        done_title: "Connection made!",
+        accept: "Certifico que li os termos e condiçoes e que aceito os mesmos em nome da minha instituição.",
+        accept_disconnect: "Sim, concordo que {{app}} deixará de estar disponivel para minha organização",
+        attributes: "atributos",
+        attributes_policy: "política de atributos",
+        privacy_policy: "política de privacidade",
+        back_to_apps: "Voltar a todos os serviços",
+        cancel: "Cancelar",
+        check: "Verificar que",
+        checklist: "Finalize a lista de verificações antes de activar a ligação:",
+        processing_agreements: "Verifique se a sua instituição necessita de um <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\">contrato de adesão</a> para este serviço, se sim, se o mesmo já está assinado.",
+        comments_description: "Comentários serão enviados à SURFconext.",
+        comments_placeholder: "Adicione aqui os seus comentários...",
+        comments_title: "Comentários adicionais?",
+        connect: "Ativar serviço",
+        connect_title: "Ligar {{app}}",
+        connect_invite_title: "Aceitar convite para ligar {{app}}",
+        disconnect: "Desativar serviço",
+        disconnect_title: "Desativar ligação com {{app}}",
+        done_disconnect_subtitle_html: "Será contactado sobre os próximos passos, necessários para finalizar esta desativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
+        done_disconnect_subtitle_html_with_jira_html: "Será contactado sobre os próximos passos, necessários para finalizar esta desativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.",
+        done_disconnect_title: "Pedido de Desativação!",
+        done_subtitle_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
+        done_subtitle_with_jira_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}\">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.",
+        done_title: "Ligação realizada!",
         forward_permission: {
-            after: " to {{app}}.",
-            before: "SURFnet has permission to forward the ",
+            after: " para {{app}}.",
+            before: "SURFnet tem permissões para encaminhar ",
         },
-        info_sub_title: "You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.",
-        info_sub_invite_title: "You can accept the invite to connect. We advise you to follow the checklist and check the specific information for this app before you activate.",
-        info_title: "Activate connection",
-        jira_unreachable: "Something went wrong with your request",
-        jira_unreachable_description: "It is currently not possible to do a request. Please try again later.",
-        license: "license",
-        license_info: "license information",
+        info_sub_title: "Pode ativar uma ligação neste dashboard. Recomendamos que verifique a lista de verificações e analise a informação específica desta app antes de a ativar.",
+        info_sub_invite_title: "Pode aceitar o convite para ativar uma ligação. Recomendamos que verifique a lista de verificações e analise a informação específica desta app antes de a ativar.",
+        info_title: "Ativar ligação",
+        jira_unreachable: "Algo falhou com o seu pedido",
+        jira_unreachable_description: "Não é possivel realizar um pedido neste momento.Por favor tente novamente mais tarde.",
+        license: "licença",
+        license_info: "informação de licença",
         obtain_license: {
-            after: " for using {{app}}.",
-            before: "It is the responsibility of my institution to obtain a ",
+            after: " para usar {{app}}.",
+            before: "É da responsabilidade da minha instituição obter um ",
         },
         provide_attributes: {
             after: ".",
-            before: "It is the responsibility of my institution to provide the correct ",
+            before: "É da responsabilidade da minha instituição fornecer as informações corretas ",
         },
-        read: "Read the",
-        single_tenant_service_warning: "Requests for activating a single tenant services take longer to process. SURFnet will contact you to discuss the activation process after it has received your request.",
-        terms_title: "By requesting an activation you accept these terms",
-        wiki: "wiki for this service",
-        aansluitovereenkomst_accept: "I hereby certify that I agree with connecting to a service which has not signed the 'SURFconext aansluitovereenkomst'.",
-        not_published_in_edugain_idp: "eduGAIN service",
-        not_published_in_edugain_idp_info: "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
-        edit_my_idp_link: "Create change request in 'My Institute'",
-        disconnect_jira_info: "If you want more information about the progress on this issue please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> and include the ticket number in the subject: CXT-22835",
-        invite_denied: "Ticket {{jiraKey}} was successfully closed.",
-        invite_accepted: "Ticket {{jiraKey}} was successfully updated with your approval.",
-        deny: "Deny invition",
-        approve: "Approve invitation",
-        deny_invitation: "Are you  sure you want to deny the invitation to connect to {{app}}",
-        deny_invitation_info: "After you deny the invitation you can always activate the connection from this dashboard.",
-        invite_action_collision_title: "Service {{app}} is already connected.",
-        invite_action_collision_subtitle: "Mid-air collision detected.",
-        invite_action_collision: "The invitation to connect to {{app}} was already accepted. Perhaps a colleague has already accepted the invite? If you have any question please contact <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> and include the ticket number in the subject: {{jiraKey}}."
+        read: "Ler o",
+        single_tenant_service_warning: "Pedidos para ativar serviços "single tenant" podem levar mais tempo a ser processados. SURFnet entrará em contato para discutir o processo de ativação após receber sua solicitação.",
+        terms_title: "Ao solicitar uma ativação está a aceitar os termos e condições",
+        wiki: "wiki para este serviço",
+        aansluitovereenkomst_accept: "Certifico que concordo com a conexão a um serviço que não tenha assinado o 'SURFconext aansluitovereenkomst'.",
+        not_published_in_edugain_idp: "serviço eduGAIN",
+        not_published_in_edugain_idp_info: "O serviço {{name}} não pode ser ligado porque a sua instituição não está no eduGAIN. Para aderir ao eduGAIN, por favor seleccione a opção 'Publicar no eduGAIN' na tab 'A minha Instituição' e faça um pedido de alteração.",
+        edit_my_idp_link: "Criar solicitação de mudança em 'A minha instituição'",
+        disconnect_jira_info: "Se pretende receber mais informações sobre o progresso deste pedido, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> e adicione o número do pedido de serviço no assunto: CXT-22835",
+        invite_denied: "Pedido de Serviço {{jiraKey}} fechado com sucesso.",
+        invite_accepted: "Pedido de Serviço {{jiraKey}} foi atualizado com sucesso e com a sua aprovação.",
+        deny: "Recusar o convite",
+        approve: "Aprovar o convite",
+        deny_invitation: "Tem certeza que não pretende aceitar o convite para se ligar {{app}}",
+        deny_invitation_info: "Depois de recusar o convite de ligação, pode sempre voltar a realizar um pedido para ativar o serviço aqui no dashboard.",
+        invite_action_collision_title: "O serviço {{app}} já está ligado.",
+        invite_action_collision_subtitle: "Mid-air colisão detectada.",
+        invite_action_collision: "O convite {{app}} já foi aceite. Talvez alguem já tenha aceite o convite? Se tem alguma questão por favor contacte <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> e adicione o número do pedido no assunto do email: {{jiraKey}}."
     },
 
     application_usage_panel: {
-        title: "Service usage",
-        download: "Export",
-        error_html: "Stats are currently unavailable. <a href=\"mailto:support@surfconext.nl\">Contact support</a> for more information."
+        title: "Utilização do serviço",
+        download: "Exportar",
+        error_html: "As estatísticas estão indisponíveis de momento. <a href=\"mailto:support@surfconext.nl\">Contacte o suporte</a> para mais informações."
     },
 
     contact: {
-        email: "Service support email"
+        email: "E-mail de suporte do serviço"
     },
     export: {
-        downloadCSV: "Download as CSV",
-        downloadPNG: "Download as PNG",
-        downloadPDF: "Download as PDF"
+        downloadCSV: "Download como CSV",
+        downloadPNG: "Download como PNG",
+        downloadPDF: "Download como PDF"
     },
     search_user: {
-        switch_identity: "Switch identity",
-        search: "Search",
-        search_hint: "Filter by name",
-        name: "Name",
-        switch_to: "Switch to role",
+        switch_identity: "Trocar Identidade",
+        search: "Pesquisar",
+        search_hint: "Filtrar por nome",
+        name: "Nome",
+        switch_to: "Trocar para o perfil",
         switch: {
             role_dashboard_viewer: "Viewer",
             role_dashboard_admin: "Admin"
@@ -414,457 +413,458 @@ I18n.translations.pt = {
     },
 
     not_found: {
-        title: "The requested page could not be found.",
-        description_html: "Please check the spelling of the URL or go to the <a href=\"/\">homepage</a>."
+        title: "A página solicitada não foi encontrada.",
+        description_html: "Por favor verifique o URL ou aceda à <a href=\"/\">página principal</a>."
     },
 
     server_error: {
-        title: "You don't have sufficient access right to access the Dashboard application.",
-        description_html: "Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you think this is incorrect."
+        title: "Não tem permissões suficientes para aceder ao Dashboard.",
+        description_html: "Por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> ."
     },
 
     logout: {
-        title: "Logout completed successfully.",
-        description_html: "You <strong>MUST</strong> close your browser to complete the logout process."
+        title: "Logout concluído com sucesso.",
+        description_html: "<strong>TEM</strong> de fechar o browser para terminar o processo de logout."
     },
 
     footer: {
         surfnet_html: "<a href=\"https://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
-        terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",
+        terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Termos do Serviço</a>",
         contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
     },
 
     my_idp: {
-        title: "My institute",
-        roles: "Roles",
-        sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
-        role: "Role",
-        users: "User(s)",
-        settings: "Settings for my own institute",
-        settings_edit: "Settings for my own institute and services",
-        settings_text: "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
-        settings_text_viewer: "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page.",
+        title: "A minha instituição",
+        roles: "Perfis",
+        sub_title_html: "Os seguintes perfis foram atribuídos  (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
+        role: "Perfil",
+        users: "Utilizador(es)",
+        settings: "Configurações para a minha instituição",
+        settings_edit: "Configurações para a minha instituição e serviços",
+        settings_text: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à SURFconext através da sua instituição.Estas configurações são utilizadas na SURFconext, por exemplo na página Where Are You From. Se pretende alterar informação, clique em 'Criar pedido de alteração'.",
+        settings_text_viewer: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à SURFconext através da sua instituição.Estas configurações são utilizadas na SURFconext, por exemplo na página Where Are You From.",
         SURFconextverantwoordelijke: "SURFconext owner",
         SURFconextbeheerder: "SURFconext maintainer",
         "Dashboard supergebruiker": "Dashboard Super User",
-        services_title: "Services provided by your institute:",
-        services_title_none: "None",
-        service_name: "Service name",
-        license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
-        license_contact_name: "Name",
+        services_title: "Serviços fornecidos pela sua instituição:",
+        services_title_none: "Nenhum",
+        service_name: "Nome do Serviço",
+        license_contact_html: "Contacto Primário da Licença (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
+        license_contact_name: "Nome",
         license_contact_email: "Email",
-        license_contact_phone: "Phonenumber",
-        institution: "Institution",
-        services: "Services",
-        edit: "Create change request",
+        license_contact_phone: "Número de Telefone",
+        institution: "Instituição",
+        services: "Serviços",
+        edit: "Criar pedido de alteração",
         entity_id: "Entity ID",
-        state: "Status",
-        prodaccepted: "Production",
-        testaccepted: "Staging",
-        all: "All",
+        state: "Estado",
+        prodaccepted: "Produção",
+        testaccepted: "Testes",
+        all: "Todos",
         name: {
-            en: "Name (en)",
-            nl: "Name (nl)"
+            en: "Nome (en)",
+            nl: "Nome (nl)"
         },
         displayName: {
             en: "Display name (en)",
             nl: "Display name (nl)"
         },
         organizationURL: {
-            en: "Organization URL (en)",
-            nl: "Organization URL (nl)"
-        },
-        organizationURL_nl_tooltip: "A URL the end user can access for more information in Dutch about the organization.",
-        organizationURL_en_tooltip: "A URL the end user can access for more information in English about the organization.",
+            en: "URL da Organização (en)",
+            nl: "URL da Organização (nl)"
+		},
+		organizationURL_nl_tooltip: "Um URL que o utilizador pode aceder para obter informação em Dutch sobre a organização.",
+        organizationURL_en_tooltip: "Um URL que o utilizador pode aceder para obter informação em Inglês sobre a organização.",
         organizationName: {
-            en: "Organization name (en)",
-            nl: "Organization name (nl)"
+            en: "Nome da Organização (en)",
+            nl: "Nome da Organização (nl)"
         },
-        organizationName_nl_tooltip: "The official Dutch name of the organization.",
-        organizationName_en_tooltip: "The official English name of the organization.",
+        organizationName_nl_tooltip: "O nome oficial em Dutch da organização.",
+        organizationName_en_tooltip: "O nome oficial em Inglês da organização.",
         organizationDisplayName: {
-            en: "Organization display name (en)",
-            nl: "Organization display name (nl)"
+            en: "Nome de Apresentação da Organização(en)",
+            nl: "Nome de Apresentação da Organização(nl)"
+
         },
-        organizationDisplayName_nl_tooltip: "The Dutch display name of the organization.",
-        organizationDisplayName_en_tooltip: "The English display name of the organization.",
+        organizationURL_nl_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Dutch.",
+        organizationURL_en_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Inglês.",
         keywords: {
             en: "Keywords (en)",
             nl: "Keywords (nl)"
         },
-        published_in_edugain: "Published in eduGAIN",
-        date_published_in_edugain: "Date published in eduGAIN",
+        published_in_edugain: "Publicado no eduGAIN",
+        date_published_in_edugain: "Data de publicação no eduGAIN",
         logo_url: "Logo",
-        new_logo_url: "New logo URL",
-        research_and_scholarship_info: "Connect to CoCo R&S SP’s automatically",
-        research_and_scholarship_tooltip: "This means your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\">wiki</a> for more information.",
-        contact: "Contact persons for {{name}}",
-        contact_name: "Contact name",
-        contact_email: "Contact email",
-        contact_type: "Contact type",
-        contact_telephone: "Contact telephone",
+        new_logo_url: "URL do Novo logo ",
+        research_and_scholarship_info: "Ligar-se automáticamente aos SP's compatíveis com a categoria CoCo R&S",
+        research_and_scholarship_tooltip: "Isto significa que o vosso IdP ativa automáticamente ligações para todos os SPs na <br>SURFconext que aderiram à categoria ‘Research & Scholarship Entity Category’<br> e ‘GEANT Data Protection Code of Conduct’, libertanto os atributos R&S. <br>Consulte<a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\">wiki</a> para mais informações.",
+        contact: "Contacto para {{name}}",
+        contact_name: "Nome do contacto",
+        contact_email: "Email do contacto",
+        contact_type: "Tipo de contacto",
+        contact_telephone: "Telefone do contacto",
         contact_types: {
-            technical: "Technical",
-            support: "Support",
-            help: "Support",
-            administrative: "Administrative"
+            technical: "Tecnico",
+            support: "Suporte",
+            help: "Suporte",
+            administrative: "Administrativo"
         },
         description: {
-            en: "Description (en)",
-            nl: "Description (nl)"
+            en: "Descrição (en)",
+            nl: "Descrição (nl)"
         },
-        guest_enabled: "Guest access enabled",
-        edit_message: "You are able to edit the following fields.",
-        save: "Create change request",
-        change_request_created: "Change request sent to the SURFnet SURFconext-team. The ticket number of the change request is {{jiraKey}}",
-        no_change_request_created: "No change request is created as you did not change anything.",
-        change_request_failed: "Failed to create your change request.",
-        comments: "Comments"
+        guest_enabled: "Acesso a convidados ativo",
+        edit_message: "Voçê pode editar os seguintes campos.",
+        save: "Criar pedido de alteração",
+        change_request_created: "Pedido de alteração enviado para a SURFnet SURFconext-team.",
+        no_change_request_created: "Não foi criado pedido de alteração já que não existem alterações.",
+        change_request_failed: "Falha ao criar o seu pedido de alteração.",
+        comments: "Comentários"
     },
 
     policies: {
-        confirmation: "Are your sure you want to remove policy '{{policyName}}?'",
-        flash: "Authorization policy '{{policyName}}' was successfully {{action}}",
-        flash_created: "created",
-        flash_deleted: "deleted",
-        flash_first: "This is the first authorization policy for this service. Before it becomes active, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.",
-        flash_updated: "updated",
-        new_policy: "New authorization policy",
+        confirmation: "Tem a certeza que pretende remover a politíca '{{policyName}}?'",
+        flash: "Política de autorização '{{policyName}}' foi {{action}} com sucesso",
+        flash_created: "criada",
+        flash_deleted: "removida",
+        flash_first: "Esta é a primeira política de autorização para este serviço. Antes de ficar ativo, a equipa SURFconext tem de realizar alterações de configuração manualmente. Foi enviada uma notificação paa a equipa SURFconext. Em breve será contactado.",
+        flash_updated: "atualizado",
+        new_policy: "Nova política de autorização",
         how_to: "How-to",
-        policy_name_not_unique_exception: "This policy name is already in use",
-        pdp_unreachable: "PDP unreachable",
-        pdp_unreachable_description: "Currently unable to fetch the policies from PDP. Please try again later.",
+        policy_name_not_unique_exception: "Este nome de política já está a ser utilizado",
+        pdp_unreachable: "PDP inacessível",
+        pdp_unreachable_description: "De momento não é possível obter as políticas do PDP. Por favor, tente novamente mais tarde.",
         overview: {
-            active: "Active",
-            description: "Description",
-            identityProviderNames: "Institution(s)",
-            name: "Name",
-            numberOfRevisions: "Revisions",
-            search: "Search",
-            search_hint: "Filter by name",
-            serviceProviderName: "Service",
+            active: "Ativo",
+            description: "Descrição",
+            identityProviderNames: "Instituições",
+            name: "Nome",
+            numberOfRevisions: "Revisões",
+            search: "Pesquisar",
+            search_hint: "Filtrar por nome",
+            serviceProviderName: "Serviço",
         },
     },
 
     policy_attributes: {
-        attribute: "Attribute",
-        attribute_value_placeholder: "Attribute value...",
-        group_info: " The value(s) must be fully qualified group IDs e.g. 'urn:collab:group:surfteams.nl:nl:surfnet:diensten:admins'",
-        new_attribute: "Add new attribute...",
-        new_value: "Add a new value...",
-        sab_info: " The value(s) must be valid roles in SAB e.g. 'Instellingsbevoegde'",
-        values: "Values(s)",
+        attribute: "Atributo",
+        attribute_value_placeholder: "Valor do atributo...",
+        group_info: " O valor(es) deve ser um ID de grupo totalmente qualificado ex. 'urn:collab:group:surfteams.nl:nl:surfnet:diensten:admins'",
+        new_attribute: "Adicionar novo atributo....",
+        new_value: "Adicionar novo valor...",
+        sab_info: " O(s) valor(es) tem de corresponder a perfis válidos no SAB ex. 'Instellingsbevoegde'",
+        values: "Valor(es)",
         help_link: "https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext"
     },
 
     policy_detail: {
-        access: "Access",
-        attribute: "Attribute",
-        autoFormat: "AutoFormat policy description",
-        cancel: "Cancel",
-        confirmation: "Are your sure you want to leave this page?",
-        create_policy: "Create new authorization policy",
-        deny: "Deny",
-        deny_info: "Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.",
-        deny_message: "Deny message in English",
-        deny_message_info: "This is the message displayed to the user if access is denied based on this policy.",
-        deny_message_nl: "Deny message in Dutch",
-        description: "Description",
-        idps_placeholder: "Select the Identity Providers - zero or more",
-        institutions: "Institutions",
-        isActive: "Active",
-        isActiveDescription: "Mark the authorization policy active",
-        isActiveInfo: " Inactive authorization policies are not evaluated in enforcement decisions",
-        name: "Name",
-        permit: "Permit",
-        permit_info: "Permit policies enforce that a only a successful match of the attributes defined will result in a Permit. No match will result in a Deny.",
-        rule: "Rule",
+        access: "Acesso",
+        attribute: "Atributos",
+        autoFormat: "Formatação automática da descrição da política",
+        cancel: "Cancelar",
+        confirmation: "Tem a certeza que pretende sair desta página?",
+        create_policy: "Criar nova política de autorização",
+        deny: "Não Autorizar",
+        deny_info: "Políticas para não autorizar são menos comuns de utilizar. Se os atributos na politíca corresponderem aos do utilizador que está a realizar um login, então o resultado será não autorizar o acesso. Nenhuma correspondência resulta em autorizar. ",
+        deny_message: "Não Autorizar - Mensagem em Inglês",
+        deny_message_info: "Esta é a mensagem disponibilizada ao utilizador se o acesso não for autorizado com base nesta política.",
+        deny_message_nl: "Não Autorizar - Mensagem em Dutch",
+        description: "Descrição",
+        idps_placeholder: "Selecione os Fornecedores de Identidade - zero ou mais",
+        institutions: "Instituições",
+        isActive: "Ativo",
+        isActiveDescription: "Marcar a política de autorização como ativa",
+        isActiveInfo: " Políticas de autorização inativas não são avaliadas nas decisões",
+        name: "Nome",
+        permit: "Autorizar",
+        permit_info: "Políticas para autorizar garantem que apenas uma correspondencia bem sucedida dos atributos definidos resultará em autorizar o acesso. Nenhuma correspondência resulta em não autorizar.",
+        rule: "Regra",
         rule_and: "AND",
-        rule_and_info: "Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.",
-        rule_info_add: " Note that attribute values with the same attribute name always be evaluated with the logical OR.",
-        rule_info_add_2: "Note that a Deny access authorization policy always and implicitly uses the logical AND for different attribute names.",
+        rule_and_info: "Políticas com regras AND garantem que todos os atributos definidos tem de corresponder aos da pessoa que está a tentar fazer login.",
+        rule_info_add: " Note que ao definir vários valores de atributo para um mesmo nome de atributo, estes serão sempre avaliados com lógica OR.",
+        rule_info_add_2: "Note que uma política de Não Autorizar acesso utiliza sempre e implicitamente a lógica AND para diferenres nomes de atributos.",
         rule_or: "OR",
-        rule_or_info: "Policies defined with a logical OR only require one of the attributes to match the attributes of the person requesting access.",
-        service: "Service",
-        spScopeInfo: "The available Services are scoped to your services if you don't select an Institution",
-        sp_placeholder: "Select the Service Provider - required",
-        sub_title: "Created by {{displayName}} on {{created}}",
-        submit: "Submit",
-        update_policy: "Update authorization policy",
+        rule_or_info: "Políticas definidas com lógica OR apenas obriga a que um dos atributos do utilizador que está a pedir o acesso faça correspondencia.",
+        service: "Serviço",
+        spScopeInfo: "Os Serviços disponíveis são limitados aos seus serviços se não selecionar uma Instituição",
+        sp_placeholder: "Selecione o Fornecedor de Serviço - obrigatório",
+        sub_title: "Criado por {{displayName}} em {{created}}",
+        submit: "Submeter",
+        update_policy: "Atualizar política de autorização",
     },
 
     revisions: {
-        active: "Active",
-        allAttributesMustMatch: "Logical OR rule?",
-        attributes: "Attributes",
-        changes_first_html: "This is the first <span class=\"curr\">initial revision {{currRevisionNbr}}</span> created by {{userDisplayName}} from {{authenticatingAuthorityName}} on {{createdDate}}.",
-        changes_info_html: "Showing the changes between <span class=\"prev\"> revision number {{prevRevisionNbr}}</span> and <span class=\"curr\">revision number {{currRevisionNbr}}</span> made by {{userDisplayName}} from {{authenticatingAuthorityName}} on {{createdDate}}.",
-        denyAdvice: "Deny message in English",
-        denyAdviceNl: "Deny message in Dutch",
-        denyRule: "Access Permit rule?",
-        description: "Description",
-        identityProviderNames: "Institution(s)",
-        name: "Name",
-        revision: "Revision number",
-        serviceProviderName: "Service",
-        title: "Revisions",
+        active: "Ativo",
+        allAttributesMustMatch: "Regra de lógica OR?",
+        attributes: "Atributos",
+        changes_first_html: "Este é a primeira <span class=\"curr\">revisão inicial {{currRevisionNbr}}</span> criada por {{userDisplayName}} de {{authenticatingAuthorityName}} em {{createdDate}}.",
+        changes_info_html: "Alterações realizadas entre <span class=\"prev\"> revisão número {{prevRevisionNbr}}</span> e <span class=\"curr\">revisão número {{currRevisionNbr}}</span> realizada por {{userDisplayName}} de {{authenticatingAuthorityName}} em {{createdDate}}.",
+        denyAdvice: "Não Autorizar - Mensagem em Inglês",
+        denyAdviceNl: "Não Autorizar - Mensagem em Dutch",
+        denyRule: "Regra para Autorizar Acesso?",
+        description: "Descrição",
+        identityProviderNames: "Instituições",
+        name: "Nome",
+        revision: "Número da Revisão",
+        serviceProviderName: "Serviço",
+        title: "Revisões",
     },
 
     history: {
-        info: "On this page you find all tickets related to (dis)connecting services and change requests. On the left you can edit the filter applied to this list.",
-        requestDate: "Created",
-        updateDate: "Updated",
-        type: "Type",
+        info: "Nesta página pode encontrar todos os pedidos de serviços relacionados com a (des)ativação de serviços e pedidos de alterações.À esquerda pode editar o filtro aplicado a esta lista.",
+        requestDate: "Criado",
+        updateDate: "Atualizado",
+        type: "Tipo",
         jiraKey: "Id",
-        status: "Status",
-        userName: "By",
-        spName: "Service",
+        status: "Estado",
+        userName: "Por",
+        spName: "Serviço",
         action_types_name: {
-            LINKREQUEST: "New Connection",
-            UNLINKREQUEST: "Disconnect",
-            QUESTION: "Question",
-            CHANGE: "Change request",
-            LINKINVITE: "Connection Invite"
+            LINKREQUEST: "Nova Ligação",
+            UNLINKREQUEST: "Desativar",
+            QUESTION: "Questão",
+            CHANGE: "Pedido de alteração",
+            LINKINVITE: "Convite para ativar"
         },
-        from: "From",
-        to: "To",
-        typeIssue: "Type",
-        spEntityId: "Service",
+        from: "De",
+        to: "Para",
+        typeIssue: "Tipe",
+        spEntityId: "Serviço",
         statuses: {
-            "To Do": "Open",
-            "In Progress": "In progress",
-            "Awaiting Input": "Pending input",
-            "Resolved": "Resolved",
-            "Closed": "Closed"
+            "To Do": "Abrir",
+            "In Progress": "Em progresso",
+            "Awaiting Input": "Input pendente",
+            "Resolved": "Resolvido",
+            "Closed": "Fechado"
         },
         resolution: {
-            no_change_required: "No Change required",
-            no_change_requiredTooltip: "The ticket needed no change.",
-            incomplete: "Incomplete",
-            incompleteTooltip: "The ticket is incomplete.",
-            done: "Done",
-            doneTooltip: "The ticket is resolved.",
-            wont_do: "Won't be fixed",
-            wont_doTooltip: "The ticket will not be fixed.",
-            cancelled: "Cancelled",
-            cancelledTooltip: "The ticket was cancelled. If the ticket was an invite for a connection the Institution has denied the invite.",
-            wont_fix: "Won't be fixed",
-            wont_fixTooltip: "The ticket will not be fixed.",
-            resolved: "Resolved",
-            resolvedTooltip: "The ticket was successfully resolved.",
-            duplicate: "Duplicate",
-            duplicateTooltip: "The ticket was a duplicate of another ticket.",
-            not_completed: "Not completed",
-            not_completedTooltip: "The ticket was not completed.",
-            cannot_reproduce: "Can not be reproduced",
-            cannot_reproduceTooltip: "The issue described in the ticket could not reproduced",
-            suspended: "Suspended",
-            suspendedTooltip: "The ticket was suspended."
+            no_change_required: "Não foram necessárias alterações",
+            no_change_requiredTooltip: "O pedido não necessitou de alteração.",
+            incomplete: "Incompleto",
+            incompleteTooltip: "O pedido está incompleto.",
+            done: "Efetuado",
+            doneTooltip: "O pedido está resolvido.",
+            wont_do: "Não será resolvido",
+            wont_doTooltip: "O pedido não será resolvido.",
+            cancelled: "Cancelado",
+            cancelledTooltip: "O pedido foi cancelado.Se o pedido foi um convite para ligar um serviço, a Instituição não aceitou o convite.",
+            wont_fix: "Não será resolvido",
+            wont_fixTooltip: "O pedido não será resolvido.",
+            resolved: "Resolvido",
+            resolvedTooltip: "O pedido foi resolvido com sucesso.",
+            duplicate: "Duplicado",
+            duplicateTooltip: "O pedido era um duplicado de outro seviço.",
+            not_completed: "Incompleto",
+            not_completedTooltip: "O pedido está incompleto.",
+            cannot_reproduce: "Não foi possível reproduzir",
+            cannot_reproduceTooltip: "A situação descrita no pedido não foi possivel reproduzir",
+            suspended: "Suspenso",
+            suspendedTooltip: "O pedido foi suspenso."
         },
-        servicePlaceHolder: "Search and select a Service...",
-        noTicketsFound: "No tickets were found for the given filters.",
-        viewInvitation: "Approve / Deny"
+        servicePlaceHolder: "Pesquisa e selecione um serviço...",
+        noTicketsFound: "Não foram encontrados pedidos para o filtro fornecido.",
+        viewInvitation: "Aprovar / Recusar"
     },
 
     stats: {
         filters: {
-            name: "Filters",
-            allServiceProviders: "All Services"
+            name: "Filtros",
+            allServiceProviders: "Todos os Serviços"
         },
-        state: "Status",
-        timeScale: "Period",
-        date: "Date",
-        from: "From",
-        to: "Up to and including",
-        today: "Today",
-        sp: "Service",
+        state: "Estado",
+        timeScale: "Período",
+        date: "Data",
+        from: "De",
+        to: "Até e incluindo",
+        today: "Hoje",
+        sp: "Serviço",
         period: {
-            year: "Year"
+            year: "Ano"
         },
-        displayDetailPerSP: "Display details per Service",
+        displayDetailPerSP: "Visualizar detalhes por Serviço",
         scale: {
-            year: "Year",
-            quarter: "Quarter",
-            month: "Month",
-            week: "Week",
-            day: "Day",
-            hour: "Hour",
-            minute: "Minute",
-            all: "Entire period: from ⇨ until"
+            year: "Ano",
+            quarter: "Trimestre",
+            month: "Mês",
+            week: "Semana",
+            day: "Dia",
+            hour: "Hora",
+            minute: "Minutos",
+            all: "Período completo: de -> até"
         },
         helpLink: "https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken"
     },
     chart: {
-        title: "Logins and users per day",
-        chart: "Number of logins per {{scale}}",
-        chartAll: "Number of logins",
-        userCount: "Total logins",
-        uniqueUserCount: "Unique users",
-        loading: "Fetching logins...",
-        noResults: "No logins are recorded for the given period.",
-        date: "Date",
-        logins: "Logins per {{scale}}",
+        title: "Logins e utilizadores por dia",
+        chart: "Número de logins por {{scale}}",
+        chartAll: "Número de logins",
+        userCount: "Número total de logins",
+        uniqueUserCount: "Utilizadores únicos",
+        loading: "A processar logins....",
+        noResults: "Não foram realizados logins para o período definido.",
+        date: "Data",
+        logins: "Logins por {{scale}}",
         allLogins: "# Logins",
-        uniqueLogins: "Unique logins",
-        sp: "Service",
-        idp: "Institution"
+        uniqueLogins: "Logins Únicos",
+        sp: "Serviço",
+        idp: "Instituição"
     },
     clipboard: {
-        copied: "Copied!",
-        copy: "Copy to clipboard"
+        copied: "Copiado!",
+        copy: "Copiar para o clipboard"
     },
     live: {
-        chartTitle: "Logins per {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in the period {{period}} per {{group}}",
-        noTimeFrameChart: "Logins from {{from}} until {{to}}"
+        chartTitle: "Logins por {{scale}}",
+        aggregatedChartTitlePeriod: "Logins durante {{period}} por {{group}}",
+        noTimeFrameChart: "Logins de {{from}} até {{to}}"
     },
     service_filter: {
-        title: "Filter services",
+        title: "Filtrar serviços",
         state: {
-            tooltip: "The status of the Service determines if the Service is visible on the production platform."
+            tooltip: "O estado do Service determina se o Serviço está visivel na platforma de produção."
         },
-        search: "Search services..."
+        search: "Pesquisar serviços..."
     },
     invite_request: {
-        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected Service. A <span class="emphasize">Connection Invite</span> Jira ticket is created with the status <span class="emphasize">Awaiting Input</span>.',
-        selectIdp: "Search and select an Institution...",
-        selectSpDisabled: "First select an Institution",
-        selectSp: "Now search and select the Service...",
-        idp: "Institution",
-        sp: "Service",
-        contactPersons: "Select to which contact persons of {{name}} the invite will be sent.",
-        sourcePersons: "Contact persons from {{source}}",
-        additionalPersons: "Additional contact persons",
-        selectContact: "Select",
-        sendRequest: "Submit",
+        info: 'Um pedido de convite resulta num email enviado para todos os contactos da instituição com um convite para o serviço selecionado. Um pedido de serviço para <span class="emphasize">Convite de Ligação</span> é criado com o estado <span class="emphasize">À Espera de Entrada</span>.',
+        selectIdp: "Pesquisa e selecione uma Instituição...",
+        selectSpDisabled: "Primeiro selecione uma Instituição",
+        selectSp: "Agora pesquisar e selecione um Serviço...",
+        idp: "Instituição",
+        sp: "Serviço",
+        contactPersons: "Selecione os contactos de {{name}} para os quais pretende enviar o convite.",
+        sourcePersons: "Contactos de {{source}}",
+        additionalPersons: "Contactos adicionais",
+        selectContact: "Selecione",
+        sendRequest: "Submeter",
         reset: "Reset",
-        message: "An - optional - message for the invite recipients.",
-        jiraFlash: "A Jira ticket has been created with key {{jiraKey}}. When one of the recipients accepts the invite then it will be logged in the comments of {{jiraKey}}."
+        message: "Uma mensagem - opcional - para os destinatários do convite.",
+        jiraFlash: "Foi criado um pedido de serviço com a chave {{jiraKey}}.Quando um dos destinatários aceitar o convite, o mesmo será registado nos comentários de  {{jiraKey}}."
     },
     profile: {
-        title: "Profile",
-        sub_title: "The following profile data has been provided by your home institution. This data as well as your group membership data (e.g.SURFteams) will be stored in SURFconext and shared with services accessed via SURFconext.",
-        my_attributes: "My attributes",
-        attribute: "Attribute",
-        value: "Value",
-        my_roles: "My roles",
-        my_roles_description: "The following roles have been assigned:",
-        role: "Role",
-        role_description: "Description",
+        title: "Perfil",
+        sub_title: "Os seguintes dados de perfil foram fornecidos pela sua instituição. Esta informação assim como os grupos a que pertence (ex.:SURFteams) serão registados na SURFconext e partilhados com os serviços utilizados através da SURFconext.",
+        my_attributes: "Os meus atributos",
+        attribute: "Atributos",
+        value: "Valores",
+        my_roles: "Os meus perfis",
+        my_roles_description: "Os seguintes perfis foram atibuídos:",
+        role: "Perfil",
+        role_description: "Descrição",
         roles: {
             ROLE_DASHBOARD_ADMIN: {
-                name: "SURFconext owner",
-                description: "You are authorized on behalf of your institution to manage the service connections"
+                name: "SURFconext Administrador",
+                description: "Está autorizado pela sua instituição a realizar a gestão de ligações a serviços"
             },
             ROLE_DASHBOARD_VIEWER: {
-                name: "SURFconext maintainer",
-                description: "You are authorized on behalf of your institution to view the information about the services"
+                name: "SURFconext Suporte",
+                description: "Está autorizado pela sua instituição a visualizar a informação sobre serviços"
             },
             ROLE_DASHBOARD_SUPER_USER: {
                 name: "Dashboard Super User",
-                description: "You are the super user of the dashboard"
+                description: "Tem permissões de superuser no dashboard"
             }
         },
         attribute_map: {
             "uid": {
                 name: "UID",
-                description: "your unique username within your organization"
+                description: "o seu username único dentro da sua organização"
             },
             "Shib-surName": {
-                name: "Surname",
-                description: "your surname"
+                name: "Sobrenome",
+                description: "o seu sobrenome"
             },
             "Shib-givenName": {
-                name: "Name",
-                description: "your name"
+                name: "Nome",
+                description: "o seu nome"
             },
             "Shib-commonName": {
-                name: "Full Name",
-                description: "your full name"
+                name: "Nome Completo",
+                description: "o seu nome completo"
             },
             "displayName": {
-                name: "Display Name",
-                description: "display name as shown in applications"
+                name: "Nome a Apresentar",
+                description: "nome a apresentar nas aplicações"
             },
             "Shib-InetOrgPerson-mail": {
-                name: "E-mailaddress",
-                description: "your e-mailaddress as known within your organization"
+                name: "Endereço de E-mail ",
+                description: "o seu endereço de e-mail conhecido na sua instituição"
             },
             "Shib-eduPersonAffiliation": {
-                name: "Relation",
-                description: "relation between your and your organization"
+                name: "Afiliação",
+                description: "a(s) sua afiliação(s) com a organização"
             },
             "Shib-eduPersonScopedAffiliation": {
                 name: "Scoped relation",
-                description: "scoped relation between your and your organization"
+                description: "a(s) sua afiliação(s) com a organização concatenado com o @dominio da organização"
             },
             "eduPersonEntitlement": {
                 name: "Entitlement",
-                description: "entitlement which decides upon your authorization within the application"
+                description: "define um direito, utilizado pelas aplicações no processo de autorização"
             },
             "Shib-eduPersonPN": {
                 name: "Net-ID",
-                description: "your unique username within your organization augmented with @organizationname.nl"
+                description: "o seu username único dentro da sua instituição concatenado com o @dominio da organização"
             },
             "Shib-preferredLanguage": {
-                name: "Preferred Language",
-                description: "a two letter abbreviation according to ISO 639; no subcodes"
+                name: "Idioma Preferencial",
+                description: "uma abreviação de duas letras de acordo com o ISO 639; em subcódigos"
             },
             "schacHomeOrganization": {
-                name: "Organization",
-                description: "name for the organization, making use of the domain name of the organization conform RFC 1035"
+                name: "Organização",
+                description: "nome da organização, que faz uso do dominío em conformidade com o RFC 1035"
             },
             "Shib-schacHomeOrganizationType": {
-                name: "Type of Organization",
-                description: "type of organization to which the user belongs"
+                name: "Tipo de Organização",
+                description: "tipo de organização a que o utilizador pertence"
             },
             "Shib-schacPersonalUniqueCode": {
-                name: "Personal unique code",
-                description: "these values are used to express specific types of identification number"
+                name: "Código único pessoal",
+                description: "estes valores são usados para expressar tipos específicos de números de identificação"
             },
             "Shib-nlEduPersonHomeOrganization": {
-                name: "Display name of Organization",
-                description: "display name of the organization"
+                name: "Nome de apresentação da Organização",
+                description: "nome de apresentação da organização"
             },
             "Shib-nlEduPersonOrgUnit": {
-                name: "Unitname",
-                description: "unit name"
+                name: "Nome da Unidade Orgânica",
+                description: "nome da unidade orgânica"
             },
             "Shib-nlEduPersonStudyBranch": {
-                name: "Study Branch",
-                description: "study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown"
+                name: "Área de Estudo",
+                description: "área de estudo;string númerica que contém o código CROHOcode. pode estar vazio se a área for desconhecida"
             },
             "Shib-nlStudielinkNummer": {
                 name: "Studielinknummer",
-                description: "studielinknummer of the student as registered at www.studielink.nl"
+                description: "studielinknummer do estudante registado em www.studielink.nl"
             },
             "Shib-nlDigitalAuthorIdentifier": {
                 name: "DAI",
                 description: "Digital Author Identifier (DAI)"
             },
             "Shib-userStatus": {
-                name: "Userstatus",
-                description: "Status of this user in SURFconext"
+                name: "Estado do Utilizador",
+                description: "Estado do utilizador na SURFconext"
             },
             "Shib-accountstatus": {
-                name: "Accountstatus",
-                description: "Status of this account in SURFconext"
+                name: "Estado da Conta",
+                description: "Estado da conta na SURFconext"
             },
             "name-id": {
-                name: "Identifier",
-                description: "Status of this account in SURFconext"
+                name: "Identificador",
+                description: "Identificador da conta na SURFconext"
             },
             "Shib-voName": {
-                name: "Virtual Organisation Name",
-                description: "The name of the Virtual Urganisation for which you have authenticated"
+                name: "Nome da Organização Virtual",
+                description: "O nome da Organização Virtual para a qual autenticou"
             },
             "Shib-user": {
-                name: "Identifier",
-                description: "Status of this account in SURFconext"
+                name: "Identificador",
+                description: "Identificador da conta na SURFconext"
             },
             "is-member-of": {
-                name: "Membership",
-                description: "Membership of Virtual Organizations and SURFconext."
+                name: "Membro",
+                description: "Membro da Organização Virtual e SURFConext."
             }
         }
     }
