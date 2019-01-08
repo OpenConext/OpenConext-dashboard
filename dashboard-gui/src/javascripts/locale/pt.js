@@ -367,7 +367,7 @@ I18n.translations.pt = {
             before: "É da responsabilidade da minha instituição fornecer as informações corretas ",
         },
         read: "Ler o",
-        single_tenant_service_warning: "Pedidos para ativar serviços "single tenant" podem levar mais tempo a ser processados. SURFnet entrará em contato para discutir o processo de ativação após receber sua solicitação.",
+        single_tenant_service_warning: "Pedidos para ativar serviços 'single tenant' podem levar mais tempo a ser processados. SURFnet entrará em contato para discutir o processo de ativação após receber sua solicitação.",
         terms_title: "Ao solicitar uma ativação está a aceitar os termos e condições",
         wiki: "wiki para este serviço",
         aansluitovereenkomst_accept: "Certifico que concordo com a conexão a um serviço que não tenha assinado o 'SURFconext aansluitovereenkomst'.",
