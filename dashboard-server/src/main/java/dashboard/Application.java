@@ -34,6 +34,7 @@ import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class,
     TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class,
@@ -93,10 +94,11 @@ public class Application {
     }
 
     @Bean
-    public LocaleResolver localeResolver() {
+    public LocaleResolver localeResolver(@Value("${supported_language_codes}") String supportLanguageCodes) {
+        String language = Stream.of(supportLanguageCodes.split(",")).map(String::trim).findFirst().orElse("nl");
         CookieThenAcceptHeaderLocaleResolver localeResolver = new CookieThenAcceptHeaderLocaleResolver();
-        localeResolver.setCookieName("dashboardLang");
-        localeResolver.setDefaultLocale(new Locale("nl"));
+        localeResolver.setCookieName("lang");
+        localeResolver.setDefaultLocale(new Locale(language));
         localeResolver.setCookieMaxAge(315360000);
         return localeResolver;
     }
