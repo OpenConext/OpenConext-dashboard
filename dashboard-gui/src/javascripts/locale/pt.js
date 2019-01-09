@@ -473,8 +473,6 @@ I18n.translations.pt = {
             en: "URL da Organização (en)",
             nl: "URL da Organização (nl)"
 		},
-		organizationURL_nl_tooltip: "Um URL que o utilizador pode aceder para obter informação em Dutch sobre a organização.",
-        organizationURL_en_tooltip: "Um URL que o utilizador pode aceder para obter informação em Inglês sobre a organização.",
         organizationName: {
             en: "Nome da Organização (en)",
             nl: "Nome da Organização (nl)"
