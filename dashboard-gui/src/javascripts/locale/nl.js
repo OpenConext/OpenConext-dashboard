@@ -121,7 +121,7 @@ I18n.translations.nl = {
                 info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie."
             },
             type_consent: {
-                tooltip: "Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> voor meer informatie.",
+                tooltip: "Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">wiki</a> voor meer informatie.",
                 name: "Type toestemming",
                 no_consent: "Geen toestemming",
                 minimal_consent: "Minimale toestemming",
@@ -311,8 +311,8 @@ I18n.translations.nl = {
     consent_panel: {
         title: "Toestemming",
         subtitle: "Nieuwe gebruikers worden standaard om toestemming gevraagd voor het doorgeven van hun persoonlijke gegevens.",
-        subtitle2: "Op deze pagina kan je instellen op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. Je kan instellen om toestemming over te slaan, minimale toestemming te vragen en je kan een aangepast bericht toevoegen voor de gebruikers van de deze dienst. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">op de wiki</a>.",
-        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">op de wiki</a>.",
+        subtitle2: "Op deze pagina kan je instellen op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. Je kan instellen om toestemming over te slaan, minimale toestemming te vragen en je kan een aangepast bericht toevoegen voor de gebruikers van de deze dienst. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">op de wiki</a>.",
+        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">op de wiki</a>.",
         no_consent: "Toestemming is niet nodig",
         minimal_consent: "Minimale toestemming is vereist",
         default_consent: "Standaard toestemming met een optioneel aangepast bericht",

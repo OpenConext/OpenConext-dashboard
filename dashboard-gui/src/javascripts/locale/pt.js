@@ -121,7 +121,7 @@ I18n.translations.pt = {
                 info_html: "É possivel que sejam libertados mais atributos para o Serviço através da manipulação de atributos."
             },
             type_consent: {
-                tooltip: "Como é solicitada o consentimento aos novos utilizadores antes de aceder ao serviço.<br>Consulte a <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> para mais informações.",
+                tooltip: "Como é solicitada o consentimento aos novos utilizadores antes de aceder ao serviço.<br>Consulte a <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">wiki</a> para mais informações.",
                 name: "Tipo de consentimento",
                 no_consent: "Sem consentimento",
                 minimal_consent: "Consentimento minimo",
@@ -306,8 +306,8 @@ I18n.translations.pt = {
     consent_panel: {
         title: "Consentimento de novos utilizadores",
         subtitle: "Aos novos utilizadores será pedido permissão para enviar informação de dados pessoais para este serviço.",
-        subtitle2: "Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
-        subtitle2Viewer: "Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
+        subtitle2: "Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">nesta página da wiki</a>.",
+        subtitle2Viewer: "Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">nesta página da wiki</a>.",
         no_consent: "Não é necessário consentimento",
         minimal_consent: "É necessário consentimento mínimo",
         default_consent: "Consentimento por omissão com uma mensagem personalizada opcional",

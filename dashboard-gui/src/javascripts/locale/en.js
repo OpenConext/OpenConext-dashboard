@@ -121,7 +121,7 @@ I18n.translations.en = {
                 info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation."
             },
             type_consent: {
-                tooltip: "Which way new users are asked to give consent before using the service.<br>See the <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> for more information.",
+                tooltip: "Which way new users are asked to give consent before using the service.<br>See the <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">wiki</a> for more information.",
                 name: "Type of consent",
                 no_consent: "No consent",
                 minimal_consent: "Minimal consent",
@@ -307,8 +307,8 @@ I18n.translations.en = {
     consent_panel: {
         title: "Consent new users",
         subtitle: "New users will be asked permission for sending personal data to this service.",
-        subtitle2: " On this page you can configure in which way users will be asked for consent before they are sent to {{name}}. You can configure to skip consent, ask for minimal consent and add a custom consent message for users of this service. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">this wiki page</a>.",
-        subtitle2Viewer: " On this page you can view in which way users will be asked for consent before they are sent to {{name}}. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">this wiki page</a>.",
+        subtitle2: " On this page you can configure in which way users will be asked for consent before they are sent to {{name}}. You can configure to skip consent, ask for minimal consent and add a custom consent message for users of this service. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">this wiki page</a>.",
+        subtitle2Viewer: " On this page you can view in which way users will be asked for consent before they are sent to {{name}}. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">this wiki page</a>.",
         no_consent: "No consent is required",
         minimal_consent: "Minimal consent is required",
         default_consent: "Default consent with an optional custom message",
