@@ -16,6 +16,7 @@ public enum ShibbolethHeader {
     Shib_EduPersonAffiliation("Shib-eduPersonAffiliation"),
     Shib_EduPersonScopedAffiliation("Shib-eduPersonScopedAffiliation"),
     Shib_EduPersonEntitlement("eduPersonEntitlement"),
+    Shib_EduPersonTargetedID("Shib-eduPersonTargetedID"),
     Shib_EduPersonPN("Shib-eduPersonPN"),
     Shib_PreferredLanguage("Shib-preferredLanguage"),
     Shib_SchacHomeOrganizationType("Shib-schacHomeOrganizationType"),

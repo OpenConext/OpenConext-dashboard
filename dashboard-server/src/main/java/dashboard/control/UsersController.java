@@ -229,7 +229,7 @@ public class UsersController extends BaseController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        IdentityProvider idp = currentUser.getIdp();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
 
         List<Change> changes = getChanges(locale, settings, idp);
         if (changes.isEmpty()) {

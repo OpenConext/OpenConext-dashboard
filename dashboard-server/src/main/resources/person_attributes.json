@@ -135,7 +135,7 @@
       "en": "Unitname"
     },
     "Description": {
-      "nl": " naam van de afdeling",
+      "nl": "naam van de afdeling",
       "en": "unit name"
     }
   },
@@ -197,6 +197,16 @@
     "Description": {
       "nl": "opleiding; numerieke string die de CROHOcode bevat. leeg als het een niet reguliere opleiding betreft",
       "en": "study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown"
+    }
+  },
+  "urn:mace:dir:attribute-def:eduPersonTargetedID": {
+    "Name": {
+      "nl": "Identificator",
+      "en": "Identifier"
+    },
+    "Description": {
+      "nl": "UUD; Een persistent, niet opnieuw toegewezen, privacybehoud-ID voor een gebruiker die wordt gedeeld tussen een identiteitsprovider en een serviceprovider",
+      "en": "identifier; A persistent, non-reassigned, privacy-preserving identifier for a user shared between an identity provider and service provider"
     }
   },
   "urn:mace:surffederatie_nl:attribute-def:nlStudielinkNummer": {

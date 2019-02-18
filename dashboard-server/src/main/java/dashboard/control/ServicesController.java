@@ -46,8 +46,6 @@ import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
 @RequestMapping(value = "/dashboard/api/services", produces = APPLICATION_JSON_VALUE)
 public class ServicesController extends BaseController {
 
-    private static Set<String> IGNORED_ARP_LABELS = ImmutableSet.of("urn:mace:dir:attribute-def:eduPersonTargetedID");
-
     @Autowired
     private Services services;
 
@@ -157,19 +155,8 @@ public class ServicesController extends BaseController {
         Optional<Service> serviceByEntityId = services.getServiceById(idpEntityId, spId, EntityType
             .valueOf(entityType), locale);
         return serviceByEntityId
-            .map(this::removeExplicitlyUnusedArpLabels)
             .map(service -> ResponseEntity.ok(createRestResponse(service)))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    private Service removeExplicitlyUnusedArpLabels(Service service) {
-        if (service.getArp() == null) {
-            return service;
-        }
-
-        IGNORED_ARP_LABELS.forEach(label -> service.getArp().getAttributes().remove(label));
-
-        return service;
     }
 
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
