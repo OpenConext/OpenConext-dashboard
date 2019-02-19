@@ -620,7 +620,7 @@ I18n.translations.pt = {
     },
 
     history: {
-        info: "Nesta página pode encontrar todos os pedidos de serviços relacionados com a (des)ativação de serviços e pedidos de alterações.À esquerda pode editar o filtro aplicado a esta lista.",
+        info: "Nesta página pode encontrar todos os pedidos de serviços relacionados com a (des)ativação de serviços e pedidos de alterações. À esquerda pode editar o filtro aplicado a esta lista.",
         requestDate: "Criado",
         updateDate: "Atualizado",
         type: "Tipo",
