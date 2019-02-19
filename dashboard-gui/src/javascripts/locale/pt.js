@@ -637,7 +637,7 @@ I18n.translations.pt = {
         },
         from: "De",
         to: "Para",
-        typeIssue: "Tipe",
+        typeIssue: "Tipo",
         spEntityId: "Serviço",
         statuses: {
             "To Do": "Abrir",
