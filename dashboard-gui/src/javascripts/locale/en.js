@@ -649,7 +649,8 @@ I18n.translations.en = {
             "In Progress": "In progress",
             "Awaiting Input": "Pending input",
             "Resolved": "Resolved",
-            "Closed": "Closed"
+            "Closed": "Closed",
+            "undefined": "Undefined"
         },
         resolution: {
             no_change_required: "No Change required",
