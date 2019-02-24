@@ -538,6 +538,7 @@ I18n.translations.nl = {
         },
         organizationURL_nl_tooltip: "Een URL waar een eindgebruiker Nederlands informatie kan lezen over de organisatie.",
         organizationURL_en_tooltip: "Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.",
+        organizationURL_pt_tooltip: "Een URL waar een eindgebruiker Portugese informatie kan lezen over de organisatie.",
         organizationName: {
             en: "Organisatie naam (en)",
             nl: "Organisatie naam (nl)",
@@ -545,6 +546,7 @@ I18n.translations.nl = {
         },
         organizationName_nl_tooltip: "De officiële Nederlandse naam van de organisatie.",
         organizationName_en_tooltip: "De officiële Engelse naam van de organisatie.",
+        organizationName_pt_tooltip: "De officiële Portugese naam van de organisatie.",
         organizationDisplayName: {
             en: "Organisatie weergave naam (en)",
             nl: "Organisatie weergave naam name (nl)",
@@ -552,6 +554,7 @@ I18n.translations.nl = {
         },
         organizationDisplayName_nl_tooltip: "De Nederlandse weergave naam van de organisatie.",
         organizationDisplayName_en_tooltip: "De Engelse weergave naam van de organisatie.",
+        organizationDisplayName_pt_tooltip: "De Portugese weergave naam van de organisatie.",
         keywords: {
             en: "Trefwoorden (en)",
             nl: "Trefwoorden (nl)",
