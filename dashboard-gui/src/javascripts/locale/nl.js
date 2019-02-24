@@ -322,6 +322,8 @@ I18n.translations.nl = {
         explanationNl_tooltip: "Dit bericht wordt toegevoegd onderaan in het nederlandse toestemmings-scherm voor nieuwe gebruikers",
         explanationEn: "Engels bericht",
         explanationEn_tooltip: "Dit bericht wordt toegevoegd onderaan in het engelse toestemmings-scherm voor nieuwe gebruikers",
+		explanationPt: "Portugees bericht",
+        explanationPt_tooltip: "Dit bericht wordt toegevoegd onderaan in het portugees toestemmings-scherm voor nieuwe gebruikers",
         save: "Verstuur verzoek",
         change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
         no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
@@ -521,33 +523,39 @@ I18n.translations.nl = {
         all: "Alle",
         name: {
             en: "Naam (en)",
-            nl: "Naam (nl)"
+            nl: "Naam (nl)",
+            pt: "Naam (pt)"
         },
         displayName: {
             en: "Weergave naam (en)",
-            nl: "Weergave naam (nl)"
+            nl: "Weergave naam (nl)",
+            pt: "Weergave naam (pt)"
         },
         organizationURL: {
             en: "Organisatie URL (en)",
-            nl: "Organisatie URL (nl)"
+            nl: "Organisatie URL (nl)",
+            pt: "Organisatie URL (pt)"
         },
         organizationURL_nl_tooltip: "Een URL waar een eindgebruiker Nederlands informatie kan lezen over de organisatie.",
         organizationURL_en_tooltip: "Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.",
         organizationName: {
             en: "Organisatie naam (en)",
-            nl: "Organisatie naam (nl)"
+            nl: "Organisatie naam (nl)",
+            pt: "Organisatie naam (pt)"
         },
         organizationName_nl_tooltip: "De officiële Nederlandse naam van de organisatie.",
         organizationName_en_tooltip: "De officiële Engelse naam van de organisatie.",
         organizationDisplayName: {
             en: "Organisatie weergave naam (en)",
-            nl: "Organisatie weergave naam name (nl)"
+            nl: "Organisatie weergave naam name (nl)",
+            pt: "Organisatie weergave naam (pt)"
         },
         organizationDisplayName_nl_tooltip: "De Nederlandse weergave naam van de organisatie.",
         organizationDisplayName_en_tooltip: "De Engelse weergave naam van de organisatie.",
         keywords: {
             en: "Trefwoorden (en)",
-            nl: "Trefwoorden (nl)"
+            nl: "Trefwoorden (nl)",
+            pt: "Trefwoorden (pt)"
         },
         published_in_edugain: "Gepubliceerd in eduGAIN",
         date_published_in_edugain: "Datum gepubliceerd in eduGAIN",
@@ -568,7 +576,8 @@ I18n.translations.nl = {
         },
         description: {
             en: "Beschrijving (en)",
-            nl: "Beschrijving (nl)"
+            nl: "Beschrijving (nl)",
+            pt: "Beschrijving (pt)"
         },
         guest_enabled: "Gast-toegang ingeschakeld",
         edit_message: "De volgende velden kunnen worden aangepast.",
@@ -626,6 +635,7 @@ I18n.translations.nl = {
         deny_message: "Ongeautoriseerd melding in het Engels",
         deny_message_info: "Dit is de melding die de gebruiker ziet bij een 'Deny' op basis van deze regel.",
         deny_message_nl: "Ongeautoriseerd melding in het Nederlands",
+		deny_message_pt: "Ongeautoriseerd melding in het Portugees",
         description: "Omschrijving",
         idps_placeholder: "Selecteer de instellingen - 0 of meer",
         institutions: "Instelling(en)",
@@ -658,6 +668,7 @@ I18n.translations.nl = {
         changes_info_html: "Veranderingen tussen <span class=\"prev\"> revisie nummer {{prevRevisionNbr}}</span> en <span class=\"curr\">revisie nummer {{currRevisionNbr}}</span> gemaakt door {{userDisplayName}} van {{authenticatingAuthorityName}} op {{createdDate}}.",
         denyAdvice: "Ongeautoriseerd melding in het Engels",
         denyAdviceNl: "Ongeautoriseerd melding in het Nederlands",
+		denyAdvicePt: "Ongeautoriseerd melding in het Portugees",
         denyRule: "Toegang Permit regel?",
         description: "Omschrijving",
         identityProviderNames: "Instelling(en)",
