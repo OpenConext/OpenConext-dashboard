@@ -18,7 +18,7 @@ import Flash from "../components/flash";
 
 const pageCount = 10;
 
-const allStatuses = ["To Do", "In Progress", "Awaiting Input", "Resolved", "Closed"];
+const allStatuses = ["To Do", "In Progress", "Awaiting Input", "Resolved", "Closed", "undefined"];
 const allTypes = ["LINKREQUEST", "UNLINKREQUEST", "CHANGE", "LINKINVITE"];
 
 

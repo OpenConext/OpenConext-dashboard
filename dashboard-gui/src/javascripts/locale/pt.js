@@ -644,7 +644,8 @@ I18n.translations.pt = {
             "In Progress": "Em progresso",
             "Awaiting Input": "Input pendente",
             "Resolved": "Resolvido",
-            "Closed": "Fechado"
+            "Closed": "Fechado",
+            "undefined": "Indefinido"
         },
         resolution: {
             no_change_required: "Não foram necessárias alterações",

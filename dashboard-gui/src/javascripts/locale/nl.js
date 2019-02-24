@@ -706,7 +706,8 @@ I18n.translations.nl = {
             "In Progress": "Bezig",
             "Awaiting Input": "Wachtende op goedkeuring",
             "Resolved": "Opgeleverd",
-            "Closed": "Gesloten"
+            "Closed": "Gesloten",
+            "undefined": "Onbepaald"
         },
         resolution: {
             cancelled: "Geannuleerd",
