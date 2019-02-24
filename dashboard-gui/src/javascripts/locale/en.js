@@ -318,6 +318,8 @@ I18n.translations.en = {
         explanationNl_tooltip: "This custom message will be appended to the English consent screen for new users.",
         explanationEn: "English message",
         explanationEn_tooltip: "This custom message will be appended to the Dutch consent screen for new users.",
+        explanationPt: "Portuguese message",
+        explanationPt_tooltip: "This custom message will be appended to the Portuguese consent screen for new users.",
         save: "Submit changes",
         change_request_created: "Change request sent to the SURFnet SURFconext-team.",
         no_change_request_created: "No change request is created as you did not change anything.",
@@ -464,33 +466,42 @@ I18n.translations.en = {
         all: "All",
         name: {
             en: "Name (en)",
-            nl: "Name (nl)"
+            nl: "Name (nl)",
+            pt: "Name (pt)"
         },
         displayName: {
             en: "Display name (en)",
-            nl: "Display name (nl)"
+            nl: "Display name (nl)",
+            pt: "Display name (pt)"
         },
         organizationURL: {
             en: "Organization URL (en)",
-            nl: "Organization URL (nl)"
+            nl: "Organization URL (nl)",
+            pt: "Organization URL (pt)"
         },
         organizationURL_nl_tooltip: "A URL the end user can access for more information in Dutch about the organization.",
         organizationURL_en_tooltip: "A URL the end user can access for more information in English about the organization.",
+        organizationURL_pt_tooltip: "A URL the end user can access for more information in Portuguese about the organization.",
         organizationName: {
             en: "Organization name (en)",
-            nl: "Organization name (nl)"
+            nl: "Organization name (nl)",
+            pt: "Organization name (pt)"
         },
         organizationName_nl_tooltip: "The official Dutch name of the organization.",
         organizationName_en_tooltip: "The official English name of the organization.",
+        organizationName_pt_tooltip: "The official Portuguese name of the organization.",
         organizationDisplayName: {
             en: "Organization display name (en)",
-            nl: "Organization display name (nl)"
+            nl: "Organization display name (nl)",
+            pt: "Organization display name (pt)"
         },
         organizationDisplayName_nl_tooltip: "The Dutch display name of the organization.",
         organizationDisplayName_en_tooltip: "The English display name of the organization.",
+        organizationDisplayName_pt_tooltip: "The Portuguese display name of the organization.",
         keywords: {
             en: "Keywords (en)",
-            nl: "Keywords (nl)"
+            nl: "Keywords (nl)",
+            pt: "Keywords (pt)"
         },
         published_in_edugain: "Published in eduGAIN",
         date_published_in_edugain: "Date published in eduGAIN",
@@ -511,7 +522,8 @@ I18n.translations.en = {
         },
         description: {
             en: "Description (en)",
-            nl: "Description (nl)"
+            nl: "Description (nl)",
+            pt: "Description (pt)"
         },
         guest_enabled: "Guest access enabled",
         edit_message: "You are able to edit the following fields.",
@@ -569,6 +581,7 @@ I18n.translations.en = {
         deny_message: "Deny message in English",
         deny_message_info: "This is the message displayed to the user if access is denied based on this policy.",
         deny_message_nl: "Deny message in Dutch",
+        deny_message_pt: "Deny message in Portuguese",
         description: "Description",
         idps_placeholder: "Select the Identity Providers - zero or more",
         institutions: "Institutions",
@@ -601,6 +614,7 @@ I18n.translations.en = {
         changes_info_html: "Showing the changes between <span class=\"prev\"> revision number {{prevRevisionNbr}}</span> and <span class=\"curr\">revision number {{currRevisionNbr}}</span> made by {{userDisplayName}} from {{authenticatingAuthorityName}} on {{createdDate}}.",
         denyAdvice: "Deny message in English",
         denyAdviceNl: "Deny message in Dutch",
+        denyAdvicePt: "Deny message in Portuguese",
         denyRule: "Access Permit rule?",
         description: "Description",
         identityProviderNames: "Institution(s)",
