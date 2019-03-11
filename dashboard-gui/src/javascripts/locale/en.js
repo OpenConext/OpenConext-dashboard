@@ -25,7 +25,7 @@ I18n.translations.en = {
         title: "Dashboard",
         welcome: "Welcome,",
         links: {
-            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
+            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
             logout: "Logout",
             exit: "Exit"
         },
@@ -102,7 +102,7 @@ I18n.translations.en = {
             },
             entity_category: {
                 name: "eduGAIN Entity Category",
-                tooltip: "Services can comply to an 'entity categories'.<br>See the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a> for more information. Here you can filter on services adhering to a certain category.",
+                tooltip: "Services can comply to an 'entity categories'.<br>See the <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\">wiki</a> for more information. Here you can filter on services adhering to a certain category.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
@@ -121,7 +121,7 @@ I18n.translations.en = {
                 info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation."
             },
             type_consent: {
-                tooltip: "Which way new users are asked to give consent before using the service.<br>See the <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">wiki</a> for more information.",
+                tooltip: "Which way new users are asked to give consent before using the service.<br>See the <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">wiki</a> for more information.",
                 name: "Type of consent",
                 no_consent: "No consent",
                 minimal_consent: "Minimal consent",
@@ -226,10 +226,10 @@ I18n.translations.en = {
         how_to_connect: "Read how to activate",
         disconnect: "Read how to deactivate the connection",
         normen_kader: "Information regarding AVG/GDPR",
-        normen_kader_html: "For this service the supplier has published information stating which data they process and where they process this data. You can find this information on the <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=60689334\" target=\"_blank\">wiki</a>. During 2018 we will incorporate this information in a new version of this Dashboard.",
+        normen_kader_html: "For this service the supplier has published information stating which data they process and where they process this data. You can find this information on the <a href=\"https://support.surfconext.nl/dashboard-info-avg\" target=\"_blank\">wiki</a>. During 2018 we will incorporate this information in a new version of this Dashboard.",
         no_normen_kader_html: "For this service the supplier has not yet provided AVG/GDPR information; information stating which data they process and where they process this data can be requested at the supplier.",
         single_tenant_service: "Single tenant service",
-        single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
+        single_tenant_service_html: "{{name}} is a single tenant service and as such requires a separate instance for each institution that wants to connect to this service. For more information about single tenant services see the <a href=\"https://support.surfconext.nl/dashboard-info-singletenant\" target=\"_blank\">SURFnet wiki</a>",
         interfed_source: "Federation source:",
         publish_in_edugain_date: "Published in eduGAIN on:",
         supports_ssa: "Supports SURFsecureID",
@@ -239,7 +239,7 @@ I18n.translations.en = {
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
         aansluitovereenkomst: "Connection Policy",
-        aansluitovereenkomstRefused: "This service has refused to sign the 'SURFconext connection agreement' with SURF. Read more about this policy on the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>.",
+        aansluitovereenkomstRefused: "This service has refused to sign the 'SURFconext connection agreement' with SURF. Read more about this policy on the <a href=\"https://support.surfconext.nl/dashboard-info-trust\" target=\"_blank\">SURF wiki</a>.",
         privacyInformation: "Privacy information",
         privacyInformationInfo: "The service provider has not delivered any privacy information."
     },
@@ -307,8 +307,8 @@ I18n.translations.en = {
     consent_panel: {
         title: "Consent new users",
         subtitle: "New users will be asked permission for sending personal data to this service.",
-        subtitle2: " On this page you can configure in which way users will be asked for consent before they are sent to {{name}}. You can configure to skip consent, ask for minimal consent and add a custom consent message for users of this service. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">this wiki page</a>.",
-        subtitle2Viewer: " On this page you can view in which way users will be asked for consent before they are sent to {{name}}. The different settings for consent are explained on <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">this wiki page</a>.",
+        subtitle2: " On this page you can configure in which way users will be asked for consent before they are sent to {{name}}. You can configure to skip consent, ask for minimal consent and add a custom consent message for users of this service. The different settings for consent are explained on <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">this wiki page</a>.",
+        subtitle2Viewer: " On this page you can view in which way users will be asked for consent before they are sent to {{name}}. The different settings for consent are explained on <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">this wiki page</a>.",
         no_consent: "No consent is required",
         minimal_consent: "Minimal consent is required",
         default_consent: "Default consent with an optional custom message",
@@ -335,7 +335,7 @@ I18n.translations.en = {
         cancel: "Cancel",
         check: "Check the",
         checklist: "Finish this checklist before activating the connection:",
-        processing_agreements: "Check whether your institution needs a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\">processing agreement</a> for this service, and if so, has signed one.",
+        processing_agreements: "Check whether your institution needs a <a href=\"https://support.surfconext.nl/dashboard-help-vwo\" target=\"_blank\">processing agreement</a> for this service, and if so, has signed one.",
         comments_description: "Comments will be sent to SURFconext.",
         comments_placeholder: "Enter comments here...",
         comments_title: "Any additional comments?",
@@ -432,14 +432,14 @@ I18n.translations.en = {
 
     footer: {
         surfnet_html: "<a href=\"https://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
-        terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Terms of Service</a>",
+        terms_html: "<a href=\"https://support.surfconext.nl/terms-en\" target=\"_blank\">Terms of Service</a>",
         contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
     },
 
     my_idp: {
         title: "My institute",
         roles: "Roles",
-        sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
+        sub_title_html: "The following roles have been assigned (<a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
         role: "Role",
         users: "User(s)",
         settings: "Settings for my own institute",
@@ -452,7 +452,7 @@ I18n.translations.en = {
         services_title: "Services provided by your institute:",
         services_title_none: "None",
         service_name: "Service name",
-        license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
+        license_contact_html: "Primary License contact person (<a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">more info</a>):",
         license_contact_name: "Name",
         license_contact_email: "Email",
         license_contact_phone: "Phonenumber",
@@ -508,7 +508,7 @@ I18n.translations.en = {
         logo_url: "Logo",
         new_logo_url: "New logo URL",
         research_and_scholarship_info: "Connect to CoCo R&S SP’s automatically",
-        research_and_scholarship_tooltip: "This means your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\">wiki</a> for more information.",
+        research_and_scholarship_tooltip: "This means your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\">wiki</a> for more information.",
         contact: "Contact persons for {{name}}",
         contact_name: "Contact name",
         contact_email: "Contact email",
@@ -566,7 +566,7 @@ I18n.translations.en = {
         new_value: "Add a new value...",
         sab_info: " The value(s) must be valid roles in SAB e.g. 'Instellingsbevoegde'",
         values: "Values(s)",
-        help_link: "https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext"
+        help_link: "https://support.surfconext.nl/dashboard-help-attributes"
     },
 
     policy_detail: {
@@ -710,7 +710,7 @@ I18n.translations.en = {
             minute: "Minute",
             all: "Entire period: from ⇨ until"
         },
-        helpLink: "https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken"
+        helpLink: "https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken"
     },
     chart: {
         title: "Logins and users per day",
