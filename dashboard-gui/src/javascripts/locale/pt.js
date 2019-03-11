@@ -431,7 +431,7 @@ I18n.translations.pt = {
 
     footer: {
         surfnet_html: "<a href=\"https://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
-        terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28EN%29\" target=\"_blank\">Termos do Serviço</a>",
+        terms_html: "<a href=\"https://support.surfconext.nl/terms-en\" target=\"_blank\">Termos do Serviço</a>",
         contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
     },
 

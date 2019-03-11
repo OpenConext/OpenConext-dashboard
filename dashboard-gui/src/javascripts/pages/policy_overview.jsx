@@ -115,7 +115,7 @@ class PolicyOverview extends React.Component {
                         <Link to={"/policies/new"} className="t-button policy-button">
                             <i className="fa fa-plus"/> {I18n.t("policies.new_policy")}
                         </Link>
-                        <a href="https://wiki.surfnet.nl/display/surfconextdev/Autorisatieregels" target="_blank"
+                        <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank"
                            className="t-button policy-button how-to" rel="noopener noreferrer">
                             {I18n.t("policies.how_to")}
                         </a>

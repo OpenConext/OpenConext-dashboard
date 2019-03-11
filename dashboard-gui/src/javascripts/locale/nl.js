@@ -18,14 +18,14 @@ I18n.translations.nl = {
 
     browser_not_supported: {
         title: "Uw browser wordt niet ondersteund.",
-        description_html: "Uw versie van Internet Explorer wordt niet ondersteunt. Update uw browser naar een modernere versie."
+        description_html: "Uw versie van Internet Explorer wordt niet ondersteund. Update uw browser naar een modernere versie."
     },
 
     header: {
         title: "Dashboard",
         welcome: "Welkom,",
         links: {
-            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
+            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
             logout: "Uitloggen",
             exit: "Exit"
         },
@@ -102,7 +102,7 @@ I18n.translations.nl = {
             },
             entity_category: {
                 name: "eduGAIN Entity Categorie",
-                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a> voor meer informatie. Hier kunt u evt diensten filteren die voldoen aan een bepaalde entity category.",
+                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\">wiki</a> voor meer informatie. Hier kunt u evt diensten filteren die voldoen aan een bepaalde entity category.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
@@ -121,7 +121,7 @@ I18n.translations.nl = {
                 info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie."
             },
             type_consent: {
-                tooltip: "Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">wiki</a> voor meer informatie.",
+                tooltip: "Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">wiki</a> voor meer informatie.",
                 name: "Type toestemming",
                 no_consent: "Geen toestemming",
                 minimal_consent: "Minimale toestemming",
@@ -227,10 +227,10 @@ I18n.translations.nl = {
         how_to_connect: "Lees hoe je een dienst koppelt",
         disconnect: "Lees hoe je een dienst ontkoppelt",
         normen_kader: "Informatie inzake AVG/GDPR",
-        normen_kader_html: "Voor deze dienst heeft de leverancier informatie verstrekt over welke data ze verwerkt, waar ze dat doet etc. De informatie vindt u op de <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=60689334\" target=\"_blank\">wiki</a>. In de loop van 2018 gaan we die informatie ook verwerken in een nieuwe versie van dit dashboard.",
+        normen_kader_html: "Voor deze dienst heeft de leverancier informatie verstrekt over welke data ze verwerkt, waar ze dat doet etc. De informatie vindt u op de <a href=\"https://support.surfconext.nl/dashboard-info-avg\" target=\"_blank\">wiki</a>. In de loop van 2018 gaan we die informatie ook verwerken in een nieuwe versie van dit dashboard.",
         no_normen_kader_html: "Voor deze dienst heeft de leverancier nog geen AVG/GDPR informatie aangeleverd; informatie over welke data ze verwerken, waar ze dat doen etc. kunt u opvragen bij de leverancier.",
         single_tenant_service: "Single tenant dienst",
-        single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
+        single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://support.surfconext.nl/dashboard-info-singletenant\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
         interfed_source: "Federatie bron:",
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
         supports_ssa: "Ondersteunt SURFsecureID",
@@ -240,7 +240,7 @@ I18n.translations.nl = {
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
         aansluitovereenkomst: "Aansluitovereenkomst",
-        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>.",
+        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://support.surfconext.nl/dashboard-info-trust\" target=\"_blank\">SURF wiki</a>.",
         privacyInformation: "Privacy-informatie",
         privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd."
     },
@@ -311,19 +311,19 @@ I18n.translations.nl = {
     consent_panel: {
         title: "Toestemming",
         subtitle: "Nieuwe gebruikers worden standaard om toestemming gevraagd voor het doorgeven van hun persoonlijke gegevens.",
-        subtitle2: "Op deze pagina kan je instellen op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. Je kan instellen om toestemming over te slaan, minimale toestemming te vragen en je kan een aangepast bericht toevoegen voor de gebruikers van de deze dienst. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">op de wiki</a>.",
-        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://wiki.surfnet.nl/x/khyeAw\">op de wiki</a>.",
+        subtitle2: "Op deze pagina kan je instellen op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. Je kan instellen om toestemming over te slaan, minimale toestemming te vragen en je kan een aangepast bericht toevoegen voor de gebruikers van de deze dienst. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">op de wiki</a>.",
+        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">op de wiki</a>.",
         no_consent: "Toestemming is niet nodig",
         minimal_consent: "Minimale toestemming is vereist",
         default_consent: "Standaard toestemming met een optioneel aangepast bericht",
         consent_value: "Type toestemming",
         consent_value_tooltip: "Het type toestemming bepaald hoe en of de gebruiker voor toestemming wordt gevraagd.",
         explanationNl: "Nederlands bericht",
-        explanationNl_tooltip: "Dit bericht wordt toegevoegd onderaan in het nederlandse toestemmings-scherm voor nieuwe gebruikers",
+        explanationNl_tooltip: "Dit bericht wordt toegevoegd onderaan in het Nederlandse toestemmings-scherm voor nieuwe gebruikers",
         explanationEn: "Engels bericht",
-        explanationEn_tooltip: "Dit bericht wordt toegevoegd onderaan in het engelse toestemmings-scherm voor nieuwe gebruikers",
-		explanationPt: "Portugees bericht",
-        explanationPt_tooltip: "Dit bericht wordt toegevoegd onderaan in het portugees toestemmings-scherm voor nieuwe gebruikers",
+        expanationEn_tooltip: "Dit bericht wordt toegevoegd onderaan in het Engelse toestemmings-scherm voor nieuwe gebruikers",
+        explanationPt: "Portugees bericht",
+        explanationPt_tooltip: "Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers",
         save: "Verstuur verzoek",
         change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
         no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
@@ -339,7 +339,7 @@ I18n.translations.nl = {
         cancel: "Annuleren",
         check: "Controleer",
         checklist: "Loop deze checklist na voordat je een connectie activeert:",
-        processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\">verwerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
+        processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://support.surfconext.nl/dashboard-help-vwo\" target=\"_blank\">verwerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
         comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
         comments_placeholder: "Voer hier je opmerkingen in...",
         comments_title: "Eventuele opmerkingen?",
@@ -445,7 +445,7 @@ I18n.translations.nl = {
             minute: "Minuut",
             all: "Totale periode: van ⇨ tot en met"
         },
-        helpLink: "https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken"
+        helpLink: "https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken"
     },
     chart: {
         title: "Logins en gebruikers per dag",
@@ -489,14 +489,14 @@ I18n.translations.nl = {
 
     footer: {
         surfnet_html: "<a href=\"https://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
-        terms_html: "<a href=\"https://wiki.surfnet.nl/display/conextsupport/Terms+of+Service+%28NL%29\" target=\"_blank\">Gebruikersvoorwaarden</a>",
+        terms_html: "<a href=\"https://support.surfconext.nl/terms-nl\" target=\"_blank\">Gebruikersvoorwaarden</a>",
         contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
     },
 
     my_idp: {
         title: "Mijn instelling",
         roles: "Rollen",
-        sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
+        sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken\">toelichting</a>):",
         role: "Rol",
         users: "Gebruiker(s)",
         settings: "Gegevens van mijn eigen instelling",
@@ -509,7 +509,7 @@ I18n.translations.nl = {
         services_title: "Diensten aangeboden door jouw instelling",
         services_title_none: "Geen",
         service_name: "Naam service",
-        license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
+        license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
         license_contact_name: "Naam",
         license_contact_email: "Email",
         license_contact_phone: "Telefoonnummer",
@@ -565,7 +565,7 @@ I18n.translations.nl = {
         logo_url: "Logo",
         new_logo_url: "Nieuwe logo URL",
         research_and_scholarship_info: "Koppel met SP's die aan CoCo en R&S voldoen",
-        research_and_scholarship_tooltip: "Dit betekent dat uw IdP automatisch aan alle huidige en toekomstige SP's<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\">wiki</a> vooor meer informatie.",
+        research_and_scholarship_tooltip: "Dit betekent dat uw IdP automatisch aan alle huidige en toekomstige SP's<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\">wiki</a> vooor meer informatie.",
         contact: "Contactpersonen voor {{name}}",
         contact_name: "Contact naam",
         contact_email: "Contact email",
@@ -623,7 +623,7 @@ I18n.translations.nl = {
         new_value: "Voeg een nieuwe waarde toe...",
         sab_info: "De waarde(s) moet geldige rollen in SAB zijn e.g. 'Instellingsbevoegde'",
         values: "Waarde(s)",
-        help_link: "https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext"
+        help_link: "https://support.surfconext.nl/dashboard-help-attributes"
     },
 
     policy_detail: {
