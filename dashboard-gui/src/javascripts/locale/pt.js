@@ -23,9 +23,9 @@ I18n.translations.pt = {
 
     header: {
         title: "Dashboard",
-        welcome: "Bem vindo,",
+        welcome: "Olá,",
         links: {
-            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Ajuda SURFconext Dashboard</a>",
+            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Ajuda</a>",
             logout: "Sair",
             exit: "Sair"
         },
@@ -46,7 +46,7 @@ I18n.translations.pt = {
 
     navigation: {
         apps: "Serviços",
-        policies: "Políticas de Permissão",
+        policies: "Políticas de Autorização",
         history: "Pedidos de Serviço",
         stats: "Estatísticas",
         my_idp: "A Minha Instituição",
@@ -305,7 +305,7 @@ I18n.translations.pt = {
     },
     consent_panel: {
         title: "Consentimento de novos utilizadores",
-        subtitle: "Aos novos utilizadores será pedido permissão para enviar informação de dados pessoais para este serviço.",
+        subtitle: "Aos novos utilizadores será pedida autorização para enviar informação de dados pessoais para este serviço.",
         subtitle2: "Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
         subtitle2Viewer: "Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
         no_consent: "Não é necessário consentimento",
@@ -347,13 +347,13 @@ I18n.translations.pt = {
         done_disconnect_subtitle_html_with_jira_html: "Será contactado sobre os próximos passos, necessários para finalizar esta desativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.",
         done_disconnect_title: "Pedido de Desativação!",
         done_subtitle_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
-        done_subtitle_with_jira_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}\">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.",
+        done_subtitle_with_jira_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl?subject=Questões sobre a ligação {{jiraKey}}\">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.",
         done_title: "Ligação realizada!",
         forward_permission: {
             after: " para {{app}}.",
             before: "SURFnet tem permissões para encaminhar ",
         },
-        info_sub_title: "Pode ativar uma ligação neste dashboard. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
+        info_sub_title: "Pode ativar uma ligação neste Dashboard. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_sub_invite_title: "Pode aceitar o convite para ativar uma ligação. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_title: "Ativar ligação",
         jira_unreachable: "Algo falhou com o seu pedido",
@@ -421,7 +421,7 @@ I18n.translations.pt = {
 
     server_error: {
         title: "Não tem permissões suficientes para aceder ao Dashboard.",
-        description_html: "Contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> ."
+        description_html: "Contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
     },
 
     logout: {
@@ -441,10 +441,10 @@ I18n.translations.pt = {
         sub_title_html: "Os seguintes perfis foram atribuídos (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
         role: "Perfil",
         users: "Utilizador(es)",
-        settings: "Configurações para a minha instituição",
-        settings_edit: "Configurações para a minha instituição e serviços",
-        settings_text: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à SURFconext através da sua instituição.Estas configurações são utilizadas na SURFconext, por exemplo na página Where Are You From. Se pretende alterar informação, clique em 'Criar pedido de alteração'.",
-        settings_text_viewer: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à SURFconext através da sua instituição.Estas configurações são utilizadas na SURFconext, por exemplo na página de onde é.",
+        settings: "CONFIGURAÇÕES DA MINHA INSTITUIÇÃO",
+        settings_edit: "Configurações da minha instituição e serviços",
+        settings_text: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à RCTSaai através da sua instituição.Estas configurações são utilizadas na RCTSaai, por exemplo na página Where Are You From. Se pretende alterar informação, clique em 'Criar pedido de alteração'.",
+        settings_text_viewer: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à RCTSaai através da sua instituição.Estas configurações são utilizadas na RCTSaai, por exemplo na página de onde é.",
         SURFconextverantwoordelijke: "SURFconext owner",
         SURFconextbeheerder: "SURFconext maintainer",
         "Dashboard supergebruiker": "Dashboard Super Utilizador",
@@ -485,7 +485,7 @@ I18n.translations.pt = {
         },
         organizationName_nl_tooltip: "O nome oficial em Dutch da organização.",
         organizationName_en_tooltip: "O nome oficial em Inglês da organização.",
-		organizationName_pt_tooltip: "O nome oficial da organização em Português.",
+        organizationName_pt_tooltip: "O nome oficial da organização em Português.",
         organizationDisplayName: {
             en: "Nome de Apresentação da Organização(en)",
             nl: "Nome de Apresentação da Organização(nl)",
@@ -512,7 +512,7 @@ I18n.translations.pt = {
         contact_type: "Tipo de contacto",
         contact_telephone: "Telefone do contacto",
         contact_types: {
-            technical: "Tecnico",
+            technical: "Técnico",
             support: "Suporte",
             help: "Suporte",
             administrative: "Administrativo"
@@ -523,7 +523,7 @@ I18n.translations.pt = {
             pt: "Descrição (pt)"
         },
         guest_enabled: "Acesso a convidados ativo",
-        edit_message: "Voçê pode editar os seguintes campos.",
+        edit_message: "Pode editar os seguintes campos.",
         save: "Criar pedido de alteração",
         change_request_created: "Pedido de alteração enviado para a SURFnet SURFconext-team.",
         no_change_request_created: "Não foi criado pedido de alteração já que não existem alterações.",
@@ -533,12 +533,12 @@ I18n.translations.pt = {
 
     policies: {
         confirmation: "Tem a certeza que pretende remover a politíca '{{policyName}}?'",
-        flash: "Política de permissão '{{policyName}}' foi {{action}} com sucesso",
+        flash: "Política de autorização '{{policyName}}' foi {{action}} com sucesso",
         flash_created: "criada",
         flash_deleted: "removida",
-        flash_first: "Esta é a primeira política de permissão para este serviço. Antes de ficar ativo, a equipa SURFconext tem de realizar alterações de configuração manualmente. Foi enviada uma notificação paa a equipa SURFconext. Em breve será contactado.",
+        flash_first: "Esta é a primeira política de autorização para este serviço. Antes de ficar ativo, a equipa SURFconext tem de realizar alterações de configuração manualmente. Foi enviada uma notificação para a equipa SURFconext. Em breve será contactado.",
         flash_updated: "atualizado",
-        new_policy: "Nova Política de Permissão",
+        new_policy: "Nova Política de Autorização",
         how_to: "Ajuda",
         policy_name_not_unique_exception: "Este nome de política já está a ser utilizado",
         pdp_unreachable: "PDP inacessível",
@@ -572,7 +572,7 @@ I18n.translations.pt = {
         autoFormat: "Formatação automática da descrição da política",
         cancel: "Cancelar",
         confirmation: "Tem a certeza que pretende sair desta página?",
-        create_policy: "Criar nova política de permissão",
+        create_policy: "Criar nova política de autorização",
         deny: "Negar",
         deny_info: "Políticas para não permitir, são menos comuns de utilizar. Se os atributos na politíca corresponderem aos do utilizador que está a realizar um login, então o resultado será não permitir o acesso. Nenhuma correspondência resulta em permitir. ",
         deny_message: "Não Permitir - Mensagem em Inglês",
@@ -583,7 +583,7 @@ I18n.translations.pt = {
         institutions: "Instituições",
         isActive: "Ativo",
         isActiveDescription: "Marcar a política de permisão como ativa",
-        isActiveInfo: " Políticas de permissão inativas não são avaliadas nas decisões",
+        isActiveInfo: " Políticas de autorização inativas não são avaliadas nas decisões",
         name: "Nome",
         permit: "Permitir",
         permit_info: "Políticas para Permitir, garantem que apenas uma correspondência bem sucedida dos atributos definidos resultará em permitir o acesso. Nenhuma correspondência resulta em não permitir.",
@@ -591,15 +591,15 @@ I18n.translations.pt = {
         rule_and: "AND",
         rule_and_info: "Políticas com regras AND garantem que todos os atributos definidos tem de corresponder aos da pessoa que está a tentar fazer login.",
         rule_info_add: " Note que ao definir vários valores de atributo para um mesmo nome de atributo, estes serão sempre avaliados com lógica OR.",
-        rule_info_add_2: "Note que uma política de Não Permissão acesso utiliza sempre e implicitamente a lógica AND para diferenres nomes de atributos.",
+        rule_info_add_2: "Note que uma política de acesso Não Autorizado utiliza sempre implicitamente a lógica de AND para diferentes nomes de atributos.",
         rule_or: "OR",
-        rule_or_info: "Políticas definidas com lógica OR apenas obriga a que um dos atributos do utilizador que está a pedir o acesso faça correspondência.",
+        rule_or_info: "Políticas definidas com a lógica OR apenas obriga a que um dos atributos do utilizador faça correspondência, ao que está a ser pedido para o acesso.",
         service: "Serviço",
         spScopeInfo: "Os Serviços disponíveis são limitados aos seus serviços se não selecionar uma Instituição",
         sp_placeholder: "Selecione o Fornecedor de Serviço - obrigatório",
         sub_title: "Criado por {{displayName}} em {{created}}",
         submit: "Submeter",
-        update_policy: "Atualizar política de permissão",
+        update_policy: "Atualizar política de autorização",
     },
 
     revisions: {
@@ -753,7 +753,7 @@ I18n.translations.pt = {
     },
     profile: {
         title: "Perfil",
-        sub_title: "Os seguintes dados de perfil foram fornecidos pela sua instituição. Esta informação assim como os grupos a que pertence (ex.:SURFteams) serão registados na SURFconext e partilhados com os serviços utilizados através da SURFconext.",
+        sub_title: "Os seguintes dados de perfil foram fornecidos pela sua instituição. Esta informação assim como os grupos a que pertence (ex.:SURFteams) serão registados na SURFconext e partilhados com os serviços utilizados através da RCTSaai.",
         my_attributes: "Os meus atributos",
         attribute: "Atributos",
         value: "Valores",
@@ -810,7 +810,7 @@ I18n.translations.pt = {
             },
             "eduPersonEntitlement": {
                 name: "Entitlement",
-                description: "define um direito, utilizado pelas aplicações no processo de permissão"
+                description: "define um direito, utilizado pelas aplicações no processo de autorização"
             },
             "Shib-eduPersonPN": {
                 name: "Net-ID",
