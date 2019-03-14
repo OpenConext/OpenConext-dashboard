@@ -65,8 +65,9 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     public void shouldCreateACoinUserBasedOnShibbolethHeaders() {
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
-        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value", false)).thenReturn(Optional.of(new
-                IdentityProvider()));
+        IdentityProvider identityProvider = new IdentityProvider();
+        identityProvider.setState("prodaccepted");
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value", false)).thenReturn(Optional.of(identityProvider));
 
         CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
@@ -79,6 +80,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     public void shouldSetTheInstitionIdOfTheUser() {
         IdentityProvider idp = new IdentityProvider();
         idp.setInstitutionId("my-institution-id");
+        idp.setState("prodaccepted");
 
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value");
@@ -95,8 +97,10 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         when(requestMock.getHeader(anyString())).then(invocation -> invocation.getArguments()[0] + "_value1;" +
                 invocation.getArguments()[0] + "_value2");
-        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value1", false)).thenReturn(Optional.of(new
-                IdentityProvider()));
+        IdentityProvider identityProvider = new IdentityProvider();
+        identityProvider.setState("prodaccepted");
+
+        when(manageMock.getIdentityProvider("Shib-Authenticating-Authority_value1", false)).thenReturn(Optional.of(identityProvider));
 
         CoinUser coinUser = (CoinUser) subject.getPreAuthenticatedPrincipal(requestMock);
 
@@ -115,6 +119,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
                     new SabRoleHolder(institutionId, Arrays.asList("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextverantwoordelijke"))));
             request.addHeader(Name_Id.getValue(), "uid");
             IdentityProvider idp = new IdentityProvider("mock-idp", "SURFNET", "name", 1L);
+            idp.setState("prodaccepted");
             when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(idp));
             when(manageMock.getInstituteIdentityProviders("SURFNET")).thenReturn(Collections.singletonList(idp));
             request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
@@ -154,7 +159,9 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     public void noRoles() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(Name_Id.getValue(), "uid");
-        when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(new IdentityProvider()));
+        IdentityProvider identityProvider = new IdentityProvider();
+        identityProvider.setState("prodaccepted");
+        when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(identityProvider));
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
         CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
         assertEquals(0, user.getAuthorityEnums().size());
@@ -171,6 +178,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         }
         request.addHeader(Name_Id.getValue(), "uid");
         IdentityProvider idp = new IdentityProvider("mock-idp", institutionId, "name", 1L);
+        idp.setState("prodaccepted");
         when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(idp));
         when(manageMock.getInstituteIdentityProviders(institutionId)).thenReturn(Collections.singletonList(idp));
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");

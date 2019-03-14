@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
@@ -174,7 +175,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
         List<String> institutionIds = institutionIdentityProviders.stream()
                 .filter(provider -> StringUtils.hasText(provider.getInstitutionId()))
-                .map(provider -> provider.getInstitutionId().toUpperCase()).collect(Collectors.toList());
+                .map(provider -> provider.getInstitutionId().toUpperCase()).collect(toList());
 
         LOG.debug("Manage: received institution ID's {} ", institutionIds);
 
@@ -220,10 +221,13 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {
         Optional<IdentityProvider> optionalIdentityProvider = manage.getIdentityProvider(idpId, false);
-        return optionalIdentityProvider.map(idp -> {
+        List<IdentityProvider> identityProviders = optionalIdentityProvider.map(idp -> {
             String institutionId = idp.getInstitutionId();
             return hasText(institutionId) ? manage.getInstituteIdentityProviders(institutionId) : singletonList(idp);
         }).orElse(Collections.emptyList());
+        return identityProviders.stream()
+                .filter(identityProvider -> "prodaccepted".equals(identityProvider.getState()))
+                .collect(toList());
     }
 
     private Optional<String> getFirstShibHeaderValue(ShibbolethHeader headerName, HttpServletRequest request) {
