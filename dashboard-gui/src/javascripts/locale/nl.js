@@ -321,7 +321,7 @@ I18n.translations.nl = {
         explanationNl: "Nederlands bericht",
         explanationNl_tooltip: "Dit bericht wordt toegevoegd onderaan in het Nederlandse toestemmings-scherm voor nieuwe gebruikers",
         explanationEn: "Engels bericht",
-        expanationEn_tooltip: "Dit bericht wordt toegevoegd onderaan in het Engelse toestemmings-scherm voor nieuwe gebruikers",
+        explanationEn_tooltip: "Dit bericht wordt toegevoegd onderaan in het Engelse toestemmings-scherm voor nieuwe gebruikers",
         explanationPt: "Portugees bericht",
         explanationPt_tooltip: "Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers",
         save: "Verstuur verzoek",
