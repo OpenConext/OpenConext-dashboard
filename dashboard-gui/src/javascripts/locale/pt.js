@@ -441,7 +441,7 @@ I18n.translations.pt = {
         sub_title_html: "Os seguintes perfis foram atribuídos (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
         role: "Perfil",
         users: "Utilizador(es)",
-        settings: "CONFIGURAÇÕES DA MINHA INSTITUIÇÃO",
+        settings: "Configurações da minha Instituição",
         settings_edit: "Configurações da minha instituição e serviços",
         settings_text: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à RCTSaai através da sua instituição.Estas configurações são utilizadas na RCTSaai, por exemplo na página Where Are You From. Se pretende alterar informação, clique em 'Criar pedido de alteração'.",
         settings_text_viewer: "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à RCTSaai através da sua instituição.Estas configurações são utilizadas na RCTSaai, por exemplo na página de onde é.",
