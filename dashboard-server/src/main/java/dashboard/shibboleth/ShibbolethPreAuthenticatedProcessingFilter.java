@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.singletonList;
@@ -77,7 +78,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private Sab sab;
     private String dashboardAdmin;
     private String dashboardViewer;
-    private String dashboardSuperUser;
+    private List<String> dashboardSuperUser;
     private String adminSurfConextIdpRole;
     private String viewerSurfConextIdpRole;
     private boolean isManageConsentEnabled;
@@ -103,7 +104,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.manage = manage;
         this.sab = sab;
         this.dashboardAdmin = dashboardAdmin;
-        this.dashboardSuperUser = dashboardSuperUser;
+        this.dashboardSuperUser = Stream.of(dashboardSuperUser.split(",")).map(String::trim).collect(toList());
         this.dashboardViewer = dashboardViewer;
         this.adminSurfConextIdpRole = adminSufConextIdpRole;
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
@@ -191,7 +192,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     }
 
     private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {
-        if (groups.contains(dashboardSuperUser)) {
+        if (!Collections.disjoint(groups, dashboardSuperUser)) {
             user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
         } else if (groups.contains(dashboardAdmin)) {
             user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
@@ -264,8 +265,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.dashboardViewer = dashboardViewer;
     }
 
-    public void setDashboardSuperUser(String dashboardSuperUser) {
-        this.dashboardSuperUser = dashboardSuperUser;
+    public void setDashboardSuperUser(List<String> dashboardSuperUsers) {
+        this.dashboardSuperUser = dashboardSuperUsers;
     }
 
     public void setAdminSurfConextIdpRole(String adminSurfConextIdpRole) {

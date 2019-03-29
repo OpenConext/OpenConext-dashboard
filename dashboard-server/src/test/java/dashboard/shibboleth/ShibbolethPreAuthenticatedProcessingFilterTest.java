@@ -54,7 +54,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         subject.setViewerSurfConextIdpRole("SURFconextbeheerder");
 
         subject.setDashboardAdmin("dashboard.admin");
-        subject.setDashboardSuperUser("dashboard.super.user");
+        subject.setDashboardSuperUser(Arrays.asList("dashboard.super.user"));
         subject.setDashboardViewer("dashboard.viewer");
         subject.setManageConsentEnabled(true);
 

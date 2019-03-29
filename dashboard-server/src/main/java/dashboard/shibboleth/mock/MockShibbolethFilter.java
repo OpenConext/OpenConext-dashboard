@@ -31,7 +31,7 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl";
-    public static final String role = "admin";
+    public static final String role = "super";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
@@ -59,7 +59,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
         wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
         switch (userId) {
             case "super":
-                wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.super.user");
+                wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.super.user2");
                 break;
             case "admin":
                 wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.admin");

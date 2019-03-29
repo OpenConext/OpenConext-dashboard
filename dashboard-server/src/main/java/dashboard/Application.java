@@ -93,14 +93,4 @@ public class Application {
         return pdpEnabled ? new PdpServiceImpl(server, username, password) : new PdpServiceMock();
     }
 
-    @Bean
-    public LocaleResolver localeResolver(@Value("${supported_language_codes}") String supportLanguageCodes) {
-        String language = Stream.of(supportLanguageCodes.split(",")).map(String::trim).findFirst().orElse("nl");
-        CookieThenAcceptHeaderLocaleResolver localeResolver = new CookieThenAcceptHeaderLocaleResolver();
-        localeResolver.setCookieName("lang");
-        localeResolver.setDefaultLocale(new Locale(language));
-        localeResolver.setCookieMaxAge(315360000);
-        return localeResolver;
-    }
-
 }
