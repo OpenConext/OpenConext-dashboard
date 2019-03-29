@@ -184,7 +184,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     }
 
     public String getUrl(Language language) {
-        return CollectionUtils.isEmpty(this.urls) ? null : urls.get(language.name());
+        return CollectionUtils.isEmpty(this.urls) ? null : urls.get(language.name().toLowerCase());
     }
 
     public PrivacyInfo getPrivacyInfo() {

@@ -21,12 +21,17 @@ class Header extends React.Component {
         const {currentUser} = this.context;
         const supportedLanguageCodes = currentUser ? currentUser.supportedLanguages : [];
         const organization = currentUser ? currentUser.organization : "openconext";
+        const idp = (currentUser.switchedToIdp || currentUser.getCurrentIdp());
+        const state = I18n.t(`my_idp.${idp.state}`);
         return (
             <div className="mod-header">
                 <h1 className={`title ${organization.toLowerCase()}`}>
                     <Link to="/apps">{I18n.t("header.title")}</Link>
                 </h1>
                 <div className="meta">
+                    <div className="institute">
+                        <p className={`${idp.state}`}>{`${idp.name} - ${state}`}</p>
+                    </div>
                     <div className="name">
                         {this.renderProfileLink()}
                         {this.renderDropDown()}

@@ -18,7 +18,6 @@ import Chart from "../components/chart";
 import stopEvent from "../utils/stop";
 import {isEmpty} from "../utils/utils";
 
-const states = ["all", "prodaccepted", "testaccepted"];
 const minDiffByScale = {day: 30, week: 365, month: 365, quarter: 365, year: 365 * 5};
 
 
@@ -41,7 +40,6 @@ class Stats extends React.Component {
             allSp: [],
             serviceProvidersDict: {},
             displayDetailPerSP: false,
-            state: states[1],
             maximumTo: true,
             connectedServiceProviders: []
         };
@@ -55,9 +53,9 @@ class Stats extends React.Component {
     };
 
     componentWillMount() {
-        const {from, to, scale, state, sp} = this.state;
+        const {from, to, scale, sp} = this.state;
         Promise.all([loginTimeFrame(from.unix(), to.unix(), scale,
-            sp === this.allServiceProviderOption.value ? undefined : sp, state), getConnectedServiceProviders()])
+            sp === this.allServiceProviderOption.value ? undefined : sp), getConnectedServiceProviders()])
             .then(res => {
                 const now = moment().unix() * 1000;
                 let data = res[0].filter(p => p.time <= now);
@@ -81,10 +79,10 @@ class Stats extends React.Component {
 
     refresh = () => {
         this.setState({loaded: false});
-        const {from, to, scale, sp, displayDetailPerSP, state} = this.state;
+        const {from, to, scale, sp, displayDetailPerSP} = this.state;
         const spEntityId = sp === this.allServiceProviderOption.value ? undefined : sp;
         if (displayDetailPerSP) {
-            loginAggregated(getPeriod(from, scale), state, spEntityId).then(res => {
+            loginAggregated(getPeriod(from, scale), spEntityId).then(res => {
                 if (isEmpty(res)) {
                     this.setState({data: res, loaded: true});
                 } else if (res.length === 1 && res[0] === "no_results") {
@@ -119,12 +117,12 @@ class Stats extends React.Component {
                 }
             });
         } else if (scale === "all") {
-            uniqueLoginCount(from.unix(), to.unix(), spEntityId, state).then(res => this.setState({
+            uniqueLoginCount(from.unix(), to.unix(), spEntityId).then(res => this.setState({
                 data: res,
                 loaded: true
             }));
         } else {
-            loginTimeFrame(from.unix(), to.unix(), scale, spEntityId, state).then(res => {
+            loginTimeFrame(from.unix(), to.unix(), scale, spEntityId).then(res => {
                 if (scale === "minute" || scale === "hour") {
                     const now = moment().unix() * 1000;
                     res = res.filter(p => p.time <= now);
@@ -229,7 +227,7 @@ class Stats extends React.Component {
         this.setState({data: [], displayDetailPerSP: displayDetailPerSP, ...additionalState}, this.refresh);
     };
 
-    renderSpSelect = (sp, allSp, clearable, displayDetailPerSP, state) =>
+    renderSpSelect = (sp, allSp, clearable, displayDetailPerSP) =>
         <fieldset>
             <h2 className="title">{I18n.t("stats.sp")}</h2>
             <SelectWrapper
@@ -242,13 +240,6 @@ class Stats extends React.Component {
                       onChange={this.onChangeDisplayDetailPerSP}
                       info={I18n.t("stats.displayDetailPerSP")}
             />
-            <h2 className="title secondary">{I18n.t("stats.state")}</h2>
-            <SelectWrapper
-                defaultValue={state}
-                options={states.map(s => ({value: s, display: I18n.t(`my_idp.${s}`)}))}
-                multiple={false}
-                isClearable={false}
-                handleChange={val => this.setState({data: [], state: val}, this.refresh)}/>
         </fieldset>;
 
     renderYearPicker = (date, maxYear, onChange) => {
@@ -352,7 +343,7 @@ class Stats extends React.Component {
     };
 
     render() {
-        const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, state, maximumTo, serviceProvidersDict} = this.state;
+        const {from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, maximumTo, serviceProvidersDict} = this.state;
         const fullView = this.props.view === "full";
         const spSelected = sp !== this.allServiceProviderOption.value;
         const noResult = (data.length === 1 && data[0] === "no_results") || (loaded && data.length === 0);
@@ -371,7 +362,7 @@ class Stats extends React.Component {
                                 className="fa fa-info-circle"></i></a>
                             <a href="reset" className="reset c-button" onClick={this.reset}>{I18n.t("facets.reset")}</a>
                         </div>
-                        {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP, state)}
+                        {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP)}
                         {this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected)}
                     </div>
                 </div>}

@@ -16,7 +16,7 @@ public class StatsMock implements Stats, Constants {
     }
 
     @Override
-    public List<Object> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityId, String state) {
+    public List<Object> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityId) {
         long step = step(scale);
         List<Object> result = new ArrayList<>();
         for (long i = from; i <= to; i += step) {
@@ -34,7 +34,7 @@ public class StatsMock implements Stats, Constants {
     }
 
     @Override
-    public List<Object> loginAggregated(String period, Optional<String> spEntityId, String state) {
+    public List<Object> loginAggregated(String period, Optional<String> spEntityId) {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.YEAR, Integer.valueOf(period.substring(0, 4)));
         today.set(Calendar.HOUR_OF_DAY, 0);
@@ -72,7 +72,7 @@ public class StatsMock implements Stats, Constants {
     }
 
     @Override
-    public List<Object> uniqueLoginCount(long from, long to, String spEntityId, String state) {
+    public List<Object> uniqueLoginCount(long from, long to, String spEntityId) {
         List<Object> result = new ArrayList<>();
         Map<String, Object> point = new HashMap<>();
         point.put("count_user_id", countValue("year"));

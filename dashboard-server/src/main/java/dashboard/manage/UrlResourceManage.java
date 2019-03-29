@@ -32,7 +32,7 @@ public class UrlResourceManage implements Manage {
     private final RestTemplate restTemplate = new RestTemplate();
     private final HttpHeaders httpHeaders;
 
-    private String requestedAttributes = "\"state\":\"prodaccepted\",\"ALL_ATTRIBUTES\":true";
+    private String requestedAttributes = "\"ALL_ATTRIBUTES\":true";
     private String body = "{" + requestedAttributes + "}";
     private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
     private String bodyForEid = "{\"eid\":@@eid@@, " + requestedAttributes + "}";
@@ -40,7 +40,7 @@ public class UrlResourceManage implements Manage {
             "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", \"ALL_ATTRIBUTES\":true}";
 
     private String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
-            ".allowedall\": true}]}, {\"data.state\":\"prodaccepted\"}]}";
+            ".allowedall\": true}]}]}";
 
     public UrlResourceManage(
             String username,

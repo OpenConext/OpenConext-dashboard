@@ -377,7 +377,7 @@ I18n.translations.en = {
         not_published_in_edugain_idp: "eduGAIN service",
         not_published_in_edugain_idp_info: "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
         edit_my_idp_link: "Create change request in 'My Institute'",
-        disconnect_jira_info: "If you want more information about the progress on this issue please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> and include the ticket number in the subject: CXT-22835",
+        disconnect_jira_info: "If you want more information about the progress on this issue please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> and include the ticket number in the subject: {{jiraKey}}",
         invite_denied: "Ticket {{jiraKey}} was successfully closed.",
         invite_accepted: "Ticket {{jiraKey}} was successfully updated with your approval.",
         deny: "Deny invition",

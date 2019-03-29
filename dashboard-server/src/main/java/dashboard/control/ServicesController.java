@@ -140,7 +140,7 @@ public class ServicesController extends BaseController {
     }
 
     private String stripBreakingWhitespace(String input) {
-        return StringUtils.hasText(input) ? input.trim().replace("\n", "") : "";
+        return StringUtils.hasText(input) ? input.trim().replaceAll("[\n,]", "") : "";
     }
 
     private Optional<Service> getServiceById(List<Service> services, Long id) {

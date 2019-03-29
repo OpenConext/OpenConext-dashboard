@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("serial")
 public class IdentityProvider extends Provider implements Serializable {
@@ -53,8 +54,11 @@ public class IdentityProvider extends Provider implements Serializable {
         this.disableConsent = (List<Consent> ) metaData.getOrDefault("disableConsent",  new ArrayList<>());
         addKeywords("en", (String) metaData.get("keywords:en"));
         addKeywords("nl", (String) metaData.get("keywords:nl"));
-        connectToRSServicesAutomatically = "http://refeds.org/category/research-and-scholarship".equals(metaData.get(
-            "coin:entity_categories:1"));
+        IntStream.range(1,6).forEach(i -> {
+            if ("http://refeds.org/category/research-and-scholarship".equals(metaData.get("coin:entity_categories:"+i))){
+                connectToRSServicesAutomatically = true;
+            }
+        });
         organisationNames.put("en", (String) metaData.get("OrganizationName:en"));
         organisationNames.put("nl", (String) metaData.get("OrganizationName:nl"));
         organisationDisplayNames.put("en", (String) metaData.get("OrganizationDisplayName:en"));

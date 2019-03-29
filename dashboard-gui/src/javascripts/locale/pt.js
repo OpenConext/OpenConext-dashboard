@@ -376,7 +376,7 @@ I18n.translations.pt = {
         not_published_in_edugain_idp: "serviço eduGAIN",
         not_published_in_edugain_idp_info: "O serviço {{name}} não pode ser ligado porque a sua instituição não está no eduGAIN. Para aderir ao eduGAIN, por favor seleccione a opção 'Publicar no eduGAIN' na tab 'A minha Instituição' e faça um pedido de alteração.",
         edit_my_idp_link: "Criar solicitação de mudança em 'A minha instituição'",
-        disconnect_jira_info: "Se pretende receber mais informações sobre o progresso deste pedido, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> e adicione o número do pedido de serviço no assunto: CXT-22835",
+        disconnect_jira_info: "Se pretende receber mais informações sobre o progresso deste pedido, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> e adicione o número do pedido de serviço no assunto: {{jiraKey}}",
         invite_denied: "Pedido de Serviço {{jiraKey}} fechado com sucesso.",
         invite_accepted: "Pedido de Serviço {{jiraKey}} foi atualizado com sucesso e com a sua aprovação.",
         deny: "Recusar o convite",

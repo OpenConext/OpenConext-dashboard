@@ -14,14 +14,6 @@ export default class AppMeta extends React.Component {
                         {app.name}
                     </div>
                     {this.renderLogo()}
-
-                    <div className="contact">
-                        <h2>{I18n.t("app_meta.question")}</h2>
-                        <address>
-                            <a href={"mailto:support@surfconext.nl?subject=Question about " + app.name}>support@surfconext.nl</a>
-                        </address>
-                    </div>
-
                     <Contact email={app.supportMail}/>
                     {this.renderUrl("support", app.supportUrl)}
                     {this.renderUrl("login", app.appUrl)}

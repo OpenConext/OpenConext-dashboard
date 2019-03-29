@@ -225,9 +225,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             String institutionId = idp.getInstitutionId();
             return hasText(institutionId) ? manage.getInstituteIdentityProviders(institutionId) : singletonList(idp);
         }).orElse(Collections.emptyList());
-        return identityProviders.stream()
-                .filter(identityProvider -> "prodaccepted".equals(identityProvider.getState()))
-                .collect(toList());
+        return identityProviders;
     }
 
     private Optional<String> getFirstShibHeaderValue(ShibbolethHeader headerName, HttpServletRequest request) {

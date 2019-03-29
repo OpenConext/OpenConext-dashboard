@@ -38,26 +38,26 @@ public class StatsImpl implements Stats, Constants {
         }));
     }
 
-    public List<Object> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityIdOptional, String state) {
+    public List<Object> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityIdOptional) {
         StringBuilder url = new StringBuilder(String.format(
-                "%s/public/login_time_frame?from=%s&to=%s&include_unique=true&scale=%s&epoch=ms&state=%s&idp_id=%s",
-                baseUrl, from, to, scale, state, currentUserIdp()));
+                "%s/public/login_time_frame?from=%s&to=%s&include_unique=true&scale=%s&epoch=ms&idp_id=%s",
+                baseUrl, from, to, scale, currentUserIdp()));
         spEntityIdOptional.ifPresent(spEntityId -> url.append(String.format("&sp_id=%s", spEntityId)));
         return restTemplate.getForEntity(url.toString(), List.class).getBody();
     }
 
-    public List<Object> loginAggregated(String period, Optional<String> spEntityIdOptional, String state) {
+    public List<Object> loginAggregated(String period, Optional<String> spEntityIdOptional) {
         StringBuilder url = new StringBuilder(String.format(
-                "%s/public/login_aggregated?period=%s&include_unique=true&state=%s&idp_id=%s&group_by=sp_id",
-                baseUrl, period, state, currentUserIdp()));
+                "%s/public/login_aggregated?period=%s&include_unique=true&idp_id=%s&group_by=sp_id",
+                baseUrl, period, currentUserIdp()));
         spEntityIdOptional.ifPresent(spEntityId -> url.append(String.format("&sp_id=%s", spEntityId)));
         return restTemplate.getForEntity(url.toString(), List.class).getBody();
     }
 
-    public List<Object> uniqueLoginCount(long from, long to, String spEntityId, String state) {
+    public List<Object> uniqueLoginCount(long from, long to, String spEntityId) {
         String url = String.format(
-                "%s/public/unique_login_count?from=%s&to=%s&include_unique=true&epoch=ms&state=%s&idp_id=%s&sp_id=%s",
-                baseUrl, from, to, state, currentUserIdp(), spEntityId);
+                "%s/public/unique_login_count?from=%s&to=%s&include_unique=true&epoch=ms&idp_id=%s&sp_id=%s",
+                baseUrl, from, to, currentUserIdp(), spEntityId);
         return restTemplate.getForEntity(url, List.class).getBody();
     }
 

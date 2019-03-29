@@ -33,26 +33,23 @@ public class StatsController implements Constants {
     public List<Object> loginTimeFrame(@RequestParam("from") long from,
                                                     @RequestParam("to") long to,
                                                     @RequestParam("scale") String scale,
-                                                    @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId,
-                                                    @RequestParam(value = "state", required = false, defaultValue = "all") String state) {
-        return stats.loginTimeFrame(from, to, scale, spEntityId, state);
+                                                    @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId) {
+        return stats.loginTimeFrame(from, to, scale, spEntityId);
     }
 
     //Used for retrieval of all logins for all SP's
     @GetMapping("loginAggregated")
     public List<Object> loginAggregated(@RequestParam("period") String period,
-                                                     @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId,
-                                                     @RequestParam(value = "state", required = false, defaultValue = "all") String state) {
-        return stats.loginAggregated(period,spEntityId, state);
+                                                     @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId) {
+        return stats.loginAggregated(period,spEntityId);
     }
 
     //Used for retrieval of all logins for one SP without a period
     @GetMapping("uniqueLoginCount")
     public List<Object> uniqueLoginCount(@RequestParam("from") long from,
                                                       @RequestParam("to") long to,
-                                                      @RequestParam(value = "spEntityId") String spEntityId,
-                                                      @RequestParam(value = "state", required = false, defaultValue = "all") String state) {
-        return stats.uniqueLoginCount(from, to, spEntityId, state);
+                                                      @RequestParam(value = "spEntityId") String spEntityId) {
+        return stats.uniqueLoginCount(from, to, spEntityId);
     }
 
     @GetMapping("serviceProviders")
