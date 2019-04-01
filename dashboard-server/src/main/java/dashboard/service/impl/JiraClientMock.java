@@ -41,19 +41,19 @@ public class JiraClientMock implements JiraClient {
     private List<String> statuses = Arrays.asList("To Do", "In Progress", "Awaiting Input", "Resolved", "Closed");
 
     public JiraClientMock(String idp) {
-        IntStream.rangeClosed(0, 25).forEach(i -> {
-            List<Action.Type> types = Arrays.asList(Action.Type.values());
-            Action action = Action.builder()
-                    .spId("http://sp-" + i)
-                    .idpId(idp)
-                    .idpName("IDP")
-                    .jiraKey(generateKey())
-                    .requestDate(ZonedDateTime.now())
-                    .status(statuses.get(new Random().nextInt(statuses.size())))
-                    .type(types.get(new Random().nextInt(types.size())))
-                    .build();
-            repository.put(action.getJiraKey().get(), action);
-        });
+//        IntStream.rangeClosed(0, 25).forEach(i -> {
+//            List<Action.Type> types = Arrays.asList(Action.Type.values());
+//            Action action = Action.builder()
+//                    .spId("http://sp-" + i)
+//                    .idpId(idp)
+//                    .idpName("IDP")
+//                    .jiraKey(generateKey())
+//                    .requestDate(ZonedDateTime.now())
+//                    .status(statuses.get(new Random().nextInt(statuses.size())))
+//                    .type(types.get(new Random().nextInt(types.size())))
+//                    .build();
+//            repository.put(action.getJiraKey().get(), action);
+//        });
 
     }
 

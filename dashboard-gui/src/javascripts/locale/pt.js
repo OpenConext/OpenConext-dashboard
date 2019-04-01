@@ -385,7 +385,10 @@ I18n.translations.pt = {
         deny_invitation_info: "Depois de recusar o convite de ligação, pode sempre voltar a realizar um pedido para ativar o serviço aqui no Dashboard.",
         invite_action_collision_title: "O serviço {{app}} já está ligado.",
         invite_action_collision_subtitle: "Mid-air colisão detectada.",
-        invite_action_collision: "O convite {{app}} já foi aceite. Talvez alguem já tenha aceite o convite? Se tem alguma questão contacte <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> e adicione o número do pedido no assunto do email: {{jiraKey}}."
+        invite_action_collision: "O convite {{app}} já foi aceite. Talvez alguem já tenha aceite o convite? Se tem alguma questão contacte <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> e adicione o número do pedido no assunto do email: {{jiraKey}}.",
+        test_connected_no_connection_title: "Service {{app}} can not be connected.",
+        test_connected_no_connection_subtitle: "The status of your institution is staging and therefore no services can connect.",
+        test_connected_no_connection: "If you want to change the status of your institution please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
     },
 
     application_usage_panel: {

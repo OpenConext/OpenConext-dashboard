@@ -62,7 +62,10 @@ class AppOverview extends React.Component {
         }
         Promise.all([getApps(), disableConsent()])
             .then(data => {
-                const {facets, apps} = data[0].payload;
+                let {facets, apps: unfilteredApps} = data[0].payload;
+                const {currentUser} = this.context;
+                const idpState = currentUser.getCurrentIdp().state;
+                const apps = unfilteredApps.filter(app => app.state === idpState);
 
                 // We need to sanitize the categories data for each app to ensure the facet totals are correct
                 const unknown = {value: I18n.t("facets.unknown")};
@@ -155,7 +158,8 @@ class AppOverview extends React.Component {
 
     renderApp(app, index) {
         const {currentUser} = this.context;
-        const connect = currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId;
+        const currentIdp = currentUser.getCurrentIdp();
+        const connect = currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== "testaccepted";
         const focus = app.id === store.appId && this.props.match.params.back;
         return (
             <tr key={index} ref={re => {

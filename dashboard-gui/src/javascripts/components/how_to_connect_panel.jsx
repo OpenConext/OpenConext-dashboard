@@ -360,9 +360,23 @@ class HowToConnectPanel extends React.Component {
                 </div>
             </div>
         </div>;
-
     };
 
+    renderStagingNoConnectAllowed = (app) => {
+        return <div className="l-middle-app-detail">
+            <div className="mod-title">
+                <h1>{I18n.t("how_to_connect_panel.test_connected_no_connection_title", {app: app.name})}</h1>
+            </div>
+            <div className="mod-connect">
+                <div className="box">
+                    <div className="content">
+                        <h2>{I18n.t("how_to_connect_panel.test_connected_no_connection_subtitle")}</h2>
+                        <p dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.test_connected_no_connection", {app: app.name})}}/>
+                    </div>
+                </div>
+            </div>
+        </div>;
+    };
 
     renderJiraConflict = (action, isConnection) => {
         const message = I18n.t("apps.detail.outstandingIssue",
@@ -424,6 +438,8 @@ class HowToConnectPanel extends React.Component {
 
     render() {
         const {failed, currentStep} = this.state;
+        const {currentUser} = this.context;
+        const currentIdp = currentUser.getCurrentIdp();
         const {jiraKey, inviteAction, conflictingJiraIssue, app} = this.props;
         if (failed) {
             return (
@@ -433,8 +449,11 @@ class HowToConnectPanel extends React.Component {
                 </div>
             );
         }
+        if (currentIdp.state === "testaccepted") {
+            return this.renderStagingNoConnectAllowed(app);
+        }
         if (currentStep === "connect" &&
-            !this.context.currentUser.currentIdp.publishedInEdugain &&
+            !currentIdp.publishedInEdugain &&
             this.props.app.publishedInEdugain && isEmpty(conflictingJiraIssue)) {
             return (
                 <div className="mod-edugain">
