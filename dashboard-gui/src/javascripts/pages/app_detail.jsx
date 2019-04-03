@@ -215,8 +215,10 @@ class AppDetail extends React.Component {
                             </ul>
                         </div>
                     </div>
-                    <AppMeta app={this.state.app}/>
-                    {this.renderActivePanel()}
+                    <div className="app-detail-container">
+                        <AppMeta app={this.state.app}/>
+                        {this.renderActivePanel()}
+                    </div>
                 </div>
             );
         }

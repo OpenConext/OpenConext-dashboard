@@ -5,27 +5,6 @@ import {AppShape} from "../shapes";
 import Contact from "./contact";
 
 export default class AppMeta extends React.Component {
-    render() {
-        const app = this.props.app;
-        return (
-            <div className="l-left-app-meta">
-                <div className="mod-app-meta">
-                    <div className="name">
-                        {app.name}
-                    </div>
-                    {this.renderLogo()}
-                    <Contact email={app.supportMail}/>
-                    {this.renderUrl("support", app.supportUrl)}
-                    {this.renderUrl("login", app.appUrl)}
-                    {this.renderUrl("website", app.websiteUrl)}
-                    {this.renderUrl("eula", app.eulaUrl)}
-                    {this.renderUrl("registration_policy", app.registrationPolicyUrl)}
-                    {this.renderUrl("privacy_statement", app.privacyStatementUrl)}
-                    {this.renderRegistrationInfo(app.registrationInfoUrl)}
-                </div>
-            </div>
-        );
-    }
 
     renderRegistrationInfo(url) {
         if (!url) {
@@ -65,6 +44,29 @@ export default class AppMeta extends React.Component {
         }
         return null;
     }
+
+    render() {
+        const app = this.props.app;
+        return (
+            <div className="l-left-app-meta">
+                <div className="mod-app-meta">
+                    <div className="name">
+                        {app.name}
+                    </div>
+                    {this.renderLogo()}
+                    <Contact email={app.supportMail}/>
+                    {this.renderUrl("support", app.supportUrl)}
+                    {this.renderUrl("login", app.appUrl)}
+                    {this.renderUrl("website", app.websiteUrl)}
+                    {this.renderUrl("eula", app.eulaUrl)}
+                    {this.renderUrl("registration_policy", app.registrationPolicyUrl)}
+                    {this.renderUrl("privacy_statement", app.privacyStatementUrl)}
+                    {this.renderRegistrationInfo(app.registrationInfoUrl)}
+                </div>
+            </div>
+        );
+    }
+
 
 }
 
