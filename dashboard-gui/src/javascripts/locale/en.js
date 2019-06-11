@@ -349,7 +349,7 @@ I18n.translations.en = {
         done_disconnect_title: "Deactivation requested!",
         done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
         done_subtitle_with_jira_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}\">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.",
-        done_title: "Connection made!",
+        done_title: "Connection requested!",
         forward_permission: {
             after: " to {{app}}.",
             before: "SURFnet has permission to forward the ",

@@ -348,7 +348,7 @@ I18n.translations.pt = {
         done_disconnect_title: "Pedido de Desativação!",
         done_subtitle_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
         done_subtitle_with_jira_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl?subject=Questões sobre a ligação {{jiraKey}}\">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.",
-        done_title: "Ligação realizada!",
+        done_title: "Ligação é solicitada!",
         forward_permission: {
             after: " para {{app}}.",
             before: "SURFnet tem permissões para encaminhar ",
