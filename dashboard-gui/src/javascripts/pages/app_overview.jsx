@@ -568,6 +568,7 @@ class AppOverview extends React.Component {
             }.bind(this)
         }, {
             name: I18n.t("facets.static.arp.name"),
+            tooltip: I18n.t("facets.static.arp.tooltip"),
             searchValue: "attributes",
             values: arpAttributes.map(attr => {
                 const val = attr.substring(attr.lastIndexOf(":") + 1);

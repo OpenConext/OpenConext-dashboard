@@ -117,6 +117,7 @@ I18n.translations.en = {
             },
             arp: {
                 name: "Released attributes",
+                tooltip: "More info about these attributes can be found in the <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext \" target=\"_blank\">wiki</a>.",
                 info_html: "It is possible that more attributes are being released to the Service through means of attribute manipulation."
             },
             type_consent: {
