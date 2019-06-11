@@ -304,8 +304,8 @@ I18n.translations.nl = {
         surfmarketDpaAgreement: "IS DE LEVERANCIER AKKOORD GEGAAN MET DE DPA VAN SURFMARKET?",
         surfnetDpaAgreement: "IS DE LEVERANCIER BEREID OM HET SURF-MODEL DPA TE ONDERTEKENEN?",
         whatData: "WELKE (SOORT) GEGEVENS WORDEN VERWERKT?",
-        certificationValidFrom: "CERTIFICERING GELDIG TOT",
-        certificationValidTo: "CERTIFICERING GELDIG VAN",
+        certificationValidFrom: "CERTIFICERING GELDIG VAN",
+        certificationValidTo: "CERTIFICERING GELDIG TOT",
         noInformation: "Geen informatie van de leverancier"
     },
     consent_panel: {
