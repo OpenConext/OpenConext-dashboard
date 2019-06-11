@@ -22,7 +22,6 @@ I18n.translations.en = {
     },
 
     header: {
-        title: "Dashboard",
         welcome: "Welcome,",
         links: {
             help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",

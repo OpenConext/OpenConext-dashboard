@@ -26,12 +26,12 @@ class Header extends React.Component {
         return (
             <div className="mod-header">
                 <h1 className={`title ${organization.toLowerCase()}`}>
-                    <Link to="/apps">{I18n.t("header.title")}</Link>
+                    <Link to="/apps">IdP dashboard</Link>
                 </h1>
+                <div className="institute">
+                  <p className={`${idp.state}`}>{`${idp.name} - ${state}`}</p>
+                </div>
                 <div className="meta">
-                    <div className="institute">
-                        <p className={`${idp.state}`}>{`${idp.name} - ${state}`}</p>
-                    </div>
                     <div className="name">
                         {this.renderProfileLink()}
                         {this.renderDropDown()}

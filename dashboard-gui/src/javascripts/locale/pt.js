@@ -22,7 +22,6 @@ I18n.translations.pt = {
     },
 
     header: {
-        title: "Dashboard",
         welcome: "Olá,",
         links: {
             help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Ajuda</a>",

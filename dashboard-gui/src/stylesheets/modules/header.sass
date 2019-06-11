@@ -10,6 +10,7 @@
 
   // Main app title
   .title
+    white-space: nowrap
     &.openconext
       background: url("../images/open-conext-logo.png") no-repeat left center
       background-size: 161px 50px
@@ -30,17 +31,18 @@
       &:hover
         color: $blue
 
+  div.institute
+    p
+      line-height: 30px
+      margin: auto 20px
+      color: $green
+      &.testaccepted
+        color: $red
+
   // Meta = right aligned stuff
   .meta
-    margin-left: auto
     display: flex
-    div.institute
-      p
-        line-height: 30px
-        margin-right: 250px
-        color: $green
-        &.testaccepted
-          color: $red
+    margin-left: auto
 
     a.super-user
       display: inline-block
@@ -53,7 +55,7 @@
       text-decoration: underline
 
   .links
-    margin-left: 40px
+    margin-left: 25px
     line-height: 30px
 
     li
@@ -69,17 +71,22 @@
       border: 0
 
   ul.language-selector
-    min-width: 104px
+    display: flex
+    width: 100px
+    height: 32px
     margin-left: 25px
     list-style: none
     border: 1px solid $blue
     border-radius: $br
     font-size: medium
-    max-height: 32px
+
     li
       display: inline-block
-      padding: 5px 15px
+      padding: 5px 0
       margin: 0
+      flex: 1
+      text-align: center
+
       &:first-child
         border-bottom-left-radius: 1px
         border-top-left-radius: 1px
