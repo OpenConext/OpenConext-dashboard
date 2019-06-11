@@ -430,7 +430,7 @@ class PolicyDetail extends React.Component {
             });
     };
 
-    cancelForm(e) {
+    cancelForm = e => {
         stopEvent(e);
         if (window.confirm(I18n.t("policy_detail.confirmation"))) {
             this.context.router.history.replace("/policies");
