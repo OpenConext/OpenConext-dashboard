@@ -96,7 +96,7 @@ public class ServicesController extends BaseController {
         @RequestParam String spEntityId) {
         List<InstitutionIdentityProvider> idps = manage.getLinkedIdentityProviders(spEntityId).stream()
             .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
-                idp.getName(Provider.Language.NL), idp.getInstitutionId()))
+                idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState()))
             .collect(toList());
 
         return createRestResponse(idps);

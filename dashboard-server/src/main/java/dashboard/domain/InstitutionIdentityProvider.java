@@ -29,15 +29,17 @@ public class InstitutionIdentityProvider implements Serializable {
   private String name;
   private String nameNl;
   private String institutionId;
+  private String state;
 
   public InstitutionIdentityProvider() {
   }
 
-  public InstitutionIdentityProvider(String id, String name, String nameNl, String institutionId) {
+  public InstitutionIdentityProvider(String id, String name, String nameNl, String institutionId, String state) {
     this.id = id;
     this.name = name;
     this.nameNl = nameNl;
     this.institutionId = institutionId;
+    this.state = state;
   }
 
   public String getId() {
@@ -64,6 +66,14 @@ public class InstitutionIdentityProvider implements Serializable {
     this.institutionId = institutionId;
   }
 
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
   public String getNameNl() {
     return nameNl;
   }
@@ -71,6 +81,7 @@ public class InstitutionIdentityProvider implements Serializable {
   public void setNameNl(String nameNl) {
     this.nameNl = nameNl;
   }
+
 
   @Override
   public String toString() {
