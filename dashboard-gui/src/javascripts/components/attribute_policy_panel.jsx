@@ -62,40 +62,61 @@ class AttributePolicyPanel extends React.Component {
     }
 
     renderAttribute(attribute) {
-        const renderFilters = attribute.filters.filter(filter => filter !== "*");
-        const name = attribute.name;
-        const isCollabPersonId = name === "urn:oid:1.3.6.1.4.1.1076.20.40.40.1";
+        const renderFilters = attribute.filters.filter(flt => flt !== "*");
+        let name = attribute.name;
+        let tooltip = undefined;
+
+        if (name === "urn:oid:1.3.6.1.4.1.1076.20.40.40.1") {
+          name = "collabPersonId";
+          tooltip = "Collab unique user identifier";
+        }
+
         return (
             <tr key={name}>
-                <td>{isCollabPersonId ? "collabPersonId" : name}
-                    {isCollabPersonId && <span>
+                <td>{name}
+                    {tooltip && (
+                        <span>
                             <i className="fa fa-info-circle" data-for="collabPersonId" data-tip></i>
                                 <ReactTooltip id="collabPersonId" type="info" class="tool-tip" effect="solid">
-                                    <span>Collab unique user identifier</span>
+                                    <span>{tooltip}</span>
                                 </ReactTooltip>
-                        </span>}
-                    {renderFilters.length > 0 &&
-                    <span className="filter-info">{I18n.t("attributes_policy_panel.filter")}</span>}
+                        </span>
+                    )}
+                    {
+                      renderFilters.length > 0 &&
+                        <span className="filter-info">{I18n.t("attributes_policy_panel.filter")}</span>
+                    }
                 </td>
                 <td>
                     <ul>
-                        {attribute.userValues.length > 0 ? attribute.userValues.map(this.renderAttributeValue) :
-                            <em className="no-attribute-value">{I18n.t("attributes_policy_panel.no_attribute_value")}</em>}
+                      {
+                        attribute.userValues.length > 0 ?
+                          attribute.userValues.map(val => <li key={val}>{val}</li>) :
+                          this.renderEmpty(name)
+                      }
                     </ul>
-                    {renderFilters.length > 0 && <ul className="filters">
-                        {renderFilters.map((filter, index) => <li key={index} className="filter">- {filter}</li>)}
-                    </ul>}
+                    {
+                      renderFilters.length > 0 &&
+                        <ul className="filters">
+                          {renderFilters.map((filter, i) => <li key={i} className="filter">- {filter}</li>)}
+                        </ul>
+                    }
                 </td>
                 <td>{this.props.app.motivations[name]}</td>
             </tr>
         );
     }
 
-    renderAttributeValue(attributeValue) {
-        return (
-            <li key={attributeValue}>{attributeValue}</li>
-        );
+    renderEmpty(name) {
+      const value = !name.includes("nameid") ? "no_attribute_value_nameid" : "no_attribute_value"
+
+      return (
+        <em className="no-attribute-value">
+          <span dangerouslySetInnerHTML={{__html: I18n.t(["attributes_policy_panel", value])}}/>
+        </em>
+      )
     }
+
 }
 
 AttributePolicyPanel.propTypes = {
