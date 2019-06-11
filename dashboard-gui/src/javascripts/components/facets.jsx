@@ -80,15 +80,6 @@ class Facets extends React.Component {
         return null;
     }
 
-    renderFacetInfo(facet) {
-        if (facet.name === I18n.t("facets.static.arp.name")) {
-            return (
-                <em dangerouslySetInnerHTML={{__html: I18n.t("facets.static.arp.info_html")}} className="arp-info"></em>
-            );
-        }
-        return null;
-    }
-
     handleFacetToggle(facet) {
         return function (e) {
             stopEvent(e);
