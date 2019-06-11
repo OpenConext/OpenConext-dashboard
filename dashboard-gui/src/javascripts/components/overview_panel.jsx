@@ -203,6 +203,7 @@ class OverviewPanel extends React.Component {
             <div className="l-middle-app-detail">
                 <div className="mod-title">
                     <h1>{this.props.app.name}</h1>
+                    <p className="sub-title">Entity ID: {this.props.app.spEntityId}</p>
                 </div>
 
                 <div className={connectionClass}>
