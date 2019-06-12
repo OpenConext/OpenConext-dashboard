@@ -222,9 +222,15 @@ class Stats extends React.Component {
 
     onChangeDisplayDetailPerSP = e => {
         const displayDetailPerSP = e.target.checked;
-        const additionalState = {from: moment().subtract(1, "day"), to: moment()};
-        additionalState.scale = displayDetailPerSP ? "year" : "minute";
-        this.setState({data: [], displayDetailPerSP: displayDetailPerSP, ...additionalState}, this.refresh);
+        const scales = this.getScalesForPeriod(!displayDetailPerSP, this.state.sp !== 'all')
+
+        this.setState({
+          data: [],
+          from: moment().subtract(1, "day"),
+          to: moment(),
+          scale: scales.includes(this.state.scale) ? this.state.scale : 'year',
+          displayDetailPerSP
+        }, this.refresh);
     };
 
     renderSpSelect = (sp, allSp, clearable, displayDetailPerSP) =>
@@ -301,13 +307,16 @@ class Stats extends React.Component {
         return this.renderYearPicker(date, maxDate.year(), onChange);
     };
 
+    getScalesForPeriod(toEnabled, spSelected) {
+      return !toEnabled ? defaultScalesForPeriod : spSelected ? defaultScalesSpSelected : defaultScales;
+    }
+
     renderPeriod = (scale, from, to, toEnabled, spSelected, className = "") => {
         return <fieldset className={className}>
             <h2 className="title">{I18n.t("stats.timeScale")}</h2>
             <SelectWrapper
                 defaultValue={scale}
-                options={(!toEnabled ? defaultScalesForPeriod : spSelected ? defaultScalesSpSelected : defaultScales)
-                    .map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
+                options={this.getScalesForPeriod(toEnabled, spSelected).map(scale => ({display: I18n.t(`stats.scale.${scale}`), value: scale}))}
                 multiple={false}
                 handleChange={this.onChangeScale}/>
             <h2 className="title secondary">{toEnabled ? I18n.t("stats.from") : I18n.t("stats.date")}</h2>
