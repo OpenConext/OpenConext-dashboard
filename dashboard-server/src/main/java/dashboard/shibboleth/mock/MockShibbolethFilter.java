@@ -31,7 +31,7 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl";
-    public static final String role = "admin";
+    public static final String role = "super";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
@@ -39,13 +39,10 @@ public class MockShibbolethFilter extends GenericFilterBean {
         HttpServletRequest req = (HttpServletRequest) request;
 
 
-        String userId = Optional.ofNullable(request.getParameter("mockUser"))
-                .orElse(Optional.ofNullable((String) req.getSession().getAttribute("mockUser")).orElse(role));
-
-        req.getSession(true).setAttribute("mockUser", userId);
+        req.getSession(true).setAttribute("mockUser", role);
         SetHeader wrapper = new SetHeader(req);
-        wrapper.setHeader(Name_Id.getValue(), userId);
-        wrapper.setHeader(Shib_Uid.getValue(), userId);
+        wrapper.setHeader(Name_Id.getValue(), role);
+        wrapper.setHeader(Shib_Uid.getValue(), role);
         wrapper.setHeader(Shib_Authenticating_Authority.getValue(), idp);
         wrapper.setHeader(Shib_GivenName.getValue(), "Some given name");
         wrapper.setHeader(Shib_Email.getValue(), "jane.roe@example.org");
@@ -57,7 +54,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
         wrapper.setHeader(Shib_EduPersonScopedAffiliation.getValue(),
                 "urn:mace:terena.org:tcs:eduPersonScopedAffiliation");
         wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
-        switch (userId) {
+        switch (role) {
             case "super":
                 wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.super.user2");
                 break;
