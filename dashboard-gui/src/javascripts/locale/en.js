@@ -169,6 +169,7 @@ I18n.translations.en = {
             processing_results: "Retrieving all services...",
             search: "Search",
             search_hint: "Filter by name",
+            add_services_hint: "Can't find the service you're looking for? Send your contact at that service an email that you would like to use the service, but through <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Get+Conexted\" target=\"_blank\">SSO using SURFconext</a>, so you can authenticate using your institutional account, and that that is both more secure and more efficient for all parties involved. And that it makes the service more attractive for other institutions, also outside of the Netherlands. Advise them to look into it and send an email to support@surfconext.nl requesting contact to discuss connecting the service."
         },
     },
 

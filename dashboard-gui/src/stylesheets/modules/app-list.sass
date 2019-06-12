@@ -3,6 +3,11 @@
 
 .mod-app-list
   @extend %box, %table
+
+  margin-bottom: 30px
+  &:last-of-type
+    margin-bottom: 0px
+
   thead th
     text-align: left
     &.bool

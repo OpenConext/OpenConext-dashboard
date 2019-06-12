@@ -713,6 +713,7 @@ class AppOverview extends React.Component {
                             <button type="submit">{I18n.t("apps.overview.search")}</button>
                         </div>
                     </div>
+
                     <div className="mod-app-list">
                         <table>
                             <thead>
@@ -730,6 +731,16 @@ class AppOverview extends React.Component {
                             </tbody>
                         </table>
                         {this.renderPagination(filteredApps.length, page)}
+                    </div>
+
+                    <div className="mod-app-list">
+                        <table>
+                            <tbody>
+                              <tr>
+                                <td dangerouslySetInnerHTML={{__html: I18n.t("apps.overview.add_services_hint")}} />
+                              </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
