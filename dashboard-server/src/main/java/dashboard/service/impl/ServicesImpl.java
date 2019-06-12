@@ -134,6 +134,7 @@ public class ServicesImpl implements Services {
                 (sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp)));
         service.setManipulationNotes(sp.getManipulationNotes());
         service.setManipulation(sp.isManipulation());
+        service.setNameIds(sp.getNameIds());
     }
 
     private String mailOfContactPerson(ContactPerson contactPerson) {

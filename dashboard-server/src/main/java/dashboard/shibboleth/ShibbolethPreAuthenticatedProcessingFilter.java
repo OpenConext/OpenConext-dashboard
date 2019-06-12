@@ -2,6 +2,7 @@ package dashboard.shibboleth;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
+import dashboard.domain.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +167,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         } else {
             coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
             coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
-            Collections.sort(coinUser.getInstitutionIdps(), (lh, rh) -> lh.getName().compareTo(rh.getName()));
+            Collections.sort(coinUser.getInstitutionIdps(), Comparator.comparing(Provider::getName));
         }
 
         Optional<SabRoleHolder> roles = sab.getRoles(uid);

@@ -18,6 +18,7 @@ package dashboard.domain;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,11 +26,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
-@SuppressWarnings("serial")
+
 public class ServiceProvider extends Provider implements Serializable, Cloneable {
+
+    private static final List<String> nameIdFormats = Arrays.asList("NameIDFormat", "NameIDFormats:0", "NameIDFormats:1", "NameIDFormats:2");
 
     private Map<String, String> arpMotivations;
     private String applicationUrl;
@@ -49,6 +53,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private boolean aansluitovereenkomstRefused;
     private boolean hidden;
     private LicenseStatus licenseStatus;
+    private List<String> nameIds;
 
     private ARP arp;
     private PrivacyInfo privacyInfo;
@@ -115,6 +120,11 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.arpMotivations = (Map<String, String>) metaData.get("motivations");
         this.manipulationNotes = (String) metaData.get("manipulationNotes");
         this.manipulation = StringUtils.hasText( (String) metaData.get("manipulation"));
+
+        this.nameIds = nameIdFormats.stream()
+                .filter(nameId -> metaData.containsKey(nameId))
+                .map(nameId -> (String) metaData.get(nameId))
+                .collect(Collectors.toList());
     }
 
     private PrivacyInfo buildPrivacyInfo(Map<String, Object> metaData) {
@@ -287,4 +297,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     public boolean isManipulation() {
         return manipulation;
     }
+
+
+    public List<String> getNameIds() {
+        return nameIds;
+    }
+
 }

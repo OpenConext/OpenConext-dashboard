@@ -87,6 +87,7 @@ public class Service implements Comparable<Service>, Serializable {
     private ARP arp;
 
     private List<ContactPerson> contactPersons;
+    private List<String> nameIds;
 
     public Service() {
     }
@@ -524,4 +525,11 @@ public class Service implements Comparable<Service>, Serializable {
             .add("name", name).toString();
     }
 
+    public void setNameIds(List<String> nameIds) {
+        this.nameIds = nameIds;
+    }
+
+    public List<String> getNameIds() {
+        return nameIds;
+    }
 }

@@ -250,11 +250,11 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
 
     protected boolean booleanValue(Object metadataValue) {
-        return metadataValue != null && metadataValue.equals("1");
+        return metadataValue != null && (metadataValue.equals("1") || (metadataValue instanceof Boolean && (boolean) metadataValue));
     }
 
     protected Boolean booleanOptionalValue(Object metadataValue) {
-        return metadataValue == null ? null : metadataValue.equals("1");
+        return metadataValue == null ? null : (metadataValue.equals("1") || (metadataValue instanceof Boolean && (boolean) metadataValue));
     }
 
     protected String safeString(Object o) {

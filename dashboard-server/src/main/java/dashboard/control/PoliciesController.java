@@ -2,6 +2,7 @@ package dashboard.control;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.net.HttpHeaders;
+import dashboard.domain.IdentityProvider;
 import dashboard.mail.MailBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import dashboard.pdp.PdpService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -138,7 +140,10 @@ public class PoliciesController extends BaseController {
     }
 
     private <T> ResponseEntity<T> whenDashboardAdmin(Supplier<T> supplier) {
-        return getCurrentUser().isDashboardAdmin() ? ResponseEntity.ok(supplier.get()) : new ResponseEntity<T>(FORBIDDEN);
+        CoinUser currentUser = getCurrentUser();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
+        return (currentUser.isDashboardAdmin()  || idp.isAllowMaintainersToManageAuthzRules()) ?
+                ResponseEntity.ok(supplier.get()) : new ResponseEntity<T>(FORBIDDEN);
     }
 
 

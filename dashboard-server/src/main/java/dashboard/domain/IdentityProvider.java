@@ -33,6 +33,7 @@ public class IdentityProvider extends Provider implements Serializable {
     private boolean connectToRSServicesAutomatically;
     private Map<String, String> organisationNames = new HashMap<>();
     private Map<String, String> organisationDisplayNames = new HashMap<>();
+    private boolean allowMaintainersToManageAuthzRules;
 
     public IdentityProvider() {
     }
@@ -63,6 +64,7 @@ public class IdentityProvider extends Provider implements Serializable {
         organisationNames.put("nl", (String) metaData.get("OrganizationName:nl"));
         organisationDisplayNames.put("en", (String) metaData.get("OrganizationDisplayName:en"));
         organisationDisplayNames.put("nl", (String) metaData.get("OrganizationDisplayName:nl"));
+        allowMaintainersToManageAuthzRules = booleanValue(metaData.get("coin:allow_maintainers_to_manage_authz_rules"));
 
     }
 
@@ -106,5 +108,9 @@ public class IdentityProvider extends Provider implements Serializable {
             "id='" + getId() + '\'' +
             ", institutionId='" + institutionId + '\'' +
             '}';
+    }
+
+    public boolean isAllowMaintainersToManageAuthzRules() {
+        return allowMaintainersToManageAuthzRules;
     }
 }
