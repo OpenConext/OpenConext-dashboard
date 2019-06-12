@@ -64,6 +64,8 @@ class AttributePolicyPanel extends React.Component {
     renderAttribute(attribute) {
         const renderFilters = attribute.filters.filter(flt => flt !== "*");
         let name = attribute.name;
+        let values = attribute.userValues;
+        let noValueMessage = I18n.t("attributes_policy_panel.no_attribute_value")
         let tooltip = undefined;
 
         if (name === "urn:oid:1.3.6.1.4.1.1076.20.40.40.1") {
@@ -71,15 +73,31 @@ class AttributePolicyPanel extends React.Component {
           tooltip = "Collab unique user identifier";
         }
 
+        if (name === "NameIDFormat") {
+          tooltip = I18n.t("attributes_policy_panel.name_id_format_tooltip")
+          noValueMessage = I18n.t("attributes_policy_panel.no_attribute_value_nameid")
+          values = values.map(val => {
+            switch(val) {
+              case "urn:oasis:names:tc:SAML:2.0:nameid-format:transient":
+                return 'Transient'
+              case "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent":
+                return 'Persistent'
+              default:
+                return val
+            }
+          })
+        }
+
         return (
             <tr key={name}>
-                <td>{name}
+                <td>
+                    {name}
                     {tooltip && (
                         <span>
-                            <i className="fa fa-info-circle" data-for="collabPersonId" data-tip></i>
-                                <ReactTooltip id="collabPersonId" type="info" class="tool-tip" effect="solid">
-                                    <span>{tooltip}</span>
-                                </ReactTooltip>
+                            <i className="fa fa-info-circle" data-for={name} data-tip />
+                            <ReactTooltip id={name} type="info" class="tool-tip" effect="solid">
+                                <span dangerouslySetInnerHTML={{__html: tooltip}}/>
+                            </ReactTooltip>
                         </span>
                     )}
                     {
@@ -90,9 +108,13 @@ class AttributePolicyPanel extends React.Component {
                 <td>
                     <ul>
                       {
-                        attribute.userValues.length > 0 ?
-                          attribute.userValues.map(val => <li key={val}>{val}</li>) :
-                          this.renderEmpty(name)
+                        values.length > 0 ?
+                          values.map(val => <li key={val}>{val}</li>) :
+                          (
+                            <em className="no-attribute-value">
+                              <span dangerouslySetInnerHTML={{__html: noValueMessage}}/>
+                            </em>
+                          )
                       }
                     </ul>
                     {
@@ -106,17 +128,6 @@ class AttributePolicyPanel extends React.Component {
             </tr>
         );
     }
-
-    renderEmpty(name) {
-      const value = !name.includes("nameid") ? "no_attribute_value_nameid" : "no_attribute_value"
-
-      return (
-        <em className="no-attribute-value">
-          <span dangerouslySetInnerHTML={{__html: I18n.t(["attributes_policy_panel", value])}}/>
-        </em>
-      )
-    }
-
 }
 
 AttributePolicyPanel.propTypes = {
