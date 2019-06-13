@@ -24,7 +24,7 @@ I18n.translations.pt = {
     header: {
         welcome: "Olá,",
         links: {
-            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Ajuda</a>",
+            help_html: "<a href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\" rel=\"noopener noreferrer\">Ajuda</a>",
             logout: "Sair",
             exit: "Sair"
         },
@@ -101,7 +101,7 @@ I18n.translations.pt = {
             },
             entity_category: {
                 name: "eduGAIN Categorias de Entidade",
-                tooltip: "Os serviços podem obedecer a 'categorias de entidade'.<br>Consulte a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\">wiki</a> para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.",
+                tooltip: "Os serviços podem obedecer a 'categorias de entidade'.<br>Consulte a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.",
                 code_of_conduct: "Código de Conduta",
                 research_and_scholarship: "Pesquisa e Bolsas de Estudo"
             },
@@ -120,7 +120,7 @@ I18n.translations.pt = {
                 info_html: "É possível libertar mais atributos para o Serviço através da manipulação de atributos."
             },
             type_consent: {
-                tooltip: "Como é solicitado o consentimento aos novos utilizadores antes de aceder ao serviço. <br>Consulte a <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> para mais informações.",
+                tooltip: "Como é solicitado o consentimento aos novos utilizadores antes de aceder ao serviço. <br>Consulte a <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">wiki</a> para mais informações.",
                 name: "Tipo de consentimento",
                 no_consent: "Sem consentimento",
                 minimal_consent: "Consentimento mínimo",
@@ -177,31 +177,31 @@ I18n.translations.pt = {
         website: "Website",
         support: "Página de suporte",
         login: "Página de entrada",
-        registration_info_html: "Este fornecedor de serviço está disponivel na SURFconext através do <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. O Fornecedor de Serviço é registado através da seguinte federação: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
+        registration_info_html: "Este fornecedor de serviço está disponivel na SURFconext através do <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\" rel=\"noopener noreferrer\">eduGAIN</a>. O Fornecedor de Serviço é registado através da seguinte federação: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{url}}</a>.",
         registration_policy: "Política de registo",
         privacy_statement: "Política de Privacidade",
         metadata_link: "Metadata"
     },
     license_info_panel: {
         title: "Informação da Licença",
-        has_license_surfmarket_html: "Existe uma licença válida através da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
-        has_license_sp_html: "A licença para <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> pode ser adquirida ao fornecedor deste serviço.",
+        has_license_surfmarket_html: "Existe uma licença válida através da <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a>.",
+        has_license_sp_html: "A licença para <a href=\"{{serviceUrl}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{serviceName}}</a> pode ser adquirida ao fornecedor deste serviço.",
         has_license_sp_html_no_service_url: "A licença para {{serviceName}} pode ser adquirida ao fornecedor deste serviço.",
-        no_license_html: "A sua instituição não tem uma licença válida disponível através da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+        no_license_html: "A sua instituição não tem uma licença válida disponível através da <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a>.",
         not_needed_html: "Este Serviço não requer licença.",
         unknown_license: "É desconhecido se é necessário licença.",
         no_license_description_html: "" +
             "<ul>" +
-            "   <li>A sua instituição pode obter uma linceça a partir da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
+            "   <li>A sua instituição pode obter uma linceça a partir da <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a>.</li>" +
             "</ul>" +
             "<br />Em alguns casos a licença necessita de ser obtida directamente do fornecedor de serviço.",
         unknown_license_description_html: "Podem existir várias razões:" +
             "<ul>" +
             "   <li>A SURFnet ou outra instituição está a diponibilizar o serviço de forma gratuita.</li>" +
             "   <li>A licença necessita de ser obtida directamente do fornecedor de serviço.</li>" +
-            "   <li>A licença não foi adicionada à administração da <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
+            "   <li>A licença não foi adicionada à administração da <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a>.</li>" +
             "</ul>" +
-            "<p>Se necessário, a SURFnet pode contactar o fornecedor de serviço ou a <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> antes de ativar a ligação.</p>"
+            "<p>Se necessário, a SURFnet pode contactar o fornecedor de serviço ou a <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a> antes de ativar a ligação.</p>"
     },
 
   license_info: {
@@ -216,7 +216,7 @@ I18n.translations.pt = {
     },
 
   overview_panel: {
-        wiki_info_html: "Informações extras estão disponíveis para este serviço na SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+        wiki_info_html: "Informações extras estão disponíveis para este serviço na SURFconext <a href=\"{{link}}\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
         no_description: "A descrição deste serviço não está disponível.",
         description: "Descrição",
         has_connection: "Ligações ativas",
@@ -224,10 +224,10 @@ I18n.translations.pt = {
         how_to_connect: "Saiba como ativar",
         disconnect: "Saiba como desativar a ligação",
         normen_kader: "Informação sobre o AVG/GDPR",
-        normen_kader_html: "Para este serviço, foi publicada informação sobre quais os dados processados e onde processam esses dados. Pode encontrar esta informação na <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=60689334\" target=\"_blank\">wiki</a>. Durante 2018 esta informação será incorporada na nova versão do Dashboard.",
+        normen_kader_html: "Para este serviço, foi publicada informação sobre quais os dados processados e onde processam esses dados. Pode encontrar esta informação na <a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=60689334\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>. Durante 2018 esta informação será incorporada na nova versão do Dashboard.",
         no_normen_kader_html: "Para este serviço, ainda não foi disponibilizada informação sobre o AVG/GDPR; informação sobre quais os dados que processam e onde podem ser solicitados ao fornecedor do serviço.",
         single_tenant_service: "Serviço single tenant",
-        single_tenant_service_html: "{{name}} é um serviço single tenant, como tal, requer uma instância separada para cada instituição que deseja ligar-se a este serviço. Para obter mais informações sobre serviços single tenant, consulte <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\">SURFnet wiki</a>",
+        single_tenant_service_html: "{{name}} é um serviço single tenant, como tal, requer uma instância separada para cada instituição que deseja ligar-se a este serviço. Para obter mais informações sobre serviços single tenant, consulte <a href=\"https://wiki.surfnet.nl/display/services/(Cloud)services\" target=\"_blank\" rel=\"noopener noreferrer\">SURFnet wiki</a>",
         interfed_source: "Origem da federação:",
         publish_in_edugain_date: "Publicado no eduGAIN em:",
         supports_ssa: "Suporta SURFsecureID",
@@ -237,7 +237,7 @@ I18n.translations.pt = {
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
         aansluitovereenkomst: "Protocolo de Adesão",
-        aansluitovereenkomstRefused: "Este serviço recusou-se a assinar 'Protocolo de adesão à SURFconext' com a SURF. Leia mais sobre esta política em <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\">SURF wiki</a>.",
+        aansluitovereenkomstRefused: "Este serviço recusou-se a assinar 'Protocolo de adesão à SURFconext' com a SURF. Leia mais sobre esta política em <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\" rel=\"noopener noreferrer\">SURF wiki</a>.",
         privacyInformation: "Informação de privacidade",
         privacyInformationInfo: "O serviço não disponibilizou informação de privacidade."
     },
@@ -270,7 +270,7 @@ I18n.translations.pt = {
     },
     sirtfi_panel: {
         title: "O contato Sirtfi para {{name}}",
-        subtitle: "A Framework de Resposta a Incidentes de Segurança para Identidades Federadas <a href=\" https://refeds.org/sirtfi\" target=\"_blank\">(Sirtfi) </a> tem como objectivo permitir a coordenação da resposta a incidentes entre organizações federadas. Esta framework de confiança inclui uma lista de asserções que uma organização pode atestar, de forma a poder declarar que está em conformidade com Sirtfi.",
+        subtitle: "A Framework de Resposta a Incidentes de Segurança para Identidades Federadas <a href=\" https://refeds.org/sirtfi\" target=\"_blank\" rel=\"noopener noreferrer\">(Sirtfi) </a> tem como objectivo permitir a coordenação da resposta a incidentes entre organizações federadas. Esta framework de confiança inclui uma lista de asserções que uma organização pode atestar, de forma a poder declarar que está em conformidade com Sirtfi.",
         contactPersons: "O contato Sirtfi para este serviço:",
         cp_name: "Nome",
         cp_email: "Email",
@@ -306,8 +306,8 @@ I18n.translations.pt = {
     consent_panel: {
         title: "Consentimento de novos utilizadores",
         subtitle: "Aos novos utilizadores será pedida autorização para enviar informação de dados pessoais para este serviço.",
-        subtitle2: "Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
-        subtitle2Viewer: "Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
+        subtitle2: "Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
+        subtitle2Viewer: "Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm\">nesta página da wiki</a>.",
         no_consent: "Não é necessário consentimento",
         minimal_consent: "É necessário consentimento mínimo",
         default_consent: "Consentimento por omissão com uma mensagem personalizada opcional",
@@ -334,7 +334,7 @@ I18n.translations.pt = {
         cancel: "Cancelar",
         check: "Verificar que",
         checklist: "Finalize a lista de verificações antes de activar a ligação:",
-        processing_agreements: "Verifique se a sua instituição necessita de um <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\">contrato de adesão</a> para este serviço, se sim, se o mesmo já está assinado.",
+        processing_agreements: "Verifique se a sua instituição necessita de um <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement\" target=\"_blank\" rel=\"noopener noreferrer\">contrato de adesão</a> para este serviço, se sim, se o mesmo já está assinado.",
         comments_description: "Comentários serão enviados à SURFconext.",
         comments_placeholder: "Adicione aqui os seus comentários...",
         comments_title: "Comentários adicionais?",
@@ -433,15 +433,15 @@ I18n.translations.pt = {
     },
 
     footer: {
-        surfnet_html: "<a href=\"https://www.surfnet.nl/en\" target=\"_blank\">SURFnet</a>",
-        terms_html: "<a href=\"https://support.surfconext.nl/terms-en\" target=\"_blank\">Termos do Serviço</a>",
+        surfnet_html: "<a href=\"https://www.surfnet.nl/en\" target=\"_blank\" rel=\"noopener noreferrer\">SURFnet</a>",
+        terms_html: "<a href=\"https://support.surfconext.nl/terms-en\" target=\"_blank\" rel=\"noopener noreferrer\">Termos do Serviço</a>",
         contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
     },
 
     my_idp: {
         title: "A minha instituição",
         roles: "Perfis",
-        sub_title_html: "Os seguintes perfis foram atribuídos (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
+        sub_title_html: "Os seguintes perfis foram atribuídos (<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
         role: "Perfil",
         users: "Utilizador(es)",
         settings: "Configurações da minha Instituição",
@@ -454,7 +454,7 @@ I18n.translations.pt = {
         services_title: "Serviços fornecidos pela sua instituição:",
         services_title_none: "Nenhum",
         service_name: "Nome do Serviço",
-        license_contact_html: "Contacto Primário da Licença (<a target=\"_blank\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
+        license_contact_html: "Contacto Primário da Licença (<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">mais info</a>):",
         license_contact_name: "Nome",
         license_contact_email: "Email",
         license_contact_phone: "Número de Telefone",
@@ -508,7 +508,7 @@ I18n.translations.pt = {
         logo_url: "Logo",
         new_logo_url: "URL do Novo logo ",
         research_and_scholarship_info: "Ligar-se automáticamente aos SP's compatíveis com a categoria CoCo R&S",
-        research_and_scholarship_tooltip: "Isto significa que o vosso IdP ativa automáticamente ligações para todos os SPs na <br>SURFconext que aderiram à categoria ‘Research & Scholarship Entity Category’<br> e ‘GEANT Data Protection Code of Conduct’, libertanto os atributos R&S. <br>Consulte<a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\">wiki</a> para mais informações.",
+        research_and_scholarship_tooltip: "Isto significa que o vosso IdP ativa automáticamente ligações para todos os SPs na <br>SURFconext que aderiram à categoria ‘Research & Scholarship Entity Category’<br> e ‘GEANT Data Protection Code of Conduct’, libertanto os atributos R&S. <br>Consulte<a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> para mais informações.",
         contact: "Contacto para {{name}}",
         contact_name: "Nome do contacto",
         contact_email: "Email do contacto",

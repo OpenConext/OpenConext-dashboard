@@ -367,7 +367,7 @@ class Stats extends React.Component {
                     <div className="mod-filters">
                         <div className="header">
                             <h1>{I18n.t("stats.filters.name")}</h1>
-                            <a href={I18n.t("stats.helpLink")} target="_blank" className="help"><i
+                            <a href={I18n.t("stats.helpLink")} target="_blank" rel="noopener noreferrer" className="help"><i
                                 className="fa fa-info-circle"></i></a>
                             <a href="reset" className="reset c-button" onClick={this.reset}>{I18n.t("facets.reset")}</a>
                         </div>
