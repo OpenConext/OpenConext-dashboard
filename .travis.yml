@@ -10,7 +10,6 @@ services:
 cache:
   directories:
     - $HOME/.m2
-    - node_modules
 install:
   - cd dashboard-gui && nvm install $(cat .node-version) && yarn && cd ..
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
