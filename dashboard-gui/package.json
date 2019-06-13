@@ -39,7 +39,7 @@
     "react-scripts": "^3.0.1",
     "react-select": "^2.4.4",
     "react-tooltip": "^3.10.0",
-    "spin.js": "^2.3.2"
+    "spin.js": "^4.0.0"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/stylesheets/application.sass -o src/stylesheets/",

@@ -1,9 +1,10 @@
 import React from "react";
 import I18n from "i18n-js";
-
-import Spinner from "spin.js";
-import spinner from "../lib/spin";
 import PropTypes from "prop-types";
+import {Spinner} from "spin.js";
+import "spin.js/spin.css"
+
+import spinner from "../lib/spin";
 import {isEmpty} from "../utils/utils";
 import {searchJira} from "../api";
 import stopEvent from "../utils/stop";
