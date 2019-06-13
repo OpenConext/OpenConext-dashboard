@@ -142,7 +142,7 @@ public class PoliciesController extends BaseController {
     private <T> ResponseEntity<T> whenDashboardAdmin(Supplier<T> supplier) {
         CoinUser currentUser = getCurrentUser();
         IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
-        return (currentUser.isDashboardAdmin()  || idp.isAllowMaintainersToManageAuthzRules()) ?
+        return (currentUser.isDashboardAdmin()  || (idp != null && idp.isAllowMaintainersToManageAuthzRules())) ?
                 ResponseEntity.ok(supplier.get()) : new ResponseEntity<T>(FORBIDDEN);
     }
 
