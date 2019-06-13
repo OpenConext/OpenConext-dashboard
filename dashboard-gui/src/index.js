@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./javascripts/App";
 import I18n from "i18n-js";
-import "babel-polyfill";
+import "core-js/stable";
 import {browserSupported} from "./javascripts/lib/browser_supported";
 import {polyfills} from "./javascripts/lib/polyfills";
 import moment from "moment";
