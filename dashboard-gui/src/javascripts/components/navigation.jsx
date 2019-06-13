@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from "react-router";
 import I18n from "i18n-js";
 import PropTypes from "prop-types";
 import {Spinner} from "spin.js";
@@ -11,8 +12,9 @@ import stopEvent from "../utils/stop";
 import {emitter} from "../utils/flash";
 
 class Navigation extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
         this.state = {
             loading: false,
             awaitingInputTickets: 0,
@@ -71,7 +73,7 @@ class Navigation extends React.Component {
                        if (href === "/tickets") {
                            this.getAwaitingInputJiraTickets();
                        }
-                       this.context.router.history.replace(href);
+                       this.props.history.push(href);
                    }}>{I18n.t("navigation." + value)}</a>
                 {marker > 0 && <span className="marker">{marker}</span>}
             </li>);
@@ -85,10 +87,10 @@ class Navigation extends React.Component {
     }
 
     render() {
-        const {currentUser, router} = this.context;
+        const {currentUser} = this.context;
         const {awaitingInputTickets} = this.state;
         const showInviteRequest = !isEmpty(currentUser) && currentUser.superUser;
-        const activeTab = router.history.location.pathname;
+        const activeTab = this.props.location.pathname;
         const hideTabs = currentUser.hideTabs.split(",").map(s => s.trim());
         return (
             <div className="mod-navigation">
@@ -108,8 +110,7 @@ class Navigation extends React.Component {
 }
 
 Navigation.contextTypes = {
-    currentUser: PropTypes.object,
-    router: PropTypes.object
+    currentUser: PropTypes.object
 };
 
-export default Navigation;
+export default withRouter(Navigation);
