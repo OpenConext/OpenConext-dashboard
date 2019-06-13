@@ -84,11 +84,7 @@ class History extends React.Component {
                 total: total,
                 loaded: true,
                 serviceProviders: serviceProviders
-            }, () => window.scrollTo({
-                "behavior": "smooth",
-                "left": 0,
-                "top": 0
-            }));
+            });
         });
 
     }

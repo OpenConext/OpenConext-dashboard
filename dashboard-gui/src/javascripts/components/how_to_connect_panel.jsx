@@ -168,7 +168,7 @@ class HowToConnectPanel extends React.Component {
             return (
                 <li>
                     {I18n.t("how_to_connect_panel.read")}&nbsp;
-                    <a href={this.props.app.wikiUrl} target="_blank">
+                    <a href={this.props.app.wikiUrl} target="_blank" rel="noopener noreferrer">
                         {I18n.t("how_to_connect_panel.wiki")}
                     </a>
                 </li>

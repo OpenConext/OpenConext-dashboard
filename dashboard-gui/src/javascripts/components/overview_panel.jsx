@@ -57,7 +57,7 @@ class OverviewPanel extends React.Component {
             return (
                 <li>
                     <a href={entityCategory}
-                       target="_blank">{I18n.t(`overview_panel.entity_category.${entityCategory.replace(/\./g, "")}`)}</a>
+                       target="_blank" rel="noopener noreferrer">{I18n.t(`overview_panel.entity_category.${entityCategory.replace(/\./g, "")}`)}</a>
                 </li>
             );
         }

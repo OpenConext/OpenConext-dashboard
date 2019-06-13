@@ -30,18 +30,15 @@ export default function ConfirmationDialog({
                     <h2>{question}</h2>
                 </section>}
             <section className="dialog-buttons">
-                <a className="n-button" onClick={e => {
-                    stopEvent(e);
-                    cancel();
-                }}>
+                <button className="n-button" onClick={cancel}>
                     {leavePage ? I18n.t("confirmation_dialog.leave") : I18n.t("confirmation_dialog.cancel")}
-                </a>
-                <a className="c-button" onClick={e => {
+                </button>
+                <button className="c-button" onClick={e => {
                     stopEvent(e);
                     confirm();
                 }}>
                     {leavePage ? I18n.t("confirmation_dialog.stay") : I18n.t("confirmation_dialog.confirm")}
-                </a>
+                </button>
             </section>
         </Modal>
     );
@@ -56,5 +53,3 @@ ConfirmationDialog.propTypes = {
     leavePage: PropTypes.bool,
     isError: PropTypes.bool
 };
-
-

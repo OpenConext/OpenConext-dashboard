@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Route} from "react-router-dom";
+import {Route, Redirect} from "react-router-dom";
 import CurrentUser from "../models/current_user";
-import Redirect from "react-router/Redirect";
 
 export function ProtectedRoute({component, currentUser, ...rest}) {
     if (currentUser.dashboardAdmin) {

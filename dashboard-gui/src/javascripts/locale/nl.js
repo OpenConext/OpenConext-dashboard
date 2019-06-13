@@ -24,7 +24,7 @@ I18n.translations.nl = {
     header: {
         welcome: "Welkom,",
         links: {
-            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\">Help SURFconext Dashboard</a>",
+            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\" rel=\"noopener noreferrer\">Help SURFconext Dashboard</a>",
             logout: "Uitloggen",
             exit: "Exit"
         },
@@ -101,7 +101,7 @@ I18n.translations.nl = {
             },
             entity_category: {
                 name: "eduGAIN Entity Categorie",
-                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\">wiki</a> voor meer informatie. Hier kunt u evt diensten filteren die voldoen aan een bepaalde entity category.",
+                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie. Hier kunt u evt diensten filteren die voldoen aan een bepaalde entity category.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
@@ -117,11 +117,11 @@ I18n.translations.nl = {
             },
             arp: {
                 name: "Vrijgegeven attributen",
-                tooltip: "Meer info over deze attributen vindt u in de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext \" target=\"_blank\">wiki</a>.",
+                tooltip: "Meer info over deze attributen vindt u in de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext \" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
                 info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie."
             },
             type_consent: {
-                tooltip: "Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">wiki</a> voor meer informatie.",
+                tooltip: "Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.surfconext.nl/dashboard-help-consent\">wiki</a> voor meer informatie.",
                 name: "Type toestemming",
                 no_consent: "Geen toestemming",
                 minimal_consent: "Minimale toestemming",
@@ -170,7 +170,7 @@ I18n.translations.nl = {
             processing_results: "Alle services worden opgehaald...",
             search: "Zoek",
             search_hint: "Zoeken",
-            add_services_hint: "Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Get+Conexted\" target=\"_blank\">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount, en dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. Met het verzoek of de dienst contact op kan nemen via support@surfconext.nl om de koppeling met SURFconext te realiseren."
+            add_services_hint: "Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Get+Conexted\" target=\"_blank\" rel=\"noopener noreferrer\">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount, en dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. Met het verzoek of de dienst contact op kan nemen via support@surfconext.nl om de koppeling met SURFconext te realiseren."
         },
     },
 
@@ -180,7 +180,7 @@ I18n.translations.nl = {
         website: "Website",
         support: "Support pagina",
         login: "Login pagina",
-        registration_info_html: "Deze Service Provider is beschikbaar in SURFconext via <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\">eduGAIN</a>. De Service Provider is door de volgende federatie geregistreerd: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>.",
+        registration_info_html: "Deze Service Provider is beschikbaar in SURFconext via <a href=\"https://support.surfconext.nl/edugain\" target=\"_blank\" rel=\"noopener noreferrer\">eduGAIN</a>. De Service Provider is door de volgende federatie geregistreerd: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{url}}</a>.",
         registration_policy: "Registratie beleid",
         privacy_statement: "Privacyverklaring",
         metadata_link: "Metadata"
@@ -188,24 +188,24 @@ I18n.translations.nl = {
 
     license_info_panel: {
         title: "Licentie-informatie",
-        has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> een licentie beschikbaar voor deze service.",
-        has_license_sp_html: "Een licentie voor <a href=\"{{serviceUrl}}\" target=\"_blank\">{{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
+        has_license_surfmarket_html: "Er is via <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a> een licentie beschikbaar voor deze service.",
+        has_license_sp_html: "Een licentie voor <a href=\"{{serviceUrl}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
         has_license_sp_html_no_service_url: "Een licentie voor {{serviceName}}</a> kan via de aanbieder van deze dienst worden afgesloten.",
-        no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.",
+        no_license_html: "Jouw instelling heeft voor deze service geen licentie via <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a>.",
         not_needed_html: "Voor deze dienst is geen licentie nodig",
         unknown_license: "Het is onbekend welke licentie voor deze service geldt.",
         no_license_description_html: "" +
             "<ul>" +
-            "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a></li>" +
+            "   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a></li>" +
             "</ul>" +
             "<br />In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten.",
         unknown_license_description_html: "Er zijn verschillende opties:" +
             "<ul>" +
             "   <li>SURF of een andere instelling biedt deze service gratis aan.</li>" +
             "   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>" +
-            "   <li>De licentie is nog niet bijgewerkt in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a>.</li>" +
+            "   <li>De licentie is nog niet bijgewerkt in de administratie van <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a>.</li>" +
             "</ul>" +
-            "<p>SURFnet zal, indien nodig, contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
+            "<p>SURFnet zal, indien nodig, contact opnemen met de aanbieder of <a href=\"https://www.surfmarket.nl\" target=\"_blank\" rel=\"noopener noreferrer\">SURFmarket</a> alvorens de koppeling te activeren.</p>"
     },
 
     license_info: {
@@ -220,7 +220,7 @@ I18n.translations.nl = {
     },
 
     overview_panel: {
-        wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\">wiki</a>.",
+        wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
         no_description: "Er is geen beschijving voor deze service.",
         description: "Beschrijving",
         has_connection: "Dienst gekoppeld",
@@ -228,10 +228,10 @@ I18n.translations.nl = {
         how_to_connect: "Lees hoe je een dienst koppelt",
         disconnect: "Lees hoe je een dienst ontkoppelt",
         normen_kader: "Informatie inzake AVG/GDPR",
-        normen_kader_html: "Voor deze dienst heeft de leverancier informatie verstrekt over welke data ze verwerkt, waar ze dat doet etc. De informatie vindt u op de <a href=\"https://support.surfconext.nl/dashboard-info-avg\" target=\"_blank\">wiki</a>. In de loop van 2018 gaan we die informatie ook verwerken in een nieuwe versie van dit dashboard.",
+        normen_kader_html: "Voor deze dienst heeft de leverancier informatie verstrekt over welke data ze verwerkt, waar ze dat doet etc. De informatie vindt u op de <a href=\"https://support.surfconext.nl/dashboard-info-avg\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>. In de loop van 2018 gaan we die informatie ook verwerken in een nieuwe versie van dit dashboard.",
         no_normen_kader_html: "Voor deze dienst heeft de leverancier nog geen AVG/GDPR informatie aangeleverd; informatie over welke data ze verwerken, waar ze dat doen etc. kunt u opvragen bij de leverancier.",
         single_tenant_service: "Single tenant dienst",
-        single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://support.surfconext.nl/dashboard-info-singletenant\" target=\"_blank\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
+        single_tenant_service_html: "{{name}} is een single tenant dienst en als een consequentie daarvan is er een aparte applicatie instantie vereist voor elk instituut dat een connectie wil met deze dienst. Zie de <a href=\"https://support.surfconext.nl/dashboard-info-singletenant\" target=\"_blank\" rel=\"noopener noreferrer\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
         interfed_source: "Federatie bron:",
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
         supports_ssa: "Ondersteunt SURFsecureID",
@@ -241,7 +241,7 @@ I18n.translations.nl = {
             "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
         },
         aansluitovereenkomst: "Aansluitovereenkomst",
-        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://support.surfconext.nl/dashboard-info-trust\" target=\"_blank\">SURF wiki</a>.",
+        aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://support.surfconext.nl/dashboard-info-trust\" target=\"_blank\" rel=\"noopener noreferrer\">SURF wiki</a>.",
         privacyInformation: "Privacy-informatie",
         privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd."
     },
@@ -264,7 +264,7 @@ I18n.translations.nl = {
         no_attribute_value_nameid: "&lt;geen waarde ontvangen&gt;<br/><a href='https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext#AttributesinSURFconext-Useridentifiers' target='_blank'>generated by SURFconext</a>",
         filterInfo: "Om te zorgen dat een leverancier alleen de voor de dienst noodzakelijke gegevens ontvangt, gebruikt SURFconext soms filters op de waardes van de IdP ontvangen attributen.",
         warning: "Let op:",
-        name_id_format_tooltip: "Lees meer in onze <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext#AttributesinSURFconext-Useridentifiers\" target=\"_blank\">Wiki</a>"
+        name_id_format_tooltip: "Lees meer in onze <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext#AttributesinSURFconext-Useridentifiers\" target=\"_blank\" rel=\"noopener noreferrer\">Wiki</a>"
     },
 
     idp_usage_panel: {
@@ -277,7 +277,7 @@ I18n.translations.nl = {
 
     sirtfi_panel: {
         title: "De Sirtfi contact personen voor {{name}}",
-        subtitle: "Het Security Incident Response Trust Framework voor Federated Identity <a href=\" https://refeds.org/sirtfi\" target=\"_blank\">(Sirtfi)</a> heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwensraamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.",
+        subtitle: "Het Security Incident Response Trust Framework voor Federated Identity <a href=\" https://refeds.org/sirtfi\" target=\"_blank\" rel=\"noopener noreferrer\">(Sirtfi)</a> heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwensraamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.",
         contactPersons: "De Sirtfi contactgegevens voor deze dienst:",
         cp_name: "Naam",
         cp_email: "Email",
@@ -313,8 +313,8 @@ I18n.translations.nl = {
     consent_panel: {
         title: "Toestemming",
         subtitle: "Nieuwe gebruikers wordt standaard om toestemming gevraagd voor het doorgeven van hun persoonlijke gegevens.",
-        subtitle2: "Optioneel kun je een extra bericht/waarschuwing aan het informatie/consent-scherm toevoegen, bijvoorbeeld om de gebruiker te wijzen op het feit dat de desbetreffende dienst <i>geen officiële</i> dienst van de instelling is en er dus geen ondersteuning wordt geboden. Lees meer informatie hierover op onze <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">wiki</a>.",
-        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. De verschillende settings worden uitgelegd <a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-consent\">op de wiki</a>.",
+        subtitle2: "Optioneel kun je een extra bericht/waarschuwing aan het informatie/consent-scherm toevoegen, bijvoorbeeld om de gebruiker te wijzen op het feit dat de desbetreffende dienst <i>geen officiële</i> dienst van de instelling is en er dus geen ondersteuning wordt geboden. Lees meer informatie hierover op onze <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.surfconext.nl/dashboard-help-consent\">wiki</a>.",
+        subtitle2Viewer: "Op deze pagina zie je op welke manier toestemming wordt gevraagd voordat ze toegang krijgen tot {{name}}. De verschillende settings worden uitgelegd <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.surfconext.nl/dashboard-help-consent\">op de wiki</a>.",
         no_consent: "Laat scherm met informatie/toestemming over attributen niet zien",
         minimal_consent: "Toon informatiescherm (vraag de gebruiker niet expliciet om toestemming)",
         default_consent: "Vraag de gebruiker expliciet om toestemming (consent) voor het vrijgeven van attributen",
@@ -341,7 +341,7 @@ I18n.translations.nl = {
         cancel: "Annuleren",
         check: "Controleer",
         checklist: "Loop deze checklist na voordat je een connectie activeert:",
-        processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://support.surfconext.nl/dashboard-help-vwo\" target=\"_blank\">verwerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
+        processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://support.surfconext.nl/dashboard-help-vwo\" target=\"_blank\" rel=\"noopener noreferrer\">verwerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
         comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
         comments_placeholder: "Voer hier je opmerkingen in...",
         comments_title: "Eventuele opmerkingen?",
@@ -494,15 +494,15 @@ I18n.translations.nl = {
     },
 
     footer: {
-        surfnet_html: "<a href=\"https://www.surfnet.nl/\" target=\"_blank\">SURFnet</a>",
-        terms_html: "<a href=\"https://support.surfconext.nl/terms-nl\" target=\"_blank\">Gebruikersvoorwaarden</a>",
+        surfnet_html: "<a href=\"https://www.surfnet.nl/\" target=\"_blank\" rel=\"noopener noreferrer\">SURFnet</a>",
+        terms_html: "<a href=\"https://support.surfconext.nl/terms-nl\" target=\"_blank\" rel=\"noopener noreferrer\">Gebruikersvoorwaarden</a>",
         contact_html: "<a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>"
     },
 
     my_idp: {
         title: "Mijn instelling",
         roles: "Rollen",
-        sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken\">toelichting</a>):",
+        sub_title_html: "De volgende rollen zijn toegekend (<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken\">toelichting</a>):",
         role: "Rol",
         users: "Gebruiker(s)",
         settings: "Gegevens van mijn eigen instelling",
@@ -515,7 +515,7 @@ I18n.translations.nl = {
         services_title: "Diensten aangeboden door jouw instelling",
         services_title_none: "Geen",
         service_name: "Naam service",
-        license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
+        license_contact_html: "Primaire licentiecontactpersoon (<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?\">toelichting</a>):",
         license_contact_name: "Naam",
         license_contact_email: "Email",
         license_contact_phone: "Telefoonnummer",
@@ -571,7 +571,7 @@ I18n.translations.nl = {
         logo_url: "Logo",
         new_logo_url: "Nieuwe logo URL",
         research_and_scholarship_info: "Koppel met SP's die aan CoCo en R&S voldoen",
-        research_and_scholarship_tooltip: "Dit betekent dat uw IdP automatisch aan alle huidige en toekomstige SP's<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\">wiki</a> vooor meer informatie.",
+        research_and_scholarship_tooltip: "Dit betekent dat uw IdP automatisch aan alle huidige en toekomstige SP's<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> vooor meer informatie.",
         contact: "Contactpersonen voor {{name}}",
         contact_name: "Contact naam",
         contact_email: "Contact email",

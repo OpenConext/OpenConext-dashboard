@@ -180,7 +180,7 @@ class PolicyAttributes extends React.Component {
                         })
                     }
                     <p className="label">{I18n.t("policy_attributes.attribute")}
-                        <a className="help-link" target="_blank" href={I18n.t("policy_attributes.help_link")}><i
+                        <a className="help-link" target="_blank" rel="noopener noreferrer" href={I18n.t("policy_attributes.help_link")}><i
                             className="fa fa-question-circle"></i></a>
                     </p>
                     <select value="" onChange={self.handleNewAttribute.bind(this)}>
