@@ -71,6 +71,8 @@ public class SpringSecurity {
 
     if (!isNullOrEmpty(role)) {
       CoinUser currentUser = SpringSecurity.getCurrentUser();
+
+      currentUser.removeAuthority(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN));
       currentUser.addAuthority(new CoinAuthority(Authority.valueOf(role)));
     }
 
