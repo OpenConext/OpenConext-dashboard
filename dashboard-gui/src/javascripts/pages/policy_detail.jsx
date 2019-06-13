@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import isEmpty from "lodash.isempty";
 import find from "lodash.find";
-
+import {withRouter} from 'react-router';
 import {
     createPolicy,
     getAllowedAttributes,
@@ -25,17 +25,13 @@ import AutoFormat from "../utils/autoformat_policy";
 import stopEvent from "../utils/stop";
 
 class PolicyDetail extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            autoFormat: false,
-            allowedAttributes: [],
-            connectedServiceProviders: [],
-            institutionServiceProviders: [],
-            policy: null
-        };
-    }
+    state = {
+        autoFormat: false,
+        allowedAttributes: [],
+        connectedServiceProviders: [],
+        institutionServiceProviders: [],
+        policy: null
+    };
 
     componentWillMount() {
         const {currentUser} = this.context;
@@ -412,7 +408,7 @@ class PolicyDetail extends React.Component {
             } else {
                 setFlash(I18n.t("policies.flash_first"));
             }
-            this.context.router.history.replace("/policies");
+            this.props.history.replace("/policies");
         })
             .catch(e => {
                 if (e.response && e.response.json) {
@@ -433,7 +429,7 @@ class PolicyDetail extends React.Component {
     cancelForm = e => {
         stopEvent(e);
         if (window.confirm(I18n.t("policy_detail.confirmation"))) {
-            this.context.router.history.replace("/policies");
+            this.props.history.replace("/policies");
         }
     }
 }
@@ -449,4 +445,4 @@ PolicyDetail.propTypes = {
     })
 };
 
-export default PolicyDetail;
+export default withRouter(PolicyDetail);

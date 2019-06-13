@@ -28,8 +28,8 @@ const store = {
 const pageCount = 20;
 
 class AppOverview extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             apps: [],
@@ -243,12 +243,12 @@ class AppOverview extends React.Component {
         store.appId = app.id;
         store.page = this.state.page;
         store.query = this.state.search;
-        this.context.router.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+        this.props.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
     }
 
     handleConnectApp(e, app) {
         stopEvent(e);
-        this.context.router.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
+        this.props.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
     }
 
     /*

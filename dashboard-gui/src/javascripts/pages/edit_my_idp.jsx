@@ -16,7 +16,7 @@ const contactPersonTypes = ["administrative", "support", "technical"];
 class EditMyIdp extends React.Component {
 
     constructor(props, context) {
-        super();
+        super(props);
         const {currentUser} = context;
         const currentIdp = currentUser.getCurrentIdp();
         this.state = {
@@ -414,7 +414,7 @@ class EditMyIdp extends React.Component {
             <div key={service.id}>
                 <h2><a href={`/${url}`} onClick={e => {
                     stopEvent(e);
-                    this.context.router.history.replace(url);
+                    this.props.history.replace(url);
                 }}>{service.name}</a></h2>
                 <table className="services">
                     <tbody>
@@ -506,12 +506,12 @@ class EditMyIdp extends React.Component {
                         setFlash(I18n.t("my_idp.change_request_created", {jiraKey: action.payload.jiraKey}));
                     }
                     window.scrollTo(0, 0);
-                    this.context.router.history.replace("/my-idp");
+                    this.props.history.replace("/my-idp");
                 });
             }).catch(() => {
             setFlash(I18n.t("my_idp.change_request_failed"), "error");
             window.scrollTo(0, 0);
-            this.context.router.history.replace("/my-idp");
+            this.props.history.replace("/my-idp");
         });
     }
 

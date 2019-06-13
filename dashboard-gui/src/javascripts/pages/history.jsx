@@ -23,9 +23,8 @@ const allTypes = ["LINKREQUEST", "UNLINKREQUEST", "CHANGE", "LINKINVITE"];
 
 
 class History extends React.Component {
-
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = this.getInitialState();
     }
 
@@ -252,7 +251,7 @@ class History extends React.Component {
     viewInvitation = action => e => {
         stopEvent(e);
         const type = "saml20_sp";
-        this.context.router.history.replace(`/apps/${action.spEid}/${type}/how_to_connect/${action.jiraKey}/accept`);
+        this.props.history.replace(`/apps/${action.spEid}/${type}/how_to_connect/${action.jiraKey}/accept`);
     };
 
     resendInvitation = action => e => {

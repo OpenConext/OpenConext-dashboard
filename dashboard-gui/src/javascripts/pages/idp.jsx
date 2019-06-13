@@ -11,9 +11,8 @@ import ReactTooltip from "react-tooltip";
 import stopEvent from "../utils/stop";
 
 class MyIdp extends React.Component {
-
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             roles: {},
             institutionServiceProviders: [],
@@ -78,7 +77,7 @@ class MyIdp extends React.Component {
             <div key={service.id}>
                 <h2><a href={`/${url}`} onClick={e => {
                     stopEvent(e);
-                    this.context.router.history.replace(url);
+                    this.props.history.replace(url);
                 }}>{service.name}</a></h2>
                 <table className="services">
                     <tbody>

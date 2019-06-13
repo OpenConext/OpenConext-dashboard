@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import {Link} from "react-router-dom";
+import {withRouter} from "react-router";
 
 import {AppShape} from "../shapes";
 import {makeConnection, removeConnection, updateInviteRequest} from "../api";
@@ -13,8 +14,8 @@ import {setFlash} from "../utils/flash";
 import ConfirmationDialog from "../components/confirmation_dialog";
 
 class HowToConnectPanel extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             currentStep: "connect",
@@ -246,7 +247,7 @@ class HowToConnectPanel extends React.Component {
             const app = this.props.app;
             const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
             setFlash(I18n.t("how_to_connect_panel.invite_denied", {jiraKey: jiraKey}));
-            this.context.router.history.replace(`/apps/${app.id}/${type}/overview`);
+            this.props.history.replace(`/apps/${app.id}/${type}/overview`);
             window.scrollTo(0, 0);
         })
     };
@@ -284,8 +285,8 @@ class HowToConnectPanel extends React.Component {
                        className="c-button">{I18n.t("how_to_connect_panel.deny")}</a>
                     <a href="/accept" className="c-button white approve" onClick={e => {
                         stopEvent(e);
-                        this.context.router.history.replace(`/dummy`);
-                        setTimeout(() => this.context.router.history.replace(`/apps/${this.props.app.id}/${type}/how_to_connect/${jiraKey}/accept`), 10);
+                        this.props.history.replace(`/dummy`);
+                        setTimeout(() => this.props.history.replace(`/apps/${this.props.app.id}/${type}/how_to_connect/${jiraKey}/accept`), 10);
                     }}>{I18n.t("how_to_connect_panel.approve")}</a>
                 </p>
             </div>
@@ -315,7 +316,7 @@ class HowToConnectPanel extends React.Component {
 
     backToServices(e) {
         stopEvent(e);
-        this.context.router.history.replace("/apps");
+        this.props.history.replace("/apps");
     }
 
     renderDisconnectStep = () =>
@@ -497,4 +498,4 @@ HowToConnectPanel.propTypes = {
     conflictingJiraIssue: PropTypes.object
 };
 
-export default HowToConnectPanel;
+export default withRouter(HowToConnectPanel);

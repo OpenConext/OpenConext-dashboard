@@ -1,6 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
-
+import {withRouter} from 'react-router';
 import PropTypes from "prop-types";
 import {getAppsForIdentiyProvider, getIdpsForSuper, inviteRequest, sabRoles} from "../api";
 import SelectWrapper from "../components/select_wrapper";
@@ -14,8 +14,8 @@ const validEmailRegExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.
 const validNameRegExp = /^[\w \-']{1,255}$/;
 
 class InviteRequest extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = this.initialState();
     }
 
@@ -98,10 +98,10 @@ class InviteRequest extends React.Component {
                 message: message,
                 contactPersons: contactPersons
             }).then(json => {
-                this.context.router.history.replace(`/dummy`);
+                this.props.history.replace(`/dummy`);
                 setTimeout(() => {
                     window.scrollTo(0, 0);
-                    this.context.router.history.replace(`/users/invite`);
+                    this.props.history.replace(`/users/invite`);
                     setFlash(I18n.t("invite_request.jiraFlash", {jiraKey: json.payload.jiraKey}));
                 }, 5);
             });
@@ -273,4 +273,4 @@ InviteRequest.contextTypes = {
     router: PropTypes.object
 };
 
-export default InviteRequest;
+export default withRouter(InviteRequest);
