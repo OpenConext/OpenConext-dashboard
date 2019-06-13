@@ -36,7 +36,7 @@
     "react-datepicker": "^1.6.0",
     "react-dom": "16.5.2",
     "react-router-dom": "4.3.1",
-    "react-scripts": "1.1.5",
+    "react-scripts": "^3.0.1",
     "react-select": "2.0.0",
     "react-tooltip": "3.8.4",
     "spin.js": "^2.3.2"
@@ -50,5 +50,17 @@
     "test": "CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:8280"
+  "proxy": "http://localhost:8280",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
