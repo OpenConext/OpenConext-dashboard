@@ -17,10 +17,7 @@ class CurrentUser {
         this.hideTabs = rawUser.hideTabs;
         this.supportedLanguages = rawUser.supportedLanguages;
         this.organization = rawUser.organization;
-
-        if(!rawUser.allowMaintainersToManageAuthzRules) {
-          this.hideTabs += ', policies'
-        }
+        this.allowMaintainersToManageAuthzRules = rawUser.allowMaintainersToManageAuthzRules;
     }
 
 

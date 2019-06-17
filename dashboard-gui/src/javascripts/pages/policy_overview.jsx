@@ -57,7 +57,7 @@ class PolicyOverview extends React.Component {
                             {this.renderSortableHeader("percent_20", "identityProviderNames")}
                             {this.renderSortableHeader("percent_10", "active")}
                             {this.renderSortableHeader("percent_10", "numberOfRevisions")}
-                            {currentUser.dashboardAdmin ? (<th className="percent_5"></th>) : null}
+                            {(currentUser.dashboardAdmin || currentUser.allowMaintainersToManageAuthzRules) ? (<th className="percent_5"></th>) : null}
                         </tr>
                         </thead>
                         <tbody>
@@ -105,7 +105,7 @@ class PolicyOverview extends React.Component {
         );
 
         const {currentUser} = this.context;
-        return currentUser.dashboardAdmin ?
+        return (currentUser.dashboardAdmin || currentUser.allowMaintainersToManageAuthzRules) ?
             (
                 <div className="l-grid">
                     <div className="l-col-8">
@@ -140,7 +140,7 @@ class PolicyOverview extends React.Component {
                 <td>{this.renderIdpNames(policy)}</td>
                 <td><input type="checkbox" defaultChecked={policy.active} disabled={true}/></td>
                 <td>{this.renderRevisionsLink(policy)}</td>
-                {currentUser.dashboardAdmin ? (<td>{this.renderControls(policy)}</td>) : null}
+                {(currentUser.dashboardAdmin || currentUser.allowMaintainersToManageAuthzRules) ? (<td>{this.renderControls(policy)}</td>) : null}
             </tr>
         );
     }
