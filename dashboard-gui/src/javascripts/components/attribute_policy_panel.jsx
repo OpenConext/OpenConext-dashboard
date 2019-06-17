@@ -73,19 +73,16 @@ class AttributePolicyPanel extends React.Component {
           tooltip = "Collab unique user identifier";
         }
 
-        if (name === "NameIDFormat") {
+        if (name === "nameIds") {
+          const addition = I18n.t("attributes_policy_panel.name_id_addition")
+
           tooltip = I18n.t("attributes_policy_panel.name_id_format_tooltip")
-          noValueMessage = I18n.t("attributes_policy_panel.no_attribute_value_nameid")
-          values = values.map(val => {
-            switch(val) {
-              case "urn:oasis:names:tc:SAML:2.0:nameid-format:transient":
-                return 'Transient'
-              case "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent":
-                return 'Persistent'
-              default:
-                return val
-            }
-          })
+          noValueMessage += addition
+
+          values = values
+            .filter(val => val.includes("unspecified") || val.includes("persistent"))
+            .length > 0 ? ['Persistent'] : ["Transient"]
+            .map(val => val += addition)
         }
 
         return (
@@ -109,7 +106,7 @@ class AttributePolicyPanel extends React.Component {
                     <ul>
                       {
                         values.length > 0 ?
-                          values.map(val => <li key={val}>{val}</li>) :
+                          values.map(val => <li key={val} dangerouslySetInnerHTML={{__html: val}} />) :
                           (
                             <em className="no-attribute-value">
                               <span dangerouslySetInnerHTML={{__html: noValueMessage}}/>
