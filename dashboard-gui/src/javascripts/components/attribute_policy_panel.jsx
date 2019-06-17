@@ -25,7 +25,13 @@ class AttributePolicyPanel extends React.Component {
         } else if (app.arp.noAttrArp) {
             return <p>{I18n.t("attributes_policy_panel.arp.noattr", {name: app.name})}</p>;
         }
+
         const hasFilters = app.filteredUserAttributes.some(attribute => attribute.filters.filter(filter => filter !== "*").length > 0);
+
+        const nameIdValue = app
+          .nameIds.filter(val => val.includes("unspecified") || val.includes("persistent"))
+          .length ? 'Persistent' : "Transient"
+
         return (
             <div className="mod-attributes">
                 <table>
@@ -45,6 +51,7 @@ class AttributePolicyPanel extends React.Component {
                     <li>{I18n.t("attributes_policy_panel.hint")}</li>
                     <li>{I18n.t("attributes_policy_panel.motivationInfo")}</li>
                     {hasFilters && <li>{I18n.t("attributes_policy_panel.filterInfo")}</li>}
+                    <li dangerouslySetInnerHTML={{__html: I18n.t("attributes_policy_panel.nameIdInfo", {type: nameIdValue})}} />
                 </ul>
             </div>
         );
@@ -55,34 +62,23 @@ class AttributePolicyPanel extends React.Component {
             return null;
         }
         const notes = marked(app.manipulationNotes).replace(/<a href/g, "<a target=\"_blank\" href");
-        return <div className="manipulation-notes">
+        return (
+          <div className="manipulation-notes">
             <p className="title">{I18n.t("attributes_policy_panel.arp.manipulation")}</p>
             <section className="notes" dangerouslySetInnerHTML={{__html: notes}}/>
-        </div>;
+          </div>
+        );
     }
 
     renderAttribute(attribute) {
         const renderFilters = attribute.filters.filter(flt => flt !== "*");
+
         let name = attribute.name;
-        let values = attribute.userValues;
-        let noValueMessage = I18n.t("attributes_policy_panel.no_attribute_value")
         let tooltip = undefined;
 
         if (name === "urn:oid:1.3.6.1.4.1.1076.20.40.40.1") {
           name = "collabPersonId";
           tooltip = "Collab unique user identifier";
-        }
-
-        if (name === "nameIds") {
-          const addition = I18n.t("attributes_policy_panel.name_id_addition")
-
-          tooltip = I18n.t("attributes_policy_panel.name_id_format_tooltip")
-          noValueMessage += addition
-
-          values = values
-            .filter(val => val.includes("unspecified") || val.includes("persistent"))
-            .length > 0 ? ['Persistent'] : ["Transient"]
-            .map(val => val += addition)
         }
 
         return (
@@ -92,9 +88,7 @@ class AttributePolicyPanel extends React.Component {
                     {tooltip && (
                         <span>
                             <i className="fa fa-info-circle" data-for={name} data-tip />
-                            <ReactTooltip id={name} type="info" class="tool-tip" effect="solid">
-                                <span dangerouslySetInnerHTML={{__html: tooltip}}/>
-                            </ReactTooltip>
+                            <ReactTooltip id={name} type="info" class="tool-tip" effect="solid">{tooltip}</ReactTooltip>
                         </span>
                     )}
                     {
@@ -105,12 +99,10 @@ class AttributePolicyPanel extends React.Component {
                 <td>
                     <ul>
                       {
-                        values.length > 0 ?
-                          values.map(val => <li key={val} dangerouslySetInnerHTML={{__html: val}} />) :
+                        attribute.userValues.length > 0 ?
+                          attribute.userValues.map(val => <li key={val}>{val}</li>) :
                           (
-                            <em className="no-attribute-value">
-                              <span dangerouslySetInnerHTML={{__html: noValueMessage}}/>
-                            </em>
+                            <em className="no-attribute-value">{I18n.t("attributes_policy_panel.no_attribute_value")}</em>
                           )
                       }
                     </ul>
