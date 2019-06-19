@@ -170,7 +170,7 @@ I18n.translations.nl = {
             processing_results: "Alle services worden opgehaald...",
             search: "Zoek",
             search_hint: "Zoeken",
-            add_services_hint: "Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Get+Conexted\" target=\"_blank\" rel=\"noopener noreferrer\">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount, en dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. Met het verzoek of de dienst contact op kan nemen via support@surfconext.nl om de koppeling met SURFconext te realiseren."
+            add_services_hint: "Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href=\"http://support.surfconext.nl/getconexted\" target=\"_blank\" rel=\"noopener noreferrer\">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount, en dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. Met het verzoek of de dienst contact op kan nemen via support@surfconext.nl om de koppeling met SURFconext te realiseren."
         },
     },
 
