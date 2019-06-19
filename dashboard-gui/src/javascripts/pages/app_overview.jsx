@@ -243,7 +243,7 @@ class AppOverview extends React.Component {
         store.appId = app.id;
         store.page = this.state.page;
         store.query = this.state.search;
-        this.props.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+        this.props.history.push(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
     }
 
     handleConnectApp(e, app) {
