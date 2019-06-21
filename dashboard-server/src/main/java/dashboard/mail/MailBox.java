@@ -40,13 +40,16 @@ public class MailBox {
 
     public void sendInviteMail(InviteRequest inviteRequest, Action action) throws MessagingException, IOException {
         String jiraKey = action.getJiraKey().orElseThrow(() -> new IllegalArgumentException("No jirKey in the ticket"));
+        List<String> to = inviteRequest.getContactPersons().stream().filter(ContactPerson::isSabContact).map(ContactPerson::getEmailAddress).collect(toList());
+        List<String> cc = inviteRequest.getContactPersons().stream().filter(cp -> !cp.isSabContact()).map(ContactPerson::getEmailAddress).collect(toList());
+
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Uitnodiging voor een nieuwe SURFconext koppeling");
         variables.put("inviteRequest", inviteRequest);
         variables.put("action", action);
         variables.put("mailBaseUrl", mailBaseUrl);
-        List<String> to = inviteRequest.getContactPersons().stream().filter(ContactPerson::isSabContact).map(ContactPerson::getEmailAddress).collect(toList());
-        List<String> cc = inviteRequest.getContactPersons().stream().filter(cp -> !cp.isSabContact()).map(ContactPerson::getEmailAddress).collect(toList());
+        variables.put("salutation", inviteRequest.getContactPersons().stream().filter(ContactPerson::isSabContact).map(cp -> cp.getName()).collect(Collectors.joining(", ")));
+
         String html = this.mailTemplate("invite_request_nl.html", variables);
         String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
         try {
