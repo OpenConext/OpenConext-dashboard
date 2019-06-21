@@ -296,6 +296,9 @@ public class UsersController extends BaseController {
         this.diff(changes, idpId, idp.isConnectToRSServicesAutomatically(), settings.isConnectToRSServicesAutomatically(),
                 "coin:entity_categories:1 - http://refeds.org/category/research-and-scholarship");
 
+        this.diff(changes, idpId, idp.isAllowMaintainersToManageAuthzRules(), settings.isAllowMaintainersToManageAuthzRules(),
+                "coin:allow_maintainers_to_manage_authz_rules");
+
         this.diff(changes, idpId, idp.getLogoUrl(), settings.getLogoUrl(), "logo:0:url");
 
         this.diff(changes, idpId, idp.getState(), settings.getStateType() != null ? settings.getStateType().name() : null, "state");

@@ -1,5 +1,10 @@
 package dashboard.control;
 
+import dashboard.domain.CoinUser;
+import dashboard.domain.IdentityProvider;
+import dashboard.domain.InstitutionIdentityProvider;
+import dashboard.manage.EntityType;
+import dashboard.util.SpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +18,8 @@ import dashboard.stats.Stats;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/dashboard/api/stats")
@@ -54,7 +61,19 @@ public class StatsController implements Constants {
 
     @GetMapping("serviceProviders")
     public List<Map<String, Object>> serviceProviders(Locale locale) {
-        return manage.getLinkedServiceProviders(currentUserIdp()).stream().map(sp -> mapServiceProvider(sp, locale.getLanguage())).collect(Collectors.toList());
+        CoinUser user = SpringSecurity.getCurrentUser();
+        IdentityProvider idp = user.getSwitchedToIdp().orElse(user.getIdp());
+        List<ServiceProvider> sps;
+        if (idp.isAllowedAll()) {
+            sps = manage.getLinkedServiceProviders(idp.getId());
+        } else {
+            sps = idp.getAllowedEntityIds().stream()
+                    .map(entityId -> manage.getServiceProvider(entityId, EntityType.saml20_sp, false))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(toList());
+        }
+        return sps.stream().map(sp -> mapServiceProvider(sp, locale.getLanguage())).collect(Collectors.toList());
     }
 
     private Map<String, Object> mapServiceProvider(ServiceProvider sp, String language) {

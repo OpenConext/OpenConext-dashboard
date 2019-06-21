@@ -3,8 +3,8 @@ package dashboard.mail;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
 import dashboard.domain.Action;
+import dashboard.domain.ContactPerson;
 import dashboard.domain.InviteRequest;
-import dashboard.domain.ResendInviteRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -12,9 +12,15 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 public class MailBox {
 
@@ -39,27 +45,27 @@ public class MailBox {
         variables.put("inviteRequest", inviteRequest);
         variables.put("action", action);
         variables.put("mailBaseUrl", mailBaseUrl);
-        List<String> emails = inviteRequest.getContactPersons().stream().map(cp -> cp.getEmailAddress()).collect(Collectors.toList());
+        List<String> to = inviteRequest.getContactPersons().stream().filter(ContactPerson::isSabContact).map(ContactPerson::getEmailAddress).collect(toList());
+        List<String> cc = inviteRequest.getContactPersons().stream().filter(cp -> !cp.isSabContact()).map(ContactPerson::getEmailAddress).collect(toList());
         String html = this.mailTemplate("invite_request_nl.html", variables);
         String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
-        emails.forEach(email -> {
-            try {
-                sendMail(html, subject, Collections.singletonList(email), true);
-            } catch (Exception e) {
-                //anti-pattern but we don't want to crash because of mail problems
-            }
-        });
+        try {
+            sendMail(html, subject, to, cc, true);
+        } catch (Exception e) {
+            //anti-pattern but we don't want to crash because of mail problems
+        }
     }
 
     public void sendAdministrativeMail(String body, String subject) throws MessagingException, IOException {
-        sendMail(body, subject, administrativeEmails, false);
+        sendMail(body, subject, administrativeEmails, Collections.emptyList(), false);
     }
 
-    private void sendMail(String html, String subject, List<String> to, boolean inHtml) throws MessagingException, IOException {
+    private void sendMail(String html, String subject, List<String> to, List<String> cc, boolean inHtml) throws MessagingException, IOException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
         helper.setSubject(subject);
         helper.setTo(to.toArray(new String[]{}));
+        helper.setCc(cc.toArray(new String[]{}));
         setText(html, helper, inHtml);
         helper.setFrom(emailFrom);
         doSendMail(message);
@@ -83,16 +89,14 @@ public class MailBox {
         variables.put("title", "Herinnering voor de uitnodiging voor een nieuwe SURFconext koppeling");
         variables.put("action", action);
         variables.put("mailBaseUrl", mailBaseUrl);
-        List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(Collectors.toList());
+        List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());
         String html = this.mailTemplate("resend_invite_request_nl.html", variables);
         String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", action.getSpName(), jiraKey);
-        emails.forEach(email -> {
-            try {
-                sendMail(html, subject, Collections.singletonList(email), true);
-            } catch (Exception e) {
-                //anti-pattern but we don't want to crash because of mail problems
-            }
-        });
 
+        try {
+            sendMail(html, subject, emails, Collections.emptyList(), true);
+        } catch (Exception e) {
+            //anti-pattern but we don't want to crash because of mail problems
+        }
     }
 }

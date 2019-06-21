@@ -1,6 +1,8 @@
 package dashboard.control;
 
 import com.google.common.collect.ImmutableSet;
+import dashboard.domain.IdentityProvider;
+import dashboard.domain.ServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,12 +95,25 @@ public class ServicesController extends BaseController {
     @RequestMapping(value = "/idps")
     public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(
         @RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-        @RequestParam String spEntityId) {
-        List<InstitutionIdentityProvider> idps = manage.getLinkedIdentityProviders(spEntityId).stream()
-            .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
-                idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState()))
-            .collect(toList());
-
+        @RequestParam String spEntityId,
+        @RequestParam String type) {
+        ServiceProvider serviceProvider = manage.getServiceProvider(spEntityId, EntityType.valueOf(type), false)
+                .orElseThrow(IllegalArgumentException::new);
+        List<InstitutionIdentityProvider> idps;
+        if (serviceProvider.isAllowedAll()) {
+            idps = manage.getLinkedIdentityProviders(spEntityId).stream()
+                    .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
+                            idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState()))
+                    .collect(toList());
+        } else {
+            idps = serviceProvider.getAllowedEntityIds().stream()
+                    .map(entityId -> manage.getIdentityProvider(entityId, false))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
+                            idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState()))
+                    .collect(toList());
+        }
         return createRestResponse(idps);
     }
 

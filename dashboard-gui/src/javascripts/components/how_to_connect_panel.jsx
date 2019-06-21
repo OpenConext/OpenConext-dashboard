@@ -31,7 +31,7 @@ class HowToConnectPanel extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {app, inviteAction, jiraKey} = this.props;
         let step = app.connected ? "disconnect" : "connect";
         if (app.connected && !isEmpty(jiraKey) && !isEmpty(inviteAction)) {

@@ -150,7 +150,7 @@ public class ServicesImpl implements Services {
         service.setSupportUrl(sp.getUrl(lang));
         service.setInstitutionDescription(sp.getDescription(lang));
         service.setServiceUrl(sp.getUrl(lang));
-        service.setWikiUrl(sp.getWikiUrlEn());
+        service.setWikiUrl(sp.getWikiUrl(lang));
         service.setSpName(sp.getName(lang));
 
         if (en) {

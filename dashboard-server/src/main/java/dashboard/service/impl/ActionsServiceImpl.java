@@ -161,16 +161,14 @@ public class ActionsServiceImpl implements ActionsService {
 
     @Override
     public void rejectInviteRequest(String jiraKey, String comment) {
-        String transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.TO_RESOLVED);
-        jiraClient.transition(jiraKey, transitionId, Optional.of("Cancelled"), Optional.ofNullable(comment));
-
-        transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.TO_CLOSED);
-        jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
+        //By request of SURFnet we don't close the ticket as the feedback might be lost
+        approveInviteRequest(jiraKey, comment);
     }
 
     @Override
     public void approveInviteRequest(String jiraKey, String comment) {
-        String transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.ANSWER_AUTOMATICALLY);
+        Map<String, String> validTransitions = jiraClient.validTransitions(jiraKey);
+        String transitionId = validTransitions.get(JiraClient.ANSWER_AUTOMATICALLY);
         jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
         // There is no comment option in the Answer Automatically screen, so we need to do this after the transition
         jiraClient.comment(jiraKey, comment);

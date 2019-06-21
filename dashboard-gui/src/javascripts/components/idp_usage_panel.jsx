@@ -6,9 +6,9 @@ import {AppShape} from "../shapes";
 
 class IdpUsagePanel extends React.Component {
     render() {
-        const { exampleSingleTenant, name, state } = this.props.app
+        const { exampleSingleTenant, name, state } = this.props.app;
 
-        const institutions = this.props.institutions.filter(inst => inst.state === state)
+        const institutions = this.props.institutions.filter(inst => inst.state === state);
 
         const subtitle = exampleSingleTenant ?
             I18n.t("idp_usage_panel.subtitle_single_tenant", {name}) :

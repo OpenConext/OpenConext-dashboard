@@ -289,6 +289,19 @@ class EditMyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.allow_maintainers_to_manage_authz_rules")}<span>
+                            <i className="fa fa-info-circle" data-for="allowMaintainersToManageAuthzRules" data-tip></i>
+                                <ReactTooltip id="allowMaintainersToManageAuthzRules" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true} delayHide={1000}>
+                                    <span
+                                      dangerouslySetInnerHTML={{__html: I18n.t("my_idp.allow_maintainers_to_manage_authz_rules_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>{this.renderCheckbox("allowMaintainersToManageAuthzRules")}
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.new_logo_url")}</td>
                         <td>
                             {this.renderInput("logoUrl")}

@@ -89,8 +89,9 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
                     (String) metaData.get("contacts:" + i + ":emailAddress"),
                     (String) metaData.get("contacts:" + i + ":telephoneNumber"),
                     contactPersonType(contactType),
-                    booleanValue(metaData.get("contacts:" + i + ":isSirtfiSecurityContact"))
-                ));
+                    booleanValue(metaData.get("contacts:" + i + ":isSirtfiSecurityContact")),
+                            false)
+                );
             }
         });
         this.allowedAll = getAllowedAll(metaData);

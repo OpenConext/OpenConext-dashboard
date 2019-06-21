@@ -30,7 +30,7 @@ class LanguageSelector extends React.Component {
         return function (e) {
             stopEvent(e);
             if (I18n.currentLocale() !== locale) {
-                window.location.search = "lang=" + locale;
+                window.location.search = "language=" + locale;
             }
         };
     }

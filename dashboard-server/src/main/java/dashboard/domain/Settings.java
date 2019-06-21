@@ -20,6 +20,7 @@ public class Settings {
     private String organisationDisplayNameNl;
     private boolean publishedInEdugain;
     private boolean connectToRSServicesAutomatically;
+    private boolean allowMaintainersToManageAuthzRules;
     private String comments;
     private StateType stateType;
     private ConsentType consentType;
@@ -107,6 +108,14 @@ public class Settings {
 
     public void setConnectToRSServicesAutomatically(boolean connectToRSServicesAutomatically) {
         this.connectToRSServicesAutomatically = connectToRSServicesAutomatically;
+    }
+
+    public boolean isAllowMaintainersToManageAuthzRules() {
+        return allowMaintainersToManageAuthzRules;
+    }
+
+    public void setAllowMaintainersToManageAuthzRules(boolean allowMaintainersToManageAuthzRules) {
+        this.allowMaintainersToManageAuthzRules = allowMaintainersToManageAuthzRules;
     }
 
     public String getComments() {
@@ -204,6 +213,7 @@ public class Settings {
                 ", organisationUrlNl='" + organisationUrlNl + '\'' +
                 ", publishedInEdugain=" + publishedInEdugain +
                 ", connectToRSServicesAutomatically=" + connectToRSServicesAutomatically +
+                ", allowMaintainersToManageAuthzRules=" + allowMaintainersToManageAuthzRules +
                 ", comments='" + comments + '\'' +
                 ", stateType=" + stateType +
                 ", consentType=" + consentType +

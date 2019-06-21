@@ -149,8 +149,8 @@ export function updateInviteRequest(data) {
     }).then(parseJson);
 }
 
-export function getIdps(spEntityId) {
-    return fetchJson(`/services/idps?${qs.stringify({spEntityId})}`);
+export function getIdps(spEntityId, type) {
+    return fetchJson(`/services/idps?${qs.stringify({spEntityId})}&type=${type}`);
 }
 
 export function getPolicies() {

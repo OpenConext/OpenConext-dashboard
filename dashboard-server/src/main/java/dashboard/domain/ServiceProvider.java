@@ -197,6 +197,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return CollectionUtils.isEmpty(this.urls) ? null : urls.get(language.name().toLowerCase());
     }
 
+    public String getWikiUrl(Language language) {
+        return Language.EN.equals(language) ? this.wikiUrlEn : this.wikiUrlNl;
+    }
+
     public PrivacyInfo getPrivacyInfo() {
         return privacyInfo;
     }

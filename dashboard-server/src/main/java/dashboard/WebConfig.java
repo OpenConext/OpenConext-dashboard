@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-    private static final String LANG = "lang";
+    private static final String LANG = "language";
 
     @Value("${dashboard.feature.statistics}")
     private boolean statsEnabled;

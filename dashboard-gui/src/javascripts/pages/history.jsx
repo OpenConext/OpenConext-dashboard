@@ -18,7 +18,7 @@ import Flash from "../components/flash";
 
 const pageCount = 10;
 
-const allStatuses = ["To Do", "In Progress", "Awaiting Input", "Resolved", "Closed", "undefined"];
+const allStatuses = ["To Do", "In Progress", "Awaiting Input", "Resolved", "Closed"];
 const allTypes = ["LINKREQUEST", "UNLINKREQUEST", "CHANGE", "LINKINVITE"];
 
 
@@ -285,7 +285,7 @@ class History extends React.Component {
 
     renderAction = action => {
         const currentUser = this.context.currentUser;
-        const linkInviteAwaitingInput = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spEid;
+        const linkInviteAwaitingInput = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spId;
         const renderAction = linkInviteAwaitingInput && currentUser.dashboardAdmin;
         const renderResend = linkInviteAwaitingInput && currentUser.superUser && !isEmpty(action.emailTo);
         return <tr key={action.jiraKey}>

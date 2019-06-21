@@ -136,7 +136,7 @@ class AppDetail extends React.Component {
                     }
                     this.setState(newState);
                 });
-                getIdps(app.spEntityId).then(res => this.setState({institutions: res.payload}));
+                getIdps(app.spEntityId, params.type).then(res => this.setState({institutions: res.payload}));
             });
 
     }
@@ -182,7 +182,7 @@ class AppDetail extends React.Component {
         const {currentUser} = this.context;
         const {app, institutions, idpDisableConsent, jiraKey, inviteAction, conflictingJiraIssue} = this.state;
         let panel = this.panelMap[activePanel];
-        if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId))) {
+        if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().id))) {
             panel = this.panelMap["overview"];
         }
 

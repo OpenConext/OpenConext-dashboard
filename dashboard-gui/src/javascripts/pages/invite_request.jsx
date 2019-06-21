@@ -87,6 +87,7 @@ class InviteRequest extends React.Component {
         stopEvent(e);
         if (this.isValidForSubmit()) {
             const {idpId, idp, sp, emails, additionalContactPersons, sabContactPersons, message} = this.state;
+            sabContactPersons.forEach(cp => cp.sabContact = true);
             const contactPersons = idp.contactPersons.filter(cp => emails[cp.emailAddress])
                 .concat(sabContactPersons.filter(cp => emails[cp.uid])).concat(additionalContactPersons);
             inviteRequest({
@@ -181,7 +182,7 @@ class InviteRequest extends React.Component {
         </tr>;
     };
 
-    renderContactPersons = (contactPersons, sabContactPersons, name) => contactPersons && contactPersons.length > 0 ?
+    renderContactPersons = (contactPersons, sabContactPersons, additionalContactPersons, name) => contactPersons && contactPersons.length > 0 ?
         <div className="contact-persons">
             <p className="select">{I18n.t("invite_request.contactPersons", {name: name})}</p>
             <table>
@@ -198,16 +199,16 @@ class InviteRequest extends React.Component {
                     <td colSpan={4}
                         className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "SAB"})}</td>
                 </tr>
-                {sabContactPersons.map((cp, index) => this.renderContactPerson(cp, index + contactPersons.length, "uid"))}
+                {sabContactPersons.filter(cp => !isEmpty(cp.emailAddress)).map((cp, index) => this.renderContactPerson(cp, index + contactPersons.length, "uid"))}
                 <tr>
                     <td colSpan={4}
                         className="contact-source">{I18n.t("invite_request.sourcePersons", {source: "Manage"})}</td>
                 </tr>
-                {contactPersons.map((cp, index) => this.renderContactPerson(cp, index, "emailAddress"))}
+                {contactPersons.filter(cp => !isEmpty(cp.emailAddress)).map((cp, index) => this.renderContactPerson(cp, index, "emailAddress"))}
                 <tr>
                     <td colSpan={4} className="contact-source">{I18n.t("invite_request.additionalPersons")}</td>
                 </tr>
-                {this.state.additionalContactPersons.map((person, index) =>
+                {additionalContactPersons.map((person, index) =>
                     this.renderAdditionalContactPerson(person, index, this.state.additionalContactPersons.length === (index + 1)))}
                 <tr>
                     <td colSpan={3}></td>
@@ -226,7 +227,7 @@ class InviteRequest extends React.Component {
     };
 
     render() {
-        const {idps, idpId, idp, sps, spId, message, sabContactPersons} = this.state;
+        const {idps, idpId, idp, sps, spId, message, sabContactPersons, additionalContactPersons} = this.state;
         const spSelectDisabled = isEmpty(idp) || sps.length === 0;
         const submitClassName = this.isValidForSubmit() ? "" : "disabled";
         return (
@@ -253,7 +254,7 @@ class InviteRequest extends React.Component {
                                            display: provider.name,
                                            value: provider.spEntityId
                                        }))}/>
-                        {(idp && spId) && this.renderContactPersons(idp.contactPersons, sabContactPersons, idp.name)}
+                        {(idp && spId) && this.renderContactPersons(idp.contactPersons, sabContactPersons, additionalContactPersons, idp.name)}
                         <label>{I18n.t("invite_request.message")}</label>
                         <textarea name="message" cols="30" value={message} rows="10"
                                   onChange={e => this.setState({message: e.target.value})}/>
