@@ -37,6 +37,7 @@ class EditMyIdp extends React.Component {
             organisationDisplayNameNl: currentIdp.organisationDisplayNames.nl || "",
             publishedInEdugain: !!currentIdp.publishedInEdugain,
             connectToRSServicesAutomatically: !!currentIdp.connectToRSServicesAutomatically,
+            allowMaintainersToManageAuthzRules: !!currentIdp.allowMaintainersToManageAuthzRules,
             comments: "",
             contactPersons: currentIdp.contactPersons.map(contactPerson => ({
                 name: contactPerson.name || "",
