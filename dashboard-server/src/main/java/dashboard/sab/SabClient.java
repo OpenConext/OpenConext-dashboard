@@ -79,7 +79,11 @@ public class SabClient implements Sab {
     @SuppressWarnings("unchecked")
     public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
         try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
-            List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(inputStream, HashMap.class).get("profiles");
+            String json = IOUtils.toString(inputStream);
+
+            LOG.debug("SAB results 'getPersonsInRoleForOrganization' for {} {} is {}", organisationAbbreviation, role, json);
+
+            List<Map<String, Object>> profiles = (List<Map<String, Object>>) objectMapper.readValue(json, HashMap.class).get("profiles");
 
             return profiles.stream()
                     .map(profile -> {
