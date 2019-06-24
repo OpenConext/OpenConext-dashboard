@@ -515,7 +515,7 @@ I18n.translations.en = {
         research_and_scholarship_info: "Connect to CoCo R&S SP’s automatically",
         research_and_scholarship_tooltip: "This means your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> for more information.",
         allow_maintainers_to_manage_authz_rules: "Allow SURFconext maintainers to manage Authorization rules",
-        allow_maintainers_to_manage_authz_rules_tooltip: "This means the SURFconext maintainers of your<br>IdP are allow to create / edit and delete<br>Authorization rules.",
+        allow_maintainers_to_manage_authz_rules_tooltip: "This means the SURFconext maintainers of your<br>IdP are allowed to create, edit and delete<br>Authorization rules.",
         contact: "Contact persons for {{name}}",
         contact_name: "Contact name",
         contact_email: "Contact email",
