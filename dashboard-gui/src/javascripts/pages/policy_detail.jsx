@@ -401,7 +401,7 @@ class PolicyDetail extends React.Component {
         debugger;
         const policyEnforcementDecisionRequired = this.findServiceProvider(policy.serviceProviderId).policyEnforcementDecisionRequired;
         const apiCall = policy.id ? updatePolicy : createPolicy;
-        const action = policy.id ? I18n.t("policies.flash_updates") : I18n.t("policies.flash_created");
+        const action = policy.id ? I18n.t("policies.flash_updated") : I18n.t("policies.flash_created");
         apiCall(policy).then(() => {
             if (policyEnforcementDecisionRequired) {
                 setFlash(I18n.t("policies.flash", {policyName: policy.name, action}));
