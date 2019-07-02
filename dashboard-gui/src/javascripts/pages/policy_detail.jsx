@@ -180,8 +180,7 @@ class PolicyDetail extends React.Component {
             policy: {
                 ...this.state.policy,
                 serviceProviderId: newValue,
-                serviceProviderName: newLabel,
-                policyEnforcementDecisionRequired: this.findServiceProvider(newValue).policyEnforcementDecisionRequired
+                serviceProviderName: newLabel
             }
         });
     }
@@ -339,12 +338,12 @@ class PolicyDetail extends React.Component {
         );
     }
 
-    findServiceProvider(serviceProviderId) {
+    findServiceProvider = (serviceProviderId) => {
         const scopedSPs = isEmpty(this.state.policy.identityProviderIds);
         return find(scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders, sp => {
             return sp.spEntityId === serviceProviderId;
         });
-    }
+    };
 
     renderActive(policy) {
         return (
@@ -399,11 +398,12 @@ class PolicyDetail extends React.Component {
         stopEvent(e);
         const {policy} = this.state;
         policy.description = this.renderAutoformatDescription(policy);
-
+        debugger;
+        const policyEnforcementDecisionRequired = this.findServiceProvider(policy.serviceProviderId).policyEnforcementDecisionRequired;
         const apiCall = policy.id ? updatePolicy : createPolicy;
         const action = policy.id ? I18n.t("policies.flash_updates") : I18n.t("policies.flash_created");
         apiCall(policy).then(() => {
-            if (policy.policyEnforcementDecisionRequired) {
+            if (policyEnforcementDecisionRequired) {
                 setFlash(I18n.t("policies.flash", {policyName: policy.name, action}));
             } else {
                 setFlash(I18n.t("policies.flash_first"));

@@ -85,7 +85,7 @@ public class PoliciesController extends BaseController {
     }
 
     @RequestMapping(method = PUT)
-    public ResponseEntity<RestResponse<Policy>> updatePoliciy(@RequestBody Policy policy) {
+    public ResponseEntity<RestResponse<Policy>> updatePolicy(@RequestBody Policy policy) {
         return whenDashboardAdmin(() -> {
             LOG.debug("Update a policy: {}", policy);
             return createRestResponse(pdpService.update(policy));

@@ -603,7 +603,7 @@ I18n.translations.nl = {
         flash: "Autorisatieregel '{{policyName}}' is succesvol {{action}}",
         flash_created: "aangemaakt",
         flash_deleted: "verwijderd",
-        flash_first: "Dit is de eerste autorisatieregel voor deze dienst. Voordat autorisatieregels worden toegepast voor deze dienst moet het SURFconext Team een configuratie verandering maken. Er is een notificatie gestuurd naar het SURFconext Team. Er wordt contact met u opgenomen.",
+        flash_first: "Autorisatieregel worden nog niet toegepast voor deze dienst. Voordat autorisatieregels wel worden toegepast voor deze dienst moet het SURFconext Team een configuratie verandering maken. Er is een notificatie gestuurd naar het SURFconext Team. Er wordt contact met u opgenomen.",
         flash_updated: "bijgewerkt",
         new_policy: "Nieuwe autorisatieregel",
         how_to: "Uitleg",

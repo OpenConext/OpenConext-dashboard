@@ -546,7 +546,7 @@ I18n.translations.en = {
         flash: "Authorization policy '{{policyName}}' was successfully {{action}}",
         flash_created: "created",
         flash_deleted: "deleted",
-        flash_first: "This is the first authorization policy for this service. Before policies for this service are applied, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.",
+        flash_first: "Authorization policies are not yet applied for this service. Before policies for this service will be applied, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.",
         flash_updated: "updated",
         new_policy: "New authorization policy",
         how_to: "How-to",
