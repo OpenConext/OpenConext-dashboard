@@ -349,6 +349,7 @@ class AppOverview extends React.Component {
 
     addNumbers(filteredApps, facets) {
         const {currentUser} = this.context;
+        const stepupEntitiesIds = (currentUser.getCurrentIdp().stepupEntities || []).map(s => s.name);
         const me = this;
         const filter = function (facet, filterFunction) {
             const activeFacets = this.state.activeFacets;
@@ -406,7 +407,10 @@ class AppOverview extends React.Component {
                     break;
                 case "strong_authentication":
                     filter(facet, (app, facetValue) => {
-                        const strongAuthentication = app.strongAuthentication || false;
+                        let strongAuthentication = app.strongAuthentication || false;
+                        if (stepupEntitiesIds.indexOf(app.spEntityId) > -1) {
+                            strongAuthentication = true;
+                        }
                         return facetValue.searchValue === "yes" ? strongAuthentication : !strongAuthentication;
                     });
                     break;
@@ -490,6 +494,7 @@ class AppOverview extends React.Component {
 
     staticFacets() {
         const {currentUser} = this.context;
+        const stepupEntitiesIds = (currentUser.getCurrentIdp().stepupEntities || []).map(s => s.name);
         const {arpAttributes} = this.state;
 
         const results = [{
@@ -564,7 +569,11 @@ class AppOverview extends React.Component {
                 {value: I18n.t("facets.static.strong_authentication.no"), searchValue: "no"}
             ],
             filterApp: function (app) {
-                return this.filterYesNoFacet("strong_authentication", app.strongAuthentication);
+                let strongAuthentication = app.strongAuthentication || false;
+                if (stepupEntitiesIds.indexOf(app.spEntityId) > -1) {
+                    strongAuthentication = true;
+                }
+                return this.filterYesNoFacet("strong_authentication", strongAuthentication);
             }.bind(this)
         }, {
             name: I18n.t("facets.static.arp.name"),

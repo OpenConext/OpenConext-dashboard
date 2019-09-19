@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import I18n from "i18n-js";
+import ReactTooltip from "react-tooltip";
 import isEmpty from "lodash.isempty";
 import find from "lodash.find";
 import {withRouter} from 'react-router';
@@ -352,7 +353,14 @@ class PolicyDetail extends React.Component {
                     <p className="label">{I18n.t("policy_detail.isActive")}</p>
                     <input type="checkbox" id="isActive" name="isActive" checked={policy.active}
                            onChange={this.handleOnChangeIsActive.bind(this)}/>
-                    <label htmlFor="isActive">{I18n.t("policy_detail.isActiveDescription")}</label>
+                    <label htmlFor="isActive">{I18n.t("policy_detail.isActiveDescription")}
+                        <a className="help-link" target="_blank" rel="noopener noreferrer" href={I18n.t("policies.pdp_active_link")}>
+                            <i className="fa fa-question-circle" data-for="pdp_active_info" data-tip/>
+                            <ReactTooltip id="pdp_active_info" type="info" class="tool-tip" effect="solid">
+                                {I18n.t("policies.pdp_active_info")}
+                            </ReactTooltip>
+                        </a>
+                    </label>
                     <em className="note"><sup>*</sup>{I18n.t("policy_detail.isActiveInfo")} </em>
                 </fieldset>
             </div>

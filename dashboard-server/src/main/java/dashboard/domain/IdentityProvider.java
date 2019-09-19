@@ -34,6 +34,7 @@ public class IdentityProvider extends Provider implements Serializable {
     private Map<String, String> organisationNames = new HashMap<>();
     private Map<String, String> organisationDisplayNames = new HashMap<>();
     private boolean allowMaintainersToManageAuthzRules;
+    private List<Map<String, String>> stepupEntities;
 
     public IdentityProvider() {
     }
@@ -52,11 +53,11 @@ public class IdentityProvider extends Provider implements Serializable {
     public IdentityProvider(Map<String, Object> metaData) {
         super(metaData);
         this.institutionId = (String) metaData.get("coin:institution_id");
-        this.disableConsent = (List<Consent> ) metaData.getOrDefault("disableConsent",  new ArrayList<>());
+        this.disableConsent = (List<Consent>) metaData.getOrDefault("disableConsent", new ArrayList<>());
         addKeywords("en", (String) metaData.get("keywords:en"));
         addKeywords("nl", (String) metaData.get("keywords:nl"));
-        IntStream.range(1,6).forEach(i -> {
-            if ("http://refeds.org/category/research-and-scholarship".equals(metaData.get("coin:entity_categories:"+i))){
+        IntStream.range(1, 6).forEach(i -> {
+            if ("http://refeds.org/category/research-and-scholarship".equals(metaData.get("coin:entity_categories:" + i))) {
                 connectToRSServicesAutomatically = true;
             }
         });
@@ -65,7 +66,7 @@ public class IdentityProvider extends Provider implements Serializable {
         organisationDisplayNames.put("en", (String) metaData.get("OrganizationDisplayName:en"));
         organisationDisplayNames.put("nl", (String) metaData.get("OrganizationDisplayName:nl"));
         allowMaintainersToManageAuthzRules = booleanValue(metaData.get("coin:allow_maintainers_to_manage_authz_rules"));
-
+        this.stepupEntities = (List<Map<String, String>>) metaData.getOrDefault("stepupEntities", new ArrayList<>());
     }
 
     public String getInstitutionId() {
@@ -102,12 +103,16 @@ public class IdentityProvider extends Provider implements Serializable {
         return organisationDisplayNames;
     }
 
+    public List<Map<String, String>> getStepupEntities() {
+        return stepupEntities;
+    }
+
     @Override
     public String toString() {
         return "IdentityProvider{" +
-            "id='" + getId() + '\'' +
-            ", institutionId='" + institutionId + '\'' +
-            '}';
+                "id='" + getId() + '\'' +
+                ", institutionId='" + institutionId + '\'' +
+                '}';
     }
 
     public boolean isAllowMaintainersToManageAuthzRules() {

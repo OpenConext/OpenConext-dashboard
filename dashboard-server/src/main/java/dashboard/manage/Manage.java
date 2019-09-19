@@ -160,6 +160,11 @@ public interface Manage {
                     break;
 
                 }
+                case "stepupEntities": {
+                    List<Map<String, String>> stepupEntities = (List<Map<String, String>>) value;
+                    result.put("stepupEntities", stepupEntities);
+                    break;
+                }
             }
 
         });

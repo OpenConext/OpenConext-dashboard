@@ -29,8 +29,8 @@ class AttributePolicyPanel extends React.Component {
         const hasFilters = app.filteredUserAttributes.some(attribute => attribute.filters.filter(filter => filter !== "*").length > 0);
 
         const nameIdValue = app
-          .nameIds.filter(val => val.includes("unspecified") || val.includes("persistent"))
-          .length ? 'Persistent' : "Transient"
+            .nameIds.filter(val => val.includes("unspecified") || val.includes("persistent"))
+            .length ? 'Persistent' : "Transient";
 
         return (
             <div className="mod-attributes">
@@ -51,7 +51,7 @@ class AttributePolicyPanel extends React.Component {
                     <li>{I18n.t("attributes_policy_panel.hint")}</li>
                     <li>{I18n.t("attributes_policy_panel.motivationInfo")}</li>
                     {hasFilters && <li>{I18n.t("attributes_policy_panel.filterInfo")}</li>}
-                    <li dangerouslySetInnerHTML={{__html: I18n.t("attributes_policy_panel.nameIdInfo", {type: nameIdValue})}} />
+                    <li dangerouslySetInnerHTML={{__html: I18n.t("attributes_policy_panel.nameIdInfo", {type: nameIdValue})}}/>
                 </ul>
             </div>
         );
@@ -63,10 +63,10 @@ class AttributePolicyPanel extends React.Component {
         }
         const notes = marked(app.manipulationNotes).replace(/<a href/g, "<a target=\"_blank\" href");
         return (
-          <div className="manipulation-notes">
-            <p className="title">{I18n.t("attributes_policy_panel.arp.manipulation")}</p>
-            <section className="notes" dangerouslySetInnerHTML={{__html: notes}}/>
-          </div>
+            <div className="manipulation-notes">
+                <p className="title">{I18n.t("attributes_policy_panel.arp.manipulation")}</p>
+                <section className="notes" dangerouslySetInnerHTML={{__html: notes}}/>
+            </div>
         );
     }
 
@@ -77,8 +77,8 @@ class AttributePolicyPanel extends React.Component {
         let tooltip = undefined;
 
         if (name === "urn:oid:1.3.6.1.4.1.1076.20.40.40.1") {
-          name = "collabPersonId";
-          tooltip = "Collab unique user identifier";
+            name = "collabPersonId";
+            tooltip = "Collab unique user identifier";
         }
 
         return (
@@ -87,29 +87,33 @@ class AttributePolicyPanel extends React.Component {
                     {name}
                     {tooltip && (
                         <span>
-                            <i className="fa fa-info-circle" data-for={name} data-tip />
+                            <i className="fa fa-info-circle" data-for={name} data-tip/>
                             <ReactTooltip id={name} type="info" class="tool-tip" effect="solid">{tooltip}</ReactTooltip>
                         </span>
                     )}
                     {
-                      renderFilters.length > 0 &&
+                        renderFilters.length > 0 &&
                         <span className="filter-info">{I18n.t("attributes_policy_panel.filter")}</span>
                     }
                 </td>
                 <td>
                     <ul>
-                      {
-                        attribute.userValues.length > 0 ?
-                          attribute.userValues.map(val => <li key={val}>{val}</li>) :
-                          (
-                            <em className="no-attribute-value">{I18n.t("attributes_policy_panel.no_attribute_value")}</em>
-                          )
-                      }
+                        {
+                            attribute.userValues.length > 0 ?
+                                attribute.userValues.map(val => <li key={val}>{val}</li>) :
+                                (
+                                    <em className="no-attribute-value">{
+                                        name.indexOf("eduPersonTargetedID") > 0 ?
+                                            I18n.t("attributes_policy_panel.attribute_value_generated") :
+                                            I18n.t("attributes_policy_panel.no_attribute_value")
+                                    }</em>
+                                )
+                        }
                     </ul>
                     {
-                      renderFilters.length > 0 &&
+                        renderFilters.length > 0 &&
                         <ul className="filters">
-                          {renderFilters.map((filter, i) => <li key={i} className="filter">- {filter}</li>)}
+                            {renderFilters.map((filter, i) => <li key={i} className="filter">- {filter}</li>)}
                         </ul>
                     }
                 </td>

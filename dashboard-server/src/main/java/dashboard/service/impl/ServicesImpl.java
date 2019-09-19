@@ -1,5 +1,6 @@
 package dashboard.service.impl;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import dashboard.domain.Category;
@@ -14,21 +15,38 @@ import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.Services;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static dashboard.domain.Provider.Language.EN;
 import static dashboard.domain.Provider.Language.NL;
 
-public class ServicesImpl implements Services {
+public class ServicesImpl implements Services, InitializingBean {
 
     @Autowired
     private Manage manage;
+
+    private Set<String> allowedGuestEntityIds ;
+    private boolean allowedAllForGuestIdp = false;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Optional<IdentityProvider> identityProviderOptional = manage.getIdentityProvider(Manage.guestIdp, false);
+        identityProviderOptional.ifPresent(identityProvider -> {
+            this.allowedAllForGuestIdp = identityProvider.isAllowedAll();
+            this.allowedGuestEntityIds = identityProvider.getAllowedEntityIds() != null ? identityProvider.getAllowedEntityIds() : new HashSet<>();
+        });
+
+    }
+
 
     @Override
     public List<Service> getServicesForIdp(String idpEntityId, Locale locale) {
@@ -121,7 +139,7 @@ public class ServicesImpl implements Services {
         service.setEntityCategories1(sp.getEntityCategories1());
         service.setEntityCategories2(sp.getEntityCategories2());
         service.setPublishInEdugainDate(sp.getPublishInEdugainDate());
-        service.setStrongAuthentication(sp.isStrongAuthenticationSupported());
+        service.setStrongAuthentication(sp.isStrongAuthenticationEnabled());
         service.setNames(sp.getNames());
         service.setDescriptions(sp.getDescriptions());
         service.setDisplayNames(sp.getDisplayNames());
@@ -130,11 +148,19 @@ public class ServicesImpl implements Services {
         service.setMotivations(sp.getArpMotivations());
         service.setNormenkaderPresent(sp.getPrivacyInfo().isGdprIsInWiki());
         service.setAansluitovereenkomstRefused(sp.isAansluitovereenkomstRefused());
-        service.setGuestEnabled(sp.isAllowedAll() ||
-                (sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp)));
+        service.setGuestEnabled(this.isGuestEnabled(sp));
         service.setManipulationNotes(sp.getManipulationNotes());
         service.setManipulation(sp.isManipulation());
         service.setNameIds(sp.getNameIds());
+    }
+
+
+    private boolean isGuestEnabled(ServiceProvider sp) {
+        if (sp.isAllowedAll() && (this.allowedAllForGuestIdp || this.allowedGuestEntityIds.contains(sp.getId()))) {
+            return true;
+        }
+        return sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(Manage.guestIdp) &&
+                (this.allowedGuestEntityIds.contains(sp.getId()) || this.allowedAllForGuestIdp);
     }
 
     private String mailOfContactPerson(ContactPerson contactPerson) {

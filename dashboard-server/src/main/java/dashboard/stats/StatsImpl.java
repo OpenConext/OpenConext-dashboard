@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 import dashboard.control.Constants;
-import dashboard.manage.Manage;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,6 @@ public class StatsImpl implements Stats, Constants {
 
     private RestTemplate restTemplate;
     private String baseUrl;
-    private Manage manage;
 
     @Autowired
     public StatsImpl(@Value("${statsUser}") String user,
@@ -26,7 +25,6 @@ public class StatsImpl implements Stats, Constants {
                      @Value("${statsBaseUrl}") String baseUrl) {
         this.restTemplate = new RestTemplate(clientHttpRequestFactory(10 * 1000));
         this.baseUrl = baseUrl;
-        this.manage = manage;
 
         this.restTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
             HttpHeaders headers = request.getHeaders();

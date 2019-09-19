@@ -61,7 +61,8 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private Map<String, String> urls = new HashMap<>();
     private String wikiUrlNl;
     private String wikiUrlEn;
-    private boolean strongAuthenticationSupported;
+    private boolean strongAuthenticationEnabled;
+    private String minimalLoaLevel;
 
     private List<String> typeOfServicesNl = new ArrayList<>();
     private List<String> typeOfServicesEn = new ArrayList<>();
@@ -87,7 +88,8 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
         this.policyEnforcementDecisionRequired = booleanValue(metaData.get
             ("coin:policy_enforcement_decision_required"));
-        this.strongAuthenticationSupported = booleanValue(metaData.get("coin:ss:supports_strong_authentication"));
+        this.minimalLoaLevel = (String) metaData.get("coin:stepup:requireloa");
+        this.strongAuthenticationEnabled = StringUtils.hasText(this.minimalLoaLevel);
         this.aansluitovereenkomstRefused = booleanValue(metaData.get("coin:ss:aansluitovereenkomst_refused"));
         this.hidden = booleanValue(metaData.get("coin:ss:hidden"));
         this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
@@ -270,8 +272,12 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return licenseStatus;
     }
 
-    public boolean isStrongAuthenticationSupported() {
-        return strongAuthenticationSupported;
+    public boolean isStrongAuthenticationEnabled() {
+        return strongAuthenticationEnabled;
+    }
+
+    public String getMinimalLoaLevel() {
+        return minimalLoaLevel;
     }
 
     public String getWikiUrlNl() {

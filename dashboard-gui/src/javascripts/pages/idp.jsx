@@ -392,7 +392,7 @@ class MyIdp extends React.Component {
                 <Flash/>
                 <div className="l-left">
                     {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
-                                                   filters={serviceFilters}
+                                                   filters={[]}
                                                    search={search}
                                                    searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>

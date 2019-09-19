@@ -4,6 +4,7 @@ import I18n from "i18n-js";
 import isEmpty from "lodash.isempty";
 import groupBy from "lodash.groupby";
 import stopEvent from "../utils/stop";
+import ReactTooltip from "react-tooltip";
 
 class PolicyAttributes extends React.Component {
     markAttributes(policy) {
@@ -180,9 +181,13 @@ class PolicyAttributes extends React.Component {
                         })
                     }
                     <p className="label">{I18n.t("policy_attributes.attribute")}
-                        <a className="help-link" target="_blank" rel="noopener noreferrer" href={I18n.t("policy_attributes.help_link")}><i
-                            className="fa fa-question-circle"></i></a>
+                        <a className="help-link" target="_blank" rel="noopener noreferrer" href={I18n.t("policy_attributes.help_link")}>
+                            <i className="fa fa-question-circle" data-for="attribute-tooltip" data-tip/>
+                        </a>
                     </p>
+                    <ReactTooltip id="attribute-tooltip" type="info" class="tool-tip" effect="solid">
+                        {I18n.t("policy_attributes.attributeTooltip")}
+                    </ReactTooltip>
                     <select value="" onChange={self.handleNewAttribute.bind(this)}>
                         <option value="" disabled="disabled">{I18n.t("policy_attributes.new_attribute")}</option>
                         {

@@ -3,6 +3,7 @@ import I18n from "i18n-js";
 
 import {getIdpsForSuper, switchToIdp} from "../api";
 import stopEvent from "../utils/stop";
+import {isEmpty} from "../utils/utils";
 
 class SearchUser extends React.Component {
     constructor() {
@@ -90,8 +91,21 @@ class SearchUser extends React.Component {
     }
 
     filterBySearchQuery(idp) {
-        return idp.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >= 0;
+        const searchFields = ["descriptions", "displayNames", "keywords", "names"];
+        const searchValues = this.state.search.toLowerCase().split(" ").filter(s => !isEmpty(s));
+        const res = searchValues.every(sv => searchFields.some(f => {
+            const val = idp[f];
+            if (typeof val === "object") {
+                return Object.keys(isEmpty(val) ? {} : val).some(k => {
+                    return val[k] != null && val[k].toLowerCase().indexOf(sv) > -1
+                });
+            } else {
+                return val != null && val.toLowerCase().indexOf(sv) > -1;
+            }
+        }));
+        return res;
     }
+
 }
 
 export default SearchUser;

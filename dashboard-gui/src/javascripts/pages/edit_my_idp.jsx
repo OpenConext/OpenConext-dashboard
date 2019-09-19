@@ -314,7 +314,6 @@ class EditMyIdp extends React.Component {
                             <select value={this.state.stateType}
                                     onChange={e => this.setState({stateType: e.target.value})}>
                                 <option value="prodaccepted">{I18n.t("my_idp.prodaccepted")}</option>
-                                <option value="testaccepted">{I18n.t("my_idp.testaccepted")}</option>
                             </select>
                         </td>
                     </tr>
@@ -474,7 +473,6 @@ class EditMyIdp extends React.Component {
                             <select value={service.state}
                                     onChange={e => this.changeServiceField(service.id, "state", e)}>
                                 <option value="prodaccepted">{I18n.t("my_idp.prodaccepted")}</option>
-                                <option value="testaccepted">{I18n.t("my_idp.testaccepted")}</option>
                             </select>
                         </td>
                     </tr>
@@ -536,7 +534,7 @@ class EditMyIdp extends React.Component {
             <div className="l-main">
                 <div className="l-left">
                     {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
-                                                   filters={serviceFilters}
+                                                   filters={[]}
                                                    search={search}
                                                    searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>

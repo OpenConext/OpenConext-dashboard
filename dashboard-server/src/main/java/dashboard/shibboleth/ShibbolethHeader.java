@@ -4,32 +4,30 @@ import java.util.Arrays;
 
 public enum ShibbolethHeader {
 
-    Name_Id("name-id"),
     Shib_Authenticating_Authority("Shib-Authenticating-Authority"),
-    Shib_DisplayName("displayName"),
+
+    Name_Id("name-id"),
+    Shib_Uid("uid"),
     Shib_Email("Shib-InetOrgPerson-mail"),
     Shib_HomeOrg("schacHomeOrganization"),
-    Shib_Uid("uid"),
+    Shib_MemberOf("is-member-of"),
+    Shib_EduPersonEntitlement("eduPersonEntitlement"),
+    Shib_DisplayName("displayName"),
     Shib_SurName("Shib-surName"),
     Shib_GivenName("Shib-givenName"),
     Shib_CommonName("Shib-commonName"),
     Shib_EduPersonAffiliation("Shib-eduPersonAffiliation"),
     Shib_EduPersonScopedAffiliation("Shib-eduPersonScopedAffiliation"),
-    Shib_EduPersonEntitlement("eduPersonEntitlement"),
     Shib_EduPersonTargetedID("Shib-eduPersonTargetedID"),
     Shib_EduPersonPN("Shib-eduPersonPN"),
+    Shib_EduPersonOrcid("Shib-eduPersonOrcid"),
     Shib_PreferredLanguage("Shib-preferredLanguage"),
     Shib_SchacHomeOrganizationType("Shib-schacHomeOrganizationType"),
-    Shib_NlEduPersonHomeOrganization("Shib-nlEduPersonHomeOrganization"),
+    Shib_SchacPersonalUniqueCode("Shib-schacPersonalUniqueCode"),
+    Shib_NlEduPersonOrgUnit("Shib-nlEduPersonOrgUnit"),
     Shib_NlEduPersonStudyBranch("Shib-nlEduPersonStudyBranch"),
     Shib_NlStudielinkNummer("Shib-nlStudielinkNummer"),
-    Shib_NlDigitalAuthorIdentifier("Shib-nlDigitalAuthorIdentifier"),
-    Shib_NlEduPersonOrgUnit("Shib-nlEduPersonOrgUnit"),
-    Shib_UserStatus("Shib-userStatus"),
-    Shib_Accountstatus("Shib-accountstatus"),
-    Shib_VoName("Shib-voName"),
-    Shib_MemberOf("is-member-of"),
-    Shib_SchacPersonalUniqueCode("Shib-schacPersonalUniqueCode");
+    Shib_SURFEckid("Shib-surfEckid");
 
     private final String value;
 

@@ -19,19 +19,21 @@ import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
 import static dashboard.shibboleth.ShibbolethHeader.Name_Id;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonAffiliation;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonPN;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonScopedAffiliation;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_Email;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_GivenName;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_MemberOf;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_SURFEckid;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_SchacPersonalUniqueCode;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl";
-    public static final String role = "admin";
+    public static final String role = "super";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
@@ -49,10 +51,12 @@ public class MockShibbolethFilter extends GenericFilterBean {
         wrapper.setHeader(Shib_EduPersonPN.getValue(), "Some eduPersonPrincipalName");
         wrapper.setHeader(Shib_DisplayName.getValue(), "Jane Roe");
         wrapper.setHeader(Shib_SchacPersonalUniqueCode.getValue(), "schac_personal_unique_code");
+        wrapper.setHeader(Shib_EduPersonAffiliation.getValue(),"some affiliation");
         wrapper.setHeader(Shib_EduPersonEntitlement.getValue(),
                 "urn:mace:terena.org:tcs:personal-user;some-filtered-value");
         wrapper.setHeader(Shib_EduPersonScopedAffiliation.getValue(),
                 "urn:mace:terena.org:tcs:eduPersonScopedAffiliation");
+        wrapper.setHeader(Shib_SURFEckid.getValue(), "some surf eckid value");
         wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
         switch (role) {
             case "super":
