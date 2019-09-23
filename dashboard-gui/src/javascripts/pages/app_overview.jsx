@@ -169,7 +169,7 @@ class AppOverview extends React.Component {
             }} onClick={e => this.handleShowAppDetail(e, app)}
                 className={focus ? "focus" : ""}>
                 <td><Link
-                    to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`}
+                    to={`/apps/${app.id}/${app.entityType}/overview`}
                     onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>
                 </td>
                 {this.renderLicenseNeeded(app)}
@@ -231,7 +231,7 @@ class AppOverview extends React.Component {
     renderConnectButton(app) {
         if (!app.connected) {
             return <Link
-                to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}
+                to={`/apps/${app.id}/${app.entityType}/how_to_connect`}
                 className="c-button narrow"
                 onClick={e => this.handleConnectApp(e, app)}>{I18n.t("apps.overview.connect_button")}</Link>;
         }
@@ -243,12 +243,12 @@ class AppOverview extends React.Component {
         store.appId = app.id;
         store.page = this.state.page;
         store.query = this.state.search;
-        this.props.history.push(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`);
+        this.props.history.push(`/apps/${app.id}/${app.entityType}/overview`);
     }
 
     handleConnectApp(e, app) {
         stopEvent(e);
-        this.props.history.replace(`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`);
+        this.props.history.replace(`/apps/${app.id}/${app.entityType}/how_to_connect`);
     }
 
     /*

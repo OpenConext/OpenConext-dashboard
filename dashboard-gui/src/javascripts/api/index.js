@@ -153,6 +153,14 @@ export function getIdps(spEntityId, type) {
     return fetchJson(`/services/idps?${qs.stringify({spEntityId})}&type=${type}`);
 }
 
+export function getServicesByEntityIds(entityIds) {
+    return postJson("/services/by-entity-ids", entityIds, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(parseJson);
+}
+
 export function getPolicies() {
     return fetchJson("/policies");
 }

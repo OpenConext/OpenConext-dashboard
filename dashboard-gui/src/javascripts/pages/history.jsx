@@ -35,11 +35,12 @@ class History extends React.Component {
         startAt: 0,
         maxResults: 1000,
         total: 0,
-        from: moment().subtract(3, "month"),
+        from: moment().subtract(1, "year"),
         to: moment(),
         page: 1,
         statuses: allStatuses.slice(0, 3),
         types: allTypes,
+        awaitingInputTickets: 0,
         spEntityId: "",
         serviceProviders: [],
         loaded: false,
@@ -83,6 +84,17 @@ class History extends React.Component {
                 total: total,
                 loaded: true,
                 serviceProviders: serviceProviders
+            });
+
+            const jiraFilter = {
+                maxResults: 0,
+                startAt: 0,
+                statuses: ["Awaiting Input"],
+                types: ["LINKINVITE"]
+            };
+            searchJira(jiraFilter).then(data => {
+                const {total} = data.payload;
+                this.setState({awaitingInputTickets: total})
             });
         });
 
@@ -163,7 +175,7 @@ class History extends React.Component {
                     {(nbrPages > 1 && page !== 1) &&
                     <i className="fa fa-arrow-left" onClick={this.changePage(page - 1)}></i>}
                     {rangeWithDots.map((nbr, index) =>
-                        typeof(nbr) === "string" || nbr instanceof String ?
+                        typeof (nbr) === "string" || nbr instanceof String ?
                             <span key={index} className="dots">{nbr}</span> :
                             nbr === page ?
                                 <span className="current" key={index}>{nbr}</span> :
@@ -288,7 +300,7 @@ class History extends React.Component {
         const linkInviteAwaitingInput = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spId;
         const renderAction = linkInviteAwaitingInput && currentUser.dashboardAdmin;
         const renderResend = linkInviteAwaitingInput && currentUser.superUser && !isEmpty(action.emailTo);
-        return <tr key={action.jiraKey}>
+        return <tr key={action.jiraKey} className={action.status ? action.status.toLowerCase().replace(" ", "-") : ""}>
             <td>{moment(action.requestDate).format("DD-MM-YYYY")}</td>
             <td>{moment(action.updateDate).format("DD-MM-YYYY")}</td>
             <td>{action.spName === "Information unavailable" ? action.spId : action.spName}</td>
@@ -307,12 +319,13 @@ class History extends React.Component {
         const {
             actions, sortAttribute, sortAscending, total, from, to, statuses, spEntityId, page,
             serviceProviders, types, loaded, confirmationDialogOpen, confirmationQuestion, confirmationDialogAction,
-            cancelDialogAction
+            cancelDialogAction, awaitingInputTickets
         } = this.state;
         let sortedActions = sort(actions, sortAttribute, sortAscending);
         if (sortedActions.length > pageCount) {
             sortedActions = sortedActions.slice((page - 1) * pageCount, page * pageCount);
         }
+        const moreAwaitingTickets = awaitingInputTickets > actions.filter(action => action.status === "Awaiting Input").length;
         return (
 
             <div>
@@ -325,6 +338,7 @@ class History extends React.Component {
                     {this.renderFilter(from, to, statuses, spEntityId, serviceProviders, types)}
                     <div className="table_wrapper">
                         <p className="info">{I18n.t("history.info")}</p>
+                        {moreAwaitingTickets && <p className="warning">{I18n.t("history.moreAwaitingTickets")}</p>}
                         {(loaded && sortedActions.length > 0) &&
                         <table>
                             <thead>

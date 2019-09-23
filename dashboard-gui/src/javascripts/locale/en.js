@@ -157,6 +157,8 @@ I18n.translations.en = {
             license: "License secured",
             licenseStatus: "License required",
             aansluitovereenkomstRefused: "Policy signed",
+            contractualBase: "Contractual Base",
+
             license_present: {
                 na: "n/a",
                 no: "No",
@@ -233,7 +235,10 @@ I18n.translations.en = {
         single_tenant_service_html: "{{name}} is a single-tenant service, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant services see the <a href=\"https://support.surfconext.nl/dashboard-info-singletenant\" target=\"_blank\" rel=\"noopener noreferrer\">SURFnet wiki</a>",
         interfed_source: "Federation source:",
         publish_in_edugain_date: "Published in eduGAIN on:",
-        supports_ssa: "Supports SURFsecureID",
+        supports_ssa: "SURFsecureID enabled",
+        minimalLoaLevel: "The minimal Level Of Assurance (LOA) for this service for all institutions: {{minimalLoaLevel}}.",
+        minimalLoaLevelIdp: "The minimal Level Of Assurance (LOA) for this service for your institution: {{minimalLoaLevel}}.",
+        supportsSsaTooltip: "Services can also dynamically request a specific LoA during authentication.",
         entity_categories: "Supported Entity Categories",
         entity_category: {
             "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
@@ -242,7 +247,14 @@ I18n.translations.en = {
         aansluitovereenkomst: "Connection Policy",
         aansluitovereenkomstRefused: "This service has refused to sign the 'SURFconext connection agreement' with SURF. Read more about this policy on the <a href=\"https://support.surfconext.nl/dashboard-info-trust\" target=\"_blank\" rel=\"noopener noreferrer\">SURF wiki</a>.",
         privacyInformation: "Privacy information",
-        privacyInformationInfo: "The service provider has not delivered any privacy information."
+        privacyInformationInfo: "The service provider has not delivered any privacy information.",
+        contractualBase: {
+            ao: "Aansluitoverenkomst (any version) has been signed.",
+            ix: "Institution-provided service.",
+            "r&s+coco" :"R&S and CoCo claimed in eduGAIN md.",
+            entree: "Kennisnet interfederation.",
+            clarin: "Part of Clarin federation."
+        }
     },
 
     attributes_policy_panel: {
@@ -250,6 +262,7 @@ I18n.translations.en = {
             noarp: "There is no 'Attribute Release Policy' specified. All known attributes are exchanged.",
             noattr: "No attributes will be exchanged with {{name}}.",
             manipulation: "For this Service Provider there is a custom 'attribute manipulation script' in effect. SURFconext will execute the script for every authentication of a user, before releasing attributes to that service. In order for you to understand what information will be released, please find below a description of what the script does:",
+            resourceServers: "This Service is connected to Resource Servers and therefore all the attributes released are also accessible to the following Resource Servers:"
         },
         attribute: "Attribute",
         hint: "The attributes and their values for your personal account are displayed. This might not be representative for other accounts within your organization.",
@@ -637,6 +650,7 @@ I18n.translations.en = {
 
     history: {
         info: "On this page you find all tickets related to (dis)connecting services and change requests. On the left you can edit the filter applied to this list.",
+        moreAwaitingTickets: "Not all 'Awaiting Input' tickets are shown because the period in the search filter is not broad enough.",
         requestDate: "Created",
         updateDate: "Updated",
         type: "Type",

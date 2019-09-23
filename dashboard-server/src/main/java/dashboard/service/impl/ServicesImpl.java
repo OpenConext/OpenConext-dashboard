@@ -15,6 +15,7 @@ import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.Services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -65,6 +66,11 @@ public class ServicesImpl implements Services, InitializingBean {
                 (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())))
                 .collect(toList());
         return services;
+    }
+
+    @Override
+    public List<Service> getServicesByEntityIds(List<String> entityIds, Locale locale) {
+        return buildApiServices(manage.getByEntityIdin(entityIds), locale.getLanguage());
     }
 
     @Override
@@ -133,13 +139,14 @@ public class ServicesImpl implements Services, InitializingBean {
         service.setInstitutionId(sp.getInstitutionId());
         service.setPublishedInEdugain(sp.isPublishedInEdugain());
         service.setLicenseStatus(sp.getLicenseStatus());
-        service.setExampleSingleTenant(sp.isExampleSingleTenant());
+        service.setEntityType(sp.getEntityType());
         service.setInterfedSource(sp.getInterfedSource());
         service.setRegistrationInfoUrl(sp.getRegistrationInfo());
         service.setEntityCategories1(sp.getEntityCategories1());
         service.setEntityCategories2(sp.getEntityCategories2());
         service.setPublishInEdugainDate(sp.getPublishInEdugainDate());
         service.setStrongAuthentication(sp.isStrongAuthenticationEnabled());
+        service.setMinimalLoaLevel(sp.getMinimalLoaLevel());
         service.setNames(sp.getNames());
         service.setDescriptions(sp.getDescriptions());
         service.setDisplayNames(sp.getDisplayNames());
@@ -150,8 +157,10 @@ public class ServicesImpl implements Services, InitializingBean {
         service.setAansluitovereenkomstRefused(sp.isAansluitovereenkomstRefused());
         service.setGuestEnabled(this.isGuestEnabled(sp));
         service.setManipulationNotes(sp.getManipulationNotes());
+        service.setContractualBase(sp.getContractualBase());
         service.setManipulation(sp.isManipulation());
         service.setNameIds(sp.getNameIds());
+        service.setResourceServers(sp.getResourceServers());
     }
 
 

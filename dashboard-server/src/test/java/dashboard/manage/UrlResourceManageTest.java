@@ -42,25 +42,34 @@ public class UrlResourceManageTest {
             .withStatus(200)
             .withHeader("Content-Type", "application/json").withBody(singleTenantTemplateResponse)));
 
+        String rpTemplateResponse = IOUtils.toString(new ClassPathResource("manage/relying-parties.json")
+                .getInputStream());
+        stubFor(post(urlEqualTo("/manage/api/internal/search/oidc10_rp")).willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json").withBody(rpTemplateResponse)));
+
         subject = new UrlResourceManage("user", "password", "http://localhost:8889");
     }
 
     @Test
     public void testApi() {
         List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-        assertEquals(1279, serviceProviders.size());
+        assertEquals(1292, serviceProviders.size());
 
         List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
         assertEquals(194, identityProviders.size());
 
         ServiceProvider serviceProvider = subject.getServiceProvider(
             "https://dummy.crosscampus.canon.nl/Single-tenant-service_op-aanvraag", EntityType.single_tenant_template, false).get();
-        assertTrue(serviceProvider.isExampleSingleTenant());
+        assertEquals(EntityType.single_tenant_template, serviceProvider.getEntityType());
 
         serviceProvider = subject.getServiceProvider("https://teams.surfconext.nl/shibboleth",
             EntityType.saml20_sp, false).get();
-        assertFalse(serviceProvider.isExampleSingleTenant());
+        assertEquals(EntityType.saml20_sp, serviceProvider.getEntityType());
 
+        serviceProvider = subject.getServiceProvider("playground_client",
+                EntityType.oidc1_rp, false).get();
+        assertEquals(EntityType.oidc1_rp, serviceProvider.getEntityType());
     }
 
 

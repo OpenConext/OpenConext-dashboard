@@ -18,6 +18,7 @@ package dashboard.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.MoreObjects;
+import dashboard.manage.EntityType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class Service implements Comparable<Service>, Serializable {
     private String publishInEdugainDate;
     private String manipulationNotes;
     private boolean manipulation;
+    private String contractualBase;
 
     private List<String> screenshotUrls = new ArrayList<>();
     private List<Category> categories = new ArrayList<>();
@@ -88,6 +90,9 @@ public class Service implements Comparable<Service>, Serializable {
 
     private List<ContactPerson> contactPersons;
     private List<String> nameIds;
+    private String minimalLoaLevel;
+    private EntityType entityType;
+    private List<String> resourceServers;
 
     public Service() {
     }
@@ -480,6 +485,14 @@ public class Service implements Comparable<Service>, Serializable {
         this.manipulation = manipulation;
     }
 
+    public String getContractualBase() {
+        return contractualBase;
+    }
+
+    public void setContractualBase(String contractualBase) {
+        this.contractualBase = contractualBase;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -531,5 +544,29 @@ public class Service implements Comparable<Service>, Serializable {
 
     public List<String> getNameIds() {
         return nameIds;
+    }
+
+    public String getMinimalLoaLevel() {
+        return minimalLoaLevel;
+    }
+
+    public void setMinimalLoaLevel(String minimalLoaLevel) {
+        this.minimalLoaLevel = minimalLoaLevel;
+    }
+
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public void setResourceServers(List<String> resourceServers) {
+        this.resourceServers = resourceServers;
+    }
+
+    public List<String> getResourceServers() {
+        return resourceServers;
     }
 }

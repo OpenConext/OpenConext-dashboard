@@ -158,6 +158,7 @@ I18n.translations.nl = {
             license: "Licentie afgesloten",
             licenseStatus: "Licentie vereist",
             aansluitovereenkomstRefused: "Aansluitovereenkomst",
+            contractualBase: "Contractuele basis",
             license_present: {
                 na: "n.v.t.",
                 no: "Nee",
@@ -234,7 +235,10 @@ I18n.translations.nl = {
         single_tenant_service_html: "{{name}} is een single-tenant-dienst, wat wil zeggen dat de leverancier een aparte instantie moet aanmaken voor elke klant voordat deze de dienst kan gebruiken. Zie de <a href=\"https://support.surfconext.nl/dashboard-info-singletenant\" target=\"_blank\" rel=\"noopener noreferrer\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
         interfed_source: "Federatie bron:",
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
-        supports_ssa: "Ondersteunt SURFsecureID",
+        supports_ssa: "SURFsecureID aangezet",
+        minimalLoaLevel: "Het minimale Level Of Assurance (LOA) voor deze dienst voor alle instellingen: {{minimalLoaLevel}}.",
+        minimalLoaLevelIdp: "Het minimale Level Of Assurance (LOA) voor deze dienst voor uw instelling: {{minimalLoaLevel}}.",
+        supportsSsaTooltip: "Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.",
         entity_categories: "Ondersteunde Entity Categories",
         entity_category: {
             "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
@@ -243,7 +247,14 @@ I18n.translations.nl = {
         aansluitovereenkomst: "Aansluitovereenkomst",
         aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://support.surfconext.nl/dashboard-info-trust\" target=\"_blank\" rel=\"noopener noreferrer\">SURF wiki</a>.",
         privacyInformation: "Privacy-informatie",
-        privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd."
+        privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd.",
+        contractualBase: {
+            ao: "Aansluitoverenkomst is ondertekend.",
+            ix: "Dienst aangeboden door instelling.",
+            "r&s+coco" :"R&S en CoCo gemarkeerd in eduGAIN.",
+            entree: "Kennisnet interfederation.",
+            clarin: "Onderdeel van de Clarin federatie."
+        }
     },
 
     attributes_policy_panel: {
@@ -251,6 +262,8 @@ I18n.translations.nl = {
             noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen worden uitgewisseld.",
             noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}.",
             manipulation: "Voor deze Service Provider is er een aangepast 'attribuut manipulatie script' actief. SURFconext voert het script uit bij elke authenticatie van een gebruiker, voordat attributen aan die service worden vrijgegeven. Om u te helpen begrijpen welke informatie zal worden vrijgegeven, vindt u hieronder een beschrijving van wat het script doet:",
+            resourceServers: "Deze Service Provider is verebonden aan een Resource Servers en daarom zijn alle attributen die worden vrijgegeven ook opvraagbaar voor de volgende Resource Servers:"
+
         },
         attribute: "Attribuut",
         hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
@@ -694,6 +707,7 @@ I18n.translations.nl = {
 
     history: {
         info: "Hieronder alle tickets met betrekking tot (ont)koppelen van diensten of wijzigingsverzoeken. In het menu links kan je de lijst van tickets filteren.",
+        moreAwaitingTickets: "Niet alle 'Wachtende op goedkeuring' tickets worden getoond omdat als filter een periode is geselecteerd waarin niet al deze tickets vallen",
         requestDate: "Aangemaakt",
         updateDate: "Gewijzigd",
         type: "Type",

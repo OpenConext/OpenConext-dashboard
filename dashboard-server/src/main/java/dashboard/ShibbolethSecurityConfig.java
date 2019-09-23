@@ -70,6 +70,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${dashboard.feature.consent}")
     private boolean isManageConsentEnabled;
 
+    @Value("${dashboard.feature.oidc}")
+    private boolean isOidcEnabled;
+
     @Value("${dashboard.hide_tabs}")
     private String hideTabs;
 
@@ -131,7 +134,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilterBefore(
                 new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab,
                     dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
-                    viewerSurfConextIdpRole, isManageConsentEnabled, hideTabs, supportedLanguages, organization),
+                    viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization),
                 AbstractPreAuthenticatedProcessingFilter.class
             )
             .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)

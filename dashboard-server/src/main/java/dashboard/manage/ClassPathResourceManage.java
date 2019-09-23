@@ -1,12 +1,12 @@
 package dashboard.manage;
 
+import dashboard.domain.IdentityProvider;
+import dashboard.domain.ServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.ServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
 import static dashboard.util.StreamUtils.filterEmpty;
+import static java.util.stream.Collectors.toList;
 
 @SuppressWarnings("unchecked")
 public class ClassPathResourceManage implements Manage {
@@ -83,6 +83,11 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
+    public List<ServiceProvider> getByEntityIdin(List<String> entityIds) {
+        return getAllServiceProviders().stream().filter(sp -> entityIds.contains(sp.getId())).collect(Collectors.toList());
+    }
+
+    @Override
     public List<ServiceProvider> getAllServiceProviders() {
         Collection<ServiceProvider> allSPs = new ArrayList<>(serviceProviderMap.values()).stream()
                 .filter(sp -> !sp.isHidden()).collect(Collectors.toList());
@@ -93,13 +98,13 @@ public class ClassPathResourceManage implements Manage {
 
     @Override
     public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type, boolean searchRevisions) {
-        return type.equals(EntityType.saml20_sp) ? Optional.ofNullable(serviceProviderMap.get(spEntityId)) :
+        return (type.equals(EntityType.saml20_sp) || type.equals(EntityType.oidc1_rp)) ? Optional.ofNullable(serviceProviderMap.get(spEntityId)) :
                 Optional.ofNullable(exampleSingleTenants.get(spEntityId));
     }
 
     @Override
     public Optional<ServiceProvider> getServiceProviderById(Long spId, EntityType type) {
-        return type.equals(EntityType.saml20_sp) ? serviceProviderMap.values()
+        return (type.equals(EntityType.saml20_sp) || type.equals(EntityType.oidc1_rp)) ? serviceProviderMap.values()
                 .stream().filter(sp -> sp.getEid().equals(spId)).findFirst() :
                 exampleSingleTenants.values().stream().filter(sp -> sp.getEid().equals(spId)).findFirst();
     }
@@ -114,15 +119,15 @@ public class ClassPathResourceManage implements Manage {
         try {
             identityProviderMap = parseProviders(getIdpResource(), this::identityProvider);
             serviceProviderMap = parseProviders(getSpResource(), sp -> this.serviceProvider(sp, EntityType.saml20_sp));
+            Map<String, ServiceProvider> relyingPartiesMap = parseProviders(getRpResource(), rp -> this.serviceProvider(rp, EntityType.oidc1_rp));
+            serviceProviderMap.putAll(relyingPartiesMap);
+
             long maxEid = serviceProviderMap.values().stream().max(Comparator.comparing(ServiceProvider::getEid)).get()
                     .getEid()
                     + 1L;
             exampleSingleTenants = parseProviders(getSingleTenantResource(),
                     sp -> this.serviceProvider(sp, EntityType.single_tenant_template));
-            exampleSingleTenants.values().forEach(singleTenant -> {
-                singleTenant.setExampleSingleTenant(true);
-                singleTenant.setEid(singleTenant.getEid() + maxEid);
-            });
+            exampleSingleTenants.values().forEach(singleTenant -> singleTenant.setEid(singleTenant.getEid() + maxEid));
             LOG.debug("Initialized Manage Resources. Number of IDPs {}. Number of SPs {}", identityProviderMap.size(),
                     serviceProviderMap.size());
         } catch (Throwable e) {
@@ -139,6 +144,10 @@ public class ClassPathResourceManage implements Manage {
 
     private Resource getSpResource() {
         return new ClassPathResource("manage/service-providers.json");
+    }
+
+    private Resource getRpResource() {
+        return new ClassPathResource("manage/relying-parties.json");
     }
 
     private Resource getSingleTenantResource() {

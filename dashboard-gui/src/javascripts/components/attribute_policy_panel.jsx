@@ -1,23 +1,12 @@
 import React from "react";
 import I18n from "i18n-js";
+import PropTypes from "prop-types";
 import marked from "marked";
 import ReactTooltip from "react-tooltip";
 import {AppShape} from "../shapes";
+import {isEmpty} from "../utils/utils";
 
 class AttributePolicyPanel extends React.Component {
-    render() {
-        return (
-            <div className="l-middle-app-detail">
-                <div className="mod-title">
-                    <h1>{I18n.t("attributes_policy_panel.title")}</h1>
-
-                    <p>{I18n.t("attributes_policy_panel.subtitle", {name: this.props.app.name})}</p>
-                </div>
-                {this.renderAttributeReleasePolicy(this.props.app)}
-                {this.renderManipulationScript(this.props.app)}
-            </div>
-        );
-    }
 
     renderAttributeReleasePolicy(app) {
         if (app.arp.noArp) {
@@ -121,10 +110,45 @@ class AttributePolicyPanel extends React.Component {
             </tr>
         );
     }
+
+    renderResourceServers(app) {
+        if (isEmpty(app.resourceServers)) {
+            return null;
+        }
+        const {resourceServers} = this.props;
+        return (
+            <div className="resource-servers">
+                <p className="title">{I18n.t("attributes_policy_panel.arp.resourceServers")}</p>
+                <ul className="resource-servers">
+                    {resourceServers.sort((a, b) => a.name.localeCompare(b.name)).map((rs, index) =>
+                        <li key={index}>
+                            {rs.name}
+                        </li>)}
+                </ul>
+            </div>
+        );
+    }
+
+    render() {
+        const {app} = this.props;
+        return (
+            <div className="l-middle-app-detail">
+                <div className="mod-title">
+                    <h1>{I18n.t("attributes_policy_panel.title")}</h1>
+
+                    <p>{I18n.t("attributes_policy_panel.subtitle", {name: app.name})}</p>
+                </div>
+                {this.renderAttributeReleasePolicy(app)}
+                {this.renderResourceServers(app)}
+                {this.renderManipulationScript(app)}
+            </div>
+        );
+    }
 }
 
 AttributePolicyPanel.propTypes = {
-    app: AppShape.isRequired
+    app: AppShape.isRequired,
+    resourceServers: PropTypes.array.isRequired
 };
 
 export default AttributePolicyPanel;

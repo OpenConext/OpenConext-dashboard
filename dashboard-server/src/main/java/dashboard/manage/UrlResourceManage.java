@@ -1,5 +1,7 @@
 package dashboard.manage;
 
+import dashboard.domain.IdentityProvider;
+import dashboard.domain.ServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -9,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.ServiceProvider;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -18,11 +18,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UrlResourceManage implements Manage {
     private final static Logger LOG = LoggerFactory.getLogger(UrlResourceManage.class);
@@ -41,6 +43,8 @@ public class UrlResourceManage implements Manage {
 
     private String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
             ".allowedall\": true}]}]}";
+
+    private String findByEntityIdIn = "{\"data.entityid\":{\"$in\":[@@entityids@@]}}";
 
     public UrlResourceManage(
             String username,
@@ -62,18 +66,34 @@ public class UrlResourceManage implements Manage {
     public List<ServiceProvider> getAllServiceProviders() {
         List<Map<String, Object>> providers = getMaps(getSpInputStream(body));
         List<Map<String, Object>> singleTenants = getMaps(getSingleTenantInputStream(body));
+        List<Map<String, Object>> rps = getMaps(getRPInputStream(body));
 
         List<ServiceProvider> serviceProviders = providers.stream()
                 .map(this::transformManageMetadata)
                 .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
                 .filter(sp -> !sp.isHidden())
                 .collect(Collectors.toList());
+
+        List<ServiceProvider> relayingParties = rps.stream()
+                .map(this::transformManageMetadata)
+                .map(rp -> this.serviceProvider(rp, EntityType.oidc1_rp))
+                .filter(rp -> !rp.isHidden())
+                .collect(Collectors.toList());
+
         List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata).map
                 (sp -> this.serviceProvider(sp, EntityType.single_tenant_template))
                 .collect(Collectors.toList());
-        singleTenantsProviders.forEach(tenant -> tenant.setExampleSingleTenant(true));
+
         serviceProviders.addAll(singleTenantsProviders);
+        serviceProviders.addAll(relayingParties);
+
         return serviceProviders;
+    }
+
+    private InputStream providerInputStream(EntityType type, String body) {
+        return type.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
+                type.equals(EntityType.oidc1_rp) ? getRPInputStream(body) : getSingleTenantInputStream(body);
+
     }
 
     @Override
@@ -82,9 +102,8 @@ public class UrlResourceManage implements Manage {
             return Optional.empty();
         }
         String body = bodyForEntity.replace("@@entityid@@", spEntityId);
-        InputStream inputStream = type.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
-                getSingleTenantInputStream(body);
-        List<Map<String, Object>> providers = getMaps(inputStream);
+
+        List<Map<String, Object>> providers = getMaps(providerInputStream(type, body));
         if (providers.isEmpty()) {
             providers = getMaps(getSpRevisionInputStream(body));
         }
@@ -97,9 +116,7 @@ public class UrlResourceManage implements Manage {
             return Optional.empty();
         }
         String body = bodyForEid.replace("@@eid@@", spId.toString());
-        InputStream inputStream = entityType.equals(EntityType.saml20_sp) ? getSpInputStream(body) :
-                getSingleTenantInputStream(body);
-        List<Map<String, Object>> providers = getMaps(inputStream);
+        List<Map<String, Object>> providers = getMaps(providerInputStream(entityType, body));
         return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, entityType)).findFirst();
     }
 
@@ -137,7 +154,7 @@ public class UrlResourceManage implements Manage {
     @Override
     public List<IdentityProvider> getLinkedIdentityProviders(String spId) {
         String replaced = linkedQuery.replace("@@entityid@@", spId);
-        InputStream inputStream = searchIdp(replaced);
+        InputStream inputStream = getSearchInputStream(replaced, EntityType.saml20_idp);
         List<Map<String, Object>> providers = getMaps(inputStream);
         return providers.stream().map(this::transformManageMetadata).map(this::identityProvider)
                 .collect(Collectors.toList());
@@ -145,18 +162,33 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
-        String replaced = linkedQuery.replace("@@entityid@@", idpId);
-        InputStream inputStream = searchSp(replaced);
-        List<Map<String, Object>> providers = getMaps(inputStream);
-        return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
-                .collect(Collectors.toList());
+        String query = linkedQuery.replace("@@entityid@@", idpId);
+        return rawSearchProviders(query, EntityType.saml20_sp,  EntityType.oidc1_rp);
+    }
+
+    @Override
+    public List<ServiceProvider> getByEntityIdin(List<String> entityIds) {
+        String split = entityIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.joining(","));
+        String query = findByEntityIdIn.replace("@@entityids@@", split);
+        return rawSearchProviders(query, EntityType.saml20_sp,  EntityType.oidc1_rp);
+    }
+
+    private List<ServiceProvider> rawSearchProviders(String query, EntityType... types) {
+        List<ServiceProvider> result = new ArrayList<>();
+        Stream.of(types).forEach(type -> {
+            List<Map<String, Object>> maps = getMaps(getSearchInputStream(query, type));
+            result.addAll(maps.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, type))
+                    .collect(Collectors.toList()));
+        });
+        return result;
+
     }
 
     @Override
     public List<ServiceProvider> getInstitutionalServicesForIdp(String instituteId) {
         String body = bodyForInstitutionId.replace("@@institution_id@@", instituteId);
-        InputStream inputStream = getSpInputStream(body);
-        List<Map<String, Object>> providers = getMaps(inputStream);
+        List<Map<String, Object>> providers = getMaps(providerInputStream(EntityType.saml20_sp, body));
+        providers.addAll(getMaps(providerInputStream(EntityType.oidc1_rp, body)));
         return providers.stream()
                 .map(this::transformManageMetadata)
                 .map(sp -> this.serviceProvider(sp, EntityType.saml20_sp))
@@ -191,6 +223,10 @@ public class UrlResourceManage implements Manage {
         return getSpInputStreamFromCollection(body, "saml20_sp");
     }
 
+    private InputStream getRPInputStream(String body) {
+        return getSpInputStreamFromCollection(body, "oidc10_rp");
+    }
+
     private InputStream getSpRevisionInputStream(String body) {
         return getSpInputStreamFromCollection(body, "saml20_sp_revision");
     }
@@ -203,19 +239,11 @@ public class UrlResourceManage implements Manage {
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 
-    private InputStream searchIdp(String query) {
-        return getSearchInputStream(query, "idp");
-    }
-
-    private InputStream searchSp(String query) {
-        return getSearchInputStream(query, "sp");
-    }
-
-    private InputStream getSearchInputStream(String query, String type) {
-        LOG.debug("Quering " + type + " metadata entries from {} with query {}", manageBaseUrl, body);
+    private InputStream getSearchInputStream(String query, EntityType entityType) {
+        LOG.debug("Quering " + entityType + " metadata entries from {} with query {}", manageBaseUrl, body);
         String url;
         try {
-            url = manageBaseUrl + "/manage/api/internal/rawSearch/saml20_" + type + "?query=" + URLEncoder.encode(query,
+            url = manageBaseUrl + "/manage/api/internal/rawSearch/" + entityType + "?query=" + URLEncoder.encode(query,
                     "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e);

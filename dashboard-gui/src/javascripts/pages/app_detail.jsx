@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import {Link} from "react-router-dom";
 import {clearFlash, setFlash} from "../utils/flash";
-import {disableConsent, getApp, getIdps, searchJira} from "../api";
+import {disableConsent, getApp, getIdps, getServicesByEntityIds, searchJira} from "../api";
 
 import AppMeta from "../components/app_meta";
 import OverviewPanel from "../components/overview_panel";
@@ -17,6 +17,7 @@ import PrivacyPanel from "../components/privacy_panel";
 import ConsentPanel from "../components/consent_panel";
 import Flash from "../components/flash";
 import {privacyProperties} from "../utils/privacy";
+import {isEmpty} from "../utils/utils";
 
 const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_policy", "license_data", "privacy",
     "idp_usage", "sirtfi_security", "application_usage"];
@@ -30,7 +31,8 @@ class AppDetail extends React.Component {
             idpDisableConsent: [],
             jiraKey: undefined,
             inviteAction: undefined,
-            conflictingJiraIssue: undefined
+            conflictingJiraIssue: undefined,
+            resourceServers: []
         };
         this.panelMap = {
             "overview": {
@@ -137,6 +139,9 @@ class AppDetail extends React.Component {
                     this.setState(newState);
                 });
                 getIdps(app.spEntityId, params.type).then(res => this.setState({institutions: res.payload}));
+                if (!isEmpty(app.resourceServers)) {
+                    getServicesByEntityIds(app.resourceServers).then(res => this.setState({resourceServers: res.payload}));
+                }
             });
 
     }
@@ -180,7 +185,7 @@ class AppDetail extends React.Component {
     renderActivePanel() {
         const {activePanel} = this.props.match.params;
         const {currentUser} = this.context;
-        const {app, institutions, idpDisableConsent, jiraKey, inviteAction, conflictingJiraIssue} = this.state;
+        const {app, institutions, idpDisableConsent, jiraKey, inviteAction, conflictingJiraIssue, resourceServers} = this.state;
         let panel = this.panelMap[activePanel];
         if (!panel || (activePanel === "how_to_connect" && !(currentUser.dashboardAdmin && currentUser.getCurrentIdp().id))) {
             panel = this.panelMap["overview"];
@@ -193,7 +198,8 @@ class AppDetail extends React.Component {
                           idpDisableConsent={idpDisableConsent}
                           jiraKey={jiraKey}
                           inviteAction={inviteAction}
-                          conflictingJiraIssue={conflictingJiraIssue}/>;
+                          conflictingJiraIssue={conflictingJiraIssue}
+                          resourceServers={resourceServers}/>;
     }
 
     render() {

@@ -422,7 +422,7 @@ class EditMyIdp extends React.Component {
     }
 
     renderService(service) {
-        const url = `apps/${service.id}/${service.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/overview`;
+        const url = `apps/${service.id}/${service.entityType}/overview`;
         return (
             <div key={service.id}>
                 <h2><a href={`/${url}`} onClick={e => {

@@ -42,13 +42,13 @@ class HowToConnectPanel extends React.Component {
 
     getPanelRoute(panel) {
         const {app} = this.props;
-        return `/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/${panel}`;
+        return `/apps/${app.id}/${app.entityType}/${panel}`;
     }
 
     renderConnectStep(isInvite) {
         const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction} = this.state;
         let lastNumber = 3;
-        if (this.props.app.exampleSingleTenant) {
+        if (this.props.app.entityType === "single_tenant_template") {
             ++lastNumber;
         }
         if (this.props.app.aansluitovereenkomstRefused) {
@@ -141,7 +141,7 @@ class HowToConnectPanel extends React.Component {
                             </p>
                         </div>
                         {this.renderSingleTenantServiceWarning()}
-                        {this.renderAansluitovereenkomstRefusedWarning(this.props.app.exampleSingleTenant ? 4 : 3)}
+                        {this.renderAansluitovereenkomstRefusedWarning(this.props.app.entityType === "single_tenant_template" ? 4 : 3)}
                         <hr/>
                         <div className="content">
                             <div className="number">{lastNumber}</div>
@@ -179,7 +179,7 @@ class HowToConnectPanel extends React.Component {
     }
 
     renderSingleTenantServiceWarning() {
-        if (this.props.app.exampleSingleTenant) {
+        if (this.props.app.entityType === "single_tenant_template") {
             return (
                 <div>
                     <hr/>
@@ -245,9 +245,8 @@ class HowToConnectPanel extends React.Component {
         this.setState({confirmationDialogOpen: false});
         updateInviteRequest({status: "REJECTED", jiraKey: jiraKey, comment: this.state.comments}).then(() => {
             const app = this.props.app;
-            const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
             setFlash(I18n.t("how_to_connect_panel.invite_denied", {jiraKey: jiraKey}));
-            this.props.history.replace(`/apps/${app.id}/${type}/overview`);
+            this.props.history.replace(`/apps/${app.id}/${app.entityType}/overview`);
             window.scrollTo(0, 0);
         })
     };
@@ -265,7 +264,6 @@ class HowToConnectPanel extends React.Component {
     renderDenyInvitation = jiraKey => {
         const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction} = this.state;
         const app = this.props.app;
-        const type = app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp";
         return <div className="l-middle-app-detail mod-connect">
             <ConfirmationDialog isOpen={confirmationDialogOpen}
                                 cancel={cancelDialogAction}
@@ -286,7 +284,7 @@ class HowToConnectPanel extends React.Component {
                     <a href="/accept" className="c-button white approve" onClick={e => {
                         stopEvent(e);
                         this.props.history.replace(`/dummy`);
-                        setTimeout(() => this.props.history.replace(`/apps/${this.props.app.id}/${type}/how_to_connect/${jiraKey}/accept`), 10);
+                        setTimeout(() => this.props.history.replace(`/apps/${this.props.app.id}/${this.props.app.entityType}/how_to_connect/${jiraKey}/accept`), 10);
                     }}>{I18n.t("how_to_connect_panel.approve")}</a>
                 </p>
             </div>

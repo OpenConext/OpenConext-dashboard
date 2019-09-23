@@ -84,9 +84,11 @@ public interface Manage {
 
     List<ServiceProvider> getLinkedServiceProviders(String idpId);
 
+    List<ServiceProvider> getByEntityIdin(List<String> entityIds);
+
     default ServiceProvider serviceProvider(Map<String, Object> map, EntityType entityType) {
         ServiceProvider serviceProvider = new ServiceProvider(map);
-        serviceProvider.setExampleSingleTenant(entityType.equals(EntityType.single_tenant_template));
+        serviceProvider.setEntityType(entityType);
         return serviceProvider;
     }
 
@@ -163,6 +165,11 @@ public interface Manage {
                 case "stepupEntities": {
                     List<Map<String, String>> stepupEntities = (List<Map<String, String>>) value;
                     result.put("stepupEntities", stepupEntities);
+                    break;
+                }
+                case "allowedResourceServers": {
+                    List<Map<String, String>> allowedResourceServers = (List<Map<String, String>>) value;
+                    result.put("allowedResourceServers", allowedResourceServers.stream().map(rs -> rs.get("name")).collect(toList()));
                     break;
                 }
             }

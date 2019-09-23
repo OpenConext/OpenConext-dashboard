@@ -21,7 +21,10 @@ class OverviewPanel extends React.Component {
     }
 
     renderStrongAuthenticationContent() {
-        if (this.props.app.strongAuthentication) {
+        const {currentUser} = this.context;
+        const {app} = this.props;
+        const idpLoaLevelConfigured = (currentUser.getCurrentIdp().stepupEntities || []).some(e => e.name === app.spEntityId);
+        if (app.strongAuthentication || idpLoaLevelConfigured) {
             return <div><i className="fa fa-lock"></i> <h2>{I18n.t("overview_panel.supports_ssa")}</h2></div>;
         }
 
@@ -57,7 +60,8 @@ class OverviewPanel extends React.Component {
             return (
                 <li>
                     <a href={entityCategory}
-                       target="_blank" rel="noopener noreferrer">{I18n.t(`overview_panel.entity_category.${entityCategory.replace(/\./g, "")}`)}</a>
+                       target="_blank"
+                       rel="noopener noreferrer">{I18n.t(`overview_panel.entity_category.${entityCategory.replace(/\./g, "")}`)}</a>
                 </li>
             );
         }
@@ -120,7 +124,7 @@ class OverviewPanel extends React.Component {
     }
 
     renderSingleTenantService() {
-        if (this.props.app.exampleSingleTenant) {
+        if (this.props.app.entityType === "single_tenant_template") {
             return (
                 <div className="mod-description">
                     <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
@@ -128,9 +132,36 @@ class OverviewPanel extends React.Component {
                         dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name})}}/>
                 </div>);
         }
-
         return null;
     }
+
+    renderSURFSecureId = () => {
+        const {currentUser} = this.context;
+        const {app} = this.props;
+        const idpLoaLevelConfigured = (currentUser.getCurrentIdp().stepupEntities || []).some(e => e.name === app.spEntityId);
+        const msg = idpLoaLevelConfigured ? "minimalLoaLevelIdp" :"minimalLoaLevel";
+        const loa = idpLoaLevelConfigured ? currentUser.getCurrentIdp().stepupEntities.find(e => e.name === app.spEntityId).level : app.minimalLoaLevel;
+        if (app.strongAuthentication || idpLoaLevelConfigured) {
+            return (
+                <div className="mod-description">
+                    <h2>{I18n.t("overview_panel.supports_ssa")}</h2>
+                    <p>{I18n.t(`overview_panel.${msg}`, {minimalLoaLevel: loa})}</p>
+                </div>);
+        }
+        return null;
+    };
+
+    renderContractualBase = () => {
+        if (this.props.app.contractualBase) {
+            return (
+                <div className="mod-description">
+                    <h2>{I18n.t("apps.overview.contractualBase")}</h2>
+                    <h3>{I18n.t(`overview_panel.contractualBase.${this.props.app.contractualBase.toLowerCase()}`)}</h3>
+                </div>);
+        }
+        return null;
+    };
+
 
     renderDescription() {
         const hasText = function (value) {
@@ -158,7 +189,7 @@ class OverviewPanel extends React.Component {
         if (currentUser.dashboardAdmin && !conflictingJiraIssue) {
             disconnect = <p>
                 <Link
-                    to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.disconnect")}</Link>
+                    to={`/apps/${app.id}/${app.entityType}/how_to_connect`}>{I18n.t("overview_panel.disconnect")}</Link>
             </p>;
         }
 
@@ -179,7 +210,7 @@ class OverviewPanel extends React.Component {
         if (currentUser.dashboardAdmin && !conflictingJiraIssue) {
             connect = <p>
                 <Link
-                    to={`/apps/${app.id}/${app.exampleSingleTenant ? "single_tenant_template" : "saml20_sp"}/how_to_connect`}>{I18n.t("overview_panel.how_to_connect")}</Link>
+                    to={`/apps/${app.id}/${app.entityType}/how_to_connect`}>{I18n.t("overview_panel.how_to_connect")}</Link>
             </p>;
         }
 
@@ -220,6 +251,10 @@ class OverviewPanel extends React.Component {
                     <h2>{I18n.t("overview_panel.description")}</h2>
                     {this.renderDescription()}
                 </div>
+
+                {this.renderSURFSecureId()}
+
+                {this.renderContractualBase()}
 
                 {this.renderSingleTenantService()}
 

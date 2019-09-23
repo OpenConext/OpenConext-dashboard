@@ -46,6 +46,10 @@
     p.info
       font-size: larger
       margin-bottom: 20px
+    p.warning
+      font-size: larger
+      color: $orange
+      margin-bottom: 10px
   table
     @extend %box
     th.sortable-header
@@ -54,6 +58,8 @@
         position: absolute
         top: 16px
         right: -5px
+    tr.awaiting-input
+      color: $green
     td
       word-break: break-word
     span.actionResolution

@@ -57,6 +57,7 @@ public class CoinUser implements UserDetails {
     private String hideTabs;
     private String supportedLanguages;
     private String organization;
+    private boolean oidcEnabled;
 
     @Override
     @JsonIgnore
@@ -265,6 +266,14 @@ public class CoinUser implements UserDetails {
 
     public void setHideTabs(String hideTabs) {
         this.hideTabs = hideTabs;
+    }
+
+    public boolean isOidcEnabled() {
+        return oidcEnabled;
+    }
+
+    public void setOidcEnabled(boolean isOidcEnabled) {
+        this.oidcEnabled = isOidcEnabled;
     }
 
     public String getSupportedLanguages() {

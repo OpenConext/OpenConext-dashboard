@@ -15,6 +15,7 @@
  */
 package dashboard.domain;
 
+import dashboard.manage.EntityType;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -49,11 +50,12 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private String entityCategories2;
     private boolean idpVisibleOnly;
     private boolean policyEnforcementDecisionRequired;
-    private boolean exampleSingleTenant;
+    private EntityType entityType;
     private boolean aansluitovereenkomstRefused;
     private boolean hidden;
     private LicenseStatus licenseStatus;
     private List<String> nameIds;
+    private List<String> resourceServers;
 
     private ARP arp;
     private PrivacyInfo privacyInfo;
@@ -69,6 +71,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     private String manipulationNotes;
     private boolean manipulation;
+    private String contractualBase;
 
     @SuppressWarnings("unchecked")
     public ServiceProvider(Map<String, Object> metaData) {
@@ -122,11 +125,14 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.arpMotivations = (Map<String, String>) metaData.get("motivations");
         this.manipulationNotes = (String) metaData.get("manipulationNotes");
         this.manipulation = StringUtils.hasText( (String) metaData.get("manipulation"));
+        this.contractualBase = (String) metaData.get("coin:contractual_base");
 
         this.nameIds = nameIdFormats.stream()
                 .filter(nameId -> metaData.containsKey(nameId))
                 .map(nameId -> (String) metaData.get(nameId))
                 .collect(Collectors.toList());
+
+        this.resourceServers = (List<String>) metaData.get("allowedResourceServers");
     }
 
     private PrivacyInfo buildPrivacyInfo(Map<String, Object> metaData) {
@@ -221,14 +227,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return arp;
     }
 
-    public boolean isExampleSingleTenant() {
-        return exampleSingleTenant;
-    }
-
-    public void setExampleSingleTenant(boolean exampleSingleTenant) {
-        this.exampleSingleTenant = exampleSingleTenant;
-    }
-
     public String getApplicationUrl() {
         return applicationUrl;
     }
@@ -254,7 +252,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
             ", eulaURL='" + eulaURL + '\'' +
             ", idpVisibleOnly=" + idpVisibleOnly +
             ", policyEnforcementDecisionRequired=" + policyEnforcementDecisionRequired +
-            ", exampleSingleTenant=" + exampleSingleTenant +
+            ", entityType=" + entityType +
             ", arp=" + arp +
             ", urls=" + urls +
             '}';
@@ -304,6 +302,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return manipulationNotes;
     }
 
+    public String getContractualBase() {
+        return contractualBase;
+    }
+
     public boolean isManipulation() {
         return manipulation;
     }
@@ -313,4 +315,15 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return nameIds;
     }
 
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public List<String> getResourceServers() {
+        return resourceServers;
+    }
 }

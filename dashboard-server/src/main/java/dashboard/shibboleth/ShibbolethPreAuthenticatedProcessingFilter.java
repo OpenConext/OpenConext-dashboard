@@ -80,6 +80,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String adminSurfConextIdpRole;
     private String viewerSurfConextIdpRole;
     private boolean isManageConsentEnabled;
+    private boolean isOidcEnabled;
     private String hideTabs;
     private String supportedLanguages;
 
@@ -95,6 +96,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String adminSufConextIdpRole,
                                                       String viewerSurfConextIdpRole,
                                                       boolean isManageConsentEnabled,
+                                                      boolean isOidcEnabled,
                                                       String hideTabs,
                                                       String supportedLanguages,
                                                       String organization) {
@@ -107,6 +109,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.adminSurfConextIdpRole = adminSufConextIdpRole;
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
         this.isManageConsentEnabled = isManageConsentEnabled;
+        this.isOidcEnabled = isOidcEnabled;
         this.hideTabs = hideTabs;
         this.supportedLanguages = supportedLanguages;
         this.organization = organization;
@@ -140,6 +143,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
         coinUser.setManageConsentEnabled(this.isManageConsentEnabled);
+        coinUser.setOidcEnabled(this.isOidcEnabled);
         coinUser.setHideTabs(this.hideTabs);
         coinUser.setSupportedLanguages(this.supportedLanguages);
         coinUser.setOrganization(this.organization);

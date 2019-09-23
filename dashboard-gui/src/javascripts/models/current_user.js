@@ -14,6 +14,7 @@ class CurrentUser {
         this.uid = rawUser.uid;
         this.statsEnabled = rawUser.statsEnabled;
         this.manageConsentEnabled = rawUser.manageConsentEnabled;
+        this.oidcEnabled = rawUser.oidcEnabled;
         this.hideTabs = rawUser.hideTabs;
         this.supportedLanguages = rawUser.supportedLanguages;
         this.organization = rawUser.organization;
