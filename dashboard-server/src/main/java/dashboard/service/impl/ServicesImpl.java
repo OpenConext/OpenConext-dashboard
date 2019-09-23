@@ -35,7 +35,7 @@ public class ServicesImpl implements Services, InitializingBean {
     @Autowired
     private Manage manage;
 
-    private Set<String> allowedGuestEntityIds ;
+    private Set<String> allowedGuestEntityIds = new HashSet<>() ;
     private boolean allowedAllForGuestIdp = false;
 
     @Override
