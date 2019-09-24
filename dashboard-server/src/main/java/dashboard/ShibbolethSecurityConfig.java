@@ -111,8 +111,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
         web
             .ignoring()
             .antMatchers(
-                "/dashboard/api/home",
-                "/dashboard/api/forbidden",
                 "/public/**",
                 "/css/**",
                 "/font/**",
