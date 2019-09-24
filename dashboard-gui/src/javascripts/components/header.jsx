@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 import IDPSelector from "../components/idp_selector";
 import isUndefined from "lodash.isundefined";
 import stopEvent from "../utils/stop";
+import {isEmpty} from "../utils/utils";
 
 class Header extends React.Component {
 
@@ -22,24 +23,24 @@ class Header extends React.Component {
         const supportedLanguageCodes = currentUser ? currentUser.supportedLanguages : [];
         const organization = currentUser ? currentUser.organization : "openconext";
         const idp = (currentUser.switchedToIdp || currentUser.getCurrentIdp());
-        const state = I18n.t(`my_idp.${idp.state}`);
+        const state = isEmpty(idp) ? "" : I18n.t(`my_idp.${idp.state}`);
         return (
             <div className="mod-header">
                 <h1 className={`title ${organization.toLowerCase()}`}>
                     <Link to="/apps">IdP dashboard</Link>
                 </h1>
-                <div className="institute">
-                  <p className={`${idp.state}`}>{`${idp.name} - ${state}`}</p>
-                </div>
+                {!currentUser.guest && <div className="institute">
+                    <p className={`${idp.state}`}>{`${idp.name} - ${state}`}</p>
+                </div>}
                 <div className="meta">
-                    <div className="name">
+                    {!currentUser.guest && <div className="name">
                         {this.renderProfileLink()}
                         {this.renderDropDown()}
-                    </div>
+                    </div>}
                     <LanguageSelector supportedLanguageCodes={supportedLanguageCodes}/>
                     <ul className="links">
                         <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html")}}></li>
-                        {this.renderExitLogout()}
+                        {!currentUser.guest && this.renderExitLogout()}
                     </ul>
                 </div>
             </div>

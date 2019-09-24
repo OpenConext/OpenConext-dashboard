@@ -534,7 +534,7 @@ class EditMyIdp extends React.Component {
             <div className="l-main">
                 <div className="l-left">
                     {hasServices && <ServiceFilter onChange={this.onServiceFilterChange.bind(this)}
-                                                   filters={[]}
+                                                   filters={{}}
                                                    search={search}
                                                    searchChange={e => this.setState({search: e.target.value})}/>}
                 </div>

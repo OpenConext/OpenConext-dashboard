@@ -17,6 +17,7 @@ import includes from "lodash.includes";
 import stopEvent from "../utils/stop";
 import {consentTypes} from "../utils/utils";
 import spinner from "../lib/spin";
+
 const store = {
     activeFacets: null,
     hiddenFacets: null,
@@ -174,7 +175,7 @@ class AppOverview extends React.Component {
                 </td>
                 {this.renderLicenseNeeded(app)}
                 <YesNo value={!app.aansluitovereenkomstRefused}/>
-                <YesNo value={app.connected}/>
+                {!currentUser.guest && <YesNo value={app.connected}/>}
                 <td className="right">
                     {connect && this.renderConnectButton(app)}
                 </td>
@@ -311,7 +312,7 @@ class AppOverview extends React.Component {
         const ids = filteredApps.map(app => app.id);
         exportApps(currentUser.getCurrentIdpId(), ids).then(res => {
             const urlObject = window.URL || window.webkitURL || window;
-            const lines = res.reduce((acc, arr)=> {
+            const lines = res.reduce((acc, arr) => {
                 acc.push(arr.join(","));
                 return acc;
             }, []);
@@ -325,7 +326,7 @@ class AppOverview extends React.Component {
                 save_link.download = "services.csv";
                 this.fake_click(save_link);
             }
-            this.setState({download: true}, () => this.setState({download: false,downloading: false}));
+            this.setState({download: true}, () => this.setState({download: false, downloading: false}));
         });
     };
 
@@ -452,7 +453,7 @@ class AppOverview extends React.Component {
     filterBySearchQuery(app) {
         const searchString = this.state.search.toLowerCase();
         return Object.values(app.descriptions).concat(Object.values(app.names))
-                .some(name => name.toLowerCase().indexOf(searchString) > -1) || app.spEntityId.toLowerCase().indexOf(searchString) > -1;
+            .some(name => name.toLowerCase().indexOf(searchString) > -1) || app.spEntityId.toLowerCase().indexOf(searchString) > -1;
     }
 
     filterYesNoFacet(name, yes) {
@@ -497,7 +498,7 @@ class AppOverview extends React.Component {
         const stepupEntitiesIds = (currentUser.getCurrentIdp().stepupEntities || []).map(s => s.name);
         const {arpAttributes} = this.state;
 
-        const results = [{
+        let results = [{
             name: I18n.t("facets.static.connection.name"),
             searchValue: "connection",
             values: [
@@ -624,7 +625,11 @@ class AppOverview extends React.Component {
             });
         }
         if (!currentUser.manageConsentEnabled) {
-            return results.filter(facet => facet.name !== I18n.t("facets.static.type_consent.name"));
+            results = results.filter(facet => facet.name !== I18n.t("facets.static.type_consent.name"));
+        }
+        if (currentUser.guest) {
+            results = results.filter(facet => facet.name !== I18n.t("facets.static.connection.name") &&
+                facet.name !== I18n.t("facets.static.used_by_idp.name"));
         }
         return results;
     }
@@ -656,7 +661,7 @@ class AppOverview extends React.Component {
                     {(nbrPages > 1 && page !== 1) &&
                     <i className="fa fa-arrow-left" onClick={this.changePage.bind(this, page - 1)}></i>}
                     {rangeWithDots.map((nbr, index) =>
-                        typeof(nbr) === "string" || nbr instanceof String ?
+                        typeof (nbr) === "string" || nbr instanceof String ?
                             <span key={index} className="dots">{nbr}</span> :
                             nbr === page ?
                                 <span className="current" key={index}>{nbr}</span> :
@@ -730,7 +735,7 @@ class AppOverview extends React.Component {
                                 {this.renderSortableHeader("percent_30", "name")}
                                 {this.renderSortableHeader("percent_20", "licenseStatus")}
                                 {this.renderSortableHeader("percent_20 bool", "aansluitovereenkomstRefused")}
-                                {this.renderSortableHeader("percent_20 bool", "connected")}
+                                {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
                                 {connect}
                             </tr>
                             </thead>
@@ -745,9 +750,9 @@ class AppOverview extends React.Component {
                     <div className="mod-app-list">
                         <table>
                             <tbody>
-                              <tr>
-                                <td dangerouslySetInnerHTML={{__html: I18n.t("apps.overview.add_services_hint")}} />
-                              </tr>
+                            <tr>
+                                <td dangerouslySetInnerHTML={{__html: I18n.t("apps.overview.add_services_hint")}}/>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

@@ -47,8 +47,8 @@ public class Application {
     }
 
     @Bean
-    public Services services() {
-        return new ServicesImpl();
+    public Services services(Manage manage, @Value("${guestidp.entityid}") String guestIdp) {
+        return new ServicesImpl(manage, guestIdp);
     }
 
     @Bean

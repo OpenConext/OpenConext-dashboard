@@ -16,6 +16,7 @@ import dashboard.util.SpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -178,6 +179,7 @@ public class ServicesController extends BaseController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Action>> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                         @RequestParam(value = "comments", required = false) String
@@ -190,6 +192,7 @@ public class ServicesController extends BaseController {
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/disconnect", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Action>> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                            @RequestParam(value = "comments", required = false) String

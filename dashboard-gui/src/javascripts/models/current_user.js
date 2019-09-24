@@ -19,10 +19,14 @@ class CurrentUser {
         this.supportedLanguages = rawUser.supportedLanguages;
         this.organization = rawUser.organization;
         this.allowMaintainersToManageAuthzRules = rawUser.allowMaintainersToManageAuthzRules;
+        this.guest = rawUser.guest;
     }
 
 
     getCurrentIdp() {
+        if (this.guest) {
+            return {state: "prodaccepted"};
+        }
         if (this.superUser && this.switchedToIdp) {
             return this.switchedToIdp;
         }

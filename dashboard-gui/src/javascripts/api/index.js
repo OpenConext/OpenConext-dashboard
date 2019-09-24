@@ -31,7 +31,6 @@ function validFetch(path, options, currentUser = getCurrentUser(), idp = undefin
     const headers = {
         "Accept": "application/json"
     };
-
     if (currentUser || idp) {
         headers["X-IDP-ENTITY-ID"] = idp || currentUser.getCurrentIdpId();
     }

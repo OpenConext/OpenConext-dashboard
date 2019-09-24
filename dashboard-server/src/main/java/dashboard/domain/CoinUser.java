@@ -58,6 +58,7 @@ public class CoinUser implements UserDetails {
     private String supportedLanguages;
     private String organization;
     private boolean oidcEnabled;
+    private boolean guest;
 
     @Override
     @JsonIgnore
@@ -116,6 +117,10 @@ public class CoinUser implements UserDetails {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public boolean isGuest() {
+        return guest;
     }
 
     /**
@@ -282,6 +287,10 @@ public class CoinUser implements UserDetails {
 
     public void setSupportedLanguages(String supportedLanguages) {
         this.supportedLanguages = supportedLanguages;
+    }
+
+    public void setGuest(boolean guest) {
+        this.guest = guest;
     }
 
     public String getHideTabs() {

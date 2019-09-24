@@ -1,22 +1,42 @@
 package dashboard.control;
 
-import dashboard.domain.*;
+import dashboard.domain.Action;
+import dashboard.domain.Change;
+import dashboard.domain.CoinAuthority.Authority;
+import dashboard.domain.CoinUser;
+import dashboard.domain.Consent;
+import dashboard.domain.ConsentType;
+import dashboard.domain.ContactPerson;
+import dashboard.domain.IdentityProvider;
+import dashboard.domain.InviteRequest;
+import dashboard.domain.JiraFilter;
+import dashboard.domain.Provider;
+import dashboard.domain.ResendInviteRequest;
+import dashboard.domain.Service;
+import dashboard.domain.Settings;
+import dashboard.domain.UpdateInviteRequest;
 import dashboard.mail.MailBox;
-import dashboard.manage.EntityType;
+import dashboard.manage.Manage;
+import dashboard.service.ActionsService;
+import dashboard.service.Services;
+import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import dashboard.domain.CoinAuthority.Authority;
-import dashboard.manage.Manage;
-import dashboard.service.ActionsService;
-import dashboard.service.Services;
-import dashboard.util.SpringSecurity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +53,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static java.util.stream.Collectors.toList;
 import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping(value = "/dashboard/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,6 +79,7 @@ public class UsersController extends BaseController {
         return createRestResponse(SpringSecurity.getCurrentUser());
     }
 
+    @PreAuthorize("hasRole('SUPER_USER')")
     @PostMapping("/inviteRequest")
     public ResponseEntity<RestResponse<Object>> inviteRequest(@RequestBody InviteRequest inviteRequest) throws IOException, MessagingException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
@@ -90,6 +111,7 @@ public class UsersController extends BaseController {
         return ResponseEntity.ok(createRestResponse(action));
     }
 
+    @PreAuthorize("hasRole('SUPER_USER')")
     @PutMapping("/inviteRequest")
     public ResponseEntity<RestResponse<Object>> updateInviteRequest(@RequestBody UpdateInviteRequest updateInviteRequest) throws IOException, MessagingException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
@@ -107,6 +129,7 @@ public class UsersController extends BaseController {
         return ResponseEntity.ok(createRestResponse(updateInviteRequest));
     }
 
+    @PreAuthorize("hasRole('SUPER_USER')")
     @PostMapping("/resendInviteRequest")
     public ResponseEntity<RestResponse<Object>> resendInviteRequest(@RequestBody ResendInviteRequest resendInviteRequest) throws IOException, MessagingException {
         JiraFilter jiraFilter = new JiraFilter();
@@ -114,21 +137,26 @@ public class UsersController extends BaseController {
         Action action = actionsService.searchTasks(resendInviteRequest.getIdpId(), jiraFilter).getIssues().stream().findAny().orElseThrow(() -> new IllegalArgumentException(String.format("Jira issue with key %s for IdP %s not found.", resendInviteRequest.getJiraKey(), resendInviteRequest.getIdpId())));
         String emailTo = action.getEmailTo();
         if (StringUtils.isEmpty(emailTo)) {
-            throw new IllegalArgumentException(String .format("There are no emails set on issue %s", resendInviteRequest.getJiraKey()));
+            throw new IllegalArgumentException(String.format("There are no emails set on issue %s", resendInviteRequest.getJiraKey()));
         }
         mailbox.sendInviteMailReminder(action);
         return ResponseEntity.ok(createRestResponse(resendInviteRequest));
     }
 
-        @RequestMapping("/disableConsent")
+    @RequestMapping("/disableConsent")
     public List<Consent> disableConsent() {
-        String id = SpringSecurity.getCurrentUser().getIdp().getId();
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.isGuest()) {
+            return Collections.emptyList();
+        }
+        String id = currentUser.getIdp().getId();
         return manage.getIdentityProvider(id, false)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("IdP %s not found", id)))
                 .getDisableConsent();
     }
 
 
+    @PreAuthorize("hasRole('SUPER_USER')")
     @RequestMapping("/super/idps")
     public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
@@ -170,6 +198,7 @@ public class UsersController extends BaseController {
                 : services.getInstitutionalServicesForIdp(usersInstitutionId, locale);
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping("/me/switch-to-idp")
     public ResponseEntity<Void> currentIdp(
             @RequestParam(value = "idpId", required = false) String switchToIdp,

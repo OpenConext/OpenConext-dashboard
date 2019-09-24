@@ -25,7 +25,10 @@ class Navigation extends React.Component {
     componentWillMount() {
         spinner.onStart = () => this.setState({loading: true});
         spinner.onStop = () => this.setState({loading: false});
-        this.getAwaitingInputJiraTickets();
+        const {currentUser} = this.context;
+        if (!currentUser.guest) {
+            this.getAwaitingInputJiraTickets();
+        }
         emitter.addListener("invite_request_updates", this.callback);
     }
 
@@ -95,12 +98,12 @@ class Navigation extends React.Component {
         return (
             <div className="mod-navigation">
                 <ul>
-                    {hideTabs.indexOf("statistics") === -1 && this.renderItem("/statistics", "stats", activeTab)}
-                    {hideTabs.indexOf("apps") === -1 && this.renderItem("/apps", "apps", activeTab)}
-                    {hideTabs.indexOf("policies") === -1 && this.renderItem("/policies", "policies", activeTab)}
-                    {hideTabs.indexOf("tickets") === -1 && this.renderItem("/tickets", "history", activeTab, awaitingInputTickets)}
-                    {hideTabs.indexOf("my_idp") === -1 && this.renderItem("/my-idp", "my_idp", activeTab)}
-                    {(hideTabs.indexOf("user_invite") === -1 && showInviteRequest) && this.renderItem("/users/invite", "invite_request", activeTab)}
+                    {(hideTabs.indexOf("statistics") === -1 && !currentUser.guest) && this.renderItem("/statistics", "stats", activeTab)}
+                    {(hideTabs.indexOf("apps") === -1) && this.renderItem("/apps", "apps", activeTab)}
+                    {(hideTabs.indexOf("policies") === -1 && !currentUser.guest) && this.renderItem("/policies", "policies", activeTab)}
+                    {(hideTabs.indexOf("tickets") === -1 && !currentUser.guest) && this.renderItem("/tickets", "history", activeTab, awaitingInputTickets)}
+                    {(hideTabs.indexOf("my_idp") === -1 && !currentUser.guest) && this.renderItem("/my-idp", "my_idp", activeTab)}
+                    {(hideTabs.indexOf("user_invite") === -1 && !currentUser.guest && showInviteRequest) && this.renderItem("/users/invite", "invite_request", activeTab)}
                 </ul>
 
                 {this.renderSpinner()}

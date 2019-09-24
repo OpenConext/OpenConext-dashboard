@@ -2,6 +2,7 @@ package dashboard.shibboleth;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
+import dashboard.domain.GuestUser;
 import dashboard.domain.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,13 +128,17 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                         return headers != null ? Collections.list(headers) : Collections.emptyList();
                     })));
         }
-
-        String uid = getFirstShibHeaderValue(Name_Id, request)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
+        Optional<String> uidOptional = getFirstShibHeaderValue(Name_Id, request);
+        Optional<String> authorityOptional = getFirstShibHeaderValue(Shib_Authenticating_Authority, request);
+        if (!uidOptional.isPresent() && !authorityOptional.isPresent()) {
+            CoinUser guestUser = new GuestUser();
+            setUserConfigurationData(guestUser);
+            return guestUser;
+        }
+        String uid = uidOptional.orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
                         Name_Id.getValue(), request.getRequestURL())));
 
-        String idpId = getFirstShibHeaderValue(Shib_Authenticating_Authority, request)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
+        String idpId = authorityOptional .orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
                         Shib_Authenticating_Authority.getValue(), request.getRequestURL())));
 
 
@@ -142,11 +147,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setDisplayName(getFirstShibHeaderValue(Shib_DisplayName, request).orElse(null));
         coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
-        coinUser.setManageConsentEnabled(this.isManageConsentEnabled);
-        coinUser.setOidcEnabled(this.isOidcEnabled);
-        coinUser.setHideTabs(this.hideTabs);
-        coinUser.setSupportedLanguages(this.supportedLanguages);
-        coinUser.setOrganization(this.organization);
+        setUserConfigurationData(coinUser);
 
         Map<ShibbolethHeader, List<String>> attributes = shibHeaders.values().stream()
                 .filter(h -> StringUtils.hasText(request.getHeader(h.getValue())))
@@ -191,6 +192,14 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .ifPresent(idp -> coinUser.setInstitutionId(idp.getInstitutionId()));
 
         return coinUser;
+    }
+
+    private void setUserConfigurationData(CoinUser coinUser) {
+        coinUser.setManageConsentEnabled(this.isManageConsentEnabled);
+        coinUser.setOidcEnabled(this.isOidcEnabled);
+        coinUser.setHideTabs(this.hideTabs);
+        coinUser.setSupportedLanguages(this.supportedLanguages);
+        coinUser.setOrganization(this.organization);
     }
 
     private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {

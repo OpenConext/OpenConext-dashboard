@@ -20,8 +20,6 @@ import static java.util.stream.Collectors.toSet;
 
 public interface Manage {
 
-    String guestIdp = "https://www.onegini.me";
-
     ObjectMapper objectMapper = new ObjectMapper();
 
     /**

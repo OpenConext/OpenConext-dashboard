@@ -40,6 +40,9 @@ public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
     private boolean shouldAccessToIdpBeChecked(HttpServletRequest req) {
         String requestURI = req.getRequestURI();
+        if (SpringSecurity.getCurrentUser().isGuest()) {
+            return false;
+        }
         return requestURI.startsWith("/dashboard/api") && !requestURI.contains("/users/me") && !requestURI.contains("/jsError");
     }
 }

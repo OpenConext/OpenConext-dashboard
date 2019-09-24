@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,11 +64,13 @@ public class PoliciesController extends BaseController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(method = GET)
     public RestResponse<List<Policy>> listPolicies() {
         return createRestResponse(pdpService.policies());
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(method = POST)
     public ResponseEntity<RestResponse<Policy>> createPolicy(@RequestBody Policy policy) {
         return whenDashboardAdmin(() -> {
@@ -84,6 +87,7 @@ public class PoliciesController extends BaseController {
         });
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(method = PUT)
     public ResponseEntity<RestResponse<Policy>> updatePolicy(@RequestBody Policy policy) {
         return whenDashboardAdmin(() -> {
@@ -92,21 +96,25 @@ public class PoliciesController extends BaseController {
         });
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/new", method = GET)
     public ResponseEntity<RestResponse<Policy>> newPolicy() {
         return whenDashboardAdmin(() -> createRestResponse(new Policy()));
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/{id}", method = GET)
     public RestResponse<Policy> policy(@PathVariable("id") Long id) {
         return createRestResponse(pdpService.policy(id));
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/{id}", method = DELETE)
     public void delete(@PathVariable("id") Long id) {
         whenDashboardAdmin(() -> createRestResponse(pdpService.delete(id)));
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/{id}/revisions", method = GET)
     public RestResponse<List<Policy>> revisions(@PathVariable("id") Long id) {
         return createRestResponse(pdpService.revisions(id));

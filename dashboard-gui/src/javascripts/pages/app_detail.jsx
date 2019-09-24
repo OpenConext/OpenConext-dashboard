@@ -23,6 +23,7 @@ const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_
     "idp_usage", "sirtfi_security", "application_usage"];
 
 class AppDetail extends React.Component {
+
     constructor() {
         super();
         this.state = {
@@ -84,7 +85,7 @@ class AppDetail extends React.Component {
                         }
                     };
                 }
-                const currentUser = this.context.currentUser;
+                const {currentUser} = this.context;
                 if (app.connected && currentUser.manageConsentEnabled) {
                     this.panelMap = {
                         ...this.panelMap, "consent": {
@@ -92,6 +93,10 @@ class AppDetail extends React.Component {
                             icon: "fa-clipboard"
                         }
                     }
+                }
+                if (currentUser.guest) {
+                    delete this.panelMap["how_to_connect"];
+                    delete this.panelMap["application_usage"];
                 }
                 const jiraFilter = {
                     maxResults: 1,
@@ -101,43 +106,47 @@ class AppDetail extends React.Component {
                     types: ["LINKREQUEST", "UNLINKREQUEST", "LINKINVITE"],
                     key: params.jiraKey || null
                 };
-                searchJira(jiraFilter).then(res => {
-                    const newState = {
-                        app: app,
-                        idpDisableConsent: data[1],
-                        jiraKey: params.jiraKey,
-                        inviteAction: params.action
-                    };
-                    if (res.payload.total > 0) {
-                        const action = res.payload.issues[0];
-                        if (params.jiraKey && action.status !== "Awaiting Input") {
-                            const i18nParam = action.status === "Closed" ? "denied" : "approved";
-                            setFlash(I18n.t("apps.detail.inviteAlreadyProcessed", {
-                                jiraKey: action.jiraKey,
-                                action: I18n.t(`apps.detail.${i18nParam}`),
-                            }), "warning");
-                            newState.conflictingJiraIssue = action;
-                        } else if (!params.jiraKey) {
-                            let message = I18n.t("apps.detail.outstandingIssue", {
-                                jiraKey: action.jiraKey,
-                                type: I18n.t("history.action_types_name." + action.type),
-                                status: I18n.t("history.statuses." + action.status)
-                            });
-                            if (action.type === "LINKINVITE" && action.status === "Awaiting Input" && !app.connected) {
-                                message += I18n.t("apps.detail.outstandingIssueLink", {
-                                    link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
-                                    linkName: I18n.t("apps.detail.how_to_connect")
-                                });
-                                newState.jiraKey = action.jiraKey;
-                                newState.inviteAction = "accept";
-                            } else {
+                if (currentUser.guest) {
+                    this.setState({app: app, idpDisableConsent: data[1]});
+                } else {
+                    searchJira(jiraFilter).then(res => {
+                        const newState = {
+                            app: app,
+                            idpDisableConsent: data[1],
+                            jiraKey: params.jiraKey,
+                            inviteAction: params.action
+                        };
+                        if (res.payload.total > 0) {
+                            const action = res.payload.issues[0];
+                            if (params.jiraKey && action.status !== "Awaiting Input") {
+                                const i18nParam = action.status === "Closed" ? "denied" : "approved";
+                                setFlash(I18n.t("apps.detail.inviteAlreadyProcessed", {
+                                    jiraKey: action.jiraKey,
+                                    action: I18n.t(`apps.detail.${i18nParam}`),
+                                }), "warning");
                                 newState.conflictingJiraIssue = action;
+                            } else if (!params.jiraKey) {
+                                let message = I18n.t("apps.detail.outstandingIssue", {
+                                    jiraKey: action.jiraKey,
+                                    type: I18n.t("history.action_types_name." + action.type),
+                                    status: I18n.t("history.statuses." + action.status)
+                                });
+                                if (action.type === "LINKINVITE" && action.status === "Awaiting Input" && !app.connected) {
+                                    message += I18n.t("apps.detail.outstandingIssueLink", {
+                                        link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
+                                        linkName: I18n.t("apps.detail.how_to_connect")
+                                    });
+                                    newState.jiraKey = action.jiraKey;
+                                    newState.inviteAction = "accept";
+                                } else {
+                                    newState.conflictingJiraIssue = action;
+                                }
+                                setFlash(message, "warning");
                             }
-                            setFlash(message, "warning");
                         }
-                    }
-                    this.setState(newState);
-                });
+                        this.setState(newState);
+                    });
+                }
                 getIdps(app.spEntityId, params.type).then(res => this.setState({institutions: res.payload}));
                 if (!isEmpty(app.resourceServers)) {
                     getServicesByEntityIds(app.resourceServers).then(res => this.setState({resourceServers: res.payload}));

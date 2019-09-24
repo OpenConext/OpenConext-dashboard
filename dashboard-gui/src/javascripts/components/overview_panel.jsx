@@ -229,7 +229,7 @@ class OverviewPanel extends React.Component {
         if (this.props.app.strongAuthentication) {
             connectionClass += " ssa";
         }
-
+        const {currentUser} = this.context;
         return (
             <div className="l-middle-app-detail">
                 <div className="mod-title">
@@ -238,7 +238,7 @@ class OverviewPanel extends React.Component {
                 </div>
 
                 <div className={connectionClass}>
-                    {this.renderConnection()}
+                    {!currentUser.guest && this.renderConnection()}
                     <LicenseInfo app={this.props.app} showLinks/>
                     {this.renderStrongAuthentication()}
                 </div>
