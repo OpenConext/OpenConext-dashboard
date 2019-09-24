@@ -42,7 +42,8 @@
     "react-scripts": "^3.0.1",
     "react-select": "^3.0.4",
     "react-tooltip": "^3.10.0",
-    "spin.js": "^4.0.0"
+    "spin.js": "^4.0.0",
+    "websocket-driver": "^0.7.3"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/stylesheets/application.sass -o src/stylesheets/",
