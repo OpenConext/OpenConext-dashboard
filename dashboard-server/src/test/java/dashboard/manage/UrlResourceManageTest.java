@@ -68,8 +68,8 @@ public class UrlResourceManageTest {
         assertEquals(EntityType.saml20_sp, serviceProvider.getEntityType());
 
         serviceProvider = subject.getServiceProvider("playground_client",
-                EntityType.oidc1_rp, false).get();
-        assertEquals(EntityType.oidc1_rp, serviceProvider.getEntityType());
+                EntityType.oidc10_rp, false).get();
+        assertEquals(EntityType.oidc10_rp, serviceProvider.getEntityType());
     }
 
 

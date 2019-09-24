@@ -98,13 +98,13 @@ public class ClassPathResourceManage implements Manage {
 
     @Override
     public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type, boolean searchRevisions) {
-        return (type.equals(EntityType.saml20_sp) || type.equals(EntityType.oidc1_rp)) ? Optional.ofNullable(serviceProviderMap.get(spEntityId)) :
+        return (type.equals(EntityType.saml20_sp) || type.equals(EntityType.oidc10_rp)) ? Optional.ofNullable(serviceProviderMap.get(spEntityId)) :
                 Optional.ofNullable(exampleSingleTenants.get(spEntityId));
     }
 
     @Override
     public Optional<ServiceProvider> getServiceProviderById(Long spId, EntityType type) {
-        return (type.equals(EntityType.saml20_sp) || type.equals(EntityType.oidc1_rp)) ? serviceProviderMap.values()
+        return (type.equals(EntityType.saml20_sp) || type.equals(EntityType.oidc10_rp)) ? serviceProviderMap.values()
                 .stream().filter(sp -> sp.getEid().equals(spId)).findFirst() :
                 exampleSingleTenants.values().stream().filter(sp -> sp.getEid().equals(spId)).findFirst();
     }
@@ -119,7 +119,7 @@ public class ClassPathResourceManage implements Manage {
         try {
             identityProviderMap = parseProviders(getIdpResource(), this::identityProvider);
             serviceProviderMap = parseProviders(getSpResource(), sp -> this.serviceProvider(sp, EntityType.saml20_sp));
-            Map<String, ServiceProvider> relyingPartiesMap = parseProviders(getRpResource(), rp -> this.serviceProvider(rp, EntityType.oidc1_rp));
+            Map<String, ServiceProvider> relyingPartiesMap = parseProviders(getRpResource(), rp -> this.serviceProvider(rp, EntityType.oidc10_rp));
             serviceProviderMap.putAll(relyingPartiesMap);
 
             long maxEid = serviceProviderMap.values().stream().max(Comparator.comparing(ServiceProvider::getEid)).get()
