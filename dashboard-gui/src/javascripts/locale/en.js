@@ -236,8 +236,8 @@ I18n.translations.en = {
         interfed_source: "Federation source:",
         publish_in_edugain_date: "Published in eduGAIN on:",
         supports_ssa: "SURFsecureID enabled",
-        minimalLoaLevel: "The minimal Level Of Assurance (LOA) for this service for all institutions: {{minimalLoaLevel}}.",
-        minimalLoaLevelIdp: "The minimal Level Of Assurance (LOA) for this service for your institution: {{minimalLoaLevel}}.",
+        minimalLoaLevel: "The minimal Level Of Assurance (LOA) for this service regardless ot the institution used to login is: {{minimalLoaLevel}}.",
+        minimalLoaLevelIdp: "The minimal Level Of Assurance (LOA) for this service specific for your institution: {{minimalLoaLevel}}.",
         supportsSsaTooltip: "Services can also dynamically request a specific LoA during authentication.",
         entity_categories: "Supported Entity Categories",
         entity_category: {
@@ -262,7 +262,7 @@ I18n.translations.en = {
             noarp: "There is no 'Attribute Release Policy' specified. All known attributes are exchanged.",
             noattr: "No attributes will be exchanged with {{name}}.",
             manipulation: "For this Service Provider there is a custom 'attribute manipulation script' in effect. SURFconext will execute the script for every authentication of a user, before releasing attributes to that service. In order for you to understand what information will be released, please find below a description of what the script does:",
-            resourceServers: "This Service is connected to Resource Servers and therefore all the attributes released are also accessible to the following Resource Servers:"
+            resourceServers: "This Service is connected to Resource Servers and therefore all the attributes released are also accessible for the following Resource Servers:"
         },
         attribute: "Attribute",
         hint: "The attributes and their values for your personal account are displayed. This might not be representative for other accounts within your organization.",
@@ -567,7 +567,7 @@ I18n.translations.en = {
         policy_name_not_unique_exception: "This policy name is already in use",
         pdp_unreachable: "PDP unreachable",
         pdp_unreachable_description: "Currently unable to fetch the policies from PDP. Please try again later.",
-        pdp_active_info: "Read more about when your rule is active.",
+        pdp_active_info: "Click to read more about when your rule is active.",
         pdp_active_link: "https://support.surfconext.nl/pdp-rule-active-after",
         overview: {
             active: "Active",

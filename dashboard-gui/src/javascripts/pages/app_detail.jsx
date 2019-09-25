@@ -106,7 +106,7 @@ class AppDetail extends React.Component {
                     types: ["LINKREQUEST", "UNLINKREQUEST", "LINKINVITE"],
                     key: params.jiraKey || null
                 };
-                if (currentUser.guest) {
+                if (currentUser.guest || currentUser.dashboardMember) {
                     this.setState({app: app, idpDisableConsent: data[1]});
                 } else {
                     searchJira(jiraFilter).then(res => {

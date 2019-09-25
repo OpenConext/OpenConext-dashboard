@@ -33,7 +33,7 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl";
-    public static final String role = "admin";
+    public static final String role = "nope";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,

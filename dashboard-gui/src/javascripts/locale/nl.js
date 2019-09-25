@@ -236,8 +236,8 @@ I18n.translations.nl = {
         interfed_source: "Federatie bron:",
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
         supports_ssa: "SURFsecureID aangezet",
-        minimalLoaLevel: "Het minimale Level Of Assurance (LOA) voor deze dienst voor alle instellingen: {{minimalLoaLevel}}.",
-        minimalLoaLevelIdp: "Het minimale Level Of Assurance (LOA) voor deze dienst voor uw instelling: {{minimalLoaLevel}}.",
+        minimalLoaLevel: "Het minimale Level Of Assurance (LOA) voor deze dienst ongeacht de instelling waarmee wordt ingelogd is : {{minimalLoaLevel}}.",
+        minimalLoaLevelIdp: "Het minimale Level Of Assurance (LOA) voor deze dienst specifiek voor uw instelling is: {{minimalLoaLevel}}.",
         supportsSsaTooltip: "Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.",
         entity_categories: "Ondersteunde Entity Categories",
         entity_category: {
@@ -262,8 +262,7 @@ I18n.translations.nl = {
             noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen worden uitgewisseld.",
             noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}.",
             manipulation: "Voor deze Service Provider is er een aangepast 'attribuut manipulatie script' actief. SURFconext voert het script uit bij elke authenticatie van een gebruiker, voordat attributen aan die service worden vrijgegeven. Om u te helpen begrijpen welke informatie zal worden vrijgegeven, vindt u hieronder een beschrijving van wat het script doet:",
-            resourceServers: "Deze Service Provider is verebonden aan een Resource Servers en daarom zijn alle attributen die worden vrijgegeven ook opvraagbaar voor de volgende Resource Servers:"
-
+            resourceServers: "Deze Service Provider is gekoppeld aan Resource Servers en daarom zijn alle attributen die worden vrijgegeven ook opvraagbaar voor de volgende Resource Servers:"
         },
         attribute: "Attribuut",
         hint: "De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.",
@@ -624,7 +623,7 @@ I18n.translations.nl = {
         policy_name_not_unique_exception: "Deze autorisatieregel naam is al in gebruik",
         pdp_unreachable: "PDP niet bereikbaar",
         pdp_unreachable_description: "Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.",
-        pdp_active_info: "Lees meer over wanneer de regel actief is..",
+        pdp_active_info: "Klik om meer te lezen over wanneer de regel actief is.",
         pdp_active_link: "https://support.surfconext.nl/pdp-rule-active-after",
         overview: {
             active: "Actief",

@@ -232,8 +232,8 @@ I18n.translations.pt = {
         interfed_source: "Origem da federação:",
         publish_in_edugain_date: "Publicado no eduGAIN em:",
         supports_ssa: "SURFsecureID enabled",
-        minimalLoaLevel: "The minimal Level Of Assurance (LOA) for this service for all Identity Providers: {{minimalLoaLevel}}",
-        minimalLoaLevelIdp: "The minimal Level Of Assurance (LOA) for this service for your institution: {{minimalLoaLevel}}",
+        minimalLoaLevel: "The minimal Level Of Assurance (LOA) for this service regardless ot the institution used to login is: {{minimalLoaLevel}}.",
+        minimalLoaLevelIdp: "The minimal Level Of Assurance (LOA) for this service specific for your institution: {{minimalLoaLevel}}.",
         entity_categories: "Suporta Categorias de Identidade",
         entity_category: {
             "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
@@ -560,7 +560,7 @@ I18n.translations.pt = {
         policy_name_not_unique_exception: "Este nome de política já está a ser utilizado",
         pdp_unreachable: "PDP inacessível",
         pdp_unreachable_description: "De momento não é possível obter as políticas do PDP. Por favor, tente novamente mais tarde.",
-        pdp_active_info: "Read more about when your rule is active.",
+        pdp_active_info: "Click to read more about when your rule is active.",
         pdp_active_link: "https://support.surfconext.nl/pdp-rule-active-after",
         overview: {
             active: "Ativo",
