@@ -97,6 +97,14 @@ class AppDetail extends React.Component {
                 if (currentUser.guest) {
                     delete this.panelMap["how_to_connect"];
                     delete this.panelMap["application_usage"];
+                    delete this.panelMap["sirtfi_security"];
+                    delete this.panelMap["consent"];
+                    delete this.panelMap["license_data"];
+                }
+                if (currentUser.dashboardMember) {
+                    delete this.panelMap["how_to_connect"];
+                    delete this.panelMap["sirtfi_security"];
+                    delete this.panelMap["consent"];
                 }
                 const jiraFilter = {
                     maxResults: 1,
