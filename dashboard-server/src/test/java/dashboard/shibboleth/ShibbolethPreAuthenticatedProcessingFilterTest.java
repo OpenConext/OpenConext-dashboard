@@ -124,7 +124,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
             when(manageMock.getInstituteIdentityProviders("SURFNET")).thenReturn(Collections.singletonList(idp));
             request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
             CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
-            assertEquals(0, user.getAuthorityEnums().size());
+            assertEquals(1, user.getAuthorityEnums().size());
         });
     }
 
@@ -164,7 +164,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(identityProvider));
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
         CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
-        assertEquals(0, user.getAuthorityEnums().size());
+        assertEquals(1, user.getAuthorityEnums().size());
     }
 
     private void doAssertSabEntitlement(String entitlement, CoinAuthority.Authority role, ShibbolethHeader headerName) {
