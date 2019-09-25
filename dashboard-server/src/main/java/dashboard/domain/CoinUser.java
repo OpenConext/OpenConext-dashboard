@@ -17,6 +17,7 @@
 package dashboard.domain;
 
 import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_MEMBER;
 import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
 import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
 
@@ -104,6 +105,10 @@ public class CoinUser implements UserDetails {
 
     public boolean isDashboardViewer() {
         return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
+    }
+
+    public boolean isDashboardMember() {
+        return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_MEMBER));
     }
 
     /**

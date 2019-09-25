@@ -217,6 +217,7 @@ public class UsersController extends BaseController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/me/consent", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Object>> updateConsentSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                                       @RequestBody Consent consent) throws IOException {
@@ -248,6 +249,8 @@ public class UsersController extends BaseController {
 
     }
 
+
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                                Locale locale,

@@ -32,6 +32,9 @@ class Header extends React.Component {
                 {!currentUser.guest && <div className="institute">
                     <p className={`${idp.state}`}>{`${idp.name} - ${state}`}</p>
                 </div>}
+                {currentUser.guest && <div className="login">
+                    <a href="/login" className="c-button">Login</a>
+                </div>}
                 <div className="meta">
                     {!currentUser.guest && <div className="name">
                         {this.renderProfileLink()}

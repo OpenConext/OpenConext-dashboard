@@ -37,7 +37,6 @@ public class StatsController implements Constants {
     }
 
     //Used for retrieval of all logins for one SP
-    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @GetMapping("loginTimeFrame")
     public List<Object> loginTimeFrame(@RequestParam("from") long from,
                                                     @RequestParam("to") long to,
@@ -47,7 +46,6 @@ public class StatsController implements Constants {
     }
 
     //Used for retrieval of all logins for all SP's
-    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @GetMapping("loginAggregated")
     public List<Object> loginAggregated(@RequestParam("period") String period,
                                                      @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId) {
@@ -55,7 +53,6 @@ public class StatsController implements Constants {
     }
 
     //Used for retrieval of all logins for one SP without a period
-    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @GetMapping("uniqueLoginCount")
     public List<Object> uniqueLoginCount(@RequestParam("from") long from,
                                                       @RequestParam("to") long to,
@@ -63,7 +60,6 @@ public class StatsController implements Constants {
         return stats.uniqueLoginCount(from, to, spEntityId);
     }
 
-    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @GetMapping("serviceProviders")
     public List<Map<String, Object>> serviceProviders(Locale locale) {
         CoinUser user = SpringSecurity.getCurrentUser();

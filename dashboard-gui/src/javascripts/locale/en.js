@@ -803,6 +803,10 @@ I18n.translations.en = {
                 name: "SURFconext maintainer",
                 description: "You are authorized on behalf of your institution to view the information about the services"
             },
+            ROLE_DASHBOARD_MEMBER: {
+                name: "Institution member",
+                description: "You are a regular member of the dashboard"
+            },
             ROLE_DASHBOARD_SUPER_USER: {
                 name: "Dashboard Super User",
                 description: "You are the super user of the dashboard"
@@ -908,6 +912,10 @@ I18n.translations.en = {
             "is-member-of": {
                 name: "Membership",
                 description: "Membership of Virtual Organizations and SURFconext."
+            },
+            "Shib-surfEckid": {
+                name: "SURF EDU-K",
+                description: "Educatieve Content Keten Identifier (ECK ID) is a pseudonymous identifier."
             }
         }
     }

@@ -33,11 +33,12 @@ public class CoinAuthority implements GrantedAuthority {
   public enum Authority {
     ROLE_DASHBOARD_ADMIN,
     ROLE_DASHBOARD_VIEWER,
+    ROLE_DASHBOARD_MEMBER,
     ROLE_DASHBOARD_GUEST,
     ROLE_DASHBOARD_SUPER_USER;
 
     private static final EnumSet<Authority> dashboardAuthorities =
-            EnumSet.of(ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_GUEST, ROLE_DASHBOARD_SUPER_USER, ROLE_DASHBOARD_VIEWER);
+            EnumSet.of(ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_GUEST, ROLE_DASHBOARD_MEMBER, ROLE_DASHBOARD_SUPER_USER, ROLE_DASHBOARD_VIEWER);
 
     public boolean isDashboardAuthority() {
       return dashboardAuthorities.contains(this);

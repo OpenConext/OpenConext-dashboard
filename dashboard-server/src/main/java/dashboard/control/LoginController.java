@@ -12,15 +12,15 @@ import java.io.IOException;
 @RestController
 public class LoginController {
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/startSSO")
     public void login(HttpServletResponse response) throws IOException {
         response.sendRedirect("/");
     }
 
-    @RequestMapping(value = "/start")
+    @RequestMapping(value = "/login")
     public void start(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         SecurityContextHolder.clearContext();
         request.logout();
-        response.sendRedirect("/login");
+        response.sendRedirect("/startSSO");
     }
 }

@@ -88,6 +88,7 @@ public class JiraClientImpl implements JiraClient {
     @Override
     @SuppressWarnings("unchecked")
     public String create(final Action action, List<Change> changes) {
+        if (true) throw new RuntimeException("yess");
         Map<String, Object> fields = new HashMap<>();
         fields.put("priority", ImmutableMap.of("id", "3"));
         fields.put("project", ImmutableMap.of("key", projectKey));

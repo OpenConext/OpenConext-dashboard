@@ -2,19 +2,20 @@ package dashboard.shibboleth;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
+import dashboard.domain.CoinAuthority;
+import dashboard.domain.CoinUser;
 import dashboard.domain.GuestUser;
+import dashboard.domain.IdentityProvider;
 import dashboard.domain.Provider;
+import dashboard.manage.Manage;
+import dashboard.sab.Sab;
+import dashboard.sab.SabRoleHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import dashboard.domain.CoinAuthority;
-import dashboard.domain.CoinUser;
-import dashboard.domain.IdentityProvider;
-import dashboard.manage.Manage;
-import dashboard.sab.Sab;
-import dashboard.sab.SabRoleHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -25,19 +26,41 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkState;
+import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
+import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_MEMBER;
+import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
+import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
+import static dashboard.shibboleth.ShibbolethHeader.Name_Id;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_CommonName;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_DisplayName;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonAffiliation;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonOrcid;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonPN;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonScopedAffiliation;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonTargetedID;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_Email;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_GivenName;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_HomeOrg;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_MemberOf;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_NlEduPersonOrgUnit;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_NlEduPersonStudyBranch;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_NlStudielinkNummer;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_PreferredLanguage;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_SURFEckid;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_SchacHomeOrganizationType;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_SchacPersonalUniqueCode;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_SurName;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-import static dashboard.shibboleth.ShibbolethHeader.*;
 
 public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthenticatedProcessingFilter {
 
@@ -136,10 +159,10 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             return guestUser;
         }
         String uid = uidOptional.orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
-                        Name_Id.getValue(), request.getRequestURL())));
+                Name_Id.getValue(), request.getRequestURL())));
 
-        String idpId = authorityOptional .orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
-                        Shib_Authenticating_Authority.getValue(), request.getRequestURL())));
+        String idpId = authorityOptional.orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
+                Shib_Authenticating_Authority.getValue(), request.getRequestURL())));
 
 
         CoinUser coinUser = new CoinUser();
@@ -191,6 +214,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .findFirst()
                 .ifPresent(idp -> coinUser.setInstitutionId(idp.getInstitutionId()));
 
+        if (CollectionUtils.isEmpty(coinUser.getAuthorities())) {
+            coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_MEMBER));
+        }
         return coinUser;
     }
 

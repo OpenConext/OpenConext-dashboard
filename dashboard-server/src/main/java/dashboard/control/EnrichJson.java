@@ -4,12 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import dashboard.domain.CoinAuthority.Authority;
 import dashboard.domain.CoinUser;
 import dashboard.domain.Service;
 import dashboard.util.AttributeMapFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,6 +31,9 @@ public class EnrichJson {
     public static final String FILTERED_USER_ATTRIBUTES = "filteredUserAttributes";
     public static final String SUPER_USER = "superUser";
     public static final String DASHBOARD_ADMIN = "dashboardAdmin";
+    public static final String DASHBOARD_VIEWER = "dashboardViewer";
+    public static final String DASHBOARD_MEMBER = "dashboardMember";
+
     private final static Logger LOG = LoggerFactory.getLogger(EnrichJson.class);
     private Map<Class<?>, JsonApplier> mapping = new HashMap<>();
 
@@ -51,6 +54,8 @@ public class EnrichJson {
 
             user.addProperty(SUPER_USER, ((CoinUser) payload).isSuperUser());
             user.addProperty(DASHBOARD_ADMIN, ((CoinUser) payload).isDashboardAdmin());
+            user.addProperty(DASHBOARD_VIEWER, ((CoinUser) payload).isDashboardViewer());
+            user.addProperty(DASHBOARD_MEMBER, ((CoinUser) payload).isDashboardMember());
             user.addProperty("statsEnabled", statsEnabled);
         });
 
@@ -59,10 +64,10 @@ public class EnrichJson {
             JsonArray filteredUserAttributes = new JsonArray();
             if (service.getArp() != null && !service.getArp().isNoArp() && !service.getArp().isNoAttrArp()) {
                 Collection<AttributeMapFilter.ServiceAttribute> serviceAttributes = AttributeMapFilter
-                    .filterAttributes(service.getArp().getAttributes(), currentUser.getAttributeMap());
+                        .filterAttributes(service.getArp().getAttributes(), currentUser.getAttributeMap());
                 serviceAttributes.stream()
-                    .map(gson::toJsonTree)
-                    .forEach(filteredUserAttributes::add);
+                        .map(gson::toJsonTree)
+                        .forEach(filteredUserAttributes::add);
             }
             serviceJsonElement.getAsJsonObject().add(FILTERED_USER_ATTRIBUTES, filteredUserAttributes);
         });
@@ -78,8 +83,8 @@ public class EnrichJson {
         while (authorities.hasNext()) {
             JsonElement authority = authorities.next();
             if (authority.isJsonObject() && !Authority.valueOf(authority.getAsJsonObject().get("authority")
-                .getAsString())
-                .isDashboardAuthority()) {
+                    .getAsString())
+                    .isDashboardAuthority()) {
                 authorities.remove();
             }
         }

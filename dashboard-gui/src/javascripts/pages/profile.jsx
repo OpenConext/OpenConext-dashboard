@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import I18n from "i18n-js";
+import {isEmpty} from "../utils/utils";
 
 class Profile extends React.Component {
   render() {
@@ -48,8 +49,12 @@ class Profile extends React.Component {
   renderAttribute(attributeKey) {
     const { currentUser } = this.context;
     // Use [] to get the value from I18n because attributeKey can contain (.) dot's.
-    const attributeName = I18n.t("profile.attribute_map")[attributeKey]["name"];
-    const attributeDescription = I18n.t("profile.attribute_map")[attributeKey]["description"];
+    const attributeTranslation = I18n.t("profile.attribute_map")[attributeKey];
+    if (isEmpty(attributeTranslation)) {
+      console.log(`Missing profile.attribute_map${attributeKey}`)
+    }
+    const attributeName = attributeTranslation["name"];
+    const attributeDescription = attributeTranslation["description"];
     return (
       <tr key={attributeKey}>
         <td title={attributeDescription}>

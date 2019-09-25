@@ -21,7 +21,7 @@ public class ActionsController extends BaseController {
     @Autowired
     private ActionsService actionsService;
 
-    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN,DASHBOARD_VIEWER,DASHBOARD_SUPER_USER')")
     @RequestMapping(method = RequestMethod.POST)
     public RestResponse<JiraResponse> search(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                              @RequestBody JiraFilter filter) {

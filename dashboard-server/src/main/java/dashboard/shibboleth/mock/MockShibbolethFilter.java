@@ -39,9 +39,6 @@ public class MockShibbolethFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-
-
-        req.getSession(true).setAttribute("mockUser", role);
         SetHeader wrapper = new SetHeader(req);
         wrapper.setHeader(Name_Id.getValue(), role);
         wrapper.setHeader(Shib_Uid.getValue(), role);

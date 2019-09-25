@@ -1,5 +1,11 @@
 package dashboard;
 
+import dashboard.filter.EnsureAccessToIdpFilter;
+import dashboard.manage.Manage;
+import dashboard.sab.Sab;
+import dashboard.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
+import dashboard.shibboleth.ShibbolethUserDetailService;
+import dashboard.shibboleth.mock.MockShibbolethFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +28,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.web.filter.GenericFilterBean;
-import dashboard.filter.EnsureAccessToIdpFilter;
-import dashboard.manage.Manage;
-import dashboard.sab.Sab;
-import dashboard.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
-import dashboard.shibboleth.ShibbolethUserDetailService;
-import dashboard.shibboleth.mock.MockShibbolethFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -93,7 +93,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
             shibFilter.setFilter(new GenericFilterBean() {
                 @Override
                 public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
-                    IOException, ServletException {
+                        IOException, ServletException {
                     chain.doFilter(request, response);
                 }
             });
@@ -109,40 +109,42 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
-            .ignoring()
-            .antMatchers(
-                "/public/**",
-                "/css/**",
-                "/font/**",
-                "/images/**",
-                "/img/**",
-                "/js/**",
-                "/health",
-                "/info");
+                .ignoring()
+                .antMatchers(
+                        "/public/**",
+                        "/css/**",
+                        "/font/**",
+                        "/images/**",
+                        "/img/**",
+                        "/js/**",
+                        "/health",
+                        "/info");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .logout()
-            .logoutUrl("/dashboard/api/logout")
-            .invalidateHttpSession(true)
-            .deleteCookies("statsToken") // remove stats cookie
-            .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
-            .addLogoutHandler(new DashboardLogoutHandler()).and()
-            .csrf().disable()
-            .addFilterBefore(
-                new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab,
-                    dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
-                    viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization),
-                AbstractPreAuthenticatedProcessingFilter.class
-            )
-            .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
-            .authorizeRequests()
-            .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
-            .antMatchers("/dashboard/api/**")
-                .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
-            .anyRequest().authenticated();
+                .logout()
+                .logoutUrl("/dashboard/api/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("statsToken") // remove stats cookie
+                .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
+                .addLogoutHandler(new DashboardLogoutHandler()).and()
+                .csrf().disable()
+                .addFilterBefore(
+                        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab,
+                                dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
+                                viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization),
+                        AbstractPreAuthenticatedProcessingFilter.class
+                )
+                .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
+                .authorizeRequests()
+                .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
+                .antMatchers("/dashboard/api/stats/**")
+                .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER")
+                .antMatchers("/dashboard/api/**")
+                .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
+                .anyRequest().authenticated();
     }
 
     @Override

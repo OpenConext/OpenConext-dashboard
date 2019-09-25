@@ -5,6 +5,8 @@ class CurrentUser {
         this.attributeMap = rawUser.attributeMap;
         this.currentIdp = rawUser.currentIdp;
         this.dashboardAdmin = rawUser.dashboardAdmin;
+        this.dashboardViewer = rawUser.dashboardViewer;
+        this.dashboardMember = rawUser.dashboardMember;
         this.displayName = rawUser.displayName;
         this.grantedAuthorities = rawUser.grantedAuthorities;
         this.institutionIdps = rawUser.institutionIdps;
