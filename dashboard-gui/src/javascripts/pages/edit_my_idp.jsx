@@ -38,6 +38,7 @@ class EditMyIdp extends React.Component {
             publishedInEdugain: !!currentIdp.publishedInEdugain,
             connectToRSServicesAutomatically: !!currentIdp.connectToRSServicesAutomatically,
             allowMaintainersToManageAuthzRules: !!currentIdp.allowMaintainersToManageAuthzRules,
+            displayAdminEmailsInDashboard: !!currentIdp.displayAdminEmailsInDashboard,
             comments: "",
             contactPersons: currentIdp.contactPersons.map(contactPerson => ({
                 name: contactPerson.name || "",
@@ -300,6 +301,19 @@ class EditMyIdp extends React.Component {
                                 </ReactTooltip>
                         </span></td>
                         <td>{this.renderCheckbox("allowMaintainersToManageAuthzRules")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayAdminEmailsInDashboard")}<span>
+                            <i className="fa fa-info-circle" data-for="displayAdminEmailsInDashboard" data-tip></i>
+                                <ReactTooltip id="displayAdminEmailsInDashboard" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.displayAdminEmailsInDashboardTooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>{this.renderCheckbox("displayAdminEmailsInDashboard")}
                         </td>
                     </tr>
                     <tr>

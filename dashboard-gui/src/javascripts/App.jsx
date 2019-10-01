@@ -39,6 +39,8 @@ class App extends React.Component {
 
     render() {
         const {currentUser} = this.props;
+        const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer;
+        const nonGuest = !currentUser.guest;
         return (
             <Router>
                 <div>
@@ -53,17 +55,17 @@ class App extends React.Component {
                         <Route exact path="/apps/:id/:type"
                                render={({params: {id, type}}) => <Redirect to={`/apps/${id}/${type}/overview`}/>}/>
                         <Route exact path="/apps/:back?" component={AppOverview}/>
-                        {!currentUser.guest && <Route exact path="/policies" component={PolicyOverview}/>}
-                        {!currentUser.guest && <Route exact path="/tickets" component={History}/>}
-                        {!currentUser.guest && <Route exact path="/profile" component={Profile}/>}
-                        {!currentUser.guest && <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
-                        {!currentUser.guest && <Route exact path="/my-idp" component={MyIdp}/>}
-                        {!currentUser.guest && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
+                        {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview}/>}
+                        {isViewerOrAdmin && <Route exact path="/tickets" component={History}/>}
+                        {nonGuest && <Route exact path="/profile" component={Profile}/>}
+                        {nonGuest && <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
+                        {nonGuest && <Route exact path="/my-idp" component={MyIdp}/>}
+                        {isViewerOrAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/search"
                                                  component={SearchUser}/>
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite"
                                                  component={InviteRequest}/>
-                        {!currentUser.guest &&  <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>}
+                        {isViewerOrAdmin &&  <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>}
                         <ProtectedRoute currentUser={currentUser} path="/policies/:id"
                                         component={PolicyDetail}/>
                         <Route exact path="/dummy" component={Dummy}/>

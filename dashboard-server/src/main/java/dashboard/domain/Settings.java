@@ -26,6 +26,7 @@ public class Settings {
     private ConsentType consentType;
 
     private List<ContactPerson> contactPersons;
+    private boolean displayAdminEmailsInDashboard;
 
     public Settings() {
     }
@@ -116,6 +117,13 @@ public class Settings {
 
     public void setAllowMaintainersToManageAuthzRules(boolean allowMaintainersToManageAuthzRules) {
         this.allowMaintainersToManageAuthzRules = allowMaintainersToManageAuthzRules;
+    }
+    public boolean isDisplayAdminEmailsInDashboard() {
+        return displayAdminEmailsInDashboard;
+    }
+
+    public void setDisplayAdminEmailsInDashboard(boolean displayAdminEmailsInDashboard) {
+        this.displayAdminEmailsInDashboard = displayAdminEmailsInDashboard;
     }
 
     public String getComments() {
@@ -220,4 +228,5 @@ public class Settings {
                 ", contactPersons=" + contactPersons +
                 '}';
     }
+
 }

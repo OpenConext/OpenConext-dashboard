@@ -285,15 +285,15 @@ class MyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
-                        <td>{I18n.t("my_idp.allow_maintainers_to_manage_authz_rules")}</td>
-                        <td>{currentIdp.allowMaintainersToManageAuthzRules ? I18n.t("boolean.yes") : I18n.t("boolean.no")}
+                        <td>{I18n.t("my_idp.displayAdminEmailsInDashboard")}</td>
+                        <td>{currentIdp.displayAdminEmailsInDashboard ? I18n.t("boolean.yes") : I18n.t("boolean.no")}
                             <span>
-                            <i className="fa fa-info-circle" data-for="allowMaintainersToManageAuthzRules" data-tip></i>
-                                <ReactTooltip id="allowMaintainersToManageAuthzRules" type="info" class="tool-tip"
+                            <i className="fa fa-info-circle" data-for="displayAdminEmailsInDashboard" data-tip></i>
+                                <ReactTooltip id="displayAdminEmailsInDashboard" type="info" class="tool-tip"
                                               effect="solid"
-                                              multiline={true} delayHide={1000}>
+                                              multiline={true}>
                                     <span
-                                      dangerouslySetInnerHTML={{__html: I18n.t("my_idp.allow_maintainers_to_manage_authz_rules_tooltip")}}/>
+                                      dangerouslySetInnerHTML={{__html: I18n.t("my_idp.displayAdminEmailsInDashboardTooltip")}}/>
                                 </ReactTooltip>
                         </span>
                         </td>

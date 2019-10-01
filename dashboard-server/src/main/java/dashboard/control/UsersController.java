@@ -331,6 +331,9 @@ public class UsersController extends BaseController {
         this.diff(changes, idpId, idp.isAllowMaintainersToManageAuthzRules(), settings.isAllowMaintainersToManageAuthzRules(),
                 "coin:allow_maintainers_to_manage_authz_rules");
 
+        this.diff(changes, idpId, idp.isDisplayAdminEmailsInDashboard(), settings.isDisplayAdminEmailsInDashboard(),
+                "coin:display_admin_emails_in_dashboard");
+
         this.diff(changes, idpId, idp.getLogoUrl(), settings.getLogoUrl(), "logo:0:url");
 
         this.diff(changes, idpId, idp.getState(), settings.getStateType() != null ? settings.getStateType().name() : null, "state");

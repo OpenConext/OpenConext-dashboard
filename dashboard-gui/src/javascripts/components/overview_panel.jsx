@@ -145,7 +145,7 @@ class OverviewPanel extends React.Component {
             return (
                 <div className="mod-description">
                     <h2>{I18n.t("overview_panel.supports_ssa")}</h2>
-                    <p>{I18n.t(`overview_panel.${msg}`, {minimalLoaLevel: loa})}</p>
+                    <p dangerouslySetInnerHTML={{__html: I18n.t(`overview_panel.${msg}`, {minimalLoaLevel: loa})}}/>
                 </div>);
         }
         return null;
