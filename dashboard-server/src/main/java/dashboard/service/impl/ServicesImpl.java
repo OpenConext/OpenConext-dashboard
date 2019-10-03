@@ -28,28 +28,18 @@ import static dashboard.domain.Provider.Language.EN;
 import static dashboard.domain.Provider.Language.NL;
 import static java.util.stream.Collectors.toList;
 
-public class ServicesImpl implements Services, InitializingBean {
+public class ServicesImpl implements Services {
 
     private Manage manage;
     private String guestIdp;
     private Set<String> allowedGuestEntityIds = new HashSet<>();
     private boolean allowedAllForGuestIdp = false;
+    private boolean manageFetched = false;
 
     public ServicesImpl(Manage manage, String guestIdp) {
         this.manage = manage;
         this.guestIdp = guestIdp;
     }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        Optional<IdentityProvider> identityProviderOptional = manage.getIdentityProvider(this.guestIdp, false);
-        identityProviderOptional.ifPresent(identityProvider -> {
-            this.allowedAllForGuestIdp = identityProvider.isAllowedAll();
-            this.allowedGuestEntityIds = identityProvider.getAllowedEntityIds() != null ? identityProvider.getAllowedEntityIds() : new HashSet<>();
-        });
-
-    }
-
 
     @Override
     public List<Service> getServicesForIdp(String idpEntityId, Locale locale) {
@@ -176,8 +166,24 @@ public class ServicesImpl implements Services, InitializingBean {
         service.setResourceServers(sp.getResourceServers());
     }
 
+    private void initialize() {
+            Optional<IdentityProvider> identityProviderOptional = manage.getIdentityProvider(this.guestIdp, false);
+            identityProviderOptional.ifPresent(identityProvider -> {
+                this.allowedAllForGuestIdp = identityProvider.isAllowedAll();
+                this.allowedGuestEntityIds = identityProvider.getAllowedEntityIds() != null ? identityProvider.getAllowedEntityIds() : new HashSet<>();
+            });
+            this.manageFetched = true;
+    }
 
     private boolean isGuestEnabled(ServiceProvider sp) {
+        try {
+            if (!this.manageFetched) {
+                initialize();
+            }
+        } catch (Exception e) {
+            this.manageFetched = false;
+            return false;
+        }
         if (sp.isAllowedAll() && (this.allowedAllForGuestIdp || this.allowedGuestEntityIds.contains(sp.getId()))) {
             return true;
         }
