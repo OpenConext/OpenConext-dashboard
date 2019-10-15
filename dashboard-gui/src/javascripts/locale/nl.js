@@ -237,7 +237,7 @@ I18n.translations.nl = {
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
         supports_ssa: "SURFsecureID aangezet",
         minimalLoaLevel: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}.",
-        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers [van uw instelling] moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}.",
+        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van uw instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}.",
         supportsSsaTooltip: "Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.",
         entity_categories: "Ondersteunde Entity Categories",
         entity_category: {
