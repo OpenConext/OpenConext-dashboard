@@ -236,8 +236,8 @@ I18n.translations.en = {
         interfed_source: "Federation source:",
         publish_in_edugain_date: "Published in eduGAIN on:",
         supports_ssa: "SURFsecureID enabled",
-        minimalLoaLevel: "For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
-        minimalLoaLevelIdp: "For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
+        minimalLoaLevel: "For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
+        minimalLoaLevelIdp: "For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
         supportsSsaTooltip: "Services can also dynamically request a specific LoA during authentication.",
         entity_categories: "Supported Entity Categories",
         entity_category: {

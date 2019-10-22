@@ -29,7 +29,7 @@ class SirtfiPanel extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {app.contactPersons.map(this.renderContactPerson.bind(this))}
+                    {app.contactPersons.filter(cp => cp.sirtfiSecurityContact).map(this.renderContactPerson.bind(this))}
                     </tbody>
                 </table>
             </div>
@@ -42,6 +42,7 @@ class SirtfiPanel extends React.Component {
                 <td>{contactPerson.name}</td>
                 <td>{contactPerson.emailAddress}</td>
                 <td>{contactPerson.telephoneNumber}</td>
+
             </tr>
         );
     }
