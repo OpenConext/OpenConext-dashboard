@@ -79,7 +79,7 @@ public class UsersController extends BaseController {
         return createRestResponse(SpringSecurity.getCurrentUser());
     }
 
-    @PreAuthorize("hasRole('SUPER_USER')")
+    @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
     @PostMapping("/inviteRequest")
     public ResponseEntity<RestResponse<Object>> inviteRequest(@RequestBody InviteRequest inviteRequest) throws IOException, MessagingException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
@@ -111,7 +111,7 @@ public class UsersController extends BaseController {
         return ResponseEntity.ok(createRestResponse(action));
     }
 
-    @PreAuthorize("hasRole('SUPER_USER')")
+    @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
     @PutMapping("/inviteRequest")
     public ResponseEntity<RestResponse<Object>> updateInviteRequest(@RequestBody UpdateInviteRequest updateInviteRequest) throws IOException, MessagingException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
@@ -129,7 +129,7 @@ public class UsersController extends BaseController {
         return ResponseEntity.ok(createRestResponse(updateInviteRequest));
     }
 
-    @PreAuthorize("hasRole('SUPER_USER')")
+    @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
     @PostMapping("/resendInviteRequest")
     public ResponseEntity<RestResponse<Object>> resendInviteRequest(@RequestBody ResendInviteRequest resendInviteRequest) throws IOException, MessagingException {
         JiraFilter jiraFilter = new JiraFilter();
@@ -156,7 +156,7 @@ public class UsersController extends BaseController {
     }
 
 
-    @PreAuthorize("hasRole('SUPER_USER')")
+    @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
     @RequestMapping("/super/idps")
     public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
         CoinUser currentUser = SpringSecurity.getCurrentUser();

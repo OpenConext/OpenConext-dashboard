@@ -39,7 +39,7 @@ class App extends React.Component {
 
     render() {
         const {currentUser} = this.props;
-        const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer;
+        const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser;
         const nonGuest = !currentUser.guest;
         return (
             <Router>
