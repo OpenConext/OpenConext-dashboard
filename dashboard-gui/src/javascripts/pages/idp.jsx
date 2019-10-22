@@ -125,7 +125,17 @@ class MyIdp extends React.Component {
                     }
                     <tr>
                         <td>{I18n.t("my_idp.guest_enabled")}</td>
-                        <td>{service.guestEnabled ? I18n.t("boolean.yes") : I18n.t("boolean.no")}</td>
+                        <td>{service.guestEnabled ? I18n.t("boolean.yes") : I18n.t("boolean.no")}
+                            <span>
+                            <i className="fa fa-info-circle" data-for="displayGuestEnabled" data-tip></i>
+                                <ReactTooltip id="displayGuestEnabled" type="info" class="tool-tip"
+                                              effect="solid" delayHide={1000}
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.guest_enabled_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

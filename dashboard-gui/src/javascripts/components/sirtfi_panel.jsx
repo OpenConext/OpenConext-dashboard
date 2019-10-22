@@ -26,7 +26,6 @@ class SirtfiPanel extends React.Component {
                         <th>{I18n.t("sirtfi_panel.cp_name")}</th>
                         <th>{I18n.t("sirtfi_panel.cp_email")}</th>
                         <th>{I18n.t("sirtfi_panel.cp_telephoneNumber")}</th>
-                        <th>{I18n.t("sirtfi_panel.cp_type")}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,7 +42,6 @@ class SirtfiPanel extends React.Component {
                 <td>{contactPerson.name}</td>
                 <td>{contactPerson.emailAddress}</td>
                 <td>{contactPerson.telephoneNumber}</td>
-                <td>{I18n.t("sirtfi_panel.cp_type_translate_" + contactPerson.contactPersonType)}</td>
             </tr>
         );
     }

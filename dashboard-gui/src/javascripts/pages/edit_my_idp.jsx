@@ -478,7 +478,15 @@ class EditMyIdp extends React.Component {
                         <td>{this.renderServiceCheckbox(service.id, "publishedInEdugain")}</td>
                     </tr>
                     <tr>
-                        <td>{I18n.t("my_idp.guest_enabled")}</td>
+                        <td>{I18n.t("my_idp.guest_enabled")}<span>
+                            <i className="fa fa-info-circle" data-for="displayGuestEnabled" data-tip></i>
+                                <ReactTooltip id="displayGuestEnabled" type="info" class="tool-tip"
+                                              effect="solid" delayHide={1000}
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.guest_enabled_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
                         <td>{this.renderServiceCheckbox(service.id, "guestEnabled")}</td>
                     </tr>
                     <tr>

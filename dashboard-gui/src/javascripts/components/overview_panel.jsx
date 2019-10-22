@@ -139,13 +139,14 @@ class OverviewPanel extends React.Component {
         const {currentUser} = this.context;
         const {app} = this.props;
         const idpLoaLevelConfigured = (currentUser.getCurrentIdp().stepupEntities || []).some(e => e.name === app.spEntityId);
-        const msg = idpLoaLevelConfigured ? "minimalLoaLevelIdp" :"minimalLoaLevel";
+        const msg = idpLoaLevelConfigured ? "minimalLoaLevelIdp" : "minimalLoaLevel";
         const loa = idpLoaLevelConfigured ? currentUser.getCurrentIdp().stepupEntities.find(e => e.name === app.spEntityId).level : app.minimalLoaLevel;
         if (app.strongAuthentication || idpLoaLevelConfigured) {
             return (
                 <div className="mod-description">
                     <h2>{I18n.t("overview_panel.supports_ssa")}</h2>
-                    <p dangerouslySetInnerHTML={{__html: I18n.t(`overview_panel.${msg}`, {minimalLoaLevel: loa})}}/>
+                    <p dangerouslySetInnerHTML={{__html: I18n.t(`overview_panel.${msg}`,
+                            {minimalLoaLevel: loa.substring(loa.lastIndexOf("/") + 1)})}}/>
                 </div>);
         }
         return null;

@@ -236,8 +236,8 @@ I18n.translations.en = {
         interfed_source: "Federation source:",
         publish_in_edugain_date: "Published in eduGAIN on:",
         supports_ssa: "SURFsecureID enabled",
-        minimalLoaLevel: "For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>.",
-        minimalLoaLevelIdp: "For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>.",
+        minimalLoaLevel: "For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
+        minimalLoaLevelIdp: "For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code></code>. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
         supportsSsaTooltip: "Services can also dynamically request a specific LoA during authentication.",
         entity_categories: "Supported Entity Categories",
         entity_category: {
@@ -288,7 +288,7 @@ I18n.translations.en = {
     sirtfi_panel: {
         title: "The Sirtfi contact persons for {{name}}",
         subtitle: "The Security Incident Response Trust Framework for Federated Identity <a href=\" https://refeds.org/sirtfi\" target=\"_blank\" rel=\"noopener noreferrer\">(Sirtfi) </a> aims to enable the coordination of incident response across federated organisations. This assurance framework comprises a list of assertions which an organisation can attest in order to be declared Sirtfi compliant.",
-        contactPersons: "The Sirtfi contact persons for this service:",
+        contactPersons: "In case of a security incident, this service can best be contacted in the following way:",
         cp_name: "Name",
         cp_email: "Email",
         cp_telephoneNumber: "Telephone number",
@@ -549,6 +549,7 @@ I18n.translations.en = {
             pt: "Description (pt)"
         },
         guest_enabled: "Guest access enabled",
+        guest_enabled_tooltip: "When enabled this means users of the Guest IdP are<br>allowed to connect to this service.<br>See the <a href=\"https://edu.nl/48ftk\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> for more information.",
         edit_message: "You are able to edit the following fields.",
         save: "Create change request",
         change_request_created: "Change request sent to the SURFnet SURFconext-team. The ticket number of the change request is {{jiraKey}}",

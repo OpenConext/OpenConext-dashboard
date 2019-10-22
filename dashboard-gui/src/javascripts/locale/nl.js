@@ -236,8 +236,8 @@ I18n.translations.nl = {
         interfed_source: "Federatie bron:",
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
         supports_ssa: "SURFsecureID aangezet",
-        minimalLoaLevel: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}.",
-        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van uw instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}.",
+        minimalLoaLevel: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
+        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van uw instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
         supportsSsaTooltip: "Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.",
         entity_categories: "Ondersteunde Entity Categories",
         entity_category: {
@@ -290,7 +290,7 @@ I18n.translations.nl = {
     sirtfi_panel: {
         title: "De Sirtfi contact personen voor {{name}}",
         subtitle: "Het Security Incident Response Trust Framework voor Federated Identity <a href=\" https://refeds.org/sirtfi\" target=\"_blank\" rel=\"noopener noreferrer\">(Sirtfi)</a> heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwensraamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.",
-        contactPersons: "De Sirtfi contactgegevens voor deze dienst:",
+        contactPersons: "In het geval van een beveiligingsincident kan deze service het beste op de volgende manier worden gecontacteerd:",
         cp_name: "Naam",
         cp_email: "Email",
         cp_telephoneNumber: "Telephone number",
@@ -605,6 +605,7 @@ I18n.translations.nl = {
             pt: "Beschrijving (pt)"
         },
         guest_enabled: "Gast-toegang ingeschakeld",
+        guest_enabled_tooltip: "Als gast toegang is ingeschakeld betekent dat gebruikers<br>van de gast IdPgebruik kunnen maken van deze dienst.<br>Zie de <a href=\"https://edu.nl/48ftk\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie.",
         edit_message: "De volgende velden kunnen worden aangepast.",
         save: "Maak wijzigingsverzoek aan",
         change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
