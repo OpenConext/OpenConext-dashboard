@@ -588,7 +588,7 @@ I18n.translations.nl = {
         research_and_scholarship_tooltip: "Dit betekent dat uw IdP automatisch aan alle huidige en toekomstige SP's<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> vooor meer informatie.",
         allow_maintainers_to_manage_authz_rules: "SURFconextbeheerders mogen autorisatie regels beheren",
         allow_maintainers_to_manage_authz_rules_tooltip: "Dit betekent dat de SURFconextbeheerders van uw instelling autorisatie regels mogen aanmaken, bewerken en verwijderen.",
-        displayAdminEmailsInDashboard: "Leden kunnen admin emails zien",
+        displayAdminEmailsInDashboard: "Leden kunnen admin email-adres zien",
         displayAdminEmailsInDashboardTooltip:"Dit betekent dat de email adressen van de<br>SURFconextbeheerders worden getoond aan reguliere gebruikers<br>van uw instelling.",
         displayStatsInDashboard: "Leden kunnen statistieken zien",
         displayStatsInDashboardTooltip:"Dit betekent dat het gebruik / statistieken van alle diensten gekoppeld<br>aan uw instelling kunnen worden bekeken door reguliere gebruikers<br>van uw instelling.",
