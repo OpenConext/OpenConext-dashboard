@@ -251,10 +251,10 @@ I18n.translations.nl = {
         privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd.",
         contractualBase: {
             ao: "Aanbieder heeft de SURFconext aansluitovereenkomst getekend.",
-            ix: "Service offered by SURFconext member institution.",
-            "r&s+coco" :"eduGAIN service agreed to de Data Protection Code of Conduct and belongs to the Research & Scholarship category\".",
-            entree: "Member of the Kennisnet Entree-federation.",
-            clarin: "Member of the Clarin research federation."
+            ix: "Dienst aangeboden door op SURFconext aangesloten instelling.",
+            "r&s+coco" :"eduGAIN-dienst die zich akkoord heeft verklaard met de Data Protection Code of Conduct en valt in de Research & Scholarship entity category.",
+            entree: "Aangsloten op de Kennisnet Entree-federatie.",
+            clarin: "Onderdeel van de Clarin-onderzoeksfederatie."
         },
         contractualBaseWiki: " Voor meer informatie zie de <a href=\"https://edu.nl/c83yx\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
     },

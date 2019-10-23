@@ -252,7 +252,7 @@ I18n.translations.en = {
         contractualBase: {
             ao: "Service supplier has signed the SURFconext connection agreement.",
             ix: "Service offered by SURFconext member institution.",
-            "r&s+coco" :"eduGAIN service agreed to de Data Protection Code of Conduct and belongs to the Research & Scholarship category.",
+            "r&s+coco" :"eduGAIN service that has agreed to the Data Protection Code of Conduct and belongs to the Research & Scholarship entity category.",
             entree: "Member of the Kennisnet Entree-federation.",
             clarin: "Member of the Clarin research federation."
         },
