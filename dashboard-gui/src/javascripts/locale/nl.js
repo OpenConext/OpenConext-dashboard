@@ -32,7 +32,7 @@ I18n.translations.nl = {
         profile: "Profiel",
         switch_idp: "Kies IDP",
         super_user_switch: "Switch identiteit",
-        welcome_txt: "Welkom bij het SURFconext dashboard. Op deze pagina zie je welke diensten er op SURFconext gekoppeld zijn: als je instelling dat ook toestaat, kun je op die diensten met je instellingsaccount inloggen. Na inloggen zie je informatie meer gericht op je instelling. Meer info? Klik op 'Help' rechtsbovenin."
+        welcome_txt: "Welkom bij het SURFconext dashboard. Op deze pagina zie je welke diensten er op SURFconext gekoppeld zijn: als je instelling dat ook toestaat, kun je op die diensten met je instellingsaccount inloggen. Na inloggen op dit dashboard (rechtsbovenin) zie je informatie meer gericht op je instelling. Meer info? Klik op 'Help' rechtsbovenin."
     },
     confirmation_dialog: {
         title: "Bevestig",
